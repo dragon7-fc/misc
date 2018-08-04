@@ -1,0 +1,71 @@
+1.  In the solution, I first transfer string t to a list, because later I would like to remove element from the list. Then I use linear search to serach string s and t, If character of t exist in string s, then I will remove it from list t.
+
+m: size of s
+n: size of t    
+
+Time complexity: O(m * n)
+    I use linear search to compare string s and t.
+
+Space complexity: O(n)
+    I created an additional list list_t for remove element usage.
+
+
+2.  I used dynamic programming to solve this issue. The basic assumption would be: palindrom(s(N+1)) = palindrom(s(N)) and (palindrom(s[0], s[N+1])), for s(N): string size of N, s[N]: character at index N of string s.
+    
+case 0: palindrom size = 1
+    palindrom(s[N], s[N]) = True
+case 1: palindrom size = 2
+    palindrom(s[N], s[N+1]) = True
+case 3: palindrom size = 3 ~ N
+    palindrom(s(N+1)) = palindrom(s(N)) and (palindrom(s[0], s[N+1]))
+
+Time COmplexity: O(N^2)
+    There are two for loop to build up a dynamic programming truth table, i.e. palindrom[[]].
+
+Space Complexity: O(N^2)
+    I used a dynamic programming truth table, i.e. palindrom[[]], to store substring palindrom status.
+
+
+3.  Below are the steps for finding MST using Kruskal’s algorithm.
+Step 1. Sort all the edges in non-decreasing order of their weight.
+Step 2. Pick the smallest edge. Check if it forms a cycle with the spanning tree formed so far. 
+    If cycle is not formed, include this edge. Else, discard it. In this stage, we apply find-union algorithm to detect cycle. The basic idea is to find parent of each vertex and union earch pair of the smallest weight edge. If the parent of 2 vertice are same, they should be the same set. We should discard this pair, or there would be cycle. Every vertex should have a parent property to detect whether they are in the same set or not. Besides, every vertext have a rank property to detect rank of x and rank of y are the same. If they are the same, then we set x as parent of y. Else we set the higher rank vertex as lower rank vertex's parent.
+Step 3. Repeat step 2 until there are (V-1) edges in the spanning tree.
+
+Time Complexity: O(ElogE) or O(ElogV)
+    In step 1, sort edge will take about O(ElogE) time. 
+    In step 2, we iterate through all edges and apply find-union algorithm to detect cycle.
+    The find-uniion algorithm will take about O(logV) time. 
+    So overall complexity is O(ElogE) + O(ElogV). 
+    The value of E can be atmost O(V^2), so O(LogV) and O(LogE) are the same.
+    Therefore, overall time complexity is O(ElogE) or O(ElogV).
+
+Space Complexity: O(V)
+    In step 1, I used sorted method, it takes an additional O(E) space.
+    In step 2, the find-union will need parent and rank array to record parent and rank of every vertex. 
+    So we will need 2*O(V) space.
+    Therefore, the overall space complexity would be O(E) + 2*O(V) = O(V).
+
+
+4. Since BST has a property of value(n - 1) <= value(n) <= value(n + 1). So I first search parent of n1 and record all potential Lease Common Ancestor to lca[] list, with value >= n1. Then for earch ancestor of n2, I linear search all potential lca[]. If match, then first element
+would be final Lease Common Ancestor. I store lca in a list, because the former list element woudl be the better leaset common ancestor.
+
+Time Complexity: O(N)
+    I used one while loop to record potential Least Common Ancestor.
+    The worst case BST length woould be skewed tree with O(N).
+    So, the record loop would consume O(N) to complete.
+    The other loop is to find Least Common Ancestor from n2 to root.
+    If this is a skewd BST tree, this will take around O(N) to finish.
+
+Space Complexity: O(N)
+    I used lca array to record potential Least Common Ancestor.
+    The worst case BST length woould be skewed tree with O(N).
+
+
+5. I will walk through head to tail node and record the data in a list. Then if I want to find m-th last element, then I can get m-th last element from the list. I choose list because it can give me linear time to find element.
+
+Time Complexity: O(N)
+    Since during each search I walk through entire list, So the time complexity would be O(N).
+
+Space Complexity: O(N)
+    I used an extra data[] list to record all data. 
