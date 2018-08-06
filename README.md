@@ -12,5 +12,6 @@ A playground to note something.
 - [Probability and Statistics - 假設檢定：基本流程總整理 Process of Hypothesis Testing Statistics](http://mropengate.blogspot.com/2015/03/hypothesis-testing-p-value.html)
 
 ## Interview
-- [LeetCode](https://leetcode.com/)
-- [Grammarly](https://www.grammarly.com/)
+- [LeetCode](https://leetcode.com/): The World's Leading Online Programming Learning Platform
+- [Grammarly](https://www.grammarly.com/): Free Writing Assistant
+- [Sejda](https://www.sejda.com/sign-pdf): Fill and Sign PDF Online Free
