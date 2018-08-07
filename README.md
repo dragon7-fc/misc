@@ -14,4 +14,5 @@ A playground to note something.
 ## Interview
 - [LeetCode](https://leetcode.com/): The World's Leading Online Programming Learning Platform
 - [Grammarly](https://www.grammarly.com/): Free Writing Assistant
+- [Hemingway App](http://www.hemingwayapp.com/): Makes your writing bold and clear.
 - [Sejda](https://www.sejda.com/sign-pdf): Fill and Sign PDF Online Free
