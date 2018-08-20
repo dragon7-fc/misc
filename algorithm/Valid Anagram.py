@@ -20,7 +20,7 @@ What if the inputs contain unicode characters? How would you adapt your solution
 """
 
 
-""" Solution: 52 ms """
+""" Solution1: 52 ms """
 class Solution:
     def isAnagram(self, s, t):
         """
@@ -35,3 +35,7 @@ class Solution:
         if s_counter == t_counter:
             return True
         return False
+
+
+""" Solution2: 76 ms """
+return True if s is None or t is None else sorted(s) == sorted(t)
