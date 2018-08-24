@@ -11,6 +11,7 @@ A playground to note something.
 - [Quick Guide to Build a Recommendation Engine in Python](https://www.analyticsvidhya.com/blog/2016/06/quick-guide-build-recommendation-engine-python/)
 - [Probability and Statistics - 假設檢定：基本流程總整理 Process of Hypothesis Testing Statistics](http://mropengate.blogspot.com/2015/03/hypothesis-testing-p-value.html)
 - [An overview of gradient descent optimization algorithms](http://ruder.io/optimizing-gradient-descent/)
+- [A summary of python code style conventions](https://development.robinwinslow.uk/2014/01/05/summary-of-python-code-style-conventions/)
 
 ## Interview
 - [LeetCode](https://leetcode.com/): The World's Leading Online Programming Learning Platform
