@@ -2,6 +2,13 @@
 
 A playground to note something.
 
+## ipmitool
+- How to make in Ubuntu
+    - apt-get install automake libtool
+    - ./bootstrap
+    - ./configure
+    - make
+
 ## GitHub
 - [TensorFlow-Tutorials](https://github.com/Hvass-Labs/TensorFlow-Tutorials)
 - [Machine Learning Notebooks](https://github.com/ageron/handson-ml)
