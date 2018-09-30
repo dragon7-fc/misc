@@ -20,6 +20,7 @@ A playground to note something.
 - [An overview of gradient descent optimization algorithms](http://ruder.io/optimizing-gradient-descent/)
 - [Data Science Tutorials](https://www.topcoder.com/community/data-science/data-science-tutorials/)
 - [A summary of python code style conventions](https://development.robinwinslow.uk/2014/01/05/summary-of-python-code-style-conventions/)
+- [SVN 基本指令教學](https://blog.longwin.com.tw/2007/07/svn_tutorial_2007/)
 
 ## Interview
 - [LeetCode](https://leetcode.com/): The World's Leading Online Programming Learning Platform
