@@ -26,7 +26,15 @@ class Solution:
         :type nums: List[int]
         :rtype: List[List[int]]
         """
-        def swap(i, j, nums):
-            new_nums = list(nums)
-            new_nums[i], new_nums[j] = new_nums[j], new_nums[i]
-            return new_nums
+        ans = set()
+        n = len(nums)
+        ans.add(tuple(nums))
+        for i in range(n):
+            for j in range(n):
+                if j != i:
+                    tmp_list = nums
+                    tmp = tmp_list[i]
+                    tmp_list[i] = tmp_list[j]
+                    tmp_list[j] = tmp
+                    ans.add(tuple(tmp_list))
+        return [l for l in ans]
