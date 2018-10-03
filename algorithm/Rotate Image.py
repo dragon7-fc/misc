@@ -75,18 +75,13 @@ class Solution:
         :type matrix: List[List[int]]
         :rtype: void Do not return anything, modify matrix in-place instead.
         """
-        self.rotate_it(matrix, 0)
-        
-    def rotate_it(self, matrix, start):
         n = len(matrix)-1        
-        if start == n:
-            return 
-        i = start
-        for j in range(i, n-i, 1):
-            t = matrix[i][j];
-            matrix[i][j] = matrix[n-j][i]
-            matrix[n-j][i] = matrix[n-i][n-j]
-            matrix[n-i][n-j] = matrix[j][n-i]
-            matrix[j][n-i] = t
-        self.rotate_it(matrix, start+1)
+        for i in range(0, n//2 +1, 1):
+            for j in range(i, n-i, 1):
+                t = matrix[i][j];
+                matrix[i][j] = matrix[n-j][i]
+                matrix[n-j][i] = matrix[n-i][n-j]
+                matrix[n-i][n-j] = matrix[j][n-i]
+                matrix[j][n-i] = t
+        
         
