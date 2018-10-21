@@ -63,3 +63,27 @@ class Solution:
         """
         index = bisect.bisect_left(nums, target)
         return index if index < len(nums) and nums[index] == target else -1
+
+
+''' Solution4: 48 ms '''
+class Solution:
+    def search(self, nums, target):
+        """
+        :type nums: List[int]
+        :type target: int
+        :rtype: int
+        """
+        if target not in nums:
+            return -1
+        high = len(nums)
+        low = 0
+        guess = int((high+low)/2)
+        while low!=high:
+            if nums[guess]>target:
+                high = guess
+            elif nums[guess] < target:
+                low = guess
+            else:
+                return guess
+            guess = int((high + low)/2)
+        return guess
