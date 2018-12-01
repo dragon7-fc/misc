@@ -13,13 +13,22 @@ A playground to note something.
     ```
 
 - Beyond Compare
-    ```
-    docker run --rm \
-    -v /$HOME/.Xauthority:/root/.Xauthority \
-    -e DISPLAY=:10.0 --net=host --name bcompare \
-    -v /$HOME/:/home/user \
-    zeitgeist/docker-bcompare
-    ```
+    - __Linux__:
+        ```
+        docker run --rm \
+        -v $HOME/.Xauthority:/root/.Xauthority \
+        -e DISPLAY=:10.0 --net=host \
+        --name bcompare \
+        -v $HOME/:/home/user \
+        zeitgeist/docker-bcompare
+        ```
+    - __Mac__:
+        ```
+        socat TCP-LISTEN:6000,reuseaddr,fork UNIX-CLIENT:\"$DISPLAY\" &
+        docker run --rm \
+        -e DISPLAY=[HOST_IP]:0 -v "$HOME":"/home/user" \
+        zeitgeist/docker-bcompare
+        ```
 
 ## GitHub
 - [TensorFlow-Tutorials](https://github.com/Hvass-Labs/TensorFlow-Tutorials)
