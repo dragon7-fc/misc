@@ -4,7 +4,9 @@ A playground to note something.
 
 ## Tool
 - ipmitool
+
     - How to make in Ubuntu
+
     ```
     apt-get install automake libtool
     ./bootstrap
@@ -13,6 +15,7 @@ A playground to note something.
     ```
 
 - Beyond Compare
+
     - __Linux__:
         ```
         docker run --rm \
@@ -29,6 +32,30 @@ A playground to note something.
         -e DISPLAY=[HOST_IP]:0 -v "$HOME":"/home/user" \
         zeitgeist/docker-bcompare
         ```
+
+* Gitlab
+
+    - Run the image
+
+    ```
+    sudo docker run --detach \
+	--hostname gitlab.example.com \
+	--publish 443:443 --publish 80:80 --publish 22:22 \
+	--name gitlab \
+	--restart always \
+	--volume /srv/gitlab/config:/etc/gitlab \
+	--volume /srv/gitlab/logs:/var/log/gitlab \
+	--volume /srv/gitlab/data:/var/opt/gitlab \
+	gitlab/gitlab-ce:latest
+    ```
+
+    - Where is the data stored?
+
+    | Local location       | Container location | Usage                                      |
+    |----------------------|--------------------|--------------------------------------------|
+    | `/srv/gitlab/data`   | `/var/opt/gitlab`  | For storing application data               |
+    | `/srv/gitlab/logs`   | `/var/log/gitlab`  | For storing logs                           |
+    | `/srv/gitlab/config` | `/etc/gitlab`      | For storing the GitLab configuration files |
 
 ## GitHub
 - [TensorFlow-Tutorials](https://github.com/Hvass-Labs/TensorFlow-Tutorials)
