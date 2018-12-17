@@ -14,6 +14,41 @@ A playground to note something.
     make
     ```
 
+    - How to make in Windows
+      
+        - install Cygwin (32/64) with following package
+        ```
+        gcc-core
+        make
+        openssl-devel
+        diff
+        autoconf
+        automake
+        m4
+        libtool
+        libncurses-devel
+        libreadline-devel
+        perl
+        ```
+
+        - Cygwin build
+        ```
+        ./bootstrap
+        ./configure
+        make
+        ```
+
+        - Create ipmitool package
+        ```
+        .\src\.libs\ipmitool.exe
+        C:\cygwin64\bin\cygcrypto-1.0.0.dll
+        C:\cygwin64\bin\cyggcc_s-1.dll
+        C:\cygwin64\bin\cygncursesw-10.dll
+        C:\cygwin64\bin\cygreadline7.dll
+        C:\cygwin64\bin\cygwin1.dll
+        C:\cygwin64\bin\cygz.dll
+        ```
+
 - Beyond Compare
 
     - __Linux__:
