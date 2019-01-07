@@ -92,6 +92,14 @@ A playground to note something.
     | `/srv/gitlab/logs`   | `/var/log/gitlab`  | For storing logs                           |
     | `/srv/gitlab/config` | `/etc/gitlab`      | For storing the GitLab configuration files |
 
+* RamDisk
+```
+mkdir /tmp/ramdisk
+chmod 777 /tmp/ramdisk
+
+mount -t tmpfs -o size=100G tmpfs /tmp/ramdisk/
+```
+
 ## GitHub
 - [TensorFlow-Tutorials](https://github.com/Hvass-Labs/TensorFlow-Tutorials)
 - [Machine Learning Notebooks](https://github.com/ageron/handson-ml)
