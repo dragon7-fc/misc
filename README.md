@@ -100,6 +100,54 @@ chmod 777 /tmp/ramdisk
 mount -t tmpfs -o size=100G tmpfs /tmp/ramdisk/
 ```
 
+* Samba
+```
+sudo apt-get install samba
+sudo apt-get install winbind
+sudo get install libnss-winbind
+
+sudo smbpasswd -a XXX
+
+sudo cp /etc/samba/smb.conf /etc/samba/smb.conf.bak
+sudo nano /etc/samba/smb.conf
+
+## add below to the bottom of /etc/samba/smb.conf >>>
+[MyShare]
+   path =/home/XXX
+   available = yes
+   browsealbe = yes
+   public = yes
+   writable = yes
+## add below to the bottom of /etc/samba/smb.conf <<<
+
+sudo testparm
+sudo service smbd restart
+sudo smbstatus
+```
+
+* Proxy setup
+
+    * APT
+    ```
+    ## add /etc/apt/apt.conf >>>
+
+    Acquire::http::Proxy "http://[PROXY_IP]:[PROXY_PORT]";
+    Acquire::https::Proxy "https://[PROXY_IP]:[PROXY_PORT]";
+    ## add /etc/apt/apt.conf <<<
+    ```
+
+    * Bashrc
+    ```
+    ## modify ~/.bashrc >>>
+
+    export http_proxy=http://[PROXY_IP]:[PROXY_PORT]
+    export https_proxy=http://[PROXY_IP]:[PROXY_PORT]
+    export ftp_proxy=ftp://[PROXY_IP]:[PROXY_PORT]
+    ## modify ~/.bashrc <<<
+
+    source ~/.bashrc
+    ```
+
 ## GitHub
 - [TensorFlow-Tutorials](https://github.com/Hvass-Labs/TensorFlow-Tutorials)
 - [Machine Learning Notebooks](https://github.com/ageron/handson-ml)
