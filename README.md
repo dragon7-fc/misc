@@ -67,6 +67,16 @@ A playground to note something.
         -e DISPLAY=[HOST_IP]:0 -v "$HOME":"/home/user" \
         zeitgeist/docker-bcompare
         ```
+* Tmux
+
+    * [Tmux Plugin Manager](https://github.com/tmux-plugins/tpm)
+
+        * [tmux-yank](https://github.com/tmux-plugins/tmux-yank)
+        * [Tmux Themepack](https://github.com/jimeh/tmux-themepack)
+        * [Tmux Resurrect](https://github.com/tmux-plugins/tmux-resurrect)
+        * [tmux-continuum](https://github.com/tmux-plugins/tmux-continuum)
+
+    * [Tmux Cheat Sheet & Quick Reference](https://tmuxcheatsheet.com/)
 
 * Gitlab
 
