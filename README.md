@@ -99,6 +99,19 @@ chmod 777 /tmp/ramdisk
 
 mount -t tmpfs -o size=100G tmpfs /tmp/ramdisk/
 ```
+* SUDO
+```
+visudo
+## add below to the bottom of /etc/sudoers >>>
+
+XXX      ALL=(ALL) NOPASSWD:ALL
+## add below to the bottom of /etc/sudoers >>>
+```
+
+* SSH
+```
+sudo apt-get install openssh-server
+```
 
 * Samba
 ```
