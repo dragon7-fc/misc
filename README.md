@@ -3,6 +3,7 @@
 A playground to note something.
 
 ## Tool
+
 * ipmitool
 
     - How to make in Ubuntu
@@ -147,7 +148,7 @@ sudo cp /etc/samba/smb.conf /etc/samba/smb.conf.bak
 sudo nano /etc/samba/smb.conf
 
 [MyShare]
-   path =/home/XXX
+   path =/
    available = yes
    browsealbe = yes
    public = yes
@@ -170,7 +171,7 @@ sudo smbstatus
     Acquire::https::Proxy "https://[PROXY_IP]:[PROXY_PORT]";
     ```
 
-    * Bashrc
+    - Bashrc
 
     ```
     nano ~/.bashrc
@@ -181,6 +182,13 @@ sudo smbstatus
     
     source ~/.bashrc
     ```
+
+* ROS
+
+    - [ROS Wiki](http://wiki.ros.org/)
+    - [ROS Answers](http://answers.ros.org/)
+    - [ROS Cheat Sheet](https://github.com/ros/cheatsheet/releases/download/0.0.1/ROScheatsheet_catkin.pdf)
+    - [A gentle Introduction to ROS](https://cse.sc.edu/~jokane/agitr/)
 
 
 ## GitHub
