@@ -3,7 +3,7 @@
 A playground to note something.
 
 ## Tool
-- ipmitool
+* ipmitool
 
     - How to make in Ubuntu
 
@@ -17,6 +17,7 @@ A playground to note something.
     - How to make in Windows
       
         - install Cygwin (32/64) with following package
+
         ```
         gcc-core
         make
@@ -32,6 +33,7 @@ A playground to note something.
         ```
 
         - Cygwin build
+
         ```
         ./bootstrap
         ./configure
@@ -39,6 +41,7 @@ A playground to note something.
         ```
 
         - Create ipmitool package
+        
         ```
         .\src\.libs\ipmitool.exe
         C:\cygwin64\bin\cygcrypto-1.0.0.dll
@@ -48,35 +51,41 @@ A playground to note something.
         C:\cygwin64\bin\cygwin1.dll
         C:\cygwin64\bin\cygz.dll
         ```
+        
+    - [Computer Cheese](https://computercheese.blogspot.com/)
 
-- Beyond Compare
+* Beyond Compare
 
     - __Linux__:
-        ```
-        docker run --rm \
-        -v $HOME/.Xauthority:/root/.Xauthority \
-        -e DISPLAY=:10.0 --net=host \
-        --name bcompare \
-        -v $HOME/:/home/user \
-        zeitgeist/docker-bcompare
-        ```
+    
+    ```
+    docker run --rm \
+    -v $HOME/.Xauthority:/root/.Xauthority \
+    -e DISPLAY=:10.0 --net=host \
+    --name bcompare \
+    -v $HOME/:/home/user \
+    zeitgeist/docker-bcompare
+    ```
+
     - __Mac__:
-        ```
-        socat TCP-LISTEN:6000,reuseaddr,fork UNIX-CLIENT:\"$DISPLAY\" &
-        docker run --rm \
-        -e DISPLAY=[HOST_IP]:0 -v "$HOME":"/home/user" \
-        zeitgeist/docker-bcompare
-        ```
+    
+    ```
+    socat TCP-LISTEN:6000,reuseaddr,fork UNIX-CLIENT:\"$DISPLAY\" &
+    docker run --rm \
+    -e DISPLAY=[HOST_IP]:0 -v "$HOME":"/home/user" \
+    zeitgeist/docker-bcompare
+    ```
+
 * Tmux
 
-    * [Tmux Plugin Manager](https://github.com/tmux-plugins/tpm)
+    - [Tmux Plugin Manager](https://github.com/tmux-plugins/tpm)
 
-        * [tmux-yank](https://github.com/tmux-plugins/tmux-yank)
-        * [Tmux Themepack](https://github.com/jimeh/tmux-themepack)
-        * [Tmux Resurrect](https://github.com/tmux-plugins/tmux-resurrect)
-        * [tmux-continuum](https://github.com/tmux-plugins/tmux-continuum)
+        - [tmux-yank](https://github.com/tmux-plugins/tmux-yank)
+        - [Tmux Themepack](https://github.com/jimeh/tmux-themepack)
+        - [Tmux Resurrect](https://github.com/tmux-plugins/tmux-resurrect)
+        - [tmux-continuum](https://github.com/tmux-plugins/tmux-continuum)
 
-    * [Tmux Cheat Sheet & Quick Reference](https://tmuxcheatsheet.com/)
+    - [Tmux Cheat Sheet & Quick Reference](https://tmuxcheatsheet.com/)
 
 * Gitlab
 
@@ -103,45 +112,46 @@ A playground to note something.
     | `/srv/gitlab/config` | `/etc/gitlab`      | For storing the GitLab configuration files |
 
 * RamDisk
+
 ```
 mkdir /tmp/ramdisk
 chmod 777 /tmp/ramdisk
 
 mount -t tmpfs -o size=100G tmpfs /tmp/ramdisk/
 ```
-* SUDO
+
+* sudo
+
 ```
 visudo
-## add below to the bottom of /etc/sudoers >>>
 
 XXX      ALL=(ALL) NOPASSWD:ALL
-## add below to the bottom of /etc/sudoers >>>
 ```
 
-* SSH
+* ssh
+
 ```
 sudo apt-get install openssh-server
 ```
 
 * Samba
+
 ```
 sudo apt-get install samba
 sudo apt-get install winbind
 sudo get install libnss-winbind
 
-sudo smbpasswd -a XXX
+## sudo smbpasswd -a XXX
 
 sudo cp /etc/samba/smb.conf /etc/samba/smb.conf.bak
 sudo nano /etc/samba/smb.conf
 
-## add below to the bottom of /etc/samba/smb.conf >>>
 [MyShare]
    path =/home/XXX
    available = yes
    browsealbe = yes
    public = yes
    writable = yes
-## add below to the bottom of /etc/samba/smb.conf <<<
 
 sudo testparm
 sudo service smbd restart
@@ -150,26 +160,28 @@ sudo smbstatus
 
 * Proxy setup
 
-    * APT
+    - APT
+
     ```
-    ## add /etc/apt/apt.conf >>>
+    touch /etc/apt/apt.conf
+    nano /etc/apt/apt.conf
 
     Acquire::http::Proxy "http://[PROXY_IP]:[PROXY_PORT]";
     Acquire::https::Proxy "https://[PROXY_IP]:[PROXY_PORT]";
-    ## add /etc/apt/apt.conf <<<
     ```
 
     * Bashrc
+
     ```
-    ## modify ~/.bashrc >>>
+    nano ~/.bashrc
 
     export http_proxy=http://[PROXY_IP]:[PROXY_PORT]
     export https_proxy=http://[PROXY_IP]:[PROXY_PORT]
     export ftp_proxy=ftp://[PROXY_IP]:[PROXY_PORT]
-    ## modify ~/.bashrc <<<
-
+    
     source ~/.bashrc
     ```
+
 
 ## GitHub
 - [TensorFlow-Tutorials](https://github.com/Hvass-Labs/TensorFlow-Tutorials)
