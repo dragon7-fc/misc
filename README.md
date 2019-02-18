@@ -88,6 +88,8 @@ A playground to note something.
 
     - [Tmux Cheat Sheet & Quick Reference](https://tmuxcheatsheet.com/)
 
+    * [.tmux.conf](.tmux.conf)
+
 * Gitlab
 
     - Run the image
