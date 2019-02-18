@@ -187,6 +187,14 @@ sudo smbstatus
 
     - Docker
 
+     ```
+    nano /etc/systemd/system/docker.service.d/http-proxy.conf
+
+    [Service]
+    Environment="HTTP_PROXY=http://10.32.2.109:3128"
+    Environment="HTTPS_PROXY=http://10.32.2.109:3128"
+    ```
+
     ```
     docker build --no-cache --build-arg HTTP_PROXY=$http_proxy \
     --build-arg HTTPS_PROXY=$http_proxy --build-arg NO_PROXY=$no_proxy \
