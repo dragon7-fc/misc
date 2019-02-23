@@ -205,8 +205,7 @@ sudo smbstatus
 * IPython
 
     - Install kernel
-
-    `python -m ipykernel install --user --name [CONDA ENV] --display-name "XXX"`
+    `python -m ipykernel install --user --name [CONDA ENV] --display-name "XXX [CONDA ENV]"`
 
 * ROS
 
