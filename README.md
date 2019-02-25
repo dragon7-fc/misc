@@ -149,12 +149,14 @@ sudo get install libnss-winbind
 sudo cp /etc/samba/smb.conf /etc/samba/smb.conf.bak
 sudo nano /etc/samba/smb.conf
 
+##+++>
 [MyShare]
    path =/
    available = yes
    browsealbe = yes
    public = yes
    writable = yes
+##+++<
 
 sudo testparm
 sudo service smbd restart
@@ -170,11 +172,13 @@ sudo smbstatus
 
     sudo nano /etc/default/tftpd-hpa
 
+    ##+++>
     TFTP_USERNAME="tftp"
     TFTP_DIRECTORY="/path/to/tftproot"
     TFTP_ADDRESS="0.0.0.0:69"
     TFTP_OPTIONS="--secure --create"
     RUN_DAEMON="yes"
+    ##+++<
 
     chmod 777 /path/to/tftproot
     chown nobody:nogroup -R /path/to/tftproot
@@ -191,6 +195,26 @@ sudo smbstatus
 
         `tftp -g -r [FILE] [TFTP_SERVER_IP]`
 
+* NFS
+
+    - Server
+
+    ```
+    sudo apt-get install nfs-kernel-server 
+
+    sudo nano /etc/exports
+
+    ##+++>
+    /path/to/nfsroot *(rw,no_root_squash)
+    ##+++<
+
+    sudo service nfs-kernel-server restart
+    ```
+
+    - Client
+
+    `mount -t nfs -o tcp,nolock [NFS_SERVER_IP]:/path/to/nfsroot /path/to/mount`
+
 * Proxy setup
 
     - APT
@@ -199,8 +223,10 @@ sudo smbstatus
     touch /etc/apt/apt.conf
     nano /etc/apt/apt.conf
 
+    ##+++>
     Acquire::http::Proxy "http://[PROXY_IP]:[PROXY_PORT]";
     Acquire::https::Proxy "https://[PROXY_IP]:[PROXY_PORT]";
+    ##+++<
     ```
 
     - Bashrc
@@ -208,10 +234,12 @@ sudo smbstatus
     ```
     nano ~/.bashrc
 
+    ##+++>
     export http_proxy=http://[PROXY_IP]:[PROXY_PORT]
     export https_proxy=http://[PROXY_IP]:[PROXY_PORT]
     export ftp_proxy=ftp://[PROXY_IP]:[PROXY_PORT]
-    
+    ##+++<
+
     source ~/.bashrc
     ```
 
@@ -220,9 +248,11 @@ sudo smbstatus
      ```
     nano /etc/systemd/system/docker.service.d/http-proxy.conf
 
+    ##+++>
     [Service]
     Environment="HTTP_PROXY=http://10.32.2.109:3128"
     Environment="HTTPS_PROXY=http://10.32.2.109:3128"
+    ##+++<
     ```
 
     ```
