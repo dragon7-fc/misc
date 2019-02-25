@@ -202,11 +202,63 @@ sudo smbstatus
     --build-arg no_proxy=$no_proxy -t XXX /path/to/Dockerfile/directory
     ```
 
+* Conda
+
+    - Environment Management
+
+        - List
+
+        `conda list`
+        
+        - Create
+
+        `conda create -n XXX`
+
+        - Enter
+
+        `source activate XXX`
+
+        - Exit
+
+        `source deactivate`
+
+        - Remove
+
+        `conda env remove -n XXX`
+
+    - Package Management (support pip)
+
+        - Install
+
+        `conda install XXX`
+
+        `pip install XXX`
+
+        - remove
+
+        `condata remove XXX`
+
+        `pip remove XXX`
+
 * IPython
 
     - Install kernel
 
     `python -m ipykernel install --user --name [CONDA ENV] --display-name "XXX"`
+
+    - Remote Open
+
+    `jupyter lab --allow-root --ip='' --no-browser &`
+
+* VirtualBox
+
+    - Start VM
+
+    `vboxmanage startvm XXX --type headless`
+
+    - Stop VM
+
+    `vboxmanage controlvm XXX poweroff`
 
 * ROS
 
