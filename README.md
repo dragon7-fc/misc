@@ -161,6 +161,36 @@ sudo service smbd restart
 sudo smbstatus
 ```
 
+* TFTP
+
+    - Server
+
+    ```
+    sudo apt-get install tftpd-hpa
+
+    sudo nano /etc/default/tftpd-hpa
+
+    TFTP_USERNAME="tftp"
+    TFTP_DIRECTORY="/path/to/tftproot"
+    TFTP_ADDRESS="0.0.0.0:69"
+    TFTP_OPTIONS="--secure --create"
+    RUN_DAEMON="yes"
+
+    chmod 777 /path/to/tftproot
+    chown nobody:nogroup -R /path/to/tftproot
+    sudo service tftpd-hpa restart
+    ```
+
+    - Client
+
+        - put
+
+        `tftp -p -l [FILE] [TFTP_SERVER_IP]`
+
+        - get
+
+        `tftp -g -r [FILE] [TFTP_SERVER_IP]`
+
 * Proxy setup
 
     - APT
