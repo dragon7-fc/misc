@@ -90,6 +90,20 @@ A playground to note something.
 
     * [.tmux.conf](.tmux.conf)
 
+* VSCode
+
+    - __Mac__:
+
+        - X11 forwarding for keyboard
+
+        `"keyboard.dispatch": "keyCode"`
+
+* linux
+
+    - CONFIG_IPMI_PANIC_EVENT
+
+    `Device Drivers > Character devices > IPMI top-level message handler > Generate a panic event to all BMCs on a panic`
+
 * Gitlab
 
     - Run the image
@@ -326,7 +340,6 @@ sudo smbstatus
     - [ROS Answers](http://answers.ros.org/)
     - [ROS Cheat Sheet](https://github.com/ros/cheatsheet/releases/download/0.0.1/ROScheatsheet_catkin.pdf)
     - [A gentle Introduction to ROS](https://cse.sc.edu/~jokane/agitr/)
-
 
 ## GitHub
 - [TensorFlow-Tutorials](https://github.com/Hvass-Labs/TensorFlow-Tutorials)
