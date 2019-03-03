@@ -110,6 +110,28 @@ A playground to note something.
 
         `Device Drivers > Character devices > IPMI top-level message handler > Generate a panic event to all BMCs on a panic`
 
+* Git
+
+    - GitHub & Collaboration
+
+        - Fork [SOURCE_REPOSITORY]
+
+            - create a [XXX-BUG-BRANCH] to do something
+        
+                - `git clone [FORKED_REPOSITORY_URL]`
+                - `git checkout -b [XXX-BUG-BRANCH]`
+                - commit changes
+                - create Pull Request for [XXX-BUG-BRANCH]
+            
+        - Sync local, [SOURCE_REPOSITORY] and [FORKED_REPOSITORY]
+
+            ```
+            git remote add upstream [SOURCE_REPOSITORY_URL]
+            git checkout master
+            git pull upstream master
+            git push origin master
+            ```
+
 * Gitlab
 
     - Run the image
