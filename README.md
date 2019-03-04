@@ -114,23 +114,31 @@ A playground to note something.
 
     - GitHub & Collaboration
 
-        - Fork [SOURCE_REPOSITORY]
+        - Pull Request
+
+            - Fork [UPSTREAM_REPO]
 
             - create a [XXX-BUG-BRANCH] to do something
         
-                - `git clone [FORKED_REPOSITORY_URL]`
+                - `git clone [ORIGIN_REPO_URL]`
                 - `git checkout -b [XXX-BUG-BRANCH]`
                 - commit changes
                 - create Pull Request for [XXX-BUG-BRANCH]
             
-        - Sync local, [SOURCE_REPOSITORY] and [FORKED_REPOSITORY]
+        - Sync local, [UPSTREAM_REPO] and [ORIGIN_REPO]
 
             ```
-            git remote add upstream [SOURCE_REPOSITORY_URL]
+            git remote add upstream [UPSTREAM_REPO_URL]
             git checkout master
             git pull upstream master
             git push origin master
             ```
+
+* SVN
+
+    - Create branch
+
+        `svn copy [SRC_REPO] [DEST_REPO] -m '[MSG]'`
 
 * Gitlab
 
@@ -353,6 +361,14 @@ A playground to note something.
     - Remote Open
 
         `jupyter lab --allow-root --ip='' --no-browser &`
+
+    - List
+
+        `jupyter notebook list`
+
+    - Stop
+
+        `jupyter notebook stop [PORT]`
 
 * VirtualBox
 
