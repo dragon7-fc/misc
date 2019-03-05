@@ -387,6 +387,14 @@ A playground to note something.
     - [ROS Cheat Sheet](https://github.com/ros/cheatsheet/releases/download/0.0.1/ROScheatsheet_catkin.pdf)
     - [A gentle Introduction to ROS](https://cse.sc.edu/~jokane/agitr/)
 
+* RU
+
+    - [RU.EXE + RU.EFI](http://ruexe.blogspot.com/)
+
+* RWEverything
+
+    - [RWEverything](http://rweverything.com/)
+
 ## GitHub
 - [TensorFlow-Tutorials](https://github.com/Hvass-Labs/TensorFlow-Tutorials)
 - [Machine Learning Notebooks](https://github.com/ageron/handson-ml)
