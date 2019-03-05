@@ -134,6 +134,8 @@ A playground to note something.
             git push origin master
             ```
 
+    - [Git Cheat Sheets](https://services.github.com/on-demand/resources/cheatsheets/)
+
 * SVN
 
     - Create branch
