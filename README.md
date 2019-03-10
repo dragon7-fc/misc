@@ -110,6 +110,28 @@ A playground to note something.
 
         `Device Drivers > Character devices > IPMI top-level message handler > Generate a panic event to all BMCs on a panic`
 
+* BSOD/Kernel Panic
+
+    - [Cause a Linux Kernel Panic or a Windows BSOD](https://technodrone.blogspot.com/2012/03/cause-linux-kernel-panic-or-windows.html)
+
+        - Windows BSOD
+
+            1. Start Registry Editor.
+            2. Locate and then click the following registry subkey:
+                `HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\kbdhid\Parameters`
+            3. On the Edit menu, click Add Value, and then add the following registry entry.
+                ```
+                Name : CrashOnCtrlScroll 
+                Data Type : REG_DWORD 
+                Value : 1
+                ```
+            4. Exit Registry Editor.
+            5. Restart the computer. (On a computer that uses a USB keyboard, you do not have to restart the computer. Unplugging the keyboard and plugging it back again is sufficient. After that, the Memory dump file can be generated.)
+        
+        - Linux Kernel Panic
+
+            `echo c > /proc/sysrq-trigger`
+
 * Git
 
     - GitHub & Collaboration
@@ -269,6 +291,44 @@ A playground to note something.
 
         `mount -t nfs -o tcp,nolock [NFS_SERVER_IP]:/path/to/nfsroot /path/to/mount`
 
+* Wireshark
+
+    - [How to Decrypt SSL and TLS Traffic Using Wireshark](https://support.citrix.com/article/CTX116557)
+
+        1. Start Wireshark and open the network capture.
+        2. From the menu, go to `Edit > Preferences`.
+        3. Expand `Protocols` in the `Preferences` window.
+        4. Scroll down and select `SSL`.
+
+            - `SSL debug file`: Type a location and file name for a debug file in the SSL debug file field.
+            - `RSA keys list`: In the RSA keys list field click `Edit > New` and add the following information:
+            
+                - `IP address`: is the IP Address of the server/appliance with the private key.
+                - `Port`: is usually 443 for SSL/TLS.
+                - `Protocol`: is usually HTTP.
+                - `Key FIle`: is the location and file name of the private key. This is the key used in the certificate key pair of SSL virtual server for which you are trying to decrypt the traffic. All the SSL key and certificates are saved on NetScaler appliance in config/ssl directory. To use the key to decrypt the traffic it should be saved to the local disk and this path should be specified while decrypting the traffic.
+                - `Password`: enter the password that you assigned while exporting the server certificate.
+
+        5. Decrypt the SSL traffic
+
+* VirtualBox
+
+    - Start VM
+
+        `vboxmanage startvm XXX --type headless`
+
+    - Stop VM
+
+        `vboxmanage controlvm XXX poweroff`
+
+* RU
+
+    - [RU.EXE + RU.EFI](http://ruexe.blogspot.com/)
+
+* RWEverything
+
+    - [RWEverything](http://rweverything.com/)
+
 * Proxy setup
 
     - APT
@@ -372,30 +432,12 @@ A playground to note something.
 
         `jupyter notebook stop [PORT]`
 
-* VirtualBox
-
-    - Start VM
-
-        `vboxmanage startvm XXX --type headless`
-
-    - Stop VM
-
-        `vboxmanage controlvm XXX poweroff`
-
 * ROS
 
     - [ROS Wiki](http://wiki.ros.org/)
     - [ROS Answers](http://answers.ros.org/)
     - [ROS Cheat Sheet](https://github.com/ros/cheatsheet/releases/download/0.0.1/ROScheatsheet_catkin.pdf)
     - [A gentle Introduction to ROS](https://cse.sc.edu/~jokane/agitr/)
-
-* RU
-
-    - [RU.EXE + RU.EFI](http://ruexe.blogspot.com/)
-
-* RWEverything
-
-    - [RWEverything](http://rweverything.com/)
 
 ## GitHub
 - [TensorFlow-Tutorials](https://github.com/Hvass-Labs/TensorFlow-Tutorials)
