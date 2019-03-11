@@ -104,6 +104,17 @@ A playground to note something.
 
             `"keyboard.dispatch": "keyCode"`
 
+* U-Boot
+
+    - TFTP flash
+
+        `setenv ipaddr [HOST_IP]; setenv serverip [SERVER_IP]; protect off all; erase all; tftpboot [FLASH_MEM_ADDR] [SERVER_IP]:[FOM_FILE]`
+
+        __NOTE__: [FLASH_MEM_ADDR]
+        
+            AST2500: 20000000
+
+
 * linux
 
     - CONFIG_IPMI_PANIC_EVENT
