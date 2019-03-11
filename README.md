@@ -110,6 +110,43 @@ A playground to note something.
 
         `Device Drivers > Character devices > IPMI top-level message handler > Generate a panic event to all BMCs on a panic`
 
+    - Rebuild kernel
+
+        - Download linux kernle (ex. linux-x.xx.xx.tar.gz)
+        - Untar
+
+            `tar Jxvf linux-x.xx.xx.tar.gz`    
+        - Configuration
+
+            ```
+            mv linux-x.xx.xx /usr/src/kernels
+            cd /usr/src/kernels/linux-x.xx.xx
+            cp /boot/config-xxx .config
+            make menuconfig
+            ```
+        - Build kernel and modules
+
+            ```
+            make -j N bzImage (N threads)
+            make -j N modules (N threads)
+            ll arch/x86_64/boot/bzImage
+            ```
+        - Install modules
+
+            ```
+            make modules_install
+            ll /lib/modules/
+            ```
+        - install kernel
+            
+            `make install`
+        - (Optional) Generate GRUB boot menu
+
+            `grub2-mkconfig -o /boot/grub2/grub.cfg`
+
+        - reboot
+        - `unaame -r` to see new kernel version
+
 * BSOD/Kernel Panic
 
     - [Cause a Linux Kernel Panic or a Windows BSOD](https://technodrone.blogspot.com/2012/03/cause-linux-kernel-panic-or-windows.html)
