@@ -124,7 +124,7 @@ A playground to note something.
         
             `include/linux/sysctl.h`
 
-            ```
+            ```c
             /* A sysctl table is an array of struct ctl_table: */
             struct ctl_table 
             {
