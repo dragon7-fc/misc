@@ -104,6 +104,10 @@ A playground to note something.
 
             `"keyboard.dispatch": "keyCode"`
 
+* Vim
+
+    - [Vim Cheat Sheet](https://vim.rtorr.com/)
+
 * U-Boot
 
     - TFTP flash
