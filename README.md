@@ -114,36 +114,6 @@ A playground to note something.
         
             AST2500: 20000000
 
-    - sysctl
-
-        - kernel parameters
-            
-            `/proc/sys`
-        
-        - register/unregister
-        
-            `include/linux/sysctl.h`
-
-            ```c
-            /* A sysctl table is an array of struct ctl_table: */
-            struct ctl_table 
-            {
-                const char *procname;		/* Text ID for /proc/sys, or zero */
-                void *data;
-                int maxlen;
-                umode_t mode;
-                struct ctl_table *child;	/* Deprecated */
-                proc_handler *proc_handler;	/* Callback for text formatting */
-                struct ctl_table_poll *poll;
-                void *extra1;
-                void *extra2;
-            };
-
-            struct ctl_table_header *register_sysctl_table(struct ctl_table * table);
-
-            void unregister_sysctl_table(struct ctl_table_header * table);
-            ```
-
 * linux
 
     - CONFIG_IPMI_PANIC_EVENT
@@ -186,6 +156,36 @@ A playground to note something.
 
         - reboot
         - `unaame -r` to see new kernel version
+
+    - sysctl
+
+        - kernel parameters
+            
+            `/proc/sys`
+        
+        - register/unregister
+        
+            `include/linux/sysctl.h`
+
+            ```c
+            /* A sysctl table is an array of struct ctl_table: */
+            struct ctl_table 
+            {
+                const char *procname;		/* Text ID for /proc/sys, or zero */
+                void *data;
+                int maxlen;
+                umode_t mode;
+                struct ctl_table *child;	/* Deprecated */
+                proc_handler *proc_handler;	/* Callback for text formatting */
+                struct ctl_table_poll *poll;
+                void *extra1;
+                void *extra2;
+            };
+
+            struct ctl_table_header *register_sysctl_table(struct ctl_table * table);
+
+            void unregister_sysctl_table(struct ctl_table_header * table);
+            ```
 
 * BSOD/Kernel Panic
 
