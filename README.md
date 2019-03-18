@@ -8,7 +8,7 @@ A playground to note something.
 
     - How to make in Ubuntu
 
-        ```
+        ```bash
         apt-get install automake libtool
         ./bootstrap
         ./configure
@@ -59,7 +59,7 @@ A playground to note something.
 
     - __Linux__:
     
-        ```
+        ```bash
         docker run --rm \
         -v $HOME/.Xauthority:/root/.Xauthority \
         -e DISPLAY=:10.0 --net=host \
@@ -89,6 +89,26 @@ A playground to note something.
     - [Tmux Cheat Sheet & Quick Reference](https://tmuxcheatsheet.com/)
 
     * [.tmux.conf](.tmux.conf)
+
+* Minicom
+
+    - Start
+
+        ```bash
+        sudo minicom -b [BAUD_RATE] /dev/ttyUSB[N]
+        ```
+
+        |                                     | Key         |
+        |-------------------------------------|-------------|
+        | Exit                                | `CTRL a, x` |
+        | Help Menu                           | `CTRL a, z` |
+        | List Current Serial Line Parameters | `CTRL a, p` |
+
+    - Setup
+
+        ```bash
+        sudo minicom -s
+        ```
 
 * VcSrv
 
@@ -129,10 +149,10 @@ A playground to note something.
         - Download linux kernle (ex. linux-x.xx.xx.tar.gz)
         - Untar
 
-            `tar Jxvf linux-x.xx.xx.tar.gz`    
+            `tar Jxvf linux-x.xx.xx.tar.gz`
         - Configuration
 
-            ```
+            ```bash
             mv linux-x.xx.xx /usr/src/kernels
             cd /usr/src/kernels/linux-x.xx.xx
             cp /boot/config-xxx .config
@@ -140,14 +160,14 @@ A playground to note something.
             ```
         - Build kernel and modules
 
-            ```
+            ```bash
             make -j N bzImage (N threads)
             make -j N modules (N threads)
             ll arch/x86_64/boot/bzImage
             ```
         - Install modules
 
-            ```
+            ```bash
             make modules_install
             ll /lib/modules/
             ```
@@ -230,7 +250,7 @@ A playground to note something.
             
         - Sync local, [UPSTREAM_REPO] and [ORIGIN_REPO]
 
-            ```
+            ```bash
             git remote add upstream [UPSTREAM_REPO_URL]
             git checkout master
             git pull upstream master
@@ -249,7 +269,7 @@ A playground to note something.
 
     - Run the image
 
-        ```
+        ```bash
         sudo docker run --detach \
         --hostname gitlab.example.com \
         --publish 443:443 --publish 80:80 --publish 22:22 \
@@ -271,7 +291,7 @@ A playground to note something.
 
 * RamDisk
 
-    ```
+    ```bash
     mkdir /tmp/ramdisk
     chmod 777 /tmp/ramdisk
 
@@ -280,7 +300,7 @@ A playground to note something.
 
 * sudo
 
-    ```
+    ```bash
     visudo
 
     ##+++>
@@ -290,13 +310,13 @@ A playground to note something.
 
 * ssh
 
-    ```
+    ```bash
     sudo apt-get install openssh-server
     ```
 
 * Samba
 
-    ```
+    ```bash
     sudo apt-get install samba
     sudo apt-get install winbind
     sudo get install libnss-winbind
@@ -324,7 +344,7 @@ A playground to note something.
 
     - Server
 
-        ```
+        ```bash
         sudo apt-get install tftpd-hpa
 
         sudo nano /etc/default/tftpd-hpa
@@ -356,7 +376,7 @@ A playground to note something.
 
     - Server
 
-        ```
+        ```bash
         sudo apt-get install nfs-kernel-server 
 
         sudo nano /etc/exports
@@ -414,7 +434,7 @@ A playground to note something.
 
     - APT
 
-        ```
+        ```bash
         touch /etc/apt/apt.conf
         nano /etc/apt/apt.conf
 
@@ -426,7 +446,7 @@ A playground to note something.
 
     - Bashrc
 
-        ```
+        ```bash
         nano ~/.bashrc
 
         ##+++>
@@ -440,7 +460,7 @@ A playground to note something.
 
     - Docker
 
-        ```
+        ```bash
         nano /etc/systemd/system/docker.service.d/http-proxy.conf
 
         ##+++>
@@ -450,7 +470,7 @@ A playground to note something.
         ##+++<
         ```
 
-        ```
+        ```bash
         docker build --no-cache --build-arg HTTP_PROXY=$http_proxy \
         --build-arg HTTPS_PROXY=$http_proxy --build-arg NO_PROXY=$no_proxy \
         --build-arg http_proxy=$http_proxy --build-arg https_proxy=$http_proxy \
