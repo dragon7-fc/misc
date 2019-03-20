@@ -98,11 +98,13 @@ A playground to note something.
         sudo minicom -b [BAUD_RATE] /dev/ttyUSB[N]
         ```
 
-        |                                     | Key         |
-        |-------------------------------------|-------------|
-        | Exit                                | `CTRL a, x` |
-        | Help Menu                           | `CTRL a, z` |
-        | List Current Serial Line Parameters | `CTRL a, p` |
+        |                    | Key                        |
+        |--------------------|----------------------------|
+        | Exit               | `CTRL a, x`                |
+        | Help menu          | `CTRL a, z`                |
+        | Current parameters | `CTRL a, p`                |
+        | Save log           | `minicom -C [LOG_FILE]`    |
+        | Save log (live)    | `CTRL a, L` -> `CTRL a, L` |
 
     - Setup
 
