@@ -109,11 +109,11 @@ A playground to note something.
 
         |                    | Key                        |
         |--------------------|----------------------------|
-        | Exit               | `CTRL a, x`                |
-        | Help menu          | `CTRL a, z`                |
-        | Current parameters | `CTRL a, p`                |
-        | Save log           | `minicom -C [LOG_FILE]`    |
-        | Save log (live)    | `CTRL a, L` -> `CTRL a, L` |
+        | exit               | `CTRL a, x`                |
+        | help menu          | `CTRL a, z`                |
+        | current parameters | `CTRL a, p`                |
+        | save log           | `minicom -C [LOG_FILE]`    |
+        | save log (live)    | `CTRL a, L` -> `CTRL a, L` |
 
     - Setup
 
@@ -389,13 +389,10 @@ A playground to note something.
 
     - Client
 
-        - put
-
-            `tftp -p -l [FILE] [TFTP_SERVER_IP]`
-
-        - get
-
-            `tftp -g -r [FILE] [TFTP_SERVER_IP]`
+        |     | command                              |
+        |-----|--------------------------------------|
+        | put | `tftp -p -l [FILE] [TFTP_SERVER_IP]` |
+        | get | `tftp -g -r [FILE] [TFTP_SERVER_IP]` |
 
 * NFS
 
@@ -422,9 +419,9 @@ A playground to note something.
     - [How to Decrypt SSL and TLS Traffic Using Wireshark](https://support.citrix.com/article/CTX116557)
 
         1. Start Wireshark and open the network capture.
-        2. From the menu, go to `Edit > Preferences`.
-        3. Expand `Protocols` in the `Preferences` window.
-        4. Scroll down and select `SSL`.
+        1. From the menu, go to `Edit > Preferences`.
+        1. Expand `Protocols` in the `Preferences` window.
+        1. Scroll down and select `SSL`.
 
             - `SSL debug file`: Type a location and file name for a debug file in the SSL debug file field.
             - `RSA keys list`: In the RSA keys list field click `Edit > New` and add the following information:
@@ -435,17 +432,14 @@ A playground to note something.
                 - `Key FIle`: is the location and file name of the private key. This is the key used in the certificate key pair of SSL virtual server for which you are trying to decrypt the traffic. All the SSL key and certificates are saved on NetScaler appliance in config/ssl directory. To use the key to decrypt the traffic it should be saved to the local disk and this path should be specified while decrypting the traffic.
                 - `Password`: enter the password that you assigned while exporting the server certificate.
 
-        5. Decrypt the SSL traffic
+        1. Decrypt the SSL traffic
 
 * VirtualBox
 
-    - Start VM
-
-        `vboxmanage startvm XXX --type headless`
-
-    - Stop VM
-
-        `vboxmanage controlvm XXX poweroff`
+    |          | command                                  |
+    |----------|------------------------------------------|
+    | start vm | `vboxmanage startvm XXX --type headless` |
+    | stop vm  | `vboxmanage controlvm XXX poweroff`      |
 
 * RU
 
@@ -506,57 +500,29 @@ A playground to note something.
 
     - Environment Management
 
-        - List
-
-            `conda list`
-        
-        - Create
-
-        `conda create -n XXX`
-
-        - Enter
-
-            `source activate XXX`
-
-        - Exit
-
-            `source deactivate`
-
-        - Remove
-
-            `conda env remove -n XXX`
+        |        | command                   |
+        |--------|---------------------------|
+        | list   | `conda list`              |
+        | create | `conda create -n XXX`     |
+        | enter  | `source activate XXX`     |
+        | exit   | `source deactivate`       |
+        | remove | `conda env remove -n XXX` |
 
     - Package Management (support pip)
 
-        - Install
-
-            `conda install XXX`
-
-            `pip install XXX`
-
-        - remove
-
-            `condata remove XXX`
-
-            `pip remove XXX`
+        |         | command                                  |
+        |---------|------------------------------------------|
+        | install | `conda install XXX` or `pip install XXX` |
+        | remove  | `condata remove XXX` or `pip remove XXX` |
 
 * IPython
 
-    - Install kernel
-
-        `python -m ipykernel install --user --name [CONDA ENV] --display-name "XXX"`
-
-    - Remote Open
-
-        `jupyter lab --allow-root --ip='' --no-browser &`
-
-    - List
-
-        `jupyter notebook list`
-
-    - Stop
-
-        `jupyter notebook stop [PORT]`
+    |                | command                                           |
+    |----------------|---------------------------------------------------|
+    | install kernel | `python -m ipykernel install --user --name [CONDA_ENV] --display-name "XXX"` |
+    | remote open    | `jupyter lab --allow-root --ip='' --no-browser &` |
+    | list           | `jupyter notebook list`                           |
+    | stop           | `jupyter notebook stop [PORT]`                    |
 
 * ROS
 
