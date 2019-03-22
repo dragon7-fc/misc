@@ -77,6 +77,15 @@ A playground to note something.
         zeitgeist/docker-bcompare
         ```
 
+* putty
+
+    - X11 Forwarding
+
+        ```
+        Connection -> SSH -> X11 -> Enable X11 Forwarding
+        Connection -> SSH -> X11 -> X display location -> localhost:0.0
+        ```
+
 * Tmux
 
     - [Tmux Plugin Manager](https://github.com/tmux-plugins/tpm)
@@ -213,6 +222,10 @@ A playground to note something.
             void unregister_sysctl_table(struct ctl_table_header * table);
             ```
 
+    - init
+
+        `/etc/inittab`
+
 * BSOD/Kernel Panic
 
     - [Cause a Linux Kernel Panic or a Windows BSOD](https://technodrone.blogspot.com/2012/03/cause-linux-kernel-panic-or-windows.html)
@@ -220,16 +233,16 @@ A playground to note something.
         - Windows BSOD
 
             1. Start Registry Editor.
-            2. Locate and then click the following registry subkey:
+            1. Locate and then click the following registry subkey:
                 `HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\kbdhid\Parameters`
-            3. On the Edit menu, click Add Value, and then add the following registry entry.
+            1. On the Edit menu, click Add Value, and then add the following registry entry.
                 ```
                 Name : CrashOnCtrlScroll 
                 Data Type : REG_DWORD 
                 Value : 1
                 ```
-            4. Exit Registry Editor.
-            5. Restart the computer. (On a computer that uses a USB keyboard, you do not have to restart the computer. Unplugging the keyboard and plugging it back again is sufficient. After that, the Memory dump file can be generated.)
+            1. Exit Registry Editor.
+            1. Restart the computer. (On a computer that uses a USB keyboard, you do not have to restart the computer. Unplugging the keyboard and plugging it back again is sufficient. After that, the Memory dump file can be generated.)
         
         - Linux Kernel Panic
 
