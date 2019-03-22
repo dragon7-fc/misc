@@ -226,6 +226,16 @@ A playground to note something.
 
         `/etc/inittab`
 
+- i2c-tools
+
+    |                    | command                                         |
+    |--------------------|-------------------------------------------------|
+    | scan bus           | `i2cdetect -l`                                  |
+    | scan slave address | `i2cdetect -y [BUS]`                            |
+    | dump register      | `i2cdump -y [BUS] [SLAVE_ADDRESS]`              |
+    | write register     | `i2cset -f -y [BUS] [SLAVE_ADDRESS] [REGISTER]` |
+    | read register      | `i2cget -y [BUS] [SLAVE_ADDRESS] [REGISTER]`    |
+
 * BSOD/Kernel Panic
 
     - [Cause a Linux Kernel Panic or a Windows BSOD](https://technodrone.blogspot.com/2012/03/cause-linux-kernel-panic-or-windows.html)
