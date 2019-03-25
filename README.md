@@ -97,7 +97,9 @@ A playground to note something.
 
     - [Tmux Cheat Sheet & Quick Reference](https://tmuxcheatsheet.com/)
 
-    * [.tmux.conf](.tmux.conf)
+    - [.tmux.conf](.tmux.conf)
+
+    - [Renew environment variables in tmux](https://babushk.in/posts/renew-environment-tmux.html)
 
 * Minicom
 
