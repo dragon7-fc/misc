@@ -141,6 +141,15 @@ A playground to note something.
 
     - [Vim Cheat Sheet](https://vim.rtorr.com/)
 
+* Shell
+
+    - [An A-Z Index of the Linux command line](https://ss64.com/bash/)
+    - [Terminal Cheatsheet for Mac (Basics)](https://github.com/0nn0/terminal-mac-cheatsheet)
+    - [.bashrc PS1 generator](http://bashrcgenerator.com/)
+    - [Bash Beginners Guide](http://www.tldp.org/LDP/Bash-Beginners-Guide/html/)
+    - [Bash Programming HOWTO](http://tldp.org/HOWTO/Bash-Prog-Intro-HOWTO.html)
+    - [Regexr — Learn Regular Expressions](http://regexr.com/)
+
 * U-Boot
 
     - TFTP flash
