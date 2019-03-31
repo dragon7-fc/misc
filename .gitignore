@@ -1,5 +1,8 @@
 # jupyter notebook
-*-checkpoint.*
+.ipynb_checkpoints
+
+#vs-code
+.vscode
 
 # mac osx
 .DS_Store

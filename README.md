@@ -55,6 +55,10 @@ A playground to note something.
         
     - [Computer Cheese](https://computercheese.blogspot.com/)
 
+* Docker
+
+    - [Docker Cheat Sheet](https://github.com/wsargent/docker-cheat-sheet)
+
 * Beyond Compare
 
     - __Linux__:
@@ -140,15 +144,6 @@ A playground to note something.
 * Vim
 
     - [Vim Cheat Sheet](https://vim.rtorr.com/)
-
-* Shell
-
-    - [An A-Z Index of the Linux command line](https://ss64.com/bash/)
-    - [Terminal Cheatsheet for Mac (Basics)](https://github.com/0nn0/terminal-mac-cheatsheet)
-    - [.bashrc PS1 generator](http://bashrcgenerator.com/)
-    - [Bash Beginners Guide](http://www.tldp.org/LDP/Bash-Beginners-Guide/html/)
-    - [Bash Programming HOWTO](http://tldp.org/HOWTO/Bash-Prog-Intro-HOWTO.html)
-    - [Regexr — Learn Regular Expressions](http://regexr.com/)
 
 * U-Boot
 
@@ -294,6 +289,10 @@ A playground to note something.
             ```
 
     - [Git Cheat Sheets](https://services.github.com/on-demand/resources/cheatsheets/)
+
+    |                   | command                      |
+    |-------------------|------------------------------|
+    | Get older version | `git checkout [COMMIT_HASH]` |
 
 * SVN
 
@@ -528,6 +527,8 @@ A playground to note something.
 
 * IPython
 
+    - [Ipython-quick-ref-sheets](https://damontallen.github.io/IPython-quick-ref-sheets/)
+
     |                | command                                           |
     |----------------|---------------------------------------------------|
     | install kernel | `python -m ipykernel install --user --name [CONDA_ENV] --display-name "XXX"` |
@@ -542,10 +543,46 @@ A playground to note something.
     - [ROS Cheat Sheet](https://github.com/ros/cheatsheet/releases/download/0.0.1/ROScheatsheet_catkin.pdf)
     - [A gentle Introduction to ROS](https://cse.sc.edu/~jokane/agitr/)
 
-## GitHub
-- [TensorFlow-Tutorials](https://github.com/Hvass-Labs/TensorFlow-Tutorials)
-- [Machine Learning Notebooks](https://github.com/ageron/handson-ml)
-- [TensorFlow.js Examples](https://github.com/tensorflow/tfjs-examples)
+## Language
+
+* Shell
+
+    - [An A-Z Index of the Linux command line](https://ss64.com/bash/)
+    - [Terminal Cheatsheet for Mac (Basics)](https://github.com/0nn0/terminal-mac-cheatsheet)
+    - [.bashrc PS1 generator](http://bashrcgenerator.com/)
+    - [Bash Beginners Guide](http://www.tldp.org/LDP/Bash-Beginners-Guide/html/)
+    - [Bash Programming HOWTO](http://tldp.org/HOWTO/Bash-Prog-Intro-HOWTO.html)
+    - [Regexr — Learn Regular Expressions](http://regexr.com/)
+    - [Bash scripting cheatsheet](https://devhints.io/bash)
+
+* Python
+
+    - [The Python Tutorial ](https://docs.python.org/3/tutorial/)
+    - [The Python Language and Library References](https://docs.python.org/3/index.html)
+    - [Third-Party Library Documentation](https://readthedocs.org/)
+    - [Doug Hellmann](https://doughellmann.com/blog/)
+    - [Eli Bendersky](http://eli.thegreenplace.net/)
+    - Numpy
+
+        - [NumPy Manual](https://docs.scipy.org/doc/numpy-1.13.0/contents.html)
+        - [NumPy User Guide](https://docs.scipy.org/doc/numpy-1.13.0/user/index.html)
+        - [NumPy Reference](https://docs.scipy.org/doc/numpy-1.13.0/reference/index.html#reference)
+        - [Scipy Lectures](http://www.scipy-lectures.org/intro/numpy/index.html)
+
+    - Pandas
+
+        - [Pandas Documentation](https://pandas.pydata.org/pandas-docs/stable/)
+
+* C++
+
+    - [Modern C++ Coding Guidelines](https://github.com/Microsoft/AirSim/blob/master/docs/coding_guidelines.md)
+    - [Google C++ Style Guideline](https://google.github.io/styleguide/cppguide.html)
+
+* Tensorflow
+
+    - [TensorFlow-Tutorials](https://github.com/Hvass-Labs/TensorFlow-Tutorials)
+    - [TensorFlow.js Examples](https://github.com/tensorflow/tfjs-examples)
+    - [Machine Learning Notebooks](https://github.com/ageron/handson-ml)
 
 ## Article
 - [Quick Guide to Build a Recommendation Engine in Python](https://www.analyticsvidhya.com/blog/2016/06/quick-guide-build-recommendation-engine-python/)
