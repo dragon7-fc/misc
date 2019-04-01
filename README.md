@@ -110,7 +110,7 @@ A playground to note something.
     - Start
 
         ```bash
-        sudo minicom -b [BAUD_RATE] /dev/ttyUSB[N]
+        sudo minicom -b [BAUD_RATE] -D /dev/ttyUSB[N] -w
         ```
 
         |                    | Key                        |
