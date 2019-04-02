@@ -141,9 +141,14 @@ A playground to note something.
 
             `"keyboard.dispatch": "keyCode"`
 
-* Vim
+* vi
 
-    - [Vim Cheat Sheet](https://vim.rtorr.com/)
+    - [Vi Cheat Sheet](https://www.ibm.com/developerworks/community/files/form/anonymous/api/library/0e088c99-9f24-4c5c-a79a-a65ab8323565/document/ea62f503-ceaa-403f-8142-26a946e0723a/media/VI%20CHEAT%20SHEET.pdf)
+
+    |                | command                                                               |
+    |----------------|-----------------------------------------------------------------------|
+    | binary edit    | `vi -b [FILE] ` -> `:%!xxd` -> edit binary... -> `:%!xxd -r` -> `:wq` |
+
 
 * U-Boot
 
