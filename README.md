@@ -567,6 +567,8 @@ A playground to note something.
     - [Third-Party Library Documentation](https://readthedocs.org/)
     - [Doug Hellmann](https://doughellmann.com/blog/)
     - [Eli Bendersky](http://eli.thegreenplace.net/)
+    - [PEP 8 -- Style Guide for Python Code](https://www.python.org/dev/peps/pep-0008/)
+    - [A summary of python code style conventions](https://development.robinwinslow.uk/2014/01/05/summary-of-python-code-style-conventions/)
     - Numpy
 
         - [NumPy Manual](https://docs.scipy.org/doc/numpy-1.13.0/contents.html)
@@ -594,7 +596,6 @@ A playground to note something.
 - [Probability and Statistics - 假設檢定：基本流程總整理 Process of Hypothesis Testing Statistics](http://mropengate.blogspot.com/2015/03/hypothesis-testing-p-value.html)
 - [An overview of gradient descent optimization algorithms](http://ruder.io/optimizing-gradient-descent/)
 - [Data Science Tutorials](https://www.topcoder.com/community/data-science/data-science-tutorials/)
-- [A summary of python code style conventions](https://development.robinwinslow.uk/2014/01/05/summary-of-python-code-style-conventions/)
 
 ## Interview
 - [LeetCode](https://leetcode.com/): The World's Leading Online Programming Learning Platform
