@@ -145,9 +145,9 @@ A playground to note something.
 
     - [Vi Cheat Sheet](https://www.ibm.com/developerworks/community/files/form/anonymous/api/library/0e088c99-9f24-4c5c-a79a-a65ab8323565/document/ea62f503-ceaa-403f-8142-26a946e0723a/media/VI%20CHEAT%20SHEET.pdf)
 
-    |                | command                                                               |
-    |----------------|-----------------------------------------------------------------------|
-    | binary edit    | `vi -b [FILE] ` -> `:%!xxd` -> edit binary... -> `:%!xxd -r` -> `:wq` |
+    |             | command                                                               |
+    |-------------|-----------------------------------------------------------------------|
+    | edit binary | `vi -b [FILE] ` -> `:%!xxd` -> edit binary... -> `:%!xxd -r` -> `:wq` |
 
 
 * U-Boot
@@ -525,10 +525,10 @@ A playground to note something.
 
     - Package Management (support pip)
 
-        |         | command                                  |
-        |---------|------------------------------------------|
-        | install | `conda install XXX` or `pip install XXX` |
-        | remove  | `condata remove XXX` or `pip remove XXX` |
+        |         | command 1            | command 2           |
+        |---------|----------------------|---------------------|
+        | install | `conda install XXX`  | `pip install XXX`   |
+        | remove  | `condata remove XXX` | `pip remove XXX`    |
 
 * IPython
 
@@ -559,6 +559,10 @@ A playground to note something.
     - [Bash Programming HOWTO](http://tldp.org/HOWTO/Bash-Prog-Intro-HOWTO.html)
     - [Regexr — Learn Regular Expressions](http://regexr.com/)
     - [Bash scripting cheatsheet](https://devhints.io/bash)
+
+    |             | command 1         | command 2   | command 3           | command 4        |
+    |-------------|-------------------|-------------|---------------------|----------------- |
+    | view binary | `xxd -g 1 [FILE]` | `hd [FILE]` | `hexdump -C [FILE]` | `od -t x1 [FILE]`|
 
 * Python
 
