@@ -537,7 +537,7 @@ A playground to note something.
     |                | command                                           |
     |----------------|---------------------------------------------------|
     | install kernel | `python -m ipykernel install --user --name [CONDA_ENV] --display-name "XXX"` |
-    | remote open    | `jupyter lab --allow-root --ip='' --no-browser &` |
+    | remote open    | `jupyter-lab --allow-root --ip=0.0.0.0 --no-browser &` |
     | list           | `jupyter notebook list`                           |
     | stop           | `jupyter notebook stop [PORT]`                    |
 
