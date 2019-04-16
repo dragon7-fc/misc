@@ -560,9 +560,10 @@ A playground to note something.
     - [Regexr — Learn Regular Expressions](http://regexr.com/)
     - [Bash scripting cheatsheet](https://devhints.io/bash)
 
-    |             | command 1         | command 2   | command 3           | command 4        |
-    |-------------|-------------------|-------------|---------------------|----------------- |
-    | view binary | `xxd -g 1 [FILE]` | `hd [FILE]` | `hexdump -C [FILE]` | `od -t x1 [FILE]`|
+    |             | command     |
+    |-------------|-------------------------------------------------------------------------|
+    | view binary | `xxd -g 1 [FILE]` or `hd [FILE]` or `hexdump -C [FILE]` or `od -t x1 [FILE]`|
+    | write binary | `echo -n -e \xHH > XXX` or `printf '\xHH' > XXX` |
 
 * Python
 
