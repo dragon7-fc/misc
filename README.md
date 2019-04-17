@@ -583,6 +583,7 @@ A playground to note something.
     - [Eli Bendersky](http://eli.thegreenplace.net/)
     - [PEP 8 -- Style Guide for Python Code](https://www.python.org/dev/peps/pep-0008/)
     - [A summary of python code style conventions](https://development.robinwinslow.uk/2014/01/05/summary-of-python-code-style-conventions/)
+    - [Python For Data Science Cheat Sheet](http://www.utc.fr/~jlaforet/Suppl/python-cheatsheets.pdf)
     - [Collecting Data Science Cheat Sheets](https://towardsdatascience.com/collecting-data-science-cheat-sheets-d2cdff092855)
     - [50+ Data Science and Machine Learning Cheat Sheets](https://www.kdnuggets.com/2015/07/good-data-science-machine-learning-cheat-sheets.html)
     - Numpy
