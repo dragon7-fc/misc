@@ -557,13 +557,22 @@ A playground to note something.
     - [.bashrc PS1 generator](http://bashrcgenerator.com/)
     - [Bash Beginners Guide](http://www.tldp.org/LDP/Bash-Beginners-Guide/html/)
     - [Bash Programming HOWTO](http://tldp.org/HOWTO/Bash-Prog-Intro-HOWTO.html)
-    - [Regexr — Learn Regular Expressions](http://regexr.com/)
     - [Bash scripting cheatsheet](https://devhints.io/bash)
+    - [Regexr — Learn Regular Expressions](http://regexr.com/)
+    - [grep (english) Cheat Sheet by TME520](https://www.cheatography.com/tme520/cheat-sheets/grep-english/)
+    - [Sed - An Introduction and Tutorial by Bruce Barnett](http://www.grymoire.com/Unix/Sed.html)
+    - [AWK Cheat Sheet](https://www.shortcutfoo.com/app/dojos/awk/cheatsheet)
+    - [awk (english) Cheat Sheet by TME520](https://www.cheatography.com/tme520/cheat-sheets/awk-english/)
 
     |             | command     |
     |-------------|-------------------------------------------------------------------------|
-    | view binary | `xxd -g 1 [FILE]` or `hd [FILE]` or `hexdump -C [FILE]` or `od -t x1 [FILE]`|
+    | read binary | `xxd -g 1 [FILE]` or `hd [FILE]` or `hexdump -C [FILE]` or `od -t x1 [FILE]`|
     | write binary | `echo -n -e \xHH > XXX` or `printf '\xHH' > XXX` |
+
+* Batch
+
+    - [List of DOS commands](https://en.wikipedia.org/wiki/List_of_DOS_commands#IF)
+    - [A Comparison of Common DOS and Linux Commands](https://access.redhat.com/documentation/en-US/Red_Hat_Enterprise_Linux/4/html/Step_by_Step_Guide/ap-doslinux.html)
 
 * Python
 
@@ -574,6 +583,8 @@ A playground to note something.
     - [Eli Bendersky](http://eli.thegreenplace.net/)
     - [PEP 8 -- Style Guide for Python Code](https://www.python.org/dev/peps/pep-0008/)
     - [A summary of python code style conventions](https://development.robinwinslow.uk/2014/01/05/summary-of-python-code-style-conventions/)
+    - [Collecting Data Science Cheat Sheets](https://towardsdatascience.com/collecting-data-science-cheat-sheets-d2cdff092855)
+    - [50+ Data Science and Machine Learning Cheat Sheets](https://www.kdnuggets.com/2015/07/good-data-science-machine-learning-cheat-sheets.html)
     - Numpy
 
         - [NumPy Manual](https://docs.scipy.org/doc/numpy-1.13.0/contents.html)
@@ -585,16 +596,41 @@ A playground to note something.
 
         - [Pandas Documentation](https://pandas.pydata.org/pandas-docs/stable/)
 
-* C++
+* C/C++
 
+    - [C Reference Cheat Sheet by Ashlyn Black](https://www.cheatography.com/ashlyn-black/cheat-sheets/c-reference/)
+    - [C++ reference](https://en.cppreference.com/w/)
     - [Modern C++ Coding Guidelines](https://github.com/Microsoft/AirSim/blob/master/docs/coding_guidelines.md)
     - [Google C++ Style Guideline](https://google.github.io/styleguide/cppguide.html)
+
+* Java
+
+    - [Java + OOP concept Cheat Sheet by son9912](https://www.cheatography.com/son9912/cheat-sheets/java-oop-concept/)
+    - [C++ and Java Syntax Differences Cheat Sheet](https://www.cprogramming.com/tutorial/java/syntax-differences-java-c++.html)
 
 * Tensorflow
 
     - [TensorFlow-Tutorials](https://github.com/Hvass-Labs/TensorFlow-Tutorials)
     - [TensorFlow.js Examples](https://github.com/tensorflow/tfjs-examples)
     - [Machine Learning Notebooks](https://github.com/ageron/handson-ml)
+
+* HTML
+
+    - [HTML Element Reference](https://www.w3schools.com/tags/default.asp)
+    - [Online Interactive HTML Cheat Sheet](https://htmlcheatsheet.com/)
+    - The __difference__ between span and div is that a __span__ element is in-line and usually used for a small chunk of HTML inside a line (such as inside a paragraph) whereas a __div__ (division) element is block-line (which is basically equivalent to having a line-break before and after it) and used to group larger chunks of code.
+
+* CSS
+
+    - [Online Interactive CSS CheatSheet](https://htmlcheatsheet.com/css/)
+    - [Bootstrap library](https://getbootstrap.com/)
+
+* Javascript
+
+    - [Online Interactive JavaScript (JS) Cheat Sheet](https://htmlcheatsheet.com/js/)
+    - [Online jQuery Cheat Sheet](https://htmlcheatsheet.com/jquery/)
+    - [Backbone.js cheatsheet](https://devhints.io/backbone)
+    - [Plotly](https://plot.ly/)
 
 * Database
 
