@@ -579,23 +579,59 @@ A playground to note something.
     - [The Python Tutorial ](https://docs.python.org/3/tutorial/)
     - [The Python Language and Library References](https://docs.python.org/3/index.html)
     - [Third-Party Library Documentation](https://readthedocs.org/)
-    - [Doug Hellmann](https://doughellmann.com/blog/)
-    - [Eli Bendersky](http://eli.thegreenplace.net/)
+    - [general decorators tutorial](https://realpython.com/primer-on-python-decorators/)
     - [PEP 8 -- Style Guide for Python Code](https://www.python.org/dev/peps/pep-0008/)
     - [A summary of python code style conventions](https://development.robinwinslow.uk/2014/01/05/summary-of-python-code-style-conventions/)
-    - [Python For Data Science Cheat Sheet](http://www.utc.fr/~jlaforet/Suppl/python-cheatsheets.pdf)
-    - [Collecting Data Science Cheat Sheets](https://towardsdatascience.com/collecting-data-science-cheat-sheets-d2cdff092855)
-    - [50+ Data Science and Machine Learning Cheat Sheets](https://www.kdnuggets.com/2015/07/good-data-science-machine-learning-cheat-sheets.html)
-    - Numpy
+    - [Python For Data Science Cheat Sheet - Python Basics](https://datacamp-community-prod.s3.amazonaws.com/e30fbcd9-f595-4a9f-803d-05ca5bf84612)
+    - SciPy
+    
+        - Linear Algebra
 
-        - [NumPy Manual](https://docs.scipy.org/doc/numpy-1.13.0/contents.html)
-        - [NumPy User Guide](https://docs.scipy.org/doc/numpy-1.13.0/user/index.html)
-        - [NumPy Reference](https://docs.scipy.org/doc/numpy-1.13.0/reference/index.html#reference)
-        - [Scipy Lectures](http://www.scipy-lectures.org/intro/numpy/index.html)
+            - [Python For Data Science Cheat Sheet - SciPy - Linear Algebra](https://datacamp-community-prod.s3.amazonaws.com/5710caa7-94d4-4248-be94-d23dea9e668f)
 
-    - Pandas
+        - Numpy
 
-        - [Pandas Documentation](https://pandas.pydata.org/pandas-docs/stable/)
+            - [NumPy Manual](https://docs.scipy.org/doc/numpy-1.13.0/contents.html)
+            - [NumPy User Guide](https://docs.scipy.org/doc/numpy-1.13.0/user/index.html)
+            - [NumPy Reference](https://docs.scipy.org/doc/numpy-1.13.0/reference/index.html#reference)
+            - [Scipy Lectures](http://www.scipy-lectures.org/intro/numpy/index.html)
+            - [Python For Data Science Cheat Sheet - NumPy Basics](https://datacamp-community-prod.s3.amazonaws.com/e9f83f72-a81b-42c7-af44-4e35b48b20b7)
+
+        - Pandas
+
+            - [Pandas Documentation](https://pandas.pydata.org/pandas-docs/stable/)
+            - [Python For Data Science Cheat Sheet - Pandas](https://datacamp-community-prod.s3.amazonaws.com/9f0f2ae1-8bd8-4302-a67b-e17f3059d9e8)
+            - [Python For Data Science Cheat Sheet - Pandas Basics](https://datacamp-community-prod.s3.amazonaws.com/fbc502d0-46b2-4e1b-b6b0-5402ff273251)
+
+        - Matplotlib
+
+            - [Python For Data Science Cheat Sheet - Matplotlib](https://datacamp-community-prod.s3.amazonaws.com/28b8210c-60cc-4f13-b0b4-5b4f2ad4790b)
+
+    - Seaborn
+
+        - [Python For Data Science Cheat Sheet - Seaborn](https://datacamp-community-prod.s3.amazonaws.com/f9f06e72-519a-4722-9912-b5de742dbac4)
+
+    - Scikit-learn
+
+        - [Python For Data Science Cheat Sheet - Scikit-Learn](https://datacamp-community-prod.s3.amazonaws.com/5433fa18-9f43-44cc-b228-74672efcd116)
+
+    - keras
+
+        - [Python For Data Science Cheat Sheet - Keras](https://datacamp-community-prod.s3.amazonaws.com/94fc681d-5422-40cb-a129-2218e9522f17)
+
+    - Flask
+
+        - [how @app.route works](https://ains.co/blog/things-which-arent-magic-flask-part-1.html)
+        - [Tutorial - Using Databases with Flask](https://blog.miguelgrinberg.com/post/the-flask-mega-tutorial-part-iv-database)
+        - [SQL Alchemy](http://docs.sqlalchemy.org/en/latest/) - a Python toolkit for working with SQL
+        - [Flask SQLAlchemy](http://flask-sqlalchemy.pocoo.org/2.3/) - a Flask library for using SQLAlchemy with Flask
+        - [Flask: The Cheat Sheet](http://flask-cheat-sheet.herokuapp.com/)
+        
+     - Jinja
+     
+        - [Jinja Cheat Sheet](https://lzone.de/cheat-sheet/Jinja)
+
+    - [Cheat Sheets for AI, Neural Networks, Machine Learning, Deep Learning & Big Data](https://becominghuman.ai/cheat-sheets-for-ai-neural-networks-machine-learning-deep-learning-big-data-678c51b4b463)
 
 * C/C++
 
@@ -624,14 +660,18 @@ A playground to note something.
 * CSS
 
     - [Online Interactive CSS CheatSheet](https://htmlcheatsheet.com/css/)
-    - [Bootstrap library](https://getbootstrap.com/)
 
 * Javascript
 
     - [Online Interactive JavaScript (JS) Cheat Sheet](https://htmlcheatsheet.com/js/)
     - [Online jQuery Cheat Sheet](https://htmlcheatsheet.com/jquery/)
     - [Backbone.js cheatsheet](https://devhints.io/backbone)
-    - [Plotly](https://plot.ly/)
+    - [Bootstrap 4 Cheat Sheet](https://hackerthemes.com/bootstrap-cheatsheet/)
+    - [Plotly Javascript Open Source Graphing Library](https://plot.ly/javascript/)
+
+* Lua
+
+    - [Lua Scripting 5.1 Cheat Sheet by SrGMC](https://www.cheatography.com/srgmc/cheat-sheets/lua-scripting-5-1/)
 
 * Database
 
