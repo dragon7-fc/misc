@@ -32,7 +32,6 @@ A playground to note something.
             libreadline-devel
             perl
             ```
-
         - Cygwin build
 
             ```
@@ -40,9 +39,8 @@ A playground to note something.
             ./configure
             make
             ```
-
         - Create ipmitool package
-        
+
             ```
             .\src\.libs\ipmitool.exe
             C:\cygwin64\bin\cygcrypto-1.0.0.dll
@@ -52,7 +50,6 @@ A playground to note something.
             C:\cygwin64\bin\cygwin1.dll
             C:\cygwin64\bin\cygz.dll
             ```
-        
     - [Computer Cheese](https://computercheese.blogspot.com/)
 
 * Docker
@@ -149,6 +146,15 @@ A playground to note something.
     |-------------|-----------------------------------------------------------------------|
     | edit binary | `vi -b [FILE] ` -> `:%!xxd` -> edit binary... -> `:%!xxd -r` -> `:wq` |
 
+* Vim
+
+    - [Vim Cheatsheet](https://alejandrodev.com/vim/#grep)
+    - [Vim Cheat Sheet](https://vim.rtorr.com/)
+    - [Learn Vim Progressively](https://yannesposito.com/Scratch/en/blog/Learn-Vim-Progressively/)
+    - [Use Vim like an IDE](https://vim.fandom.com/wiki/Use_Vim_like_an_IDE)
+    - [Vim Awesome](https://vimawesome.com/)'
+    - [Learn Vimscript the Hard Way](http://learnvimscriptthehardway.stevelosh.com/)
+    - [Vundle, the plug-in manager for Vim](https://github.com/VundleVim/Vundle.vim)
 
 * U-Boot
 
@@ -688,3 +694,4 @@ A playground to note something.
 - [Grammarly](https://www.grammarly.com/): Free Writing Assistant
 - [Hemingway App](http://www.hemingwayapp.com/): Makes your writing bold and clear.
 - [Sejda](https://www.sejda.com/sign-pdf): Fill and Sign PDF Online Free
+export PS1="\[\033[38;5;21m\]\u\[$(tput sgr0)\]\[\033[38;5;15m\]@\[$(tput sgr0)\]\[\033[38;5;2m\]\w\[$(tput sgr0)\]"
