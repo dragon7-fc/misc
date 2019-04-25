@@ -86,6 +86,17 @@ A playground to note something.
         Connection -> SSH -> X11 -> Enable X11 Forwarding
         Connection -> SSH -> X11 -> X display location -> localhost:0.0
         ```
+    - xterm 256 color
+
+        ```
+        Window -> Colours -> Allow terminal to specify xterm 256-colour mode
+        ```
+
+        ```bash
+        nano ~/.bashrc
+
+        export TERM=xterm-256color
+        ```
 
 * Tmux
 
