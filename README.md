@@ -161,6 +161,7 @@ A playground to note something.
 
     - [Vim Cheatsheet](https://alejandrodev.com/vim)
     - [Vim Cheat Sheet](https://vim.rtorr.com/)
+    - [Vim Cheat Sheet](vim_cheat_sheet.png)
     - [Learn Vim Progressively](https://yannesposito.com/Scratch/en/blog/Learn-Vim-Progressively/)
     - [Use Vim like an IDE](https://vim.fandom.com/wiki/Use_Vim_like_an_IDE)
     - [Vim Awesome](https://vimawesome.com/)'
