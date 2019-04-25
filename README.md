@@ -159,7 +159,7 @@ A playground to note something.
 
 * Vim
 
-    - [Vim Cheatsheet](https://alejandrodev.com/vim/#grep)
+    - [Vim Cheatsheet](https://alejandrodev.com/vim)
     - [Vim Cheat Sheet](https://vim.rtorr.com/)
     - [Learn Vim Progressively](https://yannesposito.com/Scratch/en/blog/Learn-Vim-Progressively/)
     - [Use Vim like an IDE](https://vim.fandom.com/wiki/Use_Vim_like_an_IDE)
