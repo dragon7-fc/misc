@@ -167,7 +167,12 @@ A playground to note something.
     - [Vim Awesome](https://vimawesome.com/)'
     - [Learn Vimscript the Hard Way](http://learnvimscriptthehardway.stevelosh.com/)
     - [Vundle, the plug-in manager for Vim](https://github.com/VundleVim/Vundle.vim)
+    - ack-vim
 
+        ```bash
+        export LC_CTYPE=en_US.UTF-8
+        export LC_ALL=en_US.UTF-8
+        ```
 * U-Boot
 
     - TFTP flash
