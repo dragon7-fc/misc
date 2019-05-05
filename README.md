@@ -162,6 +162,7 @@ A playground to note something.
     - [Vim Cheatsheet](https://alejandrodev.com/vim)
     - [Vim Cheat Sheet](https://vim.rtorr.com/)
     - [Vim Cheat Sheet](vim_cheat_sheet.png)
+    - [Vimdiff cheatsheet](https://devhints.io/vim-diff)
     - [Learn Vim Progressively](https://yannesposito.com/Scratch/en/blog/Learn-Vim-Progressively/)
     - [Use Vim like an IDE](https://vim.fandom.com/wiki/Use_Vim_like_an_IDE)
     - [Vim Awesome](https://vimawesome.com/)'
@@ -542,8 +543,8 @@ A playground to note something.
         |--------|---------------------------|
         | list   | `conda list`              |
         | create | `conda create -n XXX`     |
-        | enter  | `source activate XXX`     |
-        | exit   | `source deactivate`       |
+        | enter  | `conda activate XXX`     |
+        | exit   | `conda deactivate`       |
         | remove | `conda env remove -n XXX` |
 
     - Package Management (support pip)
