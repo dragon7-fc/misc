@@ -522,8 +522,8 @@ A playground to note something.
 
         ##+++>
         [Service]
-        Environment="HTTP_PROXY=http://10.32.2.109:3128"
-        Environment="HTTPS_PROXY=http://10.32.2.109:3128"
+        Environment="HTTP_PROXY=http://[PROXY_IP]:[PROXY_PORT]"
+        Environment="HTTPS_PROXY=http://[PROXY_IP]:[PROXY_PORT]"
         ##+++<
         ```
 
@@ -532,6 +532,12 @@ A playground to note something.
         --build-arg HTTPS_PROXY=$http_proxy --build-arg NO_PROXY=$no_proxy \
         --build-arg http_proxy=$http_proxy --build-arg https_proxy=$http_proxy \
         --build-arg no_proxy=$no_proxy -t XXX /path/to/Dockerfile/directory
+        ```
+    - npm
+
+        ```bash
+        npm config set proxy http://[PROXY_IP]:[PROXY_PORT]
+        npm config set https-proxy http://[PROXY_IP]:[PROXY_PORT]
         ```
 
 * Conda
