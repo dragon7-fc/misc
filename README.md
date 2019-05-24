@@ -178,7 +178,7 @@ A playground to note something.
 
     - TFTP flash
 
-        `setenv ipaddr [HOST_IP]; setenv serverip [SERVER_IP]; protect off all; erase all; tftpboot [FLASH_MEM_ADDR] [SERVER_IP]:[FOM_FILE]`
+        `setenv ipaddr [HOST_IP]; setenv serverip [SERVER_IP]; protect off all; erase all; tftpboot [FLASH_MEM_ADDR] [SERVER_IP]:[ROM_FILE]`
 
         __NOTE__: [FLASH_MEM_ADDR]
         
