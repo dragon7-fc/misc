@@ -480,6 +480,10 @@ A playground to note something.
 
     - [Nmap Cheat Sheet](https://www.stationx.net/nmap-cheat-sheet/)
 
+* curl
+
+    - [CURL CHEATSHEET](https://cheatsheet.dennyzhang.com/cheatsheet-curl-a4)
+
 * VirtualBox
 
     |          | command                                  |
