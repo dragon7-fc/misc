@@ -722,9 +722,10 @@ A playground to note something.
 
     - [Lua Scripting 5.1 Cheat Sheet by SrGMC](https://www.cheatography.com/srgmc/cheat-sheets/lua-scripting-5-1/)
 
-* Database
+* SQL
 
     - [SQL Cheat Sheet](http://www.sql-tutorial.net/sql-cheat-sheet.pdf)
+    - [Welcome to the SQL Tutorial](https://mode.com/sql-tutorial/)
     - [SQLite vs MySQL vs PostgreSQL: A Comparison Of Relational Database Management Systems](https://www.digitalocean.com/community/tutorials/sqlite-vs-mysql-vs-postgresql-a-comparison-of-relational-database-management-systems)
 
 ## Theorem
