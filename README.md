@@ -675,7 +675,7 @@ A playground to note something.
         - [SQL Alchemy](http://docs.sqlalchemy.org/en/latest/) - a Python toolkit for working with SQL
         - [Flask SQLAlchemy](http://flask-sqlalchemy.pocoo.org/2.3/) - a Flask library for using SQLAlchemy with Flask
         - [Flask: The Cheat Sheet](http://flask-cheat-sheet.herokuapp.com/)
-        
+ 
      - Jinja
      
         - [Jinja Cheat Sheet](https://lzone.de/cheat-sheet/Jinja)
@@ -724,13 +724,22 @@ A playground to note something.
 
 * Database
 
+    - [SQL Cheat Sheet](http://www.sql-tutorial.net/sql-cheat-sheet.pdf)
     - [SQLite vs MySQL vs PostgreSQL: A Comparison Of Relational Database Management Systems](https://www.digitalocean.com/community/tutorials/sqlite-vs-mysql-vs-postgresql-a-comparison-of-relational-database-management-systems)
+
+## Theorem
+
+* Probability
+
+    - [Probability Basics  Cheat Sheet](https://www.sas.upenn.edu/~astocker/lab/teaching-files/PSYC739-2016/probability_cheatsheet.pdf)
+    - [Probability cheat sheet for distribution](http://www.cs.elte.hu/~mesti/valszam/kepletek)
 
 ## Article
 - [Quick Guide to Build a Recommendation Engine in Python](https://www.analyticsvidhya.com/blog/2016/06/quick-guide-build-recommendation-engine-python/)
 - [Probability and Statistics - 假設檢定：基本流程總整理 Process of Hypothesis Testing Statistics](http://mropengate.blogspot.com/2015/03/hypothesis-testing-p-value.html)
 - [An overview of gradient descent optimization algorithms](http://ruder.io/optimizing-gradient-descent/)
 - [Data Science Tutorials](https://www.topcoder.com/community/data-science/data-science-tutorials/)
+- [Top 28 Cheat Sheets for Machine Learning, Data Science, Probability, SQL & Big Data](https://www.analyticsvidhya.com/blog/2017/02/top-28-cheat-sheets-for-machine-learning-data-science-probability-sql-big-data/)
 
 ## Interview
 - [LeetCode](https://leetcode.com/): The World's Leading Online Programming Learning Platform
