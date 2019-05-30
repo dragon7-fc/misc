@@ -479,6 +479,9 @@ A playground to note something.
 * nmap
 
     - [Nmap Cheat Sheet](https://www.stationx.net/nmap-cheat-sheet/)
+    - To see the SSL/TLS algorithms a server supports
+
+        `nmap --script ssl-enum-ciphers -p 443 10.32.3.143 [TARGET|IP]`
 
 * curl
 
