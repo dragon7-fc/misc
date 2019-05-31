@@ -152,6 +152,7 @@ A playground to note something.
 * vi
 
     - [Vi Cheat Sheet](http://www.lagmonster.org/docs/vi2.html)
+    - [VI (Linux Terminal) Help Sheet](https://www.gosquared.com/blog/vi-linux-terminal-help-sheet)
 
     |             | command                                                               |
     |-------------|-----------------------------------------------------------------------|
@@ -164,7 +165,6 @@ A playground to note something.
     - [VIM Cheat Sheet for Programmers](http://michael.peopleofhonoronly.com/vim/)
     - [Vim Cheat Sheet](vim_cheat_sheet.png)
     - [Graphical vi-vim Cheat Sheet and Tutorial](http://www.viemu.com/a_vi_vim_graphical_cheat_sheet_tutorial.html)
-    - [VI (Linux Terminal) Help Sheet](https://www.gosquared.com/blog/vi-linux-terminal-help-sheet)
     - [Vimdiff cheatsheet](https://devhints.io/vim-diff)
     - [Learn Vim Progressively](https://yannesposito.com/Scratch/en/blog/Learn-Vim-Progressively/)
     - [Use Vim like an IDE](https://vim.fandom.com/wiki/Use_Vim_like_an_IDE)
@@ -189,6 +189,8 @@ A playground to note something.
 
 * linux
 
+    - [UNIX Toolbox](http://cb.vu/unixtoolbox.pdf)
+    - [LINUX Administrator’s Quick Reference Card](http://www.cheat-sheets.org/saved-copy/linux_quickref.pdf)
     - CONFIG_IPMI_PANIC_EVENT
 
         `Device Drivers > Character devices > IPMI top-level message handler > Generate a panic event to all BMCs on a panic`
@@ -607,8 +609,6 @@ A playground to note something.
     - [Sed - An Introduction and Tutorial by Bruce Barnett](http://www.grymoire.com/Unix/Sed.html)
     - [AWK Cheat Sheet](https://www.shortcutfoo.com/app/dojos/awk/cheatsheet)
     - [awk (english) Cheat Sheet by TME520](https://www.cheatography.com/tme520/cheat-sheets/awk-english/)
-    - [UNIX Toolbox](http://cb.vu/unixtoolbox.pdf)
-    - [LINUX Administrator’s Quick Reference Card](http://www.cheat-sheets.org/saved-copy/linux_quickref.pdf)
 
     |             | command     |
     |-------------|-------------------------------------------------------------------------|
