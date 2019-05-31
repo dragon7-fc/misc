@@ -607,6 +607,8 @@ A playground to note something.
     - [Sed - An Introduction and Tutorial by Bruce Barnett](http://www.grymoire.com/Unix/Sed.html)
     - [AWK Cheat Sheet](https://www.shortcutfoo.com/app/dojos/awk/cheatsheet)
     - [awk (english) Cheat Sheet by TME520](https://www.cheatography.com/tme520/cheat-sheets/awk-english/)
+    - [UNIX Toolbox](http://cb.vu/unixtoolbox.pdf)
+    - [LINUX Administrator’s Quick Reference Card](http://www.cheat-sheets.org/saved-copy/linux_quickref.pdf)
 
     |             | command     |
     |-------------|-------------------------------------------------------------------------|
