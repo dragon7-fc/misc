@@ -656,6 +656,7 @@ A playground to note something.
     - Seaborn
 
         - [Python For Data Science Cheat Sheet - Seaborn](https://datacamp-community-prod.s3.amazonaws.com/f9f06e72-519a-4722-9912-b5de742dbac4)
+        - [seaborn cheat sheet - Interactive Chaos](https://www.interactivechaos.com/sites/default/files/data/seaborn_cheat_sheet.pdf)
 
     - Scikit-learn
 
