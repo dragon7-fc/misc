@@ -736,6 +736,10 @@ A playground to note something.
 
 ## Theorem
 
+- Statistics
+
+    - [Statistics Cheat Sheet - MIT](http://web.mit.edu/~csvoss/Public/usabo/stats_handout.pdf)
+
 * Probability
 
     - [Probability Basics  Cheat Sheet](https://www.sas.upenn.edu/~astocker/lab/teaching-files/PSYC739-2016/probability_cheatsheet.pdf)
