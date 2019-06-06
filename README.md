@@ -191,6 +191,7 @@ A playground to note something.
 
     - [UNIX Toolbox](http://cb.vu/unixtoolbox.pdf)
     - [LINUX Administrator’s Quick Reference Card](http://www.cheat-sheets.org/saved-copy/linux_quickref.pdf)
+    - [Practical Linux Command Line Reference](http://www.pixelbeat.org/cmdline.html)
     - CONFIG_IPMI_PANIC_EVENT
 
         `Device Drivers > Character devices > IPMI top-level message handler > Generate a panic event to all BMCs on a panic`
