@@ -324,6 +324,7 @@ A playground to note something.
             ```
 
     - [Git Cheat Sheets](https://services.github.com/on-demand/resources/cheatsheets/)
+    - [GitLab Git Cheat Sheet](https://about.gitlab.com/images/press/git-cheat-sheet.pdf)
 
     |                   | command                      |
     |-------------------|------------------------------|
