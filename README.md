@@ -460,6 +460,48 @@ A playground to note something.
 
         `mount -t nfs -o tcp,nolock [NFS_SERVER_IP]:/path/to/nfsroot /path/to/mount`
 
+- FTP
+
+     - Server
+         ```
+         # Install
+         sudo apt update
+         sudo apt install vsftpd
+         sudo cp /etc/vsftpd.conf /etc/vsftpd.conf.orig
+
+         # Firwall rules
+         sudo ufw allow ftp-data
+         sudo ufw allow ftp
+         sudo ufw status
+
+         # Preparing Space for Files
+         sudo mkdir -p /var/ftp
+         sudo chown nobody:nogroup /var/ftp
+         echo "vsftpd test file" | sudo tee /var/ftp/test.log
+         sudo mkdir /var/ftp/pub
+         sudo chmod a+rwx /var/ftp/pub
+
+         # enable anonymous write & read
+         sudo nano /etc/vsftpd.conf
+
+         ##+++>
+         anonymous_enable=YES
+         write_enable=YES
+         anon_upload_enable=YES
+         anon_mkdir_write_enable=YES
+         anon_umask=022
+         anon_other_write_enable=YES
+         anon_root=/var/ftp
+         no_anon_password=YES
+         hide_ids=YES
+         pasv_min_port=40000
+         pasv_max_port=50000
+         ##+++<
+         ```
+    - Client
+
+    ```ftp -p [FTP_SERVER_IP]```
+
 * Wireshark
 
     - [How to Decrypt SSL and TLS Traffic Using Wireshark](https://support.citrix.com/article/CTX116557)
