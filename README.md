@@ -135,6 +135,10 @@ A playground to note something.
         sudo minicom -s
         ```
 
+    - Disable Hardware Flow Control
+
+        `sudo minicom -s` -> `Serial Port Setup` -> `Hardware Flow Control` -> `No`
+
 * VcSrv
 
     - clipboard share
@@ -543,6 +547,14 @@ A playground to note something.
     |----------|------------------------------------------|
     | start vm | `vboxmanage startvm XXX --type headless` |
     | stop vm  | `vboxmanage controlvm XXX poweroff`      |
+
+* Raspbian
+
+    - configuration
+
+        `raspi-config`
+
+    - [Setting up a Raspberry Pi as an access point in a standalone network (NAT)](https://www.raspberrypi.org/documentation/configuration/wireless/access-point.md)
 
 * RU
 
