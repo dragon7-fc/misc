@@ -547,6 +547,8 @@ A playground to note something.
     |----------|------------------------------------------|
     | start vm | `vboxmanage startvm XXX --type headless` |
     | stop vm  | `vboxmanage controlvm XXX poweroff`      |
+    | list vm  | `VBoxManage list vms`                    |
+    | list vm (running) | `VBoxManage list runningvms`    |
 
 * Raspbian
 
@@ -670,6 +672,8 @@ A playground to note something.
     - [AWK Cheat Sheet](https://www.shortcutfoo.com/app/dojos/awk/cheatsheet)
     - [awk (english) Cheat Sheet by TME520](https://www.cheatography.com/tme520/cheat-sheets/awk-english/)
     - [ag - The Silver Searcher, a better UNIX search tool](https://blog.dnsimple.com/2017/07/ag-a-better-unix-search-tool/)
+    - [Linux ip Command Networking Cheat Sheet](https://www.linuxtrainingacademy.com/linux-ip-command-networking-cheat-sheet/)
+    - [SS – Socket Statistics Commands Cheatsheet](https://neverendingsecurity.wordpress.com/2015/04/13/ss-socket-statistics-commands-cheatsheet/)
 
     |             | command     |
     |-------------|-------------------------------------------------------------------------|
