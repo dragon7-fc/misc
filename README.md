@@ -760,6 +760,9 @@ A playground to note something.
     - [C++ reference](https://en.cppreference.com/w/)
     - [Modern C++ Coding Guidelines](https://github.com/Microsoft/AirSim/blob/master/docs/coding_guidelines.md)
     - [Google C++ Style Guideline](https://google.github.io/styleguide/cppguide.html)
+    - [GCC Command-Line Options](http://tigcc.ticalc.org/doc/comopts.html)
+    - [Make Refcard](https://web.archive.org/web/20171218110823/http://www.schacherer.de/frank/technology/tools/make.html)
+    - [GNU GDB Debugger Command Cheat Sheet](http://www.yolinux.com/TUTORIALS/GDB-Commands.html)
 
 * Java
 
