@@ -101,17 +101,16 @@ A playground to note something.
 * Tmux
 
     - [Tmux Plugin Manager](https://github.com/tmux-plugins/tpm)
-
         - [tmux-yank](https://github.com/tmux-plugins/tmux-yank)
         - [Tmux Themepack](https://github.com/jimeh/tmux-themepack)
         - [Tmux Resurrect](https://github.com/tmux-plugins/tmux-resurrect)
         - [tmux-continuum](https://github.com/tmux-plugins/tmux-continuum)
-
     - [Tmux Cheat Sheet & Quick Reference](https://tmuxcheatsheet.com/)
-
     - [.tmux.conf](.tmux.conf)
-
     - [Renew environment variables in tmux](https://babushk.in/posts/renew-environment-tmux.html)
+    - Update the DISPLAY environment variable
+
+        `export DISPLAY="`tmux show-env | sed -n 's/^DISPLAY=//p'`"`
 
 * Minicom
 
