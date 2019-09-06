@@ -32,7 +32,14 @@ Note:
 1. Each words[i] will have length in range [1, 12].
 1. words[i] will only consist of lowercase letters.
 
-Solution: 24 ms
+# [Solution] Approach #1: Hash Set [Accepted], 24 ms
+
+**Intuition and Algorithm**
+
+We can transform each word into it's Morse Code representation.
+
+After, we put all transformations into a set seen, and return the size of the set.
+
 ```python
 class Solution(object):
     def uniqueMorseRepresentations(self, words):
@@ -49,3 +56,9 @@ class Solution(object):
 
         return len(seen)
 ```
+
+**Complexity Analysis**
+
+Time Complexity: O(S), where S is the sum of the lengths of words in words. We iterate through each character of each word in words.
+
+Space Complexity: O(S).

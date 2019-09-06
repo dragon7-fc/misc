@@ -5,6 +5,8 @@ A linked list is given such that each node contains an additional random pointer
 Return a deep copy of the list.
 
 Example 1:
+
+![Example 1](img/138_example1.png)
 ```
 Input:
 {"$id":"1","next":{"$id":"2","next":null,"random":{"$ref":"2"},"val":2},"random":{"$ref":"2"},"val":1}

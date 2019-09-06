@@ -89,3 +89,36 @@ class Solution:
         
         return n_comp
 ```
+
+# [Solution] Approach #1: Grouping [Accepted]
+
+**Intuition**
+
+Instead of thinking about connected components in G, think about them in the linked list. Connected components in G must occur consecutively in the linked list.
+
+**Algorithm**
+
+Scanning through the list, if node.val is in G and node.next.val isn't (including if node.next is null), then this must be the end of a connected component.
+
+For example, if the list is 0 -> 1 -> 2 -> 3 -> 4 -> 5 -> 6 -> 7, and G = [0, 2, 3, 5, 7], then when scanning through the list, we fulfill the above condition at 0, 3, 5, 7, for a total answer of 4.
+
+```python
+class Solution(object):
+    def numComponents(self, head, G):
+        Gset = set(G)
+        cur = head
+        ans = 0
+        while cur:
+            if (cur.val in Gset and
+                    getattr(cur.next, 'val', None) not in Gset):
+                ans += 1
+            cur = cur.next
+
+        return ans
+```
+
+**Complexity Analysis**
+
+Time Complexity: O(N + G.length), where N is the length of the linked list with root node head.
+
+Space Complexity: O(G.length), to store Gset.

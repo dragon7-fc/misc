@@ -102,3 +102,73 @@ class Solution:
         
         return ans
 ```
+# [Solution] Approach #1: Create New Lists [Accepted]
+
+**Intuition and Algorithm**
+
+If there are NN nodes in the linked list root, then there are N / kN/k items in each part, plus the first N \% kN%k parts have an extra item. We can count NN with a simple loop.
+
+Now for each part, we have calculated how many nodes that part will have: width + (i < remainder ? 1 : 0). We create a new list and write the part to that list.
+
+Our solution showcases constructs of the form a = b = c. Note that this syntax behaves differently for different
+
+```python
+class Solution(object):
+    def splitListToParts(self, root, k):
+        cur = root
+        for N in xrange(1001):
+            if not cur: break
+            cur = cur.next
+        width, remainder = divmod(N, k)
+
+        ans = []
+        cur = root
+        for i in xrange(k):
+            head = write = ListNode(None)
+            for j in xrange(width + (i < remainder)):
+                write.next = write = ListNode(cur.val)
+                if cur: cur = cur.next
+            ans.append(head.next)
+        return ans
+```
+
+**Complexity Analysis**
+
+Time Complexity: O(N + k), where N is the number of nodes in the given list. If k is large, it could still require creating many new empty lists.
+
+Space Complexity: O(max(N, k)), the space used in writing the answer.
+
+# [Solution] Approach #2: Split Input List [Accepted]
+
+**Intuition and Algorithm**
+
+As in Approach #1, we know the size of each part. Instead of creating new lists, we will split the input list directly and return a list of pointers to nodes in the original list as appropriate.
+
+Our solution proceeds similarly. For a part of size L = width + (i < remainder ? 1 : 0), instead of stepping L times, we will step L-1 times, and our final time will also sever the link between the last node from the previous part and the first node from the next part.
+
+```python
+class Solution(object):
+    def splitListToParts(self, root, k):
+        cur = root
+        for N in xrange(1001):
+            if not cur: break
+            cur = cur.next
+        width, remainder = divmod(N, k)
+
+        ans = []
+        cur = root
+        for i in xrange(k):
+            head = cur
+            for j in xrange(width + (i < remainder) - 1):
+                if cur: cur = cur.next
+            if cur:
+                cur.next, cur = None, cur.next
+            ans.append(head)
+        return ans
+```
+
+**Complexity Analysis**
+
+Time Complexity: O(N + k), where N is the number of nodes in the given list. If k is large, it could still require creating many new empty lists.
+
+Space Complexity: O(k), the additional space used in writing the answer.

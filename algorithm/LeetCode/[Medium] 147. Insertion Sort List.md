@@ -1,5 +1,7 @@
 147. Insertion Sort List
 
+![Example](img/147_Insertion-sort-example-300px.gif)
+
 A graphical example of insertion sort. The partial sorted list (black) initially contains only the first element in the list.
 With each iteration one element (red) is removed from the input data and inserted in-place into the sorted list
  
