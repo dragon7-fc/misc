@@ -6,7 +6,7 @@ We are also given the list G, a subset of the values in the linked list.
 
 Return the number of connected components in G, where two values are connected if they appear consecutively in the linked list.
 
-Example 1:
+**Example 1:**
 ```
 Input: 
 head: 0->1->2->3
@@ -16,7 +16,7 @@ Explanation:
 0 and 1 are connected, so [0, 1] and [3] are the two connected components.
 ```
 
-Example 2:
+**Example 2:**
 ```
 Input: 
 head: 0->1->2->3->4
@@ -119,6 +119,5 @@ class Solution(object):
 
 **Complexity Analysis**
 
-Time Complexity: O(N + G.length), where N is the length of the linked list with root node head.
-
-Space Complexity: O(G.length), to store Gset.
+* Time Complexity: $O(N + G.length)$, where $N$ is the length of the linked list with root node head.
+* Space Complexity: $O(G.length)$, to store Gset.

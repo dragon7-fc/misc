@@ -803,6 +803,19 @@ A playground to note something.
     - [Welcome to the SQL Tutorial](https://mode.com/sql-tutorial/)
     - [SQLite vs MySQL vs PostgreSQL: A Comparison Of Relational Database Management Systems](https://www.digitalocean.com/community/tutorials/sqlite-vs-mysql-vs-postgresql-a-comparison-of-relational-database-management-systems)
 
+* Markdown
+
+    - [The Printable Markdown Cheat Sheet for Beginners and Experts](https://www.makeuseof.com/tag/printable-markdown-cheat-sheet/)
+
+* LaTeX
+
+    - [How To Write Mathematical Equations, Expressions, and Symbols with LaTeX: A cheatsheet](https://www.authorea.com/users/77723/articles/110898-how-to-write-mathematical-equations-expressions-and-symbols-with-latex-a-cheatsheet)
+    
+* General
+
+    - [Tutorialspoint](https://www.tutorialspoint.com/index.htm)
+    - [w3schools](https://www.w3schools.com/)
+
 ## Theorem
 
 - Statistics

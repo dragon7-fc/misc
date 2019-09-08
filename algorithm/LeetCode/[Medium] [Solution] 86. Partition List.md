@@ -4,7 +4,7 @@ Given a linked list and a value x, partition it such that all nodes less than x 
 
 You should preserve the original relative order of the nodes in each of the two partitions.
 
-Example:
+**Example:**
 ```
 Input: head = 1->4->3->2->5->2, x = 3
 Output: 1->2->2->4->3->5
@@ -125,5 +125,5 @@ class Solution:
 
 **Complexity Analysis**
 
-* Time Complexity: O(N), where N is the number of nodes in the original linked list and we iterate the original list.
-* Space Complexity: O(1), we have not utilized any extra space, the point to note is that we are reforming the original list, by moving the original nodes, we have not used any extra space as such.
+* Time Complexity: $O(N)$, where $N$ is the number of nodes in the original linked list and we iterate the original list.
+* Space Complexity: $O(1)$, we have not utilized any extra space, the point to note is that we are reforming the original list, by moving the original nodes, we have not used any extra space as such.

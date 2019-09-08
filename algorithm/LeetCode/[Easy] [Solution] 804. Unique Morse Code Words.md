@@ -59,6 +59,6 @@ class Solution(object):
 
 **Complexity Analysis**
 
-Time Complexity: O(S), where S is the sum of the lengths of words in words. We iterate through each character of each word in words.
+Time Complexity: $O(S)$, where $S$ is the sum of the lengths of words in words. We iterate through each character of each word in words.
 
-Space Complexity: O(S).
+Space Complexity: $O(S)$.

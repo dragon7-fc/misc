@@ -9,7 +9,8 @@ The parts should be in order of occurrence in the input list, and parts occurrin
 Return a List of ListNode's representing the linked list parts that are formed.
 
 Examples 1->2->3->4, k = 5 // 5 equal parts [ [1], [2], [3], [4], null ]
-Example 1:
+
+**Example 1:**
 ```
 Input: 
 root = [1, 2, 3], k = 5
@@ -21,7 +22,7 @@ The first element output[0] has output[0].val = 1, output[0].next = null.
 The last element output[4] is null, but it's string representation as a ListNode is [].
 ```
 
-Example 2:
+**Example 2:**
 ```
 Input: 
 root = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10], k = 3
@@ -106,9 +107,9 @@ class Solution:
 
 **Intuition and Algorithm**
 
-If there are NN nodes in the linked list root, then there are N / kN/k items in each part, plus the first N \% kN%k parts have an extra item. We can count NN with a simple loop.
+If there are $N$ nodes in the linked list root, then there are $N/k$ items in each part, plus the first $N\%k$ parts have an extra item. We can count $N$ with a simple loop.
 
-Now for each part, we have calculated how many nodes that part will have: width + (i < remainder ? 1 : 0). We create a new list and write the part to that list.
+Now for each part, we have calculated how many nodes that part will have: `width + (i < remainder ? 1 : 0)`. We create a new list and write the part to that list.
 
 Our solution showcases constructs of the form a = b = c. Note that this syntax behaves differently for different
 
@@ -134,9 +135,8 @@ class Solution(object):
 
 **Complexity Analysis**
 
-Time Complexity: O(N + k), where N is the number of nodes in the given list. If k is large, it could still require creating many new empty lists.
-
-Space Complexity: O(max(N, k)), the space used in writing the answer.
+* Time Complexity: $O(N + k)$, where $N$ is the number of nodes in the given list. If $k$ is large, it could still require creating many new empty lists.
+* Space Complexity: $O(max(N, k))$, the space used in writing the answer.
 
 # [Solution] Approach #2: Split Input List [Accepted]
 
@@ -169,6 +169,5 @@ class Solution(object):
 
 **Complexity Analysis**
 
-Time Complexity: O(N + k), where N is the number of nodes in the given list. If k is large, it could still require creating many new empty lists.
-
-Space Complexity: O(k), the additional space used in writing the answer.
+* Time Complexity: $O(N + k)$, where $N$ is the number of nodes in the given list. If $k$ is large, it could still require creating many new empty lists.
+* Space Complexity: $O(k)$, the additional space used in writing the answer.

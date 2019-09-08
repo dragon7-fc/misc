@@ -4,7 +4,7 @@ Reverse a linked list from position m to n. Do it in one-pass.
 
 Note: 1 ≤ m ≤ n ≤ length of list.
 
-Example:
+**Example:**
 ```
 Input: 1->2->3->4->5->NULL, m = 2, n = 4
 Output: 1->4->3->2->5->NULL
@@ -106,8 +106,8 @@ class Solution:
 
 **Complexity Analysis**
 
-* Time Complexity: O(N) since we process all the nodes at-most twice. Once during the normal recursion process and once during the backtracking process. During the backtracking process we only just swap half of the list if you think about it, but the overall complexity is O(N)O(N).
-* Space Complexity: O(N) in the worst case when we have to reverse the entire list. This is the space occupied by the recursion stack.
+* Time Complexity: $O(N)$ since we process all the nodes at-most twice. Once during the normal recursion process and once during the backtracking process. During the backtracking process we only just swap half of the list if you think about it, but the overall complexity is $O(N)$.
+* Space Complexity: $O(N)$ in the worst case when we have to reverse the entire list. This is the space occupied by the recursion stack.
 
 ## Approach 2: Iterative Link Reversal.
 
@@ -207,5 +207,5 @@ class Solution:
 
 **Complexity Analysis**
 
-* Time Complexity: O(N) considering the list consists of N nodes. We process each of the nodes at most once (we don't process the nodes after the n^{th} node from the beginning.
-* Space Complexity: O(1) since we simply adjust some pointers in the original linked list and only use O(1) additional memory for achieving the final result.
+* Time Complexity: $O(N)$ considering the list consists of $N$ nodes. We process each of the nodes at most once (we don't process the nodes after the $n^{th}$ node from the beginning.
+* Space Complexity: $O(1)$ since we simply adjust some pointers in the original linked list and only use $O(1)$ additional memory for achieving the final result.

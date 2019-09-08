@@ -10,7 +10,7 @@ Implement these functions in your linked list class:
 * addAtIndex(index, val) : Add a node of value val before the index-th node in the linked list. If index equals to the length of linked list, the node will be appended to the end of linked list. If index is greater than the * * length, the node will not be inserted. If index is negative, the node will be inserted at the head of the list.
 * deleteAtIndex(index) : Delete the index-th node in the linked list, if the index is valid.
 
-Example:
+**Example:**
 ```
 MyLinkedList linkedList = new MyLinkedList();
 linkedList.addAtHead(1);
