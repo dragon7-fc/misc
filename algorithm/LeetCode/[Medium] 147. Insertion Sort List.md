@@ -24,7 +24,9 @@ Input: -1->5->3->4->0
 Output: -1->0->3->4->5
 ```
 
-Solution: 208 ms, 15.6 MB
+# Sobmissions
+---
+**Solution: 208 ms, 15.6 MB**
 ```python
 # Definition for singly-linked list.
 # class ListNode:

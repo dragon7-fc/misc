@@ -15,7 +15,9 @@ s = "3[a2[c]]", return "accaccacc".
 s = "2[abc]3[cd]ef", return "abcabccdcdcdef".
 ```
 
-Solution 1: 24 ms
+# Submissions
+---
+**Solution 1: 24 ms**
 ```python
 class Solution(object):
     def decodeString(self, s):
@@ -40,7 +42,7 @@ class Solution(object):
         return stack[0][0]
 ```
 
-Solution 2: 20 ms
+**Solution 2: 20 ms**
 ```python
 class Solution(object):
     def decodeString(self, s):
@@ -67,4 +69,4 @@ class Solution(object):
                 keeper.append(s[i])
             i += 1
         return ''.join(keeper)
-```python
+```

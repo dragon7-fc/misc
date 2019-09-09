@@ -32,7 +32,9 @@ Output: [1]
 * The given linked list will contain between `1` and `1000` nodes.
 * Each node in the linked list has `-1000 <= node.val <= 1000`.
 
-Solution 1:
+# Sobmissions
+---
+**Solution 1:**
 Runtime: 204 ms
 Memory Usage: 14.2 MB
 ```python
@@ -69,7 +71,7 @@ class Solution:
         return dummy.next
 ```
 
-Solution 2:
+**Solution 2:**
 Runtime: 52 ms
 Memory Usage: 14 MB
 ```python

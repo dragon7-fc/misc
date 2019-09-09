@@ -20,7 +20,9 @@ Note:
 
 * You must return the copy of the given head as a reference to the cloned list.
 
-Solution: 44 ms, 16.3 MB
+# Sobmissions
+---
+**Solution: 44 ms, 16.3 MB**
 ```python
 """
 # Definition for a Node.

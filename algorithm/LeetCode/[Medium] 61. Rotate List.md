@@ -22,7 +22,9 @@ rotate 3 steps to the right: 0->1->2->NULL
 rotate 4 steps to the right: 2->0->1->NULL
 ```
 
-Solution:
+# Sobmissions
+---
+**Solution:**
 ```
 Runtime: 44 ms
 Memory Usage: 13.7 MB

@@ -36,74 +36,9 @@ Note:
 * Each value of a node in the input will be an integer in the range [0, 999].
 * k will be an integer in the range [1, 50].
 
-Solution 1: 44 ms, 13.8 MB
-```python
-# Definition for singly-linked list.
-# class ListNode:
-#     def __init__(self, x):
-#         self.val = x
-#         self.next = None
-
-class Solution:
-    def splitListToParts(self, root: ListNode, k: int) -> List[ListNode]:
-        ans = []
-        length = 0
-        
-        cur = root
-        while cur:
-            length += 1
-            cur = cur.next
-            
-        part_size, remainder = divmod(length, k)
-        
-        cur = root
-        for i in range(k):
-            dummy = ListNode(0)
-            node = dummy
-            for j in range(part_size + (i < remainder)):
-                node.next = ListNode(cur.val)
-                node = node.next              
-                cur = cur.next
-                    
-            ans.append(dummy.next)
-        
-        return ans
-```
-
-Solution 2: 40 ms, 14 MB
-```python
-# Definition for singly-linked list.
-# class ListNode:
-#     def __init__(self, x):
-#         self.val = x
-#         self.next = None
-
-class Solution:
-    def splitListToParts(self, root: ListNode, k: int) -> List[ListNode]:
-        ans = []
-        length = 0
-        
-        cur = root
-        while cur:
-            length += 1
-            cur = cur.next
-            
-        part_size, remainder = divmod(length, k)
-        
-        cur = root
-        for i in range(k):
-            head = cur
-            for j in range(part_size + (i < remainder) - 1):
-                if cur:
-                    cur = cur.next
-            if cur:
-                cur.next, cur = None, cur.next
-            
-            ans.append(head)
-        
-        return ans
-```
-# [Solution] Approach #1: Create New Lists [Accepted]
+# [Solution]
+---
+## Approach #1: Create New Lists [Accepted]
 
 **Intuition and Algorithm**
 
@@ -171,3 +106,73 @@ class Solution(object):
 
 * Time Complexity: $O(N + k)$, where $N$ is the number of nodes in the given list. If $k$ is large, it could still require creating many new empty lists.
 * Space Complexity: $O(k)$, the additional space used in writing the answer.
+
+# Submissions
+---
+**Solution 1: 44 ms, 13.8 MB**
+```python
+# Definition for singly-linked list.
+# class ListNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.next = None
+
+class Solution:
+    def splitListToParts(self, root: ListNode, k: int) -> List[ListNode]:
+        ans = []
+        length = 0
+        
+        cur = root
+        while cur:
+            length += 1
+            cur = cur.next
+            
+        part_size, remainder = divmod(length, k)
+        
+        cur = root
+        for i in range(k):
+            dummy = ListNode(0)
+            node = dummy
+            for j in range(part_size + (i < remainder)):
+                node.next = ListNode(cur.val)
+                node = node.next              
+                cur = cur.next
+                    
+            ans.append(dummy.next)
+        
+        return ans
+```
+
+**Solution 2: 40 ms, 14 MB**
+```python
+# Definition for singly-linked list.
+# class ListNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.next = None
+
+class Solution:
+    def splitListToParts(self, root: ListNode, k: int) -> List[ListNode]:
+        ans = []
+        length = 0
+        
+        cur = root
+        while cur:
+            length += 1
+            cur = cur.next
+            
+        part_size, remainder = divmod(length, k)
+        
+        cur = root
+        for i in range(k):
+            head = cur
+            for j in range(part_size + (i < remainder) - 1):
+                if cur:
+                    cur = cur.next
+            if cur:
+                cur.next, cur = None, cur.next
+            
+            ans.append(head)
+        
+        return ans
+```

@@ -10,51 +10,8 @@ Input: head = 1->4->3->2->5->2, x = 3
 Output: 1->2->2->4->3->5
 ```
 
-Solution 1: 44 ms, 13.8 MB
-```python
-# Definition for singly-linked list.
-# class ListNode:
-#     def __init__(self, x):
-#         self.val = x
-#         self.next = None
-
-class Solution:
-    def partition(self, head: ListNode, x: int) -> ListNode:
-        if not head:
-            return
-        
-        smaller, smaller_head, larger, larger_head = None, None, None, None
-        cur = head
-        while cur:
-            if cur.val < x:
-                if not smaller:
-                    smaller = cur
-                    smaller_head = smaller
-                else:
-                    smaller.next= cur
-                    smaller = smaller.next
-            else:
-                if not larger:
-                    larger = cur
-                    larger_head = larger
-                else:
-                    larger.next = cur
-                    larger = larger.next
-            cur = cur.next
-        
-        if smaller:
-            smaller.next = larger_head
-        else:
-            smaller_head = larger_head
-            
-        if larger:
-            larger.next = None
-        return smaller_head
-
-```
-
-# [Solution]
-
+# Solution
+---
 The problem wants us to reform the linked list structure, such that the elements lesser that a certain value x, come before the elements greater or equal to x. This essentially means in this reformed list, there would be a point in the linked list before which all the elements would be smaller than x and after which all the elements would be greater or equal to x. Let's call this point as the JOINT.
 
 ![solution](img/86_Partition_List_1.png)
@@ -127,3 +84,48 @@ class Solution:
 
 * Time Complexity: $O(N)$, where $N$ is the number of nodes in the original linked list and we iterate the original list.
 * Space Complexity: $O(1)$, we have not utilized any extra space, the point to note is that we are reforming the original list, by moving the original nodes, we have not used any extra space as such.
+
+# Submissions
+---
+**Solution 1: 44 ms, 13.8 MB**
+```python
+# Definition for singly-linked list.
+# class ListNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.next = None
+
+class Solution:
+    def partition(self, head: ListNode, x: int) -> ListNode:
+        if not head:
+            return
+        
+        smaller, smaller_head, larger, larger_head = None, None, None, None
+        cur = head
+        while cur:
+            if cur.val < x:
+                if not smaller:
+                    smaller = cur
+                    smaller_head = smaller
+                else:
+                    smaller.next= cur
+                    smaller = smaller.next
+            else:
+                if not larger:
+                    larger = cur
+                    larger_head = larger
+                else:
+                    larger.next = cur
+                    larger = larger.next
+            cur = cur.next
+        
+        if smaller:
+            smaller.next = larger_head
+        else:
+            smaller_head = larger_head
+            
+        if larger:
+            larger.next = None
+        return smaller_head
+
+```

@@ -27,7 +27,9 @@ Note:
 * The number of operations will be in the range of [1, 1000].
 * Please do not use the built-in LinkedList library
 
-Solution: 312 ms, 14.1 MB
+# Submissions
+---
+**Solution: 312 ms, 14.1 MB**
 ```
 class Node:
     def __init__(self, x):

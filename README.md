@@ -810,7 +810,7 @@ A playground to note something.
 * LaTeX
 
     - [How To Write Mathematical Equations, Expressions, and Symbols with LaTeX: A cheatsheet](https://www.authorea.com/users/77723/articles/110898-how-to-write-mathematical-equations-expressions-and-symbols-with-latex-a-cheatsheet)
-    
+
 * General
 
     - [Tutorialspoint](https://www.tutorialspoint.com/index.htm)
@@ -818,27 +818,30 @@ A playground to note something.
 
 ## Theorem
 
-- Statistics
-
+* Statistics
     - [Statistics Cheat Sheet - MIT](http://web.mit.edu/~csvoss/Public/usabo/stats_handout.pdf)
 
 * Probability
-
     - [Probability Basics  Cheat Sheet](https://www.sas.upenn.edu/~astocker/lab/teaching-files/PSYC739-2016/probability_cheatsheet.pdf)
     - [Probability cheat sheet for distribution](http://www.cs.elte.hu/~mesti/valszam/kepletek)
 
+* Algorithm
+    - [Algorithms and Data Structures Cheatsheet](https://algs4.cs.princeton.edu/cheatsheet/)
+
 ## Article
-- [Performance Metrics for Classification problems in Machine Learning](https://medium.com/thalus-ai/performance-metrics-for-classification-problems-in-machine-learning-part-i-b085d432082b)
+* [Performance Metrics for Classification problems in Machine Learning](https://medium.com/thalus-ai/performance-metrics-for-classification-problems-in-machine-learning-part-i-b085d432082b)
 - [Bayes' Theorem - Math is Fun](https://www.mathsisfun.com/data/bayes-theorem.html)
-- [Quick Guide to Build a Recommendation Engine in Python](https://www.analyticsvidhya.com/blog/2016/06/quick-guide-build-recommendation-engine-python/)
-- [Probability and Statistics - 假設檢定：基本流程總整理 Process of Hypothesis Testing Statistics](http://mropengate.blogspot.com/2015/03/hypothesis-testing-p-value.html)
-- [An overview of gradient descent optimization algorithms](http://ruder.io/optimizing-gradient-descent/)
-- [Data Science Tutorials](https://www.topcoder.com/community/data-science/data-science-tutorials/)
-- [Top 28 Cheat Sheets for Machine Learning, Data Science, Probability, SQL & Big Data](https://www.analyticsvidhya.com/blog/2017/02/top-28-cheat-sheets-for-machine-learning-data-science-probability-sql-big-data/)
+* [Quick Guide to Build a Recommendation Engine in Python](https://www.analyticsvidhya.com/blog/2016/06/quick-guide-build-recommendation-engine-python/)
+* [Probability and Statistics - 假設檢定：基本流程總整理 Process of Hypothesis Testing Statistics](http://mropengate.blogspot.com/2015/03/hypothesis-testing-p-value.html)
+* [An overview of gradient descent optimization algorithms](http://ruder.io/optimizing-gradient-descent/)
+* [Data Science Tutorials](https://www.topcoder.com/community/data-science/data-science-tutorials/)
+* [Top 28 Cheat Sheets for Machine Learning, Data Science, Probability, SQL & Big Data](https://www.analyticsvidhya.com/blog/2017/02/top-28-cheat-sheets-for-machine-learning-data-science-probability-sql-big-data/)
 
 ## Interview
-- [LeetCode](https://leetcode.com/): The World's Leading Online Programming Learning Platform
-- [Grammarly](https://www.grammarly.com/): Free Writing Assistant
-- [Hemingway App](http://www.hemingwayapp.com/): Makes your writing bold and clear.
-- [Sejda](https://www.sejda.com/sign-pdf): Fill and Sign PDF Online Free
+* [LeetCode](https://leetcode.com/): The World's Leading Online Programming Learning Platform
+* [Grammarly](https://www.grammarly.com/): Free Writing Assistant
+* [Hemingway App](http://www.hemingwayapp.com/): Makes your writing bold and clear.
+* [Sejda](https://www.sejda.com/sign-pdf): Fill and Sign PDF Online Free
 export PS1="\[\033[38;5;21m\]\u\[$(tput sgr0)\]\[\033[38;5;15m\]@\[$(tput sgr0)\]\[\033[38;5;2m\]\w\[$(tput sgr0)\]"
+* [Technical Interview Preparation - Data Structures and Algorithms
+](https://hackmd.io/@nesquena/SJIV-n7B?type=view)

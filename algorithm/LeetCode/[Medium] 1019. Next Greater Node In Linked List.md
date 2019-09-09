@@ -31,7 +31,9 @@ Note:
 1. 1 <= node.val <= 10^9 for each node in the linked list.
 1. The given list has length in the range [0, 10000].
 
-Solution: 368 ms, 18.2 MB
+# Sobmissions
+---
+**Solution: 368 ms, 18.2 MB**
 ```python
 # Definition for singly-linked list.
 # class ListNode:

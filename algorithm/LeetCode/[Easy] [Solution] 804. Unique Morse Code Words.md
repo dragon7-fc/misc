@@ -32,7 +32,9 @@ Note:
 1. Each words[i] will have length in range [1, 12].
 1. words[i] will only consist of lowercase letters.
 
-# [Solution] Approach #1: Hash Set [Accepted], 24 ms
+# [Solution]
+---
+## Approach #1: Hash Set [Accepted], 24 ms
 
 **Intuition and Algorithm**
 

@@ -33,64 +33,9 @@ Note:
 * 1 <= G.length <= 10000.
 * G is a subset of all values in the linked list.
 
-Solution 1: List, 1872 ms, 17.9 MB
-```python
-# Definition for singly-linked list.
-# class ListNode:
-#     def __init__(self, x):
-#         self.val = x
-#         self.next = None
-
-class Solution:
-    def numComponents(self, head: ListNode, G: List[int]) -> int:
-        n_comp = 0
-        cont = False
-        while head:
-            if head.val in G:
-                cont = True
-            else:
-                if cont:
-                    n_comp += 1
-                    cont = False
-            
-            head = head.next
-            
-        if cont:
-            n_comp += 1
-        
-        return n_comp
-```
-
-Solution 2: Set, 124 ms, 18.3 MB
-```python
-# Definition for singly-linked list.
-# class ListNode:
-#     def __init__(self, x):
-#         self.val = x
-#         self.next = None
-
-class Solution:
-    def numComponents(self, head: ListNode, G: List[int]) -> int:
-        n_comp = 0
-        cont = False
-        Gset = set(G)
-        while head:
-            if head.val in Gset:
-                cont = True
-            else:
-                if cont:
-                    n_comp += 1
-                    cont = False
-            
-            head = head.next
-            
-        if cont:
-            n_comp += 1
-        
-        return n_comp
-```
-
-# [Solution] Approach #1: Grouping [Accepted]
+# Solution
+---
+## Approach #1: Grouping [Accepted]
 
 **Intuition**
 
@@ -121,3 +66,62 @@ class Solution(object):
 
 * Time Complexity: $O(N + G.length)$, where $N$ is the length of the linked list with root node head.
 * Space Complexity: $O(G.length)$, to store Gset.
+
+# Submissions
+---
+**Solution 1: List, 1872 ms, 17.9 MB**
+```python
+# Definition for singly-linked list.
+# class ListNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.next = None
+
+class Solution:
+    def numComponents(self, head: ListNode, G: List[int]) -> int:
+        n_comp = 0
+        cont = False
+        while head:
+            if head.val in G:
+                cont = True
+            else:
+                if cont:
+                    n_comp += 1
+                    cont = False
+            
+            head = head.next
+            
+        if cont:
+            n_comp += 1
+        
+        return n_comp
+```
+
+**Solution 2: Set, 124 ms, 18.3 MB**
+```python
+# Definition for singly-linked list.
+# class ListNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.next = None
+
+class Solution:
+    def numComponents(self, head: ListNode, G: List[int]) -> int:
+        n_comp = 0
+        cont = False
+        Gset = set(G)
+        while head:
+            if head.val in Gset:
+                cont = True
+            else:
+                if cont:
+                    n_comp += 1
+                    cont = False
+            
+            head = head.next
+            
+        if cont:
+            n_comp += 1
+        
+        return n_comp
+```

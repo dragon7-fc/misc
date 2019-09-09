@@ -23,27 +23,6 @@ Reminder: The inputs and the desired output are lists of Interval objects, and n
 
 **NOTE:** input types have been changed on April 15, 2019. Please reset to default code definition to get new method signature.
 
----
-**Solution:**
-```
-Runtime: 172 ms
-Memory Usage: 14.4 MB
-```
-```python
-class Solution:
-    def intervalIntersection(self, A: List[List[int]], B: List[List[int]]) -> List[List[int]]:
-        i, j, res = 0, 0, []
-        la, lb = len(A), len(B)
-        while i < la and j < lb:
-            if A[i][1] >= B[j][0] and A[i][0] <= B[j][1]:
-                res += [[max(A[i][0], B[j][0]), min(A[i][1], B[j][1])]]
-            if A[i][1] >= B[j][1]:
-                j += 1
-            else:
-                i += 1
-        return res
-```
-
 # Solution
 ---
 ## Approach 1: Merge Intervals
@@ -96,3 +75,25 @@ class Solution:
 * Time Complexity: $O(M+N)$, where $M$, $N$ are the lengths of `A` and `B` respectively.
 
 * Space Complexity: $O(M+N)$, the maximum size of the answer.
+
+# Submissions
+---
+**Solution:**
+```
+Runtime: 172 ms
+Memory Usage: 14.4 MB
+```
+```python
+class Solution:
+    def intervalIntersection(self, A: List[List[int]], B: List[List[int]]) -> List[List[int]]:
+        i, j, res = 0, 0, []
+        la, lb = len(A), len(B)
+        while i < la and j < lb:
+            if A[i][1] >= B[j][0] and A[i][0] <= B[j][1]:
+                res += [[max(A[i][0], B[j][0]), min(A[i][1], B[j][1])]]
+            if A[i][1] >= B[j][1]:
+                j += 1
+            else:
+                i += 1
+        return res
+```

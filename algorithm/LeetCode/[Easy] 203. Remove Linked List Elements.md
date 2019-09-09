@@ -8,7 +8,9 @@ Input:  1->2->6->3->4->5->6, val = 6
 Output: 1->2->3->4->5
 ```
 
-Solution 1: 88 ms, 17.1 MB
+# Submissions
+---
+**Solution 1: 88 ms, 17.1 MB**
 ```python
 # Definition for singly-linked list.
 # class ListNode:
@@ -32,7 +34,7 @@ class Solution:
         return dummy.next
 ```
 
-Solution 2: 76 ms, 16.8 MB
+**Solution 2: 76 ms, 16.8 MB**
 ```python
 # Definition for singly-linked list.
 # class ListNode:

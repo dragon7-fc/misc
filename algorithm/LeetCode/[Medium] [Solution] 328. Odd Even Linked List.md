@@ -21,71 +21,8 @@ Note:
 * The relative order inside both the even and odd groups should remain as it was in the input.
 * The first node is considered odd, the second node even and so on ...
 
-Solution 1: 52 ms, 15.7 MB
-```python
-# Definition for singly-linked list.
-# class ListNode:
-#     def __init__(self, x):
-#         self.val = x
-#         self.next = None
-
-class Solution:
-    def oddEvenList(self, head: ListNode) -> ListNode:
-        dummy = ListNode(0)
-        dummy.next = head
-        if head and head.next:  
-            is_odd = True
-            odd, even, even_0 = head, head.next, head.next
-            head = head.next.next
-            while head:
-                if is_odd:
-                    odd.next = head
-                    head = head.next
-                    odd = odd.next
-                    odd.next = even_0
-                    if even == even_0 and head == None:
-                        even.next = None
-                else:
-                    even.next = head
-                    head = head.next
-                    even = even.next
-                    if even.next:
-                        even.next = even.next.next
-
-                is_odd = not is_odd
-
-        return dummy.next
-```
-
-Solution 2: 44 ms, 15.6 MB
-```python
-# Definition for singly-linked list.
-# class ListNode:
-#     def __init__(self, x):
-#         self.val = x
-#         self.next = None
-
-class Solution:
-    def oddEvenList(self, head: ListNode) -> ListNode:
-        if not head:
-            return head
-
-        even_dummy,odd_dummy=ListNode(0),ListNode(0)
-        tails,turn=[even_dummy,odd_dummy], 0
-        while head:
-            tails[turn].next=head
-            head=head.next
-            tails[turn]=tails[turn].next
-            turn ^=1
-
-        tails[1].next=None
-        tails[0].next=odd_dummy.next
-
-        return even_dummy.next
-```
-
-[Solution] Solution 3:
-
+# Solution
+---
 **Intuition**
 
 Put the odd nodes in a linked list and the even nodes in another. Then link the evenList to the tail of the oddList.
@@ -121,3 +58,68 @@ public class Solution {
 
 * Time complexity : $O(N)$. There are total $N$ nodes and we visit each node once.
 * Space complexity : $O(1)$. All we need is the four pointers.
+
+# Submissions
+---
+**Solution 1: 52 ms, 15.7 MB**
+```python
+# Definition for singly-linked list.
+# class ListNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.next = None
+
+class Solution:
+    def oddEvenList(self, head: ListNode) -> ListNode:
+        dummy = ListNode(0)
+        dummy.next = head
+        if head and head.next:  
+            is_odd = True
+            odd, even, even_0 = head, head.next, head.next
+            head = head.next.next
+            while head:
+                if is_odd:
+                    odd.next = head
+                    head = head.next
+                    odd = odd.next
+                    odd.next = even_0
+                    if even == even_0 and head == None:
+                        even.next = None
+                else:
+                    even.next = head
+                    head = head.next
+                    even = even.next
+                    if even.next:
+                        even.next = even.next.next
+
+                is_odd = not is_odd
+
+        return dummy.next
+```
+
+**Solution 2: 44 ms, 15.6 MB**
+```python
+# Definition for singly-linked list.
+# class ListNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.next = None
+
+class Solution:
+    def oddEvenList(self, head: ListNode) -> ListNode:
+        if not head:
+            return head
+
+        even_dummy,odd_dummy=ListNode(0),ListNode(0)
+        tails,turn=[even_dummy,odd_dummy], 0
+        while head:
+            tails[turn].next=head
+            head=head.next
+            tails[turn]=tails[turn].next
+            turn ^=1
+
+        tails[1].next=None
+        tails[0].next=odd_dummy.next
+
+        return even_dummy.next
+```

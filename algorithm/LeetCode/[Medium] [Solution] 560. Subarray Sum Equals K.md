@@ -12,64 +12,6 @@ Output: 2
 1. The length of the array is in range [1, 20,000].
 1. The range of numbers in the array is [-1000, 1000] and the range of the integer **k** is [-1e7, 1e7].
 
-**Solution 1:**
-```
-Runtime: 88 ms
-Memory Usage: N/A
-```
-```python
-class Solution:
-    def subarraySum(self, nums, k):
-        """
-        :type nums: List[int]
-        :type k: int
-        :rtype: int
-        """
-        sums = dict()
-        sums[0] = 1
-        sm = 0
-        res = 0
-        for num in nums:
-            sm += num
-            if sm-k in sums:
-                res += sums[sm-k]
-                
-            if sm in sums:
-                sums[sm] += 1
-            else:
-                sums[sm] = 1
-        return res 
-```
-
-**Solution 2:**
-```
-Runtime: 72 ms
-Memory Usage: N/A
-```
-```python
-class Solution:
-    def subarraySum(self, nums, k):
-        """
-        :type nums: List[int]
-        :type k: int
-        :rtype: int
-        """
-        sum_cnt = collections.defaultdict(int)
-        sum_cnt[0] = 1
-        cur_sum = 0
-        cnt = 0
-        
-        for i in range(len(nums)):
-            cur_sum += nums[i]                        
-            
-            if cur_sum-k in sum_cnt:
-                cnt += sum_cnt[cur_sum-k]
-            
-            sum_cnt[cur_sum] += 1    
-        
-        return cnt
-```
-
 # Solution
 ---
 ## Approach #1 Brute Force [Time Limit Exceeded]
@@ -201,3 +143,62 @@ public class Solution {
 
 * Space complexity : $O(n)$. Hashmap mapmap can contain upto nn distinct entries in the worst case.
 
+# Submissions
+---
+**Solution 1:**
+```
+Runtime: 88 ms
+Memory Usage: N/A
+```
+```python
+class Solution:
+    def subarraySum(self, nums, k):
+        """
+        :type nums: List[int]
+        :type k: int
+        :rtype: int
+        """
+        sums = dict()
+        sums[0] = 1
+        sm = 0
+        res = 0
+        for num in nums:
+            sm += num
+            if sm-k in sums:
+                res += sums[sm-k]
+                
+            if sm in sums:
+                sums[sm] += 1
+            else:
+                sums[sm] = 1
+        return res 
+```
+
+**Solution 2:**
+```
+Runtime: 72 ms
+Memory Usage: N/A
+```
+```python
+class Solution:
+    def subarraySum(self, nums, k):
+        """
+        :type nums: List[int]
+        :type k: int
+        :rtype: int
+        """
+        sum_cnt = collections.defaultdict(int)
+        sum_cnt[0] = 1
+        cur_sum = 0
+        cnt = 0
+        
+        for i in range(len(nums)):
+            cur_sum += nums[i]                        
+            
+            if cur_sum-k in sum_cnt:
+                cnt += sum_cnt[cur_sum-k]
+            
+            sum_cnt[cur_sum] += 1    
+        
+        return cnt
+```
