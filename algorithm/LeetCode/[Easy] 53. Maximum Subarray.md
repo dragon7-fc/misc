@@ -1,20 +1,26 @@
-""" 
-Maximum Subarray
+53. Maximum Subarray
 
 Given an integer array nums, find the contiguous subarray (containing at least one number) which has the largest sum and return its sum.
 
-Example:
-
+**Example:**
+```
 Input: [-2,1,-3,4,-1,2,1,-5,4],
 Output: 6
-Explanation: [4,-1,2,1] has the largest sum = 6.
-Follow up:
+Explanation: [4,-1,2,1] has the largest sum = 6
+```
+
+**Follow up:**
 
 If you have figured out the O(n) solution, try coding another solution using the divide and conquer approach, which is more subtle.
-"""
 
-
-""" Solution1: 60 ms """
+# Submissions
+---
+**Solution 1:**
+```
+Runtime: 60 ms
+Memory Usage: N/A
+```
+```python
 class Solution:
     def maxSubArray(self, nums):
         """
@@ -25,9 +31,14 @@ class Solution:
             if nums[i-1] > 0:
                 nums[i] += nums[i-1]
         return max(nums)
+```
 
-
-""" Solution2: 48 ms """
+**Solution 2:**
+```
+Runtime: 48 ms
+Memory Usage: N/A
+```
+```python
 class Solution:
     def maxSubArray(self, nums):
         """
@@ -48,5 +59,5 @@ class Solution:
         
         if max_sum == 0:
             return max(nums)
-        return max_sum
-                
+        return max_sum        
+```
