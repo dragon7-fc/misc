@@ -1,16 +1,15 @@
-''' 
-Rotate Image
+48. Rotate Image
 
 You are given an n x n 2D matrix representing an image.
 
 Rotate the image by 90 degrees (clockwise).
 
-Note:
+**Note:**
 
-You have to rotate the image in-place, which means you have to modify the input 2D matrix directly. DO NOT allocate another 2D matrix and do the rotation.
+You have to rotate the image in-place, which means you have to modify the input 2D matrix directly. **DO NOT** allocate another 2D matrix and do the rotation.
 
-Example 1:
-
+**Example 1:**
+```
 Given input matrix = 
 [
   [1,2,3],
@@ -24,8 +23,10 @@ rotate the input matrix in-place such that it becomes:
   [8,5,2],
   [9,6,3]
 ]
-Example 2:
+```
 
+**Example 2:**
+```
 Given input matrix =
 [
   [ 5, 1, 9,11],
@@ -41,11 +42,16 @@ rotate the input matrix in-place such that it becomes:
   [12, 6, 8, 9],
   [16, 7,10,11]
 ]
+```
 
-'''
-
-
-''' Solution1: 48 ms '''
+# Submissions
+---
+**Solution 1**
+```
+Runtime: 48 ms
+Memory Usage: N/A
+```
+```python
 class Solution:
     def rotate(self, matrix):
         """
@@ -66,9 +72,14 @@ class Solution:
             matrix[n-i][n-j] = matrix[j][n-i]
             matrix[j][n-i] = t
         self.rotate_it(matrix, start+1)
-        
+```
 
-''' Solution2: 44 ms '''
+**Solution 2**
+```
+Runtime: 44 ms
+Memory Usage: N/A
+```
+```python
 class Solution:
     def rotate(self, matrix):
         """
@@ -83,5 +94,4 @@ class Solution:
                 matrix[n-j][i] = matrix[n-i][n-j]
                 matrix[n-i][n-j] = matrix[j][n-i]
                 matrix[j][n-i] = t
-        
-        
+```
