@@ -111,7 +111,7 @@ If we sort the intervals by their start value, then each set of intervals that c
 
 First, we sort the list as described. Then, we insert the first interval into our merged list and continue considering each interval in turn as follows: If the current interval begins after the previous interval ends, then they do not overlap and we can append the current interval to merged. Otherwise, they do overlap, and we merge them by updating the end of the previous interval if it is less than the end of the current interval.
 
-A simple proof by contradiction shows that this algorithm always produces the correct answer. First, suppose that the algorithm at some point fails to merge two intervals that should be merged. This would imply that there exists some triple of indices ii, jj, and $k$ in a list of intervals intsints such that $i < j < k$ and ($ints[i]$, $ints[k]$) can be merged, but neither ($ints[i]$, $ints[j]$) nor ($ints[j]$, $ints[k]$) can be merged. From this scenario follow several inequalities:
+A simple proof by contradiction shows that this algorithm always produces the correct answer. First, suppose that the algorithm at some point fails to merge two intervals that should be merged. This would imply that there exists some triple of indices $i$, $j$, and $k$ in a list of intervals intsints such that $i < j < k$ and ($ints[i]$, $ints[k]$) can be merged, but neither ($ints[i]$, $ints[j]$) nor ($ints[j]$, $ints[k]$) can be merged. From this scenario follow several inequalities:
 
 \begin{aligned} ints[i].end < ints[j].start \\ ints[j].end < ints[k].start \\ ints[i].end \geq ints[k].start \\ \end{aligned} 
 
