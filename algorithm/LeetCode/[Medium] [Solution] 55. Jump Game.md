@@ -73,7 +73,7 @@ for (int nextPosition = position + 1; nextPosition <= furthestJump; nextPosition
 for (int nextPosition = furthestJump; nextPosition > position; nextPosition--)
 ```
 
-For instance, in the example below, if we start from index **0**, jump as far as possible and reach **1**, jump as far as possible and reach 6. By doing so, we determine that **0** is a GOOD index in 3 steps.
+For instance, in the example below, if we start from index 0, jump as far as possible and reach 1, jump as far as possible and reach 6. By doing so, we determine that 0 is a GOOD index in 3 steps.
 
 Index	| 0	| 1 | 2 | 3 | 4 | 5 | 6
 --------|---|---|---|---|---|---|---
@@ -89,7 +89,7 @@ The first few steps of the backtracking algorithm for the example above are: 0 -
 
 **Complexity Analysis**
 
-* Time complexity : $O(2^n)$. There are $2^n$ (upper bound) ways of jumping from the first position to the last, where nn is the length of array `nums`. For a complete proof, please refer to Appendix A.
+* Time complexity : $O(2^n)$. There are $2^n$ (upper bound) ways of jumping from the first position to the last, where $n$ is the length of array `nums`. For a complete proof, please refer to Appendix A.
 
 * Space complexity : $O(n)$. Recursion requires additional memory for the stack frames.
 
@@ -98,7 +98,7 @@ Top-down Dynamic Programming can be thought of as optimized backtracking. It rel
 
 Therefore, for each position in the array, we remember whether the index is good or bad. Let's call this array `memo` and let its values be either one of: GOOD, BAD, UNKNOWN. This technique is called memoization.
 
-An example of a memoization table for input array `nums = [2, 4, 2, 1, 0, 2, 0]` can be seen in the diagram below. We write **G** for a GOOD position and **B** for a BAD one. We can see that we cannot start from indices 2, 3 or 4 and eventually reach last index (6), but we can do that from indices 0, 1, 5 and (trivially) 6.
+An example of a memoization table for input array `nums = [2, 4, 2, 1, 0, 2, 0]` can be seen in the diagram below. We write G for a GOOD position and B for a BAD one. We can see that we cannot start from indices 2, 3 or 4 and eventually reach last index (6), but we can do that from indices 0, 1, 5 and (trivially) 6.
 
 
 Index | 0 | 1 | 2 | 3 | 4 | 5 | 6
@@ -152,7 +152,7 @@ public class Solution {
 
 **Complexity Analysis**
 
-* Time complexity : $O(n^2)$. For every element in the array, say i, we are looking at the next nums[i] elements to its right aiming to find a GOOD index. nums[i] can be at most nn, where $n$ is the length of array nums.
+* Time complexity : $O(n^2)$. For every element in the array, say i, we are looking at the next nums[i] elements to its right aiming to find a GOOD index. nums[i] can be at most $n$, where $n$ is the length of array nums.
 
 * Space complexity : $O(2n) = O(n)$. First n originates from recursion. Second n comes from the usage of the memo table.
 
@@ -242,3 +242,20 @@ There are $2^{n2}$ (upper bound) ways of jumping from the first position to the 
 \begin{aligned} T(x - 1) &= 2 \cdot T(x) \\ &= 2 \cdot 2^{n - x - 1} \\ &= 2^{n - x - 1 + 1} \\ &= 2^{n - (x - 1) - 1} \end{aligned} 
 
 Therefore, since we start from position 1, $T(1) = 2^{n - 2}$. Final complexity $O(2^{n - 2}) = O(2^n)$.
+
+# Submissions
+---
+**Solution: (Greedy)**
+```
+Runtime: 100 ms
+Memory Usage: 15.9 MB
+```
+```python
+class Solution:
+    def canJump(self, nums: List[int]) -> bool:
+        last_pos = len(nums)-1
+        for i in range(len(nums)-1,-1,-1):
+            if i+nums[i] >= last_pos:
+                last_pos = i
+        return last_pos == 0
+```
