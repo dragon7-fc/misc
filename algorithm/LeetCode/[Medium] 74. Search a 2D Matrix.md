@@ -1,12 +1,12 @@
-""" 
-Search a 2D Matrix
+74. Search a 2D Matrix
 
 Write an efficient algorithm that searches for a value in an m x n matrix. This matrix has the following properties:
 
-Integers in each row are sorted from left to right.
-The first integer of each row is greater than the last integer of the previous row.
-Example 1:
+* Integers in each row are sorted from left to right.
+* The first integer of each row is greater than the last integer of the previous row.
 
+**Example 1:**
+```
 Input:
 matrix = [
   [1,   3,  5,  7],
@@ -15,8 +15,10 @@ matrix = [
 ]
 target = 3
 Output: true
-Example 2:
+```
 
+**Example 2:**
+```
 Input:
 matrix = [
   [1,   3,  5,  7],
@@ -25,11 +27,16 @@ matrix = [
 ]
 target = 13
 Output: false
+```
 
-"""
-
-
-""" Solution: 40 ms """
+# Submissions
+---
+**Solution:**
+```
+Runtime: 40 ms
+Memory Usage: N/A
+```
+```python
 class Solution:
     def searchMatrix(self, matrix, target):
         """
@@ -43,3 +50,4 @@ class Solution:
             if target in row:
                 return True
         return False
+```
