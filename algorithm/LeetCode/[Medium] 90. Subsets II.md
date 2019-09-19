@@ -20,7 +20,7 @@ Output:
 
 # Submissions
 ---
-**Solution:**
+**Solution 1:**
 ```
 Runtime: 44 ms
 Memory Usage: 13.9 MB
@@ -47,4 +47,18 @@ class Solution:
                 res.append(item + [n])
 
         return res
+```
+**Solution 2:**
+```
+Runtime: 48 ms
+Memory Usage: 14 MB
+```
+```python
+class Solution:
+    def subsetsWithDup(self, nums: List[int]) -> List[List[int]]:
+        nums.sort()
+        res = [[]]
+        for n in nums:
+            res += [s + [n] for s in res]
+        return set(tuple(e) for e in res)
 ```
