@@ -151,3 +151,27 @@ class Solution:
 
 # Submissions
 ---
+**Solution**
+```
+Runtime: 104 ms
+Memory Usage: N/A
+```
+```python
+class Solution(object):
+    def productExceptSelf(self, nums):
+        """
+        :type nums: List[int]
+        :rtype: List[int]
+        """
+        ans = []
+        n = len(nums)
+        p = 1
+        for i in range(n):
+            ans.append(p)
+            p *= nums[i]
+        p = 1
+        for i in range(n-1, -1, -1):
+            ans[i] *= p
+            p *= nums[i]
+        return ans
+```
