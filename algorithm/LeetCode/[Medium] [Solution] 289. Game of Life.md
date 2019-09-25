@@ -8,6 +8,7 @@ Given a board with m by n cells, each cell has an initial state live (1) or dead
 1. Any live cell with two or three live neighbors lives on to the next generation.
 1. Any live cell with more than three live neighbors dies, as if by over-population..
 1. Any dead cell with exactly three live neighbors becomes a live cell, as if by reproduction.
+
 Write a function to compute the next state (after one update) of the board given its current state. The next state is created by applying the above rules simultaneously to every cell in the current state, where births and deaths occur simultaneously.
 
 **Example:**
@@ -114,7 +115,7 @@ class Solution:
 
 The problem could also be solved in-place. $O(M \times N)$ space complexity could be too expensive when the board is very large. We only have two states `live(1)` or `dead(0)` for a cell. We can use some dummy cell value to signify previous state of the cell along with the new changed value.
 
-For e.g. If the value of the cell was `1` originally but it has now become `0` after applying the rule, then we can change the value to `-1`. The negative sign signifies the cell is now dead(0) but the magnitude signifies the cell was a live(1) cell originally.
+For e.g. If the value of the cell was `1` originally but it has now become `0` after applying the rule, then we can change the value to `-1`. The negative sign signifies the cell is now dead(0) but the `magnitude` signifies the cell was a live(1) cell originally.
 
 Also, if the value of the cell was `0` originally but it has now become `1` after applying the rule, then we can change the value to `2`. The positive `sign` signifies the cell is now live(1) but the `magnitude` of 2 signifies the cell was a dead(0) cell originally.
 
@@ -129,7 +130,7 @@ Also, if the value of the cell was `0` originally but it has now become `1` afte
 1. The updated rules can be seen as this:
     * Rule 1: Any live cell with fewer than two live neighbors dies, as if caused by under-population. Hence, change the value of cell to `-1`. This means the cell was live before but now dead.
     * Rule 2: Any live cell with two or three live neighbors lives on to the next generation. Hence, no change in the value.
-    * Rule 3: Any live cell with more than three live neighbors dies, as if by over-population. Hence, change the value of cell to ``-1`. This means the cell was live before but now dead. Note that we don't need to differentiate between the rule `1` and `3`. The start and end values are the same. Hence, we use the same dummy value.
+    * Rule 3: Any live cell with more than three live neighbors dies, as if by over-population. Hence, change the value of cell to `-1`. This means the cell was live before but now dead. Note that we don't need to differentiate between the rule 1 and 3. The start and end values are the same. Hence, we use the same dummy value.
     * Rule 4: Any dead cell with exactly three live neighbors becomes a live cell, as if by reproduction. Hence, change the value of cell to `2`. This means the cell was dead before but now live.
 
 1. Apply the new rules to the board.
@@ -232,3 +233,53 @@ Essentially, we obtain only the live cells from the entire board and then apply 
 
 # Submissions
 ---
+**Solution**
+```
+Runtime: 40 ms
+Memory Usage: 13.9 MB
+```
+```python
+class Solution:
+    def gameOfLife(self, board: List[List[int]]) -> None:
+        """
+        Do not return anything, modify board in-place instead.
+        """
+        # Neighbors array to find 8 neighboring cells for a given cell
+        neighbors = [(1,0), (1,-1), (0,-1), (-1,-1), (-1,0), (-1,1), (0,1), (1,1)]
+
+        rows = len(board)
+        cols = len(board[0])
+
+        # Iterate through board cell by cell.
+        for row in range(rows):
+            for col in range(cols):
+
+                # For each cell count the number of live neighbors.
+                live_neighbors = 0
+                for neighbor in neighbors:
+
+                    # row and column of the neighboring cell
+                    r = (row + neighbor[0])
+                    c = (col + neighbor[1])
+
+                    # Check the validity of the neighboring cell and if it was originally a live cell.
+                    if (r < rows and r >= 0) and (c < cols and c >= 0) and abs(board[r][c]) == 1:
+                        live_neighbors += 1
+
+                # Rule 1 or Rule 3
+                if board[row][col] == 1 and (live_neighbors < 2 or live_neighbors > 3):
+                    # -1 signifies the cell is now dead but originally was live.
+                    board[row][col] = -1
+                # Rule 4
+                if board[row][col] == 0 and live_neighbors == 3:
+                    # 2 signifies the cell is now live but was originally dead.
+                    board[row][col] = 2
+
+        # Get the final representation for the newly updated board.
+        for row in range(rows):
+            for col in range(cols):
+                if board[row][col] > 0:
+                    board[row][col] = 1
+                else:
+                    board[row][col] = 0
+```
