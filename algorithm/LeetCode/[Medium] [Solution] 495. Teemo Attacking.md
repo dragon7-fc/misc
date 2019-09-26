@@ -66,3 +66,48 @@ class Solution:
 
 # Submissions
 ---
+**Solution 1:**
+```
+Runtime: 308 ms
+Memory Usage: 15.2 MB
+```
+```python
+class Solution:
+    def findPoisonedDuration(self, timeSeries: List[int], duration: int) -> int:
+        n = len(timeSeries)
+        if n == 0:
+            return 0
+
+        total = 0
+        for i in range(n - 1):
+            total += min(timeSeries[i + 1] - timeSeries[i], duration)
+        return total + duration
+```
+
+**Solution 2:**
+```
+Runtime: 292 ms
+Memory Usage: 15 MB
+```
+```python
+class Solution:
+    def findPoisonedDuration(self, timeSeries: List[int], duration: int) -> int:
+        N = len(timeSeries)
+        if N == 0:
+            return 0
+        elif N == 1:
+            return duration
+        
+        ans = 0
+        start = timeSeries[0]
+        for i in range(1, N):
+            if timeSeries[i]-start > duration:
+                ans += duration
+                start = timeSeries[i]
+            else:
+                ans += timeSeries[i]-start
+                start = timeSeries[i]
+        
+        ans += duration
+        return ans
+```
