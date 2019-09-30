@@ -128,7 +128,7 @@ The graph corresponding to this array is:
 
 ![122_maxprofit_2](img/122_maxprofit_2.png)
 
-From the above graph, we can observe that the sum $A+B+C$ is equal to the difference DD corresponding to the difference between the heights of the consecutive peak and valley.
+From the above graph, we can observe that the sum $A+B+C$ is equal to the difference $D$ corresponding to the difference between the heights of the consecutive peak and valley.
 
 ```java
 class Solution {

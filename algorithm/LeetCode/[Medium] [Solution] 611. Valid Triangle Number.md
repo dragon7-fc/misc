@@ -150,9 +150,29 @@ public class Solution {
 
 **Complexity Analysis**
 
-* Time complexity : $O(n^2)$. Loop of $k$ and $j$ will be executed $O(n^2)$ times in total, because, we do not reinitialize the value of kk for a new value of $j$ chosen(for the same $i$). Thus the complexity will be $O(n^2+n^2)=O(n^2)$.
+* Time complexity : $O(n^2)$. Loop of $k$ and $j$ will be executed $O(n^2)$ times in total, because, we do not reinitialize the value of $k$ for a new value of $j$ chosen(for the same $i$). Thus the complexity will be $O(n^2+n^2)=O(n^2)$.
 
 * Space complexity : $O(\log n)$. Sorting takes $O(\log n)$ space.
 
 # Submissions
 ---
+
+**Solution**
+```
+Runtime: 524 ms
+Memory Usage: 13.8 MB
+```
+```python
+class Solution:
+    def triangleNumber(self, nums: List[int]) -> int:
+        count = 0
+        nums.sort()
+        for i in range(len(nums)-2):
+            k = i + 2
+            if nums[i] != 0:
+                for j in range(i+1, len(nums)- 1):
+                    while (k < len(nums)) and (nums[i]+nums[j] > nums[k]):
+                        k += 1
+                    count += k - j - 1
+        return count
+```

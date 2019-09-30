@@ -663,8 +663,7 @@ A playground to note something.
     - [An A-Z Index of the Linux command line](https://ss64.com/bash/)
     - [Terminal Cheatsheet for Mac (Basics)](https://github.com/0nn0/terminal-mac-cheatsheet)
     - [.bashrc PS1 generator](http://bashrcgenerator.com/)
-    - [Bash Beginners Guide](http://www.tldp.org/LDP/Bash-Beginners-Guide/html/)
-    - [Bash Programming HOWTO](http://tldp.org/HOWTO/Bash-Prog-Intro-HOWTO.html)
+    - [Bash Reference Manual](https://tiswww.case.edu/php/chet/bash/bashref.html#Command-Substitution)
     - [Bash scripting cheatsheet](https://devhints.io/bash)
     - [Regexr — Learn Regular Expressions](http://regexr.com/)
     - [grep (english) Cheat Sheet by TME520](https://www.cheatography.com/tme520/cheat-sheets/grep-english/)
@@ -815,6 +814,7 @@ A playground to note something.
 
     - [Tutorialspoint](https://www.tutorialspoint.com/index.htm)
     - [w3schools](https://www.w3schools.com/)
+    - [GeeksforGeeks](https://www.geeksforgeeks.org/)
 
 ## Theorem
 
