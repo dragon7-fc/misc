@@ -136,7 +136,7 @@ class Solution(object):
 
 # Submissions
 ---
-**Solution**
+**Solution 1: (Group by Zero)**
 ```
 Runtime: 152 ms
 Memory Usage: 14.3 MB
@@ -151,4 +151,54 @@ class Solution:
                 ans = max(ans, (K+1) // 2)
 
         return max(ans, seats.index(1), seats[::-1].index(1))
+```
+
+**Solution 2: (Two Pointer)**
+```
+Runtime: 184 ms
+Memory Usage: 14.6 MB
+```
+```python
+class Solution:
+    def maxDistToClosest(self, seats: List[int]) -> int:
+        people = (i for i, seat in enumerate(seats) if seat)
+        prev, future = None, next(people)
+
+        ans = 0
+        for i, seat in enumerate(seats):
+            if seat:
+                prev = i
+            else:
+                while future is not None and future < i:
+                    future = next(people, None)
+
+                left = float('inf') if prev is None else i - prev
+                right = float('inf') if future is None else future - i
+                ans = max(ans, min(left, right))
+
+        return ans
+```
+
+**Solution 3: (Next Array)**
+```
+Runtime: 176 ms
+Memory Usage: 14.3 MB
+```
+```python
+class Solution:
+    def maxDistToClosest(self, seats: List[int]) -> int:
+        N = len(seats)
+        left, right = [N] * N, [N] * N
+
+        for i in range(N):
+            if seats[i] == 1: left[i] = 0
+            elif i > 0: left[i] = left[i-1] + 1
+
+        for i in range(N-1, -1, -1):
+            if seats[i] == 1: right[i] = 0
+            elif i < N-1: right[i] = right[i+1] + 1
+
+        return max(min(left[i], right[i])
+                   for i, seat in enumerate(seats) if not seat)
+        
 ```
