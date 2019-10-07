@@ -61,3 +61,18 @@ class Solution:
             return max(nums)
         return max_sum        
 ```
+
+**Solution 3:**
+```
+Runtime: 84 ms
+Memory Usage: 14.7 MB
+```
+```python
+class Solution:
+    def maxSubArray(self, nums: List[int]) -> int:
+        ans = cur = float('-inf')
+        for x in nums:
+            cur = x + max(cur, 0)
+            ans = max(ans, cur)
+        return ans
+```
