@@ -20,19 +20,16 @@ Explanation: The result cannot be 2, because [-2,-1] is not a subarray.
 ---
 **Solution 1:**
 ```
-Runtime: 64 ms
-Memory Usage: 13.9 MB
+Runtime: 52 ms
+Memory Usage: 14 MB
 ```
 ```python
 class Solution:
     def maxProduct(self, nums: List[int]) -> int:
-        min_ = max_ = overall_max = nums[0]
-        
+        local_max = local_min = global_max = nums[0] # initial all to first num
         for num in nums[1:]:
-            temp_max = max(num, min_*num, max_*num)
-            min_ = min(num, min_*num, max_*num)
-            max_ = temp_max
-            overall_max =  max(overall_max, max_)
-            
-        return overall_max                   
+            local_min, _, local_max = sorted([local_max * num, local_min * num, num]) # sort will take care of all the if
+            if local_max > global_max:
+                global_max = local_max
+        return global_max               
 ```
