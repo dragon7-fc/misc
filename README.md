@@ -531,7 +531,7 @@ A playground to note something.
     - [Nmap Cheat Sheet](https://www.stationx.net/nmap-cheat-sheet/)
     - To see the SSL/TLS algorithms a server supports
 
-        `nmap --script ssl-enum-ciphers -p 443 10.32.3.143 [TARGET|IP]`
+        `nmap --script ssl-enum-ciphers -p 443 [TARGET|IP]`
 
 * curl
 
@@ -678,6 +678,7 @@ A playground to note something.
     |-------------|-------------------------------------------------------------------------|
     | read binary | `xxd -g 1 [FILE]` or `hd [FILE]` or `hexdump -C [FILE]` or `od -t x1 [FILE]`|
     | write binary | `echo -n -e \xHH > XXX` or `printf '\xHH' > XXX` |
+    | compare binary | `diff <(xxd -g1 OOO.bin) <(xxd -g1 XXX.bin)`   |
 
 * Batch
 
