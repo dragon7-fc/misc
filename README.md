@@ -662,9 +662,49 @@ A playground to note something.
 
     - [An A-Z Index of the Linux command line](https://ss64.com/bash/)
     - [Terminal Cheatsheet for Mac (Basics)](https://github.com/0nn0/terminal-mac-cheatsheet)
-    - [.bashrc PS1 generator](http://bashrcgenerator.com/)
-    - [Bash Reference Manual](https://tiswww.case.edu/php/chet/bash/bashref.html#Command-Substitution)
-    - [Bash scripting cheatsheet](https://devhints.io/bash)
+    - Bash
+        - [.bashrc PS1 generator](http://bashrcgenerator.com/)
+        - [Bash Reference Manual](https://tiswww.case.edu/php/chet/bash/bashref.html#Command-Substitution)
+        - [Bash scripting cheatsheet](https://devhints.io/bash)
+        - Misc
+
+            **Brackets**
+            ```
+            if [ CONDITION ]    Test construct
+            if [[ CONDITION ]]  Extended test construct
+            Array[1]=element1   Array initialization
+            [a-z]               Range of characters within a Regular Expression
+            $[ expression ]     A non-standard & obsolete version of $(( expression  )) [1]
+            ```
+            [1] http://wiki.bash-hackers.org/scripting/obsolete
+
+            **Curly Braces**
+            ```
+            ${variable}                             Parameter substitution
+            ${!variable}                            Indirect variable reference
+            { command1; command2; . . . commandN; } Block of code
+            {string1,string2,string3,...}           Brace expansion
+            {a..z}                                  Extended brace expansion
+            {}                                      Text replacement, after find and xargs
+            ```
+
+            **Parentheses**
+            ```
+            ( command1; command2 )             Command group executed within a subshell
+            Array=(element1 element2 element3) Array initialization
+            result=$(COMMAND)                  Command substitution, new style
+            >(COMMAND)                         Process substitution
+            <(COMMAND)                         Process substitution
+            ```
+
+            **Double Parentheses**
+            ```
+            (( var = 78  ))            Integer arithmetic
+            var=$(( 20 + 5  ))         Integer arithmetic, with variable assignment
+            (( var++  ))               C-style variable increment
+            (( var--  ))               C-style variable decrement
+            (( var0 = var1<98?9:21  )) C-style ternary operation
+            ```
     - [Regexr — Learn Regular Expressions](http://regexr.com/)
     - [grep (english) Cheat Sheet by TME520](https://www.cheatography.com/tme520/cheat-sheets/grep-english/)
     - [Sed - An Introduction and Tutorial by Bruce Barnett](http://www.grymoire.com/Unix/Sed.html)
