@@ -340,6 +340,10 @@ A playground to note something.
 
         `svn copy [SRC_REPO] [DEST_REPO] -m '[MSG]'`
 
+* Tig
+
+    - [Tig cheatsheet](https://devhints.io/tig)
+
 * Gitlab
 
     - Run the image
