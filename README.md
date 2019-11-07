@@ -720,8 +720,16 @@ A playground to note something.
 
     |             | command     |
     |-------------|-------------------------------------------------------------------------|
-    | read binary | `xxd -g 1 [FILE]` or `hd [FILE]` or `hexdump -C [FILE]` or `od -t x1 [FILE]`|
-    | write binary | `echo -n -e \xHH > XXX` or `printf '\xHH' > XXX` |
+    | read binary | `xxd -g 1 [FILE]` |
+    |  | `hd [FILE]`|
+    |  | `hexdump -C [FILE]` |
+    |  | `od -t x1 [FILE]`|
+    | write binary | `echo -n -e \xHH > XXX` |
+    |  | `printf '\xHH' > XXX` |
+    | convert ascii to hex string | `echo "<ASCII_STRING>" \| xxd -ps -c 200 \| tr -d '\n'` |
+    |  | `a=<ASCII_STRING>; for ((i=0;i<${#a};i++));do printf %02X \'${a:$i:1};done` |
+    |  | `a=<ASCII_STRING>; for letter in $(echo "$a" \| sed "s/\(.\)/'\1 /g");do printf '%x' "$letter";done` |
+    | convert hex to ascii string | `echo "<HEX_STRING>" \| xxd -ps -r` |
     | compare binary | `diff <(xxd -g1 OOO.bin) <(xxd -g1 XXX.bin)`   |
 
 * Batch
