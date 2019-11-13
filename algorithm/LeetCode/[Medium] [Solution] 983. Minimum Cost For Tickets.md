@@ -153,7 +153,7 @@ class Solution:
         return dp(1)
 ```
 
-**Solution 1:**
+**Solution 2:**
 ```
 Runtime: 44 ms
 Memory Usage: 13.2 MB
