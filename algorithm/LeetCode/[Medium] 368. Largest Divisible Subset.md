@@ -2,7 +2,7 @@
 
 Given a set of **distinct** positive integers, find the largest subset such that every pair $(S_i, S_j)$ of elements in this subset satisfies:
 
-$S_i \% S_j = 0 or S_j \% S_i = 0.$
+$S_i \% S_j = 0$ or $S_j \% S_i = 0.$
 
 If there are multiple solutions, return any subset is fine.
 
