@@ -51,6 +51,25 @@ A playground to note something.
             C:\cygwin64\bin\cygz.dll
             ```
     - [Computer Cheese](https://computercheese.blogspot.com/)
+    
+    - SOL
+        - BIOS
+            
+            `Advanced -> Serial Port Console Redirection -> Console Redirection Settings`
+        - BMC
+            1. Get SOL Configuration Parameters
+            
+                `ipmitool -H <BMC_IP> -U <IPMI_USER> -P <IPMI_PASSWORD> sol info`
+            1. Get COM Port Baud Rate from BIOS (Default is 57.6K)
+            1. Set SOL volatile-bit-rate
+            
+                `ipmitool -I lanplus -H <BMC_IP> -U <IPMI_USER> -P <IPMI_PASSWORD> sol set volatile-bit-rate xx.x`
+            1. Activate IPMI SOL
+            
+                `ipmitool -I lanplus -H <BMC_IP> -U <IPMI_USER> -P <IPMI_PASSWORD> sol activate nokeepalive`
+            1. Terminate connection
+            
+                `~.` or `ipmitool -I lanplus -H <BMC_IP> -U <IPMI_USER> -P <IPMI_PASSWORD> sol deactivate`
 
 * Docker
 
