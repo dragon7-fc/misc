@@ -45,7 +45,7 @@ We can improve the last solution, if we make the following observation. For any 
 
 Now, to determine, if the number $c - a^2$ is a perfect square or not, we can make use of the following theorem:
 
->> The square of $n^{th}$ positive integer can be represented as a sum of first $n$ odd positive integers.
+> The square of $n^{th}$ positive integer can be represented as a sum of first $n$ odd positive integers.
 
 Or in mathematical terms:
 
@@ -153,7 +153,7 @@ public class Solution {
 
 This approach is based on the following statement, which is based on Fermat's Theorem:
 
->> Any positive number $n$ is expressible as a sum of two squares if and only if the prime factorization of $n$, every prime of the form $(4k+3)$ occurs an even number of times.
+> Any positive number $n$ is expressible as a sum of two squares if and only if the prime factorization of $n$, every prime of the form $(4k+3)$ occurs an even number of times.
 
 By making use of the above theorem, we can directly find out if the given number $c$ can be expressed as a sum of two squares.
 

@@ -93,7 +93,6 @@ class Solution:
         A = list(map(int, str(num)))
         last = {x: i for i, x in enumerate(A)}
         for i, x in enumerate(A):
-            print(i, x)
             for d in range(9, x, -1):
                 if last.get(d, None) != None and last.get(d, None) > i:
                     A[i], A[last[d]] = A[last[d]], A[i]
