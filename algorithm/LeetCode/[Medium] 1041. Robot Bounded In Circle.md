@@ -69,3 +69,47 @@ class Solution:
             
         return (x,y) == (0,0) or directions[curr_dir] != (0,1) 
 ```
+
+**Solution 2:**
+
+![1041_1_1.png](img/1041_1_1.png)
+
+**Intuition**
+Let chopper help explain.
+
+Starting at the origin and face north (0,1),
+after one sequence of instructions,
+
+1. if chopper return to the origin, he's in an obvious circle.
+1. if chopper finishes with face not towards north,
+it will get back to the initial status in another one or three sequences.
+
+**Explanation**
+```
+(x,y) is the location of chopper.
+d[i] is the direction he is facing.
+i = (i + 1) % 4 will turn right
+i = (i + 3) % 4 will turn left
+Check the final status after instructions.
+```
+
+**Complexity**
+
+* Time $O(N)$
+* Space $O(1)$
+
+
+```
+Runtime: 28 ms
+Memory Usage: 12.7 MB
+```
+```python
+class Solution:
+    def isRobotBounded(self, instructions: str) -> bool:
+        x, y, dx, dy = 0, 0, 0, 1
+        for i in instructions:
+            if i == 'R': dx, dy = dy, -dx
+            if i == 'L': dx, dy = -dy, dx
+            if i == 'G': x, y = x + dx, y + dy
+        return (x, y) == (0, 0) or (dx, dy) != (0,1)
+```
