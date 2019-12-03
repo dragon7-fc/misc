@@ -52,7 +52,7 @@ class Solution:
 
 Assume `g(n) = "1" + f(n)`
 we can find:
-`g(0) = "1" g(1) = "10" g(2) = "111" g(3) = "100" g(4) = "101" g(5) = "110" g(6) = "111"`
+`g(0) = "1" g(1) = "10" g(2) = "11" g(3) = "100" g(4) = "101" g(5) = "110" g(6) = "111"`
 
 Now everything is obvious:
 ```
