@@ -20,18 +20,13 @@ Output: "10101"
 ---
 **Solution 1:**
 ```
-Runtime: 40 ms
-Memory Usage: N/A
+Runtime: 16 ms
+Memory Usage: 12.8 MB
 ```
 ```python
 class Solution:
-    def addBinary(self, a, b):
-        """
-        :type a: str
-        :type b: str
-        :rtype: str
-        """
+    def addBinary(self, a: str, b: str) -> str:
         num_a = int(a, 2)
         num_b = int(b, 2)
-        return str("{0:b}".format((num_a+num_b)))
+        return bin(num_a+num_b)[2:]
 ```
