@@ -96,7 +96,7 @@ In order to fill the entry for $dp[i][j]$, we can have two cases:
 
 1. The characters $s1[i-1]$ and $s2[j-1]$ match with each other. In this case, the entry for $dp[i][j]$ will be one more than the entry obtained for the strings considering their lengths upto one lesser index, since the matched character adds one to the length of LCS formed till the current indices. Thus, the $dp[i][j]$ entry is updated as $dp[i][j] = 1 + dp[i-1][j-1]$. Note that $dp[i-1][j-1]$ has been used because the matched character belongs to both $s1$ and $s2$.
 
-1. The characters $s1[i-1]$ and $s2[j-1]$ don't match with each other. In this case, we can't increment the current entry as compared to entries corresponding to the previous indices, but we need to replicate the previous entry again to indicate that the length of LCS upto the current indices also remains the same. But, which entry to pick up? Now, since the current character hasn't matched, we have got two options. We can remove the current character from consideration from either $s1$ or $s2$ and use the corresponding $dp$ entries given by $dp[i-1][j]$ and $dp[i][j-1]$ respectively. Since we are considering the length of LCS upto the current indices we need to pick up the larger entry out of these two to update the current dpdp entry.
+1. The characters $s1[i-1]$ and $s2[j-1]$ don't match with each other. In this case, we can't increment the current entry as compared to entries corresponding to the previous indices, but we need to replicate the previous entry again to indicate that the length of LCS upto the current indices also remains the same. But, which entry to pick up? Now, since the current character hasn't matched, we have got two options. We can remove the current character from consideration from either $s1$ or $s2$ and use the corresponding $dp$ entries given by $dp[i-1][j]$ and $dp[i][j-1]$ respectively. Since we are considering the length of LCS upto the current indices we need to pick up the larger entry out of these two to update the current $dp$ entry.
 
 At the end, again, we obtain the number of deletions required as $m + n - 2*dp[m][n]$, where $m$ and $n$ refer to the lengths of $s1$ and $s2$. $dp[m][n]$ now refers to the length of LCS among the two given strings.
 
@@ -160,7 +160,7 @@ public class Solution {
 
 Instead of finding the length of LCS and then determining the number of deletions required, we can make use of Dynamic Programming to directly determine the number of deletions required till the current indices of the strings.
 
-In order to do so, we make use of a 2-D dpdp array. Now, $dp[i][j]$ refers to the number of deletions required to equalize the two strings if we consider the strings' length upto $(i-1)^{th}$ index and $(j-1)^{th}$ index for $s1$ and $s2$ respectively. Again, we fill in the $dp$ array in a row-by-row order. Now, in order to fill the entry for $dp[i][j]$, we need to consider two cases only:
+In order to do so, we make use of a 2-D $dp$ array. Now, $dp[i][j]$ refers to the number of deletions required to equalize the two strings if we consider the strings' length upto $(i-1)^{th}$ index and $(j-1)^{th}$ index for $s1$ and $s2$ respectively. Again, we fill in the $dp$ array in a row-by-row order. Now, in order to fill the entry for $dp[i][j]$, we need to consider two cases only:
 
 1. The characters $s1[i-1]$ and $s2[j-1]$ match with each other. In this case, we need to replicate the entry corresponding to $dp[i-1][j-1]$ itself. This is because, the matched character doesn't need to be deleted from any of the strings.
 
@@ -215,6 +215,13 @@ public class Solution {
     }
 }
 ```
+
+**Complexity Analysis**
+
+* Time complexity : $O(m*n)$. We need to fill in the $dp$ array of size $m$x$n$. Here, $m$ and $n$ refer to the lengths of $s1$ and $s2$.
+
+* Space complexity : $O(m*n)$. $dp$ array of size $m$x$n$ is used.
+
 ## Approach #5 1-D Dynamic Programming [Accepted]:
 **Algorithm**
 
@@ -253,3 +260,26 @@ public class Solution {
 
 # Submissions
 ---
+**Solution 1:**
+```
+Runtime: 260 ms
+Memory Usage: 29.8 MB
+```
+```python
+import functools
+class Solution:
+    def minDistance(self, word1: str, word2: str) -> int:
+        M = len(word1)
+        N = len(word2)
+        
+        @functools.lru_cache(None)
+        def lcs(m, n):
+            if m == 0 or n == 0:
+                return 0
+            if word1[m-1] == word2[n-1]:
+                return 1 + lcs(m-1, n-1)
+            else:
+                return max(lcs(m-1, n), lcs(m, n-1))
+        
+        return M + N - 2*lcs(M, N)
+```
