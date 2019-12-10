@@ -64,3 +64,28 @@ class Solution(object):
 Time Complexity: $O(S)$, where $S$ is the sum of the lengths of words in words. We iterate through each character of each word in words.
 
 Space Complexity: $O(S)$.
+
+# Submissions
+---
+**Solution:**
+```
+Runtime: 24 ms
+Memory Usage: 12 MB
+```
+```python
+class Solution(object):
+    def uniqueMorseRepresentations(self, words):
+        """
+        :type words: List[str]
+        :rtype: int
+        """
+        MORSE = [".-","-...","-.-.","-..",".","..-.","--.",
+                 "....","..",".---","-.-",".-..","--","-.",
+                 "---",".--.","--.-",".-.","...","-","..-",
+                 "...-",".--","-..-","-.--","--.."]
+
+        seen = {"".join(MORSE[ord(c) - ord('a')] for c in word) for word in words}
+
+        return len(seen)
+        
+```

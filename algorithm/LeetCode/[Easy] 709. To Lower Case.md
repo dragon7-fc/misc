@@ -1,27 +1,35 @@
-""" 
-To Lower Case
+709. To Lower Case
 
 Implement function ToLowerCase() that has a string parameter str, and returns the same string in lowercase.
 
  
 
-Example 1:
-
+**Example 1:**
+```
 Input: "Hello"
 Output: "hello"
-Example 2:
+```
 
+**Example 2:**
+```
 Input: "here"
 Output: "here"
-Example 3:
+```
 
+**Example 3:**
+```
 Input: "LOVELY"
 Output: "lovely"
+```
 
-"""
-
-
-""" Solution: 40 ms """
+# Submissions
+---
+**Solution 1:**
+```
+Runtime: 28 ms
+Memory Usage: 12.7 MB
+```
+```python
 class Solution:
     def toLowerCase(self, str):
         """
@@ -29,3 +37,4 @@ class Solution:
         :rtype: str
         """
         return str.lower()
+```

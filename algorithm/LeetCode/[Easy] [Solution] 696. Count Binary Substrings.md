@@ -25,7 +25,7 @@ Explanation: There are 4 substrings: "10", "01", "10", "01" that have equal numb
 **Note:**
 
 * `s.length` will be between `1` and `50,000`.
-* s will only consist of `"0"` or `"1"` characters.
+* `s` will only consist of `"0"` or `"1"` characters.
 
 # Solution
 ---
@@ -101,3 +101,21 @@ class Solution(object):
 
 # Submissions
 ---
+**Solution:**
+```
+Runtime: 168 ms
+Memory Usage: 12.9 MB
+```
+```python
+class Solution:
+    def countBinarySubstrings(self, s: str) -> int:
+        ans, prev, cur = 0, 0, 1
+        for i in range(1, len(s)):
+            if s[i-1] != s[i]:
+                ans += min(prev, cur)
+                prev, cur = cur, 1
+            else:
+                cur += 1
+
+        return ans + min(prev, cur)
+```
