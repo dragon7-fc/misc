@@ -69,3 +69,23 @@ Explanation: 12 digits, 2 digits for country code and 10 digits for local number
 
 # Solution
 ---
+**Solution:**
+```
+Runtime: 28 ms
+Memory Usage: 12.6 MB
+```
+```python
+class Solution:
+    def maskPII(self, S: str) -> str:
+        if '@' in S: #email
+            first, after = S.split('@')
+            return "{}*****{}@{}".format(
+                first[0], first[-1], after).lower()
+
+        else: #phone
+            digits = list(filter(str.isdigit, S))
+            local = "***-***-{}".format(''.join(digits[-4:]))
+            if len(digits) == 10:
+                return local
+            return "+{}-".format('*' * (len(digits) - 10)) + local
+```
