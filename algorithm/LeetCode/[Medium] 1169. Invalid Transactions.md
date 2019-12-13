@@ -58,7 +58,7 @@ class Solution:
         for i, (name, time, amount, city) in enumerate(transactions):
             if name in recent:
                 d = recent[name]
-                while len(d)>0 and int(time)-int(transactions[d[0]][1]) > 60:
+                while len(d) > 0 and int(time)-int(transactions[d[0]][1]) > 60:
                     d.popleft()
                 for e in d:
                     if transactions[e][3] != city:

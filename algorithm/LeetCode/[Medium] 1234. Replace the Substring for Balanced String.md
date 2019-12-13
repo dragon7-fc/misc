@@ -2,11 +2,11 @@
 
 You are given a string containing only 4 kinds of characters `'Q', 'W', 'E' and 'R'`.
 
-A string is said to be balanced if each of its characters appears `n/4` times where `n` is the length of the string.
+A string is said to be **balanced** if each of its characters appears `n/4` times where `n` is the length of the string.
 
-Return the minimum length of the substring that can be replaced with any other string of the same length to make the original string s balanced.
+Return the minimum length of the substring that can be replaced with any other string of the same length to make the original string `s` **balanced**.
 
-Return `0` if the string is already balanced.
+Return `0` if the string is already **balanced**.
 
  
 
@@ -60,7 +60,7 @@ One pass the all frequency of "QWER".
 Then slide the windon in the string `s`.
 
 Imagine that we erase all character inside the window,
-as we can modyfy it whatever we want,
+as we can modify it whatever we want,
 and it will always increase the count outside the window.
 
 So we can make the whole string balanced,
@@ -89,12 +89,12 @@ class Solution:
     def balancedString(self, s: str) -> int:
         count = collections.Counter(s)
         res = n = len(s)
-        i = 0
-        for j, c in enumerate(s):
-            count[c] -= 1
-            while i < n and all(n / 4 >= count[c] for c in 'QWER'):
+        i = 0  ## sliding window start
+        for j, c in enumerate(s):  ## sliding window end
+            count[c] -= 1  ## try to clear character and enter sliding window
+            while i < n and all(n / 4 >= count[c] for c in 'QWER'):  ## balanced string
                 res = min(res, j - i + 1)
-                count[s[i]] += 1
-                i += 1
+                count[s[i]] += 1  ## restore character and leave sliding window
+                i += 1 ## try to increase start
         return res
 ```

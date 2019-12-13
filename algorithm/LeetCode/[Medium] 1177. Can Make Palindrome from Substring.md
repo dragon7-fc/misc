@@ -2,9 +2,9 @@
 
 Given a string `s`, we make queries on substrings of `s`.
 
-For each query `queries[i] = [left, right, k]`, we may rearrange the substring `s[left], ..., s[right]`, and then choose up to `k` of them to replace with any lowercase English letter. 
+For each query `queries[i] = [left, right, k]`, we may **rearrange** the substring `s[left], ..., s[right]`, and then choose **up to** `k` of them to replace with any lowercase English letter. 
 
-If the substring is possible to be a palindrome string after the operations above, the result of the query is true. Otherwise, the result is false.
+If the substring is possible to be a palindrome string after the operations above, the result of the query is `true`. Otherwise, the result is `false`.
 
 Return an array `answer[]`, where `answer[i]` is the result of the `i`-th query `queries[i]`.
 
