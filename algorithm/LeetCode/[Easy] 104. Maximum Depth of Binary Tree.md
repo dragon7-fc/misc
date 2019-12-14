@@ -1,5 +1,4 @@
-""" 
-Maximum Depth of Binary Tree
+104. Maximum Depth of Binary Tree
 
 Given a binary tree, find its maximum depth.
 
@@ -9,15 +8,24 @@ Note: A leaf is a node with no children.
 
 Example:
 
-Given binary tree [3,9,20,null,null,15,7],
-
+Given binary tree `[3,9,20,null,null,15,7]`,
+```
     3
    / \
   9  20
     /  \
    15   7
 return its depth = 3.
- """
+```
+
+# Submissions
+---
+**Solution 1:**
+```
+Runtime: 40 ms
+Memory Usage: 14.4 MB
+```
+```python
 # Definition for a binary tree node.
 # class TreeNode:
 #     def __init__(self, x):
@@ -26,14 +34,11 @@ return its depth = 3.
 #         self.right = None
 
 class Solution:
-    def maxDepth(self, root):
-        """
-        :type root: TreeNode
-        :rtype: int
-        """
+    def maxDepth(self, root: TreeNode) -> int:
         if not root:
             return 0
         elif root.left == None and root.right == None:
             return 1
         else:
              return 1 + max(self.maxDepth(root.left), self.maxDepth(root.right))
+```

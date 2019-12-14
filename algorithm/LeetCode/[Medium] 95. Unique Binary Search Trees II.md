@@ -43,13 +43,13 @@ class Solution:
     def cTree(self,nums):
         if not nums:
             return [None]
-        temp=[]
+        temp = []
         for i in range(len(nums)):
             for lnode in self.cTree(nums[:i]):
                 for rnode in self.cTree(nums[i+1:]):
-                    root=TreeNode(nums[i])
-                    root.left=lnode
-                    root.right=rnode
+                    root = TreeNode(nums[i])
+                    root.left = lnode
+                    root.right = rnode
                     temp.append(root)
         return temp
     
