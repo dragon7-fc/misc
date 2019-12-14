@@ -48,8 +48,9 @@ Output: 4
 First, ignore all the already matched positions, they don't affect the answer at all.
 For the unmatched positions, there are three basic cases:
 
-* ``("xx", "yy") => 1 swap, ("x", "y") => 1 swaps`
-* ``("yy", "xx") => 1 swap, ("y", "x") => 1 swaps`
+* `("xx", "yy") => 1 swap, ("x", "y") => 1 swaps`
+* `("yy", "xx") => 1 swap, ("y", "x") => 1 swaps`
+* `["xy", "yx"] => 2 swap (["xy", "yx"] -> ["yy","xx"] -> ["xy","xy"])` (**1 additional swap**)
 
 ```
 Runtime: 32 ms
