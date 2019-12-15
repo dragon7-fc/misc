@@ -1,17 +1,17 @@
-""" 
-Flatten Binary Tree to Linked List
+114. Flatten Binary Tree to Linked List
 
 Given a binary tree, flatten it to a linked list in-place.
 
 For example, given the following tree:
-
+```
     1
    / \
   2   5
  / \   \
 3   4   6
+```
 The flattened tree should look like:
-
+```
 1
  \
   2
@@ -23,10 +23,16 @@ The flattened tree should look like:
         5
          \
           6
+```
 
-"""
-
-
+# Submissions
+---
+**Solution 1:**
+```
+Runtime: 32 ms
+Memory Usage: 13 MB
+```
+```python
 # Definition for a binary tree node.
 # class TreeNode:
 #     def __init__(self, x):
@@ -34,14 +40,11 @@ The flattened tree should look like:
 #         self.left = None
 #         self.right = None
 
-
-""" Solution: 48 ms """
 class Solution:
     prev = None
-    def flatten(self, root):
+    def flatten(self, root: TreeNode) -> None:
         """
-        :type root: TreeNode
-        :rtype: void Do not return anything, modify root in-place instead.
+        Do not return anything, modify root in-place instead.
         """
         if not root:
             return
@@ -50,3 +53,4 @@ class Solution:
         root.right = self.prev
         root.left = None
         self.prev = root
+```
