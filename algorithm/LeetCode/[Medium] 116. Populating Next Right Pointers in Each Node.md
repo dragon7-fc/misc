@@ -37,3 +37,70 @@ Explanation: Given the above perfect binary tree (Figure A), your function shoul
 
 # Submissions
 ---
+**Solution 1:**
+```
+Runtime: 64 ms
+Memory Usage: 14.2 MB
+```
+```python
+"""
+# Definition for a Node.
+class Node:
+    def __init__(self, val: int = 0, left: 'Node' = None, right: 'Node' = None, next: 'Node' = None):
+        self.val = val
+        self.left = left
+        self.right = right
+        self.next = next
+"""
+class Solution:
+    def connect(self, root: 'Node') -> 'Node':
+        def dfs(node):
+            if not root:
+                return
+            if not node.left and not node.right:
+                return
+            node.left.next = node.right
+            if node.next:
+                node.right.next = node.next.left
+            dfs(node.left)
+            dfs(node.right)
+            return
+        
+        dfs(root)
+        return root
+```
+
+**Solution 2:**
+```
+Runtime: 52 ms
+Memory Usage: 14.2 MB
+```
+```python
+"""
+# Definition for a Node.
+class Node:
+    def __init__(self, val: int = 0, left: 'Node' = None, right: 'Node' = None, next: 'Node' = None):
+        self.val = val
+        self.left = left
+        self.right = right
+        self.next = next
+"""
+class Solution:
+    def connect(self, root: 'Node') -> 'Node':
+        if root == None:
+            return None
+        stack = [root]
+
+        while stack != []:
+            for i in range(0,len(stack)-1):
+                stack[i].next = stack[i+1]
+            new_stack = []
+            for i in stack:
+                if i.left:
+                    new_stack.append(i.left)
+                if i.right:
+                    new_stack.append(i.right)
+            stack = new_stack
+
+        return root
+```
