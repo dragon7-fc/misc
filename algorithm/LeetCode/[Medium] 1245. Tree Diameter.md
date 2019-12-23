@@ -46,19 +46,19 @@ Memory Usage: 18.8 MB
 class Solution:
     def treeDiameter(self, edges: List[List[int]]) -> int:
         def dfs(x,prev,length):  #do dfs from node x,update maxlength and end point.
-            if len(graph[x])==1 and graph[x][0]==prev and length>res[0]:#end point
-                res[0]=length
-                res[1]=x
+            if len(graph[x]) == 1 and graph[x][0] == prev and length > res[0]:  #end point
+                res[0] = length
+                res[1] = x
             for y in graph[x]:
-                if y!=prev:  #since it is acyclic, thus just avoid x->y->x will avoid duplicate visit.
-                    dfs(y,x,length+1)
+                if y != prev:  #since it is acyclic, thus just avoid x->y->x will avoid duplicate visit.
+                    dfs(y, x, length + 1)
         
-        graph=collections.defaultdict(list)
+        graph = collections.defaultdict(list)
         for x,y in edges:
             graph[x].append(y)
             graph[y].append(x)
-        res=[0,None]#[maxlen,endNode]
-        dfs(edges[0][0],None,0)
-        dfs(res[1],None,0)
+        res = [0, None]  #[maxlen,endNode]
+        dfs(edges[0][0], None, 0)
+        dfs(res[1], None, 0)
         return res[0]
 ```
