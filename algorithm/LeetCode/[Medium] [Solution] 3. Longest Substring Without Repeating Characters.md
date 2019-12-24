@@ -118,7 +118,7 @@ public class Solution {
 
 **Complexity Analysis**
 
-* Time complexity : $O(2n) = O(n)$. In the worst case each character will be visited twice by $i$ and $jj$
+* Time complexity : $O(2n) = O(n)$. In the worst case each character will be visited twice by $i$ and $j$
 
 * Space complexity : $O(min(m, n))$. Same as the previous approach. We need $O(k)$ space for the sliding window, where $k$ is the size of the Set. The size of the Set is upper bounded by the size of the string $n$ and the size of the charset/alphabet $m$.
 
@@ -186,8 +186,8 @@ public class Solution {
 ---
 **Solution 1:**
 ```
-Runtime: 88 ms
-Memory Usage: N/A
+Runtime: 64 ms
+Memory Usage: 12.9 MB
 ```
 ```python
 class Solution:
@@ -196,16 +196,14 @@ class Solution:
         :type s: str
         :rtype: int
         """
-        start = maxLength = 0
-        usedChar = {}
-        
-        for i in range(len(s)):
-            if s[i] in usedChar and start <= usedChar[s[i]]:
-                start = usedChar[s[i]] + 1
-            else:
-                maxLength = max(maxLength, i - start + 1)
-
-            usedChar[s[i]] = i
-
-        return maxLength
+        N = len(s)
+        ans = 0
+        d = {}
+        i = 0
+        for j in range(N):
+            if d.get(s[j], None):
+                i = max(d[s[j]], i)
+            ans = max(ans, j - i + 1)
+            d[s[j]] = j + 1
+        return ans
 ```

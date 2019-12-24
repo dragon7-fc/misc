@@ -35,14 +35,14 @@ class Solution:
         res = ''
         
         # sign
-        if numerator*denominator < 0:
-            res+='-'
+        if numerator * denominator < 0:
+            res += '-'
         numerator = abs(numerator)
         denominator = abs(denominator)
         
         # before point
-        res += str(numerator//denominator)
-        carrier = numerator%denominator
+        res += str(numerator // denominator)
+        carrier = numerator % denominator
         
         # after point
         if carrier > 0:
@@ -51,12 +51,12 @@ class Solution:
         while carrier > 0:
             if carrier in memo:
                 index = memo[carrier]
-                res = res[:index] + '('+res[index:] +')'
+                res = res[:index] + '(' + res[index:] +')'
                 return res
             else:
                 memo[carrier] = len(res)
-                res += str((carrier*10)//denominator)
-                carrier = ((carrier*10)%denominator)
+                res += str((carrier * 10) // denominator)
+                carrier = ((carrier * 10) % denominator)
                 
         return res
 ```
