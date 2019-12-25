@@ -54,3 +54,16 @@ class Solution:
                         num += 1
         return num
 ```
+
+**Solution 2:**
+```
+Runtime: 476 ms
+Memory Usage: 12.9 MB
+```
+```python
+class Solution:
+    def islandPerimeter(self, grid: List[List[int]]) -> int:
+        h = sum(k for row in grid for k, _ in itertools.groupby(row))
+        v = sum(k for col in zip(*grid) for k, _ in itertools.groupby(col))
+        return 2*(h+v)
+```
