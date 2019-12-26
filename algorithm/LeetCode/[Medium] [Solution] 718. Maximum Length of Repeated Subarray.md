@@ -97,7 +97,7 @@ class Solution(object):
 
 * Time Complexity: $O((M + N) * \min(M, N) * \log{(\min(M, N))})$, where $M, N$ are the lengths of `A`, `B`. The log factor comes from the binary search. The complexity of our naive check of a given $\text{length}$ is $O((M+N) * \text{length})$, as we will create the `seen` strings with complexity $O(M * \text{length})$, then search for them with complexity $O(N * \text{length})$, and our total complexity when performing our check is the addition of these two.
 
-Space Complexity: $O(M^2)$, the space used by seen.
+* Space Complexity: $O(M^2)$, the space used by seen.
 
 ## Approach #3: Dynamic Programming [Accepted]
 **Intuition and Algorithm**
@@ -187,7 +187,29 @@ class Solution(object):
 
 # Submissions
 ---
-**Solution 1: (DP)**
+
+**Solution 0: (DP: Top-Down, Time Time Limit Exceeded)**
+```
+import functools
+class Solution:
+    def findLength(self, A: List[int], B: List[int]) -> int:
+        M = len(A)
+        N = len(B)
+        
+        @functools.lru_cache(None)
+        def dfs(i, j, k):
+            if i < 0 or j < 0:
+                return 0
+            for i2 in range(i,-1, -1):
+                if A[i2:i2+k] == B[j:j+k]:
+                    return 1 + dfs(i2-1, j-1,k+1)
+                else:
+                    return max(dfs(i-1, j, k), dfs(i, j-1, k))
+            
+        return dfs(M-1, N-1, 1)
+```
+
+**Solution 1: (DP: Bottom-Up)**
 ```
 Runtime: 2512 ms
 Memory Usage: 39.1 MB
@@ -202,8 +224,23 @@ class Solution:
                     memo[i][j] = memo[i+1][j+1]+1
         return max(max(row) for row in memo)
 ```
+**Solution 2: (DP: Bottom-Up 2)**
+```
+Runtime: 2728 ms
+Memory Usage: 37.9 MB
+```
+```python
+class Solution:
+    def findLength(self, A: List[int], B: List[int]) -> int:
+        memo = [[0] * (len(B) + 1) for _ in range(len(A) + 1)]
+        for i in range(len(A)):
+            for j in range(len(B)):
+                if A[i] == B[j]:
+                    memo[i+1][j+1] = memo[i][j]+1
+        return max(max(row) for row in memo)
+```
 
-**Solution 2: (Binary Search with Rolling Hash)**
+**Solution 3: (Binary Search with Rolling Hash)**
 ```
 Runtime: 236 ms
 Memory Usage: 14 MB

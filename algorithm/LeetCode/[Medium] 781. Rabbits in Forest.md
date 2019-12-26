@@ -43,7 +43,7 @@ class Solution:
     def numRabbits(self, answers: List[int]) -> int:
         if len(answers) == 0:
             return 0
-        d = {}
+        d = {}  # similar rabit -> current rabit
         count = 0
         for num in answers:
             # If there's no other rabit that has the same color,
