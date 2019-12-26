@@ -733,6 +733,7 @@ A playground to note something.
             (( var0 = var1<98?9:21  )) C-style ternary operation
             ```
     - [Regexr — Learn Regular Expressions](http://regexr.com/)
+    - [Regexp Syntax Summary](http://www.greenend.org.uk/rjk/tech/regexp.html)
     - [grep (english) Cheat Sheet by TME520](https://www.cheatography.com/tme520/cheat-sheets/grep-english/)
     - [Sed - An Introduction and Tutorial by Bruce Barnett](http://www.grymoire.com/Unix/Sed.html)
     - [AWK Cheat Sheet](https://www.shortcutfoo.com/app/dojos/awk/cheatsheet)
