@@ -122,7 +122,7 @@ public class Solution {
 
 * Time complexity : $O(S*n)$. where S is the amount, n is denomination count. In the worst case the recursive tree of the algorithm has height of $S$ and the algorithm solves only $S$ subproblems because it caches precalculated solutions in a table. Each subproblem is computed with $n$ iterations, one by coin denomination. Therefore there is $O(S*n)$ time complexity.
 
-* Space complexity : $O(S)$, where SS is the amount to change We use extra space for the memoization table.
+* Space complexity : $O(S)$, where $S$ is the amount to change We use extra space for the memoization table.
 
 ## Approach #3 (Dynamic programming - Bottom up) [Accepted]
 **Algorithm**

@@ -51,7 +51,7 @@ class MyCalendar(object):
 
 **Complexity Analysis**
 
-* Time Complexity: $O(N^2)$, where NN is the number of events booked. For each new event, we process every previous event to decide whether the new event can be booked. This leads to $\sum_k^N O(k) = O(N^2)$ complexity.
+* Time Complexity: $O(N^2)$, where $N$ is the number of events booked. For each new event, we process every previous event to decide whether the new event can be booked. This leads to $\sum_k^N O(k) = O(N^2)$ complexity.
 
 * Space Complexity: $O(N)$, the size of the calendar.
 

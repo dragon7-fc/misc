@@ -74,7 +74,7 @@ public class Solution {
 ## Approach #2 Single Pass [Accepted]
 **Algorithm**
 
-As per the given problem statement, all the operations are performed on a rectangular sub-matrix of the initial all 0's MM matrix. The upper left corner of each such rectangle is given by the index $(0, 0)$ and the lower right corner for an operation $[i, j]$ is given by the index (i, j)(i,j).
+As per the given problem statement, all the operations are performed on a rectangular sub-matrix of the initial all 0's $M$ matrix. The upper left corner of each such rectangle is given by the index $(0, 0)$ and the lower right corner for an operation $[i, j]$ is given by the index (i, j)(i,j).
 
 The maximum element will be the one on which all the operations have been performed. The figure below shows an example of two operations being performed on the initial $M$ array.
 

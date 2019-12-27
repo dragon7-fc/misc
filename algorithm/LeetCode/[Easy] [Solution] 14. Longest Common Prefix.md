@@ -80,7 +80,7 @@ public String longestCommonPrefix(String[] strs) {
 
 **Complexity Analysis**
 
-* Time complexity : $O(S)$ , where `S` is the sum of all characters in all strings. In the worst case there will be $n$ equal strings with length $m$ and the algorithm performs $S = m \cdot n$ character comparisons. Even though the worst case is still the same as Approach 1, in the best case there are at most $n \cdot minLen$ comparisons where minLenminLen is the length of the shortest string in the array.
+* Time complexity : $O(S)$ , where `S` is the sum of all characters in all strings. In the worst case there will be $n$ equal strings with length $m$ and the algorithm performs $S = m \cdot n$ character comparisons. Even though the worst case is still the same as Approach 1, in the best case there are at most $n \cdot minLen$ comparisons where $minLen$ is the length of the shortest string in the array.
 
 * Space complexity : $O(1)$. We only used constant extra space.
 
@@ -129,7 +129,7 @@ String commonPrefix(String left,String right) {
 
 In the worst case we have $n$ equal strings with length $m$
 
-* Time complexity : $O(S)$, where $S$ is the number of all characters in the array, $S = m \cdot n$ Time complexity is $2 \cdot T\left ( \frac{n}{2} \right ) + O(m)$. Therefore time complexity is $O(S)$. In the best case this algorithm performs $O(minLen \cdot n)$ comparisons, where minLenminLen is the shortest string of the array
+* Time complexity : $O(S)$, where $S$ is the number of all characters in the array, $S = m \cdot n$ Time complexity is $2 \cdot T\left ( \frac{n}{2} \right ) + O(m)$. Therefore time complexity is $O(S)$. In the best case this algorithm performs $O(minLen \cdot n)$ comparisons, where $minLen$ is the shortest string of the array
 
 * Space complexity : $O(m \cdot \log n)$
 

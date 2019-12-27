@@ -81,7 +81,7 @@ class Solution(object):
 
 **Complexity Analysis**
 
-* Time Complexity: $O(N)$, where $N$ is the length of T and WW is the number of allowed values for `T[i]`. Each index gets pushed and popped at most once from the stack.
+* Time Complexity: $O(N)$, where $N$ is the length of T and $W$ is the number of allowed values for `T[i]`. Each index gets pushed and popped at most once from the stack.
 
 * Space Complexity: $O(W)$. The size of the stack is bounded as it represents strictly increasing temperatures.
 

@@ -66,7 +66,7 @@ class Solution(object):
 
 **Complexity Analysis**
 
-* Time Complexity: $O(N)$, where NN is the length of bits.
+* Time Complexity: $O(N)$, where $N$ is the length of bits.
 
 * Space Complexity: $O(1)$, the space used by parity (or i).
 
