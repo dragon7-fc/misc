@@ -31,8 +31,8 @@ Count all the `P[i]`'s modulo `K`. Let's say there are $C_x$ values $P[i] \equiv
 
 For example, take `A = [4,5,0,-2,-3,1]` and `K = 5`. Then `P = [0,4,9,9,7,4,5]`, and $C_0 = 2, C_2 = 1, C_4 = 4$:
 
-With $C_0 = 2$ (at $P[0]$, $P[6]$), it indicates $\binom{2}{2} = 1$ subarray with sum divisible by $K$, namely $A[0:6] = [4, 5, 0, -2, -3, 1]$.
-With $C_4 = 4$ (at $P[1]$, $P[2]$, $P[3]$, $P[5]$), it indicates $\binom{4}{2} = 6$ subarrays with sum divisible by $K$, namely $A[1:2]$, $A[1:3]$, $A[1:5]$, $A[2:3]$, $A[2:5]$, $A[3:5]$.
+* With $C_0 = 2$ (at $P[0]$, $P[6]$), it indicates $\binom{2}{2} = 1$ subarray with sum divisible by $K$, namely $A[0:6] = [4, 5, 0, -2, -3, 1]$.
+* With $C_4 = 4$ (at $P[1]$, $P[2]$, $P[3]$, $P[5]$), it indicates $\binom{4}{2} = 6$ subarrays with sum divisible by $K$, namely $A[1:2]$, $A[1:3]$, $A[1:5]$, $A[2:3]$, $A[2:5]$, $A[3:5]$.
 
 ```python
 class Solution(object):
