@@ -732,13 +732,6 @@ A playground to note something.
             (( var--  ))               C-style variable decrement
             (( var0 = var1<98?9:21  )) C-style ternary operation
             ```
-    - [Regexr — Learn Regular Expressions](http://regexr.com/)
-    - [Regexp Syntax Summary](http://www.greenend.org.uk/rjk/tech/regexp.html)
-    - [grep (english) Cheat Sheet by TME520](https://www.cheatography.com/tme520/cheat-sheets/grep-english/)
-    - [Sed - An Introduction and Tutorial by Bruce Barnett](http://www.grymoire.com/Unix/Sed.html)
-    - [AWK Cheat Sheet](https://www.shortcutfoo.com/app/dojos/awk/cheatsheet)
-    - [awk (english) Cheat Sheet by TME520](https://www.cheatography.com/tme520/cheat-sheets/awk-english/)
-    - [ag - The Silver Searcher, a better UNIX search tool](https://blog.dnsimple.com/2017/07/ag-a-better-unix-search-tool/)
     - [Linux ip Command Networking Cheat Sheet](https://www.linuxtrainingacademy.com/linux-ip-command-networking-cheat-sheet/)
     - [SS – Socket Statistics Commands Cheatsheet](https://neverendingsecurity.wordpress.com/2015/04/13/ss-socket-statistics-commands-cheatsheet/)
 
@@ -755,6 +748,17 @@ A playground to note something.
     |  | `a=<ASCII_STRING>; for letter in $(echo "$a" \| sed "s/\(.\)/'\1 /g");do printf '%x' "$letter";done` |
     | convert hex to ascii string | `echo "<HEX_STRING>" \| xxd -ps -r` |
     | compare binary | `diff <(xxd -g1 OOO.bin) <(xxd -g1 XXX.bin)`   |
+
+* Regular Expression
+
+    - [Regexr — Learn Regular Expressions](http://regexr.com/)
+    - [Regexp Syntax Summary](http://www.greenend.org.uk/rjk/tech/regexp.html)
+    - [Regex cheatsheet](https://remram44.github.io/regex-cheatsheet/regex.html)
+    - [grep (english) Cheat Sheet by TME520](https://www.cheatography.com/tme520/cheat-sheets/grep-english/)
+    - [Sed - An Introduction and Tutorial by Bruce Barnett](http://www.grymoire.com/Unix/Sed.html)
+    - [AWK Cheat Sheet](https://www.shortcutfoo.com/app/dojos/awk/cheatsheet)
+    - [awk (english) Cheat Sheet by TME520](https://www.cheatography.com/tme520/cheat-sheets/awk-english/)
+    - [ag - The Silver Searcher, a better UNIX search tool](https://blog.dnsimple.com/2017/07/ag-a-better-unix-search-tool/)
 
 * Batch
 
