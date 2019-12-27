@@ -741,7 +741,7 @@ A playground to note something.
     |  | `hd [FILE]`|
     |  | `hexdump -C [FILE]` |
     |  | `od -t x1 [FILE]`|
-    | write binary | `echo -n -e \xHH > XXX` |
+    | write binary | `echo -n -e \\xHH\\xHH\\xHH > XXX` |
     |  | `printf '\xHH' > XXX` |
     | convert ascii to hex string | `echo "<ASCII_STRING>" \| xxd -ps -c 200 \| tr -d '\n'` |
     |  | `a=<ASCII_STRING>; for ((i=0;i<${#a};i++));do printf %02X \'${a:$i:1};done` |
