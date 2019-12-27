@@ -70,7 +70,7 @@ class Solution:
 
 * Time complexity : $O(n)$
 
-We do a constant time check for each of the string's nn indices, so the runtime is overall linear.
+We do a constant time check for each of the string's $n$ indices, so the runtime is overall linear.
 
 * Space complexity : $O(1)$
 

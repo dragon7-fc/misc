@@ -76,7 +76,7 @@ public boolean isAnagram(String s, String t) {
 }
 ```
 
-Or we could first increment the counter for $s$, then decrement the counter for $t$. If at any point the counter drops below zero, we know that tt contains an extra letter not in $s$ and return false immediately.
+Or we could first increment the counter for $s$, then decrement the counter for $t$. If at any point the counter drops below zero, we know that $t$ contains an extra letter not in $s$ and return false immediately.
 
 ```java
 public boolean isAnagram(String s, String t) {

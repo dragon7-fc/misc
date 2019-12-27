@@ -201,7 +201,7 @@ public class Solution {
 
 **Complexity Analysis**
 
-* Time complexity : $O(n)$. We traverse over the given $A$ array with nn elements once only.
+* Time complexity : $O(n)$. We traverse over the given $A$ array with $n$ elements once only.
 
 * Space complexity : $O(1)$. Constant extra space is used.
 

@@ -47,7 +47,7 @@ $\frac{3}{2} + \frac{5}{3} -\frac{7}{6}$
 
 We need to equalize all the denominators so as to be able to add and subtract the numerators easily. The nearest value the denominators can be scaled upto is the LCM of all the denominators. Thus, we need to find the LCM of all the denominators and then multiply all the denominators with appropriate integer factors to make them equal to the LCM. But, in order to keep the individual fraction values unchanged, we need to multiply the individual numerators also with the same factors.
 
-In order to find the LCM, we can go as follows. We use the method $lcm(a,b,c) = lcm( lcm(a,b), c)$. Thus, if we can compute the lcm of two denominators, we can keep on repeating the process iteratively over the denominators to get the overall lcm. To find the lcm of two numbers aa and bb, we use $lcm(a,b) = (a*b)/gcd(a,b)$. For the above example, the $lcm$ turns out to be `6`.
+In order to find the LCM, we can go as follows. We use the method $lcm(a,b,c) = lcm( lcm(a,b), c)$. Thus, if we can compute the lcm of two denominators, we can keep on repeating the process iteratively over the denominators to get the overall lcm. To find the lcm of two numbers $a$ and bb, we use $lcm(a,b) = (a*b)/gcd(a,b)$. For the above example, the $lcm$ turns out to be `6`.
 
 Thus, we scale up the denominators to `6` as follows:
 
@@ -116,7 +116,7 @@ public class Solution {
 
 **Complexity Analysis**
 
-* Time complexity : $O(nlogx)$. Euclidean GCD algorithm takes $O(log(a.b))$ time for finding gcd of two numbers $a$ and $b$. Here nn refers to the number of fractions in the input string and $x$ is the maximum possible value of denominator.
+* Time complexity : $O(nlogx)$. Euclidean GCD algorithm takes $O(log(a.b))$ time for finding gcd of two numbers $a$ and $b$. Here $n$ refers to the number of fractions in the input string and $x$ is the maximum possible value of denominator.
 
 * Space complexity : $O(n)$. Size of $num$, $en$ and $sign$ list grows upto $n$.
 

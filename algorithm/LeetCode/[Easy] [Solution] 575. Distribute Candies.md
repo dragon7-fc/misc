@@ -30,7 +30,7 @@ The sister has two different kinds of candies, the brother has only one kind of 
 ## Approach 1: Brute Force
 **Algorithm**
 
-The brute force approach is really simple. We can generate all the permutations of the given numsnums array representing the candies and determine the number of unique elements in the first half of the generated array.
+The brute force approach is really simple. We can generate all the permutations of the given $nums$ array representing the candies and determine the number of unique elements in the first half of the generated array.
 
 In order to determine the number of unique elements in the first half of the array, we put all the required elements in a set and count the number of elements in the set. We count such unique elements in the first half of the generated arrays for all the permutations possible and return the size of the largest set.
 
@@ -72,11 +72,11 @@ public class Solution {
 ## Approach 2: Better Brute Force
 **Algorithm**
 
-Before looking into the idea behind this approach, firstly we need to observe one point. The maximum no. of unique candies which the girl can obtain could be atmost $n/2$, where nn refers to the number of candies. Further, in case the number of unique candies are below $n/2$, to maximize the number of unique candies that the girl will obtain, we'll assign all the unique candies to the girl. Thus, in such a case, the number of unique candies the girl gets is equal to the total number of unique candies in the given $candies$ array.
+Before looking into the idea behind this approach, firstly we need to observe one point. The maximum no. of unique candies which the girl can obtain could be atmost $n/2$, where $n$ refers to the number of candies. Further, in case the number of unique candies are below $n/2$, to maximize the number of unique candies that the girl will obtain, we'll assign all the unique candies to the girl. Thus, in such a case, the number of unique candies the girl gets is equal to the total number of unique candies in the given $candies$ array.
 
 Now, let's look at the idea behind this approach. We need to find the total number of unique candies in the given $candies$ array. One way to find the number of unique candies is to traverse over the given $candies$ array. Whenever we encounter an element, say $candies[j]$, we can mark all the elements which are the same as $candies[j]$ as invalid and increment the count of unique elements by `1`.
 
-Thus, we need to do such markings for all the elements of $candies$ array. At the end, $count$ gives the required number of unique candies that can be given to the girl. Further, the value to be returned is given by: $\text{min}(\frac{n}{2}, count)$. Instead of finding the $\text{min}$, we can stop the traversal over the given $candies$ array as soon as the countcount exceeds $\frac{n}{2}$.
+Thus, we need to do such markings for all the elements of $candies$ array. At the end, $count$ gives the required number of unique candies that can be given to the girl. Further, the value to be returned is given by: $\text{min}(\frac{n}{2}, count)$. Instead of finding the $\text{min}$, we can stop the traversal over the given $candies$ array as soon as the $count$ exceeds $\frac{n}{2}$.
 
 ```java
 public class Solution {
@@ -123,7 +123,7 @@ public class Solution {
 ## Approach 4: Using Set
 **Algorithm**
 
-Another way to find the number of unique elements is to traverse over all the elements of the given $candies$ array and keep on putting the elements in a set. By the property of a set, it will contain only unique elements. At the end, we can count the number of elements in the set, given by, say countcount. The value to be returned will again be given by $\text{min}(count, n/2)$, as discussed in previous approaches. Here, nn refers to the size of the $candies$ array.
+Another way to find the number of unique elements is to traverse over all the elements of the given $candies$ array and keep on putting the elements in a set. By the property of a set, it will contain only unique elements. At the end, we can count the number of elements in the set, given by, say countcount. The value to be returned will again be given by $\text{min}(count, n/2)$, as discussed in previous approaches. Here, $n$ refers to the size of the $candies$ array.
 
 ```java
 public class Solution {
@@ -139,9 +139,9 @@ public class Solution {
 
 **Complexity Analysis**
 
-* Time complexity : $O(n)$. The entire candiescandies array is traversed only once. Here, $n$ refers to the size of $candies$ array.
+* Time complexity : $O(n)$. The entire $candies$ array is traversed only once. Here, $n$ refers to the size of $candies$ array.
 
-* Space complexity : $O(n)$. setset will be of size nn in the worst case.
+* Space complexity : $O(n)$. $set$ will be of size $n$ in the worst case.
 
 # Submissions
 ---

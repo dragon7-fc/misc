@@ -41,7 +41,7 @@ Output: "No solution"
 # Solution
 ---
 ## Approach #1 Partioning Coefficients [Accepted]
-In the current approach, we start by splitting the given equationequation based on `=` sign. This way, we've separated the left and right hand side of this equation. Once this is done, we need to extract the individual elements(i.e. x's and the numbers) from both sides of the equation. To do so, we make use of `breakIt` function, in which we traverse over the given equation(either left hand side or right hand side), and put the separated parts into an array.
+In the current approach, we start by splitting the given $equation$ based on `=` sign. This way, we've separated the left and right hand side of this equation. Once this is done, we need to extract the individual elements(i.e. x's and the numbers) from both sides of the equation. To do so, we make use of `breakIt` function, in which we traverse over the given equation(either left hand side or right hand side), and put the separated parts into an array.
 
 Now, the idea is as follows. We treat the given equation as if we're bringing all the `x`'s on the left hand side and all the rest of the numbers on the right hand side as done below for an example.
 
@@ -51,7 +51,7 @@ $x+x-x=6-2-5+3$
 
 Thus, every `x` in the left hand side of the given equation is treated as positive, while that on the right hand side is treated as negative, in the current implementation.
 
-Likewise, every number on the left hand side is treated as negative, while that on the right hand side is treated as positive. Thus, by doing so, we obtain all the x's in the new lhslhs and all the numbers in the new rhsrhs of the original equation.
+Likewise, every number on the left hand side is treated as negative, while that on the right hand side is treated as positive. Thus, by doing so, we obtain all the x's in the new $lhs$ and all the numbers in the new $rhs$ of the original equation.
 
 Further, in case of an `x`, we also need to find its corresponding coefficients in order to evaluate the final effective coefficient of `x` on the left hand side. We also evaluate the final effective number on the right hand side as well.
 
@@ -107,9 +107,9 @@ public class Solution {
 
 **Complexity Analysis**
 
-* Time complexity : $O(n)$. Generating coefficients and findinn lhslhs and rhsrhs will take $O(n)$.
+* Time complexity : $O(n)$. Generating coefficients and findinn $lhs$ and $rhs$ will take $O(n)$.
 
-* Space complexity : $O(n)$. ArrayList resres size can grow upto $n$.
+* Space complexity : $O(n)$. ArrayList $res$ size can grow upto $n$.
 
 ## Approach #2 Using regex for spliting [Accepted]
 **Algorithm**
@@ -157,9 +157,9 @@ public class Solution {
 
 **Complexity Analysis**
 
-* Time complexity : $O(n)$. Generating coefficients and finding lhslhs and rhsrhs will take $O(n)$.
+* Time complexity : $O(n)$. Generating coefficients and finding $lhs$ and $rhs$ will take $O(n)$.
 
-* Space complexity : $O(n)$. ArrayList resres size can grow upto $n$.
+* Space complexity : $O(n)$. ArrayList $res$ size can grow upto $n$.
 
 # Submissions
 ---

@@ -91,7 +91,7 @@ void moveZeroes(vector<int>& nums) {
 
 * Space Complexity : $O(1)$. Only constant space is used.
 
-* Time Complexity: $O(n)$. However, the total number of operations are still sub-optimal. The total operations (array writes) that code does is nn (Total number of elements).
+* Time Complexity: $O(n)$. However, the total number of operations are still sub-optimal. The total operations (array writes) that code does is $n$ (Total number of elements).
 
 ## Approach #3 (Optimal) [Accepted]
 The total number of operations of the previous approach is sub-optimal. For example, the array which has all (except last) leading zeroes: [0, 0, 0, ..., 0, 1].How many write operations to the array? For the previous approach, it writes 0's n-1n−1 times, which is not necessary. We could have instead written just once. How? ..... By only fixing the non-0 element,i.e., 1.

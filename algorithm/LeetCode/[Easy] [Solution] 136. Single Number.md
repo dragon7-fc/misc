@@ -47,7 +47,7 @@ class Solution(object):
 
 * Time complexity : $O(n^2)$. We iterate through $\text{nums}$, taking $O(n)$ time. We search the whole list to find whether there is duplicate number, taking $O(n)$ time. Because search is in the for loop, so we have to multiply both time complexities which is $O(n^2)$.
 
-* Space complexity : $O(n)$. We need a list of size nn to contain elements in $\text{nums}$.
+* Space complexity : $O(n)$. We need a list of size $n$ to contain elements in $\text{nums}$.
 
 ## Approach 2: Hash Table
 **Algorithm**

@@ -32,7 +32,7 @@ $LCP(S_1 \ldots S_n) = LCP(LCP(LCP(S_1, S_2),S_3),\ldots S_n)$
 
 **Algorithm**
 
-To employ this idea, the algorithm iterates through the strings $[S_1 \ldots S_n]$, finding at each iteration $i$ the longest common prefix of strings $LCP(S_1 \ldots S_i)$ When $LCP(S_1 \ldots S_i)$ is an empty string, the algorithm ends. Otherwise after nn iterations, the algorithm returns $LCP(S_1 \ldots S_n)$.
+To employ this idea, the algorithm iterates through the strings $[S_1 \ldots S_n]$, finding at each iteration $i$ the longest common prefix of strings $LCP(S_1 \ldots S_i)$ When $LCP(S_1 \ldots S_i)$ is an empty string, the algorithm ends. Otherwise after $n$ iterations, the algorithm returns $LCP(S_1 \ldots S_n)$.
 
 ![14_basic.png](img/14_basic.png)
 
@@ -80,7 +80,7 @@ public String longestCommonPrefix(String[] strs) {
 
 **Complexity Analysis**
 
-* Time complexity : $O(S)$ , where `S` is the sum of all characters in all strings. In the worst case there will be nn equal strings with length $m$ and the algorithm performs $S = m \cdot n$ character comparisons. Even though the worst case is still the same as Approach 1, in the best case there are at most $n \cdot minLen$ comparisons where minLenminLen is the length of the shortest string in the array.
+* Time complexity : $O(S)$ , where `S` is the sum of all characters in all strings. In the worst case there will be $n$ equal strings with length $m$ and the algorithm performs $S = m \cdot n$ character comparisons. Even though the worst case is still the same as Approach 1, in the best case there are at most $n \cdot minLen$ comparisons where minLenminLen is the length of the shortest string in the array.
 
 * Space complexity : $O(1)$. We only used constant extra space.
 
@@ -127,13 +127,13 @@ String commonPrefix(String left,String right) {
 
 **Complexity Analysis**
 
-In the worst case we have nn equal strings with length $m$
+In the worst case we have $n$ equal strings with length $m$
 
 * Time complexity : $O(S)$, where $S$ is the number of all characters in the array, $S = m \cdot n$ Time complexity is $2 \cdot T\left ( \frac{n}{2} \right ) + O(m)$. Therefore time complexity is $O(S)$. In the best case this algorithm performs $O(minLen \cdot n)$ comparisons, where minLenminLen is the shortest string of the array
 
 * Space complexity : $O(m \cdot \log n)$
 
-There is a memory overhead since we store recursive calls in the execution stack. There are $\log n$ recursive calls, each store need mm space to store the result, so space complexity is $O(m \cdot \log n)$
+There is a memory overhead since we store recursive calls in the execution stack. There are $\log n$ recursive calls, each store need $m$ space to store the result, so space complexity is $O(m \cdot \log n)$
 
 ## Approach 4: Binary search
 The idea is to apply binary search method to find the string with maximum value L, which is common prefix of all of the strings. The algorithm searches space is the interval $(0 \ldots minLen)$, where `minLen` is minimum string length and the maximum possible common prefix. Each time search space is divided in two equal parts, one of them is discarded, because it is sure that it doesn't contain the solution. There are two possible cases:
@@ -175,7 +175,7 @@ private boolean isCommonPrefix(String[] strs, int len){
 
 **Complexity Analysis**
 
-In the worst case we have nn equal strings with length $m$
+In the worst case we have $n$ equal strings with length $m$
 
 * Time complexity : $O(S \cdot \log n)$, where $S$ is the sum of all characters in all strings.
 
@@ -268,7 +268,7 @@ public class Trie {
 
 **Complexity Analysis**
 
-In the worst case query $q$ has length $m$ and it is equal to all nn strings of the array.
+In the worst case query $q$ has length $m$ and it is equal to all $n$ strings of the array.
 
 * Time complexity : preprocessing $O(S)$, where $S$ is the number of all characters in the array, LCP query $O(m)$.
 

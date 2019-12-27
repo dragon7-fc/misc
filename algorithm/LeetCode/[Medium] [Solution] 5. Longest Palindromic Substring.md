@@ -50,7 +50,7 @@ The obvious brute force solution is to pick all possible starting and ending pos
 
 **Complexity Analysis**
 
-* Time complexity : $O(n^3)$. Assume that nn is the length of the input string, there are a total of $\binom{n}{2} = \frac{n(n-1)}{2}$
+* Time complexity : $O(n^3)$. Assume that $n$ is the length of the input string, there are a total of $\binom{n}{2} = \frac{n(n-1)}{2}$
 
   such substrings (excluding the trivial solution where a character itself is a palindrome). Since verifying each substring takes $O(n)$ time, the run time complexity is $O(n^3)$.
 

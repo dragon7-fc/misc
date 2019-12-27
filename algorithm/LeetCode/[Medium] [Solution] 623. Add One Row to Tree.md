@@ -61,9 +61,9 @@ Output:
 # Solution
 ---
 ## Approach #1 Using Recursion(DFS) [Accepted]
-If the given depth dd happens to be equal to 1, we can directly put the whole current tree as a left child of the newly added node. Otherwise, we need to put the new node at appropriate levels.
+If the given depth $d$ happens to be equal to 1, we can directly put the whole current tree as a left child of the newly added node. Otherwise, we need to put the new node at appropriate levels.
 
-To do so, we make use of a recursive function `insert(val,node,depth,n)`. Here, valval refers to the value of the new node to be inserted, $depth$ refers to the depth of the node currently considered, $node$ refers to the node calling the current function for its child subtrees and $n$ refers to the height at which the new node needs to be inserted.
+To do so, we make use of a recursive function `insert(val,node,depth,n)`. Here, $val$ refers to the value of the new node to be inserted, $depth$ refers to the depth of the node currently considered, $node$ refers to the node calling the current function for its child subtrees and $n$ refers to the height at which the new node needs to be inserted.
 
 For inserting the new node at appropriate level, we can start by making a call to `insert` with the root node and `1` as the current level. Inside every such call, we check if we've reached one level prior to the level where the new node needs to be inserted.
 
@@ -133,7 +133,7 @@ public class Solution {
 
 * Time complexity : $O(n)$. A total of $n$ nodes of the given tree will be considered.
 
-* Space complexity : $O(n)$. The depth of the recursion tree can go upto nn in the worst case(skewed tree).
+* Space complexity : $O(n)$. The depth of the recursion tree can go upto $n$ in the worst case(skewed tree).
 
 ## Approach #2 Using stack(DFS) [Accepted]
 **Algorithm**
@@ -150,7 +150,7 @@ We can do the same task as discussed in the last approach by making use of a $st
 
 * If no, we push both the left and the right child Node(value+depth) of the current node onto the $stack$.
 
-Continue the popping and pushing process till the stackstack becomes empty.
+Continue the popping and pushing process till the $stack$ becomes empty.
 
 Look at the animation below for a better understanding.
 
@@ -208,7 +208,7 @@ public class Solution {
 
 * Time complexity : $O(n)$. A total of $n$ nodes of the given tree will be considered.
 
-* Space complexity : $O(n)$. The depth of the stackstack can go upto nn in the worst case(skewed tree).
+* Space complexity : $O(n)$. The depth of the $stack$ can go upto $n$ in the worst case(skewed tree).
 
 ## Approach #3 Using queue(BFS) [Accepted]
 **Algorithm**
@@ -291,9 +291,9 @@ public class Solution {
 
 **Complexity Analysis**
 
-* Time complexity : $O(n)$. A total of nn nodes of the given tree will be considered in the worst case.
+* Time complexity : $O(n)$. A total of $n$ nodes of the given tree will be considered in the worst case.
 
-* Space complexity : $O(x)$. The size of the $queue$ or $temp$ queue can grow upto xx only. Here, xx refers to the number of maximum number of nodes at any level in the given tree.
+* Space complexity : $O(x)$. The size of the $queue$ or $temp$ queue can grow upto $x$ only. Here, $x$ refers to the number of maximum number of nodes at any level in the given tree.
 
 # Submissions
 --

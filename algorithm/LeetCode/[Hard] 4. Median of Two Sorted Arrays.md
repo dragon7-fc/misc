@@ -92,7 +92,7 @@ And we can do a binary search following steps described below:
         * Means we have found the object $i$, so stop searching.
 
     * $\text{B}[j-1] > \text{A}[i]$
-        * Means $\text{A}[i]$ is too small. We must adjust ii to get $\text{B}[j-1] \leq \text{A}[i]$.
+        * Means $\text{A}[i]$ is too small. We must adjust $i$ to get $\text{B}[j-1] \leq \text{A}[i]$.
         * Can we increase $i$?
             * Yes. Because when $i$ is increased, $j$ will be decreased.
             * So $\text{B}[j-1]$ is decreased and $\text{A}[i]$ is increased, and $\text{B}[j-1] \leq \text{A}[i]$ may be satisfied.
@@ -102,7 +102,7 @@ And we can do a binary search following steps described below:
         * So we must increase $i$. That is, we must adjust the searching range to $[i+1, \text{imax}]$.
         * So, set $\text{imin} = i+1$ and goto 2.
     * $\text{A}[i-1] > \text{B}[j]$:
-        * Means $\text{A}[i-1]$ is too big. And we must decrease ii to get $\text{A}[i-1]\leq \text{B}[j]$.
+        * Means $\text{A}[i-1]$ is too big. And we must decrease $i$ to get $\text{A}[i-1]\leq \text{B}[j]$.
         * That is, we must adjust the searching range to [\text{imin}, i-1][imin,i−1].
         * So, set $\text{imax} = i-1$, and goto 2.
 
@@ -116,7 +116,7 @@ Now let's consider the edges values $i=0,i=m,j=0,j=n$ where $\text{A}[i-1],\text
 
 What we need to do is ensuring that $\text{max}(\text{left}\_\text{part}) \leq \text{min}(\text{right}\_\text{part})$. So, if $i$ and $j$ are not edges values (means $\text{A}[i-1], \text{B}[j-1],\text{A}[i],\text{B}[j]$ all exist), then we must check both $\text{B}[j-1] \leq \text{A}[i]$ and $\text{A}[i-1] \leq \text{B}[j]$. But if some of $\text{A}[i-1],\text{B}[j-1],\text{A}[i],\text{B}[j]$ don't exist, then we don't need to check one (or both) of these two conditions. For example, if $i=0$, then $\text{A}[i-1]$ doesn't exist, then we don't need to check $\text{A}[i-1] \leq \text{B}[j]$. So, what we need to do is:
 
-> Searching ii in $[0, m]$, to find an object ii such that:
+> Searching $i$ in $[0, m]$, to find an object $i$ such that:
 1. ($j = 0$ or $i = m$ or $\text{B}[j-1] \leq \text{A}[i])$ and
 1. ($i = 0$ or $j = n$ or $\text{A}[i-1] \leq \text{B}[j])$, where $j = \frac{m + n + 1}{2} - i$
 
@@ -124,7 +124,7 @@ And in a searching loop, we will encounter only three situations:
 
 > 1. ($j = 0$ or $i = m$ or $\text{B}[j-1] \leq \text{A}[i])$ and \
 ($i = 0$ or $j = n$ or $\text{A}[i-1] \leq \text{B}[j])$ \
-Means ii is perfect, we can stop searching.
+Means $i$ is perfect, we can stop searching.
 1. $j > 0$ and $i < m$ and $\text{B}[j - 1] > \text{A}[i]$ \
 Means $i$ is too small, we must increase it.
 1. $i > 0$ and $j < n$ and $\text{A}[i - 1] > \text{B}[j]$ \

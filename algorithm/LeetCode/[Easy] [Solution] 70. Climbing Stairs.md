@@ -66,7 +66,7 @@ Recursion tree for n=5 would be like this:
 ## Approach 2: Recursion with Memoization
 **Algorithm**
 
-In the previous approach we are redundantly calculating the result for every step. Instead, we can store the result at each step in memomemo array and directly returning the result from the memo array whenever that function is called again.
+In the previous approach we are redundantly calculating the result for every step. Instead, we can store the result at each step in $memo$ array and directly returning the result from the memo array whenever that function is called again.
 
 In this way we are pruning recursion tree with the help of $memo$ array and reducing the size of recursion tree upto $n$.
 
@@ -305,7 +305,7 @@ public class Solution {
 
 **Complexity Analysis**
 
-* Time complexity : $O(\log n)$. powpow method takes $\log n$ time.
+* Time complexity : $O(\log n)$. $pow$ method takes $\log n$ time.
 
 * Space complexity : $O(1)$. Constant space is used.
 

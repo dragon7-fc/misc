@@ -109,7 +109,7 @@ class Solution(object):
 
 * Time Complexity: $O(N^2)$, where $N$ is the length of `A`.
 
-* Space Complexity: $O(N \log M)$, where $M$ is the largest element of `A`. We can show that the number of elements in a subsequence is bounded by $O(\log \frac{M}{a})$ where aa is the minimum element in the subsequence.
+* Space Complexity: $O(N \log M)$, where $M$ is the largest element of `A`. We can show that the number of elements in a subsequence is bounded by $O(\log \frac{M}{a})$ where $a$ is the minimum element in the subsequence.
 
 # Submissions
 ---

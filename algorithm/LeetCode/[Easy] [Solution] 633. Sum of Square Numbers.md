@@ -18,7 +18,7 @@ Output: False
 # Solution
 ---
 ## Approach 1: Brute Force
-The simplest solution would be to consider every possible combination of integers aa and bb and check if the sum of their squares equals $c$. Now, both $a$ and $b$ can lie within the range $(0,\sqrt{c})$. Thus, we need to check for the values of $a$ and $b$ in this range only.
+The simplest solution would be to consider every possible combination of integers $a$ and $b$ and check if the sum of their squares equals $c$. Now, both $a$ and $b$ can lie within the range $(0,\sqrt{c})$. Thus, we need to check for the values of $a$ and $b$ in this range only.
 
 ```java
 public class Solution {
@@ -41,7 +41,7 @@ public class Solution {
 * Space complexity : $O(1)$. Constant extra space is used.
 
 ## Approach 2: Better Brute Force
-We can improve the last solution, if we make the following observation. For any particular aa chosen, the value of $b$ required to satisfy the equation $a^2 + b^2 = c$ will be such that $b^2 = c - a^2$. Thus, we need to traverse over the range $(0, \sqrt{c})$ only for considering the various values of $a$. For every current value of aa chosen, we can determine the corresponding $b^2$ value and check if it is a perfect square or not. If it happens to be a perfect square, $c$ is a sum of squares of two integers, otherwise not.
+We can improve the last solution, if we make the following observation. For any particular $a$ chosen, the value of $b$ required to satisfy the equation $a^2 + b^2 = c$ will be such that $b^2 = c - a^2$. Thus, we need to traverse over the range $(0, \sqrt{c})$ only for considering the various values of $a$. For every current value of $a$ chosen, we can determine the corresponding $b^2$ value and check if it is a perfect square or not. If it happens to be a perfect square, $c$ is a sum of squares of two integers, otherwise not.
 
 Now, to determine, if the number $c - a^2$ is a perfect square or not, we can make use of the following theorem:
 
@@ -84,7 +84,7 @@ public class Solution {
 ## Approach 3: Using Sqrt Function
 **Algorithm**
 
-Instead of finding if $c - a^2$ is a perfect square using sum of odd numbers, as done in the last approach, we can make use of the inbuilt sqrtsqrt function and check if $\sqrt{c - a^2}$ turns out to be an integer. If it happens for any value of aa in the range $[0, \sqrt{c}]$, we can return a True value immediately.
+Instead of finding if $c - a^2$ is a perfect square using sum of odd numbers, as done in the last approach, we can make use of the inbuilt $sqrt$ function and check if $\sqrt{c - a^2}$ turns out to be an integer. If it happens for any value of $a$ in the range $[0, \sqrt{c}]$, we can return a True value immediately.
 
 ```java
 public class Solution {

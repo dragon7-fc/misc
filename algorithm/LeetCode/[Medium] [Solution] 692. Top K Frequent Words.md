@@ -65,9 +65,9 @@ class Solution(object):
 
 **Complexity Analysis**
 
-* Time Complexity: $O(N \log{k})$, where $N$ is the length of words. We count the frequency of each word in $O(N)$ time, then we add NN words to the heap, each in $O(\log {k})$ time. Finally, we pop from the heap up to kk times. As $k \leq N$, this is $O(N \log{k})$ in total.
+* Time Complexity: $O(N \log{k})$, where $N$ is the length of words. We count the frequency of each word in $O(N)$ time, then we add NN words to the heap, each in $O(\log {k})$ time. Finally, we pop from the heap up to $k$ times. As $k \leq N$, this is $O(N \log{k})$ in total.
 
-In Python, we improve this to $O(N + k \log {N})$: our heapq.heapify operation and counting operations are $O(N)$, and each of kk heapq.heappop operations are $O(\log {N})$.
+In Python, we improve this to $O(N + k \log {N})$: our heapq.heapify operation and counting operations are $O(N)$, and each of $k$ heapq.heappop operations are $O(\log {N})$.
 
 * Space Complexity: $O(N)$, the space used to store our count.
 

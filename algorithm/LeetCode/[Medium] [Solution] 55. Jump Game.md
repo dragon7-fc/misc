@@ -223,7 +223,7 @@ public class Solution {
 
 **Complexity Analysis**
 
-* Time complexity : $O(n)$. We are doing a single pass through the `nums` array, hence nn steps, where nn is the length of array `nums`.
+* Time complexity : $O(n)$. We are doing a single pass through the `nums` array, hence $n$ steps, where $n$ is the length of array `nums`.
 
 * Space complexity : $O(1)$. We are not using any extra memory.
 

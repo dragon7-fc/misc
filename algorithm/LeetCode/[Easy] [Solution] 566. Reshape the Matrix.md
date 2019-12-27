@@ -73,7 +73,7 @@ public class Solution {
 
 **Complexity Analysis**
 
-* Time complexity : $O(m*n)$. We traverse over m*nm∗n elements twice. Here, mm and nn refer to the number of rows and columns of the given matrix respectively.
+* Time complexity : $O(m*n)$. We traverse over m*nm∗n elements twice. Here, $m$ and $n$ refer to the number of rows and columns of the given matrix respectively.
 
 * Space complexity : $O(m*n)$. The queue formed will be of size m*nm∗n.
 
@@ -106,7 +106,7 @@ public class Solution {
 
 **Complexity Analysis**
 
-* Time complexity : $O(m*n)$. We traverse the entire matrix of size m*nm∗n once only. Here, mm and nn refers to the number of rows and columns in the given matrix.
+* Time complexity : $O(m*n)$. We traverse the entire matrix of size m*nm∗n once only. Here, $m$ and $n$ refers to the number of rows and columns in the given matrix.
 
 * Space complexity : $O(m*n)$. The resultant matrix of size m*nm∗n is used.
 

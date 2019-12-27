@@ -31,7 +31,7 @@ But, there is a flaw in the above idea. Consider the case, where say the number 
 
 From the above example, we are clear with one idea. It is that, the tasks with the currently maximum number of outstanding (pending)instances will contribute to a large number of idle cycles in the future, if not executed with appropriate interleavings with the other tasks. Thus, we need to re-execute such a task as soon as its cooling time is finished.
 
-Thus, based on the above ideas, firstly, we obtain a count of the number of instances of each task in mapmap array. Then, we start executing the tasks in the order of descending number of their initial instances. As soon as we execute the first task, we start its cooling timer as well(ii). For every task executed, we update the pending number of instances of the current task. We update the current time, $time$, at every instant as well. Now, as soon as the timer, $i$'s value exceeds the cooling time, as discussed above, we again need to consider the task with the largest number of pending instances. Thus, we again sort the taskstasks array with updated counts of instances and again pick up the tasks in the descending order of their number of instances.
+Thus, based on the above ideas, firstly, we obtain a count of the number of instances of each task in $map$ array. Then, we start executing the tasks in the order of descending number of their initial instances. As soon as we execute the first task, we start its cooling timer as well(ii). For every task executed, we update the pending number of instances of the current task. We update the current time, $time$, at every instant as well. Now, as soon as the timer, $i$'s value exceeds the cooling time, as discussed above, we again need to consider the task with the largest number of pending instances. Thus, we again sort the $tasks$ array with updated counts of instances and again pick up the tasks in the descending order of their number of instances.
 
 Now, the task picked up first after the sorting, will either be the first task picked up in the last iteration(which will now be picked after its cooling time has been finished) or the task picked will be the one which lies at $(n+1)^{th}$ position in the previous descending $tasks$ array. In either of the cases, the cooling time won't cause any conflicts(it has been considered implicitly). Further, the task most critical currently will always be picked up which was the main requirement.
 
@@ -153,7 +153,7 @@ public class Solution {
 
 **Complexity Analysis**
 
-* Time complexity : $O(n)$. We iterate over taskstasks array only once. ($O(n)$).Sorting taskstasks array of length $n$ takes $O\big(26log(26)\big)= O(1)$ time. After this, only one iteration over 26 elements of $map$ is done $O(1)$.
+* Time complexity : $O(n)$. We iterate over $tasks$ array only once. ($O(n)$).Sorting $tasks$ array of length $n$ takes $O\big(26log(26)\big)= O(1)$ time. After this, only one iteration over 26 elements of $map$ is done $O(1)$.
 
 * Space complexity : $O(1)$. $map$ array of constant size(26) is used.
 

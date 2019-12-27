@@ -71,7 +71,7 @@ We could trade in extra space for speed by pre-calculating all possible rectangu
 
 * Time complexity : $O(1)$ time per query, $O(m^2n^2)$ time pre-computation. Each sumRegion query takes $O(1)$ time as the hash table lookup's time complexity is constant. The pre-computation will take $O(m^2n^2)$ time as there are a total of $m^2 \times n^2$ possibilities need to be cached.
 
-* Space complexity : $O(m^2n^2)$. Since there are mnmn different possibilities for both top left and bottom right points of the rectangular region, the extra space required is $O(m^2n^2)$.
+* Space complexity : $O(m^2n^2)$. Since there are $mn$ different possibilities for both top left and bottom right points of the rectangular region, the extra space required is $O(m^2n^2)$.
 
 ## Approach #3 (Caching Rows) [Accepted]
 **Intuition**
@@ -80,7 +80,7 @@ Remember from the 1D version where we used a cumulative sum array? Could we appl
 
 **Algorithm**
 
-Try to see the 2D matrix as mm rows of 1D arrays. To find the region sum, we just accumulate the sum in the region row by row.
+Try to see the 2D matrix as $m$ rows of 1D arrays. To find the region sum, we just accumulate the sum in the region row by row.
 
 ```
 private int[][] dp;

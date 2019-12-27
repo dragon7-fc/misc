@@ -32,7 +32,7 @@ Multiplication of two complex numbers can be done as:
 
 $(a+ib) \times (x+iy)=ax+i^2by+i(bx+ay)=ax-by+i(bx+ay)$
 
-We simply split up the real and the imaginary parts of the given complex strings based on the '+' and the 'i' symbols. We store the real parts of the two strings aa and bb as $x[0]$ and $y[0]$ respectively and the imaginary parts as $x[1]$ and $y[1]$ respectively. Then, we multiply the real and the imaginary parts as required after converting the extracted parts into integers. Then, we again form the return string in the required format and return the result.
+We simply split up the real and the imaginary parts of the given complex strings based on the '+' and the 'i' symbols. We store the real parts of the two strings $a$ and $b$ as $x[0]$ and $y[0]$ respectively and the imaginary parts as $x[1]$ and $y[1]$ respectively. Then, we multiply the real and the imaginary parts as required after converting the extracted parts into integers. Then, we again form the return string in the required format and return the result.
 
 ```java
 

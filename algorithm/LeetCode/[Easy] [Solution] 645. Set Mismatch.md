@@ -42,7 +42,7 @@ public class Solution {
 
 **Complexity Analysis**
 
-* Time complexity : $O(n^2)$. We traverse over the numsnums array of size nn for each of the numbers from $1$ to $n$.
+* Time complexity : $O(n^2)$. We traverse over the $nums$ array of size $n$ for each of the numbers from $1$ to $n$.
 
 * Space complexity : $O(1)$. Constant extra space is used.
 
@@ -73,7 +73,7 @@ public class Solution {
 
 **Complexity Analysis**
 
-* Time complexity : $O(n^2)$. We traverse over the numsnums array of size $n$ for each of the numbers from $1$ to $n$, in the worst case.
+* Time complexity : $O(n^2)$. We traverse over the $nums$ array of size $n$ for each of the numbers from $1$ to $n$, in the worst case.
 
 * Space complexity : $O(1)$. Constant extra space is used.
 
@@ -107,7 +107,7 @@ public class Solution {
 ## Approach 4: Using Map
 **Algorithm**
 
-The given problem can also be solved easily if we can somehow keep a track of the number of times each element of the $nums$ array occurs. One way to do so is to make an entry for each element of $nums$ in a HashMap $map$. This $map$ stores the entries in the form $(num_i, count_i)$. Here, $num$ refers to the $i^{th}$ element in numsnums and $count_i$ refers to the number of times this element occurs in $nums$. Whenever, the same element occurs again, we can increment the count corresponding to the same.
+The given problem can also be solved easily if we can somehow keep a track of the number of times each element of the $nums$ array occurs. One way to do so is to make an entry for each element of $nums$ in a HashMap $map$. This $map$ stores the entries in the form $(num_i, count_i)$. Here, $num$ refers to the $i^{th}$ element in $nums$ and $count_i$ refers to the number of times this element occurs in $nums$. Whenever, the same element occurs again, we can increment the count corresponding to the same.
 
 After this, we can consider every number from $1$ to $n$, and check for its presence in mapmap. If it isn't present, we can update the $missing$ variable appropriately. But, if the $count$ corresponding to the current number is $2$, we can update the $dup$ variable with the current number.
 
@@ -140,7 +140,7 @@ public class Solution {
 ## Approach 5: Using Extra Array
 **Algorithm**
 
-In the last approach, we make use of a $map$ to store the elements of $nums$ along with their corresponding counts. But, we can note, that each entry in $map$ requires two entries. Thus, putting up nn entries requires $2n$ space actually. We can reduce this space required to $n$ by making use of an array, $arr$ instead. Now, the indices of $arr$ can be used instead of storing the elements again. Thus, we make use of $arr$ in such a way that, $arr[i]$ is used to store the number of occurences of the element $i+1$. The rest of the process remains the same as in the last approach.
+In the last approach, we make use of a $map$ to store the elements of $nums$ along with their corresponding counts. But, we can note, that each entry in $map$ requires two entries. Thus, putting up $n$ entries requires $2n$ space actually. We can reduce this space required to $n$ by making use of an array, $arr$ instead. Now, the indices of $arr$ can be used instead of storing the elements again. Thus, we make use of $arr$ in such a way that, $arr[i]$ is used to store the number of occurences of the element $i+1$. The rest of the process remains the same as in the last approach.
 
 ```java
 public class Solution {
@@ -163,14 +163,14 @@ public class Solution {
 
 **Complexity Analysis**
 
-* Time complexity : $O(n)$. Traversing over $nums$ of size nn takes $O(n)$ time. Considering each number from $1$ to $n$ also takes $O(n)$ time.
+* Time complexity : $O(n)$. Traversing over $nums$ of size $n$ takes $O(n)$ time. Considering each number from $1$ to $n$ also takes $O(n)$ time.
 
-* Space complexity : $O(n)$. arrarr can contain atmost nn elements for each of the numbers from $1$ to $n$.
+* Space complexity : $O(n)$. $arr$ can contain atmost $n$ elements for each of the numbers from $1$ to $n$.
 
 ## Approach 6: Using Constant Space
 **Algorithm**
 
-We can save the space used in the last approach, if we can somehow, include the information regarding the duplicacy of an element or absence of an element in the numsnums array. Let's see how this can be done.
+We can save the space used in the last approach, if we can somehow, include the information regarding the duplicacy of an element or absence of an element in the $nums$ array. Let's see how this can be done.
 
 We know that all the elements in the given $nums$ array are positive, and lie in the range $1$ to $n$ only. Thus, we can pick up each element $i$ from $nums$. For every number $i$ picked up, we can invert the element at the index $\left|i\right|$. By doing so, if one of the elements $j$ occurs twice, when this number is encountered the second time, the element $nums[\left|i\right|]$ will be found to be negative. Thus, while doing the inversions, we can check if a number found is already negative, to find the duplicate number.
 

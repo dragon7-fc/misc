@@ -183,7 +183,7 @@ public class Solution {
 
 * Time complexity : $O(n)$. Single loop to traverse $nums$ array.
 
-* Space complexity : $O(n)$. resres variable is used to store the result.
+* Space complexity : $O(n)$. $res$ variable is used to store the result.
 
 # Submissions
 ---

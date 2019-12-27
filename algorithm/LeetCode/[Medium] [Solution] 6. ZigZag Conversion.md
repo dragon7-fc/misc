@@ -42,7 +42,7 @@ By iterating through the string from left to right, we can easily determine whic
 
 We can use $\text{min}( \text{numRows}, \text{len}(s)$ lists to represent the non-empty rows of the Zig-Zag Pattern.
 
-Iterate through ss from left to right, appending each character to the appropriate row. The appropriate row can be tracked using two variables: the current row and the current direction.
+Iterate through $s$ from left to right, appending each character to the appropriate row. The appropriate row can be tracked using two variables: the current row and the current direction.
 
 The current direction changes only when we moved up to the topmost row or moved down to the bottommost row.
 

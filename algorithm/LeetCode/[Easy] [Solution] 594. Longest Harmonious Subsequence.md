@@ -109,9 +109,9 @@ public class Solution {
 
 Since we are concerned only with the count of elements which are at a difference of 1, we can use sorting to our advantage. If we sort the given $nums$ array, the related elements will get arranged close to each other. Thus, we can traverse over the sorted array, and find the count of similar elements and elements one larger than the current ones, which occur consecutively(all the similar elements will be lying consecutively now). Initially, this value is stored in `prev\_countprev_count` variable. Then, if we encounter an element which is just `1` larger than the last elements, we count the occurences of such elements as well. This value is stored in $count$ variable.
 
-Thus, now for the harmonic subsequence comprised of only these two elements is a subsequence of length $count + prev\_count$. This result is stored in $res$ for each subsequence found. When we move forward to considering the next set of similar consecutive elements, we need to update the $prev\_count$ with the $count$'s value, since now $count$ will act as the count of the elements 1 lesser than the next elements encountered. The value of $res$ is always updated to be the larger of previous resres and the current $count + prev\_count$ value.
+Thus, now for the harmonic subsequence comprised of only these two elements is a subsequence of length $count + prev\_count$. This result is stored in $res$ for each subsequence found. When we move forward to considering the next set of similar consecutive elements, we need to update the $prev\_count$ with the $count$'s value, since now $count$ will act as the count of the elements 1 lesser than the next elements encountered. The value of $res$ is always updated to be the larger of previous $res$ and the current $count + prev\_count$ value.
 
-When we are done traversing over the whole array, the value of resres gives us the required result.
+When we are done traversing over the whole array, the value of $res$ gives us the required result.
 
 ```java
 public class Solution {
@@ -153,7 +153,7 @@ In this approach, we make use of a hashmap $map$ which stores the number of time
 
 After this, we traverse over the keys of the $map$ created. For every key of the $map$ considered, say $key$, we find out if the map contains the $key + 1$. Such an element is found, since only such elements can be counted for the harmonic subsequence if $key$ is considered as one of the element of the harmonic subsequence. We need not care about $key - 1$, because if $key$ is present in the harmonic subsequence, at one time either $key + 1$ or $key - 1$ only could be included in the harmonic subsequence. The case of $key - 1$ being in the harmonic subsequence will automatically be considered, when $key - 1$ is encountered as the current key.
 
-Now, whenver we find that $key + 1$ exists in the keys of $map$, we determine the count of the current harmonic subsequence as $count_{key} + count_{key+1}$, where $count_i$ refers to the value corresponding to the key $i$ in $map$, which reprents the number of times ii occurs in the array $nums$.
+Now, whenver we find that $key + 1$ exists in the keys of $map$, we determine the count of the current harmonic subsequence as $count_{key} + count_{key+1}$, where $count_i$ refers to the value corresponding to the key $i$ in $map$, which reprents the number of times $i$ occurs in the array $nums$.
 
 Look at the animation below for a pictorial view of the process:
 

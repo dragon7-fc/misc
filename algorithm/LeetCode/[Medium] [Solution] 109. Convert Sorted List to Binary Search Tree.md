@@ -128,7 +128,7 @@ This approach is a classic example of the time-space tradeoff.
 
 > You can get the time complexity down by using more space.
 
-That's exactly what we're going to do in this approach. Essentially, we will convert the given linked list into an array and then use that array to form our binary search tree. In an array fetching the middle element is a O(1)O(1) operation and this will bring down the overall time complexity.
+That's exactly what we're going to do in this approach. Essentially, we will convert the given linked list into an array and then use that array to form our binary search tree. In an array fetching the middle element is a $O(1)$ operation and this will bring down the overall time complexity.
 
 **Algorithm**
 * Convert the given linked list into an array. Let's call the beginning and the end of the array as `left` and `right`

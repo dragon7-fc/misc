@@ -70,7 +70,7 @@ public class Solution {
 ## Approach 2: Better Brute Force
 **Algorithm**
 
-In this approach, we make use of an idea based on selection sort. We can traverse over the given $nums$ array choosing the elements $nums[i]$. For every such element chosen, we try to determine its correct position in the sorted array. For this, we compare $nums[i]$ with every $nums[j]$, such that $i < j < n$. Here, nn refers to the length of $nums$ array.
+In this approach, we make use of an idea based on selection sort. We can traverse over the given $nums$ array choosing the elements $nums[i]$. For every such element chosen, we try to determine its correct position in the sorted array. For this, we compare $nums[i]$ with every $nums[j]$, such that $i < j < n$. Here, $n$ refers to the length of $nums$ array.
 
 If any $nums[j]$ happens to be lesser than $nums[i]$, it means both $nums[i]$ and $nums[j]$ aren't at their correct position for the sorted array. Thus, we need to swap the two elements to bring them at their correct positions. Here, instead of swapping, we just note the position of $nums[i]$(given by $i$) and $nums[j]$(given by $j$). These two elements now mark the boundary of the unsorted subarray(atleast for the time being).
 

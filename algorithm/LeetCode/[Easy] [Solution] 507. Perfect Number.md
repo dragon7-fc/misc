@@ -18,7 +18,7 @@ Explanation: 28 = 1 + 2 + 4 + 7 + 14
 ## Approach #1 Brute Force [Time Limit Exceeded]
 **Algorithm**
 
-In brute force approach, we consider every possible number to be a divisor of the given number numnum, by iterating over all the numbers lesser than numnum. Then, we add up all the factors to check if the given number satisfies the Perfect Number property. This approach obviously fails if the number numnum is very large.
+In brute force approach, we consider every possible number to be a divisor of the given number numnum, by iterating over all the numbers lesser than numnum. Then, we add up all the factors to check if the given number satisfies the Perfect Number property. This approach obviously fails if the number $num$ is very large.
 
 
 ```java
@@ -48,7 +48,7 @@ public class Solution {
 ## Approach #2 Better Brute Force [Time Limit Exceeded]
 **Algorithm**
 
-We can little optimize the brute force by breaking the loop when the value of sumsum increase the value of numnum. In that case, we can directly return $false$.
+We can little optimize the brute force by breaking the loop when the value of $sum$ increase the value of numnum. In that case, we can directly return $false$.
 
 ```java
 public class Solution {
@@ -81,7 +81,7 @@ public class Solution {
 
 In this method, instead of iterating over all the integers to find the factors of numnum, we only iterate upto the $\sqrt{n}$. The reasoning behind this can be understood as follows.
 
-Consider the given number $num$ which can have mm distinct factors, namely $n_1, n_2,..., n_m$. Now, since the number $num$ is divisible by $n_i$, it is also divisible by $n_j=num/n_1$ i.e. $n_i*n_j=num$. Also, the largest number in such a pair can only be up to $\sqrt{num}$ (because $\sqrt{num} \times \sqrt{num}$. Thus, we can get a significant reduction in the run-time by iterating only upto $\sqrt{num}$ and considering such $n_i$'s and $n_j$'s in a single pass directly.
+Consider the given number $num$ which can have $m$ distinct factors, namely $n_1, n_2,..., n_m$. Now, since the number $num$ is divisible by $n_i$, it is also divisible by $n_j=num/n_1$ i.e. $n_i*n_j=num$. Also, the largest number in such a pair can only be up to $\sqrt{num}$ (because $\sqrt{num} \times \sqrt{num}$. Thus, we can get a significant reduction in the run-time by iterating only upto $\sqrt{num}$ and considering such $n_i$'s and $n_j$'s in a single pass directly.
 
 Further, if $\sqrt{num}$ is also a factor, we have to consider the factor only once while checking for the perfect number property.
 

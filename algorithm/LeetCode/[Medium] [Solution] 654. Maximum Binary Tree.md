@@ -29,7 +29,7 @@ Output: return the tree root node representing the following tree:
 # Solution
 ---
 ## Approach 1: Recursive Solution
-The current solution is very simple. We make use of a function `construct(nums, l, r)`, which returns the maximum binary tree consisting of numbers within the indices $l$ and $r$ in the given numsnums array(excluding the $r^{th}$ element).
+The current solution is very simple. We make use of a function `construct(nums, l, r)`, which returns the maximum binary tree consisting of numbers within the indices $l$ and $r$ in the given $nums$ array(excluding the $r^{th}$ element).
 
 The algorithm consists of the following steps:
 
@@ -70,9 +70,9 @@ public class Solution {
 
 **Complexity Analysis**
 
-* Time complexity : $O(n^2)$. The function construct is called $n$ times. At each level of the recursive tree, we traverse over all the nn elements to find the maximum element. In the average case, there will be a $\log n$ levels leading to a complexity of $O\big(n\log n\big)$. In the worst case, the depth of the recursive tree can grow upto $n$, which happens in the case of a sorted $nums$ array, giving a complexity of $O(n^2)$.
+* Time complexity : $O(n^2)$. The function construct is called $n$ times. At each level of the recursive tree, we traverse over all the $n$ elements to find the maximum element. In the average case, there will be a $\log n$ levels leading to a complexity of $O\big(n\log n\big)$. In the worst case, the depth of the recursive tree can grow upto $n$, which happens in the case of a sorted $nums$ array, giving a complexity of $O(n^2)$.
 
-* Space complexity : $O(n)$. The size of the $set$ can grow upto nn in the worst case. In the average case, the size will be $\log n$ for $n$ elements in $nums$, giving an average case complexity of $O(\log n)$
+* Space complexity : $O(n)$. The size of the $set$ can grow upto $n$ in the worst case. In the average case, the size will be $\log n$ for $n$ elements in $nums$, giving an average case complexity of $O(\log n)$
 
 # Submissions
 ---

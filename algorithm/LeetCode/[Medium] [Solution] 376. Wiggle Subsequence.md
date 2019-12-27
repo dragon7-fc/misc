@@ -60,7 +60,7 @@ public class Solution {
 **Complexity Analysis**
 
 * Time complexity : $O(n!)$. $\text{calculate}()$ will be called maximum n!n! times.
-* Space complexity : $O(n)$. Recursion of depth nn is used.
+* Space complexity : $O(n)$. Recursion of depth $n$ is used.
 
 ## Approach #2 Dynamic Programming [Accepted]
 **Algorithm**

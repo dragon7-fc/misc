@@ -42,7 +42,7 @@ Output: 8
 
 Without loss of generality, say the sidelengths of the triangle are $a \leq b \leq c$. The necessary and sufficient condition for these lengths to form a triangle of non-zero area is $a + b > c$.
 
-Say we knew cc already. There is no reason not to choose the largest possible aa and bb from the array. If $a + b > c$, then it forms a triangle, otherwise it doesn't.
+Say we knew $c$ already. There is no reason not to choose the largest possible $a$ and $b$ from the array. If $a + b > c$, then it forms a triangle, otherwise it doesn't.
 
 **Algorithm**
 

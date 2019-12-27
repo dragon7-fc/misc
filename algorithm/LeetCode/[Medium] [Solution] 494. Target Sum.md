@@ -57,7 +57,7 @@ public class Solution {
 
 **Complexity Analysis**
 
-* Time complexity : $O(2^n)$. Size of recursion tree will be $2^n$. nn refers to the size of $nums$ array.
+* Time complexity : $O(2^n)$. Size of recursion tree will be $2^n$. $n$ refers to the size of $nums$ array.
 
 * Space complexity : $O(n)$. The depth of the recursion tree can go upto $n$.
 
@@ -98,7 +98,7 @@ public class Solution {
 
 **Complexity Analysis**
 
-* Time complexity : $O(l*n)$. The $memo$ array of size $l*n$ has been filled just once. Here, ll refers to the range of $sum$ and $n$ refers to the size of $nums$ array.
+* Time complexity : $O(l*n)$. The $memo$ array of size $l*n$ has been filled just once. Here, $l$ refers to the range of $sum$ and $n$ refers to the size of $nums$ array.
 
 * Space complexity : $O(n)$. The depth of recursion tree can go upto $n$.
 
@@ -146,7 +146,7 @@ public class Solution {
 
 **Complexity Analysis**
 
-* Time complexity : $O(l*n)$. The entire $nums$ array is travesed 2001(constant no.: ll) times. nn refers to the size of $nums$ array. ll refers to the range of $sum$ possible.
+* Time complexity : $O(l*n)$. The entire $nums$ array is travesed 2001(constant no.: ll) times. $n$ refers to the size of $nums$ array. $l$ refers to the range of $sum$ possible.
 
 * Space complexity : $O(l*n)$. $dp$ array of size $l*n$ is used.
 

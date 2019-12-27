@@ -31,7 +31,7 @@ public class Solution {
 
 * Time complexity : $O(n)$. where $n$ is the length of the string.
 
-* Space complexity : $O(n)$. resres of size nn is used.
+* Space complexity : $O(n)$. $res$ of size $n$ is used.
 
 ## Approach #2 Without using pre-defined split and reverse function [Accepted]
 **Algorithm**
@@ -73,12 +73,12 @@ public class Solution {
 
 * Time complexity : $O(n)$. where $n$ is the length of the string.
 
-* Space complexity : $O(n)$. resres of size nn is used.
+* Space complexity : $O(n)$. $res$ of size $n$ is used.
 
 ## Approach #3 Using StringBuilder and reverse method [Accepted]
 **Algorithm**
 
-Instead of using split method, we can use temporary string wordword to store the word. We simply append the characters to the wordword until `' '` character is not found. On getting `' '` we append the reverse of the wordword to the resultant string resultresult. Also after completion of loop , we still have to append the reversereverse of the wordword(last word) to the resultresult string.
+Instead of using split method, we can use temporary string $word$ to store the word. We simply append the characters to the $word$ until `' '` character is not found. On getting `' '` we append the reverse of the $word$ to the resultant string resultresult. Also after completion of loop , we still have to append the $reverse$ of the wordword(last word) to the $result$ string.
 
 Below code is inspired by @ApolloX.
 
@@ -104,8 +104,8 @@ public class Solution {
 
 **Complexity Analysis**
 
-* Time complexity : $O(n)$. Single loop upto nn is there, where $n$ is the length of the string.
-* Space complexity : $O(n)$. resultresult and wordword size will grow upto $n$.
+* Time complexity : $O(n)$. Single loop upto $n$ is there, where $n$ is the length of the string.
+* Space complexity : $O(n)$. $result$ and $word$ size will grow upto $n$.
 
 # Submissions
 ---

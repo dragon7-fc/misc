@@ -60,9 +60,9 @@ public int[] twoSum(int[] nums, int target) {
 
 **Complexity Analysis:**
 
-* Time complexity : $O(n)$. We traverse the list containing nn elements exactly twice. Since the hash table reduces the look up time to $O(1)$, the time complexity is O(n)O(n).
+* Time complexity : $O(n)$. We traverse the list containing $n$ elements exactly twice. Since the hash table reduces the look up time to $O(1)$, the time complexity is O(n)O(n).
 
-* Space complexity : $O(n)$. The extra space required depends on the number of items stored in the hash table, which stores exactly nn elements.
+* Space complexity : $O(n)$. The extra space required depends on the number of items stored in the hash table, which stores exactly $n$ elements.
 
 ## Approach 3: One-pass Hash Table
 It turns out we can do it in one-pass. While we iterate and inserting elements into the table, we also look back to check if current element's complement already exists in the table. If it exists, we have found a solution and return immediately.
@@ -83,9 +83,9 @@ public int[] twoSum(int[] nums, int target) {
 
 **Complexity Analysis:**
 
-* Time complexity : $O(n)$. We traverse the list containing nn elements only once. Each look up in the table costs only O(1)O(1) time.
+* Time complexity : $O(n)$. We traverse the list containing $n$ elements only once. Each look up in the table costs only $O(1)$ time.
 
-* Space complexity : $O(n)$. The extra space required depends on the number of items stored in the hash table, which stores at most nn elements.
+* Space complexity : $O(n)$. The extra space required depends on the number of items stored in the hash table, which stores at most $n$ elements.
 
 # Submissions
 ---

@@ -27,12 +27,12 @@ This article is for beginners. It introduces the following ideas: Loop Invariant
 ## Approach #1 (Naive Linear Search) [Time Limit Exceeded]
 **Intuition**
 
-For an array of nn integers, there are C(n,2) = $\frac{n(n-1)}{2}$ pairs of integers. Thus, we may check all $\frac{n(n-1)}{2}$ pairs and see if there is any pair with duplicates.
+For an array of $n$ integers, there are C(n,2) = $\frac{n(n-1)}{2}$ pairs of integers. Thus, we may check all $\frac{n(n-1)}{2}$ pairs and see if there is any pair with duplicates.
 
 **Algorithm**
 To apply this idea, we employ the linear search algorithm which is the simplest search algorithm. Linear search is a method of finding if a particular value is in a list by checking each of its elements, one at a time and in sequence until the desired one is found.
 
-For our problem, we loop through all nn integers. For the $i$th integer `nums[i]`, we search in the previous `i-1` integers for the duplicate of `nums[i]`. If we find one, we return true; if not, we continue. Return false at the end of the program.
+For our problem, we loop through all $n$ integers. For the $i$th integer `nums[i]`, we search in the previous `i-1` integers for the duplicate of `nums[i]`. If we find one, we return true; if not, we continue. Return false at the end of the program.
 
 To prove the correctness of the algorithm, we define the loop invariant. A loop invariant is a property that holds before (and after) each iteration. Knowing its invariant(s) is essential for understanding the effect of a loop. Here is the loop invariant:
 
@@ -40,7 +40,7 @@ To prove the correctness of the algorithm, we define the loop invariant. A loop 
 
 The loop invariant holds true before the loop because there is no searched integer. Each time through the loop we look for any possible duplicate of the current element. If we found a duplicate, the function exits by returning true; If not, the invariant still holds true.
 
-Therefore, if the loop finishes, the invariant tells us that there is no duplicate in all nn integers.
+Therefore, if the loop finishes, the invariant tells us that there is no duplicate in all $n$ integers.
 
 ```java
 public boolean containsDuplicate(int[] nums) {
@@ -62,7 +62,7 @@ public boolean containsDuplicate(int[] nums) {
 
 **Note**
 
-This approach will get Time Limit Exceeded on LeetCode. Usually, if an algorithm is $O(n^2)$, it can handle nn up to around $10^4$. It gets Time Limit Exceeded when $n \geq 10^5$.
+This approach will get Time Limit Exceeded on LeetCode. Usually, if an algorithm is $O(n^2)$, it can handle $n$ up to around $10^4$. It gets Time Limit Exceeded when $n \geq 10^5$.
 
 ## Approach #2 (Sorting) [Accepted]
 **Intuition**
@@ -117,7 +117,7 @@ public boolean containsDuplicate(int[] nums) {
 
 **Complexity Analysis**
 
-* Time complexity : $O(n)$. We do search() and insert() for nn times and each operation takes constant time.
+* Time complexity : $O(n)$. We do search() and insert() for $n$ times and each operation takes constant time.
 
 * Space complexity : $O(n)$. The space used by a hash table is linear with the number of elements in it.
 

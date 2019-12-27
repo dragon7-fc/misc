@@ -89,7 +89,7 @@ class Solution:
 
 * Time complexity : $O(nlgn)$.
 
-The main for loop does constant work nn times, so the algorithm's time complexity is dominated by the invocation of sort, which will run in $O(nlgn)$ time for any sensible implementation.
+The main for loop does constant work $n$ times, so the algorithm's time complexity is dominated by the invocation of sort, which will run in $O(nlgn)$ time for any sensible implementation.
 
 * Space complexity : $O(1)$ (or $O(n)$).
 

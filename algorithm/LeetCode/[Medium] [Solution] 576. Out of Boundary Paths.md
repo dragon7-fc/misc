@@ -52,7 +52,7 @@ public class Solution {
 
 **Complexity Analysis**
 
-* Time complexity : $O(4^n)$. Size of recursion tree will be $4^n$. Here, nn refers to the number of moves allowed.
+* Time complexity : $O(4^n)$. Size of recursion tree will be $4^n$. Here, $n$ refers to the number of moves allowed.
 
 * Space complexity : $O(n)$. The depth of the recursion tree can go upto $n$.
 
@@ -93,7 +93,7 @@ public class Solution {
 
 * Time complexity : $O(m*n*N)$. We need to fill the $memo$ array once with dimensions $m$x$n$x$N$. Here, $m$, $n$ refer to the number of rows and columns of the given grid respectively. $N$ refers to the total number of allowed moves.
 
-* Space complexity : $O(m*n*N)$. memomemo array of size m*n*Nm∗n∗N is used.
+* Space complexity : $O(m*n*N)$. $memo$ array of size m*n*Nm∗n∗N is used.
 
 ## Approach #3 Dynamic Programming [Accepted]
 **Algorithm**

@@ -51,7 +51,7 @@ public class Solution {
 
 * Time complexity : $O(n^2)$. We consider every possible subarray by traversing over the complete array for every start point possible.
 
-* Space complexity : $O(1)$. Only two variables zeroeszeroes and onesones are required.
+* Space complexity : $O(1)$. Only two variables $zeroes$ and $ones$ are required.
 
 ## Approach #2 Using Extra Array [Accepted]
 **Algorithm**
@@ -66,7 +66,7 @@ In the above figure, the subarrays between `(A,B)`, `(B,C)` and `(A,C)` (lying b
 
 Another point to be noted is that the largest subarray is the one between the points `(A, C)`. Thus, if we keep a track of the indices corresponding to the same $count$ values that lie farthest apart, we can determine the size of the largest subarray with equal no. of zeros and ones easily.
 
-Now, the $count$ values can range between $\text{-n}$ to $\text{+n}$, with the extreme points corresponding to the complete array being filled with all 0's and all 1's respectively. Thus, we make use of an array arrarr(of size $\text{2n+1}$ to keep a track of the various $count$'s encountered so far. We make an entry containing the current element's index ($i$) in the arrarr for a new $count$ encountered everytime. Whenever, we come across the same $count$ value later while traversing the array, we determine the length of the subarray lying between the indices corresponding to the same $count$ values.
+Now, the $count$ values can range between $\text{-n}$ to $\text{+n}$, with the extreme points corresponding to the complete array being filled with all 0's and all 1's respectively. Thus, we make use of an array arrarr(of size $\text{2n+1}$ to keep a track of the various $count$'s encountered so far. We make an entry containing the current element's index ($i$) in the $arr$ for a new $count$ encountered everytime. Whenever, we come across the same $count$ value later while traversing the array, we determine the length of the subarray lying between the indices corresponding to the same $count$ values.
 
 ```java
 public class Solution {
@@ -94,7 +94,7 @@ public class Solution {
 
 * Time complexity : $O(n)$. The complete array is traversed only once.
 
-* Space complexity : $O(n)$. arrarr array of size $\text{2n+1}$ is used
+* Space complexity : $O(n)$. $arr$ array of size $\text{2n+1}$ is used
 
 ## Approach #3 Using HashMap [Accepted]
 **Algorithm**
@@ -133,7 +133,7 @@ public class Solution {
 **Complexity Analysis**
 * Time complexity : $O(n)$. The entire array is traversed only once.
 
-* Space complexity : $O(n)$. Maximum size of the HashMap mapmap will be $\text{n}$, if all the elements are either `1` or `0`.
+* Space complexity : $O(n)$. Maximum size of the HashMap $map$ will be $\text{n}$, if all the elements are either `1` or `0`.
 
 # Submissions
 ---

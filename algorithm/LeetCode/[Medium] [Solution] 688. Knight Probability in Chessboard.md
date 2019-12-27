@@ -68,7 +68,7 @@ First, there is a lot of symmetry on the board that we can exploit. Naively, the
 
 This will reduce the number of states from $N^2$ to approximately $\frac{N^2}{8}$, which makes the following (cubic) matrix exponentiation on this $O(\frac{N^2}{8}) \times O(\frac{N^2}{8})$ matrix approximately $8^3$ times faster.
 
-Now, if we know that every state becomes some linear combination of states after one move, then let's write a transition matrix $\mathcal{T}$ of them, where the $i$-th row of $\mathcal{T}$ represents the linear combination of states that the $i$-th state goes to. Then, $\mathcal{T}^n$ represents a transition of nn moves, for which we want the sum of the $i$-th row, where $i$ is the index of the starting square.
+Now, if we know that every state becomes some linear combination of states after one move, then let's write a transition matrix $\mathcal{T}$ of them, where the $i$-th row of $\mathcal{T}$ represents the linear combination of states that the $i$-th state goes to. Then, $\mathcal{T}^n$ represents a transition of $n$ moves, for which we want the sum of the $i$-th row, where $i$ is the index of the starting square.
 
 ```python
 class Solution(object):

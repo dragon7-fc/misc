@@ -87,7 +87,7 @@ public class Solution {
 
 * Time complexity : $O(n)$. The whole tree is traversed once only. Here, $n$ refers to the total number of nodes in the given binary tree.
 
-* Space complexity : $O(h)$. resres and countcount array of size $h$ are used. Here, $h$ refers to the height(maximum number of levels) of the given binary tree. Further, the depth of the recursive tree could go upto hh only.
+* Space complexity : $O(h)$. $res$ and $count$ array of size $h$ are used. Here, $h$ refers to the height(maximum number of levels) of the given binary tree. Further, the depth of the recursive tree could go upto $h$ only.
 
 ## Approach #2 Breadth First Search [Accepted]
 **Algorithm**
@@ -112,7 +112,7 @@ The steps to be performed are listed below:
 
 1. Populate the $res$ array with the average corresponding to the current level.
 
-1. Repeat steps 2 to 7 till the queuequeue and temptemp become empty.
+1. Repeat steps 2 to 7 till the $queue$ and $temp$ become empty.
 
 At the end, $res$ is the required result.
 
@@ -173,9 +173,9 @@ public class Solution {
 
 **Complexity Analysis**
 
-* Time complexity : $O(n)$. The whole tree is traversed atmost once. Here, nn refers to the number of nodes in the given binary tree.
+* Time complexity : $O(n)$. The whole tree is traversed atmost once. Here, $n$ refers to the number of nodes in the given binary tree.
 
-* Space complexity : $O(m)$. The size of $queue$ or $temp$ can grow upto atmost the maximum number of nodes at any level in the given binary tree. Here, mm refers to the maximum mumber of nodes at any level in the input tree.
+* Space complexity : $O(m)$. The size of $queue$ or $temp$ can grow upto atmost the maximum number of nodes at any level in the given binary tree. Here, $m$ refers to the maximum mumber of nodes at any level in the input tree.
 
 # Submissions
 ---

@@ -47,7 +47,7 @@ Before discussing the steps involved in the process, we need to note a few point
 
 Further, an offer can be used only if the number of items, of each type, required for using the offer, is lesser than or equal to the ones available in the current $needs$.
 
-Now, let's discuss the algorithm. We make use of a `shopping(price,special,needs)` function, which takes the priceprice and $special$ list along with the current(updated) needsneeds as the input and returns the minimum cost of buying these items as required by this $needs$ list.
+Now, let's discuss the algorithm. We make use of a `shopping(price,special,needs)` function, which takes the $price$ and $special$ list along with the current(updated) $needs$ as the input and returns the minimum cost of buying these items as required by this $needs$ list.
 
 In every call of the function `shopping(price,special,needs)`, we do as follows:
 
@@ -59,11 +59,11 @@ In every call of the function `shopping(price,special,needs)`, we do as follows:
 
 4. Try to apply the current offer. If possible, update the required number of items in $clone$.
 
-5. If the current offer could be applied, find the minimum cost out of $res$ and `offer_current + shopping(price,special,clone)`. Here, `offer_current` refers to the price that needs to be paid for the current offer. Update the resres with the minimum value.
+5. If the current offer could be applied, find the minimum cost out of $res$ and `offer_current + shopping(price,special,clone)`. Here, `offer_current` refers to the price that needs to be paid for the current offer. Update the $res$ with the minimum value.
 
-6. Return the resres corresponding to the minimum cost.
+6. Return the $res$ corresponding to the minimum cost.
 
-We need to note that the cloneclone needs to be updated afresh from needsneeds(coming to the current function call) when we choose a new offer. This needs to be done, because solely applying the next offer could result in a lesser cost than the one resulting by using the previous offer first.
+We need to note that the $clone$ needs to be updated afresh from needsneeds(coming to the current function call) when we choose a new offer. This needs to be done, because solely applying the next offer could result in a lesser cost than the one resulting by using the previous offer first.
 
 ```java
 public class Solution {

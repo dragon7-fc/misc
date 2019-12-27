@@ -18,7 +18,7 @@ Explanation:
 # Solution
 ---
 ## Initial Thoughts
-Because the tree topography is unknown ahead of time, it is not possible to design an algorithm that visits asymptotically fewer than nn nodes. Therefore, we should try to aim for a linear time solution. With that in mind, let's consider a few equally-efficient solutions.
+Because the tree topography is unknown ahead of time, it is not possible to design an algorithm that visits asymptotically fewer than $n$ nodes. Therefore, we should try to aim for a linear time solution. With that in mind, let's consider a few equally-efficient solutions.
 
 ## Approach #1 Depth-First Search [Accepted]
 **Intuition**
@@ -64,7 +64,7 @@ Because a binary tree with only child pointers is directed acyclic graph with on
 
 * Space complexity : $O(n)$.
 
-At worst, our stack will contain a number of nodes close to the height of the tree. Because we are exploring the tree in a depth-first order, there are never two nodes from different subtrees of the same parent node on the stack at once. Said another way, the entire right subtree of a node will be visited before any nodes of the left subtree are pushed onto the stack. If this logic is applied recursively down the tree, it follows that the stack will be largest when we have reached the end of the tree's longest path (the height of the tree). However, because we know nothing about the tree's topography, the height of the tree may be equivalent to nn, causing the space complexity to degrade to $O(n)$.
+At worst, our stack will contain a number of nodes close to the height of the tree. Because we are exploring the tree in a depth-first order, there are never two nodes from different subtrees of the same parent node on the stack at once. Said another way, the entire right subtree of a node will be visited before any nodes of the left subtree are pushed onto the stack. If this logic is applied recursively down the tree, it follows that the stack will be largest when we have reached the end of the tree's longest path (the height of the tree). However, because we know nothing about the tree's topography, the height of the tree may be equivalent to $n$, causing the space complexity to degrade to $O(n)$.
 
 ## Approach #2 Breadth-First Search [Accepted]
 **Intuition**

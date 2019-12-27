@@ -37,7 +37,7 @@ The simplest solution will be to traverse over the whole tree and consider every
 
 If the sum of two elements $x + y$ equals $k$, and we already know that $x$ exists in the given tree, we only need to check if an element $y$ exists in the given tree, such that $y = k - x$. Based on this simple catch, we can traverse the tree in both the directions(left child and right child) at every step. We keep a track of the elements which have been found so far during the tree traversal, by putting them into a setset.
 
-For every current node with a value of pp, we check if $k-p$ already exists in the array. If so, we can conclude that the sum $k$ can be formed by using the two elements from the given tree. Otherwise, we put this value pp into the $set$.
+For every current node with a value of pp, we check if $k-p$ already exists in the array. If so, we can conclude that the sum $k$ can be formed by using the two elements from the given tree. Otherwise, we put this value $p$ into the $set$.
 
 If even after the whole tree's traversal, no such element $p$ can be found, the sum $k$ can't be formed by using any two elements.
 
@@ -62,12 +62,12 @@ public class Solution {
 
 * Time complexity : $O(n)$. The entire tree is traversed only once in the worst case. Here, $n$ refers to the number of nodes in the given tree.
 
-* Space complexity : $O(n)$. The size of the setset can grow upto $n$ in the worst case.
+* Space complexity : $O(n)$. The size of the $set$ can grow upto $n$ in the worst case.
 
 ## Approach #2 Using BFS and HashSet [Accepted]
 **Algorithm**
 
-In this approach, the idea of using the $set$ is the same as in the last approach. But, we can carry on the traversal in a Breadth First Search manner, which is a very common traversal method used in Trees. The way BFS is used can be summarized as given below. We start by putting the root node into a $queue$. We also maintain a setset similar to the last approach. Then, at every step, we do as follows:
+In this approach, the idea of using the $set$ is the same as in the last approach. But, we can carry on the traversal in a Breadth First Search manner, which is a very common traversal method used in Trees. The way BFS is used can be summarized as given below. We start by putting the root node into a $queue$. We also maintain a $set$ similar to the last approach. Then, at every step, we do as follows:
 
 1. Remove an element, $p$, from the front of the $queue$.
 
@@ -77,7 +77,7 @@ In this approach, the idea of using the $set$ is the same as in the last approac
 
 1. Continue steps 1. to 3. till the $queue$ becomes empty.
 
-1. Return `false` if the queuequeue becomes empty.
+1. Return `false` if the $queue$ becomes empty.
 
 By following this process, we traverse the tree on a level by level basis.
 
@@ -107,16 +107,16 @@ public class Solution {
 
 * Time complexity : $O(n)$. We need to traverse over the whole tree once in the worst case. Here, $n$ refers to the number of nodes in the given tree.
 
-* Space complexity : $O(n)$. The size of the setset can grow atmost upto $n$.
+* Space complexity : $O(n)$. The size of the $set$ can grow atmost upto $n$.
 
 ## Approach #3 Using BST [Accepted]
 **Algorithm**
 
 In this approach, we make use of the fact that the given tree is a Binary Search Tree. Now, we know that the inorder traversal of a BST gives the nodes in ascending order. Thus, we do the inorder traversal of the given tree and put the results in a $list$ which contains the nodes sorted in ascending order.
 
-Once this is done, we make use of two pointers ll and rr pointing to the beginning and the end of the sorted $list$. Then, we do as follows:
+Once this is done, we make use of two pointers $l$ and $r$ pointing to the beginning and the end of the sorted $list$. Then, we do as follows:
 
-1. Check if the sum of the elements pointed by ll and rr is equal to the required sum $k$. If so, return a `True` immediately.
+1. Check if the sum of the elements pointed by $l$ and $r$ is equal to the required sum $k$. If so, return a `True` immediately.
 
 1. Otherwise, if the sum of the current two elements is lesser than the required sum $k$, update $l$ to point to the next element. This is done, because, we need to increase the sum of the current elements, which can only be done by increasing the smaller number.
 
@@ -159,7 +159,7 @@ public class Solution {
 
 * Time complexity : $O(n)$. We need to traverse over the whole tree once to do the inorder traversal. Here, $n$ refers to the number of nodes in the given tree.
 
-* Space complexity : $O(n)$. The sorted $list$ will contain nn elements.
+* Space complexity : $O(n)$. The sorted $list$ will contain $n$ elements.
 
 # Submissions
 ---

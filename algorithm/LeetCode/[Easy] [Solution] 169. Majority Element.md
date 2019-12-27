@@ -41,7 +41,7 @@ class Solution:
 
 * Time complexity : $O(n^2)$
 
-The brute force algorithm contains two nested for loops that each run for nn iterations, adding up to quadratic time complexity.
+The brute force algorithm contains two nested for loops that each run for $n$ iterations, adding up to quadratic time complexity.
 
 * Space complexity : $O(1)$
 
@@ -67,7 +67,7 @@ class Solution:
 
 * Time complexity : $O(n)$
 
-We iterate over nums once and make a constant time HashMap insertion on each iteration. Therefore, the algorithm runs in O(n)O(n) time.
+We iterate over nums once and make a constant time HashMap insertion on each iteration. Therefore, the algorithm runs in $O(n)$ time.
 
 * Space complexity : $O(n)$
 
@@ -178,7 +178,7 @@ class Solution:
 
 * Time complexity : $O(nlgn)$
 
-Each recursive call to majority_element_rec performs two recursive calls on subslices of size $\frac{n}{2}$ and two linear scans of length nn. Therefore, the time complexity of the divide & conquer approach can be represented by the following recurrence relation:
+Each recursive call to majority_element_rec performs two recursive calls on subslices of size $\frac{n}{2}$ and two linear scans of length $n$. Therefore, the time complexity of the divide & conquer approach can be represented by the following recurrence relation:
 
 $T(n) = 2T(\frac{n}{2}) + 2n$
 
@@ -227,7 +227,7 @@ class Solution:
 
 * Time complexity : $O(n)$
 
-Boyer-Moore performs constant work exactly nn times, so the algorithm runs in linear time.
+Boyer-Moore performs constant work exactly $n$ times, so the algorithm runs in linear time.
 
 * Space complexity : $O(1)$
 

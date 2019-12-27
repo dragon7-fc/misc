@@ -48,7 +48,7 @@ For the brute force solution, firstly we obtain the directory paths, the filenam
 
 Once this is done, we iterate over this $list$. For every element $i$ chosen from the list, we iterate over the whole $list$ to find another element $j$ whose file contents are the same as the $i^{th}$ element. For every such element found, we put the $j^{th}$ element's file path in a temporary list $l$ and we also mark the $j^{th}$ element as visited so that this element isn't considered again in the future. Thus, when we reach the end of the array for every $i^{th}$ element, we obtain a list of file paths in $l$, which have the same contents as the file corresponding to the $i^{th}$ element. If this list isn't empty, it indicates that there exists content duplicate to the $i^{th}$ element. Thus, we also need to put the $i^{th}$ element's file path in the $l$.
 
-At the end of each iteration, we put this list $l$ obtained in the resultant list resres and reset the list $l$ for finding the duplicates of the next element.
+At the end of each iteration, we put this list $l$ obtained in the resultant list $res$ and reset the list $l$ for finding the duplicates of the next element.
 
 ```java
 public class Solution {
@@ -88,9 +88,9 @@ public class Solution {
 
 **Complexity Analysis**
 
-* Time complexity : $O(n*x + f^2*s)$. Creation of listlist will take $O(n*x)$, where `n` is the number of directories and `x` is the average string length. Every file is compared with every other file. Let $f$ files are there with average size of $s$, then files comparision will take $O(f^2*s)$, equals can take $O(s)$. Here, Worst case will be when all files are unique.
+* Time complexity : $O(n*x + f^2*s)$. Creation of $list$ will take $O(n*x)$, where `n` is the number of directories and `x` is the average string length. Every file is compared with every other file. Let $f$ files are there with average size of $s$, then files comparision will take $O(f^2*s)$, equals can take $O(s)$. Here, Worst case will be when all files are unique.
 
-* Space complexity : $O(n*x)$. Size of lists resres and $list$ can grow upto $n*x$.
+* Space complexity : $O(n*x)$. Size of lists $res$ and $list$ can grow upto $n*x$.
 
 ## Approach #2 Using HashMap [Accepted
 
@@ -137,7 +137,7 @@ public class Solution {
 
 * Time complexity : $O(n*x)$. $n$ strings of average length $x$ is parsed.
 
-* Space complexity : $O(n*x)$. $map$ and resres size grows upto $n*x$.
+* Space complexity : $O(n*x)$. $map$ and $res$ size grows upto $n*x$.
 
 # Submissions
 ---

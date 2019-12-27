@@ -50,7 +50,7 @@ Naively, we can use collections.Counter() to count the letters in the substring,
   def canMakePaliQueries(s, queries):
       ans = []
       for l, r, k in queries:
-          ss = s[l:r+1]
+          $s$ = s[l:r+1]
           rem = 0
           for letter, n in collections.Counter(ss).items():
               rem += n % 2

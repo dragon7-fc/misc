@@ -17,7 +17,7 @@ Output: 2
 ## Approach #1 Brute Force [Time Limit Exceeded]
 **Algorithm**
 
-The simplest method is to consider every possible subarray of the given numsnums array, find the sum of the elements of each of those subarrays and check for the equality of the sum obtained with the given kk. Whenver the sum equals $k$, we can increment the countcount used to store the required result.
+The simplest method is to consider every possible subarray of the given $nums$ array, find the sum of the elements of each of those subarrays and check for the equality of the sum obtained with the given kk. Whenver the sum equals $k$, we can increment the $count$ used to store the required result.
 
 ```java
 public class Solution {
@@ -46,7 +46,7 @@ public class Solution {
 
 Instead of determining the sum of elements everytime for every new subarray considered, we can make use of a cumulative sum array , $sum$. Then, in order to calculate the sum of elements lying between two indices, we can subtract the cumulative sum corresponding to the two indices to obtain the sum directly, instead of iterating over the subarray to obtain the sum.
 
-In this implementation, we make use of a cumulative sum array, $sum$, such that $sum[i]$ is used to store the cumulative sum of numsnums array upto the element corresponding to the $(i-1)^{th}$ index. Thus, to determine the sum of elements for the subarray $nums[i:j]$, we can directly use $sum[j+1] - sum[i]$.
+In this implementation, we make use of a cumulative sum array, $sum$, such that $sum[i]$ is used to store the cumulative sum of $nums$ array upto the element corresponding to the $(i-1)^{th}$ index. Thus, to determine the sum of elements for the subarray $nums[i:j]$, we can directly use $sum[j+1] - sum[i]$.
 
 ```java
 public class Solution {
@@ -71,7 +71,7 @@ public class Solution {
 
 * Time complexity : $O(n^2)$. Considering every possible subarray takes $O(n^2)$ time. Finding out the sum of any subarray takes $O(1)$ time after the initial processing of $O(n)$ for creating the cumulative sum array.
 
-* Space complexity : $O(n)$. Cumulative sum array sumsum of size n+1n+1 is used.
+* Space complexity : $O(n)$. Cumulative sum array $sum$ of size n+1n+1 is used.
 
 ## Approach #3 Without space [Accepted]
 **Algorithm**
@@ -139,9 +139,9 @@ public class Solution {
 ```
 
 **Complexity Analysis**
-* Time complexity : $O(n)$. The entire numsnums array is traversed only once.
+* Time complexity : $O(n)$. The entire $nums$ array is traversed only once.
 
-* Space complexity : $O(n)$. Hashmap mapmap can contain upto nn distinct entries in the worst case.
+* Space complexity : $O(n)$. Hashmap $map$ can contain upto $n$ distinct entries in the worst case.
 
 # Submissions
 ---

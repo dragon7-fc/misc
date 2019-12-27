@@ -25,7 +25,7 @@ Output: 3
 The first two approaches mentioned do not satisfy the constraints given in the prompt, but they are solutions that you might be likely to come up with during a technical interview. As an interviewer, I personally would not expect someone to come up with the cycle detection solution unless they have heard it before.
 
 ### Proof
-Proving that at least one duplicate must exist in nums is simple application of the pigeonhole principle. Here, each number in `nums` is a "pigeon" and each distinct number that can appear in `nums` is a "pigeonhole". Because there are $n+1$ numbers are nn distinct possible numbers, the pigeonhole principle implies that at least one of the numbers is duplicated.
+Proving that at least one duplicate must exist in nums is simple application of the pigeonhole principle. Here, each number in `nums` is a "pigeon" and each distinct number that can appear in `nums` is a "pigeonhole". Because there are $n+1$ numbers are $n$ distinct possible numbers, the pigeonhole principle implies that at least one of the numbers is duplicated.
 
 ## Approach #1 Sorting [Accepted]
 **Intuition**
@@ -78,7 +78,7 @@ class Solution:
 
 * Time complexity : $O(n)$
 
-Set in both Python and Java rely on underlying hash tables, so insertion and lookup have amortized constant time complexities. The algorithm is therefore linear, as it consists of a for loop that performs constant work nn times.
+Set in both Python and Java rely on underlying hash tables, so insertion and lookup have amortized constant time complexities. The algorithm is therefore linear, as it consists of a for loop that performs constant work $n$ times.
 
 * Space complexity : $O(n)$
 

@@ -57,7 +57,7 @@ public class Solution {
 
 **Complexity Analysis**
 
-* Time complexity : $O(n)$. We traverse the numsnums array of size nn once only.
+* Time complexity : $O(n)$. We traverse the $nums$ array of size $n$ once only.
 
 * Space complexity : $O(1)$. Constant extra space is used.
 
@@ -120,7 +120,7 @@ public class Solution {
 
 **Complexity Analysis**
 
-* Time complexity : $O\big(log_2(n)\big)$. We reduce the search space in half at every step. Thus, the total search space will be consumed in $log_2(n)$ steps. Here, nn refers to the size of numsnums array.
+* Time complexity : $O\big(log_2(n)\big)$. We reduce the search space in half at every step. Thus, the total search space will be consumed in $log_2(n)$ steps. Here, $n$ refers to the size of $nums$ array.
 
 * Space complexity : $O\big(log_2(n)\big)$. We reduce the search space in half at every step. Thus, the total search space will be consumed in $log_2(n)$ steps. Thus, the depth of recursion tree will go upto $log_2(n)$.
 
@@ -147,7 +147,7 @@ public class Solution {
 
 **Complexity Analysis**
 
-* Time complexity : $O\big(log_2(n)\big). We reduce the search space in half at every step. Thus, the total search space will be consumed in $log_2(n) steps. Here, nn refers to the size of numsnums array.
+* Time complexity : $O\big(log_2(n)\big). We reduce the search space in half at every step. Thus, the total search space will be consumed in $log_2(n) steps. Here, $n$ refers to the size of $nums$ array.
 
 * Space complexity : $O(1)$. Constant extra space is used.
 

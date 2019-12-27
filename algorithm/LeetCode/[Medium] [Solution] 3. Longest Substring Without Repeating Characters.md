@@ -176,7 +176,7 @@ public class Solution {
 
 **Complexity Analysis**
 
-* Time complexity : $O(n)$. Index $j$ will iterate nn times.
+* Time complexity : $O(n)$. Index $j$ will iterate $n$ times.
 
 * Space complexity (HashMap) : $O(min(m, n))$. Same as the previous approach.
 

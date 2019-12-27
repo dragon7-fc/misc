@@ -146,7 +146,7 @@ public class Solution {
 
 **Complexity Analysis**
 
-* Time complexity : $O(n)$. We traverse over a total of nn nodes. Here, $n$ refers to the smaller of the number of nodes in the two trees.
+* Time complexity : $O(n)$. We traverse over a total of $n$ nodes. Here, $n$ refers to the smaller of the number of nodes in the two trees.
 
 * Space complexity : $O(n)$. The depth of stack can grow upto $n$ in case of a skewed tree.
 

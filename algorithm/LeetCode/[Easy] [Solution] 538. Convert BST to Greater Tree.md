@@ -52,7 +52,7 @@ A binary tree has no cycles by definition, so convertBST gets called on each nod
 
 * Space complexity : $O(n)$
 
-Using the prior assertion that convertBST is called a linear number of times, we can also show that the entire algorithm has linear space complexity. Consider the worst case, a tree with only right (or only left) subtrees. The call stack will grow until the end of the longest path is reached, which in this case includes all nn nodes.
+Using the prior assertion that convertBST is called a linear number of times, we can also show that the entire algorithm has linear space complexity. Consider the worst case, a tree with only right (or only left) subtrees. The call stack will grow until the end of the longest path is reached, which in this case includes all $n$ nodes.
 
 ## Approach #2 Iteration with a Stack [Accepted]
 **Intuition**
@@ -96,7 +96,7 @@ The key observation is that each node is pushed onto the stack exactly once. I w
 
 * Space complexity : $O(n)$
 
-If we assume that the above logic is sound, the assertion that each node is pushed onto the stack exactly once implies that the stack can contain (at most) nn nodes. All other parts of the algorithm use constant space, so there is overall a linear memory footprint.
+If we assume that the above logic is sound, the assertion that each node is pushed onto the stack exactly once implies that the stack can contain (at most) $n$ nodes. All other parts of the algorithm use constant space, so there is overall a linear memory footprint.
 
 ## Approach #3 Reverse Morris In-order Traversal [Accepted]
 **Intuition**
@@ -156,7 +156,7 @@ class Solution(object):
 
 * Time complexity : $O(n)$
 
-Although the Morris traversal does slightly more work than the other approaches, it is only by a constant factor. To be specific, if we can show that each edge in the tree is traversed no more than kk times (for some constant kk), then the algorithm is shown to have linear time complexity. First, note that getSuccessor is called at most twice per node. On the first invocation, the temporary link back to the node in question is created, and on the second invocation, the temporary link is erased. Then, the algorithm steps into the left subtree with no way to return to the node. Therefore, each edge can only be traversed 3 times: once when we move the node pointer, and once for each of the two calls to getSuccessor.
+Although the Morris traversal does slightly more work than the other approaches, it is only by a constant factor. To be specific, if we can show that each edge in the tree is traversed no more than $k$ times (for some constant kk), then the algorithm is shown to have linear time complexity. First, note that getSuccessor is called at most twice per node. On the first invocation, the temporary link back to the node in question is created, and on the second invocation, the temporary link is erased. Then, the algorithm steps into the left subtree with no way to return to the node. Therefore, each edge can only be traversed 3 times: once when we move the node pointer, and once for each of the two calls to getSuccessor.
 
 * Space complexity : $O(1)$
 

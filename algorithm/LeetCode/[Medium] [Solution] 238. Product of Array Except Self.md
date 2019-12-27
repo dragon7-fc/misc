@@ -97,7 +97,7 @@ class Solution:
 
 **Complexity analysis**
 
-* Time complexity : $O(N)$ where NN represents the number of elements in the input array. We use one iteration to construct the array $L$, one to construct the array $R$ and one last to construct the answeranswer array using $L$ and $R$.
+* Time complexity : $O(N)$ where NN represents the number of elements in the input array. We use one iteration to construct the array $L$, one to construct the array $R$ and one last to construct the $answer$ array using $L$ and $R$.
 * Space complexity : $O(N)$ used up by the two intermediate arrays that we constructed to keep track of product of elements to the left and right.
 
 ## Approach 2: O(1) space approach
@@ -147,7 +147,7 @@ class Solution:
 **Complexity analysis**
 
 * Time complexity : $O(N)$ where NN represents the number of elements in the input array. We use one iteration to construct the array LL, one to update the array answeranswer.
-* Space complexity : $O(1)$ since don't use any additional array for our computations. The problem statement mentions that using the answeranswer array doesn't add to the space complexity.
+* Space complexity : $O(1)$ since don't use any additional array for our computations. The problem statement mentions that using the $answer$ array doesn't add to the space complexity.
 
 # Submissions
 ---

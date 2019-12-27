@@ -35,7 +35,7 @@ The idea behind the recursive approach is simple. The two players Player 1 and P
 
 Thus, for the turn of Player 1, we can add its score obtained to the total score and for Player 2's turn, we can substract its score from the total score. At the end, we can check if the total score is greater than or equal to zero(equal score of both players), to predict that Player 1 will be the winner.
 
-Thus, by making use of a recursive function `winner(nums,s,e,turn)` which predicts the winner for the $nums$ array as the score array with the elements in the range of indices $[s,e]$ currently being considered, given a particular player's turn, indicated by $turn=1$ being Player 1's turn and $turn=-1$ being the Player 2's turn, we can predict the winner of the given problem by making the function call `winner(nums,0,n-1,1)`. Here, nn refers to the length of $nums$ array.
+Thus, by making use of a recursive function `winner(nums,s,e,turn)` which predicts the winner for the $nums$ array as the score array with the elements in the range of indices $[s,e]$ currently being considered, given a particular player's turn, indicated by $turn=1$ being Player 1's turn and $turn=-1$ being the Player 2's turn, we can predict the winner of the given problem by making the function call `winner(nums,0,n-1,1)`. Here, $n$ refers to the length of $nums$ array.
 
 In every turn, we can either pick up the first($nums[s]$) or the last($nums[e]$) element of the current subarray. Since both the players are assumed to be playing smartly and making the best move at every step, both will tend to maximize their scores. Thus, we can make use of the same function winner to determine the maximum score possible for any of the players.
 
@@ -74,14 +74,14 @@ public class Solution {
 
 * Time complexity : $O(2^n)$. Size of recursion tree will be $2^n$. Here, $n$ refers to the length of $nums$ array.
 
-* Space complexity : $O(n)$. The depth of the recursion tree can go upto nn.
+* Space complexity : $O(n)$. The depth of the recursion tree can go upto $n$.
 
 ## Approach #2 Similar Approach [Accepted]
 **Algorithm**
 
-We can omit the use of turnturn to keep a track of the player for the current turn. To do so, we can make use of a simple observation. If the current turn belongs to, say Player 1, we pick up an element, say $x$, from either end, and give the turn to Player 2. Thus, if we obtain the score for the remaining elements(leaving $x$), this score, now belongs to Player 2. Thus, since Player 2 is competing against Player 1, this score should be subtracted from Player 1's current(local) score($x$) to obtain the effective score of Player 1 at the current instant.
+We can omit the use of $turn$ to keep a track of the player for the current turn. To do so, we can make use of a simple observation. If the current turn belongs to, say Player 1, we pick up an element, say $x$, from either end, and give the turn to Player 2. Thus, if we obtain the score for the remaining elements(leaving $x$), this score, now belongs to Player 2. Thus, since Player 2 is competing against Player 1, this score should be subtracted from Player 1's current(local) score($x$) to obtain the effective score of Player 1 at the current instant.
 
-Similar argument holds true for Player 2's turn as well i.e. we can subtract Player 1's score for the remaining subarray from Player 2's current score to obtain its effective score. By making use of this observation, we can omit the use of turnturn from `winner` to find the required result by making the slight change discussed above in the `winner`'s implementation.
+Similar argument holds true for Player 2's turn as well i.e. we can subtract Player 1's score for the remaining subarray from Player 2's current score to obtain its effective score. By making use of this observation, we can omit the use of $turn$ from `winner` to find the required result by making the slight change discussed above in the `winner`'s implementation.
 
 While returning the result from `winner` for the current function call, we return the larger of the effective scores possible by choosing either the first or the last element from the currently available subarray. Rest of the process remains the same as the last approach.
 
@@ -120,11 +120,11 @@ We can observe that the effective score for the current player for any given sub
 
 Based on the above observation, we can say that if know the maximum effective score possible for the subarray $nums[x+1,y]$ and $nums[x,y-1]$, we can easily determine the maximum effective score possible for the subarray $nums[x,y]$ as $\text{max}(nums[x]-score_{[x+1,y]}, nums[y]-score_{[x,y-1]})$. These equations are deduced based on the last approach.
 
-From this, we conclude that we can make use of Dynamic Programming to determine the required maximum effective score for the array numsnums. We can make use of a 2-D $dp$ array, such that $dp[i][j]$ is used to store the maximum effective score possible for the subarray $nums[i,j]$. The $dp$ updation equation becomes:
+From this, we conclude that we can make use of Dynamic Programming to determine the required maximum effective score for the array $nums$. We can make use of a 2-D $dp$ array, such that $dp[i][j]$ is used to store the maximum effective score possible for the subarray $nums[i,j]$. The $dp$ updation equation becomes:
 
 $dp[i,j] = nums[i] - dp[i + 1][j], nums[j] - dp[i][j - 1]$.
 
-We can fill in the $dp$ array starting from the last row. At the end, the value for $dp[0][n-1]$ gives the required result. Here, nn refers to the length of $nums$ array.
+We can fill in the $dp$ array starting from the last row. At the end, the value for $dp[0][n-1]$ gives the required result. Here, $n$ refers to the length of $nums$ array.
 
 Look at the animation below to clearly understand the $dp$ filling process.
 
@@ -159,7 +159,7 @@ public class Solution {
 
 **Complexity Analysis**
 
-* Time complexity : $O(n^2)$. $((n+1)xn)/2$ entries in $dp$ array of size $(n+1)$x$n$ is filled once. Here, nn refers to the length of $nums$ array.
+* Time complexity : $O(n^2)$. $((n+1)xn)/2$ entries in $dp$ array of size $(n+1)$x$n$ is filled once. Here, $n$ refers to the length of $nums$ array.
 
 * Space complexity : $O(n^2)$. $dp$ array of size (n+1)(n+1)xnn is used.
 
@@ -194,7 +194,7 @@ public class Solution {
 
 * Time complexity : $O(n^2)$. The elements of $dp$ array are updated $1+2+3+...+n$ times. Here, $n$ refers to the length of $nums$ array.
 
-* Space complexity : $O(n)$. 1-D $dp$ array of size nn is used.
+* Space complexity : $O(n)$. 1-D $dp$ array of size $n$ is used.
 
 # Submissions
 ---

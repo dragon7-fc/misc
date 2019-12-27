@@ -22,7 +22,7 @@ Output: 24
 # Submissions
 ---
 ## Approach 1: Brute Force
-The simplest solution is to consider every triplet out of the given numsnums array and check their product and find out the maximum product out of them.
+The simplest solution is to consider every triplet out of the given $nums$ array and check their product and find out the maximum product out of them.
 
 **Complexity Analysis**
 

@@ -45,7 +45,7 @@ class Solution {
 
 **Complexity Analysis**
 
-* Time complexity : $O(n)$. The time complexity is O(n)O(n) because the recursive function is $T(n) = 2 \cdot T(n/2)+1$.
+* Time complexity : $O(n)$. The time complexity is $O(n)$ because the recursive function is $T(n) = 2 \cdot T(n/2)+1$.
 
 * Space complexity : The worst case space required is O(n)O(n), and in the average case it's $O(\log n)$ where $n$ is number of nodes.
 
@@ -185,7 +185,7 @@ class Solution {
 
 **Complexity Analysis**
 
-* Time complexity : $O(n)$. To prove that the time complexity is $O(n)$, the biggest problem lies in finding the time complexity of finding the predecessor nodes of all the nodes in the binary tree. Intuitively, the complexity is $O(n\log n)$, because to find the predecessor node for a single node related to the height of the tree. But in fact, finding the predecessor nodes for all nodes only needs $O(n)$ time. Because a binary Tree with nn nodes has n-1n−1 edges, the whole processing for each edges up to 2 times, one is to locate a node, and the other is to find the predecessor node. So the complexity is $O(n)$.
+* Time complexity : $O(n)$. To prove that the time complexity is $O(n)$, the biggest problem lies in finding the time complexity of finding the predecessor nodes of all the nodes in the binary tree. Intuitively, the complexity is $O(n\log n)$, because to find the predecessor node for a single node related to the height of the tree. But in fact, finding the predecessor nodes for all nodes only needs $O(n)$ time. Because a binary Tree with $n$ nodes has n-1n−1 edges, the whole processing for each edges up to 2 times, one is to locate a node, and the other is to find the predecessor node. So the complexity is $O(n)$.
 
 * Space complexity : $O(n)$. Arraylist of size $n$ is used.
 

@@ -50,7 +50,7 @@ public class Solution {
 
 * Time complexity : $O(2^n)$. Size of recursion tree will be $2^n$.
 
-* Space complexity : $O(n^2)$. memomemo array of size $n * n$ is used.
+* Space complexity : $O(n^2)$. $memo$ array of size $n * n$ is used.
 
 ## Approach 2: Recursion with Memoization
 **Algorithm**
@@ -89,7 +89,7 @@ public class Solution {
 
 * Time complexity : $O(n^2)$. Size of recursion tree can go upto $n^2$.
 
-* Space complexity : $O(n^2)$. memomemo array of $n*n$ is used.
+* Space complexity : $O(n^2)$. $memo$ array of $n*n$ is used.
 
 ## Approach 3: Dynamic Programming
 **Algorithm**
@@ -156,14 +156,14 @@ public class Solution {
 
 **Complexity Analysis**
 
-* Time complexity : $O(n^2)$. Two loops of nn are there.
+* Time complexity : $O(n^2)$. Two loops of $n$ are there.
 
-* Space complexity : $O(n)$. $dp$ array of size nn is used.
+* Space complexity : $O(n)$. $dp$ array of size $n$ is used.
 
 ## Approach 4: Dynamic Programming with Binary Search
 **Algorithm**
 
-In this approach, we scan the array from left to right. We also make use of a $dp$ array initialized with all 0's. This $dp$ array is meant to store the increasing subsequence formed by including the currently encountered element. While traversing the $nums$ array, we keep on filling the $dp$ array with the elements encountered so far. For the element corresponding to the $j^{th}$ index ($nums[j]$), we determine its correct position in the $dp$ array(say $i^{th}$ index) by making use of Binary Search(which can be used since the $dp$ array is storing increasing subsequence) and also insert it at the correct position. An important point to be noted is that for Binary Search, we consider only that portion of the $dp$ array in which we have made the updates by inserting some elements at their correct positions(which remains always sorted). Thus, only the elements upto the $i^{th}$ index in the $dp$ array can determine the position of the current element in it. Since, the element enters its correct position(ii) in an ascending order in the $dp$ array, the subsequence formed so far in it is surely an increasing subsequence. Whenever this position index $i$ becomes equal to the length of the LIS formed so far($len$), it means, we need to update the lenlen as $len = len + 1$.
+In this approach, we scan the array from left to right. We also make use of a $dp$ array initialized with all 0's. This $dp$ array is meant to store the increasing subsequence formed by including the currently encountered element. While traversing the $nums$ array, we keep on filling the $dp$ array with the elements encountered so far. For the element corresponding to the $j^{th}$ index ($nums[j]$), we determine its correct position in the $dp$ array(say $i^{th}$ index) by making use of Binary Search(which can be used since the $dp$ array is storing increasing subsequence) and also insert it at the correct position. An important point to be noted is that for Binary Search, we consider only that portion of the $dp$ array in which we have made the updates by inserting some elements at their correct positions(which remains always sorted). Thus, only the elements upto the $i^{th}$ index in the $dp$ array can determine the position of the current element in it. Since, the element enters its correct position(ii) in an ascending order in the $dp$ array, the subsequence formed so far in it is surely an increasing subsequence. Whenever this position index $i$ becomes equal to the length of the LIS formed so far($len$), it means, we need to update the $len$ as $len = len + 1$.
 
 Note: $dp$ array does not result in longest increasing subsequence, but length of $dp$ array will give you length of LIS.
 
@@ -179,7 +179,7 @@ dp: [0, 4]
 
 dp: [0, 4, 12]
 
-dp: [0 , 2, 12] which is not the longest increasing subsequence, but length of dpdp array results in length of Longest Increasing Subsequence.
+dp: [0 , 2, 12] which is not the longest increasing subsequence, but length of $dp$ array results in length of Longest Increasing Subsequence.
 
 ```java
 public class Solution {

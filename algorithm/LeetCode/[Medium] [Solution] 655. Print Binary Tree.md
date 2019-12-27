@@ -63,13 +63,13 @@ In every recursive call, we do as follows:
 
 1. Determine the column in which the current element(rootroot) needs to be filled, which is the middle of $l$ and $r$, given by say, $j$. The row number is same as $i$. Put the current element at $res[i][j]$.
 
-1. Make the recursive call for the left child of the rootroot using fill(res, root.left, i + 1, l, (l + r) / 2).
+1. Make the recursive call for the left child of the $root$ using fill(res, root.left, i + 1, l, (l + r) / 2).
 
-1. Make the recursive call for the right child of the rootroot using `fill(res, root.right, i + 1, (l + r + 1) / 2, r)`.
+1. Make the recursive call for the right child of the $root$ using `fill(res, root.right, i + 1, (l + r + 1) / 2, r)`.
 
 Note, that in the last two recursive calls, we update the row number(level of the tree). This ensures that the child nodes fit into the correct row. We also update the column boundaries appropriately based on the $l$ and $r$ values.
 
-Further, to determine the $height$ also, we make use of recursive funtion `getHeight(root)`, which returns the height of the tree starting from the rootroot node. We traverse into all the branches possible in the tree recursively and find the depth of the longest branch.
+Further, to determine the $height$ also, we make use of recursive funtion `getHeight(root)`, which returns the height of the tree starting from the $root$ node. We traverse into all the branches possible in the tree recursively and find the depth of the longest branch.
 
 At the end, we convert the $res$ array into the required list format, before returning the results.
 
@@ -103,7 +103,7 @@ public class Solution {
 
 **Complexity Analysis**
 
-* Time complexity : $O(h*2^h)$. We need to fill the resres array of size $h$x$2^h - 1$. Here, $h$ refers to the height of the given tree.
+* Time complexity : $O(h*2^h)$. We need to fill the $res$ array of size $h$x$2^h - 1$. Here, $h$ refers to the height of the given tree.
 
 * Space complexity : $O(h*2^h)$. $res$ array of size $h$x$2^h - 1$ is used.
 

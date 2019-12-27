@@ -26,7 +26,7 @@ In order to find the length of the longest common sequence, we make use of a rec
 
 If the last characters don't match, we have two options, either we can consider the second last character of $s1$ and the last character of $s2$, or we can consider the second last character of $s2$ and the last character of $s1$. We need to consider the larger result obtained out of the two considerations for getting the required length.
 
-Thus, the function call `lcs(s1,s2,m,n)` returns the required lcslcs value.
+Thus, the function call `lcs(s1,s2,m,n)` returns the required $lcs$ value.
 
 ```java
 
@@ -47,14 +47,14 @@ public class Solution {
 
 **Complexity Analysis**
 
-* Time complexity : $O(2^{max(m,n)})$. Size of recursion tree will be $2^(m+n)$. Here, mm and nn refer to the lengths of $s1$ and $s2$ respectively.
+* Time complexity : $O(2^{max(m,n)})$. Size of recursion tree will be $2^(m+n)$. Here, $m$ and $n$ refer to the lengths of $s1$ and $s2$ respectively.
 
 * Space complexity : $O(\text{max}(m,n))$. The depth of the recursion tree will go upto $\text{max}(m,n)$.
 
 ## Approach #2 Longest Common Subsequence with Memoization [Accepted]
 **Algorithm**
 
-We can observe that in the last approach, while determining the lcslcs value, a lot of redundant function calls are made, since the same $m$ and $n$ values to be used for the function calls could be obtained going through many different paths. We can remove this redundancy by making use of a $memo$ array to store the value to be returned for these function calls if they have been called once with the corresponding parameters. Thus, $memo[i][j]$ is used to store the result for the function call `lcs(s1,s2,i,j)`.
+We can observe that in the last approach, while determining the $lcs$ value, a lot of redundant function calls are made, since the same $m$ and $n$ values to be used for the function calls could be obtained going through many different paths. We can remove this redundancy by making use of a $memo$ array to store the value to be returned for these function calls if they have been called once with the corresponding parameters. Thus, $memo[i][j]$ is used to store the result for the function call `lcs(s1,s2,i,j)`.
 
 Thus, by returning the already stored values from the $memo$ array, we can prune the search space to a great extent.
 
@@ -225,7 +225,7 @@ public class Solution {
 ## Approach #5 1-D Dynamic Programming [Accepted]:
 **Algorithm**
 
-We can observe that in the last approach, in order to update the current dpdp entries, we need only the values of the previous row of $dp$. Thus, rather than using a 2-D array, we can do the same job by making use of a 1-D $dp$ array.
+We can observe that in the last approach, in order to update the current $dp$ entries, we need only the values of the previous row of $dp$. Thus, rather than using a 2-D array, we can do the same job by making use of a 1-D $dp$ array.
 
 Thus, now, $dp[i]$ refers to the number of deletions that need to be made in order to equalize the strings $s1$ and $s2$ if we consider string $s1$ upto the $(i-1)^{th}$ index and string $s2$ upto the last to current index of $s2$.
 
@@ -256,7 +256,7 @@ public class Solution {
 
 * Time complexity : $O(m*n)$. We need to fill in the $dp$ array of size $n$, $m$ times. Here, $m$ and $n$ refer to the lengths of $s1$ and $s2$.
 
-* Space complexity : $O(n)$. $dp$ array of size nn is used.
+* Space complexity : $O(n)$. $dp$ array of size $n$ is used.
 
 # Submissions
 ---

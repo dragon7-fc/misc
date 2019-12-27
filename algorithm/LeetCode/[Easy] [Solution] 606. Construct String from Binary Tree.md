@@ -84,7 +84,7 @@ public class Solution {
 
 * Time complexity : $O(n)$. The preorder traversal is done over the $n$ nodes of the given Binary Tree.
 
-* Space complexity : $O(n)$. The depth of the recursion tree can go upto nn in case of a skewed tree.
+* Space complexity : $O(n)$. The depth of the recursion tree can go upto $n$ in case of a skewed tree.
 
 ## Approach #2 Iterative Method Using stack [Accepted]
 **Algorithm**
@@ -95,11 +95,11 @@ We make use of a $stack$ onto which various nodes of the given tree will be push
 
 We start off by pushing the root of the binary tree onto the $stack$. Now, the root acts as the current node. For every current node encountered, firstly, we check if it has not been visited already. If not, we add it to the set of visited nodes.
 
-Since, for the preorder traversal, we know, we need to process the nodes in the order current-left-right. Thus, we add a `(` followed by the current node to the string ss to be returned.
+Since, for the preorder traversal, we know, we need to process the nodes in the order current-left-right. Thus, we add a `(` followed by the current node to the string $s$ to be returned.
 
 Now, if both the left and the right children of the current node exist, we need to process them in the order left-right. To do so, we need to push them onto the $stack$ in the reverse order, so that when they are picked up later on, their order of processing gets corrected.
 
-Since we've already added $current\_node$ to the string $s$, if only the right child of the current node exists, as discussed in case 4 in the last approach, we need to put a `()` in ss representing the null left node. We need not push anything onto the stackstack for the left node and we can directly add the `()` to $s$ for this. But, we still need to push the right child onto the $stack$ for future processing.
+Since we've already added $current\_node$ to the string $s$, if only the right child of the current node exists, as discussed in case 4 in the last approach, we need to put a `()` in $s$ representing the null left node. We need not push anything onto the $stack$ for the left node and we can directly add the `()` to $s$ for this. But, we still need to push the right child onto the $stack$ for future processing.
 
 If only the left child exists, we need not consider the right child at all, as discussed in case 3 in the last approach. We can continue the process by just pushing the left child onto the stackstack.
 
