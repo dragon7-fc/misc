@@ -23,7 +23,7 @@ return its minimum depth = 2.
 **Solution 1:**
 ```
 Runtime: 44 ms
-Memory Usage: 14.5 MB
+Memory Usage: 15 MB
 ```
 ```python
 # Definition for a binary tree node.
@@ -35,11 +35,16 @@ Memory Usage: 14.5 MB
 
 class Solution:
     def minDepth(self, root: TreeNode) -> int:
-        if root:
-            left_depth = self.minDepth(root.left)
-            right_depth = self.minDepth(root.right)
-            return 1 + min(left_depth, right_depth) if (left_depth > 0 and right_depth > 0) else 1 + max(left_depth,right_depth)
-        return 0
+        self.depth = float('Inf')
+        def dfs(node, depth):
+            if not node:return
+            if not node.right and not node.left:
+                self.depth = min(self.depth, depth)
+            dfs(node.left, depth+1)
+            dfs(node.right, depth+1)
+        if not root:return 0
+        dfs(root, 1)
+        return self.depth
 ```
 
 **Solution 2:**

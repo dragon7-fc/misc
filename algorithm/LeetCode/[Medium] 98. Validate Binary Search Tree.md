@@ -36,8 +36,8 @@ Explanation: The root node's value is 5 but its right child's value is 4.
 ---
 **Solution 1:**
 ```
-Runtime: 32 ms
-Memory Usage: 14.9 MB
+Runtime: 44 ms
+Memory Usage: 15 MB
 ```
 ```python
 # Definition for a binary tree node.
@@ -49,10 +49,10 @@ Memory Usage: 14.9 MB
 
 class Solution:
     def isValidBST(self, root: TreeNode) -> bool:
-        def dp(node, low, high):    
+        def dfs(node, low, high):    
             if not node: return True       
             if node.val >= high or node.val <= low: return False      
-            return dp(node.left, low, node.val) and dp(node.right, node.val, high)
+            return dfs(node.left, low, node.val) and dfs(node.right, node.val, high)
             
-        return dp(root, float('-inf'), float('inf'))
+        return dfs(root, float('-inf'), float('inf'))
 ```

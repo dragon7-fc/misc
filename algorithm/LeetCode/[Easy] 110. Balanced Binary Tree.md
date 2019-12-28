@@ -39,7 +39,7 @@ Return false.
 **Solution 1:**
 ```
 Runtime: 52 ms
-Memory Usage: 17.7 MB
+Memory Usage: 17.6 MB
 ```
 ```python
 # Definition for a binary tree node.
@@ -51,18 +51,20 @@ Memory Usage: 17.7 MB
 
 class Solution:
     def isBalanced(self, root: TreeNode) -> bool:
-        err = []
-        def dfs(node):
-            if not node:
+        self.isBalanced = True
+        
+        def height(root):
+            if not root:
                 return 0
-            left_depth = dfs(node.left)
-            right_depth = dfs(node.right)
-            diff = abs(left_depth-right_depth)
-            if diff > 1:
-                err.append(1)
-                return diff
-            return 1 + max(left_depth, right_depth)
-                       
-        dfs(root)
-        return len(err) == 0
+            
+            left = height(root.left)
+            right = height(root.right)
+            if self.isBalanced:
+                self.isBalanced = abs(left - right) < 2 
+            
+            return 1 + max(left, right)
+    
+    
+        height(root)
+        return self.isBalanced
 ```
