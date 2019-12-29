@@ -119,8 +119,8 @@ Because breadth-first search visits the tree layer-by-layer, the queue will be a
 ---
 **Solution:**
 ```
-Runtime: 28 ms
-Memory Usage: 12.8 MB
+Runtime: 32 ms
+Memory Usage: 12.7 MB
 ```
 ```python
 # Definition for a binary tree node.
@@ -132,23 +132,11 @@ Memory Usage: 12.8 MB
 
 class Solution:
     def rightSideView(self, root: TreeNode) -> List[int]:
-        rightmost_value_at_depth = dict() # depth -> node.val
-        max_depth = -1
-
-        queue = collections.deque([(root, 0)])
-        while queue:
-            node, depth = queue.popleft()
-
-            if node is not None:
-                # maintain knowledge of the number of levels in the tree.
-                max_depth = max(max_depth, depth)
-
-                # overwrite rightmost value at current depth. the correct value
-                # will never be overwritten, as it is always visited last.
-                rightmost_value_at_depth[depth] = node.val
-
-                queue.append((node.left, depth+1))
-                queue.append((node.right, depth+1))
-
-        return [rightmost_value_at_depth[depth] for depth in range(max_depth+1)]
+        ans = []
+        level = root and [root]
+        while level:
+            ans.append([node for node in level][-1].val)
+            level = [c for node in level for c in [node.left, node.right] if c]
+        return ans
+            
 ```
