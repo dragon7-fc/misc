@@ -2,11 +2,11 @@
 
 Given an encoded string, return its decoded string.
 
-The encoding rule is: k[encoded_string], where the encoded_string inside the square brackets is being repeated exactly k times. Note that k is guaranteed to be a positive integer.
+The encoding rule is: `k[encoded_string]`, where the encoded_string inside the square brackets is being repeated exactly k times. Note that k is guaranteed to be a positive integer.
 
 You may assume that the input string is always valid; No extra white spaces, square brackets are well-formed, etc.
 
-Furthermore, you may assume that the original data does not contain any digits and that digits are only for those repeat numbers, k. For example, there won't be input like 3a or 2[4].
+Furthermore, you may assume that the original data does not contain any digits and that digits are only for those repeat numbers, k. For example, there won't be input like `3a` or `2[4]`.
 
 **Examples:**
 ```
@@ -17,7 +17,11 @@ s = "2[abc]3[cd]ef", return "abcabccdcdcdef".
 
 # Submissions
 ---
-**Solution 1: 24 ms**
+**Solution 1:**
+```
+Runtime: 20 ms
+Memory Usage: 12.7 MB
+```
 ```python
 class Solution(object):
     def decodeString(self, s):
@@ -42,7 +46,41 @@ class Solution(object):
         return stack[0][0]
 ```
 
-**Solution 2: 20 ms**
+**Solution 2:**
+```
+Runtime: 20 ms
+Memory Usage: 12.7 MB
+```
+```python
+class Solution:
+    def decodeString(self, s: str) -> str:
+        def dfs():
+            text = ""
+            num = 0
+            # the dfs recursion call absorbed "]", so that outer recursion can continue
+            while self.idx < len(s) and s[self.idx] != "]":
+                if s[self.idx].isdigit():
+                    num = num * 10 + int(s[self.idx])
+                    self.idx += 1
+                elif s[self.idx].isalpha():
+                    text += s[self.idx]
+                    self.idx += 1
+                else:
+                    self.idx += 1  # s[self.idx] == "["
+                    res = dfs()
+                    text += num * res
+                    num = 0
+            self.idx += 1
+            return text
+        self.idx = 0
+        return dfs()
+```
+
+**Solution 3:**
+```
+Runtime: 24 ms
+Memory Usage: 12.8 MB
+```
 ```python
 class Solution(object):
     def decodeString(self, s):
