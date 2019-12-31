@@ -140,16 +140,15 @@ public class Solution {
 ---
 **Solution 1:**
 ```
-Runtime: 104 ms
-Memory Usage: 13.8 MB
+Runtime: 72 ms
+Memory Usage: 12.8 MB
 ```
 ```python
 class Solution:
     def shoppingOffers(self, price: List[int], special: List[List[int]], needs: List[int]) -> int:
-        def shopping(price, special, needs, memo):
+        def shopping(needs):
             if memo[tuple(needs)]:
                 return memo[tuple(needs)]
-            j = 0
             res = dot(needs, price)
             for s in special:
                 clone = needs.copy()
@@ -159,7 +158,7 @@ class Solution:
                         break
                     clone[j] = diff
                     if j == len(needs)-1:
-                        res = min(res, s[j+1] + shopping(price, special, clone, memo))
+                        res = min(res, s[j+1] + shopping(clone))
             memo[tuple(needs)] = res
             return res
 
@@ -170,5 +169,5 @@ class Solution:
             return sum_
         
         memo = collections.defaultdict(int)
-        return shopping(price, special, needs, memo)
+        return shopping(needs)
 ```

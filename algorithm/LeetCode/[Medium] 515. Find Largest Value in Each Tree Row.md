@@ -32,11 +32,10 @@ Memory Usage: 14.9 MB
 
 class Solution:
     def largestValues(self, root: TreeNode) -> List[int]:
-        level = [root] if root else []
+        level = root and [root]
         ans = []
         while level:
-            ans.append(max([node.val for node in level if node]))
-            next_level = [c for node in level if node for c in [node.left, node.right]]
-            level = [node for node in next_level if node]
+            ans.append(max([node.val for node in level]))
+            level = [c for node in level for c in [node.left, node.right] if c]
         return ans
 ```
