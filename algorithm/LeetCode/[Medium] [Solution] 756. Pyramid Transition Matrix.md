@@ -82,7 +82,7 @@ We exhaustively try every combination of blocks.
 
 We can work in either strings or integers, but we need to create a transition map `T` from the list of allowed triples. This map `T[x][y] = {set of z}` will be all possible parent blocks for a left child of `x` and a right child of `y`. When we work in strings, we use `Set`, and when we work in integers, we will use the set bits of the result integer.
 
-Afterwards, to solve a row, we generate every possible combination of the next row and solve them. If any of those new rows are solvable, we return `True`, otherwise `False`.
+Afterwards, to `solve` a row, we generate every possible combination of the next row and solve them. If any of those new rows are solvable, we return `True`, otherwise `False`.
 
 We can also cache intermediate results, saving us time. This is illustrated in the comments for Python. For Java, all caching is done with lines of code that mention the integer `R`.
 
@@ -122,3 +122,35 @@ class Solution(object):
 
 # Submissions
 ---
+**Solution:**
+```
+Runtime: 32 ms
+Memory Usage: 12.6 MB
+```
+```python
+class Solution:
+    def pyramidTransition(self, bottom: str, allowed: List[str]) -> bool:
+        T = collections.defaultdict(set)
+        for u, v, w in allowed:
+            T[u, v].add(w)
+
+        #Comments can be used to cache intermediate results
+        #seen = set()
+        def solve(A):
+            if len(A) == 1: return True
+            #if A in seen: return False
+            #seen.add(A)
+            return any(solve(cand) for cand in build(A, []))
+
+        def build(A, ans, i = 0):
+            if i + 1 == len(A):
+                yield "".join(ans)
+            else:
+                for w in T[A[i], A[i+1]]:
+                    ans.append(w)
+                    for result in build(A, ans, i+1):
+                        yield result
+                    ans.pop()
+
+        return solve(bottom)
+```

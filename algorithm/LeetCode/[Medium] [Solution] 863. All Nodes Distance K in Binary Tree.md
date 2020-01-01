@@ -159,7 +159,6 @@ class Solution:
     def distanceK(self, root: TreeNode, target: TreeNode, K: int) -> List[int]:
         graph = collections.defaultdict(list)
         def dfs(node):
-            nonlocal graph
             if node.left:
                 graph[node.val].append(node.left.val)
                 graph[node.left.val].append(node.val)
