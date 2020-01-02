@@ -37,7 +37,7 @@ First let's cut $\text{A}$ into two parts at a random position $i$:
           left_A             |        right_A
     A[0], A[1], ..., A[i-1]  |  A[i], A[i+1], ..., A[m-1]
 ```
-Since $\text{A}A$ has $m$ elements, so there are $m+1$ kinds of cutting $(i = 0 \sim m)$.
+Since $\text{A}$ has $m$ elements, so there are $m+1$ kinds of cutting $(i = 0 \sim m)$.
 
 And we know:
 
@@ -69,9 +69,9 @@ $\text{median} = \frac{\text{max}(\text{left}\_\text{part}) + \text{min}(\text{r
 
 To ensure these two conditions, we just need to ensure:
 
-> 1. $i + j = m - i + n - j$ (or: $m - i + n - j + 1$) \
+>1. $i + j = m - i + n - j$ (or: $m - i + n - j + 1$) \
 if $n \geq m$, we just need to set: $i = 0 \sim m, j = \frac{m + n + 1}{2} - i$
-1. $\text{B}[j-1] \leq \text{A}[i]$ and $\text{A}[i-1] \leq \text{B}[j]$
+>1. $\text{B}[j-1] \leq \text{A}[i]$ and $\text{A}[i-1] \leq \text{B}[j]$
 
 ps.1 For simplicity, I presume $\text{A}[i-1], \text{B}[j-1], \text{A}[i], \text{B}[j]$ are always valid even if $i=0$, $i=m$, $j=0$, or $j=n$. I will talk about how to deal with these edge values at last.
 
