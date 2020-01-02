@@ -37,3 +37,13 @@ A must do list according to me:
 (As you are now a pro already, you can jump to the hard questions and do whichever questions you find interesting)
 
 Happy Coding!!
+
+**Similar**
+
+* 785. Is Graph Bipartite?
+* 886. Possible Bipartition
+
+**Similar**
+
+* 207. Course Schedule
+* 802. Find Eventual Safe States

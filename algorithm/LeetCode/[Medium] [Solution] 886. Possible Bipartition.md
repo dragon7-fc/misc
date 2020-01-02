@@ -82,10 +82,6 @@ class Solution(object):
 
 # Submissions
 ---
-**similar**
-
-* 785 Is Graph Bipartite?
-
 **Solution 1:**
 ```
 Runtime: 736 ms

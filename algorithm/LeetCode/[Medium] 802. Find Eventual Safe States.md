@@ -26,10 +26,6 @@ Illustration of graph
 
 # Submissions
 ---
-**Similar**
-
-* 207 Course Schedule
-
 **Solution 1:**
 ```
 Runtime: 704 ms
