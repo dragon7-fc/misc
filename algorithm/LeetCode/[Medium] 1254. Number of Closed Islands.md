@@ -48,36 +48,39 @@ Output: 2
 ---
 **Solution 1:**
 ```
-Runtime: 132 ms
-Memory Usage: 13.3 MB
+Runtime: 144 ms
+Memory Usage: 13 MB
 ```
 ```python
 class Solution:
     def closedIsland(self, grid: List[List[int]]) -> int:
         if not grid or not grid[0]:
             return 0
+
+        R, C = len(grid), len(grid[0])
+
+        def neighbours(r, c):
+            for nr,nc in ((r-1, c),(r+1, c),(r, c-1),(r, c+1)):
+                if 0 <= nr < R and 0 <= nc < C:
+                    yield nr,nc
         
-        m, n = len(grid), len(grid[0])
-        
-        def dfs(i, j, val):
-            if 0<=i<m and 0<=j<n and grid[i][j]==0:
-                grid[i][j] = val
-                dfs(i, j+1, val)
-                dfs(i+1, j, val)
-                dfs(i-1, j, val)
-                dfs(i, j-1, val)
-        
-        for i in range(m):
-            for j in range(n):
-                if (i == 0 or j == 0 or i == m-1 or j == n-1) and grid[i][j] == 0:
-                    dfs(i, j, 1)
-                
+        def dfs(r, c):
+            grid[r][c] = 1
+            for nr, nc in neighbours(r, c):
+                if grid[nr][nc] == 0:
+                    dfs(nr, nc)
+
+        for r in range(R):
+            for c in range(C):
+                if (r == 0 or c == 0 or r == R-1 or c == C-1) and grid[r][c] == 0:
+                    dfs(r, c)
+
         res = 0
-        for i in range(m):
-            for j in range(n):
-                if grid[i][j] == 0:
-                    dfs(i, j, 1)
+        for r in range(R):
+            for c in range(C):
+                if grid[r][c] == 0:
+                    dfs(r, c)
                     res += 1
-                    
+
         return res
 ```
