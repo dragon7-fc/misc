@@ -1,12 +1,12 @@
-""" 
-Search a 2D Matrix II
+240. Search a 2D Matrix II
 
 Write an efficient algorithm that searches for a value in an m x n matrix. This matrix has the following properties:
 
 Integers in each row are sorted in ascending from left to right.
 Integers in each column are sorted in ascending from top to bottom.
-Example:
 
+**Example:**
+```
 Consider the following matrix:
 
 [
@@ -19,11 +19,30 @@ Consider the following matrix:
 Given target = 5, return true.
 
 Given target = 20, return false.
+```
 
-"""
+**Solution 1:**
+```
+Runtime: 40 ms
+Memory Usage: 17.4 MB
+```
+```python
+class Solution:
+    def searchMatrix(self, matrix, target):
+        """
+        :type matrix: List[List[int]]
+        :type target: int
+        :rtype: bool
+        """
+        return target in [matrix[r][c] for r in range(len(matrix)) for c in range(len(matrix[0]))]
+```
 
-
-""" Solution: 108 ms """
+**Solution 2:**
+```
+Runtime: 36 ms
+Memory Usage: 17.5 MB
+```
+```python
 class Solution:
     def searchMatrix(self, matrix, target):
         """
@@ -44,9 +63,14 @@ class Solution:
             else:
                 return True
         return search(matrix, 0, len(matrix[0]) - 1)
+```
 
-
-""" Solution2: 60 ms """
+**Solution 3:**
+```
+Runtime: 36 ms
+Memory Usage: 17.5 MB
+```
+```python
 class Solution:
     def searchMatrix(self, matrix, target):
         """
@@ -56,21 +80,24 @@ class Solution:
         """
         if not matrix:
             return False
-        m = len(matrix)
-        n = len(matrix[0])
-        r = 0
-        c = n - 1
-        while r < m and c >= 0:
-            if matrix[r][c] == target:
+        R, C = len(matrix), len(matrix[0])
+        i, j = 0, C-1
+        while i <= R - 1 and j >= 0:
+            if matrix[i][j] > target:
+                j -= 1
+            elif matrix[i][j] < target:
+                i += 1
+            else:
                 return True
-            if matrix[r][c] > target:
-                c -= 1
-            else: 
-                r += 1
         return False
+```
 
-
-""" Solution3: 64 ms """
+**Solution 4:**
+```
+Runtime: 32 ms
+Memory Usage: 17.5 MB
+```
+```python
 class Solution:
     def searchMatrix(self, matrix, target):
         """
@@ -78,35 +105,22 @@ class Solution:
         :type target: int
         :rtype: bool
         """
-        m = len(matrix)
-        if matrix:
-            for i in range(m):
-                if target in matrix[i][0:]:
-                    return True
-            return False
-        else:
-            return False
+        rows = len(matrix)
+        cols = len(matrix[0]) if rows else 0
+        pivot = cols - 1
 
-
-""" Solution4: 48 ms """
-class Solution:
-    def searchMatrix(self, matrix, target):
-        """
-        :type matrix: List[List[int]]
-        :type target: int
-        :rtype: bool
-        """
-        if not matrix: return False
-        if not matrix[0]: return False
+        if cols == 0:
+            return False
         
-        row = 0
-        l = len(matrix)
-        col = len(matrix[0])
-        for i in range(l):
-            if target > matrix[i][col-1]:
+        for row in range(rows):  
+            
+            if target > matrix[row][pivot]:
                 continue
-            if target < matrix[i][0]:
-                return False
-            if target in matrix[i]:
+                 
+            pivot = bisect.bisect_left(matrix[row], target)
+            
+            if pivot != cols and matrix[row][pivot] == target:
                 return True
+            
         return False
+```

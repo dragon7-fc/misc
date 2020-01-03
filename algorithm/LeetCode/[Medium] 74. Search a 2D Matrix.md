@@ -31,7 +31,7 @@ Output: false
 
 # Submissions
 ---
-**Solution:**
+**Solution 1:**
 ```
 Runtime: 40 ms
 Memory Usage: N/A
@@ -50,4 +50,52 @@ class Solution:
             if target in row:
                 return True
         return False
+```
+
+**Solution 2:**
+```
+Runtime: 64 ms
+Memory Usage: 14.8 MB
+```
+```python
+class Solution:
+    def searchMatrix(self, matrix: List[List[int]], target: int) -> bool:
+        def binary_search_1d(row, target):
+            lo = 0
+            hi = len(row) - 1
+
+            while lo <= hi:
+                mid = lo + (hi - lo) // 2
+
+                if row[mid] == target:
+                    return True
+                elif row[mid] < target:
+                    lo = mid + 1
+                else:
+                    hi = mid - 1
+
+            return False
+        
+        def binary_search_2d(matrix, target):
+            lo = 0
+            hi = len(matrix) - 1
+
+            while lo <= hi:
+                mid = lo + (hi - lo) // 2
+
+                if target >= matrix[mid][0] and target <= matrix[mid][-1]:
+                    return binary_search_1d(matrix[mid], target)
+                elif matrix[mid][0] < target:
+                    lo = mid + 1
+                else:
+                    hi = mid - 1
+        
+            return False
+        
+        if not matrix:
+            return False
+        elif len(matrix) == 1:
+            return binary_search_1d(matrix[0], target)
+        else:
+            return binary_search_2d(matrix, target)
 ```

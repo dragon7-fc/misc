@@ -26,20 +26,17 @@ Output: -1
 ---
 **Solution 1: (recursive)**
 ```
-196 / 196 test cases passed.
-Status: Accepted
-Runtime: 52 ms
-Memory Usage: 14 MB
+Runtime: 36 ms
+Memory Usage: 12.9 MB
 ```
 ```python
 class Solution:
     def search(self, nums: List[int], target: int) -> int:
-        
         def binary_search(left, right, target):
             if left > right:
                 return -1
             
-            mid = (left+right) // 2
+            mid = left + (right - left) // 2
             if target == nums[mid]:
                 return mid            
             elif nums[left] <= target < nums[mid] \
@@ -54,18 +51,17 @@ class Solution:
 
 **Solution 2: (iterative)**
 ```
-Runtime: 52 ms
-Memory Usage: 13.7 MB
+Runtime: 36 ms
+Memory Usage: 12.9 MB
 ```
 ```python
 class Solution:
     def search(self, nums: List[int], target: int) -> int:
-        
         left, right = 0, len(nums)-1
         ans = -1
         
         while left <= right:
-            mid = (left+right) // 2
+            mid = left + (right - left) // 2
 
             if target == nums[mid]:
                 ans = mid
@@ -73,9 +69,9 @@ class Solution:
             elif nums[left] <= target < nums[mid] \
                 or nums[mid] < nums[left] and target < nums[mid] \
                 or nums[mid] < nums[left] and target >= nums[left]:
-                right = mid-1
+                right = mid - 1
             else:
-                left = mid+1
+                left = mid + 1
 
         return ans
 ```

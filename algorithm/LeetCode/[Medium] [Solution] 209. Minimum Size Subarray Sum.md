@@ -197,6 +197,34 @@ int minSubArrayLen(int s, vector<int>& nums)
 
 # Submissions
 ---
+**Solution:**
+```
+Runtime: 88 ms
+Memory Usage: 15.2 MB
+```
+```python
+class Solution:
+    def minSubArrayLen(self, s: int, nums: List[int]) -> int:
+        N = len(nums)
+        if N == 0:
+            return 0
+        
+        ans = float('inf')
+        sums = [0]*(N + 1)
+        # sums[0] = 0 : Meaning that it is the sum of first 0 elements
+        # sums[1] = A[0] : Sum of first 1 elements
+        # ans so on...
+        for i in range(1, N + 1):
+            sums[i] = sums[i - 1] + nums[i - 1]
+        for i in range(1, N + 1):
+            to_find = s + sums[i - 1]
+            bound = bisect.bisect_left(sums, to_find)
+            if bound != len(sums):
+                ans = min(ans, bound - (i - 1))
+                
+        return ans if ans != float('inf') else 0
+```
+
 **Solution**
 ```
 Runtime: 84 ms

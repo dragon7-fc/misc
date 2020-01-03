@@ -155,44 +155,40 @@ public class Solution {
 ---
 **Solution 1: (recursive)**
 ```
-Runtime: 52 ms
-Memory Usage: 13.9 MB
+Runtime: 40 ms
+Memory Usage: 13.1 MB
 ```
 ```python
 class Solution:
     def findPeakElement(self, nums: List[int]) -> int:
-         
-        def search(nums, l, r):
+        def search(l, r):
             if l == r:
                 return l;
-            mid = (l+r) // 2;
+            mid = l + (r - l) // 2
             if nums[mid] > nums[mid+1]:
-                return search(nums, l, mid)
-            return search(nums, mid+1, r)
-    
-        return search(nums, 0, len(nums)-1)
+                return search(l, mid)
+            return search(mid+1, r)
+
+        return search(0, len(nums)-1)
 ```
 
 **Solution 1: (iterative)**
 ```
-Runtime: 56 ms
-Memory Usage: 13.9 MB
+Runtime: 44 ms
+Memory Usage: 12.7 MB
 ```
 ```python
-
-```
-```
 class Solution:
     def findPeakElement(self, nums: List[int]) -> int:
         l = 0
-        r = len(nums)-1
+        r = len(nums) - 1
         
         while l < r:
-            mid = (l+r) // 2
-            if nums[mid] > nums[mid+1]:
+            mid = l + (r - l) // 2
+            if nums[mid] > nums[mid + 1]:
                 r = mid
             else:
-                l = mid+1
+                l = mid + 1
     
         return l
 ```

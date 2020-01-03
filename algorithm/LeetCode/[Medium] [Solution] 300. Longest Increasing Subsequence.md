@@ -11,7 +11,8 @@ Explanation: The longest increasing subsequence is [2,3,7,101], therefore the le
 **Note:**
 
 There may be more than one LIS combination, it is only necessary for you to return the length.
-Your algorithm should run in O(n2) complexity.
+Your algorithm should run in O(n^2) complexity.
+
 **Follow up:** Could you improve it to O(n log n) time complexity?
 
 # Solution
@@ -211,6 +212,27 @@ Note: Arrays.binarySearch() method returns index of the search key, if it is con
 
 # Submissions
 ---
+
+**Solution 0: DP Top-Down [Time Limit Exceeded]**
+```python
+import functools
+class Solution:
+    def lengthOfLIS(self, nums: List[int]) -> int:
+        @functools.lru_cache(None)
+        def dfs(prev, cur):
+            if cur == len(nums):
+                return 0
+            
+            taken = 0
+            if prev < 0 or nums[cur] > nums[prev]:
+                taken = 1 + dfs(cur, cur + 1)
+
+            nottaken = dfs(prev, cur + 1)
+            return max(taken, nottaken)
+        
+        return dfs(-1, 0)
+```
+
 **Solution 1:**
 ```
 Runtime: 1020 ms
@@ -225,7 +247,7 @@ class Solution:
         N = len(nums)
         dp = [0 for _ in range(N)]
         dp[0] = 1
-        maxans = 1;
+        maxans = 1
         for i in range(1, N):
             maxval = 0
             for j in range(i):
@@ -238,8 +260,8 @@ class Solution:
 
 **Solution 2:**
 ```
-Runtime: 52 ms
-Memory Usage: 14 MB
+Runtime: 40 ms
+Memory Usage: 12.8 MB
 ```
 ```python
 class Solution:
@@ -249,8 +271,6 @@ class Solution:
         length = 0
         for num in nums:
             i = bisect.bisect_left(dp, num)
-            if i < 0:
-                i = -(i + 1)
             dp[i] = num
             if i == length:
                 length += 1

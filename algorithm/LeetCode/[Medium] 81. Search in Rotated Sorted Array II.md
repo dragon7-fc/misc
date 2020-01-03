@@ -25,6 +25,7 @@ Output: false
 
 # Submissions
 ---
+**Solution 1:**
 ```
 Runtime: 60 ms
 Memory Usage: 14.4 MB
@@ -33,4 +34,28 @@ Memory Usage: 14.4 MB
 class Solution:
     def search(self, nums: List[int], target: int) -> bool:
         if target in set(nums): return True
+```
+
+**Solution 2:**
+```
+Runtime: 52 ms
+Memory Usage: 13.4 MB
+```
+```python
+class Solution:
+    def search(self, nums: List[int], target: int) -> bool:
+        if not nums: return False
+
+        def dfs(left, right):
+            if left >= right: return False
+            mid = left + (right - left) // 2
+            if nums[mid] == target: return True
+            if nums[mid] == nums[left] and nums[left] == nums[right - 1]:
+                return dfs(left, mid) or dfs(mid + 1, right)
+            if nums[mid] >= nums[left]:                
+                return dfs(left, mid) if nums[left] <= target < nums[mid] else dfs(mid + 1, right)
+            else:
+                return dfs(mid + 1, right) if nums[mid] < target <= nums[right - 1] else dfs(left, mid)
+        
+        return dfs(0, len(nums))
 ```

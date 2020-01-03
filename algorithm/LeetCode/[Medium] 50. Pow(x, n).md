@@ -54,3 +54,27 @@ class Solution:
 
         return ans
 ```
+
+**Solution 2:**
+```
+Runtime: 28 ms
+Memory Usage: 12.8 MB
+```
+```python
+class Solution:
+    def myPow(self, x: float, n: int) -> float:
+        if n == 0:
+            return 1.0
+        
+        if n < 0:
+            x = 1/x
+            n = -n
+
+        ans = 1
+        if n %2 == 1:
+            ans = x * self.myPow(x*x, (n-1)/2)
+        else:
+            ans = self.myPow(x*x, n/2)
+
+        return ans
+```

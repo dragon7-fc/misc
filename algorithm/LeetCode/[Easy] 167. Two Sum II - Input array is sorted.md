@@ -19,51 +19,57 @@ Explanation: The sum of 2 and 7 is 9. Therefore index1 = 1, index2 = 2.
 ---
 **Solution 1:**
 ```
-Runtime: 76 ms
-Memory Usage: 15 MB
-```
-```python
-class Solution:
-    def twoSum(self, numbers: List[int], target: int) -> List[int]:
-        dic = collections.defaultdict(list)
-        for i in range(len(numbers)):
-            dic[numbers[i]].append(i+1)
-
-        for i in range(len(numbers)):
-            if target-numbers[i] in dic:
-                return [i+1, dic[target-numbers[i]][-1]]
-```
-
-**Solution 2:**
-```
-Runtime: 80 ms
-Memory Usage: 14.2 MB
-```
-```python
-class Solution:
-    def twoSum(self, numbers: List[int], target: int) -> List[int]:
-        r, l = len(numbers)-1, 0
-        while r>l:
-            if numbers[r]+numbers[l]==target:
-                return [l+1, r+1]
-            elif numbers[r]+numbers[l]>target:
-                r = r-1
-            else:
-                l = l+1
-        return []
-```
-
-**Solution 2:**
-```
-Runtime: 72 ms
-Memory Usage: 14 MB
+Runtime: 64 ms
+Memory Usage: 13.2 MB
 ```
 ```python
 class Solution:
     def twoSum(self, numbers: List[int], target: int) -> List[int]:
         memo = {}
+        
         for i, n in enumerate(numbers):
-            if target-n in memo:
-                return [memo[target-n]+1, i+1]
+            if target - n in memo:
+                return [memo[target - n] + 1, i + 1]
             memo[n] = i
+                
+```
+
+**Solution 2:**
+```
+Runtime: 72 ms
+Memory Usage: 42 MB
+```
+```python
+class Solution:
+    def twoSum(self, numbers: List[int], target: int) -> List[int]:
+        r, l = len(numbers) - 1, 0
+        
+        def dfs(l, r):
+            if numbers[r] + numbers[l] == target:
+                return [l+1, r+1]
+            elif numbers[r] + numbers[l] > target:
+                return dfs(l, r-1)
+            else:
+                return dfs(l+1, r)
+        
+        return dfs(l, r)
+```
+
+**Solution 3:**
+```
+Runtime: 60 ms
+Memory Usage: 13.3 MB
+```
+```python
+class Solution:
+    def twoSum(self, numbers: List[int], target: int) -> List[int]:
+        r, l = len(numbers)-1, 0
+        
+        while l < r:
+            if numbers[r] + numbers[l] == target:
+                return [l+1, r+1]
+            elif numbers[r] + numbers[l] > target:
+                r = r-1
+            else:
+                l = l+1
 ```
