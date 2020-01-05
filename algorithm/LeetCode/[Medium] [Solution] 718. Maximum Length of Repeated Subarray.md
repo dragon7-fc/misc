@@ -199,12 +199,11 @@ class Solution:
         @functools.lru_cache(None)
         def dfs(i, j, k):
             if i < 0 or j < 0:
-                return 0
-            for i2 in range(i,-1, -1):
-                if A[i2:i2+k] == B[j:j+k]:
-                    return 1 + dfs(i2-1, j-1,k+1)
-                else:
-                    return max(dfs(i-1, j, k), dfs(i, j-1, k))
+                return k
+            res = k
+            if A[i] == B[j]:
+                res = dfs(i-1, j-1, k+1)
+            return max(res, max(dfs(i-1, j, 0), dfs(i, j-1, 0)))
             
         return dfs(M-1, N-1, 1)
 ```
