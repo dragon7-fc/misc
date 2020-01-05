@@ -47,3 +47,8 @@ Happy Coding!!
 
 * 207. Course Schedule
 * 802. Find Eventual Safe States
+
+**Similar**
+
+* 1143. Longest Common Subsequence
+* 1312. Minimum Insertion Steps to Make a String Palindrome
