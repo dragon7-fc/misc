@@ -56,6 +56,8 @@ Happy Coding!!
 **Similar**
 
 * 1300. Sum of Mutated Array Closest to Target
+* 1292. Maximum Side Length of a Square with Sum Less than or Equal to Threshold
+* 1283. Find the Smallest Divisor Given a Threshold
 * 1231. Divide Chocolate
 * 1201. Ugly Number III
 * 1011. Capacity To Ship Packages In N Days

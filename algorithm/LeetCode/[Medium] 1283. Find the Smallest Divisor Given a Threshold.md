@@ -38,26 +38,25 @@ Output: 4
 ---
 **Solution 1:**
 ```
-Runtime: 540 ms
-Memory Usage: 18.6 MB
+Runtime: 484 ms
+Memory Usage: 18.8 MB
 ```
 ```python
 class Solution:
     def smallestDivisor(self, nums: List[int], threshold: int) -> int:
-        L, R = 1, max(nums)
-        def check(m):
+        lo, hi = 1, max(nums)
+        def check(n):
             s = 0
             for x in nums:
-                s += math.ceil(x/m)
+                s += math.ceil(x / n)
             return s <= threshold
-        
-        while L < R:
-            m = (L + R) // 2
-            if check(m):
-                ans = m
-                R = m
+
+        while lo < hi:
+            mi = lo + (hi - lo) // 2
+            if check(mi):
+                hi = mi
             else:
-                L = m + 1
-        
-        return ans
+                lo = mi + 1
+
+        return lo
 ```
