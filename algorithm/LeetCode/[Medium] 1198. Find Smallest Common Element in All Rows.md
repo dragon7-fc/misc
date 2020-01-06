@@ -38,3 +38,20 @@ class Solution:
         else:
             return -1
 ```
+
+**Solution 2: (not submitted)**
+```python
+class Solution:
+    def smallestCommonElement(self, mat: List[List[int]]) -> int:
+        R, C = len(mat), len(mat[0])
+        for a in mat[0]:
+            match = 0
+            for row in mat[1:]:
+                ind = bisect.bisect_left(row, a)
+                if ind == C or a != row[ind]:
+                    break
+                else:
+                    match += 1
+                    if match == R-1:
+                        return a
+```

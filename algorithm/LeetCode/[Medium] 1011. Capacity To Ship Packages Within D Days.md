@@ -54,13 +54,13 @@ Explanation:
 ---
 **Solution 1:**
 ```
-Runtime: 668 ms
-Memory Usage: 17 MB
+Runtime: 516 ms
+Memory Usage: 15.7 MB
 ```
 ```python
 class Solution:
     def shipWithinDays(self, weights: List[int], D: int) -> int:
-        def cannot_split(weights, D, max_wgt):
+        def cannot_split(max_wgt):
             s = 0
             days = 1
             for w in weights:
@@ -69,11 +69,11 @@ class Solution:
                     s = w
                     days += 1
             return days > D
-        
+
         low, high = max(weights), sum(weights)
         while low < high:
             mid = low + (high - low) // 2
-            if cannot_split(weights, D, mid):
+            if cannot_split(mid):
                 low = mid + 1
             else:
                 high = mid

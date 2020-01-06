@@ -52,3 +52,11 @@ Happy Coding!!
 
 * 1143. Longest Common Subsequence
 * 1312. Minimum Insertion Steps to Make a String Palindrome
+
+**Similar**
+
+* 1300. Sum of Mutated Array Closest to Target
+* 1231. Divide Chocolate
+* 1201. Ugly Number III
+* 1011. Capacity To Ship Packages In N Days
+* 875. Koko Eating Bananas
