@@ -53,12 +53,179 @@ Happy Coding!!
 * 1143. Longest Common Subsequence
 * 1312. Minimum Insertion Steps to Make a String Palindrome
 
-**Similar**
+## Dynamic Programming
 
-* 1300. Sum of Mutated Array Closest to Target
-* 1292. Maximum Side Length of a Square with Sum Less than or Equal to Threshold
-* 1283. Find the Smallest Divisor Given a Threshold
-* 1231. Divide Chocolate
-* 1201. Ugly Number III
-* 1011. Capacity To Ship Packages In N Days
-* 875. Koko Eating Bananas
+**Example 1: Top-down**
+```python
+from functools import lru_cache
+
+class Solution:
+    def stoneGame(self, piles):
+        N = len(piles)
+
+        @lru_cache(None)
+        def dp(i, j):
+            # The value of the game [piles[i], piles[i+1], ..., piles[j]].
+            if i > j: return 0
+            parity = (j - i - N) % 2
+            if parity == 1:  # first player
+                return max(piles[i] + dp(i+1,j), piles[j] + dp(i,j-1))
+            else:
+                return min(-piles[i] + dp(i+1,j), -piles[j] + dp(i,j-1))
+
+        return dp(0, N - 1) > 0
+```
+
+**Example 2: Bottom-up**
+```python
+class Solution(object):
+    def minimumDeleteSum(self, s1, s2):
+        dp = [[0] * (len(s2) + 1) for _ in xrange(len(s1) + 1)]
+
+        for i in xrange(len(s1) - 1, -1, -1):
+            dp[i][len(s2)] = dp[i+1][len(s2)] + ord(s1[i])
+        for j in xrange(len(s2) - 1, -1, -1):
+            dp[len(s1)][j] = dp[len(s1)][j+1] + ord(s2[j])
+
+        for i in xrange(len(s1) - 1, -1, -1):
+            for j in xrange(len(s2) - 1, -1, -1):
+                if s1[i] == s2[j]:
+                    dp[i][j] = dp[i+1][j+1]
+                else:
+                    dp[i][j] = min(dp[i+1][j] + ord(s1[i]),
+                                   dp[i][j+1] + ord(s2[j]))
+
+        return dp[0][0]
+```
+
+* [[Medium] [Solution] 877. Stone Game](%5BMedium%5D%20%5BSolution%5D%20877.%20Stone%20Game.md)
+* [[Medium] [Solution] 712. Minimum ASCII Delete Sum for Two Strings](%5BMedium%5D%20%5BSolution%5D%20712.%20Minimum%20ASCII%20Delete%20Sum%20for%20Two%20Strings.md)
+
+## Depth-first Search
+
+**Example 1:**
+```python
+class Solution(object):
+    def shortestBridge(self, A):
+        R, C = len(A), len(A[0])
+
+        def neighbors(r, c):
+            for nr, nc in ((r-1,c),(r,c-1),(r+1,c),(r,c+1)):
+                if 0 <= nr < R and 0 <= nc < C:
+                    yield nr, nc
+
+        def get_components():
+            done = set()
+            components = []
+            for r, row in enumerate(A):
+                for c, val in enumerate(row):
+                    if val and (r, c) not in done:
+                        # Start dfs
+                        stack = [(r, c)]
+                        seen = {(r, c)}
+                        while stack:
+                            node = stack.pop()
+                            for nei in neighbors(*node):
+                                if A[nei[0]][nei[1]] and nei not in seen:
+                                    stack.append(nei)
+                                    seen.add(nei)
+                        done |= seen
+                        components.append(seen)
+            return components
+
+        source, target = get_components()
+        print source, target
+        queue = collections.deque([(node, 0) for node in source])
+        done = set(source)
+        while queue:
+            node, d = queue.popleft()
+            if node in target: return d-1
+            for nei in neighbors(*node):
+                if nei not in done:
+                    queue.append((nei, d+1))
+                    done.add(nei)
+```
+* [[Medium] [Solution] 934. Shortest Bridge](%5BMedium%5D%20%5BSolution%5D%20934.%20Shortest%20Bridge.md)
+
+## Binary Search
+
+**Example 1:**
+```
+class Solution:
+    def search(self, nums: List[int], target: int) -> int:
+        left, right = 0, len(nums) - 1
+        while left <= right:
+            pivot = left + (right - left) // 2
+            if nums[pivot] == target:
+                return pivot
+            if target < nums[pivot]:
+                right = pivot - 1
+            else:
+                left = pivot + 1
+        return -1
+```
+**Example 2:**
+```python
+class Solution(object):
+    def peakIndexInMountainArray(self, A):
+        lo, hi = 0, len(A) - 1
+        while lo < hi:
+            mi = (lo + hi) / 2
+            if A[mi] < A[mi + 1]:
+                lo = mi + 1
+            else:
+                hi = mi
+        return lo
+```
+
+**Template 1**
+```python
+def is_XXX(...):
+    ...
+    
+lo, hi = 1, max(piles)
+while lo < hi:
+    mi = lo + (hi - lo) // 2
+    if is_XXX(...):
+        lo = mi + 1
+    else:
+        hi = mi
+return lo
+```
+
+**Template 2:**
+```python
+def is_XXX(...):
+    ...
+
+lo, hi = ...
+while lo <= hi: 
+    mi = lo + (hi - lo) // 2
+    if is_XXX(mi):
+        ans = max(ans, mi)
+        lo = mi + 1
+    else:
+        hi = mi - 1
+
+return ans
+```
+* library: `bisect`
+    * `bisect.bisect_left(a, x, lo=0, hi=len(a))`
+    * `bisect.bisect_right(a, x, lo=0, hi=len(a))` = `bisect.bisect(a, x, lo=0, hi=len(a))`
+* [[Medium] 1300. Sum of Mutated Array Closest to Target](%5BMedium%5D%201300.%20Sum%20of%20Mutated%20Array%20Closest%20to%20Target.md)
+* [[Medium] 1292. Maximum Side Length of a Square with Sum Less than or Equal to Threshold](%5BMedium%5D%201292.%20Maximum%20Side%20Length%20of%20a%20Square%20with%20Sum%20Less%20than%20or%20Equal%20to%20Threshold.md)
+* [[Hard] 1231. Divide Chocolate](%5BHard%5D%201231.%20Divide%20Chocolate.md)
+* [[Medium] 1201. Ugly Number III](%5BMedium%5D%201201.%20Ugly%20Number%20III.md)
+* [[Medium] 1011. Capacity To Ship Packages Within D Days](%5BMedium%5D%201011.%20Capacity%20To%20Ship%20Packages%20Within%20D%20Days.md)
+* [[Medium] [Solution] 875. Koko Eating Bananas](%5BMedium%5D%20%5BSolution%5D%20875.%20Koko%20Eating%20Bananas.md)
+
+# Regular Expression
+* library: `re`
+    * `re.match(pattern, string, flags=0)`
+    * `re.split(pattern, string, maxsplit=0, flags=0)`
+    * `re.findall(pattern, string, flags=0)`
+* [[Easy] 1309. Decrypt String from Alphabet to Integer Mapping](%5BEasy%5D%201309.%20Decrypt%20String%20from%20Alphabet%20to%20Integer%20Mapping.md)
+* [[Medium] [Solution] 640. Solve the Equation](%5BMedium%5D%20%5BSolution%5D%20640.%20Solve%20the%20Equation.md)
+* [[Medium] [Solution] 592. Fraction Addition and Subtraction](%5BMedium%5D%20%5BSolution%5D%20592.%20Fraction%20Addition%20and%20Subtraction.md)
+* [[Medium] 468. Validate IP Address](%5BMedium%5D%20468.%20Validate%20IP%20Address.md)
+* [[Medium] 227. Basic Calculator II](%5BMedium%5D%20227.%20Basic%20Calculator%20II.md)

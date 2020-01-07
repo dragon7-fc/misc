@@ -70,12 +70,12 @@ class Solution:
                     days += 1
             return days > D
 
-        low, high = max(weights), sum(weights)
-        while low < high:
-            mid = low + (high - low) // 2
-            if cannot_split(mid):
-                low = mid + 1
+        lo, hi = max(weights), sum(weights)
+        while lo < hi:
+            mi = lo + (hi - lo) // 2
+            if cannot_split(mi):
+                lo = mi + 1
             else:
-                high = mid
-        return low
+                hi = mi
+        return lo
 ```

@@ -65,13 +65,13 @@ class Solution:
         
         ab, bc, ca = lcm(a, b), lcm(b, c), lcm(c, a)
         abc = lcm(ab, c)
-        low = 1
-        high = 2 * 10 ** 9
-        while low < high:
-            mid = low + (high - low) // 2
-            if count_ugly(mid, a, b, c, ab, bc, ca, abc) < n:
-                low = mid + 1
+        
+        lo, hi = 1, 2 * 10 ** 9
+        while lo < hi:
+            mi = lo + (hi - lo) // 2
+            if count_ugly(mi, a, b, c, ab, bc, ca, abc) < n:
+                lo = mi + 1
             else:
-                high = mid
-        return low
+                hi = mi
+        return lo
 ```

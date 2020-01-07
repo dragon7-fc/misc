@@ -51,19 +51,20 @@ class Solution:
         lo, hi, n = 0, max(arr), len(arr)
         diff = collections.defaultdict(set)
         while lo <= hi:
-            mid = (lo+hi) // 2
-            total = getSum(mid)
+            mi = (lo+hi) // 2
+            total = getSum(mi)
             # store the absolute differences
-            diff[abs(total - target)].add(mid)
+            diff[abs(total - target)].add(mi)
             if total < target:
-                lo = mid+1
+                lo = mi + 1
             elif total > target:
-                hi = mid-1
+                hi = mi - 1
             else:
                 break
-        
+
         # Find the lowest diff
         cand = diff[sorted(diff.keys())[0]]
+        
         # Return the minimum value among candidates
         return sorted(cand)[0]
 ```
