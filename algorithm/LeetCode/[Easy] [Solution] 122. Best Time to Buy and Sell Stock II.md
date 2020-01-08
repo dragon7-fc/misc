@@ -151,7 +151,36 @@ class Solution {
 
 # Submissions
 ---
-**Solution:**
+**Solution: (DP Top-down, Time Limit Exceeded)**
+```python
+import functools
+class Solution:
+    def maxProfit(self, prices):
+        """
+        :type prices: List[int]
+        :rtype: int
+        """
+        N = len(prices)
+        profit = 0
+        
+        @functools.lru_cache(None)
+        def dfs(s):
+            if s >= N:
+                return 0
+            max_ = 0
+            for start in range(s, N):
+                maxProfit = 0
+                for i in range(start + 1, N):
+                    if prices[start] < prices[i]:
+                        profit = dfs(i+1) + prices[i] - prices[start]
+                        maxProfit = max(maxProfit, profit)
+                max_ = max(max_, maxProfit)
+            return max_
+            
+        return dfs(0)
+```
+
+**Solution: (Greedy)**
 ```
 Runtime: 68 ms
 Memory Usage: 14.7 MB

@@ -245,6 +245,58 @@ Therefore, since we start from position 1, $T(1) = 2^{n - 2}$. Final complexity 
 
 # Submissions
 ---
+**Solution: (DP Top-down, Time Limit Exceeded)**
+```python
+class Index:
+    GOOD = 0
+    BAD = 1
+    UNKNOWN = 2
+    
+class Solution:
+    def canJump(self, nums: List[int]) -> bool:
+        N = len(nums)
+        memo = [Index.UNKNOWN]*N
+        memo[N - 1] = Index.GOOD
+        
+        def canJumpFromPosition(position):
+            if (memo[position] != Index.UNKNOWN):
+                return True if memo[position] == Index.GOOD else False
+
+            furthestJump = min(position + nums[position], N - 1)
+            for nextPosition in range(position + 1, furthestJump + 1):
+                if canJumpFromPosition(nextPosition):
+                    memo[position] = Index.GOOD
+                    return True
+
+            memo[position] = Index.BAD
+            return False
+        
+        return canJumpFromPosition(0)
+```
+
+**Solution: (DP Bottom-up, Time Limit Exceeded)**
+```python
+class Index:
+    GOOD = 0
+    BAD = 1
+    UNKNOWN = 2
+    
+class Solution:
+    def canJump(self, nums: List[int]) -> bool:
+        N = len(nums)
+        memo = [Index.UNKNOWN]*N
+        memo[N - 1] = Index.GOOD
+        
+        for i in range(N - 2, -1, -1):
+            furthestJump = min(i + nums[i], N - 1)
+            for j in range(i + 1, furthestJump + 1):
+                if memo[j] == Index.GOOD:
+                    memo[i] = Index.GOOD
+                    break
+
+        return memo[0] == Index.GOOD
+```
+
 **Solution: (Greedy)**
 ```
 Runtime: 100 ms
@@ -253,9 +305,9 @@ Memory Usage: 15.9 MB
 ```python
 class Solution:
     def canJump(self, nums: List[int]) -> bool:
-        last_pos = len(nums)-1
-        for i in range(len(nums)-1,-1,-1):
-            if i+nums[i] >= last_pos:
+        last_pos = len(nums) - 1
+        for i in range(len(nums) - 1, -1, -1):
+            if i + nums[i] >= last_pos:
                 last_pos = i
         return last_pos == 0
 ```
