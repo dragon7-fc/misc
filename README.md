@@ -623,6 +623,8 @@ A playground to note something.
 
     - Docker
 
+        - CentOS
+
         ```bash
         nano /etc/systemd/system/docker.service.d/http-proxy.conf
 
@@ -632,6 +634,20 @@ A playground to note something.
         Environment="HTTPS_PROXY=http://[PROXY_IP]:[PROXY_PORT]"
         ##+++<
         ```
+
+        - Ubuntu
+
+        ```bash
+        nano /etc/default/docker
+        
+        ##+++>
+        export http_proxy="http://[PROXY_IP]:[PROXY_PORT]"
+        ##+++<
+        
+        service docker restart
+        ```
+
+        - command
 
         ```bash
         docker build --no-cache --build-arg HTTP_PROXY=$http_proxy \
@@ -644,6 +660,7 @@ A playground to note something.
         ```bash
         npm config set proxy http://[PROXY_IP]:[PROXY_PORT]
         npm config set https-proxy http://[PROXY_IP]:[PROXY_PORT]
+        npm set strict-ssl=false
         ```
 
 * Conda

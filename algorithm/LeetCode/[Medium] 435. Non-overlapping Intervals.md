@@ -34,7 +34,7 @@ Explanation: You don't need to remove any of the intervals since they're already
 ---
 **Solution 1: (Greedy)**
 ```
-Runtime: 60 ms
+Runtime: 72 ms
 Memory Usage: 16 MB
 ```
 ```python
@@ -42,15 +42,13 @@ class Solution:
     def eraseOverlapIntervals(self, intervals: List[List[int]]) -> int:
         if not intervals:
             return 0
-        sorted_intervals = sorted(intervals)
-        curr_interval, dels = sorted_intervals[0], 0
-        for i in range(1, len(sorted_intervals)):
-            next_interval = sorted_intervals[i]
-            if next_interval[0] >= curr_interval[1]:
-                curr_interval = next_interval
+        intervals.sort(key=lambda x: x[1])
+        prev_end = intervals[0][1]
+        ans = 0
+        for start, end in intervals[1:]:
+            if prev_end > start:
+                ans += 1
             else:
-                dels += 1
-                if curr_interval[1] > next_interval[1]:
-                    curr_interval = next_interval
-        return dels
+                prev_end = end
+        return ans
 ```
