@@ -682,6 +682,52 @@ A playground to note something.
         | install | `conda install XXX`  | `pip install XXX`   |
         | remove  | `condata remove XXX` | `pip remove XXX`    |
 
+* zsh
+
+    - install zsh
+    
+        `sudo apt-get install zsh`
+    - install Oh My Zsh
+    
+        `sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"`
+    - configure .zshrc
+    
+        ```bash
+        nano ~/.zshrc
+
+        ##+++>
+        # ZSH_THEME="robbyrussell"
+        ZSH_THEME="agnoster"
+        ##+++<
+        ```
+    - install Font: DejaVu Sans Mono for Powerline
+    
+        - [https://github.com/powerline/fonts/tree/master/DejaVuSansMono](https://github.com/powerline/fonts/tree/master/DejaVuSansMono)
+        - download and install `DejaVu Sans Mono for Powerline.ttf`
+    - setup putty
+    
+        - right click -> `Change Settings` -> `Appearance` -> `Font Settings` -> `Change` -> `DejaVu Sans Mono font`
+        - right click -> `Change Settings` -> `Appearance` -> `Font Settings` -> `Clear Type`
+        - right click -> `Change Settings` -> `Translation` -> `UTF8`
+        
+    - install powerline
+    
+        `sudo -E pip install powerline-status`
+    
+    - configure .zshrc
+    
+        ```bash
+    
+        ##+++>
+        export TERM=xterm-256color
+        if [[ -r /usr/local/lib/python2.7/dist-packages/powerline/bindings/zsh/powerline.zsh  ]]; then
+            source /usr/local/lib/python2.7/dist-packages/powerline/bindings/zsh/powerline.zsh
+        fi
+        ##+++<
+        ```
+    - finish
+    
+        `source ~/.zshrc`
 * IPython
 
     - [Ipython-quick-ref-sheets](https://damontallen.github.io/IPython-quick-ref-sheets/)
