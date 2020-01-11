@@ -41,7 +41,7 @@ Output: False
 
 We can think of the problem as drawing intervals on a number line. This gives us the idea of opening and closing events.
 
-To illustrate this concept, say we have nums = `[10, 10, 11, 11, 11, 11, 12, 12, 12, 12, 13]`, with no `9`s and no `14`s. We must have two sequences start at `10`, two sequences start at `11`, and 3 sequences end at `12`.
+To illustrate this concept, say we have nums = `[10, 10, 11, 11, 11, 11, 12, 12, 12, 12, 12]`, with no `9`s and no `14`s. We must have two sequences start at `10`, two sequences start at `11`, and 3 sequences end at `12`.
 
 In general, when considering a chain of consecutive integers `x`, we must have `C = count[x+1] - count[x]` sequences start at `x+1` when `C > 0`, and `-C` sequences end at `x` if `C < 0`. Even if there are more endpoints on the intervals we draw, there must be at least this many endpoints.
 
@@ -65,7 +65,7 @@ For example, when `nums = [1,2,3,3,4,5]`, then the starts are at `[1, 3]` and th
 * When `t = 4, count = 1`: `starts = [3]`, since `prev_count - count = 1` we process one closing event, which is accepted as `t-1 >= starts.popleft() + 2`.
 * When `t = 5, count = 1`: `starts = [3]`
 
-And at the end, we process prev_count more closing events `nums[-1]`.
+And at the end, we process `prev_count` more closing events `nums[-1]`.
 
 ```python
 class Solution(object):
@@ -107,7 +107,7 @@ Call a chain a sequence of `3` or more consecutive numbers.
 
 Considering numbers `x` from left to right, if `x` can be added to a current chain, it's at least as good to add `x` to that chain first, rather than to start a new chain.
 
-Why? If we started with numbers `x` and greater from the beginning, the shorter chains starting from `x` could be concatenated with the chains ending before `x`, possibly helping us if there was a "chain" from x that was only length `1` or `2`.
+Why? If we started with numbers `x` and greater from the beginning, the shorter chains starting from `x` could be concatenated with the chains ending before `x`, possibly helping us if there was a "chain" from `x` that was only length `1` or `2`.
 
 **Algorithm**
 
@@ -179,6 +179,75 @@ class Solution:
 ```
 
 **Solution: (Greedy)**
+
+**Example 1:**
+```
+nums - [1,2,3,3,4,5]
+
+step0:
+count: {1:1, 2:1, 3:2, 4:1, 5:1}
+tails: {}
+
+step1:
+x = 1
+count: {1:0, 2:0, 3:1, 4:1, 5:1}
+tails: {4:1}
+
+step2:
+x = 2
+continue
+
+step3:
+x = 3
+count: {1:0, 2:0, 3:0, 4:0, 5:0}
+tails: {4:1, 6:1}
+
+step4
+x = 4
+continue
+
+step5
+x = 5
+continue
+
+step6
+x = 6
+continue
+
+return True
+```
+
+**Example 2:**
+```
+nums = [1,2,3,4,4,5]
+
+step0:
+count = {1:1, 2:1, 3:1, 4:2, 5:1}
+tails = {}
+
+step1:
+x = 1
+count = {1:0, 2:0, 3:0, 4:2, 5:1}
+tails = {4:1}
+
+step2:
+x = 2
+cotinue
+
+step3:
+x = 3
+cotinue
+
+step4:
+x = 4
+count = {1:0, 2:0, 3:0, 4:1, 5:1}
+tails = {4:0, 5:1}
+
+step5:
+x = 4
+return False
+```
+
 ```
 Runtime: 608 ms
 Memory Usage: 14.1 MB
@@ -187,14 +256,14 @@ Memory Usage: 14.1 MB
 class Solution:
     def isPossible(self, nums: List[int]) -> bool:
         count = collections.Counter(nums)
-        tails = collections.Counter()
+        tails = collections.Counter()  # subsequence tail counter
         for x in nums:
             if count[x] == 0:
                 continue
-            elif tails[x] > 0:
+            elif tails[x] > 0:  # extend subsequence length
                 tails[x] -= 1
                 tails[x+1] += 1
-            elif count[x+1] > 0 and count[x+2] > 0:
+            elif count[x+1] > 0 and count[x+2] > 0:  # check subsequence existence
                 count[x+1] -= 1
                 count[x+2] -= 1
                 tails[x+3] += 1

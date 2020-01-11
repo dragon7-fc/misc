@@ -123,7 +123,7 @@ class Solution(object):
 
 # Submissions
 ---
-**Solution 1:**
+**Solution: (Greedy with Heap)**
 ```
 Runtime: 24 ms
 Memory Usage: 12.8 MB

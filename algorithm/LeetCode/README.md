@@ -53,6 +53,39 @@ Happy Coding!!
 * 1143. Longest Common Subsequence
 * 1312. Minimum Insertion Steps to Make a String Palindrome
 
+**Libraries**
+* library: `itertools`
+
+    * `itertools.groupby(iterable, key=None)`
+        
+        * ex. [k for k, g in groupby('AAAABBBCCDAABBB')] --> A B C D A B
+        * ex. [list(g) for k, g in groupby('AAAABBBCCD')] --> AAAA BBB CC D
+    * `itertools.product(*iterables, repeat=1)`
+    
+        * ex. product('ABCD', 'xy') --> Ax Ay Bx By Cx Cy Dx Dy
+        * ex. product(range(2), repeat=3) --> 000 001 010 011 100 101 110 111
+    * `itertools.permutations(iterable, r=None)`
+    
+        * ex. permutations('ABCD', 2) --> AB AC AD BA BC BD CA CB CD DA DB DC
+        * ex. permutations(range(3)) --> 012 021 102 120 201 210
+    * `itertools.combinations(iterable, r)`
+        
+        * ex. combinations('ABCD', 2) --> AB AC AD BC BD CD
+        * ex. combinations(range(4), 3) --> 012 013 023 123
+
+* library: `functools`
+
+    * `functools.lru_cache(user_function)`
+    * `functools.reduce(function, iterable[, initializer])`
+
+* library: `random`
+
+    * `random.randrange(stop)`
+    * `random.randrange(start, stop[, step])`
+    * `random.randint(a, b)`
+    * `random.uniform(a, b)`
+    * `random.choice(seq)`
+
 ## Dynamic Programming
 
 **Example 1: Top-down**

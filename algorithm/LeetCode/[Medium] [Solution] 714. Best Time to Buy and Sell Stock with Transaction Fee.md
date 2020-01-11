@@ -51,7 +51,7 @@ class Solution(object):
 
 # Submissions
 ---
-**Solution**
+**Solution: (DP)**
 ```
 Runtime: 820 ms
 Memory Usage: 20.7 MB
@@ -62,8 +62,30 @@ class Solution:
         cash = 0
         hold = -prices[0]
         for i in range(1, len(prices)):
-            cash = max(cash, hold + prices[i] - fee)
-            hold = max(hold, cash - prices[i])
+            cash = max(cash, hold + prices[i] - fee)  # sell stock
+            hold = max(hold, cash - prices[i])  # buy stock
             
         return cash
+```
+
+**Solution 1: (Greedy)**
+```
+Runtime: 660 ms
+Memory Usage: 19.2 MB
+```
+```python
+class Solution:
+    def maxProfit(self, prices: List[int], fee: int) -> int:
+        Min, Max = prices[0], 0
+    
+        for price in prices:
+            profit = price - Min - fee  # max profit = max price - min price
+            if profit > 0:  # find max profit
+                Max += profit
+                Min = price - fee
+            elif price < Min:  # find min price
+                Min = price
+
+
+        return Max
 ```
