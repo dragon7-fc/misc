@@ -53,6 +53,11 @@ Happy Coding!!
 * 1143. Longest Common Subsequence
 * 1312. Minimum Insertion Steps to Make a String Palindrome
 
+**Similar (Prefix/Range sum)**
+
+* [[Medium] 1314. Matrix Block Sum](%5BMedium%5D%201314.%20Matrix%20Block%20Sum.md)
+* [[Medium] [Solution] 304. Range Sum Query 2D - Immutable](%5BMedium%5D%20%5BSolution%5D%20304.%20Range%20Sum%20Query%202D%20-%20Immutable.md)
+
 **Libraries**
 * library: `itertools`
 
