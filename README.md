@@ -690,16 +690,7 @@ A playground to note something.
     - install Oh My Zsh
     
         `sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"`
-    - configure .zshrc
-    
-        ```bash
-        nano ~/.zshrc
-
-        ##+++>
-        # ZSH_THEME="robbyrussell"
-        ZSH_THEME="agnoster"
-        ##+++<
-        ```
+        
     - install Font: DejaVu Sans Mono for Powerline
     
         - [https://github.com/powerline/fonts/tree/master/DejaVuSansMono](https://github.com/powerline/fonts/tree/master/DejaVuSansMono)
@@ -714,9 +705,29 @@ A playground to note something.
     
         `sudo -E pip install powerline-status`
     
+    - install plugins
+    
+        - zsh-syntax-highlighting
+        
+            `git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting`
+        - zsh-autosuggestions
+        
+            `git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions`
+        - zsh-completions
+        
+            `git clone https://github.com/zsh-users/zsh-completions ${ZSH_CUSTOM:=~/.oh-my-zsh/custom}/plugins/zsh-completions`
     - configure .zshrc
     
         ```bash
+        ##+++>
+        # ZSH_THEME="robbyrussell"
+        ZSH_THEME="agnoster"
+        ##+++<
+        
+        ##+++>
+        # plugins=(git)
+        plugins=(git zsh-completions zsh-autosuggestions zsh-syntax-highlighting)
+        ##+++<
     
         ##+++>
         export TERM=xterm-256color
