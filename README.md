@@ -713,7 +713,35 @@ A playground to note something.
     - install powerline
     
         `sudo -E pip install powerline-status`
+        
+    - configure powerline
     
+        ```bash
+        mkdir -p ~/.config/powerline/themes/shell
+        cp /usr/local/lib/python2.7/dist-packages/powerline/config_files/themes/shell/default.json ~/.config/powerline/themes/shell
+        
+        nano ~/.config/powerline/themes/shell/default.json
+        
+        ##--->
+                        {
+                                "function": "powerline.segments.common.net.hostname",
+                                "priority": 10
+                        },
+                        {
+                                "function": "powerline.segments.common.env.user",
+                                "priority": 30
+                        },
+        ##---<
+        ##+++>
+                        {
+                                "function": "powerline.segments.common.time.date",
+                                "args": {
+                                    "format": "%Y-%m-%d %H:%M:%S"
+                                },
+                                "priority": 10
+                        }
+        ##+++<
+        ```
     - configure .zshrc
     
         ```bash
