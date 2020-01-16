@@ -39,7 +39,7 @@ Explanation: Swapping 1 and 3.
 
 # Submissions
 ---
-**Solution 1:**
+**Solution 1: (Greedy)**
 ```
 Runtime: 284 ms
 Memory Usage: 14.8 MB
@@ -47,7 +47,8 @@ Memory Usage: 14.8 MB
 ```python
 class Solution:
     def prevPermOpt1(self, A: List[int]) -> List[int]:
-        ind=None
+        ind = None
+        # find right-most decreasing seq A[ind]
         for i in range(len(A)-1,-1,-1):
             if i-1 >= 0 and A[i-1] > A[i]:
                 ind = i-1
@@ -59,6 +60,7 @@ class Solution:
 
         mx = float('-inf')
 
+        # find A[mxind] nearest to A[ind], from ind to end
         for i in range(ind+1, len(A)):
             if A[i] > mx and A[i] < A[ind]:
                 mx = A[i]
