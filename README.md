@@ -727,7 +727,7 @@ A playground to note something.
                         {
                                 "function": "powerline.segments.common.time.date",
                                 "args": {
-                                    "format": "%Y-%m-%d %H:%M:%S"
+                                    "format": "%H:%M:%S"
                                 },
                                 "priority": 10
                         }
