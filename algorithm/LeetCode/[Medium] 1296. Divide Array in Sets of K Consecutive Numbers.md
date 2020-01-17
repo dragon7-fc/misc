@@ -40,7 +40,7 @@ Explanation: Each array should be divided in subarrays of size 3.
 
 # Submissions
 ---
-**Solution 1:**
+**Solution 1: (Greedy)**
 ```
 Runtime: 444 ms
 Memory Usage: 27.4 MB

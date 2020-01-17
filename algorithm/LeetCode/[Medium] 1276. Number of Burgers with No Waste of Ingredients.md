@@ -49,7 +49,7 @@ Output: [0,1]
 
 # Submissions
 ---
-**Solution 1:**
+**Solution 1: (Math)**
 
 treat it like two equations where you have 2 known 2 variable:
 

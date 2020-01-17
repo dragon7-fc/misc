@@ -42,7 +42,7 @@ Output: [0,0,0,1,1,0,1,1]
 
 # Submissions
 ---
-**Solution 1:**
+**Solution 1: (Greedy)**
 ```
 Runtime: 48 ms
 Memory Usage: 13.1 MB

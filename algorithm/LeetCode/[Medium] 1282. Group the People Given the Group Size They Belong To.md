@@ -1,6 +1,6 @@
 1282. Group the People Given the Group Size They Belong To
 
-There are `n` people whose IDs go from `0` to `n - 1` and each person belongs exactly to one group. Given the array `groupSizes` of length `n` telling the group size each person belongs to, return the groups there are and the people's IDs each group includes.
+There are `n` people whose **IDs** go from `0` to `n - 1` and each person belongs **exactly** to one group. Given the array `groupSizes` of length `n` telling the group size each person belongs to, return the groups there are and the people's **IDs** each group includes.
 
 You can return any solution in any order and the same applies for IDs. Also, it is guaranteed that there exists at least one solution. 
 
@@ -28,7 +28,7 @@ Output: [[1],[0,5],[2,3,4]]
 
 # Submissions
 ---
-**Solution 1:**
+**Solution 1: (Greedy)**
 ```
 Runtime: 72 ms
 Memory Usage: 12.9 MB
@@ -39,6 +39,5 @@ class Solution:
         count = collections.defaultdict(list)
         for i, size in enumerate(groupSizes):
             count[size].append(i)
-        return [l[i:i + s]for s, l in count.items() for i in range(0, len(l), s)]
-        
+        return [ids[i:i + size] for size, ids in count.items() for i in range(0, len(ids), size)]
 ```

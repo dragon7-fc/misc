@@ -43,7 +43,7 @@ Output: 4
 
 # Submissions
 ---
-**Solution 1:**
+**Solution 1: (Greedy)**
 
 First, ignore all the already matched positions, they don't affect the answer at all.
 For the unmatched positions, there are three basic cases:
@@ -60,7 +60,7 @@ Memory Usage: 12.8 MB
 class Solution:
     def minimumSwap(self, s1: str, s2: str) -> int:
         unmatch = ''.join(s1[i] for i in range(len(s1)) if s1[i] != s2[i])
-        if len(unmatch)&1:
+        if len(unmatch) & 1:
             return -1
         cnt, res = collections.Counter(unmatch), 0
         for v in cnt.values():
