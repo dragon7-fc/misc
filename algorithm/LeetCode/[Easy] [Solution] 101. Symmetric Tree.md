@@ -95,7 +95,7 @@ public boolean isSymmetric(TreeNode root) {
 
 # Submissions
 ---
-**Solution 1:**
+**Solution 1: (DFS)**
 ```
 Runtime: 52 ms
 Memory Usage: N/A
@@ -131,7 +131,7 @@ class Solution:
         return isMirror(root.left, root.right)
 ```
 
-**Solution 2:**
+**Solution 2: (BFS)**
 ```
 Runtime: 44 ms
 Memory Usage: N/A

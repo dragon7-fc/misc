@@ -20,7 +20,7 @@ return its minimum depth = 2.
 
 # Submissions
 ---
-**Solution 1:**
+**Solution 1: (DFS)**
 ```
 Runtime: 44 ms
 Memory Usage: 15 MB
@@ -47,7 +47,7 @@ class Solution:
         return self.depth
 ```
 
-**Solution 2:**
+**Solution 2: (BFS)**
 ```
 Runtime: 40 ms
 Memory Usage: 13.9 MB

@@ -22,7 +22,7 @@ return its zigzag level order traversal as:
 
 # Submissions
 ---
-**Solution 1:**
+**Solution 1: (BFS)**
 ```
 Runtime: 24 ms
 Memory Usage: 12.8 MB

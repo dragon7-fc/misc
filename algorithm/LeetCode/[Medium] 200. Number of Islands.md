@@ -28,7 +28,7 @@ Output: 3
 
 # Submissions
 ---
-**Solution 1:**
+**Solution 1: (DFS)**
 ```
 Runtime: 112 ms
 Memory Usage: N/A
@@ -60,4 +60,39 @@ class Solution:
                     chk_island(r, c)
         
         return island
+```
+
+**Solution 2: (BFS)**
+```
+Runtime: 160 ms
+Memory Usage: 13.7 MB
+```
+```python
+class Solution:
+    def numIslands(self, grid: List[List[str]]) -> int:
+        delta = [(1, 0), (0, 1), (-1, 0), (0, -1)]
+        def is_island(x, y):
+            if x >= len(grid) or x < 0:
+                return False
+            if y >= len(grid[0]) or y < 0 :
+                return False
+            if grid[x][y] == '0':
+                return False
+            return True
+        ans = 0
+        for i in range(len(grid)):
+            for j in range(len(grid[0])):
+                if grid[i][j] == '0':
+                    continue
+                else:
+                    queue = collections.deque([(i, j)])
+                    while queue:
+                        x, y = queue.popleft()
+                        for dx, dy in delta:
+                            new_x, new_y = x + dx, y + dy
+                            if is_island(new_x, new_y):
+                                queue.append((new_x, new_y))
+                                grid[new_x][new_y] = '0'
+                    ans += 1 
+        return ans
 ```

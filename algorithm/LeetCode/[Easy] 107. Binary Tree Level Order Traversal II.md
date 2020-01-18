@@ -22,7 +22,7 @@ return its bottom-up level order traversal as:
 
 # Submissions
 ---
-**Solution 1:**
+**Solution 1: (BFS)**
 ```
 Runtime: 36 ms
 Memory Usage: 12.9 MB

@@ -117,7 +117,7 @@ Because breadth-first search visits the tree layer-by-layer, the queue will be a
 
 # Submissions
 ---
-**Solution:**
+**Solution: (BFS)**
 ```
 Runtime: 32 ms
 Memory Usage: 12.7 MB

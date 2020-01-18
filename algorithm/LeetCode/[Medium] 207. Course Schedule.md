@@ -30,7 +30,7 @@ Explanation: There are a total of 2 courses to take.
 
 # Submissions
 ---
-**Solution 1:**
+**Solution 1: (DFS)**
 ```
 Runtime: 104 ms
 Memory Usage: 16.3 MB
