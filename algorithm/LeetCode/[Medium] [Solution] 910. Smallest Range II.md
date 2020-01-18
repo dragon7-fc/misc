@@ -70,7 +70,7 @@ class Solution(object):
 
 # Submissions
 ---
-**Solution:**
+**Solution: (Greedy)**
 ```
 Runtime: 168 ms
 Memory Usage: 13.9 MB

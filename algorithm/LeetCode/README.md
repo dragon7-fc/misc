@@ -311,6 +311,72 @@ return ans
 * [[Medium] 1011. Capacity To Ship Packages Within D Days](%5BMedium%5D%201011.%20Capacity%20To%20Ship%20Packages%20Within%20D%20Days.md)
 * [[Medium] [Solution] 875. Koko Eating Bananas](%5BMedium%5D%20%5BSolution%5D%20875.%20Koko%20Eating%20Bananas.md)
 
+## Greedy
+
+**Example 1:**
+```python
+class Solution:
+    def maxProfit(self, prices: List[int], fee: int) -> int:
+        Min, Max = prices[0], 0
+
+        for price in prices:
+            profit = price - Min - fee  # max profit = max price - min price
+            if profit > 0:  # find max profit
+                Max += profit
+                Min = price - fee
+            elif price < Min:  # find min price
+                Min = price
+
+
+        return Max
+```
+
+**Example 2:**
+```python
+class Solution:
+    def advantageCount(self, A: List[int], B: List[int]) -> List[int]:
+        sortedA = sorted(A)
+        sortedB = sorted(B)
+
+        # assigned[b] = list of a that are assigned to beat b
+        # remaining = list of a that are not assigned to any b
+        assigned = {b: [] for b in B}
+        remaining = []
+
+        # populate (assigned, remaining) appropriately
+        # sortedB[j] is always the smallest unassigned element in B
+        j = 0
+        for a in sortedA:
+            if a > sortedB[j]:
+                assigned[sortedB[j]].append(a)
+                j += 1
+            else:
+                remaining.append(a)
+
+        # Reconstruct the answer from annotations (assigned, remaining)
+        return [assigned[b].pop() if assigned[b] else remaining.pop()
+                for b in B]
+```
+
+**Template 1:**
+```python
+ans = []
+A.sort()
+for i in ragen(len(A)):
+    if /* max profit */:
+        ans += ...
+        
+return ans
+```
+
+* [[Medium] [Solution] 714. Best Time to Buy and Sell Stock with Transaction Fee](%5BMedium%5D%20%5BSolution%5D%20714.%20Best%20Time%20to%20Buy%20and%20Sell%20Stock%20with%20Transaction%20Fee.md)
+* [[Medium] [Solution] 767. Reorganize String](%5BMedium%5D%20%5BSolution%5D%20767.%20Reorganize%20String.md)
+* [[Medium] [Solution] 738. Monotone Increasing Digits](%5BMedium%5D%20%5BSolution%5D%20738.%20Monotone%20Increasing%20Digits.md)
+* [[Easy] [Solution] 874. Walking Robot Simulation](%5BEasy%5D%20%5BSolution%5D%20874.%20Walking%20Robot%20Simulation.md)
+* [[Medium] [Solution] 870. Advantage Shuffle](%5BMedium%5D%20%5BSolution%5D%20870.%20Advantage%20Shuffle.md)
+* [[Medium] [Solution] 376. Wiggle Subsequence](%5BMedium%5D%20%5BSolution%5D%20376.%20Wiggle%20Subsequence.md)
+* [[Medium] [Solution] 55. Jump Game](%5BMedium%5D%20%5BSolution%5D%2055.%20Jump%20Game.md)
+
 # Regular Expression
 * library: `re`
     * `re.match(pattern, string, flags=0)`

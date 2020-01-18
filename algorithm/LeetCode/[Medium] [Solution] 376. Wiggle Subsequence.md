@@ -228,7 +228,7 @@ public class Solution {
 
 # Submissions
 ---
-**Solution 1:**
+**Solution 1: (DP)**
 ```
 Runtime: 44 ms
 Memory Usage: 13.9 MB
@@ -249,7 +249,7 @@ class Solution:
         return max(up, down)
 ```
 
-**Solution 2**
+**Solution 2 (Greedy)**
 ```
 Runtime: 40 ms
 Memory Usage: 14 MB
