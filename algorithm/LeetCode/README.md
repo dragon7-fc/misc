@@ -77,7 +77,9 @@ Happy Coding!!
         
         * ex. combinations('ABCD', 2) --> AB AC AD BC BD CD
         * ex. combinations(range(4), 3) --> 012 013 023 123
-
+    * `itertools.zip_longest(*iterables, fillvalue=None)`
+    
+        * ex. zip_longest('ABCD', 'xy', fillvalue='-') --> Ax By C- D-
 * library: `functools`
 
     * `functools.lru_cache(user_function)`
@@ -236,13 +238,86 @@ class Solution(object):
                     queue.append((nei, d+1))
                     done.add(nei)
 ```
+
+**Exaomple 4:**
+```python
+class Solution:
+    def canFinish(self, numCourses: int, prerequisites: List[List[int]]) -> bool:
+        seen = [0 for _ in range(numCourses)]
+        graph = [[] for i in range(numCourses)]
+        for course, pre_course in prerequisites:
+            graph[pre_course].append(course)
+        def dfs(course: int) -> bool:
+            if seen[course] == -1:
+                return False
+            if seen[course] == 1:
+                return True
+            seen[course] = -1
+            for target in graph[course]:
+                if not dfs(target):
+                    return False
+            seen[course] = 1
+            return True
+        return all(dfs(course) for course in range(numCourses))
+```
+
+**Template 1: (Postorder)**
+```python
+ans = ...
+def dfs(...):
+    if not ...:
+        return
+    ...
+    if ...:
+        return ...
+    return ...
+
+XXX = dfs(...)
+if XXX:
+    ans ...
+return ans
+```
+
+**Template 2: (Matrix)**
+```python
+def dfs(matrix):
+    # 1. Check for an empty graph.
+    if not matrix:
+        return []
+
+    # 2. Initialize
+    rows, cols = len(matrix), len(matrix[0])
+    visited = set()
+    directions = ((0, 1), (0, -1), (1, 0), (-1, 0))
+
+    def traverse(i, j):
+        # a. Check if visited
+        if (i, j) in visited:
+            return
+        # b. Else add to visted
+        visited.add((i, j))
+
+        # c. Traverse neighbors.
+        for direction in directions:
+            next_i, next_j = i + direction[0], j + direction[1]
+            if 0 <= next_i < rows and 0 <= next_j < cols:
+                # d. Add in your question-specific checks.
+                traverse(next_i, next_j)
+
+    # 3. For each point, traverse it.
+    for i in range(rows):
+        for j in range(cols):
+            traverse(i, j)
+```
+
 * [[Medium] [Solution] 684. Redundant Connection](%5BMedium%5D%20%5BSolution%5D%20684.%20Redundant%20Connection.md)
 * [[Medium] [Solution] 934. Shortest Bridge](%5BMedium%5D%20%5BSolution%5D%20934.%20Shortest%20Bridge.md)
+* [[Medium] 1110. Delete Nodes And Return Forest](%5BMedium%5D%201110.%20Delete%20Nodes%20And%20Return%20Forest.md)
 
 ## Binary Search
 
 **Example 1:**
-```
+```python
 class Solution:
     def search(self, nums: List[int], target: int) -> int:
         left, right = 0, len(nums) - 1
@@ -377,72 +452,57 @@ return ans
 * [[Medium] [Solution] 376. Wiggle Subsequence](%5BMedium%5D%20%5BSolution%5D%20376.%20Wiggle%20Subsequence.md)
 * [[Medium] [Solution] 55. Jump Game](%5BMedium%5D%20%5BSolution%5D%2055.%20Jump%20Game.md)
 
-## BFS
+## Breadth-first Search
 
 **Example 1:**
 ```python
-class Solution:
-    def __init__(self):
-        self.length = 0
-        # Dictionary to hold combination of words that can be formed,
-        # from any given word. By changing one letter at a time.
-        self.all_combo_dict = collections.defaultdict(list)
-
-    def visitWordNode(self, queue, visited, others_visited):
-        current_word, level = queue.popleft()
-        for i in range(self.length):
-            # Intermediate words for current word
-            intermediate_word = current_word[:i] + "*" + current_word[i+1:]
-
-            # Next states are all the words which share the same intermediate state.
-            for word in self.all_combo_dict[intermediate_word]:
-                # If the intermediate state/word has already been visited from the
-                # other parallel traversal this means we have found the answer.
-                if word in others_visited:
-                    return level + others_visited[word]
-                if word not in visited:
-                    # Save the level as the value of the dictionary, to save number of hops.
-                    visited[word] = level + 1
-                    queue.append((word, level + 1))
-        return None
-
-    def ladderLength(self, beginWord: str, endWord: str, wordList: List[str]) -> int:
+from collections import defaultdict
+class Solution(object):
+    def ladderLength(self, beginWord, endWord, wordList):
+        """
+        :type beginWord: str
+        :type endWord: str
+        :type wordList: List[str]
+        :rtype: int
+        """
 
         if endWord not in wordList or not endWord or not beginWord or not wordList:
             return 0
 
         # Since all words are of same length.
-        self.length = len(beginWord)
+        L = len(beginWord)
 
+        # Dictionary to hold combination of words that can be formed,
+        # from any given word. By changing one letter at a time.
+        all_combo_dict = defaultdict(list)
         for word in wordList:
-            for i in range(self.length):
+            for i in range(L):
                 # Key is the generic word
                 # Value is a list of words which have the same intermediate generic word.
-                self.all_combo_dict[word[:i] + "*" + word[i+1:]].append(word)
+                all_combo_dict[word[:i] + "*" + word[i+1:]].append(word)
 
 
-        # Queues for birdirectional BFS
-        queue_begin = collections.deque([(beginWord, 1)]) # BFS starting from beginWord
-        queue_end = collections.deque([(endWord, 1)]) # BFS starting from endWord
+        # Queue for BFS
+        queue = collections.deque([(beginWord, 1)])
+        # Visited to make sure we don't repeat processing same word.
+        visited = {beginWord: True}
+        while queue:
+            current_word, level = queue.popleft()      
+            for i in range(L):
+                # Intermediate words for current word
+                intermediate_word = current_word[:i] + "*" + current_word[i+1:]
 
-        # Visited to make sure we don't repeat processing same word
-        visited_begin = {beginWord: 1}
-        visited_end = {endWord: 1}
-        ans = None
-
-        # We do a birdirectional search starting one pointer from begin
-        # word and one pointer from end word. Hopping one by one.
-        while queue_begin and queue_end:
-
-            # One hop from begin word
-            ans = self.visitWordNode(queue_begin, visited_begin, visited_end)
-            if ans:
-                return ans
-            # One hop from end word
-            ans = self.visitWordNode(queue_end, visited_end, visited_begin)
-            if ans:
-                return ans
-
+                # Next states are all the words which share the same intermediate state.
+                for word in all_combo_dict[intermediate_word]:
+                    # If at any point if we find what we are looking for
+                    # i.e. the end word - we can return with the answer.
+                    if word == endWord:
+                        return level + 1
+                    # Otherwise, add it to the BFS Queue. Also mark it visited
+                    if word not in visited:
+                        visited[word] = True
+                        queue.append((word, level + 1))
+                all_combo_dict[intermediate_word] = []
         return 0
 ```
 

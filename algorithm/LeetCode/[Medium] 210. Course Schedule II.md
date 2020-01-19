@@ -70,3 +70,31 @@ class Solution:
                 return []
         return ans     
 ```
+
+**Solution 2: (BFS)**
+```
+Runtime: 104 ms
+Memory Usage: 14.1 MB
+```
+```python
+class Solution:
+    def findOrder(self, numCourses: int, prerequisites: List[List[int]]) -> List[int]:
+        graph = collections.defaultdict(list)
+        indegree = [0] * numCourses
+        ans = []
+
+        for course, pre in prerequisites:
+            graph[pre].append(course)
+            indegree[course] += 1
+
+        q = collections.deque([i for i in range(numCourses) if indegree[i] == 0])
+        while q:
+            course = q.popleft()
+            ans.append(course)
+            for pre in graph[course]:
+                indegree[pre] -= 1
+                if indegree[pre] == 0:
+                    q.append(pre)
+
+        return ans if len(ans) == numCourses else []
+```

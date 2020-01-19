@@ -31,7 +31,7 @@ Return:
 
 # Submissions
 ---
-**Solution 1:**
+**Solution 1: (DFS)**
 ```
 Runtime: 280 ms
 Memory Usage: 16.2 MB
@@ -69,5 +69,60 @@ class Solution:
             traverse(rows - 1, col, a_visited)
 
         return list(p_visited & a_visited)
+```
 
+**Solution 2: (BFS)**
+```
+Runtime: 316 ms
+Memory Usage: 14.1 MB
+```
+```python
+class Solution:
+    def pacificAtlantic(self, matrix: List[List[int]]) -> List[List[int]]:
+        if not matrix:
+            return 
+        row = len(matrix)
+        col = len(matrix[0])
+        pacific = [[False for _ in range(col)] for _ in range(row)]
+        atlantic = [[False for _ in range(col)] for _ in range(row)]
+        queue_p = []
+        queue_a = []
+        re = []
+        for i in [0,row-1]:
+            for j in range(col):
+                if i == 0:
+                    pacific[i][j]= True
+                    queue_p.append((i,j))
+                if i == row-1:
+                    atlantic[i][j] = True
+                    queue_a.append((i,j))
+        for i in range(row):
+            for j in [0,col-1]:
+                if j == 0:
+                    pacific[i][j] = True
+                    queue_p.append((i,j))
+                if j == col-1:
+                    atlantic[i][j] = True
+                    queue_a.append((i,j))
+        while queue_p:
+            a, b = queue_p.pop(0)
+            for m, n in ((a-1,b),(a+1,b),(a,b-1),(a,b+1)):
+                if 0 <= m < row and 0 <= n < col and not pacific[m][n] and matrix[m][n] >= matrix[a][b]:
+                    pacific[m][n] = True
+                    queue_p.append((m,n))
+   
+                
+        while queue_a:
+            a, b = queue_a.pop(0)
+            for m, n in ((a-1,b),(a+1,b),(a,b-1),(a,b+1)):
+                if 0 <= m < row and 0 <= n < col and not atlantic[m][n] and matrix[m][n] >= matrix[a][b]:
+                    atlantic[m][n]= True
+                    queue_a.append((m,n))
+   
+
+        for i in range(row):
+            for j in range(col):
+                if pacific[i][j] and atlantic[i][j]:
+                    re.append([i,j])
+        return re
 ```

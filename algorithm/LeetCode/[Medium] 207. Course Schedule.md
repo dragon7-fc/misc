@@ -32,37 +32,51 @@ Explanation: There are a total of 2 courses to take.
 ---
 **Solution 1: (DFS)**
 ```
-Runtime: 104 ms
-Memory Usage: 16.3 MB
+Runtime: 96 ms
+Memory Usage: 15.7 MB
 ```
 ```python
 class Solution:
     def canFinish(self, numCourses: int, prerequisites: List[List[int]]) -> bool:
-        graph = {x : [] for x in range(numCourses)}
-        visited = {x : 0 for x in range(numCourses)}
-        
-        for x, y in prerequisites:
-            graph[x] += [y]
-            
-        def dfs(course):
-            nonlocal graph, visited
-            
-            if visited[course] == -1:
+        seen = [0 for _ in range(numCourses)]
+        graph = [[] for i in range(numCourses)]
+        for course, pre_course in prerequisites:
+            graph[pre_course].append(course)
+        def dfs(course: int) -> bool:
+            if seen[course] == -1:
                 return False
-            if visited[course] == 1:
+            if seen[course] == 1:
                 return True
-            
-            visited[course] = -1  # start visit
-            
-            for i in graph[course]:
-                if not dfs(i):
+            seen[course] = -1
+            for target in graph[course]:
+                if not dfs(target):
                     return False
-            
-            visited[course] = 1  # end visit
-            
+            seen[course] = 1
             return True
-            
-        noCycle = all(dfs(i) for i in range(numCourses))
-        
-        return True if noCycle else False
+        return all(dfs(course) for course in range(numCourses))
+```
+
+**Solution 2: (BFS)**
+```
+Runtime: 100 ms
+Memory Usage: 13.7 MB
+```
+```python
+class Solution:
+    def canFinish(self, numCourses: int, prerequisites: List[List[int]]) -> bool:
+        graph = [[] for i in range(numCourses)]
+        indegrees = [0] * numCourses
+        for course, pre_course in prerequisites:
+            graph[pre_course].append(course)
+            indegrees[course] += 1
+
+        queue = collections.deque(course for course, degree in enumerate(indegrees) if not degree)
+        while queue:
+            course = queue.popleft()
+            for next_course in graph[course]:
+                indegrees[next_course] -= 1
+                if not indegrees[next_course]:
+                    queue.append(next_course)
+
+        return not sum(indegrees)
 ```

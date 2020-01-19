@@ -25,7 +25,7 @@ Output: [[1,2,null,4],[6],[7]]
 
 # Submissions
 ---
-**Solution 1:**
+**Solution 1: (DFS)**
 ```
 Runtime: 56 ms
 Memory Usage: 12.9 MB
