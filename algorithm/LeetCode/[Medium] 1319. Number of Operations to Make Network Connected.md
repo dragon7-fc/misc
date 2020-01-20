@@ -48,7 +48,7 @@ Output: 0
 
 # Submissions
 ---
-**Solution 1:**
+**Solution 1: (DFS)**
 
 **Explanation**
 

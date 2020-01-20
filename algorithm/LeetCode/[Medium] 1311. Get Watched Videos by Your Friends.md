@@ -45,7 +45,7 @@ You have id = 0 (green color in the figure) and the only friend of your friends 
 
 # Submissions
 ---
-**Solution 1:**
+**Solution 1: (BFS)**
 ```
 Runtime: 304 ms
 Memory Usage: 14.5 MB

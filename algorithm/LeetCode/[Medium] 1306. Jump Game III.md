@@ -40,9 +40,9 @@ Explanation: There is no way to reach at index 1 with value 0.
 
 # Submissions
 ---
-**Solution 1:**
+**Solution 1: (BFS)**
 ```
-Runtime: 260 ms
+Runtime: 240 ms
 Memory Usage: 19 MB
 ```
 ```python
@@ -53,16 +53,16 @@ class Solution:
         seen = set()
 
         q.append(start)
+        seen.add(start)
 
         while q:
             ind = q.popleft()
-            seen.add(ind)
             if arr[ind] == 0:
                 return True 
             for x in (ind - arr[ind], ind + arr[ind]):
                 if 0 <= x < N and x not in seen:
                     q.append(x)
+                    seen.add(x)
 
-        return False 
-        
+        return False
 ```
