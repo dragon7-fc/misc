@@ -142,7 +142,7 @@ class Solution(object):
 
 # Submissions
 ---
-**Solution 1:**
+**Solution 1: (DFS, BFS)**
 ```
 Runtime: 32 ms
 Memory Usage: 13.1 MB

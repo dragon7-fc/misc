@@ -29,7 +29,7 @@ Output: [[1],[2,3,4,5],[6,7,8,9,10],[11,12,13],[14]]
 
 # Submissions
 ---
-**Solution 1:**
+**Solution 1: (BFS)**
 ```
 Runtime: 48 ms
 Memory Usage: 14.6 MB

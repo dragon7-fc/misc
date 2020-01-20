@@ -28,7 +28,7 @@ Explanation: [0, 0] → [2, 1] → [4, 2] → [3, 4] → [5, 5]
 
 # Submissions
 ---
-**Solution**
+**Solution 1: (BFS)**
 ```python
 class Solution:
     def minKnightMoves(self, x: int, y: int) -> int:

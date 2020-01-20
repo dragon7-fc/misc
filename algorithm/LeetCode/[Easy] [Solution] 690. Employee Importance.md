@@ -47,7 +47,7 @@ class Solution(object):
 
 # Submissions
 ---
-**Solution:**
+**Solution: (DFS)**
 ```
 Runtime: 152 ms
 Memory Usage: 13.9 MB
@@ -73,4 +73,43 @@ class Solution:
             return (employee.importance +
                     sum(dfs(eid) for eid in employee.subordinates))
         return dfs(id)
+```
+
+**Solution 2: (BFS)**
+```
+Runtime: 216 ms
+Memory Usage: 13.7 MB
+```
+```python
+"""
+# Employee info
+class Employee:
+    def __init__(self, id: int, importance: int, subordinates: List[int]):
+        # It's the unique id of each node.
+        # unique id of this employee
+        self.id = id
+        # the importance value of this employee
+        self.importance = importance
+        # the id of direct subordinates
+        self.subordinates = subordinates
+"""
+class Solution:
+    def getImportance(self, employees: List['Employee'], id: int) -> int:
+        ans = 0
+        q = collections.deque()
+        for e in employees:
+            if e.id == id:
+                ans += e.importance
+                q.append(e.subordinates)
+                break
+        while(q):
+            sub_es = q.popleft()
+            for sub_e in sub_es:
+                sublist = []
+                for e in employees:
+                    if e.id == sub_e:
+                        ans += e.importance
+                        sublist += e.subordinates
+                q.append(sublist)
+        return ans
 ```

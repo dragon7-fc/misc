@@ -227,7 +227,6 @@ class Solution(object):
             return components
 
         source, target = get_components()
-        print source, target
         queue = collections.deque([(node, 0) for node in source])
         done = set(source)
         while queue:
@@ -269,8 +268,8 @@ def dfs(...):
         return
     ...
     if ...:
-        return ...
-    return ...
+        res ...
+    return res
 
 XXX = dfs(...)
 if XXX:
@@ -280,34 +279,33 @@ return ans
 
 **Template 2: (Matrix)**
 ```python
-def dfs(matrix):
-    # 1. Check for an empty graph.
-    if not matrix:
-        return []
+# 1. Check for an empty graph.
+if not matrix:
+    return []
 
-    # 2. Initialize
-    rows, cols = len(matrix), len(matrix[0])
-    visited = set()
-    directions = ((0, 1), (0, -1), (1, 0), (-1, 0))
+# 2. Initialize
+rows, cols = len(matrix), len(matrix[0])
+seen = set()
+directions = ((0, 1), (0, -1), (1, 0), (-1, 0))
 
-    def traverse(i, j):
-        # a. Check if visited
-        if (i, j) in visited:
-            return
-        # b. Else add to visted
-        visited.add((i, j))
+def dfs(i, j):
+    # a. Check if seen
+    if (i, j) in seen:
+        return
+    # b. Else add to seen
+    seen.add((i, j))
 
-        # c. Traverse neighbors.
-        for direction in directions:
-            next_i, next_j = i + direction[0], j + direction[1]
-            if 0 <= next_i < rows and 0 <= next_j < cols:
-                # d. Add in your question-specific checks.
-                traverse(next_i, next_j)
+    # c. Traverse neighbors.
+    for direction in directions:
+        next_i, next_j = i + direction[0], j + direction[1]
+        if 0 <= next_i < rows and 0 <= next_j < cols:
+            # d. Add in your question-specific checks.
+            dfs(next_i, next_j)
 
-    # 3. For each point, traverse it.
-    for i in range(rows):
-        for j in range(cols):
-            traverse(i, j)
+# 3. For each point, traverse it.
+for i in range(rows):
+    for j in range(cols):
+        dfs(i, j)
 ```
 
 * [[Medium] [Solution] 684. Redundant Connection](%5BMedium%5D%20%5BSolution%5D%20684.%20Redundant%20Connection.md)
@@ -506,7 +504,97 @@ class Solution(object):
         return 0
 ```
 
+**Example 2:**
+```python
+"""
+# Definition for a Node.
+class Node:
+    def __init__(self, val=None, children=None):
+        self.val = val
+        self.children = children
+"""
+class Solution:
+    def levelOrder(self, root: 'Node') -> List[List[int]]:
+        ans = []
+        level = root and [root]
+        while level:
+            ans.append([node.val for node in level])
+            level = [c for node in level for c in node.children if c]
+        return ans
+```
+
+**Example 3: (Dijkstra's Algorithm)**
+```python
+class Solution:
+    def networkDelayTime(self, times: List[List[int]], N: int, K: int) -> int:
+        graph = collections.defaultdict(list)
+        for u, v, w in times:
+            graph[u].append((v, w))
+
+        pq = [(0, K)]  # distance, node
+        # heapq.heapify(pq)
+        dist = {}  # visited node -> distance
+        while pq:
+            d, node = heapq.heappop(pq)  # get next smallest distance node
+            if node in dist: continue
+            dist[node] = d
+            for nei, d2 in graph[node]:
+                if nei not in dist:
+                    heapq.heappush(pq, (d+d2, nei))  # append neighbor un-visited node
+
+        return max(dist.values()) if len(dist) == N else -1
+```
+
+**Template 1:**
+```python
+q = collections.deque([...])
+seen[(...)] = True
+while q:
+    el = q.popleft()
+    ...
+    ans ...
+    for nei in el's neighbours:
+        if not seen[nei]:
+            q.append(nei)
+return ans
+```
+
+**Template 2:**
+```python
+q = collections.deque([..., 1])
+grid[...] = 1
+while q:
+    r, c step in q.popleft():
+    if ...:
+        return step
+    for nr, nc in (r, c)'s neighbours:
+        if not grid[nr][nc]:
+            grid[nr][nc] = 1
+            q.append((nr, nc, step+1))
+return -1
+```
+
+**Template 3:**
+```python
+q = collections.deque([..., 1])
+seen = ((...))
+step = 0
+while q:
+    qq = collections.deque()
+    for el in q:
+        if ...:
+            return step
+        for nr, nc in (r, c)'s neighbours:
+            if (nr, nc) not in seen:
+                qq.append((nr, nc))
+                seen.add((nr, nc))
+    q == qq
+    step += 1
+return -1
+```
+
 * [[Medium] [Solution] 127. Word Ladder](%5BMedium%5D%20%5BSolution%5D%20127.%20Word%20Ladder.md)
+* [[Medium] 529. Minesweeper](%5BMedium%5D%20529.%20Minesweeper.md)
 
 # Regular Expression
 * library: `re`

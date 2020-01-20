@@ -17,7 +17,7 @@ Output: [1, 3, 9]
 
 # Submissions
 ---
-**Solution 1:**
+**Solution 1: (BFS)**
 ```
 Runtime: 36 ms
 Memory Usage: 14.9 MB

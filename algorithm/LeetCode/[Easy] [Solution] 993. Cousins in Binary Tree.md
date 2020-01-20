@@ -74,7 +74,7 @@ class Solution(object):
 
 # Submissions
 ---
-**Solution 1:**
+**Solution 1: (DFS)**
 ```
 Runtime: 28 ms
 Memory Usage: 12.7 MB
@@ -100,4 +100,41 @@ class Solution:
         x_parent, x_depth = parent[x]
         y_parent, y_depth = parent[y]
         return True if x_parent != y_parent and x_depth == y_depth else False 
+```
+
+**Solution 2: (BFS)**
+```
+Runtime: 24 ms
+Memory Usage: 12.7 MB
+```
+```python
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+
+class Solution:
+    def isCousins(self, root: TreeNode, x: int, y: int) -> bool:
+        q = collections.deque([root]) 
+        while q:
+            level = []
+            nodes = collections.defaultdict(int)
+            for _ in range(len(q)):
+                cur = q.popleft()
+                if cur.left:
+                    level.append(cur.left)
+                    nodes[cur.left.val] = cur.val
+                    
+                if cur.right:
+                    level.append(cur.right)
+                    nodes[cur.right.val] = cur.val
+            if x in nodes and y in nodes and nodes[x] != nodes[y]:
+                return True
+            if x in nodes and y in nodes and nodes[x] == nodes[y]:
+                return False
+            if x in nodes or y in nodes:
+                return False
+            q.extend(level)
 ```

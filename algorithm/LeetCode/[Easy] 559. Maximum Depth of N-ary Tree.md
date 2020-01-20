@@ -31,7 +31,7 @@ Output: 5
 
 # Submissions
 ---
-**Solution 1:**
+**Solution 1: (DFS)**
 ```
 Runtime: 48 ms
 Memory Usage: 14.4 MB
@@ -49,4 +49,27 @@ class Solution:
         if not root:
             return 0
         return 1 + max(self.maxDepth(c) for c in root.children) if root.children else 1
+```
+
+**Solution 2: (BFS)**
+```
+Runtime: 36 ms
+Memory Usage: 14.7 MB
+```
+```python
+"""
+# Definition for a Node.
+class Node:
+    def __init__(self, val=None, children=None):
+        self.val = val
+        self.children = children
+"""
+class Solution:
+    def maxDepth(self, root: 'Node') -> int:
+        ans = 0
+        level = root and [root]
+        while level:
+            ans += 1
+            level = [c for node in level for c in node.children if c]
+        return ans
 ```

@@ -41,7 +41,7 @@ We cannot find a way to divide the set of nodes into two independent subsets.
 
 # Submissions
 ---
-**Solution 1:**
+**Solution 1: (DFS)**
 ```
 Runtime: 184 ms
 Memory Usage: 13 MB
@@ -78,7 +78,7 @@ class Solution:
         return True
 ```
 
-**Solution 2:**
+**Solution 2: (DFS)**
 ```
 Runtime: 180 ms
 Memory Usage: 13.1 MB
@@ -103,5 +103,34 @@ class Solution:
             if v not in colored:
                 if not dfs(v, 1):
                     return False
+        return True
+```
+
+**Solution 3: (BFS)**
+```
+Runtime: 180 ms
+Memory Usage: 12.9 MB
+```
+```python
+class Solution:
+    def isBipartite(self, graph: List[List[int]]) -> bool:
+        colors = {}
+
+        for from_node in range(len(graph)):
+            if from_node in colors:
+                continue
+            queue = collections.deque([from_node])
+            colors[from_node] = 1 # 1 is just starting color, could be -1 also
+
+            while queue:
+                from_node = queue.popleft()
+                for to_node in graph[from_node]:
+                    if to_node in colors:
+                        if colors[to_node] == colors[from_node]:
+                            return False
+                    else:
+                        queue.append(to_node)
+                        colors[to_node] = colors[from_node] * -1
+
         return True
 ```

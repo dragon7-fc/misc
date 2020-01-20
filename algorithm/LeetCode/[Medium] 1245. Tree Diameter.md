@@ -37,7 +37,7 @@ A longest path of the tree is the path 3 - 2 - 1 - 4 - 5.
 
 # Submissions
 ---
-**Solution 1:**
+**Solution 1: (DFS)**
 ```
 Runtime: 220 ms
 Memory Usage: 18.8 MB

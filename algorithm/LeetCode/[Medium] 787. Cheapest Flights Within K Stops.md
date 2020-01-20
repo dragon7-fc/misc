@@ -45,7 +45,7 @@ k is in the range of `[0, n - 1]`.
 
 # Submissions
 ---
-**Solution 1: (Dijkstra's algorithm)**
+**Solution 1: (BFS, Dijkstra's algorithm)**
 ```
 Runtime: 84 ms
 Memory Usage: 20 MB
