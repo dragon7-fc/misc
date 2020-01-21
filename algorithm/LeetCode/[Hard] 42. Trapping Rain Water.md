@@ -47,10 +47,10 @@ The concept is illustrated as shown:
 
 **Algorithm**
 
-1. Find maximum height of bar from the left end upto an index `i` in the array $\text{left\_max}$.
-1. Find maximum height of bar from the right end upto an index i in the array $\text{right\_max}$.
+1. Find maximum height of bar from the left end upto an index `i` in the array $\text{left_max}$.
+1. Find maximum height of bar from the right end upto an index i in the array $\text{right_max}$.
 1. Iterate over the $\text{height}$ array and update ans:
-Add $\min(\text{max\_left}[i],\text{max\_right}[i]) - \text{height}[i]$ to ansans
+Add $\min(\text{max_left}[i],\text{max_right}[i]) - \text{height}[i]$ to ansans
 
 ```C++
 int trap(vector<int>& height)
@@ -190,7 +190,7 @@ int trap(vector<int>& height)
 
 # Submissions
 ---
-**Solution 1:**
+**Solution 1: (DP)**
 ```
 Runtime: 56 ms
 Memory Usage: 14.4 MB
@@ -215,27 +215,29 @@ class Solution:
         return ans
 ```
 
-**Solution 2:**
+**Solution 2: (Two pointer)**
 ```
-Runtime: 72 ms
-Memory Usage: 14.8 MB
+Runtime: 52 ms
+Memory Usage: 13.5 MB
 ```
 ```python
 class Solution:
     def trap(self, height: List[int]) -> int:
+        left, right = 0, len(height) - 1;
         ans = 0
-        current = 0
-        st = []
-        while current < len(height):
-            while st and height[current] > height[st[-1]]:
-                top = st[-1]
-                st.pop();
-                if not st:
-                    break
-                distance = current - st[-1] - 1
-                bounded_height = min(height[current], height[st[-1]]) - height[top]
-                ans += distance * bounded_height
-            st.append(current)
-            current += 1
+        left_max, right_max = 0, 0
+        while left < right: 
+            if height[left] < height[right]:
+                if height[left] >= left_max:
+                    left_max = height[left]
+                else:
+                    ans += (left_max - height[left])
+                left += 1
+            else:
+                if height[right] >= right_max:
+                    right_max = height[right]
+                else:
+                    ans += (right_max - height[right])
+                right -= 1
         return ans
 ```

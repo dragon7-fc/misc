@@ -184,7 +184,7 @@ public class Solution {
 
 # Submissions
 ---
-**Solution 1:**
+**Solution 1: (Greedy, Slding window)**
 ```
 Runtime: 64 ms
 Memory Usage: 12.9 MB

@@ -1,6 +1,6 @@
 61. Rotate List
 
-Given a linked list, rotate the list to the right by k places, where k is non-negative.
+Given a linked list, rotate the list to the right by `k` places, where `k` is non-negative.
 
 **Example 1:**
 ```
@@ -24,7 +24,7 @@ rotate 4 steps to the right: 2->0->1->NULL
 
 # Sobmissions
 ---
-**Solution:**
+**Solution 1: (Two pointer)**
 ```
 Runtime: 44 ms
 Memory Usage: 13.7 MB
@@ -43,8 +43,7 @@ class Solution:
         dummy = ListNode(0)
         dummy.next = head
         prev, cur = dummy, head
-        while cur:
-            
+        while cur: 
             length += 1
             circle.append(cur)
             prev = cur

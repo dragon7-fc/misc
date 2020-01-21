@@ -1,6 +1,6 @@
 76. Minimum Window Substring
 
-Given a string S and a string T, find the minimum window in S which will contain all the characters in T in complexity O(n).
+Given a string S and a string T, find the minimum window in `S` which will contain all the characters in `T` in complexity O(n).
 
 **Example:**
 ```
@@ -196,7 +196,7 @@ def minWindow(self, s, t):
 
 # Submissions
 ---
-**Solution 1:**
+**Solution 1: (Sliding Window)**
 ```
 Runtime: 148 ms
 Memory Usage: 14.6 MB

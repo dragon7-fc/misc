@@ -26,19 +26,11 @@ For the purpose of this problem, we will return 0 when needle is an empty string
 ---
 **Solution 1:**
 ```
-Runtime: 36 ms
-Memory Usage: N/A
+Runtime: 28 ms
+Memory Usage: 12.7 MB
 ```
 ```python
 class Solution:
-    def strStr(self, haystack, needle):
-        """
-        :type haystack: str
-        :type needle: str
-        :rtype: int
-        """
-        try:
-            return haystack.index(needle)
-        except:
-            return -1
+    def strStr(self, haystack: str, needle: str) -> int:
+        return haystack.find(needle)
 ```
