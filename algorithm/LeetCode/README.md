@@ -40,11 +40,6 @@ Happy Coding!!
 
 **Similar**
 
-* 785. Is Graph Bipartite?
-* 886. Possible Bipartition
-
-**Similar**
-
 * 207. Course Schedule
 * 802. Find Eventual Safe States
 
@@ -52,11 +47,6 @@ Happy Coding!!
 
 * 1143. Longest Common Subsequence
 * 1312. Minimum Insertion Steps to Make a String Palindrome
-
-**Similar (Prefix/Range sum)**
-
-* [[Medium] 1314. Matrix Block Sum](%5BMedium%5D%201314.%20Matrix%20Block%20Sum.md)
-* [[Medium] [Solution] 304. Range Sum Query 2D - Immutable](%5BMedium%5D%20%5BSolution%5D%20304.%20Range%20Sum%20Query%202D%20-%20Immutable.md)
 
 **Libraries**
 * library: `itertools`
@@ -138,8 +128,28 @@ class Solution(object):
         return dp[0][0]
 ```
 
+**Example 3: (Prefix/Range sum)**
+```python
+class NumMatrix:
+
+    def __init__(self, matrix: List[List[int]]):
+        if len(matrix) == 0 or len(matrix[0]) == 0:
+            return
+
+        R = len(matrix)
+        C = len(matrix[0])
+        self.dp = [[0 for _ in range(C+1)] for _ in range(R+1)]
+        for r in range(R):
+            for c in range(C):
+                self.dp[r + 1][c + 1] = self.dp[r + 1][c] + self.dp[r][c + 1] + matrix[r][c] - self.dp[r][c];
+
+    def sumRegion(self, row1: int, col1: int, row2: int, col2: int) -> int:
+        return self.dp[row2 + 1][col2 + 1] - self.dp[row1][col2 + 1] - self.dp[row2 + 1][col1] + self.dp[row1][col1]
+```
+
 * [[Medium] [Solution] 877. Stone Game](%5BMedium%5D%20%5BSolution%5D%20877.%20Stone%20Game.md)
 * [[Medium] [Solution] 712. Minimum ASCII Delete Sum for Two Strings](%5BMedium%5D%20%5BSolution%5D%20712.%20Minimum%20ASCII%20Delete%20Sum%20for%20Two%20Strings.md)
+* [[Medium] [Solution] 304. Range Sum Query 2D - Immutable](%5BMedium%5D%20%5BSolution%5D%20304.%20Range%20Sum%20Query%202D%20-%20Immutable.md)
 
 ## Depth-first Search
 
@@ -163,7 +173,7 @@ class Solution(object):
             graph[v].add(u)
 ```
 
-**Example 2:**
+**Example 2: (Union Find)**
 ```python
 class DSU(object):
     def __init__(self):
@@ -196,7 +206,7 @@ class Solution(object):
                 return edge
 ```
 
-**Example 3:**
+**Example 3: (DFS, BFS)**
 ```python
 class Solution(object):
     def shortestBridge(self, A):
@@ -260,6 +270,33 @@ class Solution:
         return all(dfs(course) for course in range(numCourses))
 ```
 
+**Example 5: (connected component)**
+```python
+class Solution:
+    def makeConnected(self, n: int, connections: List[List[int]]) -> int:
+        if len(connections) < n - 1: return -1
+        g = [set() for i in range(n)]
+        for i, j in connections:
+            g[i].add(j)
+            g[j].add(i)
+        seen = [False] * n
+        num_connected_components = 0
+
+        def dfs(i):
+            for j in g[i]:
+                if not seen[j]:
+                    seen[j] = True
+                    dfs(j)
+        
+        for i in range(n):
+            if not seen[i]:
+                num_connected_components += 1
+                seen[i] = True
+                dfs(i)
+        
+        return num_connected_components - 1
+```
+
 **Template 1: (Postorder)**
 ```python
 ans = ...
@@ -308,8 +345,32 @@ for i in range(rows):
         dfs(i, j)
 ```
 
+**Template 3: (connected component)**
+```python
+g = [set() for ...]
+for i, j in ...:
+    g[i].add(j)
+    g[j].add(i)
+seen = [False]*N
+num_connected_components = 0
+def dfs(i):
+    for j in g[i]:
+        if not seen[j]:
+            seen[j] = True
+            dfs(j)
+for i in range(N):
+    if not seen[i]:
+        num_connected_components += 1
+        seen[i] = True
+        dfs(i)
+
+return num_connected_components        
+```
+
 * [[Medium] [Solution] 684. Redundant Connection](%5BMedium%5D%20%5BSolution%5D%20684.%20Redundant%20Connection.md)
 * [[Medium] [Solution] 934. Shortest Bridge](%5BMedium%5D%20%5BSolution%5D%20934.%20Shortest%20Bridge.md)
+* [[Medium] 207. Course Schedule](%5BMedium%5D%20207.%20Course%20Schedule.md)
+* [[Medium] 1319. Number of Operations to Make Network Connected](%5BMedium%5D%201319.%20Number%20of%20Operations%20to%20Make%20Network%20Connected.md)
 * [[Medium] 1110. Delete Nodes And Return Forest](%5BMedium%5D%201110.%20Delete%20Nodes%20And%20Return%20Forest.md)
 
 ## Binary Search
@@ -504,7 +565,7 @@ class Solution(object):
         return 0
 ```
 
-**Example 2:**
+**Example 2: (Level order)**
 ```python
 """
 # Definition for a Node.
@@ -545,8 +606,70 @@ class Solution:
         return max(dist.values()) if len(dist) == N else -1
 ```
 
+**Example 4: (Bipartite)**
+```python
+class Solution:
+    def isBipartite(self, graph: List[List[int]]) -> bool:
+        colors = {}
+
+        for from_node in range(len(graph)):
+            if from_node in colors:
+                continue
+            queue = collections.deque([from_node])
+            colors[from_node] = 1 # 1 is just starting color, could be -1 also
+
+            while queue:
+                from_node = queue.popleft()
+                for to_node in graph[from_node]:
+                    if to_node in colors:
+                        if colors[to_node] == colors[from_node]:
+                            return False
+                    else:
+                        queue.append(to_node)
+                        colors[to_node] = colors[from_node] * -1
+
+        return True
+```
+
+**Example 5: (Matrix)**
+```python
+class Solution:
+    def updateBoard(self, board: List[List[str]], click: List[int]) -> List[List[str]]:
+        R, C = len(board), len(board[0])
+        visited = set()
+
+        def neighbours(r, c):
+            directions = ((r-1, c),(r+1, c),(r, c+1),(r, c-1),
+                          (r+1, c+1),(r-1, c-1),(r-1, c+1),(r+1, c-1)
+                         )
+            for nr, nc in directions:
+                if 0 <= nr < R and 0 <= nc < C:
+                    yield nr, nc
+
+        queue = collections.deque([click])
+        while queue:
+            (r, c) = queue.popleft()
+            if (r, c) in visited:
+                continue
+            if board[r][c] == 'M':
+                board[r][c] = 'X'
+            else:
+                count = 0
+                for nr, nc in neighbours(r, c):
+                    if board[nr][nc] in 'MX':
+                        count += 1
+                board[r][c] = 'B' if count == 0 else str(count)
+            visited.add((r, c))
+            if board[r][c] == 'B':
+                for nr, nc in neighbours(r, c):
+                    queue.append([nr, nc])
+
+        return board
+```
+
 **Template 1:**
 ```python
+seen = [False ...]
 q = collections.deque([...])
 seen[(...)] = True
 while q:
@@ -556,6 +679,7 @@ while q:
     for nei in el's neighbours:
         if not seen[nei]:
             q.append(nei)
+            seen[nei] = True
 return ans
 ```
 
@@ -580,21 +704,24 @@ q = collections.deque([..., 1])
 seen = ((...))
 step = 0
 while q:
-    qq = collections.deque()
-    for el in q:
+    for _ in range(len(q)):
+        r, c = q.popleft()
         if ...:
             return step
         for nr, nc in (r, c)'s neighbours:
             if (nr, nc) not in seen:
-                qq.append((nr, nc))
+                q.append((nr, nc))
                 seen.add((nr, nc))
-    q == qq
     step += 1
 return -1
 ```
 
 * [[Medium] [Solution] 127. Word Ladder](%5BMedium%5D%20%5BSolution%5D%20127.%20Word%20Ladder.md)
+* [[Medium] 429. N-ary Tree Level Order Traversal](%5BMedium%5D%20429.%20N-ary%20Tree%20Level%20Order%20Traversal.md)
+* [[Medium] [Solution] 743. Network Delay Time](%5BMedium%5D%20%5BSolution%5D%20743.%20Network%20Delay%20Time.md)
+* [[Medium] 785. Is Graph Bipartite?](%5BMedium%5D%20785.%20Is%20Graph%20Bipartite?.md)
 * [[Medium] 529. Minesweeper](%5BMedium%5D%20529.%20Minesweeper.md)
+* [[Medium] * 1129. Shortest Path with Alternating Colors](%5BMedium%5D%20*%201129.%20Shortest%20Path%20with%20Alternating%20Colors.md)
 
 # Regular Expression
 * library: `re`

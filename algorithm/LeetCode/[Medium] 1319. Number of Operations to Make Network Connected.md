@@ -68,8 +68,8 @@ The number of operations we need = the number of **connected networks - 1**
 * Time O(connections)
 * Space O(n)
 ```
-Runtime: 580 ms
-Memory Usage: 37.3 MB
+Runtime: 556 ms
+Memory Usage: 37.5 MB
 ```
 ```python
 class Solution:
@@ -79,13 +79,53 @@ class Solution:
         for i, j in connections:
             g[i].add(j)
             g[j].add(i)
-        seen = [0] * n
+        seen = [False] * n
+        num_connected_components = 0
 
         def dfs(i):
-            if seen[i]: return 0
-            seen[i] = 1
-            for j in g[i]: dfs(j)
-            return 1
+            for j in g[i]:
+                if not seen[j]:
+                    seen[j] = True
+                    dfs(j)
+        
+        for i in range(n):
+            if not seen[i]:
+                num_connected_components += 1
+                seen[i] = True
+                dfs(i)
+        
+        return num_connected_components - 1
+```
 
-        return sum(dfs(i) for i in range(n)) - 1
+**Solution 2: (BFS)**
+```
+Runtime: 536 ms
+Memory Usage: 34.3 MB
+```
+```python
+class Solution:
+    def makeConnected(self, n: int, connections: List[List[int]]) -> int:
+        if len(connections) < n - 1: return -1
+        g = [set() for i in range(n)]
+        for i, j in connections:
+            g[i].add(j)
+            g[j].add(i)
+        seen = [False] * n
+        num_connected_components = 0
+
+        for i in range(n):
+            if not seen[i]:
+                num_connected_components += 1
+                q = collections.deque([i])
+                seen[i] = True
+                while q:
+                    el = q.popleft()
+                    for nei in g[el]:
+                        if not seen[nei]:
+                            q.append(nei)
+                            seen[nei] = True
+        
+        return num_connected_components - 1
+        
+        
 ```

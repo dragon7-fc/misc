@@ -163,7 +163,7 @@ public int sumRegion(int row1, int col1, int row2, int col2) {
 
 # Submissions
 ---
-**Solution 1:**
+**Solution 1: (DP)**
 ```
 Runtime: 128 ms
 Memory Usage: 16.7 MB
