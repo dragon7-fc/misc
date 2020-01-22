@@ -87,7 +87,11 @@ class Solution:
 
 # Submissions
 ---
-**Solution 1: 44 ms, 13.8 MB**
+**Solution 1: (Two Pointer)**
+```
+Runtime: 52 ms
+Memory Usage: 12.6 MB
+```
 ```python
 # Definition for singly-linked list.
 # class ListNode:
@@ -97,35 +101,33 @@ class Solution:
 
 class Solution:
     def partition(self, head: ListNode, x: int) -> ListNode:
-        if not head:
-            return
         
-        smaller, smaller_head, larger, larger_head = None, None, None, None
-        cur = head
-        while cur:
-            if cur.val < x:
-                if not smaller:
-                    smaller = cur
-                    smaller_head = smaller
-                else:
-                    smaller.next= cur
-                    smaller = smaller.next
-            else:
-                if not larger:
-                    larger = cur
-                    larger_head = larger
-                else:
-                    larger.next = cur
-                    larger = larger.next
-            cur = cur.next
-        
-        if smaller:
-            smaller.next = larger_head
-        else:
-            smaller_head = larger_head
-            
-        if larger:
-            larger.next = None
-        return smaller_head
+        # before and after are the two pointers used to create two list
+        # before_head and after_head are used to save the heads of the two lists.
+        # All of these are initialized with the dummy nodes created.
+        before = before_head = ListNode(0)
+        after = after_head = ListNode(0)
 
+        while head:
+            # If the original list node is lesser than the given x,
+            # assign it to the before list.
+            if head.val < x:
+                before.next = head
+                before = before.next
+            else:
+                # If the original list node is greater or equal to the given x,
+                # assign it to the after list.
+                after.next = head
+                after = after.next
+
+            # move ahead in the original list
+            head = head.next
+
+        # Last node of "after" list would also be ending node of the reformed list
+        after.next = None
+        # Once all the nodes are correctly assigned to the two lists,
+        # combine them to form a single list which would be returned.
+        before.next = after_head.next
+
+        return before_head.next
 ```

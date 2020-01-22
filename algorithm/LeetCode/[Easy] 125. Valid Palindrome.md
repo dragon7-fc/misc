@@ -26,6 +26,6 @@ Memory Usage: 14.4 MB
 ```python
 class Solution:
     def isPalindrome(self, s: str) -> bool:
-        filter_str = [*filter(lambda c:c.isdigit() or c.isalpha(), s.lower())]
+        filter_str = [*filter(lambda c:c.isdigit() or c.isalpha(), s.lower())]  # list(filter(lambda c:c.isdigit() or c.isalpha(), s.lower()))
         return filter_str[::-1] == filter_str
 ```

@@ -372,6 +372,7 @@ return num_connected_components
 * [[Medium] 207. Course Schedule](%5BMedium%5D%20207.%20Course%20Schedule.md)
 * [[Medium] 1319. Number of Operations to Make Network Connected](%5BMedium%5D%201319.%20Number%20of%20Operations%20to%20Make%20Network%20Connected.md)
 * [[Medium] 1110. Delete Nodes And Return Forest](%5BMedium%5D%201110.%20Delete%20Nodes%20And%20Return%20Forest.md)
+* [[Medium] * 450. Delete Node in a BST](%5BMedium%5D%20*%20450.%20Delete%20Node%20in%20a%20BST.md)
 
 ## Binary Search
 
@@ -510,6 +511,7 @@ return ans
 * [[Medium] [Solution] 870. Advantage Shuffle](%5BMedium%5D%20%5BSolution%5D%20870.%20Advantage%20Shuffle.md)
 * [[Medium] [Solution] 376. Wiggle Subsequence](%5BMedium%5D%20%5BSolution%5D%20376.%20Wiggle%20Subsequence.md)
 * [[Medium] [Solution] 55. Jump Game](%5BMedium%5D%20%5BSolution%5D%2055.%20Jump%20Game.md)
+* [[Medium] * 1111. Maximum Nesting Depth of Two Valid Parentheses Strings](%5BMedium%5D%20*%201111.%20Maximum%20Nesting%20Depth%20of%20Two%20Valid%20Parentheses%20Strings.md)
 
 ## Breadth-first Search
 
