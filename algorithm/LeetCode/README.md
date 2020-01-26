@@ -248,7 +248,7 @@ class Solution(object):
                     done.add(nei)
 ```
 
-**Exaomple 4:**
+**Exaomple 4: (Cycle)**
 ```python
 class Solution:
     def canFinish(self, numCourses: int, prerequisites: List[List[int]]) -> bool:
@@ -345,7 +345,27 @@ for i in range(rows):
         dfs(i, j)
 ```
 
-**Template 3: (connected component)**
+**Template 3: (Cycle)**
+```python
+seen = [0 for _ in range(N)]
+def is_cycle(i):
+    if seen[i] == -1:
+        return True
+    if seen[i] == i:
+        return False
+    seen[i] = -1
+    for j in in i's neighbours:
+        if is cycle(j):
+            return True
+    seen[i] = 1
+    return False
+for i in range(N):
+    if is_cycle(i):
+        return True
+return False
+```
+
+**Template 4: (connected component)**
 ```python
 g = [set() for ...]
 for i, j in ...:
@@ -727,9 +747,92 @@ return -1
 
 ## Two pointer
 
-**Example 1:**
+**Example 1: (Detect cycle)**
 ```python
+# Definition for singly-linked list.
+# class ListNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.next = None
+
+class Solution:
+    def hasCycle(self, head: ListNode) -> bool:
+        if not head or not head.next:
+            return False
+        slow = head
+        fast = head
+        while fast and fast.next:
+            slow = slow.next
+            fast = fast.next.next
+            if slow == fast:
+                return True
+
+        return False
 ```
+
+**Example 2: (Cycle entrance)**
+```python
+class Solution:
+    def findDuplicate(self, nums):
+        """
+        :type nums: List[int]
+        :rtype: int
+        """
+        # Find the intersection point of the two runners.
+        tortoise = nums[0]
+        hare = nums[0]
+        while True:
+            tortoise = nums[tortoise]
+            hare = nums[nums[hare]]
+            if tortoise == hare:
+                break
+
+        # Find the "entrance" to the cycle.
+        ptr1 = nums[0]
+        ptr2 = tortoise
+        while ptr1 != ptr2:
+            ptr1 = nums[ptr1]
+            ptr2 = nums[ptr2]
+
+        return ptr1
+```
+
+**Example 3: (Sliding window, iterate right pointer and increase left pointer)**
+```python
+class Solution:
+    def numSubarrayProductLessThanK(self, nums: List[int], k: int) -> int:
+        if k <= 1: return 0
+        prod = 1
+        ans = left = 0
+        for right, val in enumerate(nums):
+            prod *= val
+            while prod >= k:
+                prod /= nums[left]
+                left += 1
+            ans += right - left + 1
+        return ans             
+```
+
+**Example 4: (Greedy, Two pointer)**
+```python
+class Solution:
+    def partitionLabels(self, S: str) -> List[int]:
+        last = {c: i for i, c in enumerate(S)}
+        j = anchor = 0
+        ans = []
+        for i, c in enumerate(S):
+            j = max(j, last[c])
+            if i == j:
+                ans.append(i - anchor + 1)
+                anchor = i + 1
+            
+        return ans
+```
+
+* [[Easy] [Solution] 141. Linked List Cycle](%5BEasy%5D%20%5BSolution%5D%20141.%20Linked%20List%20Cycle.md)
+* [[Medium] [Solution] 287. Find the Duplicate Number](%5BMedium%5D%20%5BSolution%5D%20287.%20Find%20the%20Duplicate%20Number.md)
+* [[Medium] [Solution] 713. Subarray Product Less Than K](%5BMedium%5D%20%5BSolution%5D%20713.%20Subarray%20Product%20Less%20Than%20K.md)
+* [[Medium] [Solution] 763. Partition Labels](%5BMedium%5D%20%5BSolution%5D%20763.%20Partition%20Labels.md)
 
 ## Regular Expression
 * library: `re`

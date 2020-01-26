@@ -2,7 +2,7 @@
 
 Given a linked list, return the node where the cycle begins. If there is no cycle, return `null`.
 
-To represent a cycle in the given linked list, we use an integer `pos` which represents the position (0-indexed) in the linked list where tail connects to. If `pos` is ``-1`, then there is no cycle in the linked list.
+To represent a cycle in the given linked list, we use an integer `pos` which represents the position (`0`-indexed) in the linked list where tail connects to. If `pos` is `-1`, then there is no cycle in the linked list.
 
 **Note:** Do not modify the linked list.
 
@@ -41,42 +41,33 @@ Can you solve it without using extra space?
 ---
 **Solution**
 ```
-Runtime: 40 ms
-Memory Usage: 18.2 MB
+Runtime: 44 ms
+Memory Usage: 15.8 MB
 ```
 ```python
 # Definition for singly-linked list.
-# class ListNode(object):
+# class ListNode:
 #     def __init__(self, x):
 #         self.val = x
 #         self.next = None
 
-class Solution(object):
-    def detectCycle(self, head):
-        """
-        :type head: ListNode
-        :rtype: ListNode
-        """
-        if head == None: return None
-        if head.next == None: return None
-        
-        first = head.next
-        second = head.next.next
-        
-        while first != second:
+class Solution:
+    def detectCycle(self, head: ListNode) -> ListNode:
+        if not head or not head.next: 
+            return
+        slow = fast = head
+        while fast and fast.next:
+            slow = slow.next
+            fast = fast.next.next
+            if fast == slow: 
+                break
+        if fast != slow: 
+            return
+        start = head
+        meet = slow
+        while meet != start:
+            meet = meet.next
+            start = start.next
             
-            if first == None: return None
-            if first.next == None: return None
-            if second == None: return None
-            if second.next == None: return None
-            
-            first = first.next
-            second = second.next.next
-            
-        first = head
-        
-        while first != second:
-            first = first.next
-            second = second.next
-        return first
+        return start
 ```

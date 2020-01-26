@@ -1,6 +1,6 @@
 209. Minimum Size Subarray Sum
 
-Given an array of n positive integers and a positive integer s, find the minimal length of a **contiguous subarray** of which the sum ≥ s. If there isn't one, return 0 instead.
+Given an array of n positive integers and a positive integer `s`, find the minimal length of a **contiguous subarray** of which the sum ≥ `s`. If there isn't one, return `0` instead.
 
 **Example:**
 ```
@@ -197,7 +197,7 @@ int minSubArrayLen(int s, vector<int>& nums)
 
 # Submissions
 ---
-**Solution:**
+**Solution: (Binary search)**
 ```
 Runtime: 88 ms
 Memory Usage: 15.2 MB
@@ -225,7 +225,7 @@ class Solution:
         return ans if ans != float('inf') else 0
 ```
 
-**Solution**
+**Solution: (Two pointer)**
 ```
 Runtime: 84 ms
 Memory Usage: 16.7 MB

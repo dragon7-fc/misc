@@ -2,7 +2,7 @@
 
 Given an array of integers that is already **sorted in ascending order**, find two numbers such that they add up to a specific target number.
 
-The function twoSum should return indices of the two numbers such that they add up to the target, where index1 must be less than index2.
+The function `twoSum` should return indices of the two `numbers` such that they add up to the `target`, where index1 must be less than index2.
 
 **Note:**
 * Your returned answers (both index1 and index2) are not zero-based.
@@ -17,7 +17,7 @@ Explanation: The sum of 2 and 7 is 9. Therefore index1 = 1, index2 = 2.
 
 # Submissions
 ---
-**Solution 1:**
+**Solution 1: (Hash table)**
 ```
 Runtime: 64 ms
 Memory Usage: 13.2 MB
@@ -30,11 +30,10 @@ class Solution:
         for i, n in enumerate(numbers):
             if target - n in memo:
                 return [memo[target - n] + 1, i + 1]
-            memo[n] = i
-                
+            memo[n] = i        
 ```
 
-**Solution 2:**
+**Solution 2: (DFS)**
 ```
 Runtime: 72 ms
 Memory Usage: 42 MB
@@ -55,7 +54,7 @@ class Solution:
         return dfs(l, r)
 ```
 
-**Solution 3:**
+**Solution 3: (Two pointer)**
 ```
 Runtime: 60 ms
 Memory Usage: 13.3 MB

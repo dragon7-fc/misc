@@ -125,26 +125,22 @@ void moveZeroes(vector<int>& nums) {
 
 # Submissions
 ---
-**Solution**
+**Solution: (Two pointer)**
 ```
 Runtime: 48 ms
-Memory Usage: N/A
+Memory Usage: 13.8 MB
 ```
 ```python
 class Solution:
-    def moveZeroes(self, nums):
+    def moveZeroes(self, nums: List[int]) -> None:
         """
-        :type nums: List[int]
-        :rtype: void Do not return anything, modify nums in-place instead.
+        Do not return anything, modify nums in-place instead.
         """
-        n = len(nums)
-        i = 0
-        nxt = 0
-        while i < n:
-            if nums[i] != 0:
-                tmp = nums[nxt]
-                nums[nxt] = nums[i]
-                nums[i] = tmp
-                nxt += 1
-            i += 1
+        N = len(nums)
+        left, right = 0, 0
+        while right < N:
+            if nums[right] != 0:
+                nums[left], nums[right] = nums[right], nums[left]
+                left += 1
+            right += 1
 ```

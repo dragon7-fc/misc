@@ -88,7 +88,7 @@ class Solution(object):
 
 # Submissions
 ---
-**Solution**
+**Solution: (Sliding window)**
 ```
 Runtime: 1280 ms
 Memory Usage: 18.2 MB

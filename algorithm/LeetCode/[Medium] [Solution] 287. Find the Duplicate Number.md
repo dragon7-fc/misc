@@ -155,7 +155,7 @@ For detailed analysis, refer to Linked List Cycle II.
 
 # Submissions
 ---
-**Solution 1:**
+**Solution 1: (Two pointer)**
 ```
 Runtime: 92 ms
 Memory Usage: 16.4 MB

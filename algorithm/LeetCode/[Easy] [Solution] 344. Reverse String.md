@@ -122,3 +122,39 @@ class Solution:
         """
         s.reverse()
 ```
+
+**Solution: (DFS)**
+```
+Runtime: 228 ms
+Memory Usage: 42.8 MB
+```
+```python
+class Solution:
+    def reverseString(self, s: List[str]) -> None:
+        """
+        Do not return anything, modify s in-place instead.
+        """
+        def helper(left, right):
+            if left < right:
+                s[left], s[right] = s[right], s[left]
+                helper(left + 1, right - 1)
+
+        helper(0, len(s) - 1)
+```
+
+**Solution: (Two pointer)**
+```
+Runtime: 216 ms
+Memory Usage: 17.2 MB
+```
+```python
+class Solution:
+    def reverseString(self, s: List[str]) -> None:
+        """
+        Do not return anything, modify s in-place instead.
+        """
+        left, right = 0, len(s) - 1
+        while left < right:
+            s[left], s[right] = s[right], s[left]
+            left, right = left + 1, right - 1
+```

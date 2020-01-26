@@ -80,7 +80,7 @@ class Solution:
         return False
 ```
 
-**Solution 2:**
+**Solution 2: (Hash table)**
 ```
 Runtime: 40 ms
 Memory Usage: 14.1 MB
@@ -107,5 +107,67 @@ class Solution:
                     curIdx = (curIdx + curStep) % len(nums) 
                     curStep = nums[curIdx]
                     searched.add(curIdx)
+        return False
+```
+
+**Solution 3: (Two pointer)**
+```
+Runtime: 1764 ms
+Memory Usage: 12.7 MB
+```
+```python
+class Solution:
+    def circularArrayLoop(self, nums: List[int]) -> bool:
+        N = len(nums)    
+    
+        # get next index from i
+        nxt = lambda i: (i + nums[i]) % N
+
+        # i, j same direction
+        is_sameDir = lambda i, j: nums[i]*nums[j] > 0
+
+        for i in range(N):
+            slow ,fast = i, i
+            # while slow and fast are moving in one direction
+            while is_sameDir(i, nxt(fast)) and is_sameDir(i, nxt(nxt(fast))):
+                slow = nxt(slow)
+                fast = nxt(nxt(fast))
+                if slow == fast:  # loop found
+                    if slow == nxt(slow): break  # length 1 loop doesn't count
+                    return True
+
+            # no loop found, label visited node to 0
+            cur, prev = i, i
+            while is_sameDir(cur, prev):
+                prev = nxt(cur)
+                nums[cur] = 0  # set 0 as visited
+                prev, cur = cur, prev
+              
+        return False
+```
+
+**Solution 4: (DFS)**
+```
+Runtime: 48 ms
+Memory Usage: 14.7 MB
+```
+```python
+class Solution:
+    def circularArrayLoop(self, nums: List[int]) -> bool:
+        mark = [1 if x % len(nums) != 0 else 0 for x in nums]
+        
+        def jump(site, di):
+            if mark[site] == 0 or nums[site]*di < 0:  # visited or opposite direction
+                return False
+            if mark[site] == 2:  
+                return True
+            mark[site] = 2  # visiting
+            if jump((site + nums[site]) % len(nums), di):
+                return True
+            mark[site] = 0  # visited
+            return False
+            
+        for i in range(len(nums)):
+            if jump(i, nums[i]): return True
         return False
 ```
