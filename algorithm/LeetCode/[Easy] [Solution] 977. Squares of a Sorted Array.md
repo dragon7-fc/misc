@@ -24,8 +24,8 @@ Output: [4,9,9,49,121]
 
 # Solution
 ---
-Approach 1: Sort
-Intuition and Algorithm
+## Approach 1: Sort
+**Intuition and Algorithm**
 
 Create an array of the squares of each element, and sort them.
 
@@ -91,7 +91,7 @@ class Solution(object):
 
 # Submissions
 ---
-**Solution 1:**
+**Solution 1: (Sort)**
 ```
 Runtime: 252 ms
 Memory Usage: 15.6 MB
@@ -102,7 +102,7 @@ class Solution:
         return sorted(x*x for x in A)
 ```
 
-**Solution 2:**
+**Solution 2: (Two Pointer)**
 ```
 Runtime: 324 ms
 Memory Usage: 15.8 MB

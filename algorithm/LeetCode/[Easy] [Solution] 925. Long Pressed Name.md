@@ -143,3 +143,36 @@ class Solution:
         return all(k1 == k2 and v1 <= v2
                    for (k1,v1), (k2,v2) in zip(g1, g2))
 ```
+
+**Solution: (Two pointer)**
+```
+Runtime: 32 ms
+Memory Usage: 12.7 MB
+```
+```python
+class Solution:
+    def isLongPressedName(self, name: str, typed: str) -> bool:
+        j = 0
+        for c in name:
+            if j == len(typed):
+                return False
+
+            # If mismatch...
+            if typed[j] != c:
+                # If it's the first char of the block, ans is False.
+                if (j == 0) or (typed[j-1] != typed[j]):
+                    return False
+
+                # Discard all similar chars.
+                cur = typed[j]
+                while j < len(typed) and typed[j] == cur:
+                    j += 1
+
+                # If next isn't a match, ans is False.
+                if j == len(typed) or typed[j] != c:
+                    return False
+
+            j += 1
+
+        return True
+```

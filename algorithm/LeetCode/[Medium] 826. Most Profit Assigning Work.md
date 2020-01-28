@@ -6,7 +6,7 @@ Now we have some workers. `worker[i]` is the ability of the `i`th worker, which 
 
 Every worker can be assigned at most one job, but one job can be completed multiple times.
 
-For example, if 3 people attempt the same job that pays $1, then the total profit will be $3.  If a worker cannot complete any job, his profit is $0.
+For example, if 3 people attempt the same job that pays \\$1, then the total profit will be \\$3.  If a worker cannot complete any job, his profit is \\$0.
 
 What is the most profit we can make?
 

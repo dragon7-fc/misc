@@ -48,6 +48,11 @@ Happy Coding!!
 * 1143. Longest Common Subsequence
 * 1312. Minimum Insertion Steps to Make a String Palindrome
 
+**Note**
+
+* Subarray need to be consecutive。
+* Subsequence don't have to be consecutive.
+
 **Libraries**
 * library: `itertools`
 
@@ -85,7 +90,7 @@ Happy Coding!!
 
 ## Dynamic Programming
 
-**Example 1: Top-down**
+**Example 1: (Top-down)**
 ```python
 from functools import lru_cache
 
@@ -106,7 +111,7 @@ class Solution:
         return dp(0, N - 1) > 0
 ```
 
-**Example 2: Bottom-up**
+**Example 2: (Bottom-up)**
 ```python
 class Solution(object):
     def minimumDeleteSum(self, s1, s2):
@@ -147,9 +152,27 @@ class NumMatrix:
         return self.dp[row2 + 1][col2 + 1] - self.dp[row1][col2 + 1] - self.dp[row2 + 1][col1] + self.dp[row1][col1]
 ```
 
+**Example 4: (Floyd Warshall's shortest path)**
+```python
+class Solution:
+    def findTheCity(self, n: int, edges: List[List[int]], distanceThreshold: int) -> int:
+        dis = [[float('inf')] * n for _ in range(n)]
+        for i, j, w in edges:
+            dis[i][j] = dis[j][i] = w
+        for i in range(n):
+            dis[i][i] = 0
+        for k in range(n):
+            for i in range(n):
+                for j in range(n):
+                    dis[i][j] = min(dis[i][j], dis[i][k] + dis[k][j])
+        res = {sum(d <= distanceThreshold for d in dis[i]): i for i in range(n)}
+        return res[min(res)]
+```
+
 * [[Medium] [Solution] 877. Stone Game](%5BMedium%5D%20%5BSolution%5D%20877.%20Stone%20Game.md)
 * [[Medium] [Solution] 712. Minimum ASCII Delete Sum for Two Strings](%5BMedium%5D%20%5BSolution%5D%20712.%20Minimum%20ASCII%20Delete%20Sum%20for%20Two%20Strings.md)
 * [[Medium] [Solution] 304. Range Sum Query 2D - Immutable](%5BMedium%5D%20%5BSolution%5D%20304.%20Range%20Sum%20Query%202D%20-%20Immutable.md)
+* [[Medium] 1334. Find the City With the Smallest Number of Neighbors at a Threshold Distance](%5BMedium%5D%201334.%20Find%20the%20City%20With%20the%20Smallest%20Number%20of%20Neighbors%20at%20a%20Threshold%20Distance.md)
 
 ## Depth-first Search
 
@@ -458,7 +481,9 @@ return ans
 ```
 * library: `bisect`
     * `bisect.bisect_left(a, x, lo=0, hi=len(a))`
+        * ex. li = [1, 3, 4, 4, 4, 6, 7], bisect.bisect_left(li, 4) = 2
     * `bisect.bisect_right(a, x, lo=0, hi=len(a))` = `bisect.bisect(a, x, lo=0, hi=len(a))`
+        * ex. li = [1, 3, 4, 4, 4, 6, 7], bisect.bisect(li, 4) = 5
 * [[Medium] 1300. Sum of Mutated Array Closest to Target](%5BMedium%5D%201300.%20Sum%20of%20Mutated%20Array%20Closest%20to%20Target.md)
 * [[Medium] 1292. Maximum Side Length of a Square with Sum Less than or Equal to Threshold](%5BMedium%5D%201292.%20Maximum%20Side%20Length%20of%20a%20Square%20with%20Sum%20Less%20than%20or%20Equal%20to%20Threshold.md)
 * [[Hard] 1231. Divide Chocolate](%5BHard%5D%201231.%20Divide%20Chocolate.md)
@@ -747,7 +772,7 @@ return -1
 
 ## Two pointer
 
-**Example 1: (Detect cycle)**
+**Example 1: (Cycle)**
 ```python
 # Definition for singly-linked list.
 # class ListNode:
@@ -797,7 +822,7 @@ class Solution:
         return ptr1
 ```
 
-**Example 3: (Sliding window, iterate right pointer and increase left pointer)**
+**Example 3: (Sliding window, Two pointer, iterate right pointer)**
 ```python
 class Solution:
     def numSubarrayProductLessThanK(self, nums: List[int], k: int) -> int:
@@ -813,7 +838,7 @@ class Solution:
         return ans             
 ```
 
-**Example 4: (Greedy, Two pointer)**
+**Example 4: (Greedy, Two pointer, iterate left pointer)**
 ```python
 class Solution:
     def partitionLabels(self, S: str) -> List[int]:
@@ -829,10 +854,219 @@ class Solution:
         return ans
 ```
 
+**Example 5: (Two pointer, iterate left and right pointer)**
+```python
+class Solution:
+    def pushDominoes(self, dominoes: str) -> str:
+        symbols = [(i, x) for i, x in enumerate(dominoes) if x != '.']
+        symbols = [(-1, 'L')] + symbols + [(len(dominoes), 'R')]
+
+        ans = list(dominoes)
+        for (i, x), (j, y) in zip(symbols, symbols[1:]):
+            if x == y:
+                for k in range(i+1, j):
+                    ans[k] = x
+            elif x > y: #RL
+                for k in range(i+1, j):
+                    ans[k] = '.LR'[(k-i > j-k) - (k-i < j-k)]
+
+        return "".join(ans)
+```
+
+**Example 6: (Two pointer, iterate left and right pointer with yield)**
+```python
+class Solution:
+    def backspaceCompare(self, S: str, T: str) -> bool:
+        def F(S):
+            skip = 0
+            for x in reversed(S):
+                if x == '#':
+                    skip += 1
+                elif skip:
+                    skip -= 1
+                else:
+                    yield x
+
+        return all(x == y for x, y in itertools.zip_longest(F(S), F(T)))
+```
+
+**Example 7: (Three pointer)**
+```python
+class Solution:
+    def threeSumMulti(self, A: List[int], target: int) -> int:
+        MOD = 10**9 + 7
+        count = collections.Counter(A)
+        keys = sorted(count)
+
+        ans = 0
+
+        # Now, let's do a 3sum on "keys", for i <= j <= k.
+        # We will use count to add the correct contribution to ans.
+        for i, x in enumerate(keys):
+            T = target - x
+            j, k = i, len(keys) - 1
+            while j <= k:
+                y, z = keys[j], keys[k]
+                if y + z < T:
+                    j += 1
+                elif y + z > T:
+                    k -= 1
+                else: # x+y+z == T, now calculate the size of the contribution
+                    if i < j < k:
+                        ans += count[x] * count[y] * count[z]
+                    elif i == j < k:
+                        ans += count[x] * (count[x] - 1) // 2 * count[z]
+                    elif i < j == k:
+                        ans += count[x] * count[y] * (count[y] - 1) // 2
+                    else:  # i == j == k
+                        ans += count[x] * (count[x] - 1) * (count[x] - 2) // 6
+
+                    j += 1
+                    k -= 1
+
+        return ans % MOD
+```
+
+**Example 8: (Group into Blocks)**
+```python
+class Solution:
+    def isLongPressedName(self, name: str, typed: str) -> bool:
+        g1 = [(k, len(list(grp))) for k, grp in itertools.groupby(name)]
+        g2 = [(k, len(list(grp))) for k, grp in itertools.groupby(typed)]
+        if len(g1) != len(g2):
+            return False
+
+        return all(k1 == k2 and v1 <= v2
+                   for (k1,v1), (k2,v2) in zip(g1, g2))
+```
+
+**Solution 9: (Three pointer)**
+```python
+class Solution:
+    def numSubarraysWithSum(self, A: List[int], S: int) -> int:
+        i_lo = i_hi = 0
+        sum_lo = sum_hi = 0
+        ans = 0
+        for j, x in enumerate(A):
+            # Maintain i_lo, sum_lo:
+            # While the sum is too big, i_lo += 1
+            sum_lo += x
+            while i_lo < j and sum_lo > S:
+                sum_lo -= A[i_lo]
+                i_lo += 1
+
+            # Maintain i_hi, sum_hi:
+            # While the sum is too big, or equal and we can move, i_hi += 1
+            sum_hi += x
+            while i_hi < j and (
+                    sum_hi > S or sum_hi == S and not A[i_hi]):
+                sum_hi -= A[i_hi]
+                i_hi += 1
+
+            if sum_lo == S:
+                ans += i_hi - i_lo + 1
+
+        return ans
+```
+
+**Example 10: (Two pointer, Counter)**
+```python
+class Solution:
+    def totalFruit(self, tree: List[int]) -> int:
+        ans = i = 0
+        count = collections.Counter()
+        for j, x in enumerate(tree):
+            count[x] += 1
+            while len(count) >= 3:
+                count[tree[i]] -= 1
+                if count[tree[i]] == 0:
+                    del count[tree[i]]
+                i += 1
+            ans = max(ans, j - i + 1)
+        return ans
+```
+
+**Example 11: (Four pointer)**
+```python
+class Solution:
+    def numberOfSubarrays(self, nums: List[int], k: int) -> int:
+        arr = [-1] + [i for i, num in enumerate(nums) if num & 1] + [len(nums)]
+        return sum([(s - r) * (u - t) for r, s, t, u in zip(
+            arr,
+            arr[1:],
+            arr[k:],
+            arr[k+1:]
+        )])
+```
+
+**Template 1: (Linked list)**
+```python
+dummy = ListNode(0)
+dummy.next = head
+first = second = dummy
+...
+while ...:
+    first = ....
+    second = ...
+...
+return dummy.next
+```
+
+**Template 2: (Sliding window)**
+```python
+left, right = 0, N-1
+while left < right:
+    while ...:
+        left += 1
+    while ...:
+        right -= 1
+    ans = ...left...right...
+    
+return ans
+```
+
+**Template 3: (Sliding window)**
+```python
+i = 0
+count = collections.Counter(nums)
+for j, x in enumerate(N):
+    count[x] += 1
+    while ...:
+        count[nums[i]] -= 1
+        if count[nums[i]] == 0:
+            del count[i]
+        i += 1
+    ans = max(ans, j - i + 1)
+
+return ans
+```
+
+**Template 4: (Two pointer, Binary search)**
+```python
+for i in range(N):
+    left, right = i+1, N-1
+    while left < right:
+        if ...[left] + ...[right] == target:
+            ans = max(ans, right - left + 1)
+        elif ...[left] + ...[right] < target:
+            left += 1
+        elif ...[left] + ...[right] > target:
+            right -= 1
+
+return ans
+```
+
 * [[Easy] [Solution] 141. Linked List Cycle](%5BEasy%5D%20%5BSolution%5D%20141.%20Linked%20List%20Cycle.md)
 * [[Medium] [Solution] 287. Find the Duplicate Number](%5BMedium%5D%20%5BSolution%5D%20287.%20Find%20the%20Duplicate%20Number.md)
 * [[Medium] [Solution] 713. Subarray Product Less Than K](%5BMedium%5D%20%5BSolution%5D%20713.%20Subarray%20Product%20Less%20Than%20K.md)
 * [[Medium] [Solution] 763. Partition Labels](%5BMedium%5D%20%5BSolution%5D%20763.%20Partition%20Labels.md)
+* [[Medium] [Solution] 838. Push Dominoes](%5BMedium%5D%20%5BSolution%5D%20838.%20Push%20Dominoes.md)
+* [[Easy] [Solution] 844. Backspace String Compare](%5BEasy%5D%20%5BSolution%5D%20844.%20Backspace%20String%20Compare.md)
+* [[Medium] [Solution] 923. 3Sum With Multiplicity](%5BMedium%5D%20%5BSolution%5D%20923.%203Sum%20With%20Multiplicity.md)
+* [[Easy] [Solution] 925. Long Pressed Name](%5BEasy%5D%20%5BSolution%5D%20925.%20Long%20Pressed%20Name.md)
+* [[Medium] [Solution] 930. Binary Subarrays With Sum](%5BMedium%5D%20%5BSolution%5D%20930.%20Binary%20Subarrays%20With%20Sum.md)
+* [[Medium] [Solution] 904. Fruit Into Baskets](%5BMedium%5D%20%5BSolution%5D%20904.%20Fruit%20Into%20Baskets.md)
+* [[Medium] 1248. Count Number of Nice Subarrays](%5BMedium%5D%201248.%20Count%20Number%20of%20Nice%20Subarrays.md)
 
 ## Regular Expression
 * library: `re`
