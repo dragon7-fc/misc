@@ -1068,6 +1068,194 @@ return ans
 * [[Medium] [Solution] 904. Fruit Into Baskets](%5BMedium%5D%20%5BSolution%5D%20904.%20Fruit%20Into%20Baskets.md)
 * [[Medium] 1248. Count Number of Nice Subarrays](%5BMedium%5D%201248.%20Count%20Number%20of%20Nice%20Subarrays.md)
 
+## Stack
+**Example 1: (PreOrder)**
+```python
+class Solution:
+    def preorderTraversal(self, root: TreeNode) -> List[int]:
+        preorder, stack = [], [(root, False)]
+        while stack:
+            (node, visited) = stack.pop()
+            if not node:
+                continue
+            if visited:
+                preorder.append(node.val)
+            else:
+                stack.append((node.right, False))
+                stack.append((node.left, False))
+                stack.append((node, True))
+        return preorder
+```
+
+**Example 2: (InOrder)**
+```python
+class Solution:
+    def inorderTraversal(self, root: TreeNode) -> List[int]:
+        inorder, stack = [], [(root, False)]
+        while stack:
+            (node, visited) = stack.pop()
+            if node:
+                if visited:
+                    inorder.append(node.val)
+                else:
+                    stack.append((node.right, False))
+                    stack.append((node, True))
+                    stack.append((node.left, False))
+        return inorder
+```
+**Example 3: (PostOrder)**
+```python
+class Solution:
+    def postorderTraversal(self, root: TreeNode) -> List[int]:
+        postorder, stack = [], [(root, False)]
+        while stack:
+            (node, visited) = stack.pop()
+            if node:
+                if visited:
+                    postorder.append(node.val)
+                else:
+                    stack.append((node, True))
+                    stack.append((node.right, False))
+                    stack.append((node.left, False))
+        return postorder
+```
+
+**Example 4: (Stack, Hash table)**
+```python
+class Solution:
+    def evalRPN(self, tokens: List[str]) -> int:
+        ops = {
+            '+': operator.add, 
+            '-': operator.sub, 
+            '*': operator.mul, 
+            '/': operator.truediv
+        }
+        stack = []
+        for token in tokens:
+            if token in ops:
+                b = stack.pop()
+                a = stack.pop()
+                stack.append(int(ops[token](a, b)))
+            else:
+                stack.append(int(token))
+        
+        return stack.pop()
+```
+
+**Example 5:**
+```python
+class Solution(object):
+    def decodeString(self, s):
+        """
+        :type s: str
+        :rtype: str
+        """
+        stack = []
+        stack.append(["", 1])
+        num = ""
+        for ch in s:
+            if ch.isdigit():
+                num += ch
+            elif ch == '[':
+                stack.append(['', int(num)])
+                num = ''
+            elif ch.isalpha():
+                stack[-1][0] += ch
+            elif ch == ']':
+                st, k = stack.pop()
+                stack[-1][0] += st*k
+        return stack[0][0]
+```
+
+**Example 6: (Preprocessing, stack maintain variance from right)**
+```python
+class Solution:
+    def find132pattern(self, nums: List[int]) -> bool:
+        N = len(nums)
+        if N < 3:
+            return False
+        stack = []
+        mi = [None]*N
+        mi[0] = nums[0]
+        for i in range(1, N):
+            mi[i] = min(mi[i-1], nums[i])
+        for j in range(N-1, -1, -1):
+            if nums[j] > mi[j]:
+                while stack and stack[-1] <= mi[j]:
+                    stack.pop()
+                if stack and stack[-1] < nums[j]:
+                    return True
+                stack.append(nums[j])
+
+        return False
+```
+
+**Exaomple 7: (weighted stack)**
+```python
+class StockSpanner:
+
+    def __init__(self):
+        self.stack = []
+
+    def next(self, price: int) -> int:
+        weight = 1
+        while self.stack and self.stack[-1][0] <= price:
+            weight += self.stack.pop()[1]
+        self.stack.append((price, weight))
+        return weight
+
+
+# Your StockSpanner object will be instantiated and called as such:
+# obj = StockSpanner()
+# param_1 = obj.next(price)
+```
+
+**Example 8: (Maintain Stack of Minimums)**
+```python
+class Solution:
+    def sumSubarrayMins(self, A: List[int]) -> int:
+        MOD = 10**9 + 7
+
+        stack = []
+        ans = dot = 0
+        for j, y in enumerate(A):
+            # Add all answers for subarrays [i, j], i <= j
+            count = 1
+            while stack and stack[-1][0] >= y:
+                x, c = stack.pop()
+                count += c
+                dot -= x * c
+
+            stack.append((y, count))
+            dot += y * count
+            ans += dot
+        return ans % MOD
+```
+
+**Example 9: (Greedy, Stack simulation)**
+```python
+class Solution:
+    def validateStackSequences(self, pushed: List[int], popped: List[int]) -> bool:
+        j = 0
+        stack = []
+        for x in pushed:
+            stack.append(x)
+            while stack and j < len(popped) and stack[-1] == popped[j]:
+                stack.pop()
+                j += 1
+
+        return j == len(popped)
+```
+
+* [[Medium] 150. Evaluate Reverse Polish Notation](%5BMedium%5D%20150.%20Evaluate%20Reverse%20Polish%20Notation.md)
+* [![Medium] 394. Decode String](!%5BMedium%5D%20394.%20Decode%20String.md)
+* [[Medium] [Solution] 456. 132 Pattern](%5BMedium%5D%20%5BSolution%5D%20456.%20132%20Pattern.md)
+* [[Medium] [Solution] 503. Next Greater Element II](%5BMedium%5D%20%5BSolution%5D%20503.%20Next%20Greater%20Element%20II.md)
+* [[Medium] [Solution] 636. Exclusive Time of Functions](%5BMedium%5D%20%5BSolution%5D%20636.%20Exclusive%20Time%20of%20Functions.md)
+* [[Medium] [Solution] 901. Online Stock Span](%5BMedium%5D%20%5BSolution%5D%20901.%20Online%20Stock%20Span.md)
+* [[Medium] [Solution] 907. Sum of Subarray Minimums](%5BMedium%5D%20%5BSolution%5D%20907.%20Sum%20of%20Subarray%20Minimums.md)
+* [[Medium] [Solution] 946. Validate Stack Sequences](%5BMedium%5D%20%5BSolution%5D%20946.%20Validate%20Stack%20Sequences.md)
+
 ## Regular Expression
 * library: `re`
     * `re.match(pattern, string, flags=0)`

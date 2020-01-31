@@ -191,7 +191,7 @@ class Solution {
 
 # Submissions
 ---
-**Solution 1:**
+**Solution 1: (DFS)**
 ```
 Runtime: 28 ms
 Memory Usage: 12.7 MB
@@ -216,7 +216,7 @@ class Solution:
         return ans
 ```
 
-**Solution 2:**
+**Solution 2: (Stack)**
 ```
 Runtime: 28 ms
 Memory Usage: 12.8 MB

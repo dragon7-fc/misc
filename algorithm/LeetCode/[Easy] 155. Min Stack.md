@@ -1,13 +1,15 @@
-""" 
-Min Stack
+155. Min Stack
 
 Design a stack that supports push, pop, top, and retrieving the minimum element in constant time.
 
-push(x) -- Push element x onto stack.
-pop() -- Removes the element on top of the stack.
-top() -- Get the top element.
-getMin() -- Retrieve the minimum element in the stack.
-Example:
+* push(x) -- Push element x onto stack.
+* pop() -- Removes the element on top of the stack.
+* top() -- Get the top element.
+* getMin() -- Retrieve the minimum element in the stack.
+ 
+
+**Example:**
+```
 MinStack minStack = new MinStack();
 minStack.push(-2);
 minStack.push(0);
@@ -16,54 +18,16 @@ minStack.getMin();   --> Returns -3.
 minStack.pop();
 minStack.top();      --> Returns 0.
 minStack.getMin();   --> Returns -2.
-"""
+```
 
-
-""" Solution: 592 ms """
-class MinStack(object):
-
-    def __init__(self):
-        """
-        initialize your data structure here.
-        """
-        self.s = []
-        
-
-    def push(self, x):
-        """
-        :type x: int
-        :rtype: void
-        """
-        self.s.append(x)
-
-    def pop(self):
-        """
-        :rtype: void
-        """
-        self.s.pop()
-
-    def top(self):
-        """
-        :rtype: int
-        """
-        return self.s[-1]
-
-    def getMin(self):
-        """
-        :rtype: int
-        """
-        return min(self.s)
-
-
-# Your MinStack object will be instantiated and called as such:
-# obj = MinStack()
-# obj.push(x)
-# obj.pop()
-# param_3 = obj.top()
-# param_4 = obj.getMin()
-
-
-""" Solution2: 52 ms """
+# Submissions
+---
+**Solution 1: (Stack)**
+```
+Runtime: 40 ms
+Memory Usage: 15.7 MB
+```
+```python
 class MinStack(object):
 
     def __init__(self):
@@ -72,12 +36,11 @@ class MinStack(object):
         """
         self.stack = []
         self.min_stack = []
-        
 
     def push(self, x):
         """
         :type x: int
-        :rtype: void
+        :rtype: None
         """
         self.stack.append(x)
         if not self.min_stack:
@@ -90,7 +53,7 @@ class MinStack(object):
 
     def pop(self):
         """
-        :rtype: void
+        :rtype: None
         """
         self.stack.pop()
         self.min_stack.pop()
@@ -106,3 +69,12 @@ class MinStack(object):
         :rtype: int
         """
         return self.min_stack[-1]
+
+
+# Your MinStack object will be instantiated and called as such:
+# obj = MinStack()
+# obj.push(x)
+# obj.pop()
+# param_3 = obj.top()
+# param_4 = obj.getMin()
+```

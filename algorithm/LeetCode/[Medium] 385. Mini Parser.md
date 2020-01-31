@@ -32,7 +32,7 @@ Return a NestedInteger object containing a nested list with 2 elements:
 
 # Submissions
 ---
-**Solution 1:**
+**Solution 1: (Stack)**
 ```
 Runtime: 68 ms
 Memory Usage: 16 MB

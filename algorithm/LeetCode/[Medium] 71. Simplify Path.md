@@ -49,7 +49,7 @@ Output: "/a/b/c"
 
 # Submissions
 ---
-**Solution 1:**
+**Solution 1: (Stack)**
 ```
 Runtime: 32 ms
 Memory Usage: 12.8 MB

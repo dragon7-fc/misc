@@ -22,7 +22,7 @@ Explanation: By calling next repeatedly until hasNext returns false,
 
 # Sobmissions
 ---
-**Solution**
+**Solution 1: (DFS)**
 ```
 Runtime: 68 ms
 Memory Usage: 17.6 MB

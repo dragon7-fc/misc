@@ -108,6 +108,25 @@ class Solution(object):
 
 # Submissions
 ---
+**Solution: (Stack)**
+```
+Runtime: 20 ms
+Memory Usage: 12.7 MB
+```
+```python
+class Solution:
+    def backspaceCompare(self, S: str, T: str) -> bool:
+        def build(S):
+            ans = []
+            for c in S:
+                if c != '#':
+                    ans.append(c)
+                elif ans:
+                    ans.pop()
+            return "".join(ans)
+        return build(S) == build(T)
+```
+
 **Solution: (Two pointer)**
 ```
 Runtime: 28 ms

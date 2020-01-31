@@ -234,7 +234,7 @@ class BSTIterator:
 
 # Submissions
 ---
-**Solution 1:**
+**Solution 1: (Stack)**
 ```
 Runtime: 80 ms
 Memory Usage: 19.7 MB

@@ -86,7 +86,7 @@ class Solution:
             bal += 1 if symbol == '(' else -1
             # It is guaranteed bal >= -1
             if bal == -1:
-                ans += 1
-                bal += 1
+                ans += 1  # invalid ')'
+                bal += 1  # invalid '('
         return ans + bal
 ```

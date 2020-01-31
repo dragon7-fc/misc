@@ -17,7 +17,7 @@ s = "2[abc]3[cd]ef", return "abcabccdcdcdef".
 
 # Submissions
 ---
-**Solution 1:**
+**Solution 1: (Stack)**
 ```
 Runtime: 20 ms
 Memory Usage: 12.7 MB
@@ -46,7 +46,7 @@ class Solution(object):
         return stack[0][0]
 ```
 
-**Solution 2:**
+**Solution 2: (DFS)**
 ```
 Runtime: 20 ms
 Memory Usage: 12.7 MB
@@ -76,7 +76,7 @@ class Solution:
         return dfs()
 ```
 
-**Solution 3:**
+**Solution 3: (Stack)**
 ```
 Runtime: 24 ms
 Memory Usage: 12.8 MB

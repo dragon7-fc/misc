@@ -132,7 +132,7 @@ int trap(vector<int>& height)
 
 Single iteration of $O(n)$ in which each bar can be touched at most twice(due to insertion and deletion from stack) and insertion and deletion from stack takes $O(1)$ time.
 
-*Space complexity: $O(n)$. Stack can take upto $O(n)$ space in case of stairs-like or flat structure.
+* Space complexity: $O(n)$. Stack can take upto $O(n)$ space in case of stairs-like or flat structure.
 
 ## Approach 4: Using 2 pointers
 **Intuition**
