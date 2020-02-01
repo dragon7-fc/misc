@@ -37,41 +37,7 @@ Output: "ps"
 
 # Submissions
 ---
-**Solution 1:**
-```
-Runtime: 144 ms
-Memory Usage: 15.7 MB
-```
-```python
-class Solution:
-    def removeDuplicates(self, s: str, k: int) -> str:
-        s = list(s)
-        stack = []
-        for i in range(len(s)):
-            if stack == [] or stack[-1][0] != s[i]:
-                stack.append([s[i], 1])
-            else:
-                stack[-1][1] += 1
-            j = -1
-            c = stack[j][1]
-            if c == k:
-                stack.pop()
-            else:
-                c = 0
-                while c < k and len(stack) >= abs(j-1) and stack[j][0] == stack[j-1][0]:
-                    j -= 1
-                    c += stack[j][1]
-                    if c == k:
-                        for _ in range(abs(j)):
-                            stack.pop()
-        
-        ans = []
-        for i in range(len(stack)):
-            ans += stack[i][0]*stack[i][1]
-        return ''.join(ans)
-```
-
-**Solution 2:**
+**Solution 1: (Stack)**
 ```
 Runtime: 72 ms
 Memory Usage: 15.4 MB

@@ -47,7 +47,7 @@ Output: false
 
 # Submissions
 ---
-**Solution 1:**
+**Solution 1: (Stack)**
 ```
 Runtime: 128 ms
 Memory Usage: 12.8 MB
@@ -67,7 +67,7 @@ class Solution:
         return not stack
 ```
 
-**Solution 2:**
+**Solution 2: (DFS)**
 ```
 Runtime: 28 ms
 Memory Usage: 12.7 MB

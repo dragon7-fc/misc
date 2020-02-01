@@ -44,7 +44,7 @@ Output: "a(b(c)d)"
 
 # Submissions
 ---
-**Solution 1:**
+**Solution 1: (Stack)**
 ```
 Runtime: 116 ms
 Memory Usage: 14.1 MB
@@ -54,21 +54,15 @@ class Solution:
     def minRemoveToMakeValid(self, s: str) -> str:
         if not s:
             return
-
         stack = []
         for i, token in enumerate(s):
-
             if token == ")" and stack and stack[-1][1] == "(":
                 stack.pop()
-
             elif token in ('(',')'):
                 stack.append((i,token))     # Trick is to append index and token both to stack. All unmatched/extra brackets will be 
                                             # left on stack which have to be removed from given string.
             else:
                 continue
-
-            #print token, stack
-
         s = list(s)
         while stack:
             index = stack.pop()[0]

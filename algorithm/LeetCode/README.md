@@ -1247,6 +1247,34 @@ class Solution:
         return j == len(popped)
 ```
 
+**Example 10: (Heap)**
+```python
+class Solution:
+    def mctFromLeafValues(self, arr: List[int]) -> int:
+        cost, heap = 0, [float('inf')]
+        for leaf in arr:
+            while heap[0] < leaf: # join the cheapest possible leaves
+                cost += heapq.heappop(heap) * min(leaf, heap[0])
+            heapq.heappush(heap, leaf)
+        while len(heap) > 2: # no choice but to join the remaining leaves
+            cost += heapq.heappop(heap) * heap[0]
+        return cost
+```
+
+**Template 1:**
+```python
+stack = []
+ans = 0
+for ...:
+    while stack and stack[-1]...:
+        stack.pop()
+    ...
+    ans = ...
+    stack.append(...)
+
+return ans
+```
+
 * [[Medium] 150. Evaluate Reverse Polish Notation](%5BMedium%5D%20150.%20Evaluate%20Reverse%20Polish%20Notation.md)
 * [![Medium] 394. Decode String](!%5BMedium%5D%20394.%20Decode%20String.md)
 * [[Medium] [Solution] 456. 132 Pattern](%5BMedium%5D%20%5BSolution%5D%20456.%20132%20Pattern.md)
@@ -1255,6 +1283,7 @@ class Solution:
 * [[Medium] [Solution] 901. Online Stock Span](%5BMedium%5D%20%5BSolution%5D%20901.%20Online%20Stock%20Span.md)
 * [[Medium] [Solution] 907. Sum of Subarray Minimums](%5BMedium%5D%20%5BSolution%5D%20907.%20Sum%20of%20Subarray%20Minimums.md)
 * [[Medium] [Solution] 946. Validate Stack Sequences](%5BMedium%5D%20%5BSolution%5D%20946.%20Validate%20Stack%20Sequences.md)
+* [[Medium] 1130. Minimum Cost Tree From Leaf Values](%5BMedium%5D%201130.%20Minimum%20Cost%20Tree%20From%20Leaf%20Values.md)
 
 ## Regular Expression
 * library: `re`

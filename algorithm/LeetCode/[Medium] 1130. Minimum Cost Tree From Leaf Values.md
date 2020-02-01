@@ -33,7 +33,7 @@ There are two possible trees.  The first has non-leaf node sum 36, and the secon
 
 # Submisssions
 ---
-**Solution 1:**
+**Solution 1: (Heap, Stack)**
 
 There are numerous ways to solve this problem, but I didn't see anyone do it with a heap. The basic premise is to walk through the array using a minheap to track the smallest leaf seen essentially and collapse it with a larger leaf strategically until we end up with just one node.
 
@@ -54,7 +54,7 @@ class Solution:
         return cost
 ```
 
-**Solution 2:**
+**Solution 2: (DFS)**
 ```
 Runtime: 268 ms
 Memory Usage: 13.3 MB
