@@ -320,6 +320,31 @@ class Solution:
         return num_connected_components - 1
 ```
 
+**Example 6: (2*DFS)**
+```python
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+
+class Solution:
+    def maxProduct(self, root: TreeNode) -> int:
+        MOD = 10**9 + 7
+        self.res = total = 0
+
+        def dfs(node):
+            if not node: return 0
+            left, right = dfs(node.left), dfs(node.right)
+            self.res = max(self.res, left * (total - left), right * (total - right))
+            return left + right + node.val
+
+        total = dfs(root)  # get the total sum.
+        dfs(root)  # find the biggest product.
+        return self.res % MOD
+```
+
 **Template 1: (Postorder)**
 ```python
 ans = ...
@@ -416,6 +441,7 @@ return num_connected_components
 * [[Medium] 1319. Number of Operations to Make Network Connected](%5BMedium%5D%201319.%20Number%20of%20Operations%20to%20Make%20Network%20Connected.md)
 * [[Medium] 1110. Delete Nodes And Return Forest](%5BMedium%5D%201110.%20Delete%20Nodes%20And%20Return%20Forest.md)
 * [[Medium] * 450. Delete Node in a BST](%5BMedium%5D%20*%20450.%20Delete%20Node%20in%20a%20BST.md)
+* [[Medium] 1343. Maximum Product of Splitted Binary Tree](%5BMedium%5D%201343.%20Maximum%20Product%20of%20Splitted%20Binary%20Tree.md)
 
 ## Binary Search
 
