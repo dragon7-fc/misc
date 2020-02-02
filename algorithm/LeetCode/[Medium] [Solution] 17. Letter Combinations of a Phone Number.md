@@ -88,7 +88,7 @@ class Solution:
 
 # Submissions
 ---
-**Solution 1:**
+**Solution 1: (Backtracking, Hash table)**
 ```
 Runtime: 28 ms
 Memory Usage: 12.8 MB
@@ -100,7 +100,6 @@ class Solution:
         :type digits: str
         :rtype: List[str]
         """
-class Solution:
     def letterCombinations(self, digits: str) -> List[str]:
         phone = {'2': ['a', 'b', 'c'],
                  '3': ['d', 'e', 'f'],

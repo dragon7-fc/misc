@@ -159,7 +159,7 @@ class Solution(object):
 
 # Submissions
 ---
-**Solution 1:**
+**Solution 1: (Backtracking)**
 ```
 Runtime: 1596 ms
 Memory Usage: 11.9 MB
