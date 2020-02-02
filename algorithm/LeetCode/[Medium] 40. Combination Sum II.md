@@ -32,7 +32,7 @@ A solution set is:
 
 # Submissions
 ---
-**Solution 1:**
+**Solution 1: (DFS)**
 ```
 Runtime: 72 ms
 Memory Usage: 13.9 MB
@@ -62,7 +62,7 @@ class Solution:
         return ans
 ```
 
-**Solution 2**
+**Solution 2: (Backtracking)**
 ```
 Runtime: 1368 ms
 Memory Usage: 13.8 MB

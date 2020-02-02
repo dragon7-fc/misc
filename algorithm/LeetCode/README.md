@@ -1351,7 +1351,28 @@ class Solution:
         return output
 ```
 
+**Example 2:**
+```python
+class Solution:
+    def permute(self, nums: List[int]) -> List[List[int]]:
+        def backtrack(nums, permutation):
+            if len(permutation) == len(nums):
+                ans.append(permutation[:])
+                return
+            for num in nums:
+                if num not in permutation: # This choice is valid
+                    permutation.append(num)
+                    backtrack(nums, permutation)
+                    permutation.remove(num)
+        ans = []
+        permutation = []
+        backtrack(nums, permutation)
+        
+        return ans
+```
+
 * [[Medium] [Solution] 17. Letter Combinations of a Phone Number](%5BMedium%5D%20%5BSolution%5D%2017.%20Letter%20Combinations%20of%20a%20Phone%20Number.md)
+* [[Medium] 46. Permutations](%5BMedium%5D%2046.%20Permutations.md)
 
 ## Regular Expression
 * library: `re`

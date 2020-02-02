@@ -18,7 +18,7 @@ Output:
 
 # Submissions
 ---
-**Solution 1:**
+**Solution 1: (DFS)**
 ```
 Runtime: 40 ms
 Memory Usage: 12.8 MB
@@ -39,4 +39,28 @@ class Solution:
             res += [[nums[i]]+x for x in r]
             
         return res
+```
+
+**Solution 2: (Backtracking)**
+```
+Runtime: 40 ms
+Memory Usage: 13.1 MB
+```
+```python
+class Solution:
+    def permute(self, nums: List[int]) -> List[List[int]]:
+        def backtrack(nums, permutation):
+            if len(permutation) == len(nums):
+                ans.append(permutation[:])
+                return
+            for num in nums:
+                if num not in permutation: # This choice is valid
+                    permutation.append(num)
+                    backtrack(nums, permutation)
+                    permutation.remove(num)
+        ans = []
+        permutation = []
+        backtrack(nums, permutation)
+        
+        return ans
 ```
