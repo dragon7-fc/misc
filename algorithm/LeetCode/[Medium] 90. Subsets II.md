@@ -48,17 +48,56 @@ class Solution:
 
         return res
 ```
-**Solution 2:**
+**Solution 2: (Recursion)**
 ```
-Runtime: 48 ms
-Memory Usage: 14 MB
+Runtime: 36 ms
+Memory Usage: 12.9 MB
 ```
 ```python
 class Solution:
     def subsetsWithDup(self, nums: List[int]) -> List[List[int]]:
         nums.sort()
-        res = [[]]
-        for n in nums:
-            res += [s + [n] for s in res]
-        return set(tuple(e) for e in res)
+        output = [[]]
+        
+        for num in nums:
+            output += [curr + [num] for curr in output]
+        
+        return set(tuple(el) for el in output)
+```
+
+**Solution3: (itertools)**
+```
+Runtime: 32 ms
+Memory Usage: 12.5 MB
+```
+```python
+class Solution:
+    def subsetsWithDup(self, nums: List[int]) -> List[List[int]]:
+        m = [[i for i in itertools.combinations(nums,j)] for j in range(len(nums)+1)]
+        m1 = [tuple(sorted(i)) for j in m for i in j]
+        return list(set(m1))
+```
+
+**Solution 4: (DFS, Backtracking)**
+```
+Runtime: 36 ms
+Memory Usage: 13 MB
+```
+```python
+class Solution:
+    def subsetsWithDup(self, nums: List[int]) -> List[List[int]]:
+        res = []
+        
+        def backtrack(choice, temp_res):
+            res.append(temp_res)
+            seen = set()
+            if len(temp_res) == len(nums):
+                return
+            for i, n in enumerate(choice):
+                if n not in seen:
+                    seen.add(n)
+                    backtrack(choice[i+1:], temp_res + [n])    
+        backtrack(sorted(nums), [])
+        
+        return res
 ```

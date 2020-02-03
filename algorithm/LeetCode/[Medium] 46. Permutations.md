@@ -43,24 +43,26 @@ class Solution:
 
 **Solution 2: (Backtracking)**
 ```
-Runtime: 40 ms
-Memory Usage: 13.1 MB
+Runtime: 36 ms
+Memory Usage: 13 MB
 ```
 ```python
 class Solution:
-    def permute(self, nums: List[int]) -> List[List[int]]:
+    def permute(self, nums):
+        """
+        :type nums: List[int]
+        :rtype: List[List[int]]
+        """
         def backtrack(nums, permutation):
             if len(permutation) == len(nums):
-                ans.append(permutation[:])
+                ans.append(permutation)
                 return
             for num in nums:
                 if num not in permutation: # This choice is valid
-                    permutation.append(num)
-                    backtrack(nums, permutation)
-                    permutation.remove(num)
+                    backtrack(nums, permutation + [num])
         ans = []
         permutation = []
         backtrack(nums, permutation)
-        
+
         return ans
 ```

@@ -1354,25 +1354,54 @@ class Solution:
 **Example 2:**
 ```python
 class Solution:
-    def permute(self, nums: List[int]) -> List[List[int]]:
-        def backtrack(nums, permutation):
-            if len(permutation) == len(nums):
-                ans.append(permutation[:])
-                return
-            for num in nums:
-                if num not in permutation: # This choice is valid
-                    permutation.append(num)
-                    backtrack(nums, permutation)
-                    permutation.remove(num)
-        ans = []
-        permutation = []
-        backtrack(nums, permutation)
+    def subsets(self, nums):
+        """
+        :type nums: List[int]
+        :rtype: List[List[int]]
+        """
+        def backtrack(first = 0, curr = []):
+            # if the combination is done
+            if len(curr) == k:  
+                output.append(curr[:])
+            for i in range(first, n):
+                # add nums[i] into the current combination
+                curr.append(nums[i])
+                # use next integers to complete the combination
+                backtrack(i + 1, curr)
+                # backtrack
+                curr.pop()
         
-        return ans
+        output = []
+        n = len(nums)
+        for k in range(n + 1):
+            backtrack()
+```
+
+**Template 1:**
+```python
+ans = []
+def backtrack(XXX, candidate):
+    if ...:
+        ans.append(candidate)
+    for i in range(len(XXX)):
+        if ...:
+            candidate.append(...)
+            backtrack(..., candidate)
+            candidate.pop()
+backtrack(...)
+return ans
 ```
 
 * [[Medium] [Solution] 17. Letter Combinations of a Phone Number](%5BMedium%5D%20%5BSolution%5D%2017.%20Letter%20Combinations%20of%20a%20Phone%20Number.md)
-* [[Medium] 46. Permutations](%5BMedium%5D%2046.%20Permutations.md)
+* [[Medium] [Solution] 78. Subsets](%5BMedium%5D%20%5BSolution%5D%2078.%20Subsets.md)
+
+## Bit
+---
+**Example 1: (Gray code)**
+```python
+def binaryToGray(self, n: int) -> int:
+    return n ^ (n >> 1)
+```
 
 ## Regular Expression
 * library: `re`

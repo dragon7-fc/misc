@@ -33,7 +33,18 @@ Output: "2314"
 
 # Submissions
 ---
-**Solution 1:**
+**Solution 1: (itertools)**
+```
+Runtime: 2128 ms
+Memory Usage: 56.1 MB
+```
+```python
+class Solution:    
+    def getPermutation(self, n: int, k: int) -> str:
+        return ''.join(list(map(str, list(itertools.permutations([_ for _ in range(1, n+1)]))[k-1])))
+```
+
+**Solution 2: (DFS)**
 ```
 Runtime: 28 ms
 Memory Usage: 12.7 MB
@@ -55,4 +66,20 @@ class Solution:
                 
         seq = [_ for _ in range(1, n+1)]
         return permutate(seq, n, k)
+```
+
+**Solution 3: (Math)**
+```
+Runtime: 24 ms
+Memory Usage: 12.6 MB
+```
+```python
+class Solution:    
+    def getPermutation(self, n: int, k: int) -> str:
+        rst, k, nums = '', k-1, list(range(1, n+1))
+        for i in range(n, 0, -1):
+            ind, k = divmod(k, math.factorial(i-1))
+            rst += str(nums[ind])
+            del nums[ind]
+        return rst
 ```

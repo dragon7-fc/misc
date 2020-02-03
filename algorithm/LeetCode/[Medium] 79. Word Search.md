@@ -20,7 +20,7 @@ Given word = "ABCB", return false.
 
 # Submissions
 ---
-**Solution 1:**
+**Solution 1: (DFS, Backtracking)**
 ```
 Runtime: 320 ms
 Memory Usage: 15.3 MB
@@ -65,7 +65,7 @@ class Solution:
         return ans
 ```
 
-**Solution 2:**
+**Solution 2:(DFS, Backtracking, stack)**
 ```
 Runtime: 412 ms
 Memory Usage: 30.8 MB
