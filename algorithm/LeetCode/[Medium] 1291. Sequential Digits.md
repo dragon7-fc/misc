@@ -22,7 +22,7 @@ Output: [1234,2345,3456,4567,5678,6789,12345]
 
 # Submissions
 ---
-**Solution 1:**
+**Solution 1: (Sliding window)**
 ```
 Runtime: 24 ms
 Memory Usage: 12.7 MB

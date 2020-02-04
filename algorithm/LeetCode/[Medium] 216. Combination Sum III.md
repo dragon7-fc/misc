@@ -18,15 +18,15 @@ Output: [[1,2,6], [1,3,5], [2,3,4]]
 ```
 # Submissions
 ---
-**Solution**
+**Solution1: (Backtracking)**
 ```
-Runtime: 36 ms
-Memory Usage: 13.8 MB
+Runtime: 32 ms
+Memory Usage: 12.9 MB
 ```
 ```python
 class Solution:
     def combinationSum3(self, k: int, n: int) -> List[List[int]]:
-        def dfs(nums, target, index, path, ans):
+        def backtrack(index, target, path):
             if target < 0 or len(path) > k:
                 return None
             if target == 0 and (len(path) == k) and (path not in ans):
@@ -34,10 +34,10 @@ class Solution:
             for i in range(index, len(nums)):
                 if nums[i] > target:
                     break
-                dfs(nums, target-nums[i], i+1, path+[nums[i]], ans)
-        
+                backtrack(i+1, target-nums[i], path+[nums[i]])
         ans = []
-        candidates = [i for i in range(1, 10)]
-        dfs(candidates, n, 0, [], ans)
+        nums = [i for i in range(1, 10)]
+        backtrack(0, n, [])
+        
         return ans
 ```

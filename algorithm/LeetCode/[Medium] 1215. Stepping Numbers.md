@@ -16,7 +16,7 @@ Output: [0,1,2,3,4,5,6,7,8,9,10,12,21]
 
 # Solution
 ---
-**Solution 1:**
+**Solution 1: (Backtracking)**
 ```
 Runtime: 348 ms
 Memory Usage: 37.6 MB
@@ -42,7 +42,7 @@ class Solution:
         return sorted(v for v in q if v >= low)
 ```
 
-**Solution 2:**
+**Solution 2: (BFS)**
 ```
 Runtime: 292 ms
 Memory Usage: 14.3 MB

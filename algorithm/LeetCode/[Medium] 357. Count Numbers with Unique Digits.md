@@ -12,7 +12,36 @@ Explanation: The answer should be the total numbers in the range of 0 ≤ x < 10
 
 # Submissions
 ---
-**Solution 1:**
+**Solution 1: (Backtracking)**
+```
+Runtime: 4608 ms
+Memory Usage: 12.6 MB
+```
+```python
+class Solution:
+    def countNumbersWithUniqueDigits(self, n: int) -> int:
+        def backtracking(num):
+            nonlocal res, used
+            for i in range(len(digits)):
+                if num*10 + digits[i] < limit:
+                    if num == 0 and i == 0 or used[i]:
+                        continue 
+                    res += 1
+                    num = num*10 + digits[i]
+                    used[i] = True
+                    backtracking(num)
+                    used[i] = False
+                    num //= 10  
+        res = 1
+        digits = list(range(10))
+        used = [False]*10
+        limit = 10 ** n
+        backtracking(0)
+        
+        return res
+```
+
+**Solution 2: (Math)**
 ```
 Runtime: 36 ms
 Memory Usage: 13.8 MB

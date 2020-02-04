@@ -1313,7 +1313,7 @@ return ans
 
 ## Backtracking
 
-**Example 1:**
+**Example 1: (combination)**
 ```python
 class Solution:
     def letterCombinations(self, digits):
@@ -1351,7 +1351,7 @@ class Solution:
         return output
 ```
 
-**Example 2:**
+**Example 2: (subset)**
 ```python
 class Solution:
     def subsets(self, nums):
@@ -1377,6 +1377,101 @@ class Solution:
             backtrack()
 ```
 
+**Example 3: (Trie)**
+```python
+class Node:
+    def __init__(self):
+        self.sub = collections.defaultdict(Node)
+        self.isend = False
+
+class WordDictionary:
+
+    def __init__(self):
+        """
+        Initialize your data structure here.
+        """
+        self.root = Node()
+
+    def addWord(self, word: str) -> None:
+        """
+        Adds a word into the data structure.
+        """
+        cur = self.root
+        for i in word: cur = cur.sub[i]
+        cur.isend = True
+        
+    def searchnode(self, word: str, st, node) -> bool:
+        for i in range(st, len(word)):
+            if word[i] == '.':
+                for n in node.sub.values():
+                    if self.searchnode(word, i+1, n): return True
+                return False
+            else:
+                node = node.sub.get(word[i], None)
+                if node is None: return False
+        return node and node.isend
+
+    def search(self, word: str) -> bool:
+        """
+        Returns if the word is in the data structure. A word could contain the dot character '.' to represent any one letter.
+        """
+        return self.searchnode(word, 0, self.root)
+
+
+# Your WordDictionary object will be instantiated and called as such:
+# obj = WordDictionary()
+# obj.addWord(word)
+# param_2 = obj.search(word)
+```
+
+**Example 4: (count)**
+```python
+class Solution:
+    def countArrangement(self, N: int) -> int:
+        def calculate(pos):
+            nonlocal count
+            if pos > N:
+                count += 1
+            for i in range(1, N+1):
+                if not visited[i] and (pos % i == 0 or i % pos == 0):
+                    visited[i] = True
+                    calculate(pos + 1)
+                    visited[i] = False
+        count = 0
+        visited = [False] * (N+1)
+        calculate(1)
+        
+        return count
+```
+
+**Example 5: (partition)**
+```python
+class Solution:
+    def splitIntoFibonacci(self, S: str) -> List[int]:
+        def backtrack(seq, path):
+            if self.res:
+                return
+            if not seq and len(path) > 2:
+                self.res = path
+                return
+            for i in range(len(seq)):
+                if seq.startswith('0') and i > 0:
+                    break
+                if int(seq[:i+1]) > 2**31-1:
+                    break
+                if len(path) < 2 or (len(path) >= 2 and int(seq[:i+1]) == int(path[-1])+int(path[-2])):
+                    path.append(seq[:i+1])
+                    backtrack(seq[i+1:], path[:])
+                    path.pop()
+        if not S:
+            return None
+
+        self.res = None
+        backtrack(S, [])
+
+        return self.res
+```
+
 **Template 1:**
 ```python
 ans = []
@@ -1394,6 +1489,9 @@ return ans
 
 * [[Medium] [Solution] 17. Letter Combinations of a Phone Number](%5BMedium%5D%20%5BSolution%5D%2017.%20Letter%20Combinations%20of%20a%20Phone%20Number.md)
 * [[Medium] [Solution] 78. Subsets](%5BMedium%5D%20%5BSolution%5D%2078.%20Subsets.md)
+* [[Medium] 211. Add and Search Word - Data structure design](%5BMedium%5D%20211.%20Add%20and%20Search%20Word%20-%20Data%20structure%20design.md)
+* [[Medium] [Solution] 526. Beautiful Arrangement](%5BMedium%5D%20%5BSolution%5D%20526.%20Beautiful%20Arrangement.md)
+* [[Medium] [Solution] 842. Split Array into Fibonacci Sequence](%5BMedium%5D%20%5BSolution%5D%20842.%20Split%20Array%20into%20Fibonacci%20Sequence.md)
 
 ## Bit
 ---

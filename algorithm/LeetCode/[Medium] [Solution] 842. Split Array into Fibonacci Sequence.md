@@ -127,3 +127,35 @@ class Solution:
                         return fib
         return []
 ```
+
+**Solution 2: (Backtracking)**
+```
+Runtime: 48 ms
+Memory Usage: 12.6 MB
+```
+```python
+class Solution:
+    def splitIntoFibonacci(self, S: str) -> List[int]:
+        def backtrack(seq, path):
+            if self.res:
+                return
+            if not seq and len(path) > 2:
+                self.res = path
+                return
+            for i in range(len(seq)):
+                if seq.startswith('0') and i > 0:
+                    break
+                if int(seq[:i+1]) > 2**31-1:
+                    break
+                if len(path) < 2 or (len(path) >= 2 and int(seq[:i+1]) == int(path[-1])+int(path[-2])):
+                    path.append(seq[:i+1])
+                    backtrack(seq[i+1:], path[:])
+                    path.pop()
+        if not S:
+            return None
+
+        self.res = None
+        backtrack(S, [])
+
+        return self.res
+```
