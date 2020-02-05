@@ -29,7 +29,7 @@ hashSet.contains(2);    // returns false (already removed)
 
 # Submissions
 ---
-**Solution 1:**
+**Solution 1: (Array)**
 ```
 Runtime: 1120 ms
 Memory Usage: 41.3 MB

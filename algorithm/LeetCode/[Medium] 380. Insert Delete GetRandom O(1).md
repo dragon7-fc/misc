@@ -35,7 +35,7 @@ randomSet.getRandom();
 
 # Submissions
 ---
-**Solution**
+**Solution1: (set)**
 ```
 Runtime: 352 ms
 Memory Usage: 17.9 MB
@@ -85,7 +85,7 @@ class RandomizedSet:
 # param_3 = obj.getRandom()
 ```
 
-**Solution 2:**
+**Solution 2: (Hash table, Array)**
 ```
 Runtime: 120 ms
 Memory Usage: 18.3 MB

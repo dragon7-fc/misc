@@ -29,7 +29,7 @@ hashMap.get(2);            // returns -1 (not found)
 
 # Submissions
 ---
-**Solution 1:**
+**Solution 1: (Array)**
 ```
 Runtime: 1376 ms
 Memory Usage: 39.1 MB

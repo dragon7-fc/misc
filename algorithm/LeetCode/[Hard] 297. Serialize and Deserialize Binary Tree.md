@@ -22,7 +22,7 @@ as "[1,2,3,null,null,4,5]"
 
 # Submissions
 ---
-**Solution 1:**
+**Solution 1: (Tree, DFS)**
 ```
 Runtime: 172 ms
 Memory Usage: 22.8 MB
@@ -83,7 +83,7 @@ class Codec:
 # codec.deserialize(codec.serialize(root))
 ```
 
-**Solution 2:**
+**Solution 2: (Tree, BFS)**
 ```
 Runtime: 108 ms
 Memory Usage: 17.3 MB
