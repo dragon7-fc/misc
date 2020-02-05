@@ -1351,7 +1351,29 @@ class Solution:
         return output
 ```
 
-**Example 2: (subset)**
+**Example 2: (permutation)**
+```python
+class Solution:
+    def permute(self, nums):
+        """
+        :type nums: List[int]
+        :rtype: List[List[int]]
+        """
+        def backtrack(nums, permutation):
+            if len(permutation) == len(nums):
+                ans.append(permutation)
+                return
+            for num in nums:
+                if num not in permutation: # This choice is valid
+                    backtrack(nums, permutation + [num])
+        ans = []
+        permutation = []
+        backtrack(nums, permutation)
+
+        return ans
+```
+
+**Example 3: (subset)**
 ```python
 class Solution:
     def subsets(self, nums):
@@ -1377,7 +1399,7 @@ class Solution:
             backtrack()
 ```
 
-**Example 3: (Trie)**
+**Example 4: (Trie)**
 ```python
 class Node:
     def __init__(self):
@@ -1424,7 +1446,7 @@ class WordDictionary:
 # param_2 = obj.search(word)
 ```
 
-**Example 4: (count)**
+**Example 5: (count)**
 ```python
 class Solution:
     def countArrangement(self, N: int) -> int:
@@ -1444,7 +1466,7 @@ class Solution:
         return count
 ```
 
-**Example 5: (partition)**
+**Example 6: (partition)**
 ```python
 class Solution:
     def splitIntoFibonacci(self, S: str) -> List[int]:
@@ -1475,19 +1497,38 @@ class Solution:
 **Template 1:**
 ```python
 ans = []
-def backtrack(XXX, candidate):
+def backtrack(index, path):
     if ...:
-        ans.append(candidate)
-    for i in range(len(XXX)):
+        ans.append(path)
+        return
+    for i in range(index, N):
         if ...:
-            candidate.append(...)
-            backtrack(..., candidate)
-            candidate.pop()
+            path.append(...)
+            backtrack(i+1, path + ...[i])
+            path.pop()
+backtrack(0, [])
+return ans
+```
+
+**Template 2:**
+```python
+ans = []
+seen = [False]*N
+def backtrack(...):
+    if ...:
+        ans.append(...)
+        return
+    for i in range(...):
+        if not seen[i]:
+            seen[i] = True
+            backtrack(...)
+            seen[i] = False
 backtrack(...)
 return ans
 ```
 
 * [[Medium] [Solution] 17. Letter Combinations of a Phone Number](%5BMedium%5D%20%5BSolution%5D%2017.%20Letter%20Combinations%20of%20a%20Phone%20Number.md)
+* [[Medium] 46. Permutations](%5BMedium%5D%2046.%20Permutations.md)
 * [[Medium] [Solution] 78. Subsets](%5BMedium%5D%20%5BSolution%5D%2078.%20Subsets.md)
 * [[Medium] 211. Add and Search Word - Data structure design](%5BMedium%5D%20211.%20Add%20and%20Search%20Word%20-%20Data%20structure%20design.md)
 * [[Medium] [Solution] 526. Beautiful Arrangement](%5BMedium%5D%20%5BSolution%5D%20526.%20Beautiful%20Arrangement.md)

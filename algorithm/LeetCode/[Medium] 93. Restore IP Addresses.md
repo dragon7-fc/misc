@@ -10,7 +10,7 @@ Output: ["255.255.11.135", "255.255.111.35"]
 
 # Submissions
 ---
-**Solution 1: (DFS, Backtracking)**
+**Solution 1: (Backtracking)**
 ```
 Runtime: 32 ms
 Memory Usage: 12.7 MB

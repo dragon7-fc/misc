@@ -78,26 +78,24 @@ class Solution:
         return list(set(m1))
 ```
 
-**Solution 4: (DFS, Backtracking)**
+**Solution 4: (Backtracking)**
 ```
-Runtime: 36 ms
+Runtime: 32 ms
 Memory Usage: 13 MB
 ```
 ```python
 class Solution:
     def subsetsWithDup(self, nums: List[int]) -> List[List[int]]:
-        res = []
-        
-        def backtrack(choice, temp_res):
-            res.append(temp_res)
-            seen = set()
-            if len(temp_res) == len(nums):
+        result = set()
+    
+        def backtrack(index, choosen):
+            if index >= len(nums):
+                result.add(tuple(choosen[:]))
                 return
-            for i, n in enumerate(choice):
-                if n not in seen:
-                    seen.add(n)
-                    backtrack(choice[i+1:], temp_res + [n])    
-        backtrack(sorted(nums), [])
-        
-        return res
+            backtrack(index+1, choosen + [nums[index]])
+            backtrack(index+1, choosen)
+
+        nums.sort()
+        backtrack(0, [])
+        return result
 ```

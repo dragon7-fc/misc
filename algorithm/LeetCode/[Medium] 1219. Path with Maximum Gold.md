@@ -12,7 +12,7 @@ Return the maximum amount of gold you can collect under the conditions:
 
 # Solution
 ---
-**Solution 1:**
+**Solution 1: (Backtracking)**
 ```
 Runtime: 1260 ms
 Memory Usage: 13.9 MB

@@ -35,7 +35,7 @@ Output: 26
 
 # Submissions
 ---
-**Solution 1:**
+**Solution 1: (DP)**
 ```
 Runtime: 104 ms
 Memory Usage: 57.9 MB
@@ -51,4 +51,50 @@ class Solution:
                 if set_string & set_concatenated_string: continue
                 dp.append(set_string | set_concatenated_string)
         return max(len(set_concatenated_string) for set_concatenated_string in dp)
+```
+
+**Solution 2: (Backtracking)**
+```
+Runtime: 108 ms
+Memory Usage: 12.6 MB
+```
+```python
+class Solution:
+    def maxLength(self, arr: List[str]) -> int:
+        def hasDuplicates(s):
+            return len(s) > len(set(s))
+        def backtrack(index, path):
+            self.ans = max(self.ans, len(path))
+            if index == len(arr):
+                return
+            for i in range(index, len(arr)):
+                if not hasDuplicates(path + arr[i]):
+                    backtrack(i + 1, path + arr[i])
+        if not arr:
+            return 0
+        self.ans = 0
+        backtrack(0, '')
+        
+        return self.ans
+```
+
+**Solution 3: (Recursion)**
+```
+Runtime: 124 ms
+Memory Usage: 12.9 MB
+```
+```python
+class Solution:
+    def maxLength(self, arr: List[str]) -> int:
+        def maxLenRec(used, index):
+            if index == len(arr):
+                return 0
+            maxLen = maxLenRec(used, index + 1)  # leave it
+            s = arr[index]
+            valid, currUsed = len(set(s)) == len(s), set(s)
+            if valid and len(used & currUsed) == 0:  # take it if possible
+                maxLen = max(maxLen, len(s) + maxLenRec(used | currUsed, index + 1))
+            return maxLen
+
+        return maxLenRec(set(), 0)
 ```
