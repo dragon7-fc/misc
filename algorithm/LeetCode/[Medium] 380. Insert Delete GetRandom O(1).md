@@ -35,7 +35,7 @@ randomSet.getRandom();
 
 # Submissions
 ---
-**Solution1: (set)**
+**Solution1: (Set)**
 ```
 Runtime: 352 ms
 Memory Usage: 17.9 MB

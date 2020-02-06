@@ -43,8 +43,8 @@ class Solution:
 
 **Solution 2: (Backtracking)**
 ```
-Runtime: 36 ms
-Memory Usage: 13 MB
+Runtime: 32 ms
+Memory Usage: 12.9 MB
 ```
 ```python
 class Solution:
@@ -53,16 +53,15 @@ class Solution:
         :type nums: List[int]
         :rtype: List[List[int]]
         """
-        def backtrack(nums, permutation):
-            if len(permutation) == len(nums):
-                ans.append(permutation)
+        def backtrack(path):
+            if len(path) == len(nums):
+                ans.append(path)
                 return
             for num in nums:
-                if num not in permutation: # This choice is valid
-                    backtrack(nums, permutation + [num])
+                if num not in path:
+                    backtrack(path + [num])
         ans = []
-        permutation = []
-        backtrack(nums, permutation)
+        backtrack([])
 
         return ans
 ```

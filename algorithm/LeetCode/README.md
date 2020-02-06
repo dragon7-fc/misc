@@ -1313,7 +1313,7 @@ return ans
 
 ## Backtracking
 
-**Example 1: (combination)**
+**Example 1: (combination, Hash table)**
 ```python
 class Solution:
     def letterCombinations(self, digits):
@@ -1359,16 +1359,15 @@ class Solution:
         :type nums: List[int]
         :rtype: List[List[int]]
         """
-        def backtrack(nums, permutation):
-            if len(permutation) == len(nums):
-                ans.append(permutation)
+        def backtrack(path):
+            if len(path) == len(nums):
+                ans.append(path)
                 return
             for num in nums:
-                if num not in permutation: # This choice is valid
-                    backtrack(nums, permutation + [num])
+                if num not in path:
+                    backtrack(path + [num])
         ans = []
-        permutation = []
-        backtrack(nums, permutation)
+        backtrack([])
 
         return ans
 ```
