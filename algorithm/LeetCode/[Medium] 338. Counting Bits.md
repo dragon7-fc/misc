@@ -1,6 +1,6 @@
 338. Counting Bits
 
-Given a non negative integer number num. For every numbers i in the range **0 ≤ i ≤ num** calculate the number of 1's in their binary representation and return them as an array.
+Given a non negative integer number `num`. For every numbers i in the range **0 ≤ i ≤ num** calculate the number of 1's in their binary representation and return them as an array.
 
 **Example 1:**
 ```
@@ -22,7 +22,7 @@ Output: [0,1,1,2,1,2]
 
 # Submissions
 ---
-**Solution 1:**
+**Solution 1: (DP, Bit Manipulation)**
 ```
 Runtime: 132 ms
 Memory Usage: N/A

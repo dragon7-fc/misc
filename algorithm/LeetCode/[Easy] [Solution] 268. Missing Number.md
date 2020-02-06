@@ -155,7 +155,7 @@ This approach only pushes a few integers around, so it has constant memory usage
 
 # Submissions
 ---
-**Solution 1:**
+**Solution 1: (Sort)**
 ```
 Runtime: 72 ms
 Memory Usage: N/A
@@ -174,7 +174,7 @@ class Solution:
         return i+1
 ```
 
-**Solution 2:**
+**Solution 2: (Math)**
 ```
 Runtime: 56 ms
 Memory Usage: N/A
@@ -189,4 +189,18 @@ class Solution:
         expected_sum = len(nums)*(len(nums)+1)//2
         actual_sum = sum(nums)
         return expected_sum - actual_sum
+```
+
+**Solution 3: (Bit Manipulation)**
+```
+Runtime: 152 ms
+Memory Usage: 14 MB
+```
+```python
+class Solution:
+    def missingNumber(self, nums: List[int]) -> int:
+        missing = len(nums)
+        for i, num in enumerate(nums):
+            missing ^= i ^ num
+        return missing
 ```
