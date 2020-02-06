@@ -235,10 +235,10 @@ Boyer-Moore allocates only constant additional memory.
 
 # Submissions
 ---
-**Solution 1:**
+**Solution 1: (Hash table)**
 ```
-Runtime: 60 ms
-Memory Usage: N/A
+Runtime: 168 ms
+Memory Usage: 14.1 MB
 ```
 ```python
 class Solution:
@@ -247,17 +247,11 @@ class Solution:
         :type nums: List[int]
         :rtype: int
         """
-        n = len(nums)
-        threshold = n // 2
-        dict = collections.defaultdict(list)
-        for i in range(n):
-            dict[nums[i]].append(nums[i])
-        for key in dict.keys():
-            if len(dict[key]) > threshold:
-                return key
+        counts = collections.Counter(nums)
+        return max(counts.keys(), key=counts.get)
 ```
 
-**Solution 2:**
+**Solution 2: (Sorting)**
 ```
 Runtime: 48 ms
 Memory Usage: N/A

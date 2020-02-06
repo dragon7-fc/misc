@@ -1535,11 +1535,62 @@ return ans
 
 ## Bit
 ---
-**Example 1: (Gray code)**
+**Example: (Gray code)**
 ```python
 def binaryToGray(self, n: int) -> int:
     return n ^ (n >> 1)
 ```
+
+**Example 1: (Subsets)**
+```python
+class Solution:
+    def subsets(self, nums):
+        """
+        :type nums: List[int]
+        :rtype: List[List[int]]
+        """
+        n = len(nums)
+        output = []
+
+        for i in range(2**n, 2**(n + 1)):
+            # generate bitmask, from 0..00 to 1..11
+            bitmask = bin(i)[3:]
+
+            # append subset corresponding to that bitmask
+            output.append([nums[j] for j in range(n) if bitmask[j] == '1'])
+
+        return output
+```
+
+**Example 2: (Single number)**
+```python
+class Solution:
+    def singleNumber(self, nums: List[int]) -> int:
+        a = 0
+        for i in nums:
+            a ^= i
+        return a
+```
+
+**Example 3: (Number of 1 bits)**
+```python
+class Solution(object):
+    def hammingWeight(self, n):
+        """
+        :type n: int
+        :rtype: int
+        """
+        ans = 0
+        while n != 0:
+            ans += 1
+            n &= (n - 1)
+
+        return ans
+```
+
+* [[Medium] [Solution] 78. Subsets](%5BMedium%5D%20%5BSolution%5D%2078.%20Subsets.md)
+* [[Easy] [Solution] 136. Single Number](%5BEasy%5D%20%5BSolution%5D%20136.%20Single%20Number.md)
+* [[Easy] [Solution] 191. Number of 1 Bits](%5BEasy%5D%20%5BSolution%5D%20191.%20Number%20of%201%20Bits.md)
 
 ## Regular Expression
 * library: `re`

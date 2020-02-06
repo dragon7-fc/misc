@@ -13,7 +13,7 @@ Output: ["AAAAACCCCC", "CCCCCAAAAA"]
 
 # Submissions
 ---
-**Solution 1:**
+**Solution 1: (Hash table)**
 ```
 Runtime: 52 ms
 Memory Usage: 29.3 MB

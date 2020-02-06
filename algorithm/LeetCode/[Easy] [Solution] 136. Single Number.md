@@ -134,7 +134,7 @@ class Solution(object):
 
 # Submissions
 ---
-**Solution:**
+**Solution: (Bit Manipulation)**
 ```
 Runtime: 84 ms
 Memory Usage: 15.1 MB
