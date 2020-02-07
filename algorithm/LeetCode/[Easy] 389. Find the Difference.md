@@ -21,7 +21,7 @@ Explanation:
 
 # Submissions
 ---
-**Solution 1:**
+**Solution 1: (Hash table)**
 ```
 Runtime: 32 ms
 Memory Usage: 12.6 MB
@@ -30,4 +30,18 @@ Memory Usage: 12.6 MB
 class Solution:
     def findTheDifference(self, s: str, t: str) -> str:
         return list((collections.Counter(t) - collections.Counter(s)).elements())[0]
+```
+
+**Solution 2: (Bit Manipulation)**
+```
+Runtime: 32 ms
+Memory Usage: 12.6 MB
+```
+```python
+class Solution:
+    def findTheDifference(self, s: str, t: str) -> str:
+        ans = 0
+        for c in s: ans ^= ord(c)
+        for c in t: ans ^= ord(c)
+        return chr(ans)
 ```

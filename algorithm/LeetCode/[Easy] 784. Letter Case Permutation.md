@@ -21,7 +21,7 @@ Output: ["12345"]
 
 # Submissions
 ---
-**Solution 1:**
+**Solution 1: (Greedy)**
 ```
 Runtime: 68 ms
 Memory Usage: N/A
@@ -64,4 +64,15 @@ class Solution:
         backtrack(0, '') 
         
         return ans
+```
+
+**Solution 3: (itertools)**
+```
+Runtime: 48 ms
+Memory Usage: 13.5 MB
+```
+```python
+class Solution:
+    def letterCasePermutation(self, S: str) -> List[str]:
+        return set(map(''.join, itertools.product(*zip(S.lower(), S.upper()))))
 ```

@@ -345,6 +345,35 @@ class Solution:
         return self.res % MOD
 ```
 
+**Example 7: (level DFS)**
+```python
+class Solution:
+    def pyramidTransition(self, bottom: str, allowed: List[str]) -> bool:
+        T = collections.defaultdict(set)
+        for u, v, w in allowed:
+            T[u, v].add(w)
+
+        #Comments can be used to cache intermediate results
+        #seen = set()
+        def solve(A):
+            if len(A) == 1: return True
+            #if A in seen: return False
+            #seen.add(A)
+            return any(solve(cand) for cand in build(A, []))
+
+        def build(A, ans, i = 0):
+            if i + 1 == len(A):
+                yield "".join(ans)
+            else:
+                for w in T[A[i], A[i+1]]:
+                    ans.append(w)
+                    for result in build(A, ans, i+1):
+                        yield result
+                    ans.pop()
+
+        return solve(bottom)
+```
+
 **Template 1: (Postorder)**
 ```python
 ans = ...
@@ -442,6 +471,7 @@ return num_connected_components
 * [[Medium] 1110. Delete Nodes And Return Forest](%5BMedium%5D%201110.%20Delete%20Nodes%20And%20Return%20Forest.md)
 * [[Medium] * 450. Delete Node in a BST](%5BMedium%5D%20*%20450.%20Delete%20Node%20in%20a%20BST.md)
 * [[Medium] 1343. Maximum Product of Splitted Binary Tree](%5BMedium%5D%201343.%20Maximum%20Product%20of%20Splitted%20Binary%20Tree.md)
+* [[Medium] [Solution] 756. Pyramid Transition Matrix](%5BMedium%5D%20%5BSolution%5D%20756.%20Pyramid%20Transition%20Matrix.md)
 
 ## Binary Search
 
@@ -1535,13 +1565,18 @@ return ans
 
 ## Bit
 ---
+**Example: (Negative binary, 2's complement representation)**
+```python
+def twosComplement (value, bitLength) :
+    return bin(value & (2**bitLength - 1))[2:]
+```
 **Example: (Gray code)**
 ```python
 def binaryToGray(self, n: int) -> int:
     return n ^ (n >> 1)
 ```
 
-**Example 1: (Subsets)**
+**Example 1: (bitmap)**
 ```python
 class Solution:
     def subsets(self, nums):
@@ -1562,7 +1597,7 @@ class Solution:
         return output
 ```
 
-**Example 2: (Single number)**
+**Example 2: (a xor a = 0, a xor 0 = a)**
 ```python
 class Solution:
     def singleNumber(self, nums: List[int]) -> int:
@@ -1588,7 +1623,7 @@ class Solution(object):
         return ans
 ```
 
-**Example 4: (Missing Number)**
+**Example 4: (a xor a = 0, a xor 0 = a)**
 ```python
 class Solution:
     def missingNumber(self, nums: List[int]) -> int:
@@ -1598,10 +1633,122 @@ class Solution:
         return missing
 ```
 
+**Example 5: (bitmask)**
+```python
+class Solution:
+    def validUtf8(self, data: List[int]) -> bool:
+
+        # Number of bytes in the current UTF-8 character
+        n_bytes = 0
+
+        # Mask to check if the most significant bit (8th bit from the left) is set or not
+        mask1 = 1 << 7
+
+        # Mask to check if the second most significant bit is set or not
+        mask2 = 1 << 6
+        for num in data:
+
+            # Get the number of set most significant bits in the byte if
+            # this is the starting byte of an UTF-8 character.
+            mask = 1 << 7
+            if n_bytes == 0:
+                while mask & num:
+                    n_bytes += 1
+                    mask = mask >> 1
+
+                # 1 byte characters
+                if n_bytes == 0:
+                    continue
+
+                # Invalid scenarios according to the rules of the problem.
+                if n_bytes == 1 or n_bytes > 4:
+                    return False
+            else:
+
+                # If this byte is a part of an existing UTF-8 character, then we
+                # simply have to look at the two most significant bits and we make
+                # use of the masks we defined before.
+                if not (num & mask1 and not (num & mask2)):
+                    return False
+            n_bytes -= 1
+        return n_bytes == 0
+```
+
+**Example 6: (Trie)**
+```python
+class Solution:
+    def findMaximumXOR(self, nums: List[int]) -> int:
+        
+        # need to know the largest binary representation
+        # bin prepends '0b', ignore
+        L = len(bin(max(nums))) - 2
+
+        # preprocess step - left-pad zeros to ensure each number has L bits
+        # (x >> i) & 1 produces the bit at position i for number x
+        # x's value is moved right by i bits, we & 1 to produce 0 or 1
+        # e.g., if L = 5, then 3 = [0, 0, 0, 1, 1], so the steps to get there are:
+        # (3 >> 4) & 1 = 0
+        # (3 >> 3) & 1 = 0
+        # (3 >> 2) & 1 = 0
+        # (3 >> 1) & 1 = 1
+        # (3 >> 0) & 1 = 1
+        nums_bits = [[(x >> i) & 1 for i in reversed(range(L))] for x in nums]
+        root = {}
+        # build the trie
+        for num, bits in zip(nums, nums_bits):
+            node = root
+            for bit in bits:
+                node = node.setdefault(bit, {})
+            node["#"] = num
+
+        max_xor = 0
+        for num, bits in zip(nums, nums_bits):
+            node = root
+            # we want to find the node that will produce the largest XOR with num
+            for bit in bits:
+                # our goal is to find the opposite bit, e.g. bit = 0, we want 1
+                # this is our goal because we want as many 1's as possible
+                toggled_bit = 1 - bit
+                if toggled_bit in node:
+                    node = node[toggled_bit]
+                else:
+                    node = node[bit]
+            # we're at a leaf node, now we can do the XOR computation
+            max_xor = max(max_xor, node["#"] ^ num)
+
+
+        return max_xor
+```
+
+**Example 7: (Direct)**
+```python
+class Solution:
+    def countPrimeSetBits(self, L: int, R: int) -> int:
+        primes = {2, 3, 5, 7, 11, 13, 17, 19}
+        return sum(bin(x).count('1') in primes
+                   for x in range(L, R+1))
+```
+
+**Example 8: (Frontier Set)**
+```python
+class Solution:
+    def subarrayBitwiseORs(self, A: List[int]) -> int:
+        ans = set()
+        cur = {0}
+        for x in A:
+            cur = {x | y for y in cur} | {x}
+            ans |= cur
+        return len(ans)
+```
+
 * [[Medium] [Solution] 78. Subsets](%5BMedium%5D%20%5BSolution%5D%2078.%20Subsets.md)
 * [[Easy] [Solution] 136. Single Number](%5BEasy%5D%20%5BSolution%5D%20136.%20Single%20Number.md)
 * [[Easy] [Solution] 191. Number of 1 Bits](%5BEasy%5D%20%5BSolution%5D%20191.%20Number%20of%201%20Bits.md)
 * [[Easy] [Solution] 268. Missing Number](%5BEasy%5D%20%5BSolution%5D%20268.%20Missing%20Number.md)
+* [[Medium] [Solution] 393. UTF-8 Validation](%5BMedium%5D%20%5BSolution%5D%20393.%20UTF-8%20Validation.md)
+* [[Medium] 421. Maximum XOR of Two Numbers in an Array](%5BMedium%5D%20421.%20Maximum%20XOR%20of%20Two%20Numbers%20in%20an%20Array.md)
+* [[Easy] [Solution] 762. Prime Number of Set Bits in Binary Representation](%5BEasy%5D%20%5BSolution%5D%20762.%20Prime%20Number%20of%20Set%20Bits%20in%20Binary%20Representation.md)
+* [[Medium] [Solution] 898. Bitwise ORs of Subarrays](%5BMedium%5D%20%5BSolution%5D%20898.%20Bitwise%20ORs%20of%20Subarrays.md)
 
 ## Regular Expression
 * library: `re`
