@@ -42,7 +42,7 @@ Output: 0
 
 # Submissions
 ---
-**Solution 1:**
+**Solution 1: (Hash table, Bit Manipulation)**
 
 I didn't use the variable `maxSize`. If there is a solution with size larger than `minSize`, there must be a solution with size exactly `minSize` as well.
 

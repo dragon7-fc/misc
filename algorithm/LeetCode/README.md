@@ -1564,17 +1564,6 @@ return ans
 * [[Medium] [Solution] 842. Split Array into Fibonacci Sequence](%5BMedium%5D%20%5BSolution%5D%20842.%20Split%20Array%20into%20Fibonacci%20Sequence.md)
 
 ## Bit
----
-**Example: (Negative binary, 2's complement representation)**
-```python
-def twosComplement (value, bitLength) :
-    return bin(value & (2**bitLength - 1))[2:]
-```
-**Example: (Gray code)**
-```python
-def binaryToGray(self, n: int) -> int:
-    return n ^ (n >> 1)
-```
 
 **Example 1: (bitmap)**
 ```python
@@ -1597,17 +1586,7 @@ class Solution:
         return output
 ```
 
-**Example 2: (a xor a = 0, a xor 0 = a)**
-```python
-class Solution:
-    def singleNumber(self, nums: List[int]) -> int:
-        a = 0
-        for i in nums:
-            a ^= i
-        return a
-```
-
-**Example 3: (Number of 1 bits)**
+**Example 2: (next highest 1 bit: n & (n-1))**
 ```python
 class Solution(object):
     def hammingWeight(self, n):
@@ -1623,7 +1602,7 @@ class Solution(object):
         return ans
 ```
 
-**Example 4: (a xor a = 0, a xor 0 = a)**
+**Example 3: (a xor a = 0, a xor 0 = a)**
 ```python
 class Solution:
     def missingNumber(self, nums: List[int]) -> int:
@@ -1633,7 +1612,7 @@ class Solution:
         return missing
 ```
 
-**Example 5: (bitmask)**
+**Example 4: (bitmask)**
 ```python
 class Solution:
     def validUtf8(self, data: List[int]) -> bool:
@@ -1674,7 +1653,7 @@ class Solution:
         return n_bytes == 0
 ```
 
-**Example 6: (Trie)**
+**Example 5: (Trie)**
 ```python
 class Solution:
     def findMaximumXOR(self, nums: List[int]) -> int:
@@ -1720,7 +1699,7 @@ class Solution:
         return max_xor
 ```
 
-**Example 7: (Direct)**
+**Example 6: (Direct)**
 ```python
 class Solution:
     def countPrimeSetBits(self, L: int, R: int) -> int:
@@ -1729,7 +1708,7 @@ class Solution:
                    for x in range(L, R+1))
 ```
 
-**Example 8: (Frontier Set)**
+**Example 7: (Frontier Set)**
 ```python
 class Solution:
     def subarrayBitwiseORs(self, A: List[int]) -> int:
@@ -1741,14 +1720,54 @@ class Solution:
         return len(ans)
 ```
 
+**Solution 8: (Math)**
+```python
+class Solution:
+    def maxAbsValExpr(self, arr1: List[int], arr2: List[int]) -> int:
+        max1 = max2 = max3 = max4 = float('-inf')
+        min1 = min2 = min3 = min4 = float('inf')
+
+        for i in range(len(arr1)):
+            tmp1 = arr1[i] - arr2[i] - i
+            max1 = max(max1 , tmp1)
+            min1 = min(min1 , tmp1)
+
+            tmp2 = arr1[i] + arr2[i] - i
+            max2 = max(max2 , tmp2)
+            min2 = min(min2 , tmp2)
+
+            tmp3 = arr1[i] + arr2[i] + i
+            max3 = max(max3 , tmp3)
+            min3 = min(min3 , tmp3)
+
+
+            tmp4 = arr1[i] - arr2[i] + i
+            max4 = max(max4 , tmp4)
+            min4 = min(min4 , tmp4)
+
+        return max((max1 - min1), (max2 - min2),(max3 - min3),(max4 - min4))
+```
+
+---
+**Template 1: (Negative binary, 2's complement representation)**
+```python
+def twosComplement (value, bitLength) :
+    return bin(value & (2**bitLength - 1))[2:]
+```
+**Template 2: (Gray code)**
+```python
+def binaryToGray(self, n: int) -> int:
+    return n ^ (n >> 1)
+```
+
 * [[Medium] [Solution] 78. Subsets](%5BMedium%5D%20%5BSolution%5D%2078.%20Subsets.md)
-* [[Easy] [Solution] 136. Single Number](%5BEasy%5D%20%5BSolution%5D%20136.%20Single%20Number.md)
 * [[Easy] [Solution] 191. Number of 1 Bits](%5BEasy%5D%20%5BSolution%5D%20191.%20Number%20of%201%20Bits.md)
 * [[Easy] [Solution] 268. Missing Number](%5BEasy%5D%20%5BSolution%5D%20268.%20Missing%20Number.md)
 * [[Medium] [Solution] 393. UTF-8 Validation](%5BMedium%5D%20%5BSolution%5D%20393.%20UTF-8%20Validation.md)
 * [[Medium] 421. Maximum XOR of Two Numbers in an Array](%5BMedium%5D%20421.%20Maximum%20XOR%20of%20Two%20Numbers%20in%20an%20Array.md)
 * [[Easy] [Solution] 762. Prime Number of Set Bits in Binary Representation](%5BEasy%5D%20%5BSolution%5D%20762.%20Prime%20Number%20of%20Set%20Bits%20in%20Binary%20Representation.md)
 * [[Medium] [Solution] 898. Bitwise ORs of Subarrays](%5BMedium%5D%20%5BSolution%5D%20898.%20Bitwise%20ORs%20of%20Subarrays.md)
+* [[Medium] 1131. Maximum of Absolute Value Expression](%5BMedium%5D%201131.%20Maximum%20of%20Absolute%20Value%20Expression.md)
 
 ## Regular Expression
 * library: `re`

@@ -34,7 +34,7 @@ Output: 0
 
 # Submissions
 ---
-**Solution 1:**
+**Solution 1: (Bit Manipulation)**
 ```
 Runtime: 24 ms
 Memory Usage: 12.7 MB

@@ -27,7 +27,7 @@ Output: 20
 
 # Submissions
 ---
-**Solution 1:**
+**Solution 1: (Math, Bit Manipulation)**
 
 Without loss of generality, we only discuss the scenario when i < j.
 below is the discussion about 4 scenarios.

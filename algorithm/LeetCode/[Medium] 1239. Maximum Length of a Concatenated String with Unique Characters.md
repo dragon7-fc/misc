@@ -78,7 +78,7 @@ class Solution:
         return self.ans
 ```
 
-**Solution 3: (Recursion)**
+**Solution 3: (DPS)**
 ```
 Runtime: 124 ms
 Memory Usage: 12.9 MB

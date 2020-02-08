@@ -36,7 +36,7 @@ Output: [8,0,4,4]
 
 # Submissions
 ---
-**Solution 1:**
+**Solution 1: (Bit Manipulation)**
 
 A number XOR itself is `0`. Based on this conclusion:
 

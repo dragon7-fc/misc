@@ -26,7 +26,7 @@ Output: "101100"
 
 # Submissions
 ---
-**Solution 1:**
+**Solution 1: (DFS)**
 
 The following sequence can be built up form the ealier result.
 So I search index of the prefix part
@@ -48,7 +48,7 @@ class Solution:
         return self.encode((num - 1) // 2) + '10'[num % 2] if num else ""
 ```
 
-**Solution 2:**
+**Solution 2: (Bit Manipulation)**
 
 Assume `g(n) = "1" + f(n)`
 we can find:
