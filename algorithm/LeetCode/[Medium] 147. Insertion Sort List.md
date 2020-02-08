@@ -1,5 +1,7 @@
 147. Insertion Sort List
 
+Sort a linked list using insertion sort.
+
 ![Example](img/147_Insertion-sort-example-300px.gif)
 
 A graphical example of insertion sort. The partial sorted list (black) initially contains only the first element in the list.
@@ -36,22 +38,22 @@ Output: -1->0->3->4->5
 
 class Solution:
     def insertionSortList(self, head: ListNode) -> ListNode:
-        dummy=ListNode(-1)
-        dummy.next=head
-        prev=dummy
-        while(prev.next and prev.next.next):
+        dummy = ListNode(-1)
+        dummy.next = head
+        prev = dummy
+        while prev.next and prev.next.next:
             # incremental number
-            if prev.next.val<=prev.next.next.val:
-                prev=prev.next
+            if prev.next.val <= prev.next.next.val:
+                prev = prev.next
             else:
-                cur=prev.next.next
-                prev.next.next=cur.next
-                tmp=dummy
-                
+                cur = prev.next.next
+                prev.next.next = cur.next
+                tmp = dummy
+
                 # insert node
-                while tmp.next.val<=cur.val:
-                    tmp=tmp.next
-                cur.next=tmp.next
-                tmp.next=cur
+                while tmp.next.val <= cur.val:
+                    tmp = tmp.next
+                cur.next = tmp.next
+                tmp.next = cur
         return dummy.next
 ```

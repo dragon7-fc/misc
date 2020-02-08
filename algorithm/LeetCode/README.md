@@ -1563,7 +1563,7 @@ return ans
 * [[Medium] [Solution] 526. Beautiful Arrangement](%5BMedium%5D%20%5BSolution%5D%20526.%20Beautiful%20Arrangement.md)
 * [[Medium] [Solution] 842. Split Array into Fibonacci Sequence](%5BMedium%5D%20%5BSolution%5D%20842.%20Split%20Array%20into%20Fibonacci%20Sequence.md)
 
-## Bit
+## Bit Manipulation
 
 **Example 1: (bitmap)**
 ```python
@@ -1768,6 +1768,112 @@ def binaryToGray(self, n: int) -> int:
 * [[Easy] [Solution] 762. Prime Number of Set Bits in Binary Representation](%5BEasy%5D%20%5BSolution%5D%20762.%20Prime%20Number%20of%20Set%20Bits%20in%20Binary%20Representation.md)
 * [[Medium] [Solution] 898. Bitwise ORs of Subarrays](%5BMedium%5D%20%5BSolution%5D%20898.%20Bitwise%20ORs%20of%20Subarrays.md)
 * [[Medium] 1131. Maximum of Absolute Value Expression](%5BMedium%5D%201131.%20Maximum%20of%20Absolute%20Value%20Expression.md)
+
+## Sort
+
+**Example 1:**
+```python
+class Solution:
+    def merge(self, intervals):
+        """
+        :type intervals: List[Interval]
+        :rtype: List[Interval]
+        """
+        intervals.sort(key=lambda x: x.start)
+
+        merged = []
+        for interval in intervals:
+            # if the list of merged intervals is empty or if the current
+            # interval does not overlap with the previous, simply append it.
+            if not merged or merged[-1].end < interval.start:
+                merged.append(interval)
+            else:
+            # otherwise, there is overlap, so we merge the current and previous
+            # intervals.
+                merged[-1].end = max(merged[-1].end, interval.end)
+
+        return merged
+```
+
+**Example 2: (Insertion srot, linked list)**
+```python
+# Definition for singly-linked list.
+# class ListNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.next = None
+
+class Solution:
+    def insertionSortList(self, head: ListNode) -> ListNode:
+        dummy = ListNode(-1)
+        dummy.next = head
+        prev = dummy
+        while prev.next and prev.next.next:
+            # incremental number
+            if prev.next.val <= prev.next.next.val:
+                prev = prev.next
+            else:
+                cur = prev.next.next
+                prev.next.next = cur.next
+                tmp = dummy
+
+                # insert node
+                while tmp.next.val <= cur.val:
+                    tmp = tmp.next
+                cur.next = tmp.next
+                tmp.next = cur
+        return dummy.next
+```
+
+**Example 3: (Merge sort, Linked list)**
+```python
+# Definition for singly-linked list.
+# class ListNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.next = None
+
+class Solution:
+    def sortList(self, head: ListNode) -> ListNode:
+        def merge(h1, h2):
+            cur = dummy = ListNode(-1)
+            while h1 and h2:
+                if h1.val < h2.val:
+                    cur.next, h1 = h1, h1.next
+                else:
+                    cur.next, h2 = h2, h2.next
+                cur = cur.next
+            cur.next = h1 or h2
+            return dummy.next
+        
+        if not head or not head.next: return head
+        pres = slow = fast = head
+        while fast and fast.next:
+            pres = slow
+            slow = slow.next
+            fast = fast.next.next
+        pres.next = None  #cut off in the middle
+        first = self.sortList(head)
+        second = self.sortList(slow)
+        return merge(first, second)
+```
+
+**Example 4: (Sorting via Custom Comparator)**
+```python
+class LargerNumKey(str):
+    def __lt__(x, y):
+        return x+y > y+x
+
+class Solution:
+    def largestNumber(self, nums: List[int]) -> str:
+        largest_num = ''.join(sorted(map(str, nums), key=LargerNumKey))
+        return '0' if largest_num[0] == '0' else largest_num
+```
+
+* [[Medium] [Solution] 56. Merge Intervals](%5BMedium%5D%20%5BSolution%5D%2056.%20Merge%20Intervals.md)
+* [[Medium] 147. Insertion Sort List](%5BMedium%5D%20147.%20Insertion%20Sort%20List.md)
+* [[Medium] 148. Sort List](%5BMedium%5D%20148.%20Sort%20List.md)
+* [[Medium] [Solution] 179. Largest Number](%5BMedium%5D%20%5BSolution%5D%20179.%20Largest%20Number.md)
 
 ## Regular Expression
 * library: `re`

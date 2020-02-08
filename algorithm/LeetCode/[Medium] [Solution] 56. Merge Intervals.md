@@ -156,7 +156,7 @@ If we can sort `intervals` in place, we do not need more than constant additiona
 
 # Submissions
 ---
-**Solution 1**
+**Solution 1: (Sorting)**
 ```
 Runtime: 64 ms
 Memory Usage: N/A
