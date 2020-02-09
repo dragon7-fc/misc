@@ -1,6 +1,6 @@
 242. Valid Anagram
 
-Given two strings s and t , write a function to determine if t is an anagram of s.
+Given two strings `s` and `t` , write a function to determine if `t` is an anagram of `s`.
 
 **Example 1:**
 ```
@@ -113,7 +113,7 @@ Use a hash table instead of a fixed size counter. Imagine allocating a large siz
 
 # Submissions
 ---
-**Soltuion 1:**
+**Soltuion 1: (Hash Table)**
 ```
 Runtime: 28 ms
 Memory Usage: 12.9 MB

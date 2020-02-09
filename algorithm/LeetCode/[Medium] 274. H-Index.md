@@ -18,7 +18,7 @@ Explanation: [3,0,6,1,5] means the researcher has 5 papers in total and each of 
 
 # Submissions
 ---
-**Solution 1:**
+**Solution 1: (Sort)**
 ```
 Runtime: 36 ms
 Memory Usage: 12.8 MB
