@@ -826,7 +826,7 @@ return -1
 * [[Medium] 529. Minesweeper](%5BMedium%5D%20529.%20Minesweeper.md)
 * [[Medium] * 1129. Shortest Path with Alternating Colors](%5BMedium%5D%20*%201129.%20Shortest%20Path%20with%20Alternating%20Colors.md)
 
-## Two pointer
+## Two Pointers
 
 **Example 1: (Cycle)**
 ```python
@@ -878,7 +878,7 @@ class Solution:
         return ptr1
 ```
 
-**Example 3: (Sliding window, Two pointer, iterate right pointer)**
+**Example 3: (Sliding window, Two Pointers, iterate right pointer)**
 ```python
 class Solution:
     def numSubarrayProductLessThanK(self, nums: List[int], k: int) -> int:
@@ -894,7 +894,7 @@ class Solution:
         return ans             
 ```
 
-**Example 4: (Greedy, Two pointer, iterate left pointer)**
+**Example 4: (Greedy, Two Pointers, iterate left pointer)**
 ```python
 class Solution:
     def partitionLabels(self, S: str) -> List[int]:
@@ -910,7 +910,7 @@ class Solution:
         return ans
 ```
 
-**Example 5: (Two pointer, iterate left and right pointer)**
+**Example 5: (Two Pointers, iterate left and right pointer)**
 ```python
 class Solution:
     def pushDominoes(self, dominoes: str) -> str:
@@ -929,7 +929,7 @@ class Solution:
         return "".join(ans)
 ```
 
-**Example 6: (Two pointer, iterate left and right pointer with yield)**
+**Example 6: (Two Pointers, iterate left and right pointer with yield)**
 ```python
 class Solution:
     def backspaceCompare(self, S: str, T: str) -> bool:
@@ -1025,7 +1025,7 @@ class Solution:
         return ans
 ```
 
-**Example 10: (Two pointer, Counter)**
+**Example 10: (Two Pointers, Counter)**
 ```python
 class Solution:
     def totalFruit(self, tree: List[int]) -> int:
@@ -1097,7 +1097,7 @@ for j, x in enumerate(N):
 return ans
 ```
 
-**Template 4: (Two pointer, Binary search)**
+**Template 4: (Two Pointers, Binary Search)**
 ```python
 for i in range(N):
     left, right = i+1, N-1
@@ -1176,7 +1176,7 @@ class Solution:
         return postorder
 ```
 
-**Example 4: (Stack, Hash table)**
+**Example 4: (Stack, Hash Table)**
 ```python
 class Solution:
     def evalRPN(self, tokens: List[str]) -> int:
@@ -1343,7 +1343,7 @@ return ans
 
 ## Backtracking
 
-**Example 1: (combination, Hash table)**
+**Example 1: (combination, Hash Table)**
 ```python
 class Solution:
     def letterCombinations(self, digits):
@@ -1870,10 +1870,121 @@ class Solution:
         return '0' if largest_num[0] == '0' else largest_num
 ```
 
+**Solution 5: (Heap)**
+```python
+class Solution:
+    def findLongestWord(self, s: str, d: List[str]) -> str:
+        heap = []
+        for word in d:
+            heapq.heappush(heap, (-len(word), word))
+        while heap:
+            _, word = heapq.heappop(heap)
+            it = iter(s)  # maintain string order
+            if all(c in it for c in word):
+                return word
+        return ""
+```
+
+**Example 6: (Greedy with Heap)**
+```python
+class Solution:
+    def reorganizeString(self, S: str) -> str:
+        pq = [(-S.count(x), x) for x in set(S)]
+        heapq.heapify(pq)
+        if any(-nc > (len(S) + 1) / 2 for nc, x in pq):
+            return ""
+
+        ans = []
+        while len(pq) >= 2:
+            nct1, ch1 = heapq.heappop(pq)
+            nct2, ch2 = heapq.heappop(pq)
+            ans.extend([ch1, ch2])
+            if nct1 + 1: heapq.heappush(pq, (nct1 + 1, ch1))
+            if nct2 + 1: heapq.heappush(pq, (nct2 + 1, ch2))
+
+        return "".join(ans) + (pq[0][1] if pq else '')
+```
+
+**Example 7:(key)**
+```python
+class Solution:
+    def allCellsDistOrder(self, R: int, C: int, r0: int, c0: int) -> List[List[int]]:
+        ans = [[r,c] for r in range(R) for c in range(C)]
+        return sorted(ans, key=lambda x: abs(x[0] - r0) + abs(x[1] - c0))
+```
+
+**Example 8:**
+```python
+class Solution:
+    def wiggleSort(self, nums: List[int]) -> None:
+        """
+        Do not return anything, modify nums in-place instead.
+        """
+        nums.sort(reverse=True)
+        mid=len(nums)//2
+        nums[::2], nums[1::2] = nums[mid:], nums[:mid]
+
+        return nums
+```
+
+**Example 9: (Hash Table with pointer)**
+```python
+class Solution:
+    def rearrangeBarcodes(self, barcodes: List[int]) -> List[int]:
+        N = len(barcodes)
+        ans = [0]*N
+        i = 0
+        for k,v in collections.Counter(barcodes).most_common():
+            for _ in range(v):
+                ans[i] = k
+                i += 2
+                if i >= N:
+                    i = 1
+                    
+        return ans
+```
+
+**Solution 10: (Hash Table buffer)**
+```python
+class Solution:
+    def diagonalSort(self, mat: List[List[int]]) -> List[List[int]]:
+        R, C = len(mat), len(mat[0])
+        d = collections.defaultdict(list)
+        for r in range(R):
+            for c in range(C):
+                d[r - c].append(mat[r][c])
+        for k in d:
+            d[k].sort(reverse=1)
+        for r in range(R):
+            for c in range(C):
+                mat[r][c] = d[r - c].pop()
+        return mat
+```
+
+**Example 11: (DP, Binary Search)**
+```python
+class Solution:
+    def jobScheduling(self, startTime: List[int], endTime: List[int], profit: List[int]) -> int:
+        jobs = sorted(zip(startTime, endTime, profit), key=lambda v: v[1])
+        dp = [[0, 0]]
+        for s, e, p in jobs:
+            i = bisect.bisect(dp, [s + 1]) - 1
+            if dp[i][1] + p > dp[-1][1]:
+                dp.append([e, dp[i][1] + p])
+        return dp[-1][1]
+```
+
 * [[Medium] [Solution] 56. Merge Intervals](%5BMedium%5D%20%5BSolution%5D%2056.%20Merge%20Intervals.md)
 * [[Medium] 147. Insertion Sort List](%5BMedium%5D%20147.%20Insertion%20Sort%20List.md)
 * [[Medium] 148. Sort List](%5BMedium%5D%20148.%20Sort%20List.md)
 * [[Medium] [Solution] 179. Largest Number](%5BMedium%5D%20%5BSolution%5D%20179.%20Largest%20Number.md)
+* [[Medium] [Solution] 524. Longest Word in Dictionary through Deleting](%5BMedium%5D%20%5BSolution%5D%20524.%20Longest%20Word%20in%20Dictionary%20through%20Deleting.md)
+* [[Medium] [Solution] 767. Reorganize String](%5BMedium%5D%20%5BSolution%5D%20767.%20Reorganize%20String.md)
+* [[Easy] 1030. Matrix Cells in Distance Order](%5BEasy%5D%201030.%20Matrix%20Cells%20in%20Distance%20Order.md)
+* [[Medium] 324. Wiggle Sort II](%5BMedium%5D%20324.%20Wiggle%20Sort%20II.md)
+* [[Medium] 1054. Distant Barcodes](%5BMedium%5D%201054.%20Distant%20Barcodes.md)
+* [[Medium] 1329. Sort the Matrix Diagonally](%5BMedium%5D%201329.%20Sort%20the%20Matrix%20Diagonally.md)
+* [[Hard] 1235. Maximum Profit in Job Scheduling](%5BHard%5D%201235.%20Maximum%20Profit%20in%20Job%20Scheduling.md)
 
 ## Regular Expression
 * library: `re`

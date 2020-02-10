@@ -226,7 +226,7 @@ Word Search II - Similar to Boggle.
 
 # Submissions
 ---
-**Solution 1: (Hash table)**
+**Solution 1: (Hash Table)**
 ```
 Runtime: 116 ms
 Memory Usage: 26.4 MB

@@ -125,7 +125,7 @@ void moveZeroes(vector<int>& nums) {
 
 # Submissions
 ---
-**Solution: (Two pointer)**
+**Solution: (Two Pointers)**
 ```
 Runtime: 48 ms
 Memory Usage: 13.8 MB

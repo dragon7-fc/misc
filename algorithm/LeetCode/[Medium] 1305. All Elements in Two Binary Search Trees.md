@@ -47,7 +47,7 @@ Output: [1,1,8,8]
 
 # Submissions
 ---
-**Solution 1:**
+**Solution 1: (Tree, Sort, DFS)**
 ```
 Runtime: 600 ms
 Memory Usage: 20.5 MB

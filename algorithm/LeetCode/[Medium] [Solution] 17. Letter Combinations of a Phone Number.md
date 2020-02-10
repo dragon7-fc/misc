@@ -88,7 +88,7 @@ class Solution:
 
 # Submissions
 ---
-**Solution 1: (Backtracking, Hash table)**
+**Solution 1: (Backtracking, Hash Table)**
 ```
 Runtime: 28 ms
 Memory Usage: 12.8 MB

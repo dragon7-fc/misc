@@ -197,7 +197,7 @@ int minSubArrayLen(int s, vector<int>& nums)
 
 # Submissions
 ---
-**Solution: (Binary search)**
+**Solution: (Binary Search)**
 ```
 Runtime: 88 ms
 Memory Usage: 15.2 MB
@@ -225,7 +225,7 @@ class Solution:
         return ans if ans != float('inf') else 0
 ```
 
-**Solution: (Two pointer)**
+**Solution: (Two Pointers)**
 ```
 Runtime: 84 ms
 Memory Usage: 16.7 MB

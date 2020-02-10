@@ -37,7 +37,7 @@ twitter.getNewsFeed(1);
 
 # Submissions
 ---
-**Solution 1: (Hash table)**
+**Solution 1: (Hash Table)**
 
 The key is to give each tweet a timestamp. I use the globalcount variable to accomplish the job.
 As we are using a min-heap (poping out min key value at each heaqpop), we want the timestamp to be decreasing. So I use -1,-2,-3, ... as the timestamp for each tweetId.

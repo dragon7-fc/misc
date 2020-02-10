@@ -71,7 +71,7 @@ public int removeDuplicates(int[] nums) {
 
 # Submissions
 ---
-**Soluation: (Two pointer)**
+**Soluation: (Two Pointers)**
 ```
 Runtime: 92 ms
 Memory Usage: 15.5 MB

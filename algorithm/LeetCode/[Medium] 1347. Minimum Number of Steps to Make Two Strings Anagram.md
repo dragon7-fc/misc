@@ -49,7 +49,7 @@ Output: 4
 
 # Submissions
 ---
-**Solution 1: (Hash table)**
+**Solution 1: (Hash Table)**
 ```
 Runtime: 112 ms
 Memory Usage: 13.3 MB

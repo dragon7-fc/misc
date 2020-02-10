@@ -27,7 +27,7 @@ The result can be in any order.
 
 # Submissions
 ---
-**Solution 1:**
+**Solution 1: (Hash Table)**
 ```
 Runtime: 52 ms
 Memory Usage: 12.9 MB

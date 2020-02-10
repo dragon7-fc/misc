@@ -20,7 +20,7 @@ Output: true
 
 # Submissions
 ---
-**Solution 1: (Two pointer)**
+**Solution 1: (Two Pointers)**
 ```
 Runtime: 60 ms
 Memory Usage: 22.7 MB

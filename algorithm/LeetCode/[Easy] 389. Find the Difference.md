@@ -21,7 +21,7 @@ Explanation:
 
 # Submissions
 ---
-**Solution 1: (Hash table)**
+**Solution 1: (Hash Table)**
 ```
 Runtime: 32 ms
 Memory Usage: 12.6 MB

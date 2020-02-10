@@ -122,7 +122,7 @@ Therefore, the worst case time complexity is $O(N+K)$, which is $O(n)$.
 
 # Submissions
 ---
-**Solution 1: (Two pointer)**
+**Solution 1: (Two Pointers)**
 ```
 Runtime: 76 ms
 Memory Usage: 15.9 MB

@@ -113,7 +113,7 @@ public int removeElement(int[] nums, int val) {
 
 # Submissions
 ---
-**Solution 1: (Two pointer)**
+**Solution 1: (Two Pointers)**
 ```
 Runtime: 36 ms
 Memory Usage: 13.9 MB

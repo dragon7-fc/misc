@@ -40,7 +40,7 @@ tweetCounts.getTweetCountsPerFrequency("hour", "tweet3", 0, 210);  // return [4]
 
 # Submissions
 ---
-**Solution 1: (Hash table)**
+**Solution 1: (Hash Table)**
 ```
 Runtime: 416 ms
 Memory Usage: 20.3 MB

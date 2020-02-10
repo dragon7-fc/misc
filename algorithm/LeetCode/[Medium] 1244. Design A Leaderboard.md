@@ -41,7 +41,7 @@ leaderboard.top(3);           // returns 141 = 51 + 51 + 39;
 
 # Submissions
 ---
-**Solution 1: (Hash table)**
+**Solution 1: (Hash Table)**
 ```
 Runtime: 120 ms
 Memory Usage: 14 MB

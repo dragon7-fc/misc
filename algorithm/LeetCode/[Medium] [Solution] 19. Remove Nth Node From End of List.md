@@ -105,7 +105,7 @@ We only used constant extra space.
 
 # Submissions
 ---
-**Solution 1: (Two pointer)**
+**Solution 1: (Two Pointers)**
 ```
 Runtime: 32 ms
 Memory Usage: 12.7 MB

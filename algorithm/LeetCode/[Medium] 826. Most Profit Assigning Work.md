@@ -25,7 +25,7 @@ Explanation: Workers are assigned jobs of difficulty [4,4,6,6] and they get prof
 
 # Submissions
 ---
-**Solution 1: (Greedy, Binary search)**
+**Solution 1: (Greedy, Binary Search)**
 ```
 Runtime: 460 ms
 Memory Usage: 15 MB
@@ -39,7 +39,7 @@ class Solution:
         return sum(jobs[bisect.bisect(jobs, [w, float('inf')]) - 1][1] for w in worker)
 ```
 
-**Solution 2: (Greedy, Two pointer)**
+**Solution 2: (Greedy, Two Pointers)**
 ```
 Runtime: 372 ms
 Memory Usage: 15.6 MB

@@ -17,7 +17,7 @@ Explanation: The sum of 2 and 7 is 9. Therefore index1 = 1, index2 = 2.
 
 # Submissions
 ---
-**Solution 1: (Hash table)**
+**Solution 1: (Hash Table)**
 ```
 Runtime: 64 ms
 Memory Usage: 13.2 MB
@@ -54,7 +54,7 @@ class Solution:
         return dfs(l, r)
 ```
 
-**Solution 3: (Two pointer)**
+**Solution 3: (Two Pointers)**
 ```
 Runtime: 60 ms
 Memory Usage: 13.3 MB

@@ -37,7 +37,7 @@ class Solution(object):
         nums1.sort()
 ```
 
-**Solution 2: (Two pointer)**
+**Solution 2: (Two Pointers)**
 ```
 Runtime: 56 ms
 Memory Usage: 12.7 MB

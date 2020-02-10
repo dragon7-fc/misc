@@ -233,7 +233,7 @@ class Solution:
             heapq.heappush(heap, (-len(word), word))
         while heap:
             _, word = heapq.heappop(heap)
-            it = iter(s)
+            it = iter(s)  # maintain string order
             if all(c in it for c in word):
                 return word
         return ""

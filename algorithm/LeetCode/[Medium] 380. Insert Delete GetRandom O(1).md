@@ -85,7 +85,7 @@ class RandomizedSet:
 # param_3 = obj.getRandom()
 ```
 
-**Solution 2: (Hash table, Array)**
+**Solution 2: (Hash Table, Array)**
 ```
 Runtime: 120 ms
 Memory Usage: 18.3 MB

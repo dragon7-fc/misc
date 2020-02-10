@@ -144,7 +144,7 @@ class Solution:
                    for (k1,v1), (k2,v2) in zip(g1, g2))
 ```
 
-**Solution: (Two pointer)**
+**Solution: (Two Pointers)**
 ```
 Runtime: 32 ms
 Memory Usage: 12.7 MB

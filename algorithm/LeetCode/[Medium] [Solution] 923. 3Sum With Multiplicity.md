@@ -249,7 +249,7 @@ class Solution(object):
 
 # Submissions
 ---
-**Solution: (Two pointer)**
+**Solution: (Two Pointers)**
 ```
 Runtime: 76 ms
 Memory Usage: 12.8 MB

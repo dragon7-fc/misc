@@ -33,7 +33,7 @@ Speaking seriously, let's use this problem to discuss two things:
 
 * Does in-place mean constant space complexity?
 
-* Two pointers approach.
+* Two Pointers approach.
 
 ## Approach 1: Recursion, In-Place, \mathcal{O}(N)O(N) Space
 Does in-place mean constant space complexity?
@@ -142,7 +142,7 @@ class Solution:
         helper(0, len(s) - 1)
 ```
 
-**Solution: (Two pointer)**
+**Solution: (Two Pointers)**
 ```
 Runtime: 216 ms
 Memory Usage: 17.2 MB

@@ -20,7 +20,7 @@ Output: "leotcede"
 
 # Submissions
 ---
-**Solution 1: (Two pointer)**
+**Solution 1: (Two Pointers)**
 ```
 Runtime: 56 ms
 Memory Usage: 13.6 MB

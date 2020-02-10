@@ -78,7 +78,7 @@ class Solution:
 
 # Submissions
 ---
-**Solution 1: (Two pointer)**
+**Solution 1: (Two Pointers)**
 ```
 Runtime: 172 ms
 Memory Usage: 14.4 MB

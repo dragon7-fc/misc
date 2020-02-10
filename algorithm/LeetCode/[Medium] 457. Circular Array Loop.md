@@ -80,7 +80,7 @@ class Solution:
         return False
 ```
 
-**Solution 2: (Hash table)**
+**Solution 2: (Hash Table)**
 ```
 Runtime: 40 ms
 Memory Usage: 14.1 MB
@@ -110,7 +110,7 @@ class Solution:
         return False
 ```
 
-**Solution 3: (Two pointer)**
+**Solution 3: (Two Pointers)**
 ```
 Runtime: 1764 ms
 Memory Usage: 12.7 MB

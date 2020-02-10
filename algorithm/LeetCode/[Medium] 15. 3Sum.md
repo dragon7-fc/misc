@@ -19,7 +19,7 @@ A solution set is:
 
 # Submissions
 ---
-**Solution : (Two pointer)**
+**Solution : (Two Pointers)**
 ```
 Runtime: 668 ms
 Memory Usage: 24.2 MB

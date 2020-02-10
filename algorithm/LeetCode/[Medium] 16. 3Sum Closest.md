@@ -11,7 +11,7 @@ The sum that is closest to the target is 2. (-1 + 2 + 1 = 2).
 
 # Submissions
 ---
-**Solution 1: (Two pointer, Binary search)**
+**Solution 1: (Two Pointers, Binary Search)**
 ```
 Runtime: 124 ms
 Memory Usage: 13.9 MB
@@ -48,7 +48,7 @@ class Solution:
         return result
 ```
 
-**Solution 2: (Two pointer, Binary search)**
+**Solution 2: (Two Pointers, Binary Search)**
 ```
 Runtime: 104 ms
 Memory Usage: 13.8 MB

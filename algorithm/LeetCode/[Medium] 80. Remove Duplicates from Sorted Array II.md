@@ -42,7 +42,7 @@ for (int i = 0; i < len; i++) {
 
 # Submissions
 ---
-**Solution 1: (Two pointer)**
+**Solution 1: (Two Pointers)**
 ```
 Runtime: 64 ms
 Memory Usage: 13.9 MB

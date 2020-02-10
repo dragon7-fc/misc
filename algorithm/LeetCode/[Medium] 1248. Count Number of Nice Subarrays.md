@@ -34,7 +34,7 @@ Output: 16
 
 # Submissions
 ---
-**Solution 1: (Two pointer)**
+**Solution 1: (Two Pointers)**
 ```
 Runtime: 844 ms
 Memory Usage: 19.4 MB

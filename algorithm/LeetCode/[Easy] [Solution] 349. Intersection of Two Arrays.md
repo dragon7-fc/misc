@@ -21,8 +21,8 @@ Output: [9,4]
 
 # Solution
 ---
-Approach 1: Two Sets
-Intuition
+## Approach 1: Two Sets
+**Intuition**
 
 The naive approach would be to iterate along the first array `nums1` and to check for each value if this value in `nums2` or not. If yes - add the value to output. Such an approach would result in a pretty bad $\mathcal{O}(n \times m)$ time complexity, where n and m are arrays' lengths.
 
@@ -93,7 +93,7 @@ class Solution:
 
 # Submissions
 ---
-**Solution 1:**
+**Solution 1: (Set)**
 ```
 Runtime: 40 ms
 Memory Usage: 12.8 MB

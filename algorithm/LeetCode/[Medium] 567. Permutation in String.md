@@ -24,7 +24,7 @@ Output: False
 
 # Submissions
 ---
-**Solution 1: (Two pointer)**
+**Solution 1: (Two Pointers)**
 ```
 Runtime: 68 ms
 Memory Usage: 12.8 MB

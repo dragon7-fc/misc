@@ -24,7 +24,7 @@ rotate 4 steps to the right: 2->0->1->NULL
 
 # Sobmissions
 ---
-**Solution 1: (Two pointer)**
+**Solution 1: (Two Pointers)**
 ```
 Runtime: 44 ms
 Memory Usage: 13.7 MB

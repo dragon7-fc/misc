@@ -215,7 +215,7 @@ class Solution:
         return ans
 ```
 
-**Solution 2: (Two pointer)**
+**Solution 2: (Two Pointers)**
 ```
 Runtime: 52 ms
 Memory Usage: 13.5 MB

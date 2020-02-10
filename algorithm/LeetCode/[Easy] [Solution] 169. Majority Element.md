@@ -235,7 +235,7 @@ Boyer-Moore allocates only constant additional memory.
 
 # Submissions
 ---
-**Solution 1: (Hash table)**
+**Solution 1: (Hash Table)**
 ```
 Runtime: 168 ms
 Memory Usage: 14.1 MB

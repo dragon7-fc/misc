@@ -20,7 +20,7 @@ A solution set is:
 
 # Submissions
 ---
-**Solution 1: (Two pointer, Binary search)**
+**Solution 1: (Two Pointers, Binary Search)**
 ```
 Runtime: 172 ms
 Memory Usage: 13.8 MB

@@ -51,7 +51,7 @@ class Solution(object):
 
 # Submissions
 ---
-**Solution: (Greedy, Two pointer)**
+**Solution: (Greedy, Two Pointers)**
 ```
 Runtime: 32 ms
 Memory Usage: 12.7 MB

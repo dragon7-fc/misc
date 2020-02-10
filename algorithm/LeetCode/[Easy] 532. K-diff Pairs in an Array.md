@@ -31,7 +31,7 @@ Explanation: There is one 0-diff pair in the array, (1, 1).
 
 # Submissions
 ---
-**Solution 1: (Greedy, Two pointer)**
+**Solution 1: (Greedy, Two Pointers)**
 ```
 Runtime: 360 ms
 Memory Usage: 16 MB
@@ -52,7 +52,7 @@ class Solution:
         return len(ans)
 ```
 
-**Solution 2: (Greedy, Hash table, Two pointer)**
+**Solution 2: (Greedy, Hash Table, Two Pointers)**
 ```
 Runtime: 160 ms
 Memory Usage: 15.9 MB

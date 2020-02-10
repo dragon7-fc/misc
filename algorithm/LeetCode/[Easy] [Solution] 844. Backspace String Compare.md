@@ -127,7 +127,7 @@ class Solution:
         return build(S) == build(T)
 ```
 
-**Solution: (Two pointer)**
+**Solution: (Two Pointers)**
 ```
 Runtime: 28 ms
 Memory Usage: 12.7 MB
