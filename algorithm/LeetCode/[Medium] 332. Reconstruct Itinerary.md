@@ -24,7 +24,7 @@ Explanation: Another possible reconstruction is ["JFK","SFO","ATL","JFK","ATL","
 
 # Submissions
 ---
-**Solution 1:**
+**Solution 1: (DFS, Graph)**
 ```
 Runtime: 88 ms
 Memory Usage: 13.2 MB

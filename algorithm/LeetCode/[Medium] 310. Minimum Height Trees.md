@@ -42,7 +42,7 @@ Output: [3, 4]
 
 # Submissions
 ---
-**Solution 1: (BFS)**
+**Solution 1: (BFS, Graph)**
 ```
 Runtime: 256 ms
 Memory Usage: 17.1 MB

@@ -32,7 +32,7 @@ Explanation: There are a total of 4 courses to take. To take course 3 you should
 
 # Submissions
 ---
-**Solution 1:**
+**Solution 1: (DFS, Graph)**
 ```
 Runtime: 100 ms
 Memory Usage: 16 MB
@@ -71,7 +71,7 @@ class Solution:
         return ans     
 ```
 
-**Solution 2: (BFS)**
+**Solution 2: (BFS, Graph)**
 ```
 Runtime: 104 ms
 Memory Usage: 14.1 MB

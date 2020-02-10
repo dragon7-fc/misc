@@ -30,7 +30,7 @@ Explanation: There are a total of 2 courses to take.
 
 # Submissions
 ---
-**Solution 1: (DFS)**
+**Solution 1: (DFS, Graph)**
 ```
 Runtime: 96 ms
 Memory Usage: 15.7 MB
@@ -56,7 +56,7 @@ class Solution:
         return all(dfs(course) for course in range(numCourses))
 ```
 
-**Solution 2: (BFS)**
+**Solution 2: (BFS, Graph)**
 ```
 Runtime: 100 ms
 Memory Usage: 13.7 MB

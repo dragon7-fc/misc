@@ -159,7 +159,7 @@ class DSU:
 
 # Submissions
 ---
-**Solution:**
+**Solution: (DFS, Graph)**
 ```
 Runtime: 68 ms
 Memory Usage: 14.1 MB
@@ -183,7 +183,7 @@ class Solution:
             graph[v].add(u)
 ```
 
-**Solution:**
+**Solution: (Union-Find)**
 ```
 Runtime: 52 ms
 Memory Usage: 13.2 MB

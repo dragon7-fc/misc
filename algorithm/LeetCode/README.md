@@ -770,6 +770,30 @@ class Solution:
         return board
 ```
 
+**Example 6: (In-degree)**
+```python
+class Solution:
+    def findOrder(self, numCourses: int, prerequisites: List[List[int]]) -> List[int]:
+        graph = collections.defaultdict(list)
+        indegree = [0] * numCourses
+        ans = []
+
+        for course, pre in prerequisites:
+            graph[pre].append(course)
+            indegree[course] += 1
+
+        q = collections.deque([i for i in range(numCourses) if indegree[i] == 0])
+        while q:
+            course = q.popleft()
+            ans.append(course)
+            for pre in graph[course]:
+                indegree[pre] -= 1
+                if indegree[pre] == 0:
+                    q.append(pre)
+
+        return ans if len(ans) == numCourses else []
+```
+
 **Template 1:**
 ```python
 seen = [False ...]
@@ -825,6 +849,7 @@ return -1
 * [[Medium] 785. Is Graph Bipartite?](%5BMedium%5D%20785.%20Is%20Graph%20Bipartite?.md)
 * [[Medium] 529. Minesweeper](%5BMedium%5D%20529.%20Minesweeper.md)
 * [[Medium] * 1129. Shortest Path with Alternating Colors](%5BMedium%5D%20*%201129.%20Shortest%20Path%20with%20Alternating%20Colors.md)
+* [[Medium] 210. Course Schedule II](%5BMedium%5D%20210.%20Course%20Schedule%20II.md)
 
 ## Two Pointers
 
@@ -1748,6 +1773,13 @@ class Solution:
         return max((max1 - min1), (max2 - min2),(max3 - min3),(max4 - min4))
 ```
 
+**Example 9: (g(n) = "1" + f(n))**
+```python
+class Solution:
+    def encode(self, num: int) -> str:
+        return bin(num + 1)[3:]
+```
+
 ---
 **Template 1: (Negative binary, 2's complement representation)**
 ```python
@@ -1768,6 +1800,7 @@ def binaryToGray(self, n: int) -> int:
 * [[Easy] [Solution] 762. Prime Number of Set Bits in Binary Representation](%5BEasy%5D%20%5BSolution%5D%20762.%20Prime%20Number%20of%20Set%20Bits%20in%20Binary%20Representation.md)
 * [[Medium] [Solution] 898. Bitwise ORs of Subarrays](%5BMedium%5D%20%5BSolution%5D%20898.%20Bitwise%20ORs%20of%20Subarrays.md)
 * [[Medium] 1131. Maximum of Absolute Value Expression](%5BMedium%5D%201131.%20Maximum%20of%20Absolute%20Value%20Expression.md)
+* [[Medium] 1256. Encode Number](%5BMedium%5D%201256.%20Encode%20Number.md)
 
 ## Sort
 
@@ -1795,7 +1828,7 @@ class Solution:
         return merged
 ```
 
-**Example 2: (Insertion srot, linked list)**
+**Example 2: (Insertion srot, Linked List)**
 ```python
 # Definition for singly-linked list.
 # class ListNode:
@@ -1825,7 +1858,7 @@ class Solution:
         return dummy.next
 ```
 
-**Example 3: (Merge sort, Linked list)**
+**Example 3: (Merge sort, Linked List)**
 ```python
 # Definition for singly-linked list.
 # class ListNode:
@@ -1905,15 +1938,7 @@ class Solution:
         return "".join(ans) + (pq[0][1] if pq else '')
 ```
 
-**Example 7:(key)**
-```python
-class Solution:
-    def allCellsDistOrder(self, R: int, C: int, r0: int, c0: int) -> List[List[int]]:
-        ans = [[r,c] for r in range(R) for c in range(C)]
-        return sorted(ans, key=lambda x: abs(x[0] - r0) + abs(x[1] - c0))
-```
-
-**Example 8:**
+**Example 7:**
 ```python
 class Solution:
     def wiggleSort(self, nums: List[int]) -> None:
@@ -1927,7 +1952,7 @@ class Solution:
         return nums
 ```
 
-**Example 9: (Hash Table with pointer)**
+**Example 8: (Hash Table with pointer)**
 ```python
 class Solution:
     def rearrangeBarcodes(self, barcodes: List[int]) -> List[int]:
@@ -1944,7 +1969,7 @@ class Solution:
         return ans
 ```
 
-**Solution 10: (Hash Table buffer)**
+**Solution 9: (Hash Table buffer)**
 ```python
 class Solution:
     def diagonalSort(self, mat: List[List[int]]) -> List[List[int]]:
@@ -1961,7 +1986,7 @@ class Solution:
         return mat
 ```
 
-**Example 11: (DP, Binary Search)**
+**Example 10: (DP, Binary Search)**
 ```python
 class Solution:
     def jobScheduling(self, startTime: List[int], endTime: List[int], profit: List[int]) -> int:
@@ -1980,7 +2005,6 @@ class Solution:
 * [[Medium] [Solution] 179. Largest Number](%5BMedium%5D%20%5BSolution%5D%20179.%20Largest%20Number.md)
 * [[Medium] [Solution] 524. Longest Word in Dictionary through Deleting](%5BMedium%5D%20%5BSolution%5D%20524.%20Longest%20Word%20in%20Dictionary%20through%20Deleting.md)
 * [[Medium] [Solution] 767. Reorganize String](%5BMedium%5D%20%5BSolution%5D%20767.%20Reorganize%20String.md)
-* [[Easy] 1030. Matrix Cells in Distance Order](%5BEasy%5D%201030.%20Matrix%20Cells%20in%20Distance%20Order.md)
 * [[Medium] 324. Wiggle Sort II](%5BMedium%5D%20324.%20Wiggle%20Sort%20II.md)
 * [[Medium] 1054. Distant Barcodes](%5BMedium%5D%201054.%20Distant%20Barcodes.md)
 * [[Medium] 1329. Sort the Matrix Diagonally](%5BMedium%5D%201329.%20Sort%20the%20Matrix%20Diagonally.md)

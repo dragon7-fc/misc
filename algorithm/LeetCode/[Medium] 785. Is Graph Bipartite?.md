@@ -41,7 +41,7 @@ We cannot find a way to divide the set of nodes into two independent subsets.
 
 # Submissions
 ---
-**Solution 1: (DFS)**
+**Solution 1: (DFS, Graph)**
 ```
 Runtime: 184 ms
 Memory Usage: 13 MB
@@ -78,7 +78,7 @@ class Solution:
         return True
 ```
 
-**Solution 2: (DFS)**
+**Solution 2: (DFS, Graph)**
 ```
 Runtime: 180 ms
 Memory Usage: 13.1 MB
@@ -106,7 +106,7 @@ class Solution:
         return True
 ```
 
-**Solution 3: (BFS)**
+**Solution 3: (BFS, Graph)**
 ```
 Runtime: 180 ms
 Memory Usage: 12.9 MB

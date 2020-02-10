@@ -129,7 +129,7 @@ class Solution(object):
 
 # Submissions
 ---
-**Solution: (DFS)**
+**Solution: (DFS, Graph)**
 ```
 Runtime: 984 ms
 Memory Usage: 16 MB
@@ -154,7 +154,7 @@ class Solution:
         return ans if ans < float('inf') else -1
 ```
 
-**Solution: (BFS, Dijkstra's Algorithm)**
+**Solution: (BFS, Dijkstra's Algorithm, Graph)**
 ```
 Runtime: 496 ms
 Memory Usage: 14.3 MB
