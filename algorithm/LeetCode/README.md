@@ -48,12 +48,29 @@ Happy Coding!!
 * 1143. Longest Common Subsequence
 * 1312. Minimum Insertion Steps to Make a String Palindrome
 
+### Table of Contents
+
+1. [Libraries](#libraries)
+1. [Dynamic Programming](#dp)
+1. [Depth-first Search](#dfs)
+1. [Binary Search](#bs)
+1. [Greedy](#greedy)
+1. [Breadth-first Search](#bfs)
+1. [Two Pointers](#tp)
+1. [Stack](#stack)
+1. [Backtracking](#backtracking)
+1. [Bit Manipulation](#bm)
+1. [Sort](#sort)
+1. [Linked List](#ll)
+1. [Regular Expression](#re)
+
 **Note**
 
 * Subarray need to be consecutive。
 * Subsequence don't have to be consecutive.
 
-**Libraries**
+## Libraries <a name="libraries"></a>
+---
 * library: `itertools`
 
     * `itertools.groupby(iterable, key=None)`
@@ -88,8 +105,8 @@ Happy Coding!!
     * `random.uniform(a, b)`
     * `random.choice(seq)`
 
-## Dynamic Programming
-
+## Dynamic Programming <a name="dp"></a>
+---
 **Example 1: (Top-down)**
 ```python
 from functools import lru_cache
@@ -174,8 +191,8 @@ class Solution:
 * [[Medium] [Solution] 304. Range Sum Query 2D - Immutable](%5BMedium%5D%20%5BSolution%5D%20304.%20Range%20Sum%20Query%202D%20-%20Immutable.md)
 * [[Medium] 1334. Find the City With the Smallest Number of Neighbors at a Threshold Distance](%5BMedium%5D%201334.%20Find%20the%20City%20With%20the%20Smallest%20Number%20of%20Neighbors%20at%20a%20Threshold%20Distance.md)
 
-## Depth-first Search
-
+## Depth-first Search <a name="dfs"></a>
+---
 **Example 1:**
 ```python
 class Solution(object):
@@ -490,8 +507,8 @@ return num_connected_components
 * [[Medium] 1343. Maximum Product of Splitted Binary Tree](%5BMedium%5D%201343.%20Maximum%20Product%20of%20Splitted%20Binary%20Tree.md)
 * [[Medium] [Solution] 756. Pyramid Transition Matrix](%5BMedium%5D%20%5BSolution%5D%20756.%20Pyramid%20Transition%20Matrix.md)
 
-## Binary Search
-
+## Binary Search <a name="bs"></a>
+---
 **Example 1:**
 ```python
 class Solution:
@@ -564,8 +581,8 @@ return ans
 * [[Medium] 1011. Capacity To Ship Packages Within D Days](%5BMedium%5D%201011.%20Capacity%20To%20Ship%20Packages%20Within%20D%20Days.md)
 * [[Medium] [Solution] 875. Koko Eating Bananas](%5BMedium%5D%20%5BSolution%5D%20875.%20Koko%20Eating%20Bananas.md)
 
-## Greedy
-
+## Greedy <a name="greedy"></a>
+---
 **Example 1:**
 ```python
 class Solution:
@@ -631,8 +648,8 @@ return ans
 * [[Medium] [Solution] 55. Jump Game](%5BMedium%5D%20%5BSolution%5D%2055.%20Jump%20Game.md)
 * [[Medium] * 1111. Maximum Nesting Depth of Two Valid Parentheses Strings](%5BMedium%5D%20*%201111.%20Maximum%20Nesting%20Depth%20of%20Two%20Valid%20Parentheses%20Strings.md)
 
-## Breadth-first Search
-
+## Breadth-first Search <a name="bfs"></a>
+---
 **Example 1:**
 ```python
 from collections import defaultdict
@@ -895,8 +912,8 @@ return -1
 * [[Medium] * 1129. Shortest Path with Alternating Colors](%5BMedium%5D%20*%201129.%20Shortest%20Path%20with%20Alternating%20Colors.md)
 * [[Medium] 210. Course Schedule II](%5BMedium%5D%20210.%20Course%20Schedule%20II.md)
 
-## Two Pointers
-
+## Two Pointers <a name="tp"></a>
+---
 **Example 1: (Cycle)**
 ```python
 # Definition for singly-linked list.
@@ -1193,7 +1210,8 @@ return ans
 * [[Medium] [Solution] 904. Fruit Into Baskets](%5BMedium%5D%20%5BSolution%5D%20904.%20Fruit%20Into%20Baskets.md)
 * [[Medium] 1248. Count Number of Nice Subarrays](%5BMedium%5D%201248.%20Count%20Number%20of%20Nice%20Subarrays.md)
 
-## Stack
+## Stack <a name="stack"></a>
+---
 **Example 1: (PreOrder)**
 ```python
 class Solution:
@@ -1410,8 +1428,8 @@ return ans
 * [[Medium] [Solution] 946. Validate Stack Sequences](%5BMedium%5D%20%5BSolution%5D%20946.%20Validate%20Stack%20Sequences.md)
 * [[Medium] 1130. Minimum Cost Tree From Leaf Values](%5BMedium%5D%201130.%20Minimum%20Cost%20Tree%20From%20Leaf%20Values.md)
 
-## Backtracking
-
+## Backtracking <a name="backtracking"></a>
+---
 **Example 1: (combination, Hash Table)**
 ```python
 class Solution:
@@ -1632,8 +1650,8 @@ return ans
 * [[Medium] [Solution] 526. Beautiful Arrangement](%5BMedium%5D%20%5BSolution%5D%20526.%20Beautiful%20Arrangement.md)
 * [[Medium] [Solution] 842. Split Array into Fibonacci Sequence](%5BMedium%5D%20%5BSolution%5D%20842.%20Split%20Array%20into%20Fibonacci%20Sequence.md)
 
-## Bit Manipulation
-
+## Bit Manipulation <a name="bm"></a>
+---
 **Example 1: (bitmap)**
 ```python
 class Solution:
@@ -1846,8 +1864,8 @@ def binaryToGray(self, n: int) -> int:
 * [[Medium] 1131. Maximum of Absolute Value Expression](%5BMedium%5D%201131.%20Maximum%20of%20Absolute%20Value%20Expression.md)
 * [[Medium] 1256. Encode Number](%5BMedium%5D%201256.%20Encode%20Number.md)
 
-## Sort
-
+## Sort <a name="sort"></a>
+---
 **Example 1:**
 ```python
 class Solution:
@@ -2054,7 +2072,104 @@ class Solution:
 * [[Medium] 1329. Sort the Matrix Diagonally](%5BMedium%5D%201329.%20Sort%20the%20Matrix%20Diagonally.md)
 * [[Hard] 1235. Maximum Profit in Job Scheduling](%5BHard%5D%201235.%20Maximum%20Profit%20in%20Job%20Scheduling.md)
 
-## Regular Expression
+## Linked List <a name="ll"></a>
+---
+**Example 1: (Elementary Math)**
+```python
+# Definition for singly-linked list.
+# class ListNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.next = None
+
+class Solution:
+    def addTwoNumbers(self, l1, l2):
+        """
+        :type l1: ListNode
+        :type l2: ListNode
+        :rtype: ListNode
+        """
+        dummy_head = ListNode(-1)
+        current_position = dummy_head
+        carry = 0
+        while l1 or l2 or carry:
+            l1_value = l1.val if l1 else 0
+            l2_value = l2.val if l2 else 0
+            carry, new_value = divmod(l1_value + l2_value + carry, 10)
+            current_position.next = ListNode(new_value)
+            current_position = current_position.next
+            l1 = l1.next if l1 else None
+            l2 = l2.next if l2 else None
+        return dummy_head.next
+```
+
+**Example 2: (Two Pointers)**
+```python
+# Definition for singly-linked list.
+# class ListNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.next = None
+
+class Solution:
+    def removeNthFromEnd(self, head: ListNode, n: int) -> ListNode:
+        dummy = ListNode(0)
+        dummy.next = head
+        first = second = dummy
+        # Advances first pointer so that the gap between first and second is n nodes apart
+        for i in range(1, n+2):
+            first = first.next
+        # Move first to the end, maintaining the gap
+        while first:
+            first = first.next
+            second = second.next
+
+        second.next = second.next.next
+        return dummy.next
+```
+
+**Example 3: (Merge with Divide And Conquer)**
+```python
+# Definition for singly-linked list.
+# class ListNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.next = None
+
+class Solution:
+    def mergeKLists(self, lists: List[ListNode]) -> ListNode:
+        amount = len(lists)
+        interval = 1
+        while interval < amount:
+            for i in range(0, amount - interval, interval * 2):
+                lists[i] = self.merge2Lists(lists[i], lists[i + interval])
+            interval *= 2
+        return lists[0] if amount > 0 else None
+
+    def merge2Lists(self, l1, l2):
+        head = point = ListNode(0)
+        while l1 and l2:
+            if l1.val <= l2.val:
+                point.next = l1
+                l1 = l1.next
+            else:
+                point.next = l2
+                l2 = l1
+                l1 = point.next.next
+            point = point.next
+        if not l1:
+            point.next=l2
+        else:
+            point.next=l1
+        return head.next
+```
+
+* [[Medium] [Solution] 2. Add Two Numbers](%5BMedium%5D%20%5BSolution%5D%202.%20Add%20Two%20Numbers.md)
+* [[Medium] [Solution] 19. Remove Nth Node From End of List](%5BMedium%5D%20%5BSolution%5D%2019.%20Remove%20Nth%20Node%20From%20End%20of%20List.md)
+* [[Hard] [Solution] 23. Merge k Sorted Lists](%5BHard%5D%20%5BSolution%5D%2023.%20Merge%20k%20Sorted%20Lists.md)
+
+## Regular Expression <a name="re"></a>
+---
 * library: `re`
     * `re.match(pattern, string, flags=0)`
     * `re.split(pattern, string, maxsplit=0, flags=0)`

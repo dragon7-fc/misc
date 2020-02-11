@@ -88,7 +88,7 @@ $(3 \to 4 \to 2) + (4 \to 6 \to 5) = 8 \to 0 \to 7$
 
 # Submissions
 ---
-**Solution 1:**
+**Solution 1: (Elementary Math, Linked List)**
 ```
 Runtime: 120 ms
 Memory Usage: N/A

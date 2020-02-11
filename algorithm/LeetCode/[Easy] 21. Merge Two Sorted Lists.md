@@ -1,13 +1,21 @@
-""" 
-Merge Two Sorted Lists
+21. Merge Two Sorted Lists
 
 Merge two sorted linked lists and return it as a new list. The new list should be made by splicing together the nodes of the first two lists.
 
-Example:
-
+**Example:**
+```
 Input: 1->2->4, 1->3->4
 Output: 1->1->2->3->4->4
- """
+```
+
+# Submissions
+---
+**Solution 1: (Linked List)**
+```
+Runtime: 36 ms
+Memory Usage: 12.7 MB
+```
+```python
 # Definition for singly-linked list.
 # class ListNode:
 #     def __init__(self, x):
@@ -15,12 +23,7 @@ Output: 1->1->2->3->4->4
 #         self.next = None
 
 class Solution:
-    def mergeTwoLists(self, l1, l2):
-        """
-        :type l1: ListNode
-        :type l2: ListNode
-        :rtype: ListNode
-        """
+    def mergeTwoLists(self, l1: ListNode, l2: ListNode) -> ListNode:
         current = None
         head = None
         while l1 and l2:
@@ -42,3 +45,4 @@ class Solution:
         else:
             current.next = l1 or l2
         return head
+```
