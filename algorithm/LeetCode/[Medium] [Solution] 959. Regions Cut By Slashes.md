@@ -135,7 +135,7 @@ class Solution(object):
 
 # Submissions
 ---
-**Solution:**
+**Solution: (Union-Find, Graph)**
 ```
 Runtime: 344 ms
 Memory Usage: 12.9 MB
@@ -179,7 +179,7 @@ class Solution:
         return sum(dsu.find(x) == x for x in range(4*N*N))
 ```
 
-**Solution 1:**
+**Solution 1: (DFS, Graph)**
 
 Create a graph with 3 times the original grid size. Set to false where the slashes would go. Then it's the same problem as solving the number of islands
 
@@ -224,7 +224,7 @@ class Solution:
         return region_count
 ```
 
-**Solution 2:**
+**Solution 2: (DFS, Stack, Graph)**
 ```
 Runtime: 260 ms
 Memory Usage: 12.8 MB

@@ -43,7 +43,7 @@ Explanation: The two servers in the first row can communicate with each other. T
 
 # Submissions
 ---
-**Solution 1:**
+**Solution 1: (Graph)**
 ```
 Runtime: 556 ms
 Memory Usage: 14.2 MB

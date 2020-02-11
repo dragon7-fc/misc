@@ -68,8 +68,8 @@ The number of operations we need = the number of **connected networks - 1**
 * Time O(connections)
 * Space O(n)
 ```
-Runtime: 556 ms
-Memory Usage: 37.5 MB
+Runtime: 524 ms
+Memory Usage: 37.4 MB
 ```
 ```python
 class Solution:
@@ -83,18 +83,19 @@ class Solution:
         num_connected_components = 0
 
         def dfs(i):
+            seen[i] = True
             for j in g[i]:
                 if not seen[j]:
-                    seen[j] = True
                     dfs(j)
         
         for i in range(n):
             if not seen[i]:
                 num_connected_components += 1
-                seen[i] = True
                 dfs(i)
         
         return num_connected_components - 1
+        
+        
 ```
 
 **Solution 2: (BFS)**

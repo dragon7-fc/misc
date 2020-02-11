@@ -196,7 +196,25 @@ class Solution(object):
             graph[v].add(u)
 ```
 
-**Example 2: (Union Find)**
+**Example 2: (Stack)**
+```python
+class Solution:
+    def canVisitAllRooms(self, rooms: List[List[int]]) -> bool:
+        seen = [False] * len(rooms)
+        seen[0] = True
+        stack = [0]
+        #At the beginning, we have a todo list "stack" of keys to use.
+        #'seen' represents at some point we have entered this room.
+        while stack:  #While we have keys...
+            node = stack.pop() # get the next key 'node'
+            for nei in rooms[node]: # For every key in room # 'node'...
+                if not seen[nei]: # ... that hasn't been used yet
+                    seen[nei] = True # mark that we've entered the room
+                    stack.append(nei) # add the key to the todo list
+        return all(seen) # Return true iff we've visited every room
+```
+
+**Example 3: (Union Find)**
 ```python
 class DSU(object):
     def __init__(self):
@@ -229,7 +247,7 @@ class Solution(object):
                 return edge
 ```
 
-**Example 3: (DFS, BFS)**
+**Example 4: (DFS, BFS)**
 ```python
 class Solution(object):
     def shortestBridge(self, A):
@@ -271,7 +289,7 @@ class Solution(object):
                     done.add(nei)
 ```
 
-**Exaomple 4: (Cycle)**
+**Exaomple 5: (Cycle)**
 ```python
 class Solution:
     def canFinish(self, numCourses: int, prerequisites: List[List[int]]) -> bool:
@@ -293,7 +311,7 @@ class Solution:
         return all(dfs(course) for course in range(numCourses))
 ```
 
-**Example 5: (connected component)**
+**Example 6: (connected component)**
 ```python
 class Solution:
     def makeConnected(self, n: int, connections: List[List[int]]) -> int:
@@ -306,21 +324,20 @@ class Solution:
         num_connected_components = 0
 
         def dfs(i):
+            seen[i] = True
             for j in g[i]:
                 if not seen[j]:
-                    seen[j] = True
                     dfs(j)
         
         for i in range(n):
             if not seen[i]:
                 num_connected_components += 1
-                seen[i] = True
                 dfs(i)
         
         return num_connected_components - 1
 ```
 
-**Example 6: (2*DFS)**
+**Example 7: (2*DFS)**
 ```python
 # Definition for a binary tree node.
 # class TreeNode:
@@ -345,7 +362,7 @@ class Solution:
         return self.res % MOD
 ```
 
-**Example 7: (level DFS)**
+**Example 8: (level DFS)**
 ```python
 class Solution:
     def pyramidTransition(self, bottom: str, allowed: List[str]) -> bool:
@@ -451,20 +468,20 @@ for i, j in ...:
 seen = [False]*N
 num_connected_components = 0
 def dfs(i):
+    seen[j] = True
     for j in g[i]:
-        if not seen[j]:
-            seen[j] = True
+        if not seen[j]:  
             dfs(j)
 for i in range(N):
     if not seen[i]:
         num_connected_components += 1
-        seen[i] = True
         dfs(i)
 
 return num_connected_components        
 ```
 
 * [[Medium] [Solution] 684. Redundant Connection](%5BMedium%5D%20%5BSolution%5D%20684.%20Redundant%20Connection.md)
+* [[Medium] [Solution] 841. Keys and Rooms](%5BMedium%5D%20%5BSolution%5D%20841.%20Keys%20and%20Rooms.md)
 * [[Medium] [Solution] 934. Shortest Bridge](%5BMedium%5D%20%5BSolution%5D%20934.%20Shortest%20Bridge.md)
 * [[Medium] 207. Course Schedule](%5BMedium%5D%20207.%20Course%20Schedule.md)
 * [[Medium] 1319. Number of Operations to Make Network Connected](%5BMedium%5D%201319.%20Number%20of%20Operations%20to%20Make%20Network%20Connected.md)
@@ -770,7 +787,34 @@ class Solution:
         return board
 ```
 
-**Example 6: (In-degree)**
+**Example 6: (2 Direction)**
+```python
+class Solution:
+    def shortestAlternatingPaths(self, n: int, red_edges: List[List[int]], blue_edges: List[List[int]]) -> List[int]:
+        queue = [(0,0,0),(0,1,0)]
+        seen = set()
+        ans = [-1]*(n)
+
+        graph = collections.defaultdict(list)
+
+        for s,e in red_edges:
+            graph[s].append((e,0))
+        for s,e in blue_edges:
+            graph[s].append((e,1))
+
+        while queue:
+            cur, color,depth = queue.pop(0)
+            seen.add((cur, color))
+            if ans[cur] == -1:
+                ans[cur] = depth 
+            for nei, nei_color in graph[cur]:
+                if nei_color == (1-color):
+                    if (nei, nei_color) not in seen:
+                        queue.append((nei, nei_color, depth+1))
+        return ans`
+``
+
+**Example 7: (In-degree)**
 ```python
 class Solution:
     def findOrder(self, numCourses: int, prerequisites: List[List[int]]) -> List[int]:
@@ -801,12 +845,12 @@ q = collections.deque([...])
 seen[(...)] = True
 while q:
     el = q.popleft()
+    seen[el] = True
     ...
     ans ...
     for nei in el's neighbours:
         if not seen[nei]:
             q.append(nei)
-            seen[nei] = True
 return ans
 ```
 
@@ -833,12 +877,12 @@ step = 0
 while q:
     for _ in range(len(q)):
         r, c = q.popleft()
+        seen.add((r, c))
         if ...:
             return step
         for nr, nc in (r, c)'s neighbours:
             if (nr, nc) not in seen:
                 q.append((nr, nc))
-                seen.add((nr, nc))
     step += 1
 return -1
 ```

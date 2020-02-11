@@ -40,10 +40,10 @@ Explanation: There is no way to reach at index 1 with value 0.
 
 # Submissions
 ---
-**Solution 1: (BFS)**
+**Solution 1: (BFS, Graph)**
 ```
-Runtime: 240 ms
-Memory Usage: 19 MB
+Runtime: 244 ms
+Memory Usage: 19.2 MB
 ```
 ```python
 class Solution:
@@ -51,18 +51,15 @@ class Solution:
         N = len(arr)
         q = collections.deque()
         seen = set()
-
         q.append(start)
-        seen.add(start)
-
         while q:
             ind = q.popleft()
+            seen.add(ind)
             if arr[ind] == 0:
                 return True 
             for x in (ind - arr[ind], ind + arr[ind]):
                 if 0 <= x < N and x not in seen:
                     q.append(x)
-                    seen.add(x)
 
         return False
 ```

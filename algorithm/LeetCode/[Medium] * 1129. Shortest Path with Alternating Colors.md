@@ -2,9 +2,9 @@
 
 Consider a directed graph, with nodes labelled `0, 1, ..., n-1`.  In this graph, each edge is either red or blue, and there could be self-edges or parallel edges.
 
-Each `[i, j]` in red_edges denotes a red directed edge from node `i` to node `j`.  Similarly, each `[i, j]` in blue_edges denotes a blue directed edge from node `i` to node `j`.
+Each `[i, j]` in `red_edges` denotes a red directed edge from node `i` to node `j`.  Similarly, each `[i, j]` in `blue_edges` denotes a blue directed edge from node `i` to node `j`.
 
-Return an array answer of length `n`, where each `answer[X]` is the length of the shortest path from node `0` to node `X` such that the edge colors alternate along the path (or `-1` if such a path doesn't exist).
+Return an array `answer` of length `n`, where each `answer[X]` is the length of the shortest path from node `0` to node `X` such that the edge colors alternate along the path (or `-1` if such a path doesn't exist).
 
  
 
@@ -48,16 +48,16 @@ Output: [0,1,1]
 
 # Submissions
 ---
-**Solution 1: (BFS)**
+**Solution 1: (BFS, Graph)**
 ```
-Runtime: 92 ms
-Memory Usage: 12.7 MB
+Runtime: 88 ms
+Memory Usage: 12.9 MB
 ```
 ```python
 class Solution:
     def shortestAlternatingPaths(self, n: int, red_edges: List[List[int]], blue_edges: List[List[int]]) -> List[int]:
         queue = [(0,0,0),(0,1,0)]
-        seen = {}
+        seen = set()
         ans = [-1]*(n)
 
         graph = collections.defaultdict(list)
@@ -69,10 +69,9 @@ class Solution:
 
         while queue:
             cur, color,depth = queue.pop(0)
-            if (cur, color) not in seen:
-                seen[(cur, color)] = 1
-                if ans[cur] == -1:
-                    ans[cur] = depth 
+            seen.add((cur, color))
+            if ans[cur] == -1:
+                ans[cur] = depth 
             for nei, nei_color in graph[cur]:
                 if nei_color == (1-color):
                     if (nei, nei_color) not in seen:

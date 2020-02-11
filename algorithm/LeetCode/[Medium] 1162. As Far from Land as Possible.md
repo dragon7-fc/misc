@@ -35,7 +35,7 @@ The cell (2, 2) is as far as possible from all the land with distance 4.
 
 # Submissions
 ---
-**Solution 1: (BFS)**
+**Solution 1: (BFS, Graph)**
 ```
 Runtime: 676 ms
 Memory Usage: 13.7 MB

@@ -26,7 +26,7 @@ Illustration of graph
 
 # Submissions
 ---
-**Solution 1:**
+**Solution 1: (DFS, Graph)**
 ```
 Runtime: 704 ms
 Memory Usage: 19.6 MB
