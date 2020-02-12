@@ -16,7 +16,11 @@ Output: 2->3
 
 # Sobmissions
 ---
-**Solution: 44 ms, 13.8 MB**
+**Solution 1: (Three Pointers, Linked List)**
+```
+Runtime: 40 ms
+Memory Usage: 12.8 MB
+```
 ```python
 # Definition for singly-linked list.
 # class ListNode:

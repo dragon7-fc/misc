@@ -16,7 +16,11 @@ Given 1->2->3->4->5, reorder it to 1->5->2->4->3.
 ```
 # Sobmissions
 ---
-**Solution: 96 ms, 22.3 MB**
+**Solution 1: (Linked List)**
+```
+Runtime: 96 ms
+Memory Usage: 22.3 MB
+```
 ```python
 # Definition for singly-linked list.
 # class ListNode:
@@ -31,7 +35,7 @@ class Solution:
         """
         if not head:
             return
-			
+
         nodes = []
         curr = head
 

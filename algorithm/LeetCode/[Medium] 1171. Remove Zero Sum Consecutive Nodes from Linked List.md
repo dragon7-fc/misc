@@ -34,46 +34,11 @@ Output: [1]
 
 # Sobmissions
 ---
-**Solution 1:**
-Runtime: 204 ms
-Memory Usage: 14.2 MB
-```python
-# Definition for singly-linked list.
-# class ListNode:
-#     def __init__(self, x):
-#         self.val = x
-#         self.next = None
-
-class Solution:
-    def removeZeroSumSublists(self, head: ListNode) -> ListNode:
-        stack = []
-        dummy = ListNode(0)
-        stack.append(dummy)
-        while head:
-            stack.append(head)
-            
-            tmp = 0
-            end = -len(stack)
-            for i in range(-1, end, -1):
-                tmp += stack[i].val
-                if tmp == 0:
-                    while i < 0:
-                        stack.pop()
-                        i += 1
-                    break
-                    
-            head = head.next
-        
-        stack.append(None)
-        for i in range(len(stack)-1):
-            stack[i].next = stack[i+1]
-                    
-        return dummy.next
+**Solution 1: (Prefix Sum, Linked List)**
 ```
-
-**Solution 2:**
 Runtime: 52 ms
 Memory Usage: 14 MB
+```
 ```python
 # Definition for singly-linked list.
 # class ListNode:
@@ -89,20 +54,20 @@ class Solution:
         
         while head:
             prefix_sum += head.val
-			
-			# remove elements in zero sum
+
+            # remove elements in zero sum
             if prefix_sum in seen:           
                 k, v = seen.popitem()
                 while k != prefix_sum:
                     k, v = seen.popitem()
                 seen[k] = v
             else:
-			    # add non zero-sum elements
+                # add non zero-sum elements
                 seen[prefix_sum] = head
             
             head = head.next
         
-		# rebuild the linkedlist
+        # rebuild the linkedlist
         ret = dummy
         for i, k in enumerate(seen):
             if i > 0:

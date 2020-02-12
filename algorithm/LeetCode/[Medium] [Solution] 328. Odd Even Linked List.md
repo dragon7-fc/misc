@@ -61,43 +61,11 @@ public class Solution {
 
 # Submissions
 ---
-**Solution 1: 52 ms, 15.7 MB**
-```python
-# Definition for singly-linked list.
-# class ListNode:
-#     def __init__(self, x):
-#         self.val = x
-#         self.next = None
-
-class Solution:
-    def oddEvenList(self, head: ListNode) -> ListNode:
-        dummy = ListNode(0)
-        dummy.next = head
-        if head and head.next:  
-            is_odd = True
-            odd, even, even_0 = head, head.next, head.next
-            head = head.next.next
-            while head:
-                if is_odd:
-                    odd.next = head
-                    head = head.next
-                    odd = odd.next
-                    odd.next = even_0
-                    if even == even_0 and head == None:
-                        even.next = None
-                else:
-                    even.next = head
-                    head = head.next
-                    even = even.next
-                    if even.next:
-                        even.next = even.next.next
-
-                is_odd = not is_odd
-
-        return dummy.next
+**Solution 1: (Linked List)**
 ```
-
-**Solution 2: 44 ms, 15.6 MB**
+Runtime: 44 ms
+Memory Usage: 14.7 MB
+```
 ```python
 # Definition for singly-linked list.
 # class ListNode:
@@ -107,19 +75,15 @@ class Solution:
 
 class Solution:
     def oddEvenList(self, head: ListNode) -> ListNode:
-        if not head:
-            return head
-
-        even_dummy,odd_dummy=ListNode(0),ListNode(0)
-        tails,turn=[even_dummy,odd_dummy], 0
-        while head:
-            tails[turn].next=head
-            head=head.next
-            tails[turn]=tails[turn].next
-            turn ^=1
-
-        tails[1].next=None
-        tails[0].next=odd_dummy.next
-
-        return even_dummy.next
+        if not head: return
+        odd, even, = head, head.next
+        evenHead = even
+        while even and even.next:
+            odd.next = even.next
+            odd = odd.next
+            even.next = odd.next
+            even = even.next
+        odd.next = evenHead
+        
+        return head
 ```

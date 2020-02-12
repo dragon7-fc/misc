@@ -1,6 +1,6 @@
 86. Partition List
 
-Given a linked list and a value x, partition it such that all nodes less than x come before nodes greater than or equal to x.
+Given a linked list and a value `x`, partition it such that all nodes less than `x` come before nodes greater than or equal to `x`.
 
 You should preserve the original relative order of the nodes in each of the two partitions.
 
@@ -87,7 +87,7 @@ class Solution:
 
 # Submissions
 ---
-**Solution 1: (Two Pointer)**
+**Solution 1: (Two Pointer, Linked List)**
 ```
 Runtime: 52 ms
 Memory Usage: 12.6 MB

@@ -2164,9 +2164,342 @@ class Solution:
         return head.next
 ```
 
+**Example 4: (Post-Order)**
+```python
+# Definition for singly-linked list.
+# class ListNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.next = None
+
+class Solution:
+    def swapPairs(self, head: ListNode) -> ListNode:
+        if not head or not head.next:
+            return head
+        first = head
+        sec = head.next
+        first.next = self.swapPairs(sec.next)
+        sec.next = first
+        return sec
+```
+
+**Example 5: (Two Pointers)**
+```python
+# Definition for singly-linked list.
+# class ListNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.next = None
+
+class Solution:
+    def partition(self, head: ListNode, x: int) -> ListNode:
+
+        # before and after are the two pointers used to create two list
+        # before_head and after_head are used to save the heads of the two lists.
+        # All of these are initialized with the dummy nodes created.
+        before = before_head = ListNode(0)
+        after = after_head = ListNode(0)
+
+        while head:
+            # If the original list node is lesser than the given x,
+            # assign it to the before list.
+            if head.val < x:
+                before.next = head
+                before = before.next
+            else:
+                # If the original list node is greater or equal to the given x,
+                # assign it to the after list.
+                after.next = head
+                after = after.next
+
+            # move ahead in the original list
+            head = head.next
+
+        # Last node of "after" list would also be ending node of the reformed list
+        after.next = None
+        # Once all the nodes are correctly assigned to the two lists,
+        # combine them to form a single list which would be returned.
+        before.next = after_head.next
+
+        return before_head.next
+```
+
+**Example 6: (Iterative)**
+```python
+class Solution:
+    def reverseBetween(self, head: ListNode, m: int, n: int) -> ListNode:
+
+        # Empty list
+        if not head:
+            return None
+
+        # Move the two pointers until they reach the proper starting point
+        # in the list.
+        cur, prev = head, None
+        while m > 1:
+            prev = cur
+            cur = cur.next
+            m, n = m - 1, n - 1
+
+        # The two pointers that will fix the final connections.
+        tail, con = cur, prev
+
+        # Iteratively reverse the nodes until n becomes 0.
+        while n:
+            third = cur.next
+            cur.next = prev
+            prev = cur
+            cur = third
+            n -= 1
+
+        # Adjust the final connections as explained in the algorithm
+        if con:
+            con.next = prev
+        else:
+            head = prev
+        tail.next = cur
+        return head
+```
+
+**Example 7: (Inorder Simulation)**
+```python
+# Definition for singly-linked list.
+# class ListNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.next = None
+
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+
+class Solution:
+    
+    def findSize(self, head):
+        ptr = head
+        c = 0
+        while ptr:
+            ptr = ptr.next
+            c += 1
+        return c
+        
+    def sortedListToBST(self, head: ListNode) -> TreeNode:        
+        
+        # Get the size of the linked list first
+        size = self.findSize(head)
+
+        # Recursively form a BST out of linked list from l --> r
+        def convert(l, r):
+            nonlocal head
+
+            # Invalid case
+            if l > r:
+                return None
+
+            mid = (l + r) // 2
+
+            # First step of simulated inorder traversal. Recursively form
+            # the left half
+            left = convert(l, mid - 1)
+
+            # Once left half is traversed, process the current node
+            node = TreeNode(head.val)   
+            node.left = left
+
+            # Maintain the invariance mentioned in the algorithm
+            head = head.next
+
+            # Recurse on the right hand side and form BST out of them
+            node.right = convert(mid + 1, r)
+            return node
+        return convert(0, size - 1)
+```
+
+**Example 8: (Hash Table)**
+```python
+"""
+# Definition for a Node.
+class Node:
+    def __init__(self, val, next, random):
+        self.val = val
+        self.next = next
+        self.random = random
+"""
+class Solution:
+    def copyRandomList(self, head: 'Node') -> 'Node':
+        if not head:
+            return None
+
+        copy_dict = {}
+        cur = head
+        while cur:
+            copy_dict[cur] = Node(cur.val, None, None)
+            cur = cur.next
+
+        cur = head
+        while cur:
+            if cur.next:
+                copy_dict[cur].next = copy_dict[cur.next]
+            if cur.random:
+                copy_dict[cur].random = copy_dict[cur.random]
+            cur = cur.next
+
+        return copy_dict[head]
+```
+
+**Example 9: (Split Input List)**
+```python
+# Definition for singly-linked list.
+# class ListNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.next = None
+
+class Solution:
+    def splitListToParts(self, root: ListNode, k: int) -> List[ListNode]:
+        ans = []
+        length = 0
+
+        cur = root
+        while cur:
+            length += 1
+            cur = cur.next
+
+        part_size, remainder = divmod(length, k)
+
+        cur = root
+        for i in range(k):
+            dummy = ListNode(0)
+            node = dummy
+            for j in range(part_size + (i < remainder)):
+                node.next = ListNode(cur.val)
+                node = node.next              
+                cur = cur.next
+
+            ans.append(dummy.next)
+
+        return ans
+```
+
+**Example 10: (Grouping)**
+```python
+# Definition for singly-linked list.
+# class ListNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.next = None
+
+class Solution:
+    def numComponents(self, head: ListNode, G: List[int]) -> int:
+        Gset = set(G)
+        cur = head
+        ans = 0
+        while cur:
+            if (cur.val in Gset and
+                    getattr(cur.next, 'val', None) not in Gset):
+                ans += 1
+            cur = cur.next
+
+        return ans
+```
+
+**Example 11: (Stack)**
+```python
+# Definition for singly-linked list.
+# class ListNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.next = None
+
+class Solution:
+    def nextLargerNodes(self, head: ListNode) -> List[int]:
+        stack = []
+        cur = head
+        while cur:
+            while stack and cur.val > stack[-1].val:
+                node = stack.pop()
+                node.val = cur.val
+            stack.append(cur)
+            cur = cur.next
+
+        for node in stack:
+            node.val = 0
+
+        res = []
+        cur = head
+        while cur:
+            res.append(cur.val)
+            cur = cur.next
+
+        return res
+```
+
+**Example 12: (Prefix Sum)**
+```python
+# Definition for singly-linked list.
+# class ListNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.next = None
+
+class Solution:
+    def removeZeroSumSublists(self, head: ListNode) -> ListNode:
+        dummy = ListNode(0)
+        prefix_sum = 0
+        seen = {prefix_sum: dummy}
+        
+        while head:
+            prefix_sum += head.val
+
+            # remove elements in zero sum
+            if prefix_sum in seen:           
+                k, v = seen.popitem()
+                while k != prefix_sum:
+                    k, v = seen.popitem()
+                seen[k] = v
+            else:
+                # add non zero-sum elements
+                seen[prefix_sum] = head
+            
+            head = head.next
+        
+        # rebuild the linkedlist
+        ret = dummy
+        for i, k in enumerate(seen):
+            if i > 0:
+                ret.next = seen[k]
+                ret = ret.next
+        
+        ret.next = None
+        
+        return dummy.next
+```
+
+**Template 1:**
+```python
+dummy = listNode(-1)
+dummy.next = head
+while head:
+    ...
+    head = head.next
+return dummy.next
+```
+
 * [[Medium] [Solution] 2. Add Two Numbers](%5BMedium%5D%20%5BSolution%5D%202.%20Add%20Two%20Numbers.md)
 * [[Medium] [Solution] 19. Remove Nth Node From End of List](%5BMedium%5D%20%5BSolution%5D%2019.%20Remove%20Nth%20Node%20From%20End%20of%20List.md)
 * [[Hard] [Solution] 23. Merge k Sorted Lists](%5BHard%5D%20%5BSolution%5D%2023.%20Merge%20k%20Sorted%20Lists.md)
+* [[Medium] 24. Swap Nodes in Pairs](%5BMedium%5D%2024.%20Swap%20Nodes%20in%20Pairs.md)
+* [[Medium] [Solution] 86. Partition List](%5BMedium%5D%20%5BSolution%5D%2086.%20Partition%20List.md)
+* [![Medium] [Solution] 92. Reverse Linked List II](!%5BMedium%5D%20%5BSolution%5D%2092.%20Reverse%20Linked%20List%20II.md)
+* [[Medium] [Solution] 109. Convert Sorted List to Binary Search Tree](%5BMedium%5D%20%5BSolution%5D%20109.%20Convert%20Sorted%20List%20to%20Binary%20Search%20Tree.md)
+* [[Medium] 138. Copy List with Random Pointer](%5BMedium%5D%20138.%20Copy%20List%20with%20Random%20Pointer.md)
+* [[Medium] [Solution] 725. Split Linked List in Parts](%5BMedium%5D%20%5BSolution%5D%20725.%20Split%20Linked%20List%20in%20Parts.md)
+* [[Medium] [Solution] 817. Linked List Components](%5BMedium%5D%20%5BSolution%5D%20817.%20Linked%20List%20Components.md)
+* [[Medium] 1019. Next Greater Node In Linked List](%5BMedium%5D%201019.%20Next%20Greater%20Node%20In%20Linked%20List.md)
+* [[Medium] 1171. Remove Zero Sum Consecutive Nodes from Linked List](%5BMedium%5D%201171.%20Remove%20Zero%20Sum%20Consecutive%20Nodes%20from%20Linked%20List.md)
 
 ## Regular Expression <a name="re"></a>
 ---

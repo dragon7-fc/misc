@@ -1,10 +1,10 @@
 817. Linked List Components
 
-We are given head, the head node of a linked list containing unique integer values.
+We are given `head`, the head node of a linked list containing unique integer values.
 
-We are also given the list G, a subset of the values in the linked list.
+We are also given the list `G`, a subset of the values in the linked list.
 
-Return the number of connected components in G, where two values are connected if they appear consecutively in the linked list.
+Return the number of connected components in `G`, where two values are connected if they appear consecutively in the linked list.
 
 **Example 1:**
 ```
@@ -39,13 +39,13 @@ Note:
 
 **Intuition**
 
-Instead of thinking about connected components in G, think about them in the linked list. Connected components in G must occur consecutively in the linked list.
+Instead of thinking about connected components in `G`, think about them in the linked list. Connected components in `G` must occur consecutively in the linked list.
 
 **Algorithm**
 
 Scanning through the list, if node.val is in G and node.next.val isn't (including if node.next is null), then this must be the end of a connected component.
 
-For example, if the list is 0 -> 1 -> 2 -> 3 -> 4 -> 5 -> 6 -> 7, and G = [0, 2, 3, 5, 7], then when scanning through the list, we fulfill the above condition at 0, 3, 5, 7, for a total answer of 4.
+For example, if the list is `0 -> 1 -> 2 -> 3 -> 4 -> 5 -> 6 -> 7`, and `G = [0, 2, 3, 5, 7]`, then when scanning through the list, we fulfill the above condition at `0, 3, 5, 7`, for a total answer of `4`.
 
 ```python
 class Solution(object):
@@ -69,35 +69,11 @@ class Solution(object):
 
 # Submissions
 ---
-**Solution 1: List, 1872 ms, 17.9 MB**
-```python
-# Definition for singly-linked list.
-# class ListNode:
-#     def __init__(self, x):
-#         self.val = x
-#         self.next = None
-
-class Solution:
-    def numComponents(self, head: ListNode, G: List[int]) -> int:
-        n_comp = 0
-        cont = False
-        while head:
-            if head.val in G:
-                cont = True
-            else:
-                if cont:
-                    n_comp += 1
-                    cont = False
-            
-            head = head.next
-            
-        if cont:
-            n_comp += 1
-        
-        return n_comp
+**Solution 1: (Grouping, Linked List)**
 ```
-
-**Solution 2: Set, 124 ms, 18.3 MB**
+Runtime: 112 ms
+Memory Usage: 17.2 MB
+```
 ```python
 # Definition for singly-linked list.
 # class ListNode:
@@ -107,21 +83,14 @@ class Solution:
 
 class Solution:
     def numComponents(self, head: ListNode, G: List[int]) -> int:
-        n_comp = 0
-        cont = False
         Gset = set(G)
-        while head:
-            if head.val in Gset:
-                cont = True
-            else:
-                if cont:
-                    n_comp += 1
-                    cont = False
-            
-            head = head.next
-            
-        if cont:
-            n_comp += 1
-        
-        return n_comp
+        cur = head
+        ans = 0
+        while cur:
+            if (cur.val in Gset and
+                    getattr(cur.next, 'val', None) not in Gset):
+                ans += 1
+            cur = cur.next
+
+        return ans
 ```

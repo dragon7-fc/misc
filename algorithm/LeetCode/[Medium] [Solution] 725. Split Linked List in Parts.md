@@ -1,8 +1,8 @@
 725. Split Linked List in Parts
 
-Given a (singly) linked list with head node root, write a function to split the linked list into k consecutive linked list "parts".
+Given a (singly) linked list with head node `root`, write a function to split the linked list into `k` consecutive linked list "parts".
 
-The length of each part should be as equal as possible: no two parts should have a size differing by more than 1. This may lead to some parts being null.
+The length of each part should be as equal as possible: no two parts should have a size differing by more than `1`. This may lead to some parts being `null`.
 
 The parts should be in order of occurrence in the input list, and parts occurring earlier should always have a size greater than or equal parts occurring later.
 
@@ -36,7 +36,7 @@ Note:
 * Each value of a node in the input will be an integer in the range [0, 999].
 * k will be an integer in the range [1, 50].
 
-# [Solution]
+# Solution
 ---
 ## Approach #1: Create New Lists [Accepted]
 
@@ -79,7 +79,7 @@ class Solution(object):
 
 As in Approach #1, we know the size of each part. Instead of creating new lists, we will split the input list directly and return a list of pointers to nodes in the original list as appropriate.
 
-Our solution proceeds similarly. For a part of size L = width + (i < remainder ? 1 : 0), instead of stepping L times, we will step L-1 times, and our final time will also sever the link between the last node from the previous part and the first node from the next part.
+Our solution proceeds similarly. For a part of size `L = width + (i < remainder ? 1 : 0)`, instead of stepping `L` times, we will step `L-1` times, and our final time will also sever the link between the last node from the previous part and the first node from the next part.
 
 ```python
 class Solution(object):
@@ -109,7 +109,11 @@ class Solution(object):
 
 # Submissions
 ---
-**Solution 1: 44 ms, 13.8 MB**
+**Solution 1: (Split Input List, Linked List)**
+```
+Runtime: 44 ms
+Memory Usage: 13.8 MB
+```
 ```python
 # Definition for singly-linked list.
 # class ListNode:
@@ -139,40 +143,6 @@ class Solution:
                 cur = cur.next
                     
             ans.append(dummy.next)
-        
-        return ans
-```
-
-**Solution 2: 40 ms, 14 MB**
-```python
-# Definition for singly-linked list.
-# class ListNode:
-#     def __init__(self, x):
-#         self.val = x
-#         self.next = None
-
-class Solution:
-    def splitListToParts(self, root: ListNode, k: int) -> List[ListNode]:
-        ans = []
-        length = 0
-        
-        cur = root
-        while cur:
-            length += 1
-            cur = cur.next
-            
-        part_size, remainder = divmod(length, k)
-        
-        cur = root
-        for i in range(k):
-            head = cur
-            for j in range(part_size + (i < remainder) - 1):
-                if cur:
-                    cur = cur.next
-            if cur:
-                cur.next, cur = None, cur.next
-            
-            ans.append(head)
         
         return ans
 ```

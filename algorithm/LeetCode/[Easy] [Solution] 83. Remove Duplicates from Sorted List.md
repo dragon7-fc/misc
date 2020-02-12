@@ -57,10 +57,10 @@ At the last iteration of the loop, `current` must point to the last element, bec
 
 # Submissions
 ---
-**Solution 1:*
+**Solution 1: (Linked List)*
 ```
-Runtime: 48 ms
-Memory Usage: 14 MB
+Runtime: 32 ms
+Memory Usage: 12.8 MB
 ```
 ```python
 # Definition for singly-linked list.
@@ -71,24 +71,12 @@ Memory Usage: 14 MB
 
 class Solution:
     def deleteDuplicates(self, head: ListNode) -> ListNode:
-        prev, cur = None, head
-        tmp = None
-        lock = False
-        while cur:
-            
-            if prev:
-                if prev.val == cur.val and not lock:
-                    lock = True
-                    tmp = prev
-                elif prev.val != cur.val and lock:
-                    lock = False
-                    tmp.next = cur
-                    
-            prev = cur
-            cur = cur.next
-            
-        if lock:
-            tmp.next = None    
+        current = head
+        while current and current.next:
+            if current.next.val == current.val:
+                current.next = current.next.next;
+            else:
+                current = current.next 
             
         return head
 ```

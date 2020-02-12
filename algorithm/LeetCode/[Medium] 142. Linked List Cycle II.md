@@ -39,7 +39,7 @@ Can you solve it without using extra space?
 
 # Submissions
 ---
-**Solution**
+**Solution 1: (Linked List)**
 ```
 Runtime: 44 ms
 Memory Usage: 15.8 MB

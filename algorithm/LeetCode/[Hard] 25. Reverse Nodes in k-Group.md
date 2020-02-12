@@ -18,7 +18,7 @@ For k = 3, you should return: `3->2->1->4->5`
 
 # Submissions
 ---
-**Solution :**
+**Solution 1: (Linked List)**
 ```
 Runtime: 52 ms
 Memory Usage: 14.7 MB

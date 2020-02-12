@@ -73,7 +73,7 @@ Merging the serialization of each level and removing trailing nulls we obtain:
 
 # Submissions
 ---
-**Solution 1: (Iterative)**
+**Solution 1: (Iterative, Linked List)**
 ```
 Runtime: 900 ms
 Memory Usage: 335.8 MB
@@ -91,7 +91,7 @@ class Node:
 class Solution:
     def flatten(self, head: 'Node') -> 'Node':
         node = head
-        children = []
+        children = []  # stack
         prev = None
         while node:
             node.prev = prev
@@ -117,7 +117,7 @@ class Solution:
 
 ```
 
-**Solution 2: (Recursive)**
+**Solution 2: (Recursive, Linked List)**
 ```
 Runtime: 956 ms
 Memory Usage: 335.7 MB

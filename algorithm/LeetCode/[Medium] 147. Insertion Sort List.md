@@ -28,7 +28,11 @@ Output: -1->0->3->4->5
 
 # Sobmissions
 ---
-**Solution: 208 ms, 15.6 MB**
+**Solution 1: (Linked List)**
+```
+Runtime: 196 ms
+Memory Usage: 14.5 MB
+```
 ```python
 # Definition for singly-linked list.
 # class ListNode:

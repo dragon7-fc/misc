@@ -16,7 +16,7 @@ Output: 7 -> 8 -> 0 -> 7
 
 # Submissions
 ---
-**Solution :**
+**Solution 1: (Stack, Linked List)**
 ```
 Runtime: 76 ms
 Memory Usage: 13.9 MB

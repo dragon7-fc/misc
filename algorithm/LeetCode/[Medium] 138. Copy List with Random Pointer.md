@@ -22,7 +22,11 @@ Note:
 
 # Sobmissions
 ---
-**Solution: 44 ms, 16.3 MB**
+**Solution 1: (Hash Table, Linked List)**
+```
+Runtime: 44 ms
+Memory Usage: 16.3 MB
+```
 ```python
 """
 # Definition for a Node.

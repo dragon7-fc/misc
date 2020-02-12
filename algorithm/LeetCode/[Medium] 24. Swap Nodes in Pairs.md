@@ -13,7 +13,7 @@ Given 1->2->3->4, you should return the list as 2->1->4->3.
 
 # Submissions
 ---
-**Solution 1: (Iterative)**
+**Solution 1: (Iterative, Linked List)**
 ```
 Runtime: 36 ms
 Memory Usage: 13.9 MB
@@ -49,7 +49,7 @@ class Solution:
             return head
 ```
 
-**Solution 2: (Recursive)**
+**Solution 2: (Recursive, Linked List)**
 ```
 Runtime: 32 ms
 Memory Usage: 13.8 MB
