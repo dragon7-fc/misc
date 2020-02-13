@@ -43,7 +43,7 @@ Note that 'A' and 'a' are treated as two different characters.
 
 # Submissions
 ---
-**Solution 1:**
+**Solution 1: (Hash Table)**
 ```
 Runtime: 36 ms
 Memory Usage: 14.5 MB
@@ -57,4 +57,29 @@ class Solution:
             ans += [el] * c
             
         return ''.join(ans)
+```
+
+**Solution 2: (Heap)**
+```
+Runtime: 36 ms
+Memory Usage: 13.9 MB
+```
+```python
+class Solution:
+    def frequencySort(self, s: str) -> str:
+        # count for char
+        char2count = collections.Counter(s)
+        
+        # max heap, by - count
+        heap = []
+        for char, count in char2count.items():
+            heapq.heappush(heap,(-count,char))
+            
+        # concatenate
+        res = ''
+        while heap:
+            neg_c, char = heapq.heappop(heap)
+            res += char*(-neg_c)
+            
+        return res
 ```

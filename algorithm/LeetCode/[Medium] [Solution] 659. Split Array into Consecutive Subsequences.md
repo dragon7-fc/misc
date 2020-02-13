@@ -178,7 +178,7 @@ class Solution:
         return all(nums[-1] >= x+2 for x in starts)
 ```
 
-**Solution: (Greedy)**
+**Solution: (Greedy, Hash Table)**
 
 **Example 1:**
 ```
@@ -270,5 +270,27 @@ class Solution:
             else:
                 return False
             count[x] -= 1
+        return True
+```
+
+**Solution 3: (Heap)**
+```
+Runtime: 664 ms
+Memory Usage: 14 MB
+```
+```python
+class Solution:
+    def isPossible(self, nums: List[int]) -> bool:
+        d = collections.defaultdict(list)
+        for e in nums:
+            if d[e-1]: # there is sequence ending with e-1
+                minLen = heapq.heappop(d[e-1]) # the shortest sequence
+                heapq.heappush(d[e], minLen+1)
+            else:
+                heapq.heappush(d[e], 1) # create a new sequence
+        for h in d.values():
+            for hl in h:
+                if hl < 3:
+                    return False
         return True
 ```

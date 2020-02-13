@@ -18,7 +18,7 @@ Explanation: 1, 2, 3, 4, 5, 6, 8, 9, 10, 12 is the sequence of the first 10 ugly
 
 # Submissions
 ---
-**Solution 1:**
+**Solution 1: (DP)**
 
 * DP approach
 
@@ -49,4 +49,45 @@ class Solution:
             uglyNumbers.append(nextVal)
         
         return uglyNumbers[-1]
+```
+
+**Solution 2: (Three Pointers)**
+```
+Runtime: 160 ms
+Memory Usage: 12.8 MB
+```
+```python
+class Solution:
+    def nthUglyNumber(self, n: int) -> int:
+        if n < 1: return 
+        k = [1] * n
+        p2 = p3 = p5 = 0
+        for i in range(1, n):
+            k[i] = min(k[p2] * 2, k[p3] * 3, k[p5] * 5)
+            #cannot use elif, becaude case '6' forward two pointer at the same time, '30' forward all pointer
+            if k[i] == k[p2] * 2: p2 += 1
+            if k[i] == k[p3] * 3: p3 += 1
+            if k[i] == k[p5] * 5: p5 += 1
+        return k[-1]
+```
+
+**Solution 3: (Heap, Set)**
+```
+Runtime: 176 ms
+Memory Usage: 12.9 MB
+```
+```python
+class Solution:
+    def nthUglyNumber(self, n: int) -> int:
+        Set = {2,3,5}
+        q = [2,3,5]
+        heapq.heapify(q)
+        cur = 1
+        for i in range(2, n+1):
+            cur = heapq.heappop(q)
+            for x in [2*cur, 3*cur, 5*cur]:
+                if x not in Set:
+                    Set.add(x)
+                    heapq.heappush(q, x)
+        return cur
 ```

@@ -61,3 +61,27 @@ class Solution:
                     
         return ans
 ```
+
+**Solution 3: (Heap)**
+```
+Runtime: 544 ms
+Memory Usage: 14.9 MB
+```
+```python
+class Solution:
+    def rearrangeBarcodes(self, barcodes: List[int]) -> List[int]:
+        count = collections.Counter(barcodes)
+        hq = []
+        ans = []
+        for bc, c in count.items():
+            heapq.heappush(hq, (-c, bc))
+        while len(hq) >= 2:
+            c1, bc1 = heapq.heappop(hq)
+            c2, bc2 = heapq.heappop(hq)
+            ans.extend([bc1, bc2])
+            if c1 + 1: heapq.heappush(hq, (c1 + 1, bc1))
+            if c2 + 1: heapq.heappush(hq, (c2 + 1, bc2))
+        
+        return ans if not hq else ans + [hq[0][1]]
+
+```

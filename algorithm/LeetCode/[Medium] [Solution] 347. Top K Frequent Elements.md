@@ -79,7 +79,7 @@ Analysis written by @liaison and @andvary
 
 # Submissions
 ---
-**Solution 1:**
+**Solution 1: (Hash Table)**
 ```
 Runtime: 108 ms
 Memory Usage: 17.1 MB
@@ -94,4 +94,21 @@ class Solution:
         """
         count = collections.Counter(nums)
         return [el for el, c in count.most_common(k)]
+```
+
+**Solution 2: (Heap)**
+```
+Runtime: 108 ms
+Memory Usage: 17.1 MB
+```
+```python
+class Solution:
+    def topKFrequent(self, nums, k):
+        """
+        :type nums: List[int]
+        :type k: int
+        :rtype: List[int]
+        """
+        count = collections.Counter(nums)   
+        return heapq.nlargest(k, count.keys(), key=count.get) 
 ```

@@ -240,3 +240,30 @@ class Solution:
             point.next=l1
         return head.next
 ```
+
+**Solution 2: (Priority Queue)**
+```
+Runtime: 104 ms
+Memory Usage: 16.3 MB
+```
+```python
+# Definition for singly-linked list.
+# class ListNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.next = None
+
+class Solution:
+    def mergeKLists(self, lists: List[ListNode]) -> ListNode:
+        hq = [(l.val, idx) for idx, l in enumerate(lists) if l]
+        heapq.heapify(hq)
+        head = cur = ListNode(None)
+        while hq:
+            val, idx = heapq.heappop(hq)
+            cur.next = ListNode(val)
+            cur = cur.next
+            node = lists[idx] = lists[idx].next
+            if node:
+                heapq.heappush(hq, (node.val, idx))
+        return head.next
+```

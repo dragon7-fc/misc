@@ -62,11 +62,12 @@ Happy Coding!!
 1. [Bit Manipulation](#bm)
 1. [Sort](#sort)
 1. [Linked List](#ll)
+1. [Heap](#heap)
 1. [Regular Expression](#re)
 
 **Note**
 
-* Subarray need to be consecutive。
+* Subarray need to be consecutive.
 * Subsequence don't have to be consecutive.
 
 ## Libraries <a name="libraries"></a>
@@ -97,6 +98,17 @@ Happy Coding!!
     * `functools.lru_cache(user_function)`
     * `functools.reduce(function, iterable[, initializer])`
 
+* library: `heapq`
+
+    * `heapq.heappush(heap, item`
+    * `heapq.heappop(heap)`
+    * `heapq.heappushpop(heap, item)`
+    * `heapq.heapify(x)`
+    * `heapq.heapreplace(heap, item)`
+    * `heapq.merge(*iterables, key=None, reverse=False)`
+    * `heapq.nlargest(n, iterable, key=None)`
+    * `heapq.nsmallest(n, iterable, key=None)`
+
 * library: `random`
 
     * `random.randrange(stop)`
@@ -107,7 +119,7 @@ Happy Coding!!
 
 ## Dynamic Programming <a name="dp"></a>
 ---
-**Example 1: (Top-down)**
+### Top-down
 ```python
 from functools import lru_cache
 
@@ -128,7 +140,7 @@ class Solution:
         return dp(0, N - 1) > 0
 ```
 
-**Example 2: (Bottom-up)**
+### Bottom-up
 ```python
 class Solution(object):
     def minimumDeleteSum(self, s1, s2):
@@ -150,7 +162,7 @@ class Solution(object):
         return dp[0][0]
 ```
 
-**Example 3: (Prefix/Range sum)**
+### Prefix/Range sum
 ```python
 class NumMatrix:
 
@@ -169,7 +181,7 @@ class NumMatrix:
         return self.dp[row2 + 1][col2 + 1] - self.dp[row1][col2 + 1] - self.dp[row2 + 1][col1] + self.dp[row1][col1]
 ```
 
-**Example 4: (Floyd Warshall's shortest path)**
+### Floyd Warshall's shortest path
 ```python
 class Solution:
     def findTheCity(self, n: int, edges: List[List[int]], distanceThreshold: int) -> int:
@@ -193,7 +205,7 @@ class Solution:
 
 ## Depth-first Search <a name="dfs"></a>
 ---
-**Example 1:**
+### Redundant Connection
 ```python
 class Solution(object):
     def findRedundantConnection(self, edges):
@@ -213,7 +225,7 @@ class Solution(object):
             graph[v].add(u)
 ```
 
-**Example 2: (Stack)**
+## Stack
 ```python
 class Solution:
     def canVisitAllRooms(self, rooms: List[List[int]]) -> bool:
@@ -231,7 +243,7 @@ class Solution:
         return all(seen) # Return true iff we've visited every room
 ```
 
-**Example 3: (Union Find)**
+### Union Find
 ```python
 class DSU(object):
     def __init__(self):
@@ -264,7 +276,7 @@ class Solution(object):
                 return edge
 ```
 
-**Example 4: (DFS, BFS)**
+### DFS, BFS
 ```python
 class Solution(object):
     def shortestBridge(self, A):
@@ -306,7 +318,7 @@ class Solution(object):
                     done.add(nei)
 ```
 
-**Exaomple 5: (Cycle)**
+### Cycle
 ```python
 class Solution:
     def canFinish(self, numCourses: int, prerequisites: List[List[int]]) -> bool:
@@ -328,7 +340,7 @@ class Solution:
         return all(dfs(course) for course in range(numCourses))
 ```
 
-**Example 6: (connected component)**
+### Connected Component
 ```python
 class Solution:
     def makeConnected(self, n: int, connections: List[List[int]]) -> int:
@@ -354,7 +366,7 @@ class Solution:
         return num_connected_components - 1
 ```
 
-**Example 7: (2*DFS)**
+### 2*DFS
 ```python
 # Definition for a binary tree node.
 # class TreeNode:
@@ -379,7 +391,7 @@ class Solution:
         return self.res % MOD
 ```
 
-**Example 8: (level DFS)**
+### Level DFS
 ```python
 class Solution:
     def pyramidTransition(self, bottom: str, allowed: List[str]) -> bool:
@@ -509,7 +521,7 @@ return num_connected_components
 
 ## Binary Search <a name="bs"></a>
 ---
-**Example 1:**
+### Binary Search
 ```python
 class Solution:
     def search(self, nums: List[int], target: int) -> int:
@@ -524,7 +536,8 @@ class Solution:
                 left = pivot + 1
         return -1
 ```
-**Example 2:**
+
+### Binary Search 2
 ```python
 class Solution(object):
     def peakIndexInMountainArray(self, A):
@@ -583,7 +596,7 @@ return ans
 
 ## Greedy <a name="greedy"></a>
 ---
-**Example 1:**
+## For loop
 ```python
 class Solution:
     def maxProfit(self, prices: List[int], fee: int) -> int:
@@ -601,7 +614,7 @@ class Solution:
         return Max
 ```
 
-**Example 2:**
+## Sort
 ```python
 class Solution:
     def advantageCount(self, A: List[int], B: List[int]) -> List[int]:
@@ -650,7 +663,7 @@ return ans
 
 ## Breadth-first Search <a name="bfs"></a>
 ---
-**Example 1:**
+### BFS
 ```python
 from collections import defaultdict
 class Solution(object):
@@ -702,7 +715,7 @@ class Solution(object):
         return 0
 ```
 
-**Example 2: (Level order)**
+### Level order
 ```python
 """
 # Definition for a Node.
@@ -721,29 +734,7 @@ class Solution:
         return ans
 ```
 
-**Example 3: (Dijkstra's Algorithm)**
-```python
-class Solution:
-    def networkDelayTime(self, times: List[List[int]], N: int, K: int) -> int:
-        graph = collections.defaultdict(list)
-        for u, v, w in times:
-            graph[u].append((v, w))
-
-        pq = [(0, K)]  # distance, node
-        # heapq.heapify(pq)
-        dist = {}  # visited node -> distance
-        while pq:
-            d, node = heapq.heappop(pq)  # get next smallest distance node
-            if node in dist: continue
-            dist[node] = d
-            for nei, d2 in graph[node]:
-                if nei not in dist:
-                    heapq.heappush(pq, (d+d2, nei))  # append neighbor un-visited node
-
-        return max(dist.values()) if len(dist) == N else -1
-```
-
-**Example 4: (Bipartite)**
+### Bipartite
 ```python
 class Solution:
     def isBipartite(self, graph: List[List[int]]) -> bool:
@@ -768,7 +759,7 @@ class Solution:
         return True
 ```
 
-**Example 5: (Matrix)**
+### Matrix
 ```python
 class Solution:
     def updateBoard(self, board: List[List[str]], click: List[int]) -> List[List[str]]:
@@ -804,7 +795,7 @@ class Solution:
         return board
 ```
 
-**Example 6: (2 Direction)**
+### 2 Direction
 ```python
 class Solution:
     def shortestAlternatingPaths(self, n: int, red_edges: List[List[int]], blue_edges: List[List[int]]) -> List[int]:
@@ -829,9 +820,9 @@ class Solution:
                     if (nei, nei_color) not in seen:
                         queue.append((nei, nei_color, depth+1))
         return ans`
-``
+```
 
-**Example 7: (In-degree)**
+### In-degree
 ```python
 class Solution:
     def findOrder(self, numCourses: int, prerequisites: List[List[int]]) -> List[int]:
@@ -906,7 +897,6 @@ return -1
 
 * [[Medium] [Solution] 127. Word Ladder](%5BMedium%5D%20%5BSolution%5D%20127.%20Word%20Ladder.md)
 * [[Medium] 429. N-ary Tree Level Order Traversal](%5BMedium%5D%20429.%20N-ary%20Tree%20Level%20Order%20Traversal.md)
-* [[Medium] [Solution] 743. Network Delay Time](%5BMedium%5D%20%5BSolution%5D%20743.%20Network%20Delay%20Time.md)
 * [[Medium] 785. Is Graph Bipartite?](%5BMedium%5D%20785.%20Is%20Graph%20Bipartite?.md)
 * [[Medium] 529. Minesweeper](%5BMedium%5D%20529.%20Minesweeper.md)
 * [[Medium] * 1129. Shortest Path with Alternating Colors](%5BMedium%5D%20*%201129.%20Shortest%20Path%20with%20Alternating%20Colors.md)
@@ -914,7 +904,7 @@ return -1
 
 ## Two Pointers <a name="tp"></a>
 ---
-**Example 1: (Cycle)**
+### Cycle
 ```python
 # Definition for singly-linked list.
 # class ListNode:
@@ -937,7 +927,7 @@ class Solution:
         return False
 ```
 
-**Example 2: (Cycle entrance)**
+### Cycle entrance
 ```python
 class Solution:
     def findDuplicate(self, nums):
@@ -964,7 +954,7 @@ class Solution:
         return ptr1
 ```
 
-**Example 3: (Sliding window, Two Pointers, iterate right pointer)**
+### Sliding window, Two Pointers, iterate right pointer
 ```python
 class Solution:
     def numSubarrayProductLessThanK(self, nums: List[int], k: int) -> int:
@@ -980,7 +970,7 @@ class Solution:
         return ans             
 ```
 
-**Example 4: (Greedy, Two Pointers, iterate left pointer)**
+### Greedy, Two Pointers, iterate left pointer
 ```python
 class Solution:
     def partitionLabels(self, S: str) -> List[int]:
@@ -996,7 +986,7 @@ class Solution:
         return ans
 ```
 
-**Example 5: (Two Pointers, iterate left and right pointer)**
+### Two Pointers, iterate left and right pointer
 ```python
 class Solution:
     def pushDominoes(self, dominoes: str) -> str:
@@ -1015,7 +1005,7 @@ class Solution:
         return "".join(ans)
 ```
 
-**Example 6: (Two Pointers, iterate left and right pointer with yield)**
+### Two Pointers, iterate left and right pointer with yield
 ```python
 class Solution:
     def backspaceCompare(self, S: str, T: str) -> bool:
@@ -1032,7 +1022,7 @@ class Solution:
         return all(x == y for x, y in itertools.zip_longest(F(S), F(T)))
 ```
 
-**Example 7: (Three pointer)**
+### Three pointer
 ```python
 class Solution:
     def threeSumMulti(self, A: List[int], target: int) -> int:
@@ -1069,7 +1059,7 @@ class Solution:
         return ans % MOD
 ```
 
-**Example 8: (Group into Blocks)**
+### Group into Blocks
 ```python
 class Solution:
     def isLongPressedName(self, name: str, typed: str) -> bool:
@@ -1082,7 +1072,7 @@ class Solution:
                    for (k1,v1), (k2,v2) in zip(g1, g2))
 ```
 
-**Solution 9: (Three pointer)**
+### Three pointer
 ```python
 class Solution:
     def numSubarraysWithSum(self, A: List[int], S: int) -> int:
@@ -1111,7 +1101,7 @@ class Solution:
         return ans
 ```
 
-**Example 10: (Two Pointers, Counter)**
+### Two Pointers, Counter
 ```python
 class Solution:
     def totalFruit(self, tree: List[int]) -> int:
@@ -1128,7 +1118,7 @@ class Solution:
         return ans
 ```
 
-**Example 11: (Four pointer)**
+### Four pointers
 ```python
 class Solution:
     def numberOfSubarrays(self, nums: List[int], k: int) -> int:
@@ -1212,7 +1202,7 @@ return ans
 
 ## Stack <a name="stack"></a>
 ---
-**Example 1: (PreOrder)**
+### PreOrder
 ```python
 class Solution:
     def preorderTraversal(self, root: TreeNode) -> List[int]:
@@ -1230,7 +1220,7 @@ class Solution:
         return preorder
 ```
 
-**Example 2: (InOrder)**
+### InOrder
 ```python
 class Solution:
     def inorderTraversal(self, root: TreeNode) -> List[int]:
@@ -1246,7 +1236,7 @@ class Solution:
                     stack.append((node.left, False))
         return inorder
 ```
-**Example 3: (PostOrder)**
+### PostOrder
 ```python
 class Solution:
     def postorderTraversal(self, root: TreeNode) -> List[int]:
@@ -1263,7 +1253,7 @@ class Solution:
         return postorder
 ```
 
-**Example 4: (Stack, Hash Table)**
+### Stack, Hash Table
 ```python
 class Solution:
     def evalRPN(self, tokens: List[str]) -> int:
@@ -1285,7 +1275,7 @@ class Solution:
         return stack.pop()
 ```
 
-**Example 5:**
+### Buffer
 ```python
 class Solution(object):
     def decodeString(self, s):
@@ -1310,7 +1300,7 @@ class Solution(object):
         return stack[0][0]
 ```
 
-**Example 6: (Preprocessing, stack maintain variance from right)**
+### Preprocessing, stack maintain variance from right
 ```python
 class Solution:
     def find132pattern(self, nums: List[int]) -> bool:
@@ -1333,7 +1323,7 @@ class Solution:
         return False
 ```
 
-**Exaomple 7: (weighted stack)**
+### Weighted stack
 ```python
 class StockSpanner:
 
@@ -1353,7 +1343,7 @@ class StockSpanner:
 # param_1 = obj.next(price)
 ```
 
-**Example 8: (Maintain Stack of Minimums)**
+### Maintain Stack of Minimums
 ```python
 class Solution:
     def sumSubarrayMins(self, A: List[int]) -> int:
@@ -1375,7 +1365,7 @@ class Solution:
         return ans % MOD
 ```
 
-**Example 9: (Greedy, Stack simulation)**
+### Greedy, Stack simulation
 ```python
 class Solution:
     def validateStackSequences(self, pushed: List[int], popped: List[int]) -> bool:
@@ -1390,7 +1380,7 @@ class Solution:
         return j == len(popped)
 ```
 
-**Example 10: (Heap)**
+### 10: Heap
 ```python
 class Solution:
     def mctFromLeafValues(self, arr: List[int]) -> int:
@@ -1430,7 +1420,7 @@ return ans
 
 ## Backtracking <a name="backtracking"></a>
 ---
-**Example 1: (combination, Hash Table)**
+### Combination, Hash Table
 ```python
 class Solution:
     def letterCombinations(self, digits):
@@ -1468,7 +1458,7 @@ class Solution:
         return output
 ```
 
-**Example 2: (permutation)**
+### Permutation
 ```python
 class Solution:
     def permute(self, nums):
@@ -1489,7 +1479,7 @@ class Solution:
         return ans
 ```
 
-**Example 3: (subset)**
+### Subset
 ```python
 class Solution:
     def subsets(self, nums):
@@ -1515,7 +1505,7 @@ class Solution:
             backtrack()
 ```
 
-**Example 4: (Trie)**
+### Trie
 ```python
 class Node:
     def __init__(self):
@@ -1562,7 +1552,7 @@ class WordDictionary:
 # param_2 = obj.search(word)
 ```
 
-**Example 5: (count)**
+### Ccount
 ```python
 class Solution:
     def countArrangement(self, N: int) -> int:
@@ -1582,7 +1572,7 @@ class Solution:
         return count
 ```
 
-**Example 6: (partition)**
+### Partition
 ```python
 class Solution:
     def splitIntoFibonacci(self, S: str) -> List[int]:
@@ -1652,7 +1642,7 @@ return ans
 
 ## Bit Manipulation <a name="bm"></a>
 ---
-**Example 1: (bitmap)**
+### Bitmap
 ```python
 class Solution:
     def subsets(self, nums):
@@ -1673,7 +1663,7 @@ class Solution:
         return output
 ```
 
-**Example 2: (next highest 1 bit: n & (n-1))**
+### Next highest 1 bit: n & (n-1))
 ```python
 class Solution(object):
     def hammingWeight(self, n):
@@ -1689,7 +1679,7 @@ class Solution(object):
         return ans
 ```
 
-**Example 3: (a xor a = 0, a xor 0 = a)**
+### a xor a = 0, a xor 0 = a
 ```python
 class Solution:
     def missingNumber(self, nums: List[int]) -> int:
@@ -1699,7 +1689,7 @@ class Solution:
         return missing
 ```
 
-**Example 4: (bitmask)**
+### Bitmask
 ```python
 class Solution:
     def validUtf8(self, data: List[int]) -> bool:
@@ -1740,7 +1730,7 @@ class Solution:
         return n_bytes == 0
 ```
 
-**Example 5: (Trie)**
+### Trie
 ```python
 class Solution:
     def findMaximumXOR(self, nums: List[int]) -> int:
@@ -1786,7 +1776,7 @@ class Solution:
         return max_xor
 ```
 
-**Example 6: (Direct)**
+### Direct
 ```python
 class Solution:
     def countPrimeSetBits(self, L: int, R: int) -> int:
@@ -1795,7 +1785,7 @@ class Solution:
                    for x in range(L, R+1))
 ```
 
-**Example 7: (Frontier Set)**
+### Frontier Set
 ```python
 class Solution:
     def subarrayBitwiseORs(self, A: List[int]) -> int:
@@ -1807,7 +1797,7 @@ class Solution:
         return len(ans)
 ```
 
-**Solution 8: (Math)**
+### Math
 ```python
 class Solution:
     def maxAbsValExpr(self, arr1: List[int], arr2: List[int]) -> int:
@@ -1835,7 +1825,7 @@ class Solution:
         return max((max1 - min1), (max2 - min2),(max3 - min3),(max4 - min4))
 ```
 
-**Example 9: (g(n) = "1" + f(n))**
+### g(n) = "1" + f(n)
 ```python
 class Solution:
     def encode(self, num: int) -> str:
@@ -1866,7 +1856,7 @@ def binaryToGray(self, n: int) -> int:
 
 ## Sort <a name="sort"></a>
 ---
-**Example 1:**
+### Sort
 ```python
 class Solution:
     def merge(self, intervals):
@@ -1890,7 +1880,134 @@ class Solution:
         return merged
 ```
 
-**Example 2: (Insertion srot, Linked List)**
+### Sorting via Custom Comparator
+```python
+class LargerNumKey(str):
+    def __lt__(x, y):
+        return x+y > y+x
+
+class Solution:
+    def largestNumber(self, nums: List[int]) -> str:
+        largest_num = ''.join(sorted(map(str, nums), key=LargerNumKey))
+        return '0' if largest_num[0] == '0' else largest_num
+```
+
+### Heap
+```python
+class Solution:
+    def findLongestWord(self, s: str, d: List[str]) -> str:
+        heap = []
+        for word in d:
+            heapq.heappush(heap, (-len(word), word))
+        while heap:
+            _, word = heapq.heappop(heap)
+            it = iter(s)  # maintain string order
+            if all(c in it for c in word):
+                return word
+        return ""
+```
+
+### Partition
+```python
+class Solution:
+    def wiggleSort(self, nums: List[int]) -> None:
+        """
+        Do not return anything, modify nums in-place instead.
+        """
+        nums.sort(reverse=True)
+        mid=len(nums)//2
+        nums[::2], nums[1::2] = nums[mid:], nums[:mid]
+
+        return nums
+```
+
+### Hash Table with pointer
+```python
+class Solution:
+    def rearrangeBarcodes(self, barcodes: List[int]) -> List[int]:
+        N = len(barcodes)
+        ans = [0]*N
+        i = 0
+        for k,v in collections.Counter(barcodes).most_common():
+            for _ in range(v):
+                ans[i] = k
+                i += 2
+                if i >= N:
+                    i = 1
+                    
+        return ans
+```
+
+### Hash Table buffer
+```python
+class Solution:
+    def diagonalSort(self, mat: List[List[int]]) -> List[List[int]]:
+        R, C = len(mat), len(mat[0])
+        d = collections.defaultdict(list)
+        for r in range(R):
+            for c in range(C):
+                d[r - c].append(mat[r][c])
+        for k in d:
+            d[k].sort(reverse=1)
+        for r in range(R):
+            for c in range(C):
+                mat[r][c] = d[r - c].pop()
+        return mat
+```
+
+### DP, Binary Search
+```python
+class Solution:
+    def jobScheduling(self, startTime: List[int], endTime: List[int], profit: List[int]) -> int:
+        jobs = sorted(zip(startTime, endTime, profit), key=lambda v: v[1])
+        dp = [[0, 0]]
+        for s, e, p in jobs:
+            i = bisect.bisect(dp, [s + 1]) - 1
+            if dp[i][1] + p > dp[-1][1]:
+                dp.append([e, dp[i][1] + p])
+        return dp[-1][1]
+```
+
+* [[Medium] [Solution] 56. Merge Intervals](%5BMedium%5D%20%5BSolution%5D%2056.%20Merge%20Intervals.md)
+* [[Medium] [Solution] 179. Largest Number](%5BMedium%5D%20%5BSolution%5D%20179.%20Largest%20Number.md)
+* [[Medium] [Solution] 524. Longest Word in Dictionary through Deleting](%5BMedium%5D%20%5BSolution%5D%20524.%20Longest%20Word%20in%20Dictionary%20through%20Deleting.md)
+* [[Medium] 324. Wiggle Sort II](%5BMedium%5D%20324.%20Wiggle%20Sort%20II.md)
+* [[Medium] 1054. Distant Barcodes](%5BMedium%5D%201054.%20Distant%20Barcodes.md)
+* [[Medium] 1329. Sort the Matrix Diagonally](%5BMedium%5D%201329.%20Sort%20the%20Matrix%20Diagonally.md)
+* [[Hard] 1235. Maximum Profit in Job Scheduling](%5BHard%5D%201235.%20Maximum%20Profit%20in%20Job%20Scheduling.md)
+
+## Linked List <a name="ll"></a>
+---
+### Elementary Math
+```python
+# Definition for singly-linked list.
+# class ListNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.next = None
+
+class Solution:
+    def addTwoNumbers(self, l1, l2):
+        """
+        :type l1: ListNode
+        :type l2: ListNode
+        :rtype: ListNode
+        """
+        dummy_head = ListNode(-1)
+        current_position = dummy_head
+        carry = 0
+        while l1 or l2 or carry:
+            l1_value = l1.val if l1 else 0
+            l2_value = l2.val if l2 else 0
+            carry, new_value = divmod(l1_value + l2_value + carry, 10)
+            current_position.next = ListNode(new_value)
+            current_position = current_position.next
+            l1 = l1.next if l1 else None
+            l2 = l2.next if l2 else None
+        return dummy_head.next
+```
+
+### Insertion srot, Linked List
 ```python
 # Definition for singly-linked list.
 # class ListNode:
@@ -1920,7 +2037,7 @@ class Solution:
         return dummy.next
 ```
 
-**Example 3: (Merge sort, Linked List)**
+### Merge sort, Linked List
 ```python
 # Definition for singly-linked list.
 # class ListNode:
@@ -1953,157 +2070,7 @@ class Solution:
         return merge(first, second)
 ```
 
-**Example 4: (Sorting via Custom Comparator)**
-```python
-class LargerNumKey(str):
-    def __lt__(x, y):
-        return x+y > y+x
-
-class Solution:
-    def largestNumber(self, nums: List[int]) -> str:
-        largest_num = ''.join(sorted(map(str, nums), key=LargerNumKey))
-        return '0' if largest_num[0] == '0' else largest_num
-```
-
-**Solution 5: (Heap)**
-```python
-class Solution:
-    def findLongestWord(self, s: str, d: List[str]) -> str:
-        heap = []
-        for word in d:
-            heapq.heappush(heap, (-len(word), word))
-        while heap:
-            _, word = heapq.heappop(heap)
-            it = iter(s)  # maintain string order
-            if all(c in it for c in word):
-                return word
-        return ""
-```
-
-**Example 6: (Greedy with Heap)**
-```python
-class Solution:
-    def reorganizeString(self, S: str) -> str:
-        pq = [(-S.count(x), x) for x in set(S)]
-        heapq.heapify(pq)
-        if any(-nc > (len(S) + 1) / 2 for nc, x in pq):
-            return ""
-
-        ans = []
-        while len(pq) >= 2:
-            nct1, ch1 = heapq.heappop(pq)
-            nct2, ch2 = heapq.heappop(pq)
-            ans.extend([ch1, ch2])
-            if nct1 + 1: heapq.heappush(pq, (nct1 + 1, ch1))
-            if nct2 + 1: heapq.heappush(pq, (nct2 + 1, ch2))
-
-        return "".join(ans) + (pq[0][1] if pq else '')
-```
-
-**Example 7:**
-```python
-class Solution:
-    def wiggleSort(self, nums: List[int]) -> None:
-        """
-        Do not return anything, modify nums in-place instead.
-        """
-        nums.sort(reverse=True)
-        mid=len(nums)//2
-        nums[::2], nums[1::2] = nums[mid:], nums[:mid]
-
-        return nums
-```
-
-**Example 8: (Hash Table with pointer)**
-```python
-class Solution:
-    def rearrangeBarcodes(self, barcodes: List[int]) -> List[int]:
-        N = len(barcodes)
-        ans = [0]*N
-        i = 0
-        for k,v in collections.Counter(barcodes).most_common():
-            for _ in range(v):
-                ans[i] = k
-                i += 2
-                if i >= N:
-                    i = 1
-                    
-        return ans
-```
-
-**Solution 9: (Hash Table buffer)**
-```python
-class Solution:
-    def diagonalSort(self, mat: List[List[int]]) -> List[List[int]]:
-        R, C = len(mat), len(mat[0])
-        d = collections.defaultdict(list)
-        for r in range(R):
-            for c in range(C):
-                d[r - c].append(mat[r][c])
-        for k in d:
-            d[k].sort(reverse=1)
-        for r in range(R):
-            for c in range(C):
-                mat[r][c] = d[r - c].pop()
-        return mat
-```
-
-**Example 10: (DP, Binary Search)**
-```python
-class Solution:
-    def jobScheduling(self, startTime: List[int], endTime: List[int], profit: List[int]) -> int:
-        jobs = sorted(zip(startTime, endTime, profit), key=lambda v: v[1])
-        dp = [[0, 0]]
-        for s, e, p in jobs:
-            i = bisect.bisect(dp, [s + 1]) - 1
-            if dp[i][1] + p > dp[-1][1]:
-                dp.append([e, dp[i][1] + p])
-        return dp[-1][1]
-```
-
-* [[Medium] [Solution] 56. Merge Intervals](%5BMedium%5D%20%5BSolution%5D%2056.%20Merge%20Intervals.md)
-* [[Medium] 147. Insertion Sort List](%5BMedium%5D%20147.%20Insertion%20Sort%20List.md)
-* [[Medium] 148. Sort List](%5BMedium%5D%20148.%20Sort%20List.md)
-* [[Medium] [Solution] 179. Largest Number](%5BMedium%5D%20%5BSolution%5D%20179.%20Largest%20Number.md)
-* [[Medium] [Solution] 524. Longest Word in Dictionary through Deleting](%5BMedium%5D%20%5BSolution%5D%20524.%20Longest%20Word%20in%20Dictionary%20through%20Deleting.md)
-* [[Medium] [Solution] 767. Reorganize String](%5BMedium%5D%20%5BSolution%5D%20767.%20Reorganize%20String.md)
-* [[Medium] 324. Wiggle Sort II](%5BMedium%5D%20324.%20Wiggle%20Sort%20II.md)
-* [[Medium] 1054. Distant Barcodes](%5BMedium%5D%201054.%20Distant%20Barcodes.md)
-* [[Medium] 1329. Sort the Matrix Diagonally](%5BMedium%5D%201329.%20Sort%20the%20Matrix%20Diagonally.md)
-* [[Hard] 1235. Maximum Profit in Job Scheduling](%5BHard%5D%201235.%20Maximum%20Profit%20in%20Job%20Scheduling.md)
-
-## Linked List <a name="ll"></a>
----
-**Example 1: (Elementary Math)**
-```python
-# Definition for singly-linked list.
-# class ListNode:
-#     def __init__(self, x):
-#         self.val = x
-#         self.next = None
-
-class Solution:
-    def addTwoNumbers(self, l1, l2):
-        """
-        :type l1: ListNode
-        :type l2: ListNode
-        :rtype: ListNode
-        """
-        dummy_head = ListNode(-1)
-        current_position = dummy_head
-        carry = 0
-        while l1 or l2 or carry:
-            l1_value = l1.val if l1 else 0
-            l2_value = l2.val if l2 else 0
-            carry, new_value = divmod(l1_value + l2_value + carry, 10)
-            current_position.next = ListNode(new_value)
-            current_position = current_position.next
-            l1 = l1.next if l1 else None
-            l2 = l2.next if l2 else None
-        return dummy_head.next
-```
-
-**Example 2: (Two Pointers)**
+### Two Pointers
 ```python
 # Definition for singly-linked list.
 # class ListNode:
@@ -2128,7 +2095,7 @@ class Solution:
         return dummy.next
 ```
 
-**Example 3: (Merge with Divide And Conquer)**
+### Merge with Divide And Conquer
 ```python
 # Definition for singly-linked list.
 # class ListNode:
@@ -2164,7 +2131,7 @@ class Solution:
         return head.next
 ```
 
-**Example 4: (Post-Order)**
+### Post-Order
 ```python
 # Definition for singly-linked list.
 # class ListNode:
@@ -2183,7 +2150,7 @@ class Solution:
         return sec
 ```
 
-**Example 5: (Two Pointers)**
+### Two Pointers
 ```python
 # Definition for singly-linked list.
 # class ListNode:
@@ -2224,7 +2191,7 @@ class Solution:
         return before_head.next
 ```
 
-**Example 6: (Iterative)**
+### Iterative
 ```python
 class Solution:
     def reverseBetween(self, head: ListNode, m: int, n: int) -> ListNode:
@@ -2261,7 +2228,7 @@ class Solution:
         return head
 ```
 
-**Example 7: (Inorder Simulation)**
+### Inorder Simulation
 ```python
 # Definition for singly-linked list.
 # class ListNode:
@@ -2318,7 +2285,7 @@ class Solution:
         return convert(0, size - 1)
 ```
 
-**Example 8: (Hash Table)**
+### Hash Table
 ```python
 """
 # Definition for a Node.
@@ -2350,7 +2317,7 @@ class Solution:
         return copy_dict[head]
 ```
 
-**Example 9: (Split Input List)**
+### Split Input List
 ```python
 # Definition for singly-linked list.
 # class ListNode:
@@ -2384,7 +2351,7 @@ class Solution:
         return ans
 ```
 
-**Example 10: (Grouping)**
+### Grouping
 ```python
 # Definition for singly-linked list.
 # class ListNode:
@@ -2406,7 +2373,7 @@ class Solution:
         return ans
 ```
 
-**Example 11: (Stack)**
+### Stack
 ```python
 # Definition for singly-linked list.
 # class ListNode:
@@ -2437,7 +2404,7 @@ class Solution:
         return res
 ```
 
-**Example 12: (Prefix Sum)**
+### Prefix Sum
 ```python
 # Definition for singly-linked list.
 # class ListNode:
@@ -2489,6 +2456,8 @@ return dummy.next
 ```
 
 * [[Medium] [Solution] 2. Add Two Numbers](%5BMedium%5D%20%5BSolution%5D%202.%20Add%20Two%20Numbers.md)
+* [[Medium] 147. Insertion Sort List](%5BMedium%5D%20147.%20Insertion%20Sort%20List.md)
+* [[Medium] 148. Sort List](%5BMedium%5D%20148.%20Sort%20List.md)
 * [[Medium] [Solution] 19. Remove Nth Node From End of List](%5BMedium%5D%20%5BSolution%5D%2019.%20Remove%20Nth%20Node%20From%20End%20of%20List.md)
 * [[Hard] [Solution] 23. Merge k Sorted Lists](%5BHard%5D%20%5BSolution%5D%2023.%20Merge%20k%20Sorted%20Lists.md)
 * [[Medium] 24. Swap Nodes in Pairs](%5BMedium%5D%2024.%20Swap%20Nodes%20in%20Pairs.md)
@@ -2500,6 +2469,119 @@ return dummy.next
 * [[Medium] [Solution] 817. Linked List Components](%5BMedium%5D%20%5BSolution%5D%20817.%20Linked%20List%20Components.md)
 * [[Medium] 1019. Next Greater Node In Linked List](%5BMedium%5D%201019.%20Next%20Greater%20Node%20In%20Linked%20List.md)
 * [[Medium] 1171. Remove Zero Sum Consecutive Nodes from Linked List](%5BMedium%5D%201171.%20Remove%20Zero%20Sum%20Consecutive%20Nodes%20from%20Linked%20List.md)
+
+## Heap <a name="heap"></a>
+---
+### Count
+```python
+class Solution:
+    def topKFrequent(self, nums, k):
+        """
+        :type nums: List[int]
+        :type k: int
+        :rtype: List[int]
+        """
+        count = collections.Counter(nums)   
+        return heapq.nlargest(k, count.keys(), key=count.get) 
+```
+
+### Consecutive Subsequences
+```python
+class Solution:
+    def isPossible(self, nums: List[int]) -> bool:
+        d = collections.defaultdict(list)
+        for e in nums:
+            if d[e-1]: # there is sequence ending with e-1
+                minLen = heapq.heappop(d[e-1]) # the shortest sequence
+                heapq.heappush(d[e], minLen+1)
+            else:
+                heapq.heappush(d[e], 1) # create a new sequence
+        for h in d.values():
+            for hl in h:
+                if hl < 3:
+                    return False
+                
+        return True
+```
+
+### Frequency
+```python
+class Solution:
+    def topKFrequent(self, words: List[str], k: int) -> List[str]:
+        count = collections.Counter(words)
+        heap = [(-freq, word) for word, freq in count.items()]
+        heapq.heapify(heap)
+        return [heapq.heappop(heap)[1] for _ in range(k)]
+```
+
+### Dijkstra's Algorithm
+```python
+class Solution:
+    def networkDelayTime(self, times: List[List[int]], N: int, K: int) -> int:
+        graph = collections.defaultdict(list)
+        for u, v, w in times:
+            graph[u].append((v, w))
+
+        pq = [(0, K)]  # distance, node
+        # heapq.heapify(pq)
+        dist = {}  # visited node -> distance
+        while pq:
+            d, node = heapq.heappop(pq)  # get next smallest distance node
+            if node in dist: continue
+            dist[node] = d
+            for nei, d2 in graph[node]:
+                if nei not in dist:
+                    heapq.heappush(pq, (d+d2, nei))  # append neighbor un-visited node
+
+        return max(dist.values()) if len(dist) == N else -1
+```
+
+### Greedy with Heap
+```python
+class Solution:
+    def reorganizeString(self, S: str) -> str:
+        pq = [(-S.count(x), x) for x in set(S)]
+        heapq.heapify(pq)
+        if any(-nc > (len(S) + 1) / 2 for nc, x in pq):
+            return ""
+
+        ans = []
+        while len(pq) >= 2:
+            nct1, ch1 = heapq.heappop(pq)
+            nct2, ch2 = heapq.heappop(pq)
+            ans.extend([ch1, ch2])
+            if nct1 + 1: heapq.heappush(pq, (nct1 + 1, ch1))
+            if nct2 + 1: heapq.heappush(pq, (nct2 + 1, ch2))
+
+        return "".join(ans) + (pq[0][1] if pq else '')
+```
+
+### nlargest
+```python
+class Solution:
+    def kClosest(self, points: List[List[int]], K: int) -> List[List[int]]:
+        return heapq.nsmallest(K, points, key= lambda x: x[0]**2 + x[1]**2)
+```
+
+**Template 1:**
+```python
+ans = ...
+hq = [(...)]
+while hq:
+    ... = heapq.heappop(hq)
+    ...
+    ans = ...
+    heapq.heappush(hq, ...)
+    
+return ans
+```
+
+* [[Medium] [Solution] 347. Top K Frequent Elements](%5BMedium%5D%20%5BSolution%5D%20347.%20Top%20K%20Frequent%20Elements.md)
+* [[Medium] [Solution] 659. Split Array into Consecutive Subsequences](%5BMedium%5D%20%5BSolution%5D%20659.%20Split%20Array%20into%20Consecutive%20Subsequences.md)
+* [[Medium] [Solution] 692. Top K Frequent Words](%5BMedium%5D%20%5BSolution%5D%20692.%20Top%20K%20Frequent%20Words.md)
+* [[Medium] [Solution] 743. Network Delay Time](%5BMedium%5D%20%5BSolution%5D%20743.%20Network%20Delay%20Time.md)
+* [[Medium] [Solution] 767. Reorganize String](%5BMedium%5D%20%5BSolution%5D%20767.%20Reorganize%20String.md)
+* [[Medium] [Solution] 973. K Closest Points to Origin](%5BMedium%5D%20%5BSolution%5D%20973.%20K%20Closest%20Points%20to%20Origin.md)
 
 ## Regular Expression <a name="re"></a>
 ---

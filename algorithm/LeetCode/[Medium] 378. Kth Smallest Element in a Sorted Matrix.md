@@ -22,7 +22,7 @@ return 13.
 
 # Submissions
 ---
-**SOlution 1:**
+**SOlution 1: (Sort)**
 ```
 Runtime: 168 ms
 Memory Usage: 18.9 MB
@@ -35,4 +35,23 @@ class Solution:
             array += row
             
         return sorted(array)[k-1]
+```
+
+**Solution 2: (Heap)**
+```
+Runtime: 196 ms
+Memory Usage: 18.8 MB
+```
+```python
+import heapq
+class Solution:
+    def kthSmallest(self, matrix: List[List[int]], k: int) -> int:
+        res = []
+        for i in range(len(matrix)):
+            for j in range(len(matrix[i])):
+                if len(res) < k:
+                    heapq.heappush(res,-(matrix[i][j])) 
+                else:
+                    heapq.heappushpop(res, -matrix[i][j])
+        return -(res[0])
 ```

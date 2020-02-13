@@ -73,7 +73,7 @@ In Python, we improve this to $O(N + k \log {N})$: our heapq.heapify operation a
 
 # Submissions
 ---
-**Solution:**
+**Solution: (Heap)**
 ```
 Runtime: 48 ms
 Memory Usage: 12.8 MB

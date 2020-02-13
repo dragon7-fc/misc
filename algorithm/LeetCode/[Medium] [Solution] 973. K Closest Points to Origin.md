@@ -185,3 +185,14 @@ class Solution:
         sort(0, len(points) - 1, K)
         return points[:K]
 ```
+
+**Solution 3: (Heap)**
+```
+Runtime: 716 ms
+Memory Usage: 18.2 MB
+```
+```python
+class Solution:
+    def kClosest(self, points: List[List[int]], K: int) -> List[List[int]]:
+        return heapq.nsmallest(K, points, key= lambda x: x[0]**2 + x[1]**2)
+```

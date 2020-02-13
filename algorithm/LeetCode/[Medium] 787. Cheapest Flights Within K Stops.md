@@ -47,23 +47,22 @@ k is in the range of `[0, n - 1]`.
 ---
 **Solution 1: (BFS, Dijkstra's algorithm)**
 ```
-Runtime: 84 ms
+Runtime: 92 ms
 Memory Usage: 20 MB
 ```
 ```python
 class Solution:
     def findCheapestPrice(self, n: int, flights: List[List[int]], src: int, dst: int, K: int) -> int:
         dic = collections.defaultdict(list)
-        for s, d, price in flights:
-            dic[s].append([d, price])
+        for s, d, p in flights:
+            dic[s].append([d, p])
         q = [[0, src, 0]]
-        heapq.heapify(q)
         while q:
             price, s, hop = heapq.heappop(q)
             if s == dst:
                 return price
             if hop > K: continue
-            for ele in dic[s]:
-                heapq.heappush(q, [price+ele[1], ele[0], hop + 1])
+            for nd, np in dic[s]:
+                heapq.heappush(q, [price + np, nd, hop + 1])
         return -1
 ```

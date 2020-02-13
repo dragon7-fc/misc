@@ -21,7 +21,7 @@ Explanation: [1,2,4,7,8,13,14,16,19,26,28,32] is the sequence of the first 12
 
 # Submissions
 ---
-**Solution 1:**
+**Solution 1: (DP)**
 ```
 Runtime: 1096 ms
 Memory Usage: 16.5 MB
@@ -45,7 +45,7 @@ class Solution:
         return uglyNumbers[-1]
 ```
 
-**Solution 2:**
+**Solution 2: (Heap, Set)**
 
 Somehow I find the available solutions are not that straight forward to understand.
 This one is using heap. What it does is:
