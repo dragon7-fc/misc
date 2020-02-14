@@ -145,7 +145,7 @@ As in Approach 2, instead of computing the left and right parts seperately, we m
 1. While $\text{left}< \text{right}$, do:
     * If $\text{height[left]}$ is smaller than $\text{height[right]}$
         * If $\text{height[left]} \geq \text{left_max}$, update $\text{left_max}$
-        * Else add $\text{left\_max}-\text{height[left]}$ to $\text{ans}$
+        * Else add $\text{left_max}-\text{height[left]}$ to $\text{ans}$
         * Add 1 to $\text{left}$.
     * Else
         * If $\text{height[right]} \geq \text{right_max}$, update $\text{right_max}$

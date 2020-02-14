@@ -72,50 +72,62 @@ Happy Coding!!
 
 ## Libraries <a name="libraries"></a>
 ---
-* library: `itertools`
+### itertools
 
-    * `itertools.groupby(iterable, key=None)`
-        
-        * ex. [k for k, g in groupby('AAAABBBCCDAABBB')] --> A B C D A B
-        * ex. [list(g) for k, g in groupby('AAAABBBCCD')] --> AAAA BBB CC D
-    * `itertools.product(*iterables, repeat=1)`
-    
-        * ex. product('ABCD', 'xy') --> Ax Ay Bx By Cx Cy Dx Dy
-        * ex. product(range(2), repeat=3) --> 000 001 010 011 100 101 110 111
-    * `itertools.permutations(iterable, r=None)`
-    
-        * ex. permutations('ABCD', 2) --> AB AC AD BA BC BD CA CB CD DA DB DC
-        * ex. permutations(range(3)) --> 012 021 102 120 201 210
-    * `itertools.combinations(iterable, r)`
-        
-        * ex. combinations('ABCD', 2) --> AB AC AD BC BD CD
-        * ex. combinations(range(4), 3) --> 012 013 023 123
-    * `itertools.zip_longest(*iterables, fillvalue=None)`
-    
-        * ex. zip_longest('ABCD', 'xy', fillvalue='-') --> Ax By C- D-
-* library: `functools`
+* `itertools.groupby(iterable, key=None)`
 
-    * `functools.lru_cache(user_function)`
-    * `functools.reduce(function, iterable[, initializer])`
+    * ex. [k for k, g in groupby('AAAABBBCCDAABBB')] --> A B C D A B
+    * ex. [list(g) for k, g in groupby('AAAABBBCCD')] --> AAAA BBB CC D
+* `itertools.product(*iterables, repeat=1)`
 
-* library: `heapq`
+    * ex. product('ABCD', 'xy') --> Ax Ay Bx By Cx Cy Dx Dy
+    * ex. product(range(2), repeat=3) --> 000 001 010 011 100 101 110 111
+* `itertools.permutations(iterable, r=None)`
 
-    * `heapq.heappush(heap, item`
-    * `heapq.heappop(heap)`
-    * `heapq.heappushpop(heap, item)`
-    * `heapq.heapify(x)`
-    * `heapq.heapreplace(heap, item)`
-    * `heapq.merge(*iterables, key=None, reverse=False)`
-    * `heapq.nlargest(n, iterable, key=None)`
-    * `heapq.nsmallest(n, iterable, key=None)`
+    * ex. permutations('ABCD', 2) --> AB AC AD BA BC BD CA CB CD DA DB DC
+    * ex. permutations(range(3)) --> 012 021 102 120 201 210
+* `itertools.combinations(iterable, r)`
 
-* library: `random`
+    * ex. combinations('ABCD', 2) --> AB AC AD BC BD CD
+    * ex. combinations(range(4), 3) --> 012 013 023 123
+* `itertools.zip_longest(*iterables, fillvalue=None)`
 
-    * `random.randrange(stop)`
-    * `random.randrange(start, stop[, step])`
-    * `random.randint(a, b)`
-    * `random.uniform(a, b)`
-    * `random.choice(seq)`
+    * ex. zip_longest('ABCD', 'xy', fillvalue='-') --> Ax By C- D-
+### functools
+
+* `functools.lru_cache(user_function)`
+* `functools.reduce(function, iterable[, initializer])`
+
+### bisect
+* `bisect.bisect_left(a, x, lo=0, hi=len(a))`
+    * ex. li = [1, 3, 4, 4, 4, 6, 7], bisect.bisect_left(li, 4) = 2
+* `bisect.bisect_right(a, x, lo=0, hi=len(a))` = `bisect.bisect(a, x, lo=0, hi=len(a))`
+    * ex. li = [1, 3, 4, 4, 4, 6, 7], bisect.bisect(li, 4) = 5
+
+### heapq
+
+* `heapq.heappush(heap, item`
+* `heapq.heappop(heap)`
+* `heapq.heappushpop(heap, item)`
+* `heapq.heapify(x)`
+* `heapq.heapreplace(heap, item)`
+* `heapq.merge(*iterables, key=None, reverse=False)`
+* `heapq.nlargest(n, iterable, key=None)`
+* `heapq.nsmallest(n, iterable, key=None)`
+
+### random
+
+* `random.randrange(stop)`
+* `random.randrange(start, stop[, step])`
+* `random.randint(a, b)`
+* `random.uniform(a, b)`
+* `random.choice(seq)`
+
+### re
+
+* `re.match(pattern, string, flags=0)`
+* `re.split(pattern, string, maxsplit=0, flags=0)`
+* `re.findall(pattern, string, flags=0)`
 
 ## Dynamic Programming <a name="dp"></a>
 ---
@@ -582,11 +594,7 @@ while lo <= hi:
 
 return ans
 ```
-* library: `bisect`
-    * `bisect.bisect_left(a, x, lo=0, hi=len(a))`
-        * ex. li = [1, 3, 4, 4, 4, 6, 7], bisect.bisect_left(li, 4) = 2
-    * `bisect.bisect_right(a, x, lo=0, hi=len(a))` = `bisect.bisect(a, x, lo=0, hi=len(a))`
-        * ex. li = [1, 3, 4, 4, 4, 6, 7], bisect.bisect(li, 4) = 5
+
 * [[Medium] 1300. Sum of Mutated Array Closest to Target](%5BMedium%5D%201300.%20Sum%20of%20Mutated%20Array%20Closest%20to%20Target.md)
 * [[Medium] 1292. Maximum Side Length of a Square with Sum Less than or Equal to Threshold](%5BMedium%5D%201292.%20Maximum%20Side%20Length%20of%20a%20Square%20with%20Sum%20Less%20than%20or%20Equal%20to%20Threshold.md)
 * [[Hard] 1231. Divide Chocolate](%5BHard%5D%201231.%20Divide%20Chocolate.md)
@@ -1856,7 +1864,7 @@ def binaryToGray(self, n: int) -> int:
 
 ## Sort <a name="sort"></a>
 ---
-### Sort
+### Sort interval
 ```python
 class Solution:
     def merge(self, intervals):
@@ -2585,10 +2593,7 @@ return ans
 
 ## Regular Expression <a name="re"></a>
 ---
-* library: `re`
-    * `re.match(pattern, string, flags=0)`
-    * `re.split(pattern, string, maxsplit=0, flags=0)`
-    * `re.findall(pattern, string, flags=0)`
+
 * [[Easy] 1309. Decrypt String from Alphabet to Integer Mapping](%5BEasy%5D%201309.%20Decrypt%20String%20from%20Alphabet%20to%20Integer%20Mapping.md)
 * [[Medium] [Solution] 640. Solve the Equation](%5BMedium%5D%20%5BSolution%5D%20640.%20Solve%20the%20Equation.md)
 * [[Medium] [Solution] 592. Fraction Addition and Subtraction](%5BMedium%5D%20%5BSolution%5D%20592.%20Fraction%20Addition%20and%20Subtraction.md)
