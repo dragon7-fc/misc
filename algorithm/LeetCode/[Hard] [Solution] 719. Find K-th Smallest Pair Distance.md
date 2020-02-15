@@ -1,6 +1,6 @@
 719. Find K-th Smallest Pair Distance
 
-Given an integer array, return the k-th smallest **distance** among all the pairs. The distance of a pair (A, B) is defined as the absolute difference between A and B.
+Given an integer array, return the `k`-th smallest **distance** among all the pairs. The distance of a pair (A, B) is defined as the absolute difference between A and B.
 
 **Example 1:**
 ```
@@ -27,7 +27,7 @@ Then the 1st smallest distance pair is (1,1), and its distance is 0.
 ## Approach #1: Heap [Time Limit Exceeded]
 **Intuition and Algorithm**
 
-Sort the points. For every point with index i, the pairs with indexes `(i, j)` [by order of distance] are `(i, i+1), (i, i+2), ..., (i, N-1)`.
+Sort the points. For every point with index `i`, the pairs with indexes `(i, j)` [by order of distance] are `(i, i+1), (i, i+2), ..., (i, N-1)`.
 
 Let's keep a heap of pairs, initially `heap = [(i, i+1) for all i]`, and ordered by distance (the distance of `(i, j)` is `nums[j] - nums[i]`.) Whenever we use a pair `(i, x)` from our heap, we will add `(i, x+1)` to our heap when appropriate.
 
@@ -58,11 +58,11 @@ class Solution(object):
 
 Let's binary search for the answer. It's definitely in the range `[0, W]`, where `W = max(nums) - min(nums)]`.
 
-Let `possible(guess)` be `true` if and only if there are `k` or more pairs with distance less than or equal to guess. We will focus on evaluating our possible function quickly.
+Let `possible(guess)` be `true` if and only if there are `k` or more pairs with distance less than or equal to `guess`. We will focus on evaluating our `possible` function quickly.
 
 **Algorithm**
 
-Let `prefix[v]` be the number of points in nums less than or equal to `v`. Also, let `multiplicity[j]` be the number of points `i` with `i < j` and `nums[i] == nums[j]`. We can record both of these with a simple linear scan.
+Let `prefix[v]` be the number of points in `nums` less than or equal to `v`. Also, let `multiplicity[j]` be the number of points `i` with `i < j` and `nums[i] == nums[j]`. We can record both of these with a simple linear scan.
 
 Now, for every point `i`, the number of points `j` with `i < j` and `nums[j] - nums[i] <= guess` is `prefix[x+guess] - prefix[x] + (count[i] - multiplicity[i])`, where `count[i]` is the number of ocurrences of `nums[i]` in `nums`. The sum of this over all `i` is the number of pairs with distance `<= guess`.
 
@@ -158,4 +158,32 @@ class Solution(object):
 
 # Submissions
 ---
-**Solution 1:**
+**Solution 1: (Binary Search + Sliding Window)**
+```
+Runtime: 112 ms
+Memory Usage: 13.7 MB
+```
+```python
+class Solution:
+    def smallestDistancePair(self, nums: List[int], k: int) -> int:
+        def possible(guess):
+            #Is there k or more pairs with distance <= guess?
+            count = left = 0
+            for right, x in enumerate(nums):
+                while x - nums[left] > guess:
+                    left += 1
+                count += right - left
+            return count >= k
+
+        nums.sort()
+        lo = 0
+        hi = nums[-1] - nums[0]
+        while lo < hi:
+            mi = (lo + hi) // 2
+            if possible(mi):
+                hi = mi
+            else:
+                lo = mi + 1
+
+        return lo
+```
