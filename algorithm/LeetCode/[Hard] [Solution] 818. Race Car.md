@@ -56,7 +56,7 @@ A key claim is that $k_i$ is bounded by $a+1$, where $a$ is the smallest integer
 ## Approach #1: Dijkstra's [Accepted]
 **Intuition**
 
-With some target, we have different moves we can perform (such as $k_1 = 0, 1, 2, \cdots$, using the notation from our Approach Framework), with different costs.
+With some `target`, we have different moves we can perform (such as $k_1 = 0, 1, 2, \cdots$, using the notation from our Approach Framework), with different costs.
 
 This is an ideal setup for Dijkstra's algorithm, which can help us find the shortest cost path in a weighted graph.
 
@@ -64,9 +64,9 @@ This is an ideal setup for Dijkstra's algorithm, which can help us find the shor
 
 Dijkstra's algorithm uses a priority queue to continually searches the path with the lowest cost to destination, so that when we reach the target, we know it must have been through the lowest cost path. Refer to this link for more detail.
 
-Back to the problem, as described above, we have some barrier where we are guaranteed to never cross. We will also handle negative targets; in total we will have `2 * barrier + 1` nodes.
+Back to the problem, as described above, we have some `barrier` where we are guaranteed to never cross. We will also handle negative targets; in total we will have `2 * barrier + 1` nodes.
 
-After, we could move `walk = 2**k - 1` steps for a cost of `k + 1` (the 1 is to reverse). If we reach our destination exactly, we don't need the R, so it is just k steps.
+After, we could move `walk = 2**k - 1` steps for a cost of `k + 1` (the `1` is to reverse). If we reach our destination exactly, we don't need the `R`, so it is just `k` steps.
 
 ```python
 class Solution(object):
@@ -105,11 +105,11 @@ class Solution(object):
 
 As in our Approach Framework, we've framed the problem as a series of moves $k_i$.
 
-Now say we have some target `2**(k-1) <= t < 2**k` and we want to know the cost to go there, if we know all the other costs dp[u] (for `u < t`).
+Now say we have some target `2**(k-1) <= t < 2**k` and we want to know the cost to go there, if we know all the other costs `dp[u]` (for `u < t`).
 
 If `t == 2**k - 1`, the cost is just `k`: we use the command $A^k$, and clearly we can't do better.
 
-Otherwise, we might drive without crossing the target for a position change of $2^{k-1} - 2**j$, by the command $A^{k-1} R A^{j} R$, for a total cost of $k - 1 + j + 2$.
+Otherwise, we might drive without crossing the target for a position change of $2^{k-1} - 2^{j}$, by the command $A^{k-1} R A^{j} R$, for a total cost of $k - 1 + j + 2$.
 
 Finally, we might drive $2^k - 1$ which crosses the target, by the command $A^k R$, for a total cost of $k + 1$.
 
@@ -139,4 +139,53 @@ class Solution(object):
 
 # Submissions
 ---
-**Solution 1:**
+**Solution 1: (Dijkstra's)**
+```
+Runtime: 1260 ms
+Memory Usage: 16 MB
+```
+```python
+class Solution:
+    def racecar(self, target: int) -> int:
+        K = target.bit_length() + 1
+        barrier = 1 << K
+        pq = [(0, target)]
+        dist = [float('inf')] * (2 * barrier + 1)
+        dist[target] = 0
+
+        while pq:
+            steps, targ = heapq.heappop(pq)
+            if dist[targ] > steps: continue
+
+            for k in range(K+1):
+                walk = (1 << k) - 1
+                steps2, targ2 = steps + k + 1, walk - targ
+                if walk == targ: steps2 -= 1 #No "R" command if already exact
+
+                if abs(targ2) <= barrier and steps2 < dist[targ2]:
+                    heapq.heappush(pq, (steps2, targ2))
+                    dist[targ2] = steps2
+
+        return dist[0]
+```
+
+**Solution 2: (Dynamic Programming)**
+```
+Runtime: 284 ms
+Memory Usage: 12.7 MB
+```
+```python
+class Solution:
+    def racecar(self, target: int) -> int:
+        dp = [0, 1, 4] + [float('inf')] * target
+        for t in range(3, target + 1):
+            k = t.bit_length()
+            if t == 2**k - 1:
+                dp[t] = k
+                continue
+            for j in range(k - 1):
+                dp[t] = min(dp[t], dp[t - 2**(k - 1) + 2**j] + k - 1 + j + 2)
+            if 2**k - 1 - t < t:
+                dp[t] = min(dp[t], dp[2**k - 1 - t] + k + 1)
+        return dp[target]
+```
