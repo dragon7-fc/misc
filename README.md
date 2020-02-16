@@ -884,6 +884,35 @@ A playground to note something.
 
         - Mutable arguments act like C’s “by pointer” mode
 Objects such as lists and dictionaries are passed by object reference too, which is similar to the way C passes arrays as pointers—mutable objects can be changed in place in the function, much like C arrays.
+    - Copy list
+        
+        - list.copy()
+        
+            ```python
+            new_list = old_list.copy()
+            ```
+        - list slicing
+        
+            ```python
+            new_list = old_list[:]
+            ```
+        - list()
+        
+            ```python
+            new_list = list(old_list)
+            ```
+        - copy.copy()
+        
+            ```python
+            import copy
+            new_list = copy.copy(old_list)
+            ```
+        - list objects
+         
+            ```python
+            import copy
+            new_list = copy.deepcopy(old_list)
+            ```
     - [PEP 8 -- Style Guide for Python Code](https://www.python.org/dev/peps/pep-0008/)
     - [A summary of python code style conventions](https://development.robinwinslow.uk/2014/01/05/summary-of-python-code-style-conventions/)
     - [Python For Data Science Cheat Sheet - Python Basics](https://datacamp-community-prod.s3.amazonaws.com/e30fbcd9-f595-4a9f-803d-05ca5bf84612)

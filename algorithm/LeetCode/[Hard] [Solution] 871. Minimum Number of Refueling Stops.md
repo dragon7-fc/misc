@@ -4,7 +4,7 @@ A car travels from a starting position to a destination which is `target` miles 
 
 Along the way, there are gas stations.  Each `station[i]` represents a gas station that is `station[i][0]` miles east of the starting position, and has `station[i][1]` liters of gas.
 
-The car starts with an infinite tank of gas, which initially has startFuel liters of fuel in it.  It uses 1 liter of gas per 1 mile that it drives.
+The car starts with an infinite tank of gas, which initially has `startFuel` liters of fuel in it.  It uses 1 liter of gas per 1 mile that it drives.
 
 When the car reaches a gas station, it may stop and refuel, transferring all the gas from the station into the car.
 
@@ -55,9 +55,9 @@ Let's determine `dp[i]`, the farthest location we can get to using `i` refueling
 
 **Algorithm**
 
-Let's update `dp` as we consider each station in order. With no stations, clearly we can get a maximum distance of startFuel with 0 refueling stops.
+Let's update `dp` as we consider each station in order. With no stations, clearly we can get a maximum distance of `startFuel` with `0` refueling stops.
 
-Now let's look at the update step. When adding a station `station[i] = (location, capacity)`, any time we could reach this station with `t` refueling stops, we can now reach capacity further with `t+1` refueling stops.
+Now let's look at the update step. When adding a station `station[i] = (location, capacity)`, any time we could reach this station with `t` refueling stops, we can now reach `capacity` further with `t+1` refueling stops.
 
 For example, if we could reach a distance of `15` with `1` refueling stop, and now we added a station at location `10` with `30` liters of fuel, then we could potentially reach a distance of `45` with `2` refueling stops.
 
@@ -105,6 +105,7 @@ class Solution(object):
         stations.append((target, float('inf')))
 
         ans = prev = 0
+        tank = startFuel
         for location, capacity in stations:
             tank -= location - prev
             while pq and tank < 0:  # must refuel in past
@@ -125,4 +126,46 @@ class Solution(object):
 
 # Submissions
 ---
-**Solution:**
+**Solution 1 (Dynamic Programming):**
+```
+Runtime: 1112 ms
+Memory Usage: 12.8 MB
+```
+```python
+class Solution:
+    def minRefuelStops(self, target: int, startFuel: int, stations: List[List[int]]) -> int:
+        dp = [startFuel] + [0] * len(stations)
+        for i, (location, capacity) in enumerate(stations):
+            for t in range(i, -1, -1):
+                if dp[t] >= location:
+                    dp[t+1] = max(dp[t+1], dp[t] + capacity)
+
+        for i, d in enumerate(dp):
+            if d >= target: return i
+        return -1
+```
+
+**Solution 2: (Heap)**
+```
+Runtime: 124 ms
+Memory Usage: 12.8 MB
+```
+```python
+class Solution:
+    def minRefuelStops(self, target: int, startFuel: int, stations: List[List[int]]) -> int:
+        pq = []  # A maxheap is simulated using negative values
+        stations.append((target, float('inf')))
+
+        ans = prev = 0
+        tank = startFuel
+        for location, capacity in stations:
+            tank -= location - prev
+            while pq and tank < 0:  # must refuel in past
+                tank += -heapq.heappop(pq)
+                ans += 1
+            if tank < 0: return -1
+            heapq.heappush(pq, -capacity)
+            prev = location
+
+        return ans
+```
