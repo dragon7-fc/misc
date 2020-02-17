@@ -30,35 +30,31 @@ Output: 3
 ---
 **Solution 1: (DFS)**
 ```
-Runtime: 112 ms
-Memory Usage: N/A
+Runtime: 160 ms
+Memory Usage: 14.3 MB
 ```
 ```python
 class Solution:
-    def numIslands(self, grid):
-        """
-        :type grid: List[List[str]]
-        :rtype: int
-        """
-        
-        def chk_island(r, c):
-            if not (0 <= r < len(grid) and 0 <= c < len(grid[0])
-                   and grid[r][c] == '1'):
-                return
+    def numIslands(self, grid: List[List[str]]) -> int:
+        if not grid or not grid[0]:
+            return 0
+        R, C = len(grid), len(grid[0])
+        def neighbours(r, c):
+            for nr, nc in [(r+1, c), (r-1, c), (r, c+1), (r, c-1)]:
+                if 0 <= nr < R and 0 <= nc < C:
+                    yield nr, nc
+        def dfs(r, c):
             grid[r][c] = '0'
-            chk_island(r-1, c)
-            chk_island(r+1, c)
-            chk_island(r, c-1)
-            chk_island(r, c+1)
-        
+            for nr, nc in neighbours(r, c):
+                if grid[nr][nc] == '1':
+                    dfs(nr, nc)
         island = 0
-        
-        for r in range(len(grid)):
-            for c in range(len(grid[0])):
+        for r in range(R):
+            for c in range(C):
                 if grid[r][c] == '1':
                     island += 1
-                    chk_island(r, c)
-        
+                    dfs(r, c)
+
         return island
 ```
 
@@ -95,4 +91,46 @@ class Solution:
                                 grid[new_x][new_y] = '0'
                     ans += 1 
         return ans
+```
+
+**Solution 3: (Union Find)**
+```
+Runtime: 248 ms
+Memory Usage: 15.6 MB
+```
+```python
+class DSU:
+    def __init__(self, N):
+        self.p = [_ for _ in range(N)]
+
+    def find(self, x):
+        if self.p[x] != x:
+            self.p[x] = self.find(self.p[x])
+        return self.p[x]
+
+    def union(self, x, y):
+        xr = self.find(x)
+        yr = self.find(y)
+        self.p[xr] = yr
+        
+class Solution:
+    def numIslands(self, grid: List[List[str]]) -> int:
+        if not grid or not grid[0]:
+            return 0
+        R, C = len(grid), len(grid[0])
+        dsu = DSU(R*C)
+        
+        def neighbours(r, c):
+            for nr, nc in [(r+1, c), (r-1, c), (r, c+1), (r, c-1)]:
+                if 0 <= nr < R and 0 <= nc < C:
+                    yield nr, nc
+        water = 0
+        for r in range(R):
+            for c in range(C):
+                if grid[r][c] == '1':
+                    for nr, nc in neighbours(r, c):
+                        if grid[nr][nc] == '1':
+                            dsu.union(r*C + c, nr*C + nc)
+        
+        return len(set([dsu.find(r*C + c) for r in range(R) for c in range(C) if grid[r][c] == '1']))
 ```

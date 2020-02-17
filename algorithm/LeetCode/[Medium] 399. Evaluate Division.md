@@ -89,3 +89,42 @@ class Solution:
         
         return res
 ```
+
+**Solution 3: (Union Find)**
+```
+Runtime: 24 ms
+Memory Usage: 12.6 MB
+```
+```python
+class Solution:
+    def calcEquation(self, equations: List[List[str]], values: List[float], queries: List[List[str]]) -> List[float]:
+        dic = {} # with items like 'a':('b', a/b)
+        
+        def find(x):
+            accum = 1
+            while dic[x][0] != x:
+                accum *= dic[x][1]
+                x = dic[x][0]
+            return (x, accum)
+        
+        def union(x, y, r): # r = x/y
+            var1, ratio1 = find(x) # ratio1 = x/var1
+            var2, ratio2 = find(y) # ratio2 = y/val2
+            dic[var1] = (var2, r*ratio2 / ratio1) # thus var1/var2= r*ratio2/ratio1
+            
+        for (x, y), r in zip(equations, values):
+            dic.setdefault(x, (x,1))
+            dic.setdefault(y, (y,1))
+            union(x, y, r)
+            
+        ans = []    
+        for x, y in queries:
+            if x not in dic or y not in dic: ans.append(-1)
+            else:
+                var1, ratio1 = find(x)
+                var2, ratio2 = find(y)
+                if var1 != var2: ans.append(-1)
+                else: ans.append(ratio1 / ratio2)
+                    
+        return ans
+```

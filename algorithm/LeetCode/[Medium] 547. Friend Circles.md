@@ -34,7 +34,7 @@ so the 0th and 2nd students are indirect friends. All of them are in the same fr
 
 # Submissions
 ---
-**Solution 1:**
+**Solution 1: (DFS)**
 ```
 Runtime: 192 ms
 Memory Usage: 13.4 MB
@@ -61,4 +61,36 @@ class Solution:
                 ans += 1
         
         return ans
+```
+
+**Solution 2: (Union Find)**
+```
+Runtime: 220 ms
+Memory Usage: 12.8 MB
+```
+```python
+class DSU:
+    def __init__(self, N):
+        self.p = [_ for _ in range(N)]
+
+    def find(self, x):
+        if self.p[x] != x:
+            self.p[x] = self.find(self.p[x])
+        return self.p[x]
+
+    def union(self, x, y):
+        xr = self.find(x)
+        yr = self.find(y)
+        self.p[xr] = yr
+        
+class Solution:
+    def findCircleNum(self, M: List[List[int]]) -> int:
+        N = len(M)
+        dsu = DSU(N)
+        for i in range(N):
+            for j in range(N):
+                if M[i][j] == 1:
+                    dsu.union(i, j)
+        
+        return len(set([dsu.find(i) for i in range(N)]))
 ```

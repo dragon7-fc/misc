@@ -57,7 +57,7 @@ If we can iterate over the numbers in ascending order, then it will be easy to f
 
 Algorithm
 
-Before we do anything, we check for the base case input of the empty array. The longest sequence in an empty array is, of course, 0, so we can simply return that. For all other cases, we sort nums and consider each number after the first (because we need to compare each number to its previous number). If the current number and the previous are equal, then our current sequence is neither extended nor broken, so we simply move on to the next number. If they are unequal, then we must check whether the current number extends the sequence (i.e. nums[i] == nums[i-1] + 1). If it does, then we add to our current count and continue. Otherwise, the sequence is broken, so we record our current sequence and reset it to 1 (to include the number that broke the sequence). It is possible that the last element of `nums` is part of the longest sequence, so we return the maximum of the current sequence and the longest one.
+Before we do anything, we check for the base case input of the empty array. The longest sequence in an empty array is, of course, 0, so we can simply return that. For all other cases, we sort `nums` and consider each number after the first (because we need to compare each number to its previous number). If the current number and the previous are equal, then our current sequence is neither extended nor broken, so we simply move on to the next number. If they are unequal, then we must check whether the current number extends the sequence (i.e. `nums[i] == nums[i-1] + 1`). If it does, then we add to our current count and continue. Otherwise, the sequence is broken, so we record our current sequence and reset it to `1` (to include the number that broke the sequence). It is possible that the last element of `nums` is part of the longest sequence, so we return the maximum of the current sequence and the longest one.
 
 ![sorting](img/128_sorting.png)
 
@@ -136,7 +136,7 @@ In order to set up $O(1)$ containment lookups, we allocate linear space for a ha
 
 # Submissions
 ---
-**Solution**
+**Solution: (HashSet and Intelligent Sequence Building)**
 ```
 Runtime: 40 ms
 Memory Usage: N/A
@@ -163,4 +163,72 @@ class Solution:
                 longest_streak = max(longest_streak, current_streak)
 
         return longest_streak
+```
+
+**Solution 2: (Union Find)**
+```
+Runtime: 76 ms
+Memory Usage: 14.9 MB
+```
+```python
+class Solution:
+    def longestConsecutive(self, nums: List[int]) -> int:
+        if len(nums) == 0:
+            return 0
+        
+        nums = set(nums)
+        parent = [i for i in range(len(nums))]
+        size = [1 for _ in nums]
+        rank = [0 for _ in nums]
+        num_index = {}
+        for i, num in enumerate(nums):
+            num_index[num] = i
+        
+        def union(x, y):
+            fx = find(x)
+            fy = find(y)
+            if fx!=fy:
+                if rank[fx] > rank[fy]:
+                    parent[fy] = fx
+                    size[fx] += size[fy]
+                else:
+                    if rank[fx] == rank[fy]:
+                        rank[y] += 1
+                    parent[fx] = fy
+                    size[fy] += size[fx]          
+            
+        def find(x):
+            if parent[x]!=x:
+                parent[x] = find(parent[x])
+            return parent[x]
+        
+        for i, num in enumerate(nums):          
+            if num - 1 in num_index:
+                union(i, num_index[num-1])
+            if num + 1 in num_index:
+                union(i, num_index[num+1])      
+        return max(size)
+```
+
+**Solution 3: (DP)**
+```
+Runtime: 60 ms
+Memory Usage: 13.8 MB
+```
+```python
+class Solution:
+    def longestConsecutive(self, nums: List[int]) -> int:
+        if not nums:
+            return 0
+        dp = [0 for _ in range(len(nums) + 1)]
+        dp[0] = 1
+        nums = sorted(nums)
+        for i in range(1, len(nums)):
+            if nums[i] == nums[i - 1] + 1:
+                dp[i] = dp[i - 1] + 1
+            elif nums[i] == nums[i - 1]: 
+                dp[i] = dp[i - 1]
+            else:
+                dp[i] = 1
+        return max(dp)
 ```

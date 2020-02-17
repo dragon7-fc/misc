@@ -134,7 +134,7 @@ class Solution(object):
 
 # Submissions
 ---
-**Solution:**
+**Solution: (DFS, Stack)**
 ```
 Runtime: 1616 ms
 Memory Usage: 13.2 MB
@@ -168,7 +168,7 @@ class Solution:
                 ans -= 1
         return ans
 ```
-**Solution 1:**
+**Solution 1: (DFS)**
 ```
 Runtime: 1636 ms
 Memory Usage: 14.3 MB
@@ -203,7 +203,7 @@ class Solution:
         return ans
 ```
 
-**Solution:**
+**Solution: (Union Find)**
 ```
 Runtime: 192 ms
 Memory Usage: 13.6 MB
