@@ -2571,6 +2571,112 @@ class Solution:
         return heapq.nsmallest(K, points, key= lambda x: x[0]**2 + x[1]**2)
 ```
 
+### Sort and step-by-step count from smallest/highest
+```python
+class Solution:
+    def mincostToHireWorkers(self, quality: List[int], wage: List[int], K: int) -> float:
+        from fractions import Fraction
+        workers = sorted((Fraction(w, q), q, w)
+                         for q, w in zip(quality, wage))
+
+        ans = float('inf')
+        pool = []
+        sumq = 0
+        for ratio, q, w in workers:
+            heapq.heappush(pool, -q)
+            sumq += q
+
+            if len(pool) > K:
+                sumq += heapq.heappop(pool)
+
+            if len(pool) == K:
+                ans = min(ans, ratio * sumq)
+
+        return float(ans)
+```
+
+### Most recent min/max
+```python
+class Solution:
+    def minRefuelStops(self, target: int, startFuel: int, stations: List[List[int]]) -> int:
+        pq = []  # A maxheap is simulated using negative values
+        stations.append((target, float('inf')))
+
+        ans = prev = 0
+        tank = startFuel
+        for location, capacity in stations:
+            tank -= location - prev
+            while pq and tank < 0:  # must refuel in past
+                tank += -heapq.heappop(pq)
+                ans += 1
+            if tank < 0: return -1
+            heapq.heappush(pq, -capacity)
+            prev = location
+
+        return ans
+```
+
+### Points of Interest + Dijkstra
+```python
+class Solution:
+    def shortestPathAllKeys(self, grid: List[str]) -> int:
+        R, C = len(grid), len(grid[0])
+
+        # The points of interest
+        location = {v: (r, c)
+                    for r, row in enumerate(grid)
+                    for c, v in enumerate(row)
+                    if v not in '.#'}
+
+        def neighbors(r, c):
+            for cr, cc in ((r-1, c), (r, c-1), (r+1, c), (r, c+1)):
+                if 0 <= cr < R and 0 <= cc < C:
+                    yield cr, cc
+
+        # The distance from source to each point of interest
+        def bfs_from(source):
+            r, c = location[source]
+            seen = [[False] * C for _ in range(R)]
+            seen[r][c] = True
+            queue = collections.deque([(r, c, 0)])
+            dist = {}
+            while queue:
+                r, c, d = queue.popleft()
+                if source != grid[r][c] != '.':
+                    dist[grid[r][c]] = d
+                    continue # Stop walking from here if we reach a point of interest
+                for cr, cc in neighbors(r, c):
+                    if grid[cr][cc] != '#' and not seen[cr][cc]:
+                        seen[cr][cc] = True
+                        queue.append((cr, cc, d+1))
+            return dist        
+
+        dists = {place: bfs_from(place) for place in location}
+        target_state = 2 ** sum(p.islower() for p in location) - 1
+
+        #Dijkstra
+        pq = [(0, '@', 0)]
+        final_dist = collections.defaultdict(lambda: float('inf'))
+        final_dist['@', 0] = 0
+        while pq:
+            d, place, state = heapq.heappop(pq)
+            if final_dist[place, state] < d: continue
+            if state == target_state: return d
+            for destination, d2 in dists[place].items():
+                state2 = state
+                if destination.islower(): #key
+                    state2 |= (1 << (ord(destination) - ord('a')))
+                elif destination.isupper(): #lock
+                    if not(state & (1 << (ord(destination) - ord('A')))): #no key
+                        continue
+
+                if d + d2 < final_dist[destination, state2]:
+                    final_dist[destination, state2] = d + d2
+                    heapq.heappush(pq, (d+d2, destination, state2))
+
+        return -1
+```
+
 **Template 1:**
 ```python
 ans = ...
@@ -2584,12 +2690,28 @@ while hq:
 return ans
 ```
 
+**Template 2:**
+```python
+sortedXXX = sorted(...)
+hq = []
+for ... in sortedXXX:
+    while ...:
+        heapq.heappush(hq, sortedXXX...)
+    if ...:
+        ans += heapq.heappop(hq)
+
+return ans
+```
+
 * [[Medium] [Solution] 347. Top K Frequent Elements](%5BMedium%5D%20%5BSolution%5D%20347.%20Top%20K%20Frequent%20Elements.md)
 * [[Medium] [Solution] 659. Split Array into Consecutive Subsequences](%5BMedium%5D%20%5BSolution%5D%20659.%20Split%20Array%20into%20Consecutive%20Subsequences.md)
 * [[Medium] [Solution] 692. Top K Frequent Words](%5BMedium%5D%20%5BSolution%5D%20692.%20Top%20K%20Frequent%20Words.md)
 * [[Medium] [Solution] 743. Network Delay Time](%5BMedium%5D%20%5BSolution%5D%20743.%20Network%20Delay%20Time.md)
 * [[Medium] [Solution] 767. Reorganize String](%5BMedium%5D%20%5BSolution%5D%20767.%20Reorganize%20String.md)
 * [[Medium] [Solution] 973. K Closest Points to Origin](%5BMedium%5D%20%5BSolution%5D%20973.%20K%20Closest%20Points%20to%20Origin.md)
+* [[Hard] [Solution] 857. Minimum Cost to Hire K Workers](%5BHard%5D%20%5BSolution%5D%20857.%20Minimum%20Cost%20to%20Hire%20K%20Workers.md)
+* [[Hard] [Solution] 871. Minimum Number of Refueling Stops](%5BHard%5D%20%5BSolution%5D%20871.%20Minimum%20Number%20of%20Refueling%20Stops.md)
+* [[Hard] [Solution] 864. Shortest Path to Get All Keys](%5BHard%5D%20%5BSolution%5D%20864.%20Shortest%20Path%20to%20Get%20All%20Keys.md)
 
 ## Regular Expression <a name="re"></a>
 ---
