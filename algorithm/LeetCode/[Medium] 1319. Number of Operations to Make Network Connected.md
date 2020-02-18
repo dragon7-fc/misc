@@ -94,8 +94,6 @@ class Solution:
                 dfs(i)
         
         return num_connected_components - 1
-        
-        
 ```
 
 **Solution 2: (BFS)**
@@ -127,6 +125,40 @@ class Solution:
                             seen[nei] = True
         
         return num_connected_components - 1
+```
+
+**Solution 3: (Union Find)**
+```
+Runtime: 492 ms
+Memory Usage: 32.9 MB
+```
+```python
+class Solution:
+    def makeConnected(self, n: int, connections: List[List[int]]) -> int:
+        def find(x):
+            while x != nodes[x]:
+                nodes[x] = nodes[nodes[x]]
+                x = nodes[x]
+            return x
         
+        nodes = [i for i in range(n)]
+        used = 0
+        free = 0
         
+        for x, y in connections:
+            x = find(x)
+            y = find(y)
+            
+            if x != y:
+                used += 1
+                nodes[x] = y
+            else:
+                free += 1
+        
+        disconected = n - 1 - used
+        
+        if disconected > free:
+            return -1
+        
+        return disconected
 ```

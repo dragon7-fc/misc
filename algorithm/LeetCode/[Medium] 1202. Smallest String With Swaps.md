@@ -47,50 +47,84 @@ Swap s[0] and s[1], s = "abc"
 # Submissions
 ---
 **Solution 1:**
+
+* Search all swapable char and sort them
+
 ```
-Runtime: 852 ms
-Memory Usage: 76 MB
+Runtime: 756 ms
+Memory Usage: 75.5 MB
 ```
 ```python
 class Solution:
     def smallestStringWithSwaps(self, s: str, pairs: List[List[int]]) -> str:
-        dic = self.create_graph(pairs)
-        self.graph = collections.defaultdict(list)
-        self.dfs_wrapper(len(s), dic)
-        ans = [''] * len(s)
+        def dfs(i):
+            visited.add(i)
+            char.append(s[i])
+            idx.append(i)
+            for j in g[i]:
+                if j not in visited:
+                    dfs(j)
+
+        if not pairs or not pairs[0]:
+            return s
+        
+        S = list(s)
         visited = set()
+        g = [[] for _ in range(len(s))]
+        for i, j in pairs:
+            g[i].append(j)
+            g[j].append(i)
+            
         for i in range(len(s)):
-            if i in self.graph and i not in visited:
-                index_lst = self.graph[i]
-                element_lst = [s[j] for j in index_lst]
-                index_lst.sort()
-                element_lst.sort(reverse=True)
-                for index in index_lst:
-                    visited.add(index)
-                    ans[index] = element_lst.pop()
-        return ''.join(ans)
-
-
-    def create_graph(self, pairs):
-        dic = collections.defaultdict(list)
-        for p in pairs:
-            dic[p[0]].append(p[1])
-            dic[p[1]].append(p[0])
-        return dic
-
-    def dfs_wrapper(self, n, dic):
-        visited = set()
-        for i in range(n):
             if i not in visited:
-                lst = []
-                res = self.dfs(i, visited, dic, lst)
-                self.graph[i] = res
+                char = []
+                idx = []
+                dfs(i)
+                char = sorted(char)
+                idx = sorted(idx)
+                for k in range(len(idx)):
+                    S[idx[k]] = char[k]
+        
+        return ''.join(S)
+```
 
-    def dfs(self, index, visited, dic, lst):
-        visited.add(index)
-        lst.append(index)
-        for post in dic[index]:
-            if post not in visited:
-                self.dfs(post, visited, dic, lst)
-        return lst
+**Solution 2: (Union Find)**
+```
+Runtime: 668 ms
+Memory Usage: 49.1 MB
+```
+```python
+class Solution:
+    def smallestStringWithSwaps(self, s: str, pairs: List[List[int]]) -> str:
+        p = list(range(len(s)))
+        def find(u):
+            if u == p[u]:
+                return u
+            return find(p[u])
+        for u, v in pairs:
+            pu = find(u)
+            pv = find(v)
+            if pu != pv:
+                if pu > pv:
+                    p[pu] = pv
+                else:
+                    p[pv] = pu      
+        for i in range(len(p)): # need to redirect some child node to the grand parent
+            if p[i] != p[p[i]]:
+                p[i] = p[p[i]]    
+        ans = list(s)
+        d = collections.defaultdict(list)
+        for i, v in enumerate(p):
+            d[v].append(i)           
+        for i in d.keys():
+            if len(d[i]) <=1:
+                continue
+            ind = d[i] # find the index that has the same parent i
+            s_sub = [s[j] for j in ind]
+            s_sub.sort()
+            k = 0
+            for i in ind:
+                ans[i] = s_sub[k]
+                k += 1
+        return ''.join(ans)
 ```
