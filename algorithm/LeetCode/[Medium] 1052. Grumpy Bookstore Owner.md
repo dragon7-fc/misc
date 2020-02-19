@@ -26,7 +26,7 @@ The maximum number of customers that can be satisfied = 1 + 1 + 1 + 1 + 7 + 5 = 
 
 # Submissions
 ---
-**Solution 1:**
+**Solution 1: (Sliding Window)**
 ```
 Runtime: 344 ms
 Memory Usage: 16.1 MB

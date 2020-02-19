@@ -24,7 +24,7 @@ Output: False
 
 # Submissions
 ---
-**Solution 1: (Two Pointers)**
+**Solution 1: (Two Pointers, Sliding Window)**
 ```
 Runtime: 68 ms
 Memory Usage: 12.8 MB

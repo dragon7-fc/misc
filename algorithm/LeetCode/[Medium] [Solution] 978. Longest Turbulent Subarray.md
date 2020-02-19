@@ -4,6 +4,7 @@ A subarray `A[i], A[i+1], ..., A[j]` of `A` is said to be turbulent if and only 
 
 * For `i <= k < j`, `A[k] > A[k+1]` when `k` is odd, and `A[k] < A[k+1]` when `k` is even;
 * OR, for `i <= k < j`, `A[k] > A[k+1]` when `k` is even, and `A[k] < A[k+1]` when `k` is odd.
+
 That is, the subarray is turbulent if the comparison sign flips between each adjacent pair of elements in the subarray.
 
 Return the length of a maximum size turbulent subarray of `A`.
@@ -74,7 +75,7 @@ class Solution(object):
 
 # Submissions
 ---
-**Solution**
+**Solution (Sliding Window)**
 ```
 Runtime: 536 ms
 Memory Usage: 18 MB

@@ -44,7 +44,7 @@ Output: [0,0]
 
 # Submissions
 ---
-**Solution 1:**
+**Solution 1: (Sliding Window)**
 ```
 Runtime: 136 ms
 Memory Usage: 14.8 MB

@@ -184,7 +184,7 @@ public class Solution {
 
 # Submissions
 ---
-**Solution 1: (Greedy, Slding window)**
+**Solution 1: (Hash Table, Greedy, Slding Window)**
 ```
 Runtime: 64 ms
 Memory Usage: 12.9 MB

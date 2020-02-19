@@ -64,11 +64,12 @@ Happy Coding!!
 1. [Linked List](#ll)
 1. [Heap](#heap)
 1. [Union Find](#uf)
+1. [Sliding Window](#sw)
 1. [Regular Expression](#re)
 
 **Note**
 
-* Subarray need to be consecutive.
+* Subarray/Substring need to be consecutive.
 * Subsequence don't have to be consecutive.
 
 ## Libraries <a name="libraries"></a>
@@ -3013,6 +3014,10 @@ class Solution:
         n_component = len({dsu.find(...) for ... in XXX})
         # n_component = sum(dsu.find(x) == x for x in range(N))
 ```
+
+## Sliding Window <a name="sw"></a>
+---
+
 
 ## Regular Expression <a name="re"></a>
 ---

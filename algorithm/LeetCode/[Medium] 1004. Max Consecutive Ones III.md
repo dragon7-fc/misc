@@ -32,7 +32,7 @@ Bolded numbers were flipped from 0 to 1.  The longest subarray is underlined.
 
 # Submissions
 ---
-**Solution 1: (Greedy, Two Pointers)**
+**Solution 1: (Greedy, Two Pointers, Sliding Window)**
 ```
 Runtime: 760 ms
 Memory Usage: 13.3 MB

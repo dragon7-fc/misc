@@ -28,7 +28,7 @@ Window position                Max
 
 # Submissions
 ---
-**Solution 1: (Sliding window)**
+**Solution 1: (Sliding Window)**
 ```
 Runtime: 688 ms
 Memory Usage: 19.4 MB
@@ -39,7 +39,7 @@ class Solution:
         return [max(nums[i: i + k]) for i in range(len(nums) - (k -1))] if nums else []
 ```
 
-**Solution 2: (Sliding window)**
+**Solution 2: (Sliding Window)**
 ```
 Runtime: 152 ms
 Memory Usage: 19.8 MB
