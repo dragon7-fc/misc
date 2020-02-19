@@ -63,6 +63,7 @@ Happy Coding!!
 1. [Sort](#sort)
 1. [Linked List](#ll)
 1. [Heap](#heap)
+1. [Union Find](#uf)
 1. [Regular Expression](#re)
 
 **Note**
@@ -256,68 +257,6 @@ class Solution:
 ```
 * [[Medium] [Solution] 841. Keys and Rooms](%5BMedium%5D%20%5BSolution%5D%20841.%20Keys%20and%20Rooms.md)
 
-### Union Find (path compression)
-```python
-class DSU(object):
-    def __init__(self):
-        self.par = range(1001)
-        self.rnk = [0] * 1001
-
-    def find(self, x):
-        if self.par[x] != x:
-            self.par[x] = self.find(self.par[x])
-        return self.par[x]
-
-    def union(self, x, y):
-        xr, yr = self.find(x), self.find(y)
-        if xr == yr:
-            return False
-        elif self.rnk[xr] < self.rnk[yr]:
-            self.par[xr] = yr
-        elif self.rnk[xr] > self.rnk[yr]:
-            self.par[yr] = xr
-        else:
-            self.par[yr] = xr
-            self.rnk[xr] += 1
-        return True
-
-class Solution(object):
-    def findRedundantConnection(self, edges):
-        dsu = DSU()
-        for edge in edges:
-            if not dsu.union(*edge):
-                return edge
-```
-* [[Medium] [Solution] 684. Redundant Connection](%5BMedium%5D%20%5BSolution%5D%20684.%20Redundant%20Connection.md)
-
-### Union Find
-```python
-class Solution:
-    def equationsPossible(self, equations: List[str]) -> bool:
-        def find(x):
-            if x not in G:
-                G[x] = x
-                return x
-            while G[x]!=x:
-                x = G[x]
-            return x
-        
-        def union(x,y):
-            xp,yp = find(x), find(y)
-            if xp!=yp:
-                G[yp] = xp
-        
-        G = {}
-        for e in equations:
-            if e[1:3]=="==":
-                union(e[0],e[3])
-        for e in equations:
-            if e[1:3]=="!=":
-                if find(e[0])==find(e[3]):
-                    return False
-        return True
-```
-* [[Medium] [Solution] 990. Satisfiability of Equality Equations](%5BMedium%5D%20%5BSolution%5D%20990.%20Satisfiability%20of%20Equality%20Equations.md)
 
 ### DFS, BFS
 ```python
@@ -2734,6 +2673,345 @@ for ... in sortedXXX:
         ans += heapq.heappop(hq)
 
 return ans
+```
+## Union Find <a name="uf"></a>
+---
+### Path Compression
+```python
+class DSU(object):
+    def __init__(self):
+        self.par = range(1001)
+        self.rnk = [0] * 1001
+
+    def find(self, x):
+        if self.par[x] != x:
+            self.par[x] = self.find(self.par[x])
+        return self.par[x]
+
+    def union(self, x, y):
+        xr, yr = self.find(x), self.find(y)
+        if xr == yr:
+            return False
+        elif self.rnk[xr] < self.rnk[yr]:
+            self.par[xr] = yr
+        elif self.rnk[xr] > self.rnk[yr]:
+            self.par[yr] = xr
+        else:
+            self.par[yr] = xr
+            self.rnk[xr] += 1
+        return True
+
+class Solution(object):
+    def findRedundantConnection(self, edges):
+        dsu = DSU()
+        for edge in edges:
+            if not dsu.union(*edge):
+                return edge
+```
+* [[Medium] [Solution] 684. Redundant Connection](%5BMedium%5D%20%5BSolution%5D%20684.%20Redundant%20Connection.md)
+
+### Region
+```python
+class DSU:
+    def __init__(self, N):
+        self.p = [_ for _ in range(N)]
+
+    def find(self, x):
+        if self.p[x] != x:
+            self.p[x] = self.find(self.p[x])
+        return self.p[x]
+
+    def union(self, x, y):
+        xr = self.find(x)
+        yr = self.find(y)
+        self.p[xr] = yr
+
+class Solution:
+    def regionsBySlashes(self, grid: List[str]) -> int:
+        N = len(grid)
+        dsu = DSU(4 * N * N)
+        for r, row in enumerate(grid):
+            for c, val in enumerate(row):
+                root = 4 * (r*N + c)
+                if val in '/ ':
+                    dsu.union(root + 0, root + 1)
+                    dsu.union(root + 2, root + 3)
+                if val in '\ ':
+                    dsu.union(root + 0, root + 2)
+                    dsu.union(root + 1, root + 3)
+
+                # north/south
+                if r+1 < N: dsu.union(root + 3, (root+4*N) + 0)
+                if r-1 >= 0: dsu.union(root + 0, (root-4*N) + 3)
+                # east/west
+                if c+1 < N: dsu.union(root + 2, (root+4) + 1)
+                if c-1 >= 0: dsu.union(root + 1, (root-4) + 2)
+
+        return sum(dsu.find(x) == x for x in range(4*N*N))
+Solution 1: (DFS, Graph)
+```
+* [[Medium] [Solution] 959. Regions Cut By Slashes](%5BMedium%5D%20%5BSolution%5D%20959.%20Regions%20Cut%20By%20Slashes.md)
+
+### Eqaulity
+```python
+class Solution:
+    def equationsPossible(self, equations: List[str]) -> bool:
+        def find(x):
+            if x not in G:
+                G[x] = x
+                return x
+            while G[x]!=x:
+                x = G[x]
+            return x
+        
+        def union(x,y):
+            xp,yp = find(x), find(y)
+            if xp!=yp:
+                G[yp] = xp
+        
+        G = {}
+        for e in equations:
+            if e[1:3]=="==":
+                union(e[0],e[3])
+        for e in equations:
+            if e[1:3]=="!=":
+                if find(e[0])==find(e[3]):
+                    return False
+        return True
+```
+* [[Medium] [Solution] 990. Satisfiability of Equality Equations](%5BMedium%5D%20%5BSolution%5D%20990.%20Satisfiability%20of%20Equality%20Equations.md)
+
+### Reverse Time and Union-Find
+```python
+class DSU:
+    def __init__(self, R, C):
+        #R * C is the source, and isn't a grid square
+        self.par = [_ for _ in range(R*C + 1)]
+        self.rnk = [0] * (R*C + 1)
+        self.sz = [1] * (R*C + 1)
+
+    def find(self, x):
+        if self.par[x] != x:
+            self.par[x] = self.find(self.par[x])
+        return self.par[x]
+
+    def union(self, x, y):
+        xr, yr = self.find(x), self.find(y)
+        if xr == yr: return
+        if self.rnk[xr] < self.rnk[yr]:
+            xr, yr = yr, xr
+        if self.rnk[xr] == self.rnk[yr]:
+            self.rnk[xr] += 1
+
+        self.par[yr] = xr
+        self.sz[xr] += self.sz[yr]
+
+    def size(self, x):
+        return self.sz[self.find(x)]
+
+    def top(self):
+        # Size of component at ephemeral "source" node at index R*C,
+        # minus 1 to not count the source itself in the size
+        return self.size(len(self.sz) - 1) - 1
+
+class Solution:
+    def hitBricks(self, grid: List[List[int]], hits: List[List[int]]) -> List[int]:
+        R, C = len(grid), len(grid[0])
+        def index(r, c):
+            return r * C + c
+
+        def neighbors(r, c):
+            for nr, nc in ((r-1, c), (r+1, c), (r, c-1), (r, c+1)):
+                if 0 <= nr < R and 0 <= nc < C:
+                    yield nr, nc
+
+        A = [row[:] for row in grid]
+        for i, j in hits:
+            A[i][j] = 0
+
+        dsu = DSU(R, C)
+        for r, row in enumerate(A):
+            for c, val in enumerate(row):
+                if val:
+                    i = index(r, c)
+                    if r == 0:
+                        dsu.union(i, R*C)
+                    if r and A[r-1][c]:
+                        dsu.union(i, index(r-1, c))
+                    if c and A[r][c-1]:
+                        dsu.union(i, index(r, c-1))
+
+        ans = []
+        for r, c in reversed(hits):
+            pre_roof = dsu.top()
+            if grid[r][c] == 0:
+                ans.append(0)
+            else:
+                i = index(r, c)
+                for nr, nc in neighbors(r, c):
+                    if A[nr][nc]:
+                        dsu.union(i, index(nr, nc))
+                if r == 0:
+                    dsu.union(i, R*C)
+                A[r][c] = 1
+                ans.append(max(0, dsu.top() - pre_roof - 1))
+        return ans[::-1]
+```
+* [[Hard] [Solution] 803. Bricks Falling When Hit](%5BHard%5D%20%5BSolution%5D%20803.%20Bricks%20Falling%20When%20Hit.md)
+
+### Coloring
+```python
+class DSU:
+    def __init__(self, N):
+        self.p = [_ for _ in range(N)]
+        self.sz = [1] * N
+
+    def find(self, x):
+        if self.p[x] != x:
+            self.p[x] = self.find(self.p[x])
+        return self.p[x]
+
+    def union(self, x, y):
+        xr = self.find(x)
+        yr = self.find(y)
+        self.p[xr] = yr
+        self.sz[yr] += self.sz[xr]
+
+class Solution:
+    def minMalwareSpread(self, graph: List[List[int]], initial: List[int]) -> int:
+        dsu = DSU(len(graph))
+
+        for j, row in enumerate(graph):
+            for i in range(j):
+                if row[i]:
+                    dsu.union(i, j)
+
+        count = collections.Counter(dsu.find(u) for u in initial)
+        ans = (-1, min(initial))
+        for node in initial:
+            root = dsu.find(node)
+            if count[root] == 1:  # unique color
+                if dsu.sz[root] > ans[0]:
+                    ans = dsu.sz[root], node
+                elif dsu.sz[root] == ans[0] and node < ans[1]:
+                    ans = dsu.sz[root], node
+
+        return ans[1]
+```
+
+* [[Hard] [Solution] 924. Minimize Malware Spread](%5BHard%5D%20%5BSolution%5D%20924.%20Minimize%20Malware%20Spread.md)
+
+### Count common factor
+```python
+class DSU:
+    def __init__(self, N):
+        self.p = [_ for _ in range(N)]
+
+    def find(self, x):
+        if self.p[x] != x:
+            self.p[x] = self.find(self.p[x])
+        return self.p[x]
+
+    def union(self, x, y):
+        xr = self.find(x)
+        yr = self.find(y)
+        self.p[xr] = yr
+
+
+class Solution:
+    def largestComponentSize(self, A: List[int]) -> int:
+        B = []
+        for x in A:
+            facs = []
+            d = 2
+            while d * d <= x:
+                if x % d == 0:
+                    while x % d == 0:
+                        x /= d
+                    facs.append(d)
+                d += 1
+
+            if x > 1 or not facs:
+                facs.append(x)
+            B.append(facs)
+
+        primes = list({p for facs in B for p in facs})
+        prime_to_index = {p: i for i, p in enumerate(primes)}
+
+        dsu = DSU(len(primes))
+        for facs in B:
+            for x in facs:
+                dsu.union(prime_to_index[facs[0]], prime_to_index[x])
+
+        count = collections.Counter(dsu.find(prime_to_index[facs[0]]) for facs in B)
+        return max(count.values())
+```
+* [[Hard] [Solution] 952. Largest Component Size by Common Factor](%5BHard%5D%20%5BSolution%5D%20952.%20Largest%20Component%20Size%20by%20Common%20Factor.md)
+
+**Template 1:**
+```python
+class DSU(object):
+    def __init__(self):
+        self.par = range(1001)
+        self.rnk = [0] * 1001
+
+    def find(self, x):
+        if self.par[x] != x:
+            self.par[x] = self.find(self.par[x])
+        return self.par[x]
+
+    def union(self, x, y):
+        xr, yr = self.find(x), self.find(y)
+        if xr == yr:
+            return False
+        elif self.rnk[xr] < self.rnk[yr]:
+            self.par[xr] = yr
+        elif self.rnk[xr] > self.rnk[yr]:
+            self.par[yr] = xr
+        else:
+            self.par[yr] = xr
+            self.rnk[xr] += 1
+        return True
+class Solution:
+    def is_cycle(self, ...):
+        dsu = DSN(N)
+        for ...:
+            if is dsu.union(..., ...):
+                return True
+```
+
+**Template 2:**
+```python
+class DSU:
+    def __init__(self, N):
+        self.p = [_ for _ in range(N)]
+        self.sz = [1] * N
+
+    def find(self, x):
+        if self.p[x] != x:
+            self.p[x] = self.find(self.p[x])
+        return self.p[x]
+
+    def union(self, x, y):
+        xr = self.find(x)
+        yr = self.find(y)
+        self.p[xr] = yr
+        self.sz[yr] += self.sz[xr]
+        
+    def size(self, x):
+        return self.sz[self.find(x)]
+        
+class Solution:
+    def ...(self, XXX):
+        N = ...
+        dsu = DSN(N)
+        for ... in XXX:
+            dus.union(..., ...)
+        max_component_size = max(dsu.sz)
+        for ... in XXX:
+            component_size[...] = dsu.size(...)
+        n_component = len({dsu.find(...) for ... in XXX})
+        # n_component = sum(dsu.find(x) == x for x in range(N))
 ```
 
 ## Regular Expression <a name="re"></a>
