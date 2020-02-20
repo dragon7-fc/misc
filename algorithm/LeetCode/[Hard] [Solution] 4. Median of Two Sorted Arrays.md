@@ -182,7 +182,7 @@ We only need constant memory to store 99 local variables, so the space complexit
 
 # Submissions
 ---
-**Solution**
+**Solution: (Recursive Approach, Divide and Conquer)**
 ```
 Runtime: 100 ms
 Memory Usage: 14.1 MB

@@ -978,14 +978,24 @@ Objects such as lists and dictionaries are passed by object reference too, which
 
 * C/C++
 
+    - [The GNU C Reference Manual - GNU.org](https://www.gnu.org/software/gnu-c-manual/gnu-c-manual.html)
+    - [cplusplus.com - The C++ Resources Network](http://www.cplusplus.com/)
     - [C Reference Cheat Sheet by Ashlyn Black](https://www.cheatography.com/ashlyn-black/cheat-sheets/c-reference/)
-    - [C++ reference](https://en.cppreference.com/w/)
     - [Modern C++ Coding Guidelines](https://github.com/Microsoft/AirSim/blob/master/docs/coding_guidelines.md)
     - [Google C++ Style Guideline](https://google.github.io/styleguide/cppguide.html)
     - [GCC Command-Line Options](http://tigcc.ticalc.org/doc/comopts.html)
     - [Make Refcard](https://web.archive.org/web/20171218110823/http://www.schacherer.de/frank/technology/tools/make.html)
     - [GNU GDB Debugger Command Cheat Sheet](http://www.yolinux.com/TUTORIALS/GDB-Commands.html)
-
+    - Function Pointer
+        
+        A function pointer is a variable that stores the address of a function that can later be called through that function pointer. This is useful because functions encapsulate behavior.
+    - volatile
+    
+        `volatile` tells the compiler that the variable is explicitly changeable, and seemingly useless accesses of the variable (for instance, via pointers) should not be optimized away. You might use volatile variables to store data that is updated via callback functions or signal handlers.
+        
+    - Static Functions
+    
+        You can define a function to be static if you want it to be callable only within the source file where it is defined:
 * Java
 
     - [Java + OOP concept Cheat Sheet by son9912](https://www.cheatography.com/son9912/cheat-sheets/java-oop-concept/)

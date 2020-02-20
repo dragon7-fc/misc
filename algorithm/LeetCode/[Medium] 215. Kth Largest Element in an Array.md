@@ -51,3 +51,28 @@ class Solution:
         """
         return heapq.nlargest(k, nums)[-1]
 ```
+
+**Solution 3: (Divide and Conquer, Quick sort)**
+```
+Runtime: 2056 ms
+Memory Usage: 115.1 MB
+```
+```python
+class Solution:
+    def findKthLargest(self, nums: List[int], k: int) -> int:
+        if len(nums) == 1:
+            return nums[k-1]
+        b = 0
+        a = nums[-1]
+        for i in range( len(nums)-1):
+            if nums[i] < a:
+                nums[i], nums[b] = nums[b], nums[i]
+                b += 1
+        nums[-1], nums[b] = nums[b], nums[-1]
+        if len(nums)-b == k:
+            return nums[b]
+        elif k > len(nums)-b:
+            return self.findKthLargest(nums[:b], k-len(nums)+b)
+        else:
+            return self.findKthLargest(nums[b+1:], k)
+```

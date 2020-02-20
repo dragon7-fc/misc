@@ -37,7 +37,7 @@ class Solution:
         return target in [matrix[r][c] for r in range(len(matrix)) for c in range(len(matrix[0]))]
 ```
 
-**Solution 2:**
+**Solution 2: (DFS, Divide and Conquer)**
 ```
 Runtime: 36 ms
 Memory Usage: 17.5 MB
@@ -65,7 +65,7 @@ class Solution:
         return search(matrix, 0, len(matrix[0]) - 1)
 ```
 
-**Solution 3:**
+**Solution 3: (Iterative)**
 ```
 Runtime: 36 ms
 Memory Usage: 17.5 MB
@@ -92,7 +92,7 @@ class Solution:
         return False
 ```
 
-**Solution 4:**
+**Solution 4: (Binary Search)**
 ```
 Runtime: 32 ms
 Memory Usage: 17.5 MB
