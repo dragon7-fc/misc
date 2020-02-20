@@ -3017,7 +3017,238 @@ class Solution:
 
 ## Sliding Window <a name="sw"></a>
 ---
+### Hash Table as left index
+```python
+class Solution:
+    def lengthOfLongestSubstring(self, s):
+        """
+        :type s: str
+        :rtype: int
+        """
+        N = len(s)
+        ans = 0
+        d = {}
+        i = 0
+        for j in range(N):
+            if d.get(s[j], None):
+                i = max(d[s[j]], i)
+            ans = max(ans, j - i + 1)
+            d[s[j]] = j + 1
+        return ans
+```
+* [[Medium] [Solution] 3. Longest Substring Without Repeating Characters](%5BMedium%5D%20%5BSolution%5D%203.%20Longest%20Substring%20Without%20Repeating%20Characters.md)
 
+### Greedy Left index pointer
+```python
+class Solution:
+    def maxTurbulenceSize(self, A: List[int]) -> int:
+        N = len(A)
+        ans = 1
+        anchor = 0
+
+        for i in range(1, N):
+            c = A[i-1] - A[i]
+            if not c:
+                anchor = i
+            elif i == N-1 or not c * (A[i] - A[i+1]) < 0:
+                ans = max(ans, i - anchor + 1)
+                anchor = i
+        return ans
+```
+* [[Medium] [Solution] 978. Longest Turbulent Subarray](%5BMedium%5D%20%5BSolution%5D%20978.%20Longest%20Turbulent%20Subarray.md)
+
+### Greedy append
+```python
+class Solution:
+    def longestOnes(self, A: List[int], K: int) -> int:
+        zeroes = 0
+        left, right = 0, 0
+        ans = 0
+        while right < len(A):
+            if A[right] == 0:
+                zeroes += 1
+            while zeroes > K:
+                if A[left] == 0:
+                    zeroes -= 1
+                left += 1
+            ans = max(ans, right - left + 1)
+            right += 1
+
+        return ans
+```
+* [[Medium] 1004. Max Consecutive Ones III](%5BMedium%5D%201004.%20Max%20Consecutive%20Ones%20III.md)
+
+### Hash Table to keep sliding window
+```python
+class Solution:
+    def minWindow(self, s: str, t: str) -> str:
+        if not t or not s:
+            return ""
+
+        # Dictionary which keeps a count of all the unique characters in t.
+        dict_t = collections.Counter(t)
+
+        # Number of unique characters in t, which need to be present in the desired window.
+        required = len(dict_t)
+
+        # left and right pointer
+        l, r = 0, 0
+
+        # formed is used to keep track of how many unique characters in t are present in the current window in its desired frequency.
+        # e.g. if t is "AABC" then the window must have two A's, one B and one C. Thus formed would be = 3 when all these conditions are met.
+        formed = 0
+
+        # Dictionary which keeps a count of all the unique characters in the current window.
+        window_counts = {}
+
+        # ans tuple of the form (window length, left, right)
+        ans = float("inf"), None, None
+
+        while r < len(s):
+
+            # Add one character from the right to the window
+            character = s[r]
+            window_counts[character] = window_counts.get(character, 0) + 1
+
+            # If the frequency of the current character added equals to the desired count in t then increment the formed count by 1.
+            if character in dict_t and window_counts[character] == dict_t[character]:
+                formed += 1
+
+            # Try and contract the window till the point where it ceases to be 'desirable'.
+            while l <= r and formed == required:
+                character = s[l]
+
+                # Save the smallest window until now.
+                if r - l + 1 < ans[0]:
+                    ans = (r - l + 1, l, r)
+
+                # The character at the position pointed by the `left` pointer is no longer a part of the window.
+                window_counts[character] -= 1
+                if character in dict_t and window_counts[character] < dict_t[character]:
+                    formed -= 1
+
+                # Move the left pointer ahead, this would help to look for a new window.
+                l += 1    
+
+            # Keep expanding the window once we are done contracting.
+            r += 1    
+        return "" if ans[0] == float("inf") else s[ans[1] : ans[2] + 1]
+```
+* [[Hard] [Solution] 76. Minimum Window Substring](%5BHard%5D%20%5BSolution%5D%2076.%20Minimum%20Window%20Substring.md)
+
+### 2 Sliding window
+```python
+Runtime: 780 ms
+Memory Usage: 15.9 MB
+class Window:
+    def __init__(self):
+        self.count = collections.Counter()
+        self.nonzero = 0
+
+    def add(self, x):
+        self.count[x] += 1
+        if self.count[x] == 1:
+            self.nonzero += 1
+
+    def remove(self, x):
+        self.count[x] -= 1
+        if self.count[x] == 0:
+            self.nonzero -= 1
+
+class Solution:
+    def subarraysWithKDistinct(self, A: List[int], K: int) -> int:
+        window1 = Window()
+        window2 = Window()
+        ans = left1 = left2 = 0
+
+        for right, x in enumerate(A):
+            window1.add(x)
+            window2.add(x)
+
+            while window1.nonzero > K:
+                window1.remove(A[left1])
+                left1 += 1
+
+            while window2.nonzero >= K:
+                window2.remove(A[left2])
+                left2 += 1
+
+            ans += left2 - left1
+
+        return ans
+```
+* [[Hard] [Solution] 992. Subarrays with K Different Integers](%5BHard%5D%20%5BSolution%5D%20992.%20Subarrays%20with%20K%20Different%20Integers.md)
+
+### Greedy + Events
+```python
+class Solution:
+    def minKBitFlips(self, A: List[int], K: int) -> int:
+        N = len(A)
+        hint = [0] * N
+        ans = flip = 0
+
+        # When we flip a subarray like A[i], A[i+1], ..., A[i+K-1]
+        # we can instead flip our current writing state, and put a hint at
+        # position i+K to flip back our writing state.
+        for i, x in enumerate(A):
+            flip ^= hint[i]
+            if x ^ flip == 0:  # If we must flip the subarray starting here...
+                ans += 1  # We're flipping the subarray from A[i] to A[i+K-1]
+                if i+K > N: return -1  # If we can't flip the entire subarray, its impossible
+                flip ^= 1  
+                if i+K < N: hint[i + K] ^= 1
+
+        return ans
+```
+* [[Hard] [Solution] 995. Minimum Number of K Consecutive Bit Flips](%5BHard%5D%20%5BSolution%5D%20995.%20Minimum%20Number%20of%20K%20Consecutive%20Bit%20Flips.md)
+
+### Prefix Sum
+```python
+class Solution:
+    def numSubmatrixSumTarget(self, matrix: List[List[int]], target: int) -> int:
+        if not matrix:
+            return 0
+        
+        def num_for_one_row(nums):
+            prev = {}
+            prev[0] = 1
+            cur_sum = 0
+            ans = 0
+            for num in nums:
+                cur_sum += num
+                if cur_sum - target in prev:
+                    ans += prev[cur_sum - target]
+                if cur_sum not in prev:
+                    prev[cur_sum] = 1
+                else:
+                    prev[cur_sum] += 1
+            return ans 
+        
+        res = 0
+        R = len(matrix)
+        C = len(matrix[0])
+        
+        for i in range(R):
+            col_prefix = [0]*C
+            for j in range(i, R):
+                for k in range(C):
+                    col_prefix[k] += matrix[j][k]
+                res += num_for_one_row(col_prefix)
+                
+        return res
+```
+* [[Hard] 1074. Number of Submatrices That Sum to Target](%5BHard%5D%201074.%20Number%20of%20Submatrices%20That%20Sum%20to%20Target.md)
+
+**Template 1:**
+```python
+i = 0
+for j in range(N):
+    if OOO:
+        XXX += 1
+    while XXX > K:
+        i += 1
+    max = j - i + 1
+```
 
 ## Regular Expression <a name="re"></a>
 ---
