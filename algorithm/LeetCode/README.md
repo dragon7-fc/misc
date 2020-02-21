@@ -65,6 +65,7 @@ Happy Coding!!
 1. [Heap](#heap)
 1. [Union Find](#uf)
 1. [Sliding Window](#sw)
+1. [Divide and Conquer](#dc)
 1. [Regular Expression](#re)
 
 **Note**
@@ -415,6 +416,7 @@ def dfs(...):
     if not ...:
         return
     ...
+    res = ...
     ... = dfs(...)
     ...
     if ...:
@@ -3251,6 +3253,10 @@ for j in range(N):
         i += 1
     max = j - i + 1
 ```
+
+## Divide and Conquer <a name="dc"></a>
+---
+
 
 ## Regular Expression <a name="re"></a>
 ---
