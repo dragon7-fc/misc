@@ -52,6 +52,7 @@ Happy Coding!!
 
 1. [Libraries](#libraries)
 1. [Dynamic Programming](#dp)
+1. [Math](#math)
 1. [Depth-first Search](#dfs)
 1. [Binary Search](#bs)
 1. [Greedy](#greedy)
@@ -216,6 +217,30 @@ class Solution:
         return res[min(res)]
 ```
 * [[Medium] 1334. Find the City With the Smallest Number of Neighbors at a Threshold Distance](%5BMedium%5D%201334.%20Find%20the%20City%20With%20the%20Smallest%20Number%20of%20Neighbors%20at%20a%20Threshold%20Distance.md)
+
+## Math <a name="math"></a>
+---
+### Combination
+```python
+class Solution:
+    def countOrders(self, n: int) -> int:
+        return (math.factorial(n * 2) >> n) % (10**9 + 7)  # 2n!/2^n
+```
+* [[Hard] 1359. Count All Valid Pickup and Delivery Options](%5BHard%5D%201359.%20Count%20All%20Valid%20Pickup%20and%20Delivery%20Options.md)
+
+### Factor
+```python
+class Solution:
+    def closestDivisors(self, num: int) -> List[int]:
+        res = [1, num + 1]
+        for a in range(1, int((num+2)**0.5) + 1):
+            if (num + 2) % a == 0:
+                res = [a, (num + 2) // a]
+            if (num + 1) % a == 0:
+                res = [a, (num + 1) // a]
+        return res
+```
+* [[Medium] 1362. Closest Divisors](%5BMedium%5D%201362.%20Closest%20Divisors.md)
 
 ## Depth-first Search <a name="dfs"></a>
 ---
@@ -3243,6 +3268,22 @@ class Solution:
 ```
 * [[Hard] 1074. Number of Submatrices That Sum to Target](%5BHard%5D%201074.%20Number%20of%20Submatrices%20That%20Sum%20to%20Target.md)
 
+### inverse sliding window
+```python
+class Solution:
+    def numberOfSubstrings(self, s: str) -> int:
+        res = i = 0
+        count = {c: 0 for c in 'abc'}
+        for j in range(len(s)):
+            count[s[j]] += 1
+            while all(count.values()):
+                count[s[i]] -= 1
+                i += 1
+            res += i
+        return res
+```
+* [[Medium] 1358. Number of Substrings Containing All Three Characters](%5BMedium%5D%201358.%20Number%20of%20Substrings%20Containing%20All%20Three%20Characters.md)
+
 **Template 1:**
 ```python
 i = 0
@@ -3258,38 +3299,280 @@ for j in range(N):
 ---
 ### Merge Sort
 ```python
-def Merge_Sort(array):
-    if len(array) > 1:
-        mid = len(array) // 2
-        left_array = array[:mid]
-        right_array = array[mid:]
-
-        Merge_Sort(left_array)
-        Merge_Sort(right_array)
-
-        right_index = 0;
-        left_index = 0;
-        merged_index = 0;
-        while right_index < len(right_array) and left_index < len(left_array):
-            if(right_array[right_index] < left_array[left_index]):
-                array[merged_index] = right_array[right_index]
-                right_index = right_index + 1
-            else:
-                array[merged_index] = left_array[left_index]
-                left_index = left_index + 1
-
-            merged_index = merged_index + 1
-
-        while right_index < len(right_array):
-            array[merged_index] = right_array[right_index]
-            right_index = right_index + 1
-            merged_index = merged_index + 1
-
-        while left_index < len(left_array):
-            array[merged_index] = left_array[left_index]
-            left_index = left_index + 1
-            merged_index = merged_index + 1
+def mergeSort(arr): 
+    if len(arr) >1: 
+        mid = len(arr)//2 #Finding the mid of the array 
+        L = arr[:mid] # Dividing the array elements  
+        R = arr[mid:] # into 2 halves 
+  
+        mergeSort(L) # Sorting the first half 
+        mergeSort(R) # Sorting the second half 
+  
+        i = j = k = 0
+          
+        # Copy data to temp arrays L[] and R[] 
+        while i < len(L) and j < len(R): 
+            if L[i] < R[j]: 
+                arr[k] = L[i] 
+                i+=1
+            else: 
+                arr[k] = R[j] 
+                j+=1
+            k+=1
+          
+        # Checking if any element was left 
+        while i < len(L): 
+            arr[k] = L[i] 
+            i+=1
+            k+=1
+          
+        while j < len(R): 
+            arr[k] = R[j] 
+            j+=1
+            k+=1
 ```
+
+### Quick Sort
+```python
+# This function takes last element as pivot, places 
+# the pivot element at its correct position in sorted 
+# array, and places all smaller (smaller than pivot) 
+# to left of pivot and all greater elements to right 
+# of pivot 
+def partition(arr,low,high): 
+    i = ( low-1 )         # index of smaller element 
+    pivot = arr[high]     # pivot 
+  
+    for j in range(low , high): 
+  
+        # If current element is smaller than or 
+        # equal to pivot 
+        if   arr[j] <= pivot: 
+          
+            # increment index of smaller element 
+            i = i+1 
+            arr[i],arr[j] = arr[j],arr[i] 
+  
+    arr[i+1],arr[high] = arr[high],arr[i+1] 
+    return ( i+1 ) 
+  
+# The main function that implements QuickSort 
+# arr[] --> Array to be sorted, 
+# low  --> Starting index, 
+# high  --> Ending index 
+  
+# Function to do Quick sort 
+def quickSort(arr,low,high): 
+    if low < high: 
+  
+        # pi is partitioning index, arr[p] is now 
+        # at right place 
+        pi = partition(arr,low,high) 
+  
+        # Separately sort elements before 
+        # partition and after partition 
+        quickSort(arr, low, pi-1) 
+        quickSort(arr, pi+1, high) 
+```
+
+### Iterate over response
+```python
+class Solution:
+    def diffWaysToCompute(self, input: str) -> List[int]:
+        if input.isdigit(): return [int(input)]
+        rst, tmp = [], 0
+        for i in range(len(input)):
+            if input[i] in '+-*':
+                a, b = input[:i], input[i+1:]
+                l, r = self.diffWaysToCompute(a), self.diffWaysToCompute(b)
+                for p in l: 
+                    for q in r:
+                        if input[i] == '+': tmp = p + q
+                        elif input[i] == '-': tmp = p - q
+                        else: tmp = p * q
+                        rst.append(tmp)
+        return rst
+```
+* [[Medium] 241. Different Ways to Add Parentheses](%5BMedium%5D%20241.%20Different%20Ways%20to%20Add%20Parentheses.md)
+
+### DP - Top-down
+```python
+import functools
+class Solution:
+    def maxCoins(self, nums: List[int]) -> int:
+
+        @functools.lru_cache(None)
+        def dfs(seq, lower, upper):
+            max_coins = 0
+            for i in range(lower, upper+1):
+                coins = seq[lower-1] * seq[i] * seq[upper+1]
+                coins += dfs(seq, lower, i-1)
+                coins += dfs(seq, i+1, upper)
+                if coins > max_coins:
+                    max_coins = coins
+            return max_coins
+
+        nums_ext = [1] + [num for num in nums if num != 0] + [1]
+        N = len(nums_ext) - 2
+        return dfs(tuple(nums_ext), 1, N)
+```
+* [[Hard] 312. Burst Balloons](%5BHard%5D%20312.%20Burst%20Balloons.md)
+
+### Linked List
+```python
+# Definition for singly-linked list.
+# class ListNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.next = None
+
+class Solution:
+    def mergeKLists(self, lists: List[ListNode]) -> ListNode:
+        amount = len(lists)
+        interval = 1
+        while interval < amount:
+            for i in range(0, amount - interval, interval * 2):
+                lists[i] = self.merge2Lists(lists[i], lists[i + interval])
+            interval *= 2
+        return lists[0] if amount > 0 else None
+
+    def merge2Lists(self, l1, l2):
+        head = point = ListNode(0)
+        while l1 and l2:
+            if l1.val <= l2.val:
+                point.next = l1
+                l1 = l1.next
+            else:
+                point.next = l2
+                l2 = l1
+                l1 = point.next.next
+            point = point.next
+        if not l1:
+            point.next=l2
+        else:
+            point.next=l1
+        return head.next
+```
+* [[Hard] [Solution] 23. Merge k Sorted Lists](%5BHard%5D%20%5BSolution%5D%2023.%20Merge%20k%20Sorted%20Lists.md)
+
+### Backtracking
+```python
+class Solution:
+    def addOperators(self, num: str, target: int) -> List[str]:
+
+        N = len(num)
+        answers = []
+        def recurse(index, prev_operand, current_operand, value, string):
+
+            # Done processing all the digits in num
+            if index == N:
+
+                # If the final value == target expected AND
+                # no operand is left unprocessed
+                if value == target and current_operand == 0:
+                    answers.append("".join(string[1:]))
+                return
+
+            # Extending the current operand by one digit
+            current_operand = current_operand*10 + int(num[index])
+            str_op = str(current_operand)
+
+            # To avoid cases where we have 1 + 05 or 1 * 05 since 05 won't be a
+            # valid operand. Hence this check
+            if current_operand > 0:
+
+                # NO OP recursion
+                recurse(index + 1, prev_operand, current_operand, value, string)
+
+            # ADDITION
+            string.append('+'); string.append(str_op)
+            recurse(index + 1, current_operand, 0, value + current_operand, string)
+            string.pop();string.pop()
+
+            # Can subtract or multiply only if there are some previous operands
+            if string:
+
+                # SUBTRACTION
+                string.append('-'); string.append(str_op)
+                recurse(index + 1, -current_operand, 0, value - current_operand, string)
+                string.pop();string.pop()
+
+                # MULTIPLICATION
+                string.append('*'); string.append(str_op)
+                recurse(index + 1, current_operand * prev_operand, 0, value - prev_operand + (current_operand * prev_operand), string)
+                string.pop();string.pop()
+        recurse(0, 0, 0, 0, [])    
+        return answers
+```
+* [[Hard] [Solution] 282. Expression Add Operators](%5BHard%5D%20%5BSolution%5D%20282.%20Expression%20Add%20Operators.md)
+
+### Modified merge sort
+```python
+class Solution:
+    def reversePairs(self, nums: List[int]) -> int:
+        def merge(start, mid, end):
+            n1 = (mid - start + 1)
+            n2 = (end - mid)
+            L = nums[start:start + n1]
+            R = nums[mid + 1:mid + 1 +n2]
+            i, j = 0, 0
+            for k in range(start, end+1):
+                if j >= n2 or (i < n1 and L[i] <= R[j]):
+                    nums[k] = L[i]
+                    i += 1
+                else:
+                    nums[k] = R[j]
+                    j += 1
+
+        def mergesort_and_count(start, end):
+            if start < end:
+                mid = (start + end) // 2;
+                count = mergesort_and_count(start, mid) + mergesort_and_count(mid + 1, end)
+                j = mid + 1;
+                for i in range(start, mid+1):
+                    while j <= end and nums[i] > nums[j] * 2:
+                        j += 1
+                    count += j - (mid + 1)
+                merge(start, mid, end)
+                return count
+            else:
+                return 0
+
+        return mergesort_and_count(0, len(nums) - 1)
+```
+* [[Hard] [Solution] 493. Reverse Pairs](%5BHard%5D%20%5BSolution%5D%20493.%20Reverse%20Pairs.md)
+
+### Prefix Sum with merge sort
+```python
+class Solution:
+    def countRangeSum(self, nums: List[int], lower: int, upper: int) -> int:
+        N = len(nums)
+        cumSum = [0]
+        for i in range(N):
+            cumSum.append(cumSum[-1]+nums[i])
+        ans = 0
+        # inclusive
+        def mergesort(l, r):
+            if l == r:
+                return 0
+            mid = (l+r) // 2
+            cnt = mergesort(l, mid) + mergesort(mid+1, r)
+
+            i = j = mid+1
+            # O(n)
+            for left in cumSum[l:mid+1]:
+                while i <= r and cumSum[i] - left < lower:
+                    i += 1
+                while j <= r and cumSum[j] - left <= upper:
+                    j += 1
+                cnt += j-i
+
+            cumSum[l:r+1] = sorted(cumSum[l:r+1])
+            return cnt
+
+        return mergesort(0, N)
+```
+* [[Hard] 327. Count of Range Sum](%5BHard%5D%20327.%20Count%20of%20Range%20Sum.md)
 
 ## Regular Expression <a name="re"></a>
 ---

@@ -279,14 +279,14 @@ Mergesort is a divide-and-conquer based sorting technique that operates in $O(n\
 
 **Algorithm**
 
-We define $\text{mergesort\_and\_count}$ routine that takes parameters an array say $A$ and $\text{start}$ and $\text{end}$ indices:
+We define $\text{mergesort_and_count}$ routine that takes parameters an array say $A$ and $\text{start}$ and $\text{end}$ indices:
 
 * If $\text{start}$>=$\text{end}$ this implies that elements can no longer be broken further and hence we return 0
 * Otherwise, set $\text{mid}=(\text{start} + \text{end})/2$
-* Store countcount by recursively calling \text{mergesort\_and\_count}mergesort_and_count on range \text{[start,mid]}[start,mid] and $\text{[mid+1,end]}$ and adding the results. This is the divide step on our routine, breaking it into the 2 ranges, and finding the results for each range separately
-* Now, we that we have separately calculated the results for ranges \text{[start,mid]}[start,mid] and \text{[mid+1,end]}[mid+1,end], but we still have to count the elements in $\text{[start,mid]}$ that are greater than 2 * elements in \text{[mid+1,end]}[mid+1,end]. Count all such elements and add the result to $\text{count}$
-* Finally, \text{merge}merge the array from $\text{start}$ to $\text{end}$
-    * Make 2 array : $L$ from elements in range $\text{[start,mid]}$ and RR from elements in range $\text{R[mid+1,end]}$
+* Store $count$ by recursively calling $\text{mergesort_and_count}$ on range $\text{[start,mid]}$ and $\text{[mid+1,end]}$ and adding the results. This is the divide step on our routine, breaking it into the 2 ranges, and finding the results for each range separately
+* Now, we that we have separately calculated the results for ranges $\text{[start,mid]}$ and $\text{[mid+1,end]}$, but we still have to count the elements in $\text{[start,mid]}$ that are greater than 2 * elements in $\text{[mid+1,end]}$. Count all such elements and add the result to $\text{count}$
+* Finally, $\text{merge}$ the array from $\text{start}$ to $\text{end}$
+    * Make 2 array : $L$ from elements in range $\text{[start,mid]}$ and $R$ from elements in range $\text{R[mid+1,end]}$
     * Keep pointers $i$ and $j$ to $L$ and $R$ respectively both initialized to start to the arrays
     * Iterate over $k$ from $\text{start}$ to $\text{end}$ and set $\text{A[k]}$ to the smaller of $\text{L[i]}$ or $\text{R[j]}$ and increment the respective index
     
@@ -346,8 +346,8 @@ int reversePairs(vector<int>& nums)
 ---
 **Solution 1: (Modified Merge Sort, Divide and Conquer)**
 ```
-Runtime: 3032 ms
-Memory Usage: 25.3 MB
+Runtime: 2464 ms
+Memory Usage: 25.5 MB
 ```
 ```python
 class Solution:
@@ -355,12 +355,8 @@ class Solution:
         def merge(start, mid, end):
             n1 = (mid - start + 1)
             n2 = (end - mid)
-            L = [0]*n1
-            R = [0]*n2
-            for i in range(n1):
-                L[i] = nums[start + i]
-            for j in range(n2):
-                R[j] = nums[mid + 1 + j]
+            L = nums[start:start + n1]
+            R = nums[mid + 1:mid + 1 +n2]
             i, j = 0, 0
             for k in range(start, end+1):
                 if j >= n2 or (i < n1 and L[i] <= R[j]):
@@ -369,7 +365,7 @@ class Solution:
                 else:
                     nums[k] = R[j]
                     j += 1
-        
+
         def mergesort_and_count(start, end):
             if start < end:
                 mid = (start + end) // 2;
@@ -383,6 +379,6 @@ class Solution:
                 return count
             else:
                 return 0
-            
+
         return mergesort_and_count(0, len(nums) - 1)
 ```
