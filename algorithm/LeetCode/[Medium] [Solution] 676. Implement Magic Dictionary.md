@@ -85,7 +85,7 @@ class MagicDictionary(object):
 
 # Submissions
 ---
-**Solution:**
+**Solution: (Generalized Neighbors)**
 ```
 Runtime: 20 ms
 Memory Usage: 12.7 MB
@@ -106,6 +106,52 @@ class MagicDictionary:
         return any(self.count[nei] > 1 or
                    self.count[nei] == 1 and word not in self.words
                    for nei in self._genneighbors(word))
+
+
+# Your MagicDictionary object will be instantiated and called as such:
+# obj = MagicDictionary()
+# obj.buildDict(dict)
+# param_2 = obj.search(word)
+```
+
+**Solution 1: (Trie)**
+```
+Runtime: 32 ms
+Memory Usage: 12.9 MB
+```
+```python
+class MagicDictionary:
+    def _genneighbors(self, word):
+        for i in range(len(word)):
+            yield word[:i] + '*' + word[i+1:]
+    
+    def buildDict(self, words):
+        self.words = words
+        self.trie = {}
+        for word in words:
+            for w in self._genneighbors(word):
+                t = self.trie
+                for c in w:
+                    t.setdefault(c, {})
+                    t = t[c]
+                t.setdefault('#', set())
+                t['#'].add(word)
+                
+    def search(self, word):
+        count = 0
+        for w in self._genneighbors(word):
+            t = self.trie
+            length = 0
+            for c in w:
+                if c not in t:
+                    break
+                length += 1
+                t = t[c]
+            if '#' in t and len(word) == length:
+                if len(t['#']) > 1 or (len(t['#']) == 1 and word not in t['#']):
+                    return True
+        return False
+            
 
 
 # Your MagicDictionary object will be instantiated and called as such:

@@ -246,9 +246,10 @@ class Trie:
         """
         t = self.trie
         for c in word:
-            if c not in t:
-                t[c] = {}
-            t = t[c]
+            # if c not in t:
+            #     t[c] = {}
+            # t = t[c]
+            t = t.setdefault(c, {})
         t['#'] = word
 
     def search(self, word: str) -> bool:

@@ -42,7 +42,7 @@ Explanation:
 
 # Submissions
 ---
-**Solution 1:**
+**Solution 1: (Pointer, String)**
 ```
 Runtime: 28 ms
 Memory Usage: 12.9 MB

@@ -118,7 +118,7 @@ If we used a BFS instead of a DFS, and ordered the children in an array, we coul
 
 # Submissions
 ---
-**Solution**
+**Solution: (Brute Force)**
 ```
 Runtime: 68 ms
 Memory Usage: 13.1 MB
@@ -134,4 +134,34 @@ class Solution:
                 return word
 
         return ""
+```
+
+**Solution 2: (Trie + Depth-First Search)**
+```
+Runtime: 120 ms
+Memory Usage: 13.4 MB
+```
+```python
+import functools
+class Solution:
+    def longestWord(self, words: List[str]) -> str:
+        Trie = lambda: collections.defaultdict(Trie)
+        trie = Trie()
+        END = True
+
+        for i, word in enumerate(words):
+            functools.reduce(dict.__getitem__, word, trie)[END] = i
+
+        stack = list(trie.values())
+        ans = ""
+        while stack:
+            cur = stack.pop()
+            if END in cur:
+                word = words[cur[END]]
+                if len(word) > len(ans) or len(word) == len(ans) and word < ans:
+                    ans = word
+                stack.extend([cur[letter] for letter in cur if letter != END])
+
+        return ans
+            
 ```

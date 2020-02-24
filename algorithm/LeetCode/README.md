@@ -53,6 +53,7 @@ Happy Coding!!
 1. [Libraries](#libraries)
 1. [Dynamic Programming](#dp)
 1. [Math](#math)
+1. [Hash Table](#ht)
 1. [Depth-first Search](#dfs)
 1. [Binary Search](#bs)
 1. [Greedy](#greedy)
@@ -67,6 +68,7 @@ Happy Coding!!
 1. [Union Find](#uf)
 1. [Sliding Window](#sw)
 1. [Divide and Conquer](#dc)
+1. [Trie](#trie)
 1. [Regular Expression](#re)
 
 **Note**
@@ -241,6 +243,34 @@ class Solution:
         return res
 ```
 * [[Medium] 1362. Closest Divisors](%5BMedium%5D%201362.%20Closest%20Divisors.md)
+
+## Hash Table <a name='ht'></a>
+---
+### Generalized Neighbors
+```python
+class MagicDictionary:
+
+    def _genneighbors(self, word):
+        for i in range(len(word)):
+            yield word[:i] + '*' + word[i+1:]
+
+    def buildDict(self, words):
+        self.words = set(words)
+        self.count = collections.Counter(nei for word in words
+                                        for nei in self._genneighbors(word))
+
+    def search(self, word):
+        return any(self.count[nei] > 1 or
+                   self.count[nei] == 1 and word not in self.words
+                   for nei in self._genneighbors(word))
+
+
+# Your MagicDictionary object will be instantiated and called as such:
+# obj = MagicDictionary()
+# obj.buildDict(dict)
+# param_2 = obj.search(word)
+```
+* [[Medium] [Solution] 676. Implement Magic Dictionary](%5BMedium%5D%20%5BSolution%5D%20676.%20Implement%20Magic%20Dictionary.md)
 
 ## Depth-first Search <a name="dfs"></a>
 ---
@@ -1512,54 +1542,6 @@ class Solution:
 ```
 * [[Medium] [Solution] 78. Subsets](%5BMedium%5D%20%5BSolution%5D%2078.%20Subsets.md)
 
-### Trie
-```python
-class Node:
-    def __init__(self):
-        self.sub = collections.defaultdict(Node)
-        self.isend = False
-
-class WordDictionary:
-
-    def __init__(self):
-        """
-        Initialize your data structure here.
-        """
-        self.root = Node()
-
-    def addWord(self, word: str) -> None:
-        """
-        Adds a word into the data structure.
-        """
-        cur = self.root
-        for i in word: cur = cur.sub[i]
-        cur.isend = True
-        
-    def searchnode(self, word: str, st, node) -> bool:
-        for i in range(st, len(word)):
-            if word[i] == '.':
-                for n in node.sub.values():
-                    if self.searchnode(word, i+1, n): return True
-                return False
-            else:
-                node = node.sub.get(word[i], None)
-                if node is None: return False
-        return node and node.isend
-
-    def search(self, word: str) -> bool:
-        """
-        Returns if the word is in the data structure. A word could contain the dot character '.' to represent any one letter.
-        """
-        return self.searchnode(word, 0, self.root)
-
-
-# Your WordDictionary object will be instantiated and called as such:
-# obj = WordDictionary()
-# obj.addWord(word)
-# param_2 = obj.search(word)
-```
-* [[Medium] 211. Add and Search Word - Data structure design](%5BMedium%5D%20211.%20Add%20and%20Search%20Word%20-%20Data%20structure%20design.md)
-
 ### Ccount
 ```python
 class Solution:
@@ -1736,53 +1718,6 @@ class Solution:
         return n_bytes == 0
 ```
 * [[Medium] [Solution] 393. UTF-8 Validation](%5BMedium%5D%20%5BSolution%5D%20393.%20UTF-8%20Validation.md)
-
-### Trie
-```python
-class Solution:
-    def findMaximumXOR(self, nums: List[int]) -> int:
-        
-        # need to know the largest binary representation
-        # bin prepends '0b', ignore
-        L = len(bin(max(nums))) - 2
-
-        # preprocess step - left-pad zeros to ensure each number has L bits
-        # (x >> i) & 1 produces the bit at position i for number x
-        # x's value is moved right by i bits, we & 1 to produce 0 or 1
-        # e.g., if L = 5, then 3 = [0, 0, 0, 1, 1], so the steps to get there are:
-        # (3 >> 4) & 1 = 0
-        # (3 >> 3) & 1 = 0
-        # (3 >> 2) & 1 = 0
-        # (3 >> 1) & 1 = 1
-        # (3 >> 0) & 1 = 1
-        nums_bits = [[(x >> i) & 1 for i in reversed(range(L))] for x in nums]
-        root = {}
-        # build the trie
-        for num, bits in zip(nums, nums_bits):
-            node = root
-            for bit in bits:
-                node = node.setdefault(bit, {})
-            node["#"] = num
-
-        max_xor = 0
-        for num, bits in zip(nums, nums_bits):
-            node = root
-            # we want to find the node that will produce the largest XOR with num
-            for bit in bits:
-                # our goal is to find the opposite bit, e.g. bit = 0, we want 1
-                # this is our goal because we want as many 1's as possible
-                toggled_bit = 1 - bit
-                if toggled_bit in node:
-                    node = node[toggled_bit]
-                else:
-                    node = node[bit]
-            # we're at a leaf node, now we can do the XOR computation
-            max_xor = max(max_xor, node["#"] ^ num)
-
-
-        return max_xor
-```
-* [[Medium] 421. Maximum XOR of Two Numbers in an Array](%5BMedium%5D%20421.%20Maximum%20XOR%20of%20Two%20Numbers%20in%20an%20Array.md)
 
 ### Direct
 ```python
@@ -3418,43 +3353,6 @@ class Solution:
 ```
 * [[Hard] 312. Burst Balloons](%5BHard%5D%20312.%20Burst%20Balloons.md)
 
-### Linked List
-```python
-# Definition for singly-linked list.
-# class ListNode:
-#     def __init__(self, x):
-#         self.val = x
-#         self.next = None
-
-class Solution:
-    def mergeKLists(self, lists: List[ListNode]) -> ListNode:
-        amount = len(lists)
-        interval = 1
-        while interval < amount:
-            for i in range(0, amount - interval, interval * 2):
-                lists[i] = self.merge2Lists(lists[i], lists[i + interval])
-            interval *= 2
-        return lists[0] if amount > 0 else None
-
-    def merge2Lists(self, l1, l2):
-        head = point = ListNode(0)
-        while l1 and l2:
-            if l1.val <= l2.val:
-                point.next = l1
-                l1 = l1.next
-            else:
-                point.next = l2
-                l2 = l1
-                l1 = point.next.next
-            point = point.next
-        if not l1:
-            point.next=l2
-        else:
-            point.next=l1
-        return head.next
-```
-* [[Hard] [Solution] 23. Merge k Sorted Lists](%5BHard%5D%20%5BSolution%5D%2023.%20Merge%20k%20Sorted%20Lists.md)
-
 ### Backtracking
 ```python
 class Solution:
@@ -3573,6 +3471,151 @@ class Solution:
         return mergesort(0, N)
 ```
 * [[Hard] 327. Count of Range Sum](%5BHard%5D%20327.%20Count%20of%20Range%20Sum.md)
+
+## Trie <a name="trie"></a>
+---
+### Implementation
+```python
+class Trie:
+
+    def __init__(self):
+        """
+        Initialize your data structure here.
+        """
+        self.trie = {}
+
+    def insert(self, word: str) -> None:
+        """
+        Inserts a word into the trie.
+        """
+        t = self.trie
+        for c in word:
+            # if c not in t:
+            #     t[c] = {}
+            # t = t[c]
+            t = t.setdefault(c, {})
+        t['#'] = word
+
+    def search(self, word: str) -> bool:
+        """
+        Returns if the word is in the trie.
+        """
+        t = self.trie
+        for c in word:
+            if c not in t:
+                return False
+            t = t[c]
+        return '#' in t
+
+    def startsWith(self, prefix: str) -> bool:
+        """
+        Returns if there is any word in the trie that starts with the given prefix.
+        """
+        t = self.trie
+        for c in prefix:
+            if c not in t:
+                return False
+            t = t[c]
+        return True
+
+
+# Your Trie object will be instantiated and called as such:
+# obj = Trie()
+# obj.insert(word)
+# param_2 = obj.search(word)
+# param_3 = obj.startsWith(prefix)
+```
+* [[Medium] [Solution] 208. Implement Trie (Prefix Tree)](%5BMedium%5D%20%5BSolution%5D%20208.%20Implement%20Trie%20(Prefix%20Tree).md)
+
+### Node
+```python
+class TrieNode(object):
+    __slots__ = 'children', 'score'
+    def __init__(self):
+        self.children = {}
+        self.score = 0
+
+class MapSum:
+
+    def __init__(self):
+        """
+        Initialize your data structure here.
+        """
+        self.map = {}
+        self.root = TrieNode()
+
+    def insert(self, key: str, val: int) -> None:
+        delta = val - self.map.get(key, 0)
+        self.map[key] = val
+        cur = self.root
+        cur.score += delta
+        for char in key:
+            cur = cur.children.setdefault(char, TrieNode())
+            cur.score += delta
+
+
+    def sum(self, prefix: str) -> int:
+        cur = self.root
+        for char in prefix:
+            if char not in cur.children:
+                return 0
+            cur = cur.children[char]
+        return cur.score
+
+
+# Your MapSum object will be instantiated and called as such:
+# obj = MapSum()
+# obj.insert(key,val)
+# param_2 = obj.sum(prefix)
+```
+* [[Medium] [Solution] 677. Map Sum Pairs](%5BMedium%5D%20%5BSolution%5D%20677.%20Map%20Sum%20Pairs.md)
+
+### Bit
+```python
+class Solution:
+    def findMaximumXOR(self, nums: List[int]) -> int:
+        
+        # need to know the largest binary representation
+        # bin prepends '0b', ignore
+        L = len(bin(max(nums))) - 2
+
+        # preprocess step - left-pad zeros to ensure each number has L bits
+        # (x >> i) & 1 produces the bit at position i for number x
+        # x's value is moved right by i bits, we & 1 to produce 0 or 1
+        # e.g., if L = 5, then 3 = [0, 0, 0, 1, 1], so the steps to get there are:
+        # (3 >> 4) & 1 = 0
+        # (3 >> 3) & 1 = 0
+        # (3 >> 2) & 1 = 0
+        # (3 >> 1) & 1 = 1
+        # (3 >> 0) & 1 = 1
+        nums_bits = [[(x >> i) & 1 for i in reversed(range(L))] for x in nums]
+        root = {}
+        # build the trie
+        for num, bits in zip(nums, nums_bits):
+            node = root
+            for bit in bits:
+                node = node.setdefault(bit, {})
+            node["#"] = num
+
+        max_xor = 0
+        for num, bits in zip(nums, nums_bits):
+            node = root
+            # we want to find the node that will produce the largest XOR with num
+            for bit in bits:
+                # our goal is to find the opposite bit, e.g. bit = 0, we want 1
+                # this is our goal because we want as many 1's as possible
+                toggled_bit = 1 - bit
+                if toggled_bit in node:
+                    node = node[toggled_bit]
+                else:
+                    node = node[bit]
+            # we're at a leaf node, now we can do the XOR computation
+            max_xor = max(max_xor, node["#"] ^ num)
+
+
+        return max_xor
+```
+* [[Medium] 421. Maximum XOR of Two Numbers in an Array](%5BMedium%5D%20421.%20Maximum%20XOR%20of%20Two%20Numbers%20in%20an%20Array.md)
 
 ## Regular Expression <a name="re"></a>
 ---

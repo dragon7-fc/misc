@@ -84,7 +84,7 @@ class Solution(object):
 
 # Submissions
 ---
-**Solution 1:**
+**Solution 1: (Prefix Hash)**
 ```
 Runtime: 192 ms
 Memory Usage: 16.8 MB
@@ -101,4 +101,71 @@ class Solution:
             return word
 
         return " ".join(map(replace, sentence.split()))
+```
+
+**Solution 2: (Trie)**
+```
+Runtime: 84 ms
+Memory Usage: 27.6 MB
+```
+```python
+import functools
+class Solution:
+    def replaceWords(self, roots: List[str], sentence: str) -> str:
+        Trie = lambda: collections.defaultdict(Trie)
+        trie = Trie()
+        END = True
+
+        for root in roots:
+            functools.reduce(dict.__getitem__, root, trie)[END] = root
+
+        def replace(word):
+            cur = trie
+            for letter in word:
+                if letter not in cur or END in cur: break
+                cur = cur[letter]
+            return cur.get(END, word)
+
+        return " ".join(map(replace, sentence.split()))
+```
+
+**Solution 3: (Trie)**
+```
+Runtime: 60 ms
+Memory Usage: 26.7 MB
+```
+```python
+class Solution:
+    def replaceWords(self, dict: List[str], sentence: str) -> str:
+        trie = {}
+        
+        def insert(word):
+            curr = trie
+            for ch in word:
+                if ch not in curr:
+                    curr[ch] = {}
+                curr = curr[ch]
+            curr['#'] = word
+                
+        for word in dict:
+            insert(word)
+        words = sentence.split(" ")
+
+        def replace(word):
+            curr = trie
+            for ch in word:
+                if '#' in curr:
+                    return True, curr['#']
+                elif ch not in curr:
+                    return False, word
+                else:
+                    curr = curr[ch]
+            return False, word
+        
+        for index, word in enumerate(words):
+            status, newWord = replace(word)
+            if status:
+                words[index] = newWord
+        
+        return " ".join(words)
 ```
