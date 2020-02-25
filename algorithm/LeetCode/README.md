@@ -3570,6 +3570,29 @@ class MapSum:
 ```
 * [[Medium] [Solution] 677. Map Sum Pairs](%5BMedium%5D%20%5BSolution%5D%20677.%20Map%20Sum%20Pairs.md)
 
+### Python library method
+```python
+import functools
+class Solution:
+    def replaceWords(self, roots: List[str], sentence: str) -> str:
+        Trie = lambda: collections.defaultdict(Trie)
+        trie = Trie()
+        END = True
+
+        for root in roots:
+            functools.reduce(dict.__getitem__, root, trie)[END] = root
+
+        def replace(word):
+            cur = trie
+            for letter in word:
+                if letter not in cur or END in cur: break
+                cur = cur[letter]
+            return cur.get(END, word)
+
+        return " ".join(map(replace, sentence.split()))
+```
+* [[Medium] [Solution] 648. Replace Words](%5BMedium%5D%20%5BSolution%5D%20648.%20Replace%20Words.md)
+
 ### Bit
 ```python
 class Solution:
@@ -3616,6 +3639,78 @@ class Solution:
         return max_xor
 ```
 * [[Medium] 421. Maximum XOR of Two Numbers in an Array](%5BMedium%5D%20421.%20Maximum%20XOR%20of%20Two%20Numbers%20in%20an%20Array.md)
+
+### DFS
+```python
+class Solution:
+    def findWords(self, board: List[List[str]], words: List[str]) -> List[str]:
+        R, C = len(board), len(board[0])
+        ans = []
+
+        def neighbours(r, c):
+            for nr, nc in [(r+1, c), (r-1, c), (r, c+1), (r, c-1)]:
+                if 0 <= nr < R and 0 <= nc < C:
+                    yield nr, nc
+
+        def dfs(r, c, node, path):
+            letter = board[r][c]
+            board[r][c] = ''
+            node = node[letter]
+            if '#' in node:
+                ans.append(path)
+                del node['#']
+            for nr, nc in neighbours(r, c):
+                if board[nr][nc] != '' and board[nr][nc] in node:
+                    dfs(nr, nc, node, path + board[nr][nc])
+            board[r][c] = letter
+
+        trie = {}
+        for word in words:
+            t = trie
+            for c in word + '#':
+                t = t.setdefault(c, {})
+        for r in range(R):
+            for c in range(C):
+                if board[r][c] in trie:
+                    dfs(r, c, trie, board[r][c])
+
+        return ans
+```
+* [[Hard] 212. Word Search II](%5BHard%5D%20212.%20Word%20Search%20II.md)
+
+### Trie of Suffix Wrapped Words
+```python
+Trie = lambda: collections.defaultdict(Trie)
+WEIGHT = False
+
+class WordFilter:
+
+    def __init__(self, words: List[str]):
+        self.trie = Trie()
+
+        for weight, word in enumerate(words):
+            word += '#'
+            for i in range(len(word)):
+                cur = self.trie
+                cur[WEIGHT] = weight
+                for j in range(i, 2 * len(word) - 1):
+                    cur = cur[word[j % len(word)]]
+                    cur[WEIGHT] = weight
+            
+    def f(self, prefix: str, suffix: str) -> int:
+        cur = self.trie
+        for letter in suffix + '#' + prefix:
+            if letter not in cur:
+                return -1
+            cur = cur[letter]
+        return cur[WEIGHT]
+
+
+# Your WordFilter object will be instantiated and called as such:
+# obj = WordFilter(words)
+# param_1 = obj.f(prefix,suffix)
+```
+* [[Hard] [Solution] 745. Prefix and Suffix Search](%5BHard%5D%20%5BSolution%5D%20745.%20Prefix%20and%20Suffix%20Search.md)
 
 ## Regular Expression <a name="re"></a>
 ---
