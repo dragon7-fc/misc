@@ -80,7 +80,7 @@ This will depend on `todo`, the sum of the remaining `unused` elements, not cros
 
 If we could choose the order, then after placing `5`, our unused elements are `[4, 5, 6]`. Using `6` would make `todo` go from `15` to `9`, which crosses `10` - something unwanted. However, we could use `5` since `todo` goes from `15` to `10`; then later we could use `4` and `6` as those placements do not cross.
 
-It turns out the maximum value that can be chosen so as to not cross a multiple of `target`, is `targ = (todo - 1) % target + 1.` This is essentially `todo % target`, `plus` `target` if that would be zero.
+It turns out the maximum value that can be chosen so as to not cross a multiple of `target`, is `targ = (todo - 1) % target + 1.` This is essentially `todo % target`, plus `target` if that would be zero.
 
 Now for each `unused` number that doesn't cross, we'll search on that state, and we'll return `true` if any of those searches are `true`.
 
@@ -140,7 +140,7 @@ class Solution(object):
 * Space Complexity: $O(2^N)$, the space used by `memo` (or `dp`, total in our bottom-up variant).
 
 # Submissions
-**Solution 1:**
+**Solution 1: (Search by Constructing Subset Sums, Recrursion, Backtracking)**
 ```
 Runtime: 44 ms
 Memory Usage: 13.6 MB
@@ -172,7 +172,7 @@ class Solution:
         return search([0] * k)
 ```
 
-**Solution 2:**
+**Solution 2: (Dynamic Programming on Subsets of Input, Recursion, DP Top-down)**
 ```
 Runtime: 176 ms
 Memory Usage: 25.9 MB
@@ -194,4 +194,33 @@ class Solution:
             return memo[used]
 
         return search(0, target * k)
+```
+
+**Solution 3: (Dynamic Programming on Subsets of Input, DP Bottom-up)**
+```
+Runtime: 1056 ms
+Memory Usage: 15.4 MB
+```
+```python
+class Solution:
+    def canPartitionKSubsets(self, nums: List[int], k: int) -> bool:
+        nums.sort()
+        target, rem = divmod(sum(nums), k)
+        if rem or nums[-1] > target: return False
+
+        dp = [False] * (1 << len(nums))
+        dp[0] = True
+        total = [0] * (1 << len(nums))
+
+        for state in range(1 << len(nums)):
+            if not dp[state]: continue
+            for i, num in enumerate(nums):
+                future = state | (1 << i)
+                if state != future and not dp[future]:
+                    if (num <= target - (total[state] % target)):
+                        dp[future] = True
+                        total[future] = total[state] + num
+                    else:
+                        break
+        return dp[-1]
 ```

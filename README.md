@@ -1060,6 +1060,7 @@ Objects such as lists and dictionaries are passed by object reference too, which
     - [Probability cheat sheet for distribution](http://www.cs.elte.hu/~mesti/valszam/kepletek)
 
 * Algorithm
+    - [Big O Cheat Sheet](https://www.bigocheatsheet.com/)
     - [Algorithms and Data Structures Cheatsheet](https://algs4.cs.princeton.edu/cheatsheet/)
 
 ## Article

@@ -69,6 +69,7 @@ Happy Coding!!
 1. [Sliding Window](#sw)
 1. [Divide and Conquer](#dc)
 1. [Trie](#trie)
+1. [Recursion](#recursion)
 1. [Regular Expression](#re)
 
 **Note**
@@ -3474,6 +3475,32 @@ class Solution:
 
 ## Trie <a name="trie"></a>
 ---
+### Trie + Depth-First Search
+```python
+import functools
+class Solution:
+    def longestWord(self, words: List[str]) -> str:
+        Trie = lambda: collections.defaultdict(Trie)
+        trie = Trie()
+        END = True
+
+        for i, word in enumerate(words):
+            functools.reduce(dict.__getitem__, word, trie)[END] = i
+
+        stack = list(trie.values())
+        ans = ""
+        while stack:
+            cur = stack.pop()
+            if END in cur:
+                word = words[cur[END]]
+                if len(word) > len(ans) or len(word) == len(ans) and word < ans:
+                    ans = word
+                stack.extend([cur[letter] for letter in cur if letter != END])
+
+        return ans
+```
+* [[Easy] [Solution] 720. Longest Word in Dictionary](%5BEasy%5D%20%5BSolution%5D%20720.%20Longest%20Word%20in%20Dictionary.md)
+
 ### Implementation
 ```python
 class Trie:
@@ -3570,7 +3597,7 @@ class MapSum:
 ```
 * [[Medium] [Solution] 677. Map Sum Pairs](%5BMedium%5D%20%5BSolution%5D%20677.%20Map%20Sum%20Pairs.md)
 
-### Python library method
+### python typical
 ```python
 import functools
 class Solution:
@@ -3712,8 +3739,148 @@ class WordFilter:
 ```
 * [[Hard] [Solution] 745. Prefix and Suffix Search](%5BHard%5D%20%5BSolution%5D%20745.%20Prefix%20and%20Suffix%20Search.md)
 
+**Template 1:**
+```python
+Trie = lambda: collections.defaultdict(Trie)
+trie = Trie()
+END = True
+
+for i, XXX in enumerate(XXXs):
+    functools.reduce(dict.__getitem__, XXX, trie)[END] = i
+
+ans = ...
+for XXX in XXXs:
+    cur = trie
+    for OOO in XXX:
+        if OOO not in cur or END in cur:
+            return False
+        cur = cur[OOO]
+    ... = cur.get(END, ...)
+    ans ...
+return ans
+```
+
+**Template 2:**
+```python
+trie = {}
+for XXX in XXXs:
+    t = trie
+    for OOO in XXX + '#':
+        t = t.setdefault(c, {})
+```
+
+## Recursion <a name="recursion"></a>
+---
+### Tree
+```python
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+
+class Solution:
+    def longestUnivaluePath(self, root: TreeNode) -> int:
+        self.ans = 0
+
+        def arrow_length(node):
+            if not node: return 0
+            left_length = arrow_length(node.left)
+            right_length = arrow_length(node.right)
+            left_arrow = right_arrow = 0
+            if node.left and node.left.val == node.val:
+                left_arrow = left_length + 1
+            if node.right and node.right.val == node.val:
+                right_arrow = right_length + 1
+            self.ans = max(self.ans, left_arrow + right_arrow)
+            return max(left_arrow, right_arrow)
+
+        arrow_length(root)
+        return self.ans
+```
+* [[Easy] [Solution] 687. Longest Univalue Path](%5BEasy%5D%20%5BSolution%5D%20687.%20Longest%20Univalue%20Path.md)
+
+### Search by Constructing Subset Sums
+```python
+class Solution:
+    def canPartitionKSubsets(self, nums: List[int], k: int) -> bool:
+        target, rem = divmod(sum(nums), k)
+        if rem: return False
+
+        def search(groups):
+            if not nums: return True
+            v = nums.pop()
+            for i, group in enumerate(groups):
+                if group + v <= target:
+                    groups[i] += v
+                    if search(groups): return True
+                    groups[i] -= v
+                if not group: break
+            nums.append(v)
+            return False
+
+        nums.sort()
+        if nums[-1] > target: return False
+        while nums and nums[-1] == target:
+            nums.pop()
+            k -= 1
+
+        return search([0] * k)
+```
+* [[Medium] [Solution] 698. Partition to K Equal Sum Subsets](%5BMedium%5D%20%5BSolution%5D%20698.%20Partition%20to%20K%20Equal%20Sum%20Subsets.md)
+
+### DP Top-down, Tree
+```python
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+
+class Solution:
+    memo = {0: [], 1: [TreeNode(0)]}
+
+    def allPossibleFBT(self, N: int) -> List[TreeNode]:
+        if N not in Solution.memo:
+            ans = []
+            for x in range(N):
+                y = N - 1 - x
+                for left in self.allPossibleFBT(x):
+                    for right in self.allPossibleFBT(y):
+                        bns = TreeNode(0)
+                        bns.left = left
+                        bns.right = right
+                        ans.append(bns)
+            Solution.memo[N] = ans
+
+        return Solution.memo[N]
+```
+* [[Medium] [Solution] 894. All Possible Full Binary Trees](%5BMedium%5D%20%5BSolution%5D%20894.%20All%20Possible%20Full%20Binary%20Trees.md)
+
 ## Regular Expression <a name="re"></a>
 ---
+### Decode
+```python
+class Solution:
+    def countOfAtoms(self, formula: str) -> str:
+        parse = re.findall(r"([A-Z][a-z]*)(\d*)|(\()|(\))(\d*)", formula)
+        stack = [collections.Counter()]
+        for name, m1, left_open, right_open, m2 in parse:
+            if name:
+                stack[-1][name] += int(m1 or 1)
+            if left_open:
+                stack.append(collections.Counter())
+            if right_open:
+                top = stack.pop()
+                for k in top:
+                    stack[-1][k] += top[k] * int(m2 or 1)
+
+        return "".join(name + (str(stack[-1][name]) if stack[-1][name] > 1 else '')
+                       for name in sorted(stack[-1]))
+```
+* [[Hard] [Solution] 726. Number of Atoms](%5BHard%5D%20%5BSolution%5D%20726.%20Number%20of%20Atoms.md)
 
 * [[Easy] 1309. Decrypt String from Alphabet to Integer Mapping](%5BEasy%5D%201309.%20Decrypt%20String%20from%20Alphabet%20to%20Integer%20Mapping.md)
 * [[Medium] [Solution] 640. Solve the Equation](%5BMedium%5D%20%5BSolution%5D%20640.%20Solve%20the%20Equation.md)

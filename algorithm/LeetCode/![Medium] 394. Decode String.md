@@ -108,3 +108,27 @@ class Solution(object):
             i += 1
         return ''.join(keeper)
 ```
+
+**Solution 4: (Regular Expression)**
+```
+Runtime: 24 ms
+Memory Usage: 12.7 MB
+```
+```python
+class Solution:
+    def decodeString(self, s: str) -> str:
+        parse = re.findall(r"(\d+)(\[)|([a-zA-Z]+)|(\])", s)
+        stack = [['', 1]]
+        for num, left_open, alpha, right_open in parse:
+            if num:
+                k = int(num)
+            if left_open:
+                stack.append(['', k])
+            if alpha:
+                stack[-1][0] += alpha
+            if right_open:
+                st, k = stack.pop()
+                stack[-1][0] += st*k
+            
+        return stack[-1][0]
+```

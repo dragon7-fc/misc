@@ -65,7 +65,7 @@ class Solution(object):
 
 # Submissions
 ---
-**Solution:**
+**Solution: (Recursion, DP Top-down, Tree)**
 ```
 Runtime: 140 ms
 Memory Usage: 15.3 MB

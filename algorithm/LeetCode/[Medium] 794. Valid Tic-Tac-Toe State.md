@@ -46,18 +46,18 @@ Output: true
 
 # Submissions
 ---
-**Solution 1:**
+**Solution 1: (Case)**
 ```
 Runtime: 24 ms
 Memory Usage: 12.6 MB
 ```
 ```python
 #A board is invalid in the case that: 
-#   1. There are more Os than Xs, this is invalid because the X player is the one       that starts
-#   2. There are 2 or more Xs than 0s, this is because a Tic Tac Toe game can only      have the same amount of Xs and Os or 1 more X than an O
-#   3. Only 1 person can win, so the case that both players got 3 in a row              (diagonally, vertically or horizontally) is an invalid one
-#   4. In the case that X wins, since X always goes before O, there will be exactly     1 more X than an O on the board, any other case in which X wins is an invalid       one
-#   5. In the case that O wins, since 0 always goes after X, there will be the same     Xs as Os on the board, any other case in which 0 wins is an invalid one
+#   1. There are more Os than Xs, this is invalid because the X player is the one that starts
+#   2. There are 2 or more Xs than 0s, this is because a Tic Tac Toe game can only have the same amount of Xs and Os or 1 more X than an O
+#   3. Only 1 person can win, so the case that both players got 3 in a row (diagonally, vertically or horizontally) is an invalid one
+#   4. In the case that X wins, since X always goes before O, there will be exactly 1 more X than an O on the board, any other case in which X wins is an invalid       one
+#   5. In the case that O wins, since 0 always goes after X, there will be the same Xs as Os on the board, any other case in which 0 wins is an invalid one
 
 class Solution:
     def validTicTacToe(self, board: List[str]) -> bool:

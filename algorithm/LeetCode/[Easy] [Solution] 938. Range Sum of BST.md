@@ -1,3 +1,5 @@
+938. Range Sum of BST
+
 Given the root node of a binary search tree, return the sum of values of all nodes with value between L and R (inclusive).
 
 The binary search tree is guaranteed to have unique values.
@@ -72,7 +74,7 @@ class Solution(object):
 
 # Submissions
 ---
-**Solution:**
+**Solution: (Recursive)**
 ```
 Runtime: 212 ms
 Memory Usage: 20.8 MB
@@ -101,7 +103,7 @@ class Solution:
         return self.ans
 ```
 
-**Solution:**
+**Solution: (Iterative)**
 ```
 Runtime: 216 ms
 Memory Usage: 20.7 MB

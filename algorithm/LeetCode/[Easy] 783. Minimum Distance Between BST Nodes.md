@@ -27,7 +27,7 @@ while the minimum difference in this tree is 1, it occurs between node 1 and nod
 
 # Submissions
 ---
-**Solution 1:**
+**Solution 1: (Recursion, Tree)**
 ```
 Runtime: 24 ms
 Memory Usage: 12.8 MB
