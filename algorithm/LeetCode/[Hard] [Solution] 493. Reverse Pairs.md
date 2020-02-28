@@ -34,7 +34,7 @@ Do as directed in the question. We can simply check all the pairs if they are im
     * Iterate over $j$ from $0$ to $i - 1$
         * If $\text{nums[j]} > 2 * \text{nums[i]}$, increment $\text{count}$
 
-C++
+**C++**
 ```c++
 int reversePairs(vector<int>& nums)
 {
@@ -223,7 +223,7 @@ So, the main idea is to count the number of elements greater than $2*\text{nums[
     * Search the index of element not less than $2*\text{nums[i]}+1$ in $\text{nums\_copy}$ array. $\text{query}$ the obtained index+1 in the $\text{BIT}$, and add the result to $\text{count}$
     * Search for the index of element not less than $nums[i]$ in $\text{nums\_copy}$. We need to $\text{update}$ the BIT for this index by 1. This essentially means that 1 is added to this index(or number of elements greater than this index is incremented). The effect of adding $1$ to the index is passed to the ancestors as shown in $\text{update}$ algorithm
 
-C++
+**C++**
 ```c++
 void update(vector<int>& BIT, int index, int val)
 {
@@ -290,7 +290,7 @@ We define $\text{mergesort_and_count}$ routine that takes parameters an array sa
     * Keep pointers $i$ and $j$ to $L$ and $R$ respectively both initialized to start to the arrays
     * Iterate over $k$ from $\text{start}$ to $\text{end}$ and set $\text{A[k]}$ to the smaller of $\text{L[i]}$ or $\text{R[j]}$ and increment the respective index
     
-C++
+**C++**
 ```c++
 void merge(vector<int>& A, int start, int mid, int end)
 {

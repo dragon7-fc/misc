@@ -29,7 +29,7 @@ This article is for intermediate level readers. It introduces the following conc
 
 A trivial solution for Range Sum Query - `RSQ(i, j)` is to iterate the array from index $i$ to $j$ and sum each element.
 
-Java
+**Java**
 ```java
 private int[] nums;
 public int sumRange(int i, int j) {
@@ -67,7 +67,7 @@ Figure 1. Range sum query using SQRT decomposition.
 
 In the example above, the array nums's length is `9`, which is split into blocks of size $\sqrt{9}$. To get `RSQ(1, 7)` we add `b[1]`. It stores the sum of range `[3, 5]` and partially sums from block `0` and block `2`, which are overlapping boundary blocks.
 
-Java
+**Java**
 ```java
 private int[] b;
 private int len;
@@ -141,13 +141,13 @@ Segment Tree can be broken down to the three following steps:
 
 **1. Build segment tree**
 
-We will use a very effective bottom-up approach to build segment tree. We already know from the above that if some node pp holds the sum of $[i \ldots j]$ range, its left and right children hold the sum for range $[i \ldots \frac{i + j}{2}]$ and $[\frac{i + j}{2} + 1, j]$ respectively.
+We will use a very effective bottom-up approach to build segment tree. We already know from the above that if some node $p$ holds the sum of $[i \ldots j]$ range, its left and right children hold the sum for range $[i \ldots \frac{i + j}{2}]$ and $[\frac{i + j}{2} + 1, j]$ respectively.
 
 Therefore to find the sum of node $p$, we need to calculate the sum of its right and left child in advance.
 
 We begin from the leaves, initialize them with input array elements $a[0, 1, \ldots, n-1]$. Then we move upward to the higher level to calculate the parents' sum till we get to the root of the segment tree.
 
-Java
+**Java**
 ```java
 int[] tree;
 int n;
@@ -186,7 +186,7 @@ private void buildTree(int[] nums) {
 
 When we update the array at some index ii we need to rebuild the segment tree, because there are tree nodes which contain the sum of the modified element. Again we will use a bottom-up approach. We update the leaf node that stores a[i]a[i]. From there we will follow the path up to the root updating the value of each parent as a sum of its children values.
 
-Java
+**Java**
 ```java
 void update(int pos, int val) {
     pos += n;
@@ -224,13 +224,13 @@ $l \le r$ and sum of $[L \ldots l]$ and $[r \ldots R]$ has been calculated, wher
 
 * Loop till $l \le r$
     * Check if ll is right child of its parent $P$
-        * $l$ is right child of $P$. Then $P$ contains sum of range of $l$ and another child which is outside the range $[l, r]$ and we don't need parent $P$ sum. Add $l$ to sumsum without its parent $P$ and set $l$ to point to the right of PP on the upper level.
-        * $l$ is not right child of $P$. Then parent PP contains sum of range which lies in $[l, r]$. Add $P$ to $sum$ and set $l$ to point to the parent of $P$
-    * Check if rr is left child of its parent PP
+        * $l$ is right child of $P$. Then $P$ contains sum of range of $l$ and another child which is outside the range $[l, r]$ and we don't need parent $P$ sum. Add $l$ to sumsum without its parent $P$ and set $l$ to point to the right of $P$ on the upper level.
+        * $l$ is not right child of $P$. Then parent $P$ contains sum of range which lies in $[l, r]$. Add $P$ to $sum$ and set $l$ to point to the parent of $P$
+    * Check if rr is left child of its parent $P$
         * $r$ is left child of $P$. Then $P$ contains sum of range of $r$ and another child which is outside the range $[l, r]$ and we don't need parent $P$ sum. Add $r$ to $sum$ without its parent $P$ and set $r$ to point to the left of $P$ on the upper level.
-        * $r$ is not left child of $P$. Then parent PP contains sum of range which lies in $[l, r]$. Add $P$ to $sum$ and set $r$ to point to the parent of $P$
+        * $r$ is not left child of $P$. Then parent $P$ contains sum of range which lies in $[l, r]$. Add $P$ to $sum$ and set $r$ to point to the parent of $P$
         
-Java
+**Java**
 ```java
 public int sumRange(int l, int r) {
     // get leaf with value 'l'
@@ -271,3 +271,135 @@ Analysis written by: @elmirap.
 
 # Submissions
 ---
+**Solution 1: (Naive)**
+```
+Runtime: 720 ms
+Memory Usage: 16.4 MB
+```
+```python
+class NumArray:
+
+    def __init__(self, nums: List[int]):
+        self.nums = nums
+
+    def update(self, i: int, val: int) -> None:
+        self.nums[i] = val
+
+    def sumRange(self, i: int, j: int) -> int:
+        return sum(self.nums[i:j+1])
+
+
+# Your NumArray object will be instantiated and called as such:
+# obj = NumArray(nums)
+# obj.update(i,val)
+# param_2 = obj.sumRange(i,j)
+```
+
+**Solution 2: (Sqrt Decomposition)**
+```
+Runtime: 172 ms
+Memory Usage: 16.3 MB
+```
+```python
+class NumArray:
+
+    def __init__(self, nums: List[int]):
+        N = len(nums)
+        self.nums = nums
+        self.b_N = math.ceil(N / N**.5) if N else 0
+        self.b = [0]*self.b_N
+        for i in range(N):
+            self.b[i//self.b_N] += nums[i]
+        
+
+    def update(self, i: int, val: int) -> None:
+        b_l = i // self.b_N
+        self.b[b_l] = self.b[b_l] - self.nums[i] + val
+        self.nums[i] = val
+
+    def sumRange(self, i: int, j: int) -> int:
+        rst = 0
+        startBlock = i // self.b_N
+        endBlock = j // self.b_N
+        if startBlock == endBlock:
+            for k in range(i, j+1):
+                rst += self.nums[k]
+        else:
+            for k in range(i, (startBlock + 1) * self.b_N):
+                rst += self.nums[k];
+            for k in range(startBlock + 1, endBlock):
+                rst += self.b[k]
+            for k in range(endBlock * self.b_N,  j+1):
+                rst += self.nums[k]
+
+        return rst
+
+
+
+# Your NumArray object will be instantiated and called as such:
+# obj = NumArray(nums)
+# obj.update(i,val)
+# param_2 = obj.sumRange(i,j)
+```
+
+**Solution 3: (Segment Tree)**
+```
+Runtime: 156 ms
+Memory Usage: 16.5 MB
+```
+```python
+class NumArray:
+
+    def __init__(self, nums: List[int]):
+        self.N = len(nums)
+        if self.N > 0:
+            self.tree = [0] * 2*self.N
+            self.buildTree(nums)
+    
+    def buildTree(self, nums):
+        j = 0
+        for i in range(self.N, 2*self.N):
+            self.tree[i] = nums[j]
+            j += 1
+        for i in range(self.N-1, 0, -1):
+            self.tree[i] = self.tree[i*2] + self.tree[i*2 + 1]
+        
+    def update(self, i: int, val: int) -> None:
+        pos = i + self.N
+        self.tree[pos] = val
+        while pos > 0:
+            left = pos
+            right = pos
+            if pos % 2 == 0:
+                right = pos + 1
+            else:
+                left = pos - 1
+            # parent is updated after child is updated
+            self.tree[pos // 2] = self.tree[left] + self.tree[right]
+            pos //= 2
+
+    def sumRange(self, i: int, j: int) -> int:
+        # get leaf with value 'i'
+        i += self.N;
+        # get leaf with value 'j'
+        j += self.N;
+        rst = 0
+        while i <= j:
+            if (i % 2) == 1:
+                rst += self.tree[i]
+                i += 1
+            if (j % 2) == 0:
+                rst += self.tree[j]
+                j -= 1
+            i //= 2
+            j //= 2
+            
+        return rst
+
+
+
+# Your NumArray object will be instantiated and called as such:
+# obj = NumArray(nums)
+# obj.update(i,val)
+# param_2 = obj.sumRange(i,j)
+```

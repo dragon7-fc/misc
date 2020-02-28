@@ -70,6 +70,7 @@ Happy Coding!!
 1. [Divide and Conquer](#dc)
 1. [Trie](#trie)
 1. [Recursion](#recursion)
+1. [Segment Tree](st)
 1. [Regular Expression](#re)
 
 **Note**
@@ -2615,6 +2616,54 @@ class Solution:
 ```
 * [[Hard] [Solution] 864. Shortest Path to Get All Keys](%5BHard%5D%20%5BSolution%5D%20864.%20Shortest%20Path%20to%20Get%20All%20Keys.md)
 
+### Scan X axis, and heapify Y axis
+```python
+class Solution:
+    def getSkyline(self, buildings: List[List[int]]) -> List[List[int]]:
+        """ https://leetcode.com/problems/the-skyline-problem/
+        General approach: scan the X positions where anything happened, maintaining a heap
+        of active buildings and noting when the max height changes.
+        """
+        if not buildings:
+            return []
+
+        # left and right edges are where all the action happens, so collect these.
+        # These will look like {x position: [height of each building starting or ending here]}
+        building_left_edges = collections.defaultdict(list)
+        building_right_edges = collections.defaultdict(list)
+        for building in buildings:
+            left_index, right_index, height = building
+            building_left_edges[left_index].append(height)
+            building_right_edges[right_index].append(height)
+
+        x_positions_of_interest = sorted(
+            set(building_left_edges.keys()).union(building_right_edges.keys())
+        )
+
+        # Heap will contain heights of all buildings present at the current x value.
+        # Heights will be stored as negative values since heapq only supports min heaps,
+        # and at any point we want the maximum height.
+        active_buildings_heap = []
+        last_skyline_height = 0
+        skyline = []
+        for x in x_positions_of_interest:
+            for height in building_left_edges[x]:
+                heapq.heappush(active_buildings_heap, -height)
+            if building_right_edges[x]:
+                for height in building_right_edges[x]:
+                    active_buildings_heap.remove(-height)
+                heapq.heapify(active_buildings_heap)
+
+            skyline_here = -active_buildings_heap[0] if active_buildings_heap else 0
+
+            if skyline_here != last_skyline_height:
+                last_skyline_height = skyline_here
+                skyline.append((x, skyline_here))
+
+        return skyline
+```
+* [[Hard] 218. The Skyline Problem](%5BHard%5D%20218.%20The%20Skyline%20Problem.md)
+
 **Template 1:**
 ```python
 ans = ...
@@ -2640,6 +2689,7 @@ for ... in sortedXXX:
 
 return ans
 ```
+
 ## Union Find <a name="uf"></a>
 ---
 ### Path Compression
@@ -3858,6 +3908,10 @@ class Solution:
         return Solution.memo[N]
 ```
 * [[Medium] [Solution] 894. All Possible Full Binary Trees](%5BMedium%5D%20%5BSolution%5D%20894.%20All%20Possible%20Full%20Binary%20Trees.md)
+
+## Segment Tree <a name="st"></a>
+---
+
 
 ## Regular Expression <a name="re"></a>
 ---

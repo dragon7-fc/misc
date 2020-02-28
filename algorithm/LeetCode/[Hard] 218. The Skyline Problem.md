@@ -24,13 +24,12 @@ For instance, the skyline in Figure B should be represented as:`[ [2 10], [3 15]
 ---
 **Solution 1: (Heap)**
 ```
-Runtime: 996 ms
-Memory Usage: 17.9 MB
+Runtime: 144 ms
+Memory Usage: 17.7 MB
 ```
 ```python
 class Solution:
     def getSkyline(self, buildings: List[List[int]]) -> List[List[int]]:
-        
         """ https://leetcode.com/problems/the-skyline-problem/
         General approach: scan the X positions where anything happened, maintaining a heap
         of active buildings and noting when the max height changes.
@@ -65,11 +64,7 @@ class Solution:
                     active_buildings_heap.remove(-height)
                 heapq.heapify(active_buildings_heap)
 
-            heap_smallest = heapq.nsmallest(1, active_buildings_heap)
-            try:
-                skyline_here = -heap_smallest[0]
-            except IndexError:  # Heap is empty - no buildings here
-                skyline_here = 0
+            skyline_here = -active_buildings_heap[0] if active_buildings_heap else 0
 
             if skyline_here != last_skyline_height:
                 last_skyline_height = skyline_here
