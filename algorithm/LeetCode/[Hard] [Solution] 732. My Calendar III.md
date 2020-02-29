@@ -93,3 +93,35 @@ class MyCalendarThree:
 # obj = MyCalendarThree()
 # param_1 = obj.book(start,end)
 ```
+
+**Solution 2: (bisect.insort)**
+
+Maintain a sorted list of (timestamp, 1 or -1) tuple where second element is 1 indicates the start of event and -1 indicates the end, note that tuples are sorted by timestamp by default. When calculating K, just tranverse the list and keep track of max number of events in one moment.
+```
+Runtime: 1436 ms
+Memory Usage: 12.9 MB
+```
+```python
+class MyCalendarThree:
+
+    def __init__(self):
+         self.events = []
+
+    def book(self, start: int, end: int) -> int:
+        bisect.insort(self.events, (start, 1))
+        bisect.insort(self.events, (end, -1))
+        
+        cur = 0
+        res = 0
+        
+        for event in self.events:
+            cur += event[1]
+            res = max(res, cur)
+        
+        return res
+
+
+# Your MyCalendarThree object will be instantiated and called as such:
+# obj = MyCalendarThree()
+# param_1 = obj.book(start,end)
+```

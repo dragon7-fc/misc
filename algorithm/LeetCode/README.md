@@ -70,7 +70,8 @@ Happy Coding!!
 1. [Divide and Conquer](#dc)
 1. [Trie](#trie)
 1. [Recursion](#recursion)
-1. [Segment Tree](st)
+1. [Segment Tree](#st)
+1. [Ordered Map](#om)
 1. [Regular Expression](#re)
 
 **Note**
@@ -3911,10 +3912,479 @@ class Solution:
 
 ## Segment Tree <a name="st"></a>
 ---
+### Range Sum
+```python
+class NumArray:
 
+    def __init__(self, nums: List[int]):
+        self.N = len(nums)
+        if self.N > 0:
+            self.tree = [0] * 2*self.N
+            self.buildTree(nums)
+
+    def buildTree(self, nums):
+        j = 0
+        for i in range(self.N, 2*self.N):
+            self.tree[i] = nums[j]
+            j += 1
+        for i in range(self.N-1, 0, -1):
+            self.tree[i] = self.tree[i*2] + self.tree[i*2 + 1]
+
+    def update(self, i: int, val: int) -> None:
+        pos = i + self.N
+        self.tree[pos] = val
+        while pos > 0:
+            left = pos
+            right = pos
+            if pos % 2 == 0:
+                right = pos + 1
+            else:
+                left = pos - 1
+            # parent is updated after child is updated
+            self.tree[pos // 2] = self.tree[left] + self.tree[right]
+            pos //= 2
+
+    def sumRange(self, i: int, j: int) -> int:
+        # get leaf with value 'i'
+        i += self.N;
+        # get leaf with value 'j'
+        j += self.N;
+        rst = 0
+        while i <= j:
+            if (i % 2) == 1:
+                rst += self.tree[i]
+                i += 1
+            if (j % 2) == 0:
+                rst += self.tree[j]
+                j -= 1
+            i //= 2
+            j //= 2
+
+        return rst
+
+
+
+# Your NumArray object will be instantiated and called as such:
+# obj = NumArray(nums)
+# obj.update(i,val)
+# param_2 = obj.sumRange(i,j)
+```
+* [[Medium] [Solution] 307. Range Sum Query - Mutable](%5BMedium%5D%20%5BSolution%5D%20307.%20Range%20Sum%20Query%20-%20Mutable.md)
+
+### Maintain Sorted Disjoint Intervals
+```python
+class RangeModule:
+
+    def __init__(self):
+        self.ranges = []
+
+    def _bounds(self, left, right):
+        i, j = 0, len(self.ranges) - 1
+        for d in (100, 10, 1):  # The total number of calls to addRange in a single test case is at most 1000
+            while i + d - 1 < len(self.ranges) and self.ranges[i+d-1][1] < left:
+                i += d
+            while j >= d - 1 and self.ranges[j-d+1][0] > right:
+                j -= d
+        return i, j
+
+    def addRange(self, left: int, right: int) -> None:
+        i, j = self._bounds(left, right)
+        if i <= j:
+            left = min(left, self.ranges[i][0])
+            right = max(right, self.ranges[j][1])
+        self.ranges[i:j+1] = [(left, right)]
+
+    def queryRange(self, left: int, right: int) -> bool:
+        i = bisect.bisect_left(self.ranges, (left, float('inf')))
+        if i: i -= 1
+        return (bool(self.ranges) and
+                self.ranges[i][0] <= left and
+                right <= self.ranges[i][1])
+
+    def removeRange(self, left: int, right: int) -> None:
+        i, j = self._bounds(left, right)
+        merge = []
+        for k in range(i, j+1):
+            if self.ranges[k][0] < left:
+                merge.append((self.ranges[k][0], left))
+            if right < self.ranges[k][1]:
+                merge.append((right, self.ranges[k][1]))
+        self.ranges[i:j+1] = merge
+
+
+# Your RangeModule object will be instantiated and called as such:
+# obj = RangeModule()
+# obj.addRange(left,right)
+# param_2 = obj.queryRange(left,right)
+# obj.removeRange(left,right)
+```
+* [[Hard] [Solution] 715. Range Module](%5BHard%5D%20%5BSolution%5D%20715.%20Range%20Module.md)
+
+### Boundary Count
+```python
+class MyCalendarThree:
+
+    def __init__(self):
+        self.delta = collections.Counter()
+
+    def book(self, start: int, end: int) -> int:
+        self.delta[start] += 1
+        self.delta[end] -= 1
+
+        active = ans = 0
+        for x in sorted(self.delta):
+            active += self.delta[x]
+            if active > ans: ans = active
+
+        return ans
+
+
+# Your MyCalendarThree object will be instantiated and called as such:
+# obj = MyCalendarThree()
+# param_1 = obj.book(start,end)
+```
+* [[Hard] [Solution] 732. My Calendar III](%5BHard%5D%20%5BSolution%5D%20732.%20My%20Calendar%20III.md)
+
+### Segment Tree with Lazy Propagation
+```python
+class SegmentTree(object):
+    def __init__(self, N, update_fn, query_fn):
+        self.N = N
+        self.H = 1
+        while 1 << self.H < N:
+            self.H += 1
+
+        self.update_fn = update_fn
+        self.query_fn = query_fn
+        self.tree = [0] * (2 * N)
+        self.lazy = [0] * N
+
+    def _apply(self, x, val):
+        self.tree[x] = self.update_fn(self.tree[x], val)
+        if x < self.N:
+            self.lazy[x] = self.update_fn(self.lazy[x], val)
+
+    def _pull(self, x):
+        while x > 1:
+            x //= 2
+            self.tree[x] = self.query_fn(self.tree[x*2], self.tree[x*2 + 1])
+            self.tree[x] = self.update_fn(self.tree[x], self.lazy[x])
+
+    def _push(self, x):
+        for h in range(self.H, 0, -1):
+            y = x >> h
+            if self.lazy[y]:
+                self._apply(y * 2, self.lazy[y])
+                self._apply(y * 2+ 1, self.lazy[y])
+                self.lazy[y] = 0
+
+    def update(self, L, R, h):
+        L += self.N
+        R += self.N
+        L0, R0 = L, R
+        while L <= R:
+            if L & 1:
+                self._apply(L, h)
+                L += 1
+            if R & 1 == 0:
+                self._apply(R, h)
+                R -= 1
+            L //= 2; R //= 2
+        self._pull(L0)
+        self._pull(R0)
+
+    def query(self, L, R):
+        L += self.N
+        R += self.N
+        self._push(L); self._push(R)
+        ans = 0
+        while L <= R:
+            if L & 1:
+                ans = self.query_fn(ans, self.tree[L])
+                L += 1
+            if R & 1 == 0:
+                ans = self.query_fn(ans, self.tree[R])
+                R -= 1
+            L //= 2; R //= 2
+        return ans
+
+class Solution:
+    def fallingSquares(self, positions: List[List[int]]) -> List[int]:
+        #Coordinate Compression
+        coords = set()
+        for left, size in positions:
+            coords.add(left)
+            coords.add(left + size - 1)
+        index = {x: i for i, x in enumerate(sorted(coords))}
+
+        tree = SegmentTree(len(index), max, max)
+        best = 0
+        ans = []
+        for left, size in positions:
+            L, R = index[left], index[left + size - 1]
+            h = tree.query(L, R) + size
+            tree.update(L, R, h)
+            best = max(best, h)
+            ans.append(best)
+
+        return ans
+```
+* [[Hard] [Solution] 699. Falling Squares](%5BHard%5D%20%5BSolution%5D%20699.%20Falling%20Squares.md)
+
+### Segment Tree
+```python
+class Node(object):
+    def __init__(self, start, end):
+        self.start, self.end = start, end
+        self.total = self.count = 0
+        self._left = self._right = None
+
+    @property
+    def mid(self):
+        return (self.start + self.end) // 2
+
+    @property
+    def left(self):
+        self._left = self._left or Node(self.start, self.mid)
+        return self._left
+
+    @property
+    def right(self):
+        self._right = self._right or Node(self.mid, self.end)
+        return self._right
+
+    def update(self, i, j, val):
+        if i >= j: return 0
+        if self.start == i and self.end == j:
+            self.count += val
+        else:
+            self.left.update(i, min(self.mid, j), val)
+            self.right.update(max(self.mid, i), j, val)
+
+        if self.count > 0:
+            self.total = X[self.end] - X[self.start]
+        else:
+            self.total = self.left.total + self.right.total
+
+        return self.total
+
+class Solution:
+    def rectangleArea(self, rectangles: List[List[int]]) -> int:
+        OPEN, CLOSE = 1, -1
+        events = []
+        global X
+        X = set()
+        for x1, y1, x2, y2 in rectangles:
+            events.append((y1, OPEN, x1, x2))
+            events.append((y2, CLOSE, x1, x2))
+            X.add(x1)
+            X.add(x2)
+        events.sort()
+
+        X = sorted(X)
+        Xi = {x: i for i, x in enumerate(X)}
+
+        active = Node(0, len(X) - 1)
+        ans = 0
+        cur_x_sum = 0
+        cur_y = events[0][0]
+
+        for y, typ, x1, x2 in events:
+            ans += cur_x_sum * (y - cur_y)
+            cur_x_sum = active.update(Xi[x1], Xi[x2], typ)
+            cur_y = y
+
+        return ans % (10**9 + 7)
+```
+* [[Hard] [Solution] 850. Rectangle Area II](%5BHard%5D%20%5BSolution%5D%20850.%20Rectangle%20Area%20II.md)
+
+### Binary Search, Insertion Sort
+```python
+class Solution:
+    def countSmaller(self, nums: List[int]) -> List[int]:
+        if not nums:
+            return []
+        sortedNums = [nums[-1]]
+        ans = [0 for _ in range(len(nums))]
+        for i in range(len(nums) -2, -1, -1):
+            index = bisect.bisect_left(sortedNums, nums[i])
+            ans[i] = index
+            sortedNums.insert(index, nums[i])
+        return ans
+```
+* [[Hard] 315. Count of Smaller Numbers After Self](%5BHard%5D%20315.%20Count%20of%20Smaller%20Numbers%20After%20Self.md)
+
+## Ordered Map <a name="om"></a>
+---
+### Maintain Sorted Positions
+```python
+class ExamRoom:
+
+    def __init__(self, N: int):
+        self.N = N
+        self.students = []
+
+    def seat(self) -> int:
+        # Let's determine student, the position of the next
+        # student to sit down.
+        if not self.students:
+            student = 0
+        else:
+            # Tenatively, dist is the distance to the closest student,
+            # which is achieved by sitting in the position 'student'.
+            # We start by considering the left-most seat.
+            dist, student = self.students[0], 0
+            for i, s in enumerate(self.students):
+                if i:
+                    prev = self.students[i-1]
+                    # For each pair of adjacent students in positions (prev, s),
+                    # d is the distance to the closest student;
+                    # achieved at position prev + d.
+                    d = (s - prev) // 2
+                    if d > dist:
+                        dist, student = d, prev + d
+
+            # Considering the right-most seat.
+            d = self.N - 1 - self.students[-1]
+            if d > dist:
+                student = self.N - 1
+
+        # Add the student to our sorted list of positions.
+        bisect.insort(self.students, student)
+        return student
+
+    def leave(self, p: int) -> None:
+        self.students.remove(p)
+
+
+# Your ExamRoom object will be instantiated and called as such:
+# obj = ExamRoom(N)
+# param_1 = obj.seat()
+# obj.leave(p)
+```
+* [[Medium] [Solution] 855. Exam Room](%5BMedium%5D%20%5BSolution%5D%20855.%20Exam%20Room.md)
+
+### Maintain Sorted Intervals
+```python
+class SummaryRanges:
+
+    def __init__(self):
+        """
+        Initialize your data structure here.
+        """
+        self._X = []
+
+    def addNum(self, val: int) -> None:
+        idx = bisect.bisect(self._X, [val])
+        if idx == 0 or self._X[idx-1][1] + 1 < val:  # new interval
+            l_idx = idx
+            l_val = val
+        else:  # extend interval
+            l_idx = idx-1
+            l_val = self._X[idx-1][0]
+
+        if idx == len(self._X) or self._X[idx][0]-1 > val:  # new interval
+            r_idx = idx
+            r_val = max(val, self._X[idx-1][1] if idx > 0 else -float('inf'))
+        else:  # extend interval
+            r_idx = idx+1
+            r_val = self._X[idx][1]
+
+        self._X[l_idx:r_idx] = [[l_val, r_val]]
+
+    def getIntervals(self) -> List[List[int]]:
+        return self._X
+
+
+# Your SummaryRanges object will be instantiated and called as such:
+# obj = SummaryRanges()
+# obj.addNum(val)
+# param_2 = obj.getIntervals()
+```
+* [[Hard] 352. Data Stream as Disjoint Intervals](%5BHard%5D%20352.%20Data%20Stream%20as%20Disjoint%20Intervals.md)
+
+### Monotonic Stack
+```python
+class Solution:
+    def oddEvenJumps(self, A: List[int]) -> int:
+        N = len(A)
+
+        def make(B):
+            ans = [None] * N
+            stack = []  # invariant: stack is decreasing
+            for i in B:
+                while stack and i > stack[-1]:
+                    ans[stack.pop()] = i
+                stack.append(i)
+            return ans
+
+        B = sorted(range(N), key = lambda i: A[i])
+        oddnext = make(B)
+        B.sort(key = lambda i: -A[i])
+        evennext = make(B)
+
+        odd = [False] * N
+        even = [False] * N
+        odd[N-1] = even[N-1] = True
+
+        for i in range(N-2, -1, -1):
+            if oddnext[i] is not None:
+                odd[i] = even[oddnext[i]]
+            if evennext[i] is not None:
+                even[i] = odd[evennext[i]]
+
+        return sum(odd)
+```
+* [[Hard] [Solution] 975. Odd Even Jump](%5BHard%5D%20%5BSolution%5D%20975.%20Odd%20Even%20Jump.md)
 
 ## Regular Expression <a name="re"></a>
 ---
+### Using regex for spliting
+```python
+class Solution:
+    def solveEquation(self, equation: str) -> str:
+        def coeff(x):
+            if len(x) > 1 and x[len(x) - 2] >= '0' and x[len(x) - 2] <= '9':
+                return x.replace('x', '')
+            return x.replace('x', '1')
+
+        lr = equation.split('=')
+        lhs = 0
+        rhs = 0
+        for x in re.split(r"(?=\+)|(?=-)", lr[0]):
+            if x.find('x') >= 0:
+                lhs += int(coeff(x))
+            else:
+                rhs -= int(x) if x != '' else 0
+        for x in re.split(r"(?=\+)|(?=-)", lr[1]):
+            if x.find('x') >= 0:
+                lhs -= int(coeff(x))
+            else:
+                rhs += int(x) if x != '' else 0
+        if (lhs == 0):
+            if (rhs == 0):
+                return "Infinite solutions";
+            else:
+                return "No solution";
+        else:
+            return 'x={}'.format(rhs // lhs)
+```
+* [[Medium] [Solution] 640. Solve the Equation](%5BMedium%5D%20%5BSolution%5D%20640.%20Solve%20the%20Equation.md)
+
+### match
+```python
+class Solution:
+    def validIPAddress(self, IP: str) -> str:
+        pattern_ipv4 = r"^((25[0-5]|2[0-4]\d|1\d{0,2}|\d|[1-9]\d)\.){3}(25[0-5]|2[0-4]\d|1\d{0,2}|\d|[1-9]\d)$"
+        pattern_ipv6 = r"^(?i)(([0-9a-f]{1,4}|0):){7}([0-9a-f]{1,4}|0)$"
+        if re.match(pattern_ipv4, IP):
+            return 'IPv4'
+        if re.match(pattern_ipv6, IP):
+            return 'IPv6'
+        return 'Neither'
+```
+* [[Medium] 468. Validate IP Address](%5BMedium%5D%20468.%20Validate%20IP%20Address.md)
+
 ### Decode
 ```python
 class Solution:
@@ -3935,9 +4405,3 @@ class Solution:
                        for name in sorted(stack[-1]))
 ```
 * [[Hard] [Solution] 726. Number of Atoms](%5BHard%5D%20%5BSolution%5D%20726.%20Number%20of%20Atoms.md)
-
-* [[Easy] 1309. Decrypt String from Alphabet to Integer Mapping](%5BEasy%5D%201309.%20Decrypt%20String%20from%20Alphabet%20to%20Integer%20Mapping.md)
-* [[Medium] [Solution] 640. Solve the Equation](%5BMedium%5D%20%5BSolution%5D%20640.%20Solve%20the%20Equation.md)
-* [[Medium] [Solution] 592. Fraction Addition and Subtraction](%5BMedium%5D%20%5BSolution%5D%20592.%20Fraction%20Addition%20and%20Subtraction.md)
-* [[Medium] 468. Validate IP Address](%5BMedium%5D%20468.%20Validate%20IP%20Address.md)
-* [[Medium] 227. Basic Calculator II](%5BMedium%5D%20227.%20Basic%20Calculator%20II.md)

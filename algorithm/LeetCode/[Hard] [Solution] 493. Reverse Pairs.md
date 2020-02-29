@@ -382,3 +382,20 @@ class Solution:
 
         return mergesort_and_count(0, len(nums) - 1)
 ```
+
+**Solution 2: (Binary Search, insertion sort)**
+```
+Runtime: 2152 ms
+Memory Usage: 19.6 MB
+```
+```python
+class Solution:
+    def reversePairs(self, nums: List[int]) -> int:
+        res = 0
+        sorted_values = []
+        for j in range(len(nums)):
+            i = bisect.bisect_right(sorted_values, 2 * nums[j])
+            res += (j - i)
+            bisect.insort(sorted_values, nums[j])
+        return res
+```

@@ -29,7 +29,7 @@ Output: 5
 
 # Submissions
 ---
-**Solution 1:**
+**Solution 1: (Stack)**
 ```
 Runtime: 84 ms
 Memory Usage: 16 MB
@@ -60,7 +60,7 @@ class Solution:
         return sum(stack)
 ```
 
-**Solution 2:**
+**Solution 2: (Stack)**
 ```
 Runtime: 68 ms
 Memory Usage: 14.6 MB

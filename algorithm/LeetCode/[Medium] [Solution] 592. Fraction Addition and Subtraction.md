@@ -183,7 +183,7 @@ public class Solution {
 
 # Submisssions
 ---
-**Solution 1:**
+**Solution 1: (Using GCD)**
 ```
 Runtime: 24 ms
 Memory Usage: 12.8 MB

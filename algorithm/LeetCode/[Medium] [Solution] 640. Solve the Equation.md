@@ -163,29 +163,28 @@ public class Solution {
 
 # Submissions
 ---
-**Solution 1:**
+**Solution 1: (Using regex for spliting)**
 ```
-Runtime: 24 ms
-Memory Usage: 12.7 MB
+Runtime: 12 ms
+Memory Usage: 12.6 MB
 ```
 ```python
-import re
 class Solution:
     def solveEquation(self, equation: str) -> str:
         def coeff(x):
             if len(x) > 1 and x[len(x) - 2] >= '0' and x[len(x) - 2] <= '9':
                 return x.replace('x', '')
             return x.replace('x', '1')
-        
+
         lr = equation.split('=')
         lhs = 0
         rhs = 0
-        for x in re.split('(?=\\+)|(?=-)', lr[0]):
+        for x in re.split(r"(?=\+)|(?=-)", lr[0]):
             if x.find('x') >= 0:
                 lhs += int(coeff(x))
             else:
                 rhs -= int(x) if x != '' else 0
-        for x in re.split('(?=\\+)|(?=-)', lr[1]):
+        for x in re.split(r"(?=\+)|(?=-)", lr[1]):
             if x.find('x') >= 0:
                 lhs -= int(coeff(x))
             else:

@@ -9,7 +9,7 @@ The square is dropped with the bottom edge parallel to the number line, and from
 The squares are infinitely sticky on their bottom edge, and will remain fixed to any positive length surface they touch (either the number line or another square). Squares dropped adjacent to each other will not stick together prematurely.
 
  
-Return a list ans of heights. Each height `ans[i]` represents the current highest height of any square we have dropped, after dropping squares represented by `positions[0], positions[1], ..., positions[i]`.
+Return a list `ans` of heights. Each height `ans[i]` represents the current highest height of any square we have dropped, after dropping squares represented by `positions[0], positions[1], ..., positions[i]`.
 
 **Example 1:**
 ```
@@ -67,7 +67,7 @@ Instead of asking the question "what squares affect this query?", lets ask the q
 
 **Algorithm**
 
-Let `qans[i]` be the maximum height of the interval specified by `positions[i]`. At the end, we'll return a running max of qans.
+Let `qans[i]` be the maximum height of the interval specified by `positions[i]`. At the end, we'll return a running max of `qans`.
 
 For each square `positions[i]`, the maximum height will get higher by the size of the square we drop. Then, for any future squares that intersect the interval `[left, right)` (where `left = positions[i][0], right = positions[i][0] + positions[i][1]`), we'll update the maximum height of that interval.
 
@@ -139,13 +139,13 @@ class Solution(object):
 ## Approach 3: Block (Square Root) Decomposition
 **Intuition**
 
-Whenever we perform operations (like update and query) on some interval in a domain, we could segment that domain with size WW into blocks of size $\sqrt{W}$.
+Whenever we perform operations (like `update` and `query`) on some interval in a domain, we could segment that domain with size $W$ into blocks of size $\sqrt{W}$.
 
-Then, instead of a typical brute force where we update our array heights representing the board, we will also hold another array blocks, where `blocks[i]` represents the $B = \lfloor \sqrt{W} \rfloor$ elements `heights[B*i], heights[B*i + 1], ..., heights[B*i + B-1]`. This allows us to write to the array in $O(B)$ operations.
+Then, instead of a typical brute force where we update our array `heights` representing the board, we will also hold another array `blocks`, where `blocks[i]` represents the $B = \lfloor \sqrt{W} \rfloor$ elements `heights[B*i], heights[B*i + 1], ..., heights[B*i + B-1]`. This allows us to write to the array in $O(B)$ operations.
 
 **Algorithm**
 
-Let's get into the details. We actually need another array, blocks_read. When we update some element `i` in block `b = i / B`, we'll also update `blocks_read[b]`. If later we want to read the entire block, we can read from here (and stuff written to the whole block in `blocks[b]`.)
+Let's get into the details. We actually need another array, `blocks_read`. When we update some element `i` in block `b = i / B`, we'll also update `blocks_read[b]`. If later we want to read the entire block, we can read from here (and stuff written to the whole block in `blocks[b]`.)
 
 When we write to a block, we'll write in `blocks[b]`. Later, when we want to read from an element `i` in block `b = i / B`, we'll read from `heights[i]` and `blocks[b]`.
 
@@ -309,4 +309,211 @@ class Solution(object):
 
 # Submissions
 ---
-**Solution 1:**
+**Solution 1: (Offline Propagation)**
+```
+Runtime: 668 ms
+Memory Usage: 13.1 MB
+```
+```python
+class Solution:
+    def fallingSquares(self, positions: List[List[int]]) -> List[int]:
+        qans = [0] * len(positions)
+        for i, (left, size) in enumerate(positions):
+            right = left + size
+            qans[i] += size
+            for j in range(i+1, len(positions)):
+                left2, size2 = positions[j]
+                right2 = left2 + size2
+                if left2 < right and left < right2: #intersect
+                    qans[j] = max(qans[j], qans[i])
+
+        ans = []
+        for x in qans:
+            ans.append(max(ans[-1], x) if ans else x)
+        return ans
+```
+
+**Solution 2: (Brute Force with Coordinate Compression)**
+```
+Runtime: 164 ms
+Memory Usage: 13.4 MB
+```
+```python
+class Solution:
+    def fallingSquares(self, positions: List[List[int]]) -> List[int]:
+        #Coordinate Compression
+        coords = set()
+        for left, size in positions:
+            coords.add(left)
+            coords.add(left + size - 1)
+        index = {x: i for i, x in enumerate(sorted(coords))}
+
+        heights = [0] * len(index)
+        def query(L, R):
+            return max(heights[i] for i in range(L, R+1))
+
+        def update(L, R, h):
+            for i in range(L, R+1):
+                heights[i] = max(heights[i], h)
+
+        best = 0
+        ans = []
+        for left, size in positions:
+            L = index[left]
+            R = index[left + size - 1]
+            h = query(L, R) + size
+            update(L, R, h)
+            best = max(best, h)
+            ans.append(best)
+
+        return ans
+```
+
+**Solution 3: (Block (Square Root) Decomposition)**
+```
+Runtime: 284 ms
+Memory Usage: 13.4 MB
+```
+```python
+class Solution:
+    def fallingSquares(self, positions: List[List[int]]) -> List[int]:
+        #Coordinate Compression
+        coords = set()
+        for left, size in positions:
+            coords.add(left)
+            coords.add(left + size - 1)
+        index = {x: i for i, x in enumerate(sorted(coords))}
+
+        W = len(index)
+        B = int(W**.5)
+        heights = [0] * W
+        blocks = [0] * (B+2)
+        blocks_read = [0] * (B+2)
+
+        def query(left, right):
+            ans = 0
+            while left % B and left <= right:
+                ans = max(ans, heights[left], blocks[left // B])
+                left += 1
+            while right % B != B-1 and left <= right:
+                ans = max(ans, heights[right], blocks[right // B])
+                right -= 1
+            while left <= right:
+                ans = max(ans, blocks[left // B], blocks_read[left // B])
+                left += B
+            return ans
+
+        def update(left, right, h):
+            while left % B and left <= right:
+                heights[left] = max(heights[left], h)
+                blocks_read[left // B] = max(blocks_read[left // B], h)
+                left += 1
+            while right % B != B-1 and left <= right:
+                heights[right] = max(heights[right], h)
+                blocks_read[right // B] = max(blocks_read[right // B], h)
+                right -= 1
+            while left <= right:
+                blocks[left // B] = max(blocks[left // B], h)
+                left += B
+
+        best = 0
+        ans = []
+        for left, size in positions:
+            L = index[left]
+            R = index[left + size - 1]
+            h = query(L, R) + size
+            update(L, R, h)
+            best = max(best, h)
+            ans.append(best)
+
+        return ans
+```
+
+**Solution 4: (Segment Tree with Lazy Propagation)**
+```
+Runtime: 368 ms
+Memory Usage: 13.5 MB
+```
+```python
+class SegmentTree(object):
+    def __init__(self, N, update_fn, query_fn):
+        self.N = N
+        self.H = 1
+        while 1 << self.H < N:
+            self.H += 1
+
+        self.update_fn = update_fn
+        self.query_fn = query_fn
+        self.tree = [0] * (2 * N)
+        self.lazy = [0] * N
+
+    def _apply(self, x, val):
+        self.tree[x] = self.update_fn(self.tree[x], val)
+        if x < self.N:
+            self.lazy[x] = self.update_fn(self.lazy[x], val)
+
+    def _pull(self, x):
+        while x > 1:
+            x //= 2
+            self.tree[x] = self.query_fn(self.tree[x*2], self.tree[x*2 + 1])
+            self.tree[x] = self.update_fn(self.tree[x], self.lazy[x])
+
+    def _push(self, x):
+        for h in range(self.H, 0, -1):
+            y = x >> h
+            if self.lazy[y]:
+                self._apply(y * 2, self.lazy[y])
+                self._apply(y * 2+ 1, self.lazy[y])
+                self.lazy[y] = 0
+
+    def update(self, L, R, h):
+        L += self.N
+        R += self.N
+        L0, R0 = L, R
+        while L <= R:
+            if L & 1:
+                self._apply(L, h)
+                L += 1
+            if R & 1 == 0:
+                self._apply(R, h)
+                R -= 1
+            L //= 2; R //= 2
+        self._pull(L0)
+        self._pull(R0)
+
+    def query(self, L, R):
+        L += self.N
+        R += self.N
+        self._push(L); self._push(R)
+        ans = 0
+        while L <= R:
+            if L & 1:
+                ans = self.query_fn(ans, self.tree[L])
+                L += 1
+            if R & 1 == 0:
+                ans = self.query_fn(ans, self.tree[R])
+                R -= 1
+            L //= 2; R //= 2
+        return ans
+
+class Solution:
+    def fallingSquares(self, positions: List[List[int]]) -> List[int]:
+        #Coordinate Compression
+        coords = set()
+        for left, size in positions:
+            coords.add(left)
+            coords.add(left + size - 1)
+        index = {x: i for i, x in enumerate(sorted(coords))}
+
+        tree = SegmentTree(len(index), max, max)
+        best = 0
+        ans = []
+        for left, size in positions:
+            L, R = index[left], index[left + size - 1]
+            h = tree.query(L, R) + size
+            tree.update(L, R, h)
+            best = max(best, h)
+            ans.append(best)
+
+        return ans
+```

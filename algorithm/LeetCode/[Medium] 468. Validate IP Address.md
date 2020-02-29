@@ -43,7 +43,7 @@ Explanation: This is neither a IPv4 address nor a IPv6 address.
 
 # Submissions
 ---
-**Solution 1:**
+**Solution 1: (regex)**
 ```
 Runtime: 24 ms
 Memory Usage: 12.8 MB

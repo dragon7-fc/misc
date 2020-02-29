@@ -191,6 +191,12 @@ class Solution(object):
         return ans % (10**9 + 7)
 ```
 
+**Complexity Analysis**
+
+* Time Complexity: $O(N^2 \log N)$, where $N$ is the number of rectangles.
+
+* Space Complexity: $O(N)$.
+
 ## Approach #4: Segment Tree
 **Intuition and Algorithm**
 
@@ -271,4 +277,149 @@ class Solution(object):
 
 # Submissions
 ---
-**Solution 1:**
+**Solution 1: (Coordinate Compression)**
+```
+Runtime: 136 ms
+Memory Usage: 12.9 MB
+```
+```python
+class Solution:
+    def rectangleArea(self, rectangles: List[List[int]]) -> int:
+        N = len(rectangles)
+        Xvals, Yvals = set(), set()
+        for x1, y1, x2, y2 in rectangles:
+            Xvals.add(x1); Xvals.add(x2)
+            Yvals.add(y1); Yvals.add(y2)
+
+        imapx = sorted(Xvals)
+        imapy = sorted(Yvals)
+        mapx = {x: i for i, x in enumerate(imapx)}
+        mapy = {y: i for i, y in enumerate(imapy)}
+
+        grid = [[0] * len(imapy) for _ in imapx]
+        for x1, y1, x2, y2 in rectangles:
+            for x in range(mapx[x1], mapx[x2]):
+                for y in range(mapy[y1], mapy[y2]):
+                    grid[x][y] = 1
+
+        ans = 0
+        for x, row in enumerate(grid):
+            for y, val in enumerate(row):
+                if val:
+                    ans += (imapx[x+1] - imapx[x]) * (imapy[y+1] - imapy[y])
+        return ans % (10**9 + 7)
+```
+
+**Solution 2: (Line Sweep)**
+```
+Runtime: 48 ms
+Memory Usage: 13 MB
+```
+```python
+class Solution:
+    def rectangleArea(self, rectangles: List[List[int]]) -> int:
+        # Populate events
+        OPEN, CLOSE = 0, 1
+        events = []
+        for x1, y1, x2, y2 in rectangles:
+            events.append((y1, OPEN, x1, x2))
+            events.append((y2, CLOSE, x1, x2))
+        events.sort()
+
+        def query():
+            ans = 0
+            cur = -1
+            for x1, x2 in active:
+                cur = max(cur, x1)
+                ans += max(0, x2 - cur)
+                cur = max(cur, x2)
+            return ans
+
+        active = []
+        cur_y = events[0][0]
+        ans = 0
+        for y, typ, x1, x2 in events:
+            # For all vertical ground covered, update answer
+            ans += query() * (y - cur_y)
+
+            # Update active intervals
+            if typ is OPEN:
+                active.append((x1, x2))
+                active.sort()
+            else:    
+                active.remove((x1, x2))
+
+            cur_y = y
+
+        return ans % (10**9 + 7)
+```
+
+**Solution 3: (Segment Tree)**
+```
+Runtime: 84 ms
+Memory Usage: 12.6 MB
+```
+```python
+class Node(object):
+    def __init__(self, start, end):
+        self.start, self.end = start, end
+        self.total = self.count = 0
+        self._left = self._right = None
+
+    @property
+    def mid(self):
+        return (self.start + self.end) // 2
+
+    @property
+    def left(self):
+        self._left = self._left or Node(self.start, self.mid)
+        return self._left
+
+    @property
+    def right(self):
+        self._right = self._right or Node(self.mid, self.end)
+        return self._right
+
+    def update(self, i, j, val):
+        if i >= j: return 0
+        if self.start == i and self.end == j:
+            self.count += val
+        else:
+            self.left.update(i, min(self.mid, j), val)
+            self.right.update(max(self.mid, i), j, val)
+
+        if self.count > 0:
+            self.total = X[self.end] - X[self.start]
+        else:
+            self.total = self.left.total + self.right.total
+
+        return self.total
+
+class Solution:
+    def rectangleArea(self, rectangles: List[List[int]]) -> int:
+        OPEN, CLOSE = 1, -1
+        events = []
+        global X
+        X = set()
+        for x1, y1, x2, y2 in rectangles:
+            events.append((y1, OPEN, x1, x2))
+            events.append((y2, CLOSE, x1, x2))
+            X.add(x1)
+            X.add(x2)
+        events.sort()
+
+        X = sorted(X)
+        Xi = {x: i for i, x in enumerate(X)}
+
+        active = Node(0, len(X) - 1)
+        ans = 0
+        cur_x_sum = 0
+        cur_y = events[0][0]
+
+        for y, typ, x1, x2 in events:
+            ans += cur_x_sum * (y - cur_y)
+            cur_x_sum = active.update(Xi[x1], Xi[x2], typ)
+            cur_y = y
+
+        return ans % (10**9 + 7)
+```
