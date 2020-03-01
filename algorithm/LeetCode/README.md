@@ -72,6 +72,7 @@ Happy Coding!!
 1. [Recursion](#recursion)
 1. [Segment Tree](#st)
 1. [Ordered Map](#om)
+1. [Queue](#queue)
 1. [Regular Expression](#re)
 
 **Note**
@@ -4348,6 +4349,34 @@ class Solution:
         return sum(odd)
 ```
 * [[Hard] [Solution] 975. Odd Even Jump](%5BHard%5D%20%5BSolution%5D%20975.%20Odd%20Even%20Jump.md)
+
+## Queue <a name="queue"></a>
+---
+### Sliding Window
+```python
+class Solution:
+    def shortestSubarray(self, A: List[int], K: int) -> int:
+        N = len(A)
+        P = [0]
+        for x in A:
+            P.append(P[-1] + x)
+
+        #Want smallest y-x with Py - Px >= K
+        ans = N+1 # N+1 is impossible
+        monoq = collections.deque() #opt(y) candidates, represented as indices of P
+        for y, Py in enumerate(P):
+            #Want opt(y) = largest x with Px <= Py - K
+            while monoq and Py <= P[monoq[-1]]:
+                monoq.pop()
+
+            while monoq and Py - P[monoq[0]] >= K:
+                ans = min(ans, y - monoq.popleft())
+
+            monoq.append(y)
+
+        return ans if ans < N+1 else -1
+```
+* [[Hard] [Solution] 862. Shortest Subarray with Sum at Least K](%5BHard%5D%20%5BSolution%5D%20862.%20Shortest%20Subarray%20with%20Sum%20at%20Least%20K.md)
 
 ## Regular Expression <a name="re"></a>
 ---

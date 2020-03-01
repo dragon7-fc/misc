@@ -159,7 +159,7 @@ public class Solution {
 
 # Submissions
 ---
-**Solution**
+**Solution 1: (Calculating Idle slots)**
 ```
 Runtime: 68 ms
 Memory Usage: N/A
@@ -179,4 +179,37 @@ class Solution:
         for count in counts:
             ans += count == longest and 1 or 0
         return max(len(tasks), ans)
+```
+
+**Solution 2: (Heap)**
+```
+Runtime: 216 ms
+Memory Usage: N/A
+```
+```python
+class Solution:
+    def leastInterval(self, tasks, n):
+        """
+        :type tasks: List[str]
+        :type n: int
+        :rtype: int
+        """
+        n += 1
+        ans = 0
+        d = collections.Counter(tasks)
+        heap = [-c for c in d.values()]
+        heapq.heapify(heap)
+        while heap:
+            stack = []
+            cnt = 0
+            for _ in range(n):
+                if heap:
+                    c = heapq.heappop(heap)
+                    cnt += 1
+                    if c < -1:
+                        stack.append(c + 1)
+            for item in stack:
+                heapq.heappush(heap, item)
+            ans += heap and n or cnt # == if heap then n else cnt
+        return ans
 ```
