@@ -275,6 +275,18 @@ class MagicDictionary:
 ```
 * [[Medium] [Solution] 676. Implement Magic Dictionary](%5BMedium%5D%20%5BSolution%5D%20676.%20Implement%20Magic%20Dictionary.md)
 
+### Vote
+```python
+class Solution:
+    def rankTeams(self, votes: List[str]) -> str:
+        count = {v: [0] * len(votes[0]) for v in votes[0]}  # {team1: [rank1_count, rank2_count, ...]}
+        for a in votes:
+            for i, v in enumerate(a):
+                count[v][i] -= 1
+        return ''.join(sorted(votes[0], key=lambda v: count[v] + [v]))
+```
+* [[Medium] 1366. Rank Teams by Votes](%5BMedium%5D%201366.%20Rank%20Teams%20by%20Votes.md)
+
 ## Depth-first Search <a name="dfs"></a>
 ---
 ### Redundant Connection
