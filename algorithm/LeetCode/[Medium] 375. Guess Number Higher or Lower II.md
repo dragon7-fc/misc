@@ -24,7 +24,7 @@ Given a particular n ≥ 1, find out how much money you need to have to guarante
 
 # Submissions
 ---
-**Solution 1:**
+**Solution 1: (DP Bottom-up)**
 
 The recursive statement is as follows:
 We have func(i, j), which defines the minimum amount you need to have if you have to guess values that are in between i and j.
@@ -74,28 +74,48 @@ Hence, the 2 for-loops (with i and j) in the code below will fill up the dp_arr 
 Try drawing out the array and it'd make much more sense!
 
 ```
-Runtime: 696 ms
-Memory Usage: 14.4 MB
+Runtime: 692 ms
+Memory Usage: 13.4 MB
 ```
 ```python
 class Solution:
     def getMoneyAmount(self, n: int) -> int:
-        dp_arr = []
-        
+        dp = []
+
         # initialising 2-d DP-arr
-        for i in range(n + 1):
-            col = [0] * (n + 1)
-            dp_arr.append(col)
+        dp = [[0]*(n+1) for _ in range(n+1)] 
         
         # diagonally filling up DP-arr
-        for i in range(1, n + 1):
-            for j in range(1, n - i + 1):
+        for j in range(1, n + 1):
+            for i in range(1, n - j + 1):
                 res = float('inf')
-                start = j
-                end = j + i
+                start = i
+                end = i + j
                 for k in range(start, end):
-                    res = min(res, k + max(dp_arr[start][k-1], \
-                                             dp_arr[k+1][end]))
-                dp_arr[start][end] = res
-        return dp_arr[1][n]
+                    res = min(res, k + max(dp[start][k-1],
+                                             dp[k+1][end]))
+                dp[start][end] = res
+        return dp[1][n]
+```
+
+**Solution 2: (DP Top-down, DFS)**
+```
+Runtime: 952 ms
+Memory Usage: 16.2 MB
+```
+```python
+import functools
+class Solution:
+    def getMoneyAmount(self, n: int) -> int:
+        @functools.lru_cache(None)
+        def dfs(a, b) -> int:
+            if b <= a:
+                return 0
+            global_min = float('inf')
+            for k in range(a, b + 1):
+                local_max = k + max(dfs(a, k - 1), dfs(k + 1, b))
+                global_min = min(global_min, local_max)
+            return global_min
+        
+        return dfs(1, n)
 ```

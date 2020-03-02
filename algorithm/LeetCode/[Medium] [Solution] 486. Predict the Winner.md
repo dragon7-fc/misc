@@ -198,7 +198,7 @@ public class Solution {
 
 # Submissions
 ---
-**Solution 1:**
+**Solution 1: (Dynamic Programming Bottom-up)**
 ```
 Runtime: 40 ms
 Memory Usage: 13.9 MB
@@ -213,4 +213,48 @@ class Solution:
                 b = nums[e] - dp[e-1]
                 dp[e] = max(a, b)
         return dp[len(nums) - 1] >= 0
+```
+
+**Solution 2: (DP Top-down, DFS)**
+```
+Runtime: 28 ms
+Memory Usage: 13 MB
+```
+```python
+import functools
+class Solution:
+    def PredictTheWinner(self, nums: List[int]) -> bool:
+        @functools.lru_cache(None)
+        def dfs(s, e):
+            if s == e:
+                return nums[s]
+            a = nums[s] - dfs(s+1, e)
+            b = nums[e] - dfs(s, e-1)
+            return max(a, b)
+            
+        return dfs(0, len(nums)-1) >= 0
+```
+
+**Solution 3: (DP Top-down, DFS)**
+```
+Runtime: 36 ms
+Memory Usage: 13.1 MB
+```
+```python
+import functools
+class Solution:
+    def PredictTheWinner(self, nums: List[int]) -> bool:
+        N = len(nums)
+        
+        @functools.lru_cache(None)
+        def dp(i, j):
+            # The value of the game [nums[i], nums[i+1], ..., nums[j]].
+            if i > j: return 0
+            parity = (j - i - N) % 2
+            if parity == 1:  # first player
+                return max(nums[i] + dp(i+1,j), nums[j] + dp(i,j-1))
+            else:
+                return min(-nums[i] + dp(i+1,j), -nums[j] + dp(i,j-1))
+
+        return dp(0, N - 1) >= 0
 ```

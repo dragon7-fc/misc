@@ -27,7 +27,7 @@ The second player will win by choosing 10 and get a total = 11, which is >= desi
 Same with other integers chosen by the first player, the second player will always win.
 ```
 
-**Solution 1:**
+**Solution 1: (DP Top-down, DFS)**
 ```
 Runtime: 380 ms
 Memory Usage: 33.3 MB

@@ -73,6 +73,7 @@ Happy Coding!!
 1. [Segment Tree](#st)
 1. [Ordered Map](#om)
 1. [Queue](#queue)
+1. [Minimax](#minimax)
 1. [Regular Expression](#re)
 
 **Note**
@@ -223,6 +224,34 @@ class Solution:
         return res[min(res)]
 ```
 * [[Medium] 1334. Find the City With the Smallest Number of Neighbors at a Threshold Distance](%5BMedium%5D%201334.%20Find%20the%20City%20With%20the%20Smallest%20Number%20of%20Neighbors%20at%20a%20Threshold%20Distance.md)
+
+### Range Sum, Binary Search
+```python
+class Solution:
+    def maxSumSubmatrix(self, matrix: List[List[int]], k: int) -> int:
+        def maxSumSubarray(arr):
+            sub_s_max = float('-inf')
+            s_curr = 0
+            prefix_sums = [float('inf')]
+            for x in arr:
+                bisect.insort(prefix_sums, s_curr)
+                s_curr += x
+                i = bisect.bisect_left(prefix_sums, s_curr - k)
+                sub_s_max = max(sub_s_max, s_curr - prefix_sums[i])
+            return sub_s_max
+        
+        m, n = len(matrix), len(matrix[0])
+        for x in range(m):
+            for y in range(n - 1):
+                matrix[x][y+1] += matrix[x][y]
+        res = float('-inf')
+        for y1 in range(n):
+            for y2 in range(y1, n):
+                arr = [matrix[x][y2] - (matrix[x][y1-1] if y1 > 0 else 0) for x in range(m)]
+                res = max(res, maxSumSubarray(arr))
+        return res
+```
+* [[Hard] 363. Max Sum of Rectangle No Larger Than K](%5BHard%5D%20363.%20Max%20Sum%20of%20Rectangle%20No%20Larger%20Than%20K.md)
 
 ## Math <a name="math"></a>
 ---
@@ -4377,6 +4406,153 @@ class Solution:
         return ans if ans < N+1 else -1
 ```
 * [[Hard] [Solution] 862. Shortest Subarray with Sum at Least K](%5BHard%5D%20%5BSolution%5D%20862.%20Shortest%20Subarray%20with%20Sum%20at%20Least%20K.md)
+
+## Minimax <a name="minimax"></a>
+---
+### Math
+```python
+class Solution:
+    def canWinNim(self, n: int) -> bool:
+        return (n % 4 != 0)
+```
+* [[Easy] [Solution] 292. Nim Game](%5BEasy%5D%20%5BSolution%5D%20292.%20Nim%20Game.md)
+
+### Winner/Looser
+```python
+import functools
+class Solution:
+    def PredictTheWinner(self, nums: List[int]) -> bool:
+        @functools.lru_cache(None)
+        def dfs(s, e):
+            if s == e:
+                return nums[s]
+            a = nums[s] - dfs(s+1, e)
+            b = nums[e] - dfs(s, e-1)
+            return max(a, b)
+
+        return dfs(0, len(nums)-1) >= 0
+```
+* [[Medium] [Solution] 486. Predict the Winner](%5BMedium%5D%20%5BSolution%5D%20486.%20Predict%20the%20Winner.md)
+
+### Minimax cost
+```python
+import functools
+class Solution:
+    def getMoneyAmount(self, n: int) -> int:
+        @functools.lru_cache(None)
+        def dfs(a, b) -> int:
+            if b <= a:
+                return 0
+            global_min = float('inf')
+            for k in range(a, b + 1):
+                local_max = k + max(dfs(a, k - 1), dfs(k + 1, b))
+                global_min = min(global_min, local_max)
+            return global_min
+
+        return dfs(1, n)
+```
+* [[Medium] 375. Guess Number Higher or Lower II](%5BMedium%5D%20375.%20Guess%20Number%20Higher%20or%20Lower%20II.md)
+
+### Minimax with Heuristic
+```python
+# """
+# This is Master's API interface.
+# You should not implement it, or speculate about its implementation
+# """
+# class Master:
+#     def guess(self, word: str) -> int:
+
+class Solution:
+    def findSecretWord(self, wordlist: List[str], master: 'Master') -> None:
+        N = len(wordlist)
+        self.H = [[sum(a==b for a,b in zip(wordlist[i], wordlist[j]))
+                   for j in range(N)] for i in range(N)]
+
+        possible, path = range(N), ()
+        while possible:
+            guess = self.solve(possible, path)
+            matches = master.guess(wordlist[guess])
+            if matches == len(wordlist[0]): return
+            possible = [j for j in possible if self.H[guess][j] == matches]
+            path = path + (guess,)
+
+    def solve(self, possible, path = ()):
+        if len(possible) <= 2: return possible[0]
+
+        ansgrp, ansguess = possible, None
+        for guess, row in enumerate(self.H):
+            if guess not in path:
+                groups = [[] for _ in range(7)]
+                for j in possible:
+                    if j != guess:
+                        groups[row[j]].append(j)
+                maxgroup = max(groups, key = len)
+                if len(maxgroup) < len(ansgrp):
+                    ansgrp, ansguess = maxgroup, guess
+
+        return ansguess
+```
+* [[Hard] [Solution] 843. Guess the Word](%5BHard%5D%20%5BSolution%5D%20843.%20Guess%20the%20Word.md)
+
+### Minimax / Percolate from Resolved States
+```python
+class Solution:
+    def catMouseGame(self, graph: List[List[int]]) -> int:
+        N = len(graph)
+
+        # What nodes could play their turn to
+        # arrive at node (m, c, t) ?
+        def parents(m, c, t):
+            if t == 2:
+                for m2 in graph[m]:
+                    yield m2, c, 3-t
+            else:
+                for c2 in graph[c]:
+                    if c2:
+                        yield m, c2, 3-t
+
+        DRAW, MOUSE, CAT = 0, 1, 2
+        color = collections.defaultdict(int)
+
+        # degree[node] : the number of neutral children of this node
+        degree = {}
+        for m in range(N):
+            for c in range(N):
+                degree[m,c,1] = len(graph[m])
+                degree[m,c,2] = len(graph[c]) - (0 in graph[c])
+
+        # enqueued : all nodes that are colored
+        queue = collections.deque([])
+        for i in range(N):
+            for t in range(1, 3):
+                color[0, i, t] = MOUSE
+                queue.append((0, i, t, MOUSE))
+                if i > 0:
+                    color[i, i, t] = CAT
+                    queue.append((i, i, t, CAT))
+
+        # percolate
+        while queue:
+            # for nodes that are colored :
+            i, j, t, c = queue.popleft()
+            # for every parent of this node i, j, t :
+            for i2, j2, t2 in parents(i, j, t):
+                # if this parent is not colored :
+                if color[i2, j2, t2] is DRAW:
+                    # if the parent can make a winning move (ie. mouse to MOUSE), do so
+                    if t2 == c: # winning move
+                        color[i2, j2, t2] = c
+                        queue.append((i2, j2, t2, c))
+                    # else, this parent has degree[parent]--, and enqueue if all children
+                    # of this parent are colored as losing moves
+                    else:
+                        degree[i2, j2, t2] -= 1
+                        if degree[i2, j2, t2] == 0:
+                            color[i2, j2, t2] = 3 - t2
+                            queue.append((i2, j2, t2, 3 - t2))
+
+        return color[1, 2, 1]
+```
 
 ## Regular Expression <a name="re"></a>
 ---

@@ -100,7 +100,7 @@ class Solution:
 
 # Submissions
 ---
-**Solution**
+**Solution: (Dynamic Programming Top-down, DFS)**
 ```
 Runtime: 616 ms
 Memory Usage: 124 MB
@@ -122,4 +122,35 @@ class Solution:
                 return min(-piles[i] + dp(i+1,j), -piles[j] + dp(i,j-1))
 
         return dp(0, N - 1) > 0
+```
+
+**Solution 2: (DP Top-down, DFS)**
+```
+Runtime: 520 ms
+Memory Usage: 124.1 MB
+```
+```python
+import functools
+class Solution:
+    def stoneGame(self, piles: List[int]) -> bool:
+        @functools.lru_cache(None)
+        def dfs(i, j):
+            if i == j:
+                return piles[i]
+            a = piles[i] - dfs(i+1, j)
+            b = piles[j] - dfs(i, j-1)
+            return max(a, b)
+
+        return dfs(0, len(piles)-1) >= 0
+```
+
+**Solution 3: ()**
+```
+Runtime: 36 ms
+Memory Usage: 12.7 MB
+```
+```python
+class Solution:
+    def stoneGame(self, piles: List[int]) -> bool:
+        return True
 ```

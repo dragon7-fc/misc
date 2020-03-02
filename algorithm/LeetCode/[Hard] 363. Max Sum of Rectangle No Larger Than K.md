@@ -17,58 +17,35 @@ Explanation: Because the sum of rectangle [[0, 1], [-2, 3]] is 2,
 # Submissions
 ---
 **Solution 1: (Prefix Sum, Binary Search)**
+
+* For each row, calculate the prefix sum. For each pair of columns, calculate the sum of rows.
+* Now this problem is changed to a 1D problem: max subarray sum no more than k.
 ```
-Runtime: 964 ms
-Memory Usage: 13.7 MB
+Runtime: 1008 ms
+Memory Usage: 14 MB
 ```
 ```python
 class Solution:
-    # Overall complexity O(n^4)
     def maxSumSubmatrix(self, matrix: List[List[int]], k: int) -> int:
-        # Validation for corner case.
-        if not matrix:
-            return 0
-
-        # Traditional kadane algorithm does not work 
-        # here, as that algorithm always finds max sum
-        # in a sub array and disregards intermediate sums
-        # which needs to be considered for evaluating <=k criteria. 
-        #
-        # Below function stores prefix sum values
-        # in a sorted list and performs binary 
-        # search on this list to get the closest
-        # element whose difference with current element
-        # does not exceed k. 
-        # Complexity for this algorithm is O(n^2)
-        def max_sum_array_no_larger_than_k(l, k):
-            prefix_sums = [0]
-            prefix_sum, max_sum = 0, -sys.maxsize
-            for item in l:
-                prefix_sum += item
-                
-                left = bisect.bisect_left(prefix_sums, prefix_sum - k)
-                if left < len(prefix_sums):
-                    max_sum = max(max_sum, prefix_sum - prefix_sums[left])
-                   
-               # This has a worst case complexity of O(n) 
-                bisect.insort(prefix_sums, prefix_sum)
-            return max_sum
-
-        R = len(matrix)
-        C = len(matrix[0])
-        max_sum = float('-inf')
+        def maxSumSubarray(arr):
+            sub_s_max = float('-inf')
+            s_curr = 0
+            prefix_sums = [float('inf')]
+            for x in arr:
+                bisect.insort(prefix_sums, s_curr)
+                s_curr += x
+                i = bisect.bisect_left(prefix_sums, s_curr - k)
+                sub_s_max = max(sub_s_max, s_curr - prefix_sums[i])
+            return sub_s_max
         
-        # Below loops basically fold 2-d array into 
-        # a single dimensional array, so that above 
-        # function can be applied to it.
-        # Here we iterate through all possible 2-d
-        # arrays possible for every column. 
-        for from_col in range(C):
-            col_values = [0 for _ in range(R)]
-            for to_col in range(from_col, C):
-                for row in range(R):
-                    col_values[row] = col_values[row] + matrix[row][to_col]
-                curr_sum = max_sum_array_no_larger_than_k(col_values, k)
-                max_sum = max(curr_sum, max_sum)
-        return max_sum
+        m, n = len(matrix), len(matrix[0])
+        for x in range(m):
+            for y in range(n - 1):
+                matrix[x][y+1] += matrix[x][y]
+        res = float('-inf')
+        for y1 in range(n):
+            for y2 in range(y1, n):
+                arr = [matrix[x][y2] - (matrix[x][y1-1] if y1 > 0 else 0) for x in range(m)]
+                res = max(res, maxSumSubarray(arr))
+        return res
 ```
