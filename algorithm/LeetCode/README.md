@@ -4553,6 +4553,23 @@ class Solution:
 
         return color[1, 2, 1]
 ```
+* [[Hard] [Solution] 913. Cat and Mouse](%5BHard%5D%20%5BSolution%5D%20913.%20Cat%20and%20Mouse.md)
+
+**Template 1:**
+```python
+import functools
+@functools.lru_cache(None)
+def dfs(i, j):
+    if j == i:
+        return
+    global_min = float('inf')
+    for k in range(i, j+1):
+        local_max = k... + max(dfs(i, k), dfs(k+1, j))
+        global_min = min(global_min, local_max)
+    return global_min
+
+return dfs(0, N-1)
+```
 
 ## Regular Expression <a name="re"></a>
 ---
