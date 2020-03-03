@@ -74,6 +74,7 @@ Happy Coding!!
 1. [Ordered Map](#om)
 1. [Queue](#queue)
 1. [Minimax](#minimax)
+1. [Line Sweep](#ls)
 1. [Regular Expression](#re)
 
 **Note**
@@ -4553,6 +4554,61 @@ class Solution:
 
         return color[1, 2, 1]
 ```
+
+## Line Sweep <a name="ls"></a>
+---
+### Greedy
+```python
+class Solution:
+    def removeCoveredIntervals(self, intervals: List[List[int]]) -> int:
+        res = right = 0
+        for i, j in sorted(intervals, key=lambda a: [a[0], -a[1]]):
+            res += j > right
+            right = max(right, j)
+        return res
+```
+* [[Medium] 1288. Remove Covered Intervals](%5BMedium%5D%201288.%20Remove%20Covered%20Intervals.md)
+
+### Line Sweep
+```python
+class Solution:
+    def rectangleArea(self, rectangles: List[List[int]]) -> int:
+        # Populate events
+        OPEN, CLOSE = 0, 1
+        events = []
+        for x1, y1, x2, y2 in rectangles:
+            events.append((y1, OPEN, x1, x2))
+            events.append((y2, CLOSE, x1, x2))
+        events.sort()
+
+        def query():
+            ans = 0
+            cur = -1
+            for x1, x2 in active:
+                cur = max(cur, x1)
+                ans += max(0, x2 - cur)
+                cur = max(cur, x2)
+            return ans
+
+        active = []
+        cur_y = events[0][0]
+        ans = 0
+        for y, typ, x1, x2 in events:
+            # For all vertical ground covered, update answer
+            ans += query() * (y - cur_y)
+
+            # Update active intervals
+            if typ is OPEN:
+                active.append((x1, x2))
+                active.sort()
+            else:    
+                active.remove((x1, x2))
+
+            cur_y = y
+
+        return ans % (10**9 + 7)
+```
+* [[Hard] [Solution] 850. Rectangle Area II](%5BHard%5D%20%5BSolution%5D%20850.%20Rectangle%20Area%20II.md)
 
 ## Regular Expression <a name="re"></a>
 ---

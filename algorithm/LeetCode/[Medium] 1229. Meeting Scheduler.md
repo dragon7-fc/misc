@@ -1,6 +1,6 @@
 1229. Meeting Scheduler
 
-Given the availability time slots arrays `slots1` and `slots2` of two people and a meeting duration duration, return the earliest time slot that works for both of them and is of duration `duration`.
+Given the availability time slots arrays `slots1` and `slots2` of two people and a meeting duration `duration`, return the earliest time slot that works for both of them and is of duration `duration`.
 
 If there is no common time slot that satisfies the requirements, return an empty array.
 
@@ -33,7 +33,7 @@ Output: []
 
 # Submissions
 ---
-**Solution 1: (based on 986. Interval List Intersections)**
+**Solution 1: (based on 986. Interval List Intersections, Two Pointers)**
 ```
 Runtime: 636 ms
 Memory Usage: 21.1 MB

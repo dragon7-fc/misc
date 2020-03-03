@@ -27,7 +27,7 @@ Output: [[0,2],[3,5]]
 
 # Submissions
 ---
-**Solution 1:**
+**Solution 1: (Greedy)**
 ```
 Runtime: 428 ms
 Memory Usage: 19.3 MB
