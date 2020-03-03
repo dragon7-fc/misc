@@ -72,3 +72,63 @@ class Solution:
 
         return mergesort(0, N)
 ```
+
+**Solution 3: (Prefix Sum, Binary Search)**
+```
+Runtime: 156 ms
+Memory Usage: 13.2 MB
+```
+```python
+class Solution:
+    def countRangeSum(self, nums: List[int], lower: int, upper: int) -> int:
+        prefix=[0]
+        for num in nums:
+            prefix.append(prefix[-1]+num)
+        prefix.pop(0)
+        cur,res = [0],0
+        for val in prefix:
+            idx1 = bisect.bisect_right(cur,val-lower)
+            idx2 = bisect.bisect_left(cur,val-upper)
+            res+=idx1-idx2
+            bisect.insort(cur,val)
+            
+        return res
+```
+
+**Solution 4: (Binary Indexed Tree)**
+```
+Runtime: 252 ms
+Memory Usage: 13.2 MB
+```
+```python
+class Solution:
+    def countRangeSum(self, nums: List[int], lower: int, upper: int) -> int:
+        preSums = [0] 
+        for num in nums:
+            preSums.append(preSums[-1] + num)
+        
+        sorted_preSums = sorted(preSums)
+        count = 0
+        
+        self.len = len(preSums) + 1
+        self.BIT = [0] * self.len
+        
+        for preSum in preSums:
+            right = bisect.bisect_right(sorted_preSums, preSum - lower)
+            left = bisect.bisect_left(sorted_preSums, preSum - upper) 
+            count += self.getCount(right) - self.getCount(left)
+            self.update(bisect.bisect_right(sorted_preSums, preSum))
+        return count
+    
+    def getCount(self, i):
+        count = 0
+        while i > 0:
+            count += self.BIT[i]
+            i -= i & -i
+        return count
+    
+    def update(self, i):
+        while i < self.len:
+            self.BIT[i] += 1
+            i += i & -i
+```

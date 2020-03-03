@@ -184,7 +184,7 @@ The problem with BST is that the tree can be skewed hence, making it $O(n^2)$ in
 
 BIT Overview:
 
-Fenwick Tree or BIT provides a way to represent an array of numbers in an array(can be visualized as tree), allowing prefix/suffix sums to be calculated efficiently(O(\log n)O(logn)). BIT allows to update an element in $O(\log n)$ time.
+Fenwick Tree or BIT provides a way to represent an array of numbers in an array(can be visualized as tree), allowing prefix/suffix sums to be calculated efficiently($O(\log n)$). BIT allows to update an element in $O(\log n)$ time.
 
 We recommend having a look at BIT from the following links before getting into details:
 
@@ -203,9 +203,9 @@ update(BIT,index, val):
     BIT[index]+=val
     index-=(index&(-index))
 ```
-Herein, we find get the next index using: \text{index-=index&(-index)}, which is essentially subtracting the rightmost 1 from the \text{index}index binary representation. We update the previous indices since, if an element is greater than the index
+Herein, we find get the next index using: $\text{index-=index&(-index)}$, which is essentially subtracting the rightmost 1 from the $\text{index}$ binary representation. We update the previous indices since, if an element is greater than the index
 
-And the modified \text{query}query algorithm is:
+And the modified $\text{query}$ algorithm is:
 ```
 query(BIT,index):
   sum=0
@@ -213,15 +213,15 @@ query(BIT,index):
     sum+=BIT[index]
     index+=(index&(-index))
 ```
-Herein, we find get the next index using: $\text{index+=index&(-index)}$. This gives the suffix sum from indexindex to the end.
+Herein, we find get the next index using: $\text{index+=index&(-index)}$. This gives the suffix sum from $index$ to the end.
 
 So, the main idea is to count the number of elements greater than $2*\text{nums[i]}$ in range $[0,i)$ as we iterate from $0$ to $\text{size-1}$. The steps are as follows:
 
-* Create a copy of $\text{nums}$, say $\text{nums\_copy}$ ans sort $\text{nums\_copy}$. This array is actually used for creating the Binary indexed tree
+* Create a copy of $\text{nums}$, say $\text{nums_copy}$ ans sort $\text{nums_copy}$. This array is actually used for creating the Binary indexed tree
 * Initialize $\text{count}=0$ and $\text{BIT}$ array of size $\text{size(nums)} + 1$ to store the BIT
 * Iterate over $i$ from $0$ to $\text{size(nums)}-1$:
-    * Search the index of element not less than $2*\text{nums[i]}+1$ in $\text{nums\_copy}$ array. $\text{query}$ the obtained index+1 in the $\text{BIT}$, and add the result to $\text{count}$
-    * Search for the index of element not less than $nums[i]$ in $\text{nums\_copy}$. We need to $\text{update}$ the BIT for this index by 1. This essentially means that 1 is added to this index(or number of elements greater than this index is incremented). The effect of adding $1$ to the index is passed to the ancestors as shown in $\text{update}$ algorithm
+    * Search the index of element not less than $2*\text{nums[i]}+1$ in $\text{nums_copy}$ array. $\text{query}$ the obtained index+1 in the $\text{BIT}$, and add the result to $\text{count}$
+    * Search for the index of element not less than $nums[i]$ in $\text{nums_copy}$. We need to $\text{update}$ the BIT for this index by 1. This essentially means that 1 is added to this index(or number of elements greater than this index is incremented). The effect of adding $1$ to the index is passed to the ancestors as shown in $\text{update}$ algorithm
 
 **C++**
 ```c++
@@ -398,4 +398,42 @@ class Solution:
             res += (j - i)
             bisect.insort(sorted_values, nums[j])
         return res
+```
+
+**Solution 3: (BIT)**
+```
+Runtime: 1824 ms
+Memory Usage: 22.3 MB
+```
+```python
+class Solution:
+    def reversePairs(self, nums: List[int]) -> int:
+        # Similar to https://leetcode.com/problems/count-of-smaller-numbers-after-self/description/
+        # Use BIT to keep frequency count when reverse iterating
+        # answer for each num is prefix sum of freq for 0 to i where i is rank of num//2
+        class BinaryIndexedTree:
+            def __init__(self, n):
+                self._sums = [0] * (n+1)
+            def update(self, i, delta):
+                while i < len(self._sums):
+                    self._sums[i] += delta
+                    i += i & -i
+            def query(self, i):
+                s = 0
+                while i > 0:  
+                    s += self._sums[i]
+                    i -= i & -i
+                return s    
+            
+        if not nums: return 0
+        rank_mapping = {v: i for i, v in enumerate(sorted(set(nums)))}
+        ranks = list(sorted(rank_mapping.keys()))
+        bit_tree = BinaryIndexedTree(len(rank_mapping))
+        ret = 0
+        for val in reversed(nums):
+            rank = rank_mapping[val]
+            idx = bisect.bisect_left(ranks, val/2)
+            ret += bit_tree.query(idx)
+            bit_tree.update(rank+1, 1)
+        return ret    
 ```
