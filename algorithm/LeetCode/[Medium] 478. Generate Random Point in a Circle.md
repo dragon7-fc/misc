@@ -31,7 +31,7 @@ The input is two lists: the subroutines called and their arguments. Solution's c
 
 # Submissions
 ---
-**Solution 1:**
+**Solution 1: (Random)**
 
 **what goes on?**
 

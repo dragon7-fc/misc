@@ -130,10 +130,21 @@ Happy Coding!!
 ### random
 
 * `random.randrange(stop)`
+
+    * ex. randrange(10) --> Integer from 0 to 9 inclusive
 * `random.randrange(start, stop[, step])`
+
+    * ex. randrange(0, 101, 2) --> Even integer from 0 to 100 inclusive
 * `random.randint(a, b)`
+
+    * Alias for randrange(a, b+1)
+    * ex. randint(1, 10) --> Integer from 1 to 10 inclusive
 * `random.uniform(a, b)`
+
+    * ex. uniform(2.5, 10.0) --> Random float:  2.5 <= x < 10.0
 * `random.choice(seq)`
+    
+    * ex. choice(['win', 'lose', 'draw']) --> Single random element from a sequence
 
 ### re
 

@@ -36,7 +36,7 @@ The input is two lists: the subroutines called and their arguments. `Solution`'s
 
 # Submissions
 ---
-**Solution 1:**
+**Solution 1: (Random)**
 ```
 Runtime: 172 ms
 Memory Usage: 16.5 MB

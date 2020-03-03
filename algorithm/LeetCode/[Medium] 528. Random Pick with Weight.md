@@ -30,15 +30,15 @@ The input is two lists: the subroutines called and their arguments. `Solution`'s
 
 # Submissions
 ---
-**Solution 1:**
+**Solution 1: (Random)**
 
 * Sum all left weights for each index.
 * Then generate a random value between 0 and len(w) to see in which section it falls.
 * To do that, we can perform a binarysearch.
 
 ```
-Runtime: 244 ms
-Memory Usage: 17.3 MB
+Runtime: 236 ms
+Memory Usage: 17.4 MB
 ```
 ```python
 class Solution:
@@ -50,7 +50,7 @@ class Solution:
 
     def pickIndex(self) -> int:
         ranint = random.randint(1, self.w[-1])
-        return bisect.bisect_left(self.w, ranint, 0, len(self.w))
+        return bisect.bisect_left(self.w, ranint)
 
 
 # Your Solution object will be instantiated and called as such:
