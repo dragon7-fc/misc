@@ -75,6 +75,7 @@ Happy Coding!!
 1. [Queue](#queue)
 1. [Minimax](#minimax)
 1. [Line Sweep](#ls)
+1. [Random](#random)
 1. [Regular Expression](#re)
 
 **Note**
@@ -4637,6 +4638,104 @@ class Solution:
         return ans % (10**9 + 7)
 ```
 * [[Hard] [Solution] 850. Rectangle Area II](%5BHard%5D%20%5BSolution%5D%20850.%20Rectangle%20Area%20II.md)
+
+## Random <a name="random"></a>
+---
+### Utilizing out-of-range samples
+```python
+class Solution:
+    def rand10(self):
+        """
+        :rtype: int
+        """
+        a, b, idx = 0, 0, 0
+        while True:
+            a = rand7()
+            b = rand7()
+            idx = b + (a - 1) * 7
+            if idx <= 40:
+                return 1 + (idx - 1) % 10
+            a = idx - 40
+            b = rand7()
+            # get uniform dist from 1 - 63
+            idx = b + (a - 1) * 7
+            if idx <= 60:
+                return 1 + (idx - 1) % 10
+            a = idx - 60
+            b = rand7()
+            # get uniform dist from 1 - 21
+            idx = b + (a - 1) * 7
+            if idx <= 20:
+                return 1 + (idx - 1) % 10
+```
+* [[Medium] [Solution] 470. Implement Rand10() Using Rand7()](%5BMedium%5D%20%5BSolution%5D%20470.%20Implement%20Rand10()%20Using%20Rand7().md)
+
+### 2D area, Prefix Sum, Binary Search
+```python
+class Solution:
+
+    def __init__(self, rects: List[List[int]]):
+        self.rects = rects
+        # number of points in each rectangle
+        self.counts = [(x2 - x1 + 1) * (y2 - y1 + 1) 
+                       for x1, y1, x2, y2 in rects]
+
+        self.total = sum(self.counts)
+
+        # accumulated (prefix) count of points
+        self.accumulate_counts = []
+        accumulated = 0
+        for count in self.counts:
+            accumulated += count
+            self.accumulate_counts.append(accumulated)
+
+    def pick(self) -> List[int]:
+        # rand is in [1, n], including both ends
+        rand = random.randint(1, self.total)
+
+        # find rightmost index with value <= rand
+        # e.g., for accumulate_count of [2, 5, 8], with rand inputs range [1, 8]
+        # there are 3 groups {1,2 | 3,4,5 | 6,7,8}, corresponding to index [0, 1, 2] respectively
+        rect_index = bisect.bisect_left(self.accumulate_counts, rand)
+
+        # use rand to find point_index, too
+        point_index = rand - self.accumulate_counts[rect_index] + self.counts[rect_index] - 1
+        x1, y1, x2, y2 = self.rects[rect_index]
+        i, j = divmod(point_index, y2 - y1 + 1)
+        return [x1 + i, y1 + j]
+
+# Your Solution object will be instantiated and called as such:
+# obj = Solution(rects)
+# param_1 = obj.pick()
+```
+* [[Medium] 497. Random Point in Non-overlapping Rectangles](%5BMedium%5D%20497.%20Random%20Point%20in%20Non-overlapping%20Rectangles.md)
+
+### Blacklist range
+```python
+class Solution:
+
+    def __init__(self, N: int, blacklist: List[int]):
+        self.N = N
+        self.translate_table = {}
+        self.blacklist = set(blacklist)
+
+        swap_index = N-1
+        for b in self.blacklist:
+            if b < N-len(self.blacklist):
+                while swap_index in self.blacklist:
+                    swap_index -= 1
+                self.translate_table[b] = swap_index
+                swap_index -= 1
+
+    def pick(self) -> int:
+        rand_index = random.randint(0, self.N-len(self.blacklist)-1)
+        return self.translate_table.get(rand_index, rand_index)
+
+# Your Solution object will be instantiated and called as such:
+# obj = Solution(N, blacklist)
+# param_1 = obj.pick()
+```
+* [[Hard] 710. Random Pick with Blacklist](%5BHard%5D%20710.%20Random%20Pick%20with%20Blacklist.md)
 
 ## Regular Expression <a name="re"></a>
 ---
