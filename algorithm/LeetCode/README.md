@@ -38,15 +38,6 @@ A must do list according to me:
 
 Happy Coding!!
 
-**Similar**
-
-* 207. Course Schedule
-* 802. Find Eventual Safe States
-
-**Similar**
-
-* 1143. Longest Common Subsequence
-* 1312. Minimum Insertion Steps to Make a String Palindrome
 
 ### Table of Contents
 
@@ -77,6 +68,7 @@ Happy Coding!!
 1. [Line Sweep](#ls)
 1. [Random](#random)
 1. [Topological Sort](#ts)
+1. [Brainteaser](#brainteaser)
 1. [Regular Expression](#re)
 
 **Note**
@@ -4836,6 +4828,24 @@ class Solution:
         return result
 ```
 * [[Hard] 1203. Sort Items by Groups Respecting Dependencies](%5BHard%5D%201203.%20Sort%20Items%20by%20Groups%20Respecting%20Dependencies.md)
+
+## Brainteaser <a name="brainteaser"></a>">
+---
+### State
+```python
+class Solution:
+    def bulbSwitch(self, n: int) -> int:
+        return int(n**.5)
+```
+* [[Medium] 319. Bulb Switcher](%5BMedium%5D%20319.%20Bulb%20Switcher.md)
+
+### Probability
+```python
+class Solution:
+    def nthPersonGetsNthSeat(self, n: int) -> float:
+        return 1 if n == 1 else 0.5
+```
+* [[Medium] 1227. Airplane Seat Assignment Probability](%5BMedium%5D%201227.%20Airplane%20Seat%20Assignment%20Probability.md)
 
 ## Regular Expression <a name="re"></a>
 ---

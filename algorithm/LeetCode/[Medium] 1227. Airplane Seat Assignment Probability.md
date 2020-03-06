@@ -31,7 +31,7 @@ Explanation: The second person has a probability of 0.5 to get the second seat (
 
 # Submissions
 ---
-**Solution 1:**
+**Solution 1: (DP)**
 
 Each round we have 3 choices:
 
@@ -71,4 +71,18 @@ class Solution {
         return (double)1/n + (double)(n - 2)/n * nthPersonGetsNthSeat(n - 1);
     }
 }
+```
+
+**Solution 3: (Brainteaser, Math)**
+
+It is clear that answer is `1` when `n = 1`. When `n > 1`, it is clear that if first seat is taken before `n`th seat, `n`th person will take nth seat; otherwise, `n`th person won't take nth seat. As the seat is taken randomly, it is symmetric to take first seat or `n`th seat. As a result, the probably should be 0.5.
+```
+Runtime: 28 ms
+Memory Usage: 12.9 MB
+```
+```python
+class Solution:
+        
+    def nthPersonGetsNthSeat(self, n: int) -> float:
+        return 1 if n == 1 else 0.5
 ```

@@ -41,7 +41,7 @@ Lecture on Nim Games from University of Maryland: MATH 199: Math, Game Theory an
 
 # Submissions
 ---
-**Solution 1: (Math)**
+**Solution 1: (Brainteaser, Math)**
 ```
 Runtime: 24 ms
 Memory Usage: 12.7 MB
