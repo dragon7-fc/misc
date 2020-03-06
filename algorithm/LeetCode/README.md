@@ -76,6 +76,7 @@ Happy Coding!!
 1. [Minimax](#minimax)
 1. [Line Sweep](#ls)
 1. [Random](#random)
+1. [Topological Sort](#ts)
 1. [Regular Expression](#re)
 
 **Note**
@@ -4736,6 +4737,105 @@ class Solution:
 # param_1 = obj.pick()
 ```
 * [[Hard] 710. Random Pick with Blacklist](%5BHard%5D%20710.%20Random%20Pick%20with%20Blacklist.md)
+
+## Topological Sort <a name="ts"></a>
+---
+### 2-D matrix
+```python
+import functools
+class Solution:
+    def longestIncreasingPath(self, matrix: List[List[int]]) -> int:
+        if not matrix:
+            return 0
+        
+        R, C = len(matrix), len(matrix[0])
+        
+        @functools.lru_cache(None)
+        def dfs(r, c):
+            val = matrix[r][c]
+            return 1 + max(dfs(r-1, c) if r and val < matrix[r-1][c] else 0,
+                            dfs(r+1, c) if r < R-1 and val < matrix[r+1][c] else 0,
+                            dfs(r, c-1) if c and val < matrix[r][c-1] else 0,
+                            dfs(r, c+1) if c < C-1 and val < matrix[r][c+1] else 0)
+        
+        res = 0
+        for r in range(R):
+            for c in range(C):
+                res = max(dfs(r, c), res)
+        
+        return res
+```
+* [[Hard] 329. Longest Increasing Path in a Matrix](%5BHard%5D%20329.%20Longest%20Increasing%20Path%20in%20a%20Matrix.md?_xsrf=2%7Cb607cbb0%7C38c2ab78d0bba728bf04857e61acb0a7%7C1583367857)
+
+### 2 Level Topological Sort
+```python
+class Solution:
+    def sortItems(self, n: int, m: int, group: List[int], beforeItems: List[List[int]]) -> List[int]:
+        # DFS For Topological Sort
+        def dfs(x, pre_list, visit_state, order):
+            if visit_state[x] == -1:
+                return False
+            if visit_state[x] == 1:
+                return True
+            visit_state[x] = -1
+            no_cycles = True
+            for p in pre_list[x]:
+                no_cycles &= dfs(p, pre_list, visit_state, order)
+            visit_state[x] = 1
+            order.append(x)
+            return no_cycles
+
+        # First make items that are on their own to group[item] = item
+        # and make the items that are in the same group to have a group[item] of their leader,
+        # where the leader is the item of the group that has min index
+        group_translation = {}
+        group_table = collections.defaultdict(list)
+        for i in range(n):
+            if group[i] == -1:
+                group[i] = i
+            else:
+                if not group[i] in group_translation:
+                    group_translation[group[i]] = i
+                group[i] = group_translation[group[i]]
+            group_table[group[i]].append(i)
+
+        # Go through beforeItems, if the item is in the same group, add to inner_pre
+        # if the item is in another group, add a pre to the outer_pre
+        outer_pre = collections.defaultdict(list)
+        inner_pre = collections.defaultdict(list)
+        for i in range(n):
+            current_group = group[i]
+            for b in beforeItems[i]:
+                b_group = group[b]
+                if b_group == current_group:
+                    inner_pre[i].append(b)
+                else:
+                    outer_pre[current_group].append(b_group)
+
+        # Do topological sort on groups and get a group_order
+        group_order = []
+        visit_state = collections.defaultdict(int)
+        no_group_cycles = True
+        for g in group_table:
+            if not no_group_cycles:
+                return []
+            no_group_cycles &= dfs(g, outer_pre, visit_state, group_order)
+
+        # Finally we iterate through each group and do topological sort on the items in the same group
+        # and add to result
+        result = []
+        for g in group_order:
+            inner_order = []
+            visit_state = collections.defaultdict(int)
+            no_inner_cycles = True
+            for item in group_table[g]:
+                if not no_inner_cycles:
+                    return []
+                no_inner_cycles &= dfs(item, inner_pre, visit_state, inner_order)
+            result += inner_order
+        return result
+```
+* [[Hard] 1203. Sort Items by Groups Respecting Dependencies](%5BHard%5D%201203.%20Sort%20Items%20by%20Groups%20Respecting%20Dependencies.md)
 
 ## Regular Expression <a name="re"></a>
 ---
