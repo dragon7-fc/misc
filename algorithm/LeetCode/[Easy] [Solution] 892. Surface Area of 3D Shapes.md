@@ -89,7 +89,7 @@ class Solution(object):
 
 # Submissions
 ---
-**Solution:**
+**Solution: (Square by Square, Geometry)**
 ```
 Runtime: 116 ms
 Memory Usage: 12.7 MB

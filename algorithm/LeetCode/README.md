@@ -69,6 +69,7 @@ Happy Coding!!
 1. [Random](#random)
 1. [Topological Sort](#ts)
 1. [Brainteaser](#brainteaser)
+1. [Geometry](#geometry)
 1. [Regular Expression](#re)
 
 **Note**
@@ -4846,6 +4847,84 @@ class Solution:
         return 1 if n == 1 else 0.5
 ```
 * [[Medium] 1227. Airplane Seat Assignment Probability](%5BMedium%5D%201227.%20Airplane%20Seat%20Assignment%20Probability.md)
+
+## Geometry <a name="geometry"></a>
+---
+### Square by Square
+```python
+class Solution:
+    def surfaceArea(self, grid: List[List[int]]) -> int:
+        N = len(grid)
+
+        ans = 0
+        for r in range(N):
+            for c in range(N):
+                if grid[r][c]:
+                    ans += 2
+                    for nr, nc in ((r-1, c), (r+1, c), (r, c-1), (r,c+1)):
+                        if 0 <= nr < N and 0 <= nc < N:
+                            nval = grid[nr][nc]
+                        else:
+                            nval = 0
+
+                        ans += max(grid[r][c] - nval, 0)
+
+        return ans
+```
+* [[Easy] [Solution] 892. Surface Area of 3D Shapes](%5BEasy%5D%20%5BSolution%5D%20892.%20Surface%20Area%20of%203D%20Shapes.md)
+
+### Iterate Centers
+```python
+class Solution:
+    def minAreaFreeRect(self, points: List[List[int]]) -> float:
+        points = [complex(*z) for z in points]
+        seen = collections.defaultdict(list)
+        for P, Q in itertools.combinations(points, 2):
+            center = (P + Q) / 2
+            radius = abs(center - P)
+            seen[center, radius].append(P)
+
+        ans = float("inf")
+        for (center, radius), candidates in seen.items():
+            for P, Q in itertools.combinations(candidates, 2):
+                ans = min(ans, abs(P - Q) * abs(P - (2*center - Q)))
+
+        return ans if ans < float("inf") else 0
+```
+* [[Medium] [Solution] 963. Minimum Area Rectangle II](%5BMedium%5D%20%5BSolution%5D%20963.%20Minimum%20Area%20Rectangle%20II.md)
+
+### Monotone Chain
+```python
+class Solution:
+    def outerTrees(self, points: List[List[int]]) -> List[List[int]]:
+        if len(points) <= 3:
+            return points
+
+        def is_turn_left(p1, p2, p3):
+            return cross_product(direction(p1, p2), direction(p1, p3)) > 0
+
+        def direction(x, y):
+            return [y[0] - x[0], y[1] - x[1]]
+
+        def cross_product(x, y):
+            return x[0] * y[1] - x[1] * y[0]
+
+        points.sort()
+        stack = [points[0], points[1]]
+
+        for p in points[2:]:
+            while len(stack) >= 2 and is_turn_left(stack[-2], stack[-1], p):
+                stack.pop()
+            stack.append(p)   
+        for p in reversed(points[:-1]):
+            while len(stack) >= 2 and is_turn_left(stack[-2], stack[-1], p):
+                stack.pop()
+            stack.append(p)
+        stack.pop()
+
+        return stack
+```
+* [[Hard] [Solution] 587. Erect the Fence](%5BHard%5D%20%5BSolution%5D%20587.%20Erect%20the%20Fence.md)
 
 ## Regular Expression <a name="re"></a>
 ---

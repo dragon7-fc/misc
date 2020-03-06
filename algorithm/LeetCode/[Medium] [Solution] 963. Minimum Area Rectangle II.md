@@ -132,7 +132,7 @@ class Solution(object):
 
 # Submissions
 ---
-**Solution:**
+**Solution: (Iterate Centers, Geometry)**
 ```
 Runtime: 92 ms
 Memory Usage: 12.9 MB
