@@ -354,6 +354,19 @@ class Solution:
 ```
 * [[Medium] 1366. Rank Teams by Votes](%5BMedium%5D%201366.%20Rank%20Teams%20by%20Votes.md)
 
+### Rolling Hash
+```python
+class Solution:
+    def distinctEchoSubstrings(self, text: str) -> int:
+        some_strings = set()
+        for j in range(len(text)):
+            for i in range(j):
+                if text.startswith(text[i:j], j):
+                    some_strings.add(text[i:j])
+        return len(some_strings)
+```
+* [[Hard] 1316. Distinct Echo Substrings](%5BHard%5D%201316.%20Distinct%20Echo%20Substrings.md)
+
 ## Depth-first Search <a name="dfs"></a>
 ---
 ### Redundant Connection
