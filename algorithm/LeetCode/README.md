@@ -4664,7 +4664,7 @@ class Solution:
 
 ## Random <a name="random"></a>
 ---
-### Utilizing out-of-range samples
+### Rejection Sampling, Utilizing out-of-range samples
 ```python
 class Solution:
     def rand10(self):
@@ -4732,6 +4732,27 @@ class Solution:
 # param_1 = obj.pick()
 ```
 * [[Medium] 497. Random Point in Non-overlapping Rectangles](%5BMedium%5D%20497.%20Random%20Point%20in%20Non-overlapping%20Rectangles.md)
+
+### Reservoir Sampling
+```python
+class Solution:
+
+    def __init__(self, nums: List[int]):
+        self.num = nums
+
+    def pick(self, target: int) -> int:
+        rst, count = None, 0
+        for i in range(len(self.num)):
+            if self.num[i] != target: continue
+            count += 1
+            if random.randint(1, count) == count: rst = i
+        return rst
+
+# Your Solution object will be instantiated and called as such:
+# obj = Solution(nums)
+# param_1 = obj.pick(target)
+```
+* [[Medium] 398. Random Pick Index](%5BMedium%5D%20398.%20Random%20Pick%20Index.md)
 
 ### Blacklist range
 ```python
