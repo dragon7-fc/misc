@@ -28,7 +28,7 @@ Output: false
 
 # Submissions
 ---
-**Solution 1:**
+**Solution 1: (Binary Search Tree, DFS)**
 ```
 Runtime: 1372 ms
 Memory Usage: 18.1 MB
@@ -57,7 +57,7 @@ class Solution:
         return dfs(root1, root2)
 ```
 
-**Solution 2:**
+**Solution 2: (Binary Search Tree, DFS)**
 ```
 Runtime: 520 ms
 Memory Usage: 21.9 MB

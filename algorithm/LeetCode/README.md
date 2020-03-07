@@ -44,6 +44,7 @@ Happy Coding!!
 1. [Libraries](#libraries)
 1. [Dynamic Programming](#dp)
 1. [Math](#math)
+1. [Tree](#tree)
 1. [Hash Table](#ht)
 1. [Depth-first Search](#dfs)
 1. [Binary Search](#bs)
@@ -284,6 +285,35 @@ class Solution:
 ```
 * [[Medium] 1362. Closest Divisors](%5BMedium%5D%201362.%20Closest%20Divisors.md)
 
+## Tree <a name='tree'></a>
+---
+### Binary Search Tree
+```python
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+
+class Solution:
+    def __init__(self):
+        self.total = 0
+
+    def convertBST(self, root):
+        """
+        :type root: TreeNode
+        :rtype: TreeNode
+        """
+        if root is not None:
+            self.convertBST(root.right)
+            self.total += root.val
+            root.val = self.total
+            self.convertBST(root.left)
+        return root
+```
+* [[Easy] [Solution] 538. Convert BST to Greater Tree](%5BEasy%5D%20%5BSolution%5D%20538.%20Convert%20BST%20to%20Greater%20Tree.md)
+
 ## Hash Table <a name='ht'></a>
 ---
 ### Generalized Neighbors
@@ -365,7 +395,6 @@ class Solution:
         return all(seen) # Return true iff we've visited every room
 ```
 * [[Medium] [Solution] 841. Keys and Rooms](%5BMedium%5D%20%5BSolution%5D%20841.%20Keys%20and%20Rooms.md)
-
 
 ### DFS, BFS
 ```python
@@ -4830,7 +4859,7 @@ class Solution:
 ```
 * [[Hard] 1203. Sort Items by Groups Respecting Dependencies](%5BHard%5D%201203.%20Sort%20Items%20by%20Groups%20Respecting%20Dependencies.md)
 
-## Brainteaser <a name="brainteaser"></a>">
+## Brainteaser <a name="brainteaser"></a>
 ---
 ### State
 ```python

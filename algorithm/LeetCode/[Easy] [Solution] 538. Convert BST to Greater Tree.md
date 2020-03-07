@@ -164,7 +164,7 @@ Because we only manipulate pointers that already exist, the Morris traversal use
 
 # Submissions
 ---
-**Solution:**
+**Solution: (Recursion)**
 ```
 Runtime: 72 ms
 Memory Usage: 15.1 MB
@@ -194,7 +194,7 @@ class Solution:
         return root
 ```
 
-**Solution:**
+**Solution: (Iteration with a Stack)**
 ```
 Runtime: 68 ms
 Memory Usage: 14.9 MB
