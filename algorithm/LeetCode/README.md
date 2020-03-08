@@ -314,6 +314,36 @@ class Solution:
 ```
 * [[Easy] [Solution] 538. Convert BST to Greater Tree](%5BEasy%5D%20%5BSolution%5D%20538.%20Convert%20BST%20to%20Greater%20Tree.md)
 
+### Post-Order
+```python
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+
+class Solution:
+    def longestZigZag(self, root: TreeNode) -> int:
+        res = 0
+        def dfs(node, direction):
+            nonlocal res
+            if not node:
+                return 0
+            left = dfs(node.left,'left')
+            right = dfs(node.right,'right')
+            res = max(res, left+1, right+1)
+            return right+1 if direction == 'left' else left+1
+
+        if not root:
+            return 0
+        dfs(root,'left')
+        dfs(root,'right')
+
+        return res-1
+```
+* [[Medium] 1372. Longest ZigZag Path in a Binary Tree](%5BMedium%5D%201372.%20Longest%20ZigZag%20Path%20in%20a%20Binary%20Tree.md)
+
 ## Hash Table <a name='ht'></a>
 ---
 ### Generalized Neighbors
@@ -353,6 +383,23 @@ class Solution:
         return ''.join(sorted(votes[0], key=lambda v: count[v] + [v]))
 ```
 * [[Medium] 1366. Rank Teams by Votes](%5BMedium%5D%201366.%20Rank%20Teams%20by%20Votes.md)
+
+### Happen again
+```python
+class Solution:
+    def findTheLongestSubstring(self, s: str) -> int:
+        vowels = {'a': 1, 'e': 2, 'i': 4, 'o': 8, 'u': 16}
+        d, n, r = {0: -1}, 0, 0
+        for i, c in enumerate(s):
+            if c in vowels:
+                n ^= vowels[c]
+            if n not in d:
+                d[n] = i
+            else:
+                r = max(r, i - d[n])
+        return r
+```
+* [[Medium] 1371. Find the Longest Substring Containing Vowels in Even Counts](%5BMedium%5D%201371.%20Find%20the%20Longest%20Substring%20Containing%20Vowels%20in%20Even%20Counts.md)
 
 ### Rolling Hash
 ```python
