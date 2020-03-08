@@ -30,7 +30,7 @@ Output: 0
 
 # Submissions
 ---
-**Solution 1:**
+**Solution 1: (Linear Scan)**
 ```
 Runtime: 56 ms
 Memory Usage: 14.3 MB
@@ -50,7 +50,7 @@ class Solution:
         return len(nums)
 ```
 
-**Solution 2:**
+**Solution 2: (Linear Scan)**
 ```
 Runtime: 36 ms
 Memory Usage: N/A
@@ -66,7 +66,7 @@ class Solution:
         return len([x for x in nums if x<target])
 ```
 
-**Solution 3:**
+**Solution 3: (Binary Search)**
 ```
 Runtime: 48 ms
 Memory Usage: 13.5 MB

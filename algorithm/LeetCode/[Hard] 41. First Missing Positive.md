@@ -25,32 +25,45 @@ Output: 1
 
 # Submissions
 ---
-**Solution 1:**
+**Solution 1: (Sort)**
+
+Just like swap and place the number to the correct index place.  
+After placing them to the correct place, go through the array again to check if the number is right, if not then we have the missing index.
 ```
-Runtime: 44 ms
-Memory Usage: 13.9 MB
+Runtime: 28 ms
+Memory Usage: 12.8 MB
 ```
 ```python
 class Solution:
     def firstMissingPositive(self, nums: List[int]) -> int:
+        N = len(nums)
         i = 0
-        while i < len(nums):
-            if nums[i] == i + 1:
-                # item is at proper position.
+        while i < N:
+            if nums[i] <= 0 or nums[i] > N:
                 i += 1
-            elif len(nums) + 1 <= nums[i] or nums[i] <= 0:
-                i += 1
+                continue
+            j = nums[i]
+            if nums[j-1] != nums[i]:
+                nums[j-1], nums[i] = nums[i], nums[j-1]
             else:
-                # We want to put nums in the right position.
-                next_i = nums[i] - 1
-                nums[i] = nums[next_i] # haven't found the right one for this yet.
-                nums[next_i] = next_i + 1
+                i += 1
+        
+        for i in range(N):
+            if i + 1 != nums[i]:
+                return i + 1
+        return N + 1
+```
 
-                if nums[next_i] == nums[i]:
-                    i += 1
-
-        for e, i in enumerate(nums):
-            if i != e + 1:
-                return e + 1
-        return len(nums) + 1
+**Solution 2: (Greedy)**
+```
+Runtime: 28 ms
+Memory Usage: 12.7 MB
+```
+```python
+class Solution:
+    def firstMissingPositive(self, nums: List[int]) -> int:
+        i = 1
+        while i in nums:
+            i = i+1
+        return i
 ```

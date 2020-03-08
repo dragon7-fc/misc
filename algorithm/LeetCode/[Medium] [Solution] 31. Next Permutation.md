@@ -91,7 +91,7 @@ public class Solution {
 
 # Submissions
 ---
-**Solution 1:**
+**Solution 1: (Two Pointers)**
 ```
 Runtime: 48 ms
 Memory Usage: 13.7 MB

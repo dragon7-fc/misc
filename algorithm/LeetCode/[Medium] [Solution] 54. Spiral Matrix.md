@@ -140,11 +140,13 @@ class Solution:
         for _ in range(R * C):
             ans.append(matrix[r][c])
             seen[r][c] = True
-            cr, $c$ = r + dr[di], c + dc[di]
-            if 0 <= cr < R and 0 <= $c$ < C and not seen[cr][cc]:
+            cr, cc = r + dr[di], c + dc[di]
+            if 0 <= cr < R and 0 <= cc < C and not seen[cr][cc]:
                 r, c = cr, cc
             else:
                 di = (di + 1) % 4
                 r, c = r + dr[di], c + dc[di]
         return ans
+        
+                    
 ```

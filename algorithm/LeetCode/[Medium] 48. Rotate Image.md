@@ -46,7 +46,7 @@ rotate the input matrix in-place such that it becomes:
 
 # Submissions
 ---
-**Solution 1**
+**Solution 1: (Recursive)**
 ```
 Runtime: 48 ms
 Memory Usage: N/A
@@ -74,7 +74,7 @@ class Solution:
         self.rotate_it(matrix, start+1)
 ```
 
-**Solution 2**
+**Solution 2: (Iterative)**
 ```
 Runtime: 44 ms
 Memory Usage: N/A

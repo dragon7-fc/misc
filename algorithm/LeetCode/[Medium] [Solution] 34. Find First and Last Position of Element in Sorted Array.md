@@ -137,7 +137,7 @@ All work is done in place, so the overall memory usage is constant.
 
 # Submissions
 ---
-**Solution 1**
+**Solution 1: (Binary Search)**
 ```
 Runtime: 36 ms
 Memory Usage: N/A

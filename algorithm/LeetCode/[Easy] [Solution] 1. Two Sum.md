@@ -89,7 +89,7 @@ public int[] twoSum(int[] nums, int target) {
 
 # Submissions
 ---
-**Solution :**
+**Solution: (Hash Table)**
 ```
 Runtime: 60 ms
 Memory Usage: 15.2 MB

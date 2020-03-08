@@ -20,7 +20,7 @@ Explanation: The minimum number of jumps to reach the last index is 2.
 
 # Submissions
 ---
-**Solution 1:**
+**Solution 1: (Two Pointers)**
 
 There are 2 basic ideas:
 
@@ -56,7 +56,7 @@ class Solution:
         return(0)
 ```
 
-**Solution 2:**
+**Solution 2: (Two Pointers)**
 ```
 Runtime: 96 ms
 Memory Usage: 14.9 MB
