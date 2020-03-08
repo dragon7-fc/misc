@@ -28,10 +28,6 @@ There are two ways to reach the bottom-right corner:
 
 # Solution
 ---
-
-
-# Submissions
----
 ## Approach 1: Dynamic Programming
 **Intuition**
 
@@ -135,7 +131,7 @@ class Solution(object):
 
 # Submissions
 ---
-**Solution:**
+**Solution 1: (DP Bottom-Up)**
 ```
 Runtime: 48 ms
 Memory Usage: 14 
@@ -179,4 +175,31 @@ class Solution(object):
 
         # Return value stored in rightmost bottommost cell. That is the destination.            
         return obstacleGrid[m-1][n-1]
+```
+
+**Solution 2: (DP Top-Down, DFS, Post-Order)**
+```
+Runtime: 40 ms
+Memory Usage: 13.1 MB
+```
+```python
+import functools
+class Solution:
+    def uniquePathsWithObstacles(self, obstacleGrid: List[List[int]]) -> int:
+        M, N = len(obstacleGrid), len(obstacleGrid[0])
+        
+        @functools.lru_cache(None)
+        def dfs(i, j):
+            if obstacleGrid[i][j]:      # hit an obstacle
+                return 0
+            if i == M-1 and j == N-1:   # reach the end
+                return 1
+            count = 0
+            if i < M-1:
+                count += dfs(i+1, j)    # go down
+            if j < N-1:
+                count += dfs(i, j+1)    # go right
+            return count
+        
+        return dfs(0, 0)
 ```

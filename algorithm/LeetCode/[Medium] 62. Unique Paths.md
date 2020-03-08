@@ -31,7 +31,7 @@ Output: 28
 
 # Submissions
 ---
-**Solution:**
+**Solution 1: (DP Bottom-Up)**
 ```
 Runtime: 36 ms
 Memory Usage: 13.9 MB
@@ -50,4 +50,18 @@ class Solution:
                 ans[i][j] = ans[i-1][j] + ans[i][j-1]
                 
         return ans[n-1][m-1]    
+```
+
+**Solution 2: (DP Top-Down)**
+```
+Runtime: 28 ms
+Memory Usage: 13.4 MB
+```
+```python
+import functools
+class Solution:
+    @functools.lru_cache(None)
+    def uniquePaths(self, m: int, n: int) -> int:
+        if m == 1 or n == 1: return 1
+        return self.uniquePaths(m - 1, n) + self.uniquePaths(m, n - 1)
 ```

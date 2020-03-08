@@ -820,6 +820,18 @@ class Solution:
 ```
 * [[Medium] [Solution] 870. Advantage Shuffle](%5BMedium%5D%20%5BSolution%5D%20870.%20Advantage%20Shuffle.md)
 
+### Jump Game
+```python
+class Solution:
+    def canJump(self, nums: List[int]) -> bool:
+        last_pos = len(nums) - 1
+        for i in range(len(nums) - 1, -1, -1):
+            if i + nums[i] >= last_pos:
+                last_pos = i
+        return last_pos == 0
+```
+* [[Medium] [Solution] 55. Jump Game](%5BMedium%5D%20%5BSolution%5D%2055.%20Jump%20Game.md)
+
 **Template 1:**
 ```python
 ans = []
@@ -835,7 +847,6 @@ return ans
 * [[Medium] [Solution] 738. Monotone Increasing Digits](%5BMedium%5D%20%5BSolution%5D%20738.%20Monotone%20Increasing%20Digits.md)
 * [[Easy] [Solution] 874. Walking Robot Simulation](%5BEasy%5D%20%5BSolution%5D%20874.%20Walking%20Robot%20Simulation.md)
 * [[Medium] [Solution] 376. Wiggle Subsequence](%5BMedium%5D%20%5BSolution%5D%20376.%20Wiggle%20Subsequence.md)
-* [[Medium] [Solution] 55. Jump Game](%5BMedium%5D%20%5BSolution%5D%2055.%20Jump%20Game.md)
 * [[Medium] * 1111. Maximum Nesting Depth of Two Valid Parentheses Strings](%5BMedium%5D%20*%201111.%20Maximum%20Nesting%20Depth%20of%20Two%20Valid%20Parentheses%20Strings.md)
 
 ## Breadth-first Search <a name="bfs"></a>
