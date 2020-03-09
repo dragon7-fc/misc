@@ -31,7 +31,7 @@ Output: false
 
 # Submissions
 ---
-**Solution 1:**
+**Solution 1: (Bruce Force)**
 ```
 Runtime: 40 ms
 Memory Usage: N/A
@@ -52,7 +52,7 @@ class Solution:
         return False
 ```
 
-**Solution 2:**
+**Solution 2: (Binary Search)**
 ```
 Runtime: 64 ms
 Memory Usage: 14.8 MB
@@ -98,4 +98,22 @@ class Solution:
             return binary_search_1d(matrix[0], target)
         else:
             return binary_search_2d(matrix, target)
+```
+
+**Solution 3: (Binary Search)**
+```
+Runtime: 60 ms
+Memory Usage: 14.9 MB
+```
+```python
+class Solution:
+    def searchMatrix(self, matrix: List[List[int]], target: int) -> bool:
+        if not matrix or not matrix[0]: return False
+        rows = [row[0] for row in matrix]
+        row = bisect.bisect(rows, target) - 1
+        col = bisect.bisect(matrix[row], target) - 1
+        if matrix[row][col] == target:
+            return True
+        else:
+            return False
 ```

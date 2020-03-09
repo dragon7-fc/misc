@@ -18,7 +18,7 @@ Output: [1,2,2,3,5,6]
 
 # Submissions
 ---
-**Solution :**
+**Solution 1: (Sort)**
 ```
 Runtime: 24 ms
 Memory Usage: N/A

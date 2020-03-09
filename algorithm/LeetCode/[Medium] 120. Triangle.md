@@ -21,7 +21,7 @@ Bonus point if you are able to do this using only O(n) extra space, where n is t
 # Submissions
 ---
 
-**Solution 1: (Top-Down)**
+**Solution 1: (DP Bottom-Up)**
 ```
 Runtime: 68 ms
 Memory Usage: 14.5 MB
@@ -51,7 +51,7 @@ class Solution:
         return min(dp[R-1])
 ```
 
-**Solution 2: (Bottom-Up)**
+**Solution 2: (DP Bottom-Up 1D-Array)**
 ```
 Runtime: 60 ms
 Memory Usage: 14.5 MB

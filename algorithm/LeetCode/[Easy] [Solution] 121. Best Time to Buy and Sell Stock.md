@@ -86,7 +86,7 @@ public class Solution {
 
 # Submissions
 ---
-**Solution:**
+**Solution: (One Pass, Greedy)**
 ```
 Runtime: 68 ms
 Memory Usage: 14.7 MB

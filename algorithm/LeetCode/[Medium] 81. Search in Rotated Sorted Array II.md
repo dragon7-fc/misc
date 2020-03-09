@@ -25,7 +25,7 @@ Output: false
 
 # Submissions
 ---
-**Solution 1:**
+**Solution 1: (Set)**
 ```
 Runtime: 60 ms
 Memory Usage: 14.4 MB
@@ -36,7 +36,7 @@ class Solution:
         if target in set(nums): return True
 ```
 
-**Solution 2:**
+**Solution 2: (DFS, Binary Search)**
 ```
 Runtime: 52 ms
 Memory Usage: 13.4 MB

@@ -42,6 +42,7 @@ Happy Coding!!
 ### Table of Contents
 
 1. [Libraries](#libraries)
+1. [Array](#array)
 1. [Dynamic Programming](#dp)
 1. [Math](#math)
 1. [Tree](#tree)
@@ -148,6 +149,49 @@ Happy Coding!!
 * `re.split(pattern, string, maxsplit=0, flags=0)`
 * `re.findall(pattern, string, flags=0)`
 
+## Array <a name="array"></a>
+---
+### O(1) Space, Efficient Solution
+```python
+class Solution:
+    def setZeroes(self, matrix: List[List[int]]) -> None:
+        """
+        Do not return anything, modify matrix in-place instead.
+        """
+        is_col = False
+        R = len(matrix)
+        C = len(matrix[0])
+        for i in range(R):
+            # Since first cell for both first row and first column is the same i.e. matrix[0][0]
+            # We can use an additional variable for either the first row/column.
+            # For this solution we are using an additional variable for the first column
+            # and using matrix[0][0] for the first row.
+            if matrix[i][0] == 0:
+                is_col = True
+            for j in range(1, C):
+                # If an element is zero, we set the first element of the corresponding row and column to 0
+                if matrix[i][j]  == 0:
+                    matrix[0][j] = 0
+                    matrix[i][0] = 0
+
+        # Iterate over the array once again and using the first row and first column, update the elements.
+        for i in range(1, R):
+            for j in range(1, C):
+                if not matrix[i][0] or not matrix[0][j]:
+                    matrix[i][j] = 0
+
+        # See if the first row needs to be set to zero as well
+        if matrix[0][0] == 0:
+            for j in range(C):
+                matrix[0][j] = 0
+
+        # See if the first column needs to be set to zero as well        
+        if is_col:
+            for i in range(R):
+                matrix[i][0] = 0
+```
+* [[Medium] [Solution] 73. Set Matrix Zeroes](%5BMedium%5D%20%5BSolution%5D%2073.%20Set%20Matrix%20Zeroes.md)
+
 ## Dynamic Programming <a name="dp"></a>
 ---
 ### Top-down
@@ -232,6 +276,18 @@ class Solution:
         return res[min(res)]
 ```
 * [[Medium] 1334. Find the City With the Smallest Number of Neighbors at a Threshold Distance](%5BMedium%5D%201334.%20Find%20the%20City%20With%20the%20Smallest%20Number%20of%20Neighbors%20at%20a%20Threshold%20Distance.md)
+
+### Profit - 2 Option(Buy/Sell)
+```python
+class Solution:
+    def maxProfit(self, prices: List[int], fee: int) -> int:
+        sell, buy = 0, float('-inf')
+        for i in range(len(prices)):
+            buy = max(buy, sell - prices[i])
+            sell = max(sell, buy + prices[i] - fee)
+        return sell
+```
+* [[Medium] [Solution] 714. Best Time to Buy and Sell Stock with Transaction Fee](%5BMedium%5D%20%5BSolution%5D%20714.%20Best%20Time%20to%20Buy%20and%20Sell%20Stock%20with%20Transaction%20Fee.md)
 
 ### Range Sum, Binary Search
 ```python
@@ -732,6 +788,47 @@ class Solution(object):
         return lo
 ```
 
+### Rotated Sorted Array
+```python
+class Solution:
+    def findMin(self, nums: List[int]) -> int:
+        # If the list has just one element then return that element.
+        if len(nums) == 1:
+            return nums[0]
+
+        # left pointer
+        left = 0
+        # right pointer
+        right = len(nums) - 1
+
+        # if the last element is greater than the first element then there is no rotation.
+        # e.g. 1 < 2 < 3 < 4 < 5 < 7. Already sorted array.
+        # Hence the smallest element is first element. A[0]
+        if nums[right] > nums[0]:
+            return nums[0]
+
+        # Binary search way
+        while right >= left:
+            # Find the mid element
+            mid = left + (right - left) // 2
+            # if the mid element is greater than its next element then mid+1 element is the smallest
+            # This point would be the point of change. From higher to lower value.
+            if nums[mid] > nums[mid + 1]:
+                return nums[mid + 1]
+            # if the mid element is lesser than its previous element then mid element is the smallest
+            if nums[mid - 1] > nums[mid]:
+                return nums[mid]
+
+            # if the mid elements value is greater than the 0th element this means
+            # the least value is still somewhere to the right as we are still dealing with elements greater than nums[0]
+            if nums[mid] > nums[0]:
+                left = mid + 1
+            # if nums[0] is greater than the mid value then this means the smallest value is somewhere to the left
+            else:
+                right = mid - 1
+```
+* [[Medium] [Solution] 153. Find Minimum in Rotated Sorted Array](%5BMedium%5D%20%5BSolution%5D%20153.%20Find%20Minimum%20in%20Rotated%20Sorted%20Array.md)
+
 **Template 1**
 ```python
 def is_XXX(...):
@@ -773,7 +870,7 @@ return ans
 
 ## Greedy <a name="greedy"></a>
 ---
-## For loop
+## Profit
 ```python
 class Solution:
     def maxProfit(self, prices: List[int], fee: int) -> int:
@@ -1572,7 +1669,7 @@ class Solution:
 ```
 * [[Medium] [Solution] 946. Validate Stack Sequences](%5BMedium%5D%20%5BSolution%5D%20946.%20Validate%20Stack%20Sequences.md)
 
-### 10: Heap
+### Heap
 ```python
 class Solution:
     def mctFromLeafValues(self, arr: List[int]) -> int:
@@ -1586,6 +1683,19 @@ class Solution:
         return cost
 ```
 * [[Medium] 1130. Minimum Cost Tree From Leaf Values](%5BMedium%5D%201130.%20Minimum%20Cost%20Tree%20From%20Leaf%20Values.md)
+
+### Histogram
+```python
+class Solution:
+    def largestRectangleArea(self, heights: List[int]) -> int:
+        stack, max_area = [-1], 0
+        for i, h in enumerate(heights + [-1]):
+            while stack and stack[-1] >= 0 and h <= heights[stack[-1]]:
+                max_area = max(heights[stack.pop()] * (i - stack[-1] - 1), max_area)
+            stack.append(i)
+        return max_area
+```
+* [[Hard] 84. Largest Rectangle in Histogram](%5BHard%5D%2084.%20Largest%20Rectangle%20in%20Histogram.md)
 
 **Template 1:**
 ```python

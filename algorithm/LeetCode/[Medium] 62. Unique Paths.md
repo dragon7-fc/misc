@@ -52,7 +52,7 @@ class Solution:
         return ans[n-1][m-1]    
 ```
 
-**Solution 2: (DP Top-Down)**
+**Solution 2: (DP Top-Down, DFS)**
 ```
 Runtime: 28 ms
 Memory Usage: 13.4 MB
@@ -64,4 +64,26 @@ class Solution:
     def uniquePaths(self, m: int, n: int) -> int:
         if m == 1 or n == 1: return 1
         return self.uniquePaths(m - 1, n) + self.uniquePaths(m, n - 1)
+```
+
+**Solution 3: (DP Top-Down, DFS, Post-Order)**
+```
+Runtime: 28 ms
+Memory Usage: 13 MB
+```
+```python
+import functools
+class Solution:
+    def uniquePaths(self, m: int, n: int) -> int:
+        @functools.lru_cache
+        def dfs(i, j ):
+            if i == m-1 and j == n-1:
+                return 1
+            count = 0
+            if i < m-1:
+                count += dfs(i+1, j)    # go down
+            if j < n-1:
+                count += dfs(i, j+1)    # go right
+            return count
+        return dfs(0, 0)
 ```

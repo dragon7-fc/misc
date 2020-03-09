@@ -68,6 +68,21 @@ class Solution:
         return cash
 ```
 
+**Solution 3: (DP Bottom-Up)**
+```
+Runtime: 804 ms
+Memory Usage: 19.7 MB
+```
+```python
+class Solution:
+    def maxProfit(self, prices: List[int], fee: int) -> int:
+        sell, buy = 0, float('-inf')
+        for i in range(len(prices)):
+            buy = max(buy, sell - prices[i])
+            sell = max(sell, buy + prices[i] - fee)
+        return sell
+```
+
 **Solution 1: (Greedy)**
 ```
 Runtime: 660 ms

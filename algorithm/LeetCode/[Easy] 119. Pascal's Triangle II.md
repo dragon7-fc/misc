@@ -20,7 +20,7 @@ Could you optimize your algorithm to use only O(k) extra space?
 
 # Submissions
 ---
-**Solution 1:**
+**Solution 1: (DP)**
 ```
 Runtime: 32 ms
 Memory Usage: 14 MB

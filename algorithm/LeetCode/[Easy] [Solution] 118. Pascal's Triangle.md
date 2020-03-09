@@ -77,7 +77,7 @@ Although updating each value of triangle happens in constant time, it is perform
 
 # Submissions
 ---
-**Solution 1:**
+**Solution 1: (Dynamic Programming)**
 ```
 Runtime: 48 ms
 Memory Usage: N/A

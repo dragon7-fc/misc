@@ -22,7 +22,7 @@ Explanation: The array represents the integer 4321.
 
 # Submissions
 ---
-**Solution 1:**
+**Solution 1: (Math)**
 ```
 Runtime: 36 ms
 Memory Usage: 13.9 MB
@@ -46,7 +46,7 @@ class Solution:
         return stack[::-1]
 ```
 
-**Solution 2:**
+**Solution 2: (String)**
 ```
 Runtime: 20 ms
 Memory Usage: N/A
@@ -65,4 +65,15 @@ class Solution(object):
             num_str += str(digit)
         num = int(num_str)+1
         return [int(dig) for dig in str(num)]
+```
+
+**Solution 3: (String)**
+```
+Runtime: 20 ms
+Memory Usage: 12.8 MB
+```
+```python
+class Solution:
+    def plusOne(self, digits: List[int]) -> List[int]:
+        return list(map(int, str(int(''.join(map(str, digits))) + 1)))
 ```

@@ -203,3 +203,35 @@ class Solution:
         
         return dfs(0, 0)
 ```
+
+**Solution 3: (DP Top-Down, DFS, Post-Order)**
+```
+Runtime: 48 ms
+Memory Usage: 13.1 MB
+```
+```python
+import functools
+class Solution(object):
+    def uniquePathsWithObstacles(self, obstacleGrid):
+        """
+        :type obstacleGrid: List[List[int]]
+        :rtype: int
+        """
+
+        m = len(obstacleGrid)
+        n = len(obstacleGrid[0])
+
+        @functools.lru_cache
+        def dfs(i, j):
+            if obstacleGrid[i][j] == 1:
+                return 0
+            elif i == 0 and j == 0:
+                return 1
+            count = 0
+            if i >= 1:
+                count += dfs(i-1, j)    # go down
+            if j >= 1:
+                count += dfs(i, j-1)    # go right
+            return count
+        return dfs(m-1, n-1)
+```

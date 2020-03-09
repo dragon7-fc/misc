@@ -22,7 +22,7 @@ Return the following binary tree:
 
 # Submissions
 ---
-**Solution**
+**Solution 1: (DFS, Tree, Post-Order)**
 ```
 Runtime: 140 ms
 Memory Usage: 53 MB

@@ -22,36 +22,33 @@ Given word = "ABCB", return false.
 ---
 **Solution 1: (DFS, Backtracking)**
 ```
-Runtime: 320 ms
-Memory Usage: 15.3 MB
+Runtime: 324 ms
+Memory Usage: 14.8 MB
 ```
 ```python
 class Solution:
     def exist(self, board: List[List[str]], word: str) -> bool:
-        R = len(board)
-        C = len(board[0])
+        R, C = len(board), len(board[0])
         N = len(word)
         v = [[0 for _ in range(C)] for _ in range(R)]
-        
-        def dfs(row, column, index):
+
+        def neighbours(r, c):
+            for nr, nc in [(r+1, c), (r-1, c), (r, c+1), (r, c-1)]:
+                if 0 <= nr < R and 0 <= nc < C:
+                    yield nr, nc
+                    
+        def dfs(r, c, index):
+            v[r][c] = True
+            index += 1
             if index == N:
                 return True
-            elif index < N and not 0 <= row < R or not 0 <= column < C:
-                return False
-            elif v[row][column]:
-                return False
-            
-            if board[row][column] == word[index]:
-                v[row][column] = True
-                index += 1
-                if dfs(row, column+1, index) or dfs(row+1, column, index) or dfs(row, column-1, index) or dfs(row-1, column, index):
-                    return True
-                
-                v[row][column] = False
-                return False
-            else:
-                return False    
-        
+            for nr, nc in neighbours(r, c):
+                if not v[nr][nc] and board[nr][nc] == word[index]:
+                    if dfs(nr, nc, index):
+                        return True
+            v[r][c] = False
+            return False
+
         ans = False
         for i in range(R):
             if word[0] in board[i]:

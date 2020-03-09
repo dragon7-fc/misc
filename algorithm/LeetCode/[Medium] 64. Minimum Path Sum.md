@@ -18,7 +18,7 @@ Explanation: Because the path 1→3→1→1→1 minimizes the sum.
 
 # Submissions
 ---
-**Solution:**
+**Solution 1: (DP, Bottom-Up)**
 ```
 Runtime: 60 ms
 Memory Usage: N/A
@@ -44,4 +44,31 @@ class Solution:
                 else:
                     mps[i][j] = min(mps[i-1][j], mps[i][j-1]) + grid[i][j]
         return mps[-1][-1]
+```
+
+**Solution 2: (DP Top-Down, DFS, Post-Order)**
+```
+Runtime: 112 ms
+Memory Usage: 18.6 MB
+```
+```python
+import functools
+class Solution:
+    def minPathSum(self, grid: List[List[int]]) -> int:
+        m = len(grid)
+        n = len(grid[0])
+        
+        if m == 8 and n == 0:
+            return 0
+        
+        @functools.lru_cache(None)
+        def dfs(i, j):
+            if i == m-1 and j == n-1:
+                return grid[i][j]
+            if i >= m or j >= n:
+                return float('inf')
+            return grid[i][j] + min(dfs(i+1, j), dfs(i, j+1))
+        
+        return dfs(0, 0)
+    
 ```

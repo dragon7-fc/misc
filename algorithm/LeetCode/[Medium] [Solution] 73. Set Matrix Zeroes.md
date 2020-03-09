@@ -244,7 +244,7 @@ class Solution(object):
 
 # Submissions
 ---
-**Solution:**
+**Solution: (O(1) Space, Efficient Solution)**
 ```
 Runtime: 164 ms
 Memory Usage: 14.6 MB
