@@ -32,7 +32,7 @@ Both numbers with value 2 are both considered as second maximum.
 
 # Submissions
 ---
-**Solution**
+**Solution1; (Array)**
 ```
 Runtime: 68 ms
 Memory Usage: 14.9 MB

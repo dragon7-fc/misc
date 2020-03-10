@@ -142,7 +142,7 @@ public class Solution {
 
 # Submissions
 ---
-**Solution**
+**Solution: (Using division and modulus)**
 ```
 Runtime: 116 ms
 Memory Usage: 14.8 MB

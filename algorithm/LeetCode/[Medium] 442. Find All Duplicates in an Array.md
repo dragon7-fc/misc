@@ -17,7 +17,7 @@ Output:
 
 # Submissions
 ---
-**Solution**
+**Solution 1: (Array)**
 ```
 Runtime: 440 ms
 Memory Usage: 21.6 MB

@@ -82,35 +82,50 @@ public class Solution {
 
 # Submissions
 ---
-**Solution:**
+**Solution 1: (Optimized)**
 ```
-Runtime: 192 ms
-Memory Usage: 14 MB
+Runtime: 200 ms
+Memory Usage: 14.1 MB
 ```
 ```python
 class Solution:
     def canPlaceFlowers(self, flowerbed: List[int], n: int) -> bool:
-        zero = 0
-        one = 0
+        i = 0
         count = 0
-        expected_n = 0
-        N = len(flowerbed)
-        for i in range(N):
-            if flowerbed[i] == 0:
-                zero = True
-                if not one:
-                    count += 1
-                else:
-                    one = False
-                if i == N-1:
-                    expected_n += math.ceil(count/2)
-            elif flowerbed[i] == 1:
-                one = True
-                if zero:
-                    count -= 1
-                    zero = False
-                expected_n += math.ceil(count/2)
-                count = 0
-                
-        return n <= expected_n
+        while i < len(flowerbed):
+            if flowerbed[i] == 0 and (i == 0 or flowerbed[i-1] == 0) and (i == len(flowerbed)-1 or flowerbed[i+1] == 0):
+                flowerbed[i] = 1
+                i += 1
+                count += 1
+            
+            if count >=n:
+                return True
+            i += 1
+        
+        return False
+```
+
+
+**Solution 2: (Greedy)**
+```
+Runtime: 188 ms
+Memory Usage: 12.8 MB
+```
+```python
+Runtime: 188 ms
+Memory Usage: 12.8 MB
+```
+```python
+class Solution:
+    def canPlaceFlowers(self, flowerbed: List[int], n: int) -> bool:
+        tmp =[0] + flowerbed +[0]
+    
+        index = 1 
+
+        while index< len(tmp)-1:
+            if tmp[index-1]== 0 and tmp[index]==0 and tmp[index+1]==0:
+                n -= 1
+                index += 1 
+            index += 1
+        return n <= 0
 ```

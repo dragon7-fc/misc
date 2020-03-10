@@ -137,7 +137,7 @@ class Solution(object):
 
 # Submissions
 ---
-**Solution**
+**Solution: (Locate and Analyze Problem Index)**
 ```
 Runtime: 220 ms
 Memory Usage: 15.1 MB

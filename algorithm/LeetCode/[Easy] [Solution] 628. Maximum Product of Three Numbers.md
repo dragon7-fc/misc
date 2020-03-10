@@ -99,7 +99,7 @@ public class Solution {
 
 # Submissions
 ---
-**Solution 1:**
+**Solution 1: (Sort)**
 ```
 Runtime: 316 ms
 Memory Usage: 14.8 MB
@@ -113,7 +113,7 @@ class Solution:
         return max(a, b)
 ```
 
-**Solution 2:**
+**Solution 2: (Heap)**
 ```
 Runtime: 296 ms
 Memory Usage: 15.2 MB

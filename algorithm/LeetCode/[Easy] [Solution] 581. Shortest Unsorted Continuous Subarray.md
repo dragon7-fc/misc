@@ -232,31 +232,56 @@ public class Solution {
 
 # Submissions
 ---
-**Solution**
+**Solution 1: (Sort)**
 ```
-Runtime: 100 ms
-Memory Usage: N/A
+Runtime: 212 ms
+Memory Usage: 13.9 MB
 ```
 ```python
 class Solution:
-    def findUnsortedSubarray(self, nums):
-        """
-        :type nums: List[int]
-        :rtype: int
-        """
-        s = nums.copy()
-        s.sort()
-        if s==nums:
-            return 0
-        else:
-            for j in range(len(nums)):
-                if nums[j]!=s[j]:
-                    a = j
-                    break
-            for k in range(len(nums)-1,-1,-1):
-                if nums[k]!=s[k]:
-                    b = k                    
-                    break
-            return (b-a+1)
-        
+    def findUnsortedSubarray(self, nums: List[int]) -> int:
+        sorted_nums = sorted(nums) # returns the another sorted copy     
+        start = 0
+        end = len(nums)-1
+        while start <= end and sorted_nums[start] == nums[start]:
+            start += 1
+        while end >= 0 and sorted_nums[end] == nums[end]:
+            end -= 1
+            
+        return 0 if start > end else end - start + 1
+```
+
+**Solution 2: (Two Pointers)**
+```
+Runtime: 256 ms
+Memory Usage: 13.9 MB
+```
+```python
+class Solution:
+    def findUnsortedSubarray(self, nums: List[int]) -> int:
+        N = len(nums)
+        mi, ma = float('inf'), float('-inf')
+        flag = False
+        for i in range(1, N):
+            if nums[i] < nums[i - 1]:
+                flag = True
+            if flag:
+                mi = min(mi, nums[i])
+        flag = False
+        for i in range(N-2, -1, -1):
+            if nums[i] > nums[i + 1]:
+                flag = True
+            if flag:
+                ma = max(ma, nums[i])
+        left, right = 0, N-1
+        while left < N:
+            if mi < nums[left]:
+                break
+            left += 1
+        while right >= 0:
+            if ma > nums[right]:
+                break
+            right -= 1
+                
+        return 0 if right - left < 0 else right - left + 1
 ```

@@ -98,7 +98,7 @@ class Solution(object):
 
 # Submissions
 ---
-**Solution 1: (recursive)**
+**Solution 1: (DFS, recursive)**
 ```
 Runtime: 128 ms
 Memory Usage: N/A
@@ -127,7 +127,7 @@ class Solution:
                   for c in range(len(grid[0])))
 ```
 
-**Solution 2: (recursive)**
+**Solution 2: (DFS, recursive)**
 ```
 Runtime: 108 ms
 Memory Usage: N/A
@@ -155,7 +155,7 @@ class Solution:
                   for c in range(len(grid[0])))
 ```
 
-**Solution 3: (iterative)**
+**Solution 3: (DFS, iterative)**
 ```
 Runtime: 136 ms
 Memory Usage: N/A

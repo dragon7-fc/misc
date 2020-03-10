@@ -157,7 +157,7 @@ public class Solution {
 # Submissions
 ---
 
-**Solution**
+**Solution: (Linear Scan)**
 ```
 Runtime: 524 ms
 Memory Usage: 13.8 MB

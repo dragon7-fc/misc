@@ -16,7 +16,7 @@ Explanation: The first two digits or the last three digits are consecutive 1s.
 
 # Submissions
 ---
-**Solution**
+**Solution 1: (Greedy)**
 ```
 Runtime: 420 ms
 Memory Usage: 14.2 MB
@@ -34,4 +34,15 @@ class Solution:
             else:
                     c = 0              # reset c to 0 if we encounter a "0" in the list
         return m
+```
+
+**Solution 2: (itertools)**
+```
+Runtime: 360 ms
+Memory Usage: 12.9 MB
+```
+```python
+class Solution:
+    def findMaxConsecutiveOnes(self, nums: List[int]) -> int:
+        return max([len(list(grp)) if k == 1 else 0 for k, grp in itertools.groupby(nums)])
 ```

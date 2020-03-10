@@ -20,7 +20,7 @@ Output: false
 
 # Submissions
 ---
-**Solution:**
+**Solution 1: (Hash Table)**
 ```
 Runtime: 104 ms
 Memory Usage: 21.3 MB

@@ -151,6 +151,150 @@ Happy Coding!!
 
 ## Array <a name="array"></a>
 ---
+### Rotate Array
+```python
+class Solution(object):
+    def rotate(self, nums, k):
+        """
+        :type nums: List[int]
+        :type k: int
+        :rtype: void Do not return anything, modify nums in-place instead.
+        """
+        k %= len(nums)
+        nums.reverse()
+        nums[:k] = nums[:k][::-1]
+        nums[k:len(nums)] = nums[k:len(nums)][::-1]
+```
+* [[Easy] [Solution] 189. Rotate Array](%5BEasy%5D%20%5BSolution%5D%20189.%20Rotate%20Array.md)
+
+### Boyer-Moore Voting Algorithm
+```python
+class Solution:
+    def majorityElement(self, nums):
+        """
+        :type nums: List[int]
+        :rtype: int
+        """
+        count = 0
+        candidate = None
+
+        for num in nums:
+            if count == 0:
+                candidate = num
+            count += (1 if num == candidate else -1)
+
+        return candidate
+```
+* [[Easy] [Solution] 169. Majority Element](%5BEasy%5D%20%5BSolution%5D%20169.%20Majority%20Element.md)
+
+### Using division and modulus
+```python
+class Solution:
+    def matrixReshape(self, nums: List[List[int]], r: int, c: int) -> List[List[int]]:
+        R = len(nums)
+        C = len(nums[0])
+        if R == 0 or r*c != R*C:
+            return nums
+        res = [[0 for _ in range(c)] for _ in range(r)]
+        count = 0
+        for i in range(R):
+            for j in range(C):
+                res[count//c][count%c] = nums[i][j]
+                count += 1
+
+        return res
+```
+* [[Easy] [Solution] 566. Reshape the Matrix](%5BEasy%5D%20%5BSolution%5D%20566.%20Reshape%20the%20Matrix.md)
+
+### Locate and Analyze Problem Index
+```python
+class Solution:
+    def checkPossibility(self, nums: List[int]) -> bool:
+        p = None
+        for i in range(len(nums) - 1):
+            if nums[i] > nums[i+1]:
+                if p is not None:
+                    return False
+                p = i
+
+        return (p is None or p == 0 or p == len(nums)-2 or
+                nums[p-1] <= nums[p+1] or nums[p] <= nums[p+2])
+```
+* [[Easy] [Solution] 665. Non-decreasing Array](%5BEasy%5D%20%5BSolution%5D%20665.%20Non-decreasing%20Array.md)
+
+### Linear Scan
+```python
+class Solution:
+    def triangleNumber(self, nums: List[int]) -> int:
+        count = 0
+        nums.sort()
+        for i in range(len(nums)-2):
+            k = i + 2
+            if nums[i] != 0:
+                for j in range(i+1, len(nums)- 1):
+                    while (k < len(nums)) and (nums[i]+nums[j] > nums[k]):
+                        k += 1
+                    count += k - j - 1
+        return count
+```
+* [[Medium] [Solution] 611. Valid Triangle Number](%5BMedium%5D%20%5BSolution%5D%20611.%20Valid%20Triangle%20Number.md)
+
+### Mark Visited Element
+```python
+class Solution:
+    def arrayNesting(self, nums: List[int]) -> int:
+        ans = 0
+        for i in range(len(nums)):
+            if nums[i] != float('inf'):
+                start = nums[i]
+                count = 0
+                while nums[start] != float('inf'):
+                    tmp = start
+                    start = nums[start]
+                    count += 1
+                    nums[tmp] = float('inf')
+            ans = max(ans, count)
+        return ans
+```
+* [[Medium] [Solution] 565. Array Nesting](%5BMedium%5D%20%5BSolution%5D%20565.%20Array%20Nesting.md)
+
+### Left/Right Prefix Sum
+```python
+class Solution:
+    def productExceptSelf(self, nums: List[int]) -> List[int]:
+      
+        # The length of the input array 
+        length = len(nums)
+        
+        # The answer array to be returned
+        answer = [0]*length
+        
+        # answer[i] contains the product of all the elements to the left
+        # Note: for the element at index '0', there are no elements to the left,
+        # so the answer[0] would be 1
+        answer[0] = 1
+        for i in range(1, length):
+            
+            # answer[i - 1] already contains the product of elements to the left of 'i - 1'
+            # Simply multiplying it with nums[i - 1] would give the product of all 
+            # elements to the left of index 'i'
+            answer[i] = nums[i - 1] * answer[i - 1]
+        
+        # R contains the product of all the elements to the right
+        # Note: for the element at index 'length - 1', there are no elements to the right,
+        # so the R would be 1
+        R = 1;
+        for i in reversed(range(length)):
+            
+            # For the index 'i', R would contain the 
+            # product of all elements to the right. We update R accordingly
+            answer[i] = answer[i] * R
+            R *= nums[i]
+        
+        return answer
+```
+* [[Medium] [Solution] 238. Product of Array Except Self](%5BMedium%5D%20%5BSolution%5D%20238.%20Product%20of%20Array%20Except%20Self.md)
+
 ### O(1) Space, Efficient Solution
 ```python
 class Solution:
@@ -191,6 +335,41 @@ class Solution:
                 matrix[i][0] = 0
 ```
 * [[Medium] [Solution] 73. Set Matrix Zeroes](%5BMedium%5D%20%5BSolution%5D%2073.%20Set%20Matrix%20Zeroes.md)
+
+### Ad-Hoc
+```python
+class Solution:
+    def maxSumOfThreeSubarrays(self, nums: List[int], K: int) -> List[int]:
+        W = [] #array of sums of windows
+        sum_ = 0
+        for i, x in enumerate(nums):
+            sum_ += x
+            if i >= K: sum_ -= nums[i-K]
+            if i >= K-1: W.append(sum_)
+
+        left = [0] * len(W)
+        best = 0
+        for i in range(len(W)):
+            if W[i] > W[best]:
+                best = i
+            left[i] = best
+
+        right = [0] * len(W)
+        best = len(W) - 1
+        for i in range(len(W) - 1, -1, -1):
+            if W[i] >= W[best]:
+                best = i
+            right[i] = best
+
+        ans = None
+        for j in range(K, len(W) - K):
+            i, k = left[j-K], right[j+K]
+            if ans is None or (W[i] + W[j] + W[k] >
+                    W[ans[0]] + W[ans[1]] + W[ans[2]]):
+                ans = i, j, k
+        return ans
+```
+* [[Hard] [Solution] 689. Maximum Sum of 3 Non-Overlapping Subarrays](%5BHard%5D%20%5BSolution%5D%20689.%20Maximum%20Sum%20of%203%20Non-Overlapping%20Subarrays.md)
 
 ## Dynamic Programming <a name="dp"></a>
 ---
@@ -341,6 +520,21 @@ class Solution:
 ```
 * [[Medium] 1362. Closest Divisors](%5BMedium%5D%201362.%20Closest%20Divisors.md)
 
+### Construction
+```python
+class Solution(object):
+    def constructArray(self, n, k):
+        ans = list(range(1, n - k))
+        for i in range(k+1):
+            if i % 2 == 0:
+                ans.append(n-k + i//2)
+            else:
+                ans.append(n - i//2)
+
+        return ans
+```
+* [[Medium] [Solution] 667. Beautiful Arrangement II](%5BMedium%5D%20%5BSolution%5D%20667.%20Beautiful%20Arrangement%20II.md)
+
 ## Tree <a name='tree'></a>
 ---
 ### Binary Search Tree
@@ -402,6 +596,26 @@ class Solution:
 
 ## Hash Table <a name='ht'></a>
 ---
+### Left and Right Index
+```python
+class Solution:
+    def findShortestSubArray(self, nums: List[int]) -> int:
+        left, right, count = {}, {}, {}
+        for i, x in enumerate(nums):
+            if x not in left: left[x] = i
+            right[x] = i
+            count[x] = count.get(x, 0) + 1
+
+        ans = len(nums)
+        degree = max(count.values())
+        for x in count:
+            if count[x] == degree:
+                ans = min(ans, right[x] - left[x] + 1)
+
+        return ans
+```
+* [[Easy] [Solution] 697. Degree of an Array](%5BEasy%5D%20%5BSolution%5D%20697.%20Degree%20of%20an%20Array.md)
+
 ### Generalized Neighbors
 ```python
 class MagicDictionary:
@@ -456,6 +670,32 @@ class Solution:
         return r
 ```
 * [[Medium] 1371. Find the Longest Substring Containing Vowels in Even Counts](%5BMedium%5D%201371.%20Find%20the%20Longest%20Substring%20Containing%20Vowels%20in%20Even%20Counts.md)
+
+### Prefix Sum
+```python
+class Solution:
+    def subarraySum(self, nums, k):
+        """
+        :type nums: List[int]
+        :type k: int
+        :rtype: int
+        """
+        sum_cnt = collections.defaultdict(int)
+        sum_cnt[0] = 1
+        cur_sum = 0
+        cnt = 0
+
+        for i in range(len(nums)):
+            cur_sum += nums[i]                        
+
+            if cur_sum-k in sum_cnt:
+                cnt += sum_cnt[cur_sum-k]
+
+            sum_cnt[cur_sum] += 1    
+
+        return cnt
+```
+* [[Medium] [Solution] 560. Subarray Sum Equals K](%5BMedium%5D%20%5BSolution%5D%20560.%20Subarray%20Sum%20Equals%20K.md)
 
 ### Rolling Hash
 ```python
@@ -829,6 +1069,24 @@ class Solution:
 ```
 * [[Medium] [Solution] 153. Find Minimum in Rotated Sorted Array](%5BMedium%5D%20%5BSolution%5D%20153.%20Find%20Minimum%20in%20Rotated%20Sorted%20Array.md)
 
+### Find local maximum
+```python
+class Solution:
+    def findPeakElement(self, nums: List[int]) -> int:
+        l = 0
+        r = len(nums) - 1
+
+        while l < r:
+            mid = l + (r - l) // 2
+            if nums[mid] > nums[mid + 1]:
+                r = mid
+            else:
+                l = mid + 1
+
+        return l
+```
+* [[Medium] [Solution] 162. Find Peak Element](%5BMedium%5D%20%5BSolution%5D%20162.%20Find%20Peak%20Element.md)
+
 **Template 1**
 ```python
 def is_XXX(...):
@@ -870,7 +1128,49 @@ return ans
 
 ## Greedy <a name="greedy"></a>
 ---
-## Profit
+### Append leftmost and rightmost element
+```python
+class Solution:
+    def canPlaceFlowers(self, flowerbed: List[int], n: int) -> bool:
+        tmp =[0] + flowerbed +[0]
+
+        index = 1 
+
+        while index< len(tmp)-1:
+            if tmp[index-1]== 0 and tmp[index]==0 and tmp[index+1]==0:
+                n -= 1
+                index += 1 
+            index += 1
+        return n <= 0
+```
+* [[Easy] [Solution] 605. Can Place Flowers](%5BEasy%5D%20%5BSolution%5D%20605.%20Can%20Place%20Flowers.md)
+
+### 1-bit and 2-bit Characters
+```python
+class Solution:
+    def isOneBitCharacter(self, bits: List[int]) -> bool:
+        parity = bits.pop()
+        while bits and bits.pop(): parity ^= 1
+        return parity == 0
+```
+* [[Easy] [Solution] 717. 1-bit and 2-bit Characters](%5BEasy%5D%20%5BSolution%5D%20717.%201-bit%20and%202-bit%20Characters.md)
+
+### Total period
+```python
+class Solution:
+    def findPoisonedDuration(self, timeSeries: List[int], duration: int) -> int:
+        n = len(timeSeries)
+        if n == 0:
+            return 0
+
+        total = 0
+        for i in range(n - 1):
+            total += min(timeSeries[i + 1] - timeSeries[i], duration)
+        return total + duration
+```
+* [[Medium] [Solution] 495. Teemo Attacking](%5BMedium%5D%20%5BSolution%5D%20495.%20Teemo%20Attacking.md)
+
+### Profit
 ```python
 class Solution:
     def maxProfit(self, prices: List[int], fee: int) -> int:
@@ -889,7 +1189,7 @@ class Solution:
 ```
 * [[Medium] [Solution] 714. Best Time to Buy and Sell Stock with Transaction Fee](%5BMedium%5D%20%5BSolution%5D%20714.%20Best%20Time%20to%20Buy%20and%20Sell%20Stock%20with%20Transaction%20Fee.md)
 
-## Sort
+### Sort
 ```python
 class Solution:
     def advantageCount(self, A: List[int], B: List[int]) -> List[int]:
@@ -928,6 +1228,21 @@ class Solution:
         return last_pos == 0
 ```
 * [[Medium] [Solution] 55. Jump Game](%5BMedium%5D%20%5BSolution%5D%2055.%20Jump%20Game.md)
+
+### Maximum Swap
+```python
+class Solution:
+    def maximumSwap(self, num: int) -> int:
+        A = list(map(int, str(num)))
+        last = {x: i for i, x in enumerate(A)}
+        for i, x in enumerate(A):
+            for d in range(9, x, -1):
+                if last.get(d, None) != None and last.get(d, None) > i:
+                    A[i], A[last[d]] = A[last[d]], A[i]
+                    return int("".join(map(str, A)))
+        return num
+```
+* [[Medium] [Solution] 670. Maximum Swap](%5BMedium%5D%20%5BSolution%5D%20670.%20Maximum%20Swap.md)
 
 **Template 1:**
 ```python
@@ -2056,6 +2371,22 @@ def binaryToGray(self, n: int) -> int:
 
 ## Sort <a name="sort"></a>
 ---
+### Shortest Unsorted Continuous Subarray
+```python
+class Solution:
+    def findUnsortedSubarray(self, nums: List[int]) -> int:
+        sorted_nums = sorted(nums) # returns the another sorted copy     
+        start = 0
+        end = len(nums)-1
+        while start <= end and sorted_nums[start] == nums[start]:
+            start += 1
+        while end >= 0 and sorted_nums[end] == nums[end]:
+            end -= 1
+
+        return 0 if start > end else end - start + 1
+```
+* [[Easy] [Solution] 581. Shortest Unsorted Continuous Subarray](%5BEasy%5D%20%5BSolution%5D%20581.%20Shortest%20Unsorted%20Continuous%20Subarray.md)
+
 ### Sort interval
 ```python
 class Solution:

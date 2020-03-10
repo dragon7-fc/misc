@@ -17,28 +17,29 @@ Explanation: 2,3,4 form a continuous range; 8,9 form a continuous range.
 
 # Submissions
 ---
-**Solution**
+**Solution 1: (Two Pointers)**
 ```
 Runtime: 28 ms
-Memory Usage: 13.8 MB
+Memory Usage: 12.6 MB
 ```
 ```python
 class Solution:
     def summaryRanges(self, nums: List[int]) -> List[str]:
         if not nums:
             return []
-        nums.append(-1)
         N = len(nums)
-        start = end = 0
+        i, j = 0, 0
         ans = []
-        for i in range(1, N):
-            if i <= N-1 and nums[i] != nums[i-1]+1:
-                end = i-1     
-                if start != end:
-                    ans.append("{}->{}".format(nums[start], nums[end]))
-                else:
-                    ans.append("{}".format(nums[start]))
-                start = i
+        while i < N:
+            while j + 1 < N and nums[j + 1] == nums[j] + 1:
+                j += 1
+            if i != j:
+                ans.append('{}->{}'.format(nums[i], nums[j]))
+            else:
+                ans .append('{}'.format(str(nums[i])))
+            j = j + 1
+            i = j
             
+        
         return ans
 ```

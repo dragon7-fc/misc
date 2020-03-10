@@ -136,7 +136,7 @@ public class Solution {
 
 # Submissions
 ---
-**Solution 1:**
+**Solution 1: (Without Using Extra Space)**
 ```
 Runtime: 156 ms
 Memory Usage: 16.2 MB
@@ -158,7 +158,7 @@ class Solution:
         return ans
 ```
 
-**Solution 2:**
+**Solution 2: (Using Visited Set)**
 ```
 Runtime: 136 ms
 Memory Usage: 16.5 MB

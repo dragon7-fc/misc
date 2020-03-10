@@ -233,7 +233,7 @@ Essentially, we obtain only the live cells from the entire board and then apply 
 
 # Submissions
 ---
-**Solution**
+**Solution: (O(1) Space Solution)**
 ```
 Runtime: 40 ms
 Memory Usage: 13.9 MB

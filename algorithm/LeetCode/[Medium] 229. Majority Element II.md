@@ -17,7 +17,7 @@ Output: [1,2]
 
 # Submissions
 ---
-**Solution**
+**Solution 1: (Vote)**
 ```
 Runtime: 144 ms
 Memory Usage: 15 MB

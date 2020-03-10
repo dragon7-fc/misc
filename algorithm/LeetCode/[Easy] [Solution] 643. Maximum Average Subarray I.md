@@ -87,7 +87,7 @@ public class Solution {
 
 # Submissions
 ---
-**Solution**
+**Solution 1: (Sliding Window)**
 ```
 Runtime: 996 ms
 Memory Usage: 17.7 MB

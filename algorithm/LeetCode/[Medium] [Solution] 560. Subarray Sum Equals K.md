@@ -145,36 +145,7 @@ public class Solution {
 
 # Submissions
 ---
-**Solution 1:**
-```
-Runtime: 88 ms
-Memory Usage: N/A
-```
-```python
-class Solution:
-    def subarraySum(self, nums, k):
-        """
-        :type nums: List[int]
-        :type k: int
-        :rtype: int
-        """
-        sums = dict()
-        sums[0] = 1
-        sm = 0
-        res = 0
-        for num in nums:
-            sm += num
-            if sm-k in sums:
-                res += sums[sm-k]
-                
-            if sm in sums:
-                sums[sm] += 1
-            else:
-                sums[sm] = 1
-        return res 
-```
-
-**Solution 2:**
+**Solution 1: (Using hashmap)**
 ```
 Runtime: 72 ms
 Memory Usage: N/A

@@ -164,8 +164,7 @@ public class Solution {
 
 # Submissions
 ---
-**Solution 1:**
----
+**Solution 1: (Using Extra Array)**
 ```
 Runtime: 44 ms
 Memory Usage: N/A
@@ -186,7 +185,7 @@ class Solution(object):
             nums[i] = a[i]
 ```
 
-**Solution 2;**
+**Solution 2; (Using Reverse)**
 ```
 Runtime: 80 ms
 Memory Usage: N/A
@@ -205,7 +204,7 @@ class Solution(object):
         nums[k:len(nums)] = nums[k:len(nums)][::-1]
 ```
 
-**Solution 3:**
+**Solution 3: (Using Extra Array)**
 ```
 Runtime: 72 ms
 Memory Usage: 15.3 MB

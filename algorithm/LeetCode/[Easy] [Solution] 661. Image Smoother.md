@@ -58,7 +58,7 @@ class Solution(object):
 
 # Submissions
 ---
-**Solution:**
+**Solution 1: (Iterate Through Grid)**
 ```
 Runtime: 740 ms
 Memory Usage: 14.2 MB

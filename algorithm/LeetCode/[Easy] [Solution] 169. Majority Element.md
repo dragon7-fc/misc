@@ -301,3 +301,26 @@ class Solution:
 
         return majority_element_rec(0, len(nums)-1)
 ```
+
+**Solution 4: (Boyer-Moore Voting Algorithm)**
+```
+Runtime: 164 ms
+Memory Usage: 14.1 MB
+```
+```python
+class Solution:
+    def majorityElement(self, nums):
+        """
+        :type nums: List[int]
+        :rtype: int
+        """
+        count = 0
+        candidate = None
+
+        for num in nums:
+            if count == 0:
+                candidate = num
+            count += (1 if num == candidate else -1)
+
+        return candidate
+```

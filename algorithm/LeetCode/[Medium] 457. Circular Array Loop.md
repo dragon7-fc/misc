@@ -36,7 +36,7 @@ Could you solve it in $O(n)$ time complexity and $O(1)$ extra space complexity?
 
 # Submissions
 ---
-**Solution 1**
+**Solution 1: (Greedy)**
 ```
 Runtime: 412 ms
 Memory Usage: 14.2 MB

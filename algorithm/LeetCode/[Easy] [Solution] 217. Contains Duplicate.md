@@ -127,7 +127,7 @@ For certain test cases with not very large $n$, the runtime of this method can b
 
 # Submissions
 ---
-**Solution 1:**
+**Solution 1: (Sorting)**
 ```
 Runtime: 60 ms
 Memory Usage: N/A
@@ -146,7 +146,7 @@ class Solution:
         return False
 ```
 
-**Solution 2:**
+**Solution 2: (Hash Table)**
 ```
 Runtime: 56 ms
 Memory Usage: N/A
