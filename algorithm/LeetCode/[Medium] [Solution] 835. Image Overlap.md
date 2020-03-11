@@ -89,7 +89,7 @@ class Solution(object):
 
 # Submissions
 ---
-**Solution**
+**Solution: (Count by Delta)**
 ```
 Runtime: 680 ms
 Memory Usage: 14.3 MB

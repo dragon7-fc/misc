@@ -94,7 +94,7 @@ class Solution(object):
 
 ## Submissions
 ---
-**Solution**
+**Solution: (In-Place)**
 ```
 Runtime: 92 ms
 Memory Usage: 14.5 MB
@@ -110,5 +110,26 @@ class Solution:
             if A[i] % 2 == 0: i += 1
             if A[j] % 2 == 1: j -= 1
 
+        return A
+```
+
+**Solution 1: (Two Pointers)**
+```
+Runtime: 80 ms
+Memory Usage: 13.4 MB
+```
+```python
+class Solution:
+    def sortArrayByParity(self, A: List[int]) -> List[int]:
+        i, j = 0, len(A) - 1
+        while True:
+            while i < j and not A[i] & 1: i += 1
+            while i < j and A[j] & 1: j -= 1
+            if i < j:
+                A[i], A[j] = A[j], A[i]
+                i += 1
+                j -= 1
+            else:
+                break
         return A
 ```

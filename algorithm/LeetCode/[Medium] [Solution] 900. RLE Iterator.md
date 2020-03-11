@@ -82,7 +82,7 @@ class RLEIterator(object):
 
 # Submissions
 ---
-**Solution**
+**Solution: (Store Exhausted Position and Quantity)**
 ```
 Runtime: 48 ms
 Memory Usage: 14.1 MB

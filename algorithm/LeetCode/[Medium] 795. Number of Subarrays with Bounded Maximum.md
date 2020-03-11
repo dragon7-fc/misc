@@ -21,7 +21,7 @@ Explanation: There are three subarrays that meet the requirements: [2], [2, 1], 
 
 # Submissions
 ---
-**Solution**
+**Solution: (Two Pointers)**
 ```
 Runtime: 384 ms
 Memory Usage: 15.2 MB

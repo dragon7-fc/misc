@@ -96,7 +96,7 @@ class Solution(object):
 
 # Submissions
 ---
-**Solution**
+**Solution: (Compare With Top-Left Neighbor)**
 ```
 Runtime: 92 ms
 Memory Usage: 13.7 MB

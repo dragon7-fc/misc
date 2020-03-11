@@ -113,7 +113,7 @@ class Solution(object):
 
 # Submissions
 ---
-**Solution**
+**Solution: (Dynamic Programming)**
 ```
 Runtime: 924 ms
 Memory Usage: 14 MB
@@ -133,4 +133,33 @@ class Solution:
                     ans = max(ans, cand)
 
         return ans if ans >= 3 else 0
+```
+
+**Solution 1: (DFS)**
+```
+Runtime: 480 ms
+Memory Usage: 13.5 MB
+```
+```python
+class Solution:
+    def lenLongestFibSubseq(self, A: List[int]) -> int:
+        ans = 0
+        index = {x: i for i, x in enumerate(A)}
+        
+        def dfs(idx, path):
+            nonlocal ans
+            a, b = path[-2], path[-1]
+            c = a+b
+            if c in index:
+                k = index[c]
+                ans = max(ans, len(path) + 1)
+                dfs(k+1, path + [c])
+                    
+        for i, a in enumerate(A):
+            for j, b in enumerate(A[i+1:]):
+                if a + b in index:
+                    k = index[a+b]
+                    dfs(k, [a, b])
+                        
+        return ans
 ```

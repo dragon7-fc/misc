@@ -30,7 +30,7 @@ Explanation: There are 2 global inversions, and 1 local inversion.
 
 # Submissions
 ---
-**Solution**
+**Solution: (Greedy)**
 ```
 Runtime: 408 ms
 Memory Usage: 14.3 MB

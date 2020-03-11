@@ -77,7 +77,7 @@ Happy Coding!!
 **Note**
 
 * Subarray/Substring need to be consecutive.
-* Subsequence don't have to be consecutive.
+* Subsequence don't have to be consecutive, but maintain relative order.
 
 ## Libraries <a name="libraries"></a>
 ---
@@ -151,6 +151,21 @@ Happy Coding!!
 
 ## Array <a name="array"></a>
 ---
+### Direct
+```python
+class Solution:
+    def flipAndInvertImage(self, A: List[List[int]]) -> List[List[int]]:
+        for row in A:
+            for i in range((len(row) + 1) // 2):
+                """
+                In Python, the shortcut row[~i] = row[-i-1] = row[len(row) - 1 - i]
+                helps us find the i-th value of the row, counting from the right.
+                """
+                row[i], row[~i] = row[~i] ^ 1, row[i] ^ 1
+        return A
+```
+* [[Easy] [Solution] 832. Flipping an Image](%5BEasy%5D%20%5BSolution%5D%20832.%20Flipping%20an%20Image.md)
+
 ### Rotate Array
 ```python
 class Solution(object):
@@ -221,6 +236,87 @@ class Solution:
                 nums[p-1] <= nums[p+1] or nums[p] <= nums[p+2])
 ```
 * [[Easy] [Solution] 665. Non-decreasing Array](%5BEasy%5D%20%5BSolution%5D%20665.%20Non-decreasing%20Array.md)
+
+### Prefix Sum
+```python
+class Solution:
+    def pivotIndex(self, nums: List[int]) -> int:
+        S = sum(nums)
+        leftsum = 0
+        for i, x in enumerate(nums):
+            if leftsum == (S - leftsum - x):
+                return i
+            leftsum += x
+        return -1
+```
+* [[Easy] [Solution] 724. Find Pivot Index](%5BEasy%5D%20%5BSolution%5D%20724.%20Find%20Pivot%20Index.md)
+
+### Compare With Top-Left Neighbor
+```python
+class Solution:
+    def isToeplitzMatrix(self, matrix: List[List[int]]) -> bool:
+        return all(r == 0 or c == 0 or matrix[r-1][c-1] == val
+                   for r, row in enumerate(matrix)
+                   for c, val in enumerate(row))
+```
+* [[Easy] [Solution] 766. Toeplitz Matrix](%5BEasy%5D%20%5BSolution%5D%20766.%20Toeplitz%20Matrix.md)
+
+### Brute Force
+```python
+class Solution:
+    def numMagicSquaresInside(self, grid: List[List[int]]) -> int:
+        R, C = len(grid), len(grid[0])
+
+        def magic(a,b,c,d,e,f,g,h,i):
+            return (sorted([a,b,c,d,e,f,g,h,i]) == list(range(1, 10)) and
+                (a+b+c == d+e+f == g+h+i == a+d+g ==
+                 b+e+h == c+f+i == a+e+i == c+e+g == 15))
+
+        ans = 0
+        for r in range(R-2):
+            for c in range(C-2):
+                if grid[r+1][c+1] != 5: continue  # optional skip
+                if magic(grid[r][c], grid[r][c+1], grid[r][c+2],
+                         grid[r+1][c], grid[r+1][c+1], grid[r+1][c+2],
+                         grid[r+2][c], grid[r+2][c+1], grid[r+2][c+2]):
+                    ans += 1
+        return ans
+```
+* [[Easy] [Solution] 840. Magic Squares In Grid](%5BEasy%5D%20%5BSolution%5D%20840.%20Magic%20Squares%20In%20Grid.md)
+
+### Copy Directly
+```python
+class Solution:
+    def transpose(self, A: List[List[int]]) -> List[List[int]]:
+        return zip(*A)
+```
+* [[Easy] [Solution] 867. Transpose Matrix](%5BEasy%5D%20%5BSolution%5D%20867.%20Transpose%20Matrix.md)
+
+### Greatest Common Divisor
+```python
+class Solution:
+    def hasGroupsSizeX(self, deck: List[int]) -> bool:
+        from functools import reduce
+        vals = collections.Counter(deck).values()
+        return reduce(math.gcd, vals) >= 2
+```
+* [[Easy] [Solution] 914. X of a Kind in a Deck of Cards](%5BEasy%5D%20%5BSolution%5D%20914.%20X%20of%20a%20Kind%20in%20a%20Deck%20of%20Cards.md)
+
+### One Pass (Simple Variant)
+```python
+class Solution:
+    def isMonotonic(self, A: List[int]) -> bool:
+        increasing = decreasing = True
+
+        for i in range(len(A) - 1):
+            if A[i] > A[i+1]:
+                increasing = False
+            if A[i] < A[i+1]:
+                decreasing = False
+
+        return increasing or decreasing
+```
+* [[Easy] [Solution] 896. Monotonic Array](%5BEasy%5D%20%5BSolution%5D%20896.%20Monotonic%20Array.md)
 
 ### Linear Scan
 ```python
@@ -336,6 +432,121 @@ class Solution:
 ```
 * [[Medium] [Solution] 73. Set Matrix Zeroes](%5BMedium%5D%20%5BSolution%5D%2073.%20Set%20Matrix%20Zeroes.md)
 
+### Balanced Tree
+```python
+class Node:
+    __slots__ = 'start', 'end', 'left', 'right'
+    def __init__(self, start, end):
+        self.start = start
+        self.end = end
+        self.left = self.right = None
+
+    def insert(self, node):
+        if node.start >= self.end:
+            if not self.right:
+                self.right = node
+                return True
+            return self.right.insert(node)
+        elif node.end <= self.start:
+            if not self.left:
+                self.left = node
+                return True
+            return self.left.insert(node)
+        else:
+            return False
+
+class MyCalendar:
+
+    def __init__(self):
+        self.root = None
+
+    def book(self, start: int, end: int) -> bool:
+        if self.root is None:
+            self.root = Node(start, end)
+            return True
+        return self.root.insert(Node(start, end))
+
+
+# Your MyCalendar object will be instantiated and called as such:
+# obj = MyCalendar()
+# param_1 = obj.book(start,end)
+```
+* [[Medium] [Solution] 729. My Calendar I](%5BMedium%5D%20%5BSolution%5D%20729.%20My%20Calendar%20I.md)
+
+### Counting
+```python
+class Solution:
+    def numFriendRequests(self, ages: List[int]) -> int:
+        count = [0] * 121
+        for age in ages:
+            count[age] += 1
+
+        ans = 0
+        for ageA, countA in enumerate(count):
+            for ageB, countB in enumerate(count):
+                if ageA * 0.5 + 7 >= ageB: continue
+                if ageA < ageB: continue
+                if ageA < 100 < ageB: continue
+                ans += countA * countB
+                if ageA == ageB: ans -= countA
+
+        return ans
+```
+* [[Medium] [Solution] 825. Friends Of Appropriate Ages](%5BMedium%5D%20%5BSolution%5D%20825.%20Friends%20Of%20Appropriate%20Ages.md)
+
+### Store Exhausted Position and Quantity
+```python
+class RLEIterator:
+
+    def __init__(self, A: List[int]):
+        self.A = A
+        self.i = 0
+        self.q = 0
+
+    def next(self, n: int) -> int:
+        while self.i < len(self.A):
+            if self.q + n > self.A[self.i]:
+                n -= self.A[self.i] - self.q
+                self.q = 0
+                self.i += 2
+            else:
+                self.q += n
+                return self.A[self.i+1]
+        return -1
+
+
+
+
+# Your RLEIterator object will be instantiated and called as such:
+# obj = RLEIterator(A)
+# param_1 = obj.next(n)
+```
+* [[Medium] [Solution] 900. RLE Iterator](%5BMedium%5D%20%5BSolution%5D%20900.%20RLE%20Iterator.md)
+
+### Next Array
+```
+class Solution:
+    def partitionDisjoint(self, A: List[int]) -> int:
+        N = len(A)
+        maxleft = [None] * N
+        minright = [None] * N
+
+        m = A[0]
+        for i in range(N):
+            m = max(m, A[i])
+            maxleft[i] = m
+
+        m = A[-1]
+        for i in range(N-1, -1, -1):
+            m = min(m, A[i])
+            minright[i] = m
+
+        for i in range(1, N):
+            if maxleft[i-1] <= minright[i]:
+                return i
+```
+* [[Medium] [Solution] 915. Partition Array into Disjoint Intervals](%5BMedium%5D%20%5BSolution%5D%20915.%20Partition%20Array%20into%20Disjoint%20Intervals.md)
+
 ### Ad-Hoc
 ```python
 class Solution:
@@ -371,8 +582,66 @@ class Solution:
 ```
 * [[Hard] [Solution] 689. Maximum Sum of 3 Non-Overlapping Subarrays](%5BHard%5D%20%5BSolution%5D%20689.%20Maximum%20Sum%20of%203%20Non-Overlapping%20Subarrays.md)
 
+### Sorted Count Pairs
+```python
+class Solution:
+    def maxChunksToSorted(self, arr: List[int]) -> int:
+        count = collections.Counter()
+        counted = []
+        for x in arr:
+            count[x] += 1
+            counted.append((x, count[x]))
+
+        ans, cur = 0, None
+        for X, Y in zip(counted, sorted(counted)):
+            cur = max(cur, X) if cur else X
+            if cur == Y:
+                ans += 1
+        return ans
+```
+* [[Hard] [Solution] 768. Max Chunks To Make Sorted II](%5BHard%5D%20%5BSolution%5D%20768.%20Max%20Chunks%20To%20Make%20Sorted%20II.md)
+
 ## Dynamic Programming <a name="dp"></a>
 ---
+### 1D state
+```python
+class Solution(object):
+    def minCostClimbingStairs(self, cost):
+        """
+        :type cost: List[int]
+        :rtype: int
+        """
+        n = len(cost)
+        dp = [0]*n
+
+        dp[0] = cost[0]
+        dp[1] = cost[1]
+        for i in range(2, n):
+            dp[i] = min(dp[i-1], dp[i-2]) + cost[i]
+
+        return min(dp[n-1], dp[n-2])
+```
+* [[Easy] [Solution] 746. Min Cost Climbing Stairs](%5BEasy%5D%20%5BSolution%5D%20746.%20Min%20Cost%20Climbing%20Stairs.md)
+
+### Longest Fibonacci Subsequence
+```python
+class Solution:
+    def lenLongestFibSubseq(self, A: List[int]) -> int:
+        index = {x: i for i, x in enumerate(A)}
+        longest = collections.defaultdict(lambda: 2)
+
+        ans = 0
+        for k, z in enumerate(A):
+            for j in range(k):
+                i = index.get(z - A[j], None)
+                if i is not None and i < j:
+                    cand = longest[j, k] = longest[i, j] + 1
+                    ans = max(ans, cand)
+
+        return ans if ans >= 3 else 0
+```
+* [[Medium] [Solution] 873. Length of Longest Fibonacci Subsequence](%5BMedium%5D%20%5BSolution%5D%20873.%20Length%20of%20Longest%20Fibonacci%20Subsequence.md)
+
 ### Top-down
 ```python
 from functools import lru_cache
@@ -534,6 +803,25 @@ class Solution(object):
         return ans
 ```
 * [[Medium] [Solution] 667. Beautiful Arrangement II](%5BMedium%5D%20%5BSolution%5D%20667.%20Beautiful%20Arrangement%20II.md)
+
+### Sum of Subsequence Widths
+```python
+class Solution:
+    def sumSubseqWidths(self, A: List[int]) -> int:
+        MOD = 10**9 + 7
+        N = len(A)
+        A.sort()
+
+        pow2 = [1]
+        for i in range(1, N):
+            pow2.append(pow2[-1] * 2 % MOD)
+
+        ans = 0
+        for i, x in enumerate(A):
+            ans = (ans + (pow2[i] - pow2[N-1-i]) * x) % MOD
+        return ans
+```
+* [[Hard] [Solution] 891. Sum of Subsequence Widths](%5BHard%5D%20%5BSolution%5D%20891.%20Sum%20of%20Subsequence%20Widths.md)
 
 ## Tree <a name='tree'></a>
 ---
@@ -697,7 +985,48 @@ class Solution:
 ```
 * [[Medium] [Solution] 560. Subarray Sum Equals K](%5BMedium%5D%20%5BSolution%5D%20560.%20Subarray%20Sum%20Equals%20K.md)
 
-### Rolling Hash
+### Binary Search with Rolling Hash
+```python
+class Solution:
+    def findLength(self, A: List[int], B: List[int]) -> int:
+        P, MOD = 113, 10**9 + 7
+        Pinv = pow(P, MOD-2, MOD)
+        def check(guess):
+            def rolling(A, length):
+                if length == 0:
+                    yield 0, 0
+                    return
+
+                h, power = 0, 1
+                for i, x in enumerate(A):
+                    h = (h + x * power) % MOD
+                    if i < length - 1:
+                        power = (power * P) % MOD
+                    else:
+                        yield h, i - (length - 1)
+                        h = (h - A[i - (length - 1)]) * Pinv % MOD
+
+            hashes = collections.defaultdict(list)
+            for ha, start in rolling(A, guess):
+                hashes[ha].append(start)
+            for ha, start in rolling(B, guess):
+                iarr = hashes.get(ha, [])
+                if any(A[i:i+guess] == B[start:start+guess] for i in iarr):
+                    return True
+            return False
+
+        lo, hi = 0, min(len(A), len(B)) + 1
+        while lo < hi:
+            mi = (lo + hi) // 2
+            if check(mi):
+                lo = mi + 1
+            else:
+                hi = mi
+        return lo - 1
+```
+* [[Medium] [Solution] 718. Maximum Length of Repeated Subarray](%5BMedium%5D%20%5BSolution%5D%20718.%20Maximum%20Length%20of%20Repeated%20Subarray.md)
+
+### Substring Rolling Hash
 ```python
 class Solution:
     def distinctEchoSubstrings(self, text: str) -> int:
@@ -709,6 +1038,48 @@ class Solution:
         return len(some_strings)
 ```
 * [[Hard] 1316. Distinct Echo Substrings](%5BHard%5D%201316.%20Distinct%20Echo%20Substrings.md)
+
+### Subsequence Rolling Hash
+```python
+class Solution:
+    def numMatchingSubseq(self, S: str, words: List[str]) -> int:
+        word_dict = collections.defaultdict(list)
+        count = 0
+
+        for word in words:
+            word_dict[word[0]].append(word)            
+
+        for char in S:
+            words_expecting_char = word_dict[char]
+            word_dict[char] = []
+            for word in words_expecting_char:
+                if len(word) == 1:
+                    # Finished subsequence! 
+                    count += 1
+                else:
+                    word_dict[word[1]].append(word[1:])
+
+        return count
+```
+* [[Medium] 792. Number of Matching Subsequences](%5BMedium%5D%20792.%20Number%20of%20Matching%20Subsequences.md)
+
+### Count by Delta
+```python
+class Solution:
+    def largestOverlap(self, A: List[List[int]], B: List[List[int]]) -> int:
+        N = len(A)
+        count = collections.Counter()
+        for i, row in enumerate(A):
+            for j, v in enumerate(row):
+                if v:
+                    for i2, row2 in enumerate(B):
+                        for j2, v2 in enumerate(row2):
+                            if v2:
+                                count[i-i2, j-j2] += 1
+
+        return max(count.values() or [0])
+```
+* [[Medium] [Solution] 835. Image Overlap](%5BMedium%5D%20%5BSolution%5D%20835.%20Image%20Overlap.md)
 
 ## Depth-first Search <a name="dfs"></a>
 ---
@@ -1086,6 +1457,33 @@ class Solution:
         return l
 ```
 * [[Medium] [Solution] 162. Find Peak Element](%5BMedium%5D%20%5BSolution%5D%20162.%20Find%20Peak%20Element.md)
+
+### Binary Search + Sliding Window
+```python
+class Solution:
+    def smallestDistancePair(self, nums: List[int], k: int) -> int:
+        def possible(guess):
+            #Is there k or more pairs with distance <= guess?
+            count = left = 0
+            for right, x in enumerate(nums):
+                while x - nums[left] > guess:
+                    left += 1
+                count += right - left
+            return count >= k
+
+        nums.sort()
+        lo = 0
+        hi = nums[-1] - nums[0]
+        while lo < hi:
+            mi = (lo + hi) // 2
+            if possible(mi):
+                hi = mi
+            else:
+                lo = mi + 1
+
+        return lo
+```
+* [[Hard] [Solution] 719. Find K-th Smallest Pair Distance](%5BHard%5D%20%5BSolution%5D%20719.%20Find%20K-th%20Smallest%20Pair%20Distance.md)
 
 **Template 1**
 ```python

@@ -5,7 +5,7 @@ Some people will make friend requests. The list of their ages is given and `ages
 Person A will NOT friend request person B (B != A) if any of the following conditions are true:
 
 * `age[B] <= 0.5 * age[A] + 7`
-* `age[B] > age[A]``
+* `age[B] > age[A]`
 * `age[B] > 100 && age[A] < 100`
 
 Otherwise, A will friend request B.
@@ -80,7 +80,7 @@ class Solution(object):
 
 # Submissions
 ---
-**Solution**
+**Solution: (Counting)**
 ```
 Runtime: 452 ms
 Memory Usage: 14.6 MB

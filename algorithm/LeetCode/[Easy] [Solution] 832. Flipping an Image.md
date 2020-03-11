@@ -50,7 +50,25 @@ class Solution(object):
 
 # Submissions
 ---
-**Solution 1:**
+**Solution: (Direct)**
+```
+Runtime: 52 ms
+Memory Usage: 12.8 MB
+```
+```python
+class Solution:
+    def flipAndInvertImage(self, A: List[List[int]]) -> List[List[int]]:
+        for row in A:
+            for i in range((len(row) + 1) // 2):
+                """
+                In Python, the shortcut row[~i] = row[-i-1] = row[len(row) - 1 - i]
+                helps us find the i-th value of the row, counting from the right.
+                """
+                row[i], row[~i] = row[~i] ^ 1, row[i] ^ 1
+        return A
+```
+
+**Solution 1: (Array)**
 ```
 Runtime: 52 ms
 Memory Usage: N/A
@@ -69,7 +87,7 @@ class Solution:
         return A
 ```
 
-**Solution 2:**
+**Solution 2: (Array)**
 ```
 Runtime: 56 ms
 Memory Usage: 13.8 MB

@@ -4,7 +4,7 @@ Given a matrix `A`, return the transpose of `A`.
 
 The transpose of a matrix is the matrix flipped over it's main diagonal, switching the row and column indices of the matrix.
 
- 
+![867_hint_transpose.png](img/867_hint_transpose.png)
 
 **Example 1:**
 ```
@@ -54,7 +54,7 @@ class Solution(object):
 
 # Submissions
 ---
-**Solution 1:**
+**Solution 1: (Copy Directly)**
 ```
 Runtime: 80 ms
 Memory Usage: N/A
@@ -71,4 +71,15 @@ class Solution:
             for j in range(len(A[0])):
                 AT[j][i] = A[i][j]
         return AT
+```
+
+**Solution 2: ()**
+```
+Runtime: 72 ms
+Memory Usage: 13.4 MB
+```
+```python
+class Solution:
+    def transpose(self, A: List[List[int]]) -> List[List[int]]:
+        return zip(*A)
 ```

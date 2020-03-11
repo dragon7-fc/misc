@@ -52,7 +52,7 @@ class Solution(object):
 
 # Submissions
 ---
-**Solution 1:**
+**Solution 1: (Dynamic Programming)**
 ```
 Runtime: 60 ms
 Memory Usage: 14 MB
@@ -66,7 +66,7 @@ class Solution:
         return min(f1, f2)
 ```
 
-**Solution 2:**
+**Solution 2: (DP)**
 ```
 Runtime: 28 ms
 Memory Usage: N/A
@@ -87,5 +87,4 @@ class Solution(object):
             dp[i] = min(dp[i-1], dp[i-2]) + cost[i]
             
         return min(dp[n-1], dp[n-2])
-        
 ```

@@ -48,7 +48,7 @@ class Solution(object):
 
 # Submissions
 ---
-**Solution**
+**Solution: (Linear Scan)**
 ```
 Runtime: 40 ms
 Memory Usage: 13.6 MB

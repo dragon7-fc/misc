@@ -96,7 +96,7 @@ Playing with some array like `A = [1,7,5,2,4,3,9]`, with `j = 6` the minimum of 
 
 Let's try to maintain an RLE (run length encoding) of these critical points B. More specifically, for the above `(A, j)`, we will maintain `stack = [(val=1, count=1), (val=2, count=3), (val=3, count=2), (val=9, count=1)]`, that represents a run length encoding of the subarray minimums `B = [1,2,2,2,3,3,9]`. For each `j`, we want `sum(B)`.
 
-As we increment `j`, we will have to update this stack to include the newest element `(val=x, count=1)`. We need to pop off all values >= `x` before, as the minimum of the associated subarray `[i, j]` will now be `A[j]` instead of what it was before.
+As we increment `j`, we will have to update this stack to include the newest element `(val=x, count=1)`. We need to pop off all values `>= x` before, as the minimum of the associated subarray `[i, j]` will now be `A[j]` instead of what it was before.
 
 At the end, the answer is the dot product of this stack: $\sum\limits_{e\text{ } \in \text{ stack}} e\text{.val} * e\text{.count}$, which we also maintain on the side as the variable `dot`.
 
@@ -150,7 +150,7 @@ class Solution:
                 dot -= x * c
 
             stack.append((y, count))
-            dot += y * count
+            dot += y * count  # last result
             ans += dot
         return ans % MOD
 ```

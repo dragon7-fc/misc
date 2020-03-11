@@ -20,7 +20,7 @@ Explanation: There are three words in words that are a subsequence of S: "a", "a
 
 # Submissions
 ---
-**Solution 1**
+**Solution 1: (Rolling Hash)**
 ```
 Runtime: 504 ms
 Memory Usage: 15.2 MB

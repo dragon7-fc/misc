@@ -123,27 +123,21 @@ class Solution(object):
 
 # Submissions
 ---
-**Solution 1:**
+**Solution: (One Pass (Simple Variant))**
 ```
-Runtime: 560 ms
-Memory Usage: 19.8 MB
+Runtime: 556 ms
+Memory Usage: 18.9 MB
 ```
 ```python
 class Solution:
     def isMonotonic(self, A: List[int]) -> bool:
-        ans = True
-        
-        inc_dec = 0
-        for i in range(1, len(A)):
-            if inc_dec == 0:
-                if A[i] > A[i-1]:
-                    inc_dec = 1
-                elif A[i] < A[i-1]:
-                    inc_dec = -1
-            elif inc_dec == 1 and A[i] < A[i-1]:
-                return False
-            elif inc_dec == -1 and A[i] > A[i-1]:
-                return False
-            
-        return ans
+        increasing = decreasing = True
+
+        for i in range(len(A) - 1):
+            if A[i] > A[i+1]:
+                increasing = False
+            if A[i] < A[i+1]:
+                decreasing = False
+
+        return increasing or decreasing
 ```

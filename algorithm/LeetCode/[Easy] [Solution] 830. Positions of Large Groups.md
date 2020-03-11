@@ -63,7 +63,7 @@ class Solution(object):
 
 # Submissions
 ---
-**Solution**
+**Solution: (Two Pointer)**
 ```
 Runtime: 48 ms
 Memory Usage: 13.7 MB
@@ -79,5 +79,24 @@ class Solution:
                 if j-i+1 >= 3:
                     ans.append([i, j])
                 i = j+1
+        return ans
+```
+
+**Solution 2: (itertools)**
+```
+Runtime: 36 ms
+Memory Usage: 12.9 MB
+```
+```python
+class Solution:
+    def largeGroupPositions(self, S: str) -> List[List[int]]:
+        i, j = 0, 0
+        ans = []
+        for k, grp in itertools.groupby(S):
+            j = i + len(list(grp)) - 1
+            if j - i + 1 >= 3:
+                ans.append([i, j])
+            i = j+1
+        
         return ans
 ```

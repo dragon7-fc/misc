@@ -223,7 +223,7 @@ class Solution:
                     memo[i][j] = memo[i+1][j+1]+1
         return max(max(row) for row in memo)
 ```
-**Solution 2: (DP: Bottom-Up 2)**
+**Solution 2: (DP: Bottom-Up)**
 ```
 Runtime: 2728 ms
 Memory Usage: 37.9 MB
