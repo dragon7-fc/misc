@@ -318,6 +318,23 @@ class Solution:
 ```
 * [[Easy] [Solution] 896. Monotonic Array](%5BEasy%5D%20%5BSolution%5D%20896.%20Monotonic%20Array.md)
 
+### Maintain Array Sum
+```python
+class Solution:
+    def sumEvenAfterQueries(self, A: List[int], queries: List[List[int]]) -> List[int]:
+        S = sum(x for x in A if x % 2 == 0)
+        ans = []
+
+        for x, k in queries:
+            if A[k] % 2 == 0: S -= A[k]
+            A[k] += x
+            if A[k] % 2 == 0: S += A[k]
+            ans.append(S)
+
+        return ans
+```
+* [[Easy] [Solution] 985. Sum of Even Numbers After Queries](%5BEasy%5D%20%5BSolution%5D%20985.%20Sum%20of%20Even%20Numbers%20After%20Queries.md)
+
 ### Linear Scan
 ```python
 class Solution:
@@ -524,7 +541,7 @@ class RLEIterator:
 * [[Medium] [Solution] 900. RLE Iterator](%5BMedium%5D%20%5BSolution%5D%20900.%20RLE%20Iterator.md)
 
 ### Next Array
-```
+```python
 class Solution:
     def partitionDisjoint(self, A: List[int]) -> int:
         N = len(A)
@@ -546,6 +563,132 @@ class Solution:
                 return i
 ```
 * [[Medium] [Solution] 915. Partition Array into Disjoint Intervals](%5BMedium%5D%20%5BSolution%5D%20915.%20Partition%20Array%20into%20Disjoint%20Intervals.md)
+
+### Kadane's (Min Variant)
+```python
+class Solution:
+    def maxSubarraySumCircular(self, A: List[int]) -> int:
+        # ans1: answer for one-interval subarray  -> A[:]
+        ans1 = cur = float('-inf')
+        for x in A:
+            cur = x + max(cur, 0)
+            ans1 = max(ans1, cur)
+
+        # ans2: answer for two-interval subarray, interior in A[1:]  -> [A[0], [A[1:x], A[x:]]]
+        ans2 = cur = float('inf')
+        for i in range(1, len(A)):
+            cur = A[i] + min(cur, 0)
+            ans2 = min(ans2, cur)
+        ans2 = sum(A) - ans2
+
+        # ans3: answer for two-interval subarray, interior in A[:-1]  -> [[A[:x], A[x:-1]], A[-1]]
+        ans3 = cur = float('inf')
+        for i in range(len(A)-1):
+            cur = A[i] + min(cur, 0)
+            ans3 = min(ans3, cur)
+        ans3 = sum(A) - ans3
+
+        return max(ans1, ans2, ans3)
+```
+* [[Medium] [Solution] 918. Maximum Sum Circular Subarray](%5BMedium%5D%20%5BSolution%5D%20918.%20Maximum%20Sum%20Circular%20Subarray.md)
+
+### Prefix Sums
+```python
+class Solution:
+    def minFlipsMonoIncr(self, S: str) -> int:
+        P = [0]
+        for x in S:
+            P.append(P[-1] + int(x))
+
+        return min(P[j] + len(S)-j-(P[-1]-P[j])
+                   for j in range(len(P)))
+```
+* [[Medium] [Solution] 926. Flip String to Monotone Increasing](%5BMedium%5D%20%5BSolution%5D%20926.%20Flip%20String%20to%20Monotone%20Increasing.md)
+
+### Maintain Duplicate Info
+```python
+class Solution:
+    def minIncrementForUnique(self, A: List[int]) -> int:
+        A.sort()
+        A.append(100000)
+        ans = taken = 0
+
+        for i in range(1, len(A)):
+            if A[i-1] == A[i]:
+                taken += 1
+                ans -= A[i]
+            else:
+                give = min(taken, A[i] - A[i-1] - 1)
+                ans += give * (give + 1) // 2 + give * A[i-1]
+                taken -= give
+
+        return ans
+```
+* [[Medium] [Solution] 945. Minimum Increment to Make Array Unique](%5BMedium%5D%20%5BSolution%5D%20945.%20Minimum%20Increment%20to%20Make%20Array%20Unique.md)
+
+### Simulation
+```python
+class Solution:
+    def deckRevealedIncreasing(self, deck: List[int]) -> List[int]:
+        N = len(deck)
+        index = collections.deque(range(N))
+        ans = [None] * N
+
+        for card in sorted(deck):
+            ans[index.popleft()] = card
+            if index:
+                index.append(index.popleft())
+
+        return ans
+```
+* [[Medium] [Solution] 950. Reveal Cards In Increasing Order](%5BMedium%5D%20%5BSolution%5D%20950.%20Reveal%20Cards%20In%20Increasing%20Order.md)
+
+### Sort
+```python
+class Solution:
+    def maxWidthRamp(self, A: List[int]) -> int:
+        ans = 0
+        m = float('inf')
+        for i in sorted(range(len(A)), key = A.__getitem__):
+            ans = max(ans, i - m)
+            m = min(m, i)
+        return ans
+```
+* [[Medium] [Solution] 962. Maximum Width Ramp](%5BMedium%5D%20%5BSolution%5D%20962.%20Maximum%20Width%20Ramp.md)
+
+### Sort
+```python
+class Solution:
+    def pancakeSort(self, A: List[int]) -> List[int]:
+        ans = []
+
+        for i in range(len(A)-1, 0, -1):
+            if A[i] != i+1:
+                vi = A.index(i+1)
+                if vi != 0:
+                    A[:vi + 1] = A[vi::-1]
+                    A[:i+1] = A[i::-1]
+                    ans.append(vi +1)
+                    ans.append(i+1)
+                else:
+                    A[:i+1] = A[i::-1]
+                    ans.append(i+1)
+        return ans
+```
+* [[Medium] [Solution] 969. Pancake Sorting](%5BMedium%5D%20%5BSolution%5D%20969.%20Pancake%20Sorting.md)
+
+### Prefix Sums and Counting
+```python
+class Solution:
+    def subarraysDivByK(self, A: List[int], K: int) -> int:
+        P = [0]
+        for x in A:
+            P.append((P[-1] + x) % K)
+
+        count = collections.Counter(P)
+        return sum(v*(v-1)//2 for v in count.values())
+```
+* [[Medium] [Solution] 974. Subarray Sums Divisible by K](%5BMedium%5D%20%5BSolution%5D%20974.%20Subarray%20Sums%20Divisible%20by%20K.md)
 
 ### Ad-Hoc
 ```python
@@ -1458,6 +1601,31 @@ class Solution:
 ```
 * [[Medium] [Solution] 162. Find Peak Element](%5BMedium%5D%20%5BSolution%5D%20162.%20Find%20Peak%20Element.md)
 
+### Capacity
+```python
+class Solution:
+    def shipWithinDays(self, weights: List[int], D: int) -> int:
+        def cannot_split(max_wgt):
+            s = 0
+            days = 1
+            for w in weights:
+                s += w
+                if s > max_wgt:
+                    s = w
+                    days += 1
+            return days > D
+
+        lo, hi = max(weights), sum(weights)
+        while lo < hi:
+            mi = lo + (hi - lo) // 2
+            if cannot_split(mi):
+                lo = mi + 1
+            else:
+                hi = mi
+        return lo
+```
+* [[Medium] 1011. Capacity To Ship Packages Within D Days](%5BMedium%5D%201011.%20Capacity%20To%20Ship%20Packages%20Within%20D%20Days.md)
+
 ### Binary Search + Sliding Window
 ```python
 class Solution:
@@ -1521,7 +1689,6 @@ return ans
 * [[Medium] 1292. Maximum Side Length of a Square with Sum Less than or Equal to Threshold](%5BMedium%5D%201292.%20Maximum%20Side%20Length%20of%20a%20Square%20with%20Sum%20Less%20than%20or%20Equal%20to%20Threshold.md)
 * [[Hard] 1231. Divide Chocolate](%5BHard%5D%201231.%20Divide%20Chocolate.md)
 * [[Medium] 1201. Ugly Number III](%5BMedium%5D%201201.%20Ugly%20Number%20III.md)
-* [[Medium] 1011. Capacity To Ship Packages Within D Days](%5BMedium%5D%201011.%20Capacity%20To%20Ship%20Packages%20Within%20D%20Days.md)
 * [[Medium] [Solution] 875. Koko Eating Bananas](%5BMedium%5D%20%5BSolution%5D%20875.%20Koko%20Eating%20Bananas.md)
 
 ## Greedy <a name="greedy"></a>
@@ -1641,6 +1808,21 @@ class Solution:
         return num
 ```
 * [[Medium] [Solution] 670. Maximum Swap](%5BMedium%5D%20%5BSolution%5D%20670.%20Maximum%20Swap.md)
+
+### Doubled Pairs
+```python
+class Solution:
+    def canReorderDoubled(self, A: List[int]) -> bool:
+        count = collections.Counter(A)
+        for x in sorted(A, key = abs):
+            if count[x] == 0: continue
+            if count[2*x] == 0: return False
+            count[x] -= 1
+            count[2*x] -= 1
+
+        return True
+```
+* [[Medium] [Solution] 954. Array of Doubled Pairs](%5BMedium%5D%20%5BSolution%5D%20954.%20Array%20of%20Doubled%20Pairs.md)
 
 **Template 1:**
 ```python

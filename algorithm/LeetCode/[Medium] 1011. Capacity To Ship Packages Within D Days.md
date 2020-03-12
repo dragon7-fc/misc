@@ -52,7 +52,7 @@ Explanation:
 
 # Submissions
 ---
-**Solution 1:**
+**Solution 1: (Binary Search)**
 ```
 Runtime: 516 ms
 Memory Usage: 15.7 MB

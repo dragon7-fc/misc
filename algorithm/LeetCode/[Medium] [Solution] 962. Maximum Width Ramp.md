@@ -91,7 +91,7 @@ class Solution(object):
 
 # Submissions
 ---
-**Solution**
+**Solution: (Sort)**
 ```
 Runtime: 400 ms
 Memory Usage: 21.2 MB
@@ -104,5 +104,29 @@ class Solution:
         for i in sorted(range(len(A)), key = A.__getitem__):
             ans = max(ans, i - m)
             m = min(m, i)
+        return ans
+```
+
+**Solution: (Binary Search Candidates, Insertion Sort)**
+```
+Runtime: 448 ms
+Memory Usage: 20.7 MB
+```
+```python
+class Solution:
+    def maxWidthRamp(self, A: List[int]) -> int:
+        N = len(A)
+
+        ans = 0
+        candidates = [(A[N-1], N-1)]
+        # candidates: i's decreasing, by increasing value of A[i]
+        for i in range(N-2, -1, -1):
+            # Find largest j in candidates with A[j] >= A[i]
+            jx = bisect.bisect(candidates, (A[i],))
+            if jx < len(candidates):
+                ans = max(ans, candidates[jx][1] - i)
+            else:
+                candidates.append((A[i], i))
+
         return ans
 ```

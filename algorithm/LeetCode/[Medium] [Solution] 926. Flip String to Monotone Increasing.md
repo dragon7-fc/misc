@@ -76,7 +76,7 @@ class Solution(object):
 
 # Submissions
 ---
-**Solution**
+**Solution: (Prefix Sums)**
 ```
 Runtime: 96 ms
 Memory Usage: 14.6 MB

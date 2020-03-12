@@ -43,7 +43,7 @@ Output: 2
 
 # Submissions
 ---
-**Solution 1:**
+**Solution 1: (DP)**
 ```
 Runtime: 232 ms
 Memory Usage: 14 MB

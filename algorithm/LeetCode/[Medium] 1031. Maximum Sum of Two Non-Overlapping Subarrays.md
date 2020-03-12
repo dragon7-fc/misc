@@ -38,7 +38,7 @@ Explanation: One choice of subarrays is [5,6,0,9] with length 4, and [3,8] with 
 
 # Submissions
 ---
-**Solution 1:**
+**Solution 1: (Prefix Sum, Sliding Window)**
 ```
 Runtime: 104 ms
 Memory Usage: 14 MB

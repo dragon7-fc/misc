@@ -303,7 +303,7 @@ class Solution(object):
 
 # Submissions
 ---
-**Solution 1:**
+**Solution 1: (Kadane's (Min Variant))**
 ```
 Runtime: 708 ms
 Memory Usage: 18 MB

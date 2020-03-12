@@ -263,7 +263,7 @@ class Solution:
 
 # Submissions
 ---
-**Solution 1:**
+**Solution 1: (Recursion)**
 ```
 Runtime: 1060 ms
 Memory Usage: 13.8 MB
@@ -276,7 +276,7 @@ class Solution:
         return self.fib(N-1) + self.fib(N-2)
 ```
 
-**Solution 2:**
+**Solution 2: (Bottom-Up Approach using Memoization)**
 ```
 Runtime: 40 ms
 Memory Usage: 13.9 MB
@@ -298,7 +298,7 @@ class Solution:
         return cache[N]
 ```
 
-**Solution 3:**
+**Solution 3: (Top-Down Approach using Memoization)**
 ```
 Runtime: 40 ms
 Memory Usage: 13.7 MB
@@ -318,7 +318,7 @@ class Solution:
         return self.memoize(N)
 ```
 
-**Solution 4:**
+**Solution 4: (Iterative Top-Down Approach)**
 ```
 Runtime: 40 ms
 Memory Usage: 13.8 MB
@@ -341,4 +341,55 @@ class Solution:
             prev2 = prev1
             prev1 = current
         return current
+```
+
+**Solution 5: (Matrix Exponentiation)**
+```
+Runtime: 40 ms
+Memory Usage: 13.7 MB
+```
+```python
+class Solution:
+    def fib(self, N: int) -> int:
+        if (N <= 1):
+            return N
+
+        A = [[1, 1], [1, 0]]
+        self.matrix_power(A, N-1)
+
+        return A[0][0]
+
+    def matrix_power(self, A: list, N: int):
+        if (N <= 1):
+            return A
+
+        self.matrix_power(A, N//2)
+        self.multiply(A, A)
+        B = [[1, 1], [1, 0]]
+
+        if (N%2 != 0):
+            self.multiply(A, B)
+
+    def multiply(self, A: list, B: list):
+        x = A[0][0] * B[0][0] + A[0][1] * B[1][0]
+        y = A[0][0] * B[0][1] + A[0][1] * B[1][1]
+        z = A[1][0] * B[0][0] + A[1][1] * B[1][0]
+        w = A[1][0] * B[0][1] + A[1][1] * B[1][1]
+
+        A[0][0] = x
+        A[0][1] = y
+        A[1][0] = z
+        A[1][1] = w
+```
+
+**Solution 6: (Math)**
+```
+Runtime: 52 ms
+Memory Usage: 13.9 MB
+```
+```python
+class Solution:
+    def fib(self, N: int) -> int:
+        golden_ratio = (1 + 5 ** 0.5) / 2
+        return int((golden_ratio ** N + 1) / 5 ** 0.5)
 ```

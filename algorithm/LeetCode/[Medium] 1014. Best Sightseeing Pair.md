@@ -22,7 +22,7 @@ Explanation: i = 0, j = 2, A[i] + A[j] + i - j = 8 + 5 + 0 - 2 = 11
 
 # Submissions
 ---
-**Solution 1:**
+**Solution 1: (Greedy)**
 
 * We can change `A[i] + A[j] + i - j` to `(A[i] + i ) + (A[j] - j)`
 * For each index, we only need to track the max `A[i] + i` before it.
