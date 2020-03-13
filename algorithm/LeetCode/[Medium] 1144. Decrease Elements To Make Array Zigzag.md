@@ -6,7 +6,8 @@ An array `A` is a zigzag array if either:
 
 * Every even-indexed element is greater than adjacent elements, ie. `A[0] > A[1] < A[2] > A[3] < A[4] > ...`
 * OR, every odd-indexed element is greater than adjacent elements, ie. `A[0] < A[1] > A[2] < A[3] > A[4] < ...`
-Return the minimum number of moves to transform the given array nums into a zigzag array.
+
+Return the minimum number of moves to transform the given array `nums` into a zigzag array.
 
  
 
@@ -25,7 +26,7 @@ Output: 4
 
 # Submissions
 ---
-**Solution 1:**
+**Solution 1: (Greedy)**
 ```
 Runtime: 40 ms
 Memory Usage: 13.9 MB

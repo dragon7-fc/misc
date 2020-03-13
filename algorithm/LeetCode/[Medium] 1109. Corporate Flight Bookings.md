@@ -22,7 +22,7 @@ Output: [10,55,45,25,25]
 
 # Submissions
 ---
-**Solution 1:**
+**Solution 1: (Prefix Sum)**
 ```
 Runtime: 1000 ms
 Memory Usage: 27.8 MB

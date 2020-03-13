@@ -690,6 +690,28 @@ class Solution:
 ```
 * [[Medium] [Solution] 974. Subarray Sums Divisible by K](%5BMedium%5D%20%5BSolution%5D%20974.%20Subarray%20Sums%20Divisible%20by%20K.md)
 
+### Prefix Sum Range
+```python
+class Solution:
+    def corpFlightBookings(self, bookings: List[List[int]], n: int) -> List[int]:
+        res = [0] * n
+
+        for booking in bookings:
+            i, j, k = booking
+            # mark all the i and js to the res
+            res[i-1] = k + res[i-1]
+            try: # handling the index out of range problem, can use "if" instead
+                res[j] = res[j] - k 
+            except:
+                continue
+
+        # calculate the accumulative sum
+        for i in range(1, len(res)):
+            res[i] = res[i-1] + res[i]
+        return res
+```
+* [[Medium] 1109. Corporate Flight Bookings](%5BMedium%5D%201109.%20Corporate%20Flight%20Bookings.md)
+
 ### Ad-Hoc
 ```python
 class Solution:
@@ -743,6 +765,20 @@ class Solution:
         return ans
 ```
 * [[Hard] [Solution] 768. Max Chunks To Make Sorted II](%5BHard%5D%20%5BSolution%5D%20768.%20Max%20Chunks%20To%20Make%20Sorted%20II.md)
+
+### Reverse Subarray
+```python
+class Solution:
+    def maxValueAfterReverse(self, nums: List[int]) -> int:
+        total, res, min2, max2 = 0, 0, float('inf'), -float('inf')
+        for a, b in zip(nums, nums[1:]):
+            total += abs(a - b)
+            res = max(res, abs(nums[0] - b) - abs(a - b))
+            res = max(res, abs(nums[-1] - a) - abs(a - b))
+            min2, max2 = min(min2, max(a, b)), max(max2, min(a, b))
+        return total + max(res, (max2 - min2) * 2)
+```
+* [[Hard] 1330. Reverse Subarray To Maximize Array Value](%5BHard%5D%201330.%20Reverse%20Subarray%20To%20Maximize%20Array%20Value.md)
 
 ## Dynamic Programming <a name="dp"></a>
 ---
@@ -1601,7 +1637,7 @@ class Solution:
 ```
 * [[Medium] [Solution] 162. Find Peak Element](%5BMedium%5D%20%5BSolution%5D%20162.%20Find%20Peak%20Element.md)
 
-### Capacity
+### Max to sum 
 ```python
 class Solution:
     def shipWithinDays(self, weights: List[int], D: int) -> int:
@@ -1625,6 +1661,38 @@ class Solution:
         return lo
 ```
 * [[Medium] 1011. Capacity To Ship Packages Within D Days](%5BMedium%5D%201011.%20Capacity%20To%20Ship%20Packages%20Within%20D%20Days.md)
+
+### 0 to max
+```python
+class Solution:
+    def findBestValue(self, arr: List[int], target: int) -> int:
+        def getSum(val):
+            total = 0
+            for i in range(n):
+                total += arr[i] if arr[i] <= val else val
+            return total
+
+        lo, hi, n = 0, max(arr), len(arr)
+        diff = collections.defaultdict(set)
+        while lo <= hi:
+            mi = (lo+hi) // 2
+            total = getSum(mi)
+            # store the absolute differences
+            diff[abs(total - target)].add(mi)
+            if total < target:
+                lo = mi + 1
+            elif total > target:
+                hi = mi - 1
+            else:
+                break
+
+        # Find the lowest diff
+        cand = diff[sorted(diff.keys())[0]]
+
+        # Return the minimum value among candidates
+        return sorted(cand)[0]
+```
+* [[Medium] 1300. Sum of Mutated Array Closest to Target](%5BMedium%5D%201300.%20Sum%20of%20Mutated%20Array%20Closest%20to%20Target.md)
 
 ### Binary Search + Sliding Window
 ```python
@@ -1652,6 +1720,30 @@ class Solution:
         return lo
 ```
 * [[Hard] [Solution] 719. Find K-th Smallest Pair Distance](%5BHard%5D%20%5BSolution%5D%20719.%20Find%20K-th%20Smallest%20Pair%20Distance.md)
+
+### Search index range
+```python
+class MajorityChecker:
+
+    def __init__(self, arr: List[int]):
+        self.loc = collections.defaultdict(list)
+        for i, n in enumerate(arr):
+            self.loc[n].append(i)    
+        self.nums = sorted(self.loc.keys(), key = lambda n: len(self.loc[n]), reverse=True)
+
+    def query(self, left: int, right: int, threshold: int) -> int:
+        for n in self.nums:
+            if len(self.loc[n]) < threshold: return -1
+            l, r = bisect.bisect_left(self.loc[n], left), bisect.bisect_right(self.loc[n], right)
+            if r - l >= threshold: return n
+        return -1
+
+
+# Your MajorityChecker object will be instantiated and called as such:
+# obj = MajorityChecker(arr)
+# param_1 = obj.query(left,right,threshold)
+```
+* [[Hard] 1157. Online Majority Element In Subarray](%5BHard%5D%201330.%20Reverse%20Subarray%20To%20Maximize%20Array%20Value.md)
 
 **Template 1**
 ```python
@@ -1685,7 +1777,6 @@ while lo <= hi:
 return ans
 ```
 
-* [[Medium] 1300. Sum of Mutated Array Closest to Target](%5BMedium%5D%201300.%20Sum%20of%20Mutated%20Array%20Closest%20to%20Target.md)
 * [[Medium] 1292. Maximum Side Length of a Square with Sum Less than or Equal to Threshold](%5BMedium%5D%201292.%20Maximum%20Side%20Length%20of%20a%20Square%20with%20Sum%20Less%20than%20or%20Equal%20to%20Threshold.md)
 * [[Hard] 1231. Divide Chocolate](%5BHard%5D%201231.%20Divide%20Chocolate.md)
 * [[Medium] 1201. Ugly Number III](%5BMedium%5D%201201.%20Ugly%20Number%20III.md)

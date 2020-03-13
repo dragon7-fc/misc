@@ -30,7 +30,7 @@ snapshotArr.get(0,0);  // Get the value of array[0] with snap_id = 0, return 5
 
 # Submissions
 ---
-**Solution 1:**
+**Solution 1: (Array, Hash Table)**
 ```
 Runtime: 456 ms
 Memory Usage: 36.8 MB
