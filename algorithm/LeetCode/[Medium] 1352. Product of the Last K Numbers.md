@@ -5,6 +5,7 @@ Implement the class `ProductOfNumbers` that supports two methods:
 1. `add(int num)`
 
 Adds the number `num` to the back of the current list of numbers.
+
 2. `getProduct(int k)`
 
 Returns the product of the last `k` numbers in the current list.

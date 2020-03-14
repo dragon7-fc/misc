@@ -149,6 +149,18 @@ Happy Coding!!
 * `re.split(pattern, string, maxsplit=0, flags=0)`
 * `re.findall(pattern, string, flags=0)`
 
+### datetime
+
+* `datetime.datetime(year, month, day, hour=0, minute=0, second=0, microsecond=0, tzinfo=None, *, fold=0)`
+
+    * ex. datetime.datetime(2011, 11, 4, 0, 0) --> datetime.fromisoformat('2011-11-04T00:05:23')
+* `datetime.strftime(format)`
+
+    * ex. dt.strftime("%A, %d. %B %Y %I:%M%p") --> 'Tuesday, 21. November 2006 04:30PM'
+* `datetime.strptime(date_string, format)`
+
+    * ex. datetime.strptime("21/11/06 16:30", "%d/%m/%y %H:%M") --> datetime.datetime(2006, 11, 21, 16, 30)
+
 ## Array <a name="array"></a>
 ---
 ### Direct
@@ -334,6 +346,18 @@ class Solution:
         return ans
 ```
 * [[Easy] [Solution] 985. Sum of Even Numbers After Queries](%5BEasy%5D%20%5BSolution%5D%20985.%20Sum%20of%20Even%20Numbers%20After%20Queries.md)
+
+### Row XOR Column
+```python
+class Solution:
+    def oddCells(self, n: int, m: int, indices: List[List[int]]) -> int:
+        row, col = [False] * n, [False] * m
+        for r, c in indices:
+            row[r] ^= True
+            col[c] ^= True
+        return sum(ro ^ cl for ro in row for cl in col)
+```
+* [[Easy] 1252. Cells with Odd Values in a Matrix](%5BEasy%5D%201252.%20Cells%20with%20Odd%20Values%20in%20a%20Matrix.md)
 
 ### Linear Scan
 ```python
@@ -1451,6 +1475,42 @@ class Solution:
 ```
 * [[Medium] [Solution] 756. Pyramid Transition Matrix](%5BMedium%5D%20%5BSolution%5D%20756.%20Pyramid%20Transition%20Matrix.md)
 
+### DFS to find equal and sort
+```python
+class Solution:
+    def smallestStringWithSwaps(self, s: str, pairs: List[List[int]]) -> str:
+        def dfs(i):
+            visited.add(i)
+            char.append(s[i])
+            idx.append(i)
+            for j in g[i]:
+                if j not in visited:
+                    dfs(j)
+
+        if not pairs or not pairs[0]:
+            return s
+
+        S = list(s)
+        visited = set()
+        g = [[] for _ in range(len(s))]
+        for i, j in pairs:
+            g[i].append(j)
+            g[j].append(i)
+
+        for i in range(len(s)):
+            if i not in visited:
+                char = []
+                idx = []
+                dfs(i)
+                char = sorted(char)
+                idx = sorted(idx)
+                for k in range(len(idx)):
+                    S[idx[k]] = char[k]
+
+        return ''.join(S)
+```
+* [[Medium] 1202. Smallest String With Swaps](%5BMedium%5D%201202.%20Smallest%20String%20With%20Swaps.md)
+
 **Template 1: (Postorder)**
 ```python
 ans = ...
@@ -1694,6 +1754,38 @@ class Solution:
 ```
 * [[Medium] 1300. Sum of Mutated Array Closest to Target](%5BMedium%5D%201300.%20Sum%20of%20Mutated%20Array%20Closest%20to%20Target.md)
 
+### Range Sum Search
+```python
+class Solution:
+    def maxSideLength(self, mat: List[List[int]], threshold: int) -> int:
+        m, n = len(mat), len(mat[0])
+        #build prefix sum 
+        prefix = [[0]*(n+1) for _ in range(m+1)]
+
+        for i, j in itertools.product(range(m), range(n)):
+            prefix[i+1][j+1] = prefix[i+1][j] + prefix[i][j+1] - prefix[i][j] + mat[i][j]
+
+        def below(k): 
+            """reture true if there is such a sub-matrix of length k"""
+            for i, j in itertools.product(range(m+1-k), range(n+1-k)):
+                if prefix[i+k][j+k] - prefix[i][j+k] - prefix[i+k][j] + prefix[i][j] <= threshold: return True
+            return False 
+
+        #binary search
+        max_square = 0
+        lo, hi = 1, min(m, n)
+        while lo <= hi: 
+            mi = lo + (hi - lo)//2
+            if below(mi):
+                max_square = max(max_square, mi)
+                lo = mi + 1
+            else:
+                hi = mi - 1
+
+        return max_square
+```
+* [[Medium] 1292. Maximum Side Length of a Square with Sum Less than or Equal to Threshold](%5BMedium%5D%201292.%20Maximum%20Side%20Length%20of%20a%20Square%20with%20Sum%20Less%20than%20or%20Equal%20to%20Threshold.md)
+
 ### Binary Search + Sliding Window
 ```python
 class Solution:
@@ -1777,7 +1869,6 @@ while lo <= hi:
 return ans
 ```
 
-* [[Medium] 1292. Maximum Side Length of a Square with Sum Less than or Equal to Threshold](%5BMedium%5D%201292.%20Maximum%20Side%20Length%20of%20a%20Square%20with%20Sum%20Less%20than%20or%20Equal%20to%20Threshold.md)
 * [[Hard] 1231. Divide Chocolate](%5BHard%5D%201231.%20Divide%20Chocolate.md)
 * [[Medium] 1201. Ugly Number III](%5BMedium%5D%201201.%20Ugly%20Number%20III.md)
 * [[Medium] [Solution] 875. Koko Eating Bananas](%5BMedium%5D%20%5BSolution%5D%20875.%20Koko%20Eating%20Bananas.md)
@@ -3026,6 +3117,26 @@ class Solution:
         return bin(num + 1)[3:]
 ```
 * [[Medium] 1256. Encode Number](%5BMedium%5D%201256.%20Encode%20Number.md)
+
+### Prefix Sum, Left-right range
+```python
+class Solution:
+    def canMakePaliQueries(self, s: str, queries: List[List[int]]) -> List[bool]:
+        N = 26
+        S = len(s) + 1
+        ints = list(map(lambda c: ord(c) - ord('a'), s))
+
+        dp = [0] * S
+        for i in range(1, S):
+            dp[i] = dp[i-1] ^ (1 << ints[i-1])
+
+        ones = lambda x: bin(x).count('1')
+        return [
+            ones(dp[r+1] ^ dp[l]) >> 1 <= k
+            for l, r, k in queries
+        ]
+```
+* [[Medium] 1177. Can Make Palindrome from Substring](%5BMedium%5D%201177.%20Can%20Make%20Palindrome%20from%20Substring.md)
 
 ---
 **Template 1: (Negative binary, 2's complement representation)**

@@ -38,28 +38,24 @@ Output: ["/a/b/c","/a/b/ca","/a/b/d"]
 
 # Submissions
 ---
-**Solution 1:**
-
-* Sort folder by length;
-* Check if the floder's parent fold in HashSet before adding it into the HashSet.
-* Note: the part before any / is a parent.
+**Solution 1: (Greedy)**
 
 ```
-Runtime: 292 ms
-Memory Usage: 31.3 MB
+Runtime: 208 ms
+Memory Usage: 28.8 MB
 ```
 ```python
 class Solution:
     def removeSubfolders(self, folder: List[str]) -> List[str]:
-        folder.sort(key=lambda f: len(f))
-        seen = set()
-        for f in folder:
-            is_subfloder = False
-            for i in range(2, len(f)):
-                if f[i] == '/' and f[: i] in seen:
-                    is_subfloder = True
-                    break
-            if not is_subfloder:
-                seen.add(f)
-        return list(seen)
+        folder = sorted(folder)
+        ans = []
+        # Any special string you like to initialize cur. 
+        # Just make p.startswith(cur + "/") false in the first iteration.
+        cur = "*"
+        for p in folder:
+            if not p.startswith(cur + "/"):
+                cur = p
+                ans.append(cur)
+                
+        return ans
 ```

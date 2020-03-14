@@ -40,7 +40,7 @@ Output: ["bob,50,1200,mtv"]
 
 # Submissions
 ---
-**Solution 1:**
+**Solution 1: (Hash Table, Set, Queue)**
 ```
 Runtime: 72 ms
 Memory Usage: 14.8 MB

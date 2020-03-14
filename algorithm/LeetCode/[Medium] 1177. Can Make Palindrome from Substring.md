@@ -33,7 +33,7 @@ queries[4] : substring = "abcda", could be changed to "abcba" which is palidrome
 
 # Submissions
 ---
-**Solution 1:**
+**Solution 1: (DP, Bit Manipulation)**
 
 First, the key is understanding we are allowed to rearrange. Knowing this, we can forget about order and only count the occurences of each letter.
 Furthermore, we only care if the count is odd. If it's even, we can place an equal amount of letter on either side:
@@ -50,7 +50,7 @@ Naively, we can use collections.Counter() to count the letters in the substring,
   def canMakePaliQueries(s, queries):
       ans = []
       for l, r, k in queries:
-          $s$ = s[l:r+1]
+          ss = s[l:r+1]
           rem = 0
           for letter, n in collections.Counter(ss).items():
               rem += n % 2

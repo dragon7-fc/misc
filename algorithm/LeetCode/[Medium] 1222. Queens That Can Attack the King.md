@@ -51,23 +51,24 @@ Output: [[2,3],[1,4],[1,6],[3,7],[4,3],[5,4],[4,5]]
 
 # Submissions
 ---
-**Solution 1:**
+**Solution 1: (Array)**
 ```
-Runtime: 44 ms
-Memory Usage: 13.9 MB
+Runtime: 40 ms
+Memory Usage: 12.9 MB
 ```
 ```python
 class Solution:
     def queensAttacktheKing(self, queens: List[List[int]], king: List[int]) -> List[List[int]]:
         res = []
-        queens = {(i, j) for i, j in queens}
-        for i in [-1, 0, 1]:
-            for j in [-1, 0, 1]:
-                for k in range(1, 8):
-                    x, y = king[0] + i * k, king[1] + j * k
-                    if (x, y) in queens:
-                        res.append([x, y])
-                        break
-        return res
+        for x, y in [[1, 0], [-1, 0], [0, 1], [0, -1], [1, 1], [1, -1], [-1, 1], [-1, -1]]:
+            a, b = king[0], king[1]        
+            while 0 <= a < 8 and 0 <= b < 8:
+                a += x
+                b += y
+                if [a, b] in queens:
+                    res.append([a, b])
+                    queens.remove([a, b])
+                    break
         
+        return res
 ```

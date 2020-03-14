@@ -43,7 +43,7 @@ Total number of squares = 6 + 1 = 7.
 
 # Submissions
 ---
-**Solution 1:**
+**Solution 1: (DP)**
 
 1. get all possible squares for each position, dp[i][j] = min(dp[i-1][j], dp[i][j-1] ,dp[i-1][j-1]) + 1
 1. add all possible squares together

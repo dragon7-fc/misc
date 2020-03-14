@@ -46,7 +46,7 @@ Swap s[0] and s[1], s = "abc"
 
 # Submissions
 ---
-**Solution 1:**
+**Solution 1: (DFS)**
 
 * Search all swapable char and sort them
 
