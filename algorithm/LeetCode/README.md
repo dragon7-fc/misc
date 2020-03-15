@@ -2761,6 +2761,43 @@ class Solution:
 ```
 * [[Medium] 1130. Minimum Cost Tree From Leaf Values](%5BMedium%5D%201130.%20Minimum%20Cost%20Tree%20From%20Leaf%20Values.md)
 
+### Increment stack
+```python
+class CustomStack:
+
+    def __init__(self, maxSize: int):
+        self.n = maxSize
+        self.stack = []
+        self.inc = [0] * maxSize
+
+    def push(self, x: int) -> None:
+        if len(self.stack) < self.n:
+            self.stack.append(x)
+
+    def pop(self) -> int:
+        i = len(self.stack) - 1
+        if i < 0:
+            return -1
+        inc = self.inc[i]
+        self.inc[i] = 0
+        if i: self.inc[i - 1] += inc
+        return self.stack.pop() + inc
+
+
+    def increment(self, k: int, val: int) -> None:
+        i = min(k, len(self.stack)) - 1
+        if i >= 0:
+            self.inc[i] += val
+
+
+# Your CustomStack object will be instantiated and called as such:
+# obj = CustomStack(maxSize)
+# obj.push(x)
+# param_2 = obj.pop()
+# obj.increment(k,val)
+```
+* [[Medium] 1381. Design a Stack With Increment Operation](%5BMedium%5D%201381.%20Design%20a%20Stack%20With%20Increment%20Operation.md)
+
 ### Histogram
 ```python
 class Solution:
