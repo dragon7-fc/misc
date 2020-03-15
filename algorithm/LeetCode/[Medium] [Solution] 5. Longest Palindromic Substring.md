@@ -132,7 +132,7 @@ There is even an $O(n)$ algorithm called Manacher's algorithm, explained here in
 
 # Submissions
 ---
-**Solution 1: (DP)**
+**Solution 1: (DP Bottom-Up)**
 ```
 Runtime: 4736 ms
 Memory Usage: N/A
@@ -178,4 +178,139 @@ class Solution:
             return s[palindrom_begin_at:palindrom_begin_at+max_len]
         else:
             return ""
+```
+
+**Solution 2: (DP Bottom-Up)**
+```
+Runtime: 2308 ms
+Memory Usage: 20.4 MB
+```
+```python
+class Solution:
+    def longestPalindrome(self, s: str) -> str:
+        res, max_len, N= '', 0, len(s)
+        dp = [[0]*N for _ in range(N)]
+        for i in range(N):
+            dp[i][i] = 1
+            res = s[i]
+            max_len = 1
+        for i in range(N-1):
+            if s[i] == s[i+1]:
+                dp[i][i+1] = 1
+                res = s[i:i+2]
+                max_len = 2
+        for j in range(N):
+            for i in range(j-1):
+                if s[i] == s[j] and dp[i+1][j-1]:
+                    dp[i][j] = 1
+                    if j - i + 1 > max_len:
+                        max_len = j - i + 1
+                        res = s[i:j + 1]
+                        
+        return res
+```
+
+**Solution 4: (Dp Top-Down, Memory Limit Exceeded)**
+```
+95 / 103 test cases passed.
+```
+```python
+import functools
+class Solution:
+    def longestPalindrome(self, s: str) -> str:
+        if not s: return ''
+        N = len(s)
+        globMax = [0, 1]
+        
+        @functools.lru_cache(None)
+        def dfs(left, right):
+            nonlocal globMax
+            # base case
+            if left == right:
+                return True
+            if left > right:
+                return False
+            isPalindrome = False
+            if s[left] == s[right] and (left + 1 == right or dfs(left + 1, right - 1)):
+                isPalindrome = True
+                if globMax[1] < right - left + 1:
+                    globMax[0] = left;
+                    globMax[1] = right - left + 1
+            else:
+                dfs(left + 1, right)
+                dfs(left, right - 1)
+            return isPalindrome
+        
+        dfs(0, N - 1)
+        return s[globMax[0]:globMax[0] + globMax[1]]
+```
+
+**Solution 4: (Dp Top-Down)**
+```
+Runtime: 8024 ms
+Memory Usage: 131.6 MB
+```
+```python
+class Solution:
+    def longestPalindrome(self, s: str) -> str:
+        if not s: return ''
+        N = len(s)
+        start, max_len = 0, 1
+        memo = [[False]*N for _ in range(N)]
+        visited = [[False]*N for _ in range(N)]
+        
+        def dfs(left, right):
+            nonlocal memo, visited, start, max_len
+            # base case
+            if left == right:
+                return True
+            if left > right:
+                return False
+            if visited[left][right]:
+                return memo[left][right]
+            isPalindrome = False
+            if s[left] == s[right] and (left + 1 == right or dfs(left + 1, right - 1)):
+                isPalindrome = True
+                cur_len = right - left + 1
+                if max_len < cur_len:
+                    start = left
+                    max_len = cur_len
+            else:
+                dfs(left + 1, right)
+                dfs(left, right - 1)
+            memo[left][right] = isPalindrome
+            visited[left][right] = True
+            return isPalindrome
+        
+        dfs(0, N - 1)
+        return s[start:start + max_len]
+```
+
+**Solution 5: (Expand Around Center)**
+``
+Runtime: 936 ms
+Memory Usage: 12.9 MB`
+``
+```python
+class Solution:
+    def longestPalindrome(self, s: str) -> str:
+        if not s: return ''
+        
+        def expandAroundCenter(left, right):
+            L, R = left, right
+            while L >= 0 and R < len(s) and s[L] == s[R]:
+                L -= 1
+                R += 1
+            return R - L - 1
+        
+        start, end = 0, 0
+        for i in range(len(s)):
+            len1 = expandAroundCenter(i, i);
+            len2 = expandAroundCenter(i, i + 1);
+            max_len = max(len1, len2)
+            if max_len > end - start:
+                start = i - (max_len - 1) // 2;
+                end = i + max_len // 2;
+
+        return s[start:end + 1]
 ```
