@@ -305,7 +305,40 @@ class Solution:
         return maxans
 ```
 
-**Solution 3: (Using Stack)**
+**Solution 3: (DP Top-Down)**
+```
+Runtime: 76 ms
+Memory Usage: 38.1 MB
+```
+```python
+import functools
+class Solution:
+    def longestValidParentheses(self, s: str) -> int:
+        N = len(s)
+        ans = 0
+        
+        @functools.lru_cache(None)
+        def dp(i):
+            nonlocal ans
+            if i <= 0:
+                return 0
+            res = 0
+            if s[i] == ')':
+                if s[i-1] == '(':
+                    res = (dp(i-2) if i >= 2 else 0) + 2
+                elif i - dp(i-1) > 0 and s[i - dp(i-1) - 1] == '(':
+                    res = dp(i-1) + (dp(i - dp(i-1) - 2) if i - dp(i - 1) >= 2 else 0) + 2
+            else:
+                dp(i - 1)
+            ans = max(ans, res)
+            return res
+            
+        dp(N-1)
+        
+        return ans
+```
+
+**Solution 4: (Using Stack)**
 ```
 Runtime: 36 ms
 Memory Usage: 13.6 MB
@@ -328,7 +361,7 @@ class Solution:
         return maxans
 ```
 
-**Solution 4: (Without extra space)**
+**Solution 5: (Without extra space)**
 ```
 Runtime: 44 ms
 Memory Usage: 13.1 MB

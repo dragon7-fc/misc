@@ -311,7 +311,7 @@ public class Solution {
 
 # Submissions
 ---
-**Solution 1:**
+**Solution 1: (Dynamic Programming Bottom-Up)**
 ```
 Runtime: 48 ms
 Memory Usage: N/A
@@ -333,7 +333,7 @@ class Solution:
         return dp[n]
 ```
 
-**Solution 2:**
+**Solution 2: (Fibonacci Number)**
 ```
 Runtime: 44 ms
 Memory Usage: N/A

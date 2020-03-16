@@ -211,9 +211,6 @@ class Solution:
 ```
 
 **Solution 4: (Dp Top-Down, Memory Limit Exceeded)**
-```
-95 / 103 test cases passed.
-```
 ```python
 import functools
 class Solution:
@@ -287,7 +284,7 @@ class Solution:
 ```
 
 **Solution 5: (Expand Around Center)**
-``
+```
 Runtime: 936 ms
 Memory Usage: 12.9 MB`
 ``

@@ -736,6 +736,32 @@ class Solution:
 ```
 * [[Medium] 1109. Corporate Flight Bookings](%5BMedium%5D%201109.%20Corporate%20Flight%20Bookings.md)
 
+### Expand Around Center
+```python
+class Solution:
+    def longestPalindrome(self, s: str) -> str:
+        if not s: return ''
+
+        def expandAroundCenter(left, right):
+            L, R = left, right
+            while L >= 0 and R < len(s) and s[L] == s[R]:
+                L -= 1
+                R += 1
+            return R - L - 1
+
+        start, end = 0, 0
+        for i in range(len(s)):
+            len1 = expandAroundCenter(i, i);
+            len2 = expandAroundCenter(i, i + 1);
+            max_len = max(len1, len2)
+            if max_len > end - start:
+                start = i - (max_len - 1) // 2;
+                end = i + max_len // 2;
+
+        return s[start:end + 1]
+```
+* [[Medium] [Solution] 5. Longest Palindromic Substring](%5BMedium%5D%20%5BSolution%5D%205.%20Longest%20Palindromic%20Substring.md)
+
 ### Ad-Hoc
 ```python
 class Solution:
@@ -967,6 +993,28 @@ class Solution:
         return res
 ```
 * [[Hard] 363. Max Sum of Rectangle No Larger Than K](%5BHard%5D%20363.%20Max%20Sum%20of%20Rectangle%20No%20Larger%20Than%20K.md)
+
+### Character match
+```python
+import functools
+class Solution:
+    def isMatch(self, s: str, p: str) -> bool:
+
+        @functools.lru_cache(None)
+        def dp(i, j):
+            if j == len(p):
+                ans = i == len(s)
+            else:
+                first_match = i < len(s) and p[j] in {s[i], '.'}
+                if j+1 < len(p) and p[j+1] == '*':
+                    ans = dp(i, j+2) or first_match and dp(i+1, j)
+                else:
+                    ans = first_match and dp(i+1, j+1)
+            return ans
+
+        return dp(0, 0)
+```
+* [[Hard] [Solution] 10. Regular Expression Matching](%5BHard%5D%20%5BSolution%5D%2010.%20Regular%20Expression%20Matching.md)
 
 ## Math <a name="math"></a>
 ---
@@ -2810,6 +2858,26 @@ class Solution:
         return max_area
 ```
 * [[Hard] 84. Largest Rectangle in Histogram](%5BHard%5D%2084.%20Largest%20Rectangle%20in%20Histogram.md)
+
+### Index Stack
+```python
+class Solution:
+    def longestValidParentheses(self, s: str) -> int:
+        maxans = 0
+        stack = [-1]
+        for i in range(len(s)):
+            if s[i] == '(':
+                stack += [i]
+            else:
+                stack.pop()
+                if not stack:
+                    stack += [i]
+                else:
+                    maxans = max(maxans, i - stack[-1])
+
+        return maxans
+```
+* [[Hard] [Solution] 32. Longest Valid Parentheses](%5BHard%5D%20%5BSolution%5D%2032.%20Longest%20Valid%20Parentheses.md)
 
 **Template 1:**
 ```python

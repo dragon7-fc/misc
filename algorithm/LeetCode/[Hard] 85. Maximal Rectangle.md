@@ -56,3 +56,38 @@ class Solution:
             
         return ret
 ```
+
+**Solution 2: (DP Bottom-Up)**
+
+Use dynamic programming to keep track of `lo` and `hi` boundary of given max `h`eight at given point.
+
+```
+Runtime: 204 ms
+Memory Usage: 13.8 MB
+```
+```python
+class Solution:
+    def maximalRectangle(self, matrix: List[List[str]]) -> int:
+        if not matrix: return 0 #edge case 
+        M, N = len(matrix), len(matrix[0])
+        h, lo, hi = [0]*N, [0]*N, [N]*N
+        ans = 0
+        for i in range(M):
+            left, right = 0, N
+            for j in range(N):
+                if matrix[i][j] == "1": #forward
+                    h[j] += 1
+                    lo[j] = max(lo[j], left)
+                else: 
+                    h[j] = lo[j] = 0
+                    left = j+1
+                    
+                if matrix[i][~j] == "1": #backward
+                    hi[~j] = min(hi[~j], right)
+                else: 
+                    hi[~j] = N
+                    right = N - j - 1
+            ans = max(ans, max((x-y)*z for x, y, z in zip(hi, lo, h)))
+            
+        return ans
+```
