@@ -26,7 +26,7 @@ Explanation: It could be decoded as "BZ" (2 26), "VF" (22 6), or "BBF" (2 2 6).
 
 # Submissions
 ---
-**Solution 1:**
+**Solution 1: (DP Bottom-uP)**
 ```
 Runtime: 40 ms
 Memory Usage: 13.8 MB
@@ -54,7 +54,65 @@ class Solution:
         return dp[0]
 ```
 
-**Solution 2:**
+**Solution 2: (DP Top-Down)**
+```
+Runtime: 28 ms
+Memory Usage: 14.2 MB
+```
+```python
+import functools
+class Solution:
+    def numDecodings(self, s: str) -> int:
+        if not s or s[0] == '0':
+            return 0
+        N = len(s)
+        
+        @functools.lru_cache(None)
+        def dfs(i):
+            if i == N:
+                return 1
+            elif i == N-1 and s[i] != '0':
+                return 1
+            res = 0
+            if '0' < s[i] <= '9':
+                res = dfs(i+1)
+            if '10' <= s[i:i+2] <= '26':
+                res += dfs(i+2)
+            return res
+            
+        return dfs(0)
+```
+
+**Solution 3: (DP Top-Town)**
+```
+Runtime: 28 ms
+Memory Usage: 14.2 MB
+```
+```python
+import functools
+class Solution:
+    def numDecodings(self, s: str) -> int:
+        if not s or s[0] == '0':
+            return 0
+        N = len(s)
+        
+        @functools.lru_cache(None)
+        def dfs(i):
+            if i < 0:
+                return 1
+            elif i == 0 and s[i] != '0':
+                return 1
+            res = 0
+            if '0' < s[i] <= '9':
+                res = dfs(i-1)
+            if '10' <= s[i-1:i+1] <= '26':
+                res += dfs(i-2)
+            return res
+            
+        return dfs(N-1)
+```
+
+**Solution 4: (DP Bottom-Up)**
 ```
 Runtime: 36 ms
 Memory Usage: 14 MB

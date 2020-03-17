@@ -26,10 +26,10 @@ The above output corresponds to the 5 unique BST's shown below:
 
 # Submissions:
 ---
-**Solution 1:**
+**Solution 1: (DP Top-Down)**
 ```
-Runtime: 68 ms
-Memory Usage: 15.8 MB
+Runtime: 56 ms
+Memory Usage: 13.6 MB
 ```
 ```python
 # Definition for a binary tree node.
@@ -39,22 +39,23 @@ Memory Usage: 15.8 MB
 #         self.left = None
 #         self.right = None
 
+import functools
 class Solution:
-    def cTree(self,nums):
-        if not nums:
-            return [None]
-        temp = []
-        for i in range(len(nums)):
-            for lnode in self.cTree(nums[:i]):
-                for rnode in self.cTree(nums[i+1:]):
-                    root = TreeNode(nums[i])
-                    root.left = lnode
-                    root.right = rnode
-                    temp.append(root)
-        return temp
-    
     def generateTrees(self, n: int) -> List[TreeNode]:
-        if n==0:
-            return []
-        return self.cTree(list(range(1,n+1)))
+        
+        @functools.lru_cache(None)
+        def dfs(l, r):   # split between [l, r)
+            if l == r:
+                return [None]  # list contain None object
+            rst = []
+            for i in range(l, r):
+                for lchild in dfs(l, i):
+                    for rchild in dfs(i+1, r):
+                        root = TreeNode(i+1)   # +1 to convert the index to the actual value
+                        root.left = lchild
+                        root.right = rchild
+                        rst.append(root)
+            return rst
+        
+        return dfs(0, n) if n else []
 ```
