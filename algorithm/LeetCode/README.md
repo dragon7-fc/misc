@@ -1016,6 +1016,30 @@ class Solution:
 ```
 * [[Hard] [Solution] 10. Regular Expression Matching](%5BHard%5D%20%5BSolution%5D%2010.%20Regular%20Expression%20Matching.md)
 
+### Using 1D Dynamic Programming
+```python
+class Solution:
+    def isInterleave(self, s1: str, s2: str, s3: str) -> bool:
+        M, N = len(s1), len(s2)
+        if len(s3) != M + N:
+            return False
+        dp = [False]*(N + 1)
+        for i in range(M + 1):
+            for j in range(N + 1):
+                if i == 0 and j == 0:
+                    dp[j] = True
+                elif i == 0:
+                    dp[j] = dp[j - 1] and s2[j - 1] == s3[i + j - 1]
+                elif j == 0:
+                    dp[j] = dp[j] and s1[i - 1] == s3[i + j - 1]
+                else:
+                    dp[j] = dp[j] and s1[i - 1] == s3[i + j - 1] \
+                    or dp[j - 1] and s2[j - 1] == s3[i + j - 1]
+        
+        return dp[N]
+```
+* [[Hard] [Solution] 97. Interleaving String](%5BHard%5D%20%5BSolution%5D%2097.%20Interleaving%20String.md)
+
 ## Math <a name="math"></a>
 ---
 ### Combination

@@ -2,10 +2,10 @@
 
 Given a **non-empty** string `s` and a dictionary `wordDict` containing a list of **non-empty** words, determine if `s` can be segmented into a space-separated sequence of one or more dictionary words.
 
-Note:
+**Note:**
 
-The same word in the dictionary may be reused multiple times in the segmentation.
-You may assume the dictionary does not contain duplicate words.
+* The same word in the dictionary may be reused multiple times in the segmentation.
+* You may assume the dictionary does not contain duplicate words.
 
 **Example 1:**
 ```
@@ -29,18 +29,47 @@ Output: false
 ```
 # Submissions
 ---
-**Solution 1:**
+**Solution 1: (DP Bottom-Up)**
 ```
-Runtime: 44 ms
-Memory Usage: 13.7 MB
+Runtime: 40 ms
+Memory Usage: 13 MB
 ```
 ```python
 class Solution:
     def wordBreak(self, s: str, wordDict: List[str]) -> bool:
-        d = [False] * len(s)    
-        for i in range(len(s)):
+        N = len(s)
+        dp = [False] * N    
+        for i in range(N):
             for w in wordDict:
-                if w == s[i-len(w)+1:i+1] and (d[i-len(w)] or i-len(w) == -1):
-                    d[i] = True
-        return d[-1]
+                w_size = len(w)
+                if w == s[i - w_size + 1:i + 1] and (dp[i - w_size] or i - w_size == -1):
+                    dp[i] = True
+        return dp[-1]
+```
+
+**Solution 2: (DP Top-Down)**
+```
+Runtime: 32 ms
+Memory Usage: 13.3 MB
+```
+```python
+import functools
+class Solution:
+    def wordBreak(self, s: str, wordDict: List[str]) -> bool:
+        N = len(s)
+        
+        @functools.lru_cache(None)
+        def dfs(i):
+            if i == N:
+                return True
+            rst = False
+            for w in wordDict:
+                w_size = len(w)
+                if i + w_size <= N and s[i:i + w_size] == w:
+                    rst = rst | dfs(i + w_size)
+            return rst
+        
+        return dfs(0)
+        
+
 ```

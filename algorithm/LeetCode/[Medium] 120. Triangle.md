@@ -74,3 +74,34 @@ class Solution:
         
         return dp[0]
 ```
+
+**Solution 3: (DP Top-Down)**
+```
+Runtime: 52 ms
+Memory Usage: 15.9 MB
+```
+```python
+import functools
+class Solution:
+    def minimumTotal(self, triangle: List[List[int]]) -> int:
+        R = len(triangle)
+        
+        @functools.lru_cache(None)
+        def dfs(i, j):
+            if i < 0:
+                return 0
+            elif i == 0:
+                return triangle[0][0]
+            if j == 0:
+                return dfs(i-1, 0) + triangle[i][0]
+            elif j == i:
+                return dfs(i-1, i-1) + triangle[i][i]
+            else:
+                return min(dfs(i-1, j-1), dfs(i-1, j)) + triangle[i][j]
+        
+        ans = float('inf')
+        for i in range(R):
+            ans = min(ans, dfs(R-1, i))
+        return ans
+
+```
