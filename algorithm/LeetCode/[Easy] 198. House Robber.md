@@ -22,7 +22,7 @@ Explanation: Rob house 1 (money = 2), rob house 3 (money = 9) and rob house 5 (m
 
 # Submissions
 ---
-**Solution 1:**
+**Solution 1: (DP Bottom-Up)**
 ```
 Runtime: 36 ms
 Memory Usage: N/A
@@ -44,4 +44,23 @@ class Solution:
         for i in range(2, n+1):
             rob[i] = max(rob[i-1], nums[i-1]+rob[i-2])
         return rob[n]
+```
+
+**Solution 2: (DP Top-Down)**
+```
+Runtime: 32 ms
+Memory Usage: 13.1 MB
+```
+```python
+class Solution:
+    def rob(self, nums: List[int]) -> int:
+        N = len(nums)
+        
+        @functools.lru_cache(None)
+        def dfs(i):
+            if i >= N:
+                return 0
+            return max(nums[i] + dfs(i+2), dfs(i+1))
+        
+        return dfs(0)
 ```

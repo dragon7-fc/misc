@@ -22,7 +22,7 @@ Explanation: Rob house 1 (money = 1) and then rob house 3 (money = 3).
 
 # Submissions
 ---
-**Solution 1:**
+**Solution 1: (DP Bottom-Up)**
 ```
 Runtime: 32 ms
 Memory Usage: 13.8 MB
@@ -46,4 +46,30 @@ class Solution:
         elif len(nums)==2:
             return max(nums)
         return max([rob(nums[:-1]), rob(nums[1:])])
+```
+
+**Solution 2: (DP Top-Down)**
+```
+Runtime: 24 ms
+Memory Usage: 13.1 MB
+```
+```python
+class Solution:
+    def rob(self, nums: List[int]) -> int:
+        N = len(nums)
+        if N == 0:
+            return 0
+        elif N == 1:
+            return nums[0]
+        elif N == 2:
+            return max(nums)
+        
+        @functools.lru_cache(None)
+        def dfs(i, j):
+            if i >= j:
+                return 0
+            return max(nums[i] + dfs(i+2, j), dfs(i+1, j))
+        
+        #rob the first house, can't rob the last house
+        return max(dfs(0, N-1), dfs(1, N))
 ```

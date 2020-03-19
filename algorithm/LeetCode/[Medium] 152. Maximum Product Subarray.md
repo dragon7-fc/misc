@@ -35,3 +35,26 @@ class Solution:
         
         return ans           
 ```
+
+**Solution 2: (DP)**
+```
+Runtime: 52 ms
+Memory Usage: 14.2 MB
+```
+```python
+class Solution:
+    def maxProduct(self, nums: List[int]) -> int:
+        res1 = [0 for i in range(len(nums))]
+        res2 = [0 for i in range(len(nums))]
+        if len(nums) == 0:
+            return 0
+        for i in range(len(nums)):
+            if i == 0:
+                res1[i] = nums[i]
+                res2[i] = nums[i]
+            else:
+                res1[i] = max(nums[i], nums[i]*res1[i-1], nums[i]*res2[i-1])
+                res2[i] = min(nums[i], nums[i]*res1[i-1], nums[i]*res2[i-1])
+        
+        return max(max(res1), max(res2))
+```

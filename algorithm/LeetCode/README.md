@@ -852,6 +852,26 @@ class Solution(object):
 ```
 * [[Easy] [Solution] 746. Min Cost Climbing Stairs](%5BEasy%5D%20%5BSolution%5D%20746.%20Min%20Cost%20Climbing%20Stairs.md)
 
+### 2 state array
+```python
+class Solution:
+    def maxProduct(self, nums: List[int]) -> int:
+        res1 = [0 for i in range(len(nums))]
+        res2 = [0 for i in range(len(nums))]
+        if len(nums) == 0:
+            return 0
+        for i in range(len(nums)):
+            if i == 0:
+                res1[i] = nums[i]
+                res2[i] = nums[i]
+            else:
+                res1[i] = max(nums[i], nums[i]*res1[i-1], nums[i]*res2[i-1])
+                res2[i] = min(nums[i], nums[i]*res1[i-1], nums[i]*res2[i-1])
+
+        return max(max(res1), max(res2))
+```
+* [[Medium] 152. Maximum Product Subarray](%5BMedium%5D%20152.%20Maximum%20Product%20Subarray.md)
+
 ### Longest Fibonacci Subsequence
 ```python
 class Solution:
@@ -1039,6 +1059,85 @@ class Solution:
         return dp[N]
 ```
 * [[Hard] [Solution] 97. Interleaving String](%5BHard%5D%20%5BSolution%5D%2097.%20Interleaving%20String.md)
+
+### Maximal Square
+```python
+class Solution:
+    def maximalSquare(self, matrix):
+        """
+        :type matrix: List[List[str]]
+        :rtype: int
+        """
+        rows, cols = len(matrix), len(matrix[0]) if matrix else 0
+        dp = [[0]*(cols + 1) for _ in range(rows + 1)]
+        maxsqlen = 0
+        for i in range(1, rows + 1):
+            for j in range(1, cols + 1):
+                if matrix[i-1][j-1] == '1':
+                    dp[i][j] = min(min(dp[i][j - 1], dp[i - 1][j]), dp[i - 1][j - 1]) + 1
+                    maxsqlen = max(maxsqlen, dp[i][j])
+
+        return maxsqlen **2
+```
+* [[Medium] [Solution] 221. Maximal Square](%5BMedium%5D%20%5BSolution%5D%20221.%20Maximal%20Square.md)
+
+### Prefix + Suffix
+```python
+class Solution:
+    def wordBreak(self, s: str, wordDict: List[str]) -> List[str]:
+        set_wordDict = set(wordDict)
+
+        @functools.lru_cache(None)
+        def dfs(seq):
+            if not seq:
+                return []
+            rst = []
+            if seq in set_wordDict:
+                rst.append(seq)
+            for i in range(1, len(seq)):
+                prefix = seq[:i]
+                if prefix in set_wordDict:
+                    for sufix in dfs(seq[i:]):
+                        rst.append(prefix+' ' + sufix)
+            return rst
+
+        ans = dfs(s)
+        return ans
+```
+* [[Hard] 140. Word Break II](%5BHard%5D%20140.%20Word%20Break%20II.md)
+
+### k state
+```python
+class Solution:
+    def maxProfit(self, k: int, prices: List[int]) -> int:
+        if not prices or k == 0:
+            return 0
+        n = len(prices)
+
+        #PRECHECK if 2*k >= n  that means we just need to count everyday's profit no need to DP 
+        if 2*k >= n:
+            res = 0
+            for i in range(1, n):
+                res += max(prices[i] - prices[i-1], 0)
+            return res
+
+        #dp status of buy and sell, only need One-Dimention
+        bsk = [0 for i in range(2*k)]   #buy_1 sell_1 buy_2 sell_2 ==> buy_k sell_k (k times)
+        for b in range(2*k):
+            if b%2 == 0:
+                bsk[b] = -prices[0]
+
+        for i in range(1, n):
+            bsk[0] = max(bsk[0], -prices[i])
+            #for buys
+            for j in range(2, 2*k, 2):
+                bsk[j] = max(bsk[j-1]-prices[i], bsk[j])
+            #for sells
+            for o in range(1, 2*k, 2):
+                bsk[o] = max(bsk[o-1]+prices[i], bsk[o])
+        return bsk[2*k-1]
+```
+* [[Hard] 188. Best Time to Buy and Sell Stock IV](%5BHard%5D%20188.%20Best%20Time%20to%20Buy%20and%20Sell%20Stock%20IV.md)
 
 ## Math <a name="math"></a>
 ---

@@ -161,7 +161,31 @@ public class Solution {
 
 # Submissions
 ---
-**Solution 1:**
+**Solution 1: (Dynamic Programming Bottm-Up)**
+```
+Runtime: 208 ms
+Memory Usage: 13.8 MB
+```
+```python
+class Solution:
+    def maximalSquare(self, matrix):
+        """
+        :type matrix: List[List[str]]
+        :rtype: int
+        """
+        rows, cols = len(matrix), len(matrix[0]) if matrix else 0
+        dp = [[0]*(cols + 1) for _ in range(rows + 1)]
+        maxsqlen = 0
+        for i in range(1, rows + 1):
+            for j in range(1, cols + 1):
+                if matrix[i-1][j-1] == '1':
+                    dp[i][j] = min(min(dp[i][j - 1], dp[i - 1][j]), dp[i - 1][j - 1]) + 1
+                    maxsqlen = max(maxsqlen, dp[i][j])
+
+        return maxsqlen **2
+```
+
+**Solution 2: (Better Dynamic Programming Bottom-Up)**
 ```
 Runtime: 176 ms
 Memory Usage: N/A
@@ -189,7 +213,7 @@ class Solution:
         return cur*cur
 ```
 
-**Solution 2:**
+**Solution 3: (DP Bottom-Up)**
 ```
 Runtime: 64 ms
 Memory Usage: N/A
