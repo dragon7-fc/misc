@@ -1081,6 +1081,22 @@ class Solution:
 ```
 * [[Medium] [Solution] 221. Maximal Square](%5BMedium%5D%20%5BSolution%5D%20221.%20Maximal%20Square.md)
 
+### Dynamic Programming with Binary Search, insertion sort
+```python
+class Solution:
+    def lengthOfLIS(self, nums: List[int]) -> int:
+        N = len(nums)
+        dp = [float('inf') for _ in range(N)]
+        length = 0
+        for num in nums:
+            i = bisect.bisect_left(dp, num)
+            dp[i] = num
+            if i == length:
+                length += 1
+        return length
+```
+* [[Medium] [Solution] 300. Longest Increasing Subsequence](%5BMedium%5D%20%5BSolution%5D%20300.%20Longest%20Increasing%20Subsequence.md)
+
 ### Prefix + Suffix
 ```python
 class Solution:

@@ -213,27 +213,38 @@ Note: Arrays.binarySearch() method returns index of the search key, if it is con
 # Submissions
 ---
 
-**Solution 0: DP Top-Down [Time Limit Exceeded]**
+**Solution 1: (DP Top-Down**
+```
+Runtime: 1692 ms
+Memory Usage: 13.4 MB
+```
 ```python
-import functools
 class Solution:
     def lengthOfLIS(self, nums: List[int]) -> int:
-        @functools.lru_cache(None)
-        def dfs(prev, cur):
-            if cur == len(nums):
-                return 0
-            
-            taken = 0
-            if prev < 0 or nums[cur] > nums[prev]:
-                taken = 1 + dfs(cur, cur + 1)
-
-            nottaken = dfs(prev, cur + 1)
-            return max(taken, nottaken)
+        N = len(nums)
+        if N == 0: return 0
+        maxans = 1
         
-        return dfs(-1, 0)
+        @functools.lru_cache(None)
+        def dfs(i):
+            nonlocal maxans
+            if i == 0:
+                return 1
+            maxval = 0
+            for j in range(i):
+                if nums[i] > nums[j]:
+                    maxval = max(maxval, dfs(j))
+                else:
+                    dfs(j)
+            maxval += 1
+            maxans = max(maxans, maxval)
+            return maxval
+            
+        dfs(N-1)
+        return maxans
 ```
 
-**Solution 1:**
+**Solution 2: (Dynamic Programming Bottom-Up)**
 ```
 Runtime: 1020 ms
 Memory Usage: 14 MB
@@ -258,7 +269,7 @@ class Solution:
         return maxans
 ```
 
-**Solution 2:**
+**Solution 3: (Dynamic Programming with Binary Search)**
 ```
 Runtime: 40 ms
 Memory Usage: 12.8 MB

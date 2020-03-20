@@ -109,7 +109,7 @@ Notice in the code above we inserted a dummy 0 as the first element in the sum a
 
 # Submissions
 ---
-**Solution 1:**
+**Solution 1: (Caching)**
 ```
 Runtime: 68 ms
 Memory Usage: N/A

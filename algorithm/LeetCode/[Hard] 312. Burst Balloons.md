@@ -92,7 +92,6 @@ Runtime: 440 ms
 Memory Usage: 13.1 MB
 ```
 ```python
-import functools
 class Solution:
     def maxCoins(self, nums: List[int]) -> int:
         nums = [1] + [num for num in nums if num > 0] + [1]

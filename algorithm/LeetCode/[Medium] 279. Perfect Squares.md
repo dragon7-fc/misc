@@ -18,7 +18,7 @@ Explanation: 13 = 4 + 9.
 
 # Submissions
 ---
-**Solution 1: (DP)**
+**Solution 1: (DP Bottom-Up)**
 ```
 Runtime: 2268 ms
 Memory Usage: 13.9 MB
@@ -37,6 +37,30 @@ class Solution:
         for i in range(1,n+1):
             dp[i] = min([dp[i - j*j] for j in range(1, int(i**.5)+1)]) + 1
         return dp[n]
+```
+
+**Solution 2: (DP Top-Down)**
+```
+Runtime: 6096 ms
+Memory Usage: 27.5 MB
+```
+```python
+class Solution:
+    def numSquares(self, n):
+        """
+        :type n: int
+        :rtype: int
+        """
+        if n < 1:
+            return 0
+        
+        @functools.lru_cache(None)
+        def dfs(i):
+            if i <= 0:
+                return 0
+            return min(dfs(i - j**2) + 1 for j in range(int(i**.5), 0, -1))
+        
+        return dfs(n)
 ```
 
 **Solution 2: (BFS)**

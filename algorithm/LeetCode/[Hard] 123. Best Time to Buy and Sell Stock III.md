@@ -50,3 +50,26 @@ class Solution:
             sell2 = max(sell2, buy2 + prices[i])
         return sell2
 ```
+
+**Solution 2: (DP Array)**
+```
+Runtime: 84 ms
+Memory Usage: 14.7 MB
+```
+```python
+class Solution:
+    def maxProfit(self, prices: List[int]) -> int:
+        N = len(prices)
+        if N == 0:
+            return 0
+        sell, buy = [0]*N, [float('-inf')]*N
+        sell2, buy2 = [0]*N, [float('-inf')]*N
+        buy[0], buy2[0] = -prices[0], -prices[0]
+        for day in range(1, len(prices)):
+            buy[day] = max(buy[day-1], -prices[day])
+            sell[day] = max(sell[day-1], buy[day-1] + prices[day])
+            buy2[day] = max(buy2[day-1], sell[day-1] - prices[day])
+            sell2[day] = max(sell2[day-1], buy2[day-1] + prices[day])
+            
+        return sell2[-1]
+```

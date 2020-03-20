@@ -16,7 +16,7 @@ Explanation: transactions = [buy, sell, cooldown, buy, sell]
 
 # Submissions
 ---
-**Solution 1:**
+**Solution 1: (DP)**
 ```
 Runtime: 44 ms
 Memory Usage: N/A
@@ -43,4 +43,37 @@ class Solution:
             cool[i] = max(cool[i-1], sell[i-1])
 
         return sell[-1]
+```
+
+**Solution 2: (DP)**
+
+This is very similar to problem 714. Best Time to Buy and Sell Stock with Transaction Fee  
+The strategy is to keep 2 variables:  
+cash[i]: the max profit we have on day i if we don't have stock  
+hold[i]: the max profit we have on day i if we have a stock
+
+The transition function from day i to day i+1:
+* for cash[i+1], we either don't do anything, so remain cash[i]; or we sell to stock hold in hand
+* for hold[i+1], we either don't do anything, so remain hold[i]; or we buy a stock, but use the cash from two days ago, i.e. cash[i-1], becasue of the cooldown requirement
+
+```
+Runtime: 40 ms
+Memory Usage: 13.1 MB
+```
+```python
+class Solution:
+    def maxProfit(self, prices: List[int]) -> int:
+        N = len(prices)
+        if N <=1 :
+            return 0
+        cash = [0]*N
+        cash[1] = max(0, prices[1]-prices[0])
+        hold = [float('-inf')] * N
+        hold[0] = [-prices[0]]
+        hold[1] = max(-prices[0], -prices[1])
+        for day in range(2,len(prices)):
+            cash[day] = max(cash[day-1], hold[day-1]+prices[day])
+            hold[day] = max(hold[day-1], cash[day-2]-prices[day])
+            
+        return cash[-1]
 ```

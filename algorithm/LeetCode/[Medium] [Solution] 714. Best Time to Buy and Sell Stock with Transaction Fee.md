@@ -68,7 +68,25 @@ class Solution:
         return cash
 ```
 
-**Solution 3: (DP Bottom-Up)**
+**Solution 1: (DP, Array)**
+```
+Runtime: 928 ms
+Memory Usage: 19.4 MB
+```
+```python
+class Solution:
+    def maxProfit(self, prices: List[int], fee: int) -> int:
+        N = len(prices)
+        cash, hold = [0]*N, [float('-inf')]*N
+        hold[0] = -prices[0]
+        for day in range(1, len(prices)):
+            cash[day] = max(cash[day-1], hold[day-1] + prices[day] - fee)  # sell stock
+            hold[day] = max(hold[day-1], cash[day-1] - prices[day])  # buy stock
+
+        return cash[-1]
+```
+
+**Solution 2: (DP)**
 ```
 Runtime: 804 ms
 Memory Usage: 19.7 MB
@@ -83,7 +101,24 @@ class Solution:
         return sell
 ```
 
-**Solution 1: (Greedy)**
+**Solution 3: (DP, Array)**
+```
+Runtime: 904 ms
+Memory Usage: 19.3 MB
+```
+```python
+class Solution:
+    def maxProfit(self, prices: List[int], fee: int) -> int:
+        N = len(prices)
+        sell, buy = [0]*N, [float('-inf')]*N
+        for day in range(len(prices)):
+            buy[day] = max(buy[day-1], sell[day-1] - prices[day])
+            sell[day] = max(sell[day-1], buy[day-1] + prices[day] - fee)
+            
+        return sell[-1]
+```
+
+**Solution 4: (Greedy)**
 ```
 Runtime: 660 ms
 Memory Usage: 19.2 MB
