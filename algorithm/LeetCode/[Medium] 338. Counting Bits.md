@@ -22,7 +22,7 @@ Output: [0,1,1,2,1,2]
 
 # Submissions
 ---
-**Solution 1: (DP, Bit Manipulation)**
+**Solution 1: (DP Bottom-Up, Bit Manipulation)**
 ```
 Runtime: 132 ms
 Memory Usage: N/A
@@ -38,4 +38,22 @@ class Solution:
         for i in range(num+1):
             ans[i] = (i&1) + ans[i>>1]
         return ans
+```
+
+**Solution 2: (DP Top-Down)**
+```
+Runtime: 100 ms
+Memory Usage: 24.7 MB
+```
+```python
+class Solution:
+    def countBits(self, num: int) -> List[int]:
+        
+        @functools.lru_cache(None)
+        def dfs(n):
+            if n == 0:
+                return 0
+            return (n&1) + dfs(n>>1)
+            
+        return [dfs(i) for i in range(num+1)]
 ```

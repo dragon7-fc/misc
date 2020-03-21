@@ -22,7 +22,7 @@ Explanation: 10 = 3 + 3 + 4, 3 × 3 × 4 = 36.
 
 # Submissions
 ---
-**Solution 1:**
+**Solution 1: (DP Bottom-Up)**
 ```
 Runtime: 40 ms
 Memory Usage: 13.8 MB
@@ -38,4 +38,26 @@ class Solution:
         for i in range(4, n+1):
             dp[i] = max(dp[j] * dp[i-j]  for j in range(2, int(i/2) + 1))
         return dp[-1]
+```
+
+**Solution 2; (DP Top-Down)**
+```
+Runtime: 32 ms
+Memory Usage: 12.8 MB
+```
+```python
+class Solution:
+    def integerBreak(self, n: int) -> int:
+        if n < 4:
+            return n-1
+        
+        @functools.lru_cache(None)
+        def dfs(i):
+            if i <= 1:
+                return 0
+            elif 2 <= i <= 3: 
+                return i
+            return max(j * dfs(i-j) for j in range(2, i//2 + 1))
+            
+        return dfs(n)
 ```

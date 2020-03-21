@@ -213,7 +213,35 @@ Note: Arrays.binarySearch() method returns index of the search key, if it is con
 # Submissions
 ---
 
-**Solution 1: (DP Top-Down**
+**Solution 1: (DP Top-Down Memorization)**
+```
+Runtime: 6540 ms
+Memory Usage: 242.9 MB
+```
+```python
+class Solution:
+    def lengthOfLIS(self, nums: List[int]) -> int:
+        N = len(nums)
+        if N == 0: return 0
+        memo = [[-1]*N for _ in range(N+1)]
+        ans = 0
+        
+        def dfs(previndex, curpos):
+            if curpos == N:
+                return 0
+            if memo[previndex + 1][curpos] >= 0:
+                return memo[previndex + 1][curpos]
+            taken = 0
+            if previndex < 0 or nums[curpos] > nums[previndex]:
+                taken = 1 + dfs(curpos, curpos + 1)
+            nottaken = dfs(previndex, curpos + 1)
+            memo[previndex + 1][curpos] = max(taken, nottaken)
+            return memo[previndex + 1][curpos]
+        
+        return dfs(-1, 0)
+```
+
+**Solution 2: (DP Top-Down)**
 ```
 Runtime: 1692 ms
 Memory Usage: 13.4 MB

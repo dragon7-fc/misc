@@ -167,7 +167,7 @@ public class Solution {
 
 # Submissions
 ---
-**Solution 1:**
+**Solution 1: (Dynamic programming - Top down)**
 ```
 Runtime: 1820 ms
 Memory Usage: 17.5 MB
@@ -195,20 +195,65 @@ class Solution:
         return coinChange(coins, amount, [0 for _ in range(amount)])
 ```
 
-**Solution 2:**
+**Solution 2: (DP Top-Down)**
 ```
-Runtime: 1568 ms
-Memory Usage: 14 MB
+Runtime: 1128 ms
+Memory Usage: 43.1 MB
 ```
 ```python
 class Solution:
     def coinChange(self, coins: List[int], amount: int) -> int:
-        max_ = amount + 1             
-        dp = [max_ for _ in range(amount + 1)]   
+        
+        @functools.lru_cache(None)
+        def coinChange(rem):
+            if rem < 0:
+                return -1
+            if rem == 0:
+                return 0
+            min_ = float('inf')
+            for coin in coins:
+                res = coinChange(rem - coin)
+                if res >= 0 and res < min_:
+                    min_ = 1 + res
+            return -1 if (min_ == float('inf')) else min_
+
+        if amount < 1:
+            return 0
+        return coinChange(amount)
+        
+```
+
+**Solution 3: (Dynamic programming - Bottom up)**
+```
+Runtime: 1348 ms
+Memory Usage: 13 MB
+```
+```python
+class Solution:
+    def coinChange(self, coins: List[int], amount: int) -> int:
+        dp = [float('inf')] * (amount + 1)
         dp[0] = 0
-        for i in range(1, amount + 1):
-            for j in range(len(coins)):
-                if coins[j] <= i:
-                    dp[i] = min(dp[i], dp[i - coins[j]] + 1)
-        return -1 if dp[amount] > amount else dp[amount]
+        for i in range(amount+1):
+            for coin in coins:
+                if coin <= i:
+                    dp[i] = min(dp[i], dp[i - coin] + 1)
+        
+        return dp[-1] if dp[-1] != float('inf') else -1    
+```
+
+**Solution 4: (DP Bottom-Up)**
+```
+Runtime: 1280 ms
+Memory Usage: 13.2 MB
+```
+```python
+class Solution:
+    def coinChange(self, coins: List[int], amount: int) -> int:
+        dp = [float('inf')] * (amount + 1)
+        dp[0] = 0
+        
+        for coin in coins:
+            for x in range(coin, amount + 1):
+                dp[x] = min(dp[x], dp[x - coin] + 1)
+        return dp[amount] if dp[amount] != float('inf') else -1 
 ```

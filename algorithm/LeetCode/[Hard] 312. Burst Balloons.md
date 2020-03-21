@@ -23,6 +23,9 @@ Explanation: nums = [3,1,5,8] --> [3,5,8] -->   [3,8]   -->  [8]  --> []
 [How to Solve the Burst Balloons Problem like a Piece of Cake](https://medium.com/@resiloc/how-to-solve-the-burst-balloons-problem-like-a-piece-of-cake-6121f365b1f)
 
 **Solution 1: (DFS) TLE Error**
+
+![312_1.jpeg](img/312_1.jpeg)
+
 ```
 34 / 70 test cases passed.
 ```
@@ -54,7 +57,6 @@ class Solution:
 
 **Solution 2: (Divide and Conquer)**
 
-![312_1.jpeg](img/312_1.jpeg)
 ![312_2.jpeg](img/312_2.jpeg)
 
 ```
