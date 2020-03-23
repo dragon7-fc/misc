@@ -59,3 +59,52 @@ class Solution:
             res += choices
         return res
 ```
+
+**Solution 3: (DFS)**
+```
+Runtime: 28 ms
+Memory Usage: 12.9 MB
+```
+```python
+class Solution:
+    def countNumbersWithUniqueDigits(self, n: int) -> int:
+        if n == 0: return 1
+        if n == 1: return 10
+        ans = 10      # res initially stores number 1,2,...,9 and 10^n
+
+        def dfs(i):
+            nonlocal ans
+            if i == 0:
+                return 9
+            rst = dfs(i-1) * (10-i)
+            ans += rst
+            return rst
+            
+        dfs(n-1)
+        return ans
+```
+
+**Solution 4: (DP Top-Down)**
+```
+Runtime: 32 ms
+Memory Usage: 12.9 MB
+```
+```python
+class Solution:
+    def countNumbersWithUniqueDigits(self, n: int) -> int:
+        
+        @lru_cache(None)
+        def dp(n):
+            if n == 1:
+                return 10
+            elif n == 0:
+                return 1
+            num = 9
+            res = 9
+            for _ in range(n - 1):
+                res *= num
+                num -= 1
+            return res + dp(n - 1)
+        
+        return dp(min(n, 10))
+```

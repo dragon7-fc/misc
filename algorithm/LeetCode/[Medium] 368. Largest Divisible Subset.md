@@ -21,7 +21,7 @@ Output: [1,2,4,8]
 
 # Submissions
 ---
-**Solution 1:**
+**Solution 1: (DP Bottom-Up)**
 ```
 Runtime: 424 ms
 Memory Usage: 14.1 MB
@@ -52,7 +52,7 @@ class Solution:
         return ret[::-1]
 ```
 
-**Solution 2:**
+**Solution 2: (DP Bottom-Up)**
 ```
 Runtime: 456 ms
 Memory Usage: 14.1 MB
@@ -72,4 +72,32 @@ class Solution:
             if len(dp[i]) > len(result):
                 result = dp[i]
         return result
+```
+
+**Solution 3: (DP Top-Down)**
+```
+Runtime: 3432 ms
+Memory Usage: 101.8 MB
+```
+```python
+class Solution:
+    def largestDivisibleSubset(self, nums: List[int]) -> List[int]:
+        N = len(nums)
+        if N == 0: return []
+        nums.sort()
+        
+        @functools.lru_cache(None)
+        def dfs(prevIndex, curPos):
+            if curPos == N:
+                return []
+            taken, not_taken = [], []
+            if prevIndex == -1 or nums[curPos] % nums[prevIndex] == 0:
+                taken = [nums[curPos]] + dfs(curPos, curPos+1)
+            not_taken = dfs(prevIndex, curPos+1)
+            if len(taken) > len(not_taken):
+                return taken
+            else:
+                return not_taken
+        
+        return dfs(-1, 0)
 ```
