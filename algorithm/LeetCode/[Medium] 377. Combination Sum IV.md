@@ -32,7 +32,7 @@ Special thanks to @pbrother for adding this problem and creating all test cases.
 
 # Submissions
 ---
-**Solution 1:**
+**Solution 1: (DP Bottom-Up)**
 ```
 Runtime: 56 ms
 Memory Usage: 13.9 MB
@@ -45,4 +45,27 @@ class Solution:
         for i in range(1, target+1):
             dp[i] = sum([dp[i-num] for num in nums if i-num >= 0])
         return dp[target]
+```
+
+**Solution 2: (DP Top-Down)**
+```
+Runtime: 44 ms
+Memory Usage: 17.8 MB
+```
+```python
+class Solution:
+    def combinationSum4(self, nums: List[int], target: int) -> int:
+        
+        @functools.lru_cache(None)
+        def dfs(s):
+            if s == 0:
+                return 1
+            elif s < 0:
+                return 0
+            rst = 0
+            for num in nums:
+                rst += dfs(s - num)
+            return rst
+            
+        return dfs(target)
 ```
