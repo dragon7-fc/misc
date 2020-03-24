@@ -118,7 +118,34 @@ class Solution:
         return sell[-1]
 ```
 
-**Solution 4: (Greedy)**
+**Solution 4: (DP Top-Down)**
+```
+Runtime: 1368 ms
+Memory Usage: 259.1 MB
+```
+```python
+class Solution:
+    def maxProfit(self, prices: List[int], fee: int) -> int:
+        N = len(prices)
+        
+        @functools.lru_cache(None)
+        def dfs(i, bought):
+            if i >= N:
+                return 0
+            #if bought previously, we have 2 option:-
+            # sell the prvious stock today or skip this day
+            if bought:
+                return max(dfs(i+1, False) + prices[i] - fee, dfs(i+1, bought))
+
+            #else if we can buy a new stock, then we again have 2 option:-
+            #buy the current stock or skip over it
+            else:
+                return max(dfs(i+1, True) - prices[i], dfs(i+1, bought))
+
+        return dfs(0, False)
+```
+
+**Solution 5: (Greedy)**
 ```
 Runtime: 660 ms
 Memory Usage: 19.2 MB
