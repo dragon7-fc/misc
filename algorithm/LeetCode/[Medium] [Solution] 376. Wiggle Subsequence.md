@@ -228,7 +228,7 @@ public class Solution {
 
 # Submissions
 ---
-**Solution 1: (DP)**
+**Solution 1: (DP Bottom-Up)**
 ```
 Runtime: 44 ms
 Memory Usage: 13.9 MB
@@ -270,4 +270,32 @@ class Solution:
                 prevdiff = diff
         
         return count
+```
+
+**Solution 3: (DP Top-Down)**
+```
+Runtime: 28 ms
+Memory Usage: 13.6 MB
+```
+```python
+class Solution:
+    def wiggleMaxLength(self, nums: List[int]) -> int:
+        N = len(nums)
+        if N == 0: return 0
+        
+        @functools.lru_cache(None)
+        def dfs(i, isUp):
+            if i == N-1: return 1
+            if isUp:
+                if nums[i+1] > nums[i]:
+                    return 1 + dfs(i+1, False)
+                else:
+                    return dfs(i+1, True)
+            else:
+                if nums[i+1] < nums[i]:
+                    return 1 + dfs(i+1, True)
+                else:
+                    return dfs(i+1, False)
+                
+        return max(dfs(0, True), dfs(0, False))
 ```
