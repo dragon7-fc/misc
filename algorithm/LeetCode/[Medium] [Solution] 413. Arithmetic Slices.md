@@ -236,7 +236,7 @@ public class Solution {
 
 # Submissions
 ---
-**Solution 1:**
+**Solution 1: (Constant Space Dynamic Programming Bottom-Up)**
 ```
 Runtime: 44 ms
 Memory Usage: 14.1 MB
@@ -253,4 +253,31 @@ class Solution:
             else:
                 dp = 0
         return sum_
+```
+
+**Solution 2: (DP Top-Down)**
+```
+Runtime: 32 ms
+Memory Usage: 20.3 MB
+```
+```python
+class Solution:
+    def numberOfArithmeticSlices(self, A: List[int]) -> int:
+        N = len(A)
+        ans = 0
+
+        @functools.lru_cache(None)
+        def dfs(i):
+            nonlocal ans
+            if i < 2: return 0
+            rst = 0
+            if A[i-1] - A[i-2] == A[i] - A[i-1]:
+                rst = 1 + dfs(i-1)
+                ans += rst
+            else:
+                dfs(i-1)
+            return rst 
+        
+        dfs(N-1)
+        return ans
 ```
