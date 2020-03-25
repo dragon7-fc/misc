@@ -1014,6 +1014,55 @@ class Solution:
 ```
 * [[Hard] 363. Max Sum of Rectangle No Larger Than K](%5BHard%5D%20363.%20Max%20Sum%20of%20Rectangle%20No%20Larger%20Than%20K.md)
 
+### Taken/not-taken
+```python
+class Solution:
+    def lengthOfLIS(self, nums: List[int]) -> int:
+        N = len(nums)
+        if N == 0: return 0
+        memo = [[-1]*N for _ in range(N+1)]
+        ans = 0
+
+        def dfs(previndex, curpos):
+            if curpos == N:
+                return 0
+            if memo[previndex + 1][curpos] >= 0:
+                return memo[previndex + 1][curpos]
+            taken = 0
+            if previndex < 0 or nums[curpos] > nums[previndex]:
+                taken = 1 + dfs(curpos, curpos + 1)
+            nottaken = dfs(previndex, curpos + 1)
+            memo[previndex + 1][curpos] = max(taken, nottaken)
+            return memo[previndex + 1][curpos]
+
+        return dfs(-1, 0)
+```
+* [[Medium] [Solution] 300. Longest Increasing Subsequence](%5BMedium%5D%20%5BSolution%5D%20300.%20Longest%20Increasing%20Subsequence.md)
+
+### Count on every level
+```python
+class Solution:
+    def numberOfArithmeticSlices(self, A: List[int]) -> int:
+        N = len(A)
+        ans = 0
+
+        @functools.lru_cache(None)
+        def dfs(i):
+            nonlocal ans
+            if i < 2: return 0
+            rst = 0
+            if A[i-1] - A[i-2] == A[i] - A[i-1]:
+                rst = 1 + dfs(i-1)
+                ans += rst
+            else:
+                dfs(i-1)
+            return rst 
+
+        dfs(N-1)
+        return ans
+```
+* [[Medium] [Solution] 413. Arithmetic Slices](%5BMedium%5D%20%5BSolution%5D%20413.%20Arithmetic%20Slices.md)
+
 ### Character match
 ```python
 import functools

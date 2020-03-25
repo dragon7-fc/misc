@@ -28,7 +28,7 @@ Explanation: The array cannot be partitioned into equal sum subsets.
 
 # Submissions
 ---
-**Solution 1:**
+**Solution 1: (DP Bottom-Up)**
 ```
 Runtime: 664 ms
 Memory Usage: 13.8 MB
@@ -55,4 +55,32 @@ class Solution:
                 dp[s] = dp[s] or dp[s - num]
 
         return dp[-1]
+```
+
+**Solution 2: (DP Top-Down)**
+```
+Runtime: 1156 ms
+Memory Usage: 260.9 MB
+```
+```python
+class Solution:
+    def canPartition(self, nums: List[int]) -> bool:
+        N = len(nums)
+        sm = sum(nums)
+        if sm%2: return False
+        target = sm//2
+        
+        @functools.lru_cache(None)
+        def dfs(i, g1):
+            if i == N:
+                if g1 == 0:
+                    return True
+                else:
+                    return False
+            if dfs(i+1, g1-nums[i]) or dfs(i+1, g1):
+                return True
+            else:
+                return False
+            
+        return dfs(0, target)
 ```
