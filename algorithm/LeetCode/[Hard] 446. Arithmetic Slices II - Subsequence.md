@@ -287,29 +287,34 @@ class Solution:
 ```
 
 **Solution 2: (DP Bottom-Up)**
+
+Anytime a question is on substring or subsequences, a DP approach might be a good to take since there might be overlapping subproblems.
+
+In cases of subsequences, there seem to be 2 general ways to solve this:  
+1). via a 2D/1D array  
+2). Via a array of hashmaps
+
+In general, I think the 2nd approach is more often taken when you don't need every piece of information right before it. Only the ones that are revelant. Ie, for this problem, you only need to keep the info on specific value differences between subsequences.
+
+For each index, we look through the prior indexes before it and check the length of the subsequence up to the prior index. Let us call our current index, i and our prev index j. At index i, we check if the difference between A[i] and A[j] exists in the dictionary for A[j]. We add A[j][difference] to our result. For example, if the difference exists in j, that means it is at least of length 2 (becuase we need 2 values in order to have a subsequence with a specific difference). If the difference between the values at i and j is the same, that means we have at least one
+
 ```
-Runtime: 472 ms
-Memory Usage: 51.4 MB
+Runtime: 628 ms
+Memory Usage: 52.1 MB
 ```
 ```python
 class Solution:
     def numberOfArithmeticSlices(self, A: List[int]) -> int:
-        dp = [dict() for n in A]
+        dp = [collections.defaultdict(int) for _ in A]
         ans = 0
-        for i,n in enumerate(A[1:],1):
+        for i, n in enumerate(A[1:],1):
             for j in range(i):
-                minus = A[i]-A[j]
-                if minus in dp[j]:
-                    ans += dp[j][minus]
-                    if minus in dp[i]:
-                        dp[i][minus] += dp[j][minus]+1
-                    else:
-                        dp[i][minus] = dp[j][minus]+1
+                diff = A[i] - A[j]
+                if diff in dp[j]:
+                    ans += dp[j][diff]
+                    dp[i][diff] += dp[j][diff] + 1
                 else:
-                    if minus in dp[i]:
-                        dp[i][minus]+= 1
-                    else:
-                        dp[i][minus] = 1
+                    dp[i][diff] += 1
                         
         return ans
 ```
