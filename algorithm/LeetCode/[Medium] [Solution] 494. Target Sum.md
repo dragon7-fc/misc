@@ -186,7 +186,7 @@ public class Solution {
 
 # Submissions
 ---
-**Solution 1:**
+**Solution 1: (1D Dynamic Programming)**
 ```
 Runtime: 592 ms
 Memory Usage: 14 MB
@@ -207,7 +207,7 @@ class Solution:
         return 0 if S > 1000 else dp[S + 1000]
 ```
 
-**Solution 2:**
+**Solution 2: (DP Bottom-Up, Hash Table)**
 ```
 Runtime: 300 ms
 Memory Usage: N/A
@@ -229,4 +229,26 @@ class Solution:
                 count2[tmpSum - x] = count2.get(tmpSum - x, 0) + count[tmpSum]
             count = count2
         return count.get(S, 0)
+```
+
+**Solution 3: (DP Top-Down)**
+```
+Runtime: 264 ms
+Memory Usage: 41.8 MB
+```
+```python
+class Solution:
+    def findTargetSumWays(self, nums: List[int], S: int) -> int:
+        N = len(nums)
+        
+        @functools.lru_cache(None)
+        def dp(i, target):
+            if i == N:
+                if target == 0: 
+                    return 1
+                else: 
+                    return 0
+            return dp(i+1, target-nums[i]) + dp(i+1, target+nums[i])
+        
+        return dp(0, S)
 ```

@@ -32,7 +32,7 @@ So the final output is 4.
 
 # Solution
 ---
-**Solution 1: (DP - Top-down, DFS, Hash Table)**
+**Solution 1: (DP Top-down, DFS, Hash Table)**
 ```
 Runtime: 164 ms
 Memory Usage: 13.6 MB

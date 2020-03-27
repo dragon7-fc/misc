@@ -30,7 +30,29 @@ Explanation: There are six substrings "z", "a", "b", "za", "ab", "zab" of string
 
 # Submissions
 ---
-**Solution 1:**
+**Solution 1: (DFS, Time Limit Exceeded)**
+```python
+class Solution:
+    def findSubstringInWraproundString(self, p: str) -> int:
+        N = len(p)
+        if N == 0: return 0
+        ans = set()
+        
+        def dfs(i, path):
+            ans.add(path)
+            if i == N:
+                return
+            if ord(p[i]) - ord(p[i-1]) == 1 or p[i] == 'a' and p[i-1] == 'z':
+                dfs(i+1, path+p[i])
+            dfs(i+1, p[i])
+            
+        dfs(1, p[0])
+        return len(ans)
+        
+        
+```
+
+**Solution 2: (DP Bottom-Up)**
 ```
 Runtime: 104 ms
 Memory Usage: 14.3 MB
@@ -50,4 +72,20 @@ class Solution:
                 DP[i] = 1
             dic[p[i]] = max(dic[p[i]], DP[i])
         return sum(dic.values())
+```
+
+**Solution 3: (DP Bottom-Up)**
+```
+Runtime: 88 ms
+Memory Usage: 14 MB
+```
+```python
+class Solution:
+    def findSubstringInWraproundString(self, p: str) -> int:
+        res = {i: 1 for i in p}
+        n = 1
+        for i, j in zip(p, p[1:]):
+            n = n + 1 if (ord(j) - ord(i)) % 26 == 1 else 1
+            res[j] = max(res[j], n)
+        return sum(res.values())
 ```

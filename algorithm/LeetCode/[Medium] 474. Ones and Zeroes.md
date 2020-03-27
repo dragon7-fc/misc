@@ -2,9 +2,9 @@
 
 In the computer world, use restricted resource you have to generate maximum benefit is what we always want to pursue.
 
-For now, suppose you are a dominator of m 0s and n 1s respectively. On the other hand, there is an array with strings consisting of only 0s and 1s.
+For now, suppose you are a dominator of **m** 0s and **n** 1s respectively. On the other hand, there is an array with strings consisting of only 0s and 1s.
 
-Now your task is to find the maximum number of strings that you can form with given m 0s and n 1s. Each 0 and 1 can be used at most once.
+Now your task is to find the maximum number of strings that you can form with given **m** `0s` and **n** `1s`. Each `0` and `1` can be used at most **once**.
 
 **Note:**
 
@@ -30,7 +30,7 @@ Explanation: You could form "10", but then you'd have nothing left. Better form 
 
 # Submissions
 ---
-**Solution 1:**
+**Solution 1: (DP Bottom-Up)**
 ```
 Runtime: 2864 ms
 Memory Usage: 14 MB
@@ -45,4 +45,29 @@ class Solution:
                 for j in range(n , ones-1, -1):
                     dp[i][j] = max(dp[i][j], 1 + dp[i - zeros][j - ones])
         return dp[-1][-1]
+```
+
+**Solution 2: (DP Top-Town)**
+```
+Runtime: 2100 ms
+Memory Usage: 264.5 MB
+```
+```python
+class Solution:
+    def findMaxForm(self, strs: List[str], m: int, n: int) -> int:
+        N = len(strs)
+        
+        @functools.lru_cache(None)
+        def dp(index, m_zeroes, n_ones):
+            if index >= N:
+                return 0
+            else:
+                s = strs[index]
+                ones, zeroes = s.count('1'), s.count('0')
+                if m_zeroes - zeroes >= 0 and n_ones - ones >= 0:
+                    return max(1 + dp(index + 1, m_zeroes - zeroes, n_ones - ones), dp(index + 1, m_zeroes, n_ones))
+                else:
+                    return dp(index + 1, m_zeroes, n_ones)
+        
+        return dp(0, m, n)
 ```
