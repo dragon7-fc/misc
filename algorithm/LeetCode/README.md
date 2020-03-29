@@ -45,6 +45,7 @@ Happy Coding!!
 1. [Array](#array)
 1. [Dynamic Programming](#dp)
 1. [Math](#math)
+1. [String](#string)
 1. [Tree](#tree)
 1. [Hash Table](#ht)
 1. [Depth-first Search](#dfs)
@@ -1063,6 +1064,43 @@ class Solution:
 ```
 * [[Medium] [Solution] 413. Arithmetic Slices](%5BMedium%5D%20%5BSolution%5D%20413.%20Arithmetic%20Slices.md)
 
+### Maximal Square
+```python
+class Solution:
+    def maximalSquare(self, matrix):
+        """
+        :type matrix: List[List[str]]
+        :rtype: int
+        """
+        rows, cols = len(matrix), len(matrix[0]) if matrix else 0
+        dp = [[0]*(cols + 1) for _ in range(rows + 1)]
+        maxsqlen = 0
+        for i in range(1, rows + 1):
+            for j in range(1, cols + 1):
+                if matrix[i-1][j-1] == '1':
+                    dp[i][j] = min(min(dp[i][j - 1], dp[i - 1][j]), dp[i - 1][j - 1]) + 1
+                    maxsqlen = max(maxsqlen, dp[i][j])
+
+        return maxsqlen **2
+```
+* [[Medium] [Solution] 221. Maximal Square](%5BMedium%5D%20%5BSolution%5D%20221.%20Maximal%20Square.md)
+
+### Dynamic Programming with Binary Search, insertion sort
+```python
+class Solution:
+    def lengthOfLIS(self, nums: List[int]) -> int:
+        N = len(nums)
+        dp = [float('inf') for _ in range(N)]
+        length = 0
+        for num in nums:
+            i = bisect.bisect_left(dp, num)
+            dp[i] = num
+            if i == length:
+                length += 1
+        return length
+```
+* [[Medium] [Solution] 300. Longest Increasing Subsequence](%5BMedium%5D%20%5BSolution%5D%20300.%20Longest%20Increasing%20Subsequence.md)
+
 ### Character match
 ```python
 import functools
@@ -1108,43 +1146,6 @@ class Solution:
         return dp[N]
 ```
 * [[Hard] [Solution] 97. Interleaving String](%5BHard%5D%20%5BSolution%5D%2097.%20Interleaving%20String.md)
-
-### Maximal Square
-```python
-class Solution:
-    def maximalSquare(self, matrix):
-        """
-        :type matrix: List[List[str]]
-        :rtype: int
-        """
-        rows, cols = len(matrix), len(matrix[0]) if matrix else 0
-        dp = [[0]*(cols + 1) for _ in range(rows + 1)]
-        maxsqlen = 0
-        for i in range(1, rows + 1):
-            for j in range(1, cols + 1):
-                if matrix[i-1][j-1] == '1':
-                    dp[i][j] = min(min(dp[i][j - 1], dp[i - 1][j]), dp[i - 1][j - 1]) + 1
-                    maxsqlen = max(maxsqlen, dp[i][j])
-
-        return maxsqlen **2
-```
-* [[Medium] [Solution] 221. Maximal Square](%5BMedium%5D%20%5BSolution%5D%20221.%20Maximal%20Square.md)
-
-### Dynamic Programming with Binary Search, insertion sort
-```python
-class Solution:
-    def lengthOfLIS(self, nums: List[int]) -> int:
-        N = len(nums)
-        dp = [float('inf') for _ in range(N)]
-        length = 0
-        for num in nums:
-            i = bisect.bisect_left(dp, num)
-            dp[i] = num
-            if i == length:
-                length += 1
-        return length
-```
-* [[Medium] [Solution] 300. Longest Increasing Subsequence](%5BMedium%5D%20%5BSolution%5D%20300.%20Longest%20Increasing%20Subsequence.md)
 
 ### Prefix + Suffix
 ```python
@@ -1204,6 +1205,58 @@ class Solution:
 ```
 * [[Hard] 188. Best Time to Buy and Sell Stock IV](%5BHard%5D%20188.%20Best%20Time%20to%20Buy%20and%20Sell%20Stock%20IV.md)
 
+### KMP
+```python
+class Solution:
+    def findGoodStrings(self, n: int, s1: str, s2: str, evil: str) -> int:
+
+        def srange(a, b):
+            yield from (chr(i) for i in range(ord(a), ord(b)+1))
+
+        def failure(pat): 
+            res = [0]
+            i, target = 1, 0
+            while i < len(pat):
+                if pat[i] == pat[target]: 
+                    target += 1
+                    res += target,
+                    i += 1
+                elif target: 
+                    target = res[target-1] 
+                else: 
+                    res += 0,
+                    i += 1
+            return res    
+
+        f = failure(evil)
+
+        @lru_cache(None)
+        def dfs(idx, max_matched=0, lb=True, rb=True):
+            '''
+            idx: current_idx_on_s1_&_s2, 
+            max_matched: nxt_idx_to_match_on_evil, 
+            lb, rb: is_left_bound, is_right_bound
+            '''
+            if max_matched == len(evil): return 0 # evil found, break
+            if idx == n: return 1 # base case
+
+            l = s1[idx] if lb else 'a' # valid left bound
+            r = s2[idx] if rb else 'z' # valid right bound
+            candidates = [*srange(l, r)]
+
+            res = 0
+            for i, c in enumerate(candidates):
+                nxt_matched = max_matched
+                while evil[nxt_matched] != c and nxt_matched:
+                    nxt_matched = f[nxt_matched - 1]
+                res += dfs(idx+1, nxt_matched + (c == evil[nxt_matched]), 
+                           lb=(lb and i == 0), rb=(rb and i == len(candidates)-1))
+            return res                
+
+        return dfs(0) % (10**9 + 7)
+```
+* [[Hard] 1397. Find All Good Strings](%5BHard%5D%201397.%20Find%20All%20Good%20Strings.md)
+
 ## Math <a name="math"></a>
 ---
 ### Combination
@@ -1261,6 +1314,76 @@ class Solution:
         return ans
 ```
 * [[Hard] [Solution] 891. Sum of Subsequence Widths](%5BHard%5D%20%5BSolution%5D%20891.%20Sum%20of%20Subsequence%20Widths.md)
+
+## String <a name="string"></a>
+---
+### KMP
+```python
+class Solution:
+    def build_lps(self, pattern):
+        """ Helper function for strStr.
+        Returns longest proper suffix array for string pattern.
+        Each lps_array[i] is the length of the longest proper prefix
+        which is equal to suffix for pattern ending at character i.
+        Proper means that whole string cannot be prefix or suffix.
+
+        Time complexity: O(m). Space complexity: O(1), where
+        m is the length of the pattern, space used for lps array isn't included.
+        """
+        m = len(pattern)
+        lps_array = [0] * m
+        i, j = 1, 0  # start from the 2nd character in pattern
+        while i < m:
+            if pattern[i] == pattern[j]:
+                lps_array[i] = j + 1
+                j += 1
+                i += 1
+            else:
+                if j > 0:
+                    j = lps_array[j - 1]
+                else:
+                    lps_array[i] = 0
+                    i += 1
+        return lps_array
+
+    def strStr(self, text, pattern):
+        """ Returns index of 1st occurence of pattern in text.
+        Returns -1 if pattern is not in the text.
+        Knuth–Morris–Pratt algorithm.
+        Time complexity: O(n + m). Space complexity: O(m).
+        """
+        # special cases
+        if not text and not pattern:
+            return 0
+        elif not pattern:
+            return 0
+
+        # build longest proper suffix array for pattern
+        lps_array = self.build_lps(pattern)
+
+        n, m = len(text), len(pattern)
+        i, j = 0, 0
+        while i < n:
+            # current characters match, move to the next characters
+            if text[i] == pattern[j]:
+                i += 1
+                j += 1
+            # current characters don't match
+            else:
+                if j > 0:  # try start with previous longest prefix
+                    j = lps_array[j - 1]
+                # 1st character of pattern doesn't match character in text
+                # go to the next character in text
+                else:
+                    i += 1
+
+            # whole pattern matches text, match is found
+            if j == m:
+                return i - m
+
+        # no match was found
+        return -1
+```
 
 ## Tree <a name='tree'></a>
 ---
