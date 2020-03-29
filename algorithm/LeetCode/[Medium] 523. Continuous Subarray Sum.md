@@ -25,7 +25,27 @@ Explanation: Because [23, 2, 6, 4, 7] is an continuous subarray of size 5 and su
 
 # Submissions
 ---
-**Solution 1:**
+**Solution 1: (DP Top Down, Line 13: RecursionError: maximum recursion depth exceeded
+Last executed i)**
+```python
+class Solution:
+    def checkSubarraySum(self, nums: List[int], k: int) -> bool:
+        N = len(nums)
+        if N < 2: return 0
+        
+        @functools.lru_cache(None)
+        def dp(i, j ,target):
+            if j >= N:
+                return False
+            target += nums[j]
+            if j - i >= 1 and (k and target%k == 0 or k == 0 and target == 0):
+                return True
+            return dp(i, j+1, target) or dp(i+1, i+1, 0)
+            
+        return dp(0, 0, 0)
+```
+
+**Solution 1: (Greedy, Prefix Sum)**
 
 At first, we calculate prefix_sum cumsum
 d = b - a( b is on the right of a).
@@ -44,7 +64,7 @@ class Solution:
         for n in nums:
             cumsum.append(cumsum[-1]+n)
         record = {}
-        for a,b in zip(cumsum[:-1],cumsum[1:]):
+        for a,b in zip(cumsum[:-1],cumsum[1:]):  # subarry need at least 2 elements
             b = b%k if k else b
             a = a%k if k else a
             if b in record:

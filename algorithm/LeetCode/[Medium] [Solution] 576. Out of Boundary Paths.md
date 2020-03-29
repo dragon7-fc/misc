@@ -1,6 +1,6 @@
 576. Out of Boundary Paths
 
-There is an **m** by **n** grid with a ball. Given the start coordinate **(i,j)** of the ball, you can move the ball to **adjacent** cell or cross the grid boundary in four directions (up, down, left, right). However, you can **at most** move **N** times. Find out the number of paths to move the ball out of grid boundary. The answer may be very large, return it after mod 109 + 7.
+There is an **m** by **n** grid with a ball. Given the start coordinate **(i,j)** of the ball, you can move the ball to **adjacent** cell or cross the grid boundary in four directions (up, down, left, right). However, you can **at most** move **N** times. Find out the number of paths to move the ball out of grid boundary. The answer may be very large, return it after mod 10^9 + 7.
 
  
 
@@ -155,7 +155,7 @@ public class Solution {
 
 # Submissions
 ---
-**Solution**
+**Solution: (Dynamic Programming Bottom-Up)**
 ```
 Runtime: 224 ms
 Memory Usage: 13.8 MB
@@ -182,4 +182,25 @@ class Solution:
                     temp[i][j] = (((dp[i - 1][j] if i > 0 else 0) + (dp[i + 1][j] if i < m - 1 else 0)) % M + ((dp[i][j - 1] if j > 0 else 0) + (dp[i][j + 1] if j < n - 1 else 0)) % M) % M;
             dp = temp
         return count
+```
+
+**Solution 2: (DP Top-Down)**
+```
+Runtime: 80 ms
+Memory Usage: 19.9 MB
+```
+```python
+class Solution:
+    def findPaths(self, m: int, n: int, N: int, i: int, j: int) -> int:
+        MOD = 10**9 + 7
+        
+        @functools.lru_cache(None)
+        def dfs(r, c, target):
+            if r == m or c == n or r < 0 or c < 0:
+                return 1
+            if target == 0:
+                return 0
+            return ((dfs(r-1,c, target-1) + dfs(r+1, c, target-1))%MOD + (dfs(r, c-1, target-1) + dfs(r, c+1, target-1))%MOD) % MOD
+        
+        return dfs(i, j, N)
 ```

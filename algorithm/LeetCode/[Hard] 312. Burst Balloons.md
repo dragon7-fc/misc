@@ -60,8 +60,8 @@ class Solution:
 ![312_2.jpeg](img/312_2.jpeg)
 
 ```
-Runtime: 980 ms
-Memory Usage: 15.3 MB
+Runtime: 476 ms
+Memory Usage: 16.3 MB
 ```
 ```python
 import functools
@@ -69,19 +69,19 @@ class Solution:
     def maxCoins(self, nums: List[int]) -> int:
         
         @functools.lru_cache(None)
-        def dfs(seq, lower, upper):
+        def dfs(lower, upper):
             max_coins = 0
             for i in range(lower, upper+1):
-                coins = seq[lower-1] * seq[i] * seq[upper+1]
-                coins += dfs(seq, lower, i-1)
-                coins += dfs(seq, i+1, upper)
+                coins = nums_ext[lower-1] * nums_ext[i] * nums_ext[upper+1]
+                coins += dfs(lower, i-1)
+                coins += dfs(i+1, upper)
                 if coins > max_coins:
                     max_coins = coins
             return max_coins
-        
+
         nums_ext = [1] + [num for num in nums if num != 0] + [1]
         N = len(nums_ext) - 2
-        return dfs(tuple(nums_ext), 1, N)
+        return dfs(1, N)
 ```
 
 **Solution 3: (DP, Bottom-up)**
