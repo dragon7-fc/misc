@@ -1101,6 +1101,37 @@ class Solution:
 ```
 * [[Medium] [Solution] 300. Longest Increasing Subsequence](%5BMedium%5D%20%5BSolution%5D%20300.%20Longest%20Increasing%20Subsequence.md)
 
+### Using Recursion with memoization
+```python
+class Solution:
+    def shoppingOffers(self, price: List[int], special: List[List[int]], needs: List[int]) -> int:
+        def shopping(needs):
+            if memo[tuple(needs)]:
+                return memo[tuple(needs)]
+            res = dot(needs, price)
+            for s in special:
+                clone = needs.copy()
+                for j in range(len(needs)):
+                    diff = clone[j] - s[j]
+                    if diff < 0:
+                        break
+                    clone[j] = diff
+                    if j == len(needs)-1:
+                        res = min(res, s[j+1] + shopping(clone))
+            memo[tuple(needs)] = res
+            return res
+
+        def dot(a, b):
+            sum_ = 0;
+            for i in range(len(a)):
+                sum_ += a[i] * b[i]
+            return sum_
+
+        memo = collections.defaultdict(int)
+        return shopping(needs)
+```
+* [[Medium] [Solution] 638. Shopping Offers](%5BMedium%5D%20%5BSolution%5D%20638.%20Shopping%20Offers.md)
+
 ### Character match
 ```python
 import functools
@@ -1146,6 +1177,24 @@ class Solution:
         return dp[N]
 ```
 * [[Hard] [Solution] 97. Interleaving String](%5BHard%5D%20%5BSolution%5D%2097.%20Interleaving%20String.md)
+
+### 1-D Dynamic Programmming
+```python
+class Solution:
+    def kInversePairs(self, n: int, k: int) -> int:
+        dp = [0]*(k + 1)
+        MOD = 10**9 + 7
+        for i in range(1, n+1):
+            temp = [0]*(k + 1)
+            temp[0] = 1
+            for j in range(1, k+1):
+                val = (dp[j] + MOD - (dp[j - i] if (j - i) >= 0 else 0)) % MOD
+                temp[j] = (temp[j - 1] + val) % MOD
+            dp = temp
+
+        return ((dp[k] + MOD - (dp[k - 1] if k > 0 else 0)) % MOD)
+```
+* [[Hard] [Solution] 629. K Inverse Pairs Array](%5BHard%5D%20%5BSolution%5D%20629.%20K%20Inverse%20Pairs%20Array.md)
 
 ### Prefix + Suffix
 ```python

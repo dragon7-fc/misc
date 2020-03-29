@@ -188,7 +188,7 @@ Thus, now, $dp[i][j]=count(i,j)+\sum_{k=0}^{j-1} dp[i][k]$. Here, $count(i,j)$ r
 
 Now, we need to determine the value of $count(i,j)$ to be added to the sum of previous elements in a row, in order to update the $dp[i][j]$ entry. But, we need not traverse back in the previous row , since it contains entries representing the cumulative sums now. Thus, to obtain the sum of elements from $dp[i-1][j-i+1]$ to $dp[i-1][j]$(including both), we can directly use $dp[i-1][j] - dp[i-1][j-i]$.
 
-Now, to reflect the condition $\text{min}(j, i-1)$ used in the previous approaches, we can note that, we need to take the sum of only $i$ elements in the previous row, if ii elements exist till we reach the end of the array while traversing backwards. Otherwise, we simply take the sum of all the elements.
+Now, to reflect the condition $\text{min}(j, i-1)$ used in the previous approaches, we can note that, we need to take the sum of only $i$ elements in the previous row, if $i$ elements exist till we reach the end of the array while traversing backwards. Otherwise, we simply take the sum of all the elements.
 
 Only $i$ elements are considered because for generating $j$ new inverse pairs, by adding $i$ as the new number at the $j^{th}$ position, $j$ could reach only upto $i-1$, as discussed in the last approaches as well. Thus, we need to consider the sum of elements from $dp[i-1][j-(i-1)]$ to $dp[i-1][j]$(including both) using $dp[i-1][j] - dp[i-1][j-i]$ if j-i ≥ 0.
 
