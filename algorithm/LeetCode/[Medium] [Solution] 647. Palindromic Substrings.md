@@ -65,7 +65,7 @@ What follows is a discussion of why this algorithm works.
 
 **Algorithm**
 
-Our loop invariants will be that `center`, `right` is our knowledge of the palindrome with the largest right-most boundary with `center < i`, centered at `center` with right-boundary `right`. Also, `i > center`, and we've already computed all `Z[j]`'s for `j < i`.
+Our loop invariants will be that `center, right` is our knowledge of the palindrome with the largest right-most boundary with `center < i`, centered at `center` with right-boundary `right`. Also, `i > center`, and we've already computed all `Z[j]`'s for `j < i`.
 
 When `i < right`, we reflect `i` about center to be at some coordinate `j = 2 * center - i`. Then, limited to the interval with radius `right - i` and center `i`, the situation for `Z[i]` is the same as for `Z[j]`.
 
@@ -105,7 +105,7 @@ def countSubstrings(self, S):
 
 # Submissions
 ---
-**Solution:**
+**Solution: (Manacher's Algorithm)**
 ```
 Runtime: 36 ms
 Memory Usage: 12.8 MB
@@ -129,7 +129,7 @@ class Solution:
         return sum((v+1)//2 for v in manachers(s))
 ```
 
-**Solution:**
+**Solution: (Expand Around Center)**
 ```
 Runtime: 112 ms
 Memory Usage: 12.9 MB
@@ -147,4 +147,78 @@ class Solution:
                 left -= 1
                 right += 1
         return ans
+```
+
+**Solution 3: (DP Bottom-Up)**
+
+Start from the smallest palindrome.  
+It is either:
+* a single character, which is a palindrome by definition
+    * example: "a"
+* two characters that are the same
+    * example: "aa"
+    
++ To determine if bigger substring is a palindrome you should know
+
+    * if the inner substring is the palindrome and
+    * if the outer characters match
+
+```
+Runtime: 336 ms
+Memory Usage: 22.3 MB
+```
+```python
+class Solution:
+    def countSubstrings(self, s: str) -> int:
+        n = len(s)
+        res = 0
+        
+        # create a matrix to store info about the substring 
+        dp = [[0 for i in range(n)] for j in range(n)]
+        
+        # set single characters as palindromes
+        idx = 0
+        while idx < n:
+            dp[idx][idx] = 1
+            idx += 1
+            res += 1
+        
+        # fill the matrix 
+        # example1: "aaaaa"
+        # [1, 1, 1, 1, 1]
+        # [0, 1, 1, 1, 1]
+        # [0, 0, 1, 1, 1]
+        # [0, 0, 0, 1, 1]
+        # [0, 0, 0, 0, 1]
+        
+        # example2: "cdaabaad"
+        # [1, 0, 0, 0, 0, 0, 0, 0]
+        # [0, 1, 0, 0, 0, 0, 0, 1]
+        # [0, 0, 1, 1, 0, 0, 1, 0]
+        # [0, 0, 0, 1, 0, 1, 0, 0]
+        # [0, 0, 0, 0, 1, 0, 0, 0]
+        # [0, 0, 0, 0, 0, 1, 1, 0]
+        # [0, 0, 0, 0, 0, 0, 1, 0]
+        # [0, 0, 0, 0, 0, 0, 0, 1]
+        
+        for col in range(1, len(s)):
+            for row in range(col):
+                
+                # every two chars are palindromes as well
+                if row == col - 1 and s[col] == s[row]:
+                    dp[row][col] = 1
+                    res += 1
+                
+                # to determine if substring is a palindrome you should know 
+                # a) if the inner substring is the palindrome and
+                # b) if the outer characters match
+                elif dp[row + 1][col - 1] == 1 and s[col] == s[row]:
+                    dp[row][col] = 1
+                    res += 1
+        
+        # print matrix
+        # for line in dp:
+        #     print(line)
+        
+        return res
 ```

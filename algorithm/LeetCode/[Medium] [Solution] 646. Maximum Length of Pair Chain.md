@@ -76,7 +76,7 @@ class Solution(object):
 
 # Submissions
 ---
-**Solution 1:**
+**Solution 1: (Dynamic Programming Bottom-Up)**
 ```
 Runtime: 2676 ms
 Memory Usage: 14.1 MB
@@ -95,7 +95,7 @@ class Solution:
         return max(dp)
 ```
 
-**Solution 2:**
+**Solution 2: (Greedy)**
 ```
 Runtime: 236 ms
 Memory Usage: 14 MB
@@ -109,4 +109,32 @@ class Solution:
                 cur = y
                 ans += 1
         return ans
+```
+
+**Solution 3: (DP Top-Down)**
+```
+Runtime: 1088 ms
+Memory Usage: 14.5 MB
+```
+```python
+class Solution:
+    def findLongestChain(self, pairs: List[List[int]]) -> int:
+        N = len(pairs)
+        pairs.sort()
+        
+        @functools.lru_cache(None)
+        def dfs(i):
+            if i == N-1:
+                return 1
+            j, rst = i+1, 0
+            while j < N:
+                if pairs[i][1] < pairs[j][0]:
+                    rst = 1 + dfs(j)
+                    break
+                j += 1
+            rst = max(rst, dfs(i+1))
+            return rst
+            
+        return dfs(0)
+        
 ```
