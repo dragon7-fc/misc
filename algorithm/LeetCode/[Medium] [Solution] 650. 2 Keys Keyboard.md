@@ -61,7 +61,7 @@ class Solution(object):
 
 # Submissions
 ---
-**Solution 1:**
+**Solution 1: (Prime Factorization)**
 ```
 Runtime: 40 ms
 Memory Usage: 13.9 MB
@@ -77,4 +77,32 @@ class Solution:
                 n /= d
             d += 1
         return ans
+```
+
+**Solution 2: (DP Top-Down)**
+```
+Runtime: 192 ms
+Memory Usage: 32.6 MB
+```
+```python
+class Solution:
+    def minSteps(self, n: int) -> int:
+        
+        @functools.lru_cache(None)
+        def copy_or_paste(num_a, num_copied):
+            if num_a == n: #found a solution
+                return 0
+            if num_a > n or num_a + num_copied > n: # won't lead to a solution, so we stop.
+                return float('inf')
+                      
+            #try pasting, if we have something to paste
+            paste = 1 + copy_or_paste(num_a + num_copied, num_copied) if num_copied > 0 else float('inf')
+
+            # try copying, if what we have on the board is > what we have copied
+            copy_all = 1 + copy_or_paste(num_a, num_a) if num_a > num_copied else float('inf')
+                
+            return min(paste, copy_all)
+        
+        #start with 1 A on the board and 0 copied
+        return copy_or_paste(1, 0)
 ```
