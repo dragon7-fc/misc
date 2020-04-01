@@ -1063,6 +1063,26 @@ class Solution:
 ```
 * [[Medium] [Solution] 673. Number of Longest Increasing Subsequence](%5BMedium%5D%20%5BSolution%5D%20673.%20Number%20of%20Longest%20Increasing%20Subsequence.md)
 
+### Sum of Probability
+```python
+class Solution:
+    def knightProbability(self, N: int, K: int, r: int, c: int) -> float:
+        dp = [[0] * N for _ in range(N)]
+        dp[r][c] = 1
+        for _ in range(K):
+            dp2 = [[0] * N for _ in range(N)]
+            for r, row in enumerate(dp):
+                for c, val in enumerate(row):
+                    for dr, dc in ((2,1),(2,-1),(-2,1),(-2,-1),
+                                   (1,2),(1,-2),(-1,2),(-1,-2)):
+                        if 0 <= r + dr < N and 0 <= c + dc < N:
+                            dp2[r+dr][c+dc] += val / 8.0
+            dp = dp2
+
+        return sum(map(sum, dp))
+```
+* [[Medium] [Solution] 688. Knight Probability in Chessboard](%5BMedium%5D%20%5BSolution%5D%20688.%20Knight%20Probability%20in%20Chessboard.md)
+
 ### Count on every level
 ```python
 class Solution:

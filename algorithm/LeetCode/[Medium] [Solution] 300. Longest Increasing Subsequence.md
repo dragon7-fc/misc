@@ -212,8 +212,27 @@ Note: Arrays.binarySearch() method returns index of the search key, if it is con
 
 # Submissions
 ---
+**Solution 1: (DP Top-Down, Memory Limit Exceeded)**
+```python
+class Solution:
+    def lengthOfLIS(self, nums: List[int]) -> int:
+        N = len(nums)
+        if N == 0: return 0
 
-**Solution 1: (DP Top-Down Memorization)**
+        @functools.lru_cache(None)
+        def dfs(previndex, curpos):
+            if curpos == N:
+                return 0
+            taken = 0
+            if previndex < 0 or nums[curpos] > nums[previndex]:
+                taken = 1 + dfs(curpos, curpos + 1)
+            nottaken = dfs(previndex, curpos + 1)
+            return max(taken, nottaken)
+
+        return dfs(-1, 0)
+```
+
+**Solution 2: (DP Top-Down Memorization)**
 ```
 Runtime: 6540 ms
 Memory Usage: 242.9 MB
@@ -224,7 +243,6 @@ class Solution:
         N = len(nums)
         if N == 0: return 0
         memo = [[-1]*N for _ in range(N+1)]
-        ans = 0
         
         def dfs(previndex, curpos):
             if curpos == N:
@@ -241,7 +259,7 @@ class Solution:
         return dfs(-1, 0)
 ```
 
-**Solution 2: (DP Top-Down)**
+**Solution 3: (DP Top-Down)**
 ```
 Runtime: 1692 ms
 Memory Usage: 13.4 MB
@@ -272,7 +290,7 @@ class Solution:
         return maxans
 ```
 
-**Solution 2: (Dynamic Programming Bottom-Up)**
+**Solution 4: (Dynamic Programming Bottom-Up)**
 ```
 Runtime: 1020 ms
 Memory Usage: 14 MB
@@ -297,7 +315,7 @@ class Solution:
         return maxans
 ```
 
-**Solution 3: (Dynamic Programming with Binary Search)**
+**Solution 5: (Dynamic Programming with Binary Search)**
 ```
 Runtime: 40 ms
 Memory Usage: 12.8 MB
