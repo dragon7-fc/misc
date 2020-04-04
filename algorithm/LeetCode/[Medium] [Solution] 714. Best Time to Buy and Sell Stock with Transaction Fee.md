@@ -51,7 +51,7 @@ class Solution(object):
 
 # Submissions
 ---
-**Solution: (DP)**
+**Solution: (Dynamic Programming)**
 ```
 Runtime: 820 ms
 Memory Usage: 20.7 MB
@@ -59,8 +59,7 @@ Memory Usage: 20.7 MB
 ```python
 class Solution:
     def maxProfit(self, prices: List[int], fee: int) -> int:
-        cash = 0
-        hold = -prices[0]
+        cash, hold = 0, -prices[0]
         for i in range(1, len(prices)):
             cash = max(cash, hold + prices[i] - fee)  # sell stock
             hold = max(hold, cash - prices[i])  # buy stock
@@ -94,7 +93,7 @@ Memory Usage: 19.7 MB
 ```python
 class Solution:
     def maxProfit(self, prices: List[int], fee: int) -> int:
-        sell, buy = 0, float('-inf')
+        sell, buy = 0, float('-inf')  # sell = cash, buy = hold
         for i in range(len(prices)):
             buy = max(buy, sell - prices[i])
             sell = max(sell, buy + prices[i] - fee)
@@ -162,7 +161,6 @@ class Solution:
                 Min = price - fee
             elif price < Min:  # find min price
                 Min = price
-
 
         return Max
 ```

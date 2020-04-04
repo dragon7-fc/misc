@@ -72,7 +72,7 @@ class Solution(object):
 
 # Submissions
 ---
-**Solution 1:**
+**Solution 1: (Dynamic Programming, Bottom-Up)**
 
 ```
 Runtime: 712 ms
@@ -97,4 +97,25 @@ class Solution:
                                    dp[i][j+1] + ord(s2[j]))
 
         return dp[0][0]
+```
+
+**Solution 2: (DP Top-Down)**
+```
+Runtime: 1132 ms
+Memory Usage: 211.2 MB
+```
+```python
+class Solution:
+    def minimumDeleteSum(self, s1: str, s2: str) -> int:
+        M, N = len(s1), len(s2)
+        
+        @lru_cache(None)
+        def dfs(i, j): 
+            """Return sum of deleted chars for s1[:i] and s2[:j] to make them equal"""
+            if i == M: return sum(map(ord, s2[j:]))
+            if j == N: return sum(map(ord, s1[i:]))
+            if s1[i] == s2[j]: return dfs(i+1, j+1)
+            else: return min(dfs(i+1, j) + ord(s1[i]), dfs(i, j+1) + ord(s2[j]))
+            
+        return dfs(0, 0)
 ```

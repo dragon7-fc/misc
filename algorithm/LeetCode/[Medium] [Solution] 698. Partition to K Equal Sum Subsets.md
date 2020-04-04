@@ -172,7 +172,7 @@ class Solution:
         return search([0] * k)
 ```
 
-**Solution 2: (Dynamic Programming on Subsets of Input, Recursion, DP Top-down)**
+**Solution 2: (Dynamic Programming on Subsets of Input, DP Top-down, Memorization)**
 ```
 Runtime: 176 ms
 Memory Usage: 25.9 MB
@@ -192,6 +192,29 @@ class Solution:
                                  for i, num in enumerate(nums)
                                  if (used >> i) & 1 == 0 and num <= targ)
             return memo[used]
+
+        return search(0, target * k)
+```
+
+**Solution 3: (DP Top-Down)**
+```
+Runtime: 152 ms
+Memory Usage: 16.6 MB
+```
+```python
+class Solution:
+    def canPartitionKSubsets(self, nums: List[int], k: int) -> bool:
+        target, rem = divmod(sum(nums), k)
+        if rem or max(nums) > target: return False
+
+        @functools.lru_cache(None)
+        def search(used, todo):
+            if todo == 0:
+                return True
+            targ = (todo - 1) % target + 1  # maximum value that can be chosen so as to not cross a multiple of target
+            return any(search(used | (1<<i), todo - num)
+                                 for i, num in enumerate(nums)
+                                 if (used >> i) & 1 == 0 and num <= targ)
 
         return search(0, target * k)
 ```

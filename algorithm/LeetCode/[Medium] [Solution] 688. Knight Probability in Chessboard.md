@@ -155,3 +155,32 @@ class Solution:
 
         return sum(map(sum, dp))
 ```
+
+**Solution 2: (DP Top-Down)**
+```
+Runtime: 168 ms
+Memory Usage: 22.8 MB
+```
+```python
+class Solution:
+    def knightProbability(self, N: int, K: int, r: int, c: int) -> float:
+
+        @functools.lru_cache(None)
+        def dfs(k, r, c):
+            if r < 0 or r >= N or c < 0 or c >= N:
+                return 0
+            if k == 0:
+                return 1
+            shift = [(-1, -2),
+                     (-1, 2),
+                     (1, -2),
+                     (1, 2),
+                     (-2, -1),
+                     (-2, 1),
+                     (2, -1),
+                     (2, 1)
+                    ]
+            return sum(dfs(k-1, r+i, c+j) for i, j in shift) / 8
+ 
+        return dfs(K, r, c)
+```

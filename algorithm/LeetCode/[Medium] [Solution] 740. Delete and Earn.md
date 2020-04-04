@@ -45,7 +45,7 @@ Luckily, we can remedy this. Let's say we knew `using`, the value of our previou
 
 **Algorithm**
 
-For each unique value k of nums in increasing order, let's maintain the correct values of `avoid` and `using`, which represent the answer if we don't take or take `k` respectively.
+For each unique value `k` of `nums` in increasing order, let's maintain the correct values of `avoid` and `using`, which represent the answer if we don't take or take `k` respectively.
 
 If the new value `k` is adjacent to the previously largest value `prev`, then the answer if we must take `k` is (the point value of `k`) + `avoid`, while the answer if we must not take `k` is `max(avoid, using)`. Similarly, if `k` is not adjacent to `prev`, the answer if we must take `k` is (the point value of `k`) + `max(avoid, using)`, and the answer if we must not take `k` is `max(avoid, using)`.
 
@@ -76,7 +76,7 @@ class Solution(object):
 
 # Submissions
 ---
-**Solution**
+**Solution: (Dynamic Programming Bottom-Up)**
 
 ```
 Runtime: 68 ms
@@ -95,4 +95,65 @@ class Solution:
                 avoid, using = max(avoid, using), k * count[k] + avoid
             prev = k
         return max(avoid, using)
+```
+
+**Solution 2: (DP Bottom-Up)**
+```
+Runtime: 60 ms
+Memory Usage: 14 MB
+```
+```python
+class Solution:
+    def deleteAndEarn(self, nums: List[int]) -> int:
+        if not nums:
+            return 0
+        scores = {k: k * n for k, n in Counter(nums).items()}
+        if len(scores) == 1: 
+            return list(scores.values()).pop()
+        nums = sorted(scores.keys())
+        # index 0 for `i - 2`, `i - 1` left boundary validity.
+        dp = [0] * (len(nums) + 1)
+        prev = None
+        for i, k in enumerate(sorted(nums)):
+            i += 1
+            currScore = scores[nums[i - 1]]
+            if prev is not None and k == prev + 1:
+                dp[i] = max(
+                    dp[i - 2] + currScore,      # case 1. Keep the score 
+                    dp[i - 1])                  # case 2. Drop the score 
+            else:
+                dp[i] = dp[i - 1] + currScore   # happily keep the score
+            prev = k
+            
+        return dp[-1]
+```
+
+**Solution 3: (DP Top-Down)**
+```
+Runtime: 52 ms
+Memory Usage: 15.1 MB
+```
+```python
+class Solution:
+    def deleteAndEarn(self, nums: List[int]) -> int:
+        if not nums:
+            return 0
+        scores = {k: k * n for k, n in Counter(nums).items()}
+        if len(scores) == 1: 
+            return list(scores.values()).pop()
+        nums = sorted(scores.keys())
+        
+        @functools.lru_cache(None)
+        def dfs(j):
+            if j < 0:
+                return 0
+            currScore = scores[nums[j]]
+            if j == 0:
+                return currScore
+            elif nums[j] == nums[j - 1] + 1:
+                return max(dfs(j - 2) + currScore, dfs(j - 1))
+            else:
+                return dfs(j - 1) + currScore
+
+        return dfs(len(nums) - 1)
 ```

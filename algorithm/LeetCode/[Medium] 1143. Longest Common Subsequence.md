@@ -42,7 +42,7 @@ Explanation: There is no such common subsequence, so the result is 0.
 
 # Submissions
 ---
-**Solution 1:**
+**Solution 1: (DP Bottom-Up)**
 ```
 Runtime: 412 ms
 Memory Usage: 20.4 MB
@@ -62,4 +62,26 @@ class Solution:
                     dp[i][j] = max(dp[i-1][j], dp[i][j-1])
         
         return dp[M][N]
+```
+
+**Solution 2: (DP Top-Down)**
+```
+Runtime: 776 ms
+Memory Usage: 141.1 MB
+```
+```python
+class Solution:
+    def longestCommonSubsequence(self, text1: str, text2: str) -> int:
+        M, N = len(text1), len(text2)
+        
+        @functools.lru_cache(None)
+        def dfs(i, j):
+            if i == M or j == N:
+                return 0
+            if text1[i] == text2[j]:
+                return 1 + dfs(i+1, j+1)
+            else:
+                return max(dfs(i+1, j), dfs(i, j+1))
+            
+        return dfs(0, 0)
 ```

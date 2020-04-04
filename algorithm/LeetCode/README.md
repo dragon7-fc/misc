@@ -42,6 +42,7 @@ Happy Coding!!
 ### Table of Contents
 
 1. [Libraries](#libraries)
+1. [30-Day LeetCoding Challenge](#30day)
 1. [Array](#array)
 1. [Dynamic Programming](#dp)
 1. [Math](#math)
@@ -161,6 +162,13 @@ Happy Coding!!
 * `datetime.strptime(date_string, format)`
 
     * ex. datetime.strptime("21/11/06 16:30", "%d/%m/%y %H:%M") --> datetime.datetime(2006, 11, 21, 16, 30)
+
+## 30-Day LeetCoding Challenge <a name="30day"></a>
+---
+* [[Easy] [Solution] 136. Single Number](%5BEasy%5D%20%5BSolution%5D%20136.%20Single%20Number.md)
+* [[Easy] 202. Happy Number](%5BEasy%5D%20202.%20Happy%20Number.md)
+* [[Easy] 53. Maximum Subarray](%5BEasy%5D%2053.%20Maximum%20Subarray.md)
+* [[Easy] [Solution] 283. Move Zeroes](%5BEasy%5D%20%5BSolution%5D%20283.%20Move%20Zeroes.md)
 
 ## Array <a name="array"></a>
 ---
@@ -1015,7 +1023,7 @@ class Solution:
 ```
 * [[Hard] 363. Max Sum of Rectangle No Larger Than K](%5BHard%5D%20363.%20Max%20Sum%20of%20Rectangle%20No%20Larger%20Than%20K.md)
 
-### Taken/not-taken
+### Longest Increasing Subsequence
 ```python
 class Solution:
     def lengthOfLIS(self, nums: List[int]) -> int:
@@ -1037,8 +1045,96 @@ class Solution:
             return memo[previndex + 1][curpos]
 
         return dfs(-1, 0)
+    
+class Solution:
+    def lengthOfLIS(self, nums: List[int]) -> int:
+        if not nums:
+            return 0
+
+        N = len(nums)
+        dp = [0 for _ in range(N)]
+        dp[0] = 1
+        maxans = 1
+        for i in range(1, N):
+            maxval = 0
+            for j in range(i):
+                if nums[i] > nums[j]:
+                    maxval = max(maxval, dp[j])
+            dp[i] = maxval + 1
+            maxans = max(maxans, dp[i])
+        return maxans
 ```
 * [[Medium] [Solution] 300. Longest Increasing Subsequence](%5BMedium%5D%20%5BSolution%5D%20300.%20Longest%20Increasing%20Subsequence.md)
+
+### Longest Common Subarray
+```python
+class Solution:
+    def findLength(self, A: List[int], B: List[int]) -> int:
+        M, N = len(A), len(B)
+        ans = 0
+        mem = {}
+        
+        @functools.lru_cache(None)
+        def dfs(i, j):
+            nonlocal ans
+            if i == 0 or j == 0:
+                return 0
+            else:
+                rst = 0
+                if A[i-1] == B[j-1]:
+                    rst = 1 + dfs(i - 1, j - 1)
+                decrease_i = dfs(i - 1, j)
+                decrease_j = dfs(i, j - 1)
+                ans = max(ans, rst, decrease_i, decrease_j)
+                return rst
+
+        dfs(M, N)
+        return ans
+
+class Solution:
+    def findLength(self, A: List[int], B: List[int]) -> int:
+        memo = [[0] * (len(B) + 1) for _ in range(len(A) + 1)]
+        for i in range(len(A)):
+            for j in range(len(B)):
+                if A[i] == B[j]:
+                    memo[i+1][j+1] = memo[i][j]+1
+        return max(max(row) for row in memo)
+```
+* [[Medium] [Solution] 718. Maximum Length of Repeated Subarray](%5BMedium%5D%20%5BSolution%5D%20718.%20Maximum%20Length%20of%20Repeated%20Subarray.md)
+
+### Longest Common Subsequence
+```python
+class Solution:
+    def longestCommonSubsequence(self, text1: str, text2: str) -> int:
+        M, N = len(text1), len(text2)
+
+        @functools.lru_cache(None)
+        def dfs(i, j):
+            if i == M or j == N:
+                return 0
+            if text1[i] == text2[j]:
+                return 1 + dfs(i+1, j+1)
+            else:
+                return max(dfs(i+1, j), dfs(i, j+1))
+
+        return dfs(0, 0)
+    
+class Solution:
+    def longestCommonSubsequence(self, text1: str, text2: str) -> int:
+        M = len(text1)
+        N = len(text2)
+        dp = [[0]*(N+1) for _ in range(M+1)]
+
+        for i in range(1, M+1):
+            for j in range(1, N+1):
+                if text1[i-1] == text2[j-1]:
+                    dp[i][j] = 1 + dp[i-1][j-1]
+                else:
+                    dp[i][j] = max(dp[i-1][j], dp[i][j-1])
+
+        return dp[M][N]
+```
+* [[Medium] 1143. Longest Common Subsequence](%5BMedium%5D%201143.%20Longest%20Common%20Subsequence.md)
 
 ### longest number
 ```python
@@ -1065,6 +1161,28 @@ class Solution:
 
 ### Sum of Probability
 ```python
+class Solution:
+    def knightProbability(self, N: int, K: int, r: int, c: int) -> float:
+
+        @functools.lru_cache(None)
+        def dfs(k, r, c):
+            if r < 0 or r >= N or c < 0 or c >= N:
+                return 0
+            if k == 0:
+                return 1
+            shift = [(-1, -2),
+                     (-1, 2),
+                     (1, -2),
+                     (1, 2),
+                     (-2, -1),
+                     (-2, 1),
+                     (2, -1),
+                     (2, 1)
+                    ]
+            return sum(dfs(k-1, r+i, c+j) for i, j in shift) / 8
+
+        return dfs(K, r, c)
+
 class Solution:
     def knightProbability(self, N: int, K: int, r: int, c: int) -> float:
         dp = [[0] * N for _ in range(N)]
@@ -1174,6 +1292,26 @@ class Solution:
         return shopping(needs)
 ```
 * [[Medium] [Solution] 638. Shopping Offers](%5BMedium%5D%20%5BSolution%5D%20638.%20Shopping%20Offers.md)
+
+### Dynamic Programming on Subsets of Input
+```python
+class Solution:
+    def canPartitionKSubsets(self, nums: List[int], k: int) -> bool:
+        target, rem = divmod(sum(nums), k)
+        if rem or max(nums) > target: return False
+
+        @functools.lru_cache(None)
+        def search(used, todo):
+            if todo == 0:
+                return True
+            targ = (todo - 1) % target + 1  # maximum value that can be chosen so as to not cross a multiple of target
+            return any(search(used | (1<<i), todo - num)
+                                 for i, num in enumerate(nums)
+                                 if (used >> i) & 1 == 0 and num <= targ)
+
+        return search(0, target * k)
+```
+* [[Medium] [Solution] 698. Partition to K Equal Sum Subsets](%5BMedium%5D%20%5BSolution%5D%20698.%20Partition%20to%20K%20Equal%20Sum%20Subsets.md)
 
 ### Character match
 ```python

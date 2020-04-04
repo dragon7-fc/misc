@@ -78,7 +78,7 @@ class Solution(object):
 
 # Submissions
 ---
-**Solution 1: (Ad-Hoc)**
+**Solution 1: (Ad-Hoc, Prefix Sum, DP)**
 ```
 Runtime: 212 ms
 Memory Usage: 15.3 MB

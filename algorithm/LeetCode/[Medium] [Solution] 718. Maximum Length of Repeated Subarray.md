@@ -188,8 +188,8 @@ class Solution(object):
 # Submissions
 ---
 
-**Solution 0: (DP: Top-Down, Time Time Limit Exceeded)**
-```
+**Solution 1: (DP: Top-Down, Time Time Limit Exceeded)**
+```python
 import functools
 class Solution:
     def findLength(self, A: List[int], B: List[int]) -> int:
@@ -205,10 +205,36 @@ class Solution:
                 res = dfs(i-1, j-1, k+1)
             return max(res, max(dfs(i-1, j, 0), dfs(i, j-1, 0)))
             
-        return dfs(M-1, N-1, 1)
+        return dfs(M-1, N-1, 0)
 ```
 
-**Solution 1: (DP: Bottom-Up)**
+**Solution 2: (DP Top-Down, Time Time Limit Exceeded)**
+```python
+class Solution:
+    def findLength(self, A: List[int], B: List[int]) -> int:
+        M, N = len(A), len(B)
+        ans = 0
+        mem = {}
+        
+        @functools.lru_cache(None)
+        def dfs(i, j):
+            nonlocal ans
+            if i == 0 or j == 0:
+                return 0
+            else:
+                rst = 0
+                if A[i-1] == B[j-1]:
+                    rst = 1 + dfs(i - 1, j - 1)
+                decrease_i = dfs(i - 1, j)
+                decrease_j = dfs(i, j - 1)
+                ans = max(ans, rst, decrease_i, decrease_j)
+                return rst
+
+        dfs(M, N)
+        return ans
+```
+
+**Solution 3: (DP Bottom-Up)**
 ```
 Runtime: 2512 ms
 Memory Usage: 39.1 MB
@@ -223,7 +249,7 @@ class Solution:
                     memo[i][j] = memo[i+1][j+1]+1
         return max(max(row) for row in memo)
 ```
-**Solution 2: (DP: Bottom-Up)**
+**Solution 4: (DP Bottom-Up)**
 ```
 Runtime: 2728 ms
 Memory Usage: 37.9 MB
@@ -239,7 +265,7 @@ class Solution:
         return max(max(row) for row in memo)
 ```
 
-**Solution 3: (Binary Search with Rolling Hash)**
+**Solution 5: (Binary Search with Rolling Hash)**
 ```
 Runtime: 236 ms
 Memory Usage: 14 MB

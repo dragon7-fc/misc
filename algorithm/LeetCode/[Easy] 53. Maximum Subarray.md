@@ -32,3 +32,52 @@ class Solution:
                 nums[i] += nums[i-1]
         return max(nums)
 ```
+
+**Solution 2: (DP)**
+```
+Runtime: 72 ms
+Memory Usage: 14.5 MB
+```
+```python
+class Solution:
+    def maxSubArray(self, nums: List[int]) -> int:
+        N = len(nums)
+        curr_sum = max_sum = nums[0]
+
+        for i in range(1, N):
+            curr_sum = max(nums[i], curr_sum + nums[i])
+            max_sum = max(max_sum, curr_sum)
+
+        return max_sum
+```
+
+**Solution 3: (Divide and Conquer)**
+```
+Runtime: 164 ms
+Memory Usage: 14.6 MB
+```
+```python
+class Solution:
+    def maxSubArray(self, nums: List[int]) -> int:
+        
+        def divide(nums, l, r):
+            if l == r:
+                return nums[l]
+            mid = l + (r - l)//2
+            lmax = divide(nums, l, mid)
+            rmax = divide(nums, mid+1, r)
+            rst, cross_left, cross_right = 0, float('-inf'), float('-inf')
+            for i in range(mid, l-1, -1):
+                rst += nums[i]
+                cross_left = max(rst, cross_left)
+            rst = 0
+            for j in range(mid+1, r+1):
+                rst += nums[j]
+                cross_right = max(rst, cross_right)
+            return max(lmax, rmax, cross_left + cross_right)
+
+        ans = divide(nums, 0, len(nums)-1)
+        return ans
+                
+            
+```
