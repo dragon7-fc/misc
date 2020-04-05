@@ -2595,6 +2595,20 @@ class Solution:
 ```
 * [[Medium] [Solution] 954. Array of Doubled Pairs](%5BMedium%5D%20%5BSolution%5D%20954.%20Array%20of%20Doubled%20Pairs.md)
 
+## Prefix Sum
+```python
+class Solution:
+    def maxSatisfaction(self, satisfaction: List[int]) -> int:
+        res = total = 0
+        satisfaction.sort()
+        while satisfaction and satisfaction[-1] + total > 0:
+            total += satisfaction.pop()
+            res += total
+            
+        return res
+```
+* [[Hard] 1402. Reducing Dishes](%5BHard%5D%201402.%20Reducing%20Dishes.md)
+
 **Template 1:**
 ```python
 ans = []
