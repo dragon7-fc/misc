@@ -143,8 +143,26 @@ class Solution:
 
         return dfs(0, len(piles)-1) >= 0
 ```
+**Solution 3: (DP Top-Down)**
+```
+Runtime: 464 ms
+Memory Usage: 66.2 MB
+```
+```python
+class Solution:
+    def stoneGame(self, piles: List[int]) -> bool:
+        
+        @functools.lru_cache(None)
+        def dfs(i, j):
+            if i + 1 == j:
+                return max(piles[i], piles[j])
+            return max(piles[i] + min(dfs(i + 2, j), dfs(i + 1, j - 1)), piles[j] + min(dfs(i, j - 2), dfs(i + 1, j - 1)))
 
-**Solution 3: ()**
+        alex_score = dfs(0, len(piles) - 1)
+        return alex_score > sum(piles) - alex_score 
+```
+
+**Solution 4: (Mathematical)**
 ```
 Runtime: 36 ms
 Memory Usage: 12.7 MB

@@ -169,6 +169,7 @@ Happy Coding!!
 * [[Easy] 202. Happy Number](%5BEasy%5D%20202.%20Happy%20Number.md)
 * [[Easy] 53. Maximum Subarray](%5BEasy%5D%2053.%20Maximum%20Subarray.md)
 * [[Easy] [Solution] 283. Move Zeroes](%5BEasy%5D%20%5BSolution%5D%20283.%20Move%20Zeroes.md)
+* [[Easy] [Solution] 122. Best Time to Buy and Sell Stock II](%5BEasy%5D%20%5BSolution%5D%20122.%20Best%20Time%20to%20Buy%20and%20Sell%20Stock%20II.md)
 
 ## Array <a name="array"></a>
 ---
@@ -902,23 +903,18 @@ class Solution:
 
 ### Top-down
 ```python
-from functools import lru_cache
-
+import functools
 class Solution:
-    def stoneGame(self, piles):
-        N = len(piles)
+    def stoneGame(self, piles: List[int]) -> bool:
+        @functools.lru_cache(None)
+        def dfs(i, j):
+            if i == j:
+                return piles[i]
+            a = piles[i] - dfs(i+1, j)
+            b = piles[j] - dfs(i, j-1)
+            return max(a, b)
 
-        @lru_cache(None)
-        def dp(i, j):
-            # The value of the game [piles[i], piles[i+1], ..., piles[j]].
-            if i > j: return 0
-            parity = (j - i - N) % 2
-            if parity == 1:  # first player
-                return max(piles[i] + dp(i+1,j), piles[j] + dp(i,j-1))
-            else:
-                return min(-piles[i] + dp(i+1,j), -piles[j] + dp(i,j-1))
-
-        return dp(0, N - 1) > 0
+        return dfs(0, len(piles)-1) >= 0
 ```
 * [[Medium] [Solution] 877. Stone Game](%5BMedium%5D%20%5BSolution%5D%20877.%20Stone%20Game.md)
 
@@ -4564,6 +4560,40 @@ class Solution:
         return float(ans)
 ```
 * [[Hard] [Solution] 857. Minimum Cost to Hire K Workers](%5BHard%5D%20%5BSolution%5D%20857.%20Minimum%20Cost%20to%20Hire%20K%20Workers.md)
+
+### Max Heap Frequency
+```python
+class Solution:
+    def longestDiverseString(self, a: int, b: int, c: int) -> str:
+        max_heap = []
+        if a != 0:
+            heappush(max_heap, (-a, 'a'))
+        if b != 0:
+            heappush(max_heap, (-b, 'b'))
+        if c != 0:
+            heappush(max_heap, (-c, 'c'))
+        s = []
+        while max_heap:
+            first, char1 = heappop(max_heap) # char with most rest numbers
+            if len(s) >= 2 and s[-1] == s[-2] == char1: # check whether this char is the same with previous two
+                if not max_heap: # if there is no other choice, just return
+                    return ''.join(s)
+                second, char2 = heappop(max_heap) # char with second most rest numbers
+                s.append(char2)
+                second += 1 # count minus one, because the second here is negative, thus add 1
+                if second != 0: # only if there is rest number count, add it back to heap
+                    heappush(max_heap, (second, char2))
+                heappush(max_heap, (first, char1)) # also need to put this part back to heap
+                continue
+                
+            #  situation that this char can be directly added to answer
+            s.append(char1)
+            first += 1
+            if first != 0:
+                heappush(max_heap, (first, char1))
+        return ''.join(s)
+```
+* [[Medium] 1405. Longest Happy String](LeetCode/%5BMedium%5D%201405.%20Longest%20Happy%20String.md)
 
 ### Most recent min/max
 ```python

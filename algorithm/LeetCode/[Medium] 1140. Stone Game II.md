@@ -1,6 +1,6 @@
 1140. Stone Game II
 
-Alex and Lee continue their games with piles of stones.  There are a number of piles **arranged in a row**, and each pile has a positive integer number of stones piles[i].  The objective of the game is to end with the most stones. 
+Alex and Lee continue their games with piles of stones.  There are a number of piles **arranged in a row**, and each pile has a positive integer number of stones `piles[i]`.  The objective of the game is to end with the most stones. 
 
 Alex and Lee take turns, with Alex starting first.  Initially, `M = 1`.
 
@@ -27,7 +27,7 @@ Explanation:  If Alex takes one pile at the beginning, Lee takes two piles, then
 
 # Submissions
 ---
-**Solution 1:**
+**Solution 1: (DP Bottom-up, Prefix Sum)**
 ```
 Runtime: 104 ms
 Memory Usage: 12.9 MB
@@ -45,4 +45,28 @@ class Solution:
                 if i + 2*m < n:
                     dp[i][m] -= min(dp[i+x][max(m,x)] for x in range(1,2*m+1))
         return dp[0][1]
+```
+
+**Solution 2: (DP Top-Down, Prefix Sum)**
+```
+Runtime: 60 ms
+Memory Usage: 14.4 MB
+```
+```python
+class Solution:
+    def stoneGameII(self, piles: List[int]) -> int:
+        N = len(piles)
+        sums = [0] * (N+1)
+        for lo in range(N-1, -1, -1):
+            sums[lo] = sums[lo+1] + piles[lo]
+        @lru_cache(None)
+        def dfs(index, M):
+            if index + 2 * M >= N: 
+                return sums[index]
+            res = 0
+            for i in range(1, 2*M+1):
+                res = max(res, sums[index] - dfs(index+i, max(M,i)))
+            return res
+        
+        return dfs(0, 1)
 ```
