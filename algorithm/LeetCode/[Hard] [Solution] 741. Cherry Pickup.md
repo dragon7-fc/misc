@@ -109,7 +109,7 @@ class Solution(object):
 
 Instead of walking from end to beginning, let's reverse the second leg of the path, so we are only considering two paths from the beginning to the end.
 
-Notice after `t` steps, each position `(r, c)` we could be, is on the line `r + c = t`. So if we have two people at positions `(r1, c1)` and `(r2, c2)`, then `r2 = r1 + c1 - c2`. That means the variables `r1, c1, c2` uniquely determine `2` people who have walked the same `r1 + c1` number of steps. This sets us up for dynamic programming quite nicely.
+Notice after `t` steps, each position `(r, c)` we could be, is on the line `r + c = t`. So if we have two people at positions `(r1, c1)` and `(r2, c2)`, then `r2 = r1 + c1 - c2`. That means the variables `r1, c1, c2` uniquely determine 2 people who have walked the same `r1 + c1` number of steps. This sets us up for dynamic programming quite nicely.
 
 **Algorithm**
 
@@ -195,3 +195,55 @@ class Solution(object):
 
 # Submissions
 ---
+**Solution 1: (DP Top-Down)**
+```
+Runtime: 560 ms
+Memory Usage: 64.7 MB
+```
+```python
+class Solution:
+    def cherryPickup(self, grid: List[List[int]]) -> int:
+        N = len(grid)
+        
+        @functools.lru_cache(None)
+        def dp(r1, c1, c2):
+            r2 = r1 + c1 - c2
+            if (N == r1 or N == r2 or N == c1 or N == c2 or
+                    grid[r1][c1] == -1 or grid[r2][c2] == -1):
+                return float('-inf')
+            elif r1 == c1 == N-1:
+                return grid[r1][c1]
+            else:
+                ans = grid[r1][c1] + (c1 != c2) * grid[r2][c2]
+                ans += max(dp(r1, c1+1, c2+1), dp(r1+1, c1, c2+1),
+                           dp(r1, c1+1, c2), dp(r1+1, c1, c2))
+            return ans
+
+        return max(0, dp(0, 0, 0))
+```
+
+**Solution 2: (DP Bottom-Up)**
+```
+Runtime: 1224 ms
+Memory Usage: 14 MB
+```
+```python
+class Solution:
+    def cherryPickup(self, grid: List[List[int]]) -> int:
+        N = len(grid)
+        dp = [[float('-inf')] * N for _ in range(N)]
+        dp[0][0] = grid[0][0]
+        for t in range(1, 2*N - 1):
+            dp2 = [[float('-inf')] * N for _ in range(N)]
+            for i in range(max(0, t-(N-1)), min(N-1, t) + 1):
+                for j in range(max(0, t-(N-1)), min(N-1, t) + 1):
+                    if grid[i][t-i] == -1 or grid[j][t-j] == -1:
+                        continue
+                    val = grid[i][t-i]
+                    if i != j: val += grid[j][t-j]
+                    dp2[i][j] = max(dp[pi][pj] + val
+                                    for pi in (i-1, i) for pj in (j-1, j)
+                                    if pi >= 0 and pj >= 0)
+            dp = dp2
+        return max(0, dp[N-1][N-1])
+```
