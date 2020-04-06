@@ -1,10 +1,10 @@
 764. Largest Plus Sign
 
-In a 2D grid from `(0, 0)` to `(N-1, N-1)`, every cell contains a `1`, except those cells in the given list mines which are `0`. What is the largest axis-aligned plus sign of `1`s contained in the grid? Return the order of the plus sign. If there is none, return `0`.
+In a 2D grid from `(0, 0)` to `(N-1, N-1)`, every cell contains a `1`, except those cells in the given list `mines` which are `0`. What is the largest axis-aligned plus sign of `1`s contained in the grid? Return the order of the plus sign. If there is none, return `0`.
 
 An "axis-aligned plus sign of `1`s of order **k**" has some center `grid[x][y] = 1` along with 4 arms of length `k-1` going up, down, left, and right, and made of 1s. This is demonstrated in the diagrams below. Note that there could be `0`s or `1`s beyond the arms of the plus sign, only the relevant area of the plus sign is checked for `1`s.
 
-Examples of Axis-Aligned Plus Signs of Order `k`:
+**Examples of Axis-Aligned Plus Signs of Order k:**
 
 ```
 Order 1:
@@ -149,7 +149,7 @@ class Solution(object):
 
 # Submissions
 ---
-**Solution**
+**Solution: (Dynamic Programming)**
 ```
 Runtime: 1868 ms
 Memory Usage: 16.8 MB
@@ -161,28 +161,28 @@ class Solution:
         dp = [[0] * N for _ in range(N)]
         ans = 0
         
-        for r in range(N):
+        for r in range(N):  # for every row
             count = 0
-            for c in range(N):
+            for c in range(N):  # from left to right
                 count = 0 if (r,c) in banned else count+1
                 dp[r][c] = count
             
             count = 0
-            for c in range(N-1, -1, -1):
+            for c in range(N-1, -1, -1):  # from right to left
                 count = 0 if (r,c) in banned else count+1
                 if count < dp[r][c]: dp[r][c] = count
         
-        for c in range(N):
+        for c in range(N):  # for every column
             count = 0
-            for r in range(N):
+            for r in range(N):  # from top - bottom
                 count = 0 if (r,c) in banned else count+1
                 if count < dp[r][c]: dp[r][c] = count
             
             count = 0
-            for r in range(N-1, -1, -1):
+            for r in range(N-1, -1, -1):  from bottom to up
                 count = 0 if (r, c) in banned else count+1
                 if count < dp[r][c]: dp[r][c] = count
-                if dp[r][c] > ans: ans = dp[r][c]
+                if dp[r][c] > ans: ans = dp[r][c]  # update an
         
         return ans
 ```

@@ -66,7 +66,7 @@ class Solution:
         return min(f1, f2)
 ```
 
-**Solution 2: (DP)**
+**Solution 2: (DP Bottom-Up)**
 ```
 Runtime: 28 ms
 Memory Usage: N/A
@@ -87,4 +87,55 @@ class Solution(object):
             dp[i] = min(dp[i-1], dp[i-2]) + cost[i]
             
         return min(dp[n-1], dp[n-2])
+```
+
+**Solution 3: (DP Bottom-Up)**
+```
+Runtime: 68 ms
+Memory Usage: 13.8 MB
+```
+```python
+class Solution:
+    def minCostClimbingStairs(self, cost: List[int]) -> int:
+        cost.append(0)
+        for i in range(2, len(cost)): cost[i] += min(cost[i - 2], cost[i - 1])
+        return cost[-1]
+```
+
+**Solution 4: (DP Top-Down)**
+```
+Runtime: 132 ms
+Memory Usage: 16.5 MB
+```
+```python
+class Solution:
+    def minCostClimbingStairs(self, cost: List[int]) -> int:
+        N = len(cost)
+        
+        @functools.lru_cache(None)
+        def dfs(i):
+            if i <= 1:
+                return cost[i]
+            return cost[i] + min(dfs(i-1), dfs(i-2))
+        
+        return min(dfs(N-1), dfs(N-2))
+```
+
+**Solution 5: (DP Top-Down)**
+```
+Runtime: 128 ms
+Memory Usage: 16.4 MB
+```
+```python
+class Solution:
+    def minCostClimbingStairs(self, cost: List[int]) -> int:
+        N = len(cost)
+        
+        @functools.lru_cache(None)
+        def dfs(i):
+            if i <= 1:
+                return 0
+            return min(dfs(i-1) + cost[i-1], dfs(i-2) + cost[i-2])
+        
+        return dfs(N)
 ```

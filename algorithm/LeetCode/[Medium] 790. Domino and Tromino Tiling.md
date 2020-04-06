@@ -30,7 +30,7 @@ XYZ YYZ XZZ XYY XXY
 
 # Submissions
 ---
-**Solution 1:**
+**Solution 1: (DP Bottom-Up)**
 
 Tiles can end at column `i` with one of the three ending states:
 

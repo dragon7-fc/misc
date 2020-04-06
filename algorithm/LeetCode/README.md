@@ -1309,6 +1309,41 @@ class Solution:
 ```
 * [[Medium] [Solution] 698. Partition to K Equal Sum Subsets](%5BMedium%5D%20%5BSolution%5D%20698.%20Partition%20to%20K%20Equal%20Sum%20Subsets.md)
 
+### Direction Buffer
+```python
+class Solution:
+    def orderOfLargestPlusSign(self, N: int, mines: List[List[int]]) -> int:
+        banned = {tuple(mine) for mine in mines}
+        dp = [[0] * N for _ in range(N)]
+        ans = 0
+        
+        for r in range(N):  # for every row
+            count = 0
+            for c in range(N):  # from left to right
+                count = 0 if (r,c) in banned else count+1
+                dp[r][c] = count
+            
+            count = 0
+            for c in range(N-1, -1, -1):  # from right to left
+                count = 0 if (r,c) in banned else count+1
+                if count < dp[r][c]: dp[r][c] = count
+        
+        for c in range(N):  # for every column
+            count = 0
+            for r in range(N):  # from top - bottom
+                count = 0 if (r,c) in banned else count+1
+                if count < dp[r][c]: dp[r][c] = count
+            
+            count = 0
+            for r in range(N-1, -1, -1):  from bottom to up
+                count = 0 if (r, c) in banned else count+1
+                if count < dp[r][c]: dp[r][c] = count
+                if dp[r][c] > ans: ans = dp[r][c]  # update an
+        
+        return ans
+```
+* [[Medium] [Solution] 764. Largest Plus Sign](%5BMedium%5D%20%5BSolution%5D%20764.%20Largest%20Plus%20Sign.md)
+
 ### Character match
 ```python
 import functools
@@ -6926,6 +6961,28 @@ class Solution:
         return ans if ans < float("inf") else 0
 ```
 * [[Medium] [Solution] 963. Minimum Area Rectangle II](%5BMedium%5D%20%5BSolution%5D%20963.%20Minimum%20Area%20Rectangle%20II.md)
+
+### Overlap
+```python
+class Solution:
+    def checkOverlap(self, radius: int, x_center: int, y_center: int, x1: int, y1: int, x2: int, y2: int) -> bool:
+        corners = [(x1,y1), (x2,y1), (x2,y2), (x1, y2)]
+        for (x, y) in corners:
+            if (x_center - x)**2 + (y_center - y)**2 <= radius**2:
+                return True
+
+        for x in [x1, x2]:
+            if x_center - radius <= x <= x_center + radius and y2 - y_center >= 0 and y1 - y_center <= 0:
+                return True
+        for y in [y1, y2]:
+            if y_center - radius <= y <= y_center + radius and x2 - x_center >= 0 and x1 - x_center <= 0:
+                return True
+
+        if x1 <= x_center <= x2 and y1 <= y_center <= y2:
+            return True
+        return False 
+```
+* [[Medium] 1401. Circle and Rectangle Overlapping](%5BMedium%5D%201401.%20Circle%20and%20Rectangle%20Overlapping.md)
 
 ### Monotone Chain
 ```python
