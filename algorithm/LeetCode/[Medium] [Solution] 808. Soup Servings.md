@@ -1,6 +1,6 @@
 808. Soup Servings
 
-There are two types of soup: type `A` and type `B`. Initially we have N ml of each type of soup. There are four kinds of operations:
+There are two types of soup: type `A` and type `B`. Initially we have `N` ml of each type of soup. There are four kinds of operations:
 
 1. Serve 100 ml of soup A and 0 ml of soup B
 1. Serve 75 ml of soup A and 25 ml of soup B
@@ -77,7 +77,7 @@ class Solution(object):
 
 # Submissions
 ---
-**Solution:**
+**Solution: (Dynamic Programming Top-Down)**
 ```
 Runtime: 44 ms
 Memory Usage: 13.7 MB

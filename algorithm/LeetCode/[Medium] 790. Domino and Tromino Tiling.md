@@ -32,6 +32,42 @@ XYZ YYZ XZZ XYY XXY
 ---
 **Solution 1: (DP Bottom-Up)**
 
+The idea of this problem is demonstrated in the picture below, after some failure and this is the thing I finally came up.
+
+![790_image_1585811937.png](img/790_image_1585811937.png)
+```
+Runtime: 48 ms
+Memory Usage: 13.9 MB
+```
+```python
+class Solution:
+    def numTilings(self, N: int) -> int:
+        MOD = 10**9 + 7
+        if N == 1:
+            return 1
+        dp = [[0]*3 for _ in range(N+2)]
+        # base
+        dp[0][0] = dp[1][0] = dp[1][1] = dp[1][2] = 1
+        # rest
+        for i in range(N):
+            for j in range(3):
+                if j == 0:
+                    dp[i+1][0] += dp[i][0]
+                    dp[i+2][0] += dp[i][0]
+                    dp[i+2][1] += dp[i][0]
+                    dp[i+2][2] += dp[i][0]
+                elif j == 1:
+                    dp[i+1][2] += dp[i][1]
+                    dp[i+1][0] += dp[i][1]
+                elif j == 2:
+                    dp[i+1][1] += dp[i][2]
+                    dp[i+1][0] += dp[i][2]
+                        
+        return dp[N-1][0] % MOD 
+```
+
+**Solution 1: (DP Bottom-Up)**
+
 Tiles can end at column `i` with one of the three ending states:
 
 ```

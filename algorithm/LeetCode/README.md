@@ -170,6 +170,7 @@ Happy Coding!!
 * [[Easy] 53. Maximum Subarray](%5BEasy%5D%2053.%20Maximum%20Subarray.md)
 * [[Easy] [Solution] 283. Move Zeroes](%5BEasy%5D%20%5BSolution%5D%20283.%20Move%20Zeroes.md)
 * [[Easy] [Solution] 122. Best Time to Buy and Sell Stock II](%5BEasy%5D%20%5BSolution%5D%20122.%20Best%20Time%20to%20Buy%20and%20Sell%20Stock%20II.md)
+* [[Medium] [Solution] 49. Group Anagrams](%5BMedium%5D%20%5BSolution%5D%2049.%20Group%20Anagrams.md)
 
 ## Array <a name="array"></a>
 ---
@@ -1343,6 +1344,63 @@ class Solution:
         return ans
 ```
 * [[Medium] [Solution] 764. Largest Plus Sign](%5BMedium%5D%20%5BSolution%5D%20764.%20Largest%20Plus%20Sign.md)
+
+### State Combination
+```python
+class Solution:
+    def numTilings(self, N: int) -> int:
+        MOD = 10**9 + 7
+        A = [0 for i in range(N+1)]
+        B = [0 for i in range(N+1)]
+        C = [0 for i in range(N+1)]
+        A[0] = 1
+        for i in range(1, N+1):
+            A[i] = (B[i-1] + C[i-1] + A[i-1] + (A[i-2] if i >=2 else 0)) % MOD
+            B[i] = (C[i-1] + (A[i-2] if i >=2 else 0)) % MOD
+            C[i] = (B[i-1] + (A[i-2] if i >=2 else 0)) % MOD
+        return A[-1]
+```
+* [[Medium] 790. Domino and Tromino Tiling](%5BMedium%5D%20790.%20Domino%20and%20Tromino%20Tiling.md)
+
+### Swap / not swap
+```python
+class Solution:
+    def minSwap(self, A: List[int], B: List[int]) -> int:
+        n1, s1 = 0, 1  # not-swap, swap
+        for i in range(1, len(A)):
+            n2 = s2 = float("inf")
+            if A[i-1] < A[i] and B[i-1] < B[i]:
+                n2 = min(n2, n1)  # not swap
+                s2 = min(s2, s1 + 1)  # swap
+            if A[i-1] < B[i] and B[i-1] < A[i]:
+                n2 = min(n2, s1)  # prev swap
+                s2 = min(s2, n1 + 1)  # swap
+
+            n1, s1 = n2, s2
+
+        return min(n1, s1)
+```
+* [[Medium] [Solution] 801. Minimum Swaps To Make Sequences Increasing](%5BMedium%5D%20%5BSolution%5D%20801.%20Minimum%20Swaps%20To%20Make%20Sequences%20Increasing.md)
+
+### Largest Sum of Averages
+```python
+class Solution:
+    def largestSumOfAverages(self, A: List[int], K: int) -> float:
+        N = len(A)
+
+        @functools.lru_cache(None)
+        def dfs(k, i):
+            if i >= N:
+                return 0
+            if k == 1:
+                score = sum(A[i:]) / (N-i)
+            else:
+                score = max(sum(A[i:j]) / (j-i) + dfs(k-1, j) for j in range(i+1, N-k+2))
+            return score
+
+        return dfs(K, 0)
+```
+* [[Medium] [Solution] 813. Largest Sum of Averages](%5BMedium%5D%20%5BSolution%5D%20813.%20Largest%20Sum%20of%20Averages.md)
 
 ### Character match
 ```python

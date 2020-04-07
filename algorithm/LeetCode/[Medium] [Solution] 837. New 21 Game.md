@@ -92,7 +92,7 @@ Note that we can reduce the time complexity to $O(\max(K, W))$ and the space com
 
 # Submissions
 ---
-**Solution**
+**Solution: (Dynamic Programming Bottom-Up)**
 ```
 Runtime: 76 ms
 Memory Usage: 13.1 MB
@@ -112,4 +112,27 @@ class Solution:
             S += dp[k] - dp[k + W]
 
         return dp[0]
+```
+
+**Solution 1: (DP Top-Down)**
+```
+Runtime: 228 ms
+Memory Usage: 44 MB
+```
+```python
+class Solution:
+    def new21Game(self, N: int, K: int, W: int) -> float:
+        
+        @functools.lru_cache(None)
+        def dfs(cur):
+            if cur == K-1:
+                return min(N-K+1, W) / W
+            if cur > N:
+                return 0
+            elif cur >= K:
+                return 1.0
+            prob = dfs(cur + 1) - (dfs(cur + 1 + W) - dfs(cur + 1)) / W
+            return prob
+    
+        return dfs(0)
 ```

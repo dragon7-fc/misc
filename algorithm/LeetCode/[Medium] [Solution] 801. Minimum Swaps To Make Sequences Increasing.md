@@ -73,7 +73,7 @@ class Solution(object):
 
 # Submissions
 ---
-**Solution:**
+**Solution: (Dynamic Programming Bottom-Up)**
 ```
 Runtime: 96 ms
 Memory Usage: 12.8 MB
@@ -94,4 +94,28 @@ class Solution:
             n1, s1 = n2, s2
 
         return min(n1, s1)
+```
+
+**Solution 1: (DP Top-Down)**
+```
+Runtime: 156 ms
+Memory Usage: 17.5 MB
+```
+```python
+class Solution:
+    def minSwap(self, A: List[int], B: List[int]) -> int:
+        N = len(A)
+    
+        @functools.lru_cache(None)
+        def dfs(i, prev_a, prev_b, swap):
+            if i == N:
+                return 0
+            make_swap = no_swap = float('inf')
+            if B[i] > prev_a and A[i] > prev_b:     # make_swap
+                make_swap = 1 + dfs(i+1, B[i], A[i], True)
+            if A[i] > prev_a and B[i] > prev_b:     # no swap
+                no_swap = dfs(i+1, A[i], B[i], False)
+            return min(make_swap, no_swap)
+        
+        return dfs(0, -1, -1, False)
 ```

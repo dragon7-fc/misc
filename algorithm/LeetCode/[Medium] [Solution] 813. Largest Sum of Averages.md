@@ -1,4 +1,4 @@
-813. Largest Sum of Averag
+813. Largest Sum of Averages
 
 We partition a row of numbers `A` into at most `K` adjacent (non-empty) groups, then our score is the sum of the average of each group. What is the largest score we can achieve?
 
@@ -69,7 +69,7 @@ class Solution(object):
 
 # Submissions
 ---
-**Solution:**
+**Solution: (Dynamic Programming Bottom-Up)**
 ```
 Runtime: 564 ms
 Memory Usage: 12.9 MB
@@ -90,4 +90,27 @@ class Solution:
                     dp[i] = max(dp[i], average(i, j) + dp[j])
 
         return dp[0]
+```
+
+**Solution 1: (DP Top-Down)**
+```
+Runtime: 268 ms
+Memory Usage: 14.7 MB
+```
+```python
+class Solution:
+    def largestSumOfAverages(self, A: List[int], K: int) -> float:
+        N = len(A)
+
+        @functools.lru_cache(None)
+        def dfs(k, i):
+            if i >= N:
+                return 0
+            if k == 1:
+                score = sum(A[i:]) / (N-i)
+            else:
+                score = max(sum(A[i:j]) / (j-i) + dfs(k-1, j) for j in range(i+1, N-k+2))
+            return score
+
+        return dfs(K, 0)
 ```

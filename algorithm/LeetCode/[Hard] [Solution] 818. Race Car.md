@@ -189,3 +189,26 @@ class Solution:
                 dp[t] = min(dp[t], dp[2**k - 1 - t] + k + 1)
         return dp[target]
 ```
+
+**Solution 3: (DP Top-Down)**
+```
+Runtime: 88 ms
+Memory Usage: 14.3 MB
+```
+```python
+class Solution:
+    @functools.lru_cache(None)
+    def racecar(self, target: int) -> int:
+        steps1 = target.bit_length()
+        pos1 = (1 << steps1) - 1
+        if pos1 == target:
+            return steps1
+        res = self.racecar(pos1 - target) + steps1 + 1
+        steps2 = steps1 - 1
+        pos2 = (1 << steps2) - 1
+        for backSteps in range(steps2):
+            backDist = (1<<backSteps) - 1
+            res = min(res, self.racecar(target - pos2 + backDist) + backSteps + steps2 + 2)
+            
+        return res
+```
