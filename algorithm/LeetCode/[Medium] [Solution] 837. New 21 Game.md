@@ -114,7 +114,25 @@ class Solution:
         return dp[0]
 ```
 
-**Solution 1: (DP Top-Down)**
+**Solution 1: (DP Top-Down, Time Limit Exceeded)**
+```python
+class Solution:
+    def new21Game(self, N: int, K: int, W: int) -> float:
+        
+        @functools.lru_cache(None)
+        def dfs(cur):
+            if cur >= K:
+                return 1.0 if cur <= N else 0
+            prob = 0
+            for i in range(1, W+1):
+                prob += dfs(cur + i)
+            prob /= W
+            return prob
+    
+        return dfs(0)
+```
+
+**Solution 2: (DP Top-Down)**
 ```
 Runtime: 228 ms
 Memory Usage: 44 MB
