@@ -172,6 +172,7 @@ Happy Coding!!
 * [[Easy] [Solution] 122. Best Time to Buy and Sell Stock II](%5BEasy%5D%20%5BSolution%5D%20122.%20Best%20Time%20to%20Buy%20and%20Sell%20Stock%20II.md)
 * [[Medium] [Solution] 49. Group Anagrams](%5BMedium%5D%20%5BSolution%5D%2049.%20Group%20Anagrams.md)
 * [[Easy] [Solution] 876. Middle of the Linked List](%5BEasy%5D%20%5BSolution%5D%20876.%20Middle%20of%20the%20Linked%20List.md)
+* [[Easy] [Solution] 844. Backspace String Compare](%5BEasy%5D%20%5BSolution%5D%20844.%20Backspace%20String%20Compare.md)
 
 ## Array <a name="array"></a>
 ---

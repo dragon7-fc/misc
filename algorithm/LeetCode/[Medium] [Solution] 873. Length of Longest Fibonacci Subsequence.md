@@ -113,7 +113,7 @@ class Solution(object):
 
 # Submissions
 ---
-**Solution: (Dynamic Programming)**
+**Solution: (Dynamic Programming Bottom-Up)**
 ```
 Runtime: 924 ms
 Memory Usage: 14 MB
@@ -162,4 +162,75 @@ class Solution:
                     dfs(k, [a, b])
                         
         return ans
+```
+
+**Solution 3: (Two Pointers)**
+```
+Runtime: 1296 ms
+Memory Usage: 13.9 MB
+```
+```python
+class Solution:
+    def lenLongestFibSubseq(self, A: List[int]) -> int:
+        N = len(A)
+        index = {k: i for i, k in enumerate(A)}
+        ans = 0
+        for i in range(N-2):
+            for j in range(i+1, N-1):
+                a, b, ct = A[i], A[j], 2
+                while a+b in index:
+                    a, b, ct = b, a+b, ct+1
+                ans = max(ans, ct)
+        return ans if ans > 2 else 0 
+```
+
+**Solution 4: (DP Bottom-Up)**
+```
+Runtime: 560 ms
+Memory Usage: 21.6 MB
+```
+```python
+class Solution:
+    def lenLongestFibSubseq(self, A: List[int]) -> int:
+        N = len(A)
+        index = {k: i for i, k in enumerate(A)}
+        dp = [[2]*N for _ in range(N)]
+        ans = 0
+        for k in range(N):
+            for j in range(k):
+                if A[k] - A[j] in index:
+                    i = index[A[k] - A[j]]
+                    if i < j:
+                        dp[j][k] = dp[i][j] + 1
+                        ans = max(ans, dp[j][k])
+                    
+        return ans if ans >=3 else 0
+```
+
+**Solution 5: (DP Top-Down)**
+```
+Runtime: 568 ms
+Memory Usage: 14.6 MB
+```
+```python
+class Solution:
+    def lenLongestFibSubseq(self, A: List[int]) -> int:
+        N = len(A)
+        if N <= 2:
+            return N
+        index = {v: i for i, v in enumerate(A)}
+        ans = 0
+        
+        @functools.lru_cache(None)
+        def dfs(i, j):
+            if (A[i] + A[j]) not in A:
+                return 0
+            return 1 + dfs(j, index[A[i] + A[j]])
+        
+        for i in range(N-2):
+            for j in range(i+1, N-1):
+                if A[i] + A[j] in index:
+                    ans = max(ans, dfs(i, j))
+        
+        return ans + 2 if ans >= 1 else 0
 ```

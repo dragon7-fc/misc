@@ -290,7 +290,36 @@ class Solution:
         return maxans
 ```
 
-**Solution 4: (Dynamic Programming Bottom-Up)**
+**Solution 4: (DP Top-Down)**
+```
+Runtime: 2068 ms
+Memory Usage: 17.5 MB
+```
+```python
+class Solution:
+    def lengthOfLIS(self, nums: List[int]) -> int:
+        N = len(nums)
+        if N == 0: return 0
+        ans = 0
+
+        @functools.lru_cache(None)
+        def dfs(i):
+            rst = 0
+            for j in range(i+1, N):
+                if nums[i] < nums[j]:
+                    rst = max(rst, dfs(j))
+            rst += 1
+            return rst
+            
+        for i in range(N):
+            for j in range(i+1, N):
+                if nums[i] < nums[j]:
+                    ans = max(ans, dfs(j))
+        
+        return ans + 1
+```
+
+**Solution 5: (Dynamic Programming Bottom-Up)**
 ```
 Runtime: 1020 ms
 Memory Usage: 14 MB
@@ -315,7 +344,7 @@ class Solution:
         return maxans
 ```
 
-**Solution 5: (Dynamic Programming with Binary Search)**
+**Solution 6: (Dynamic Programming with Binary Search)**
 ```
 Runtime: 40 ms
 Memory Usage: 12.8 MB
