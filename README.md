@@ -988,6 +988,7 @@ Objects such as lists and dictionaries are passed by object reference too, which
     - [GCC Command-Line Options](http://tigcc.ticalc.org/doc/comopts.html)
     - [Make Refcard](https://web.archive.org/web/20171218110823/http://www.schacherer.de/frank/technology/tools/make.html)
     - [GNU GDB Debugger Command Cheat Sheet](http://www.yolinux.com/TUTORIALS/GDB-Commands.html)
+    - [Static, Shared Dynamic and Loadable Linux Libraries](http://www.yolinux.com/TUTORIALS/LibraryArchives-StaticAndDynamic.html)
     - Function Pointer
         
         A function pointer is a variable that stores the address of a function that can later be called through that function pointer. This is useful because functions encapsulate behavior.
