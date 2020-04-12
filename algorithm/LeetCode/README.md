@@ -117,7 +117,7 @@ Happy Coding!!
 
 ### heapq
 
-* `heapq.heappush(heap, item`
+* `heapq.heappush(heap, item)`
 * `heapq.heappop(heap)`
 * `heapq.heappushpop(heap, item)`
 * `heapq.heapify(x)`
