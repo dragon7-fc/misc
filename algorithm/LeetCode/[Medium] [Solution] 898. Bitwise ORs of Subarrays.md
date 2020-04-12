@@ -76,7 +76,7 @@ class Solution(object):
 
 # Submissions
 ---
-**Solution: (Frontier Set)**
+**Solution: (Frontier Set, DP Bottom-Up)**
 ```
 Runtime: 836 ms
 Memory Usage: 39.3 MB

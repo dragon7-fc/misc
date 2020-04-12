@@ -151,7 +151,7 @@ class Solution:
 
 # Submissions
 ---
-**Solution: (Dynamic Programming)**
+**Solution: (Dynamic Programming Top-Down)**
 ```
 Runtime: 1172 ms
 Memory Usage: 21.8 MB
@@ -177,7 +177,7 @@ class Solution:
         return sum(dp(N, j) for j in range(N+1)) % MOD
 ```
 
-**Solution: (Dynamic Programming)**
+**Solution: (Dynamic Programming Top-Down)**
 ```
 Runtime: 92 ms
 Memory Usage: 33.8 MB

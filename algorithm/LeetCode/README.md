@@ -174,6 +174,7 @@ Happy Coding!!
 * [[Easy] [Solution] 876. Middle of the Linked List](%5BEasy%5D%20%5BSolution%5D%20876.%20Middle%20of%20the%20Linked%20List.md)
 * [[Easy] [Solution] 844. Backspace String Compare](%5BEasy%5D%20%5BSolution%5D%20844.%20Backspace%20String%20Compare.md)
 * [[Easy] 155. Min Stack](%5BEasy%5D%20155.%20Min%20Stack.md)
+* [[Easy] [Solution] 543. Diameter of Binary Tree](%5BEasy%5D%20%5BSolution%5D%20543.%20Diameter%20of%20Binary%20Tree.md)
 
 ## Array <a name="array"></a>
 ---
@@ -1405,6 +1406,38 @@ class Solution:
 ```
 * [[Medium] [Solution] 813. Largest Sum of Averages](%5BMedium%5D%20%5BSolution%5D%20813.%20Largest%20Sum%20of%20Averages.md)
 
+### Falling path
+```python
+class Solution:
+    def minFallingPathSum(self, A: List[List[int]]) -> int:
+        while len(A) >= 2:
+            row = A.pop()            
+            for i in range(len(row)):
+                A[-1][i] += min(row[max(0,i-1): min(len(row), i+2)])
+        return min(A[0])
+```
+* [[Medium] [Solution] 931. Minimum Falling Path Sum](%5BMedium%5D%20%5BSolution%5D%20931.%20Minimum%20Falling%20Path%20Sum.md)
+
+### Knight move
+```python
+class Solution:
+    def knightDialer(self, N: int) -> int:
+        MOD = 10**9 + 7
+        moves = [[4,6],[6,8],[7,9],[4,8],[3,9,0],[],
+                     [1,7,0],[2,6],[1,3],[2,4]]
+
+        dp = [1] * 10
+        for hops in range(N-1):
+            dp2 = [0] * 10
+            for node, count in enumerate(dp):
+                for nei in moves[node]:
+                    dp2[nei] += count
+                    dp2[nei] %= MOD
+            dp = dp2
+        return sum(dp) % MOD
+```
+* [[Medium] [Solution] 935. Knight Dialer](%5BMedium%5D%20%5BSolution%5D%20935.%20Knight%20Dialer.md)
+
 ### Character match
 ```python
 import functools
@@ -1468,6 +1501,70 @@ class Solution:
         return ((dp[k] + MOD - (dp[k - 1] if k > 0 else 0)) % MOD)
 ```
 * [[Hard] [Solution] 629. K Inverse Pairs Array](%5BHard%5D%20%5BSolution%5D%20629.%20K%20Inverse%20Pairs%20Array.md)
+
+### Dynamic Programming + Counting
+```python
+class Solution:
+    def atMostNGivenDigitSet(self, D: List[str], N: int) -> int:
+        S = str(N)
+        K = len(S)
+        dp = [0] * K + [1]
+        # dp[i] = total number of valid integers if N was "N[i:]"
+
+        for i in range(K-1, -1, -1):
+            # Compute dp[i]
+
+            for d in D:
+                if d < S[i]:
+                    dp[i] += len(D) ** (K-i-1)
+                elif d == S[i]:
+                    dp[i] += dp[i+1]
+
+        return dp[0] + sum(len(D) ** i for i in range(1, K))
+```
+* [[Hard] [Solution] 902. Numbers At Most N Given Digit Set](%5BHard%5D%20%5BSolution%5D%20902.%20Numbers%20At%20Most%20N%20Given%20Digit%20Set.md)
+
+### How many ways to place P_i with relative rank j
+```python
+from functools import lru_cache
+
+class Solution:
+    def numPermsDISequence(self, S: str) -> int:
+        MOD = 10**9 + 7
+        N = len(S)
+
+        @lru_cache(None)
+        def dp(i, j):
+            # How many ways to place P_i with relative rank j?
+            if not(0 <= j <= i):
+                return 0
+            if i == 0:
+                return 1
+            elif S[i-1] == 'D':
+                return (dp(i, j+1) + dp(i-1, j)) % MOD
+            else:
+                return (dp(i, j-1) + dp(i-1, j-1)) % MOD
+
+        return sum(dp(N, j) for j in range(N+1)) % MOD
+```
+* [[Hard] [Solution] 903. Valid Permutations for DI Sequence](%5BHard%5D%20%5BSolution%5D%20903.%20Valid%20Permutations%20for%20DI%20Sequence.md)
+
+### Ways
+```python
+class Solution:
+    def numMusicPlaylists(self, N, L, K):
+        @lru_cache(None)
+        def dp(i, j):
+            # number of playlists of length i that have exactly j unique songs
+            if i == 0:
+                return +(j == 0)
+            ans = dp(i-1, j-1) * (N-j+1)
+            ans += dp(i-1, j) * max(j-K, 0)
+            return ans % (10**9+7)
+
+        return dp(L, N)
+```
+* [[Hard] [Solution] 920. Number of Music Playlists](%5BHard%5D%20%5BSolution%5D%20920.%20Number%20of%20Music%20Playlists.md)
 
 ### Prefix + Suffix
 ```python
@@ -1636,6 +1733,42 @@ class Solution:
         return ans
 ```
 * [[Hard] [Solution] 891. Sum of Subsequence Widths](%5BHard%5D%20%5BSolution%5D%20891.%20Sum%20of%20Subsequence%20Widths.md)
+
+### Dynamic Programming with Binary Search
+```python
+class Solution(object):
+    def superEggDrop(self, K, N):
+        memo = {}
+        def dp(k, n):
+            if (k, n) not in memo:
+                if n == 0:
+                    ans = 0
+                elif k == 1:
+                    ans = n
+                else:
+                    lo, hi = 1, n
+                    # keep a gap of 2 X values to manually check later
+                    while lo + 1 < hi:
+                        x = (lo + hi) / 2
+                        t1 = dp(k-1, x-1)
+                        t2 = dp(k, n-x)
+
+                        if t1 < t2:
+                            lo = x
+                        elif t1 > t2:
+                            hi = x
+                        else:
+                            lo = hi = x
+
+                    ans = 1 + min(max(dp(k-1, x-1), dp(k, n-x))
+                                  for x in (lo, hi))
+
+                memo[k, n] = ans
+            return memo[k, n]
+
+        return dp(K, N)
+```
+* [[Hard] [Solution] 887. Super Egg Drop](%5BHard%5D%20%5BSolution%5D%20887.%20Super%20Egg%20Drop.md)
 
 ## String <a name="string"></a>
 ---
@@ -3820,7 +3953,7 @@ class Solution:
 ```
 * [[Easy] [Solution] 762. Prime Number of Set Bits in Binary Representation](%5BEasy%5D%20%5BSolution%5D%20762.%20Prime%20Number%20of%20Set%20Bits%20in%20Binary%20Representation.md)
 
-### Frontier Set
+### Frontier Set, DP Bottom-Up
 ```python
 class Solution:
     def subarrayBitwiseORs(self, A: List[int]) -> int:

@@ -80,7 +80,7 @@ class Solution(object):
 
 # Submissions
 ---
-**Solution 1:**
+**Solution 1: (Dynamic Programming Bottom-Up)**
 ```
 Runtime: 1080 ms
 Memory Usage: 12.7 MB
@@ -101,4 +101,24 @@ class Solution:
                     dp2[nei] %= MOD
             dp = dp2
         return sum(dp) % MOD
+```
+
+**Solution 2: (DP Top-Down)**
+```
+Runtime: 3344 ms
+Memory Usage: 74.9 MB
+```
+```python
+class Solution:
+    def knightDialer(self, N: int) -> int:
+        moves = [[4,6],[6,8],[7,9],[4,8],[3,9,0],[],
+                     [1,7,0],[2,6],[1,3],[2,4]]
+        
+        @functools.lru_cache(None)
+        def dfs(number, rounds):
+            if rounds == 1:
+                return 1
+            return sum([dfs(next_number, rounds-1) for next_number in moves[number]])
+
+        return sum([dfs(number, N) for number in range(0,10)]) % (10**9+7)
 ```

@@ -117,3 +117,26 @@ class Solution:
         # Sum all schemes with profit P and group size 0 <= g <= G.
         return sum(cur[-1]) % MOD
 ```
+
+**Solution 2: (DP Top-Down)**
+```
+Runtime: 3736 ms
+Memory Usage: 636.4 MB
+```
+```python
+class Solution:
+    def profitableSchemes(self, G: int, P: int, group: List[int], profit: List[int]) -> int:
+        MOD = 10**9 + 7
+        
+        @functools.lru_cache(None)
+        def dfs(i, g, p):
+            if i >= 0 and g > 0:
+                if g >= group[i]:
+                    return (dfs(i - 1, g, p) + (dfs(i - 1, g - group[i], max(0, p - profit[i]))) ) % MOD
+                else:
+                    return dfs(i - 1, g, p) % MOD
+            else:
+                return int(p <= 0)
+            
+        return dfs(len(group) - 1, G, P) 
+```

@@ -64,7 +64,7 @@ class Solution(object):
 
 # Submissions
 ---
-**Solution:**
+**Solution: (Dynamic Programming Bottom-Up)**
 ```
 Runtime: 124 ms
 Memory Usage: 13.2 MB
@@ -77,4 +77,23 @@ class Solution:
             for i in range(len(row)):
                 A[-1][i] += min(row[max(0,i-1): min(len(row), i+2)])
         return min(A[0])
+```
+
+**Solution 1: (DP Top-Down)**
+```
+Runtime: 172 ms
+Memory Usage: 21.3 MB
+```
+```python
+class Solution:
+    def minFallingPathSum(self, A: List[List[int]]) -> int:
+        R, C = len(A), len(A[0])
+        
+        @functools.lru_cache(None)
+        def dfs(r, c):
+            if r == 0:
+                return A[0][c]
+            return A[r][c] + min(dfs(r-1, nc) for nc in range(max(c-1, 0), min(c+2, C)))
+        
+        return min(dfs(R-1, c) for c in range(C))
 ```
