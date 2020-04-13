@@ -137,7 +137,7 @@ public class Solution {
 
 # Submissions
 ---
-**Solution 1:**
+**Solution 1: (Using HashMap)**
 ```
 Runtime: 888 ms
 Memory Usage: 17.2 MB
@@ -145,7 +145,7 @@ Memory Usage: 17.2 MB
 ```python
 class Solution:
     def findMaxLength(self, nums: List[int]) -> int:
-        d = {0: -1}
+        d = {0: -1}  # count of 1: index
         ans, count = 0, 0
         for i in range(len(nums)):
             count += 1 if nums[i] == 1 else -1

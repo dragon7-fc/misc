@@ -6,49 +6,65 @@ A playground to note something.
 
 * ipmitool
 
-    - How to make in Ubuntu
+    - BUild
 
-        ```bash
-        apt-get install automake libtool
-        ./bootstrap
-        ./configure
-        make
-        ```
+        - How to make in Ubuntu
 
-    - How to make in Windows
-      
-        - install Cygwin (32/64) with following package
-
-            ```
-            gcc-core
-            make
-            openssl-devel
-            diff
-            autoconf
-            automake
-            m4
-            libtool
-            libncurses-devel
-            libreadline-devel
-            perl
-            ```
-        - Cygwin build
-
-            ```
+            ```bash
+            apt-get install automake libtool
             ./bootstrap
             ./configure
             make
             ```
-        - Create ipmitool package
+        - How to make in Windows
+      
+            - install Cygwin (32/64) with following package
 
-            ```
-            .\src\.libs\ipmitool.exe
-            C:\cygwin64\bin\cygcrypto-1.0.0.dll
-            C:\cygwin64\bin\cyggcc_s-1.dll
-            C:\cygwin64\bin\cygncursesw-10.dll
-            C:\cygwin64\bin\cygreadline7.dll
-            C:\cygwin64\bin\cygwin1.dll
-            C:\cygwin64\bin\cygz.dll
+                ```
+                gcc-core
+                make
+                openssl-devel
+                diff
+                autoconf
+                automake
+                m4
+                libtool
+                libncurses-devel
+                libreadline-devel
+                perl
+                ```
+                - Cygwin build
+
+                ```
+                ./bootstrap
+                ./configure
+                make
+                ```
+            - Create ipmitool package
+
+                ```
+                .\src\.libs\ipmitool.exe
+                C:\cygwin64\bin\cygcrypto-1.0.0.dll
+                C:\cygwin64\bin\cyggcc_s-1.dll
+                C:\cygwin64\bin\cygncursesw-10.dll
+                C:\cygwin64\bin\cygreadline7.dll
+                C:\cygwin64\bin\cygwin1.dll
+                C:\cygwin64\bin\cygz.dll
+                ```
+                
+        - How to built-in OpenSSL 1.0.0 static link library
+        
+            ```bash
+            gie clone https://github.com/openssl/openssl
+            cd openssl
+            git checkout OpenSSL_1_0_0
+            ./configure
+            make    -> generate ./libcrypto.a
+            cd ..
+            
+            cd ipmitool
+            ./configure LIBS='[/path/to/openssl]/libcrypto.a -ldl' --enable-intf-usb
+            ldd src/ipmitool    -> check libcrypto.a NOT in the dependency list
             ```
     - [Computer Cheese](https://computercheese.blogspot.com/)
     

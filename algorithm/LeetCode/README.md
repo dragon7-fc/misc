@@ -175,6 +175,7 @@ Happy Coding!!
 * [[Easy] [Solution] 844. Backspace String Compare](%5BEasy%5D%20%5BSolution%5D%20844.%20Backspace%20String%20Compare.md)
 * [[Easy] 155. Min Stack](%5BEasy%5D%20155.%20Min%20Stack.md)
 * [[Easy] [Solution] 543. Diameter of Binary Tree](%5BEasy%5D%20%5BSolution%5D%20543.%20Diameter%20of%20Binary%20Tree.md)
+* [[Medium] [Solution] 525. Contiguous Array](%5BMedium%5D%20%5BSolution%5D%20525.%20Contiguous%20Array.md)
 
 ## Array <a name="array"></a>
 ---
