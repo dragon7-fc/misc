@@ -6,7 +6,7 @@ A playground to note something.
 
 * ipmitool
 
-    - BUild
+    - Build
 
         - How to make in Ubuntu
 
@@ -52,7 +52,7 @@ A playground to note something.
                 C:\cygwin64\bin\cygz.dll
                 ```
                 
-        - How to built-in OpenSSL 1.0.0 static link library
+        - How to built-in OpenSSL 1.0.0 static library
         
             ```bash
             gie clone https://github.com/openssl/openssl

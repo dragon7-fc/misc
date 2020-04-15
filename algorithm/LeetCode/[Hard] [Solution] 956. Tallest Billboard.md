@@ -46,36 +46,23 @@ Since `sum(rods)` is bounded, it suggests to us to use that fact it in some way.
 
 **Algorithm**
 
-Let `dp[i][s]` be the largest score we can get using `rods[j]` (`j >= i`), after previously writing a sum of s (that isn't included in the score). For example, with `rods = [1,2,3,6]`, we might have `dp[1][1] = 5`, as after writing `1`, we could write `+2 +3 -6` with the remaining `rods[i:]` for a score of `5`.
+Let `dp[i][s]` be the largest score we can get using `rods[j]` (`j >= i`), after previously writing a sum of `s` (that isn't included in the score). For example, with `rods = [1,2,3,6]`, we might have `dp[1][1] = 5`, as after writing `1`, we could write `+2 +3 -6` with the remaining `rods[i:]` for a score of `5`.
 
-In the base case, `dp[rods.length][s]` is `0` when `s == 0`, and -infinity everywhere else. The recursion is `dp[i][s] = max(dp[i+1][s], dp[i+1][s-rods[i]], rods[i] + dp[i+1][s+rods[i]])`.
+In the base case, `dp[rods.length][s]` is `0` when `s == 0`, and `-infinity` everywhere else. The recursion is `dp[i][s] = max(dp[i+1][s], dp[i+1][s-rods[i]], rods[i] + dp[i+1][s+rods[i]])`.
 
 ```python
-class Solution {
-    int NINF = Integer.MIN_VALUE / 3;
-    Integer[][] memo;
-    public int tallestBillboard(int[] rods) {
-        int N = rods.length;
-        // "memo[n][x]" will be stored at memo[n][5000+x]
-        // Using Integer for default value null
-        memo = new Integer[N][10001];
-        return (int) dp(rods, 0, 5000);
-    }
+from functools import lru_cache
+class Solution:
+    def tallestBillboard(self, rods):
+        @lru_cache(None)
+        def dp(i, s):
+            if i == len(rods):
+                return 0 if s == 0 else float('-inf')
+            return max(dp(i + 1, s),
+                       dp(i + 1, s - rods[i]),
+                       dp(i + 1, s + rods[i]) + rods[i])
 
-    public int dp(int[] rods, int i, int s) {
-        if (i == rods.length) {
-            return s == 5000 ? 0 : NINF;
-        } else if (memo[i][s] != null) {
-            return memo[i][s];
-        } else {
-            int ans = dp(rods, i+1, s);
-            ans = Math.max(ans, dp(rods, i+1, s-rods[i]));
-            ans = Math.max(ans, rods[i] + dp(rods, i+1, s+rods[i]));
-            memo[i][s] = ans;
-            return ans;
-        }
-    }
-}
+        return dp(0, 0)
 ```
 
 **Complexity Analysis**
@@ -136,3 +123,47 @@ class Solution(object):
 
 # Submissions
 ---
+**Solution 1: (Dynamic Programming Top-Down, Time Limit Exceeded)**
+```python
+from functools import lru_cache
+class Solution:
+    def tallestBillboard(self, rods: List[int]) -> int:
+        lru_cache(None)
+        def dp(i, s):
+            if i == len(rods):
+                return 0 if s == 0 else float('-inf')
+            return max(dp(i + 1, s),
+                       dp(i + 1, s - rods[i]),
+                       dp(i + 1, s + rods[i]) + rods[i])
+
+        return dp(0, 0)
+```
+**Solution 2: (Meet in the Middle)**
+```
+Runtime: 844 ms
+Memory Usage: 27.7 MB
+```
+```python
+class Solution:
+    def tallestBillboard(self, rods: List[int]) -> int:
+        def make(A):
+            states = {(0, 0)}
+            for x in A:
+                states |= ({(a+x, b) for a, b in states} |
+                           {(a, b+x) for a, b in states})
+
+            delta = {}
+            for a, b in states:
+                delta[a-b] = max(delta.get(a-b, 0), a)
+            return delta
+
+        N = len(rods)
+        Ldelta = make(rods[:N//2])
+        Rdelta = make(rods[N//2:])
+
+        ans = 0
+        for d in Ldelta:
+            if -d in Rdelta:
+                ans = max(ans, Ldelta[d] + Rdelta[-d])
+        return ans
+```

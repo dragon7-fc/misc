@@ -96,3 +96,27 @@ class Solution:
                 anchor = i
         return ans
 ```
+
+**Solution 2: (DP Bottom-Up, 376, Wiggle Subsequence)**
+```
+Runtime: 524 ms
+Memory Usage: 17.9 MB
+```
+```python
+class Solution:
+    def maxTurbulenceSize(self, A: List[int]) -> int:
+        up = down = ans = 1
+        for i in range(1, len(A)):
+            if A[i] > A[i-1]:
+                up = down + 1
+                down = 1
+            elif A[i] < A[i-1]:
+                down = up + 1
+                up = 1
+            else:
+                up = down = 1
+            ans = max(ans, up, down)
+
+        return ans
+
+```

@@ -127,7 +127,7 @@ class Solution:
 
 # Submissions
 ---
-**Solution 1:**
+**Solution 1: (Dynamic Programming (Day Variant) Top-Down)**
 ```
 Runtime: 48 ms
 Memory Usage: 13.6 MB
@@ -153,7 +153,7 @@ class Solution:
         return dp(1)
 ```
 
-**Solution 2:**
+**Solution 2: (Dynamic Programming (Window Variant) Top-Down)**
 ```
 Runtime: 44 ms
 Memory Usage: 13.2 MB

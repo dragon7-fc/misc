@@ -136,6 +136,7 @@ Iterating from `i = N-2` to `i = 0`, we have some value `v = A[i]` and we want t
 
 With this in mind, the rest of the solution is straightforward: we use dynamic programming to maintain `odd[i]` and `even[i]:` whether the state of being at index `i` on an odd or even numbered jump is possible to reach.
 
+**Java**
 ```java
 class Solution {
     public int oddEvenJumps(int[] A) {
@@ -181,7 +182,7 @@ class Solution {
 
 # Submissions
 ---
-**Solution: (Monotonic Stack)**
+**Solution: (Monotonic Stack, DP Bottom-Up)**
 ```
 Runtime: 256 ms
 Memory Usage: 15.8 MB

@@ -175,7 +175,9 @@ Happy Coding!!
 * [[Easy] [Solution] 844. Backspace String Compare](%5BEasy%5D%20%5BSolution%5D%20844.%20Backspace%20String%20Compare.md)
 * [[Easy] 155. Min Stack](%5BEasy%5D%20155.%20Min%20Stack.md)
 * [[Easy] [Solution] 543. Diameter of Binary Tree](%5BEasy%5D%20%5BSolution%5D%20543.%20Diameter%20of%20Binary%20Tree.md)
+* [[Easy] 1046. Last Stone Weight](%5BEasy%5D%201046.%20Last%20Stone%20Weight.md)
 * [[Medium] [Solution] 525. Contiguous Array](%5BMedium%5D%20%5BSolution%5D%20525.%20Contiguous%20Array.md)
+* [[Medium] [Solution] 238. Product of Array Except Self](%5BMedium%5D%20%5BSolution%5D%20238.%20Product%20of%20Array%20Except%20Self.md)
 
 ## Array <a name="array"></a>
 ---
@@ -997,6 +999,45 @@ class Solution:
 ```
 * [[Medium] [Solution] 714. Best Time to Buy and Sell Stock with Transaction Fee](%5BMedium%5D%20%5BSolution%5D%20714.%20Best%20Time%20to%20Buy%20and%20Sell%20Stock%20with%20Transaction%20Fee.md)
 
+### 2 Option (Up/Dow)
+```python
+class Solution:
+    def wiggleMaxLength(self, nums: List[int]) -> int:
+        if len(nums) < 2:
+            return len(nums)
+
+        up = down = 1
+        for i in range(1, len(nums)):
+            if nums[i] > nums[i-1]:
+                up = down + 1
+            elif nums[i] < nums[i-1]:
+                down = up + 1
+
+        return max(up, down)
+
+class Solution:
+    def wiggleMaxLength(self, nums: List[int]) -> int:
+        N = len(nums)
+        if N == 0: return 0
+
+        @functools.lru_cache(None)
+        def dfs(i, isUp):
+            if i == N-1: return 1
+            if isUp:
+                if nums[i+1] > nums[i]:
+                    return 1 + dfs(i+1, False)
+                else:
+                    return dfs(i+1, True)
+            else:
+                if nums[i+1] < nums[i]:
+                    return 1 + dfs(i+1, True)
+                else:
+                    return dfs(i+1, False)
+
+        return max(dfs(0, True), dfs(0, False))
+```
+* [[Medium] [Solution] 376. Wiggle Subsequence](%5BMedium%5D%20%5BSolution%5D%20376.%20Wiggle%20Subsequence.md)
+
 ### Range Sum, Binary Search
 ```python
 class Solution:
@@ -1438,6 +1479,30 @@ class Solution:
         return sum(dp) % MOD
 ```
 * [[Medium] [Solution] 935. Knight Dialer](%5BMedium%5D%20%5BSolution%5D%20935.%20Knight%20Dialer.md)
+
+### Minimum Cost For Tickets
+```python
+class Solution:
+    def mincostTickets(self, days: List[int], costs: List[int]) -> int:
+        N = len(days)
+        durations = [1, 7, 30]
+
+        @lru_cache(None)
+        def dp(i): # How much money to do days[i]+
+            if i >= N: return 0
+
+            ans = float('inf')
+            j = i
+            for c, d in zip(costs, durations):
+                while j < N and days[j] < days[i] + d:
+                    j += 1
+                ans = min(ans, dp(j) + c)
+
+            return ans
+
+        return dp(0)
+```
+* [[Medium] [Solution] 983. Minimum Cost For Tickets](%5BMedium%5D%20%5BSolution%5D%20983.%20Minimum%20Cost%20For%20Tickets.md)
 
 ### Character match
 ```python
@@ -2821,6 +2886,36 @@ class Solution:
 ```
 * [[Medium] [Solution] 954. Array of Doubled Pairs](%5BMedium%5D%20%5BSolution%5D%20954.%20Array%20of%20Doubled%20Pairs.md)
 
+### DFS, Tree
+```python
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+
+class Solution:
+    def minCameraCover(self, root: TreeNode) -> int:
+        self.ans = 0
+        covered = {None}
+
+        def dfs(node, par = None):
+            if node:
+                dfs(node.left, node)
+                dfs(node.right, node)
+
+                if (par is None and node not in covered or
+                        node.left not in covered or node.right not in covered):
+                    self.ans += 1
+                    covered.update({node, par, node.left, node.right})
+
+        dfs(root)
+        return self.ans
+```
+* [[Hard] [Solution] 968. Binary Tree Cameras](%5BHard%5D%20%5BSolution%5D%20968.%20Binary%20Tree%20Cameras.md)
+
+
 ## Prefix Sum
 ```python
 class Solution:
@@ -2849,7 +2944,6 @@ return ans
 * [[Medium] [Solution] 767. Reorganize String](%5BMedium%5D%20%5BSolution%5D%20767.%20Reorganize%20String.md)
 * [[Medium] [Solution] 738. Monotone Increasing Digits](%5BMedium%5D%20%5BSolution%5D%20738.%20Monotone%20Increasing%20Digits.md)
 * [[Easy] [Solution] 874. Walking Robot Simulation](%5BEasy%5D%20%5BSolution%5D%20874.%20Walking%20Robot%20Simulation.md)
-* [[Medium] [Solution] 376. Wiggle Subsequence](%5BMedium%5D%20%5BSolution%5D%20376.%20Wiggle%20Subsequence.md)
 * [[Medium] * 1111. Maximum Nesting Depth of Two Valid Parentheses Strings](%5BMedium%5D%20*%201111.%20Maximum%20Nesting%20Depth%20of%20Two%20Valid%20Parentheses%20Strings.md)
 
 ## Breadth-first Search <a name="bfs"></a>

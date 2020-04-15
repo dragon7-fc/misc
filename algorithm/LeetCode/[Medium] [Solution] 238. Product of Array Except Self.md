@@ -151,7 +151,7 @@ class Solution:
 
 # Submissions
 ---
-**Solution**
+**Solution: (O(1) space approach)**
 ```
 Runtime: 144 ms
 Memory Usage: 20.3 MB
@@ -189,4 +189,25 @@ class Solution:
             R *= nums[i]
         
         return answer
+```
+
+**Solution 2: (O(1) space approach, Prefix Sum)**
+```
+Runtime: 120 ms
+Memory Usage: 20.5 MB
+```
+```python
+class Solution:
+    def productExceptSelf(self, nums: List[int]) -> List[int]:
+        N = len(nums)
+        ans = [0]*N
+        ans[0] = 1
+        for i in range(1, N):
+            ans[i] = nums[i-1] * ans[i-1]
+        R = nums[N-1]
+        for i in range(N-2, -1, -1):
+            ans[i] = ans[i] * R
+            R *= nums[i]
+            
+        return ans
 ```

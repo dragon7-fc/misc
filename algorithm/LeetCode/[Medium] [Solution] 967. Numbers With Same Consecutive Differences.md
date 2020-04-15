@@ -71,7 +71,7 @@ class Solution(object):
 
 # Submissions
 ---
-**Solution:**
+**Solution: (Brute Force, DP Bottom-Up)**
 ```
 Runtime: 40 ms
 Memory Usage: 12.8 MB
@@ -99,4 +99,62 @@ class Solution:
             ans.add(0)
 
         return list(ans)
+```
+
+**Solution 2: (DFS)**
+```
+Runtime: 56 ms
+Memory Usage: 14.4 MB
+```
+```python
+class Solution:
+    def numsSameConsecDiff(self, N: int, K: int) -> List[int]:
+        if N == 1:
+            return list(range(10))
+        ans = set()
+        
+        def dfs(i, num, path):
+            if i == N:
+                if path[0] != '0':
+                    ans.add(path)
+                return
+            for nei in [num + K, num - K]:
+                if nei >= 0 and nei <= 9:
+                    dfs(i+1, nei, path + str(num))
+                
+        for n in range(1, 10):
+            dfs(0, n, '')
+        return list(map(int, ans))
+```
+
+**Solution 3; (DFS)**
+```
+Runtime: 48 ms
+Memory Usage: 14.1 MB
+```
+```python
+class Solution:
+    def numsSameConsecDiff(self, N: int, K: int) -> List[int]:
+        if N == 1:
+            return list(range(10))
+        seen = set()
+        
+        def dfs(path, cur, remain):
+            if remain == 0:
+                seen.add(path)
+                return 
+            if cur + K < 10:
+                dfs(path*10+cur, cur + K, remain-1)
+            if cur - K >=0:
+                dfs(path*10+cur, cur - K, remain-1)
+        for i in range(1, 10):
+            dfs(0, i, N)
+            
+        return list(seen)
+    
+    
+        if N == 1:
+            return list(range(10))
+        ans = set()
+
 ```
