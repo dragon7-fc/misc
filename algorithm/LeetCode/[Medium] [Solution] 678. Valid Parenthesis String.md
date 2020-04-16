@@ -238,7 +238,7 @@ class Solution:
 **Solution 4: (DP Top-Down)**
 ```
 Runtime: 32 ms
-Memory Usage: 13.8 MB
+Memory Usage: 14.1 MB
 ```
 ```python
 class Solution:
@@ -246,19 +246,17 @@ class Solution:
         N = len(s)
         
         @functools.lru_cache(None)
-        def dp(idx, n):
+        def dp(i, n):
+            if i == N:
+                return True if n == 0 else False
             if n < 0:
                 return False
-            for i in range(idx, N):
-                if s[i] == '(':
-                    n += 1
-                elif s[i] == ')':
-                    n -= 1
-                    if n < 0:
-                        return False
-                elif s[i] == '*':
-                    return dp(i+1, n+1) or dp(i+1, n-1) or dp(i+1, n)
-            return n == 0
+            if s[i] == '(':
+                return dp(i+1, n+1)
+            elif s[i] == ')':
+                return dp(i+1, n-1);
+            else:
+                return dp(i+1, n+1) or dp(i+1, n-1) or dp(i+1, n)
         
         return dp(0, 0)
 ```
