@@ -178,6 +178,7 @@ Happy Coding!!
 * [[Easy] 1046. Last Stone Weight](%5BEasy%5D%201046.%20Last%20Stone%20Weight.md)
 * [[Medium] [Solution] 525. Contiguous Array](%5BMedium%5D%20%5BSolution%5D%20525.%20Contiguous%20Array.md)
 * [[Medium] [Solution] 238. Product of Array Except Self](%5BMedium%5D%20%5BSolution%5D%20238.%20Product%20of%20Array%20Except%20Self.md)
+* [[Medium] [Solution] 678. Valid Parenthesis String](%5BMedium%5D%20%5BSolution%5D%20678.%20Valid%20Parenthesis%20String.md)
 
 ## Array <a name="array"></a>
 ---
@@ -2885,6 +2886,21 @@ class Solution:
         return True
 ```
 * [[Medium] [Solution] 954. Array of Doubled Pairs](%5BMedium%5D%20%5BSolution%5D%20954.%20Array%20of%20Doubled%20Pairs.md)
+
+### Valid Parenthesis
+```python
+class Solution:
+    def checkValidString(self, s: str) -> bool:
+        lo = hi = 0  # [lower, upper bound]
+        for c in s:
+            lo += 1 if c == '(' else -1
+            hi += 1 if c != ')' else -1
+            if hi < 0: break
+            lo = max(lo, 0)
+
+        return lo == 0
+```
+* [[Medium] [Solution] 678. Valid Parenthesis String](%5BMedium%5D%20%5BSolution%5D%20678.%20Valid%20Parenthesis%20String.md)
 
 ### DFS, Tree
 ```python

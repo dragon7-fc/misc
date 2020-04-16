@@ -151,7 +151,40 @@ class Solution(object):
 
 # Submissions
 ---
-**Solution:**
+**Solution 1: (Dynamic Programming Bottom-Up)**
+```
+Runtime: 268 ms
+Memory Usage: 13.6 MB
+```
+```python
+class Solution:
+    def checkValidString(self, s: str) -> bool:
+        if not s: return True
+        LEFTY, RIGHTY = '(*', ')*'
+
+        n = len(s)
+        dp = [[False] * n for _ in s]
+        for i in range(n):
+            if s[i] == '*':
+                dp[i][i] = True
+            if i < n-1 and s[i] in LEFTY and s[i+1] in RIGHTY:
+                dp[i][i+1] = True
+
+        for size in range(2, n):
+            for i in range(n - size):
+                if s[i] == '*' and dp[i+1][i+size]:
+                    dp[i][i+size] = True
+                elif s[i] in LEFTY:
+                    for k in range(i+1, i+size+1):
+                        if (s[k] in RIGHTY and
+                                (k == i+1 or dp[i+1][k-1]) and
+                                (k == i+size or dp[k+1][i+size])):
+                            dp[i][i+size] = True
+
+        return dp[0][-1]
+```
+
+**Solution 2: (Greedy)**
 ```
 Runtime: 28 ms
 Memory Usage: 12.7 MB
@@ -167,4 +200,65 @@ class Solution:
             lo = max(lo, 0)
 
         return lo == 0
+```
+
+**Solution 3: (Two Stack)**
+```
+Runtime: 32 ms
+Memory Usage: 13.8 MB
+```
+```python
+class Solution:
+    def checkValidString(self, s: str) -> bool:
+        stack = []
+        star = []
+        for i, x in enumerate(s):
+            if x == '(':
+                stack.append(i)
+            elif x == '*':
+                star.append(i)
+            else:
+                if not stack and not star:
+                    return False
+                if stack:
+                    stack.pop()
+                elif star:
+                    star.pop()
+        
+        while stack and star:
+            if stack.pop() > star.pop():
+                return False
+        
+        if not stack:
+            return True
+        else:
+            return False
+```
+
+**Solution 4: (DP Top-Down)**
+```
+Runtime: 32 ms
+Memory Usage: 13.8 MB
+```
+```python
+class Solution:
+    def checkValidString(self, s: str) -> bool:
+        N = len(s)
+        
+        @functools.lru_cache(None)
+        def dp(idx, n):
+            if n < 0:
+                return False
+            for i in range(idx, N):
+                if s[i] == '(':
+                    n += 1
+                elif s[i] == ')':
+                    n -= 1
+                    if n < 0:
+                        return False
+                elif s[i] == '*':
+                    return dp(i+1, n+1) or dp(i+1, n-1) or dp(i+1, n)
+            return n == 0
+        
+        return dp(0, 0)
 ```
