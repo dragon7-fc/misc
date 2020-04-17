@@ -184,7 +184,46 @@ class Solution:
         return dp[0][-1]
 ```
 
-**Solution 2: (Greedy)**
+**Solution 2: (DP Top-Down)**
+```
+Runtime: 96 ms
+Memory Usage: 14.7 MB
+```
+```python
+class Solution:
+    def checkValidString(self, s: str) -> bool:
+        if not s: return True
+        LEFTY, RIGHTY = '(*', ')*'
+
+        n = len(s)
+        
+        @functools.lru_cache(None)
+        def dp(i, j):  # state: (index1, index2)
+            if i == j:
+                if s[i]  == '*':
+                    return True
+                else:
+                    return False
+            elif j == i+1:
+                if s[i] in LEFTY and s[j] in RIGHTY:
+                    return True
+                else:
+                    return False
+            if s[i] == '*' and dp(i+1, j):
+                return True
+            elif s[i] in LEFTY:
+                for k in range(i+1, j+1):
+                    if (s[k] in RIGHTY and 
+                            (k == i+1 or dp(i+1, k-1)) and
+                            (k == j or dp(k+1, j))):
+                        return True
+                return False
+            return False
+                
+        return dp(0, n-1)
+```
+
+**Solution 3: (Greedy)**
 ```
 Runtime: 28 ms
 Memory Usage: 12.7 MB
@@ -202,7 +241,7 @@ class Solution:
         return lo == 0
 ```
 
-**Solution 3: (Two Stack)**
+**Solution 4: (Two Stack)**
 ```
 Runtime: 32 ms
 Memory Usage: 13.8 MB
@@ -235,7 +274,7 @@ class Solution:
             return False
 ```
 
-**Solution 4: (DP Top-Down)**
+**Solution 5: (DP Top-Down)**
 ```
 Runtime: 32 ms
 Memory Usage: 14.1 MB
@@ -246,7 +285,7 @@ class Solution:
         N = len(s)
         
         @functools.lru_cache(None)
-        def dp(i, n):
+        def dp(i, n):  # state: (index, count)
             if i == N:
                 return True if n == 0 else False
             if n < 0:
