@@ -268,7 +268,7 @@ class Solution:
         return res
 ```
 
-**Solution 4: (DP Top-Down)**
+**Solution 4: (DP Top-Down, Digit DP)**
 ```
 Runtime: 60 ms
 Memory Usage: 14.3 MB

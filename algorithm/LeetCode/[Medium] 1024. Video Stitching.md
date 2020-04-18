@@ -55,48 +55,68 @@ Notice you can have extra video after the event ends.
 
 # Submissions
 ---
-**Solution 1 (DP)**
+**Solution 1 (DP Bottom-Up)**
 ```
-Runtime: 40 ms
-Memory Usage: 12.7 MB
+Runtime: 28 ms
+Memory Usage: 13.8 MB
 ```
 ```python
 class Solution:
     def videoStitching(self, clips: List[List[int]], T: int) -> int:
-        dp = [T+1 for _ in range(T+1)]
+        N = len(clips)
+        dp = [float('inf') for _ in range(T+1)]
         dp[0] = 0
         for videoLen in range(1, T+1):
-            for c in range(len(clips)):
-                clipStart = clips[c][0]
-                cliepEnd = clips[c][1]
-                if clipStart <= videoLen and cliepEnd >= videoLen:
+            for clipStart, clipEnd in clips:
+                if clipStart <= videoLen <= clipEnd:
                     dp[videoLen] = min(dp[videoLen], 1 + dp[clipStart])
-                    
-        return -1 if dp[T] == T+1 else dp[T]
+
+        return -1 if dp[T] == float('inf') else dp[T]
 ```
 
 **Solution 2: (Greedy)**
 ```
-Runtime: 28 ms
-Memory Usage: 12.8 MB
+Runtime: 36 ms
+Memory Usage: 13.8 MB
 ```
 ```python
 class Solution:
     def videoStitching(self, clips: List[List[int]], T: int) -> int:
-        clips = sorted(clips)
-        end = 0
-        L = len(clips)
-        i = 0
-        mx = 0
-        res = 0
-        while end < T and i < L:
-            if clips[i][0] > end:
-                return -1
-            while i < L and clips[i][0] <= end:
-                mx = max(mx, clips[i][1])
-                i += 1
-            end = mx
-            res += 1
-        return -1 if end < T else res
+        clips.sort()
+        rst = 1; st = end = 0
+        for i, j in clips:
+            if i <= st: end = max(end, j)
+            else: 
+                if i > end: return -1
+                st, end, rst = end, max(end, j), rst+1
+            if end >= T: return rst
+        return -1
+```
 
+**Solution 3: (DP Top-Down, Sort)**
+```
+Runtime: 40 ms
+Memory Usage: 13.9 MB
+```
+```python
+class Solution:
+    def videoStitching(self, clips: List[List[int]], T: int) -> int:
+        N = len(clips)
+        clips.sort()
+        
+        @functools.lru_cache(None)
+        def dp (i, t):
+            if t >= T:
+                return 0
+            rst = float('inf')
+            for j in range(i+1, N):
+                clipStart = clips[j][0]
+                clipEnd = clips[j][1]
+                if clipStart <= t <= clipEnd:
+                    rst = min(rst, 1 + dp(j, clipEnd))
+            return rst
+        
+        ans = dp(-1, 0)
+        
+        return -1 if ans == float('inf') else ans
 ```

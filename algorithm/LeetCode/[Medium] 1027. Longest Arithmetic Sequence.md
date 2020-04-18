@@ -40,7 +40,30 @@ The longest arithmetic subsequence is [20,15,10,5].
 
 # Submissions
 ---
-**Solution 1: (DP)**
+**Solution 1: (DP Top-Down, Time Limit Exceeded)**
+```python
+class Solution:
+    def longestArithSeqLength(self, A: List[int]) -> int:
+        N = len(A)
+        
+        @functools.lru_cache(None)
+        def dp(j, d):
+            if j == N:
+                return 0
+            rst = 1
+            for k in range(j + 1, N):
+                if d == A[k] - A[j]:
+                    rst = max(rst, dp(k, d) + 1)
+            return rst
+        
+        max_len = 0
+        for i in range(N):
+            for j in range(i+1, N):
+                max_len = max(max_len, dp(i, A[j] - A[i]))
+        return max_len
+```
+
+**Solution 1: (DP Bottom-Up)**
 ```
 Runtime: 1124 ms
 Memory Usage: 312.4 MB
@@ -49,12 +72,12 @@ Memory Usage: 312.4 MB
 class Solution:
     def longestArithSeqLength(self, A: List[int]) -> int:
         dp = {}
-        for i, a2 in enumerate(A[1:], start=1):
-            for j, a1 in enumerate(A[:i]):
+        for j, a2 in enumerate(A[1:], start=1):
+            for i, a1 in enumerate(A[:j]):
                 d = a2 - a1
-                if (j, d) in dp:
-                    dp[i, d] = dp[j, d] + 1
+                if (i, d) in dp:
+                    dp[j, d] = dp[i, d] + 1
                 else:
-                    dp[i, d] = 2
+                    dp[j, d] = 2
         return max(dp.values())
 ```

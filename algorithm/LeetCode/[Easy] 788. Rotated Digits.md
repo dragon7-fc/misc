@@ -21,7 +21,7 @@ Note that 1 and 10 are not good numbers, since they remain unchanged after rotat
 
 # Submissions
 ---
-**Solution 1:**
+**Solution 1: (Set)**
 ```
 Runtime: 100 ms
 Memory Usage: 12.7 MB

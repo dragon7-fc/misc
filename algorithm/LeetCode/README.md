@@ -180,6 +180,7 @@ Happy Coding!!
 * [[Medium] [Solution] 238. Product of Array Except Self](%5BMedium%5D%20%5BSolution%5D%20238.%20Product%20of%20Array%20Except%20Self.md)
 * [[Medium] [Solution] 678. Valid Parenthesis String](%5BMedium%5D%20%5BSolution%5D%20678.%20Valid%20Parenthesis%20String.md)
 * [[Medium] 200. Number of Islands](%5BMedium%5D%20200.%20Number%20of%20Islands.md)
+* [[Medium] 64. Minimum Path Sum](%5BMedium%5D%2064.%20Minimum%20Path%20Sum.md)
 
 ## Array <a name="array"></a>
 ---
@@ -1590,7 +1591,26 @@ class Solution:
 
         return dp[0] + sum(len(D) ** i for i in range(1, K))
 ```
-* [[Hard] [Solution] 902. Numbers At Most N Given Digit Set](%5BHard%5D%20%5BSolution%5D%20902.%20Numbers%20At%20Most%20N%20Given%20Digit%20Set.md)
+* [[Hard] [Solution] * 902. Numbers At Most N Given Digit Set](%5BHard%5D%20%5BSolution%5D%20*%20902.%20Numbers%20At%20Most%20N%20Given%20Digit%20Set.md)
+
+### Digit DP
+```python
+class Solution:
+    def atMostNGivenDigitSet(self, D: List[str], N: int) -> int:
+        D = list(map(int, D))
+        N = list(map(int, str(N)))
+
+        @functools.lru_cache(None)
+        def dp(i, isPrefix, isBigger):
+            if i == len(N):
+                return not isBigger
+            if not isPrefix and not isBigger:
+                return 1 + len(D) * dp(i + 1, False, False)
+            return 1 + sum(dp(i + 1, isPrefix and d == N[i], isBigger or (isPrefix and d > N[i])) for d in D)
+
+        return dp(0, True, False) - 
+```
+* [[Hard] [Solution] * 902. Numbers At Most N Given Digit Set](%5BHard%5D%20%5BSolution%5D%20*%20902.%20Numbers%20At%20Most%20N%20Given%20Digit%20Set.md)
 
 ### How many ways to place P_i with relative rank j
 ```python

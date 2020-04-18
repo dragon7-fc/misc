@@ -84,7 +84,7 @@ class Solution:
         return ans
 ```
 
-**Solution 4: (DP Top-Down)**
+**Solution 4: (DP Top-Down, Digit DP)**
 ```
 Runtime: 32 ms
 Memory Usage: 12.9 MB

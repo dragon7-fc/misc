@@ -247,7 +247,7 @@ class Solution:
         return dfs(0) + sum([len(D) ** i for i in range(1, K)])
 ```
 
-**Solution 4: (DP Top-Down)**
+**Solution 4: (DP Top-Down, Digit DP)**
 
 Theory: https://codeforces.com/blog/entry/53960
 
