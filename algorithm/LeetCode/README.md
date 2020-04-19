@@ -186,6 +186,7 @@ Happy Coding!!
 * [[Medium] [Solution] 678. Valid Parenthesis String](%5BMedium%5D%20%5BSolution%5D%20678.%20Valid%20Parenthesis%20String.md)
 * [[Medium] 200. Number of Islands](%5BMedium%5D%20200.%20Number%20of%20Islands.md)
 * [[Medium] 64. Minimum Path Sum](%5BMedium%5D%2064.%20Minimum%20Path%20Sum.md)
+* [[Medium] 33. Search in Rotated Sorted Array](%5BMedium%5D%2033.%20Search%20in%20Rotated%20Sorted%20Array.md)
 
 ## Array <a name="array"></a>
 ---
@@ -1768,6 +1769,22 @@ class Solution:
         return dfs(0) % (10**9 + 7)
 ```
 * [[Hard] 1397. Find All Good Strings](%5BHard%5D%201397.%20Find%20All%20Good%20Strings.md)
+
+### 3D DP
+```python
+class Solution:
+    def numOfArrays(self, n: int, m: int, k: int) -> int:
+
+        @functools.lru_cache(None)
+        def dfs(i, largest, accend):
+            if i == n: return accend == k
+            if accend > k: return 0
+            return sum(dfs(i + 1, max(largest, j), accend + (j > largest)) for j in range(1, m + 1))
+
+        if k > m: return 0
+        return sum(dfs(1, i, 1) for i in range(1, m + 1)) % (10 ** 9 + 7)
+```
+* [[Hard] 1420. Build Array Where You Can Find The Maximum Exactly K Comparisons](%5BHard%5D%201420.%20Build%20Array%20Where%20You%20Can%20Find%20The%20Maximum%20Exactly%20K%20Comparisons.md)
 
 ## Math <a name="math"></a>
 ---

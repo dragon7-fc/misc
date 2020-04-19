@@ -39,20 +39,42 @@ Explanation: The minimum score triangulation has score 1*1*3 + 1*1*4 + 1*1*5 + 1
 
 # Submissions
 ---
-**Solution 1: (DP)**
+**Solution 1: (DP Bottom-Up)**
 ```
-Runtime: 132 ms
-Memory Usage: 12.7 MB
+Runtime: 116 ms
+Memory Usage: 13.8 MB
 ```
 ```python
 class Solution:
     def minScoreTriangulation(self, A: List[int]) -> int:
-        N = len(A)
-        dp = [[0]*50 for _ in range(50)]
-        for i in range(2, N):
-            for j in range(N-i):
-                s, e, dp[s][e] = j, j + i, math.inf
-                for k in range(s+1,e):
-                    dp[s][e] = min(dp[s][e], A[s]*A[k]*A[e] + dp[s][k] + dp[k][e])
-        return dp[0][N-1]
+        n = len(A)
+        dp = [[0]*n for i in range(n)]
+        for l in range(2, n):
+            for left in range(0, n - l):
+                right = left + l
+                dp[left][right] = float("Inf")
+                for k in range(left + 1, right):
+                    dp[left][right] = min(dp[left][right], dp[left][k] + dp[k][right] + A[left]*A[right]*A[k])
+        return dp[0][-1]
+```
+
+**Solution 2: (DP Top-Down)**
+```
+Runtime: 124 ms
+Memory Usage: 14.7 MB
+```
+```python
+class Solution:
+    def minScoreTriangulation(self, A: List[int]) -> int:
+        
+        @lru_cache(None)
+        def dfs(left, right):
+            if right - left + 1 < 3:
+                return 0
+            minnum = float("Inf")
+            for k in range(left+1, right):
+                minnum = min(minnum, A[left]*A[right]*A[k] + dfs(left, k) + dfs(k, right))
+            return minnum
+
+        return dfs(0, len(A) - 1)
 ```
