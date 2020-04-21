@@ -27,7 +27,7 @@ Output: 0.03125
 
 # Submissions
 ---
-**Solution 1:**
+**Solution 1: (DP Bottom-Up)**
 
 **Explanation:**
 * `dp[c][k]` is the prob of tossing `c` first coins and get `k` faced up.
@@ -50,4 +50,19 @@ class Solution:
             for k in range(target, -1, -1):
                 dp[k] = (dp[k - 1] if k else 0) * p + dp[k] * (1 - p)
         return dp[target]
+```
+
+**Solution 2: (DP Top-Down)**
+```python
+class Solution:
+    def probabilityOfHeads(self, prob: List[float], target: int) -> float:
+        N = len(prob)
+        
+        @functools.lru_cache(None)
+        def dp(n, k):
+            if k > n or k < 0: return 0
+            if n == 0: return 1
+            return dp(n-1, k-1)*prob[n-1] + dp(n-1, k)*(1-prob[n-1])
+        
+        return dp(N, target)
 ```

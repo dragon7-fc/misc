@@ -2,12 +2,12 @@
 
 We have a collection of rocks, each rock has a positive integer weight.
 
-Each turn, we choose any two rocks and smash them together.  Suppose the stones have weights `x` and `y` with `x <= y`.  The result of this smash is:
+Each turn, we choose **any two rocks** and smash them together.  Suppose the stones have weights `x` and `y` with `x <= y`.  The result of this smash is:
 
 * If `x == y`, both stones are totally destroyed;
 * If `x != y`, the stone of weight `x` is totally destroyed, and the stone of weight `y` has new weight `y-x`.
 
-At the end, there is at most 1 stone left.  Return the smallest possible weight of this stone (the weight is `0` if there are no stones left.)
+At the end, there is at most 1 stone left.  Return the **smallest** possible weight of this stone (the weight is `0` if there are no stones left.)
 
  
 
@@ -55,4 +55,46 @@ class Solution:
             
            
         return total-2*current[-1]
+```
+
+**Solution 2: (DP Top-Down)**
+
+The secret for this question is in the hint.  
+Picking 2 stones x,y and calculating y-x is the same as summing all stones using positive or negative values (i.e. calculating the sum of every combination of + or - sign for each stone).  
+This is trivial to solve with backtracking (recursion). Unfortunately, the time complexity is exponential O(2^n) but we can speed it up a bit using memoization.
+
+```
+Runtime: 72 ms
+Memory Usage: 22.1 MB
+```
+```python
+class Solution:
+    def lastStoneWeightII(self, stones: List[int]) -> int:
+        N = len(stones)
+        
+        @functools.lru_cache(None)
+        def dp(i, s): #arguments are stone index and current sum
+            if i == N: #end of array, return the current sum (abs)
+                return abs(s)
+            return min(dp(i+1, s + stones[i]), dp(i+1, s - stones[i])) #try summing or subtracting each stone value
+    
+        return dp(0, 0)
+```
+
+**Solution 3: (DP Bottom-Up, Set, All possible sum)**
+```
+Runtime: 36 ms
+Memory Usage: 13.8 MB
+```
+```python
+class Solution:
+    def lastStoneWeightII(self, stones: List[int]) -> int:
+        s = {0}
+        for st in stones:
+            tmp = set()
+            for i in s:
+                tmp.add(abs(i + st))
+                tmp.add(abs(i - st))
+            s = tmp
+        return min(s) if len(s) > 0 else 0
 ```

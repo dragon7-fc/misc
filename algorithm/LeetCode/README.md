@@ -187,6 +187,8 @@ Happy Coding!!
 * [[Medium] 200. Number of Islands](%5BMedium%5D%20200.%20Number%20of%20Islands.md)
 * [[Medium] 64. Minimum Path Sum](%5BMedium%5D%2064.%20Minimum%20Path%20Sum.md)
 * [[Medium] 33. Search in Rotated Sorted Array](%5BMedium%5D%2033.%20Search%20in%20Rotated%20Sorted%20Array.md)
+* [[Medium] 1008. Construct Binary Search Tree from Preorder Traversal](%5BMedium%5D%201008.%20Construct%20Binary%20Search%20Tree%20from%20Preorder%20Traversal.md)
+* [[Medium] 30day. Leftmost Column with at Least a One](%5BMedium%5D%2030day.%20Leftmost%20Column%20with%20at%20Least%20a%20One.md)
 
 ## Array <a name="array"></a>
 ---
@@ -1513,6 +1515,50 @@ class Solution:
 ```
 * [[Medium] [Solution] 983. Minimum Cost For Tickets](%5BMedium%5D%20%5BSolution%5D%20983.%20Minimum%20Cost%20For%20Tickets.md)
 
+### All possible sum
+```python
+class Solution:
+    def lastStoneWeightII(self, stones: List[int]) -> int:
+        s = {0}
+        for st in stones:
+            tmp = set()
+            for i in s:
+                tmp.add(abs(i + st))
+                tmp.add(abs(i - st))
+            s = tmp
+        return min(s) if len(s) > 0 else 0
+
+    
+class Solution:
+    def lastStoneWeightII(self, stones: List[int]) -> int:
+        N = len(stones)
+
+        @functools.lru_cache(None)
+        def dp(i, s): #arguments are stone index and current sum
+            if i == N: #end of array, return the current sum (abs)
+                return abs(s)
+            return min(dp(i+1, s + stones[i]), dp(i+1, s - stones[i])) #try summing or subtracting each stone value
+
+        return dp(0, 0)
+```
+* [[Medium] 1049. Last Stone Weight II](%5BMedium%5D%201049.%20Last%20Stone%20Weight%20II.md)
+
+### Probability
+```python
+class Solution:
+    def probabilityOfHeads(self, prob: List[float], target: int) -> float:
+        N = len(prob)
+
+        @functools.lru_cache(None)
+        def dp(n, k):
+            if k > n or k < 0: return 0
+            if n == 0: return 1
+            return dp(n-1, k-1)*prob[n-1] + dp(n-1, k)*(1-prob[n-1])
+
+        return dp(N, target)
+```
+* [[Medium] 1230. Toss Strange Coins](%5BMedium%5D%201230.%20Toss%20Strange%20Coins.md)
+
 ### Character match
 ```python
 import functools
@@ -2709,6 +2755,37 @@ class Solution:
         return max_square
 ```
 * [[Medium] 1292. Maximum Side Length of a Square with Sum Less than or Equal to Threshold](%5BMedium%5D%201292.%20Maximum%20Side%20Length%20of%20a%20Square%20with%20Sum%20Less%20than%20or%20Equal%20to%20Threshold.md)
+
+### 2D Binary Search
+```python
+# """
+# This is BinaryMatrix's API interface.
+# You should not implement it, or speculate about its implementation
+# """
+#class BinaryMatrix(object):
+#    def get(self, x: int, y: int) -> int:
+#    def dimensions(self) -> list[]:
+
+class Solution:
+    def leftMostColumnWithOne(self, binaryMatrix: 'BinaryMatrix') -> int:
+        R, C = binaryMatrix.dimensions()
+
+        def search(r, c):
+            if r == R and c == C-1:
+                return -1
+            elif r == R:
+                return c+1
+            elif c < 0:
+                return 0
+            upper_right = binaryMatrix.get(r, c)
+            if upper_right == 1:
+                return search(r, c - 1)
+            elif upper_right == 0:
+                return search(r + 1, c)
+
+        return search(0, C-1)
+```
+* [[Medium] 30day. Leftmost Column with at Least a One](%5BMedium%5D%2030day.%20Leftmost%20Column%20with%20at%20Least%20a%20One.md)
 
 ### Binary Search + Sliding Window
 ```python
@@ -5110,6 +5187,21 @@ class Solution:
 ```
 * [[Hard] 218. The Skyline Problem](%5BHard%5D%20218.%20The%20Skyline%20Problem.md)
 
+### Minimum Time
+```python
+class Solution:
+    def minBuildTime(self, blocks: List[int], split: int) -> int:
+        pq = []
+        for block in blocks:
+            heapq.heappush(pq, block)
+        while len(pq) > 1:
+            heapq.heappop(pq)
+            heapq.heappush(pq, heapq.heappop(pq)+split)
+
+        return heapq.heappop(pq)
+```
+* [[Hard] 1199. Minimum Time to Build Blocks](%5BHard%5D%201199.%20Minimum%20Time%20to%20Build%20Blocks.md)
+
 **Template 1:**
 ```python
 ans = ...
@@ -5900,6 +5992,22 @@ class Solution:
         return answers
 ```
 * [[Hard] [Solution] 282. Expression Add Operators](%5BHard%5D%20%5BSolution%5D%20282.%20Expression%20Add%20Operators.md)
+
+### Binay Search Tree
+```python
+class Solution:
+    def bstFromPreorder(self, preorder: List[int]) -> TreeNode:
+        if preorder:
+            val = preorder[0]
+            root = TreeNode(val)
+            i = 1
+            while i < len(preorder) and preorder[i] < val:
+                i += 1
+            root.left = self.bstFromPreorder(preorder[1:i])
+            root.right = self.bstFromPreorder(preorder[i:])
+            return root
+```
+* [[Medium] 1008. Construct Binary Search Tree from Preorder Traversal](%5BMedium%5D%201008.%20Construct%20Binary%20Search%20Tree%20from%20Preorder%20Traversal.md)
 
 ### Modified merge sort
 ```python

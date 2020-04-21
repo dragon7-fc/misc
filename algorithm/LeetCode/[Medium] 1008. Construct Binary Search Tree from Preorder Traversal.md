@@ -46,3 +46,51 @@ class Solution:
             root.right = self.bstFromPreorder(preorder[i:])
             return root
 ```
+
+**Solution 2: (Iterative)**
+```
+Runtime: 32 ms
+Memory Usage: 13.6 MB
+```
+```python
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+
+class Solution:
+    def bstFromPreorder(self, preorder: List[int]) -> TreeNode:
+        """
+        This method uses iteration to construct a binary search tree from the
+        input list.  The only preorder characteristic of the list that it uses
+        is that the first element of the list is the value of the root node.
+
+        :param preorder:
+        :type preorder:
+        :return:
+        :rtype:
+        """
+        if preorder == []:
+            return None
+        head = TreeNode(preorder[0])
+        for value in preorder[1:]:
+            new_node = TreeNode(value)
+            new_node_not_added = True
+            node = head
+            while new_node_not_added:
+                if value < node.val:
+                    if node.left:
+                        node = node.left
+                    else:
+                        node.left = new_node
+                        new_node_not_added = False
+                elif value > node.val:
+                    if node.right:
+                        node = node.right
+                    else:
+                        node.right = new_node
+                        new_node_not_added = False
+        return head
+```

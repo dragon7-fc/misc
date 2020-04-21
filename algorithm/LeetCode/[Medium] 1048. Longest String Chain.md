@@ -26,7 +26,7 @@ Explanation: one of the longest word chain is "a","ba","bda","bdca".
 
 # Submissions
 ---
-**Solution 1: (DP)**
+**Solution 1: (DP Bottom-Up, Hash Table, Delete One at Once)**
 
 **Algorithm:**
 
@@ -56,3 +56,27 @@ class Solution:
 
 * Time: $O(M * N)$ where $M$ is the length of the input array and $N$ is the avg length of each word.
 * Space: $O(M)$
+
+**Solution 2:(DP Top-Down)**
+```
+Runtime: 124 ms
+Memory Usage: 17.4 MB
+```
+```python
+class Solution:
+    def longestStrChain(self, words: List[str]) -> int:
+        
+        @functools.lru_cache(None)
+        def dfs(word):
+            count = 0
+            for i in range(len(word)):
+                cur = word[:i] + word[i+1:]  # Delete One at Once
+                if cur in s: 
+                    count = max(count, dfs(cur))
+            return count + 1
+        
+        rst, s, history = 1, set(words), {}
+        for word in words:
+            rst = max(rst, dfs(word))
+        return rst
+```

@@ -91,6 +91,16 @@ A playground to note something.
 
     - [Docker Cheat Sheet](https://github.com/wsargent/docker-cheat-sheet)
 
+    - How do I change the Docker image installation directory?
+    
+        - Stop docker: `service docker stop`. Verify no docker process is running `ps faux`
+        - Double check docker really isn’t running. Take a look at the current docker directory: `ls /var/lib/docker/`
+            - Make a backup - `tar -zcC /var/lib docker > /mnt/pd0/var_lib_docker-backup-$(date +%s).tar.gz`
+        - Move the `/var/lib/docker` directory to your new partition: `mv /var/lib/docker /new/path/to/docker`
+        - Make a symlink: `ln -s /new/path/to/docker /var/lib/docker`
+        - Take a peek at the directory structure to make sure it looks like it did before the mv: `ls /var/lib/docker/` (note the trailing slash to resolve the symlink)
+        - Start docker back up service `docker start`
+        - restart your containers
 * Beyond Compare
 
     - __Linux__:
