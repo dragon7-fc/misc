@@ -32,7 +32,7 @@ Notice that book number 2 does not have to be on the first shelf.
 
 # Submissions
 ---
-**Solution 1:**
+**Solution 1: (DP Bottom-Up)**
 ```
 Runtime: 52 ms
 Memory Usage: 12.9 MB
@@ -51,4 +51,31 @@ class Solution:
                 h = max(h, books[j][1])
                 dp[j] = min(dp[j], h if i == 0 else dp[i-1] + h)
         return dp[-1]
+```
+
+**Solution 2: (DP Top-Down)**
+```
+Runtime: 44 ms
+Memory Usage: 15.1 MB
+```
+```python
+class Solution:
+    def minHeightShelves(self, books: List[List[int]], shelf_width: int) -> int:
+        
+        @lru_cache
+        def shelf_height(index, remaining_width, last_height):
+            if index >= len(books): return last_height
+            book_width, book_height = books[index]
+            if remaining_width - book_width >= 0:
+                if last_height >= book_height:
+                    return shelf_height(index + 1, remaining_width - book_width, last_height)
+                else:
+                    return min(
+                        shelf_height(index + 1, remaining_width - book_width, book_height),
+                        last_height + shelf_height(index + 1, shelf_width - book_width, book_height)
+                    )
+            else:
+                return last_height + shelf_height(index + 1, shelf_width - book_width, book_height)
+
+        return shelf_height(0, shelf_width, 0)
 ```

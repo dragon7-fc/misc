@@ -147,29 +147,19 @@ public class Solution {
 ---
 **Solution 1: (Using hashmap)**
 ```
-Runtime: 72 ms
-Memory Usage: N/A
+Runtime: 112 ms
+Memory Usage: 17.9 MB
 ```
 ```python
 class Solution:
-    def subarraySum(self, nums, k):
-        """
-        :type nums: List[int]
-        :type k: int
-        :rtype: int
-        """
+    def subarraySum(self, nums: List[int], k: int) -> int:
         sum_cnt = collections.defaultdict(int)
         sum_cnt[0] = 1
-        cur_sum = 0
-        cnt = 0
-        
+        cum_sum, cnt = 0, 0
         for i in range(len(nums)):
-            cur_sum += nums[i]                        
-            
-            if cur_sum-k in sum_cnt:
-                cnt += sum_cnt[cur_sum-k]
-            
-            sum_cnt[cur_sum] += 1    
-        
+            cum_sum += nums[i]                       
+            cnt += sum_cnt[cum_sum-k]
+            sum_cnt[cum_sum] += 1    
+
         return cnt
 ```

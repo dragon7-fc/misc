@@ -67,8 +67,8 @@ Output: 1
 (Optimal Approach) Imagine there is a pointer p(x, y) starting from top right corner. p can only move left or down. If the value at p is 0, move down. If the value at p is 1, move left. Try to figure out the correctness and time complexity of this algorithm.
 
 ```
-Runtime: 104 ms
-Memory Usage: 14.2 MB
+Runtime: 112 ms
+Memory Usage: 14.4 MB
 ```
 ```python
 # """
@@ -82,20 +82,48 @@ Memory Usage: 14.2 MB
 class Solution:
     def leftMostColumnWithOne(self, binaryMatrix: 'BinaryMatrix') -> int:
         R, C = binaryMatrix.dimensions()
+        leftmost_col = -1
         
-        def search(r, c):
-            if r == R and c == C-1:
-                return -1
-            elif r == R:
-                return c+1
-            elif c < 0:
-                return 0
-            upper_right = binaryMatrix.get(r, c)
-            if upper_right == 1:
-                return search(r, c - 1)
-            elif upper_right == 0:
-                return search(r + 1, c)
+        def dfs(r, c):
+            nonlocal leftmost_col
+            if r >= R or c < 0:
+                return
+            if binaryMatrix.get(r,c) == 1:
+                leftmost_col = c
+                dfs(r, c-1)
+            else:
+                dfs(r+1, c)
+        
+        dfs(0, C-1)
+        return leftmost_col
+```
 
-        return search(0, C-1)
+**Solution 2: (Iterative)**
+```
+Runtime: 112 ms
+Memory Usage: 14 MB
+```
+```python
+# """
+# This is BinaryMatrix's API interface.
+# You should not implement it, or speculate about its implementation
+# """
+#class BinaryMatrix(object):
+#    def get(self, x: int, y: int) -> int:
+#    def dimensions(self) -> list[]:
+
+class Solution:
+    def leftMostColumnWithOne(self, binaryMatrix: 'BinaryMatrix') -> int:
+        R, C = binaryMatrix.dimensions()
+        r, c = 0, C - 1 
+        leftmost_col = -1
+        while r < R and c >= 0:
+            if binaryMatrix.get(r,c) == 1:
+                leftmost_col = c
+                c -= 1
+            else:
+                r += 1
+                
+        return leftmost_col
 
 ```

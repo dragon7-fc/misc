@@ -2135,24 +2135,14 @@ class Solution:
 ### Prefix Sum
 ```python
 class Solution:
-    def subarraySum(self, nums, k):
-        """
-        :type nums: List[int]
-        :type k: int
-        :rtype: int
-        """
+    def subarraySum(self, nums: List[int], k: int) -> int:
         sum_cnt = collections.defaultdict(int)
         sum_cnt[0] = 1
-        cur_sum = 0
-        cnt = 0
-
+        cum_sum, cnt = 0, 0
         for i in range(len(nums)):
-            cur_sum += nums[i]                        
-
-            if cur_sum-k in sum_cnt:
-                cnt += sum_cnt[cur_sum-k]
-
-            sum_cnt[cur_sum] += 1    
+            cum_sum += nums[i]                       
+            cnt += sum_cnt[cum_sum-k]
+            sum_cnt[cum_sum] += 1    
 
         return cnt
 ```
@@ -2769,21 +2759,20 @@ class Solution:
 class Solution:
     def leftMostColumnWithOne(self, binaryMatrix: 'BinaryMatrix') -> int:
         R, C = binaryMatrix.dimensions()
-
-        def search(r, c):
-            if r == R and c == C-1:
-                return -1
-            elif r == R:
-                return c+1
-            elif c < 0:
-                return 0
-            upper_right = binaryMatrix.get(r, c)
-            if upper_right == 1:
-                return search(r, c - 1)
-            elif upper_right == 0:
-                return search(r + 1, c)
-
-        return search(0, C-1)
+        leftmost_col = -1
+        
+        def dfs(r, c):
+            nonlocal leftmost_col
+            if r >= R or c < 0:
+                return
+            if binaryMatrix.get(r,c) == 1:
+                leftmost_col = c
+                dfs(r, c-1)
+            else:
+                dfs(r+1, c)
+        
+        dfs(0, C-1)
+        return leftmost_col
 ```
 * [[Medium] 30day. Leftmost Column with at Least a One](%5BMedium%5D%2030day.%20Leftmost%20Column%20with%20at%20Least%20a%20One.md)
 

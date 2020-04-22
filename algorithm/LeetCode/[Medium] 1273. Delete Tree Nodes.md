@@ -24,13 +24,13 @@ Output: 2
 **Constraints:**
 
 * `1 <= nodes <= 10^4`
-* ``-10^5 <= value[i] <= 10^5`
+* `-10^5 <= value[i] <= 10^5`
 * `parent.length == nodes`
 * `parent[0] == -1` which indicates that `0` is the root.
 
 # Submissions
 ---
-**Solution 1:**
+**Solution 1: (DFS)**
 ```
 Runtime: 296 ms
 Memory Usage: 38.3 MB
