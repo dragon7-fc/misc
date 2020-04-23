@@ -189,6 +189,8 @@ Happy Coding!!
 * [[Medium] 33. Search in Rotated Sorted Array](%5BMedium%5D%2033.%20Search%20in%20Rotated%20Sorted%20Array.md)
 * [[Medium] 1008. Construct Binary Search Tree from Preorder Traversal](%5BMedium%5D%201008.%20Construct%20Binary%20Search%20Tree%20from%20Preorder%20Traversal.md)
 * [[Medium] 30day. Leftmost Column with at Least a One](%5BMedium%5D%2030day.%20Leftmost%20Column%20with%20at%20Least%20a%20One.md)
+* [[Medium] [Solution] 560. Subarray Sum Equals K](%5BMedium%5D%20%5BSolution%5D%20560.%20Subarray%20Sum%20Equals%20K.md)
+* [[Medium] 201. Bitwise AND of Numbers Range](%5BMedium%5D%20201.%20Bitwise%20AND%20of%20Numbers%20Range.md)
 
 ## Array <a name="array"></a>
 ---
@@ -3983,6 +3985,7 @@ class Solution:
         n = len(nums)
         for k in range(n + 1):
             backtrack()
+        return output
 ```
 * [[Medium] [Solution] 78. Subsets](%5BMedium%5D%20%5BSolution%5D%2078.%20Subsets.md)
 
@@ -4071,6 +4074,20 @@ return ans
 
 ## Bit Manipulation <a name="bm"></a>
 ---
+### Common Prefix
+```python
+class Solution:
+    def rangeBitwiseAnd(self, m: int, n: int) -> int:
+        k = 0
+        while n != m:
+            n >>= 1
+            m >>= 1
+            k += 1
+            
+        return n << k
+```
+* [[Medium] 201. Bitwise AND of Numbers Range](%5BMedium%5D%20201.%20Bitwise%20AND%20of%20Numbers%20Range.md)
+
 ### Bitmap
 ```python
 class Solution:

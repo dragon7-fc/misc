@@ -1,6 +1,6 @@
 1314. Matrix Block Sum
 
-Given a `m * n` matrix `mat` and an integer `K`, return a matrix answer where each `answer[i][j]` is the sum of all elements `mat[r][c]` for `i - K <= r` <= `i + K, j - K <= c <= j + K`, and `(r, c)` is a valid position in the matrix.
+Given a `m * n` matrix `mat` and an integer `K`, return a matrix answer where each `answer[i][j]` is the sum of all elements `mat[r][c]` for `i - K <= r <= i + K`, `j - K <= c <= j + K`, and `(r, c)` is a valid position in the matrix.
  
 
 **Example 1:**
@@ -24,7 +24,7 @@ Output: [[45,45,45],[45,45,45],[45,45,45]]
 
 # Submissions
 ---
-**Solution 1:**
+**Solution 1: (DP Bottom-Up, Prefix Sum)**
 
 To calculate `rangeSum`, the ideas are as below - credit to @haoel
 ```

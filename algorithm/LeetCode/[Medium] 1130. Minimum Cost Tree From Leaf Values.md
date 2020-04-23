@@ -54,7 +54,7 @@ class Solution:
         return cost
 ```
 
-**Solution 2: (DFS)**
+**Solution 2: (DP Top-Down, Minimax)**
 ```
 Runtime: 268 ms
 Memory Usage: 13.3 MB
@@ -72,4 +72,72 @@ class Solution:
             return 0 
         
         return dp(0,len(arr)-1)
+```
+
+**Solution 3: (DP Bottom-Up)**
+```
+Runtime: 144 ms
+Memory Usage: 13.8 MB
+```
+```python
+class Solution:
+    def mctFromLeafValues(self, arr: List[int]) -> int:
+        N = len(arr)
+        maxi = [[0 for _ in range(N)] for __ in range(N)]
+        dp = [[0 for _ in range(N)] for __ in range(N)]
+
+        # get the max in each interval
+        for i in range(N):
+            maxi[i][i] = arr[i]
+            for j in range(i + 1, N):
+                maxi[i][j] = max(maxi[i][j-1], arr[j])
+
+        for left in range(N - 2, -1, -1):
+            for right in range(left + 1, N):
+                dp[left][right] = float('inf')
+                for i in range(left, right):   # i represents the current interval subproblem
+                    dp[left][right] = min(dp[left][right], maxi[left][i] * maxi[i + 1][right] + dp[left][i] + dp[i + 1][right])
+
+        return dp[0][N-1]
+```
+
+**Solution 3: (Greedy)**
+```
+Runtime: 28 ms
+Memory Usage: 13.9 MB
+```
+```python
+class Solution:
+    def mctFromLeafValues(self, arr: List[int]) -> int:
+        rst = 0
+        while len(arr) > 1:
+            i = arr.index(min(arr))
+            if i == 0:
+                rst += arr[i] * arr[1]
+            elif i == len(arr)-1:
+                rst += arr[i] * arr[i-1]
+            else:
+                rst += arr[i] * min(arr[i-1], arr[i+1])
+            arr.pop(i)
+            
+        return rst
+```
+
+**Solution 4: (Stack)**
+```
+Runtime: 28 ms
+Memory Usage: 13.8 MB
+```
+```python
+class Solution:
+    def mctFromLeafValues(self, arr: List[int]) -> int:
+        rst, stack = 0, [float('inf')]
+        for i in arr:
+            while stack[-1] < i:
+                mi = stack.pop()
+                rst += mi * min(stack[-1], i)
+            stack.append(i)
+        while len(stack) > 2:
+            rst += stack.pop() * stack[-1]
+        return rst
 ```

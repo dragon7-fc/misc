@@ -26,7 +26,26 @@ Output: 1
 
 # Submissions
 ---
-**Solution 1:**
+**Solution 1: (Brute Force)**
+```
+Runtime: 1608 ms
+Memory Usage: 14.1 MB
+```
+```python
+class Solution:
+    def largest1BorderedSquare(self, grid: List[List[int]]) -> int:
+        r, c = len(grid), len(grid[0])
+        sz = min(r, c)
+        while sz:
+            for i in range(r-sz+1):
+                for j in range(c-sz+1):
+                    if all(grid[i+k][j] for k in range(sz)) and all(grid[i][j+k] for k in range(sz)) and all(grid[i+k][j+sz-1] for k in range(sz)) and all(grid[i+sz-1][j+k] for k in range(sz)):
+                        return sz**2
+            sz -= 1
+        return 0
+```
+
+**Solution 1: (DP Bottom-Up)**
 ```
 Runtime: 184 ms
 Memory Usage: 12.9 MB
