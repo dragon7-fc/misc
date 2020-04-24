@@ -2079,6 +2079,43 @@ class Solution:
 ```
 * [[Easy] [Solution] 697. Degree of an Array](%5BEasy%5D%20%5BSolution%5D%20697.%20Degree%20of%20an%20Array.md)
 
+### OrderedDict
+```python
+class LRUCache:
+
+    def __init__(self, capacity: int):
+        self.max_capacity = capacity
+        self.lru_cache = collections.OrderedDict()
+
+    def get(self, key: int) -> int:
+        key = str(key)
+        if(key not in self.lru_cache):
+            return -1
+        value = self.lru_cache[key]
+        del self.lru_cache[key]
+        self.lru_cache[key] = value
+        return value
+
+    def put(self, key: int, value: int) -> None:
+        key = str(key)
+        if(key not in self.lru_cache):
+            if(len(self.lru_cache) < self.max_capacity):
+                self.lru_cache[key] = value
+            else:
+                self.lru_cache.popitem(last=False)
+                self.lru_cache[key] = value
+        else:
+            del self.lru_cache[key]
+            self.lru_cache[key] = value
+
+
+# Your LRUCache object will be instantiated and called as such:
+# obj = LRUCache(capacity)
+# param_1 = obj.get(key)
+# obj.put(key,value)
+```
+* [[Medium] 146. LRU Cache](%5BMedium%5D%20146.%20LRU%20Cache.md)
+
 ### Generalized Neighbors
 ```python
 class MagicDictionary:
