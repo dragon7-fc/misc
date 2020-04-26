@@ -245,7 +245,25 @@ Therefore, since we start from position 1, $T(1) = 2^{n - 2}$. Final complexity 
 
 # Submissions
 ---
-**Solution: (DP Top-down, Time Limit Exceeded)**
+**Solution 1: (Backtracking, Time Limit Exceeded)**
+```python
+class Solution:
+    def canJump(self, nums: List[int]) -> bool:
+        N = len(nums)
+        
+        def canJumpFromPosition(position):
+            if position == N-1:
+                return True
+            furthestJump = min(position + nums[position], N-1)
+            for nextPosition in range(position + 1, furthestJump+1):
+                if canJumpFromPosition(nextPosition):
+                    return True
+            return False
+        
+        return canJumpFromPosition(0)
+```
+
+**Solution 2: (DP Top-down, Time Limit Exceeded)**
 ```python
 class Index:
     GOOD = 0
@@ -274,7 +292,7 @@ class Solution:
         return canJumpFromPosition(0)
 ```
 
-**Solution: (DP Bottom-up, Time Limit Exceeded)**
+**Solution 3: (DP Bottom-up, Time Limit Exceeded)**
 ```python
 class Index:
     GOOD = 0
@@ -297,7 +315,7 @@ class Solution:
         return memo[0] == Index.GOOD
 ```
 
-**Solution: (Greedy)**
+**Solution 4: (Greedy)**
 ```
 Runtime: 100 ms
 Memory Usage: 15.9 MB

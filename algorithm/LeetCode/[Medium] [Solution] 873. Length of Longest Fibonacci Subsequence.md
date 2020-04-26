@@ -113,7 +113,7 @@ class Solution(object):
 
 # Submissions
 ---
-**Solution: (Dynamic Programming Bottom-Up)**
+**Solution 1: (Dynamic Programming Bottom-Up)**
 ```
 Runtime: 924 ms
 Memory Usage: 14 MB
@@ -135,7 +135,7 @@ class Solution:
         return ans if ans >= 3 else 0
 ```
 
-**Solution 1: (DFS)**
+**Solution 2: (DFS)**
 ```
 Runtime: 480 ms
 Memory Usage: 13.5 MB

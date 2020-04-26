@@ -37,7 +37,7 @@ Output: 0
 
 # Submissions
 ---
-**Solution 1:**
+**Solution 1: (Case Study)**
 ```
 Runtime: 412 ms
 Memory Usage: 26 MB
@@ -74,6 +74,59 @@ class Solution:
                 res = max(0, max_dp, prefix_max_sum+suffix_max_sum)
             else:
                 res = max(0, max_dp, prefix_max_sum+suffix_max_sum+(k-2)*s)
-        return res%(10**9+7)
+        return res%(10**9+7)         
+```
+
+**Solution 2: (Kanane's Algorithm, DP Bottom-Up)**
+```
+Runtime: 356 ms
+Memory Usage: 26.9 MB
+```
+```python
+class Solution:
+    def kConcatenationMaxSum(self, arr: List[int], k: int) -> int:
+        total = sum(arr)
+        
+        def maxSubArraySum(a):
+            size = len(a)
+            max_so_far = float('-inf')
+            max_ending_here = 0
+
+            for i in a:
+                max_ending_here += i
+                if max_ending_here < 0: max_ending_here=0
+                max_so_far = max(max_so_far, max_ending_here)
+
+            return max_so_far
+        
+        kadanes = maxSubArraySum(arr)
+        if (k < 2): return kadanes%(10**9+7)
+        if (total > 0): return (kadanes + (k-1)*total)%(10**9+7)
+        stitchedKadanes = maxSubArraySum(arr*2)
+        return stitchedKadanes%(10**9+7)
+```
+
+**Solution 3: (Kanane's Algorithm, DP Bottom-Up)**
+```
+Runtime: 444 ms
+Memory Usage: 27.1 MB
+```
+```python
+class Solution:
+    def kConcatenationMaxSum(self, arr: List[int], k: int) -> int:
+        N = len(arr)
+        if arr == None or N == 0: return 0
+        maxOfEnd = arr[0] if arr[0] > 0 else 0
+        maxSoFar, total = maxOfEnd, arr[0]
+        for i in range(1, min(k, 2)*N):
+            maxOfEnd = max(maxOfEnd + arr[i % N], arr[i % N])
+            maxSoFar = max(maxOfEnd, maxSoFar)
+            if i < N:
+                total += arr[i]
+        k -= 1
+        while total > 0 and k >= 2:
+            maxSoFar = (maxSoFar + total) % 1000000007
+            k -= 1
             
+        return maxSoFar
 ```

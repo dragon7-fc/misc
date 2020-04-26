@@ -59,7 +59,7 @@ The answer must be returned modulo 10^9 + 7.
 
 # Submissions
 ---
-**Solution 1:**
+**Solution 1: (DP Bottom-Up)**
 ```
 Runtime: 296 ms
 Memory Usage: 13 MB
@@ -84,4 +84,27 @@ class Solution:
                         dp[i][j] %= 1000000007
         
         return dp[d-1][target-1]
+```
+
+**Solution 2: (DP Top-Down)**
+```
+Runtime: 416 ms
+Memory Usage: 21 MB
+```
+```python
+class Solution:
+    def numRollsToTarget(self, d: int, f: int, target: int) -> int:
+        MOD = 10**9 + 7
+        
+        @functools.lru_cache(None)
+        def dp(n, t):
+            if n == 0:
+                if t != 0:
+                    return 0
+                else:
+                    return 1
+            return sum([dp(n-1, t-i) for i in range(1, f+1)])
+        
+        return dp(d, target) % MOD
+        
 ```

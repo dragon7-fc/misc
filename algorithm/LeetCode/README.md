@@ -42,6 +42,7 @@ Happy Coding!!
 ### Table of Contents
 
 1. [Libraries](#libraries)
+1. [Concepts](#concept)
 1. [30-Day LeetCoding Challenge](#30day)
 1. [Array](#array)
 1. [Dynamic Programming](#dp)
@@ -168,6 +169,11 @@ Happy Coding!!
 
     * ex. datetime.strptime("21/11/06 16:30", "%d/%m/%y %H:%M") --> datetime.datetime(2006, 11, 21, 16, 30)
 
+## Concepts <a name="concept"></a>
+---
+* [Rolling hash, a constant time window search](https://medium.com/algorithm-and-datastructure/rolling-hash-a-constant-time-window-search-f8af6ee12d3f)
+* [Kadane’s Algorithm — (Dynamic Programming) — How and Why does it Work?](https://medium.com/@rsinghal757/kadanes-algorithm-dynamic-programming-how-and-why-does-it-work-3fd8849ed73d)
+
 ## 30-Day LeetCoding Challenge <a name="30day"></a>
 ---
 * [[Easy] [Solution] 136. Single Number](%5BEasy%5D%20%5BSolution%5D%20136.%20Single%20Number.md)
@@ -191,6 +197,9 @@ Happy Coding!!
 * [[Medium] 30day. Leftmost Column with at Least a One](%5BMedium%5D%2030day.%20Leftmost%20Column%20with%20at%20Least%20a%20One.md)
 * [[Medium] [Solution] 560. Subarray Sum Equals K](%5BMedium%5D%20%5BSolution%5D%20560.%20Subarray%20Sum%20Equals%20K.md)
 * [[Medium] 201. Bitwise AND of Numbers Range](%5BMedium%5D%20201.%20Bitwise%20AND%20of%20Numbers%20Range.md)
+* [[Medium] 146. LRU Cache](%5BMedium%5D%20146.%20LRU%20Cache.md)
+* [[Medium] [Solution] 55. Jump Game](%5BMedium%5D%20%5BSolution%5D%2055.%20Jump%20Game.md)
+* [[Medium] 1143. Longest Common Subsequence](%5BMedium%5D%201143.%20Longest%20Common%20Subsequence.md)
 
 ## Array <a name="array"></a>
 ---
@@ -907,18 +916,40 @@ class Solution:
 ```python
 class Solution:
     def lenLongestFibSubseq(self, A: List[int]) -> int:
-        index = {x: i for i, x in enumerate(A)}
-        longest = collections.defaultdict(lambda: 2)
-
+        N = len(A)
+        index = {k: i for i, k in enumerate(A)}
+        dp = [[2]*N for _ in range(N)]
         ans = 0
-        for k, z in enumerate(A):
+        for k in range(N):
             for j in range(k):
-                i = index.get(z - A[j], None)
-                if i is not None and i < j:
-                    cand = longest[j, k] = longest[i, j] + 1
-                    ans = max(ans, cand)
+                if A[k] - A[j] in index:
+                    i = index[A[k] - A[j]]
+                    if i < j:
+                        dp[j][k] = dp[i][j] + 1
+                        ans = max(ans, dp[j][k])
+                    
+        return ans if ans >=3 else 0
+    
+class Solution:
+    def lenLongestFibSubseq(self, A: List[int]) -> int:
+        N = len(A)
+        if N <= 2:
+            return N
+        index = {v: i for i, v in enumerate(A)}
+        ans = 0
 
-        return ans if ans >= 3 else 0
+        @functools.lru_cache(None)
+        def dfs(i, j):
+            if (A[i] + A[j]) not in A:
+                return 0
+            return 1 + dfs(j, index[A[i] + A[j]])
+
+        for i in range(N-2):
+            for j in range(i+1, N-1):
+                if A[i] + A[j] in index:
+                    ans = max(ans, dfs(i, j))
+
+        return ans + 2 if ans >= 1 else 0
 ```
 * [[Medium] [Solution] 873. Length of Longest Fibonacci Subsequence](%5BMedium%5D%20%5BSolution%5D%20873.%20Length%20of%20Longest%20Fibonacci%20Subsequence.md)
 
@@ -941,17 +972,17 @@ class Solution:
 
 ### Bottom-up
 ```python
-class Solution(object):
-    def minimumDeleteSum(self, s1, s2):
-        dp = [[0] * (len(s2) + 1) for _ in xrange(len(s1) + 1)]
+class Solution:
+    def minimumDeleteSum(self, s1: str, s2: str) -> int:
+        dp = [[0] * (len(s2) + 1) for _ in range(len(s1) + 1)]
 
-        for i in xrange(len(s1) - 1, -1, -1):
+        for i in range(len(s1) - 1, -1, -1):
             dp[i][len(s2)] = dp[i+1][len(s2)] + ord(s1[i])
-        for j in xrange(len(s2) - 1, -1, -1):
+        for j in range(len(s2) - 1, -1, -1):
             dp[len(s1)][j] = dp[len(s1)][j+1] + ord(s2[j])
 
-        for i in xrange(len(s1) - 1, -1, -1):
-            for j in xrange(len(s2) - 1, -1, -1):
+        for i in range(len(s1) - 1, -1, -1):
+            for j in range(len(s2) - 1, -1, -1):
                 if s1[i] == s2[j]:
                     dp[i][j] = dp[i+1][j+1]
                 else:
@@ -1101,6 +1132,25 @@ class Solution:
             return memo[previndex + 1][curpos]
 
         return dfs(-1, 0)
+
+class Solution:
+    def lengthOfLIS(self, nums: List[int]) -> int:
+        if not nums:
+            return 0
+        N = len(nums)
+        maxans = 1
+        
+        @functools.lru_cache(None)
+        def dp(i):
+            maxval = 0
+            for j in range(i):
+                if nums[i] > nums[j]:
+                    maxval = max(maxval, dp(j))
+            return maxval + 1
+            
+        for i in range(N):
+            maxans = max(maxans, dp(i))
+        return maxans    
     
 class Solution:
     def lengthOfLIS(self, nums: List[int]) -> int:
@@ -5673,6 +5723,20 @@ class Solution:
         return ans
 ```
 * [[Medium] 1004. Max Consecutive Ones III](%5BMedium%5D%201004.%20Max%20Consecutive%20Ones%20III.md)
+
+### Sliding over left, right end
+```python
+class Solution:
+    def maxScore(self, cardPoints: List[int], k: int) -> int:
+        ans = win = 0
+        for i in range(-k, k):
+            win += cardPoints[i]
+            if i >= 0:
+                win -= cardPoints[i - k]
+            ans = max(win, ans)    
+        return ans
+```
+* [[Medium] 1423. Maximum Points You Can Obtain from Cards](%5BMedium%5D%201423.%20Maximum%20Points%20You%20Can%20Obtain%20from%20Cards.md)
 
 ### Hash Table to keep sliding window
 ```python

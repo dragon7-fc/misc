@@ -37,7 +37,7 @@ Explanation: The final subarray needs to be non-empty. You can't choose [-1] and
 
 # Submissions
 ---
-**Solution 1:**
+**Solution 1 (DP Bottom-Up):**
 
 Define `dp(i, d)` as maximum subarray sum on `arr[:i + 1]` with `d` times deletions.
 We'll get this recursion:
@@ -61,7 +61,7 @@ class Solution:
         return res
 ```
 
-**Solution 2:**
+**Solution 2:(DP Bottom-Up 1D)**
 ```
 Runtime: 276 ms
 Memory Usage: 22.8 MB
@@ -74,4 +74,29 @@ class Solution:
             x, y = max(a, x + a), max(x, y + a)
             res = max(res, x, y)
         return res
+```
+
+**Solution 3: (DP Top-Down)**
+```
+Runtime: 412 ms
+Memory Usage: 76.3 MB
+```
+```python
+class Solution:
+    def maximumSum(self, arr: List[int]) -> int:
+        N = len(arr)
+        
+        @functools.lru_cache(None)
+        def dp(i, is_delete):
+            if i < 0:
+                return float('-inf')
+            if not is_delete:
+                return max(arr[i], dp(i-1, False) + arr[i])
+            else:
+                return max(dp(i-1, False), dp(i-1, True) + arr[i])
+        
+        rst = float('-inf')
+        for i in range(N):
+            rst = max(rst, dp(i, True), dp(i, False))
+        return rst
 ```
