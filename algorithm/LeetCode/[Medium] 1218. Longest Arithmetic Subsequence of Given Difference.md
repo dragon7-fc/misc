@@ -30,7 +30,7 @@ Explanation: The longest arithmetic subsequence is [7,5,3,1].
 
 # Submissions
 ---
-**Solution 1:**
+**Solution 1: (DP Bottom-Up, Hash Table)**
 ```
 Runtime: 736 ms
 Memory Usage: 27.1 MB
@@ -38,7 +38,7 @@ Memory Usage: 27.1 MB
 ```python
 class Solution:
     def longestSubsequence(self, arr: List[int], difference: int) -> int:
-        dic = {}
+        dic = {}  # {end with num arithematic subsequence: count}
         res = float('-inf')
         for num in arr:
             count = 1

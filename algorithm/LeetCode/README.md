@@ -200,6 +200,7 @@ Happy Coding!!
 * [[Medium] 146. LRU Cache](%5BMedium%5D%20146.%20LRU%20Cache.md)
 * [[Medium] [Solution] 55. Jump Game](%5BMedium%5D%20%5BSolution%5D%2055.%20Jump%20Game.md)
 * [[Medium] 1143. Longest Common Subsequence](%5BMedium%5D%201143.%20Longest%20Common%20Subsequence.md)
+* [[Medium] [Solution] 221. Maximal Square](%5BMedium%5D%20%5BSolution%5D%20221.%20Maximal%20Square.md)
 
 ## Array <a name="array"></a>
 ---
@@ -1135,22 +1136,25 @@ class Solution:
 
 class Solution:
     def lengthOfLIS(self, nums: List[int]) -> int:
-        if not nums:
-            return 0
         N = len(nums)
-        maxans = 1
-        
+        if N == 0: return 0
+        ans = 0
+
         @functools.lru_cache(None)
-        def dp(i):
-            maxval = 0
-            for j in range(i):
-                if nums[i] > nums[j]:
-                    maxval = max(maxval, dp(j))
-            return maxval + 1
+        def dfs(idx):
+            rst = 0
+            for j in range(idx+1, N):
+                if nums[idx] < nums[j]:
+                    rst = max(rst, dfs(j))
+            rst += 1
+            return rst
             
         for i in range(N):
-            maxans = max(maxans, dp(i))
-        return maxans    
+            for j in range(i+1, N):
+                if nums[i] < nums[j]:
+                    ans = max(ans, dfs(j))
+        
+        return ans + 1 
     
 class Solution:
     def lengthOfLIS(self, nums: List[int]) -> int:
@@ -1349,6 +1353,31 @@ class Solution:
                     maxsqlen = max(maxsqlen, dp[i][j])
 
         return maxsqlen **2
+    
+class Solution:
+    def maximalSquare(self, matrix):
+        """
+        :type matrix: List[List[str]]
+        :rtype: int
+        """
+        R, C = len(matrix), len(matrix[0]) if matrix else 0
+
+        @functools.lru_cache(None)
+        def dp(i, j):
+            if i < 0 or j < 0:
+                return 0, 0
+
+            up = dp(i, j-1)
+            upleft = dp(i-1, j-1)
+            left = dp(i-1, j)
+            minimum = min(up[0], upleft[0], left[0])
+            best = max(up[1], upleft[1], left[1])
+
+            if matrix[i][j] == '1':
+                return (minimum + 1, max(best, minimum + 1))
+            return (0, max(best, 0))
+
+        return dp(R-1, C-1)[1]**2
 ```
 * [[Medium] [Solution] 221. Maximal Square](%5BMedium%5D%20%5BSolution%5D%20221.%20Maximal%20Square.md)
 

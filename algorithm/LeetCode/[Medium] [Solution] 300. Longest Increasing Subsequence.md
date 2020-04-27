@@ -298,22 +298,25 @@ Memory Usage: 14.1 MB
 ```python
 class Solution:
     def lengthOfLIS(self, nums: List[int]) -> int:
-        if not nums:
-            return 0
         N = len(nums)
-        maxans = 1
-        
+        if N == 0: return 0
+        ans = 0
+
         @functools.lru_cache(None)
-        def dp(i):
-            maxval = 0
-            for j in range(i):
-                if nums[i] > nums[j]:
-                    maxval = max(maxval, dp(j))
-            return maxval + 1
+        def dfs(idx):
+            rst = 0
+            for j in range(idx+1, N):
+                if nums[idx] < nums[j]:
+                    rst = max(rst, dfs(j))
+            rst += 1
+            return rst
             
         for i in range(N):
-            maxans = max(maxans, dp(i))
-        return maxans
+            for j in range(i+1, N):
+                if nums[i] < nums[j]:
+                    ans = max(ans, dfs(j))
+        
+        return ans + 1
 ```
 
 **Solution 5: (Dynamic Programming Bottom-Up)**

@@ -185,10 +185,10 @@ class Solution:
         return maxsqlen **2
 ```
 
-**Solution 2: (Better Dynamic Programming Bottom-Up)**
+**Solution 2: (Better Dynamic Programming Bottom-Up 1D)**
 ```
-Runtime: 176 ms
-Memory Usage: N/A
+Runtime: 200 ms
+Memory Usage: 14.7 MB
 ```
 ```python
 class Solution:
@@ -197,20 +197,20 @@ class Solution:
         :type matrix: List[List[str]]
         :rtype: int
         """
-        if matrix == []:
-            return 0
-        m, n, cur, pre = len(matrix), len(matrix[0]), 0, 0
-        dp = [0 for _ in range(n+1)]
-        for i in range(1,m+1) :
-            for j in range(1,n+1) :
-                temp = dp[j]
-                if(matrix[i-1][j-1] == "1"):
-                    dp[j] = min(dp[j - 1], pre,dp[j]) + 1
-                    cur = max(cur,dp[j])
+        rows, cols = len(matrix), len(matrix[0]) if matrix else 0
+        dp = [0]*(cols + 1)
+        pre = 0
+        maxsqlen = 0
+        for i in range(1, rows + 1):
+            for j in range(1, cols + 1):
+                tmp = dp[j]
+                if matrix[i-1][j-1] == '1':
+                    dp[j] = min(min(dp[j - 1], dp[j]), pre) + 1
+                    maxsqlen = max(maxsqlen, dp[j])
                 else:
                     dp[j] = 0
-                pre = temp
-        return cur*cur
+                pre = tmp
+        return maxsqlen **2
 ```
 
 **Solution 3: (DP Bottom-Up)**
@@ -245,4 +245,69 @@ class Solution:
             dp_row = list(dp_row2)
                     
         return maxArea**2
+```
+
+**Solution 4: (DP Top-Down)**
+```
+Runtime: 272 ms
+Memory Usage: 28.9 MB
+```
+```python
+class Solution:
+    def maximalSquare(self, matrix):
+        """
+        :type matrix: List[List[str]]
+        :rtype: int
+        """
+        R, C = len(matrix), len(matrix[0]) if matrix else 0
+        
+        @functools.lru_cache(None)
+        def dp(i, j):
+            if i < 0 or j < 0:
+                return 0, 0
+
+            up = dp(i, j-1)
+            upleft = dp(i-1, j-1)
+            left = dp(i-1, j)
+            minimum = min(up[0], upleft[0], left[0])
+            best = max(up[1], upleft[1], left[1])
+
+            if matrix[i][j] == '1':
+                return (minimum + 1, max(best, minimum + 1))
+            return (0, max(best, 0))
+
+        return dp(R-1, C-1)[1]**2
+```
+
+**Solution 5: (DP Top-Down)**
+```
+Runtime: 284 ms
+Memory Usage: 29 MB
+```
+```python
+class Solution:
+    def maximalSquare(self, matrix):
+        """
+        :type matrix: List[List[str]]
+        :rtype: int
+        """
+        
+        @lru_cache(None)
+        def dp(i, j):
+            if i >= len(matrix) or j >= len(matrix[0]):
+                return 0, 0
+            
+            right = dp(i, j+1)
+            downright = dp(i+1, j+1)
+            down = dp(i+1, j)
+            minimum = min(right[0], downright[0], down[0])
+            best = max(right[1], downright[1], down[1])
+            
+            if matrix[i][j] == '1':
+                if downright:
+                    return (minimum + 1, max(best, minimum + 1))
+                return (1, max(best, 1))
+            return (0, max(best, 0))
+        
+        return dp(0,0)[1]**2
 ```

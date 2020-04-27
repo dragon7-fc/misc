@@ -84,3 +84,30 @@ class Solution:
         
         return dp[n][faces] % 1000000007
 ```
+
+**Solution 2: (DP Top-Down)**
+```
+Runtime: 1956 ms
+Memory Usage: 192.6 MB
+```
+```python
+class Solution:
+    def dieSimulator(self, n: int, rollMax: List[int]) -> int:
+        
+        @functools.lru_cache(None)
+        def dfs(last, s,  k):
+            if k == n:
+                return 1
+            res = 0
+            for i in range(6):
+                if i == last:
+                    if s + 1 > rollMax[i]:
+                        continue
+                    else:
+                        res += dfs(i, s+1, k+1)
+                else:
+                    res += dfs(i, 1, k+1)
+            return res%(10**9 + 7)
+        
+        return dfs(None, 0, 0)%(10**9 + 7)
+```
