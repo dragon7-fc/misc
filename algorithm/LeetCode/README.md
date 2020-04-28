@@ -201,6 +201,7 @@ Happy Coding!!
 * [[Medium] [Solution] 55. Jump Game](%5BMedium%5D%20%5BSolution%5D%2055.%20Jump%20Game.md)
 * [[Medium] 1143. Longest Common Subsequence](%5BMedium%5D%201143.%20Longest%20Common%20Subsequence.md)
 * [[Medium] [Solution] 221. Maximal Square](%5BMedium%5D%20%5BSolution%5D%20221.%20Maximal%20Square.md)
+* [[Medium] 30day. First Unique Number](%5BMedium%5D%2030day.%20First%20Unique%20Number.md)
 
 ## Array <a name="array"></a>
 ---

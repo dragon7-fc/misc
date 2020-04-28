@@ -93,21 +93,22 @@ Memory Usage: 192.6 MB
 ```python
 class Solution:
     def dieSimulator(self, n: int, rollMax: List[int]) -> int:
+        MOD = 10**9 + 7
         
         @functools.lru_cache(None)
-        def dfs(last, s,  k):
-            if k == n:
+        def dfs(prev, i, c):
+            if i == n:
                 return 1
             res = 0
-            for i in range(6):
-                if i == last:
-                    if s + 1 > rollMax[i]:
+            for cur in range(6):
+                if cur == prev:
+                    if c + 1 > rollMax[cur]:
                         continue
                     else:
-                        res += dfs(i, s+1, k+1)
+                        res += dfs(cur, i+1, c+1)
                 else:
-                    res += dfs(i, 1, k+1)
-            return res%(10**9 + 7)
+                    res += dfs(cur, i+1, 1)
+            return res
         
-        return dfs(None, 0, 0)%(10**9 + 7)
+        return dfs(None, 0, 0) % MOD
 ```
