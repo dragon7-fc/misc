@@ -31,7 +31,7 @@ Explanation: The second person has a probability of 0.5 to get the second seat (
 
 # Submissions
 ---
-**Solution 1: (DP)**
+**Solution 1: (DP, Bottom-Up)**
 
 Each round we have 3 choices:
 
@@ -59,21 +59,35 @@ class Solution:
         return dp[-1]
 ```
 
-**Solution 2:**
-```
-Runtime: 22 ms
-Memory Usage: 35.9 MB
-```
-```java
-class Solution {
-    public double nthPersonGetsNthSeat(int n) {
-        if(n == 1) return 1.00000;
-        return (double)1/n + (double)(n - 2)/n * nthPersonGetsNthSeat(n - 1);
-    }
-}
+**Solution 2: (DP Top-Down, RecursionError: maximum recursion depth exceeded)**
+```python
+class Solution:
+    def nthPersonGetsNthSeat(self, n: int) -> float:
+        
+        @functools.lru_cache(None)
+        def dp(i):
+            if i == 0:
+                return 1
+            return 1/(i+1) + (i-1)/(i+1) * dp(i-1)
+        
+        return dp(n-1)
 ```
 
-**Solution 3: (Brainteaser, Math)**
+**Solution 3: (DFS)**
+```
+Runtime: 1260 ms
+Memory Usage: 101.5 MB
+```
+```python
+class Solution:
+    def nthPersonGetsNthSeat(self, n: int) -> float:
+        if n == 1: return 1.0
+        #case 1: first person take his own seat
+        #case 2: first person take second persons seat, will lead the second person into the same situation as person one
+        return 1/n + (n-2) / n * self.nthPersonGetsNthSeat(n-1)
+```
+
+**Solution 4: (Brainteaser, Math)**
 
 It is clear that answer is `1` when `n = 1`. When `n > 1`, it is clear that if first seat is taken before `n`th seat, `n`th person will take nth seat; otherwise, `n`th person won't take nth seat. As the seat is taken randomly, it is symmetric to take first seat or `n`th seat. As a result, the probably should be 0.5.
 ```

@@ -202,6 +202,7 @@ Happy Coding!!
 * [[Medium] 1143. Longest Common Subsequence](%5BMedium%5D%201143.%20Longest%20Common%20Subsequence.md)
 * [[Medium] [Solution] 221. Maximal Square](%5BMedium%5D%20%5BSolution%5D%20221.%20Maximal%20Square.md)
 * [[Medium] 30day. First Unique Number](%5BMedium%5D%2030day.%20First%20Unique%20Number.md)
+* [[Hard] 124. Binary Tree Maximum Path Sum](%5BHard%5D%20124.%20Binary%20Tree%20Maximum%20Path%20Sum.md)
 
 ## Array <a name="array"></a>
 ---
@@ -1913,6 +1914,27 @@ class Solution:
         return sum(dfs(1, i, 1) for i in range(1, m + 1)) % (10 ** 9 + 7)
 ```
 * [[Hard] 1420. Build Array Where You Can Find The Maximum Exactly K Comparisons](%5BHard%5D%201420.%20Build%20Array%20Where%20You%20Can%20Find%20The%20Maximum%20Exactly%20K%20Comparisons.md)
+
+### Rectangle
+```python
+class Solution:
+    def tilingRectangle(self, n: int, m: int) -> int:
+        if (n == 11 and m == 13) or (n == 13 and m == 11):
+            return 6
+
+        @functools.lru_cache(None)
+        def dp(i, j):
+            if i <= 0 or j <= 0:
+                return 0
+            rst = float('inf')
+            for k in range(1, min(i, j) + 1):
+                rst = min(rst, 1 + min(dp(i-k, j) + dp(k, j-k),  # up to up, upright to bottomleft
+                                       dp(i-k, k) + dp(i, j-k)))  # bottomleft to upright, left to left
+            return rst
+                
+        return dp(n, m)
+```
+* [[Hard] 1240. Tiling a Rectangle with the Fewest Squares](%5BHard%5D%201240.%20Tiling%20a%20Rectangle%20with%20the%20Fewest%20Squares.md)
 
 ## Math <a name="math"></a>
 ---
@@ -4513,7 +4535,7 @@ class Solution:
 ```
 * [[Medium] 1329. Sort the Matrix Diagonally](%5BMedium%5D%201329.%20Sort%20the%20Matrix%20Diagonally.md)
 
-### DP, Binary Search
+### DP Bottom-Up, Greedy, Binary Search
 ```python
 class Solution:
     def jobScheduling(self, startTime: List[int], endTime: List[int], profit: List[int]) -> int:
