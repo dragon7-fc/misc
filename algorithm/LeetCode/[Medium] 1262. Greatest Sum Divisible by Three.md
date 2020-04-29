@@ -88,3 +88,43 @@ class Solution:
                     dp[i][j] = dp[i-1][j]
         return dp[-1][0]
 ```
+
+**Solution 2: (DP Bottom-Up, Hash Table)**
+```
+Runtime: 464 ms
+Memory Usage: 18.5 MB
+```
+```python
+class Solution:
+    def maxSumDivThree(self, nums: List[int]) -> int:
+        dic = {
+            0: 0,
+        }
+        for n in nums:   
+            for key, value in list(dic.items()):
+                key_new = (n + key) % 3
+                dic[key_new] = max(dic.get(key_new, 0), value + n)
+                        
+        return dic[0]
+```
+
+**Solution 3: (DP Top-Down)**
+```
+Runtime: 660 ms
+Memory Usage: 157.6 MB
+```
+```python
+class Solution:
+    def maxSumDivThree(self, nums: List[int]) -> int:
+        N = len(nums)
+        
+        @functools.lru_cache(None)
+        def dp(pos, mod):
+            if pos == N:
+                return 0 if mod == 0 else float('-inf')
+            take = nums[pos] + dp(pos+1, (mod+nums[pos]) % 3)
+            nottake = dp(pos+1, mod)
+            return max(take, nottake)
+        
+        return dp(0, 0)
+```
