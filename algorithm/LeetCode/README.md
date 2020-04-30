@@ -194,15 +194,16 @@ Happy Coding!!
 * [[Medium] 64. Minimum Path Sum](%5BMedium%5D%2064.%20Minimum%20Path%20Sum.md)
 * [[Medium] 33. Search in Rotated Sorted Array](%5BMedium%5D%2033.%20Search%20in%20Rotated%20Sorted%20Array.md)
 * [[Medium] 1008. Construct Binary Search Tree from Preorder Traversal](%5BMedium%5D%201008.%20Construct%20Binary%20Search%20Tree%20from%20Preorder%20Traversal.md)
-* [[Medium] 30day. Leftmost Column with at Least a One](%5BMedium%5D%2030day.%20Leftmost%20Column%20with%20at%20Least%20a%20One.md)
+* [[202004] 30day. Leftmost Column with at Least a One](%5B202004%5D%2030day.%20Leftmost%20Column%20with%20at%20Least%20a%20One.md)
 * [[Medium] [Solution] 560. Subarray Sum Equals K](%5BMedium%5D%20%5BSolution%5D%20560.%20Subarray%20Sum%20Equals%20K.md)
 * [[Medium] 201. Bitwise AND of Numbers Range](%5BMedium%5D%20201.%20Bitwise%20AND%20of%20Numbers%20Range.md)
 * [[Medium] 146. LRU Cache](%5BMedium%5D%20146.%20LRU%20Cache.md)
 * [[Medium] [Solution] 55. Jump Game](%5BMedium%5D%20%5BSolution%5D%2055.%20Jump%20Game.md)
 * [[Medium] 1143. Longest Common Subsequence](%5BMedium%5D%201143.%20Longest%20Common%20Subsequence.md)
 * [[Medium] [Solution] 221. Maximal Square](%5BMedium%5D%20%5BSolution%5D%20221.%20Maximal%20Square.md)
-* [[Medium] 30day. First Unique Number](%5BMedium%5D%2030day.%20First%20Unique%20Number.md)
+* [[202004] 30day. First Unique Number](%5B202004%5D%2030day.%20First%20Unique%20Number.md)
 * [[Hard] 124. Binary Tree Maximum Path Sum](%5BHard%5D%20124.%20Binary%20Tree%20Maximum%20Path%20Sum.md)
+* [[202004] 30day. Check If a String Is a Valid Sequence from Root to Leaves Path in a Binary Tree](%5B202004%5D%2030day.%20Check%20If%20a%20String%20Is%20a%20Valid%20Sequence%20from%20Root%20to%20Leaves%20Path%20in%20a%20Binary%20Tree.md)
 
 ## Array <a name="array"></a>
 ---
@@ -1935,6 +1936,31 @@ class Solution:
         return dp(n, m)
 ```
 * [[Hard] 1240. Tiling a Rectangle with the Fewest Squares](%5BHard%5D%201240.%20Tiling%20a%20Rectangle%20with%20the%20Fewest%20Squares.md)
+
+### 2-Level DP
+```python
+from functools import lru_cache
+class Solution:
+    def palindromePartition(self, s: str, k: int) -> int:
+        @lru_cache(maxsize=None)
+        def nchange(i, j):
+            res = 0
+            while i < j:
+                if s[i] != s[j]:
+                    res += 1
+                i,j = i+1, j-1
+            return res
+
+        @lru_cache(maxsize=None)
+        def part(st, k):
+            if k == 1: return nchange(st, len(s)-1)
+            res = float('inf')
+            for i in range(st, len(s)):
+                res = min(res, nchange(st, i) + part(i+1, k-1))
+            return res
+        return part(0, k)
+```
+* [[Hard] 1278. Palindrome Partitioning III](%5BHard%5D%201278.%20Palindrome%20Partitioning%20III.md)
 
 ## Math <a name="math"></a>
 ---
