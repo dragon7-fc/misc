@@ -84,7 +84,7 @@ Let's compute time complexity with the help of master theorem $T(N) = aT\left(\f
 
 # Submissions
 ---
-**Solution:**
+**Solution: (Binary Search)**
 ```
 Runtime: 260 ms
 Memory Usage: 13.9 MB

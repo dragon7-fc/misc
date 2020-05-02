@@ -1,4 +1,4 @@
-1343. Maximum Product of Splitted Binary Tree
+1339. Maximum Product of Splitted Binary Tree
 
 Given a binary tree `root`. Split the binary tree into two subtrees by removing 1 edge such that the product of the sums of the subtrees are maximized.
 
@@ -47,7 +47,7 @@ Output: 1
 
 **Explanation**
 
-* First pass, get the toal sum
+* First pass, get the total sum
 * Second pass, find the biggest product.
 
 
@@ -83,4 +83,33 @@ class Solution:
         total = dfs(root)
         dfs(root)
         return self.res % MOD
+```
+
+**Solution 2: (DFS)**
+```
+Runtime: 408 ms
+Memory Usage: 78.7 MB
+```
+```python
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+class Solution:
+    def maxProduct(self, root: TreeNode) -> int:
+        def treesum(node):
+            if not node: return 0
+            return node.val + treesum(node.left) + treesum(node.right)
+        
+        def treemax(node, total):
+            if not node: return 0
+            l, r = treemax(node.left, total), treemax(node.right, total)
+            self.rst = max(self.rst, l * (total-l), r * (total-r))
+            return node.val + l + r
+        
+        total, self.rst = treesum(root), 0
+        treemax(root, total)
+        return self.rst % (10**9 + 7)
 ```

@@ -23,32 +23,13 @@ Output: 0
 
 # Submissions
 ---
-**Solution 1:**
+**Solution 1: (Brute Force)**
 ```
-Runtime: 40 ms
-Memory Usage: 13.7 MB
-```
-```python
-class Solution:
-    def numJewelsInStones(self, J: str, S: str) -> int:
-        j_set = set()
-        for j in J:
-            j_set.add(j)
-        
-        ans = 0
-        for j in j_set:
-            ans += S.count(j)
-            
-        return ans
-```
-
-**Solution 2:**
-```
-Runtime: 36 ms
-Memory Usage: 13.9 MB
+Runtime: 16 ms
+Memory Usage: 13.6 MB
 ```
 ```python
 class Solution:
     def numJewelsInStones(self, J: str, S: str) -> int:
-        return len([x for x in J for y in S if x == y])
+        return sum([S.count(j) for j in J])
 ```

@@ -98,7 +98,7 @@ public int firstBadVersion(int n) {
 
 # Submissions
 ---
-**Solution:**
+**Solution: (Binary Search)**
 ```
 Runtime: 24 ms
 Memory Usage: 12.7 MB

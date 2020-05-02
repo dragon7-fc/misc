@@ -43,7 +43,8 @@ Happy Coding!!
 
 1. [Libraries](#libraries)
 1. [Concepts](#concept)
-1. [30-Day LeetCoding Challenge](#30day)
+1. [20204 30-Day LeetCoding Challenge](#202004)
+1. [202005 May LeetCoding Challenge](#202005)
 1. [Array](#array)
 1. [Dynamic Programming](#dp)
 1. [Math](#math)
@@ -174,7 +175,7 @@ Happy Coding!!
 * [Rolling hash, a constant time window search](https://medium.com/algorithm-and-datastructure/rolling-hash-a-constant-time-window-search-f8af6ee12d3f)
 * [Kadane’s Algorithm — (Dynamic Programming) — How and Why does it Work?](https://medium.com/@rsinghal757/kadanes-algorithm-dynamic-programming-how-and-why-does-it-work-3fd8849ed73d)
 
-## 30-Day LeetCoding Challenge <a name="30day"></a>
+## 202004 30-Day LeetCoding Challenge <a name="202004"></a>
 ---
 * [[Easy] [Solution] 136. Single Number](%5BEasy%5D%20%5BSolution%5D%20136.%20Single%20Number.md)
 * [[Easy] 202. Happy Number](%5BEasy%5D%20202.%20Happy%20Number.md)
@@ -204,6 +205,11 @@ Happy Coding!!
 * [[202004] 30day. First Unique Number](%5B202004%5D%2030day.%20First%20Unique%20Number.md)
 * [[Hard] 124. Binary Tree Maximum Path Sum](%5BHard%5D%20124.%20Binary%20Tree%20Maximum%20Path%20Sum.md)
 * [[202004] 30day. Check If a String Is a Valid Sequence from Root to Leaves Path in a Binary Tree](%5B202004%5D%2030day.%20Check%20If%20a%20String%20Is%20a%20Valid%20Sequence%20from%20Root%20to%20Leaves%20Path%20in%20a%20Binary%20Tree.md)
+
+## 202005 May LeetCoding Challenge <a name="202005"></a>
+---
+* [[Easy] [Solution] 278. First Bad Version](%5BEasy%5D%20%5BSolution%5D%20278.%20First%20Bad%20Version.md)
+* [[Easy] 771. Jewels and Stones](%5BEasy%5D%20771.%20Jewels%20and%20Stones.md)
 
 ## Array <a name="array"></a>
 ---
@@ -1627,6 +1633,66 @@ class Solution:
 ```
 * [[Medium] 1049. Last Stone Weight II](%5BMedium%5D%201049.%20Last%20Stone%20Weight%20II.md)
 
+### Range DP
+```python
+class Solution:
+    def videoStitching(self, clips: List[List[int]], T: int) -> int:
+        N = len(clips)
+        dp = [float('inf') for _ in range(T+1)]
+        dp[0] = 0
+        for videoLen in range(1, T+1):
+            for clipStart, clipEnd in clips:
+                if clipStart <= videoLen <= clipEnd:
+                    dp[videoLen] = min(dp[videoLen], 1 + dp[clipStart])
+
+        return -1 if dp[T] == float('inf') else dp[T]
+
+class Solution:
+    def videoStitching(self, clips: List[List[int]], T: int) -> int:
+        N = len(clips)
+        clips.sort()
+
+        @functools.lru_cache(None)
+        def dp (i, t):
+            if t >= T:
+                return 0
+            rst = float('inf')
+            for j in range(i+1, N):
+                clipStart = clips[j][0]
+                clipEnd = clips[j][1]
+                if clipStart <= t <= clipEnd:
+                    rst = min(rst, 1 + dp(j, clipEnd))
+            return rst
+
+        ans = dp(-1, 0)
+
+        return -1 if ans == float('inf') else ans
+```
+* [[Medium] 1024. Video Stitching](%5BMedium%5D%201024.%20Video%20Stitching.md)
+
+### Circle DP
+```python
+class Solution:
+    def rob(self, nums: List[int]) -> int:
+        N = len(nums)
+        if N == 0:
+            return 0
+        elif N == 1:
+            return nums[0]
+        elif N == 2:
+            return max(nums)
+
+        @functools.lru_cache(None)
+        def dfs(i, j):
+            if i >= j:
+                return 0
+            return max(nums[i] + dfs(i+2, j), dfs(i+1, j))
+
+        #rob the first house, can't rob the last house
+        return max(dfs(0, N-1), dfs(1, N))
+```
+* [[Medium] 213. House Robber II](%5BMedium%5D%20213.%20House%20Robber%20II.md)
+
 ### Probability
 ```python
 class Solution:
@@ -1939,10 +2005,11 @@ class Solution:
 
 ### 2-Level DP
 ```python
-from functools import lru_cache
 class Solution:
     def palindromePartition(self, s: str, k: int) -> int:
-        @lru_cache(maxsize=None)
+        N = len(s)
+        
+        @lru_cache(None)
         def nchange(i, j):
             res = 0
             while i < j:
@@ -1951,13 +2018,14 @@ class Solution:
                 i,j = i+1, j-1
             return res
 
-        @lru_cache(maxsize=None)
+        @lru_cache(None)
         def part(st, k):
-            if k == 1: return nchange(st, len(s)-1)
+            if k == 1: return nchange(st, N-1)
             res = float('inf')
-            for i in range(st, len(s)):
+            for i in range(st, N):
                 res = min(res, nchange(st, i) + part(i+1, k-1))
             return res
+        
         return part(0, k)
 ```
 * [[Hard] 1278. Palindrome Partitioning III](%5BHard%5D%201278.%20Palindrome%20Partitioning%20III.md)
@@ -2750,20 +2818,27 @@ class Solution:
                 left = pivot + 1
         return -1
 ```
+* [[Easy] [Solution] 704. Binary Search](%5BEasy%5D%20%5BSolution%5D%20704.%20Binary%20Search.md)
 
-### Binary Search 2
+### Binary Search to leftmost - increase one side
 ```python
-class Solution(object):
-    def peakIndexInMountainArray(self, A):
-        lo, hi = 0, len(A) - 1
-        while lo < hi:
-            mi = (lo + hi) / 2
-            if A[mi] < A[mi + 1]:
-                lo = mi + 1
-            else:
-                hi = mi
-        return lo
+class Solution:
+    def firstBadVersion(self, n):
+        """
+        :type n: int
+        :rtype: int
+        """
+        left = 1
+        right = n
+        while left < right:
+            mid = left + (right - left) // 2
+            if isBadVersion(mid):  # >=
+                right = mid
+            else:  # <
+                left = mid + 1
+        return left
 ```
+* [[Easy] [Solution] 278. First Bad Version](%5BEasy%5D%20%5BSolution%5D%20278.%20First%20Bad%20Version.md)
 
 ### Rotated Sorted Array
 ```python
