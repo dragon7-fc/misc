@@ -15,7 +15,7 @@ canConstruct("aa", "aab") -> true
 
 # Submissions
 ---
-**Solution 1:**
+**Solution 1: (Counter)**
 ```
 Runtime: 48 ms
 Memory Usage: 12.7 MB
@@ -27,4 +27,15 @@ class Solution:
         magazineCounter = collections.Counter(magazine)
         magazineCounter.subtract(ransomCounter)
         return all([counts >=  0 for counts in magazineCounter.values()])
+```
+
+**Solution 2: (Counter)**
+```
+Runtime: 52 ms
+Memory Usage: 14.1 MB
+```
+```python
+class Solution:
+    def canConstruct(self, ransomNote: str, magazine: str) -> bool:
+        return len(collections.Counter(ransomNote) - collections.Counter(magazine)) == 0
 ```

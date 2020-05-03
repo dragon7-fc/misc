@@ -2030,6 +2030,45 @@ class Solution:
 ```
 * [[Hard] 1278. Palindrome Partitioning III](%5BHard%5D%201278.%20Palindrome%20Partitioning%20III.md)
 
+### Path DP
+```python
+class Solution:
+    def numberWays(self, hats: List[List[int]]) -> int:
+        N = len(hats)
+        MOD = 10**9 + 7
+        d = collections.defaultdict(list) # mapping : hat -> people 
+        for i, hat in enumerate(hats):
+            for x in hat: d[x].append(i)
+
+        @lru_cache(None)
+        def dp(h, path):
+            """Return the number of ways to wear h to last hats among people whose 
+            availability is indicated by mask"""
+            if bin(path).count("1") == N: return 1 # # set bits = # people 
+            if h == 40: return 0                           # if used all hat, 
+            ans = dp(h+1, path) 
+            for p in d[h+1]:       # loop through all people preferring the hat
+                if path & (1 << p): continue # if taken, continue
+                path |= 1 << p               # set bit
+                ans += dp(h+1, path)
+                path ^= 1 << p               # reset bit
+            return ans
+
+        return dp(0, 0) % MOD
+```
+* [[Hard] 1434. Number of Ways to Wear Different Hats to Each Other](%5BHard%5D%201434.%20Number%20of%20Ways%20to%20Wear%20Different%20Hats%20to%20Each%20Other.md)
+
+### Sort DP Bottom-Up
+```python
+class Solution:
+    def kthSmallest(self, mat: List[List[int]], k: int) -> int:
+        h = mat[0][:]
+        for row in mat[1:]:
+            h = sorted([i+j for i in row for j in h])[:k]
+        return h[k-1]
+```
+* [[Hard] 1439. Find the Kth Smallest Sum of a Matrix With Sorted Rows](%5BHard%5D%201439.%20Find%20the%20Kth%20Smallest%20Sum%20of%20a%20Matrix%20With%20Sorted%20Rows.md)
+
 ## Math <a name="math"></a>
 ---
 ### Combination
@@ -2274,6 +2313,14 @@ class Solution:
         return ans
 ```
 * [[Easy] [Solution] 697. Degree of an Array](%5BEasy%5D%20%5BSolution%5D%20697.%20Degree%20of%20an%20Array.md)
+
+### Counter
+```python
+class Solution:
+    def canConstruct(self, ransomNote: str, magazine: str) -> bool:
+        return len(collections.Counter(ransomNote) - collections.Counter(magazine)) == 0
+```
+* [[Easy] 383. Ransom Note](%5BEasy%5D%20383.%20Ransom%20Note.md)
 
 ### OrderedDict
 ```python
@@ -6067,6 +6114,35 @@ class Solution:
         return res
 ```
 * [[Medium] 1358. Number of Substrings Containing All Three Characters](%5BMedium%5D%201358.%20Number%20of%20Substrings%20Containing%20All%20Three%20Characters.md)
+
+### Min Max Queue
+```python
+class Solution:
+    def longestSubarray(self, nums: List[int], limit: int) -> int:
+        min_deque, max_deque = deque(), deque()
+        l = r = 0
+        ans = 0
+        while r < len(nums):
+            while min_deque and nums[r] <= nums[min_deque[-1]]:
+                min_deque.pop()
+            while max_deque and nums[r] >= nums[max_deque[-1]]:
+                max_deque.pop()
+            min_deque.append(r)
+            max_deque.append(r)
+            
+            while nums[max_deque[0]] - nums[min_deque[0]] > limit:
+                l += 1
+                if l > min_deque[0]:
+                    min_deque.popleft()
+                if l > max_deque[0]:
+                    max_deque.popleft()
+            
+            ans = max(ans, r - l + 1)
+            r += 1
+                
+        return ans
+```
+* [[Medium] 1438. Longest Continuous Subarray With Absolute Diff Less Than or Equal to Limit](%5BMedium%5D%201438.%20Longest%20Continuous%20Subarray%20With%20Absolute%20Diff%20Less%20Than%20or%20Equal%20to%20Limit.md)
 
 **Template 1:**
 ```python
