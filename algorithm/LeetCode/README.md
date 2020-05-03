@@ -210,6 +210,7 @@ Happy Coding!!
 ---
 * [[Easy] [Solution] 278. First Bad Version](%5BEasy%5D%20%5BSolution%5D%20278.%20First%20Bad%20Version.md)
 * [[Easy] 771. Jewels and Stones](%5BEasy%5D%20771.%20Jewels%20and%20Stones.md)
+* [[Easy] 383. Ransom Note](%5BEasy%5D%20383.%20Ransom%20Note.md)
 
 ## Array <a name="array"></a>
 ---
