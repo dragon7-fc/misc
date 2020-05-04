@@ -211,6 +211,7 @@ Happy Coding!!
 * [[Easy] [Solution] 278. First Bad Version](%5BEasy%5D%20%5BSolution%5D%20278.%20First%20Bad%20Version.md)
 * [[Easy] 771. Jewels and Stones](%5BEasy%5D%20771.%20Jewels%20and%20Stones.md)
 * [[Easy] 383. Ransom Note](%5BEasy%5D%20383.%20Ransom%20Note.md)
+* [[Easy] 476. Number Complement](%5BEasy%5D%20476.%20Number%20Complement.md?_xsrf=2%7C5e3776f8%7C24c18c3d2c50a10817453c72e445205a%7C1587427356)
 
 ## Array <a name="array"></a>
 ---
@@ -4362,6 +4363,14 @@ return ans
 
 ## Bit Manipulation <a name="bm"></a>
 ---
+### Number Complement
+```python
+class Solution:
+    def findComplement(self, num: int) -> int:
+         return int(''.join(chr(ord('0') + ord('1') - ord(ch)) for ch in bin(num)[2:]),2)
+```
+* [[Easy] 476. Number Complement](%5BEasy%5D%20476.%20Number%20Complement.md?_xsrf=2%7C5e3776f8%7C24c18c3d2c50a10817453c72e445205a%7C1587427356)
+
 ### Common Prefix
 ```python
 class Solution:
