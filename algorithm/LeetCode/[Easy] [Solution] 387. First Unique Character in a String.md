@@ -64,7 +64,7 @@ class Solution:
 
 # Submissions
 ---
-**Solution 1:**
+**Solution 1: (Linear time solution, Counter)**
 ```
 Runtime: 116 ms
 Memory Usage: 12.9 MB

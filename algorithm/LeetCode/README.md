@@ -212,6 +212,7 @@ Happy Coding!!
 * [[Easy] 771. Jewels and Stones](%5BEasy%5D%20771.%20Jewels%20and%20Stones.md)
 * [[Easy] 383. Ransom Note](%5BEasy%5D%20383.%20Ransom%20Note.md)
 * [[Easy] 476. Number Complement](%5BEasy%5D%20476.%20Number%20Complement.md?_xsrf=2%7C5e3776f8%7C24c18c3d2c50a10817453c72e445205a%7C1587427356)
+* [[Easy] [Solution] 387. First Unique Character in a String](%5BEasy%5D%20%5BSolution%5D%20387.%20First%20Unique%20Character%20in%20a%20String.md?_xsrf=2%7C5e3776f8%7C24c18c3d2c50a10817453c72e445205a%7C1587427356)
 
 ## Array <a name="array"></a>
 ---
@@ -2323,6 +2324,25 @@ class Solution:
         return len(collections.Counter(ransomNote) - collections.Counter(magazine)) == 0
 ```
 * [[Easy] 383. Ransom Note](%5BEasy%5D%20383.%20Ransom%20Note.md)
+
+### Counter
+```python
+class Solution:
+    def firstUniqChar(self, s):
+        """
+        :type s: str
+        :rtype: int
+        """            
+        # build hash map : character and how often it appears
+        count = collections.Counter(s)
+
+        # find the index
+        for idx, ch in enumerate(s):
+            if count[ch] == 1:
+                return idx     
+        return -1
+```
+* [[Easy] [Solution] 387. First Unique Character in a String](%5BEasy%5D%20%5BSolution%5D%20387.%20First%20Unique%20Character%20in%20a%20String.md?_xsrf=2%7C5e3776f8%7C24c18c3d2c50a10817453c72e445205a%7C1587427356)
 
 ### OrderedDict
 ```python
