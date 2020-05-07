@@ -10,10 +10,10 @@ If the first sequence of non-whitespace characters in str is not a valid integra
 
 If no valid conversion could be performed, a zero value is returned.
 
-Note:
+**Note:**
 
-Only the space character ' ' is considered as whitespace character.
-Assume we are dealing with an environment which could only store integers within the 32-bit signed integer range: [−231,  231 − 1]. If the numerical value is out of the range of representable values, INT_MAX (231 − 1) or INT_MIN (−231) is returned.
+* Only the space character ' ' is considered as whitespace character.
+* Assume we are dealing with an environment which could only store integers within the 32-bit signed integer range: [−231,  231 − 1]. If the numerical value is out of the range of representable values, INT_MAX (2^31 − 1) or INT_MIN (−2^31) is returned.
 
 **Example 1:**
 ```
@@ -51,7 +51,9 @@ Explanation: The number "-91283472332" is out of the range of a 32-bit signed in
              Thefore INT_MIN (−231) is returned.
 ```
 
-**Solution 1:**
+## Submissions 
+---
+**Solution 1: (Math)**
 ```
 Runtime: 32 ms
 Memory Usage: 12.7 MB

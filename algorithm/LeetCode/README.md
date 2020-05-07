@@ -214,6 +214,7 @@ Happy Coding!!
 * [[Easy] 476. Number Complement](%5BEasy%5D%20476.%20Number%20Complement.md?_xsrf=2%7C5e3776f8%7C24c18c3d2c50a10817453c72e445205a%7C1587427356)
 * [[Easy] [Solution] 387. First Unique Character in a String](%5BEasy%5D%20%5BSolution%5D%20387.%20First%20Unique%20Character%20in%20a%20String.md?_xsrf=2%7C5e3776f8%7C24c18c3d2c50a10817453c72e445205a%7C1587427356)
 * [[Easy] [Solution] 169. Majority Element](%5BEasy%5D%20%5BSolution%5D%20169.%20Majority%20Element.md)
+* [[Easy] [Solution] 993. Cousins in Binary Tree](%5BEasy%5D%20%5BSolution%5D%20993.%20Cousins%20in%20Binary%20Tree.md)
 
 ## Array <a name="array"></a>
 ---
@@ -2265,6 +2266,24 @@ class Solution:
         return root
 ```
 * [[Easy] [Solution] 538. Convert BST to Greater Tree](%5BEasy%5D%20%5BSolution%5D%20538.%20Convert%20BST%20to%20Greater%20Tree.md)
+
+### DFS
+```python
+class Solution:
+    def isCousins(self, root: TreeNode, x: int, y: int) -> bool:
+        parent = {}
+        def dfs(node, par=None, depth=0):
+            if node:
+                parent[node.val] = (par, depth)
+                dfs(node.left, node.val, depth + 1)
+                dfs(node.right, node.val, depth + 1)
+
+        dfs(root)
+        x_parent, x_depth = parent[x]
+        y_parent, y_depth = parent[y]
+        return True if x_parent != y_parent and x_depth == y_depth else False 
+```
+* [[Easy] [Solution] 993. Cousins in Binary Tree](%5BEasy%5D%20%5BSolution%5D%20993.%20Cousins%20in%20Binary%20Tree.md)
 
 ### Post-Order
 ```python

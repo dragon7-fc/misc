@@ -25,8 +25,10 @@ Output: -2
 * Assume we are dealing with an environment which could only store integers within the 32-bit signed integer range: `[−2^31,  2^31 − 1]`. For the purpose of this problem, assume that your function returns `2^31 − 1` when the division result overflows.
 
 # Submissions
+---
 
 **How it works**
+
 For example, we `divide(5000, 14)`:
 
 1. After the first inner loop: `the_sum = 3584` which is `14` multiplied `256` times.
@@ -38,7 +40,6 @@ For example, we `divide(5000, 14)`:
 1. And so on
 1. Finally we have: `quotient = 256 + 64 + 32 + 4 + 1 = 357`
 
----
 **Solution 1: (With bitwise operators)**
 ```
 Runtime: 32 ms

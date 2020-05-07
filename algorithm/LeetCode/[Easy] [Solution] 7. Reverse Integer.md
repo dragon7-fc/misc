@@ -81,7 +81,7 @@ class Solution {
 
 # Submissions
 ---
-**Solution 1:**
+**Solution 1: (Math)**
 ```
 Runtime: 56 ms
 Memory Usage: N/A
@@ -108,7 +108,7 @@ class Solution:
             return y
 ```
 
-**Solution 2:**
+**Solution 2: (String)**
 ```
 Runtime: 20 ms
 Memory Usage: 12.8 MB

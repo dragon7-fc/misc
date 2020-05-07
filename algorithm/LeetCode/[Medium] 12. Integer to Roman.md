@@ -55,7 +55,7 @@ Explanation: M = 1000, CM = 900, XC = 90 and IV = 4.
 
 # Submissions
 ---
-**Solution 1:**
+**Solution 1: (Math, Hash Table)**
 
 1. Make all roman-integer map in a tuple, the order must from large to small.
 1. Iterate this tuple

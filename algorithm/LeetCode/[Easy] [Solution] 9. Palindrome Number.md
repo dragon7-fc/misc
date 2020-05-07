@@ -51,6 +51,7 @@ Now the question is, how do we know that we've reached the half of the number?
 
 Since we divided the number by `10`, and multiplied the reversed number by `10`, when the original number is less than the reversed number, it means we've processed half of the number digits.
 
+**C#**
 ```c#
 public class Solution {
     public bool IsPalindrome(int x) {
@@ -85,7 +86,7 @@ public class Solution {
 
 # Submissions
 ---
-**Solution 1:**
+**Solution 1: (Math)**
 ```
 Runtime: 300 ms
 Memory Usage: N/A
@@ -114,7 +115,7 @@ class Solution:
             return False
 ```
 
-**Solution 2:**
+**Solution 2: (String)**
 ```
 Runtime: 260 ms
 Memory Usage: N/A

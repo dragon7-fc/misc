@@ -55,7 +55,7 @@ Explanation: M = 1000, CM = 900, XC = 90 and IV = 4.
 
 # Submissions
 ---
-**Solution 1:**
+**Solution 1: (Math, Hash Table)**
 ```
 Runtime: 136 ms
 Memory Usage: N/A
