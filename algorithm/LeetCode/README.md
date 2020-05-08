@@ -215,6 +215,7 @@ Happy Coding!!
 * [[Easy] [Solution] 387. First Unique Character in a String](%5BEasy%5D%20%5BSolution%5D%20387.%20First%20Unique%20Character%20in%20a%20String.md?_xsrf=2%7C5e3776f8%7C24c18c3d2c50a10817453c72e445205a%7C1587427356)
 * [[Easy] [Solution] 169. Majority Element](%5BEasy%5D%20%5BSolution%5D%20169.%20Majority%20Element.md)
 * [[Easy] [Solution] 993. Cousins in Binary Tree](%5BEasy%5D%20%5BSolution%5D%20993.%20Cousins%20in%20Binary%20Tree.md)
+* [[Easy] 1232. Check If It Is a Straight Line](%5BEasy%5D%201232.%20Check%20If%20It%20Is%20a%20Straight%20Line.md)
 
 ## Array <a name="array"></a>
 ---
