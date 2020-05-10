@@ -216,6 +216,7 @@ Happy Coding!!
 * [[Easy] [Solution] 169. Majority Element](%5BEasy%5D%20%5BSolution%5D%20169.%20Majority%20Element.md)
 * [[Easy] [Solution] 993. Cousins in Binary Tree](%5BEasy%5D%20%5BSolution%5D%20993.%20Cousins%20in%20Binary%20Tree.md)
 * [[Easy] 1232. Check If It Is a Straight Line](%5BEasy%5D%201232.%20Check%20If%20It%20Is%20a%20Straight%20Line.md)
+* [[Easy] 367. Valid Perfect Square](%5BEasy%5D%20367.%20Valid%20Perfect%20Square.md)
 
 ## Array <a name="array"></a>
 ---
@@ -2077,13 +2078,21 @@ class Solution:
 
 ## Math <a name="math"></a>
 ---
-### Combination
+### Binary Search
 ```python
 class Solution:
-    def countOrders(self, n: int) -> int:
-        return (math.factorial(n * 2) >> n) % (10**9 + 7)  # 2n!/2^n
+    def isPerfectSquare(self, num: int) -> bool:
+        if num == 1: return True
+        lo, hi = 1, num
+        while lo <= hi:
+            mid = lo + (hi - lo) // 2
+            val = mid ** 2
+            if val == num: return True
+            elif val < num: lo = mid + 1
+            else: hi = mid - 1
+        return False
 ```
-* [[Hard] 1359. Count All Valid Pickup and Delivery Options](%5BHard%5D%201359.%20Count%20All%20Valid%20Pickup%20and%20Delivery%20Options.md)
+* [[Easy] 367. Valid Perfect Square](%5BEasy%5D%20367.%20Valid%20Perfect%20Square.md)
 
 ### Factor
 ```python
@@ -2113,6 +2122,14 @@ class Solution(object):
         return ans
 ```
 * [[Medium] [Solution] 667. Beautiful Arrangement II](%5BMedium%5D%20%5BSolution%5D%20667.%20Beautiful%20Arrangement%20II.md)
+
+### Combination
+```python
+class Solution:
+    def countOrders(self, n: int) -> int:
+        return (math.factorial(n * 2) >> n) % (10**9 + 7)  # 2n!/2^n
+```
+* [[Hard] 1359. Count All Valid Pickup and Delivery Options](%5BHard%5D%201359.%20Count%20All%20Valid%20Pickup%20and%20Delivery%20Options.md)
 
 ### Sum of Subsequence Widths
 ```python
@@ -7801,6 +7818,15 @@ class Solution:
         return ans
 ```
 * [[Easy] [Solution] 892. Surface Area of 3D Shapes](%5BEasy%5D%20%5BSolution%5D%20892.%20Surface%20Area%20of%203D%20Shapes.md)
+
+### Straight line
+```python
+class Solution:
+    def checkStraightLine(self, coordinates: List[List[int]]) -> bool:
+        (u, v), (p, q) = coordinates[: 2]
+        return all((x - u) * (y - q) == (x - p) * (y - v) for x, y in coordinates)
+```
+* [[Easy] 1232. Check If It Is a Straight Line](%5BEasy%5D%201232.%20Check%20If%20It%20Is%20a%20Straight%20Line.md)
 
 ### Iterate Centers
 ```python

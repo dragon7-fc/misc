@@ -28,7 +28,7 @@ Explanation: 2-2 = 1/22 = 1/4 = 0.25
 
 # Submissions
 ---
-**Solution 1:**
+**Solution 1: (Math)**
 ```
 Runtime: 28 ms
 Memory Usage: 12.7 MB
@@ -55,7 +55,7 @@ class Solution:
         return ans
 ```
 
-**Solution 2:**
+**Solution 2: (Math, DFS)**
 ```
 Runtime: 28 ms
 Memory Usage: 12.8 MB

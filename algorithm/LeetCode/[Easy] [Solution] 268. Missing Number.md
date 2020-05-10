@@ -174,7 +174,7 @@ class Solution:
         return i+1
 ```
 
-**Solution 2: (Math)**
+**Solution 2: (Gauss' Formula, Math)**
 ```
 Runtime: 56 ms
 Memory Usage: N/A

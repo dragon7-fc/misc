@@ -16,7 +16,7 @@ Could you do it without any loop/recursion in O(1) runtime?
 
 # Submissions
 ---
-**Solution 1:**
+**Solution 1: (Math, DFS)**
 ```
 Runtime: 28 ms
 Memory Usage: 12.8 MB

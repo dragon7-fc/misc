@@ -18,7 +18,7 @@ Assume that the total area is never beyond the maximum possible value of int.
 
 # Submissions
 ---
-**Solution 1:**
+**Solution 1: (Math)**
 ```
 Runtime: 48 ms
 Memory Usage: 12.6 MB

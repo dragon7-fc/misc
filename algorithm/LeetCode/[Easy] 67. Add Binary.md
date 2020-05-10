@@ -18,7 +18,7 @@ Output: "10101"
 
 # Submissions
 ---
-**Solution 1:**
+**Solution 1: (Math)**
 ```
 Runtime: 16 ms
 Memory Usage: 12.8 MB

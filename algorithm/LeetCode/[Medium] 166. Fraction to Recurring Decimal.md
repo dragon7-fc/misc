@@ -24,7 +24,7 @@ Output: "0.(6)"
 
 # Submissions
 ---
-**Solution 1:**
+**Solution 1: (Math)**
 ```
 Runtime: 24 ms
 Memory Usage: 12.8 MB

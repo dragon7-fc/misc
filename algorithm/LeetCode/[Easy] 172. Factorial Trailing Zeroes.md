@@ -20,7 +20,7 @@ Explanation: 5! = 120, one trailing zero.
 
 # Submissions
 ---
-**Solution 1:**
+**Solution 1: (Math)**
 ```
 Runtime: 28 ms
 Memory Usage: 12.6 MB
@@ -38,7 +38,7 @@ class Solution:
         return zeros
 ```
 
-**Solution 2:**
+**Solution 2: (Math, DFS)**
 ```
 Runtime: 24 ms
 Memory Usage: N/A

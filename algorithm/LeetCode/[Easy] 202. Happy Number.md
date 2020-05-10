@@ -17,7 +17,7 @@ Explanation:
 
 # Submissions
 ---
-**Solution 1: (Greedy)**
+**Solution 1: (Greedy, Hash Table)**
 ```
 Runtime: 32 ms
 Memory Usage: 12.8 MB

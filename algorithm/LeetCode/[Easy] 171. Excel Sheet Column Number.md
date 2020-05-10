@@ -34,7 +34,7 @@ Output: 701
 
 # Submissions
 ---
-**Solution 1:**
+**Solution 1: (Math)**
 ```
 Runtime: 28 ms
 Memory Usage: 12.6 MB

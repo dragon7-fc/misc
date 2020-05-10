@@ -22,7 +22,7 @@ Explanation: The square root of 8 is 2.82842..., and since
 
 # Submissions
 ---
-**Solution 1:**
+**Solution 1: (Math)**
 ```
 Runtime: 28 ms
 Memory Usage: N/A
@@ -37,7 +37,7 @@ class Solution(object):
         return int(math.sqrt(x))
 ```
 
-**Solution 2:**
+**Solution 2: (Math, Binary Search)**
 ```
 Runtime: 28 ms
 Memory Usage: 12.7 MB

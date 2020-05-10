@@ -33,7 +33,7 @@ Output: "2314"
 
 # Submissions
 ---
-**Solution 1: (itertools)**
+**Solution 1: (Math, itertools)**
 ```
 Runtime: 2128 ms
 Memory Usage: 56.1 MB
@@ -44,7 +44,7 @@ class Solution:
         return ''.join(list(map(str, list(itertools.permutations([_ for _ in range(1, n+1)]))[k-1])))
 ```
 
-**Solution 2: (DFS)**
+**Solution 2: (Math, DFS)**
 ```
 Runtime: 28 ms
 Memory Usage: 12.7 MB

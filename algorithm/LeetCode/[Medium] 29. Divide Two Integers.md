@@ -40,7 +40,7 @@ For example, we `divide(5000, 14)`:
 1. And so on
 1. Finally we have: `quotient = 256 + 64 + 32 + 4 + 1 = 357`
 
-**Solution 1: (With bitwise operators)**
+**Solution 1: (Math, With bitwise operators)**
 ```
 Runtime: 32 ms
 Memory Usage: 12.8 MB
@@ -66,7 +66,7 @@ class Solution:
         return min(2**31 -1, max(-quotient if is_negative else quotient, -2**31))
 ```
 
-**Solution 2: (Without bitwise operators)**
+**Solution 2: (Mth, Without bitwise operators)**
 ```
 Runtime: 28 ms
 Memory Usage: 12.7 MB

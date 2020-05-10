@@ -32,7 +32,7 @@ Explanation: 14 is not ugly since it includes another prime factor 7.
 
 # Submissions
 ---
-**Solution 1:**
+**Solution 1: (Math, DFS)**
 ```
 Runtime: 28 ms
 Memory Usage: 12.6 MB
@@ -55,7 +55,7 @@ class Solution:
         return True if num == 1 else False if num <= 0 else dfs(num)
 ```
 
-**Solution 2:**
+**Solution 2: (DFS)**
 ```
 Runtime: 24 ms
 Memory Usage: 12.7 MB
