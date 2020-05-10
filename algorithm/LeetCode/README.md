@@ -217,6 +217,7 @@ Happy Coding!!
 * [[Easy] [Solution] 993. Cousins in Binary Tree](%5BEasy%5D%20%5BSolution%5D%20993.%20Cousins%20in%20Binary%20Tree.md)
 * [[Easy] 1232. Check If It Is a Straight Line](%5BEasy%5D%201232.%20Check%20If%20It%20Is%20a%20Straight%20Line.md)
 * [[Easy] 367. Valid Perfect Square](%5BEasy%5D%20367.%20Valid%20Perfect%20Square.md)
+* [[Easy] 997. Find the Town Judge](%5BEasy%5D%20997.%20Find%20the%20Town%20Judge.md)
 
 ## Array <a name="array"></a>
 ---
@@ -415,6 +416,23 @@ class Solution:
         return sum(ro ^ cl for ro in row for cl in col)
 ```
 * [[Easy] 1252. Cells with Odd Values in a Matrix](%5BEasy%5D%201252.%20Cells%20with%20Odd%20Values%20in%20a%20Matrix.md)
+
+### In-Degree/Out-Degree
+```python
+class Solution:
+    def findJudge(self, N: int, trust: List[List[int]]) -> int:
+        in_edges, out_edges = [0]*N, [0]*N
+        for t in trust:
+            s, d = t[0]-1, t[1]-1
+            in_edges[d] += 1
+            out_edges[s] += 1
+        for i in range(0, N):
+            if in_edges[i] == N-1 and out_edges[i] == 0:
+                return i+1
+
+        return -1
+```
+* [[Easy] 997. Find the Town Judge](%5BEasy%5D%20997.%20Find%20the%20Town%20Judge.md)
 
 ### Linear Scan
 ```python
@@ -792,6 +810,23 @@ class Solution:
         return res
 ```
 * [[Medium] 1109. Corporate Flight Bookings](%5BMedium%5D%201109.%20Corporate%20Flight%20Bookings.md)
+
+### Prefix XOR
+```python
+class Solution:
+    def countTriplets(self, arr: List[int]) -> int:
+        arr.insert(0, 0)
+        n = len(arr)
+        for i in range(n - 1):
+            arr[i + 1] ^= arr[i]
+        res = 0
+        for i in range(n):
+            for j in range(i + 1, n):
+                if arr[i] == arr[j]:
+                    res += j - i - 1
+        return res
+```
+* [[Medium] 1442. Count Triplets That Can Form Two Arrays of Equal XOR](%5BMedium%5D%201442.%20Count%20Triplets%20That%20Can%20Form%20Two%20Arrays%20of%20Equal%20XOR.md)
 
 ### Expand Around Center
 ```python
@@ -2076,6 +2111,35 @@ class Solution:
 ```
 * [[Hard] 1439. Find the Kth Smallest Sum of a Matrix With Sorted Rows](%5BHard%5D%201439.%20Find%20the%20Kth%20Smallest%20Sum%20of%20a%20Matrix%20With%20Sorted%20Rows.md)
 
+### Prefix Sum
+```python
+class Solution:
+    def ways(self, pizza: List[str], k: int) -> int:
+        R, C, MOD = len(pizza), len(pizza[0]), 10 ** 9 + 7
+        preSum = [[0] * (C + 1) for _ in range(R + 1)]
+        for r in range(R - 1, -1, -1):
+            for c in range(C - 1, -1, -1):
+                preSum[r][c] = preSum[r][c + 1] + preSum[r + 1][c] - preSum[r + 1][c + 1] + (pizza[r][c] == 'A')
+
+        @lru_cache(None)
+        def dp(kk, r, c):
+            if preSum[r][c] == 0: return 0
+            if kk == 0: return 1
+            ans = 0
+            # cut horizontally
+            for nr in range(r + 1, R):
+                if preSum[r][c] - preSum[nr][c] > 0:
+                    ans = (ans + dp(kk - 1, nr, c)) % MOD
+            # cut vertically                    
+            for nc in range(c + 1, C):
+                if preSum[r][c] - preSum[r][nc] > 0:
+                    ans = (ans + dp(kk - 1, r, nc)) % MOD
+            return ans
+
+        return dp(k - 1, 0, 0)
+```
+* [[Hard] 1444. Number of Ways of Cutting a Pizza](%5BHard%5D%201444.%20Number%20of%20Ways%20of%20Cutting%20a%20Pizza.md)
+
 ## Math <a name="math"></a>
 ---
 ### Binary Search
@@ -2381,6 +2445,15 @@ class Solution:
         return -1
 ```
 * [[Easy] [Solution] 387. First Unique Character in a String](%5BEasy%5D%20%5BSolution%5D%20387.%20First%20Unique%20Character%20in%20a%20String.md?_xsrf=2%7C5e3776f8%7C24c18c3d2c50a10817453c72e445205a%7C1587427356)
+
+### Set
+```python
+class Solution:
+    def destCity(self, paths: List[List[str]]) -> str:
+        A, B = map(set, zip(*paths))
+        return (B - A).pop()
+```
+* [[Easy] 1436. Destination City](%5BEasy%5D%201436.%20Destination%20City.md)
 
 ### OrderedDict
 ```python
