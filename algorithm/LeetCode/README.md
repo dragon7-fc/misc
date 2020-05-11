@@ -218,6 +218,7 @@ Happy Coding!!
 * [[Easy] 1232. Check If It Is a Straight Line](%5BEasy%5D%201232.%20Check%20If%20It%20Is%20a%20Straight%20Line.md)
 * [[Easy] 367. Valid Perfect Square](%5BEasy%5D%20367.%20Valid%20Perfect%20Square.md)
 * [[Easy] 997. Find the Town Judge](%5BEasy%5D%20997.%20Find%20the%20Town%20Judge.md)
+* [[Easy] [Solution] 733. Flood Fill](%5BEasy%5D%20%5BSolution%5D%20733.%20Flood%20Fill.md)
 
 ## Array <a name="array"></a>
 ---
@@ -2158,6 +2159,31 @@ class Solution:
 ```
 * [[Easy] 367. Valid Perfect Square](%5BEasy%5D%20367.%20Valid%20Perfect%20Square.md)
 
+### Prime Factor
+```python
+class Solution:
+    def nthUglyNumber(self, n: int) -> int:
+        uglyNumbers = [1]
+        p2 = p3 = p5 = 0
+
+        while len(uglyNumbers) < n:
+            #If a value lesser than latest was already added, try finding next least value.
+            while uglyNumbers[p2]*2 <= uglyNumbers[-1]:
+                p2 += 1
+
+            while uglyNumbers[p3]*3 <= uglyNumbers[-1]:
+                p3 += 1
+
+            while uglyNumbers[p5]*5 <= uglyNumbers[-1]:
+                p5 += 1
+
+            nextVal = min(uglyNumbers[p2]*2, uglyNumbers[p3]*3, uglyNumbers[p5]*5)
+            uglyNumbers.append(nextVal)
+
+        return uglyNumbers[-1]
+```
+* [[Medium] 264. Ugly Number II](%5BMedium%5D%20264.%20Ugly%20Number%20II.md)
+
 ### Factor
 ```python
 class Solution:
@@ -2661,6 +2687,26 @@ class Solution:
 
 ## Depth-first Search <a name="dfs"></a>
 ---
+### Flood Fill
+```python
+class Solution:
+    def floodFill(self, image: List[List[int]], sr: int, sc: int, newColor: int) -> List[List[int]]:
+        R, C = len(image), len(image[0])
+        color = image[sr][sc]
+        if color == newColor: return image
+        def dfs(r, c):
+            if image[r][c] == color:
+                image[r][c] = newColor
+                if r >= 1: dfs(r-1, c)
+                if r+1 < R: dfs(r+1, c)
+                if c >= 1: dfs(r, c-1)
+                if c+1 < C: dfs(r, c+1)
+
+        dfs(sr, sc)
+        return image
+```
+* [[Easy] [Solution] 733. Flood Fill](%5BEasy%5D%20%5BSolution%5D%20733.%20Flood%20Fill.md)
+
 ### Redundant Connection
 ```python
 class Solution(object):

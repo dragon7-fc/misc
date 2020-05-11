@@ -41,7 +41,7 @@ class Solution:
         return res
 ```
 
-**Solution 2: (Math)**
+**Solution 2: (Math, DP Bottom-Up)**
 ```
 Runtime: 36 ms
 Memory Usage: 13.8 MB

@@ -66,7 +66,7 @@ class Solution(object):
 
 # Submissions
 ---
-**Solution:**
+**Solution: (Depth-First Search)**
 ```
 Runtime: 80 ms
 Memory Usage: 12.8 MB
@@ -86,5 +86,28 @@ class Solution:
                 if c+1 < C: dfs(r, c+1)
 
         dfs(sr, sc)
+        return image
+```
+
+**Solution 1: (BFS)**
+```
+Runtime: 76 ms
+Memory Usage: 14 MB
+```
+```python
+class Solution:
+    def floodFill(self, image: List[List[int]], sr: int, sc: int, newColor: int) -> List[List[int]]:
+        R, C = len(image), len(image[0])
+        color = image[sr][sc]
+        if color == newColor: return image
+        q = collections.deque([[sr, sc]])
+        while q:
+            r, c = q.popleft()
+            image[r][c] = newColor
+            for nr, nc in [(r+1, c), (r-1, c), (r, c+1), (r, c-1)]:
+                if 0 <= nr < R and 0 <= nc < C:
+                    if image[nr][nc] == color:
+                        q.append([nr, nc])
+
         return image
 ```

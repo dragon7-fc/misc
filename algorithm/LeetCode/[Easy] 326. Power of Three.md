@@ -32,7 +32,7 @@ Could you do it without using any loop / recursion?
 
 # Submissions
 ---
-**Solution 1:**
+**Solution 1: (Math, Greedy)**
 ```
 Runtime: 80 ms
 Memory Usage: 12.5 MB
