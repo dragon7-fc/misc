@@ -219,6 +219,7 @@ Happy Coding!!
 * [[Easy] 367. Valid Perfect Square](%5BEasy%5D%20367.%20Valid%20Perfect%20Square.md)
 * [[Easy] 997. Find the Town Judge](%5BEasy%5D%20997.%20Find%20the%20Town%20Judge.md)
 * [[Easy] [Solution] 733. Flood Fill](%5BEasy%5D%20%5BSolution%5D%20733.%20Flood%20Fill.md)
+* [[Medium] 540. Single Element in a Sorted Array](%5BMedium%5D%20540.%20Single%20Element%20in%20a%20Sorted%20Array.md)
 
 ## Array <a name="array"></a>
 ---
@@ -2184,6 +2185,37 @@ class Solution:
 ```
 * [[Medium] 264. Ugly Number II](%5BMedium%5D%20264.%20Ugly%20Number%20II.md)
 
+### GCD
+```python
+class Solution:
+    def canMeasureWater(self, x: int, y: int, z: int) -> bool:
+        if z == 0:
+            return True
+        if x+y < z:
+            return  False
+        return z % math.gcd(x, y) == 0
+```
+* [[Medium] 365. Water and Jug Problem](%5BMedium%5D%20365.%20Water%20and%20Jug%20Problem.md)
+
+### Hash Table Buffer
+```python
+class Solution:
+    def superPow(self, a: int, b: List[int]) -> int:
+        ans2step, step2ans = collections.defaultdict(int), collections.defaultdict(int)
+        b = int("".join(map(str,b)))
+        ans = 1
+        for step in range(min(1338, b)):
+            ans = ans*a % 1337
+            if ans in ans2step:
+                loop_length = step - ans2step[ans]
+                rest = (b - step - 1) % loop_length
+                return step2ans[ans2step[ans]+rest]
+            ans2step[ans] = step
+            step2ans[step] = ans
+        return ans
+```
+* [[Medium] 372. Super Pow](%5BMedium%5D%20372.%20Super%20Pow.md)
+
 ### Factor
 ```python
 class Solution:
@@ -3065,6 +3097,23 @@ class Solution:
         return left
 ```
 * [[Easy] [Solution] 278. First Bad Version](%5BEasy%5D%20%5BSolution%5D%20278.%20First%20Bad%20Version.md)
+
+### Binary Search to leftmost - increase one side
+```python
+class Solution:
+    def singleNonDuplicate(self, nums: List[int]) -> int:
+        b, e = 0, len(nums) - 1
+        while b < e:
+            m = (b + e) // 2
+            if m % 2 == 1 and nums[m - 1] == nums[m]:
+                b = m + 1
+            elif  m % 2 == 0 and nums[m + 1] == nums[m]:
+                b = m + 2
+            else:
+                e = m
+        return nums[b]
+```
+* [[Medium] 540. Single Element in a Sorted Array](%5BMedium%5D%20540.%20Single%20Element%20in%20a%20Sorted%20Array.md)
 
 ### Rotated Sorted Array
 ```python

@@ -34,31 +34,29 @@ or
 ```
 # Submissions
 ---
-**Solution 1: (DFS, DP - Top-down)**
+**Solution 1: (DP Top-down)**
 ```
 Runtime: 20 ms
-Memory Usage: 12.9 MB
+Memory Usage: 13.9 MB
 ```
 ```python
 class Solution:
     def integerReplacement(self, n: int) -> int:
-        dic = {}
+        
+        @functools.lru_cache(None)
         def dp(num):
             if num == 1:
                 return 0
-            if num in dic:
-                return dic[num]
             if num%2 == 0:
                 res = 1 + dp(num>>1)
             else:
                 res = 1 + min(dp(num+1), dp(num-1))
-            dic[num] = res
             return res
         
         return dp(n)
 ```
 
-**Solution 2: (Bit Manipulation)**
+**Solution 2: (Bit Manipulation, DP Bottom-Up)**
 ```
 Runtime: 24 ms
 Memory Usage: 12.8 MB

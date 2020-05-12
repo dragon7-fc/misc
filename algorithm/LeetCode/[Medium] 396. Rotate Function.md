@@ -10,7 +10,7 @@ Calculate the maximum value of `F(0), F(1), ..., F(n-1)`.
 
 **Note:**
 
-`n` is guaranteed to be less than `105`.
+* `n` is guaranteed to be less than `10^5`.
 
 **Example:**
 ```
@@ -26,7 +26,7 @@ So the maximum value of F(0), F(1), F(2), F(3) is F(3) = 26.
 
 # Submisssions
 ---
-**Solution 1:**
+**Solution 1: (Math)**
 ```
 Runtime: 80 ms
 Memory Usage: 14.5 MB

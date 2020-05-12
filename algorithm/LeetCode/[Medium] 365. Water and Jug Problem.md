@@ -24,7 +24,7 @@ Output: False
 
 # Submissions
 ---
-**Solution 1:**
+**Solution 1: (Math)**
 
 I see a lot of solutions using gcd, but no one explains why it works. So I do some research and find out that the problem is just like a implementation of a math theory named "Bezout's Lemma". I copy the definition below, and you can find the proof of it on google if you are interested in it.
 
@@ -50,4 +50,19 @@ class Solution:
         if x+y<z:
             return  False
         return z % gcd(x, y) == 0        
+```
+
+**Solution 2: (Math)**
+```
+Runtime: 28 ms
+Memory Usage: 13.8 MB
+```
+```python
+class Solution:
+    def canMeasureWater(self, x: int, y: int, z: int) -> bool:
+        if z == 0:
+            return True
+        if x+y < z:
+            return  False
+        return z % math.gcd(x, y) == 0
 ```

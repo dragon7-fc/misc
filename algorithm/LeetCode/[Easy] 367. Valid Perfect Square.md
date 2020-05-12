@@ -18,7 +18,7 @@ Output: false
 
 # Submissions
 ---
-**Solution 1:**
+**Solution 1: (Math, Binary Search)**
 ```
 Runtime: 28 ms
 Memory Usage: 13.7 MB
