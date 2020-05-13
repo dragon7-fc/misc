@@ -220,6 +220,7 @@ Happy Coding!!
 * [[Easy] 997. Find the Town Judge](%5BEasy%5D%20997.%20Find%20the%20Town%20Judge.md)
 * [[Easy] [Solution] 733. Flood Fill](%5BEasy%5D%20%5BSolution%5D%20733.%20Flood%20Fill.md)
 * [[Medium] 540. Single Element in a Sorted Array](%5BMedium%5D%20540.%20Single%20Element%20in%20a%20Sorted%20Array.md)
+* [[Medium] 402. Remove K Digits](%5BMedium%5D%20402.%20Remove%20K%20Digits.md)
 
 ## Array <a name="array"></a>
 ---
@@ -1364,8 +1365,20 @@ class Solution:
 ```
 * [[Medium] [Solution] 688. Knight Probability in Chessboard](%5BMedium%5D%20%5BSolution%5D%20688.%20Knight%20Probability%20in%20Chessboard.md)
 
-### Count on every level
+### Greedy, Count on every level
 ```python
+class Solution:
+    def numberOfArithmeticSlices(self, A: List[int]) -> int:
+        dp = 0;
+        sum_ = 0;
+        for i in range(2, len(A)):
+            if A[i] - A[i - 1] == A[i - 1] - A[i - 2]:
+                dp += 1
+                sum_ += dp
+            else:
+                dp = 0
+        return sum_
+
 class Solution:
     def numberOfArithmeticSlices(self, A: List[int]) -> int:
         N = len(A)
@@ -2160,6 +2173,14 @@ class Solution:
 ```
 * [[Easy] 367. Valid Perfect Square](%5BEasy%5D%20367.%20Valid%20Perfect%20Square.md)
 
+### Increase number
+```python
+class Solution:
+    def minMoves(self, nums: List[int]) -> int:
+        return sum(nums)-len(nums)*min(nums)
+```
+* [[Easy] 453. Minimum Moves to Equal Array Elements](%5BEasy%5D%20453.%20Minimum%20Moves%20to%20Equal%20Array%20Elements.md)
+
 ### Prime Factor
 ```python
 class Solution:
@@ -2216,6 +2237,30 @@ class Solution:
 ```
 * [[Medium] 372. Super Pow](%5BMedium%5D%20372.%20Super%20Pow.md)
 
+### Digit
+```python
+class Solution:
+    def findNthDigit(self, n: int) -> int:
+        s, d = 0, 0
+        while s < n:
+            s += (d+1)*9*10**d
+            d += 1
+        n -= s-d*9*10**(d-1)
+        r, q = n % d, 10**(d-1) + n//d
+        return str(q)[r-1] if r > 0 else str(q-1)[-1]
+```
+* [[Medium] 400. Nth Digit](%5BMedium%5D%20400.%20Nth%20Digit.md)
+
+### Medium
+```python
+class Solution:
+    def minMoves2(self, nums: List[int]) -> int:
+        nums.sort()
+        mid = nums[len(nums)//2]       
+        return sum(abs(n - mid) for n in nums)
+```
+* [[Medium] 462. Minimum Moves to Equal Array Elements II](%5BMedium%5D%20462.%20Minimum%20Moves%20to%20Equal%20Array%20Elements%20II.md)
+
 ### Factor
 ```python
 class Solution:
@@ -2252,6 +2297,18 @@ class Solution:
         return (math.factorial(n * 2) >> n) % (10**9 + 7)  # 2n!/2^n
 ```
 * [[Hard] 1359. Count All Valid Pickup and Delivery Options](%5BHard%5D%201359.%20Count%20All%20Valid%20Pickup%20and%20Delivery%20Options.md)
+
+### Combination
+```python
+class Solution:
+    def poorPigs(self, buckets: int, minutesToDie: int, minutesToTest: int) -> int:
+        pigs, rounds = 0, minutesToTest//minutesToDie
+        while (rounds+1)**pigs < buckets:
+            pigs += 1
+
+        return pigs
+```
+* [[Hard] 458. Poor Pigs](%5BHard%5D%20458.%20Poor%20Pigs.md)
 
 ### Sum of Subsequence Widths
 ```python
@@ -4311,6 +4368,26 @@ class Solution:
         return ans % MOD
 ```
 * [[Medium] [Solution] 907. Sum of Subarray Minimums](%5BMedium%5D%20%5BSolution%5D%20907.%20Sum%20of%20Subarray%20Minimums.md)
+
+### Decreasing stack
+```python
+class Solution:
+    def removeKdigits(self, num: str, k: int) -> str:
+        if len(num) == k:
+            return "0"
+
+        result = []
+        for c in num:
+            while k > 0 and result and result[-1] > c:
+                result.pop()
+                k -= 1
+            result.append(c)
+        if k > 0:
+            result = result[:-k]
+        ans = "".join(result)
+        return ans.lstrip("0") or "0"
+```
+* [[Medium] 402. Remove K Digits](%5BMedium%5D%20402.%20Remove%20K%20Digits.md)
 
 ### Greedy, Stack simulation
 ```python

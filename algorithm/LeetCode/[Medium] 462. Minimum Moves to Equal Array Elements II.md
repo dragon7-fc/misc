@@ -20,7 +20,7 @@ Only two moves are needed (remember each move increments or decrements one eleme
 
 # Submissions
 ---
-**Solution 1:**
+**Solution 1: (Math)**
 ```
 Runtime: 88 ms
 Memory Usage: 14.1 MB

@@ -33,7 +33,7 @@ Because the 4th row is incomplete, we return 3.
 
 # Submissions
 ---
-**Solution 1:**
+**Solution 1: (Binary Search)**
 ```
 Runtime: 28 ms
 Memory Usage: 12.6 MB
