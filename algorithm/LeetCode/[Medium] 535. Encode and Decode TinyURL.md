@@ -8,7 +8,7 @@ Design the `encode` and `decode` methods for the TinyURL service. There is no re
 
 # Submissions
 ---
-**Solution 1:**
+**Solution 1: (Math, Base64, Hash Table)**
 ```
 Runtime: 20 ms
 Memory Usage: 12.1 MB
@@ -42,6 +42,37 @@ class Codec:
             self.decoded[hashed_value] = base64.b16decode(hashed_value)
         return self.decoded[hashed_value]
         
+
+# Your Codec object will be instantiated and called as such:
+# codec = Codec()
+# codec.decode(codec.encode(url))
+```
+
+**Solution 2: (Math, Count, Hash Table)**
+```
+Runtime: 36 ms
+Memory Usage: 13.9 MB
+```
+```python
+class Codec:
+    def __init__(self):
+        self.url_map = {}
+        self.count = 1
+
+    def encode(self, longUrl: str) -> str:
+        """Encodes a URL to a shortened URL.
+        """
+        if self.url_map.get(longUrl):
+            return
+        self.url_map[self.count] = longUrl
+        self.count += 1
+        
+        return self.count - 1
+
+    def decode(self, shortUrl: str) -> str:
+        """Decodes a shortened URL to its original URL.
+        """
+        return self.url_map[int(shortUrl)]
 
 # Your Codec object will be instantiated and called as such:
 # codec = Codec()

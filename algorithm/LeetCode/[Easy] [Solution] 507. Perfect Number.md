@@ -2,7 +2,7 @@
 
 We define the Perfect Number is a **positive** integer that is equal to the sum of all its **positive** divisors except itself.
 
-Now, given an integer n, write a function that returns true when it is a perfect number and false when it is not.
+Now, given an integer `n`, write a function that returns `true` when it is a perfect number and `false` when it is not.
 
 **Example:**
 ```
@@ -155,21 +155,21 @@ public class Solution {
 
 # Submissions
 ---
-**Solution 1:**
+**Solution 1: (Math, Optimal Solution)**
 ```
-Runtime: 36 ms
-Memory Usage: 12.7 MB
+Runtime: 40 ms
+Memory Usage: 13.8 MB
 ```
 ```python
 class Solution:
     def checkPerfectNumber(self, num: int) -> bool:
         if num <= 0:
             return False
-        sum = 0
-        for i in range(1, math.ceil(num**.5)):
+        sum_ = 0
+        for i in range(1, int(num**.5) + 1):
             if num % i == 0:
-                sum += i
+                sum_ += i
                 if i**2 != num:
-                    sum += num / i
-        return sum - num == num
+                    sum_ += num / i
+        return sum_ - num == num
 ```

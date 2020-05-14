@@ -59,7 +59,7 @@ public class Solution {
 
 # Submissions
 ---
-**Solution 1:**
+**Solution 1: (Math, Simple Solution)**
 ```
 Runtime: 28 ms
 Memory Usage: 12.8 MB

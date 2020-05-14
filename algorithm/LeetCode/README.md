@@ -221,6 +221,7 @@ Happy Coding!!
 * [[Easy] [Solution] 733. Flood Fill](%5BEasy%5D%20%5BSolution%5D%20733.%20Flood%20Fill.md)
 * [[Medium] 540. Single Element in a Sorted Array](%5BMedium%5D%20540.%20Single%20Element%20in%20a%20Sorted%20Array.md)
 * [[Medium] 402. Remove K Digits](%5BMedium%5D%20402.%20Remove%20K%20Digits.md)
+* [[Medium] [Solution] 208. Implement Trie (Prefix Tree)](%5BMedium%5D%20%5BSolution%5D%20208.%20Implement%20Trie%20(Prefix%20Tree).md)
 
 ## Array <a name="array"></a>
 ---
@@ -2181,6 +2182,22 @@ class Solution:
 ```
 * [[Easy] 453. Minimum Moves to Equal Array Elements](%5BEasy%5D%20453.%20Minimum%20Moves%20to%20Equal%20Array%20Elements.md)
 
+### Perfect Number
+```python
+class Solution:
+    def checkPerfectNumber(self, num: int) -> bool:
+        if num <= 0:
+            return False
+        sum_ = 0
+        for i in range(1, int(num**.5) + 1):
+            if num % i == 0:
+                sum_ += i
+                if i**2 != num:
+                    sum_ += num / i
+        return sum_ - num == num
+```
+* [[Easy] [Solution] 507. Perfect Number](%5BEasy%5D%20%5BSolution%5D%20507.%20Perfect%20Number.md)
+
 ### Prime Factor
 ```python
 class Solution:
@@ -2261,6 +2278,46 @@ class Solution:
 ```
 * [[Medium] 462. Minimum Moves to Equal Array Elements II](%5BMedium%5D%20462.%20Minimum%20Moves%20to%20Equal%20Array%20Elements%20II.md)
 
+### Prefix Sum difference
+```python
+class Solution:
+    def checkSubarraySum(self, nums: List[int], k: int) -> bool:
+        cumsum = [0]
+        for n in nums:
+            cumsum.append(cumsum[-1]+n)
+        record = {}
+        for a,b in zip(cumsum[:-1],cumsum[1:]):  # subarry need at least 2 elements
+            b = b%k if k else b
+            a = a%k if k else a
+            if b in record:
+                return True
+            record[a] = 1 
+        return False
+```
+* [[Medium] 523. Continuous Subarray Sum](%5BMedium%5D%20523.%20Continuous%20Subarray%20Sum.md)
+
+### Complex Number
+```python
+class Solution:
+    def complexNumberMultiply(self, a: str, b: str) -> str:
+        A = [int(x) for x in a.replace('i','').split('+')]
+        B = [int(x) for x in b.replace('i','').split('+')]
+        return '{}+{}i'.format((A[0]*B[0] - A[1]*B[1]), (A[0]*B[1] + A[1]*B[0]))
+```
+*[[Medium] 537. Complex Number Multiplication](%5BMedium%5D%20537.%20Complex%20Number%20Multiplication.md)
+
+### Division
+```python
+class Solution:
+    def optimalDivision(self, nums: List[int]) -> str:
+        if len(nums) == 1:
+            return str(nums[0])
+        if len(nums) == 2:
+            return str(nums[0])+'/'+str(nums[1])
+        return str(nums[0]) + '/(' + '/'.join(list(map(str,nums[1:]))) + ')'
+```
+* [[Medium] 553. Optimal Division](%5BMedium%5D%20553.%20Optimal%20Division.md)
+
 ### Factor
 ```python
 class Solution:
@@ -2289,6 +2346,25 @@ class Solution(object):
         return ans
 ```
 * [[Medium] [Solution] 667. Beautiful Arrangement II](%5BMedium%5D%20%5BSolution%5D%20667.%20Beautiful%20Arrangement%20II.md)
+
+### Moving Average
+```python
+class Solution:
+    def findMinMoves(self, machines: List[int]) -> int:
+        S = sum(machines)
+        N = len(machines)
+        if S % N!=0:
+            return -1
+        ave = S // N
+        sumneed = 0
+        res = 0
+        for m in machines:
+            sumneed += m-ave
+            res = max(res,abs(sumneed), m-ave)
+
+        return res
+```
+* [[Hard] 517. Super Washing Machines](%5BHard%5D%20517.%20Super%20Washing%20Machines.md)
 
 ### Combination
 ```python
