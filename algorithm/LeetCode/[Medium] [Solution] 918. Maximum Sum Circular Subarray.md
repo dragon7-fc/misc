@@ -303,7 +303,30 @@ class Solution(object):
 
 # Submissions
 ---
-**Solution 1: (Kadane's (Min Variant))**
+**Solution 1: (Kadane's (Sign Variant))**
+```
+Runtime: 720 ms
+Memory Usage: 18.1 MB
+```
+```python
+class Solution:
+    def maxSubarraySumCircular(self, A: List[int]) -> int:
+        def kadane(gen):
+            # Maximum non-empty subarray sum
+            ans = cur = float('-inf')
+            for x in gen:
+                cur = x + max(cur, 0)
+                ans = max(ans, cur)
+            return ans
+
+        S = sum(A)
+        ans1 = kadane(iter(A))
+        ans2 = S + kadane(-A[i] for i in range(1, len(A)))
+        ans3 = S + kadane(-A[i] for i in range(len(A) - 1))
+        return max(ans1, ans2, ans3)
+```
+
+**Solution 2: (Kadane's (Min Variant))**
 ```
 Runtime: 708 ms
 Memory Usage: 18 MB

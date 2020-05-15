@@ -128,7 +128,7 @@ public class Solution {
 
 # Submissions
 ---
-**Solution 1:**
+**Solution 1: (Using Sorting)**
 ```
 Runtime: 28 ms
 Memory Usage: 12.7 MB

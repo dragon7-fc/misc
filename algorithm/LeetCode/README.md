@@ -222,6 +222,7 @@ Happy Coding!!
 * [[Medium] 540. Single Element in a Sorted Array](%5BMedium%5D%20540.%20Single%20Element%20in%20a%20Sorted%20Array.md)
 * [[Medium] 402. Remove K Digits](%5BMedium%5D%20402.%20Remove%20K%20Digits.md)
 * [[Medium] [Solution] 208. Implement Trie (Prefix Tree)](%5BMedium%5D%20%5BSolution%5D%20208.%20Implement%20Trie%20(Prefix%20Tree).md)
+* [[Medium] [Solution] 918. Maximum Sum Circular Subarray](%5BMedium%5D%20%5BSolution%5D%20918.%20Maximum%20Sum%20Circular%20Subarray.md)
 
 ## Array <a name="array"></a>
 ---
@@ -2346,6 +2347,19 @@ class Solution(object):
         return ans
 ```
 * [[Medium] [Solution] 667. Beautiful Arrangement II](%5BMedium%5D%20%5BSolution%5D%20667.%20Beautiful%20Arrangement%20II.md)
+
+### Valid Square
+```python
+class Solution:
+    def validSquare(self, p1: List[int], p2: List[int], p3: List[int], p4: List[int]) -> bool:
+        def dist(p1, p2):
+            return (p2[1] - p1[1])**2 + (p2[0] - p1[0])**2
+
+        p = [p1,p2,p3,p4]
+        p.sort()
+        return dist(p[0], p[1]) != 0 and dist(p[0], p[1]) == dist(p[1], p[3]) and dist(p[1], p[3]) == dist(p[3], p[2]) and dist(p[3], p[2]) == dist(p[2], p[0]) and dist(p[0],p[3]) == dist(p[1],p[2])
+```
+* [[Medium] [Solution] 593. Valid Square](%5BMedium%5D%20%5BSolution%5D%20593.%20Valid%20Square.md)
 
 ### Moving Average
 ```python
