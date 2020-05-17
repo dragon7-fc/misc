@@ -2363,6 +2363,20 @@ class Solution:
 ```
 * [[Medium] [Solution] 593. Valid Square](%5BMedium%5D%20%5BSolution%5D%20593.%20Valid%20Square.md)
 
+### Reach a Number
+```python
+class Solution:
+    def reachNumber(self, target: int) -> int:
+        target = abs(target)
+        k = 0
+        while target > 0:
+            k += 1
+            target -= k
+
+        return k if target % 2 == 0 else k + 1 + k%2
+```
+* [[Medium] [Solution] 754. Reach a Number](%5BMedium%5D%20%5BSolution%5D%20754.%20Reach%20a%20Number.md)
+
 ### Moving Average
 ```python
 class Solution:
