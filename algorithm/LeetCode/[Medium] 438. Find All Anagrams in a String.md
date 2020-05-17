@@ -35,7 +35,7 @@ The substring with start index = 2 is "ab", which is an anagram of "ab".
 
 # Submissions
 ---
-**Solution 1:**
+**Solution 1: (Sliding Window, Counter)**
 ```
 Runtime: 172 ms
 Memory Usage: 13.9 MB

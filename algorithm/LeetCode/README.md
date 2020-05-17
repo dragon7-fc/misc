@@ -223,6 +223,8 @@ Happy Coding!!
 * [[Medium] 402. Remove K Digits](%5BMedium%5D%20402.%20Remove%20K%20Digits.md)
 * [[Medium] [Solution] 208. Implement Trie (Prefix Tree)](%5BMedium%5D%20%5BSolution%5D%20208.%20Implement%20Trie%20(Prefix%20Tree).md)
 * [[Medium] [Solution] 918. Maximum Sum Circular Subarray](%5BMedium%5D%20%5BSolution%5D%20918.%20Maximum%20Sum%20Circular%20Subarray.md)
+* [[Medium] [Solution] 328. Odd Even Linked List](%5BMedium%5D%20%5BSolution%5D%20328.%20Odd%20Even%20Linked%20List.md)
+* [[Medium] 438. Find All Anagrams in a String](%5BMedium%5D%20438.%20Find%20All%20Anagrams%20in%20a%20String.md)
 
 ## Array <a name="array"></a>
 ---
@@ -5119,6 +5121,30 @@ class Solution:
 
 ## Linked List <a name="ll"></a>
 ---
+### 2 Step Unit
+```python
+# Definition for singly-linked list.
+# class ListNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.next = None
+
+class Solution:
+    def oddEvenList(self, head: ListNode) -> ListNode:
+        if not head: return
+        odd, even, = head, head.next
+        evenHead = even
+        while even and even.next:
+            odd.next = even.next
+            odd = odd.next
+            even.next = odd.next
+            even = even.next
+        odd.next = evenHead
+
+        return head
+```
+* [[Medium] [Solution] 328. Odd Even Linked List](%5BMedium%5D%20%5BSolution%5D%20328.%20Odd%20Even%20Linked%20List.md)
+
 ### Elementary Math
 ```python
 # Definition for singly-linked list.
@@ -6303,6 +6329,37 @@ class Solution:
         return ans
 ```
 * [[Medium] [Solution] 3. Longest Substring Without Repeating Characters](%5BMedium%5D%20%5BSolution%5D%203.%20Longest%20Substring%20Without%20Repeating%20Characters.md)
+
+### Counter
+```python
+class Solution:
+    def findAnagrams(self, s: str, p: str) -> List[int]:
+        pattern_counter = collections.Counter(p)
+        running_counter = collections.Counter()
+        len_p = len(p)
+        result = []
+
+        for i in range(len(s)):
+            
+            # If index  >= length of the pattern.
+            # then decrement the count of the (i - len_p)th character to remove it from 
+            # the current (sliding) window.
+            if i >= len_p:
+                if running_counter[s[i - len_p]] == 1:
+                    del running_counter[s[i  - len_p]]
+                else:
+                    running_counter[s[i - len_p]] -= 1
+            
+            # Default: just increment the count of the current character.
+            running_counter[s[i]] += 1
+            
+            # At any time, if running_counter == pattern_counter then append the result.
+            if running_counter == pattern_counter:
+                result.append(i - len_p + 1)
+
+        return result
+```
+* [[Medium] 438. Find All Anagrams in a String](%5BMedium%5D%20438.%20Find%20All%20Anagrams%20in%20a%20String.md)
 
 ### Greedy Left index pointer
 ```python
