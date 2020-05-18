@@ -2378,6 +2378,35 @@ class Solution:
 ```
 * [[Medium] [Solution] 754. Reach a Number](%5BMedium%5D%20%5BSolution%5D%20754.%20Reach%20a%20Number.md)
 
+### Count
+```python
+class Solution:
+    def numRabbits(self, answers: List[int]) -> int:
+        if len(answers) == 0:
+            return 0
+        d = {}  # similar rabit -> current rabit
+        count = 0
+        for num in answers:
+            # If there's no other rabit that has the same color,
+            # the rabbit is one kind of its own
+            if num == 0:
+                count += 1
+            else:
+                # For a rabbit that has n rabbits similar to it, 
+                # the minimum of rabbit there are is n + 1
+                if num not in d:
+                    d[num] = 1
+                    count += (num + 1)
+                else:
+                    d[num] += 1
+                    # If the number of similar rabbits is canceled out,
+                    # we remove it from the hash table
+                    if d[num] > num:
+                        del d[num]
+        return count
+```
+* [[Medium] 781. Rabbits in Forest](%5BMedium%5D%20781.%20Rabbits%20in%20Forest.md)
+
 ### Moving Average
 ```python
 class Solution:

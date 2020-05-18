@@ -33,7 +33,7 @@ Output: 0
 
 # Submissions
 ---
-**Solution 1:**
+**Solution 1: (Math, Greedy)**
 ```
 Runtime: 44 ms
 Memory Usage: 12.6 MB
