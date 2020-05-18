@@ -689,7 +689,11 @@ A playground to note something.
         npm config set https-proxy http://[PROXY_IP]:[PROXY_PORT]
         npm set strict-ssl=false
         ```
-
+        
+    - Yocto
+    
+        - [Working Behind a Network Proxy](https://wiki.yoctoproject.org/wiki/Working_Behind_a_Network_Proxy)
+        
 * Conda
 
     - Environment Management

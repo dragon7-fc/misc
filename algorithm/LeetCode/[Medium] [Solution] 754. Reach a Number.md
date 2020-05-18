@@ -91,3 +91,26 @@ class Solution:
 
         return k if target % 2 == 0 else k + 1 + k%2
 ```
+
+**Solution 2: (Math, Greedy)**
+
+If we only go one direction, then we have "1+2+3+4+...n", this doesn't necessary equal the "target".
+However, by flipping only one of the "+" sign to "-" in the above equation, we can reach any number we want. Since only one sign need to be flipped, it is easy to find it out.
+
+Flipping the sign of a number "m" in the above equation will minus the result by "2*m", which is a even number. So as soon as your total sum exceeds the target value by a difference of event number, you can always find a number in the above euqation that can offset such difference by flipping its sign.
+
+```
+Runtime: 176 ms
+Memory Usage: 13.8 MB
+```
+```python
+class Solution:
+    def reachNumber(self, target: int) -> int:
+        target = abs(target)
+        step, pos=0, 0
+        while pos < target or (pos-target)%2 != 0:
+            step += 1
+            pos += step
+            
+        return step
+```

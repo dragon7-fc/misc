@@ -31,17 +31,18 @@ Explanation: There are 2 global inversions, and 1 local inversion.
 # Submissions
 ---
 **Solution: (Greedy)**
+
+**Intuition:** Every local inversion is a global inversion but vice-versa is not true. Therefore, we just need to find that one inversion which is global and not local. So, we are comparing index and A[index] and if their abs(difference) is greater than 1 that is the swapping hasn't been adjacent and hence a global inversion is detected which is not local.
+
 ```
-Runtime: 408 ms
-Memory Usage: 14.3 MB
+Runtime: 376 ms
+Memory Usage: 14.5 MB
 ```
 ```python
 class Solution:
     def isIdealPermutation(self, A: List[int]) -> bool:
-        res = False
-        for i in range(len(A)-1):
-            if res > A[i+1]:
+        for idx, value in enumerate(A):
+            if abs(idx - value) > 1:
                 return False
-            res = max(res, A[i])
         return True
 ```

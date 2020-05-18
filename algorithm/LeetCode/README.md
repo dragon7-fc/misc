@@ -225,6 +225,7 @@ Happy Coding!!
 * [[Medium] [Solution] 918. Maximum Sum Circular Subarray](%5BMedium%5D%20%5BSolution%5D%20918.%20Maximum%20Sum%20Circular%20Subarray.md)
 * [[Medium] [Solution] 328. Odd Even Linked List](%5BMedium%5D%20%5BSolution%5D%20328.%20Odd%20Even%20Linked%20List.md)
 * [[Medium] 438. Find All Anagrams in a String](%5BMedium%5D%20438.%20Find%20All%20Anagrams%20in%20a%20String.md)
+* [[Medium] 567. Permutation in String](%5BMedium%5D%20567.%20Permutation%20in%20String.md)
 
 ## Array <a name="array"></a>
 ---
@@ -2368,12 +2369,12 @@ class Solution:
 class Solution:
     def reachNumber(self, target: int) -> int:
         target = abs(target)
-        k = 0
-        while target > 0:
-            k += 1
-            target -= k
-
-        return k if target % 2 == 0 else k + 1 + k%2
+        step, pos=0, 0
+        while pos < target or (pos-target)%2 != 0:
+            step += 1
+            pos += step
+            
+        return step
 ```
 * [[Medium] [Solution] 754. Reach a Number](%5BMedium%5D%20%5BSolution%5D%20754.%20Reach%20a%20Number.md)
 
@@ -6374,6 +6375,25 @@ class Solution:
         return result
 ```
 * [[Medium] 438. Find All Anagrams in a String](%5BMedium%5D%20438.%20Find%20All%20Anagrams%20in%20a%20String.md)
+
+### Counter
+```python
+class Solution:
+    def checkInclusion(self, s1: str, s2: str) -> bool:
+        M, N = len(s1), len(s2)
+        t = collections.Counter(s1)
+        w = collections.Counter(s2[:M - 1])
+        for i in range(M-1, N):
+            w[s2[i]] += 1
+            if w == t: 
+                return True
+            w[s2[i - M + 1]] -= 1
+            if w[s2[i - M + 1]] == 0 : 
+                del w[s2[i - M + 1]]
+
+        return False
+```
+* [[Medium] 567. Permutation in String](%5BMedium%5D%20567.%20Permutation%20in%20String.md)
 
 ### Greedy Left index pointer
 ```python

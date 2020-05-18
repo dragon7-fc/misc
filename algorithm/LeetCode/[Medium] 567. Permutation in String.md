@@ -32,15 +32,16 @@ Memory Usage: 12.8 MB
 ```python
 class Solution:
     def checkInclusion(self, s1: str, s2: str) -> bool:
-        s1_count = collections.Counter(s1)
-        s2_count = collections.Counter(s2[:len(s1) - 1])
-        for i in range(len(s1)-1, len(s2)) :
-            s2_count[s2[i]] += 1
-            if s1_count == s2_count: 
+        M, N = len(s1), len(s2)
+        t = collections.Counter(s1)
+        w = collections.Counter(s2[:M - 1])
+        for i in range(M-1, N):
+            w[s2[i]] += 1
+            if w == t: 
                 return True
-            s2_count[s2[i - len(s1) + 1]] -= 1
-            if s2_count[s2[i - len(s1) + 1]] == 0 : 
-                del s2_count[s2[i - len(s1) + 1]]
-            
+            w[s2[i - M + 1]] -= 1
+            if w[s2[i - M + 1]] == 0 : 
+                del w[s2[i - M + 1]]
+
         return False
 ```
