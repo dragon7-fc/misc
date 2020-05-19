@@ -226,6 +226,7 @@ Happy Coding!!
 * [[Medium] [Solution] 328. Odd Even Linked List](%5BMedium%5D%20%5BSolution%5D%20328.%20Odd%20Even%20Linked%20List.md)
 * [[Medium] 438. Find All Anagrams in a String](%5BMedium%5D%20438.%20Find%20All%20Anagrams%20in%20a%20String.md)
 * [[Medium] 567. Permutation in String](%5BMedium%5D%20567.%20Permutation%20in%20String.md)
+* [[Medium] [Solution] 901. Online Stock Span](%5BMedium%5D%20%5BSolution%5D%20901.%20Online%20Stock%20Span.md)
 
 ## Array <a name="array"></a>
 ---
@@ -2406,6 +2407,17 @@ class Solution:
         return count
 ```
 * [[Medium] 781. Rabbits in Forest](%5BMedium%5D%20781.%20Rabbits%20in%20Forest.md)
+
+### Distance
+```python
+class Solution:
+    def escapeGhosts(self, ghosts: List[List[int]], target: List[int]) -> bool:
+        t1 = abs(target[0]) + abs(target[1])
+        t2 = 40000
+        for ghost in ghosts:
+            t2 = min(t2, (abs(target[0]-ghost[0]) + abs(target[1] -ghost[1])))
+```
+* [[Medium] 789. Escape The Ghosts](%5BMedium%5D%20789.%20Escape%20The%20Ghosts.md)
 
 ### Moving Average
 ```python

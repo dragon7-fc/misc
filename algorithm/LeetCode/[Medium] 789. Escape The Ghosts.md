@@ -45,7 +45,7 @@ The ghost can reach the target at the same time as you.
 
 # Submissions
 ---
-**Solution 1:**
+**Solution 1: (Math)**
 ```
 Runtime: 48 ms
 Memory Usage: 12.8 MB

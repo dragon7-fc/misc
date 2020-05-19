@@ -45,7 +45,7 @@ No matter what sequence of moves you make, you cannot end with a valid chessboar
 
 # Submissions
 ---
-**Solution 1: (Array)**
+**Solution 1: (Array, Math, String)**
 
 How to check impossible board?
 
