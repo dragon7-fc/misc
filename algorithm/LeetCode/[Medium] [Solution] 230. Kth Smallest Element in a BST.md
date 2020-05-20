@@ -147,7 +147,7 @@ The overall time complexity for insert/delete + search of kth smallest is $\math
 
 # Submissions
 ---
-**Solution:**
+**Solution: (Recursion)**
 ```
 Runtime: 52 ms
 Memory Usage: 16.8 MB
@@ -168,7 +168,7 @@ class Solution:
         return inorder(root)[k - 1]
 ```
 
-**Solution:**
+**Solution: (Iteration)**
 ```
 Runtime: 48 ms
 Memory Usage: 16.7 MB
@@ -194,4 +194,37 @@ class Solution:
             if not k:
                 return root.val
             root = root.right
+```
+
+**Solution 1: (DFS)**
+```
+Runtime: 40 ms
+Memory Usage: 17.9 MB
+```
+```python
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+
+class Solution:
+    def kthSmallest(self, root: TreeNode, k: int) -> int:
+        seq = []
+        
+        def dfs(node, n):
+            nonlocal seq
+            if not node:
+                return
+            dfs(node.left, n)
+            seq += [node.val]
+            if n == 1:
+                return
+            else:
+                n -= 1
+            dfs(node.right, n)
+        
+        dfs(root, k)
+        return seq[k-1]
 ```

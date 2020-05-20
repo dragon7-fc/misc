@@ -227,6 +227,7 @@ Happy Coding!!
 * [[Medium] 438. Find All Anagrams in a String](%5BMedium%5D%20438.%20Find%20All%20Anagrams%20in%20a%20String.md)
 * [[Medium] 567. Permutation in String](%5BMedium%5D%20567.%20Permutation%20in%20String.md)
 * [[Medium] [Solution] 901. Online Stock Span](%5BMedium%5D%20%5BSolution%5D%20901.%20Online%20Stock%20Span.md)
+* [[Medium] [Solution] 230. Kth Smallest Element in a BST](%5BMedium%5D%20%5BSolution%5D%20230.%20Kth%20Smallest%20Element%20in%20a%20BST.md)
 
 ## Array <a name="array"></a>
 ---
@@ -2629,6 +2630,36 @@ class Solution:
         return True if x_parent != y_parent and x_depth == y_depth else False 
 ```
 * [[Easy] [Solution] 993. Cousins in Binary Tree](%5BEasy%5D%20%5BSolution%5D%20993.%20Cousins%20in%20Binary%20Tree.md)
+
+### Kth Smallest
+```python
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+
+class Solution:
+    def kthSmallest(self, root: TreeNode, k: int) -> int:
+        seq = []
+        
+        def dfs(node, n):
+            nonlocal seq
+            if not node:
+                return
+            dfs(node.left, n)
+            seq += [node.val]
+            if n == 1:
+                return
+            else:
+                n -= 1
+            dfs(node.right, n)
+        
+        dfs(root, k)
+        return seq[k-1]
+```
+* [[Medium] [Solution] 230. Kth Smallest Element in a BST](%5BMedium%5D%20%5BSolution%5D%20230.%20Kth%20Smallest%20Element%20in%20a%20BST.md)
 
 ### Post-Order
 ```python
