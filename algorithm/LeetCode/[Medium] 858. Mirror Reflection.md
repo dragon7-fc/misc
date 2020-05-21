@@ -24,7 +24,7 @@ Explanation: The ray meets receptor 2 the first time it gets reflected back to t
 
 # Submissions
 ---
-**Solution 1:**
+**Solution 1: (Math)**
 ```
 Runtime: 28 ms
 Memory Usage: 12.8 MB

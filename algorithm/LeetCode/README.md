@@ -228,6 +228,7 @@ Happy Coding!!
 * [[Medium] 567. Permutation in String](%5BMedium%5D%20567.%20Permutation%20in%20String.md)
 * [[Medium] [Solution] 901. Online Stock Span](%5BMedium%5D%20%5BSolution%5D%20901.%20Online%20Stock%20Span.md)
 * [[Medium] [Solution] 230. Kth Smallest Element in a BST](%5BMedium%5D%20%5BSolution%5D%20230.%20Kth%20Smallest%20Element%20in%20a%20BST.md)
+* [[Medium] 1277. Count Square Submatrices with All Ones](%5BMedium%5D%201277.%20Count%20Square%20Submatrices%20with%20All%20Ones.md)
 
 ## Array <a name="array"></a>
 ---
@@ -1773,6 +1774,19 @@ class Solution:
 ```
 * [[Medium] 1230. Toss Strange Coins](%5BMedium%5D%201230.%20Toss%20Strange%20Coins.md)
 
+### Count
+```python
+class Solution:
+    def countSquares(self, matrix: List[List[int]]) -> int:
+        if not matrix: return 0
+        for i in range(1, len(matrix)):
+            for j in range(1, len(matrix[0])):
+                if  matrix[i][j] == 1:
+                    matrix[i][j] = min(matrix[i-1][j], matrix[i][j-1] ,matrix[i-1][j-1]) + 1
+        return sum([sum(x) for x in matrix])
+```
+* [[Medium] 1277. Count Square Submatrices with All Ones](%5BMedium%5D%201277.%20Count%20Square%20Submatrices%20with%20All%20Ones.md)
+
 ### Character match
 ```python
 import functools
@@ -2204,6 +2218,32 @@ class Solution:
 ```
 * [[Easy] [Solution] 507. Perfect Number](%5BEasy%5D%20%5BSolution%5D%20507.%20Perfect%20Number.md)
 
+### Rectangle Overlap
+```python
+class Solution:
+    def isRectangleOverlap(self, rec1: List[int], rec2: List[int]) -> bool:
+        def intersect(p_left, p_right, q_left, q_right):
+            return min(p_right, q_right) > max(p_left, q_left)
+        return (intersect(rec1[0], rec1[2], rec2[0], rec2[2]) and # width > 0
+                intersect(rec1[1], rec1[3], rec2[1], rec2[3]))    # height > 0
+```
+* [[Easy] [Solution] 836. Rectangle Overlap](%5BEasy%5D%20%5BSolution%5D%20836.%20Rectangle%20Overlap.md)
+
+### Binary Gap
+```python
+class Solution:
+    def binaryGap(self, N: int) -> int:
+        last = None
+        ans = 0
+        for i in range(32):
+            if (N >> i) & 1:
+                if last is not None:
+                    ans = max(ans, i - last)
+                last = i
+        return ans
+```
+* [[Easy] [Solution] 868. Binary Gap](%5BEasy%5D%20%5BSolution%5D%20868.%20Binary%20Gap.md)
+
 ### Prime Factor
 ```python
 class Solution:
@@ -2419,6 +2459,39 @@ class Solution:
             t2 = min(t2, (abs(target[0]-ghost[0]) + abs(target[1] -ghost[1])))
 ```
 * [[Medium] 789. Escape The Ghosts](%5BMedium%5D%20789.%20Escape%20The%20Ghosts.md)
+
+### Prime Palindrome
+```python
+class Solution:
+    def primePalindrome(self, N: int) -> int:
+        def is_prime(n):
+            return n > 1 and all(n % d for d in range(2, int(n**.5) + 1))
+
+        def reverse(x):
+            ans = 0
+            while x:
+                ans = 10 * ans + x % 10
+                x //= 10
+            return ans
+
+        while True:
+            if N == reverse(N) and is_prime(N):
+                return N
+            N += 1
+            if 10**7 < N < 10**8:
+                N = 10**8
+```
+* [[Medium] [Solution] 866. Prime Palindrome](%5BMedium%5D%20%5BSolution%5D%20866.%20Prime%20Palindrome.md)
+
+### Power of 2
+```python
+class Solution:
+    def reorderedPowerOf2(self, N: int) -> bool:
+        count = collections.Counter(str(N))
+        return any(count == collections.Counter(str(1 << b))
+                   for b in range(31))
+```
+* [[Medium] [Solution] 869. Reordered Power of 2](%5BMedium%5D%20%5BSolution%5D%20869.%20Reordered%20Power%20of%202.md)
 
 ### Moving Average
 ```python

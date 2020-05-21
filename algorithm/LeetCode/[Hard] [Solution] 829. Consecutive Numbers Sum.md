@@ -58,7 +58,7 @@ class Solution(object):
 
 We can model the situation by the equation $N = (x+1) + (x+2) + \cdots + (x+k)$. Here, $x \geq 0, k \geq 1$. Using the identity $1 + 2 + \cdots + k = \frac{k(k+1)}{2}$, we can simplify this equation to $2*N = k(2*x + k + 1)$.
 
-From here, clearly $1 \leq k \leq 2*N$. We can try every such $k$. We need $x = \frac{\frac{2*N}{k} - k - 1}{2}$ to be a non-negative integer for a solution to exist for the kk we are trying.
+From here, clearly $1 \leq k \leq 2*N$. We can try every such $k$. We need $x = \frac{\frac{2*N}{k} - k - 1}{2}$ to be a non-negative integer for a solution to exist for the $k$ we are trying.
 
 ```python
 class Solution(object):
@@ -82,7 +82,7 @@ class Solution(object):
 ## Approach #3: Mathematical (Fast) [Accepted]
 **Intuition and Algorithm**
 
-As in Approach #2, $2*N = k(2*x + k + 1)$ with $x \geq 0, k \geq 1$. Call kk the first factor, and $2*x + k + 1$ the second factor. We are looking for ways to solve this equation without trying all $2*N$ possibilities.
+As in Approach #2, $2*N = k(2*x + k + 1)$ with $x \geq 0, k \geq 1$. Call $k$ the first factor, and $2*x + k + 1$ the second factor. We are looking for ways to solve this equation without trying all $2*N$ possibilities.
 
 Now notice that the parity of $k$ and $(2*x + k + 1)$ are different. That is, if $k$ is even then the other quantity is odd, and vice versa. Also, $2*x + k + 1 \geq k + 1 > k$, so the second factor must be bigger.
 
@@ -118,3 +118,27 @@ class Solution(object):
 
 # Submissions
 ---
+**Solution 1: (Mathematical)**
+```
+Runtime: 32 ms
+Memory Usage: 13.8 MB
+```
+```python
+class Solution:
+    def consecutiveNumbersSum(self, N: int) -> int:
+        while N & 1 == 0:
+            N >>= 1
+
+        ans = 1    
+        d = 3
+        while d * d <= N:
+            e = 0
+            while N % d == 0:
+                N /= d
+                e += 1
+            ans *= e + 1
+            d += 2
+
+        if N > 1: ans *= 2
+        return ans
+```

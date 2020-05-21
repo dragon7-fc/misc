@@ -159,7 +159,7 @@ class Solution(object):
 
 # Submissions
 ---
-**Solution 1:**
+**Solution 1: (Brute Force with Mathematical Shortcut)**
 ```
 Runtime: 1080 ms
 Memory Usage: 12.7 MB

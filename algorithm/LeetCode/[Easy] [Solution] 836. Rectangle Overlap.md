@@ -77,7 +77,7 @@ class Solution(object):
 
 # Submissions
 ---
-**Solution 1:**
+**Solution 1: (Check Position)**
 ```
 Runtime: 20 ms
 Memory Usage: 12.7 MB
@@ -89,4 +89,18 @@ class Solution:
                     rec1[3] <= rec2[1] or  # bottom
                     rec1[0] >= rec2[2] or  # right
                     rec1[1] >= rec2[3])    # top
+```
+
+**Solution 2: (Check Area)**
+```
+Runtime: 24 ms
+Memory Usage: 12.8 MB
+```
+```python
+class Solution:
+    def isRectangleOverlap(self, rec1: List[int], rec2: List[int]) -> bool:
+        def intersect(p_left, p_right, q_left, q_right):
+            return min(p_right, q_right) > max(p_left, q_left)
+        return (intersect(rec1[0], rec1[2], rec2[0], rec2[2]) and # width > 0
+                intersect(rec1[1], rec1[3], rec2[1], rec2[3]))    # height > 0
 ```
