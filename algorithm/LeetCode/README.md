@@ -229,6 +229,7 @@ Happy Coding!!
 * [[Medium] [Solution] 901. Online Stock Span](%5BMedium%5D%20%5BSolution%5D%20901.%20Online%20Stock%20Span.md)
 * [[Medium] [Solution] 230. Kth Smallest Element in a BST](%5BMedium%5D%20%5BSolution%5D%20230.%20Kth%20Smallest%20Element%20in%20a%20BST.md)
 * [[Medium] 1277. Count Square Submatrices with All Ones](%5BMedium%5D%201277.%20Count%20Square%20Submatrices%20with%20All%20Ones.md)
+* [[Medium] 451. Sort Characters By Frequency](%5BMedium%5D%20451.%20Sort%20Characters%20By%20Frequency.md)
 
 ## Array <a name="array"></a>
 ---
@@ -5228,6 +5229,19 @@ class Solution:
         return nums
 ```
 * [[Medium] 324. Wiggle Sort II](%5BMedium%5D%20324.%20Wiggle%20Sort%20II.md)
+
+### Count
+```python
+class Solution:
+    def frequencySort(self, s: str) -> str:
+        ans = []
+        count = collections.Counter(s)
+        for el, c in count.most_common():
+            ans += [el] * c
+
+        return ''.join(ans)
+```
+* [[Medium] 451. Sort Characters By Frequency](%5BMedium%5D%20451.%20Sort%20Characters%20By%20Frequency.md)
 
 ### Hash Table with pointer
 ```python
