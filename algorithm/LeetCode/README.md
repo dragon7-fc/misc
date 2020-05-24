@@ -231,6 +231,7 @@ Happy Coding!!
 * [[Medium] 1277. Count Square Submatrices with All Ones](%5BMedium%5D%201277.%20Count%20Square%20Submatrices%20with%20All%20Ones.md)
 * [[Medium] 451. Sort Characters By Frequency](%5BMedium%5D%20451.%20Sort%20Characters%20By%20Frequency.md)
 * [[Medium] [Solution] 986. Interval List Intersections](%5BMedium%5D%20%5BSolution%5D%20986.%20Interval%20List%20Intersections.md)
+* [[Medium] 1008. Construct Binary Search Tree from Preorder Traversal](%5BMedium%5D%201008.%20Construct%20Binary%20Search%20Tree%20from%20Preorder%20Traversal.md)
 
 ## Array <a name="array"></a>
 ---
@@ -2298,6 +2299,40 @@ class Solution:
 ```
 * [[Easy] [Solution] 908. Smallest Range I](%5BEasy%5D%20%5BSolution%5D%20908.%20Smallest%20Range%20I.md)
 
+### Ad-Hoc
+```python
+class Solution:
+    def diStringMatch(self, S: str) -> List[int]:
+        lo, hi = 0, len(S)
+        ans = []
+        for x in S:
+            if x == 'I':
+                ans.append(lo)
+                lo += 1
+            else:
+                ans.append(hi)
+                hi -= 1
+
+        return ans + [lo]
+```
+* [[Easy] [Solution] 942. DI String Match](%5BEasy%5D%20%5BSolution%5D%20942.%20DI%20String%20Match.md)
+
+### Brute Force
+```python
+class Solution:
+    def largestTimeFromDigits(self, A: List[int]) -> str:
+        ans = -1
+        for h1, h2, m1, m2 in itertools.permutations(A):
+            hours = 10 * h1 + h2
+            mins = 10 * m1 + m2
+            time = 60 * hours + mins
+            if 0 <= hours < 24 and 0 <= mins < 60 and time > ans:
+                ans = time
+
+        return "{:02}:{:02}".format(*divmod(ans, 60)) if ans >= 0 else ""
+```
+* [[Easy] [Solution] 949. Largest Time for Given Digits](%5BEasy%5D%20%5BSolution%5D%20949.%20Largest%20Time%20for%20Given%20Digits.md)
+
 ### Smallest Range
 ```python
 class Solution:
@@ -2940,6 +2975,29 @@ class Solution:
         return seq[k-1]
 ```
 * [[Medium] [Solution] 230. Kth Smallest Element in a BST](%5BMedium%5D%20%5BSolution%5D%20230.%20Kth%20Smallest%20Element%20in%20a%20BST.md)
+
+### DFS
+```python
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+
+class Solution:
+    def bstFromPreorder(self, preorder: List[int]) -> TreeNode:
+        if preorder:
+            val = preorder[0]
+            root = TreeNode(val)
+            i = 1
+            while i < len(preorder) and preorder[i] < val:
+                i += 1
+            root.left = self.bstFromPreorder(preorder[1:i])
+            root.right = self.bstFromPreorder(preorder[i:])
+            return root
+```
+* [[Medium] 1008. Construct Binary Search Tree from Preorder Traversal](%5BMedium%5D%201008.%20Construct%20Binary%20Search%20Tree%20from%20Preorder%20Traversal.md)
 
 ### Post-Order
 ```python

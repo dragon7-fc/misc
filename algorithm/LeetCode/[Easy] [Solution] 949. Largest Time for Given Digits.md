@@ -66,7 +66,7 @@ class Solution(object):
 
 # Submissions
 ---
-**Solution:**
+**Solution: (Brute Force)**
 ```
 Runtime: 32 ms
 Memory Usage: 12.7 MB

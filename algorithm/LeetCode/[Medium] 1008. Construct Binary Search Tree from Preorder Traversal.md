@@ -21,7 +21,7 @@ Output: [8,5,10,1,7,null,12]
 
 # Submissions
 ---
-**Solution 1:**
+**Solution 1: (Recursive)**
 ```
 Runtime: 28 ms
 Memory Usage: 12.7 MB
