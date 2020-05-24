@@ -101,7 +101,7 @@ class Solution(object):
 
 # Submissions
 ---
-**Solution**
+**Solution (Greatest Common Divisor)**
 ```
 Runtime: 156 ms
 Memory Usage: 14 MB

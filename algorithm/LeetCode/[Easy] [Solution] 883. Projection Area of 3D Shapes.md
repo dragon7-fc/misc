@@ -105,7 +105,7 @@ class Solution:
 
 # Submissions
 ---
-**Solution 1:**
+**Solution 1: (Mathematical)**
 ```
 Runtime: 68 ms
 Memory Usage: 12.9 MB
@@ -113,8 +113,8 @@ Memory Usage: 12.9 MB
 ```python
 class Solution:
     def projectionArea(self, grid: List[List[int]]) -> int:
-        ans = sum(map(max, grid))
-        ans += sum(map(max, zip(*grid)))
-        ans += sum(v > 0 for row in grid for v in row)
+        ans = sum(map(max, grid))  # x-z plane
+        ans += sum(map(max, zip(*grid)))  # y-z plane
+        ans += sum(v > 0 for row in grid for v in row)  # x-y plane
         return ans
 ```

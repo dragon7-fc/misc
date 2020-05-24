@@ -230,6 +230,7 @@ Happy Coding!!
 * [[Medium] [Solution] 230. Kth Smallest Element in a BST](%5BMedium%5D%20%5BSolution%5D%20230.%20Kth%20Smallest%20Element%20in%20a%20BST.md)
 * [[Medium] 1277. Count Square Submatrices with All Ones](%5BMedium%5D%201277.%20Count%20Square%20Submatrices%20with%20All%20Ones.md)
 * [[Medium] 451. Sort Characters By Frequency](%5BMedium%5D%20451.%20Sort%20Characters%20By%20Frequency.md)
+* [[Medium] [Solution] 986. Interval List Intersections](%5BMedium%5D%20%5BSolution%5D%20986.%20Interval%20List%20Intersections.md)
 
 ## Array <a name="array"></a>
 ---
@@ -2245,6 +2246,72 @@ class Solution:
 ```
 * [[Easy] [Solution] 868. Binary Gap](%5BEasy%5D%20%5BSolution%5D%20868.%20Binary%20Gap.md)
 
+### Projection
+```python
+class Solution:
+    def projectionArea(self, grid: List[List[int]]) -> int:
+        ans = sum(map(max, grid))  # x-z plane
+        ans += sum(map(max, zip(*grid)))  # y-z plane
+        ans += sum(v > 0 for row in grid for v in row)  # x-y plane
+        return ans
+```
+* [[Easy] [Solution] 883. Projection Area of 3D Shapes](%5BEasy%5D%20%5BSolution%5D%20883.%20Projection%20Area%20of%203D%20Shapes.md)
+
+### Square by Square
+```python
+class Solution:
+    def surfaceArea(self, grid: List[List[int]]) -> int:
+        N = len(grid)
+
+        ans = 0
+        for r in range(N):
+            for c in range(N):
+                if grid[r][c]:
+                    ans += 2
+                    for nr, nc in ((r-1, c), (r+1, c), (r, c-1), (r,c+1)):
+                        if 0 <= nr < N and 0 <= nc < N:
+                            nval = grid[nr][nc]
+                        else:
+                            nval = 0
+
+                        ans += max(grid[r][c] - nval, 0)
+
+        return ans
+```
+* [[Easy] [Solution] 892. Surface Area of 3D Shapes](%5BEasy%5D%20%5BSolution%5D%20892.%20Surface%20Area%20of%203D%20Shapes.md)
+
+### GCD
+```python
+class Solution:
+    def hasGroupsSizeX(self, deck: List[int]) -> bool:
+        from functools import reduce
+        vals = collections.Counter(deck).values()
+        return reduce(math.gcd, vals) >= 2
+```
+* [[Easy] [Solution] 914. X of a Kind in a Deck of Cards](%5BEasy%5D%20%5BSolution%5D%20914.%20X%20of%20a%20Kind%20in%20a%20Deck%20of%20Cards.md)
+
+### Smallest Range
+```python
+class Solution:
+    def smallestRangeI(self, A: List[int], K: int) -> int:
+        return max(0, max(A) - min(A) - 2*K)
+```
+* [[Easy] [Solution] 908. Smallest Range I](%5BEasy%5D%20%5BSolution%5D%20908.%20Smallest%20Range%20I.md)
+
+### Smallest Range
+```python
+class Solution:
+    def smallestRangeII(self, A: List[int], K: int) -> int:
+        A.sort()
+        mi, ma = A[0], A[-1]
+        ans = ma - mi
+        for i in range(len(A) - 1):
+            a, b = A[i], A[i+1]
+            ans = min(ans, max(ma-K, a+K) - min(mi+K, b-K))
+        return ans
+```
+* [[Medium] [Solution] 910. Smallest Range II](%5BMedium%5D%20%5BSolution%5D%20910.%20Smallest%20Range%20II.md)
+
 ### Prime Factor
 ```python
 class Solution:
@@ -2364,6 +2431,31 @@ class Solution:
         return str(nums[0]) + '/(' + '/'.join(list(map(str,nums[1:]))) + ')'
 ```
 * [[Medium] 553. Optimal Division](%5BMedium%5D%20553.%20Optimal%20Division.md)
+
+### Circle
+```python
+class Solution:
+
+    def __init__(self, radius: float, x_center: float, y_center: float):
+        self.r = radius
+        self.x = x_center
+        self.y = y_center
+
+    def randPoint(self) -> List[float]:
+        r = (self.randomize(0, math.pi * self.r ** 2) / math.pi) ** 0.5
+        theta = self.randomize(0, 2 * math.pi)
+        return [self.x + r * math.cos(theta), self.y + r * math.sin(theta)]
+
+
+    def randomize(self,a,b):
+        return random.uniform(a, b)
+
+
+# Your Solution object will be instantiated and called as such:
+# obj = Solution(radius, x_center, y_center)
+# param_1 = obj.randPoint()
+```
+* [[Medium] 478. Generate Random Point in a Circle](%5BMedium%5D%20478.%20Generate%20Random%20Point%20in%20a%20Circle.md)
 
 ### Factor
 ```python
@@ -2494,6 +2586,35 @@ class Solution:
 ```
 * [[Medium] [Solution] 869. Reordered Power of 2](%5BMedium%5D%20%5BSolution%5D%20869.%20Reordered%20Power%20of%202.md)
 
+### Walk in a Spiral
+```python
+class Solution(object):
+    def spiralMatrixIII(self, R, C, r0, c0):
+        ans = [(r0, c0)]
+        if R * C == 1: return ans
+
+        # For walk length k = 1, 3, 5 ...
+        for k in xrange(1, 2*(R+C), 2):
+
+            # For direction (dr, dc) = east, south, west, north;
+            # and walk length dk...
+            for dr, dc, dk in ((0, 1, k), (1, 0, k), (0, -1, k+1), (-1, 0, k+1)):
+
+                # For each of dk units in the current direction ...
+                for _ in xrange(dk):
+
+                    # Step in that direction
+                    r0 += dr
+                    c0 += dc
+
+                    # If on the grid ...
+                    if 0 <= r0 < R and 0 <= c0 < C:
+                        ans.append((r0, c0))
+                        if len(ans) == R * C:
+                            return ans
+```
+* [[Medium] [Solution] 885. Spiral Matrix III](%5BMedium%5D%20%5BSolution%5D%20885.%20Spiral%20Matrix%20III.md)
+
 ### Moving Average
 ```python
 class Solution:
@@ -2587,6 +2708,91 @@ class Solution(object):
         return dp(K, N)
 ```
 * [[Hard] [Solution] 887. Super Egg Drop](%5BHard%5D%20%5BSolution%5D%20887.%20Super%20Egg%20Drop.md)
+
+### LCM
+```python
+class Solution:
+    def nthMagicalNumber(self, N: int, A: int, B: int) -> int:
+        from fractions import gcd
+        MOD = 10**9 + 7
+        L = A / gcd(A,B) * B
+
+        def magic_below_x(x):
+            # How many magical numbers are <= x?
+            return x // A + x // B - x // L
+
+        lo = 0
+        hi = N * min(A, B)
+        while lo < hi:
+            mi = (lo + hi) // 2
+            if magic_below_x(mi) < N:
+                lo = mi + 1
+            else:
+                hi = mi
+
+        return lo % MOD
+```
+* [[Hard] [Solution] 878. Nth Magical Number](%5BHard%5D%20%5BSolution%5D%20878.%20Nth%20Magical%20Number.md)
+
+### Power
+```python
+class Solution:
+    def sumSubseqWidths(self, A: List[int]) -> int:
+        MOD = 10**9 + 7
+        N = len(A)
+        A.sort()
+
+        pow2 = [1]
+        for i in range(1, N):
+            pow2.append(pow2[-1] * 2 % MOD)
+
+        ans = 0
+        for i, x in enumerate(A):
+            ans = (ans + (pow2[i] - pow2[N-1-i]) * x) % MOD
+        return ans
+```
+* [[Hard] [Solution] 891. Sum of Subsequence Widths](%5BHard%5D%20%5BSolution%5D%20891.%20Sum%20of%20Subsequence%20Widths.md)
+
+### Equal Ones
+```python
+class Solution:
+    def threeEqualParts(self, A: List[int]) -> List[int]:
+        IMP = [-1, -1]
+
+        S = sum(A)
+        if S % 3: return IMP
+        T = S / 3
+        if T == 0:
+            return [0, len(A) - 1]
+
+        breaks = []
+        su = 0
+        for i, x in enumerate(A):
+            if x:
+                su += x
+                if su in {1, T+1, 2*T+1}:
+                    breaks.append(i)
+                if su in {T, 2*T, 3*T}:
+                    breaks.append(i)
+
+        i1, j1, i2, j2, i3, j3 = breaks
+
+        # The array is in the form W [i1, j1] X [i2, j2] Y [i3, j3] Z
+        # where [i1, j1] is a block of 1s, etc.
+        if not(A[i1:j1+1] == A[i2:j2+1] == A[i3:j3+1]):
+            return [-1,-1]
+
+        # x, y, z: the number of zeros after part 1, 2, 3
+        x = i2 - j1 - 1
+        y = i3 - j2 - 1
+        z = len(A) - j3 - 1
+
+        if x < z or y < z: return IMP
+        j1 += z
+        j2 += z
+        return [j1, j2+1]
+```
+* [[Hard] [Solution] 927. Three Equal Parts](%5BHard%5D%20%5BSolution%5D%20927.%20Three%20Equal%20Parts.md)
 
 ## String <a name="string"></a>
 ---
@@ -4380,6 +4586,23 @@ class Solution:
         return ans
 ```
 * [[Medium] [Solution] 904. Fruit Into Baskets](%5BMedium%5D%20%5BSolution%5D%20904.%20Fruit%20Into%20Baskets.md)
+
+### Interval intersection
+```python
+class Solution:
+    def intervalIntersection(self, A: List[List[int]], B: List[List[int]]) -> List[List[int]]:
+        i, j, res = 0, 0, []
+        la, lb = len(A), len(B)
+        while i < la and j < lb:
+            if A[i][1] >= B[j][0] and A[i][0] <= B[j][1]:
+                res += [[max(A[i][0], B[j][0]), min(A[i][1], B[j][1])]]
+            if A[i][1] >= B[j][1]:
+                j += 1
+            else:
+                i += 1
+        return res
+```
+* [[Medium] [Solution] 986. Interval List Intersections](%5BMedium%5D%20%5BSolution%5D%20986.%20Interval%20List%20Intersections.md)
 
 ### Four pointers
 ```python
