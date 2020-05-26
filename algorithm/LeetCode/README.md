@@ -232,7 +232,11 @@ Happy Coding!!
 * [[Medium] 451. Sort Characters By Frequency](%5BMedium%5D%20451.%20Sort%20Characters%20By%20Frequency.md)
 * [[Medium] [Solution] 986. Interval List Intersections](%5BMedium%5D%20%5BSolution%5D%20986.%20Interval%20List%20Intersections.md)
 * [[Medium] 1008. Construct Binary Search Tree from Preorder Traversal](%5BMedium%5D%201008.%20Construct%20Binary%20Search%20Tree%20from%20Preorder%20Traversal.md)
+<<<<<<< HEAD
 * [[Medium] [Solution] 525. Contiguous Array](%5BMedium%5D%20%5BSolution%5D%20525.%20Contiguous%20Array.md)
+=======
+* [[Medium] 1035. Uncrossed Lines](%5BMedium%5D%201035.%20Uncrossed%20Lines.md)
+>>>>>>> 2628011ca00b8b67cdfce74f8de2750c3ded9b97
 
 ## Array <a name="array"></a>
 ---
@@ -1790,6 +1794,37 @@ class Solution:
         return sum([sum(x) for x in matrix])
 ```
 * [[Medium] 1277. Count Square Submatrices with All Ones](%5BMedium%5D%201277.%20Count%20Square%20Submatrices%20with%20All%20Ones.md)
+
+### Uncrossed Lines
+```python
+class Solution:
+    def maxUncrossedLines(self, A: List[int], B: List[int]) -> int:
+        M, N = len(A), len(B)
+        dp = [[0 for _ in range(N+1)] for _ in range(M+1)]
+        for i in range(1, M+1):
+            for j in range(1, N+1):
+                if A[i-1] == B[j-1]:
+                    dp[i][j] = dp[i-1][j-1]+1
+                else:
+                    dp[i][j] = max(dp[i][j-1], dp[i-1][j])
+        return dp[-1][-1]
+
+class Solution:
+    def maxUncrossedLines(self, A: List[int], B: List[int]) -> int:
+        M, N = len(A), len(B)
+
+        @functools.lru_cache(None)
+        def dp(i, j):
+            if i == M or j == N:
+                return 0
+            if A[i] == B[j]:
+                return dp(i+1, j+1) + 1
+            else:
+                return max(dp(i+1, j), dp(i, j+1))
+
+        return dp(0, 0)
+```
+* [[Medium] 1035. Uncrossed Lines](%5BMedium%5D%201035.%20Uncrossed%20Lines.md)
 
 ### Character match
 ```python
