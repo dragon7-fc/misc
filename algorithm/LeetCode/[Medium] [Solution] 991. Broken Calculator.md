@@ -81,7 +81,7 @@ class Solution(object):
 
 # Submissions
 ---
-**Solution:**
+**Solution: (Work Backwards, Greedy)**
 ```
 Runtime: 28 ms
 Memory Usage: 12.7 MB

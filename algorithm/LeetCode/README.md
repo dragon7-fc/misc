@@ -232,6 +232,7 @@ Happy Coding!!
 * [[Medium] 451. Sort Characters By Frequency](%5BMedium%5D%20451.%20Sort%20Characters%20By%20Frequency.md)
 * [[Medium] [Solution] 986. Interval List Intersections](%5BMedium%5D%20%5BSolution%5D%20986.%20Interval%20List%20Intersections.md)
 * [[Medium] 1008. Construct Binary Search Tree from Preorder Traversal](%5BMedium%5D%201008.%20Construct%20Binary%20Search%20Tree%20from%20Preorder%20Traversal.md)
+* [[Medium] [Solution] 525. Contiguous Array](%5BMedium%5D%20%5BSolution%5D%20525.%20Contiguous%20Array.md)
 
 ## Array <a name="array"></a>
 ---
@@ -2333,6 +2334,18 @@ class Solution:
 ```
 * [[Easy] [Solution] 949. Largest Time for Given Digits](%5BEasy%5D%20%5BSolution%5D%20949.%20Largest%20Time%20for%20Given%20Digits.md)
 
+### Largest Perimeter Triangle
+```python
+class Solution:
+    def largestPerimeter(self, A: List[int]) -> int:
+        A.sort()
+        for i in range(len(A) - 3, -1, -1):
+            if A[i] + A[i+1] > A[i+2]:
+                return A[i] + A[i+1] + A[i+2]
+        return 0
+```
+* [[Easy] [Solution] 976. Largest Perimeter Triangle](%5BEasy%5D%20%5BSolution%5D%20976.%20Largest%20Perimeter%20Triangle.md)
+
 ### Smallest Range
 ```python
 class Solution:
@@ -2346,6 +2359,20 @@ class Solution:
         return ans
 ```
 * [[Medium] [Solution] 910. Smallest Range II](%5BMedium%5D%20%5BSolution%5D%20910.%20Smallest%20Range%20II.md)
+
+### Greedy
+```python
+class Solution:
+    def brokenCalc(self, X: int, Y: int) -> int:
+        ans = 0
+        while Y > X:
+            ans += 1
+            if Y%2: Y += 1
+            else: Y //= 2
+
+        return ans + X-Y
+```
+* [[Medium] [Solution] 991. Broken Calculator](%5BMedium%5D%20%5BSolution%5D%20991.%20Broken%20Calculator.md)
 
 ### Prime Factor
 ```python
@@ -3086,6 +3113,22 @@ class Solution:
         return (B - A).pop()
 ```
 * [[Easy] 1436. Destination City](%5BEasy%5D%201436.%20Destination%20City.md)
+
+### Contiguous Array
+```python
+class Solution:
+    def findMaxLength(self, nums: List[int]) -> int:
+        d = {0: -1}  # count of 1: index
+        ans, count = 0, 0
+        for i in range(len(nums)):
+            count += 1 if nums[i] == 1 else -1
+            if count in d:
+                ans = max(ans, i - d[count])
+            else:
+                d[count] = i
+        return ans
+```
+* [[Medium] [Solution] 525. Contiguous Array](%5BMedium%5D%20%5BSolution%5D%20525.%20Contiguous%20Array.md)
 
 ### OrderedDict
 ```python
