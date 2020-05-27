@@ -232,11 +232,9 @@ Happy Coding!!
 * [[Medium] 451. Sort Characters By Frequency](%5BMedium%5D%20451.%20Sort%20Characters%20By%20Frequency.md)
 * [[Medium] [Solution] 986. Interval List Intersections](%5BMedium%5D%20%5BSolution%5D%20986.%20Interval%20List%20Intersections.md)
 * [[Medium] 1008. Construct Binary Search Tree from Preorder Traversal](%5BMedium%5D%201008.%20Construct%20Binary%20Search%20Tree%20from%20Preorder%20Traversal.md)
-<<<<<<< HEAD
-* [[Medium] [Solution] 525. Contiguous Array](%5BMedium%5D%20%5BSolution%5D%20525.%20Contiguous%20Array.md)
-=======
 * [[Medium] 1035. Uncrossed Lines](%5BMedium%5D%201035.%20Uncrossed%20Lines.md)
->>>>>>> 2628011ca00b8b67cdfce74f8de2750c3ded9b97
+* [[Medium] [Solution] 525. Contiguous Array](%5BMedium%5D%20%5BSolution%5D%20525.%20Contiguous%20Array.md)
+* [[Medium] [Solution] 886. Possible Bipartition](%5BMedium%5D%20%5BSolution%5D%20886.%20Possible%20Bipartition.md)
 
 ## Array <a name="array"></a>
 ---
@@ -2712,6 +2710,34 @@ class Solution(object):
 ```
 * [[Medium] [Solution] 885. Spiral Matrix III](%5BMedium%5D%20%5BSolution%5D%20885.%20Spiral%20Matrix%20III.md)
 
+### 
+```python
+class Solution:
+    def clumsy(self, N: int) -> int:
+        tmp = 0
+        ans = 0
+        for i, n in enumerate(range(N,0,-1)):
+            if i%4 == 0:
+                tmp = n
+            elif i%4 == 1:
+                tmp *= n
+            elif i%4 == 2:
+                tmp //= n
+            elif i%4 == 3:
+                if i == 3:
+                    ans = tmp + n
+                else:
+                    ans += -tmp + n
+                tmp = 0
+            if n == 1 and tmp > 0:
+                if i < 3:
+                    ans = tmp
+                else:
+                    ans -= tmp
+        return ans
+```
+* [[Medium] 1006. Clumsy Factorial](%5BMedium%5D%201006.%20Clumsy%20Factorial.md)
+
 ### Moving Average
 ```python
 class Solution:
@@ -4357,6 +4383,36 @@ class Solution:
         return True
 ```
 * [[Medium] 785. Is Graph Bipartite?](%5BMedium%5D%20785.%20Is%20Graph%20Bipartite?.md)
+
+### Bipartite
+```python
+class Solution:
+    def possibleBipartition(self, N: int, dislikes: List[List[int]]) -> bool:
+        graph = collections.defaultdict(list)
+        for u, v in dislikes:
+            graph[u].append(v)
+            graph[v].append(u)
+
+        colored = collections.defaultdict(int)
+
+        def dfs(node, color):
+            colored[node] = color
+            for nei in graph[node]:
+                if nei in colored:
+                    if colored[nei] == colored[node]:
+                        return False
+                else:  # Adj nodes to be color inverted.
+                    if not dfs(nei, -color):
+                        return False
+            return True
+
+        for v in graph:
+            if v not in colored:
+                if not dfs(v, 1):
+                    return False
+        return True
+```
+* [[Medium] [Solution] 886. Possible Bipartition](%5BMedium%5D%20%5BSolution%5D%20886.%20Possible%20Bipartition.md)
 
 ### Matrix
 ```python

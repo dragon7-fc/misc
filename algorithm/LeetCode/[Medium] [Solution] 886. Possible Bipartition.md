@@ -82,7 +82,7 @@ class Solution(object):
 
 # Submissions
 ---
-**Solution 1:**
+**Solution 1: (Depth-First Search)**
 ```
 Runtime: 736 ms
 Memory Usage: 21.1 MB
