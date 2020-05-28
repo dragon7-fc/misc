@@ -278,11 +278,10 @@ Trie build has $O(S)$ time complexity. To find the common prefix of $q$ in the T
 
 # Submissions
 ---
-**Solution 1:**
+**Solution 1: (Vertical scanning)**
 ```
 Runtime: 28 ms
 Memory Usage: 12.8 MB
-```
 ```
 ```python
 class Solution:
@@ -297,7 +296,7 @@ class Solution:
         i = 0
         while i< min_len:
             curr = strs[0][i]
-            for str in strs:
+            for str in strs[1:]:
                 if curr != str[i]:
                     return res
             res += curr

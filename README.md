@@ -798,14 +798,14 @@ A playground to note something.
     - finish
     
         `source ~/.zshrc`      
-* MC
-    
-    - midnight commander dark color theme
-    
+* Midnight Commander
+
+    - dark color theme
+ 
     Edit mc’s ini file (either ~/.mc/ini or ~/.config/mc/ini) and look for the line [Colors]. Then, change the line base_color to this:
     ```
-[Colors]
-base_color=linux:normal=white,black:marked=yellow,black:input=,green:menu=black:menusel=white:menuhot=red,:menuhotsel=black,red:dfocus=white,black:dhotnormal=white,black:dhotfocus=white,black:executable=,black:directory=white,black:link=white,black:device=white,black:special=white,black:core=,black:stalelink=red,black:editnormal=white,black 
+    [Colors]
+    base_color=linux:normal=white,black:marked=yellow,black:input=,green:menu=black:menusel=white:menuhot=red,:menuhotsel=black,red:dfocus=white,black:dhotnormal=white,black:dhotfocus=white,black:executable=,black:directory=white,black:link=white,black:device=white,black:special=white,black:core=,black:stalelink=red,black:editnormal=white,black
     ```
 
 * IPython
@@ -825,6 +825,16 @@ base_color=linux:normal=white,black:marked=yellow,black:input=,green:menu=black:
     - [ROS Answers](http://answers.ros.org/)
     - [ROS Cheat Sheet](https://github.com/ros/cheatsheet/releases/download/0.0.1/ROScheatsheet_catkin.pdf)
     - [A gentle Introduction to ROS](https://cse.sc.edu/~jokane/agitr/)
+
+* Yocto
+
+    - Docker
+
+        - Poky Container
+    
+        ```bash
+        sudo docker run --name yocto --rm -it -v /path/to/workdir:/workdir -v /path/to/downloads:/downloads -v /path/to/sstate_cache:/sstate_cache --workdir=/workdir crops/poky
+        ```
 
 ## Language
 

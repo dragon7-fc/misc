@@ -123,7 +123,7 @@ class Solution {
 
 # Submissions
 ---
-**Solution 1:**
+**Solution 1: (Visit by Row)**
 ```
 Runtime: 64 ms
 Memory Usage: 12.7 MB

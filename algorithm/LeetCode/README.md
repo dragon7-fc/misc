@@ -235,6 +235,7 @@ Happy Coding!!
 * [[Medium] 1035. Uncrossed Lines](%5BMedium%5D%201035.%20Uncrossed%20Lines.md)
 * [[Medium] [Solution] 525. Contiguous Array](%5BMedium%5D%20%5BSolution%5D%20525.%20Contiguous%20Array.md)
 * [[Medium] [Solution] 886. Possible Bipartition](%5BMedium%5D%20%5BSolution%5D%20886.%20Possible%20Bipartition.md)
+* [[Medium] 338. Counting Bits](%5BMedium%5D%20338.%20Counting%20Bits.md)
 
 ## Array <a name="array"></a>
 ---
@@ -1562,6 +1563,32 @@ class Solution:
         return ans
 ```
 * [[Medium] [Solution] 764. Largest Plus Sign](%5BMedium%5D%20%5BSolution%5D%20764.%20Largest%20Plus%20Sign.md)
+
+### Counting Bits
+```python
+class Solution:
+    def countBits(self, num):
+        """
+        :type num: int
+        :rtype: List[int]
+        """
+        ans = [0]*(num+1)
+        for i in range(num+1):
+            ans[i] = (i&1) + ans[i>>1]
+        return ans
+    
+class Solution:
+    def countBits(self, num: int) -> List[int]:
+
+        @functools.lru_cache(None)
+        def dfs(n):
+            if n == 0:
+                return 0
+            return (n&1) + dfs(n>>1)
+
+        return [dfs(i) for i in range(num+1)]
+```
+* [[Medium] 338. Counting Bits](%5BMedium%5D%20338.%20Counting%20Bits.md)
 
 ### State Combination
 ```python
@@ -2986,6 +3013,48 @@ class Solution:
         # no match was found
         return -1
 ```
+
+### Visit by Row
+```python
+class Solution:
+    def convert(self, s: str, numRows: int) -> str:
+        rows = [[] for _ in range(numRows)]
+        curRow = 0
+        goingDown = False
+        ret = []
+        for c in s:
+            rows[curRow].append(c)
+            if numRows == 1: continue
+            if curRow == 0 or curRow == numRows - 1:
+                goingDown = not goingDown
+            curRow += 1 if goingDown else -1
+        ret = ''.join([c for r in rows for c in r])
+        return ret
+```
+* [[Medium] [Solution] 6. ZigZag Conversion](%5BMedium%5D%20%5BSolution%5D%206.%20ZigZag%20Conversion.md)
+
+### 
+```python
+class Solution:
+    def generateParenthesis(self, n):
+        """
+        :type n: int
+        :rtype: List[str]
+        """
+        ans = []
+        def backtrack(S = '', left = 0, right = 0):
+            if len(S) == 2 * n:
+                ans.append(S)
+                return
+            if left < n:
+                backtrack(S+'(', left+1, right)
+            if right < left:
+                backtrack(S+')', left, right+1)
+
+        backtrack()
+        return ans
+```
+* [[Medium] [Solution] 22. Generate Parentheses](%5BMedium%5D%20%5BSolution%5D%2022.%20Generate%20Parentheses.md)
 
 ## Tree <a name='tree'></a>
 ---
@@ -4919,6 +4988,45 @@ class Solution:
                     stack.append((node.left, False))
         return postorder
 ```
+
+### Valid Parentheses
+```python
+class Solution:
+    def isValid(self, s):
+        """
+        :type s: str
+        :rtype: bool
+        """
+        # The stack to keep track of opening brackets.
+        stack = []
+
+        # Hash map for keeping track of mappings. This keeps the code very clean.
+        # Also makes adding more types of parenthesis easier
+        mapping = {")": "(", "}": "{", "]": "["}
+
+        # For every bracket in the expression.
+        for char in s:
+
+            # If the character is an closing bracket
+            if char in mapping:
+
+                # Pop the topmost element from the stack, if it is non empty
+                # Otherwise assign a dummy value of '#' to the top_element variable
+                top_element = stack.pop() if stack else '#'
+
+                # The mapping for the opening bracket in our hash and the top
+                # element of the stack don't match, return False
+                if mapping[char] != top_element:
+                    return False
+            else:
+                # We have an opening bracket, simply push it onto the stack.
+                stack.append(char)
+
+        # In the end, if the stack is empty, then we have a valid expression.
+        # The stack won't be empty for cases like ((()
+        return not stack
+```
+* [[Easy] [Solution] 20. Valid Parentheses](%5BEasy%5D%20%5BSolution%5D%2020.%20Valid%20Parentheses.md)
 
 ### Stack, Hash Table
 ```python

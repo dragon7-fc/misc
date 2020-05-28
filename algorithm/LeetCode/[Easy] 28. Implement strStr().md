@@ -24,7 +24,7 @@ For the purpose of this problem, we will return 0 when needle is an empty string
 
 # Submissions
 ---
-**Solution 1:**
+**Solution 1: (String)**
 ```
 Runtime: 28 ms
 Memory Usage: 12.7 MB
