@@ -236,6 +236,7 @@ Happy Coding!!
 * [[Medium] [Solution] 525. Contiguous Array](%5BMedium%5D%20%5BSolution%5D%20525.%20Contiguous%20Array.md)
 * [[Medium] [Solution] 886. Possible Bipartition](%5BMedium%5D%20%5BSolution%5D%20886.%20Possible%20Bipartition.md)
 * [[Medium] 338. Counting Bits](%5BMedium%5D%20338.%20Counting%20Bits.md)
+* [[Medium] 207. Course Schedule](%5BMedium%5D%20207.%20Course%20Schedule.md)
 
 ## Array <a name="array"></a>
 ---
