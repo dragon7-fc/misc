@@ -37,7 +37,7 @@ Explanation: You need to reduce multiple spaces between two words to a single sp
 
 # Submissions
 ---
-**Solution 1:**
+**Solution 1: (String)**
 ```
 Runtime: 16 ms
 Memory Usage: 13.3 MB

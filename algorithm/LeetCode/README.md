@@ -237,6 +237,7 @@ Happy Coding!!
 * [[Medium] [Solution] 886. Possible Bipartition](%5BMedium%5D%20%5BSolution%5D%20886.%20Possible%20Bipartition.md)
 * [[Medium] 338. Counting Bits](%5BMedium%5D%20338.%20Counting%20Bits.md)
 * [[Medium] 207. Course Schedule](%5BMedium%5D%20207.%20Course%20Schedule.md)
+* [[Medium] [Solution] 973. K Closest Points to Origin](%5BMedium%5D%20%5BSolution%5D%20973.%20K%20Closest%20Points%20to%20Origin.md)
 
 ## Array <a name="array"></a>
 ---
@@ -3014,6 +3015,15 @@ class Solution:
         # no match was found
         return -1
 ```
+
+### Valid Palindrome
+```python
+class Solution:
+    def isPalindrome(self, s: str) -> bool:
+        filter_str = [*filter(lambda c:c.isdigit() or c.isalpha(), s.lower())]  # list(filter(lambda c:c.isdigit() or c.isalpha(), s.lower()))
+        return filter_str[::-1] == filter_str
+```
+* [[Easy] 125. Valid Palindrome](%5BEasy%5D%20125.%20Valid%20Palindrome.md)
 
 ### Visit by Row
 ```python
@@ -6425,7 +6435,7 @@ class Solution:
 ```
 * [[Medium] [Solution] 767. Reorganize String](%5BMedium%5D%20%5BSolution%5D%20767.%20Reorganize%20String.md)
 
-### nlargest
+### nsmallest
 ```python
 class Solution:
     def kClosest(self, points: List[List[int]], K: int) -> List[List[int]]:

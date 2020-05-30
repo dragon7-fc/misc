@@ -800,12 +800,22 @@ A playground to note something.
         `source ~/.zshrc`      
 * Midnight Commander
 
+    - [Cheetsheet for Midnight Commander](http://www.softpanorama.org/OFM/MC/cheetsheet.shtml)
+
     - dark color theme
  
-    Edit mc’s ini file (either ~/.mc/ini or ~/.config/mc/ini) and look for the line [Colors]. Then, change the line base_color to this:
-    ```
-    [Colors]
-    base_color=linux:normal=white,black:marked=yellow,black:input=,green:menu=black:menusel=white:menuhot=red,:menuhotsel=black,red:dfocus=white,black:dhotnormal=white,black:dhotfocus=white,black:executable=,black:directory=white,black:link=white,black:device=white,black:special=white,black:core=,black:stalelink=red,black:editnormal=white,black
+    ```bash
+    vim ~/.config/mc/ini
+
+    -
+    - [Colors]
+    - base_color=
+    - screen-256color=
+    - color_terminals=
+    -
+    + [Colors]
+    + base_color=linux:normal=white,black:marked=yellow,black:input=,green:menu=black:menusel=white:menuhot=red,:menuhotsel=black,red:dfocus=white,black:dhotnormal=white,black:dhotfocus=white,black:executable=,black:directory=white,black:link=white,black:device=white,black:special=white,black:core=,black:stalelink=red,black:editnormal=white,black
+    +
     ```
 
 * IPython

@@ -35,7 +35,7 @@ Explanation: For n = 3 the term was "21" in which we have two groups "2" and "1"
 
 # Submissions
 ---
-**Solution 1:**
+**Solution 1: (String)**
 ```
 Runtime: 36 ms
 Memory Usage: 12.9 MB
