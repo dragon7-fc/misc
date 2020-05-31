@@ -2767,6 +2767,14 @@ class Solution:
 ```
 * [[Medium] 1006. Clumsy Factorial](%5BMedium%5D%201006.%20Clumsy%20Factorial.md)
 
+### Sliding Window
+```python
+class Solution:
+    def hasAllCodes(self, s: str, k: int) -> bool:
+        return len({s[i:i + k] for i in range(len(s) - k + 1)}) == 2 ** k
+```
+* [[Medium] 1461. Check If a String Contains All Binary Codes of Size K](%5BMedium%5D%201461.%20Check%20If%20a%20String%20Contains%20All%20Binary%20Codes%20of%20Size%20K.md)
+
 ### Moving Average
 ```python
 class Solution:
