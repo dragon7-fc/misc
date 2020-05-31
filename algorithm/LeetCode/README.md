@@ -238,6 +238,7 @@ Happy Coding!!
 * [[Medium] 338. Counting Bits](%5BMedium%5D%20338.%20Counting%20Bits.md)
 * [[Medium] 207. Course Schedule](%5BMedium%5D%20207.%20Course%20Schedule.md)
 * [[Medium] [Solution] 973. K Closest Points to Origin](%5BMedium%5D%20%5BSolution%5D%20973.%20K%20Closest%20Points%20to%20Origin.md)
+* [[Hard] 72. Edit Distance](%5BHard%5D%2072.%20Edit%20Distance.md)
 
 ## Array <a name="array"></a>
 ---
@@ -3052,7 +3053,7 @@ class Solution:
 ```
 * [[Medium] [Solution] 6. ZigZag Conversion](%5BMedium%5D%20%5BSolution%5D%206.%20ZigZag%20Conversion.md)
 
-### 
+### Generate Parentheses
 ```python
 class Solution:
     def generateParenthesis(self, n):
@@ -3074,6 +3075,28 @@ class Solution:
         return ans
 ```
 * [[Medium] [Solution] 22. Generate Parentheses](%5BMedium%5D%20%5BSolution%5D%2022.%20Generate%20Parentheses.md)
+
+### Edit Distance
+```python
+import functools
+class Solution:
+    def minDistance(self, word1: str, word2: str) -> int:
+        M, N = len(word1), len(word2)
+
+        @functools.lru_cache(None)
+        def dp(i, j):
+            if i == M: return N - j
+            if j == N: return M - i
+            if word1[i] == word2[j]:
+                return dp(i+1, j+1)           # Nothing to do 
+            else:
+                return min( dp(i+1, j)+1,     # Word1[i] Insert
+                            dp(i, j+1)+1,     # Word1[i] Delete
+                            dp(i+1, j+1)+1 )  # Word1[i] Replace 
+
+        return dp(0, 0)
+```
+* [[Hard] 72. Edit Distance](%5BHard%5D%2072.%20Edit%20Distance.md)
 
 ## Tree <a name='tree'></a>
 ---
@@ -3729,6 +3752,30 @@ class Solution:
         return ''.join(S)
 ```
 * [[Medium] 1202. Smallest String With Swaps](%5BMedium%5D%201202.%20Smallest%20String%20With%20Swaps.md)
+
+### Reverse graph
+```python
+class Solution:
+    def minReorder(self, n: int, connections: List[List[int]]) -> int:
+        self.res = 0    
+        roads = set()
+        graph = collections.defaultdict(list)
+        for u, v in connections:
+            roads.add((u, v))
+            graph[v].append(u)
+            graph[u].append(v)
+
+        def dfs(u, parent):
+            self.res += (parent, u) in roads
+            for v in graph[u]:
+                if v == parent:
+                    continue
+                dfs(v, u)
+
+        dfs(0, -1)
+        return self.res
+```
+* [[Medium] 1466. Reorder Routes to Make All Paths Lead to the City Zero](%5BMedium%5D%201466.%20Reorder%20Routes%20to%20Make%20All%20Paths%20Lead%20to%20the%20City%20Zero.md)
 
 **Template 1: (Postorder)**
 ```python

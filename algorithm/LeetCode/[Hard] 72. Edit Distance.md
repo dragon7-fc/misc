@@ -93,17 +93,17 @@ class Solution:
         M, N = len(word1), len(word2)
         
         @functools.lru_cache(None)
-        def dfs(i, j):
+        def dp(i, j):
             if i == M: return N - j
             if j == N: return M - i
             if word1[i] == word2[j]:
-                return dfs(i+1, j+1)           # Nothing to do 
+                return dp(i+1, j+1)           # Nothing to do 
             else:
-                return min( dfs(i+1, j)+1,     # Word1[i] Insert
-                            dfs(i, j+1)+1,     # Word1[i] Delete
-                            dfs(i+1, j+1)+1 )  # Word1[i] Replace 
+                return min( dp(i+1, j)+1,     # Word1[i] Insert
+                            dp(i, j+1)+1,     # Word1[i] Delete
+                            dp(i+1, j+1)+1 )  # Word1[i] Replace 
 
-        return dfs(0, 0)
+        return dp(0, 0)
 ```
 
 **Solution 4: (DP Bottom-Up)**
