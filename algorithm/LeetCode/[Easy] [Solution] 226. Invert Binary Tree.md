@@ -86,7 +86,7 @@ Space complexity is $O(n)$, since in the worst case, the queue will contain all 
 
 # Submissions
 ---
-**Solution 1:**
+**Solution 1: (Recursive, DFS)**
 ```
 Runtime: 28 ms
 Memory Usage: 12.7 MB
@@ -110,7 +110,7 @@ class Solution:
         return root
 ```
 
-**Solution 2:**
+**Solution 2: (Iterative, BFS)**
 ```
 Runtime: 28 ms
 Memory Usage: 12.6 MB

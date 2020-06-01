@@ -109,7 +109,7 @@ class Solution:
 
 # Submissions
 ---
-**Solution 1:**
+**Solution 1: (String)**
 ```
 Runtime: 212 ms
 Memory Usage: 17.2 MB

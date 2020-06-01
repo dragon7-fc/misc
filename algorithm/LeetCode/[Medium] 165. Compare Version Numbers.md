@@ -52,7 +52,7 @@ Explanation: The first version number does not have a third level revision numbe
 
 # Submissions
 ---
-**Solution 1:**
+**Solution 1: (Greedy)**
 ```
 Runtime: 24 ms
 Memory Usage: 12.8 MB

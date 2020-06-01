@@ -45,6 +45,7 @@ Happy Coding!!
 1. [Concepts](#concept)
 1. [20204 30-Day LeetCoding Challenge](#202004)
 1. [202005 May LeetCoding Challenge](#202005)
+1. [202006 June LeetCoding Challenge](#202005)
 1. [Array](#array)
 1. [Dynamic Programming](#dp)
 1. [Math](#math)
@@ -239,6 +240,9 @@ Happy Coding!!
 * [[Medium] 207. Course Schedule](%5BMedium%5D%20207.%20Course%20Schedule.md)
 * [[Medium] [Solution] 973. K Closest Points to Origin](%5BMedium%5D%20%5BSolution%5D%20973.%20K%20Closest%20Points%20to%20Origin.md)
 * [[Hard] 72. Edit Distance](%5BHard%5D%2072.%20Edit%20Distance.md)
+
+## 202006 June LeetCoding Challenge <a name="202006"></a>
+* [[Easy] [Solution] 226. Invert Binary Tree](%5BEasy%5D%20%5BSolution%5D%20226.%20Invert%20Binary%20Tree.md)
 
 ## Array <a name="array"></a>
 ---
@@ -3076,6 +3080,35 @@ class Solution:
 ```
 * [[Medium] [Solution] 22. Generate Parentheses](%5BMedium%5D%20%5BSolution%5D%2022.%20Generate%20Parentheses.md)
 
+### Stack
+```python
+class Solution:
+    def calculate(self, s: str) -> int:
+        num = 0
+        pre_op = '+'
+        s += '#'
+        stack = []
+        for c in s:
+            if c.isdigit():
+                num = num*10 + int(c)
+            elif c == ' ': continue
+            else:
+                if pre_op == '+':
+                    stack.append(num)
+                elif pre_op == '-':
+                    stack.append(-num)
+                elif pre_op == '*':
+                    operant = stack.pop()
+                    stack.append((operant*num))
+                elif pre_op == '/':
+                    operant = stack.pop()
+                    stack.append(int(operant/num))
+                num = 0
+                pre_op = c
+        return sum(stack)
+```
+* [[Medium] 227. Basic Calculator II](%5BMedium%5D%20227.%20Basic%20Calculator%20II.md)
+
 ### Edit Distance
 ```python
 import functools
@@ -3100,6 +3133,27 @@ class Solution:
 
 ## Tree <a name='tree'></a>
 ---
+### DFS
+```
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+
+class Solution:
+    def invertTree(self, root: TreeNode) -> TreeNode:
+        if not root:
+            return None
+        left = self.invertTree(root.left)
+        right = self.invertTree(root.right)
+        root.left = right
+        root.right = left
+        return root
+```
+* [[Easy] [Solution] 226. Invert Binary Tree](%5BEasy%5D%20%5BSolution%5D%20226.%20Invert%20Binary%20Tree.md)
+
 ### Binary Search Tree
 ```python
 # Definition for a binary tree node.

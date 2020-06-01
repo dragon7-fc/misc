@@ -28,7 +28,7 @@ Output: "One Billion Two Hundred Thirty Four Million Five Hundred Sixty Seven Th
 
 # Submissions
 ---
-**Solution 1: (Mqth, DFS)**
+**Solution 1: (Math, DFS)**
 ```
 Runtime: 32 ms
 Memory Usage: 13.9 MB
