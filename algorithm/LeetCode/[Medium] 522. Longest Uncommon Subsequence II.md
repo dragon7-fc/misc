@@ -19,7 +19,7 @@ Output: 3
 
 # Submissions
 ---
-**Solution 1:**
+**Solution 1: (Counter, String, Sort)**
 ```
 Runtime: 32 ms
 Memory Usage: 12.7 MB

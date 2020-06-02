@@ -823,6 +823,7 @@ A playground to note something.
 * Yocto
 
     - [Yocto Project Reference Manual](https://www.yoctoproject.org/docs/3.1/ref-manual/ref-manual.html#var-FILES)
+    - [Yocto Project Cheatsheet](https://github.com/LetoThe2nd/yoctoproject-cheatsheet)
     - Docker
 
         - Poky Container

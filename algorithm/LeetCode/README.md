@@ -243,6 +243,7 @@ Happy Coding!!
 
 ## 202006 June LeetCoding Challenge <a name="202006"></a>
 * [[Easy] [Solution] 226. Invert Binary Tree](%5BEasy%5D%20%5BSolution%5D%20226.%20Invert%20Binary%20Tree.md)
+* [[Easy] [Solution] 237. Delete Node in a Linked List](%5BEasy%5D%20%5BSolution%5D%20237.%20Delete%20Node%20in%20a%20Linked%20List.md)
 
 ## Array <a name="array"></a>
 ---
@@ -3029,6 +3030,24 @@ class Solution:
         return -1
 ```
 
+### Read and Write Heads
+```python
+class Solution:
+    def compress(self, chars: List[str]) -> int:
+        anchor = write = 0
+        for read, c in enumerate(chars):
+            if read + 1 == len(chars) or chars[read + 1] != c:
+                chars[write] = chars[anchor]
+                write += 1
+                if read > anchor:
+                    for digit in str(read - anchor + 1):
+                        chars[write] = digit
+                        write += 1
+                anchor = read + 1
+        return write
+```
+* [[Easy] [Solution] 443. String Compression](%5BEasy%5D%20%5BSolution%5D%20443.%20String%20Compression.md)
+
 ### Valid Palindrome
 ```python
 class Solution:
@@ -3037,6 +3056,14 @@ class Solution:
         return filter_str[::-1] == filter_str
 ```
 * [[Easy] 125. Valid Palindrome](%5BEasy%5D%20125.%20Valid%20Palindrome.md)
+
+### Repeated Substring Pattern
+```python
+class Solution:
+    def repeatedSubstringPattern(self, s: str) -> bool:
+        return s in (s+s)[1:-1]
+```
+* [[Easy] 459. Repeated Substring Pattern](%5BEasy%5D%20459.%20Repeated%20Substring%20Pattern.md)
 
 ### Visit by Row
 ```python
@@ -3108,6 +3135,46 @@ class Solution:
         return sum(stack)
 ```
 * [[Medium] 227. Basic Calculator II](%5BMedium%5D%20227.%20Basic%20Calculator%20II.md)
+
+### Next Greater Element
+```python
+class Solution:
+    def nextGreaterElement(self, n: int) -> int:
+        if n == 0:
+            return -1
+
+        nums = list(str(n))
+        ln = len(nums)
+        i = ln-1
+        # find the first non increasing sequence from the right
+        while i > 0:
+            if nums[i-1] < nums[i]:
+                break
+            i -= 1
+
+        #this is the number to be replaced as it is smaller
+        # than any other element on the right of it
+        i -= 1  
+
+        if i < 0:
+            return -1
+
+        # look for the min largest number greater than nums[i]
+        # and swap it and sort the rest
+        temp = ln-1
+        while temp > i:
+            if nums[i] < nums[temp]:
+                break
+            temp -= 1
+
+        nums[i], nums[temp] = nums[temp], nums[i]
+
+        #sort rest of the stuff from [i+1, ln-1]
+        nums[i+1:] = sorted(nums[i+1:]) 
+        res = int("".join(nums))
+        return  res if (res > n and res <= (2**31-1)) else -1
+```
+* [[Medium] 556. Next Greater Element III](%5BMedium%5D%20556.%20Next%20Greater%20Element%20III.md)
 
 ### Edit Distance
 ```python
@@ -5938,6 +6005,25 @@ class Solution:
 
 ## Linked List <a name="ll"></a>
 ---
+### Delete Node
+```python
+# Definition for singly-linked list.
+# class ListNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.next = None
+
+class Solution:
+    def deleteNode(self, node):
+        """
+        :type node: ListNode
+        :rtype: void Do not return anything, modify node in-place instead.
+        """
+        node.val = node.next.val
+        node.next = node.next.next
+```
+* [[Easy] [Solution] 237. Delete Node in a Linked List](%5BEasy%5D%20%5BSolution%5D%20237.%20Delete%20Node%20in%20a%20Linked%20List.md)
+
 ### 2 Step Unit
 ```python
 # Definition for singly-linked list.

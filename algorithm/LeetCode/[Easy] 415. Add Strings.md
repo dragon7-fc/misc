@@ -11,7 +11,7 @@ Given two non-negative integers `num1` and `num2` represented as string, return 
 
 # Submissions
 ---
-**Solution 1:**
+**Solution 1: (String, Hash Table)**
 ```
 Runtime: 52 ms
 Memory Usage: 12.9 MB

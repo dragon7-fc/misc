@@ -16,7 +16,7 @@ Output: -1
 
 # Submissions
 ---
-**Solution 1:**
+**Solution 1: (String)**
 ```
 Runtime: 20 ms
 Memory Usage: 12.6 MB

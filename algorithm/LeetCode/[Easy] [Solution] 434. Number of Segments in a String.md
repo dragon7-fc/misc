@@ -78,7 +78,7 @@ There are only a few integers allocated, so the memory footprint is constant.
 
 # Submissions
 ---
-**Solution 1:**
+**Solution 1: (Using Language Builtins)**
 ```
 Runtime: 28 ms
 Memory Usage: 12.6 MB
