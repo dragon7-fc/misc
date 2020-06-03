@@ -242,6 +242,7 @@ A playground to note something.
     - [Practical Linux Command Line Reference](http://www.pixelbeat.org/cmdline.html)
     - [Linux Quick Reference Guide](https://perso.crans.org/~raffo/docs/linux-guide.pdf)
     - [Inter Process Communication Tutorial](https://www.tutorialspoint.com/inter_process_communication/index.htm)
+    - [Systemd Cheatsheet](https://linux020.nl/l20/Howto/SystemdCheatsheet)
     - CONFIG_IPMI_PANIC_EVENT
 
         `Device Drivers > Character devices > IPMI top-level message handler > Generate a panic event to all BMCs on a panic`

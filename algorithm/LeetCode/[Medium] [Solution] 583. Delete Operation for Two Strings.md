@@ -1,6 +1,6 @@
 583. Delete Operation for Two Strings
 
-Given two words word1 and word2, find the minimum number of steps required to make word1 and word2 the same, where in each step you can delete one character in either string.
+Given two words `word1` and `word2`, find the minimum number of steps required to make word1 and word2 the same, where in each step you can delete one character in either string.
 
 **Example 1:**
 ```
@@ -260,7 +260,7 @@ public class Solution {
 
 # Submissions
 ---
-**Solution 1:**
+**Solution 1: (Longest Common Subsequence with Memoization, DP Top-Down)**
 ```
 Runtime: 260 ms
 Memory Usage: 29.8 MB
@@ -282,4 +282,75 @@ class Solution:
                 return max(lcs(m-1, n), lcs(m, n-1))
         
         return M + N - 2*lcs(M, N)
+```
+
+**Solution 2: (Without using LCS Dynamic Programmming, DP Bottom-Up)**
+```
+Runtime: 324 ms
+Memory Usage: 17.3 MB
+```
+```python
+import functools
+class Solution:
+    def minDistance(self, word1: str, word2: str) -> int:
+        M, N = len(word1), len(word2)
+        dp = [[0] * (N+1) for _ in range(M+1)]
+        for i in range(M+1):
+            for j in range(N+1):
+                if i == 0 or j == 0:
+                    dp[i][j] = i + j
+                elif word1[i-1] == word2[j-1]:
+                    dp[i][j] = dp[i-1][j-1]
+                else:
+                    dp[i][j] = 1 + min(dp[i-1][j], dp[i][j-1])
+                    
+        return dp[len(word1)][len(word2)]
+```
+
+**Solution 3: (DP Top-Down)**
+```
+Runtime: 264 ms
+Memory Usage: 30.1 MB
+```
+```python
+import functools
+class Solution:
+    def minDistance(self, word1: str, word2: str) -> int:
+        M, N = len(word1), len(word2)
+        
+        @functools.lru_cache(None)
+        def dp(i, j):
+            if i == 0 or j == 0:
+                return i+j
+            elif word1[i-1] == word2[j-1]:
+                return dp(i-1, j-1)
+            else:
+                return 1 + min(dp(i-1, j), dp(i, j-1))
+                    
+        return dp(M, N)
+```
+
+**Solution 4: (1-D Dynamic Programming, DP Bottom-Up)**
+```
+Runtime: 272 ms
+Memory Usage: 12.6 MB
+```
+```python
+class Solution:
+    def minDistance(self, word1: str, word2: str) -> int:
+        M = len(word1)
+        N = len(word2)
+        dp = [0] * (N+1)
+        for i in range(M+1):
+            tmp = [0] * (N+1)
+            for j in range(N+1):
+                if i == 0 or j == 0:
+                    tmp[j] = i+j
+                elif word1[i-1] == word2[j-1]:
+                    tmp[j] = dp[j-1]
+                else:
+                    tmp[j] = 1 + min(dp[j], tmp[j-1])
+            dp = tmp
+            
+        return dp[N]
 ```

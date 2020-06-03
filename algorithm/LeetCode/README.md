@@ -5871,6 +5871,14 @@ class Solution:
 ```
 * [[Easy] [Solution] 581. Shortest Unsorted Continuous Subarray](%5BEasy%5D%20%5BSolution%5D%20581.%20Shortest%20Unsorted%20Continuous%20Subarray.md)
 
+### Two City Scheduling
+```python
+class Solution:
+    def twoCitySchedCost(self, costs: List[List[int]]) -> int:
+        return sum([x[0] if i < len(costs)//2 else x[1] for i, x in enumerate(sorted(costs,key=lambda x: x[0]-x[1]))])
+```
+* [[Easy] 1029. Two City Scheduling](%5BEasy%5D%201029.%20Two%20City%20Scheduling.md)
+
 ### Sort interval
 ```python
 class Solution:
