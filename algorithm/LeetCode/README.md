@@ -244,6 +244,8 @@ Happy Coding!!
 ## 202006 June LeetCoding Challenge <a name="202006"></a>
 * [[Easy] [Solution] 226. Invert Binary Tree](%5BEasy%5D%20%5BSolution%5D%20226.%20Invert%20Binary%20Tree.md)
 * [[Easy] [Solution] 237. Delete Node in a Linked List](%5BEasy%5D%20%5BSolution%5D%20237.%20Delete%20Node%20in%20a%20Linked%20List.md)
+* [[Easy] 1029. Two City Scheduling](%5BEasy%5D%201029.%20Two%20City%20Scheduling.md)
+* [[Easy] [Solution] 344. Reverse String](%5BEasy%5D%20%5BSolution%5D%20344.%20Reverse%20String.md)
 
 ## Array <a name="array"></a>
 ---
@@ -3064,6 +3066,19 @@ class Solution:
         return s in (s+s)[1:-1]
 ```
 * [[Easy] 459. Repeated Substring Pattern](%5BEasy%5D%20459.%20Repeated%20Substring%20Pattern.md)
+
+```python
+class Solution:
+    def reverseString(self, s: List[str]) -> None:
+        """
+        Do not return anything, modify s in-place instead.
+        """
+        left, right = 0, len(s) - 1
+        while left < right:
+            s[left], s[right] = s[right], s[left]
+            left, right = left + 1, right - 1
+```
+* [[Easy] [Solution] 344. Reverse String](%5BEasy%5D%20%5BSolution%5D%20344.%20Reverse%20String.md)
 
 ### Visit by Row
 ```python

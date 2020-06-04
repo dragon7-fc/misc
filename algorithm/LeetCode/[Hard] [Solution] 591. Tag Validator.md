@@ -94,21 +94,21 @@ Summarizing the given problem, we can say that we need to determine whether a ta
 
 1. All the tags should be closed. i.e. each start-tag should have a corresponding end-tag and vice-versa and the order of the tags should be correct as well.
 
-In order to check the validity of all these, firstly, we need to identify which parts of the given codecode string act as which part from the above mentioned categories. To understand how it's done, we'll go through the implementation and the reasoning behind it step by step.
+In order to check the validity of all these, firstly, we need to identify which parts of the given $code$ string act as which part from the above mentioned categories. To understand how it's done, we'll go through the implementation and the reasoning behind it step by step.
 
 We iterate over the given $code$ string. Whenever a `<` is encountered(unless we are currently inside `<![CDATA[...]]>`), it indicates the beginning of either a `TAG_NAME`(start tag or end tag) or the beginning of cdata as per the conditions given in the problem statement.
 
-If the character immediately following this `<` is an `!`, the characters following this `<` can't be a part of a valid `TAG_NAME`, since only upper-case letters(in case of a start tag) or / followed by upper-case letters(in the case of an end tag). Thus, the choice now narrows down to only **cdata**. Thus, we need to check if the current bunch of characters following `<!`(including it) constitute a valid cdata. For doing this, firstly we find out the first matching `]]>` following the current `<!` to mark the ending of **cdata**. If no such matching `]]>` exists, the codecode string is considered as invalid. Apart from this, the `<!` should also be immediately followed by `CDATA[` for the **cdata** to be valid. The characters lying inside the `<![CDATA[` and `]]>` do not have any constraints on them.
+If the character immediately following this `<` is an `!`, the characters following this `<` can't be a part of a valid `TAG_NAME`, since only upper-case letters(in case of a start tag) or / followed by upper-case letters(in the case of an end tag). Thus, the choice now narrows down to only **cdata**. Thus, we need to check if the current bunch of characters following `<!`(including it) constitute a valid cdata. For doing this, firstly we find out the first matching `]]>` following the current `<!` to mark the ending of **cdata**. If no such matching `]]>` exists, the $code$ string is considered as invalid. Apart from this, the `<!` should also be immediately followed by `CDATA[` for the **cdata** to be valid. The characters lying inside the `<![CDATA[` and `]]>` do not have any constraints on them.
 
-If the character immediately following the `<` encountered isn't an `!`, this `<` can only mark the beginnning of `TAG_NAME`. Now, since a valid start tag can't contain anything except upper-case letters, if a `/` is found after `<`, the `</` pair indicates the beginning of an end tag. Now, when a < refers to the beginning of a `TAG_NAME`(either start-tag or end-tag), we find out the first closing `>` following the `<` to find out the substring(say $s$), that constitutes the `TAG_NAME`. This $s$ should satisfy all the criterion to constitute a valid `TAG_NAME`. Thus, for every such $s$, we check if it contains all upper-case letters and also check its length(It should be between 1 to 9). If any of the criteria isn't fulfilled, ss doesn't constitue a valid `TAG_NAME`. Hence, the codecode string turns out to be invalid as well.
+If the character immediately following the `<` encountered isn't an `!`, this `<` can only mark the beginnning of `TAG_NAME`. Now, since a valid start tag can't contain anything except upper-case letters, if a `/` is found after `<`, the `</` pair indicates the beginning of an end tag. Now, when a `<` refers to the beginning of a `TAG_NAME`(either start-tag or end-tag), we find out the first closing `>` following the `<` to find out the substring(say $s$), that constitutes the `TAG_NAME`. This $s$ should satisfy all the criterion to constitute a valid `TAG_NAME`. Thus, for every such $s$, we check if it contains all upper-case letters and also check its length(It should be between 1 to 9). If any of the criteria isn't fulfilled, ss doesn't constitue a valid `TAG_NAME`. Hence, the codecode string turns out to be invalid as well.
 
 Apart from checking the validity of the `TAG_NAME`, we also need to ensure that the tags always exist in pairs. i.e. for every start-tag, a corresponding end-tag should always exist. Further, we can note that in case of multiple `TAG_NAME`'s, the `TAG_NAME` whose start-tag comes later than the other ones, should have its end-tag appearing before the end-tags of those other `TAG_NAME`'s. i.e. the tag which starts later should end first.
 
-From this, we get the intuition that we can make use of a stackstack to check the existence of matching start and end-tags. Thus, whenever we find out a valid start-tag, as mentioned above, we push its `TAG_NAME` string onto a stackstack. Now, whenever an end-tag is found, we compare its TAG_NAME with the `TAG_NAME` at the top the stackstack and remove this element from the stackstack. If the two don't match, this implies that either the current end-tag has no corresponding start-tag or there is a problem with the ordering of the tags. The two need to match for the tag-pair to be valid, since there can't exist an end-tag without a corresponding start-tag and vice-versa. Thus, if a match isn't found, we can conclude that the given codecode string is invalid.
+From this, we get the intuition that we can make use of a $stack$ to check the existence of matching start and end-tags. Thus, whenever we find out a valid start-tag, as mentioned above, we push its `TAG_NAME` string onto a $stack$. Now, whenever an end-tag is found, we compare its TAG_NAME with the `TAG_NAME` at the top the $stack$ and remove this element from the $stack$. If the two don't match, this implies that either the current end-tag has no corresponding start-tag or there is a problem with the ordering of the tags. The two need to match for the tag-pair to be valid, since there can't exist an end-tag without a corresponding start-tag and vice-versa. Thus, if a match isn't found, we can conclude that the given $code$ string is invalid.
 
-Now, after the complete codecode string has been traversed, the stackstack should be empty if all the start-tags have their corresponding end-tags as well. If the stackstack isn't empty, this implies that some start-tag doesn't have the corresponding end-tag, violating the closed-tag's validity condition.
+Now, after the complete $code$ string has been traversed, the $stack$ should be empty if all the start-tags have their corresponding end-tags as well. If the $stack$ isn't empty, this implies that some start-tag doesn't have the corresponding end-tag, violating the closed-tag's validity condition.
 
-Further, we also need to ensure that the given codecode is completely enclosed within closed tags. For this, we need to ensure that the first **cdata** found is also inside the closed tags. Thus, when we find a possibility of the presence of **cdata**, we proceed further only if we've already found a start tag, indicated by a non-empty stack. Further, to ensure that no data lies after the last end-tag, we need to ensure that the stackstack doesn't become empty before we reach the end of the given codecode string, since an empty stackstack indicates that the last end-tag has been encountered.
+Further, we also need to ensure that the given $code$ is completely enclosed within closed tags. For this, we need to ensure that the first **cdata** found is also inside the closed tags. Thus, when we find a possibility of the presence of **cdata**, we proceed further only if we've already found a start tag, indicated by a non-empty stack. Further, to ensure that no data lies after the last end-tag, we need to ensure that the $stack$ doesn't become empty before we reach the end of the given $code$ string, since an empty $stack$ indicates that the last end-tag has been encountered.
 
 The following animation depicts the process.
 
@@ -288,3 +288,87 @@ public class Solution {
 
 # Submissions
 ---
+**Solution 1: (Stack)**
+```
+Runtime: 28 ms
+Memory Usage: 13.6 MB
+```
+```python
+class Solution:
+    def isValid(self, code: str) -> bool:
+        if code[0] != '<' or code[-1] != '>': return False
+        i, n = 0, len(code)
+        stk = []
+        while i < n:
+            if code[i] == '<':
+                if i != 0 and code[i: i + 9] == '<![CDATA[':
+                    if not stk: return False
+                    j = i + 9
+                    while j + 3 <= n and code[j: j + 3] != ']]>': j += 1
+                    if code[j: j + 3] == ']]>': i = j + 3
+                    else: return False
+                else:
+                    start = i
+                    isend = False
+                    i += 1
+                    if i >= n: return False
+                    if code[i] == r'/':
+                        isend = True
+                        i += 1
+                    if i >= n: return False
+                    tag = ''
+                    while i < n and code[i] != '>':
+                        if not code[i].isupper(): return False
+                        tag += code[i]
+                        i += 1
+                    if i >= n or len(tag) == 0 or len(tag) > 9: return False
+                    if isend:
+                        if not stk or stk[-1] != tag: return False
+                        stk.pop(-1)
+                    else:
+                        if start != 0 and not stk: return False
+                        stk.append(tag)
+                    i += 1
+            else:
+                if not stk: return False
+                while i < n and code[i] != '<': i += 1
+        return not stk
+```
+
+**Solution 2: (Regex)**
+```
+Runtime: 32 ms
+Memory Usage: 13.9 MB
+```
+```python
+class Solution:
+    def isValid(self, code: str) -> bool:
+        tokens = re.compile(r"(?P<tag_open><[A-Z_]{1,9}>)|"
+                            r"(?P<tag_close></[A-Z_]{1,9}>)|"
+                            r"(?P<cdata_open><!\[CDATA\[)|"
+                            r"(?P<cdata_close>\]\]>)|"
+                            r"(?P<unknown>.)")
+        
+        tags, cdata_open, eol = [], False, False
+        
+        for match in re.finditer(tokens, code):
+            if eol:
+                return False
+            
+            if cdata_open:
+                if match.group('cdata_close'):
+                    cdata_open = False
+            elif match.group('tag_open'):
+                tags.append(match.group('tag_open'))
+            elif match.group('tag_close'):
+                if not tags or tags.pop()[1:] != match.group('tag_close')[2:]:
+                    return False
+            elif match.group('cdata_open'):
+                cdata_open = True
+            elif match.group('unknown') == '<':
+                return False
+            
+            eol = not tags
+            
+        return eol
+```

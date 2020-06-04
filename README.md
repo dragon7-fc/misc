@@ -821,6 +821,10 @@ A playground to note something.
     - [ROS Cheat Sheet](https://github.com/ros/cheatsheet/releases/download/0.0.1/ROScheatsheet_catkin.pdf)
     - [A gentle Introduction to ROS](https://cse.sc.edu/~jokane/agitr/)
 
+* CMake
+
+    - [BOTTOM-UP CMAKE INTRODUCTION](https://lowlevelbits.org/bottom-up-cmake-introduction/)
+    - [CMake by Example](https://mirkokiefer.com/cmake-by-example-f95eb47d45b1)
 * Yocto
 
     - [Yocto Project Reference Manual](https://www.yoctoproject.org/docs/3.1/ref-manual/ref-manual.html#var-FILES)

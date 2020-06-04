@@ -160,7 +160,8 @@ public class Solution {
 * Space complexity : $O(n)$. $stack$ size can grow upto $n$.
 
 # Submissions
-**Solution 1:**
+---
+**Solution 1: (Iterative Method Using stack)**
 ```
 Runtime: 52 ms
 Memory Usage: 14.5 MB
@@ -199,8 +200,7 @@ class Solution:
         return s[1:-1]
 ```
 
----
-**Solution 2:**
+**Solution 2: (Using Recursion)**
 ```
 Runtime: 36 ms
 Memory Usage: 14.5 MB
