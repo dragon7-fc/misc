@@ -69,7 +69,7 @@ Our loop invariants will be that `center, right` is our knowledge of the palindr
 
 When `i < right`, we reflect `i` about center to be at some coordinate `j = 2 * center - i`. Then, limited to the interval with radius `right - i` and center `i`, the situation for `Z[i]` is the same as for `Z[j]`.
 
-For example, if at some time `center = 7, right = 13, i = 10`, then for a string like `A = '@#A#B#A#A#B#A#＄'`, the center is at the '#' between the two middle 'A''s, the right boundary is at the last '#', `i` is at the last 'B', and `j` is at the first 'B'.
+For example, if at some time `center = 7, right = 13, i = 10`, then for a string like `A = '@#A#B#A#A#B#A#＄'`, the center is at the `'#'` between the two middle `'A'`'s, the right boundary is at the last `'#'`, `i` is at the last `'B'`, and `j` is at the first `'B'`.
 
 Notice that limited to the interval `[center - (right - center), right]` (the interval with center `center` and right-boundary `right`), the situation for `i` and `j` is a reflection of something we have already computed. Since we already know `Z[j] = 3`, we can quickly find `Z[i] = min(right - i, Z[j]) = 3`.
 

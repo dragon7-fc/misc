@@ -821,6 +821,9 @@ A playground to note something.
     - [ROS Cheat Sheet](https://github.com/ros/cheatsheet/releases/download/0.0.1/ROScheatsheet_catkin.pdf)
     - [A gentle Introduction to ROS](https://cse.sc.edu/~jokane/agitr/)
 
+* Autotools
+
+    - [GNU autotools cheatsheet](https://home.fnal.gov/~neilsen/notebook/autotools/autotools.html)
 * CMake
 
     - [BOTTOM-UP CMAKE INTRODUCTION](https://lowlevelbits.org/bottom-up-cmake-introduction/)
@@ -829,6 +832,7 @@ A playground to note something.
 
     - [Yocto Project Reference Manual](https://www.yoctoproject.org/docs/3.1/ref-manual/ref-manual.html#var-FILES)
     - [Yocto Project Cheatsheet](https://github.com/LetoThe2nd/yoctoproject-cheatsheet)
+    - [Quick start guide to kas - best tool for setting up the Yocto projects](https://blog.3mdeb.com/2019/2019-02-07-kas/)
     - Docker
 
         - Poky Container

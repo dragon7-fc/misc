@@ -246,6 +246,7 @@ Happy Coding!!
 * [[Easy] [Solution] 237. Delete Node in a Linked List](%5BEasy%5D%20%5BSolution%5D%20237.%20Delete%20Node%20in%20a%20Linked%20List.md)
 * [[Easy] 1029. Two City Scheduling](%5BEasy%5D%201029.%20Two%20City%20Scheduling.md)
 * [[Easy] [Solution] 344. Reverse String](%5BEasy%5D%20%5BSolution%5D%20344.%20Reverse%20String.md)
+* [[Medium] 528. Random Pick with Weight](%5BMedium%5D%20528.%20Random%20Pick%20with%20Weight.md)
 
 ## Array <a name="array"></a>
 ---
@@ -3151,6 +3152,27 @@ class Solution:
 ```
 * [[Medium] 227. Basic Calculator II](%5BMedium%5D%20227.%20Basic%20Calculator%20II.md)
 
+### Manacher's Algorithm
+```python
+class Solution:
+    def countSubstrings(self, s: str) -> int:
+        def manachers(S):
+            A = '@#' + '#'.join(S) + '#$'
+            Z = [0] * len(A)
+            center = right = 0
+            for i in range(1, len(A) - 1):
+                if i < right:
+                    Z[i] = min(right - i, Z[2 * center - i])
+                while A[i + Z[i] + 1] == A[i - Z[i] - 1]:
+                    Z[i] += 1
+                if i + Z[i] > right:
+                    center, right = i, i + Z[i]
+            return Z
+
+        return sum((v+1)//2 for v in manachers(s))
+````
+* [[Medium] [Solution] 647. Palindromic Substrings](%5BMedium%5D%20%5BSolution%5D%20647.%20Palindromic%20Substrings.md)
+
 ### Next Greater Element
 ```python
 class Solution:
@@ -4046,6 +4068,26 @@ class Solution:
         return left
 ```
 * [[Easy] [Solution] 278. First Bad Version](%5BEasy%5D%20%5BSolution%5D%20278.%20First%20Bad%20Version.md)
+
+### Random
+```python
+class Solution:
+
+    def __init__(self, w: List[int]):
+        for i in range(1, len(w)):
+            w[i] += w[i-1]
+        self.w = w  # prefix sum
+
+    def pickIndex(self) -> int:
+        ranint = random.randint(1, self.w[-1])
+        return bisect.bisect_left(self.w, ranint)
+
+
+# Your Solution object will be instantiated and called as such:
+# obj = Solution(w)
+# param_1 = obj.pickIndex()
+```
+* [[Medium] 528. Random Pick with Weight](%5BMedium%5D%20528.%20Random%20Pick%20with%20Weight.md)
 
 ### Binary Search to leftmost - increase one side
 ```python
