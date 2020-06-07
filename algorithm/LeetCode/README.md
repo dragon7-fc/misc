@@ -248,6 +248,7 @@ Happy Coding!!
 * [[Easy] [Solution] 344. Reverse String](%5BEasy%5D%20%5BSolution%5D%20344.%20Reverse%20String.md)
 * [[Medium] 528. Random Pick with Weight](%5BMedium%5D%20528.%20Random%20Pick%20with%20Weight.md)
 * [[Medium] 406. Queue Reconstruction by Height](%5BMedium%5D%20406.%20Queue%20Reconstruction%20by%20Height.md)
+* [[Medium] 518. Coin Change 2](%5BMedium%5D%20518.%20Coin%20Change%202.md)
 
 ## Array <a name="array"></a>
 ---
@@ -1892,6 +1893,50 @@ class Solution:
         return dp(0, 0)
 ```
 * [[Hard] [Solution] 10. Regular Expression Matching](%5BHard%5D%20%5BSolution%5D%2010.%20Regular%20Expression%20Matching.md)
+
+### Coin Change
+```python
+class Solution:
+    def change(self, amount: int, coins: List[int]) -> int:
+        dp = [1] + [0] * amount
+        for coin in coins:
+            for i in range(coin, amount+1):
+                dp[i] += dp[i-coin]
+                
+        return dp[-1]
+
+class Solution:
+    def change(self, amount: int, coins: List[int]) -> int:
+        N = len(coins)
+        
+        @functools.lru_cache(None)
+        def dp(i, t):
+            if (t == amount):
+                return 1
+            if t > amount or i == N:
+                return 0
+
+            return dp(i, t + coins[i]) + dp(i + 1, t)
+        
+        return dp(0, 0)
+
+class Solution:
+    def change(self, amount: int, coins: List[int]) -> int:
+        if amount == 0: return 1
+        N = len(coins)
+        coins.sort(reverse=True)
+        
+        @functools.lru_cache(None)
+        def dp(i, t):
+            if t == amount:
+                return 1
+            if i >= N or t > amount:
+                return 0
+            return sum(dp(ni, t + coins[ni]) for ni in range(i, N))
+        
+        return dp(0, 0)
+```
+* [[Medium] 518. Coin Change 2](%5BMedium%5D%20518.%20Coin%20Change%202.md)
 
 ### Using 1D Dynamic Programming
 ```python
