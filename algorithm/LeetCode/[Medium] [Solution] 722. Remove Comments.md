@@ -113,7 +113,7 @@ class Solution(object):
 
 # Submissions
 ---
-**Solution:**
+**Solution: (Parsing)**
 ```
 Runtime: 28 ms
 Memory Usage: 12.9 MB

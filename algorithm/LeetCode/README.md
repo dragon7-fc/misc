@@ -247,6 +247,7 @@ Happy Coding!!
 * [[Easy] 1029. Two City Scheduling](%5BEasy%5D%201029.%20Two%20City%20Scheduling.md)
 * [[Easy] [Solution] 344. Reverse String](%5BEasy%5D%20%5BSolution%5D%20344.%20Reverse%20String.md)
 * [[Medium] 528. Random Pick with Weight](%5BMedium%5D%20528.%20Random%20Pick%20with%20Weight.md)
+* [[Medium] 406. Queue Reconstruction by Height](%5BMedium%5D%20406.%20Queue%20Reconstruction%20by%20Height.md)
 
 ## Array <a name="array"></a>
 ---
@@ -3068,6 +3069,7 @@ class Solution:
 ```
 * [[Easy] 459. Repeated Substring Pattern](%5BEasy%5D%20459.%20Repeated%20Substring%20Pattern.md)
 
+### Reverse String
 ```python
 class Solution:
     def reverseString(self, s: List[str]) -> None:
@@ -3080,6 +3082,55 @@ class Solution:
             left, right = left + 1, right - 1
 ```
 * [[Easy] [Solution] 344. Reverse String](%5BEasy%5D%20%5BSolution%5D%20344.%20Reverse%20String.md)
+
+### Two Pointers
+```python
+class Solution:
+    def validPalindrome(self, s: str) -> bool:
+        i , j = 0, len(s) - 1
+
+        while i <= j:
+            if s[i] == s[j]:
+                i += 1
+                j -= 1
+            else:
+                c1 = s[i:j]
+                c2 = s[i+1:j+1]
+
+                if c1 == c1[::-1] or c2 == c2[::-1]:  # checking the candidate is palindrome or not
+                    return True
+                else:
+                    return False
+        return True
+```
+* [[Easy] [Solution] 680. Valid Palindrome II](%5BEasy%5D%20%5BSolution%5D%20680.%20Valid%20Palindrome%20II.md)
+
+### Ad-Hoc
+```python
+class Solution(object):
+    def repeatedStringMatch(self, A, B):
+        q = (len(B) - 1) // len(A) + 1
+        for i in range(2):
+            if B in A * (q+i): return q+i
+        return -1
+```
+* [[Easy] [Solution] 686. Repeated String Match](%5BEasy%5D%20%5BSolution%5D%20686.%20Repeated%20String%20Match.md)
+
+### Linear Scan
+```python
+class Solution:
+    def countBinarySubstrings(self, s: str) -> int:
+        ans, prev, cur = 0, 0, 1
+        for i in range(1, len(s)):
+            if s[i-1] != s[i]:
+                ans += min(prev, cur)
+                prev, cur = cur, 1
+            else:
+                cur += 1
+
+        return ans + min(prev, cur)
+```
+* [[Easy] [Solution] 696. Count Binary Substrings](%5BEasy%5D%20%5BSolution%5D%20696.%20Count%20Binary%20Substrings.md)
 
 ### Visit by Row
 ```python
@@ -3157,7 +3208,7 @@ class Solution:
 class Solution:
     def countSubstrings(self, s: str) -> int:
         def manachers(S):
-            A = '@#' + '#'.join(S) + '#$'
+            A = '+_' + '_'.join(S) + '_-'
             Z = [0] * len(A)
             center = right = 0
             for i in range(1, len(A) - 1):
@@ -3170,7 +3221,7 @@ class Solution:
             return Z
 
         return sum((v+1)//2 for v in manachers(s))
-````
+```
 * [[Medium] [Solution] 647. Palindromic Substrings](%5BMedium%5D%20%5BSolution%5D%20647.%20Palindromic%20Substrings.md)
 
 ### Next Greater Element
@@ -3212,6 +3263,67 @@ class Solution:
         return  res if (res > n and res <= (2**31-1)) else -1
 ```
 * [[Medium] 556. Next Greater Element III](%5BMedium%5D%20556.%20Next%20Greater%20Element%20III.md)
+
+### Heap
+```python
+class Solution:
+    def reorganizeString(self, S: str) -> str:
+        pq = [(-S.count(x), x) for x in set(S)]
+        heapq.heapify(pq)
+        if any(-nc > (len(S) + 1) / 2 for nc, x in pq):
+            return ""
+
+        ans = []
+        while len(pq) >= 2:
+            nct1, ch1 = heapq.heappop(pq)
+            nct2, ch2 = heapq.heappop(pq)
+            ans.extend([ch1, ch2])
+            if nct1 + 1: heapq.heappush(pq, (nct1 + 1, ch1))
+            if nct2 + 1: heapq.heappush(pq, (nct2 + 1, ch2))
+
+        return "".join(ans) + (pq[0][1] if pq else '')
+```
+* [[Medium] [Solution] 767. Reorganize String](%5BMedium%5D%20%5BSolution%5D%20767.%20Reorganize%20String.md)
+
+### Run Length Encoding
+```python
+class Solution:
+    def expressiveWords(self, S: str, words: List[str]) -> int:
+        def RLE(S):
+            return zip(*[(k, len(list(grp)))
+                         for k, grp in itertools.groupby(S)])
+
+        R, count = RLE(S)
+        ans = 0
+        for word in words:
+            R2, count2 = RLE(word)
+            if R2 != R: continue
+            ans += all(c1 >= max(c2, 3) or c1 == c2
+                       for c1, c2 in zip(count, count2))
+
+        return ans
+```
+* [[Medium] [Solution] 809. Expressive Words](%5BMedium%5D%20%5BSolution%5D%20809.%20Expressive%20Words.md)
+
+### Cartesian Product
+```python
+class Solution:
+    def ambiguousCoordinates(self, S: str) -> List[str]:
+        def make(frag):
+            N = len(frag)
+            for d in range(1, N+1):
+                left = frag[:d]
+                right = frag[d:]
+                if ((not left.startswith('0') or left == '0')
+                        and (not right.endswith('0'))):
+                    yield left + ('.' if d != N else '') + right
+
+        S = S[1:-1]
+        return ["({}, {})".format(*cand)
+                for i in range(1, len(S))
+                for cand in itertools.product(make(S[:i]), make(S[i:]))]
+```
+* [[Medium] [Solution] 816. Ambiguous Coordinates](%5BMedium%5D%20%5BSolution%5D%20816.%20Ambiguous%20Coordinates.md)
 
 ### Edit Distance
 ```python
@@ -6004,6 +6116,19 @@ class Solution:
         return nums
 ```
 * [[Medium] 324. Wiggle Sort II](%5BMedium%5D%20324.%20Wiggle%20Sort%20II.md)
+
+### insertion sort
+```python
+class Solution:
+    def reconstructQueue(self, people: List[List[int]]) -> List[List[int]]:
+        people.sort(key=lambda x: (-x[0], x[1]))
+        ans = []
+        for p in people:
+            ans.insert(p[1], p)
+
+        return ans
+```
+* [[Medium] 406. Queue Reconstruction by Height](%5BMedium%5D%20406.%20Queue%20Reconstruction%20by%20Height.md)
 
 ### Count
 ```python

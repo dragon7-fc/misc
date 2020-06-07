@@ -71,7 +71,7 @@ class Solution(object):
 
 # Submissions
 ---
-**Solution:**
+**Solution: (Run Length Encoding)**
 ```
 Runtime: 48 ms
 Memory Usage: 12.7 MB

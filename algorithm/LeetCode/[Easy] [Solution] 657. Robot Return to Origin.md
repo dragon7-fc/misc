@@ -52,7 +52,7 @@ class Solution(object):
 
 # Submissions
 ---
-**Solution 1:**
+**Solution 1: (Counter)**
 ```
 Runtime: 44 ms
 Memory Usage: 12.7 MB

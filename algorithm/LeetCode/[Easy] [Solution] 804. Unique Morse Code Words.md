@@ -67,7 +67,7 @@ Space Complexity: $O(S)$.
 
 # Submissions
 ---
-**Solution:**
+**Solution: (Hash Set)**
 ```
 Runtime: 24 ms
 Memory Usage: 12 MB

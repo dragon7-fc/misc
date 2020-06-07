@@ -78,7 +78,7 @@ class Solution(object):
 
 # Submissions
 ---
-**Solution:**
+**Solution: (Cartesian Product)**
 ```
 Runtime: 44 ms
 Memory Usage: 12.7 MB

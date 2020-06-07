@@ -69,7 +69,7 @@ Explanation: 12 digits, 2 digits for country code and 10 digits for local number
 
 # Solution
 ---
-**Solution:**
+**Solution: (String)**
 ```
 Runtime: 28 ms
 Memory Usage: 12.6 MB
