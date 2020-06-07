@@ -464,6 +464,14 @@ class Solution:
 ```
 * [[Easy] 997. Find the Town Judge](%5BEasy%5D%20997.%20Find%20the%20Town%20Judge.md)
 
+### Generator
+```python
+class Solution:
+    def shuffle(self, nums: List[int], n: int) -> List[int]:
+        return sum(([nums[i], nums[i+n]] for i in range(n)), [])
+```
+* [[Easy] 1470. Shuffle the Array](%5BEasy%5D%201470.%20Shuffle%20the%20Array.md)
+
 ### Linear Scan
 ```python
 class Solution:
