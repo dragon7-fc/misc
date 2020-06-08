@@ -249,6 +249,7 @@ Happy Coding!!
 * [[Medium] 528. Random Pick with Weight](%5BMedium%5D%20528.%20Random%20Pick%20with%20Weight.md)
 * [[Medium] 406. Queue Reconstruction by Height](%5BMedium%5D%20406.%20Queue%20Reconstruction%20by%20Height.md)
 * [[Medium] 518. Coin Change 2](%5BMedium%5D%20518.%20Coin%20Change%202.md)
+* [[Easy] 231. Power of Two](%5BEasy%5D%20231.%20Power%20of%20Two.md)
 
 ## Array <a name="array"></a>
 ---
@@ -3185,6 +3186,28 @@ class Solution:
 ```
 * [[Easy] [Solution] 696. Count Binary Substrings](%5BEasy%5D%20%5BSolution%5D%20696.%20Count%20Binary%20Substrings.md)
 
+### Enumerate Cases
+```python
+class Solution:
+    def buddyStrings(self, A: str, B: str) -> bool:
+        if len(A) != len(B): return False
+        if A == B:
+            seen = set()
+            for a in A:
+                if a in seen:
+                    return True
+                seen.add(a)
+            return False
+        else:
+            pairs = []
+            for a, b in zip(A, B):
+                if a != b:
+                    pairs.append((a, b))
+                if len(pairs) >= 3: return False
+            return len(pairs) == 2 and pairs[0] == pairs[1][::-1]
+```
+* [[Easy] [Solution] 859. Buddy Strings](%5BEasy%5D%20%5BSolution%5D%20859.%20Buddy%20Strings.md)
+
 ### Visit by Row
 ```python
 class Solution:
@@ -3226,6 +3249,23 @@ class Solution:
         return ans
 ```
 * [[Medium] [Solution] 22. Generate Parentheses](%5BMedium%5D%20%5BSolution%5D%2022.%20Generate%20Parentheses.md)
+
+### Stack
+```python
+class Solution:
+    def scoreOfParentheses(self, S: str) -> int:
+        stack = [0] #The score of the current frame
+
+        for x in S:
+            if x == '(':
+                stack.append(0)
+            else:
+                v = stack.pop()
+                stack[-1] += max(2 * v, 1)
+
+        return stack.pop()
+```
+* [[Medium] [Solution] 856. Score of Parentheses](%5BMedium%5D%20%5BSolution%5D%20856.%20Score%20of%20Parentheses.md)
 
 ### Stack
 ```python
@@ -3377,6 +3417,60 @@ class Solution:
                 for cand in itertools.product(make(S[:i]), make(S[i:]))]
 ```
 * [[Medium] [Solution] 816. Ambiguous Coordinates](%5BMedium%5D%20%5BSolution%5D%20816.%20Ambiguous%20Coordinates.md)
+
+### Counting
+```python
+class Solution:
+    def numSpecialEquivGroups(self, A: List[str]) -> int:
+        def count(A):
+            ans = [0] * 52
+            for i, letter in enumerate(A):
+                ans[ord(letter) - ord('a') + 26 * (i%2)] += 1
+            return tuple(ans)
+
+        return len({count(word) for word in A})
+```
+* [[Easy] [Solution] 893. Groups of Special-Equivalent Strings](%5BEasy%5D%20%5BSolution%5D%20893.%20Groups%20of%20Special-Equivalent%20Strings.md)
+
+### Prefix Sum
+```python
+class Solution:
+    def shiftingLetters(self, S: str, shifts: List[int]) -> str:
+        ans = []
+        X = sum(shifts) % 26
+        for i, c in enumerate(S):
+            index = ord(c) - ord('a')
+            ans.append(chr(ord('a') + (index + X) % 26))
+            X = (X - shifts[i]) % 26
+
+        return "".join(ans)
+```
+* [[Medium] [Solution] 848. Shifting Letters](%5BMedium%5D%20%5BSolution%5D%20848.%20Shifting%20Letters.md)
+
+### Hash Table
+```python
+class Solution:
+    def findAndReplacePattern(self, words: List[str], pattern: str) -> List[str]:
+        def match(word):
+            P = {}
+            for x, y in zip(pattern, word):
+                if P.setdefault(x, y) != y:
+                    return False
+            return len(set(P.values())) == len(P.values())
+
+        return filter(match, words)
+```
+* [[Medium] [Solution] 890. Find and Replace Pattern](%5BMedium%5D%20%5BSolution%5D%20890.%20Find%20and%20Replace%20Pattern.md)
+
+### Math
+```python
+class Solution:
+    def orderlyQueue(self, S: str, K: int) -> str:
+        if K == 1:
+            return min(S[i:] + S[:i] for i in range(len(S)))
+        return "".join(sorted(S))
+```
+* [[Hard] [Solution] 899. Orderly Queue](%5BHard%5D%20%5BSolution%5D%20899.%20Orderly%20Queue.md)
 
 ### Edit Distance
 ```python
@@ -5868,6 +5962,22 @@ return ans
 
 ## Bit Manipulation <a name="bm"></a>
 ---
+### Power of Two
+```python
+class Solution:
+    def isPowerOfTwo(self, n: int) -> bool:
+        if n <= 0:
+            return False
+
+        while n >= 2:
+            n, r = divmod(n, 2)
+            if r:
+                return False
+
+        return True
+```
+* [[Easy] 231. Power of Two](%5BEasy%5D%20231.%20Power%20of%20Two.md)
+
 ### Number Complement
 ```python
 class Solution:

@@ -90,7 +90,7 @@ class Solution(object):
 
 # Submissions
 ---
-**Solution:**
+**Solution: (One Map)**
 ```
 Runtime: 28 ms
 Memory Usage: 12.8 MB

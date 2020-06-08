@@ -85,7 +85,7 @@ class Solution(object):
 
 # Submissions
 ---
-**Solution:**
+**Solution: (Enumerate Cases)**
 ```
 Runtime: 40 ms
 Memory Usage: 12.6 MB
