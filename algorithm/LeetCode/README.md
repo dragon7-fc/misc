@@ -250,6 +250,7 @@ Happy Coding!!
 * [[Medium] 406. Queue Reconstruction by Height](%5BMedium%5D%20406.%20Queue%20Reconstruction%20by%20Height.md)
 * [[Medium] 518. Coin Change 2](%5BMedium%5D%20518.%20Coin%20Change%202.md)
 * [[Easy] 231. Power of Two](%5BEasy%5D%20231.%20Power%20of%20Two.md)
+* [[Easy] 392. Is Subsequence](%5BEasy%5D%20392.%20Is%20Subsequence.md)
 
 ## Array <a name="array"></a>
 ---
@@ -3208,6 +3209,33 @@ class Solution:
 ```
 * [[Easy] [Solution] 859. Buddy Strings](%5BEasy%5D%20%5BSolution%5D%20859.%20Buddy%20Strings.md)
 
+### Stack of Letters
+```python
+class Solution:
+    def reverseOnlyLetters(self, S: str) -> str:
+        letters = [c for c in S if c.isalpha()]
+        ans = []
+        for c in S:
+            if c.isalpha():
+                ans.append(letters.pop())
+            else:
+                ans.append(c)
+        return "".join(ans)
+```
+* [[Easy] [Solution] 917. Reverse Only Letters](%5BEasy%5D%20%5BSolution%5D%20917.%20Reverse%20Only%20Letters.md)
+
+### Custom Sort
+```python
+class Solution:
+    def reorderLogFiles(self, logs: List[str]) -> List[str]:
+        def f(log):
+            id_, rest = log.split(" ", 1)
+            return (0, rest, id_) if rest[0].isalpha() else (1,)
+
+        return sorted(logs, key = f)
+```
+* [[Easy] [Solution] 937. Reorder Data in Log Files](%5BEasy%5D%20%5BSolution%5D%20937.%20Reorder%20Data%20in%20Log%20Files.md)
+
 ### Visit by Row
 ```python
 class Solution:
@@ -3461,6 +3489,40 @@ class Solution:
         return filter(match, words)
 ```
 * [[Medium] [Solution] 890. Find and Replace Pattern](%5BMedium%5D%20%5BSolution%5D%20890.%20Find%20and%20Replace%20Pattern.md)
+
+### HashMap
+```python
+class Solution:
+    def spellchecker(self, wordlist: List[str], queries: List[str]) -> List[str]:
+        def devowel(word):
+            return "".join('*' if c in 'aeiou' else c
+                           for c in word)
+
+        words_perfect = set(wordlist)
+        words_cap = {}
+        words_vow = {}
+
+        for word in wordlist:
+            wordlow = word.lower()
+            words_cap.setdefault(wordlow, word)
+            words_vow.setdefault(devowel(wordlow), word)
+
+        def solve(query):
+            if query in words_perfect:
+                return query
+
+            queryL = query.lower()
+            if queryL in words_cap:
+                return words_cap[queryL]
+
+            queryLV = devowel(queryL)
+            if queryLV in words_vow:
+                return words_vow[queryLV]
+            return ""
+
+        return map(solve, queries)
+```
+* [[Medium] [Solution] 966. Vowel Spellchecker](%5BMedium%5D%20%5BSolution%5D%20966.%20Vowel%20Spellchecker.md)
 
 ### Math
 ```python
@@ -5150,6 +5212,22 @@ class Solution:
         return False
 ```
 * [[Easy] [Solution] 141. Linked List Cycle](%5BEasy%5D%20%5BSolution%5D%20141.%20Linked%20List%20Cycle.md)
+
+### Is Subsequence
+```python
+class Solution:
+    def isSubsequence(self, s: str, t: str) -> bool:
+        if not s:
+            return True
+        j = 0
+        for i in range(len(t)):
+            if t[i] == s[j]:
+                j += 1
+            if j == len(s):
+                return True
+        return False
+```
+* [[Easy] 392. Is Subsequence](%5BEasy%5D%20392.%20Is%20Subsequence.md)
 
 ### Cycle entrance
 ```python

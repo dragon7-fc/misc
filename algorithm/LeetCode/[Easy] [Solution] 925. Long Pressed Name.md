@@ -127,7 +127,7 @@ class Solution(object):
 
 # Submissions
 ---
-**Solution:**
+**Solution: (Group into Blocks)**
 ```
 Runtime: 28 ms
 Memory Usage: 12.9 MB

@@ -30,7 +30,7 @@ Return false.
 
 # Submissions
 ---
-**Solution 1:**
+**Solution 1: (Two Pointers)**
 ```
 Runtime: 224 ms
 Memory Usage: 18.4 MB

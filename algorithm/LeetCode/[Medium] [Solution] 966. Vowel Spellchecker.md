@@ -93,7 +93,7 @@ class Solution(object):
 
 # Submissions
 ---
-**Solution:**
+**Solution: (HashMap)**
 ```
 Runtime: 192 ms
 Memory Usage: 17 MB
