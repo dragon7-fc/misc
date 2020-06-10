@@ -23,7 +23,7 @@ Output: false
 
 # Submissions
 ---
-**Solution 1:**
+**Solution 1: (Brute Force)**
 ```
 Runtime: 24 ms
 Memory Usage: 12.6 MB

@@ -251,6 +251,7 @@ Happy Coding!!
 * [[Medium] 518. Coin Change 2](%5BMedium%5D%20518.%20Coin%20Change%202.md)
 * [[Easy] 231. Power of Two](%5BEasy%5D%20231.%20Power%20of%20Two.md)
 * [[Easy] 392. Is Subsequence](%5BEasy%5D%20392.%20Is%20Subsequence.md)
+* [[Easy] 35. Search Insert Position](%5BEasy%5D%2035.%20Search%20Insert%20Position.md)
 
 ## Array <a name="array"></a>
 ---
@@ -3236,6 +3237,17 @@ class Solution:
 ```
 * [[Easy] [Solution] 937. Reorder Data in Log Files](%5BEasy%5D%20%5BSolution%5D%20937.%20Reorder%20Data%20in%20Log%20Files.md)
 
+### GCD
+```python
+class Solution:
+    def gcdOfStrings(self, str1: str, str2: str) -> str:
+        if str1 == str2: return str1
+        if len(str2) > len(str1): return self.gcdOfStrings(str2, str1)
+        if str1[:len(str2)] == str2: return self.gcdOfStrings(str1[len(str2):], str2)  # x - y (also need to check the prefix str match)
+        return "" # original gcd alway has a solution (at least '1')
+```
+* [[Easy] 1071. Greatest Common Divisor of Strings](%5BEasy%5D%201071.%20Greatest%20Common%20Divisor%20of%20Strings.md)
+
 ### Visit by Row
 ```python
 class Solution:
@@ -4389,6 +4401,19 @@ class Solution:
         return left
 ```
 * [[Easy] [Solution] 278. First Bad Version](%5BEasy%5D%20%5BSolution%5D%20278.%20First%20Bad%20Version.md)
+
+### Insert Position
+```python
+class Solution:
+    def searchInsert(self, nums, target):
+        """
+        :type nums: List[int]
+        :type target: int
+        :rtype: int
+        """
+        return bisect.bisect_left(nums, target)
+```
+* [[Easy] 35. Search Insert Position](%5BEasy%5D%2035.%20Search%20Insert%20Position.md)
 
 ### Random
 ```python
