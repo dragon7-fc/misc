@@ -252,6 +252,7 @@ Happy Coding!!
 * [[Easy] 231. Power of Two](%5BEasy%5D%20231.%20Power%20of%20Two.md)
 * [[Easy] 392. Is Subsequence](%5BEasy%5D%20392.%20Is%20Subsequence.md)
 * [[Easy] 35. Search Insert Position](%5BEasy%5D%2035.%20Search%20Insert%20Position.md)
+* [[Medium] 75. Sort Colors](%5BMedium%5D%2075.%20Sort%20Colors.md)
 
 ## Array <a name="array"></a>
 ---
@@ -5470,6 +5471,36 @@ class Solution:
         return res
 ```
 * [[Medium] [Solution] 986. Interval List Intersections](%5BMedium%5D%20%5BSolution%5D%20986.%20Interval%20List%20Intersections.md)
+
+### Sort Colors
+```python
+class Solution:
+    def sortColors(self, nums: List[int]) -> None:
+        """
+        Do not return anything, modify nums in-place instead.
+        """
+        left,right = 0 , 0
+
+        # move all 0's to the left
+        while right < len(nums):
+            if nums[right] != 0:
+                right += 1
+                continue
+            nums[left], nums[right] = nums[right], nums[left]
+            left += 1
+            right += 1
+
+        right = left
+        # move all 1' to the left
+        while right < len(nums):
+            if nums[right] != 1:
+                right += 1
+                continue
+            nums[left],nums[right] = nums[right], nums[left]
+            left += 1
+            right += 1
+```
+* [[Medium] 75. Sort Colors](%5BMedium%5D%2075.%20Sort%20Colors.md)
 
 ### Four pointers
 ```python
