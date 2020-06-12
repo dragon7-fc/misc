@@ -34,7 +34,7 @@ Explanation: The root node's value is 5 but its right child's value is 4.
 
 # Submissions
 ---
-**Solution 1:**
+**Solution 1: (DFS)**
 ```
 Runtime: 44 ms
 Memory Usage: 15 MB

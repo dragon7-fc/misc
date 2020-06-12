@@ -253,6 +253,7 @@ Happy Coding!!
 * [[Easy] 392. Is Subsequence](%5BEasy%5D%20392.%20Is%20Subsequence.md)
 * [[Easy] 35. Search Insert Position](%5BEasy%5D%2035.%20Search%20Insert%20Position.md)
 * [[Medium] 75. Sort Colors](%5BMedium%5D%2075.%20Sort%20Colors.md)
+* [[Medium] 380. Insert Delete GetRandom O(1)](%5BMedium%5D%20380.%20Insert%20Delete%20GetRandom%20O(1).md)
 
 ## Array <a name="array"></a>
 ---
@@ -3637,6 +3638,49 @@ class Solution:
 ```
 * [[Easy] [Solution] 993. Cousins in Binary Tree](%5BEasy%5D%20%5BSolution%5D%20993.%20Cousins%20in%20Binary%20Tree.md)
 
+### Binary Tree Inorder Traversa
+```python
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+
+class Solution:
+    def inorderTraversal(self, root: TreeNode) -> List[int]:
+        if not root:
+            return
+
+        ans = []
+        ans += self.inorderTraversal(root.left) if root.left else []
+        ans += [root.val]
+        ans += self.inorderTraversal(root.right) if root.right else []
+        return ans
+    
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+
+class Solution:
+    def inorderTraversal(self, root: TreeNode) -> List[int]:
+        res = []
+        stack = []
+        curr = root
+        while curr or stack:
+            while curr:
+                stack.append(curr)
+                curr = curr.left
+            curr = stack.pop()
+            res.append(curr.val)
+            curr = curr.right
+        return res
+```
+* [[Medium] [Solution] 94. Binary Tree Inorder Traversal](%5BMedium%5D%20%5BSolution%5D%2094.%20Binary%20Tree%20Inorder%20Traversal.md)
+
 ### Kth Smallest
 ```python
 # Definition for a binary tree node.
@@ -3719,6 +3763,68 @@ class Solution:
         return res-1
 ```
 * [[Medium] 1372. Longest ZigZag Path in a Binary Tree](%5BMedium%5D%201372.%20Longest%20ZigZag%20Path%20in%20a%20Binary%20Tree.md)
+
+### Unique Binary Search Trees
+```python
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+
+import functools
+class Solution:
+    def generateTrees(self, n: int) -> List[TreeNode]:
+
+        @functools.lru_cache(None)
+        def dfs(l, r):   # split between [l, r)
+            if l == r:
+                return [None]  # list contain None object
+            rst = []
+            for i in range(l, r):
+                for lchild in dfs(l, i):
+                    for rchild in dfs(i+1, r):
+                        root = TreeNode(i+1)   # +1 to convert the index to the actual value
+                        root.left = lchild
+                        root.right = rchild
+                        rst.append(root)
+            return rst
+
+        return dfs(0, n) if n else []
+```
+* [[Medium] 95. Unique Binary Search Trees II](%5BMedium%5D%2095.%20Unique%20Binary%20Search%20Trees%20II.md)
+
+### Recover Binary Search Tree
+```python
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+class Solution:
+    def recoverTree(self, root: TreeNode) -> None:
+        """
+        Do not return anything, modify root in-place instead.
+        """
+
+        def inorder(node):
+            if not node: return
+            inorder(node.left)
+            #spot node which is out of order
+            #the first appearing swaped node must be greater than the next node 
+            if not self.first and node.val < self.pre.val: self.first = self.pre
+            #the second appearing swaped node must be smaller than the pre node
+            if self.first and node.val < self.pre.val: self.second = node
+            self.pre = node
+            inorder(node.right)
+
+        self.pre, self.first, self.second = TreeNode(-float('inf')), None, None
+        inorder(root)
+        self.first.val, self.second.val = self.second.val, self.first.val
+```
+* [[Hard] 99. Recover Binary Search Tree](%5BHard%5D%2099.%20Recover%20Binary%20Search%20Tree.md)
 
 ## Hash Table <a name='ht'></a>
 ---
@@ -3856,6 +3962,61 @@ class MagicDictionary:
 # param_2 = obj.search(word)
 ```
 * [[Medium] [Solution] 676. Implement Magic Dictionary](%5BMedium%5D%20%5BSolution%5D%20676.%20Implement%20Magic%20Dictionary.md)
+
+### Random
+```python
+class RandomizedSet:
+
+    def __init__(self):
+        """
+        Initialize your data structure here.
+        """
+        self.dic = {}
+        self.list = []
+
+
+    def insert(self, val: int) -> bool:
+        """
+        Inserts a value to the set. Returns true if the set did not already contain the specified element.
+        """
+        if val in self.dic:
+            return False
+        self.list.append(val)
+        self.dic[val] = len(self.list) - 1
+        return True
+
+
+    def remove(self, val: int) -> bool:
+        """
+        Removes a value from the set. Returns true if the set contained the specified element.
+        """
+        if val not in self.dic:
+            return False
+        if self.dic[val] == len(self.list) - 1:
+            del self.dic[val]
+        else:
+            idx = self.dic[val] 
+            self.list[idx] = self.list[-1]
+            self.dic[self.list[idx]] = idx
+            del self.dic[val]
+        self.list.pop()
+        return True
+
+
+    def getRandom(self) -> int:
+        """
+        Get a random element from the set.
+        """
+        return self.list[random.randint(0, len(self.list) - 1)]
+
+
+# Your RandomizedSet object will be instantiated and called as such:
+# obj = RandomizedSet()
+# param_1 = obj.insert(val)
+# param_2 = obj.remove(val)
+# param_3 = obj.getRandom()
+```
+* [[Medium] 380. Insert Delete GetRandom O(1)](%5BMedium%5D%20380.%20Insert%20Delete%20GetRandom%20O(1).md)
 
 ### Vote
 ```python
@@ -4911,7 +5072,6 @@ class Solution:
         return self.ans
 ```
 * [[Hard] [Solution] 968. Binary Tree Cameras](%5BHard%5D%20%5BSolution%5D%20968.%20Binary%20Tree%20Cameras.md)
-
 
 ## Prefix Sum
 ```python

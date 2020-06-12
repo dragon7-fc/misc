@@ -415,6 +415,12 @@ A playground to note something.
         | `/srv/gitlab/logs`   | `/var/log/gitlab`  | For storing logs                           |
         | `/srv/gitlab/config` | `/etc/gitlab`      | For storing the GitLab configuration files |
 
+* Jenkins
+
+    - Install
+    ```bash
+     sudo docker run --name jenkins -d -u root --restart always -p 8080:8080 -v /path/to/jenkins/jenkins-data:/var/jenkins_home jenkinsci/blueocean
+    ```
 * RamDisk
 
     ```bash
