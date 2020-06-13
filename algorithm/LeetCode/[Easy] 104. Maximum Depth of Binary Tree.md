@@ -20,7 +20,7 @@ return its depth = 3.
 
 # Submissions
 ---
-**Solution 1:**
+**Solution 1: (DFS)**
 ```
 Runtime: 40 ms
 Memory Usage: 14.4 MB

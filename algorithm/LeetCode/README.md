@@ -254,6 +254,7 @@ Happy Coding!!
 * [[Easy] 35. Search Insert Position](%5BEasy%5D%2035.%20Search%20Insert%20Position.md)
 * [[Medium] 75. Sort Colors](%5BMedium%5D%2075.%20Sort%20Colors.md)
 * [[Medium] 380. Insert Delete GetRandom O(1)](%5BMedium%5D%20380.%20Insert%20Delete%20GetRandom%20O(1).md)
+* [[Medium] 368. Largest Divisible Subset](%5BMedium%5D%20368.%20Largest%20Divisible%20Subset.md)
 
 ## Array <a name="array"></a>
 ---
@@ -1615,6 +1616,25 @@ class Solution:
         return [dfs(i) for i in range(num+1)]
 ```
 * [[Medium] 338. Counting Bits](%5BMedium%5D%20338.%20Counting%20Bits.md)
+
+### Largest Divisible Subset
+```python
+class Solution:
+    def largestDivisibleSubset(self, nums: List[int]) -> List[int]:
+        nums.sort()
+        if len(nums) ==0: return []
+        result = [nums[0]]
+        dp = [[nums[i]] for i in range(len(nums))]
+        for i in range(len(dp)):
+            for j in range(i):
+                if nums[i] % nums[j] == 0:
+                    if len(dp[j]) + 1 > len(dp[i]):
+                        dp[i] = dp[j] + [nums[i]]
+            if len(dp[i]) > len(result):
+                result = dp[i]
+        return result
+```
+* [[Medium] 368. Largest Divisible Subset](%5BMedium%5D%20368.%20Largest%20Divisible%20Subset.md)
 
 ### State Combination
 ```python
