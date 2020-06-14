@@ -5107,6 +5107,25 @@ class Solution:
 ```
 * [[Hard] 1402. Reducing Dishes](%5BHard%5D%201402.%20Reducing%20Dishes.md)
 
+### Prefix Sum
+```python
+class Solution:
+    def minSumOfLengths(self, arr: List[int], target: int) -> int:
+        prefix = {0: -1}
+        best_till = [math.inf] * len(arr)
+        ans = best = math.inf
+        for i, curr in enumerate(itertools.accumulate(arr)):
+            if curr - target in prefix:
+                end = prefix[curr - target]
+                if end > -1:
+                    ans = min(ans, i - end + best_till[end])
+                best = min(best, i - end)
+            best_till[i] = best
+            prefix[curr] = i
+        return -1 if ans == math.inf else ans
+```
+* [[Medium] 1477. Find Two Non-overlapping Sub-arrays Each With Target Sum](%5BMedium%5D%201477.%20Find%20Two%20Non-overlapping%20Sub-arrays%20Each%20With%20Target%20Sum.md)
+
 **Template 1:**
 ```python
 ans = []
@@ -6083,6 +6102,23 @@ class Solution:
 ```
 * [[Hard] [Solution] 32. Longest Valid Parentheses](%5BHard%5D%20%5BSolution%5D%2032.%20Longest%20Valid%20Parentheses.md)
 
+### Next Greater Element
+```python
+class Solution:
+    def nextGreaterElements(self, nums: List[int]) -> List[int]:
+        N = len(nums)
+        res = [None] * N
+        stack = []
+        for i in range(2*N -1, -1, -1):
+            while stack and nums[stack[-1]] <= nums[i % N]:
+                stack.pop()
+            res[i % N] = -1 if not stack else nums[stack[-1]]
+            stack.append(i % N)
+
+        return res
+```
+* [[Medium] [Solution] 503. Next Greater Element II](%5BMedium%5D%20%5BSolution%5D%20503.%20Next%20Greater%20Element%20II.md)
+
 **Template 1:**
 ```python
 stack = []
@@ -6097,7 +6133,6 @@ for ...:
 return ans
 ```
 
-* [[Medium] [Solution] 503. Next Greater Element II](%5BMedium%5D%20%5BSolution%5D%20503.%20Next%20Greater%20Element%20II.md)
 * [[Medium] [Solution] 636. Exclusive Time of Functions](%5BMedium%5D%20%5BSolution%5D%20636.%20Exclusive%20Time%20of%20Functions.md)
 
 ## Backtracking <a name="backtracking"></a>
