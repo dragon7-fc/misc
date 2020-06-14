@@ -255,6 +255,7 @@ Happy Coding!!
 * [[Medium] 75. Sort Colors](%5BMedium%5D%2075.%20Sort%20Colors.md)
 * [[Medium] 380. Insert Delete GetRandom O(1)](%5BMedium%5D%20380.%20Insert%20Delete%20GetRandom%20O(1).md)
 * [[Medium] 368. Largest Divisible Subset](%5BMedium%5D%20368.%20Largest%20Divisible%20Subset.md)
+* [[Medium] 787. Cheapest Flights Within K Stops](%5BMedium%5D%20787.%20Cheapest%20Flights%20Within%20K%20Stops.md)
 
 ## Array <a name="array"></a>
 ---
@@ -7310,6 +7311,25 @@ class Solution:
         return max(dist.values()) if len(dist) == N else -1
 ```
 * [[Medium] [Solution] 743. Network Delay Time](%5BMedium%5D%20%5BSolution%5D%20743.%20Network%20Delay%20Time.md)
+
+### Dijkstra's Algorithm
+```python
+class Solution:
+    def findCheapestPrice(self, n: int, flights: List[List[int]], src: int, dst: int, K: int) -> int:
+        dic = collections.defaultdict(list)
+        for s, d, p in flights:
+            dic[s].append([d, p])
+        q = [[0, src, 0]]
+        while q:
+            price, s, hop = heapq.heappop(q)
+            if s == dst:
+                return price
+            if hop > K: continue
+            for nd, np in dic[s]:
+                heapq.heappush(q, [price + np, nd, hop + 1])
+        return -1
+```
+* [[Medium] 787. Cheapest Flights Within K Stops](%5BMedium%5D%20787.%20Cheapest%20Flights%20Within%20K%20Stops.md)
 
 ### Greedy with Heap
 ```python
