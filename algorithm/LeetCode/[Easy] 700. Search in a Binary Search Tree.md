@@ -25,7 +25,7 @@ Note that an empty tree is represented by `NULL`, therefore you would see the ex
 
 # Submissions
 ---
-**Solution 1:**
+**Solution 1: (BFS)**
 ```
 Runtime: 76 ms
 Memory Usage: 14.7 MB

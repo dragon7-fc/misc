@@ -256,6 +256,7 @@ Happy Coding!!
 * [[Medium] 380. Insert Delete GetRandom O(1)](%5BMedium%5D%20380.%20Insert%20Delete%20GetRandom%20O(1).md)
 * [[Medium] 368. Largest Divisible Subset](%5BMedium%5D%20368.%20Largest%20Divisible%20Subset.md)
 * [[Medium] 787. Cheapest Flights Within K Stops](%5BMedium%5D%20787.%20Cheapest%20Flights%20Within%20K%20Stops.md)
+* [[Easy] 700. Search in a Binary Search Tree](%5BEasy%5D%20700.%20Search%20in%20a%20Binary%20Search%20Tree.md)
 
 ## Array <a name="array"></a>
 ---
@@ -3659,6 +3660,29 @@ class Solution:
 ```
 * [[Easy] [Solution] 993. Cousins in Binary Tree](%5BEasy%5D%20%5BSolution%5D%20993.%20Cousins%20in%20Binary%20Tree.md)
 
+### DFS
+```python
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+
+class Solution:
+    def searchBST(self, root: TreeNode, val: int) -> TreeNode:
+        if not root:
+            return None
+
+        if root.val == val:
+            return root
+        elif root.val > val:
+            return self.searchBST(root.left, val)
+        elif root.val < val:
+            return self.searchBST(root.right, val)
+```
+* [[Easy] 700. Search in a Binary Search Tree](%5BEasy%5D%20700.%20Search%20in%20a%20Binary%20Search%20Tree.md)
+
 ### Binary Tree Inorder Traversa
 ```python
 # Definition for a binary tree node.
@@ -4782,6 +4806,29 @@ class Solution:
         return max_square
 ```
 * [[Medium] 1292. Maximum Side Length of a Square with Sum Less than or Equal to Threshold](%5BMedium%5D%201292.%20Maximum%20Side%20Length%20of%20a%20Square%20with%20Sum%20Less%20than%20or%20Equal%20to%20Threshold.md)
+
+### Time series search
+```python
+class Solution:
+    def minDays(self, bloomDay: List[int], m: int, k: int) -> int:
+        if m * k > len(bloomDay): return -1
+        left, right = 1, max(bloomDay)
+        while left < right:
+            mid = (left + right) // 2
+            flow = bouq = 0
+            for a in bloomDay:
+                flow = 0 if a > mid else flow + 1
+                if flow >= k:
+                    flow = 0
+                    bouq += 1
+                    if bouq == m: break
+            if bouq == m:
+                right = mid
+            else:
+                left = mid + 1
+        return left
+```
+* [[Medium] 1482. Minimum Number of Days to Make m Bouquets](%5BMedium%5D%201482.%20Minimum%20Number%20of%20Days%20to%20Make%20m%20Bouquets.md)
 
 ### 2D Binary Search
 ```python
