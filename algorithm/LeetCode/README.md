@@ -258,6 +258,7 @@ Happy Coding!!
 * [[Medium] 787. Cheapest Flights Within K Stops](%5BMedium%5D%20787.%20Cheapest%20Flights%20Within%20K%20Stops.md)
 * [[Easy] 700. Search in a Binary Search Tree](%5BEasy%5D%20700.%20Search%20in%20a%20Binary%20Search%20Tree.md)
 * [[Medium] 468. Validate IP Address](%5BMedium%5D%20468.%20Validate%20IP%20Address.md)
+* [[Medium] 130. Surrounded Regions](%5BMedium%5D%20130.%20Surrounded%20Regions.md)
 
 ## Array <a name="array"></a>
 ---
@@ -5265,6 +5266,42 @@ class Solution:
         return ans
 ```
 * [[Medium] 429. N-ary Tree Level Order Traversal](%5BMedium%5D%20429.%20N-ary%20Tree%20Level%20Order%20Traversal.md)
+
+### Surrounded Regions
+```python
+class Solution:
+    def solve(self, board: List[List[str]]) -> None:
+        """
+        Do not return anything, modify board in-place instead.
+        """
+        if not board:
+            return
+        R, C = len(board), len(board[0])
+        q = collections.deque()
+        for c in range(C):
+            q.append((0, c))
+            q.append((R - 1, c))
+        for r in range(R):
+            q.append((r, 0))
+            q.append((r, C - 1))
+        while q:
+            r, c = q.popleft()
+            if 0 <= r < R and 0 <= c < C and board[r][c] == "O":
+                # modify the value from O to N
+                board[r][c] = "*"
+                # append the surrouding cells to queue.
+                q.append((r, c+1))
+                q.append((r, c-1))
+                q.append((r-1, c))
+                q.append((r+1, c))  
+        for i in range(R):
+            for j in range(C):
+                if board[i][j] == "O":
+                    board[i][j] = "X"
+                if board[i][j] == "*":
+                    board[i][j] = "O"
+```
+* [[Medium] 130. Surrounded Regions](%5BMedium%5D%20130.%20Surrounded%20Regions.md)
 
 ### Bipartite
 ```python
