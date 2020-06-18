@@ -259,6 +259,7 @@ Happy Coding!!
 * [[Easy] 700. Search in a Binary Search Tree](%5BEasy%5D%20700.%20Search%20in%20a%20Binary%20Search%20Tree.md)
 * [[Medium] 468. Validate IP Address](%5BMedium%5D%20468.%20Validate%20IP%20Address.md)
 * [[Medium] 130. Surrounded Regions](%5BMedium%5D%20130.%20Surrounded%20Regions.md)
+* [[Medium] 275. H-Index II](%5BMedium%5D%20275.%20H-Index%20II.md)
 
 ## Array <a name="array"></a>
 ---
@@ -4719,6 +4720,25 @@ class Solution:
         return l
 ```
 * [[Medium] [Solution] 162. Find Peak Element](%5BMedium%5D%20%5BSolution%5D%20162.%20Find%20Peak%20Element.md)
+
+### H-Index
+```python
+class Solution:
+    def hIndex(self, citations: List[int]) -> int:
+        N = len(citations)
+        left, right = 0, N-1
+        ans = 0
+        while right >= left:
+            mid = left + (right - left) // 2
+            if citations[mid] >= N - mid:
+                ans = max(ans, N - mid)
+                right = mid -1 
+            else:
+                left = mid + 1
+
+        return ans
+```
+* [[Medium] 275. H-Index II](%5BMedium%5D%20275.%20H-Index%20II.md)
 
 ### Max to sum 
 ```python

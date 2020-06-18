@@ -25,7 +25,7 @@ Explanation: [0,1,3,5,6] means the researcher has 5 papers in total and each of 
 
 # Submissions
 ---
-**Solution 1:**
+**Solution 1: (Binary Search)**
 ```
 Runtime: 156 ms
 Memory Usage: 19.4 MB
