@@ -260,6 +260,7 @@ Happy Coding!!
 * [[Medium] 468. Validate IP Address](%5BMedium%5D%20468.%20Validate%20IP%20Address.md)
 * [[Medium] 130. Surrounded Regions](%5BMedium%5D%20130.%20Surrounded%20Regions.md)
 * [[Medium] 275. H-Index II](%5BMedium%5D%20275.%20H-Index%20II.md)
+* [[Hard] 1044. Longest Duplicate Substring](%5BHard%5D%201044.%20Longest%20Duplicate%20Substring.md)
 
 ## Array <a name="array"></a>
 ---
@@ -4881,6 +4882,41 @@ class Solution:
         return leftmost_col
 ```
 * [[Medium] 30day. Leftmost Column with at Least a One](%5BMedium%5D%2030day.%20Leftmost%20Column%20with%20at%20Least%20a%20One.md)
+
+### Rabin-Karp Algorithm
+```python
+class Solution:
+    def longestDupSubstring(self, S: str) -> str:
+        
+        def RabinKarp(M, q):
+            if M == 0: return True
+            h, t, d = (1<<(8*M-8))%q, 0, 256
+            dic = defaultdict(list)
+            for i in range(M): 
+                t = (d * t + ord(S[i]))% q
+            dic[t].append(i-M+1)
+            for i in range(len(S) - M):
+                t = (d*(t-ord(S[i])*h) + ord(S[i + M]))% q
+                for j in dic[t]:
+                    if S[i+1:i+M+1] == S[j:j+M]:
+                        return (True, S[j:j+M])
+                dic[t].append(i+1)
+            return (False, "")
+        
+        beg, end = 0, len(S)
+        q = (1<<31) - 1 
+        Found = ""
+        while beg + 1 < end:
+            mid = (beg + end)//2
+            isFound, candidate = RabinKarp(mid, q)
+            if isFound:
+                beg, Found = mid, candidate
+            else:
+                end = mid
+
+        return Found
+```
+* [[Hard] 1044. Longest Duplicate Substring](%5BHard%5D%201044.%20Longest%20Duplicate%20Substring.md)
 
 ### Binary Search + Sliding Window
 ```python
