@@ -261,6 +261,7 @@ Happy Coding!!
 * [[Medium] 130. Surrounded Regions](%5BMedium%5D%20130.%20Surrounded%20Regions.md)
 * [[Medium] 275. H-Index II](%5BMedium%5D%20275.%20H-Index%20II.md)
 * [[Hard] 1044. Longest Duplicate Substring](%5BHard%5D%201044.%20Longest%20Duplicate%20Substring.md)
+* [[Medium] 60. Permutation Sequence](%5BMedium%5D%2060.%20Permutation%20Sequence.md)
 
 ## Array <a name="array"></a>
 ---
@@ -2529,6 +2530,19 @@ class Solution:
         return ans + X-Y
 ```
 * [[Medium] [Solution] 991. Broken Calculator](%5BMedium%5D%20%5BSolution%5D%20991.%20Broken%20Calculator.md)
+
+### Permutation Sequence
+```python
+class Solution:    
+    def getPermutation(self, n: int, k: int) -> str:
+        rst, k, nums = '', k-1, list(range(1, n+1))
+        for i in range(n, 0, -1):
+            ind, k = divmod(k, math.factorial(i-1))
+            rst += str(nums[ind])
+            del nums[ind]
+        return rst
+```
+* [[Medium] 60. Permutation Sequence](%5BMedium%5D%2060.%20Permutation%20Sequence.md)
 
 ### Prime Factor
 ```python
