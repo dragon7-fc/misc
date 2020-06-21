@@ -156,8 +156,36 @@ Happy Coding!!
 ### re
 
 * `re.match(pattern, string, flags=0)`
+
+    * ex.
+    ```python
+    >>> m = re.match(r"(\w+) (\w+)", "Isaac Newton, physicist")
+    >>> m.group(0)       # The entire match
+    'Isaac Newton'
+    >>> m.group(1)       # The first parenthesized subgroup.
+    'Isaac'
+    >>> m.group(2)       # The second parenthesized subgroup.
+    'Newton'
+    >>> m.group(1, 2)    # Multiple arguments give us a tuple.
+    ('Isaac', 'Newton')
+    ```
+* `re.search(pattern, string, flags=0)`
+
+    * ex.
+    ```python
+    match = re.search(pattern, string)
+    if match:
+        process(match)
+    ```
 * `re.split(pattern, string, maxsplit=0, flags=0)`
+
+    * ex.  re.split('\d+', 'Twelve:12 Eighty nine:89.') --->  ['Twelve:', ' Eighty nine:', '.']
 * `re.findall(pattern, string, flags=0)`
+    
+    * ex. re.findall('\d+', 'hello 12 hi 89. Howdy 34') ---> ['12', '89', '34']
+* `re.sub(pattern, repl, string, count=0, flags=0)`
+
+    * ex. re.sub('\s+', '', 'abc 12 de 23 \n f45 6') ---> 'abc12de23f456'
 
 ### datetime
 
@@ -262,6 +290,7 @@ Happy Coding!!
 * [[Medium] 275. H-Index II](%5BMedium%5D%20275.%20H-Index%20II.md)
 * [[Hard] 1044. Longest Duplicate Substring](%5BHard%5D%201044.%20Longest%20Duplicate%20Substring.md)
 * [[Medium] 60. Permutation Sequence](%5BMedium%5D%2060.%20Permutation%20Sequence.md)
+* [[Hard] 174. Dungeon Game](%5BHard%5D%20174.%20Dungeon%20Game.md)
 
 ## Array <a name="array"></a>
 ---
@@ -2336,6 +2365,47 @@ class Solution:
         return dp(k - 1, 0, 0)
 ```
 * [[Hard] 1444. Number of Ways of Cutting a Pizza](%5BHard%5D%201444.%20Number%20of%20Ways%20of%20Cutting%20a%20Pizza.md)
+
+### Dungeon Game
+```python
+class Solution:
+    def calculateMinimumHP(self, dungeon: List[List[int]]) -> int:
+        if not dungeon or not dungeon[0]: return 0
+        M, N = len(dungeon), len(dungeon[0])
+        dp = [[0]*N for _ in range(M)]
+        for i in range(M-1,-1,-1):
+            for j in range(N-1,-1,-1):
+                if i == M-1 and j == N-1:
+                    dp[i][j] = max(1, 1 - dungeon[i][j])
+                elif i == M-1:
+                    dp[i][j] = max(1, dp[i][j+1] - dungeon[i][j])
+                elif j == N-1:
+                    dp[i][j] = max(1, dp[i+1][j] - dungeon[i][j])                
+                else:
+                    dp[i][j] = max(1, min(dp[i][j + 1],dp[i + 1][j]) - dungeon[i][j])
+
+        return dp[0][0]
+
+class Solution:
+    def calculateMinimumHP(self, dungeon: List[List[int]]) -> int:
+        m, n = len(dungeon), len(dungeon[0])
+        # returns minimum possible amount of health required at position (i, j)
+        def calculate(i, j):
+            if i == m or j == n:
+                return float('inf')
+            elif i == m-1 and j == n-1:
+                return max(1,  1 - dungeon[i][j])
+            elif (i, j) in memory:
+                return memory[i, j]
+            down = calculate(i+1, j) # min health required to go down and survive
+            right = calculate(i, j+1) # min health required to go right and survive
+            cur = min(max(down - dungeon[i][j], 1), max(right - dungeon[i][j], 1))
+            memory[i, j] = cur
+            return cur
+        memory = {}
+        return calculate(0, 0)
+```
+* [[Hard] 174. Dungeon Game](%5BHard%5D%20174.%20Dungeon%20Game.md)
 
 ## Math <a name="math"></a>
 ---
@@ -7573,6 +7643,40 @@ class Solution:
         return ''.join(s)
 ```
 * [[Medium] 1405. Longest Happy String](LeetCode/%5BMedium%5D%201405.%20Longest%20Happy%20String.md)
+
+### Nearest Future Location Heap
+```python
+class Solution:
+    def avoidFlood(self, rains: List[int]) -> List[int]:
+        seen = set()
+        closest = []
+        locs = collections.defaultdict(collections.deque)
+        for i, lake in enumerate(rains):
+            locs[lake].append(i)
+        ret = []
+        for lake in rains:
+            if lake in seen:
+                return []
+            if not lake:
+                # get closest that's already seen
+                if not closest:
+                    # there's nothing filled that will be filled again later
+                    ret.append(1) 
+                    continue
+                nxt = heapq.heappop(closest)
+                ret.append(rains[nxt])
+                seen.remove(rains[nxt])
+            else:
+                seen.add(lake)
+                l = locs[lake]
+                l.popleft()
+                if l:
+                    nxt = l[0]
+                    heapq.heappush(closest, nxt)
+                ret.append(-1)
+        return ret
+```
+* [[Medium] 1488. Avoid Flood in The City](%5BMedium%5D%201488.%20Avoid%20Flood%20in%20The%20City.md)
 
 ### Most recent min/max
 ```python
