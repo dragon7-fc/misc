@@ -291,6 +291,7 @@ Happy Coding!!
 * [[Hard] 1044. Longest Duplicate Substring](%5BHard%5D%201044.%20Longest%20Duplicate%20Substring.md)
 * [[Medium] 60. Permutation Sequence](%5BMedium%5D%2060.%20Permutation%20Sequence.md)
 * [[Hard] 174. Dungeon Game](%5BHard%5D%20174.%20Dungeon%20Game.md)
+* [[Medium] 137. Single Number II](%5BMedium%5D%20137.%20Single%20Number%20II.md)
 
 ## Array <a name="array"></a>
 ---
@@ -2613,6 +2614,14 @@ class Solution:
         return rst
 ```
 * [[Medium] 60. Permutation Sequence](%5BMedium%5D%2060.%20Permutation%20Sequence.md)
+
+### Single Number
+```python
+class Solution:
+    def singleNumber(self, nums: List[int]) -> int:
+        return int((3*sum(set(nums)) - sum(nums)) // 2)
+```
+* [[Medium] 137. Single Number II](%5BMedium%5D%20137.%20Single%20Number%20II.md)
 
 ### Prime Factor
 ```python
