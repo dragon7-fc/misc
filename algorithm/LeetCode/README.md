@@ -292,6 +292,7 @@ Happy Coding!!
 * [[Medium] 60. Permutation Sequence](%5BMedium%5D%2060.%20Permutation%20Sequence.md)
 * [[Hard] 174. Dungeon Game](%5BHard%5D%20174.%20Dungeon%20Game.md)
 * [[Medium] 137. Single Number II](%5BMedium%5D%20137.%20Single%20Number%20II.md)
+* [[Medium] 222. Count Complete Tree Nodes](%5BMedium%5D%20222.%20Count%20Complete%20Tree%20Nodes.md)
 
 ## Array <a name="array"></a>
 ---
@@ -3852,6 +3853,21 @@ class Solution:
         return seq[k-1]
 ```
 * [[Medium] [Solution] 230. Kth Smallest Element in a BST](%5BMedium%5D%20%5BSolution%5D%20230.%20Kth%20Smallest%20Element%20in%20a%20BST.md)
+
+### DFS
+```python
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+
+class Solution:
+    def countNodes(self, root: TreeNode) -> int:
+        return 0 if not root else 1 + self.countNodes(root.left) + self.countNodes(root.right)
+```
+* [[Medium] 222. Count Complete Tree Nodes](%5BMedium%5D%20222.%20Count%20Complete%20Tree%20Nodes.md)
 
 ### DFS
 ```python

@@ -378,11 +378,9 @@ A playground to note something.
 
     - [Git Cheat Sheets](https://services.github.com/on-demand/resources/cheatsheets/)
     - [Git Cheatsheet](https://blog.programster.org/git-cheatsheet)
-    - How to clone all repos at once from GitHub?
-
-        - User repositories
-        
-            `GHUSER=[CHANGEME]; curl "https://api.github.com/users/$GHUSER/repos?per_page=1000" | grep -w clone_url | grep -o '[^"]\+://.\+.git' | xargs -L1 git clone`
+    - Clone 100 repositories per page of one GitHub organization
+    
+        `GHUSER=[CHANGEME]; curl "https://api.github.com/orgs/$CHANGEME/repos?page=1&per_page=100" | grep -w clone_url | grep -o '[^"]\+://.\+.git' | xargs -L1 git clone`
 
     |                   | command                      |
     |-------------------|------------------------------|

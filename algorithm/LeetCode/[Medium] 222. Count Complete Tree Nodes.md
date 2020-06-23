@@ -21,7 +21,7 @@ Output: 6
 
 # Submissions
 ---
-**Solution 1:**
+**Solution 1: (DFS)**
 ```
 Runtime: 92 ms
 Memory Usage: 19.9 MB
@@ -37,4 +37,38 @@ Memory Usage: 19.9 MB
 class Solution:
     def countNodes(self, root: TreeNode) -> int:
         return 0 if not root else 1 + self.countNodes(root.left) + self.countNodes(root.right)
+```
+
+**Solution 2: (DFS)**
+```
+Runtime: 48 ms
+Memory Usage: 30.8 MB
+```
+```c++
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+class Solution {
+public:
+    int cnt=0;
+    int countNodes(TreeNode* root) {
+        dfs(root);
+        return cnt;
+    }
+    void dfs(TreeNode* root)
+    {
+        if(!root) return;  
+        cnt++;  
+        dfs(root->left);
+        dfs(root->right); 
+    }
+};
 ```
