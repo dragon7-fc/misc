@@ -245,6 +245,7 @@ A playground to note something.
     - [Systemd Cheatsheet](https://linux020.nl/l20/Howto/SystemdCheatsheet)
     - [D-Bus Specification](https://dbus.freedesktop.org/doc/dbus-specification.html#type-system)
     - [The new sd-bus API of systemd](http://0pointer.net/blog/the-new-sd-bus-api-of-systemd.html)
+    - [Using the DBUS C API](http://www.matthew.ath.cx/misc/dbus)
     - CONFIG_IPMI_PANIC_EVENT
 
         `Device Drivers > Character devices > IPMI top-level message handler > Generate a panic event to all BMCs on a panic`
@@ -378,9 +379,9 @@ A playground to note something.
 
     - [Git Cheat Sheets](https://services.github.com/on-demand/resources/cheatsheets/)
     - [Git Cheatsheet](https://blog.programster.org/git-cheatsheet)
-    - Clone 100 repositories per page of one GitHub organization
+    - Clone 100 repositories of 1 page of one GitHub organization
     
-        `GHUSER=[CHANGEME]; curl "https://api.github.com/orgs/$CHANGEME/repos?page=1&per_page=100" | grep -w clone_url | grep -o '[^"]\+://.\+.git' | xargs -L1 git clone`
+        `GHUSER=[CHANGEME]; curl "https://api.github.com/orgs/$GHUSER/repos?page=1&per_page=100" | grep -w clone_url | grep -o '[^"]\+://.\+.git' | xargs -L1 git clone`
 
     |                   | command                      |
     |-------------------|------------------------------|
