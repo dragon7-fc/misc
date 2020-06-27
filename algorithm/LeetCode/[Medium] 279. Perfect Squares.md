@@ -63,7 +63,7 @@ class Solution:
         return dfs(n)
 ```
 
-**Solution 2: (BFS)**
+**Solution 3: (BFS)**
 ```
 Runtime: 1476 ms
 Memory Usage: 199 MB
@@ -88,4 +88,27 @@ class Solution:
                     counter += 1
             level += 1
         return level
+```
+
+**Solution 4: (DP Bottom-Up)**
+```
+Runtime: 120 ms
+Memory Usage: 6.2 MB
+```
+```c++
+class Solution {
+public:
+    int numSquares(int n) {
+        int dp[n + 1];
+        dp[0] = 0;
+        for(int i = 1; i <= n; i++){
+            dp[i] = INT_MAX;
+            for(int j = 1; j*j <= i; j++){
+                dp[i] = min(dp[i], dp[i - j*j] + 1);
+            }
+        }
+        
+        return dp[n];
+    }
+};
 ```

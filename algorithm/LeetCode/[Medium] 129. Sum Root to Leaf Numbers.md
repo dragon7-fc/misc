@@ -38,7 +38,7 @@ Therefore, sum = 495 + 491 + 40 = 1026.
 
 # Submissions
 ---
-**Solution 1:**
+**Solution 1: (DFS)**
 ```
 Runtime: 24 ms
 Memory Usage: 12.9 MB
@@ -69,4 +69,42 @@ class Solution:
             return 0
         dfs(root, root.val)
         return ans
+```
+
+**Solution 2: (DFS)**
+```
+Runtime: 8 ms
+Memory Usage: 12.4 MB
+```
+```c++
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+class Solution {
+public:
+    void dfs(TreeNode* root, int cur, int& res) {
+        if (root == nullptr)
+            return;
+        cur = cur*10 + root->val;
+        if (root->left == nullptr && root->right == nullptr) {
+            res += cur;
+            return;
+        }
+        dfs(root->left, cur, res);
+        dfs(root->right, cur, res);
+    }
+    int sumNumbers(TreeNode* root) {
+        int res = 0;
+        dfs(root, 0, res);
+        return res;
+    }
+};
 ```

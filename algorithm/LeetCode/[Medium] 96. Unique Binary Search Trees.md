@@ -70,3 +70,54 @@ class Solution:
             rst += self.numTrees(i) * self.numTrees(n - i - 1)
         return rst
 ```
+
+**Solution 3: (DP Bottom-Up)**
+```
+Runtime: 0 ms
+Memory Usage: 6 MB
+```
+```c++
+class Solution {
+public:
+    int numTrees(int n) {
+        vector<int> dp(n+1,0);
+        dp[0]=1;  
+        for(int i=1;i<=n;i++){
+            int sum=0;
+            for(int j=1;j<=i;j++){
+                sum+=(dp[j-1]*dp[i-j]);    
+            }
+            dp[i]=sum;
+        }
+        return dp[n];
+    }
+};
+```
+
+**Solution 4: (DP Top-Down)**
+```
+Runtime: 0 ms
+Memory Usage: 6.1 MB
+```
+```c++
+class Solution {
+public:
+    int rec(int n, map<int,int> &dp){
+        if(n==0){
+            dp[0] = 1;
+            return 1;
+        }
+        if(dp.find(n)!=dp.end())
+            return dp[n];
+        int sum = 0;
+        for(int k=1;k<=n;k++)
+            sum += rec(n-k,dp)*rec(k-1,dp);
+        dp[n] = sum;
+        return sum;
+    }
+    int numTrees(int n) {
+        map<int,int> dp;
+        return rec(n,dp);
+    }
+};
+```

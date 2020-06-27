@@ -293,6 +293,10 @@ Happy Coding!!
 * [[Hard] 174. Dungeon Game](%5BHard%5D%20174.%20Dungeon%20Game.md)
 * [[Medium] 137. Single Number II](%5BMedium%5D%20137.%20Single%20Number%20II.md)
 * [[Medium] 222. Count Complete Tree Nodes](%5BMedium%5D%20222.%20Count%20Complete%20Tree%20Nodes.md)
+* [[Medium] 96. Unique Binary Search Trees](%5BMedium%5D%2096.%20Unique%20Binary%20Search%20Trees.md)
+* [[Medium] [Solution] 287. Find the Duplicate Number](%5BMedium%5D%20%5BSolution%5D%20287.%20Find%20the%20Duplicate%20Number.md)
+* [[Medium] 129. Sum Root to Leaf Numbers](%5BMedium%5D%20129.%20Sum%20Root%20to%20Leaf%20Numbers.md)
+* [[Medium] 279. Perfect Squares](%5BMedium%5D%20279.%20Perfect%20Squares.md)
 
 ## Array <a name="array"></a>
 ---
@@ -1127,6 +1131,41 @@ class Solution:
         return dp[0][0]
 ```
 * [[Medium] [Solution] 712. Minimum ASCII Delete Sum for Two Strings](%5BMedium%5D%20%5BSolution%5D%20712.%20Minimum%20ASCII%20Delete%20Sum%20for%20Two%20Strings.md)
+
+### Perfect Squares
+```python
+class Solution:
+    def numSquares(self, n):
+        """
+        :type n: int
+        :rtype: int
+        """
+        if n < 1:
+            return 0
+
+        dp = [0] * (n+1)
+        for i in range(1,n+1):
+            dp[i] = min([dp[i - j*j] for j in range(1, int(i**.5)+1)]) + 1
+        return dp[n]
+
+class Solution:
+    def numSquares(self, n):
+        """
+        :type n: int
+        :rtype: int
+        """
+        if n < 1:
+            return 0
+
+        @functools.lru_cache(None)
+        def dfs(i):
+            if i <= 0:
+                return 0
+            return min(dfs(i - j**2) + 1 for j in range(int(i**.5), 0, -1))
+
+        return dfs(n)
+```
+* [[Medium] 279. Perfect Squares](%5BMedium%5D%20279.%20Perfect%20Squares.md)
 
 ### Prefix/Range sum
 ```python
@@ -3953,6 +3992,79 @@ class Solution:
 ```
 * [[Medium] 95. Unique Binary Search Trees II](%5BMedium%5D%2095.%20Unique%20Binary%20Search%20Trees%20II.md)
 
+### Unique Binary Search Trees
+```python
+class Solution:
+    def numTrees(self, n):
+        """
+        :type n: int
+        :rtype: int
+        """
+        if n == 0:
+            return 1
+        elif n == 1:
+            return 1
+        elif n == 2:
+            return 2
+        arr = [0]*(n+1)
+        arr[0] = 1
+        arr[1] = 1
+        arr[2] = 2
+        for i in range(3,n+1):
+            for j in range(i):
+                arr[i] += arr[j]*arr[i-1-j]
+        return arr[-1]
+    
+import functools
+class Solution:
+
+    @functools.lru_cache(None)
+    def numTrees(self, n):
+        """
+        :type n: int
+        :rtype: int
+        """
+        if n == 0 or n == 1:
+            return 1
+        elif n == 2:
+            return 2
+        rst = 0
+        for i in range(n):
+            rst += self.numTrees(i) * self.numTrees(n - i - 1)
+        return rst
+```
+* [[Medium] 96. Unique Binary Search Trees](%5BMedium%5D%2096.%20Unique%20Binary%20Search%20Trees.md)
+
+### Preorder
+```python
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+
+class Solution:
+    def sumNumbers(self, root: TreeNode) -> int:
+        ans = 0
+        def dfs(node, total):
+            nonlocal ans
+            if not node.left and not node.right:
+               ans += total
+            
+            if node.left:
+                dfs(node.left, total*10 + node.left.val)
+            if node.right:
+                dfs(node.right, total*10 + node.right.val)
+            return
+            
+        if not root:
+            return 0
+        dfs(root, root.val)
+        return ans
+```
+* [[Medium] 129. Sum Root to Leaf Numbers](%5BMedium%5D%20129.%20Sum%20Root%20to%20Leaf%20Numbers.md)
+
 ### Recover Binary Search Tree
 ```python
 # Definition for a binary tree node.
@@ -5714,8 +5826,7 @@ class Solution:
         :rtype: int
         """
         # Find the intersection point of the two runners.
-        tortoise = nums[0]
-        hare = nums[0]
+        tortoise = hare = nums[0]
         while True:
             tortoise = nums[tortoise]
             hare = nums[nums[hare]]
@@ -5723,13 +5834,12 @@ class Solution:
                 break
 
         # Find the "entrance" to the cycle.
-        ptr1 = nums[0]
-        ptr2 = tortoise
-        while ptr1 != ptr2:
-            ptr1 = nums[ptr1]
-            ptr2 = nums[ptr2]
+        tortoise = nums[0]
+        while tortoise != hare:
+            tortoise = nums[tortoise]
+            hare = nums[hare]
 
-        return ptr1
+        return hare
 ```
 * [[Medium] [Solution] 287. Find the Duplicate Number](%5BMedium%5D%20%5BSolution%5D%20287.%20Find%20the%20Duplicate%20Number.md)
 

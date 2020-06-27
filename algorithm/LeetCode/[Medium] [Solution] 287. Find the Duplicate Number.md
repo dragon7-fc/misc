@@ -121,12 +121,21 @@ To see the algorithm in action, check out the animation below:
 ![287_1_24](img/287_1_24.png)
 ![287_1_25](img/287_1_25.png)
 
+![287_2_1](img/287_2_1.png)
+![287_2_2](img/287_2_2.png)
+![287_2_3](img/287_2_3.png)
+![287_2_4](img/287_2_4.png)
+![287_2_5](img/287_2_5.png)
+![287_2_6](img/287_2_6.png)
+![287_2_7](img/287_2_7.png)
+![287_2_8](img/287_2_8.png)
+![287_2_9](img/287_2_9.png)
+![287_2_10](img/287_2_10.png)
 ```python
 class Solution:
     def findDuplicate(self, nums):
         # Find the intersection point of the two runners.
-        tortoise = nums[0]
-        hare = nums[0]
+        tortoise = hare = nums[0]
         while True:
             tortoise = nums[tortoise]
             hare = nums[nums[hare]]
@@ -134,13 +143,12 @@ class Solution:
                 break
         
         # Find the "entrance" to the cycle.
-        ptr1 = nums[0]
-        ptr2 = tortoise
-        while ptr1 != ptr2:
-            ptr1 = nums[ptr1]
-            ptr2 = nums[ptr2]
+        tortoise = nums[0]
+        while tortoise != hare:
+            tortoise = nums[tortoise]
+            hare = nums[hare]
         
-        return ptr1
+        return hare
 ```
 
 **Complexity Analysis**
@@ -168,8 +176,7 @@ class Solution:
         :rtype: int
         """
         # Find the intersection point of the two runners.
-        tortoise = nums[0]
-        hare = nums[0]
+        tortoise = hare = nums[0]
         while True:
             tortoise = nums[tortoise]
             hare = nums[nums[hare]]
@@ -177,12 +184,42 @@ class Solution:
                 break
         
         # Find the "entrance" to the cycle.
-        ptr1 = nums[0]
-        ptr2 = tortoise
-        while ptr1 != ptr2:
-            ptr1 = nums[ptr1]
-            ptr2 = nums[ptr2]
+        tortoise = nums[0]
+        while tortoise != hare:
+            tortoise = nums[tortoise]
+            hare = nums[hare]
         
-        return ptr1
+        return hare
 ```
 
+**Solution 2: (Two Pointers)**
+```
+Runtime: 16 ms
+Memory Usage: 11.1 MB
+```
+```c++
+class Solution {
+public:
+    int findDuplicate(vector<int>& nums) {
+        // Find the intersection point of the two runners.
+        int tortoise = nums[0];
+        int hare = nums[0]; 
+        while (true) {
+            tortoise = nums[tortoise];
+            hare = nums[nums[hare]];
+            if (tortoise == hare) {
+                break;
+            }
+        }
+        
+        // Find the "entrance" to the cycle.
+        tortoise = nums[0];
+        while (tortoise != hare) {
+            tortoise = nums[tortoise];
+            hare = nums[hare];
+        }
+        
+        return hare;
+    }
+};
+```
