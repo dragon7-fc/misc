@@ -297,6 +297,7 @@ Happy Coding!!
 * [[Medium] [Solution] 287. Find the Duplicate Number](%5BMedium%5D%20%5BSolution%5D%20287.%20Find%20the%20Duplicate%20Number.md)
 * [[Medium] 129. Sum Root to Leaf Numbers](%5BMedium%5D%20129.%20Sum%20Root%20to%20Leaf%20Numbers.md)
 * [[Medium] 279. Perfect Squares](%5BMedium%5D%20279.%20Perfect%20Squares.md)
+* [[Medium] 332. Reconstruct Itinerary](%5BMedium%5D%20332.%20Reconstruct%20Itinerary.md)
 
 ## Array <a name="array"></a>
 ---
@@ -4557,6 +4558,41 @@ class Solution:
 ```
 * [[Medium] 207. Course Schedule](%5BMedium%5D%20207.%20Course%20Schedule.md)
 
+### Reconstruct Itinerary
+```python
+class Solution:
+    def findItinerary(self, tickets: List[List[str]]) -> List[str]:
+        graph = collections.defaultdict(list)
+
+        for departure, arrival in tickets:
+             graph[departure].append(arrival)
+
+        for airport in graph:
+            graph[airport].sort()
+
+        total = len(tickets) + 1
+
+        def dfs(ticket, way):
+            if len(way) == total:
+                return way
+
+            for i in range(len(graph[ticket])):
+                if graph[ticket][i] == None:
+                    continue
+
+                arrival = graph[ticket][i]
+                graph[ticket][i] = None
+
+                reconstruction = dfs(arrival, way + [arrival])
+                if reconstruction:
+                    return reconstruction
+
+                graph[ticket][i] = arrival
+
+        return dfs('JFK', ['JFK'])
+```
+* [[Medium] 332. Reconstruct Itinerary](%5BMedium%5D%20332.%20Reconstruct%20Itinerary.md)
+
 ### Connected Component
 ```python
 class Solution:
@@ -6075,6 +6111,24 @@ class Solution:
         )])
 ```
 * [[Medium] 1248. Count Number of Nice Subarrays](%5BMedium%5D%201248.%20Count%20Number%20of%20Nice%20Subarrays.md)
+
+### Number of Subsequences
+```python
+class Solution:
+    def numSubseq(self, nums: List[int], target: int) -> int:
+        nums.sort()
+        l, r = 0, len(nums) - 1
+        res = 0
+        mod = 10**9 + 7
+        while l <= r:
+            if nums[l] + nums[r] > target:
+                r -= 1
+            else:
+                res += pow(2, r - l, mod)
+                l += 1
+        return res % mod
+```
+* [[Medium] 1498. Number of Subsequences That Satisfy the Given Sum Condition](%5BMedium%5D%201498.%20Number%20of%20Subsequences%20That%20Satisfy%20the%20Given%20Sum%20Condition.md)
 
 **Template 1: (Linked list)**
 ```python
