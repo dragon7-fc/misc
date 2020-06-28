@@ -8659,6 +8659,21 @@ class Solution:
 ```
 * [[Medium] 1438. Longest Continuous Subarray With Absolute Diff Less Than or Equal to Limit](%5BMedium%5D%201438.%20Longest%20Continuous%20Subarray%20With%20Absolute%20Diff%20Less%20Than%20or%20Equal%20to%20Limit.md)
 
+### Longest Subarray of 1's
+```python
+class Solution:
+    def longestSubarray(self, nums: List[int]) -> int:
+        ans = sum = lo = 0
+        for hi, num in enumerate(nums):
+            sum += num
+            while lo < hi and sum < hi - lo:
+                sum -= nums[lo]
+                lo += 1
+            ans = max(ans, hi - lo)
+        return ans 
+```
+* [[Medium] 1493. Longest Subarray of 1's After Deleting One Element](%5BMedium%5D%201493.%20Longest%20Subarray%20of%201's%20After%20Deleting%20One%20Element.md)
+
 **Template 1:**
 ```python
 i = 0
