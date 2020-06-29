@@ -298,6 +298,7 @@ Happy Coding!!
 * [[Medium] 129. Sum Root to Leaf Numbers](%5BMedium%5D%20129.%20Sum%20Root%20to%20Leaf%20Numbers.md)
 * [[Medium] 279. Perfect Squares](%5BMedium%5D%20279.%20Perfect%20Squares.md)
 * [[Medium] 332. Reconstruct Itinerary](%5BMedium%5D%20332.%20Reconstruct%20Itinerary.md)
+* [[Medium] 62. Unique Paths](%5BMedium%5D%2062.%20Unique%20Paths.md)
 
 ## Array <a name="array"></a>
 ---
@@ -1132,6 +1133,31 @@ class Solution:
         return dp[0][0]
 ```
 * [[Medium] [Solution] 712. Minimum ASCII Delete Sum for Two Strings](%5BMedium%5D%20%5BSolution%5D%20712.%20Minimum%20ASCII%20Delete%20Sum%20for%20Two%20Strings.md)
+
+### Unique Paths
+```python
+class Solution:
+    def uniquePaths(self, m: int, n: int) -> int:
+        ans = [[0 for _ in range(m)] for _ in range(n)]
+        for i in range(m):
+            ans[0][i] = 1
+        for i in range(n):
+            ans[i][0] = 1
+
+        for i in range(1, n):
+            for j in range(1, m):
+                ans[i][j] = ans[i-1][j] + ans[i][j-1]
+
+        return ans[n-1][m-1]  
+
+import functools
+class Solution:
+    @functools.lru_cache(None)
+    def uniquePaths(self, m: int, n: int) -> int:
+        if m == 1 or n == 1: return 1
+        return self.uniquePaths(m - 1, n) + self.uniquePaths(m, n - 1)
+```
+* [[Medium] 62. Unique Paths](%5BMedium%5D%2062.%20Unique%20Paths.md)
 
 ### Perfect Squares
 ```python
