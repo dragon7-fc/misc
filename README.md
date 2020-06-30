@@ -616,7 +616,9 @@ A playground to note something.
     | stop vm  | `vboxmanage controlvm XXX poweroff`      |
     | list vm  | `VBoxManage list vms`                    |
     | list vm (running) | `VBoxManage list runningvms`    |
+* QEMU
 
+    - [QEMU Cheat Sheet](https://gist.github.com/bradfa/3721697)
 * Raspbian
 
     - configuration
@@ -852,6 +854,9 @@ A playground to note something.
         ```bash
         sudo docker run --name yocto --rm -it -v /path/to/workdir:/workdir -v /path/to/downloads:/downloads -v /path/to/sstate_cache:/sstate_cache --workdir=/workdir crops/poky
         ```
+* OpenBMC
+    
+    - [OpenBMC cheatsheet](https://github.com/openbmc/docs/blob/master/cheatsheet.md)
 
 ## Language
 

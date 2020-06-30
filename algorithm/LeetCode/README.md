@@ -299,6 +299,7 @@ Happy Coding!!
 * [[Medium] 279. Perfect Squares](%5BMedium%5D%20279.%20Perfect%20Squares.md)
 * [[Medium] 332. Reconstruct Itinerary](%5BMedium%5D%20332.%20Reconstruct%20Itinerary.md)
 * [[Medium] 62. Unique Paths](%5BMedium%5D%2062.%20Unique%20Paths.md)
+* [[Hard] 212. Word Search II](%5BHard%5D%20212.%20Word%20Search%20II.md)
 
 ## Array <a name="array"></a>
 ---
