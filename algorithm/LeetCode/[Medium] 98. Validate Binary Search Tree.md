@@ -56,3 +56,39 @@ class Solution:
             
         return dfs(root, float('-inf'), float('inf'))
 ```
+
+**Solution 2: (DFS)**
+```
+Runtime: 24 ms
+Memory Usage: 21.5 MB
+```
+```c++
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+class Solution {
+public:
+    bool dfs(TreeNode* node, long low, long high) {
+        if (!node)
+        {
+            return true;
+        }
+        if (node->val >= high || node->val <= low)
+        {
+            return false;
+        }
+        return dfs(node->left, low, node->val) && dfs(node->right, node->val, high);
+    }
+    bool isValidBST(TreeNode* root) {
+        return dfs(root, LLONG_MIN, LLONG_MAX);
+    }
+};
+```

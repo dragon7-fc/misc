@@ -45,7 +45,8 @@ Happy Coding!!
 1. [Concepts](#concept)
 1. [20204 30-Day LeetCoding Challenge](#202004)
 1. [202005 May LeetCoding Challenge](#202005)
-1. [202006 June LeetCoding Challenge](#202005)
+1. [202006 June LeetCoding Challenge](#202006)
+1. [202007 July LeetCoding Challenge](#202007)
 1. [Array](#array)
 1. [Dynamic Programming](#dp)
 1. [Math](#math)
@@ -300,6 +301,9 @@ Happy Coding!!
 * [[Medium] 332. Reconstruct Itinerary](%5BMedium%5D%20332.%20Reconstruct%20Itinerary.md)
 * [[Medium] 62. Unique Paths](%5BMedium%5D%2062.%20Unique%20Paths.md)
 * [[Hard] 212. Word Search II](%5BHard%5D%20212.%20Word%20Search%20II.md)
+
+## 202007 July LeetCoding Challenge <a name="202007"></a>
+* [[Easy] 441. Arranging Coins](%5BEasy%5D%20441.%20Arranging%20Coins.md)
 
 ## Array <a name="array"></a>
 ---
@@ -4909,6 +4913,24 @@ class Solution:
         return bisect.bisect_left(nums, target)
 ```
 * [[Easy] 35. Search Insert Position](%5BEasy%5D%2035.%20Search%20Insert%20Position.md)
+
+### Arranging Coins
+```python
+class Solution:
+    def arrangeCoins(self, n: int) -> int:
+        left, right = 0, n
+        while left <= right:
+            k = (right + left) // 2
+            curr = k * (k + 1) // 2
+            if curr == n:
+                return k
+            if n < curr:
+                right = k - 1
+            else:
+                left = k + 1
+        return right
+```
+* [[Easy] 441. Arranging Coins](%5BEasy%5D%20441.%20Arranging%20Coins.md)
 
 ### Random
 ```python

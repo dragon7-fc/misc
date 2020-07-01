@@ -44,3 +44,43 @@ class Solution:
             root.left = self.buildTree(inorder[:ind], postorder)
             return root
 ```
+
+**Solution 2: (DFS)**
+```
+Runtime: 56 ms
+Memory Usage: 220.9 MB
+```
+```c++
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+class Solution {
+public:
+    TreeNode* create(vector<int> inor, vector<int> post, int is, int ie, int ps, int pe){
+        if(ps>pe)
+            return NULL;
+        TreeNode* node=new TreeNode(post[pe]);
+        int k=0;
+        for (int i = is; i <= ie; i++){
+            if (inor[i] == post[pe]){
+                k = i;
+                break;
+            }
+        }
+        node->left=create(inor, post, is, k-1, ps, ps+k-is-1);
+        node->right=create(inor, post, k+1, ie, pe-ie+k, pe-1);
+        return node;
+    }
+    TreeNode* buildTree(vector<int>& inorder, vector<int>& postorder) {
+        return create(inorder, postorder, 0, inorder.size()-1, 0, postorder.size()-1);
+    }
+};
+```
