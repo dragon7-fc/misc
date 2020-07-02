@@ -303,7 +303,8 @@ Happy Coding!!
 * [[Hard] 212. Word Search II](%5BHard%5D%20212.%20Word%20Search%20II.md)
 
 ## 202007 July LeetCoding Challenge <a name="202007"></a>
-* [[Easy] 441. Arranging Coins](%5BEasy%5D%20441.%20Arranging%20Coins.md)
+* [[Easy] [Solution] 441. Arranging Coins](%5BEasy%5D%20%5BSolution%5D%20441.%20Arranging%20Coins.md)
+* [[Easy] 107. Binary Tree Level Order Traversal II](%5BEasy%5D%20107.%20Binary%20Tree%20Level%20Order%20Traversal%20II.md)
 
 ## Array <a name="array"></a>
 ---
@@ -3829,6 +3830,27 @@ class Solution:
 ```
 * [[Easy] [Solution] 993. Cousins in Binary Tree](%5BEasy%5D%20%5BSolution%5D%20993.%20Cousins%20in%20Binary%20Tree.md)
 
+### BFS
+```python
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+class Solution:
+    def levelOrderBottom(self, root: TreeNode) -> List[List[int]]:
+        if not root:
+            return []
+        ans = []
+        level = [root]
+        while level:
+            ans += [[node.val for node in level if node]]
+            level = [c for node in level if node for c in [node.left, node.right] if c]
+        return ans[::-1]
+```
+* [[Easy] 107. Binary Tree Level Order Traversal II](%5BEasy%5D%20107.%20Binary%20Tree%20Level%20Order%20Traversal%20II.md)
+
 ### DFS
 ```python
 # Definition for a binary tree node.
@@ -4930,7 +4952,7 @@ class Solution:
                 left = k + 1
         return right
 ```
-* [[Easy] 441. Arranging Coins](%5BEasy%5D%20441.%20Arranging%20Coins.md)
+* [[Easy] [Solution] 441. Arranging Coins](%5BEasy%5D%20%5BSolution%5D%20441.%20Arranging%20Coins.md)
 
 ### Random
 ```python

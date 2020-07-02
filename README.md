@@ -448,10 +448,7 @@ A playground to note something.
 
 * ssh
 
-    ```bash
-    sudo apt-get install openssh-server
-    ```
-
+    * [SSH Cheatsheet](https://cheatsheet.dennyzhang.com/cheatsheet-ssh-a4)
 * Samba
 
     ```bash
