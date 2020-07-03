@@ -45,3 +45,85 @@ Explanation: RBYYBBRRB -> RBYY[Y]BBRRB -> RBBBRRB -> RRRB -> B -> B[B] -> BB[B] 
 
 # Submissions
 ---
+**Solution 1: (DFS)**
+
+The idea is straghtforward, just traverse the whole board string and find the possible place to insert. For example, if we have string WWRRBB and in the hand we have WRB, then we can try to insert into 3 places which are after [W, R, B].
+
+```
+Runtime: 48 ms
+Memory Usage: 14 MB
+```
+```python
+class Solution:
+    def findMinStep(self, board: str, hand: str) -> int:
+        
+        def remove(hand: str, color: str, times: int):  ## remove ball in hand
+            if times == 0:
+                return hand
+            result = []
+            for i in range(0, len(hand)):
+                if hand[i] == color:
+                    if (times := times-1) == 0:
+                        result.extend(hand[i+1:])
+                        break
+                else:
+                    result.append(hand[i])
+            return "".join(result) if times == 0 else None
+
+        @functools.lru_cache(None)
+        def dfs(board: str, hand: str) -> int:  # remove ball in board
+            if len(board) == 0:
+                return 0
+            i, j, count = 0, 1, float("inf")
+            while True:
+                while j < len(board) and board[j] == board[i]:
+                    j += 1
+                times = max(0, 3-j+i)
+                if (result := remove(hand, board[i], times)) != None:
+                    if (r := dfs(board[:i] + board[j:], result)) != -1:
+                        count = min(count, r + times)
+                if j == len(board):
+                    break
+                i, j = j, j+1
+            return count if count != float("inf") else -1
+
+        return dfs(board, hand)
+```
+
+**Solution 2: (DFS)**
+```
+Runtime: 0 ms
+Memory Usage: 5.9 MB
+```
+```c++
+class Solution {
+public:
+    int findMinStep(string board, string hand) {
+        int ans = -1;
+        map<char,int>mp;
+        for(char ch: hand) {
+            mp[ch] += 1;
+        }
+        ans = dfs(board + "#", mp);
+        if(ans == 1e9) {
+            return -1;
+        }
+        return ans;
+    }
+    int dfs(string s, map<char,int>&mp) {
+        if(s == "#") return 0;
+        int res = 1e9;
+        for(int i = 0, j = 0; j < s.size(); j++) {
+            if(s[i] == s[j]) continue;
+            int need = 3 - min(3, j - i);
+            if(mp[s[i]] >= need) {
+                mp[s[i]] -= need;
+                res = min(res, need + dfs(s.substr(0, i) + s.substr(j), mp));
+                mp[s[i]] += need;
+            }
+            i = j;
+        }
+        return res;
+    }
+};
+```

@@ -305,6 +305,7 @@ Happy Coding!!
 ## 202007 July LeetCoding Challenge <a name="202007"></a>
 * [[Easy] [Solution] 441. Arranging Coins](%5BEasy%5D%20%5BSolution%5D%20441.%20Arranging%20Coins.md)
 * [[Easy] 107. Binary Tree Level Order Traversal II](%5BEasy%5D%20107.%20Binary%20Tree%20Level%20Order%20Traversal%20II.md)
+* [[Medium] [Solution] 957. Prison Cells After N Days](%5BEasy%5D%20107.%20Binary%20Tree%20Level%20Order%20Traversal%20II.md)
 
 ## Array <a name="array"></a>
 ---
@@ -4223,6 +4224,29 @@ class Solution:
         return ans
 ```
 * [[Medium] [Solution] 525. Contiguous Array](%5BMedium%5D%20%5BSolution%5D%20525.%20Contiguous%20Array.md)
+
+### Simulation, cache
+```python
+class Solution:
+    def prisonAfterNDays(self, cells: List[int], N: int) -> List[int]:
+        def nextday(cells):
+            return [int(i > 0 and i < 7 and cells[i-1] == cells[i+1])
+                    for i in range(8)]
+
+        seen = {}
+        while N > 0:
+            c = tuple(cells)
+            if c in seen:
+                N %= seen[c] - N
+            seen[c] = N
+
+            if N >= 1:
+                N -= 1
+                cells = nextday(cells)
+
+        return cells
+```
+* [[Medium] [Solution] 957. Prison Cells After N Days](%5BEasy%5D%20107.%20Binary%20Tree%20Level%20Order%20Traversal%20II.md)
 
 ### OrderedDict
 ```python

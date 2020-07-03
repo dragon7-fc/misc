@@ -52,7 +52,7 @@ We simulate each day of the prison.
 
 Because there are at most `256` possible states for the prison, eventually the states repeat into a cycle rather quickly. We can keep track of when the states repeat to find the period `t` of this cycle, and skip days in multiples of `t`.
 
-**Algorithm**
+**Algorithm: (Simulation)**
 
 Let's do a naive simulation, iterating one day at a time. For each day, we will decrement `N`, the number of days remaining, and transform the state of the prison forward `(state -> nextDay(state))`.
 
@@ -111,4 +111,28 @@ class Solution:
                 cells = nextday(cells)
 
         return cells
+```
+
+**Solution 2: (Simulation)**
+```
+Runtime: 8 ms
+Memory Usage: 12.4 MB
+```
+```c++
+class Solution {
+public:
+    vector<int> prisonAfterNDays(vector<int>& cells, int N) {
+        vector<int> tmp(8);
+        vector<vector<int>> seen;
+        while (N--) {
+            for (int i = 1; i < 7; i++) {
+                tmp[i] = cells[i - 1] == cells[i + 1];
+            }
+            if (seen.size() && seen.front() == tmp) return seen[N % seen.size()]; 
+            else seen.push_back(tmp);
+            cells = tmp;
+        }
+        return cells;
+    }
+};
 ```
