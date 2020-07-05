@@ -10433,6 +10433,14 @@ class Solution:
 ```
 * [[Medium] 1227. Airplane Seat Assignment Probability](%5BMedium%5D%201227.%20Airplane%20Seat%20Assignment%20Probability.md)
 
+### Last Moment
+```python
+class Solution:
+    def getLastMoment(self, n: int, left: List[int], right: List[int]) -> int:
+        return max(max(left or [0]), n - min(right or [n]), 0)
+```
+* [[Medium] 1503. Last Moment Before All Ants Fall Out of a Plank](%5BMedium%5D%201503.%20Last%20Moment%20Before%20All%20Ants%20Fall%20Out%20of%20a%20Plank.md)
+
 ## Geometry <a name="geometry"></a>
 ---
 ### Square by Square
