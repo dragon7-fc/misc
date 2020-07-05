@@ -200,6 +200,14 @@ Happy Coding!!
 
     * ex. datetime.strptime("21/11/06 16:30", "%d/%m/%y %H:%M") --> datetime.datetime(2006, 11, 21, 16, 30)
 
+### operator
+
+* `operator.add(a, b)`
+* `operator.sub(a, b)`
+* `operator.mul(a, b)`
+* `operator.truediv(a, b)`
+* `operator.xor(a, b)`
+
 ## Concepts <a name="concept"></a>
 ---
 * [Rolling hash, a constant time window search](https://medium.com/algorithm-and-datastructure/rolling-hash-a-constant-time-window-search-f8af6ee12d3f)
@@ -306,6 +314,8 @@ Happy Coding!!
 * [[Easy] [Solution] 441. Arranging Coins](%5BEasy%5D%20%5BSolution%5D%20441.%20Arranging%20Coins.md)
 * [[Easy] 107. Binary Tree Level Order Traversal II](%5BEasy%5D%20107.%20Binary%20Tree%20Level%20Order%20Traversal%20II.md)
 * [[Medium] [Solution] 957. Prison Cells After N Days](%5BEasy%5D%20107.%20Binary%20Tree%20Level%20Order%20Traversal%20II.md)
+* [[Medium] 264. Ugly Number II](%5BMedium%5D%20264.%20Ugly%20Number%20II.md)
+* [[Easy] 461. Hamming Distance](%5BEasy%5D%20461.%20Hamming%20Distance.md)
 
 ## Array <a name="array"></a>
 ---
@@ -2508,6 +2518,14 @@ class Solution:
 ```
 * [[Easy] 453. Minimum Moves to Equal Array Elements](%5BEasy%5D%20453.%20Minimum%20Moves%20to%20Equal%20Array%20Elements.md)
 
+### Hamming Distance
+```python
+class Solution:
+    def hammingDistance(self, x: int, y: int) -> int:
+        return bin(x^y).count("1")
+```
+* [[Easy] 461. Hamming Distance](%5BEasy%5D%20461.%20Hamming%20Distance.md)
+
 ### Perfect Number
 ```python
 class Solution:
@@ -2719,6 +2737,33 @@ class Solution:
             uglyNumbers.append(nextVal)
 
         return uglyNumbers[-1]
+
+class Solution:
+    def nthUglyNumber(self, n: int) -> int:
+        if n < 1: return 
+        k = [1] * n
+        p2 = p3 = p5 = 0
+        for i in range(1, n):
+            k[i] = min(k[p2] * 2, k[p3] * 3, k[p5] * 5)
+            #cannot use elif, becaude case '6' forward two pointer at the same time, '30' forward all pointer
+            if k[i] == k[p2] * 2: p2 += 1
+            if k[i] == k[p3] * 3: p3 += 1
+            if k[i] == k[p5] * 5: p5 += 1
+        return k[-1]
+
+class Solution:
+    def nthUglyNumber(self, n: int) -> int:
+        Set = {2,3,5}
+        q = [2,3,5]
+        heapq.heapify(q)
+        cur = 1
+        for i in range(2, n+1):
+            cur = heapq.heappop(q)
+            for x in [2*cur, 3*cur, 5*cur]:
+                if x not in Set:
+                    Set.add(x)
+                    heapq.heappush(q, x)
+        return cur
 ```
 * [[Medium] 264. Ugly Number II](%5BMedium%5D%20264.%20Ugly%20Number%20II.md)
 

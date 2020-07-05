@@ -86,3 +86,82 @@ class Solution:
                             B.pop()
         return False
 ```
+
+**Solution 2: (Backtracking)**
+```
+Runtime: 60 ms
+Memory Usage: 13.7 MB
+```
+```c++
+/*
+the idea is that
+1. it does not matter how the prethesis groups the operations
+2. the computation is alreasy between to operands
+example: input: [4,1,8,7]
+1. we could choose first 4 and 1 for any of the operations: *, /, +, -, to get a number say 5 from addition operation
+2. then we will do the next operation choosing oprands between 5 and other not used numbers in the input array
+3. we repeat this process until there is only one number left in the array and that number is 24 or not.
+
+the important thing is to not let the prethesis get in the way of computation
+example1: the process of evaluating expression (4+1/8)*7 is:
+1. first doing 1/8, and we get 0.125
+2. second doing 4+0.125 = 4.125
+3. thrid doing 4.125*7 = ~
+
+example2: the process of evaluating expression (8-4) * (7-1) is:
+1. first doing 8-4 = 4
+2. second doing 7-1 = 6
+3. third doing 4+6 = ~
+
+*/
+class Solution {
+public:
+    bool judgePoint24(vector<int>& nums) {
+        if(nums.empty()) {return false;}
+        int len = nums.size();
+        vector<double> cp;
+        for(int i = 0; i < len; i++){
+            cp.emplace_back(nums[i]);
+        }
+        return find(cp);
+    }
+    //T(n) = O(1), bc there are only 4 operands
+    bool find(vector<double> nums){
+        if(nums.size()==1 && abs(nums[0]-24) < 0.001){
+            return true;
+        }
+        if (nums.size() == 1 && !(abs(nums[0] - 24) < 0.001)) {
+            return false;
+        }        
+        int len = nums.size();
+        vector<double> tmp;
+        for(int i = 0; i < len; i++){
+            for(int j = i+1; j < len; j++){
+                //the two for loops above is to select all possible pairs in the array
+                
+                //the for loop below is to record all other eles in array not participating in the computation
+                //at this round/iteration
+                for(int k = 0; k < len; k++){
+                    if(k!=i && k!=j){
+                        tmp.emplace_back(nums[k]);
+                    }
+                }
+                //do the computation and try all possible combinations
+                for(auto it: compute(nums[i],nums[j])){
+                    tmp.emplace_back(it);
+                    if(find(tmp)){return true;}
+                    tmp.pop_back();//back track, important
+                }
+                //back track, important
+                tmp.clear();
+            }
+        }
+        return false;
+    }
+    //O(n) = O(1)
+    vector<double> compute(double& a, double& b){
+        vector<double> res = {a+b,a-b,b-a,a*b,a/b,b/a};
+        return res;
+    }
+};
+```
