@@ -77,3 +77,29 @@ class Solution:
     def plusOne(self, digits: List[int]) -> List[int]:
         return list(map(int, str(int(''.join(map(str, digits))) + 1)))
 ```
+
+**Solution 4: (Math)**
+```
+Runtime: 4 ms
+Memory Usage: 8.7 MB
+```
+```c++
+class Solution {
+public:
+    vector<int> plusOne(vector<int>& digits) {
+        int n = digits.size();
+        int carry = 0;
+        digits[n - 1] += 1;
+        for(int i = n - 1; i >= 0; i--){
+            int addOne = digits[i] + carry;
+            carry = addOne / 10;
+            digits[i] = addOne % 10;
+            if(carry == 0){
+                break;
+            }
+        }
+        if(carry) digits.insert(digits.begin(), 1);
+        return digits;
+    }
+};
+```

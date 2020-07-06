@@ -2148,6 +2148,80 @@ class Solution:
 ```
 * [[Hard] [Solution] * 902. Numbers At Most N Given Digit Set](%5BHard%5D%20%5BSolution%5D%20*%20902.%20Numbers%20At%20Most%20N%20Given%20Digit%20Set.md)
 
+### Backtracking DFS
+```python
+class Solution:
+    def uniquePathsIII(self, grid: List[List[int]]) -> int:
+        R, C = len(grid), len(grid[0])
+
+        def neighbors(r, c):
+            for nr, nc in ((r-1, c), (r, c-1), (r+1, c), (r, c+1)):
+                if 0 <= nr < R and 0 <= nc < C and grid[nr][nc] % 2 == 0:
+                    yield nr, nc
+
+        todo = 0
+        for r, row in enumerate(grid):
+            for c, val in enumerate(row):
+                if val != -1: todo += 1
+                if val == 1: sr, sc = r, c
+                if val == 2: tr, tc = r, c
+
+        self.ans = 0
+        def dfs(r, c, todo):
+            todo -= 1
+            if todo < 0: return
+            if r == tr and c == tc:
+                if todo == 0:
+                    self.ans += 1
+                return
+
+            grid[r][c] = -1
+            for nr, nc in neighbors(r, c):
+                dfs(nr, nc, todo)
+            grid[r][c] = 0
+
+        dfs(sr, sc, todo)
+        return self.ans
+    
+from functools import lru_cache
+class Solution:
+    def uniquePathsIII(self, grid: List[List[int]]) -> int:
+        R, C = len(grid), len(grid[0])
+
+        def code(r, c):
+            return 1 << (r * C + c)
+
+        def neighbors(r, c):
+            for nr, nc in ((r-1, c), (r, c-1), (r+1, c), (r, c+1)):
+                if 0 <= nr < R and 0 <= nc < C and grid[nr][nc] % 2 == 0:
+                    yield nr, nc
+
+        target = 0
+        for r, row in enumerate(grid):
+            for c, val in enumerate(row):
+                if val % 2 == 0:
+                    target |= code(r, c)
+
+                if val == 1:
+                    sr, sc = r, c
+                if val == 2:
+                    tr, tc = r, c
+
+        @lru_cache(None)
+        def dp(r, c, todo):
+            if r == tr and c == tc:
+                return +(todo == 0)
+
+            ans = 0
+            for nr, nc in neighbors(r, c):
+                if todo & code(nr, nc):
+                    ans += dp(nr, nc, todo ^ code(nr, nc))
+            return ans
+
+        return dp(sr, sc, target)
+```
+* [[Hard] [Solution] 980. Unique Paths III](%5BHard%5D%20%5BSolution%5D%20980.%20Unique%20Paths%20III.md)
+
 ### Digit DP
 ```python
 class Solution:
@@ -3347,6 +3421,14 @@ class Solution:
         return write
 ```
 * [[Easy] [Solution] 443. String Compression](%5BEasy%5D%20%5BSolution%5D%20443.%20String%20Compression.md)
+
+### Plus One
+```python
+class Solution:
+    def plusOne(self, digits: List[int]) -> List[int]:
+        return list(map(int, str(int(''.join(map(str, digits))) + 1)))
+```
+* [[Easy] 66. Plus One](%5BEasy%5D%2066.%20Plus%20One.md)
 
 ### Valid Palindrome
 ```python
