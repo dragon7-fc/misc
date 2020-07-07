@@ -26,7 +26,7 @@ Explanation: The perimeter is the 16 yellow stripes in the image below:
 
 # Submissions
 ---
-**Solution 1:**
+**Solution 1: (Brute Force)**
 ```
 Runtime: 276 ms
 Memory Usage: N/A
@@ -55,7 +55,7 @@ class Solution:
         return num
 ```
 
-**Solution 2:**
+**Solution 2: (Groupby)**
 ```
 Runtime: 476 ms
 Memory Usage: 12.9 MB
@@ -66,4 +66,35 @@ class Solution:
         h = sum(k for row in grid for k, _ in itertools.groupby(row))
         v = sum(k for col in zip(*grid) for k, _ in itertools.groupby(col))
         return 2*(h+v)
+```
+
+**Solution 3: (Brute Force)**
+```
+Runtime: 212 ms
+Memory Usage: 96 MB
+```
+```c++
+class Solution {
+public:
+    int islandPerimeter(vector<vector<int>>& grid) {
+        if(grid.empty())    return 0;
+        int m = grid.size(), n = grid[0].size(), peri = 0;
+        
+        auto borderLines = [&](int i, int j) -> int {
+            int cnt = 0;
+            if(i-1 < 0 || grid[i-1][j] == 0)    cnt++;
+            if(j+1 >= n || grid[i][j+1] == 0)   cnt++;
+            if(i+1 >= m || grid[i+1][j] == 0)   cnt++;
+            if(j-1 < 0 || grid[i][j-1] == 0)    cnt++;
+            return cnt;
+        };
+        
+        for(int i = 0; i < m; i++) {
+            for(int j = 0; j < n; j++) {
+                if(grid[i][j] == 1)    peri += borderLines(i, j);
+            }
+        }
+        return peri;
+    }
+};
 ```
