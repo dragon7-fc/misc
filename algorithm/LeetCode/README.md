@@ -316,6 +316,8 @@ Happy Coding!!
 * [[Medium] [Solution] 957. Prison Cells After N Days](%5BEasy%5D%20107.%20Binary%20Tree%20Level%20Order%20Traversal%20II.md)
 * [[Medium] 264. Ugly Number II](%5BMedium%5D%20264.%20Ugly%20Number%20II.md)
 * [[Easy] 461. Hamming Distance](%5BEasy%5D%20461.%20Hamming%20Distance.md)
+* [[Easy] 463. Island Perimeter](%5BEasy%5D%20463.%20Island%20Perimeter.md)
+* [[Medium] 15. 3Sum](%5BMedium%5D%2015.%203Sum.md)
 
 ## Array <a name="array"></a>
 ---
@@ -502,6 +504,16 @@ class Solution:
         return ans
 ```
 * [[Easy] [Solution] 985. Sum of Even Numbers After Queries](%5BEasy%5D%20%5BSolution%5D%20985.%20Sum%20of%20Even%20Numbers%20After%20Queries.md)
+
+### Groupby
+```python
+class Solution:
+    def islandPerimeter(self, grid: List[List[int]]) -> int:
+        h = sum(k for row in grid for k, _ in itertools.groupby(row))
+        v = sum(k for col in zip(*grid) for k, _ in itertools.groupby(col))
+        return 2*(h+v)
+```
+* [[Easy] 463. Island Perimeter](%5BEasy%5D%20463.%20Island%20Perimeter.md)
 
 ### Row XOR Column
 ```python
@@ -4374,6 +4386,50 @@ class Solution:
         return cells
 ```
 * [[Medium] [Solution] 957. Prison Cells After N Days](%5BEasy%5D%20107.%20Binary%20Tree%20Level%20Order%20Traversal%20II.md)
+
+### 3Sum
+```python
+class Solution:
+    def threeSum(self, nums: List[int]) -> List[List[int]]:
+        dic = collections.defaultdict(int)
+        soln = []
+
+        #creates a dictionary and counts the array
+        for x in nums:
+            dic[x] += 1
+
+        #gets a list of keys and the length
+        keys = list(dic.keys())
+        length_k = len(keys)
+
+        #for each key
+        for i in range(length_k):
+            x = keys[i]
+
+            # case: [x, x, -2*x]
+            #if the negative sum exists, add it to the solution
+            if dic[x]>1:
+                if -2*x in dic:
+                    soln.append([x, x,-2*x])
+
+            # case: [x, y, -(x+y)
+            for j in range(i+1,length_k):
+                y = keys[j]
+                #ensures we dont double count
+                if -(x+y) in dic and -(x+y) not in [x,y]:
+                    soln.append([x, y, -(x+y)])
+
+        #special case of 0
+        if 0 in dic:
+            if dic[0] == 2:
+                soln.remove([0,0,0])
+
+        #returns unique solution sets
+        soln=[list(x) for x in set(tuple(sorted(x)) for x in soln)]
+
+        return soln
+```
+* [[Medium] 15. 3Sum](%5BMedium%5D%2015.%203Sum.md)
 
 ### OrderedDict
 ```python

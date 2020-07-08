@@ -399,12 +399,13 @@ A playground to note something.
 
 * Gitlab
 
-    - Run the image
+    - Install
 
         ```bash
         sudo docker run --detach \
         --hostname gitlab.example.com \
-        --publish 443:443 --publish 80:80 --publish 22:22 \
+        --publish 443:443 --publish 80:80 \
+        -p 3000:22 -e "GITLAB_SHELL_SSH_PORT=3000" \
         --name gitlab \
         --restart always \
         --volume /srv/gitlab/config:/etc/gitlab \
@@ -412,7 +413,6 @@ A playground to note something.
         --volume /srv/gitlab/data:/var/opt/gitlab \
         gitlab/gitlab-ce:latest
         ```
-
     - Where is the data stored?
 
         | Local location       | Container location | Usage                                      |
@@ -420,13 +420,24 @@ A playground to note something.
         | `/srv/gitlab/data`   | `/var/opt/gitlab`  | For storing application data               |
         | `/srv/gitlab/logs`   | `/var/log/gitlab`  | For storing logs                           |
         | `/srv/gitlab/config` | `/etc/gitlab`      | For storing the GitLab configuration files |
-
+        
+    - Clone Repository
+        
+        `git clone ssh://git@[GITLAB_IP]:3000/OOO/XXX.git`
+        
+        __NOTE__: Copy SSH public key from Jenkins.
 * Jenkins
 
     - Install
-    ```bash
-     sudo docker run --name jenkins -d -u root --restart always -p 8080:8080 -v /path/to/jenkins/jenkins-data:/var/jenkins_home jenkinsci/blueocean
-    ```
+    
+        ```bash
+         sudo docker run --name jenkins \
+         -d -u root --restart always \
+         -p 8080:8080 \
+         -v /path/to/jenkins/jenkins-data:/var/jenkins_home \
+         -v /var/run/docker.sock:/var/run/docker.sock \
+         jenkinsci/blueocean
+        ```
 * RamDisk
 
     ```bash
