@@ -130,7 +130,36 @@ class Solution(object):
 
 # Submissions
 ---
-**Solution:**
+**Solution 1: (Breadth-First Search)**
+```
+Runtime: 44 ms
+Memory Usage: 14.7 MB
+```
+```python
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+
+class Solution:
+    def widthOfBinaryTree(self, root: TreeNode) -> int:
+        queue = [(root, 0, 0)]
+        cur_depth = left = ans = 0
+        for node, depth, pos in queue:
+            if node:
+                queue.append((node.left, depth+1, pos*2))
+                queue.append((node.right, depth+1, pos*2 + 1))
+                if cur_depth != depth:
+                    cur_depth = depth
+                    left = pos
+                ans = max(pos - left + 1, ans)
+
+        return ans
+```
+
+**Solution 2: (Depth-First Search)**
 ```
 Runtime: 20 ms
 Memory Usage: 14.9 MB
@@ -156,4 +185,80 @@ class Solution:
 
         dfs(root)
         return self.ans
+```
+
+**Solution 3: (Level order)**
+```
+Runtime: 60 ms
+Memory Usage: 14 MB
+```
+```python
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+
+class Solution:
+    def widthOfBinaryTree(self, root: TreeNode) -> int:
+        if not root:
+            return 0
+        ans = 1
+        level = [(root, 0)]
+        while level:
+            level = [[c, 2*node[1] + (1 if c == node[0].right else 0)] for node in level for c in [node[0].left, node[0].right] if c]
+            if level and len(level) >=2:
+                ans = max(ans, level[-1][1] - level[0][1] + 1)
+        
+        return ans
+```
+
+**Solution 4: (Level order)**
+```
+Runtime: 8 ms
+Memory Usage: 15.9 MB
+```
+```c++
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+class Solution {
+public:
+    int widthOfBinaryTree(TreeNode* root) {
+        int ans = 0;
+        
+        queue<pair<TreeNode*, unsigned long long>> q;
+        if (root)
+            q.push({root, 1});
+        
+        while (!q.empty()) {
+            int cnt = q.size();
+            unsigned long long left = q.front().second, right;
+            for (int i = 0; i < cnt; i++) {
+                TreeNode* n = q.front().first;
+                right = q.front().second;
+                q.pop();
+                if (n->left != nullptr) {
+                    q.push({n->left, 2*right});
+                }
+                if (n->right != nullptr) {
+                    q.push({n->right, 2*right+1});
+                }
+            }
+            //cout << right << " " << left << "\n";
+            ans = max(ans, (int)(right - left + 1));
+        }
+        
+        return ans;
+    }
+};
 ```

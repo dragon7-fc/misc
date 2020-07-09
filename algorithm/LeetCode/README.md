@@ -318,6 +318,7 @@ Happy Coding!!
 * [[Easy] 461. Hamming Distance](%5BEasy%5D%20461.%20Hamming%20Distance.md)
 * [[Easy] 463. Island Perimeter](%5BEasy%5D%20463.%20Island%20Perimeter.md)
 * [[Medium] 15. 3Sum](%5BMedium%5D%2015.%203Sum.md)
+* [[Medium] [Solution] 662. Maximum Width of Binary Tree](%5BMedium%5D%20%5BSolution%5D%20662.%20Maximum%20Width%20of%20Binary%20Tree.md)
 
 ## Array <a name="array"></a>
 ---
@@ -4711,6 +4712,31 @@ class Solution:
         return image
 ```
 * [[Easy] [Solution] 733. Flood Fill](%5BEasy%5D%20%5BSolution%5D%20733.%20Flood%20Fill.md)
+
+### Hash Table + Preorder
+```python
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+
+class Solution:
+    def widthOfBinaryTree(self, root: TreeNode) -> int:
+        self.ans = 0
+        left = {}
+        def dfs(node, depth = 0, pos = 0):
+            if node:
+                left.setdefault(depth, pos)
+                self.ans = max(self.ans, pos - left[depth] + 1)
+                dfs(node.left, depth + 1, pos * 2)
+                dfs(node.right, depth + 1, pos * 2 + 1)
+
+        dfs(root)
+        return self.ans
+```
+* [[Medium] [Solution] 662. Maximum Width of Binary Tree](%5BMedium%5D%20%5BSolution%5D%20662.%20Maximum%20Width%20of%20Binary%20Tree.md)
 
 ### Redundant Connection
 ```python
