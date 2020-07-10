@@ -319,6 +319,7 @@ Happy Coding!!
 * [[Easy] 463. Island Perimeter](%5BEasy%5D%20463.%20Island%20Perimeter.md)
 * [[Medium] 15. 3Sum](%5BMedium%5D%2015.%203Sum.md)
 * [[Medium] [Solution] 662. Maximum Width of Binary Tree](%5BMedium%5D%20%5BSolution%5D%20662.%20Maximum%20Width%20of%20Binary%20Tree.md)
+* [[Medium] 430. Flatten a Multilevel Doubly Linked List](%5BMedium%5D%20430.%20Flatten%20a%20Multilevel%20Doubly%20Linked%20List.md)
 
 ## Array <a name="array"></a>
 ---
@@ -7949,6 +7950,77 @@ class Solution:
         return dummy.next
 ```
 * [[Medium] 1171. Remove Zero Sum Consecutive Nodes from Linked List](%5BMedium%5D%201171.%20Remove%20Zero%20Sum%20Consecutive%20Nodes%20from%20Linked%20List.md)
+
+### Iterative, Recursive
+```python
+"""
+# Definition for a Node.
+class Node:
+    def __init__(self, val, prev, next, child):
+        self.val = val
+        self.prev = prev
+        self.next = next
+        self.child = child
+"""
+class Solution:
+    def flatten(self, head: 'Node') -> 'Node':
+        node = head
+        children = []  # stack
+        prev = None
+        while node:
+            node.prev = prev
+            if node.child:
+                if node.next:
+                    children.append(node.next)
+                node.next = node.child
+                node.child = None
+                prev = node
+                node = node.next
+            elif node.next:
+                prev = node
+                node = node.next
+            else:
+                if children:
+                    node.next = children.pop()
+                    prev = node
+                    node = node.next
+                else:
+                    prev = node    
+                    node=node.next
+        return head
+    
+"""
+# Definition for a Node.
+class Node:
+    def __init__(self, val, prev, next, child):
+        self.val = val
+        self.prev = prev
+        self.next = next
+        self.child = child
+"""
+class Solution:
+    def flatten(self, head: 'Node') -> 'Node':
+        p = head
+        while p != None and p.child == None:
+            p = p.next
+
+        if p == None:
+            return head
+        down = self.flatten(p.child)
+        right = self.flatten(p.next)
+        p.next = down
+        down.prev = p
+        p.child = None
+        while p.next != None:
+            p = p.next
+
+        p.next = right
+        if right != None:
+            right.prev = p
+
+        return head
+```
+* [[Medium] 430. Flatten a Multilevel Doubly Linked List](%5BMedium%5D%20430.%20Flatten%20a%20Multilevel%20Doubly%20Linked%20List.md)
 
 **Template 1:**
 ```python

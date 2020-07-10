@@ -153,5 +153,4 @@ class Solution:
             right.prev = p
         
         return head
-
 ```
