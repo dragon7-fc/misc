@@ -272,3 +272,28 @@ class Solution:
         
         return output
 ```
+
+**Solution 4: (Bit Manipulations)**
+```
+Runtime: 4 ms
+Memory Usage: 7.3 MB
+```
+```c++
+class Solution {
+public:
+    vector<vector<int>> subsets(vector<int>& nums) {
+        vector<vector<int>> op;
+        int n = nums.size();
+        for(int mask=0;mask<(1<<n);mask++){
+            vector<int> dum;
+            for(int i=0;i<n;i++){
+                if(mask&(1<<i)){
+                    dum.push_back(nums[i]);
+                }
+            }
+            op.push_back(dum);
+        }
+        return op;
+    }
+};
+```

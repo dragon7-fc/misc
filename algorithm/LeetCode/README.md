@@ -320,6 +320,7 @@ Happy Coding!!
 * [[Medium] 15. 3Sum](%5BMedium%5D%2015.%203Sum.md)
 * [[Medium] [Solution] 662. Maximum Width of Binary Tree](%5BMedium%5D%20%5BSolution%5D%20662.%20Maximum%20Width%20of%20Binary%20Tree.md)
 * [[Medium] 430. Flatten a Multilevel Doubly Linked List](%5BMedium%5D%20430.%20Flatten%20a%20Multilevel%20Doubly%20Linked%20List.md)
+* [[Medium] [Solution] 78. Subsets](%5BMedium%5D%20%5BSolution%5D%2078.%20Subsets.md)
 
 ## Array <a name="array"></a>
 ---

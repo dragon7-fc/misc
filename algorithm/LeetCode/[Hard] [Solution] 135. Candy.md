@@ -152,11 +152,11 @@ public class Solution {
 
 This approach relies on the observation(as demonstrated in the figure below as well) that in order to distribute the candies as per the given criteria using the minimum number of candies, the candies are always distributed in terms of increments of 1. Further, while distributing the candies, the local minimum number of candies given to a student is 1. Thus, the sub-distributions always take the form: $\text{1, 2, 3, ..., n}$ or $\text{n,..., 2, 1}$, whose sum is simply given by $n(n+1)/2$.
 
-Now, we can view the given rankingsrankings as some rising and falling slopes. Whenever the slope is rising, the distribution takes the form: $\text{1, 2, 3, ..., m}$. Similarly, a falling slope takes the form: $\text{k,..., 2, 1}$. An issue that arises now is that the local peak point can be included in only one of the slopes. Whether to include the local peak point($\text{n}$) in the rising slope or the falling slope?
+Now, we can view the given $rankings$ as some rising and falling slopes. Whenever the slope is rising, the distribution takes the form: $\text{1, 2, 3, ..., m}$. Similarly, a falling slope takes the form: $\text{k,..., 2, 1}$. An issue that arises now is that the local peak point can be included in only one of the slopes. Whether to include the local peak point($\text{n}$) in the rising slope or the falling slope?
 
 In order to decide it, we can observe that in order to satisfy both the right neighbour and the left neighbour criteria, the peak point's count needs to be the max. of the counts determined by the rising and the falling slopes. Thus, in order to determine the number of candies required, the peak point needs to be included in the slope which contains more number of points. The local valley point can also be included in only one of the slopes, but this issue can be resolved easily, since the local valley point will always be assigned a candy count of 1(which can be subtracted from the next slope's count calculations).
 
-Coming to the implementation, we maintain two variables old\_slopeold_slope and new\_slopenew_slope to determine the occurence of a peak or a valley. We also use upup and downdown variables to keep a track of the count of elements on the rising slope and on the falling slope respectively(without including the peak element). We always update the total count of candiescandies at the end of a falling slope following a rising slope (or a mountain). The leveling of the points in rankingsrankings also works as the end of a mountain. At the end of the mountain, we determine whether to include the peak point in the rising slope or in the falling slope by comparing the upup and downdown variables up to that point. Thus, the count assigned to the peak element becomes: $\text{max}(up, down) + 1$. At this point, we can reset the upup and downdown variables indicating the start of a new mountain.
+Coming to the implementation, we maintain two variables $old\_slope$ and $new\_slope$ to determine the occurence of a peak or a valley. We also use $up$ and $down$ variables to keep a track of the count of elements on the rising slope and on the falling slope respectively(without including the peak element). We always update the total count of $candies$ at the end of a falling slope following a rising slope (or a mountain). The leveling of the points in $rankings$ also works as the end of a mountain. At the end of the mountain, we determine whether to include the peak point in the rising slope or in the falling slope by comparing the $up$ and $down$ variables up to that point. Thus, the count assigned to the peak element becomes: $\text{max}(up, down) + 1$. At this point, we can reset the $up$ and $down$ variables indicating the start of a new mountain.
 
 The following figure shows the cases that need to be handled for this example:
 
@@ -164,7 +164,7 @@ rankings: [1 2 3 4 5 3 2 1 2 6 5 4 3 3 2 1 1 3 3 3 4 2]
 
 ![135_Candy_Constant_Space.png](img/135_Candy_Constant_Space.png)
 
-From this figure, we can see that the candy distributions in the subregions always take the form $\text{1, 2, ...n}$ or $\text{n, ..., 2, 1}$. For the first mountain comprised by the regions aa and bb, while assigning candies to the local peak point ($pt. 5$), it needs to be included in aa to satisfy the left neighbour criteria. The local valley point at the end of region bb ($pt. 8$) marks the end of the first mountain (region $c$). While performing the calculations, we can include this point in either the current or the following mountain. The $pt. 13$ marks the end of the second mountain due to levelling of the $pt. 13$ and $pt. 14$. Since, region $e$ has more points than region dd, the local peak ($pt. 10$) needs to be included in region ee to satisfy the right neighbour criteria. Now, the third mountain ff can be considered as a mountian with no rising slope ($up=0$) but only a falling slope. Similarly, $pt. 16, 18, 19$ also act as the mountain ends due to the levelling of the points.
+From this figure, we can see that the candy distributions in the subregions always take the form $\text{1, 2, ...n}$ or $\text{n, ..., 2, 1}$. For the first mountain comprised by the regions $a$ and $b$, while assigning candies to the local peak point ($pt. 5$), it needs to be included in $a$ to satisfy the left neighbour criteria. The local valley point at the end of region $b$ ($pt. 8$) marks the end of the first mountain (region $c$). While performing the calculations, we can include this point in either the current or the following mountain. The $pt. 13$ marks the end of the second mountain due to levelling of the $pt. 13$ and $pt. 14$. Since, region $e$ has more points than region $d$, the local peak ($pt. 10$) needs to be included in region $e$ to satisfy the right neighbour criteria. Now, the third mountain $f$ can be considered as a mountian with no rising slope ($up=0$) but only a falling slope. Similarly, $pt. 16, 18, 19$ also act as the mountain ends due to the levelling of the points.
 
 ```java
 public class Solution {
@@ -209,3 +209,66 @@ public class Solution {
 
 # Submissions
 ---
+**Solution 1: (2 Pass)**
+```
+Runtime: 244 ms
+Memory Usage: 16.6 MB
+```
+```python
+class Solution:
+    def candy(self, ratings: List[int]) -> int:
+        # Concept - Just do what the problem is saying, we can 
+        # fill our result array with one, now the first requirement
+        # is fulfilled and for 2nd requirement, there will be 2 cases
+        # 1 - Rating at i is greater than at i-1 --> Forward Pass
+        # 2 - Rating at i is greater than i + 1 --> Backward Pass
+        
+        
+        # Condition-1 Fulfilled as we gave 1 candy to everyone
+        candies = [1] * len(ratings)
+        
+        # Calculate the candies needed to fulfill left condition     
+        # We drop the 0th element as nothing is located left to it
+        for i in range(1, len(ratings)):
+            if ratings[i] > ratings[i-1]:
+                candies[i] = candies[i-1] + 1
+        
+        # Calculate the candies needed to fulfill right condition  
+        # We drop the last element as nothing is located right to it
+        for i in range(len(ratings)-2, -1, -1):
+            if ratings[i] > ratings[i+1]:
+                candies[i] = max(candies[i], candies[i+1] + 1)
+        
+        # Take the summation --> Minimum candies
+        return sum(candies)
+```
+
+**Solution 2: (1 Pass)**
+
+Set the candy at 1 at first.
+
+1. For path with upward ratings, just increment candy and add it to the answer.
+1. For path with downward ratings, initially assume 1 candy is enough. As lower ratings coming in, increase the previous candies on downward path by 1 and add a new candy for the new entry. One catcha is that once candies immediately after the peak hits the peak, one needs to add one candy to the peak as well.
+1. For path that is neither upward nor downward, just add 1 candy to answer (enough for upward path; to be adjusted for downward path; enough for constant path).
+
+```
+Runtime: 168 ms
+Memory Usage: 16.4 MB
+```
+```python
+class Solution:
+    def candy(self, ratings: List[int]) -> int:
+        ans = down = up = 0
+        for i in range(len(ratings)):
+            if not i or ratings[i-1] < ratings[i]:
+                if down: down, up = 0, 1
+                up += 1
+                ans += up
+            elif ratings[i-1] == ratings[i]: 
+                down, up = 0, 1
+                ans += 1
+            else:
+                down += 1
+                ans += down if down < up else down+1
+        return ans
+```
