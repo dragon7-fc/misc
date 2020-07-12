@@ -37,8 +37,25 @@ Memory Usage: N/A
 ```
 ```python
 class Solution:
-    # @param n, an integer
-    # @return an integer
     def reverseBits(self, n):
         return int('{:032b}'.format(n)[::-1], 2)
+```
+
+**Solution 2: (Bit Manipulations)**
+```
+Runtime: 8 ms
+Memory Usage: 6.2 MB
+```
+```c++
+class Solution {
+public:
+    uint32_t reverseBits(uint32_t n) {
+        uint32_t res = 0;
+        for (int i = 0; i < 31; i++) {
+            res = (n % 2) + res << 1;
+            n >>= 1;
+        }
+        return res + n % 2;
+    }
+};
 ```

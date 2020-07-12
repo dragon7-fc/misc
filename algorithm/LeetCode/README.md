@@ -321,6 +321,7 @@ Happy Coding!!
 * [[Medium] [Solution] 662. Maximum Width of Binary Tree](%5BMedium%5D%20%5BSolution%5D%20662.%20Maximum%20Width%20of%20Binary%20Tree.md)
 * [[Medium] 430. Flatten a Multilevel Doubly Linked List](%5BMedium%5D%20430.%20Flatten%20a%20Multilevel%20Doubly%20Linked%20List.md)
 * [[Medium] [Solution] 78. Subsets](%5BMedium%5D%20%5BSolution%5D%2078.%20Subsets.md)
+* [[Easy] 190. Reverse Bits](%5BEasy%5D%20190.%20Reverse%20Bits.md)
 
 ## Array <a name="array"></a>
 ---
@@ -3444,6 +3445,14 @@ class Solution:
         return list(map(int, str(int(''.join(map(str, digits))) + 1)))
 ```
 * [[Easy] 66. Plus One](%5BEasy%5D%2066.%20Plus%20One.md)
+
+### Reverse Bits
+```python
+class Solution:
+    def reverseBits(self, n):
+        return int('{:032b}'.format(n)[::-1], 2)
+```
+* [[Easy] 190. Reverse Bits](%5BEasy%5D%20190.%20Reverse%20Bits.md)
 
 ### Valid Palindrome
 ```python
