@@ -322,6 +322,7 @@ Happy Coding!!
 * [[Medium] 430. Flatten a Multilevel Doubly Linked List](%5BMedium%5D%20430.%20Flatten%20a%20Multilevel%20Doubly%20Linked%20List.md)
 * [[Medium] [Solution] 78. Subsets](%5BMedium%5D%20%5BSolution%5D%2078.%20Subsets.md)
 * [[Easy] 190. Reverse Bits](%5BEasy%5D%20190.%20Reverse%20Bits.md)
+* [[Easy] [Solution] 100. Same Tree](%5BEasy%5D%20%5BSolution%5D%20100.%20Same%20Tree.md)
 
 ## Array <a name="array"></a>
 ---
@@ -3135,7 +3136,7 @@ class Solution(object):
 ```
 * [[Medium] [Solution] 885. Spiral Matrix III](%5BMedium%5D%20%5BSolution%5D%20885.%20Spiral%20Matrix%20III.md)
 
-### 
+### Clumsy Factorial
 ```python
 class Solution:
     def clumsy(self, N: int) -> int:
@@ -3349,6 +3350,34 @@ class Solution:
         return [j1, j2+1]
 ```
 * [[Hard] [Solution] 927. Three Equal Parts](%5BHard%5D%20%5BSolution%5D%20927.%20Three%20Equal%20Parts.md)
+
+### Gradient Descent
+```python
+class Solution:
+    def getMinDistSum(self, positions: List[List[int]]) -> float:
+        #euclidean distance 
+        fn = lambda x, y: sum(sqrt((x-xx)**2 + (y-yy)**2) for xx, yy in positions)
+        #centroid as starting point
+        x = sum(x for x, _ in positions)/len(positions)
+        y = sum(y for _, y in positions)/len(positions)
+
+        ans = fn(x, y)
+        chg = 100 #change since 0 <= positions[i][0], positions[i][1] <= 100
+        while chg > 1e-6: #accuracy within 1e-5
+            zoom = True
+            for dx, dy in (-1, 0), (0, -1), (0, 1), (1, 0):
+                xx = x + chg * dx
+                yy = y + chg * dy
+                dd = fn(xx, yy)
+                if dd < ans: 
+                    ans = dd 
+                    x, y = xx, yy
+                    zoom = False 
+                    break 
+            if zoom: chg /= 2
+        return ans 
+```
+* [[Hard] 1515. Best Position for a Service Centre](%5BHard%5D%201515.%20Best%20Position%20for%20a%20Service%20Centre.md)
 
 ## String <a name="string"></a>
 ---
@@ -4704,6 +4733,30 @@ class Solution:
 
 ## Depth-first Search <a name="dfs"></a>
 ---
+### DFS
+```python
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+
+class Solution:
+    def isSameTree(self, p: TreeNode, q: TreeNode) -> bool:
+        # p and q are both None
+        if not p and not q:
+            return True
+        # one of p and q is None
+        if not q or not p:
+            return False
+        if p.val != q.val:
+            return False
+        return self.isSameTree(p.right, q.right) and \
+               self.isSameTree(p.left, q.left)
+```
+* [[Easy] [Solution] 100. Same Tree](%5BEasy%5D%20%5BSolution%5D%20100.%20Same%20Tree.md)
+
 ### Flood Fill
 ```python
 class Solution:

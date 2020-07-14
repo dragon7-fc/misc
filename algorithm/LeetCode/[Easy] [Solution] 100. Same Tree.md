@@ -132,7 +132,7 @@ class Solution:
 
 # Submissions
 ---
-**Solution:**
+**Solution: (Recursion)**
 ```
 Runtime: 28 ms
 Memory Usage: 12.8 MB
