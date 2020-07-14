@@ -71,3 +71,20 @@ class Solution:
         
         return (angle)
 ```
+
+**Solution 2: (Math)**
+```
+Runtime: 0 ms
+Memory Usage: 5.9 MB
+```
+```c++
+class Solution {
+public:
+    double angleClock(int hour, int minutes) {
+        double min_angle = ((double)minutes/(double)60)*360; //finding angle of minute hand
+        double hour_angle = (double)((hour - 0)%12)*30 + ((double)1/(double)12)*min_angle; // finding angle of hour hand
+        double answer = abs(min_angle - hour_angle); // finding the difference
+        return min(answer, 360.0 - answer); // returning the min difference
+    }
+};
+```

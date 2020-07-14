@@ -323,6 +323,7 @@ Happy Coding!!
 * [[Medium] [Solution] 78. Subsets](%5BMedium%5D%20%5BSolution%5D%2078.%20Subsets.md)
 * [[Easy] 190. Reverse Bits](%5BEasy%5D%20190.%20Reverse%20Bits.md)
 * [[Easy] [Solution] 100. Same Tree](%5BEasy%5D%20%5BSolution%5D%20100.%20Same%20Tree.md)
+* [[Medium] 1344. Angle Between Hands of a Clock](%5BMedium%5D%201344.%20Angle%20Between%20Hands%20of%20a%20Clock.md)
 
 ## Array <a name="array"></a>
 ---
@@ -3171,6 +3172,27 @@ class Solution:
         return len({s[i:i + k] for i in range(len(s) - k + 1)}) == 2 ** k
 ```
 * [[Medium] 1461. Check If a String Contains All Binary Codes of Size K](%5BMedium%5D%201461.%20Check%20If%20a%20String%20Contains%20All%20Binary%20Codes%20of%20Size%20K.md)
+
+### Clock Angle
+```python
+class Solution:
+    def angleClock(self, hour: int, minutes: int) -> float:
+        # Degree covered by hour hand (hour area + minutes area)
+        h = (hour%12 * 30) + (minutes/60 * 30)
+
+        # Degree covered by minute hand (Each minute = 6 degree)
+        m = minutes * 6
+
+        # Absolute angle between them
+        angle = abs(m - h)
+
+        # If the angle is obtuse (>180), convert it to acute (0<=x<=180)
+        if angle > 180:
+            angle = 360.0 - angle
+
+        return (angle)
+```
+* [[Medium] 1344. Angle Between Hands of a Clock](%5BMedium%5D%201344.%20Angle%20Between%20Hands%20of%20a%20Clock.md)
 
 ### Moving Average
 ```python
@@ -8452,6 +8474,38 @@ class Solution:
         return heapq.heappop(pq)
 ```
 * [[Hard] 1199. Minimum Time to Build Blocks](%5BHard%5D%201199.%20Minimum%20Time%20to%20Build%20Blocks.md)
+
+### A*
+```python
+class Solution:
+    def cutOffTree(self, forest: List[List[int]]) -> int:
+        R, C = len(forest), len(forest[0])
+        trees = sorted((v, r, c) for r, row in enumerate(forest)
+                       for c, v in enumerate(row) if v > 1)
+        sr = sc = ans = 0
+
+        def astar(sr, sc, tr, tc):
+            heap = [(0, 0, sr, sc)]
+            cost = {(sr, sc): 0}
+            while heap:
+                f, g, r, c = heapq.heappop(heap)
+                if r == tr and c == tc: return g
+                for nr, nc in ((r-1,c), (r+1,c), (r,c-1), (r,c+1)):
+                    if 0 <= nr < R and 0 <= nc < C and forest[nr][nc]:
+                        ncost = g + 1 + abs(nr - tr) + abs(nc - tc)
+                        if ncost < cost.get((nr, nc), 9999):
+                            cost[nr, nc] = ncost
+                            heapq.heappush(heap, (ncost, g+1, nr, nc))
+            return -1
+
+        for _, tr, tc in trees:
+            d = astar(sr, sc, tr, tc)
+            if d < 0: return -1
+            ans += d
+            sr, sc = tr, tc
+        return ans
+```
+* [[Hard] [Solution] 675. Cut Off Trees for Golf Event](%5BHard%5D%20%5BSolution%5D%20675.%20Cut%20Off%20Trees%20for%20Golf%20Event.md)
 
 **Template 1:**
 ```python
