@@ -324,6 +324,7 @@ Happy Coding!!
 * [[Easy] 190. Reverse Bits](%5BEasy%5D%20190.%20Reverse%20Bits.md)
 * [[Easy] [Solution] 100. Same Tree](%5BEasy%5D%20%5BSolution%5D%20100.%20Same%20Tree.md)
 * [[Medium] 1344. Angle Between Hands of a Clock](%5BMedium%5D%201344.%20Angle%20Between%20Hands%20of%20a%20Clock.md)
+* [[Medium] 151. Reverse Words in a String](%5BMedium%5D%20151.%20Reverse%20Words%20in%20a%20String.md)
 
 ## Array <a name="array"></a>
 ---
@@ -3703,6 +3704,14 @@ class Solution:
         return stack.pop()
 ```
 * [[Medium] [Solution] 856. Score of Parentheses](%5BMedium%5D%20%5BSolution%5D%20856.%20Score%20of%20Parentheses.md)
+
+### Reverse Words
+```python
+class Solution:
+    def reverseWords(self, s: str) -> str:
+        return " ".join(s.split()[::-1])  #first split then reverse and then join to form new string
+```
+* [[Medium] 151. Reverse Words in a String](%5BMedium%5D%20151.%20Reverse%20Words%20in%20a%20String.md)
 
 ### Stack
 ```python

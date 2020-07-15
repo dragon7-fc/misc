@@ -47,3 +47,21 @@ class Solution:
     def reverseWords(self, s: str) -> str:
         return " ".join(s.split()[::-1])  #first split then reverse and then join to form new string
 ```
+
+**Solution 2: (String)**
+```
+Runtime: 32 ms
+Memory Usage: 65.1 MB
+```
+```c++
+class Solution {
+public:
+    string reverseWords(string s) {
+        stringstream all(s); 
+        string word,ans = "";
+        while (all >> word)
+            ans = word + " " + ans;
+        return ans.substr(0,ans.length()-1);
+    }
+};
+```
