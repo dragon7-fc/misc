@@ -325,6 +325,7 @@ Happy Coding!!
 * [[Easy] [Solution] 100. Same Tree](%5BEasy%5D%20%5BSolution%5D%20100.%20Same%20Tree.md)
 * [[Medium] 1344. Angle Between Hands of a Clock](%5BMedium%5D%201344.%20Angle%20Between%20Hands%20of%20a%20Clock.md)
 * [[Medium] 151. Reverse Words in a String](%5BMedium%5D%20151.%20Reverse%20Words%20in%20a%20String.md)
+* [[Medium] 50. Pow(x, n)](%5BMedium%5D%2050.%20Pow(x,%20n).md)
 
 ## Array <a name="array"></a>
 ---
@@ -2859,6 +2860,47 @@ class Solution:
         return cur
 ```
 * [[Medium] 264. Ugly Number II](%5BMedium%5D%20264.%20Ugly%20Number%20II.md)
+
+### Pow(x, n)
+```python
+class Solution:
+    def myPow(self, x: float, n: int) -> float:
+        if n == 0:
+            return 1.0
+        if n < 0:
+            x = 1/x
+            n = -n
+        
+        ans = 1
+        while n > 0:
+            if n % 2 == 1: # current exponent is odd
+                ans = ans * x
+                x = x * x
+                n = (n-1) / 2
+            else: # current exponent is even
+                x = x * x
+                n = n / 2
+
+        return ans
+
+class Solution:
+    def myPow(self, x: float, n: int) -> float:
+        if n == 0:
+            return 1.0
+        
+        if n < 0:
+            x = 1/x
+            n = -n
+
+        ans = 1
+        if n %2 == 1:
+            ans = x * self.myPow(x*x, (n-1)/2)
+        else:
+            ans = self.myPow(x*x, n/2)
+
+        return ans
+```
+* [[Medium] 50. Pow(x, n)](%5BMedium%5D%2050.%20Pow(x,%20n).md)
 
 ### GCD
 ```python

@@ -78,3 +78,23 @@ class Solution:
 
         return ans
 ```
+
+**Solution 3: (Math, DFS)**
+```
+Runtime: 0 ms
+Memory Usage: 5.9 MB
+```
+```c++
+class Solution {
+public:
+    double myPow(double x, int n) {
+        if (n == 0)
+             return 1;
+        double t = myPow(x, n/2);
+        if (n%2)
+            return n < 0 ? 1/x*t*t: x*t*t; 
+        else
+            return t*t;
+    }
+};
+```

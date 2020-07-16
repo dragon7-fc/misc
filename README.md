@@ -1061,6 +1061,7 @@ Objects such as lists and dictionaries are passed by object reference too, which
 
     - [The GNU C Reference Manual - GNU.org](https://www.gnu.org/software/gnu-c-manual/gnu-c-manual.html)
     - [Cprogramming.com: Learn C and C++ Programming](https://www.cprogramming.com/)
+    - [C++ reference](https://en.cppreference.com/w/)
     - [cplusplus.com - The C++ Resources Network](http://www.cplusplus.com/)
     - [C Reference Cheat Sheet by Ashlyn Black](https://www.cheatography.com/ashlyn-black/cheat-sheets/c-reference/)
     - [Modern C++ Coding Guidelines](https://github.com/Microsoft/AirSim/blob/master/docs/coding_guidelines.md)
