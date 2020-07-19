@@ -328,6 +328,7 @@ Happy Coding!!
 * [[Medium] 50. Pow(x, n)](%5BMedium%5D%2050.%20Pow(x,%20n).md)
 * [[Medium] [Solution] 347. Top K Frequent Elements](%5BMedium%5D%20%5BSolution%5D%20347.%20Top%20K%20Frequent%20Elements.md)
 * [[Medium] [Solution] 210. Course Schedule II](%5BMedium%5D%20%5BSolution%5D%20210.%20Course%20Schedule%20II.md)
+* [[Easy] 67. Add Binary](%5BEasy%5D%2067.%20Add%20Binary.md)
 
 ## Array <a name="array"></a>
 ---
@@ -3542,6 +3543,16 @@ class Solution:
 ```
 * [[Easy] 66. Plus One](%5BEasy%5D%2066.%20Plus%20One.md)
 
+### Add Binary
+```python
+class Solution:
+    def addBinary(self, a: str, b: str) -> str:
+        num_a = int(a, 2)
+        num_b = int(b, 2)
+        return bin(num_a+num_b)[2:]
+```
+* [[Easy] 67. Add Binary](%5BEasy%5D%2067.%20Add%20Binary.md)
+
 ### Reverse Bits
 ```python
 class Solution:
@@ -5237,6 +5248,28 @@ class Solution:
 ```
 * [[Medium] 1466. Reorder Routes to Make All Paths Lead to the City Zero](%5BMedium%5D%201466.%20Reorder%20Routes%20to%20Make%20All%20Paths%20Lead%20to%20the%20City%20Zero.md)
 
+### Counter, Post-order
+```python
+class Solution:
+    def countSubTrees(self, n: int, edges: List[List[int]], labels: str) -> List[int]:
+        def dfs(node: int, parent: int):
+            cnt = Counter()
+            cnt[labels[node]] += 1 
+            for child in g.get(node, []):
+                if child != parent:
+                    cnt += dfs(child, node)
+            ans[node] = cnt[labels[node]]
+            return cnt
+
+        g, ans = defaultdict(list), [0] * n
+        for a, b in edges:
+            g[a] += [b]
+            g[b] += [a]
+        dfs(0, -1)
+        return ans
+````
+* [[Medium] 1519. Number of Nodes in the Sub-Tree With the Same Label](%5BMedium%5D%201519.%20Number%20of%20Nodes%20in%20the%20Sub-Tree%20With%20the%20Same%20Label.md)
+
 **Template 1: (Postorder)**
 ```python
 ans = ...
@@ -5975,7 +6008,7 @@ class Solution:
 ```
 * [[Hard] [Solution] 968. Binary Tree Cameras](%5BHard%5D%20%5BSolution%5D%20968.%20Binary%20Tree%20Cameras.md)
 
-## Prefix Sum
+### Prefix Sum
 ```python
 class Solution:
     def maxSatisfaction(self, satisfaction: List[int]) -> int:
@@ -6007,6 +6040,38 @@ class Solution:
         return -1 if ans == math.inf else ans
 ```
 * [[Medium] 1477. Find Two Non-overlapping Sub-arrays Each With Target Sum](%5BMedium%5D%201477.%20Find%20Two%20Non-overlapping%20Sub-arrays%20Each%20With%20Target%20Sum.md)
+
+### Substring Range Overlay
+```python
+class Solution:
+    def maxNumOfSubstrings(self, s: str) -> List[str]:
+        tmp = {c: [s.index(c), s.rindex(c)+1] for c in set(s)}
+        # find all the correct boundries
+        pairs = []
+        for c in set(s):
+            l = tmpl = s.index(c)
+            r = tmpr = s.rindex(c) + 1
+            while True:
+                t = set(s[tmpl:tmpr])
+                for k in t:
+                    tmpl = min(tmpl, tmp[k][0])
+                    tmpr = max(tmpr, tmp[k][1])
+                if (tmpl, tmpr) == (l, r):
+                    break
+                l, r = tmpl, tmpr
+            pairs.append([l, r])
+
+        # greedy find the optimal solution
+        # similar to find the maximum number of meetings
+        pairs.sort(key=lambda x: x[1])
+        res, last = [], 0
+        for b, e in pairs:
+            if b >= last:
+                res.append(s[b:e])
+                last = e
+        return res
+```
+* [[Medium] 1520. Maximum Number of Non-Overlapping Substrings](%5BMedium%5D%201520.%20Maximum%20Number%20of%20Non-Overlapping%20Substrings.md)
 
 **Template 1:**
 ```python

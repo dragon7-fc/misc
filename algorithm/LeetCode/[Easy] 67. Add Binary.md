@@ -30,3 +30,27 @@ class Solution:
         num_b = int(b, 2)
         return bin(num_a+num_b)[2:]
 ```
+
+**Solution 2: (Math)**
+```
+Runtime: 8 ms
+Memory Usage: 7.1 MB
+```
+```c++
+class Solution {
+public:
+    string addBinary(string a, string b) {
+        int p = a.length()-1, q = b.length()-1;
+        string ans ="";
+        int carry = 0;
+        while(p >= 0 || q >= 0 || carry == 1) {
+            int m = p>=0 ? (a[p--]-'0') : 0;
+            int n = q>=0 ? (b[q--]-'0') : 0;
+            int sum  = (m^n^carry);
+            carry = m + n + carry >= 2;
+            ans = to_string(sum) + ans;
+        }
+        return ans;
+    }
+};
+```
