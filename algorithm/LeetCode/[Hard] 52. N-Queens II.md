@@ -26,3 +26,81 @@ Explanation: There are two distinct solutions to the 4-queens puzzle as shown be
 
 # Submissions
 ---
+**Solution 1: (Backtracking)**
+```
+Runtime: 104 ms
+Memory Usage: 13.9 MB
+```
+```python
+class Solution:
+    def totalNQueens(self, n: int) -> int:
+        queens = []
+        grid = [['.' for i1 in range(n)] for i2 in range(n)]
+        solution = []
+        ans = 0
+        
+        def isValid(location):
+            row, col = location
+            for queen in queens:
+                x, y = queen
+                if abs(row - x) == abs(col - y):
+                    return False
+                if row == x or col == y:
+                    return False
+            return True
+
+        def solve(col):
+            nonlocal ans
+            if col >= n:
+                return 1
+            rst = 0
+            for r in range(n):
+                if isValid((r, col)):
+                    grid[r][col] = 'Q'
+                    queens.append((r, col))
+                    rst += solve(col + 1)
+                    grid[r][col] = '.'
+                    queens.remove((r, col))
+            return rst
+        
+        return solve(0)
+```
+
+**Solution 2: (Backtracking)**
+```
+Runtime: 4 ms
+Memory Usage: 6.1 MB
+```
+```c++
+class Solution {
+public:
+    int backtrack(vector<string>& board, int row){
+        if(row == board.size()) return 1;
+        int getSolution(0);
+        for(int col=0; col!=board.size();++col){
+            if(is_not_under_attack(board, row, col)){
+                board[row][col] = 'Q'; // place Q
+                getSolution += backtrack(board, row+1);
+                board[row][col] = '.'; // remove Q
+            }
+        }
+        return getSolution;
+    }
+    
+    bool is_not_under_attack(vector<string>& board,int row,int col){
+        for(int i=0;i!=row;i++)
+            if(board[i][col] == 'Q') return false;
+        for(int i=row-1, j=col-1; i>=0 && j>=0; i--,j--)
+            if(board[i][j] == 'Q') return false;
+        for(int i=row-1,j=col+1;i>=0 and j < board.size();--i,++j)
+            if(board[i][j] == 'Q') return false;
+        
+        return true;
+    }
+    
+    int totalNQueens(int n) {
+        vector<string> board(n, string(n,'.'));
+        return backtrack(board, 0);
+    }
+};
+```

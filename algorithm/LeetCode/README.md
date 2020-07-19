@@ -327,6 +327,7 @@ Happy Coding!!
 * [[Medium] 151. Reverse Words in a String](%5BMedium%5D%20151.%20Reverse%20Words%20in%20a%20String.md)
 * [[Medium] 50. Pow(x, n)](%5BMedium%5D%2050.%20Pow(x,%20n).md)
 * [[Medium] [Solution] 347. Top K Frequent Elements](%5BMedium%5D%20%5BSolution%5D%20347.%20Top%20K%20Frequent%20Elements.md)
+* [[Medium] [Solution] 210. Course Schedule II](%5BMedium%5D%20%5BSolution%5D%20210.%20Course%20Schedule%20II.md)
 
 ## Array <a name="array"></a>
 ---
@@ -6255,8 +6256,57 @@ class Solution:
 ```
 * [[Medium] * 1129. Shortest Path with Alternating Colors](%5BMedium%5D%20*%201129.%20Shortest%20Path%20with%20Alternating%20Colors.md)
 
-### In-degree
+### Topological Sort
 ```python
+class Solution:
+
+    WHITE = 1
+    GRAY = 2
+    BLACK = 3
+
+    def findOrder(self, numCourses: int, prerequisites: List[List[int]]) -> List[int]:
+        # Create the adjacency list representation of the graph
+        adj_list = defaultdict(list)
+
+        # A pair [a, b] in the input represents edge from b --> a
+        for dest, src in prerequisites:
+            adj_list[src].append(dest)
+
+        topological_sorted_order = []
+        is_possible = True
+
+        # By default all vertces are WHITE
+        color = {k: Solution.WHITE for k in range(numCourses)}
+        def dfs(node):
+            nonlocal is_possible
+
+            # Don't recurse further if we found a cycle already
+            if not is_possible:
+                return
+
+            # Start the recursion
+            color[node] = Solution.GRAY
+
+            # Traverse on neighboring vertices
+            if node in adj_list:
+                for neighbor in adj_list[node]:
+                    if color[neighbor] == Solution.WHITE:
+                        dfs(neighbor)
+                    elif color[neighbor] == Solution.GRAY:
+                         # An edge to a GRAY vertex represents a cycle
+                        is_possible = False
+
+            # Recursion ends. We mark it as black
+            color[node] = Solution.BLACK
+            topological_sorted_order.append(node)
+
+        for vertex in range(numCourses):
+            # If the node is unprocessed, then call dfs on it.
+            if color[vertex] == Solution.WHITE:
+                dfs(vertex)
+
+        return topological_sorted_order[::-1] if is_possible else [] 
+
 class Solution:
     def findOrder(self, numCourses: int, prerequisites: List[List[int]]) -> List[int]:
         graph = collections.defaultdict(list)
@@ -6269,16 +6319,51 @@ class Solution:
 
         q = collections.deque([i for i in range(numCourses) if indegree[i] == 0])
         while q:
-            course = q.popleft()
-            ans.append(course)
-            for pre in graph[course]:
-                indegree[pre] -= 1
-                if indegree[pre] == 0:
-                    q.append(pre)
+            pre = q.popleft()
+            ans.append(pre)
+            for course in graph[pre]:
+                indegree[course] -= 1
+                if indegree[course] == 0:
+                    q.append(course)
 
         return ans if len(ans) == numCourses else []
+
+class Solution:
+
+    def findOrder(self, numCourses: int, prerequisites: List[List[int]]) -> List[int]:
+        # Prepare the graph
+        adj_list = defaultdict(list)
+        indegree = {}
+        for dest, src in prerequisites:
+            adj_list[src].append(dest)
+
+            # Record each node's in-degree
+            indegree[dest] = indegree.get(dest, 0) + 1
+
+        # Queue for maintainig list of nodes that have 0 in-degree
+        zero_indegree_queue = deque([k for k in range(numCourses) if k not in indegree])
+
+        topological_sorted_order = []
+
+        # Until there are nodes in the Q
+        while zero_indegree_queue:
+
+            # Pop one node with 0 in-degree
+            vertex = zero_indegree_queue.popleft()
+            topological_sorted_order.append(vertex)
+
+            # Reduce in-degree for all the neighbors
+            if vertex in adj_list:
+                for neighbor in adj_list[vertex]:
+                    indegree[neighbor] -= 1
+
+                    # Add neighbor to Q if in-degree becomes 0
+                    if indegree[neighbor] == 0:
+                        zero_indegree_queue.append(neighbor)
+
+        return topological_sorted_order if len(topological_sorted_order) == numCourses else []
 ```
-* [[Medium] 210. Course Schedule II](%5BMedium%5D%20210.%20Course%20Schedule%20II.md)
+* [[Medium] [Solution] 210. Course Schedule II](%5BMedium%5D%20%5BSolution%5D%20210.%20Course%20Schedule%20II.md)
 
 **Template 1:**
 ```python
@@ -6327,6 +6412,27 @@ while q:
                 q.append((nr, nc))
     step += 1
 return -1
+```
+
+**Template 4:**
+```python
+N = ...
+g = collections.defaultdict(list)
+indeg = [0]*N
+for src, dst in XXX:
+    g[src] += [dst]
+    indeg[dst] += 1
+q = collections.deque([i for i, v in enumerate(indeg) if v == 0])
+ans = []
+while q:
+    src = q.popleft()
+    ans += [src]
+    for dst in g[src]:
+        indeg[dst] -= 1
+        if indeg[dst] == 0:
+            q += [dst]
+
+return ans if len(ans) == N else []
 ```
 
 ## Two Pointers <a name="tp"></a>
