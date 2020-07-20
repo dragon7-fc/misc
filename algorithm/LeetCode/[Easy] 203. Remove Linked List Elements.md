@@ -35,3 +35,40 @@ class Solution:
             
         return tmp.next
 ```
+
+**Solution 2: (Linked List)**
+```
+Runtime: 36 ms
+Memory Usage: 13.5 MB
+```
+```c++
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode() : val(0), next(nullptr) {}
+ *     ListNode(int x) : val(x), next(nullptr) {}
+ *     ListNode(int x, ListNode *next) : val(x), next(next) {}
+ * };
+ */
+class Solution {
+public:
+    ListNode* removeElements(ListNode* head, int val) {
+        if(!head)return head;   // return if null
+        while(head && head->val == val) head = head->next;   // Set head as the first valid node
+        ListNode* trav = head;
+        ListNode* temp = NULL;
+        while(trav){
+            temp = trav;   // store the current node
+            while(trav->next && trav->next->val == val){   // Iterate till the last  non valid node
+                trav = trav->next;  
+            }
+            temp->next = trav->next;  // set the next pointer to the first next valid node
+            trav=trav->next;
+        }
+        return head;
+ 
+    }
+};
+```

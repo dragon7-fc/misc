@@ -329,6 +329,7 @@ Happy Coding!!
 * [[Medium] [Solution] 347. Top K Frequent Elements](%5BMedium%5D%20%5BSolution%5D%20347.%20Top%20K%20Frequent%20Elements.md)
 * [[Medium] [Solution] 210. Course Schedule II](%5BMedium%5D%20%5BSolution%5D%20210.%20Course%20Schedule%20II.md)
 * [[Easy] 67. Add Binary](%5BEasy%5D%2067.%20Add%20Binary.md)
+* [[Easy] 203. Remove Linked List Elements](%5BEasy%5D%20203.%20Remove%20Linked%20List%20Elements.md)
 
 ## Array <a name="array"></a>
 ---
@@ -4653,8 +4654,8 @@ class LRUCache:
 
     def put(self, key: int, value: int) -> None:
         key = str(key)
-        if(key not in self.lru_cache):
-            if(len(self.lru_cache) < self.max_capacity):
+        if key not in self.lru_cache:
+            if len(self.lru_cache) < self.max_capacity:
                 self.lru_cache[key] = value
             else:
                 self.lru_cache.popitem(last=False)
@@ -7829,6 +7830,29 @@ class Solution:
         node.next = node.next.next
 ```
 * [[Easy] [Solution] 237. Delete Node in a Linked List](%5BEasy%5D%20%5BSolution%5D%20237.%20Delete%20Node%20in%20a%20Linked%20List.md)
+
+###  Remove Linked List Elements
+```python
+# Definition for singly-linked list.
+# class ListNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.next = None
+
+class Solution:
+    def removeElements(self, head: ListNode, val: int) -> ListNode:
+        dummy = ListNode(0)
+        dummy.next = head
+        tmp = dummy
+        while dummy.next:
+            if dummy.next.val == val:
+                dummy.next = dummy.next.next
+            else:
+                dummy = dummy.next
+            
+        return tmp.next
+```
+* [[Easy] 203. Remove Linked List Elements](%5BEasy%5D%20203.%20Remove%20Linked%20List%20Elements.md)
 
 ### 2 Step Unit
 ```python
