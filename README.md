@@ -182,7 +182,8 @@ A playground to note something.
     - Disable Hardware Flow Control
 
         `sudo minicom -s` -> `Serial Port Setup` -> `Hardware Flow Control` -> `No`
-
+        
+    - [Serial Transfer](http://www.armadeus.org/wiki/index.php?title=Serial_Transfer)
 * VcSrv
 
     - clipboard share

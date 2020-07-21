@@ -330,6 +330,7 @@ Happy Coding!!
 * [[Medium] [Solution] 210. Course Schedule II](%5BMedium%5D%20%5BSolution%5D%20210.%20Course%20Schedule%20II.md)
 * [[Easy] 67. Add Binary](%5BEasy%5D%2067.%20Add%20Binary.md)
 * [[Easy] 203. Remove Linked List Elements](%5BEasy%5D%20203.%20Remove%20Linked%20List%20Elements.md)
+* [[Medium] 79. Word Search](%5BMedium%5D%2079.%20Word%20Search.md)
 
 ## Array <a name="array"></a>
 ---
@@ -7380,6 +7381,45 @@ class Solution:
         return self.res
 ```
 * [[Medium] [Solution] 842. Split Array into Fibonacci Sequence](%5BMedium%5D%20%5BSolution%5D%20842.%20Split%20Array%20into%20Fibonacci%20Sequence.md)
+
+### Word Search
+```python
+class Solution:
+    def exist(self, board: List[List[str]], word: str) -> bool:
+        R, C = len(board), len(board[0])
+        N = len(word)
+        v = [[0 for _ in range(C)] for _ in range(R)]
+
+        def neighbours(r, c):
+            for nr, nc in [(r+1, c), (r-1, c), (r, c+1), (r, c-1)]:
+                if 0 <= nr < R and 0 <= nc < C:
+                    yield nr, nc
+                    
+        def dfs(r, c, index):
+            v[r][c] = True
+            index += 1
+            if index == N:
+                return True
+            for nr, nc in neighbours(r, c):
+                if not v[nr][nc] and board[nr][nc] == word[index]:
+                    if dfs(nr, nc, index):
+                        return True
+            v[r][c] = False
+            return False
+
+        ans = False
+        for i in range(R):
+            if word[0] in board[i]:
+                for j in range(C):
+                    if word[0] == board[i][j]:
+                        ans = dfs(i, j, 0)
+                        if ans:
+                            return True
+                        else:
+                            continue
+        return ans
+```
+* [[Medium] 79. Word Search](%5BMedium%5D%2079.%20Word%20Search.md)
 
 **Template 1:**
 ```python

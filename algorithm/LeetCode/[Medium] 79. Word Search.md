@@ -88,3 +88,45 @@ class Solution:
                     stack.append((ni,nj,step,visit.union({(ni,nj)})))
         return False
 ```
+
+**Solution 3: (Backtracking)**
+```
+Runtime: 56 ms
+Memory Usage: 11 MB
+```
+```c++
+class Solution {
+public:
+    bool existUtil(vector<vector<char>>& board,string& word, int i, int j, int curr_word_index){
+        if(curr_word_index == word.size()){return true;}
+        
+        if(i<0 || j<0 || i>=board.size() ||  j>=board[0].size()) {
+            return false;
+        }
+        char ch = word[curr_word_index];
+
+        if(board[i][j]==ch){
+            board[i][j]='$';
+            if(existUtil(board,word,i+1,j,curr_word_index+1)) return true;
+            if(existUtil(board,word,i-1,j,curr_word_index+1)) return true;
+            if(existUtil(board,word,i,j+1,curr_word_index+1)) return true;
+            if(existUtil(board,word,i,j-1,curr_word_index+1)) return true;
+            board[i][j]=ch;
+        }
+        return false;
+    }
+
+    bool exist(vector<vector<char>>& board, string word) {
+        for(int i = 0; i< board.size(); i++)
+        {
+            for(int j = 0; j< board[0].size(); j++)
+            {
+                if(existUtil(board,word,i,j,0)){
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+};
+```
