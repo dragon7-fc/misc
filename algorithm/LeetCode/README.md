@@ -331,6 +331,7 @@ Happy Coding!!
 * [[Easy] 67. Add Binary](%5BEasy%5D%2067.%20Add%20Binary.md)
 * [[Easy] 203. Remove Linked List Elements](%5BEasy%5D%20203.%20Remove%20Linked%20List%20Elements.md)
 * [[Medium] 79. Word Search](%5BMedium%5D%2079.%20Word%20Search.md)
+* [[Medium] 103. Binary Tree Zigzag Level Order Traversal](%5BMedium%5D%20103.%20Binary%20Tree%20Zigzag%20Level%20Order%20Traversal.md)
 
 ## Array <a name="array"></a>
 ---
@@ -3519,6 +3520,72 @@ class Solution:
         return -1
 ```
 
+### KMP
+```python
+class Solution:
+    def rotateString(self, A: str, B: str) -> bool:
+        N = len(A)
+        if N != len(B): return False
+        if N == 0: return True
+
+        #Compute shift table
+        shifts = [1] * (N+1)
+        left = -1
+        for right in range(N):
+            while left >= 0 and B[left] != B[right]:
+                left -= shifts[left]
+            shifts[right + 1] = right - left
+            left += 1
+
+        #Find match of B in A+A
+        match_len = 0
+        for char in A+A:
+            while match_len >= 0 and B[match_len] != char:
+                match_len -= shifts[match_len]
+
+            match_len += 1
+            if match_len == N:
+                return True
+
+        return False
+```
+* [[Easy] [Solution] 796. Rotate String](%5BEasy%5D%20%5BSolution%5D%20796.%20Rotate%20String.md)
+
+### Rolling Hash
+```python
+class Solution:
+    def rotateString(self, A: str, B: str) -> bool:
+        MOD = 10**9 + 7
+        P = 113
+        Pinv = pow(P, MOD-2, MOD)
+
+        hb = 0
+        power = 1
+        for x in B:
+            code = ord(x) - 96
+            hb = (hb + power * code) % MOD
+            power = power * P % MOD
+
+        ha = 0
+        power = 1
+        for x in A:
+            code = ord(x) - 96
+            ha = (ha + power * code) % MOD
+            power = power * P % MOD
+
+        if ha == hb and A == B: return True
+        for i, x in enumerate(A):
+            code = ord(x) - 96
+            ha += power * code
+            ha -= code
+            ha *= Pinv
+            ha %= MOD
+            if ha == hb and A[i+1:] + A[:i+1] == B:
+                return True
+        return False
+```
+* [[Easy] [Solution] 796. Rotate String](%5BEasy%5D%20%5BSolution%5D%20796.%20Rotate%20String.md)
+
 ### Read and Write Heads
 ```python
 class Solution:
@@ -6165,6 +6232,31 @@ class Solution:
         return ans
 ```
 * [[Medium] 429. N-ary Tree Level Order Traversal](%5BMedium%5D%20429.%20N-ary%20Tree%20Level%20Order%20Traversal.md)
+
+### Level order
+```python
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+class Solution:
+    def zigzagLevelOrder(self, root: TreeNode) -> List[List[int]]:
+        level = root and [root]
+        ans = []
+        forward = True
+        while level:
+            if forward:
+                ans.append([node.val for node in level])
+            else:
+                ans.append([node.val for node in level[::-1]])
+            level = [c for node in level for c in [node.left, node.right] if c]
+            forward = not forward
+
+        return ans
+```
+* [[Medium] 103. Binary Tree Zigzag Level Order Traversal](%5BMedium%5D%20103.%20Binary%20Tree%20Zigzag%20Level%20Order%20Traversal.md)
 
 ### Surrounded Regions
 ```python
