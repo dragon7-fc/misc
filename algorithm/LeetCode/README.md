@@ -332,6 +332,7 @@ Happy Coding!!
 * [[Easy] 203. Remove Linked List Elements](%5BEasy%5D%20203.%20Remove%20Linked%20List%20Elements.md)
 * [[Medium] 79. Word Search](%5BMedium%5D%2079.%20Word%20Search.md)
 * [[Medium] 103. Binary Tree Zigzag Level Order Traversal](%5BMedium%5D%20103.%20Binary%20Tree%20Zigzag%20Level%20Order%20Traversal.md)
+* [[Medium] 260. Single Number III](%5BMedium%5D%20260.%20Single%20Number%20III.md)
 
 ## Array <a name="array"></a>
 ---
@@ -7635,6 +7636,37 @@ class Solution:
         return missing
 ```
 * [[Easy] [Solution] 268. Missing Number](%5BEasy%5D%20%5BSolution%5D%20268.%20Missing%20Number.md)
+
+### a xor b xor c = b xor c xor a
+```python
+class Solution:
+    def singleNumber(self, nums: List[int]) -> List[int]:
+        # xor all numbers, so the duplicates are cancelled
+        x = functools.reduce(operator.xor, nums)
+
+        # find the bit that is set in x.
+        bit = 0
+        for i in range(32):
+            if x & (1<<i):
+                bit = i
+                break
+
+        # let the answer be first and second.
+        # let first is the number that has the bit set.
+        # second does not have the bit set, because x=first^second has the bit set.  
+        # now xor all numbers in nums with the bit set.
+        # all duplicates will be cancelled
+        # only first will remain. second will not be included, as second does not have the bit set.
+        first = 0
+        for a in nums:
+            if a & (1<<bit):
+                first ^= a
+
+        # now x=first^second, therefore second = a^first
+        second = first^x
+        return [first, second]
+```
+* [[Medium] 260. Single Number III](%5BMedium%5D%20260.%20Single%20Number%20III.md)
 
 ### Bitmask
 ```python
