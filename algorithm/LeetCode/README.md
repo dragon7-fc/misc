@@ -333,6 +333,7 @@ Happy Coding!!
 * [[Medium] 79. Word Search](%5BMedium%5D%2079.%20Word%20Search.md)
 * [[Medium] 103. Binary Tree Zigzag Level Order Traversal](%5BMedium%5D%20103.%20Binary%20Tree%20Zigzag%20Level%20Order%20Traversal.md)
 * [[Medium] 260. Single Number III](%5BMedium%5D%20260.%20Single%20Number%20III.md)
+* [[Medium] 797. All Paths From Source to Target](%5BMedium%5D%20797.%20All%20Paths%20From%20Source%20to%20Target.md)
 
 ## Array <a name="array"></a>
 ---
@@ -5174,6 +5175,25 @@ class Solution:
         return dfs('JFK', ['JFK'])
 ```
 * [[Medium] 332. Reconstruct Itinerary](%5BMedium%5D%20332.%20Reconstruct%20Itinerary.md)
+
+### All Path
+```python
+class Solution:
+    def allPathsSourceTarget(self, graph: List[List[int]]) -> List[List[int]]:
+        N = len(graph)
+        ans = []
+
+        def dfs(node, path):
+            if node == N-1:
+                ans.append(path)
+            else:
+                for nei in graph[node]:
+                    dfs(nei, path+[nei])
+        
+        dfs(0, [0])
+        return ans
+```
+* [[Medium] 797. All Paths From Source to Target](%5BMedium%5D%20797.%20All%20Paths%20From%20Source%20to%20Target.md)
 
 ### Connected Component
 ```python

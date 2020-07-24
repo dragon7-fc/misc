@@ -615,7 +615,29 @@ A playground to note something.
 
 - iptables
 
-    - [Linux: 25 Iptables Netfilter Firewall Examples For New SysAdmins](https://www.cyberciti.biz/tips/linux-iptables-examples.html)
+    - NAT Server
+    
+        - environment
+        
+            - eth0(internet): 10.32.2.4.40
+            - eth1(intranet): 192.168.2.10 (ssh user: sysadmin)
+        - Setup
+        
+            ```bash
+            sudo echo "net.ipv4.ip_forward=1" >> /etc/sysctl.conf
+
+            # Connect a private subnet to the internet using NAT
+            sudo iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE
+
+            # Running a HTTPS Server behind a NAT-router
+            sudo iptables -t nat -A PREROUTING -i eth0 -p tcp --dport 443 -j DNAT --to-destination 192.168.2.10:443
+            
+            # IPMI server
+            sudo iptables -t nat -A PREROUTING -i eth0 -p udp --dport 623 -j DNAT --to-destination 192.168.2.10:623
+            
+            # SSH server (ssh -p 2222 sysadmin@10.32.4.40)
+            sudo iptables -t nat -A PREROUTING -i eth0 -p tcp --dport 2222 -j DNAT --to-destination 192.168.2.10:22
+            ```
 
 * VirtualBox
 
