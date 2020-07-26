@@ -25,45 +25,73 @@ Output: [0,0,1,1,2,5]
 ---
 **Solution 1: (Merge Sort)**
 ```
-Runtime: 408 ms
+Runtime: 376 ms
+Memory Usage: 19.8 MB
+```
+```python
+class Solution:
+    def sortArray(self, nums: List[int]) -> List[int]:
+        if len(nums) >1: 
+            mid = len(nums)//2 #Finding the mid of the array 
+            L = nums[:mid] # Dividing the array elements  
+            R = nums[mid:] # into 2 halves 
+
+            self.sortArray(L) # Sorting the first half 
+            self.sortArray(R) # Sorting the second half 
+
+            i = j = k = 0
+
+            # Copy data to temp arrays L[] and R[] 
+            while i < len(L) and j < len(R): 
+                if L[i] < R[j]: 
+                    nums[k] = L[i] 
+                    i+=1
+                else: 
+                    nums[k] = R[j] 
+                    j+=1
+                k+=1
+
+            # Checking if any element was left 
+            while i < len(L): 
+                nums[k] = L[i] 
+                i+=1
+                k+=1
+
+            while j < len(R): 
+                nums[k] = R[j] 
+                j+=1
+                k+=1
+            
+        return nums
+```
+
+**Solution 2: (Quick Sort)**
+```
+Runtime: 328 ms
 Memory Usage: 19.7 MB
 ```
 ```python
 class Solution:
-    max_length = 0
     def sortArray(self, nums: List[int]) -> List[int]:
-        if len(nums) > self.max_length:
-            self.max_length = len(nums)
-        if len(nums) > 1:
-            mid = len(nums) // 2
-            L = nums[:mid]
-            R = nums[mid:]
-
-            self.sortArray(L)
-            self.sortArray(R)
-
-            i = j = k = 0
-
-            while i < len(L) and j < len(R):
-                if L[i] < R[j]:
-                    nums[k] = L[i]
-                    i += 1
-                else:
-                    nums[k] = R[j]
-                    j += 1
-                k += 1
-
-            while i < len(L):
-                nums[k] = L[i]
-                i += 1
-                k += 1
-
-            while j < len(R):
-                nums[k] = R[j]
-                j += 1
-                k += 1
-        if len(nums) == self.max_length:
-            return nums
+        
+        def partition(arr,low,high): 
+            i = ( low-1 )         # index of smaller element 
+            pivot = arr[high]     # pivot 
+            for j in range(low , high): 
+                if   arr[j] <= pivot:
+                    i = i+1 
+                    arr[i],arr[j] = arr[j],arr[i] 
+            arr[i+1],arr[high] = arr[high],arr[i+1] 
+            return ( i+1 ) 
+        
+        def quickSort(arr, low, high): 
+            if low < high:
+                pi = partition(arr,low,high) 
+                quickSort(arr, low, pi-1) 
+                quickSort(arr, pi+1, high)
+            return arr
+            
+        return quickSort(nums, 0, len(nums)-1)
 ```
 
 **Solution 2: (Merge Sort)**

@@ -334,6 +334,7 @@ Happy Coding!!
 * [[Medium] 103. Binary Tree Zigzag Level Order Traversal](%5BMedium%5D%20103.%20Binary%20Tree%20Zigzag%20Level%20Order%20Traversal.md)
 * [[Medium] 260. Single Number III](%5BMedium%5D%20260.%20Single%20Number%20III.md)
 * [[Medium] 797. All Paths From Source to Target](%5BMedium%5D%20797.%20All%20Paths%20From%20Source%20to%20Target.md)
+* [[Hard] 154. Find Minimum in Rotated Sorted Array II](%5BHard%5D%20154.%20Find%20Minimum%20in%20Rotated%20Sorted%20Array%20II.md)
 
 ## Array <a name="array"></a>
 ---
@@ -5603,6 +5604,25 @@ class Solution:
 ```
 * [[Medium] [Solution] 153. Find Minimum in Rotated Sorted Array](%5BMedium%5D%20%5BSolution%5D%20153.%20Find%20Minimum%20in%20Rotated%20Sorted%20Array.md)
 
+### Rotated Sorted Array, dupliczated
+```python
+class Solution:
+    def findMin(self, nums: List[int]) -> int:
+        left, right = 0, len(nums) - 1
+        mid = 0
+        while left < right:
+            mid = left + (right - left) // 2;           
+            if nums[mid] > nums[right]:
+                left = mid + 1
+            elif nums[mid] < nums[right]:
+                right = mid
+            else:
+                right -= 1
+
+        return nums[left]
+```
+* [[Hard] 154. Find Minimum in Rotated Sorted Array II](%5BHard%5D%20154.%20Find%20Minimum%20in%20Rotated%20Sorted%20Array%20II.md)
+
 ### Find local maximum
 ```python
 class Solution:
@@ -6162,6 +6182,32 @@ class Solution:
         return res
 ```
 * [[Medium] 1520. Maximum Number of Non-Overlapping Substrings](%5BMedium%5D%201520.%20Maximum%20Number%20of%20Non-Overlapping%20Substrings.md)
+
+### Odd sum subarray
+```python
+class Solution:
+    def numOfSubarrays(self, arr: List[int]) -> int:
+        count = [1, 0]
+        cur = res = 0
+        for a in arr:
+            cur ^= a & 1
+            res += count[1 - cur]
+            count[cur] += 1
+        return res % (10**9 + 7)
+```
+* [[Medium] 1524. Number of Sub-arrays With Odd Sum](%5BMedium%5D%201524.%20Number%20of%20Sub-arrays%20With%20Odd%20Sum.md)
+
+### Minimum Number of Increments
+```python
+class Solution:
+    def minNumberOperations(self, target: List[int]) -> int:
+        res = pre = 0
+        for a in target:
+            res += max(a - pre, 0)
+            pre = a
+        return res
+```
+* [[Hard] 1526. Minimum Number of Increments on Subarrays to Form a Target Array](%5BHard%5D%201526.%20Minimum%20Number%20of%20Increments%20on%20Subarrays%20to%20Form%20a%20Target%20Array.md)
 
 **Template 1:**
 ```python
@@ -9741,83 +9787,70 @@ for j in range(N):
 
 ## Divide and Conquer <a name="dc"></a>
 ---
-### Merge Sort
+### Merge Sort, Postorder
 ```python
-def mergeSort(arr): 
-    if len(arr) >1: 
-        mid = len(arr)//2 #Finding the mid of the array 
-        L = arr[:mid] # Dividing the array elements  
-        R = arr[mid:] # into 2 halves 
-  
-        mergeSort(L) # Sorting the first half 
-        mergeSort(R) # Sorting the second half 
-  
-        i = j = k = 0
-          
-        # Copy data to temp arrays L[] and R[] 
-        while i < len(L) and j < len(R): 
-            if L[i] < R[j]: 
-                arr[k] = L[i] 
-                i+=1
-            else: 
-                arr[k] = R[j] 
-                j+=1
-            k+=1
-          
-        # Checking if any element was left 
-        while i < len(L): 
-            arr[k] = L[i] 
-            i+=1
-            k+=1
-          
-        while j < len(R): 
-            arr[k] = R[j] 
-            j+=1
-            k+=1
-```
+class Solution:
+    def sortArray(self, nums: List[int]) -> List[int]:
+        if len(nums) >1: 
+            mid = len(nums)//2 #Finding the mid of the array 
+            L = nums[:mid] # Dividing the array elements  
+            R = nums[mid:] # into 2 halves 
 
-### Quick Sort
-```python
-# This function takes last element as pivot, places 
-# the pivot element at its correct position in sorted 
-# array, and places all smaller (smaller than pivot) 
-# to left of pivot and all greater elements to right 
-# of pivot 
-def partition(arr,low,high): 
-    i = ( low-1 )         # index of smaller element 
-    pivot = arr[high]     # pivot 
-  
-    for j in range(low , high): 
-  
-        # If current element is smaller than or 
-        # equal to pivot 
-        if   arr[j] <= pivot: 
-          
-            # increment index of smaller element 
-            i = i+1 
-            arr[i],arr[j] = arr[j],arr[i] 
-  
-    arr[i+1],arr[high] = arr[high],arr[i+1] 
-    return ( i+1 ) 
-  
-# The main function that implements QuickSort 
-# arr[] --> Array to be sorted, 
-# low  --> Starting index, 
-# high  --> Ending index 
-  
-# Function to do Quick sort 
-def quickSort(arr,low,high): 
-    if low < high: 
-  
-        # pi is partitioning index, arr[p] is now 
-        # at right place 
-        pi = partition(arr,low,high) 
-  
-        # Separately sort elements before 
-        # partition and after partition 
-        quickSort(arr, low, pi-1) 
-        quickSort(arr, pi+1, high) 
+            self.sortArray(L) # Sorting the first half 
+            self.sortArray(R) # Sorting the second half 
+
+            i = j = k = 0
+
+            # Copy data to temp arrays L[] and R[] 
+            while i < len(L) and j < len(R): 
+                if L[i] < R[j]: 
+                    nums[k] = L[i] 
+                    i+=1
+                else: 
+                    nums[k] = R[j] 
+                    j+=1
+                k+=1
+
+            # Checking if any element was left 
+            while i < len(L): 
+                nums[k] = L[i] 
+                i+=1
+                k+=1
+
+            while j < len(R): 
+                nums[k] = R[j] 
+                j+=1
+                k+=1
+
+        return nums
 ```
+* [[Medium] 912. Sort an Array](%5BMedium%5D%20912.%20Sort%20an%20Array.md)
+
+### Quick Sort, Preorder
+```python
+class Solution:
+    def sortArray(self, nums: List[int]) -> List[int]:
+        
+        def partition(arr,low,high): 
+            i = ( low-1 )         # index of smaller element 
+            pivot = arr[high]     # pivot 
+            for j in range(low , high): 
+                if   arr[j] <= pivot:
+                    i = i+1 
+                    arr[i],arr[j] = arr[j],arr[i] 
+            arr[i+1],arr[high] = arr[high],arr[i+1] 
+            return ( i+1 ) 
+        
+        def quickSort(arr, low, high): 
+            if low < high:
+                pi = partition(arr,low,high) 
+                quickSort(arr, low, pi-1) 
+                quickSort(arr, pi+1, high)
+            return arr
+            
+        return quickSort(nums, 0, len(nums)-1)
+```
+* [[Medium] 912. Sort an Array](%5BMedium%5D%20912.%20Sort%20an%20Array.md)
 
 ### Iterate over response
 ```python

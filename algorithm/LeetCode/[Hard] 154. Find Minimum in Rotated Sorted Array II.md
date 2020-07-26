@@ -29,34 +29,47 @@ Output: 0
 ---
 **Solution 1: (Binary Search)**
 ```
-Runtime: 48 ms
-Memory Usage: 13.1 MB
+Runtime: 72 ms
+Memory Usage: 14.4 MB
 ```
 ```python
 class Solution:
     def findMin(self, nums: List[int]) -> int:
-        lo = 0 
-        hi = len(nums)-1
-        # [5,6,7,7,0,1,2]
-        while lo <= hi:
-            # push left forward until no duplicate
-            while lo+1 < len(nums) and nums[lo] == nums[lo+1]:
-                lo += 1 
-            while hi-1 >= 0 and nums[hi] == nums[hi-1]:
-                hi -= 1
-
-            # push right backword until no duplicate 
-            mid = lo + (hi-lo)//2
-            if nums[mid] > nums[hi]:
-                lo = mid+1
-            elif nums[mid] < nums[hi]:
-                # skip the duplicate 
-                while mid-1 >= 0 and nums[mid-1] == nums[mid]:
-                    mid -= 1
-                if mid-1 < 0 or nums[mid] <= nums[mid-1]:
-                    return nums[mid]
-                else:
-                    hi = mid-1 
+        left, right = 0, len(nums) - 1
+        mid = 0
+        while left < right:
+            mid = left + (right - left) // 2;           
+            if nums[mid] > nums[right]:
+                left = mid + 1
+            elif nums[mid] < nums[right]:
+                right = mid
             else:
-                return nums[mid]
+                right -= 1
+
+        return nums[left]
+```
+
+**Solution 2: (Binary Search)**
+
+* Time Complexcity O(log N)
+* One Thing To Notice If All The Elements Into That Array are going to be Same Then It's Also take O( N ) Time :(
+
+```
+Runtime: 16 ms
+Memory Usage: 12.4 MB
+```
+```c++
+class Solution {
+public:
+    int findMin(vector<int>& nums) {
+        int l = 0,r = nums.size() - 1,mid = 0;
+        while(l < r) {
+            mid = l + (r - l) / 2;           
+            if (nums[mid] > nums[r]) l = mid + 1;
+            else if (nums[mid] < nums[r]) r = mid;
+            else r--;
+        }
+        return nums[l];
+    }
+};
 ```
