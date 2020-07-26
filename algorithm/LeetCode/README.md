@@ -335,6 +335,7 @@ Happy Coding!!
 * [[Medium] 260. Single Number III](%5BMedium%5D%20260.%20Single%20Number%20III.md)
 * [[Medium] 797. All Paths From Source to Target](%5BMedium%5D%20797.%20All%20Paths%20From%20Source%20to%20Target.md)
 * [[Hard] 154. Find Minimum in Rotated Sorted Array II](%5BHard%5D%20154.%20Find%20Minimum%20in%20Rotated%20Sorted%20Array%20II.md)
+* [[Easy] [Solution] 258. Add Digits](%5BEasy%5D%20%5BSolution%5D%20258.%20Add%20Digits.md)
 
 ## Array <a name="array"></a>
 ---
@@ -2597,6 +2598,22 @@ class Solution:
 
 ## Math <a name="math"></a>
 ---
+### Digital Root
+```python
+class Solution:
+    def addDigits(self, num: int) -> int:
+        if num == 0:
+            return 0
+        if num % 9 == 0:
+            return 9
+        return num % 9
+        
+class Solution:
+    def addDigits(self, num: int) -> int:
+        return 1 + (num - 1) % 9 if num else 0
+```
+* [[Easy] [Solution] 258. Add Digits](%5BEasy%5D%20%5BSolution%5D%20258.%20Add%20Digits.md)
+
 ### Binary Search
 ```python
 class Solution:
@@ -5339,7 +5356,7 @@ class Solution:
 ```
 * [[Medium] 1466. Reorder Routes to Make All Paths Lead to the City Zero](%5BMedium%5D%201466.%20Reorder%20Routes%20to%20Make%20All%20Paths%20Lead%20to%20the%20City%20Zero.md)
 
-### Counter, Post-order
+### Counter, Post-Order
 ```python
 class Solution:
     def countSubTrees(self, n: int, edges: List[List[int]], labels: str) -> List[int]:
@@ -5360,6 +5377,39 @@ class Solution:
         return ans
 ````
 * [[Medium] 1519. Number of Nodes in the Sub-Tree With the Same Label](%5BMedium%5D%201519.%20Number%20of%20Nodes%20in%20the%20Sub-Tree%20With%20the%20Same%20Label.md)
+
+### Counter, Post-Order
+```python
+Runtime: 224 ms
+Memory Usage: 15.2 MB
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+class Solution:
+    def countPairs(self, root: TreeNode, distance: int) -> int:
+        ans = 0
+
+        def dfs(node):
+            nonlocal ans
+            if not node:
+                return collections.Counter()
+            if not node.left and not node.right:
+                return collections.Counter([0])
+            lcount = dfs(node.left)
+            rcount = dfs(node.right)
+            for ld, ln in lcount.items():
+                for rd, rn in rcount.items():
+                    if ld+rd+2 <= distance:
+                        ans += ln*rn
+            return Counter({d+1: n for d, n in (lcount + rcount).items()})
+
+        dfs(root)
+        return ans
+```
+* [[Medium] 1530. Number of Good Leaf Nodes Pairs](%5BMedium%5D%201530.%20Number%20of%20Good%20Leaf%20Nodes%20Pairs.md)
 
 **Template 1: (Postorder)**
 ```python
