@@ -577,7 +577,40 @@ A playground to note something.
     - Client
 
     ```ftp -p [FTP_SERVER_IP]```
+* DHCP
 
+    - Server
+    
+        - install dnsmasq
+            
+            ```bash
+            # setup static ip address
+            IF = "eth[x]"  # bind DPCP server interface
+            IF_IP = "x.x.x.x/x"  # ip/mask
+            
+            echo "interface $(IF)" >> /etc/dhcpcd.conf
+            echo "static ip_address=$(IF_IP" >> /etc/dhcpcd.conf     
+            
+            # install dnsmasq
+            sudo apt-get install dnsmasq
+            
+            # setup dnsmasq
+            IP_START="x.x.x.x"
+            IP_END="x.x.x.x"
+            NETMASK="x.x.x.x"
+            BMCx_MAC="xx:xx:xx:xx:xx:xx"
+            BMCx_IP="x.x.x.x"
+            sudo echo "dhcp-range=$(IF),$(IP_START),$(IP_END),$(NETMASK)" >> /etc/dnsmasq.conf
+            sudo echo "dhcp-host=$(BMCx_MAC),$(BMCx_IP)" >> /etc/dnsmasq.conf
+            
+            # start/enable service
+            sudo systemctl start dnsmasq
+            sudo systemctl enable dnsmasq
+            
+            # test
+            cat /var/lib/misc/dnsmasq.leases
+            ```
+        - [dnsmasq - ArchWiki](https://wiki.archlinux.org/index.php/dnsmasq)
 * Wireshark
 
     - [How to Decrypt SSL and TLS Traffic Using Wireshark](https://support.citrix.com/article/CTX116557)
@@ -619,24 +652,32 @@ A playground to note something.
     
         - environment
         
-            - eth0(internet): 10.32.2.4.40
-            - eth1(intranet): 192.168.2.10 (ssh user: sysadmin)
+            - ---> eth0 -> eth1 -> BMCx
+        
+                - eth0(internet): 10.32.4.40
+                - eth1(intranet): 192.168.2.2 (ssh user: sysadmin)
         - Setup
         
             ```bash
+            BMCx_IP = "x.x.x.x"
+            
+            #  cat /proc/sys/net/ipv4/ip_forward -> 1
             sudo echo "net.ipv4.ip_forward=1" >> /etc/sysctl.conf
 
             # Connect a private subnet to the internet using NAT
             sudo iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE
 
             # Running a HTTPS Server behind a NAT-router
-            sudo iptables -t nat -A PREROUTING -i eth0 -p tcp --dport 443 -j DNAT --to-destination 192.168.2.10:443
+            sudo iptables -t nat -A PREROUTING -i eth0 -p tcp --dport 443 \
+            -j DNAT --to-destination ${BMCx_IP}:443
             
             # IPMI server
-            sudo iptables -t nat -A PREROUTING -i eth0 -p udp --dport 623 -j DNAT --to-destination 192.168.2.10:623
+            sudo iptables -t nat -A PREROUTING -i eth0 -p udp --dport 623 \
+            -j DNAT --to-destination ${BMCx_IP}:623
             
             # SSH server (ssh -p 2222 sysadmin@10.32.4.40)
-            sudo iptables -t nat -A PREROUTING -i eth0 -p tcp --dport 2222 -j DNAT --to-destination 192.168.2.10:22
+            sudo iptables -t nat -A PREROUTING -i eth0 -p tcp --dport 2222 \
+            -j DNAT --to-destination ${BMCx_IP}:22
             ```
 
 * VirtualBox

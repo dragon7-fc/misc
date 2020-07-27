@@ -336,6 +336,7 @@ Happy Coding!!
 * [[Medium] 797. All Paths From Source to Target](%5BMedium%5D%20797.%20All%20Paths%20From%20Source%20to%20Target.md)
 * [[Hard] 154. Find Minimum in Rotated Sorted Array II](%5BHard%5D%20154.%20Find%20Minimum%20in%20Rotated%20Sorted%20Array%20II.md)
 * [[Easy] [Solution] 258. Add Digits](%5BEasy%5D%20%5BSolution%5D%20258.%20Add%20Digits.md)
+* [[Medium] 106. Construct Binary Tree from Inorder and Postorder Traversal](%5BMedium%5D%20106.%20Construct%20Binary%20Tree%20from%20Inorder%20and%20Postorder%20Traversal.md)
 
 ## Array <a name="array"></a>
 ---
@@ -5212,6 +5213,19 @@ class Solution:
         return ans
 ```
 * [[Medium] 797. All Paths From Source to Target](%5BMedium%5D%20797.%20All%20Paths%20From%20Source%20to%20Target.md)
+
+### inorder to postorder
+```python
+class Solution:
+    def buildTree(self, inorder: List[int], postorder: List[int]) -> TreeNode:
+        if inorder:
+            ind = inorder.index(postorder.pop())
+            root = TreeNode(inorder[ind])
+            root.right = self.buildTree(inorder[ind+1:], postorder)
+            root.left = self.buildTree(inorder[:ind], postorder)
+            return root
+```
+* [[Medium] 106. Construct Binary Tree from Inorder and Postorder Traversal](%5BMedium%5D%20106.%20Construct%20Binary%20Tree%20from%20Inorder%20and%20Postorder%20Traversal.md)
 
 ### Connected Component
 ```python

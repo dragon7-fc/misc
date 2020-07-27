@@ -89,3 +89,118 @@ Output: [[0,1],[1,1],[1,0],[1,0],[1,1]]
 
 # Submissions
 ---
+**Solution 1: (DFS)**
+```
+Runtime: 120 ms
+Memory Usage: 14.4 MB
+```
+```python
+"""
+# Definition for a QuadTree node.
+class Node:
+    def __init__(self, val, isLeaf, topLeft, topRight, bottomLeft, bottomRight):
+        self.val = val
+        self.isLeaf = isLeaf
+        self.topLeft = topLeft
+        self.topRight = topRight
+        self.bottomLeft = bottomLeft
+        self.bottomRight = bottomRight
+"""
+
+class Solution:
+    def construct(self, grid: List[List[int]]) -> 'Node':
+        R, C = len(grid), len(grid[0])
+        
+        def dfs(x1, y1, x2, y2):
+            isSame = all(grid[y][x] == grid[y1][x1] for y in range(y1, y2+1) for x in range(x1, x2+1))
+            if isSame:
+                return Node(grid[y1][x1] == 1, True, None, None, None, None)
+            node = Node(1, False)
+            node.topLeft = dfs(x1, y1, x1 + (x2-x1)//2, y1 + (y2-y1)//2)
+            node.topRight = dfs((x2-x1)//2 + 1 + x1, y1, x2, (y2-y1)//2 + y1)
+            node.bottomLeft = dfs(x1, (y2-y1)//2 + 1 + y1, x1 + (x2-x1)//2, y2)
+            node.bottomRight = dfs((x2-x1)//2 + 1 + x1, (y2-y1)//2 + 1 + y1, x2, y2)
+            return node
+        
+        return dfs(0, 0, R - 1, C - 1)
+```
+
+**Solution 2: (DFS)**
+```
+Runtime: 20 ms
+Memory Usage: 16.1 MB
+```
+```c++
+/*
+// Definition for a QuadTree node.
+class Node {
+public:
+    bool val;
+    bool isLeaf;
+    Node* topLeft;
+    Node* topRight;
+    Node* bottomLeft;
+    Node* bottomRight;
+    
+    Node() {
+        val = false;
+        isLeaf = false;
+        topLeft = NULL;
+        topRight = NULL;
+        bottomLeft = NULL;
+        bottomRight = NULL;
+    }
+    
+    Node(bool _val, bool _isLeaf) {
+        val = _val;
+        isLeaf = _isLeaf;
+        topLeft = NULL;
+        topRight = NULL;
+        bottomLeft = NULL;
+        bottomRight = NULL;
+    }
+    
+    Node(bool _val, bool _isLeaf, Node* _topLeft, Node* _topRight, Node* _bottomLeft, Node* _bottomRight) {
+        val = _val;
+        isLeaf = _isLeaf;
+        topLeft = _topLeft;
+        topRight = _topRight;
+        bottomLeft = _bottomLeft;
+        bottomRight = _bottomRight;
+    }
+};
+*/
+
+class Solution {
+    bool isSame(vector<vector<int>>& grid, int a, int b, int c, int d) {
+        for (int i = a; i <= c; i++) {
+            for (int j = b; j <= d; j++) {
+                if (grid[i][j] != grid[a][b])
+                    return false;
+            }
+        }
+        return true;
+    }
+    Node* constructUtil(vector<vector<int>>& grid, int a, int b, int c, int d) {
+        if (a > c || b > d) return NULL;
+        if (isSame(grid, a, b, c, d)) {
+            Node* r = new Node(grid[a][b], true, NULL, NULL, NULL, NULL);
+            return r;
+        }
+        
+        Node* tl = constructUtil(grid, a,  b, a + ((c-a)/2), b + ((d-b)/2));
+        Node* tr = constructUtil(grid, a, b + ((d-b)/2) + 1, a + ((c-a)/2), d);
+        Node* bl = constructUtil(grid, a + ((c-a)/2) + 1, b, c, b + ((d-b)/2));
+        Node* br = constructUtil(grid, a + ((c-a)/2) + 1, b + ((d-b)/2) + 1, c, d);
+        
+        Node* r = new Node(grid[a][b], false, tl, tr, bl, br);
+        return r;
+    }
+public:
+    Node* construct(vector<vector<int>>& grid) {
+        int m = grid.size();
+        int n = grid[0].size();
+        return constructUtil(grid, 0, 0, m-1, n-1);
+    }
+};
+```
