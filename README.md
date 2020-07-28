@@ -661,8 +661,19 @@ A playground to note something.
             ```bash
             BMCx_IP = "x.x.x.x"
             
-            #  cat /proc/sys/net/ipv4/ip_forward -> 1
-            sudo echo "net.ipv4.ip_forward=1" >> /etc/sysctl.conf
+            # Activate IP-forwarding in the kernel!
+            # cat /proc/sys/net/ipv4/ip_forward -> 1
+            # echo "net.ipv4.ip_forward=1" >> /etc/sysctl.conf
+            echo 1 > /proc/sys/net/ipv4/ip_forward
+
+            # clear filter table
+            sudo iptables -F
+            sudo iptables -X
+            sudo iptables -Z
+            # clear nat table
+            sudo iptables -t nat -F
+            sudo iptables -t nat -X
+            sudo iptables -t nat -Z
 
             # Connect a private subnet to the internet using NAT
             sudo iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE
@@ -678,8 +689,14 @@ A playground to note something.
             # SSH server (ssh -p 2222 sysadmin@10.32.4.40)
             sudo iptables -t nat -A PREROUTING -i eth0 -p tcp --dport 2222 \
             -j DNAT --to-destination ${BMCx_IP}:22
+            
+            # show filter table
+            sudo iptables -L -n -v
+            # show nat table
+            sudo iptables -t nat -L -n -v
             ```
-
+            
+            __NOTE__: can write ot `/etc/rc.local`
 * VirtualBox
 
     |          | command                                  |

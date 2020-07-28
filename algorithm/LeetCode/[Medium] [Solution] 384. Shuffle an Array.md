@@ -135,3 +135,111 @@ Although we managed to avoid using linear space on the auxiliary array from the 
 
 # Submissions
 ---
+**Solution 1: (Brute Force)**
+```
+Runtime: 328 ms
+Memory Usage: 19.1 MB
+```
+```python
+class Solution:
+
+    def __init__(self, nums: List[int]):
+        self.array = nums
+        self.original = nums[:]
+
+    def reset(self) -> List[int]:
+        """
+        Resets the array to its original configuration and return it.
+        """
+        self.array = self.original
+        self.original = self.original[:]
+        return self.array
+
+    def shuffle(self) -> List[int]:
+        """
+        Returns a random shuffling of the array.
+        """
+        aux = self.array[:]
+
+        for idx in range(len(self.array)):
+            remove_idx = random.randrange(len(aux))
+            self.array[idx] = aux.pop(remove_idx)
+
+        return self.array
+
+
+# Your Solution object will be instantiated and called as such:
+# obj = Solution(nums)
+# param_1 = obj.reset()
+# param_2 = obj.shuffle()
+```
+
+**Solution 2: (Fisher-Yates Algorithm)**
+```
+Runtime: 348 ms
+Memory Usage: 19.3 MB
+```
+```python
+class Solution:
+
+    def __init__(self, nums: List[int]):
+        self.array = nums
+        self.original = nums[:]
+
+    def reset(self) -> List[int]:
+        """
+        Resets the array to its original configuration and return it.
+        """
+        self.array = self.original
+        self.original = self.original[:]
+        return self.array
+
+    def shuffle(self) -> List[int]:
+        """
+        Returns a random shuffling of the array.
+        """
+        for i in range(len(self.array)):
+            swap_idx = random.randrange(i, len(self.array))
+            self.array[i], self.array[swap_idx] = self.array[swap_idx], self.array[i]
+        return self.array
+
+# Your Solution object will be instantiated and called as such:
+# obj = Solution(nums)
+# param_1 = obj.reset()
+# param_2 = obj.shuffle()
+```
+
+**Solution 3: (Fisher-Yates Algorithm)**
+```
+Runtime: 152 ms
+Memory Usage: 90.5 MB
+```
+```c++
+class Solution {
+public:
+    std::vector<int> n;
+    Solution(vector<int>& nums) {
+        n = nums;
+    }
+    
+    /** Resets the array to its original configuration and return it. */
+    vector<int> reset() {
+        return n;
+    }
+    
+    /** Returns a random shuffling of the array. */
+    vector<int> shuffle() {
+        std::vector<int> res(n.begin(), n.end());
+        for(size_t i{0}, size{res.size()}; i < size; ++i)
+            std::swap(res[i], res[rand() % size]);
+        return res;
+    }
+};
+
+/**
+ * Your Solution object will be instantiated and called as such:
+ * Solution* obj = new Solution(nums);
+ * vector<int> param_1 = obj->reset();
+ * vector<int> param_2 = obj->shuffle();
+ */
+```

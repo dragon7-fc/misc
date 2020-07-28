@@ -337,6 +337,7 @@ Happy Coding!!
 * [[Hard] 154. Find Minimum in Rotated Sorted Array II](%5BHard%5D%20154.%20Find%20Minimum%20in%20Rotated%20Sorted%20Array%20II.md)
 * [[Easy] [Solution] 258. Add Digits](%5BEasy%5D%20%5BSolution%5D%20258.%20Add%20Digits.md)
 * [[Medium] 106. Construct Binary Tree from Inorder and Postorder Traversal](%5BMedium%5D%20106.%20Construct%20Binary%20Tree%20from%20Inorder%20and%20Postorder%20Traversal.md)
+* [[Medium] [Solution] 621. Task Scheduler](%5BMedium%5D%20%5BSolution%5D%20621.%20Task%20Scheduler.md)
 
 ## Array <a name="array"></a>
 ---
@@ -2786,6 +2787,25 @@ class Solution:
         return 0
 ```
 * [[Easy] [Solution] 976. Largest Perimeter Triangle](%5BEasy%5D%20%5BSolution%5D%20976.%20Largest%20Perimeter%20Triangle.md)
+
+### Task Scheduler
+```python
+class Solution:
+    def leastInterval(self, tasks, n):
+        """
+        :type tasks: List[str]
+        :type n: int
+        :rtype: int
+        """
+        d = collections.Counter(tasks)
+        counts = d.values()
+        longest = max(counts)
+        ans = (longest - 1) * (n + 1)
+        for count in counts:
+            ans += count == longest and 1 or 0
+        return max(len(tasks), ans)
+```
+* [[Medium] [Solution] 621. Task Scheduler](%5BMedium%5D%20%5BSolution%5D%20621.%20Task%20Scheduler.md)
 
 ### Smallest Range
 ```python
@@ -11184,6 +11204,38 @@ class Solution:
                 return 1 + (idx - 1) % 10
 ```
 * [[Medium] [Solution] 470. Implement Rand10() Using Rand7()](%5BMedium%5D%20%5BSolution%5D%20470.%20Implement%20Rand10()%20Using%20Rand7().md)
+
+### Fisher-Yates Algorithm
+```python
+class Solution:
+
+    def __init__(self, nums: List[int]):
+        self.array = nums
+        self.original = nums[:]
+
+    def reset(self) -> List[int]:
+        """
+        Resets the array to its original configuration and return it.
+        """
+        self.array = self.original
+        self.original = self.original[:]
+        return self.array
+
+    def shuffle(self) -> List[int]:
+        """
+        Returns a random shuffling of the array.
+        """
+        for i in range(len(self.array)):
+            swap_idx = random.randrange(i, len(self.array))
+            self.array[i], self.array[swap_idx] = self.array[swap_idx], self.array[i]
+        return self.array
+
+# Your Solution object will be instantiated and called as such:
+# obj = Solution(nums)
+# param_1 = obj.reset()
+# param_2 = obj.shuffle()
+```
+* [[Medium] [Solution] 384. Shuffle an Array](%5BMedium%5D%20%5BSolution%5D%20384.%20Shuffle%20an%20Array.md)
 
 ### 2D area, Prefix Sum, Binary Search
 ```python
