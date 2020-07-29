@@ -338,6 +338,7 @@ Happy Coding!!
 * [[Easy] [Solution] 258. Add Digits](%5BEasy%5D%20%5BSolution%5D%20258.%20Add%20Digits.md)
 * [[Medium] 106. Construct Binary Tree from Inorder and Postorder Traversal](%5BMedium%5D%20106.%20Construct%20Binary%20Tree%20from%20Inorder%20and%20Postorder%20Traversal.md)
 * [[Medium] [Solution] 621. Task Scheduler](%5BMedium%5D%20%5BSolution%5D%20621.%20Task%20Scheduler.md)
+* [[Medium] 309. Best Time to Buy and Sell Stock with Cooldown](%5BMedium%5D%20309.%20Best%20Time%20to%20Buy%20and%20Sell%20Stock%20with%20Cooldown.md)
 
 ## Array <a name="array"></a>
 ---
@@ -1292,6 +1293,26 @@ class Solution:
         return sell
 ```
 * [[Medium] [Solution] 714. Best Time to Buy and Sell Stock with Transaction Fee](%5BMedium%5D%20%5BSolution%5D%20714.%20Best%20Time%20to%20Buy%20and%20Sell%20Stock%20with%20Transaction%20Fee.md)
+
+### Profit - 2 Option(Buy/Sell)
+```python
+class Solution:
+    def maxProfit(self, prices: List[int]) -> int:
+        N = len(prices)
+        if N <=1 :
+            return 0
+        cash = [0]*N
+        cash[1] = max(0, prices[1]-prices[0])
+        hold = [float('-inf')] * N
+        hold[0] = [-prices[0]]
+        hold[1] = max(-prices[0], -prices[1])
+        for day in range(2,len(prices)):
+            cash[day] = max(cash[day-1], hold[day-1]+prices[day])
+            hold[day] = max(hold[day-1], cash[day-2]-prices[day])
+
+        return cash[-1]
+```
+* [[Medium] 309. Best Time to Buy and Sell Stock with Cooldown](%5BMedium%5D%20309.%20Best%20Time%20to%20Buy%20and%20Sell%20Stock%20with%20Cooldown.md)
 
 ### 2 Option (Up/Dow)
 ```python
@@ -4107,6 +4128,24 @@ class Solution:
 ```
 * [[Medium] [Solution] 966. Vowel Spellchecker](%5BMedium%5D%20%5BSolution%5D%20966.%20Vowel%20Spellchecker.md)
 
+### break string
+```python
+class Solution:
+    def longestSubstring(self, s: str, k: int) -> int:
+        stack = [s]
+        ans = 0
+        while stack:
+            string = stack.pop()
+            for char in set(string):
+                if string.count(char) < k:
+                    stack.extend(substring for substring in string.split(char))
+                    break
+            else:
+                ans = max(ans, len(string))
+        return ans
+```
+* [[Medium] 395. Longest Substring with At Least K Repeating Characters](%5BMedium%5D%20395.%20Longest%20Substring%20with%20At%20Least%20K%20Repeating%20Characters.md)
+
 ### Math
 ```python
 class Solution:
@@ -6674,6 +6713,26 @@ class Solution:
         return topological_sorted_order if len(topological_sorted_order) == numCourses else []
 ```
 * [[Medium] [Solution] 210. Course Schedule II](%5BMedium%5D%20%5BSolution%5D%20210.%20Course%20Schedule%20II.md)
+
+### Minimum Genetic Mutation
+```python
+class Solution:
+    def minMutation(self, start: str, end: str, bank: List[str]) -> int:
+        bank, queue = set(bank) ,[[start,0]]
+        if end not in bank: return -1
+        while queue:
+            current_word, steps = queue. pop(0)
+            if current_word == end: return steps
+            for i in range(len(current_word)):
+                for letter in ["A","C","G","T"]:
+                    if letter != current_word[i]:
+                        temp = current_word[:i] + letter + current_word[i+1:]
+                        if temp in bank:
+                            queue.append([temp, steps+1])
+                            bank.remove(temp)
+        return -1
+```
+* [[Medium] 433. Minimum Genetic Mutation](%5BMedium%5D%20433.%20Minimum%20Genetic%20Mutation.md)
 
 **Template 1:**
 ```python

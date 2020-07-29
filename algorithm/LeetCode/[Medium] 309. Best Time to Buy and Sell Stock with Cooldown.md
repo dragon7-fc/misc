@@ -16,7 +16,7 @@ Explanation: transactions = [buy, sell, cooldown, buy, sell]
 
 # Submissions
 ---
-**Solution 1: (DP)**
+**Solution 1: (DP Bottom-Up)**
 ```
 Runtime: 44 ms
 Memory Usage: N/A
@@ -45,7 +45,7 @@ class Solution:
         return sell[-1]
 ```
 
-**Solution 2: (DP)**
+**Solution 2: (DP Bottom-Up)**
 
 This is very similar to problem 714. Best Time to Buy and Sell Stock with Transaction Fee  
 The strategy is to keep 2 variables:  
@@ -76,4 +76,29 @@ class Solution:
             hold[day] = max(hold[day-1], cash[day-2]-prices[day])
             
         return cash[-1]
+```
+
+**Solution 3: (DP Top-Down)**
+```
+Runtime: 44 ms
+Memory Usage: 18 MB
+```
+```python
+class Solution:
+    def maxProfit(self, prices: List[int]) -> int:
+        n = len(prices)
+
+        @lru_cache(None)
+        def dp(i, bs):
+            if i>=n:
+                return 0
+            if bs==1: #should buy
+                op1 = -prices[i] + dp(i+1, bs^1) # buy now and possibly the next day
+                op2 = dp(i+1, bs)                # don't buy now
+            else: # should sell
+                op1 = prices[i] + dp(i+2, bs^1)  # sell now and possibly buy only two days later
+                op2 = dp(i+1, bs)                # don't sell now
+            return max(op1, op2)
+        
+        return dp(0, 1)
 ```
