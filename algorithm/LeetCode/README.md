@@ -1061,6 +1061,31 @@ class Solution:
 ```
 * [[Hard] 1330. Reverse Subarray To Maximize Array Value](%5BHard%5D%201330.%20Reverse%20Subarray%20To%20Maximize%20Array%20Value.md)
 
+### Interval Stabbing
+```python
+class Solution:
+    def bestRotation(self, A: List[int]) -> int:
+        N = len(A)
+        bad = [0] * N
+        for i, x in enumerate(A):
+            left, right = (i - x + 1) % N, (i + 1) % N
+            bad[left] -= 1
+            bad[right] += 1
+            if left > right:
+                bad[0] -= 1
+
+        best = -N
+        ans = cur = 0
+        for i, score in enumerate(bad):
+            cur += score
+            if cur > best:
+                best = cur
+                ans = i
+
+        return ans
+```
+* [[Hard] [Solution] 798. Smallest Rotation with Highest Score](%5BHard%5D%20%5BSolution%5D%20798.%20Smallest%20Rotation%20with%20Highest%20Score.md)
+
 ## Dynamic Programming <a name="dp"></a>
 ---
 ### 1D state
@@ -2136,6 +2161,56 @@ class Solution:
         return dp(0, 0)
 ```
 * [[Medium] 518. Coin Change 2](%5BMedium%5D%20518.%20Coin%20Change%202.md)
+
+### factor dependency
+```python
+class Solution:
+    def numFactoredBinaryTrees(self, A: List[int]) -> int:
+        MOD = 10 ** 9 + 7
+        N = len(A)
+        A.sort()
+        dp = [1] * N
+        index = {x: i for i, x in enumerate(A)}
+        for i, x in enumerate(A):
+            for j in range(i):
+                if x % A[j] == 0: #A[j] will be left child
+                    right = x // A[j]
+                    if right in index:
+                        dp[i] += dp[j] * dp[index[right]]
+                        dp[i] %= MOD
+
+        return sum(dp) % MOD
+```
+* [[Medium] [Solution] 823. Binary Trees With Factors](%5BMedium%5D%20%5BSolution%5D%20823.%20Binary%20Trees%20With%20Factors.md)
+
+### Reamining amount
+```python
+class Solution:
+    def champagneTower(self, poured: int, query_row: int, query_glass: int) -> float:
+        A = [[0] * k for k in range(1, 102)]
+        A[0][0] = poured
+        for r in range(query_row + 1):
+            for c in range(r+1):
+                q = (A[r][c] - 1.0) / 2.0
+                if q > 0:
+                    A[r+1][c] += q
+                    A[r+1][c+1] += q
+
+        return min(1, A[query_row][query_glass])
+    
+class Solution:
+    def champagneTower(self, poured: int, query_row: int, query_glass: int) -> float:
+        excess = lambda x: max(0, x-1)
+
+        @lru_cache(None)
+        def f(i,j):
+            if (i,j) == (0,0): return poured
+            if j < 0 or j > i: return 0
+            return (excess(f(i-1, j-1)) + excess(f(i-1, j))) / 2
+
+        return min(f(query_row, query_glass),1)
+````
+* [[Medium] [Solution] 799. Champagne Tower](%5BMedium%5D%20%5BSolution%5D%20799.%20Champagne%20Tower.md)
 
 ### Using 1D Dynamic Programming
 ```python
