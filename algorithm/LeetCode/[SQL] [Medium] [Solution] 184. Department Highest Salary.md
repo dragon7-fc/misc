@@ -89,9 +89,7 @@ WHERE
 
 # Submissions
 ---
-**Solution 1: (SQL)**
-
-**MySQL**
+**Solution 1: (Using `JOIN` and `IN` clause)**
 
 ```
 Runtime: 616 ms

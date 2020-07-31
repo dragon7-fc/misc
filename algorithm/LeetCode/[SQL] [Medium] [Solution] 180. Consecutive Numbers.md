@@ -71,9 +71,7 @@ WHERE
 
 # Submissions
 ---
-**Solution 1: (SQL)**
-
-**MySQL**
+**Solution 1: (Using `DISTINCT` and `WHERE` clause)**
 
 ```
 Runtime: 888 ms

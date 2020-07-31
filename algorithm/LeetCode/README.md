@@ -339,6 +339,7 @@ Happy Coding!!
 * [[Medium] 106. Construct Binary Tree from Inorder and Postorder Traversal](%5BMedium%5D%20106.%20Construct%20Binary%20Tree%20from%20Inorder%20and%20Postorder%20Traversal.md)
 * [[Medium] [Solution] 621. Task Scheduler](%5BMedium%5D%20%5BSolution%5D%20621.%20Task%20Scheduler.md)
 * [[Medium] 309. Best Time to Buy and Sell Stock with Cooldown](%5BMedium%5D%20309.%20Best%20Time%20to%20Buy%20and%20Sell%20Stock%20with%20Cooldown.md)
+* [[Easy] [Solution] 70. Climbing Stairs](%5BEasy%5D%20%5BSolution%5D%2070.%20Climbing%20Stairs.md)
 
 ## Array <a name="array"></a>
 ---
@@ -1088,6 +1089,26 @@ class Solution:
 
 ## Dynamic Programming <a name="dp"></a>
 ---
+### Fibonacci Number
+```python
+class Solution:
+    def climbStairs(self, n):
+        """
+        :type n: int
+        :rtype: int
+        """
+        if n == 1:
+            return 1
+        first = 1
+        second = 2
+        for n in range(3, n+1):
+            third = first+second
+            first = second
+            second = third
+        return second
+```
+* [[Easy] [Solution] 70. Climbing Stairs](%5BEasy%5D%20%5BSolution%5D%2070.%20Climbing%20Stairs.md)
+
 ### 1D state
 ```python
 class Solution(object):
