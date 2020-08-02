@@ -47,6 +47,7 @@ Happy Coding!!
 1. [202005 May LeetCoding Challenge](#202005)
 1. [202006 June LeetCoding Challenge](#202006)
 1. [202007 July LeetCoding Challenge](#202007)
+1. [202008 August LeetCoding Challenge](#202008)
 1. [Array](#array)
 1. [Dynamic Programming](#dp)
 1. [Math](#math)
@@ -187,6 +188,7 @@ Happy Coding!!
 * `re.sub(pattern, repl, string, count=0, flags=0)`
 
     * ex. re.sub('\s+', '', 'abc 12 de 23 \n f45 6') ---> 'abc12de23f456'
+* `re.fullmatch(pattern, string, flags=0)`
 
 ### datetime
 
@@ -340,6 +342,9 @@ Happy Coding!!
 * [[Medium] [Solution] 621. Task Scheduler](%5BMedium%5D%20%5BSolution%5D%20621.%20Task%20Scheduler.md)
 * [[Medium] 309. Best Time to Buy and Sell Stock with Cooldown](%5BMedium%5D%20309.%20Best%20Time%20to%20Buy%20and%20Sell%20Stock%20with%20Cooldown.md)
 * [[Easy] [Solution] 70. Climbing Stairs](%5BEasy%5D%20%5BSolution%5D%2070.%20Climbing%20Stairs.md)
+
+## 202007 August LeetCoding Challenge <a name="202008"></a>
+* [[Easy] [Solution] 520. Detect Capital](%5BEasy%5D%20%5BSolution%5D%20520.%20Detect%20Capital.md)
 
 ## Array <a name="array"></a>
 ---
@@ -11716,6 +11721,14 @@ class Solution:
 
 ## Regular Expression <a name="re"></a>
 ---
+### Detect Capital
+```python
+class Solution:
+    def detectCapitalUse(self, word: str) -> bool:
+        return re.fullmatch(r"[A-Z]*|.[a-z]*", word)
+```
+* [[Easy] [Solution] 520. Detect Capital](%5BEasy%5D%20%5BSolution%5D%20520.%20Detect%20Capital.md)
+
 ### Using regex for spliting
 ```python
 class Solution:
