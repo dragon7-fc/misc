@@ -6421,6 +6421,41 @@ class Solution:
 ```
 * [[Medium] 1524. Number of Sub-arrays With Odd Sum](%5BMedium%5D%201524.%20Number%20of%20Sub-arrays%20With%20Odd%20Sum.md)
 
+### Minimum Swaps
+```python
+class Solution:
+    def minSwaps(self, grid: List[List[int]]) -> int:
+        n = len(grid)
+
+        def count(arr):
+            ans = 0
+            for i in range(n-1, -1, -1):
+                if arr[i] == 0:
+                    ans += 1
+                else:
+                    break
+            return ans
+
+        arr = [count(row) for row in grid]
+        ans = 0
+        for i in range(n):
+            target = n - i - 1
+            if arr[i] >= target:
+                continue
+            flag = False
+            for j in range(i+1, n):
+                if arr[j] >= target:
+                    flag = True
+                    ans += (j - i)
+                    arr[i+1:j+1] = arr[i:j]
+                    break
+            if not flag:
+                return -1
+
+        return ans
+```
+* [[Medium] 1536. Minimum Swaps to Arrange a Binary Grid](%5BMedium%5D%201536.%20Minimum%20Swaps%20to%20Arrange%20a%20Binary%20Grid.md)
+
 ### Minimum Number of Increments
 ```python
 class Solution:
@@ -7223,6 +7258,28 @@ class Solution:
         return res % mod
 ```
 * [[Medium] 1498. Number of Subsequences That Satisfy the Given Sum Condition](%5BMedium%5D%201498.%20Number%20of%20Subsequences%20That%20Satisfy%20the%20Given%20Sum%20Condition.md)
+
+### Maximum Score of 2 increasing path
+```python
+class Solution:
+    def maxSum(self, nums1: List[int], nums2: List[int]) -> int:
+        i, j, n, m = 0, 0, len(nums1), len(nums2)
+        a, b, res, mod = 0, 0, 0, 10**9 + 7
+        while i < n or j < m:
+            if i < n and (j == m or nums1[i] < nums2[j]):
+                a += nums1[i]
+                i += 1
+            elif j < m and (i == n or nums1[i] > nums2[j]):
+                b += nums2[j]
+                j += 1
+            else:
+                res += max(a, b) + nums1[i]
+                i += 1
+                j += 1
+                a, b = 0, 0
+        return (res + max(a, b)) % mod
+```
+* [[Hard] 1537. Get the Maximum Score](%5BHard%5D%201537.%20Get%20the%20Maximum%20Score.md)
 
 **Template 1: (Linked list)**
 ```python
