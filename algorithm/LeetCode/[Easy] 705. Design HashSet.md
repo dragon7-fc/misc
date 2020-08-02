@@ -31,8 +31,8 @@ hashSet.contains(2);    // returns false (already removed)
 ---
 **Solution 1: (Array)**
 ```
-Runtime: 1120 ms
-Memory Usage: 41.3 MB
+Runtime: 300 ms
+Memory Usage: 41.2 MB
 ```
 ```python
 class MyHashSet:
@@ -41,24 +41,20 @@ class MyHashSet:
         """
         Initialize your data structure here.
         """
-        self.buckets = [-1 for _ in range(1000000)]
+        self.hs = [0]*1000001
+        
 
     def add(self, key: int) -> None:
-        if not self.contains(key):
-            self.buckets[key] = key
+        self.hs[key] = 1
 
     def remove(self, key: int) -> None:
-        if self.contains(key):
-            self.buckets[key] = -1
+        self.hs[key] = 0
 
     def contains(self, key: int) -> bool:
         """
         Returns true if this set contains the specified element
         """
-        if self.buckets[key] == key:
-            return True
-        else:
-            return False
+        return self.hs[key]
 
 
 # Your MyHashSet object will be instantiated and called as such:
@@ -66,4 +62,41 @@ class MyHashSet:
 # obj.add(key)
 # obj.remove(key)
 # param_3 = obj.contains(key)
+```
+
+**Solution 2: (Array)**
+```
+Runtime: 180 ms
+Memory Usage: 162.3 MB
+```
+```c++
+class MyHashSet {
+public:
+    /** Initialize your data structure here. */
+    vector<int> hs;
+    MyHashSet() {
+        hs.resize(1000000,0);
+    }
+    
+    void add(int key) {
+        hs[key]=1;
+    }
+    
+    void remove(int key) {
+        hs[key]=0;
+    }
+    
+    /** Returns true if this set contains the specified element */
+    bool contains(int key) {
+        return hs[key];
+    }
+};
+
+/**
+ * Your MyHashSet object will be instantiated and called as such:
+ * MyHashSet* obj = new MyHashSet();
+ * obj->add(key);
+ * obj->remove(key);
+ * bool param_3 = obj->contains(key);
+ */
 ```

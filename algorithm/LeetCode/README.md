@@ -345,6 +345,7 @@ Happy Coding!!
 
 ## 202007 August LeetCoding Challenge <a name="202008"></a>
 * [[Easy] [Solution] 520. Detect Capital](%5BEasy%5D%20%5BSolution%5D%20520.%20Detect%20Capital.md)
+* [[Easy] 705. Design HashSet](%5BEasy%5D%20705.%20Design%20HashSet.md)
 
 ## Array <a name="array"></a>
 ---
@@ -541,6 +542,38 @@ class Solution:
         return 2*(h+v)
 ```
 * [[Easy] 463. Island Perimeter](%5BEasy%5D%20463.%20Island%20Perimeter.md)
+
+### Design HashSet
+```python
+class MyHashSet:
+
+    def __init__(self):
+        """
+        Initialize your data structure here.
+        """
+        self.hs = [0]*1000001
+
+
+    def add(self, key: int) -> None:
+        self.hs[key] = 1
+
+    def remove(self, key: int) -> None:
+        self.hs[key] = 0
+
+    def contains(self, key: int) -> bool:
+        """
+        Returns true if this set contains the specified element
+        """
+        return self.hs[key]
+
+
+# Your MyHashSet object will be instantiated and called as such:
+# obj = MyHashSet()
+# obj.add(key)
+# obj.remove(key)
+# param_3 = obj.contains(key)
+```
+* [[Easy] 705. Design HashSet](%5BEasy%5D%20705.%20Design%20HashSet.md)
 
 ### Row XOR Column
 ```python
