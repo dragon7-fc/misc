@@ -346,6 +346,7 @@ Happy Coding!!
 ## 202007 August LeetCoding Challenge <a name="202008"></a>
 * [[Easy] [Solution] 520. Detect Capital](%5BEasy%5D%20%5BSolution%5D%20520.%20Detect%20Capital.md)
 * [[Easy] 705. Design HashSet](%5BEasy%5D%20705.%20Design%20HashSet.md)
+* [[Easy] [Solution] 125. Valid Palindrome](%5BEasy%5D%20%5BSolution%5D%20125.%20Valid%20Palindrome.md)
 
 ## Array <a name="array"></a>
 ---
@@ -3833,7 +3834,7 @@ class Solution:
         filter_str = [*filter(lambda c:c.isdigit() or c.isalpha(), s.lower())]  # list(filter(lambda c:c.isdigit() or c.isalpha(), s.lower()))
         return filter_str[::-1] == filter_str
 ```
-* [[Easy] 125. Valid Palindrome](%5BEasy%5D%20125.%20Valid%20Palindrome.md)
+* [[Easy] [Solution] 125. Valid Palindrome](%5BEasy%5D%20%5BSolution%5D%20125.%20Valid%20Palindrome.md)
 
 ### Repeated Substring Pattern
 ```python
