@@ -347,6 +347,7 @@ Happy Coding!!
 * [[Easy] [Solution] 520. Detect Capital](%5BEasy%5D%20%5BSolution%5D%20520.%20Detect%20Capital.md)
 * [[Easy] 705. Design HashSet](%5BEasy%5D%20705.%20Design%20HashSet.md)
 * [[Easy] [Solution] 125. Valid Palindrome](%5BEasy%5D%20%5BSolution%5D%20125.%20Valid%20Palindrome.md)
+* [[Easy] [Solution] 342. Power of Four](%5BEasy%5D%20%5BSolution%5D%20342.%20Power%20of%20Four.md)
 
 ## Array <a name="array"></a>
 ---
@@ -2756,6 +2757,15 @@ class Solution:
 
 ## Math <a name="math"></a>
 ---
+### Power of Four
+```python
+class Solution:
+    def isPowerOfFour(self, num: int) -> bool:
+        temp = bin(num).split('1')
+        return num > 0 and len(temp) == 2 and not len(temp[-1]) % 2
+```
+* [[Easy] [Solution] 342. Power of Four](%5BEasy%5D%20%5BSolution%5D%20342.%20Power%20of%20Four.md)
+
 ### Digital Root
 ```python
 class Solution:
@@ -8254,6 +8264,43 @@ class Solution:
         return merged
 ```
 * [[Medium] [Solution] 56. Merge Intervals](%5BMedium%5D%20%5BSolution%5D%2056.%20Merge%20Intervals.md)
+
+### Interval overlay
+```python
+class Solution:
+    def minMeetingRooms(self, intervals: List[List[int]]) -> int:
+        # If there are no meetings, we don't need any rooms.
+        if not intervals:
+            return 0
+
+        used_rooms = 0
+
+        # Separate out the start and the end timings and sort them individually.
+        start_timings = sorted([i[0] for i in intervals])
+        end_timings = sorted(i[1] for i in intervals)
+        L = len(intervals)
+
+        # The two pointers in the algorithm: e_ptr and s_ptr.
+        end_pointer = 0
+        start_pointer = 0
+
+        # Until all the meetings have been processed
+        while start_pointer < L:
+            # If there is a meeting that has ended by the time the meeting at `start_pointer` starts
+            if start_timings[start_pointer] >= end_timings[end_pointer]:
+                # Free up a room and increment the end_pointer.
+                used_rooms -= 1
+                end_pointer += 1
+
+            # We do this irrespective of whether a room frees up or not.
+            # If a room got free, then this used_rooms += 1 wouldn't have any effect. used_rooms would
+            # remain the same in that case. If no room was free, then this would increase used_rooms
+            used_rooms += 1    
+            start_pointer += 1   
+
+        return used_rooms
+```
+* [[Lock] [Medium] [Solution] 253. Meeting Rooms II](%5BLock%5D%20%5BMedium%5D%20%5BSolution%5D%20253.%20Meeting%20Rooms%20II.md)
 
 ### Sorting via Custom Comparator
 ```python

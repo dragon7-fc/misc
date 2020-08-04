@@ -146,7 +146,7 @@ The next two diagrams process the remaining meetings and we see that we can now 
 * Separate out the start times and the end times in their separate arrays.
 * Sort the start times and the end times separately. Note that this will mess up the original correspondence of start times and end times. They will be treated individually now.
 * We consider two pointers: `s_ptr` and `e_ptr` which refer to start pointer and end pointer. The start pointer simply iterates over all the meetings and the end pointer helps us track if a meeting has ended and if we can reuse a room.
-* When considering a specific meeting pointed to by `s_ptr`, we check if this start timing is greater than the meeting pointed to by `e_ptr`. If this is the case then that would mean some meeting has ended by the time the meeting at `s_pt`r had to start. So we can reuse one of the rooms. Otherwise, we have to allocate a new room.
+* When considering a specific meeting pointed to by `s_ptr`, we check if this start timing is greater than the meeting pointed to by `e_ptr`. If this is the case then that would mean some meeting has ended by the time the meeting at `s_ptr` had to start. So we can reuse one of the rooms. Otherwise, we have to allocate a new room.
 * If a meeting has indeed ended i.e. if `start[s_ptr] >= end[e_ptr]`, then we increment `e_ptr`.
 * Repeat this process until `s_ptr` processes all of the meetings.
 
@@ -194,3 +194,143 @@ class Solution:
 
 # Submissions
 ---
+**Solution 1: (Priority Queues)**
+```
+Runtime: 68 ms
+Memory Usage: 17 MB
+```
+```python
+class Solution:
+    def minMeetingRooms(self, intervals: List[List[int]]) -> int:
+        # If there is no meeting to schedule then no room needs to be allocated.
+        if not intervals:
+            return 0
+
+        # The heap initialization
+        free_rooms = []
+
+        # Sort the meetings in increasing order of their start time.
+        intervals.sort(key= lambda x: x[0])
+
+        # Add the first meeting. We have to give a new room to the first meeting.
+        heapq.heappush(free_rooms, intervals[0][1])  # or heapq.heappush(free_rooms)
+
+        # For all the remaining meeting rooms
+        for i in intervals[1:]:
+
+            # If the room due to free up the earliest is free, assign that room to this meeting.
+            if free_rooms[0] <= i[0]:
+                heapq.heappop(free_rooms)
+
+            # If a new room is to be assigned, then also we add to the heap,
+            # If an old room is allocated, then also we have to add to the heap with updated end time.
+            heapq.heappush(free_rooms, i[1])
+
+        # The size of the heap tells us the minimum rooms required for all the meetings.
+        return len(free_rooms)
+```
+
+**Solution 2: (Chronological Ordering)**
+```
+Runtime: 72 ms
+Memory Usage: 17.1 MB
+```
+```python
+class Solution:
+    def minMeetingRooms(self, intervals: List[List[int]]) -> int:
+        # If there are no meetings, we don't need any rooms.
+        if not intervals:
+            return 0
+
+        used_rooms = 0
+
+        # Separate out the start and the end timings and sort them individually.
+        start_timings = sorted([i[0] for i in intervals])
+        end_timings = sorted(i[1] for i in intervals)
+        L = len(intervals)
+
+        # The two pointers in the algorithm: e_ptr and s_ptr.
+        end_pointer = 0
+        start_pointer = 0
+
+        # Until all the meetings have been processed
+        while start_pointer < L:
+            # If there is a meeting that has ended by the time the meeting at `start_pointer` starts
+            if start_timings[start_pointer] >= end_timings[end_pointer]:
+                # Free up a room and increment the end_pointer.
+                used_rooms -= 1
+                end_pointer += 1
+
+            # We do this irrespective of whether a room frees up or not.
+            # If a room got free, then this used_rooms += 1 wouldn't have any effect. used_rooms would
+            # remain the same in that case. If no room was free, then this would increase used_rooms
+            used_rooms += 1    
+            start_pointer += 1   
+
+        return used_rooms
+```
+
+**Solution 3: (Balance)**
+```
+Runtime: 36 ms
+Memory Usage: 12.6 MB
+```
+```c++
+class Solution {
+public:
+    int minMeetingRooms(vector<vector<int>>& intervals) {
+        if (intervals.empty()) {
+            return 0;
+        }
+        vector<pair<int, int>> times;
+        
+        for (int i = 0; i < intervals.size(); i++) {
+            times.emplace_back(intervals[i][0], 1);
+            times.emplace_back(intervals[i][1], 0);
+        }
+        
+        sort(times.begin(), times.end());
+        
+        int balance = 0;
+        int ans = 0;
+        
+        for (int i = 0; i < times.size(); i++) {
+            if (times[i].second == 1) {
+                balance += 1;
+            }
+            else {
+                balance -= 1;
+            }
+            
+            ans = max(ans, balance);
+        }
+        return ans;
+    }
+};
+```
+
+**Solution 4: (Balance)**
+```
+Runtime: 80 ms
+Memory Usage: 17.1 MB
+```
+```python
+class Solution:
+    def minMeetingRooms(self, intervals: List[List[int]]) -> int:
+        if not intervals:
+            return 0
+        times = []
+        for start, end in intervals:
+            times += [(start, 1)]
+            times += [(end, 0)]
+        times.sort()
+        balance, ans = 0, 0
+        for t in times:
+            if t[1] == 1:
+                balance += 1
+            else:
+                balance -= 1
+            ans = max(ans, balance)
+        
+        return ans
+```
