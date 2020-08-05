@@ -348,6 +348,7 @@ Happy Coding!!
 * [[Easy] 705. Design HashSet](%5BEasy%5D%20705.%20Design%20HashSet.md)
 * [[Easy] [Solution] 125. Valid Palindrome](%5BEasy%5D%20%5BSolution%5D%20125.%20Valid%20Palindrome.md)
 * [[Easy] [Solution] 342. Power of Four](%5BEasy%5D%20%5BSolution%5D%20342.%20Power%20of%20Four.md)
+* [[Medium] [Solution] 211. Add and Search Word - Data structure design](%5BMedium%5D%20%5BSolution%5D%20211.%20Add%20and%20Search%20Word%20-%20Data%20structure%20design.md)
 
 ## Array <a name="array"></a>
 ---
@@ -10492,6 +10493,59 @@ class Trie:
 # param_3 = obj.startsWith(prefix)
 ```
 * [[Medium] [Solution] 208. Implement Trie (Prefix Tree)](%5BMedium%5D%20%5BSolution%5D%20208.%20Implement%20Trie%20(Prefix%20Tree).md)
+
+### Add and Search Word
+```python
+class WordDictionary:
+
+    def __init__(self):
+        """
+        Initialize your data structure here.
+        """
+        self.trie = {}
+
+    def addWord(self, word: str) -> None:
+        """
+        Adds a word into the data structure.
+        """
+        node = self.trie
+
+        for ch in word:
+            if not ch in node:
+                node[ch] = {}
+            node = node[ch]
+        node['@'] = True
+
+    def search(self, word: str) -> bool:
+        """
+        Returns if the word is in the data structure. A word could contain the dot character '.' to represent any one letter.
+        """
+        def search_in_node(word, node) -> bool:
+            for i, ch in enumerate(word):
+                if not ch in node:
+                    # if the current character is '.'
+                    # check all possible nodes at this level
+                    if ch == '.':
+                        for x in node:
+                            if x != '@' and search_in_node(word[i + 1:], node[x]):
+                                return True
+                    # if no nodes lead to answer
+                    # or the current character != '.'
+                    return False
+                # if the character is found
+                # go down to the next level in trie
+                else:
+                    node = node[ch]
+            return '@' in node
+
+        return search_in_node(word, self.trie)
+
+# Your WordDictionary object will be instantiated and called as such:
+# obj = WordDictionary()
+# obj.addWord(word)
+# param_2 = obj.search(word)
+```
+* [[Medium] [Solution] 211. Add and Search Word - Data structure design](%5BMedium%5D%20%5BSolution%5D%20211.%20Add%20and%20Search%20Word%20-%20Data%20structure%20design.md)
 
 ### Node
 ```python

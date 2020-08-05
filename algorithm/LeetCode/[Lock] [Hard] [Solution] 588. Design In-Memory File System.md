@@ -34,17 +34,17 @@ Explanation:
 # Solution
 ---
 ## Approach #1 Using separate Directory and File List[Accepted]
-We start our discussion by looking at the directory structure used. The root directory acts as the base of the directory structure. Each directory contains two hashmaps namely dirsdirs and filesfiles. The dirsdirs contains data in the form $[(subdirectory_1\_name: subdirectory_{1\_structure}), (subdirectory_2\_name: subdirectory_{2\_structure})...]$. The filesfiles contains data in the form $[(file_1: file_{1\_contents}), (file_2: file_{2\_contents})...]$. This directory structure is shown below with a sample showing just the first two levels.
+We start our discussion by looking at the directory structure used. The root directory acts as the base of the directory structure. Each directory contains two hashmaps namely $dirs$ and $files$. The $dirs$ contains data in the form $[(subdirectory_1\_name: subdirectory_{1\_structure}), (subdirectory_2\_name: subdirectory_{2\_structure})...]$. The $files$ contains data in the form $[(file_1: file_{1\_contents}), (file_2: file_{2\_contents})...]$. This directory structure is shown below with a sample showing just the first two levels.
 
 ![588_Design_In_Memory.png](img/588_Design_In_Memory.png)
 
 Now, we'll discuss how we implement the various commands required.
 
-`ls`: In this case, we start off by initializing tt, a temporary directory pointer, to the root directory. We split the input directory path based on `/` and obtain the individual levels of directory names in a $d$ array. Then, we traverse over the tree directory structure based on the individual directories found and we keep on updating the tt directory pointer to point to the new level of directory(child) as we go on entering deeper into the directory structure. At the end, we will stop at either the end level directory or at the file name depending upon the input given. If the last level in the input happens to be a file name, we simply need to return the file name. So, we directly return the last entry in the dd array. If the last level entry happens to be a directory, we can obtain its subdirectory list from the list of keys in its dirsdirs hashmap. Similarly, we can obtain the list of files in the last directory from the keys in the corresponding $files$ hashmap. We append the two lists obtained, sort them and return the sorted appended list.
+`ls`: In this case, we start off by initializing tt, a temporary directory pointer, to the root directory. We split the input directory path based on `/` and obtain the individual levels of directory names in a $d$ array. Then, we traverse over the tree directory structure based on the individual directories found and we keep on updating the tt directory pointer to point to the new level of directory(child) as we go on entering deeper into the directory structure. At the end, we will stop at either the end level directory or at the file name depending upon the input given. If the last level in the input happens to be a file name, we simply need to return the file name. So, we directly return the last entry in the dd array. If the last level entry happens to be a directory, we can obtain its subdirectory list from the list of keys in its $dirs$ hashmap. Similarly, we can obtain the list of files in the last directory from the keys in the corresponding $files$ hashmap. We append the two lists obtained, sort them and return the sorted appended list.
 
-`mkdir`: In response to this command, as in case of `ls`, we start entering the directory structure level by level. Whenever we reach a state where a directory mentioned in the path of mkdir doesn't exist, we create a new entry in the last valid directory's dirsdirs structure and initialize its subdirectory list as an empty list. We keep on doing so till we reach the end level directory.
+`mkdir`: In response to this command, as in case of `ls`, we start entering the directory structure level by level. Whenever we reach a state where a directory mentioned in the path of mkdir doesn't exist, we create a new entry in the last valid directory's $dirs$ structure and initialize its subdirectory list as an empty list. We keep on doing so till we reach the end level directory.
 
-`addContentToFile`: In response to this command as well, as in case of `ls`, we start entering the directory structure level by level. When we reach the level of the file name, we check if the file name already exists in the filesfiles keys. If it exists, we concatenate the current contents to the contents of the file(in the value section of the corresponding file). If it doesn't exist, we create a new entry in the current directory's filesfiles and initialize its contents with the current contents.
+`addContentToFile`: In response to this command as well, as in case of `ls`, we start entering the directory structure level by level. When we reach the level of the file name, we check if the file name already exists in the $files$ keys. If it exists, we concatenate the current contents to the contents of the file(in the value section of the corresponding file). If it doesn't exist, we create a new entry in the current directory's $files$ and initialize its contents with the current contents.
 
 `readContentFromFile`: As the previous cases, we reach the last directory level by traversing through the directory structure level by level. Then, in the last directory, we search for the file name entry in the corresponding $files$' keys and return its corresponding value as the contents of the file.
 
@@ -127,16 +127,16 @@ public class FileSystem {
 
 * The time complexity of both `addContentToFile` and `readContentFromFile` is $O(m+n)$. Here, mm refers to the length of the input string. We need to scan the input string once to split it and determine the various levels. nn refers to the depth of the file name in the current input. This factor is taken because we need to enter nn levels of the tree structure to reach the level where the files's contents need to be added/read from.
 
-* The advantage of this scheme of maintaining the directory structure is that it is expandable to include even more commands easily. For example, `rmdir` to remove a directory given an input directory path. We need to simply reach to the destined directory level and remove the corresponding directory entry from the corresponding dirsdirs keys.
+* The advantage of this scheme of maintaining the directory structure is that it is expandable to include even more commands easily. For example, `rmdir` to remove a directory given an input directory path. We need to simply reach to the destined directory level and remove the corresponding directory entry from the corresponding $dirs$ keys.
 
 * Renaming files/directories is also very simple, since all we need to do is to create a temporary copy of the directory structure/file with a new name and delete the last entry.
 
 * Relocating a hierarchichal subdirectory structure from one directory to the other is also very easy, since, all we need to do is obtain the address for the corresponding subdirectory class, and assign the same at the new positon in the new directory structure.
 
-* Extracting only directories or files list on any path is easy in this case, since we maintain separate entires for dirsdirs and filesfiles.
+* Extracting only directories or files list on any path is easy in this case, since we maintain separate entires for $dirs$ and $files$.
 
 ## Approach #2 Using unified Directory and File List[Accepted]
-This design differs from the first design in that the current data structure for a Directory contains a unified filesfiles hashmap, which contains the list of all the files and subdirectories in the current directory. Apart from this, we contain an entry isfileisfile, which when True indicates that the current filesfiles entry is actually corresponding to a file, otherwise it represents a directory. Further, since we are considering the directory and files' entries in the same manner, we need an entry for contentcontent, which contains the contents of the current file(if isfileisfile entry is True in the current case). For entries corresponding to directories, the contentcontent field is kept empty.
+This design differs from the first design in that the current data structure for a Directory contains a unified $files$ hashmap, which contains the list of all the files and subdirectories in the current directory. Apart from this, we contain an entry isfileisfile, which when True indicates that the current $files$ entry is actually corresponding to a file, otherwise it represents a directory. Further, since we are considering the directory and files' entries in the same manner, we need an entry for contentcontent, which contains the contents of the current file(if isfileisfile entry is True in the current case). For entries corresponding to directories, the contentcontent field is kept empty.
 
 The following figure shows the directory structure for the same example as in the case above, for the first two levels of the hierarchical structure.
 
@@ -229,7 +229,7 @@ public class FileSystem {
 
 * The time complexity of both `addContentToFile` and `readContentFromFile` is $O(m+n)$. Here, $m$ refers to the length of the input string. We need to scan the input string once to split it and determine the various levels. nn refers to the depth of the file name in the current input. This factor is taken because we need to enter nn levels of the tree structure to reach the level where the files's contents need to be added/read from.
 
-* The advantage of this scheme of maintaining the directory structure is that it is expandable to include even more commands easily. For example, `rmdir` to remove a directory given an input directory path. We need to simply reach to the destined directory level and remove the corresponding directory entry from the corresponding dirsdirs keys.
+* The advantage of this scheme of maintaining the directory structure is that it is expandable to include even more commands easily. For example, `rmdir` to remove a directory given an input directory path. We need to simply reach to the destined directory level and remove the corresponding directory entry from the corresponding $dirs$ keys.
 
 * Renaming files/directories is also very simple, since all we need to do is to create a temporary copy of the directory structure/file with a new name and delete the last entry.
 
@@ -241,3 +241,121 @@ public class FileSystem {
 
 # Submissions
 ---
+**Solution 1: (Trie)**
+```
+Runtime: 76 ms
+Memory Usage: 14 MB
+```
+```python
+class FileSystem:
+
+    def __init__(self):
+        self.dirs = collections.defaultdict(dict)
+        self.files = collections.defaultdict(str)
+    
+    def ls(self, path: str) -> List[str]:
+        ps = path.split('/')
+        if path in self.files:
+            fileName = ps[-1]
+            return [fileName]
+        
+        tmp = self.dirs
+        for p in ps:
+            if p == '': continue
+            if p in tmp:
+                tmp = tmp[p]
+            else:
+                return []
+        return list(sorted(tmp.keys()))
+
+    def mkdir(self, path: str) -> None:
+        ps = path.split('/')
+        tmp = self.dirs
+        for p in ps:
+            if p == '': continue
+            if p not in tmp:
+                tmp[p] = collections.defaultdict()
+            tmp = tmp[p]
+
+    def addContentToFile(self, filePath: str, content: str) -> None:
+        if filePath not in self.files:
+            self.mkdir(filePath)
+            self.files[filePath] = content
+        else:
+            self.files[filePath] += content
+
+    def readContentFromFile(self, filePath: str) -> str:
+        return self.files[filePath]
+
+
+# Your FileSystem object will be instantiated and called as such:
+# obj = FileSystem()
+# param_1 = obj.ls(path)
+# obj.mkdir(path)
+# obj.addContentToFile(filePath,content)
+# param_4 = obj.readContentFromFile(filePath)
+```
+
+**Solution 2: (Trie)**
+```
+Runtime: 72 ms
+Memory Usage: 14.1 MB
+```
+```python
+class TrieNode:
+    def __init__(self):
+        self.child = collections.defaultdict(TrieNode)
+        self.isFile = False
+        self.content = ""
+        self.name = ""
+        
+class FileSystem:
+
+    def __init__(self):
+        self.root = TrieNode()
+    
+    def ls(self, path: str) -> List[str]:
+        res = []
+        path = path.split('/')[1:]
+        cur = self.root
+        if path[0]!='':
+            for p in path:
+                cur = cur.child[p]
+        if cur.isFile:
+            return [cur.name]
+        for ch in cur.child:
+            res.append(ch)
+        return sorted(res)
+
+    def mkdir(self, path: str) -> None:
+        cur = self.root
+        paths = path.split('/')[1:]
+        for p in paths:
+            cur = cur.child[p]
+            cur.name = p
+
+    def addContentToFile(self, filePath: str, content: str) -> None:
+        cur =self.root
+        filePath = filePath.split('/')[1:]
+        for p in filePath:
+            cur = cur.child[p]
+            cur.name = p
+        cur.isFile = True
+        cur.content += content
+
+    def readContentFromFile(self, filePath: str) -> str:
+        cur =self.root
+        filePath = filePath.split('/')[1:]
+        for p in filePath:
+            cur = cur.child[p]
+        if cur.isFile:
+            return cur.content
+
+
+# Your FileSystem object will be instantiated and called as such:
+# obj = FileSystem()
+# param_1 = obj.ls(path)
+# obj.mkdir(path)
+# obj.addContentToFile(filePath,content)
+# param_4 = obj.readContentFromFile(filePath)
+```
