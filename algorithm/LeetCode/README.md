@@ -349,6 +349,7 @@ Happy Coding!!
 * [[Easy] [Solution] 125. Valid Palindrome](%5BEasy%5D%20%5BSolution%5D%20125.%20Valid%20Palindrome.md)
 * [[Easy] [Solution] 342. Power of Four](%5BEasy%5D%20%5BSolution%5D%20342.%20Power%20of%20Four.md)
 * [[Medium] [Solution] 211. Add and Search Word - Data structure design](%5BMedium%5D%20%5BSolution%5D%20211.%20Add%20and%20Search%20Word%20-%20Data%20structure%20design.md)
+* [[Medium] [Solution] 442. Find All Duplicates in an Array](%5BMedium%5D%20%5BSolution%5D%20442.%20Find%20All%20Duplicates%20in%20an%20Array.md)
 
 ## Array <a name="array"></a>
 ---
@@ -614,6 +615,21 @@ class Solution:
         return sum(([nums[i], nums[i+n]] for i in range(n)), [])
 ```
 * [[Easy] 1470. Shuffle the Array](%5BEasy%5D%201470.%20Shuffle%20the%20Array.md)
+
+### Mark Visited Elements in the Input Array itself
+```python
+class Solution:
+    def findDuplicates(self, nums: List[int]) -> List[int]:
+        ans = []
+        for num in nums:
+            num = abs(num)
+            if nums[num-1] < 0:
+                ans.append(num)
+            else:
+                nums[num-1] = -nums[num-1]
+        return ans
+```
+* [[Medium] [Solution] 442. Find All Duplicates in an Array](%5BMedium%5D%20%5BSolution%5D%20442.%20Find%20All%20Duplicates%20in%20an%20Array.md)
 
 ### Linear Scan
 ```python
