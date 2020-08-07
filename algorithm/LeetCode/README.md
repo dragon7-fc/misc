@@ -350,6 +350,7 @@ Happy Coding!!
 * [[Easy] [Solution] 342. Power of Four](%5BEasy%5D%20%5BSolution%5D%20342.%20Power%20of%20Four.md)
 * [[Medium] [Solution] 211. Add and Search Word - Data structure design](%5BMedium%5D%20%5BSolution%5D%20211.%20Add%20and%20Search%20Word%20-%20Data%20structure%20design.md)
 * [[Medium] [Solution] 442. Find All Duplicates in an Array](%5BMedium%5D%20%5BSolution%5D%20442.%20Find%20All%20Duplicates%20in%20an%20Array.md)
+* [[Medium] [Solution] 987. Vertical Order Traversal of a Binary Tree](%5BMedium%5D%20%5BSolution%5D%20987.%20Vertical%20Order%20Traversal%20of%20a%20Binary%20Tree.md)
 
 ## Array <a name="array"></a>
 ---
@@ -5314,6 +5315,39 @@ class Solution:
         return all(seen) # Return true iff we've visited every room
 ```
 * [[Medium] [Solution] 841. Keys and Rooms](%5BMedium%5D%20%5BSolution%5D%20841.%20Keys%20and%20Rooms.md)
+
+### Store Locations
+```python
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+
+class Solution:
+    def verticalTraversal(self, root: TreeNode) -> List[List[int]]:
+        seen = collections.defaultdict(
+                  lambda: collections.defaultdict(list))
+
+        def dfs(node, x=0, y=0):
+            if node:
+                seen[x][y].append(node)
+                dfs(node.left, x-1, y+1)
+                dfs(node.right, x+1, y+1)
+
+        dfs(root)
+        ans = []
+
+        for x in sorted(seen):
+            report = []
+            for y in sorted(seen[x]):
+                report.extend(sorted(node.val for node in seen[x][y]))
+            ans.append(report)
+
+        return ans
+```
+* [[Medium] [Solution] 987. Vertical Order Traversal of a Binary Tree](%5BMedium%5D%20%5BSolution%5D%20987.%20Vertical%20Order%20Traversal%20of%20a%20Binary%20Tree.md)
 
 ### DFS, BFS
 ```python
