@@ -351,6 +351,8 @@ Happy Coding!!
 * [[Medium] [Solution] 211. Add and Search Word - Data structure design](%5BMedium%5D%20%5BSolution%5D%20211.%20Add%20and%20Search%20Word%20-%20Data%20structure%20design.md)
 * [[Medium] [Solution] 442. Find All Duplicates in an Array](%5BMedium%5D%20%5BSolution%5D%20442.%20Find%20All%20Duplicates%20in%20an%20Array.md)
 * [[Medium] [Solution] 987. Vertical Order Traversal of a Binary Tree](%5BMedium%5D%20%5BSolution%5D%20987.%20Vertical%20Order%20Traversal%20of%20a%20Binary%20Tree.md)
+* [[Lock] [Easy] [Solution] 270. Closest Binary Search Tree Value](%5BLock%5D%20%5BEasy%5D%20%5BSolution%5D%20270.%20Closest%20Binary%20Search%20Tree%20Value.md)
+* [[Medium] [Solution] 437. Path Sum III](%5BMedium%5D%20%5BSolution%5D%20437.%20Path%20Sum%20III.md)
 
 ## Array <a name="array"></a>
 ---
@@ -5251,6 +5253,54 @@ class Solution:
 ```
 * [[Easy] [Solution] 733. Flood Fill](%5BEasy%5D%20%5BSolution%5D%20733.%20Flood%20Fill.md)
 
+### Prefix Sum
+```python
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+class Solution:
+    def pathSum(self, root: TreeNode, sum: int) -> int:
+        def preorder(node: TreeNode, curr_sum) -> None:
+            nonlocal count
+            if not node:
+                return 
+
+            # current prefix sum
+            curr_sum += node.val
+
+            # here is the sum we're looking for
+            if curr_sum == k:
+                count += 1
+
+            # number of times the curr_sum − k has occurred already, 
+            # determines the number of times a path with sum k 
+            # has occurred up to the current node
+            count += h[curr_sum - k]
+
+            # add the current sum into hashmap
+            # to use it during the child nodes processing
+            h[curr_sum] += 1
+
+            # process left subtree
+            preorder(node.left, curr_sum)
+            # process right subtree
+            preorder(node.right, curr_sum)
+
+            # remove the current sum from the hashmap
+            # in order not to use it during 
+            # the parallel subtree processing
+            h[curr_sum] -= 1
+
+        count, k = 0, sum
+        h = defaultdict(int)
+        preorder(root, 0)
+        return count
+```
+* [[Medium] [Solution] 437. Path Sum III](%5BMedium%5D%20%5BSolution%5D%20437.%20Path%20Sum%20III.md)
+
 ### Hash Table + Preorder
 ```python
 # Definition for a binary tree node.
@@ -5793,6 +5843,24 @@ class Solution:
         return -1
 ```
 * [[Easy] [Solution] 704. Binary Search](%5BEasy%5D%20%5BSolution%5D%20704.%20Binary%20Search.md)
+
+### Closest Binary Search Tree Value
+```python
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+class Solution:
+    def closestValue(self, root: TreeNode, target: float) -> int:
+        closest = root.val
+        while root:
+            closest = min(root.val, closest, key = lambda x: abs(target - x))
+            root = root.left if target < root.val else root.right
+        return closest
+```
+* [[Lock] [Easy] [Solution] 270. Closest Binary Search Tree Value](%5BLock%5D%20%5BEasy%5D%20%5BSolution%5D%20270.%20Closest%20Binary%20Search%20Tree%20Value.md)
 
 ### Binary Search to leftmost - increase one side
 ```python
@@ -7975,6 +8043,75 @@ class Solution:
         return ans
 ```
 * [[Medium] 79. Word Search](%5BMedium%5D%2079.%20Word%20Search.md)
+
+### Spiral Backtracking
+```python
+# """
+# This is the robot's control interface.
+# You should not implement it, or speculate about its implementation
+# """
+#class Robot:
+#    def move(self):
+#        """
+#        Returns true if the cell in front is open and robot moves into the cell.
+#        Returns false if the cell in front is blocked and robot stays in the current cell.
+#        :rtype bool
+#        """
+#
+#    def turnLeft(self):
+#        """
+#        Robot will stay in the same cell after calling turnLeft/turnRight.
+#        Each turn will be 90 degrees.
+#        :rtype void
+#        """
+#
+#    def turnRight(self):
+#        """
+#        Robot will stay in the same cell after calling turnLeft/turnRight.
+#        Each turn will be 90 degrees.
+#        :rtype void
+#        """
+#
+#    def clean(self):
+#        """
+#        Clean the current cell.
+#        :rtype void
+#        """
+
+class Solution:
+    def cleanRoom(self, robot):
+        """
+        :type robot: Robot
+        :rtype: None
+        """
+        def go_back():
+            robot.turnRight()
+            robot.turnRight()
+            robot.move()
+            robot.turnRight()
+            robot.turnRight()
+
+        def backtrack(cell = (0, 0), d = 0):
+            visited.add(cell)
+            robot.clean()
+            # going clockwise : 0: 'up', 1: 'right', 2: 'down', 3: 'left'
+            for i in range(4):
+                new_d = (d + i) % 4
+                new_cell = (cell[0] + directions[new_d][0], \
+                            cell[1] + directions[new_d][1])
+
+                if not new_cell in visited and robot.move():
+                    backtrack(new_cell, new_d)
+                    go_back()
+                # turn the robot following chosen direction : clockwise
+                robot.turnRight()
+
+        # going clockwise : 0: 'up', 1: 'right', 2: 'down', 3: 'left'
+        directions = [(-1, 0), (0, 1), (1, 0), (0, -1)]
+        visited = set()
+        backtrack()
+```
+* [[Lock] [Hard] [Solution] 489. Robot Room Cleaner](%5BLock%5D%20%5BHard%5D%20%5BSolution%5D%20489.%20Robot%20Room%20Cleaner.md)
 
 **Template 1:**
 ```python
