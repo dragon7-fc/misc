@@ -5257,47 +5257,32 @@ class Solution:
 ```python
 # Definition for a binary tree node.
 # class TreeNode:
-#     def __init__(self, val=0, left=None, right=None):
-#         self.val = val
-#         self.left = left
-#         self.right = right
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+
 class Solution:
+
     def pathSum(self, root: TreeNode, sum: int) -> int:
-        def preorder(node: TreeNode, curr_sum) -> None:
-            nonlocal count
-            if not node:
-                return 
+        target = sum
+        prev_sum = collections.defaultdict(int)
+        prev_sum[0] = 1
+        cnt = 0
 
-            # current prefix sum
-            curr_sum += node.val
+        def dfs(node, curr_sum):
+            nonlocal cnt, prev_sum
+            if node is not None:
+                curr_sum += node.val
+                cnt += prev_sum[curr_sum - target]
+                prev_sum[curr_sum] += 1
 
-            # here is the sum we're looking for
-            if curr_sum == k:
-                count += 1
+                dfs(node.left, curr_sum)
+                dfs(node.right, curr_sum)
+                prev_sum[curr_sum] -= 1
 
-            # number of times the curr_sum − k has occurred already, 
-            # determines the number of times a path with sum k 
-            # has occurred up to the current node
-            count += h[curr_sum - k]
-
-            # add the current sum into hashmap
-            # to use it during the child nodes processing
-            h[curr_sum] += 1
-
-            # process left subtree
-            preorder(node.left, curr_sum)
-            # process right subtree
-            preorder(node.right, curr_sum)
-
-            # remove the current sum from the hashmap
-            # in order not to use it during 
-            # the parallel subtree processing
-            h[curr_sum] -= 1
-
-        count, k = 0, sum
-        h = defaultdict(int)
-        preorder(root, 0)
-        return count
+        dfs(root, 0)
+        return cnt
 ```
 * [[Medium] [Solution] 437. Path Sum III](%5BMedium%5D%20%5BSolution%5D%20437.%20Path%20Sum%20III.md)
 
