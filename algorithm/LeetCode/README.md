@@ -353,6 +353,7 @@ Happy Coding!!
 * [[Medium] [Solution] 987. Vertical Order Traversal of a Binary Tree](%5BMedium%5D%20%5BSolution%5D%20987.%20Vertical%20Order%20Traversal%20of%20a%20Binary%20Tree.md)
 * [[Lock] [Easy] [Solution] 270. Closest Binary Search Tree Value](%5BLock%5D%20%5BEasy%5D%20%5BSolution%5D%20270.%20Closest%20Binary%20Search%20Tree%20Value.md)
 * [[Medium] [Solution] 437. Path Sum III](%5BMedium%5D%20%5BSolution%5D%20437.%20Path%20Sum%20III.md)
+* [[Medium] [Solution] 994. Rotting Oranges](%5BMedium%5D%20%5BSolution%5D%20994.%20Rotting%20Oranges.md)
 
 ## Array <a name="array"></a>
 ---
@@ -6686,6 +6687,38 @@ class Solution(object):
         return 0
 ```
 * [[Medium] [Solution] 127. Word Ladder](%5BMedium%5D%20%5BSolution%5D%20127.%20Word%20Ladder.md)
+
+### BFS
+```python
+class Solution:
+    def orangesRotting(self, grid: List[List[int]]) -> int:
+        R, C = len(grid), len(grid[0])
+
+        # queue - all starting cells with rotting oranges
+        queue = collections.deque()
+        for r, row in enumerate(grid):
+            for c, val in enumerate(row):
+                if val == 2:
+                    queue.append((r, c, 0))
+
+        def neighbors(r, c):
+            for nr, nc in ((r-1,c),(r,c-1),(r+1,c),(r,c+1)):
+                if 0 <= nr < R and 0 <= nc < C:
+                    yield nr, nc
+
+        d = 0
+        while queue:
+            r, c, d = queue.popleft()
+            for nr, nc in neighbors(r, c):
+                if grid[nr][nc] == 1:
+                    grid[nr][nc] = 2
+                    queue.append((nr, nc, d+1))
+
+        if any(1 in row for row in grid):
+            return -1
+        return d
+```
+* [[Medium] [Solution] 994. Rotting Oranges](%5BMedium%5D%20%5BSolution%5D%20994.%20Rotting%20Oranges.md)
 
 ### Level order
 ```python
