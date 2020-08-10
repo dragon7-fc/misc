@@ -354,6 +354,7 @@ Happy Coding!!
 * [[Lock] [Easy] [Solution] 270. Closest Binary Search Tree Value](%5BLock%5D%20%5BEasy%5D%20%5BSolution%5D%20270.%20Closest%20Binary%20Search%20Tree%20Value.md)
 * [[Medium] [Solution] 437. Path Sum III](%5BMedium%5D%20%5BSolution%5D%20437.%20Path%20Sum%20III.md)
 * [[Medium] [Solution] 994. Rotting Oranges](%5BMedium%5D%20%5BSolution%5D%20994.%20Rotting%20Oranges.md)
+* [[Easy] 171. Excel Sheet Column Number](%5BEasy%5D%20171.%20Excel%20Sheet%20Column%20Number.md)
 
 ## Array <a name="array"></a>
 ---
@@ -2802,6 +2803,19 @@ class Solution:
 
 ## Math <a name="math"></a>
 ---
+### Base Conversion
+```python
+class Solution:
+    def titleToNumber(self, s):
+        """
+        :type s: str
+        :rtype: int
+        """
+        base = ord('A') - 1
+        return sum((ord(v)-base)*26**i for i,v in enumerate(s[::-1]))
+```
+* [[Easy] 171. Excel Sheet Column Number](%5BEasy%5D%20171.%20Excel%20Sheet%20Column%20Number.md)
+
 ### Power of Four
 ```python
 class Solution:
