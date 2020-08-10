@@ -119,3 +119,80 @@ class Solution(object):
 
 # Submissions
 ---
+**Solution 1: (Dynamic Programming (Next Array Variation))**
+```
+Runtime: 404 ms
+Memory Usage: 21.7 MB
+```
+```python
+class Solution:
+    def minWindow(self, S: str, T: str) -> str:
+        N = len(S)
+        nxt = [None] * N
+        last = [-1] * 26
+        for i in range(N-1, -1, -1):
+            last[ord(S[i]) - ord('a')] = i
+            nxt[i] = tuple(last)
+
+        windows = [[i, i] for i, c in enumerate(S) if c == T[0]]
+        for j in range(1, len(T)):
+            letter_index = ord(T[j]) - ord('a')
+            windows = [[root, nxt[i+1][letter_index]]
+                       for root, i in windows
+                       if 0 <= i < N-1 and nxt[i+1][letter_index] >= 0]
+
+        if not windows: return ""
+        i, j = min(windows, key = lambda x: x[1]-x[0])
+        return S[i: j+1]
+```
+
+**Solution 2: (DP Bottom-Up, Next Array Variation)**
+```
+Runtime: 212 ms
+Memory Usage: 74.9 MB
+```
+```c++
+class Solution {
+public:
+    string minWindow(string S, string T) {
+        int N = S.length();
+        vector<int> last(26, -1);
+        vector<vector<int>> nxt(N, vector<int>(26));
+
+        for (int i = N - 1; i >= 0; --i) {
+            last[S[i] - 'a'] = i;
+            for (int k = 0; k < 26; ++k) {
+                nxt[i][k] = last[k];
+            }
+        }
+
+        vector<vector<int>> windows;
+        for (int i = 0; i < N; ++i) {
+            if (S[i] == T[0])
+                windows.push_back({i, i});
+        }
+        for (int j = 1; j < T.length(); ++j) {
+            int letterIndex = T[j] - 'a';
+            for (vector<int>& window: windows) {
+                if (window[1] < N-1 && nxt[window[1]+1][letterIndex] >= 0) {
+                    window[1] = nxt[window[1]+1][letterIndex];
+                }
+                else {
+                    window[0] = window[1] = -1;
+                    break;
+                }
+            }
+        }
+
+        vector<int> ans = {-1, (int) S.length()};
+        for (vector<int>& window: windows) {
+            if (window[0] == -1) break;
+            if (window[1] - window[0] < ans[1] - ans[0]) {
+                ans = window;
+            }
+
+        }
+        return ans[0] >= 0 ? S.substr(ans[0], ans[1] + 1 - ans[0]) : "";
+    }
+};
+```

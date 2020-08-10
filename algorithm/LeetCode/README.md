@@ -2294,6 +2294,30 @@ class Solution:
 ````
 * [[Medium] [Solution] 799. Champagne Tower](%5BMedium%5D%20%5BSolution%5D%20799.%20Champagne%20Tower.md)
 
+### Next Array Variation
+```python
+class Solution:
+    def minWindow(self, S: str, T: str) -> str:
+        N = len(S)
+        nxt = [None] * N
+        last = [-1] * 26
+        for i in range(N-1, -1, -1):
+            last[ord(S[i]) - ord('a')] = i
+            nxt[i] = tuple(last)
+
+        windows = [[i, i] for i, c in enumerate(S) if c == T[0]]
+        for j in range(1, len(T)):
+            letter_index = ord(T[j]) - ord('a')
+            windows = [[root, nxt[i+1][letter_index]]
+                       for root, i in windows
+                       if 0 <= i < N-1 and nxt[i+1][letter_index] >= 0]
+
+        if not windows: return ""
+        i, j = min(windows, key = lambda x: x[1]-x[0])
+        return S[i: j+1]
+```
+* [[Lock] [Hard] [Solution] 727. Minimum Window Subsequence](%5BLock%5D%20%5BHard%5D%20%5BSolution%5D%20727.%20Minimum%20Window%20Subsequence.md)
+
 ### Using 1D Dynamic Programming
 ```python
 class Solution:
