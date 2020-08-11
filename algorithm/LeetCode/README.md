@@ -355,6 +355,7 @@ Happy Coding!!
 * [[Medium] [Solution] 437. Path Sum III](%5BMedium%5D%20%5BSolution%5D%20437.%20Path%20Sum%20III.md)
 * [[Medium] [Solution] 994. Rotting Oranges](%5BMedium%5D%20%5BSolution%5D%20994.%20Rotting%20Oranges.md)
 * [[Easy] 171. Excel Sheet Column Number](%5BEasy%5D%20171.%20Excel%20Sheet%20Column%20Number.md)
+* [[Medium] 274. H-Index](%5BMedium%5D%20274.%20H-Index.md)
 
 ## Array <a name="array"></a>
 ---
@@ -8574,6 +8575,20 @@ class Solution:
         return ""
 ```
 * [[Medium] [Solution] 524. Longest Word in Dictionary through Deleting](%5BMedium%5D%20%5BSolution%5D%20524.%20Longest%20Word%20in%20Dictionary%20through%20Deleting.md)
+
+### H-Index
+```python
+class Solution:
+    def hIndex(self, citations: List[int]) -> int:
+        if citations == []:
+            return 0
+        citations = sorted(citations,reverse=True)
+        for i in range(len(citations)):
+            if i >= citations[i]:
+                return i
+        return len(citations)
+```
+* [[Medium] 274. H-Index](%5BMedium%5D%20274.%20H-Index.md)
 
 ### Partition
 ```python
