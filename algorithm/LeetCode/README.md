@@ -356,6 +356,7 @@ Happy Coding!!
 * [[Medium] [Solution] 994. Rotting Oranges](%5BMedium%5D%20%5BSolution%5D%20994.%20Rotting%20Oranges.md)
 * [[Easy] 171. Excel Sheet Column Number](%5BEasy%5D%20171.%20Excel%20Sheet%20Column%20Number.md)
 * [[Medium] 274. H-Index](%5BMedium%5D%20274.%20H-Index.md)
+* [[Easy] 119. Pascal's Triangle II](%5BEasy%5D%20119.%20Pascal's%20Triangle%20II.md)
 
 ## Array <a name="array"></a>
 ---
@@ -1152,6 +1153,22 @@ class Solution:
 
 ## Dynamic Programming <a name="dp"></a>
 ---
+### Pascal's Triangle
+```python
+class Solution:
+    def getRow(self, rowIndex: int) -> List[int]:
+        prev_row = []
+
+        for row_number in range(rowIndex+1):
+            row = [None for _ in range(row_number+1)]
+            row[0], row[-1] = 1,1
+            for column_number in range(1,len(row)-1):
+                row[column_number] = prev_row[column_number-1] + prev_row[column_number]
+            prev_row = row
+        return prev_row
+```
+* [[Easy] 119. Pascal's Triangle II](%5BEasy%5D%20119.%20Pascal's%20Triangle%20II.md)
+
 ### Fibonacci Number
 ```python
 class Solution:
@@ -6381,6 +6398,53 @@ class Solution:
         return parity == 0
 ```
 * [[Easy] [Solution] 717. 1-bit and 2-bit Characters](%5BEasy%5D%20%5BSolution%5D%20717.%201-bit%20and%202-bit%20Characters.md)
+
+### Logical Deduction with Caching
+```python
+class Solution:
+
+    @lru_cache(maxsize=None)
+    def cachedKnows(self, a, b):
+        return knows(a, b)
+
+    def findCelebrity(self, n: int) -> int:
+        self.n = n
+        celebrity_candidate = 0
+        for i in range(1, n):
+            if self.cachedKnows(celebrity_candidate, i):
+                celebrity_candidate = i
+        if self.is_celebrity(celebrity_candidate):
+            return celebrity_candidate
+        return -1
+
+    def is_celebrity(self, i):
+        for j in range(self.n):
+            if i == j: continue
+            if knows(i, j) or not knows(j, i):
+                return False
+        return True
+```
+* [[Lock] [Medium] [Solution] 277. Find the Celebrity](%5BLock%5D%20%5BMedium%5D%20%5BSolution%5D%20277.%20Find%20the%20Celebrity.md)
+
+### Range Caching
+```python
+class Solution:
+    def getModifiedArray(self, length: int, updates: List[List[int]]) -> List[int]:
+        result = [0] * length
+
+        # просто обозначим в каждой ячейке что делать с последующими, начиная от этой
+        for idx_start, idx_end, inc in updates:
+            result[idx_start] += inc
+            if idx_end + 1 < length:
+                result[idx_end + 1] -= inc
+
+        # посчитаем все разом
+        for idx in range(1, length):
+            result[idx] += result[idx - 1]
+
+        return result
+```
+* [[Lock] [Medium] [Solution] 370. Range Addition](%5BLock%5D%20%5BMedium%5D%20%5BSolution%5D%20370.%20Range%20Addition.md)
 
 ### Total period
 ```python
