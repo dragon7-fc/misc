@@ -357,6 +357,7 @@ Happy Coding!!
 * [[Easy] 171. Excel Sheet Column Number](%5BEasy%5D%20171.%20Excel%20Sheet%20Column%20Number.md)
 * [[Medium] 274. H-Index](%5BMedium%5D%20274.%20H-Index.md)
 * [[Easy] 119. Pascal's Triangle II](%5BEasy%5D%20119.%20Pascal's%20Triangle%20II.md)
+* [[Medium] 1286. Iterator for Combination](LeetCode/%5BMedium%5D%201286.%20Iterator%20for%20Combination.md)
 
 ## Array <a name="array"></a>
 ---
@@ -623,6 +624,44 @@ class Solution:
 ```
 * [[Easy] 1470. Shuffle the Array](%5BEasy%5D%201470.%20Shuffle%20the%20Array.md)
 
+### Using Cumulative Sum and HashSet
+```python
+class Solution:
+    def splitArray(self, nums: List[int]) -> bool:
+        N = len(nums)
+        if N < 7: 
+            return False
+        cum = [nums[0]] + [0]*(N-1)
+        for i in range(1, N):
+            cum[i] += cum[i-1] + nums[i]
+        for j in range(3, N-3):
+            s = set()
+            for i in range(1, j-1):
+                if cum[i-1] == cum[j-1] - cum[i]:
+                    s.add(cum[i-1])
+            for k in range(j+2, N-1):
+                if cum[N-1]-cum[k] == cum[k-1]-cum[j] and (cum[k-1]-cum[j]) in s:
+                    return True
+
+        return False
+```
+* [[Lock] [Medium] [Solution] 548. Split Array with Equal Sum](%5BLock%5D%20%5BMedium%5D%20%5BSolution%5D%20548.%20Split%20Array%20with%20Equal%20Sum.md)
+
+### Single Scan
+```python
+class Solution:
+    def maxDistance(self, arrays: List[List[int]]) -> int:
+        res = 0
+        min_val, max_val = arrays[0][0], arrays[0][-1]
+        for i in range(1, len(arrays)):
+            res = max(res, max(abs(arrays[i][-1] - min_val), abs(max_val - arrays[i][0])))
+            min_val = min(min_val, arrays[i][0])
+            max_val = max(max_val, arrays[i][-1])
+
+        return res
+```
+* [[Lock] [Medium] [Solution] 624. Maximum Distance in Arrays](%5BLock%5D%20%5BMedium%5D%20%5BSolution%5D%20624.%20Maximum%20Distance%20in%20Arrays.md)
+
 ### Mark Visited Elements in the Input Array itself
 ```python
 class Solution:
@@ -637,6 +676,38 @@ class Solution:
         return ans
 ```
 * [[Medium] [Solution] 442. Find All Duplicates in an Array](%5BMedium%5D%20%5BSolution%5D%20442.%20Find%20All%20Duplicates%20in%20an%20Array.md)
+
+### Ad-Hoc
+```python
+class Solution:
+    def candyCrush(self, board: List[List[int]]) -> List[List[int]]:
+        R, C = len(board), len(board[0])
+        todo = False
+
+        for r in range(R):
+            for c in range(C-2):
+                if abs(board[r][c]) == abs(board[r][c+1]) == abs(board[r][c+2]) != 0:
+                    board[r][c] = board[r][c+1] = board[r][c+2] = -abs(board[r][c])
+                    todo = True
+
+        for r in range(R-2):
+            for c in range(C):
+                if abs(board[r][c]) == abs(board[r+1][c]) == abs(board[r+2][c]) != 0:
+                    board[r][c] = board[r+1][c] = board[r+2][c] = -abs(board[r][c])
+                    todo = True
+
+        for c in range(C):
+            wr = R-1
+            for r in range(R-1, -1, -1):
+                if board[r][c] > 0:
+                    board[wr][c] = board[r][c]
+                    wr -= 1
+            for wr in range(wr, -1, -1):
+                board[wr][c] = 0
+
+        return self.candyCrush(board) if todo else board
+```
+* [[Lock] [Medium] [Solution] 723. Candy Crush](%5BLock%5D%20%5BMedium%5D%20%5BSolution%5D%20723.%20Candy%20Crush.md)
 
 ### Linear Scan
 ```python
@@ -8025,6 +8096,73 @@ class Solution:
         return output
 ```
 * [[Medium] [Solution] 17. Letter Combinations of a Phone Number](%5BMedium%5D%20%5BSolution%5D%2017.%20Letter%20Combinations%20of%20a%20Phone%20Number.md)
+
+### Combination
+```python
+class CombinationIterator:
+
+    def __init__(self, characters: str, combinationLength: int):
+        self.c = characters
+        self.n = combinationLength
+        self.i = 0
+        self.ans = []
+        self.permute(0, '')
+
+    def permute(self, index, path):
+        if len(path) == self.n:
+            self.ans.append(path)
+            return
+        else:
+            for i in range(index, len(self.c)):
+                self.permute(i + 1, path + self.c[i])
+
+    def next(self) -> str:
+        ans = self.ans[self.i]
+        self.i += 1
+        return ans
+
+    def hasNext(self) -> bool:
+        return self.i < len(self.ans)
+
+
+# Your CombinationIterator object will be instantiated and called as such:
+# obj = CombinationIterator(characters, combinationLength)
+# param_1 = obj.next()
+# param_2 = obj.hasNext()
+
+class CombinationIterator:
+
+    def __init__(self, characters: str, combinationLength: int):
+        self.n = n = len(characters)
+        self.k = k = combinationLength
+        self.chars = characters
+
+        # generate first bitmask 1(k)0(n - k)
+        self.b = (1 << n) - (1 << n - k)
+
+    def next(self) -> str:
+        # convert bitmasks into combinations
+        # 111 --> "abc", 000 --> ""
+        # 110 --> "ab", 101 --> "ac", 011 --> "bc"
+        curr = [self.chars[j] for j in range(self.n) if self.b & (1 << self.n - j - 1)]
+
+        # generate next bitmask
+        self.b -= 1
+        while self.b > 0 and bin(self.b).count('1') != self.k:
+            self.b -= 1
+
+        return ''.join(curr)
+
+    def hasNext(self) -> bool:
+        return self.b > 0
+
+
+# Your CombinationIterator object will be instantiated and called as such:
+# obj = CombinationIterator(characters, combinationLength)
+# param_1 = obj.next()
+# param_2 = obj.hasNext()
+```
+* [[Medium] 1286. Iterator for Combination](LeetCode/%5BMedium%5D%201286.%20Iterator%20for%20Combination.md)
 
 ### Permutation
 ```python

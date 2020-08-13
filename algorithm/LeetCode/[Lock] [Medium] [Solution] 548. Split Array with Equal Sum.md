@@ -33,7 +33,7 @@ Before we start looking at any of the approaches for solving this problem, first
 
 ![638_Split_Array.png](img/638_Split_Array.png)
 
-Thus, the limits based on the length of the array nn can now be rewritten as:
+Thus, the limits based on the length of the array $n$ can now be rewritten as:
 
 1 ≤ i ≤ n-6
 
@@ -41,7 +41,7 @@ i+2 ≤ j ≤ n-4
 
 j+2 ≤ k ≤ n-2
 
-Having discussed the limits imposed on the cuts ii, jj, kk that we will apply on the given array numsnums, let's look at the first solution that comes to our mind.
+Having discussed the limits imposed on the cuts $i$, $j$, $k$ that we will apply on the given array $nums$, let's look at the first solution that comes to our mind.
 
 We simply traverse over all the elements of the array. We consider all the possible subarrays taking care of the constraints imposed on the cuts, and check if any such cuts exist which satisfy the given equal sum quadruples criteria.
 
@@ -168,9 +168,9 @@ public class Solution {
 ## Approach #4 Using HashMap [Time limit Exceeded]
 **Algorithm**
 
-In this approach, we create a data structure called mapmap which is simply a HashMap, with data arranged in the format:
+In this approach, we create a data structure called $map$ which is simply a HashMap, with data arranged in the format:
 
-$\big\{csum(i):[i_1,i_2,i_3,....]\big\}$, here $csum(i)$ represents the cumulative sum in the given array numsnums upto the $i^{th}$ index and its corresponding value represents indices upto which cumulative sum=csum(i).
+$\big\{csum(i):[i_1,i_2,i_3,....]\big\}$, here $csum(i)$ represents the cumulative sum in the given array $nums$ upto the $i^{th}$ index and its corresponding value represents indices upto which cumulative sum=csum(i).
 
 Once we create this $map$, the solutions gets simplified a lot. Consider only the first two cuts formed by $i$ and $j$. Then, the cumulative sum upto the $(j-1)^{th}$ index will be given by: $csum(j-1)=sum(part1) + nums[i] + sum(part2)$). Now, if we want the first two parts to have the same sum, the same cumulative sum can be rewritten as:
 
@@ -243,7 +243,7 @@ public class Solution {
 ## Approach #5 Using Cumulative Sum and HashSet [Accepted]
 **Algorithm**
 
-In this approach, firstly we form a cumulative sum array $sum$, where $sum[i]$ stores the cumulative sum of the array numsnums upto the $i^{th}$ index. Then, we start by traversing over the possible positions for the middle cut formed by $j$. For every $j$, firstly, we find all the left cut's positions, $i$, that lead to equalizing the sum of the first and the second part (i.e. $sum[i-1] = sum [j-1] - sum[i]$) and store such sums in the setset (a new HashSet is formed for every $j$ chosen). Thus, the presence of a sum in setset implies that such a sum is possible for having equal sum of the first and second part for the current position of the middle cut(jj).
+In this approach, firstly we form a cumulative sum array $sum$, where $sum[i]$ stores the cumulative sum of the array $nums$ upto the $i^{th}$ index. Then, we start by traversing over the possible positions for the middle cut formed by $j$. For every $j$, firstly, we find all the left cut's positions, $i$, that lead to equalizing the sum of the first and the second part (i.e. $sum[i-1] = sum [j-1] - sum[i]$) and store such sums in the setset (a new HashSet is formed for every $j$ chosen). Thus, the presence of a sum in setset implies that such a sum is possible for having equal sum of the first and second part for the current position of the middle cut($j$).
 
 Then, we go for the right cut and find the position of the right cut that leads to equal sum of the third and the fourth part ($sum[n-1]-sum[k]=sum[k-1] - sum[j]$), for the same middle cut as chosen earlier. We also, look if the same sum exists in the setset. If so, such a triplet $(i, j, k)$ exists which satisfies the required criteria, otherwise not.
 
@@ -296,3 +296,28 @@ public class Solution {
 
 # Submissions
 ---
+**Solution 1: (Using Cumulative Sum and HashSet)**
+```
+Runtime: 2620 ms
+Memory Usage: 14 MB
+```
+```python
+class Solution:
+    def splitArray(self, nums: List[int]) -> bool:
+        N = len(nums)
+        if N < 7: 
+            return False
+        cum = [nums[0]] + [0]*(N-1)
+        for i in range(1, N):
+            cum[i] += cum[i-1] + nums[i]
+        for j in range(3, N-3):
+            s = set()
+            for i in range(1, j-1):
+                if cum[i-1] == cum[j-1] - cum[i]:
+                    s.add(cum[i-1])
+            for k in range(j+2, N-1):
+                if cum[N-1]-cum[k] == cum[k-1]-cum[j] and (cum[k-1]-cum[j]) in s:
+                    return True
+        
+        return False
+```
