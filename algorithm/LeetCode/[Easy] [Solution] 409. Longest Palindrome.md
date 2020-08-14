@@ -54,7 +54,7 @@ class Solution:
 
 # Submissions
 ---
-**Solution:**
+**Solution 1: (Greedy)**
 ```
 Runtime: 28 ms
 Memory Usage: 12.7 MB
@@ -68,4 +68,26 @@ class Solution:
             if ans % 2 == 0 and v % 2 == 1:
                 ans += 1
         return ans
+```
+
+**Solution 2: (Greedy)**
+```
+Runtime: 4 ms
+Memory Usage: 6.8 MB
+```
+```c++
+class Solution {
+public:
+    int longestPalindrome(string s) {
+        vector<int>v(255,0);
+        int ans=0;
+        for(int i=0;i<s.size();i++)
+        {
+            v[s[i]-'A']++;
+            if (v[s[i]-'A']%2 == 0)
+                ans += 2;
+        }
+        return s.size() > ans? ans+1: ans;
+    }
+};
 ```

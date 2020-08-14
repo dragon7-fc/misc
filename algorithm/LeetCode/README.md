@@ -358,6 +358,7 @@ Happy Coding!!
 * [[Medium] 274. H-Index](%5BMedium%5D%20274.%20H-Index.md)
 * [[Easy] 119. Pascal's Triangle II](%5BEasy%5D%20119.%20Pascal's%20Triangle%20II.md)
 * [[Medium] 1286. Iterator for Combination](LeetCode/%5BMedium%5D%201286.%20Iterator%20for%20Combination.md)
+* [[Easy] [Solution] 409. Longest Palindrome](%5BEasy%5D%20%5BSolution%5D%20409.%20Longest%20Palindrome.md)
 
 ## Array <a name="array"></a>
 ---
@@ -6426,6 +6427,19 @@ return ans
 
 ## Greedy <a name="greedy"></a>
 ---
+### Greedy
+```python
+class Solution:
+    def longestPalindrome(self, s: str) -> int:
+        ans = 0
+        for v in collections.Counter(s).values():
+            ans += v // 2 * 2
+            if ans % 2 == 0 and v % 2 == 1:
+                ans += 1
+        return ans
+```
+* [[Easy] [Solution] 409. Longest Palindrome](%5BEasy%5D%20%5BSolution%5D%20409.%20Longest%20Palindrome.md)
+
 ### Append leftmost and rightmost element
 ```python
 class Solution:
@@ -8663,6 +8677,26 @@ def binaryToGray(self, n: int) -> int:
 
 ## Sort <a name="sort"></a>
 ---
+### Counting Sort
+```python
+class Solution:
+    def twoSumLessThanK(self, A: List[int], K: int) -> int:
+        S = -1
+        count = [0] * 1001
+        for i in A:
+            count[i] += 1
+        lo, hi = 0, 1000
+        while lo < hi:
+            if lo + hi >= K or count[hi] == 0:
+                hi -= 1
+            else:
+                if count[lo] > 0 if lo < hi else 1:
+                    S = max(S, lo + hi)
+                lo += 1
+        return S
+```
+* [[Lock] [Easy] [Solution] 1099. Two Sum Less Than K](%5BLock%5D%20%5BEasy%5D%20%5BSolution%5D%201099.%20Two%20Sum%20Less%20Than%20K.md)
+
 ### Shortest Unsorted Continuous Subarray
 ```python
 class Solution:
