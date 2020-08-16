@@ -359,6 +359,9 @@ Happy Coding!!
 * [[Easy] 119. Pascal's Triangle II](%5BEasy%5D%20119.%20Pascal's%20Triangle%20II.md)
 * [[Medium] 1286. Iterator for Combination](LeetCode/%5BMedium%5D%201286.%20Iterator%20for%20Combination.md)
 * [[Easy] [Solution] 409. Longest Palindrome](%5BEasy%5D%20%5BSolution%5D%20409.%20Longest%20Palindrome.md)
+* [[Lock] [Medium] [Solution] 484. Find Permutation](%5BLock%5D%20%5BMedium%5D%20%5BSolution%5D%20484.%20Find%20Permutation.md)
+* [[Medium] [Solution] 435. Non-overlapping Intervals](%5BMedium%5D%20%5BSolution%5D%20435.%20Non-overlapping%20Intervals.md)
+* [[Hard] [Solution] 123. Best Time to Buy and Sell Stock III](%5BHard%5D%20%5BSolution%5D%20123.%20Best%20Time%20to%20Buy%20and%20Sell%20Stock%20III.md)
 
 ## Array <a name="array"></a>
 ---
@@ -2384,6 +2387,25 @@ class Solution:
         return min(f(query_row, query_glass),1)
 ````
 * [[Medium] [Solution] 799. Champagne Tower](%5BMedium%5D%20%5BSolution%5D%20799.%20Champagne%20Tower.md)
+
+### Best Time to Buy and Sell Stock
+```python
+class Solution:
+    def maxProfit(self, prices: List[int]) -> int:
+        t1_cost, t2_cost = float('inf'), float('inf')
+        t1_profit, t2_profit = 0, 0
+
+        for price in prices:
+            # the maximum profit if only one transaction is allowed
+            t1_cost = min(t1_cost, price)
+            t1_profit = max(t1_profit, price - t1_cost)
+            # reinvest the gained profit in the second transaction
+            t2_cost = min(t2_cost, price - t1_profit)
+            t2_profit = max(t2_profit, price - t2_cost)
+
+        return t2_profit
+```
+* [[Hard] [Solution] 123. Best Time to Buy and Sell Stock III](%5BHard%5D%20%5BSolution%5D%20123.%20Best%20Time%20to%20Buy%20and%20Sell%20Stock%20III.md)
 
 ### Next Array Variation
 ```python
@@ -6457,6 +6479,43 @@ class Solution:
 ```
 * [[Easy] [Solution] 605. Can Place Flowers](%5BEasy%5D%20%5BSolution%5D%20605.%20Can%20Place%20Flowers.md)
 
+### Non-overlapping Intervals
+```python
+class Solution:
+    def eraseOverlapIntervals(self, intervals: List[List[int]]) -> int:
+        if not intervals:
+            return 0
+        intervals.sort(key=lambda x: x[1])
+        prev_end = intervals[0][1]
+        ans = 0
+        for start, end in intervals[1:]:
+            if prev_end > start:
+                ans += 1
+            else:
+                prev_end = end
+        return ans
+
+class Solution:
+    def eraseOverlapIntervals(self, intervals: List[List[int]]) -> int:
+        if not intervals: 
+            return 0
+        N = len(intervals)
+        intervals.sort(key=lambda x: x[0])
+        prev_end = intervals[0][1]
+        count = 0
+        for start, end in intervals[1:]:
+            if start < prev_end <= end:
+                count += 1
+            elif prev_end > end:
+                count += 1
+                prev_end = end
+            else:
+                prev_end = end
+
+        return count
+```
+* [[Medium] [Solution] 435. Non-overlapping Intervals](%5BMedium%5D%20%5BSolution%5D%20435.%20Non-overlapping%20Intervals.md)
+
 ### Increasing Triplet Subsequence
 ```python
 class Solution:
@@ -7798,6 +7857,31 @@ class Solution:
         return not stack
 ```
 * [[Easy] [Solution] 20. Valid Parentheses](%5BEasy%5D%20%5BSolution%5D%2020.%20Valid%20Parentheses.md)
+
+### Find Permutation
+```python
+class Solution:
+    def findPermutation(self, s: str) -> List[int]:
+        N = len(s)
+        res = [0]*(N+1)
+        stack = []
+        j = 0
+        for i in range(1, N+1):
+            if s[i - 1] == 'I':
+                stack += [i]
+                while stack:
+                    res[j] = stack.pop()
+                    j += 1
+            else:
+                stack += [i]
+        stack += [N+1]
+        while stack:
+            res[j] = stack.pop()
+            j += 1
+            
+        return res
+```
+* [[Lock] [Medium] [Solution] 484. Find Permutation](%5BLock%5D%20%5BMedium%5D%20%5BSolution%5D%20484.%20Find%20Permutation.md)
 
 ### Stack, Hash Table
 ```python
@@ -10305,6 +10389,20 @@ class Solution:
 
 ## Sliding Window <a name="sw"></a>
 ---
+### Group All 1's Together
+```python
+class Solution:
+    def minSwaps(self, data: List[int]) -> int:
+        window = data.count(1)
+        ans = c = data[:window].count(0)
+        for i in range(window, len(data)):
+            c += not data[i]
+            c -= not data[i-window]
+            ans = min(ans, c)
+        return ans
+```
+* [[Lock] [Medium] 1151. Minimum Swaps to Group All 1's Together](%5BLock%5D%20%5BMedium%5D%201151.%20Minimum%20Swaps%20to%20Group%20All%201's%20Together.md)
+
 ### Hash Table as left index
 ```python
 class Solution:
