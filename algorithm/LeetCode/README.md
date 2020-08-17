@@ -362,6 +362,7 @@ Happy Coding!!
 * [[Lock] [Medium] [Solution] 484. Find Permutation](%5BLock%5D%20%5BMedium%5D%20%5BSolution%5D%20484.%20Find%20Permutation.md)
 * [[Medium] [Solution] 435. Non-overlapping Intervals](%5BMedium%5D%20%5BSolution%5D%20435.%20Non-overlapping%20Intervals.md)
 * [[Hard] [Solution] 123. Best Time to Buy and Sell Stock III](%5BHard%5D%20%5BSolution%5D%20123.%20Best%20Time%20to%20Buy%20and%20Sell%20Stock%20III.md)
+* [[Easy] [Solution] 1103. Distribute Candies to People](%5BEasy%5D%20%5BSolution%5D%201103.%20Distribute%20Candies%20to%20People.md)
 
 ## Array <a name="array"></a>
 ---
@@ -6449,6 +6450,22 @@ return ans
 
 ## Greedy <a name="greedy"></a>
 ---
+### Greedy
+```python
+class Solution:
+    def distributeCandies(self, candies: int, num_people: int) -> List[int]:
+        i = 1
+        ans = [0]*num_people
+        i = 1
+        while candies-i > 0:
+            ans[(i-1)%num_people] += i
+            candies -= i
+            i += 1
+        ans[(i-1)%num_people] += candies
+        return ans
+```
+* [[Easy] [Solution] 1103. Distribute Candies to People](%5BEasy%5D%20%5BSolution%5D%201103.%20Distribute%20Candies%20to%20People.md)
+
 ### Greedy
 ```python
 class Solution:
