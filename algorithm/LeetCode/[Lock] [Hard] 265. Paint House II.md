@@ -60,6 +60,34 @@ class Solution:
         return cost
 ```
 
+**Solution 1-1: (DP Top-Down)**
+```
+Runtime: 264 ms
+Memory Usage: 14.8 MB
+```
+```python
+class Solution:
+    def minCostII(self, costs: List[List[int]]) -> int:
+        N = len(costs)
+        if N == 0:
+            return 0
+        k = len(costs[0])
+        
+        @functools.lru_cache(None)
+        def dp(c, i):
+            if i == N-1:
+                return costs[i][c]
+            rst = float('inf')
+            for nc in range(k):
+                if nc != c:
+                    rst = min(rst, dp(nc, i+1))
+            if i >= 0:
+                rst += costs[i][c]
+            return rst
+            
+        return dp(-1, -1)
+```
+
 **Solution 2: (Dynamic Programming)**
 ```
 Runtime: 216 ms

@@ -363,6 +363,7 @@ Happy Coding!!
 * [[Medium] [Solution] 435. Non-overlapping Intervals](%5BMedium%5D%20%5BSolution%5D%20435.%20Non-overlapping%20Intervals.md)
 * [[Hard] [Solution] 123. Best Time to Buy and Sell Stock III](%5BHard%5D%20%5BSolution%5D%20123.%20Best%20Time%20to%20Buy%20and%20Sell%20Stock%20III.md)
 * [[Easy] [Solution] 1103. Distribute Candies to People](%5BEasy%5D%20%5BSolution%5D%201103.%20Distribute%20Candies%20to%20People.md)
+* [[Medium] [Solution] 967. Numbers With Same Consecutive Differences](%5BMedium%5D%20%5BSolution%5D%20967.%20Numbers%20With%20Same%20Consecutive%20Differences.md)
 
 ## Array <a name="array"></a>
 ---
@@ -5405,6 +5406,69 @@ class Solution:
 ```
 * [[Easy] [Solution] 733. Flood Fill](%5BEasy%5D%20%5BSolution%5D%20733.%20Flood%20Fill.md)
 
+### DFS, BFS
+```python
+class Solution:
+    def numsSameConsecDiff(self, N, K):
+        """
+        :type N: int
+        :type K: int
+        :rtype: List[int]
+        """
+        if N == 1:
+            return [i for i in range(10)]
+
+        ans = []
+        def DFS(N, num):
+            # base case
+            if N == 0:
+                return ans.append(num)
+
+            tail_digit = num % 10
+            # using set() to avoid duplicates when K == 0
+            next_digits = set([tail_digit + K, tail_digit - K])
+
+            for next_digit in next_digits:
+                if 0 <= next_digit < 10: 
+                    new_num = num * 10 + next_digit
+                    DFS(N-1, new_num)
+
+        for num in range(1, 10):
+            DFS(N-1, num)
+
+        return list(ans)
+    
+class Solution:
+    def numsSameConsecDiff(self, N, K):
+        """
+        :type N: int
+        :type K: int
+        :rtype: List[int]
+        """
+        if N == 1:
+            return [i for i in range(10)]
+
+        # initialize the queue with candidates for the first level
+        queue = [digit for digit in range(1, 10)]
+
+        for level in range(N-1):
+            next_queue = []
+            for num in queue:
+                tail_digit = num % 10
+                # using set() to avoid duplicates when K == 0
+                next_digits = set([tail_digit + K, tail_digit - K])
+
+                for next_digit in next_digits:
+                    if 0 <= next_digit < 10: 
+                        new_num = num * 10 + next_digit
+                        next_queue.append(new_num)
+            # start the next level
+            queue = next_queue
+
+        return queue
+```
+* [[Medium] [Solution] 967. Numbers With Same Consecutive Differences](%5BMedium%5D%20%5BSolution%5D%20967.%20Numbers%20With%20Same%20Consecutive%20Differences.md)
+
 ### Prefix Sum
 ```python
 # Definition for a binary tree node.
@@ -8173,6 +8237,53 @@ return ans
 
 ## Backtracking <a name="backtracking"></a>
 ---
+### Android Unlock Patterns
+```python
+class Solution:
+    def numberOfPatterns(self, m: int, n: int) -> int:
+
+        # I.e. to move from 1->3, 2 must be chosen earlier.
+        reach_conditions = {
+            # 4 corners: 1, 3, 7, 9 to reach another corner.
+            (1,3): 2, (1,7): 4, (1,9): 5,            
+            (3,1): 2, (3,7): 5, (3,9): 6,
+            (7,1): 4, (7,3): 5, (7,9): 8,
+            (9,1): 5, (9,3): 6, (9,7): 8,
+
+            # 2, 4, 6, 8 can reach anywhere except its opposite side, which need to cross 5.
+            (4,6): 5, (6,4): 5, (2,8): 5, (8,2): 5
+        }
+
+        def backtrack(chosen):
+            count = 0
+
+            for i in range(1, 10):
+                if i in chosen:
+                    continue
+
+                # If not first time (empty chosen), subject to the condition above
+                if chosen:
+                    move = (chosen[-1], i)
+                    if move in reach_conditions and reach_conditions[move] not in chosen:
+                        continue
+
+                chosen.append(i)
+
+                # Valid pattern
+                if len(chosen) >= m and len(chosen) <= n:
+                    count += 1
+
+                # Can add more
+                if len(chosen) < n:
+                    count += backtrack(chosen)
+
+                chosen.pop()
+            return count
+
+        return backtrack([])
+```
+* [[Lock] [Medium] [Solution] 351. Android Unlock Patterns](%5BLock%5D%20%5BMedium%5D%20%5BSolution%5D%20351.%20Android%20Unlock%20Patterns.md)
+
 ### Combination, Hash Table
 ```python
 class Solution:

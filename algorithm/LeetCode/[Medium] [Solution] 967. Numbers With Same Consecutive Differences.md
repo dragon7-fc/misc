@@ -156,5 +156,77 @@ class Solution:
         if N == 1:
             return list(range(10))
         ans = set()
+```
 
+**Solution 4: (DFS)**
+```
+Runtime: 40 ms
+Memory Usage: 14.4 MB
+```
+```python
+class Solution:
+    def numsSameConsecDiff(self, N, K):
+        """
+        :type N: int
+        :type K: int
+        :rtype: List[int]
+        """
+        if N == 1:
+            return [i for i in range(10)]
+
+        ans = []
+        def DFS(N, num):
+            # base case
+            if N == 0:
+                return ans.append(num)
+
+            tail_digit = num % 10
+            # using set() to avoid duplicates when K == 0
+            next_digits = set([tail_digit + K, tail_digit - K])
+
+            for next_digit in next_digits:
+                if 0 <= next_digit < 10: 
+                    new_num = num * 10 + next_digit
+                    DFS(N-1, new_num)
+
+        for num in range(1, 10):
+            DFS(N-1, num)
+
+        return list(ans)
+```
+
+**Solution 5:(BFS)**
+```
+Runtime: 40 ms
+Memory Usage: 14.1 MB
+```
+```python
+class Solution:
+    def numsSameConsecDiff(self, N, K):
+        """
+        :type N: int
+        :type K: int
+        :rtype: List[int]
+        """
+        if N == 1:
+            return [i for i in range(10)]
+
+        # initialize the queue with candidates for the first level
+        queue = [digit for digit in range(1, 10)]
+
+        for level in range(N-1):
+            next_queue = []
+            for num in queue:
+                tail_digit = num % 10
+                # using set() to avoid duplicates when K == 0
+                next_digits = set([tail_digit + K, tail_digit - K])
+
+                for next_digit in next_digits:
+                    if 0 <= next_digit < 10: 
+                        new_num = num * 10 + next_digit
+                        next_queue.append(new_num)
+            # start the next level
+            queue = next_queue
+
+        return queue
 ```
