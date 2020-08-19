@@ -364,6 +364,7 @@ Happy Coding!!
 * [[Hard] [Solution] 123. Best Time to Buy and Sell Stock III](%5BHard%5D%20%5BSolution%5D%20123.%20Best%20Time%20to%20Buy%20and%20Sell%20Stock%20III.md)
 * [[Easy] [Solution] 1103. Distribute Candies to People](%5BEasy%5D%20%5BSolution%5D%201103.%20Distribute%20Candies%20to%20People.md)
 * [[Medium] [Solution] 967. Numbers With Same Consecutive Differences](%5BMedium%5D%20%5BSolution%5D%20967.%20Numbers%20With%20Same%20Consecutive%20Differences.md)
+* [[Easy] [Solution] 824. Goat Latin](%5BEasy%5D%20%5BSolution%5D%20824.%20Goat%20Latin.md)
 
 ## Array <a name="array"></a>
 ---
@@ -3930,6 +3931,20 @@ class Solution:
         return False
 ```
 * [[Easy] [Solution] 796. Rotate String](%5BEasy%5D%20%5BSolution%5D%20796.%20Rotate%20String.md)
+
+### Goat Latin
+```python
+class Solution:
+    def toGoatLatin(self, S: str) -> str:
+        def convert(word):
+            if word[0] not in 'aeiouAEIOU':
+                word = word[1:] + word[:1]
+            return word + 'ma'
+
+        return " ".join(convert(word) + 'a' * i
+                        for i, word in enumerate(S.split(), 1))
+```
+* [[Easy] [Solution] 824. Goat Latin](%5BEasy%5D%20%5BSolution%5D%20824.%20Goat%20Latin.md)
 
 ### Rolling Hash
 ```python

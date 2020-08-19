@@ -26,7 +26,7 @@ Explanation: It's the substring "abc" four times. (And the substring "abcabc" tw
 
 # Submissions
 ---
-**Solution 1:**
+**Solution 1: (Concatenation)**
 
 **Example:**
 
@@ -52,7 +52,7 @@ class Solution:
         return s in (s+s)[1:-1]
 ```
 
-**Solution 2:**
+**Solution 2: (Greedy)**
 ```
 Runtime: 60 ms
 Memory Usage: 12.8 MB
@@ -70,4 +70,16 @@ class Solution:
                     elif j==n-i:
                         return True
         return False
+```
+
+**Solution 3: (Regex)**
+```
+Runtime: 180 ms
+Memory Usage: 14.8 MB
+```
+```python
+class Solution:
+    def repeatedSubstringPattern(self, s: str) -> bool:
+        pattern = re.compile(r'^(.+)\1+$')
+        return pattern.match(s)
 ```
