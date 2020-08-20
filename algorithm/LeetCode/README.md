@@ -365,6 +365,7 @@ Happy Coding!!
 * [[Easy] [Solution] 1103. Distribute Candies to People](%5BEasy%5D%20%5BSolution%5D%201103.%20Distribute%20Candies%20to%20People.md)
 * [[Medium] [Solution] 967. Numbers With Same Consecutive Differences](%5BMedium%5D%20%5BSolution%5D%20967.%20Numbers%20With%20Same%20Consecutive%20Differences.md)
 * [[Easy] [Solution] 824. Goat Latin](%5BEasy%5D%20%5BSolution%5D%20824.%20Goat%20Latin.md)
+* [[Medium] 143. Reorder List](%5BMedium%5D%20143.%20Reorder%20List.md)
 
 ## Array <a name="array"></a>
 ---
@@ -9187,6 +9188,44 @@ class Solution:
         return tmp.next
 ```
 * [[Easy] 203. Remove Linked List Elements](%5BEasy%5D%20203.%20Remove%20Linked%20List%20Elements.md)
+
+### Reorder List
+```python
+# Definition for singly-linked list.
+# class ListNode:
+#     def __init__(self, val=0, next=None):
+#         self.val = val
+#         self.next = next
+class Solution:
+    def reorderList(self, head: ListNode) -> None:
+        """
+        Do not return anything, modify head in-place instead.
+        """
+        if not head:
+            return 
+
+        # find the middle of linked list [Problem 876]
+        # in 1->2->3->4->5->6 find 4 
+        slow = fast = head
+        while fast and fast.next:
+            slow = slow.next
+            fast = fast.next.next 
+
+        # reverse the second part of the list [Problem 206]
+        # convert 1->2->3->4->5->6 into 1->2->3->4 and 6->5->4
+        # reverse the second half in-place
+        prev, curr = None, slow
+        while curr:
+            curr.next, prev, curr = prev, curr, curr.next       
+
+        # merge two sorted linked lists [Problem 21]
+        # merge 1->2->3->4 and 6->5->4 into 1->6->2->5->3->4
+        first, second = head, prev
+        while second.next:
+            first.next, first = second, first.next
+            second.next, second = first, second.next
+```
+* [[Medium] 143. Reorder List](%5BMedium%5D%20143.%20Reorder%20List.md)
 
 ### 2 Step Unit
 ```python
