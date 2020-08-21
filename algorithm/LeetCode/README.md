@@ -366,6 +366,7 @@ Happy Coding!!
 * [[Medium] [Solution] 967. Numbers With Same Consecutive Differences](%5BMedium%5D%20%5BSolution%5D%20967.%20Numbers%20With%20Same%20Consecutive%20Differences.md)
 * [[Easy] [Solution] 824. Goat Latin](%5BEasy%5D%20%5BSolution%5D%20824.%20Goat%20Latin.md)
 * [[Medium] 143. Reorder List](%5BMedium%5D%20143.%20Reorder%20List.md)
+* [[Easy] [Solution] 922. Sort Array By Parity](%5BEasy%5D%20%5BSolution%5D%20905.%20Sort%20Array%20By%20Parity.md)
 
 ## Array <a name="array"></a>
 ---
@@ -7467,6 +7468,24 @@ return ans if len(ans) == N else []
 
 ## Two Pointers <a name="tp"></a>
 ---
+### Sort Array By Parity
+```python
+class Solution:
+    def sortArrayByParity(self, A: List[int]) -> List[int]:
+        i, j = 0, len(A) - 1
+        while True:
+            while i < j and not A[i] & 1: i += 1
+            while i < j and A[j] & 1: j -= 1
+            if i < j:
+                A[i], A[j] = A[j], A[i]
+                i += 1
+                j -= 1
+            else:
+                break
+        return A
+```
+* [[Easy] [Solution] 922. Sort Array By Parity](%5BEasy%5D%20%5BSolution%5D%20905.%20Sort%20Array%20By%20Parity.md)
+
 ### Cycle
 ```python
 # Definition for singly-linked list.
