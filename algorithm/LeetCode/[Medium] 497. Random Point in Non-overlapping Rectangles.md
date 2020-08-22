@@ -36,7 +36,7 @@ The input is two lists: the subroutines called and their arguments. `Solution`'s
 
 # Submissions
 ---
-**Solution 1: (Random)**
+**Solution 1: (Random, Binary Search)**
 ```
 Runtime: 172 ms
 Memory Usage: 16.5 MB
@@ -50,14 +50,14 @@ class Solution:
         self.counts = [(x2 - x1 + 1) * (y2 - y1 + 1) 
                        for x1, y1, x2, y2 in rects]
         
-        self.total = sum(self.counts)
-        
         # accumulated (prefix) count of points
         self.accumulate_counts = []
         accumulated = 0
         for count in self.counts:
             accumulated += count
             self.accumulate_counts.append(accumulated)
+            
+        self.total = self.accumulate_counts[-1]
 
     def pick(self) -> List[int]:
         # rand is in [1, n], including both ends

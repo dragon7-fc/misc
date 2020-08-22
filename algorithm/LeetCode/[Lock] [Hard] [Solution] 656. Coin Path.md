@@ -1,6 +1,6 @@
 656. Coin Path
 
-Given an array `A` (index starts at `1`) consisting of N integers: `A1, A2, ..., AN` and an integer `B`. The integer `B` denotes that from any place (suppose the index is `i`) in the array `A`, you can jump to any one of the place in the array `A` indexed `i+1`, `i+2`, …, `i+B` if this place can be jumped to. Also, if you step on the index `i`, you have to pay `Ai` coins. If Ai is `-1`, it means you can’t jump to the place indexed `i` in the array.
+Given an array `A` (index starts at `1`) consisting of N integers: `A1, A2, ..., AN` and an integer `B`. The integer `B` denotes that from any place (suppose the index is `i`) in the array `A`, you can jump to any one of the place in the array `A` indexed `i+1`, `i+2`, …, `i+B` if this place can be jumped to. Also, if you step on the index `i`, you have to pay `Ai` coins. If `Ai` is `-1`, it means you can’t jump to the place indexed `i` in the array.
 
 Now, you start from the place indexed `1` in the array `A`, and your aim is to reach the place indexed `N` using the minimum coins. You need to return the path of indexes (starting from `1` to `N`) in the array you should take to get to the place indexed `N` using minimum coins.
 
@@ -30,7 +30,7 @@ Output: []
 # Solution
 ---
 ## Approach #1 Brute Force[Time Limit Exceeded]
-In this approach, we make use of a nextnext array of size nn. Here, nn refers to the size of the given AA array. The array $nums$ is used such that $nums[i]$ is used to store the minimum number of coins needed to jump till the end of the array $A$, starting from the index $i$.
+In this approach, we make use of a $next$ array of size $n$. Here, $n$ refers to the size of the given $A$ array. The array $nums$ is used such that $nums[i]$ is used to store the minimum number of coins needed to jump till the end of the array $A$, starting from the index $i$.
 
 We start by filling the $next$ array with all -1's. Then, in order to fill this $next$ array, we make use of a recursive function `jump(A, B, i, next)` which fills the $next$ array starting from the index $i$ onwards, given $A$ as the coins array and $B$ as the largest jump value.
 
@@ -183,3 +183,73 @@ public class Solution {
 
 # Submissions
 ---
+**Solution 1: (DP Top-Down)**
+```
+Runtime: 200 ms
+Memory Usage: 15.6 MB
+```
+```python
+class Solution:
+    def cheapestJump(self, A: List[int], B: int) -> List[int]:
+        N = len(A)
+        rst = [-1]*N
+        ans = []
+        
+        @functools.lru_cache(None)
+        def dp(i):
+            nonlocal rst
+            if i == N - 1 and A[i] >= 0:
+                return A[i]
+            min_cost = float('inf')
+            for j in range(i + 1, min(i + B+1, N)):
+                if A[j] >= 0:
+                    cost = A[i] + dp(j)
+                    if cost < min_cost:
+                        min_cost = cost
+                        rst[i] = j
+            return min_cost
+        
+        dp(0)
+        i = 0
+        while i < N and rst[i] > 0:
+            ans += [i+1]
+            i = rst[i]
+        if i == N - 1 and A[i]>= 0:
+            ans += [N]
+        else:
+            return [];
+        return ans
+        return ans
+```
+
+**Solution 2; (DP Bottom-Up)**
+```
+Runtime: 120 ms
+Memory Usage: 13.9 MB
+```
+```python
+class Solution:
+    def cheapestJump(self, A: List[int], B: int) -> List[int]:
+        N = len(A)
+        rst = [-1]*N
+        ans = []
+        dp = [0]*N
+        for i in range(N - 2, -1, -1):
+            min_cost = float('inf')
+            for j in range(i + 1, min(i + B+1, N)):
+                if A[j] >= 0:
+                    cost = A[i] + dp[j]
+                    if cost < min_cost:
+                        min_cost = cost
+                        rst[i] = j
+            dp[i] = min_cost
+        i = 0
+        while i < N and rst[i] > 0:
+            ans += [i+1]
+            i = rst[i]
+        if i == N - 1 and A[i]>= 0:
+            ans += [N]
+        else:
+            return [];
+        return ans
+```

@@ -367,6 +367,8 @@ Happy Coding!!
 * [[Easy] [Solution] 824. Goat Latin](%5BEasy%5D%20%5BSolution%5D%20824.%20Goat%20Latin.md)
 * [[Medium] 143. Reorder List](%5BMedium%5D%20143.%20Reorder%20List.md)
 * [[Easy] [Solution] 922. Sort Array By Parity](%5BEasy%5D%20%5BSolution%5D%20905.%20Sort%20Array%20By%20Parity.md)
+* [[Lock] [Medium] [Solution] 490. The Maze](%5BLock%5D%20%5BMedium%5D%20%5BSolution%5D%20490.%20The%20Maze.md)
+* [[Medium] 497. Random Point in Non-overlapping Rectangles](%5BMedium%5D%20497.%20Random%20Point%20in%20Non-overlapping%20Rectangles.md)
 
 ## Array <a name="array"></a>
 ---
@@ -5422,6 +5424,31 @@ class Solution:
         return image
 ```
 * [[Easy] [Solution] 733. Flood Fill](%5BEasy%5D%20%5BSolution%5D%20733.%20Flood%20Fill.md)
+
+### The Maze
+```python
+class Solution:
+    def hasPath(self, maze: List[List[int]], start: List[int], destination: List[int]) -> bool:
+        R, C = len(maze), len(maze[0])
+        d = [(0, 1), (0, -1), (1, 0), (-1, 0)]
+
+        def dfs(r, c, seen):
+            if r == destination[0] and c == destination[1]:
+                return True
+            seen.add((r, c))
+            for dr, dc in d:
+                nr, nc = r+dr, c+dc
+                while 0 <= nr < R and 0 <= nc < C and maze[nr][nc] == 0:
+                    nr, nc = nr+dr, nc+dc
+                nr, nc = nr-dr, nc-dc
+                if (nr, nc) not in seen:
+                    if dfs(nr, nc, seen):
+                        return True
+            return False
+
+        return dfs(start[0], start[1], set())
+```
+* [[Lock] [Medium] [Solution] 490. The Maze](%5BLock%5D%20%5BMedium%5D%20%5BSolution%5D%20490.%20The%20Maze.md)
 
 ### DFS, BFS
 ```python
@@ -12392,14 +12419,14 @@ class Solution:
         self.counts = [(x2 - x1 + 1) * (y2 - y1 + 1) 
                        for x1, y1, x2, y2 in rects]
 
-        self.total = sum(self.counts)
-
         # accumulated (prefix) count of points
         self.accumulate_counts = []
         accumulated = 0
         for count in self.counts:
             accumulated += count
             self.accumulate_counts.append(accumulated)
+        
+        self.total = self.accumulate_counts[-1]
 
     def pick(self) -> List[int]:
         # rand is in [1, n], including both ends
