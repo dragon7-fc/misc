@@ -1140,6 +1140,25 @@ class Solution:
 ```
 * [[Medium] [Solution] 5. Longest Palindromic Substring](%5BMedium%5D%20%5BSolution%5D%205.%20Longest%20Palindromic%20Substring.md)
 
+### Find Latest Group of Size M
+```python
+class Solution:
+    def findLatestStep(self, arr: List[int], m: int) -> int:
+        length = [0] * (len(arr) + 2)
+        count = [0] * (len(arr) + 1)
+        res = -1
+        for i, a in enumerate(arr):
+            left, right = length[a - 1], length[a + 1]
+            length[a] = length[a - left] = length[a + right] = left + right + 1
+            count[left] -= 1
+            count[right] -= 1
+            count[length[a]] += 1
+            if count[m]:
+                res = i + 1
+        return res
+```
+* [[Medium] 1562. Find Latest Group of Size M](%5BMedium%5D%201562.%20Find%20Latest%20Group%20of%20Size%20M.md)
+
 ### Ad-Hoc
 ```python
 class Solution:
