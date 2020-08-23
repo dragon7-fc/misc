@@ -369,6 +369,7 @@ Happy Coding!!
 * [[Easy] [Solution] 922. Sort Array By Parity](%5BEasy%5D%20%5BSolution%5D%20905.%20Sort%20Array%20By%20Parity.md)
 * [[Lock] [Medium] [Solution] 490. The Maze](%5BLock%5D%20%5BMedium%5D%20%5BSolution%5D%20490.%20The%20Maze.md)
 * [[Medium] 497. Random Point in Non-overlapping Rectangles](%5BMedium%5D%20497.%20Random%20Point%20in%20Non-overlapping%20Rectangles.md)
+* [[Hard] 1032. Stream of Characters](%5BHard%5D%201032.%20Stream%20of%20Characters.md)
 
 ## Array <a name="array"></a>
 ---
@@ -11498,6 +11499,42 @@ class Solution:
         return max_xor
 ```
 * [[Medium] 421. Maximum XOR of Two Numbers in an Array](%5BMedium%5D%20421.%20Maximum%20XOR%20of%20Two%20Numbers%20in%20an%20Array.md)
+
+### Stream of Characters
+```python
+class StreamChecker:
+
+    def __init__(self, words: List[str]):
+        self.trie = {}
+        self.stream = deque([])
+
+        for word in set(words):
+            node = self.trie       
+            for ch in word[::-1]:
+                if not ch in node:
+                    node[ch] = {}
+                node = node[ch]
+            node['#'] = word
+
+    def query(self, letter: str) -> bool:
+        self.stream.appendleft(letter)
+
+        node = self.trie
+        for ch in self.stream:
+            if '#' in node:
+                return True
+            if not ch in node:
+                return False
+            node = node[ch]
+        return '#' in node
+
+
+# Your StreamChecker object will be instantiated and called as such:
+# obj = StreamChecker(words)
+# param_1 = obj.query(letter)
+```
+* [[Hard] 1032. Stream of Characters](%5BHard%5D%201032.%20Stream%20of%20Characters.md)
+
 
 ### DFS
 ```python
