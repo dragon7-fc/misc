@@ -370,6 +370,7 @@ Happy Coding!!
 * [[Lock] [Medium] [Solution] 490. The Maze](%5BLock%5D%20%5BMedium%5D%20%5BSolution%5D%20490.%20The%20Maze.md)
 * [[Medium] 497. Random Point in Non-overlapping Rectangles](%5BMedium%5D%20497.%20Random%20Point%20in%20Non-overlapping%20Rectangles.md)
 * [[Hard] 1032. Stream of Characters](%5BHard%5D%201032.%20Stream%20of%20Characters.md)
+* [[Easy] 404. Sum of Left Leaves](%5BEasy%5D%20404.%20Sum%20of%20Left%20Leaves.md)
 
 ## Array <a name="array"></a>
 ---
@@ -5401,6 +5402,66 @@ class Solution:
 
 ## Depth-first Search <a name="dfs"></a>
 ---
+### Sum of Left Leaves
+```python
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+
+class Solution:
+    def sumOfLeftLeaves(self, root: TreeNode) -> int:
+        if root is None: 
+            return 0
+
+        def is_leaf(node):
+            return node is not None and node.left is None and node.right is None
+
+        stack = [root]
+        total = 0
+        while stack:
+            sub_root = stack.pop()
+            # Check if the left node is a leaf node.
+            if is_leaf(sub_root.left):
+                total += sub_root.left.val
+            # If the right node exists, put it on the stack.
+            if sub_root.right is not None:
+                stack.append(sub_root.right)
+            # If the left node exists, put it on the stack.
+            if sub_root.left is not None:
+                stack.append(sub_root.left)
+
+        return total
+    
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+
+class Solution:
+    def sumOfLeftLeaves(self, root: TreeNode) -> int:
+
+        def process_subtree(subtree, is_left):
+
+            # Base case: If this subtree is empty, return 0
+            if subtree is None:
+                return 0
+
+            # Base case: This is a leaf node.
+            if subtree.left is None and subtree.right is None:
+                return subtree.val if is_left else 0
+
+            # Recursive case: return result of adding the left and right subtrees.
+            return process_subtree(subtree.left, True) + process_subtree(subtree.right, False)
+
+        return process_subtree(root, False)
+```
+* [[Easy] 404. Sum of Left Leaves](%5BEasy%5D%20404.%20Sum%20of%20Left%20Leaves.md)
+
 ### DFS
 ```python
 # Definition for a binary tree node.
@@ -6177,6 +6238,29 @@ class Solution:
         return right
 ```
 * [[Easy] [Solution] 441. Arranging Coins](%5BEasy%5D%20%5BSolution%5D%20441.%20Arranging%20Coins.md)
+
+### Greedy, Binary Search
+```python
+class Solution:
+    def shortestWay(self, source: str, target: str) -> int:
+        h = collections.defaultdict(list)
+        for i, ch in enumerate(source):
+            h[ch].append(i)        
+        i, j = -1, 0
+        count = 1
+        while j < len(target):
+            if target[j] not in h:
+                return -1
+            idx = bisect.bisect(h[target[j]], i) 
+            if idx == len(h[target[j]]):
+                i = -1
+                count += 1
+                continue
+            i = h[target[j]][idx]
+            j += 1
+        return count
+```
+* [[Lock] [Medium] 1055. Shortest Way to Form String](%5BLock%5D%20%5BMedium%5D%201055.%20Shortest%20Way%20to%20Form%20String.md)
 
 ### Random
 ```python
