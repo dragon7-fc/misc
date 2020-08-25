@@ -371,6 +371,7 @@ Happy Coding!!
 * [[Medium] 497. Random Point in Non-overlapping Rectangles](%5BMedium%5D%20497.%20Random%20Point%20in%20Non-overlapping%20Rectangles.md)
 * [[Hard] 1032. Stream of Characters](%5BHard%5D%201032.%20Stream%20of%20Characters.md)
 * [[Easy] 404. Sum of Left Leaves](%5BEasy%5D%20404.%20Sum%20of%20Left%20Leaves.md)
+* [[Medium] [Solution] 983. Minimum Cost For Tickets](%5BMedium%5D%20%5BSolution%5D%20983.%20Minimum%20Cost%20For%20Tickets.md)
 
 ## Array <a name="array"></a>
 ---
@@ -1311,6 +1312,31 @@ class Solution(object):
         return min(dp[n-1], dp[n-2])
 ```
 * [[Easy] [Solution] 746. Min Cost Climbing Stairs](%5BEasy%5D%20%5BSolution%5D%20746.%20Min%20Cost%20Climbing%20Stairs.md)
+
+### Campus Bikes
+```python
+class Solution:
+    def assignBikes(self, workers: List[List[int]], bikes: List[List[int]]) -> int:
+        M, N = len(bikes), len(workers)
+        manhattanDist = lambda i,j: abs(workers[i][0]-bikes[j][0])+abs(workers[i][1]-bikes[j][1])
+        dist = []
+        for i in range(N):
+            dist.append([])
+            for j in range(M):
+                dist[-1].append(manhattanDist(i,j))
+
+        @functools.lru_cache(None)
+        def dp(remainingBikes, i):
+            if i == N:
+                return 0            
+            rst = math.inf
+            for j in range(len(remainingBikes)):
+                rst = min(rst, dist[i][remainingBikes[j]] + dp(remainingBikes[:j] + remainingBikes[j+1:], i+1))
+            return rst
+
+        return dp(tuple(range(M)), 0)
+```
+* [[Lock] [Medium] 1066. Campus Bikes II](%5BLock%5D%20%5BMedium%5D%201066.%20Campus%20Bikes%20II.md)
 
 ### 2 state array
 ```python
