@@ -372,6 +372,7 @@ Happy Coding!!
 * [[Hard] 1032. Stream of Characters](%5BHard%5D%201032.%20Stream%20of%20Characters.md)
 * [[Easy] 404. Sum of Left Leaves](%5BEasy%5D%20404.%20Sum%20of%20Left%20Leaves.md)
 * [[Medium] [Solution] 983. Minimum Cost For Tickets](%5BMedium%5D%20%5BSolution%5D%20983.%20Minimum%20Cost%20For%20Tickets.md)
+* [[Easy] [Solution] 412. Fizz Buzz](%5BEasy%5D%20%5BSolution%5D%20412.%20Fizz%20Buzz.md)
 
 ## Array <a name="array"></a>
 ---
@@ -4216,6 +4217,40 @@ class Solution:
 ```
 * [[Easy] 1071. Greatest Common Divisor of Strings](%5BEasy%5D%201071.%20Greatest%20Common%20Divisor%20of%20Strings.md)
 
+### Reverse the Whole String and Then Reverse Each Word
+```python
+class Solution:
+    def reverse(self, l: list, left: int, right: int) -> None:
+        while left < right:
+            l[left], l[right] = l[right], l[left]
+            left, right = left + 1, right - 1
+            
+    def reverse_each_word(self, l: list) -> None:
+        n = len(l)
+        start = end = 0
+        
+        while start < n:
+            # go to the end of the word
+            while end < n and l[end] != ' ':
+                end += 1
+            # reverse the word
+            self.reverse(l, start, end - 1)
+            # move to the next word
+            start = end + 1
+            end += 1
+            
+    def reverseWords(self, s: List[str]) -> None:
+        """
+        Do not return anything, modify s in-place instead.
+        """
+        # reverse the whole string
+        self.reverse(s, 0, len(s) - 1)
+        
+        # reverse each word
+        self.reverse_each_word(s)
+```
+* [[Lock] [Medium] [Solution] 186. Reverse Words in a String II](%5BLock%5D%20%5BMedium%5D%20%5BSolution%5D%20186.%20Reverse%20Words%20in%20a%20String%20II.md)
+
 ### Visit by Row
 ```python
 class Solution:
@@ -4952,6 +4987,37 @@ class Solution:
 
 ## Hash Table <a name='ht'></a>
 ---
+### Fizz Buzz
+```python
+class Solution:
+    def fizzBuzz(self, n: int) -> List[str]:
+        # ans list
+        ans = []
+
+        # Dictionary to store all fizzbuzz mappings
+        fizz_buzz_dict = {3 : "Fizz", 5 : "Buzz"}
+
+        for num in range(1,n+1):
+
+            num_ans_str = ""
+
+            for key in fizz_buzz_dict.keys():
+
+                # If the num is divisible by key,
+                # then add the corresponding string mapping to current num_ans_str
+                if num % key == 0:
+                    num_ans_str += fizz_buzz_dict[key]
+
+            if not num_ans_str:
+                num_ans_str = str(num)
+
+            # Append the current answer str to the ans list
+            ans.append(num_ans_str)  
+
+        return ans
+```
+* [[Easy] [Solution] 412. Fizz Buzz](%5BEasy%5D%20%5BSolution%5D%20412.%20Fizz%20Buzz.md)
+
 ### Left and Right Index
 ```python
 class Solution:
