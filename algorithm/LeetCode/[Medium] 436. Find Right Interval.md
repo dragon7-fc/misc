@@ -44,7 +44,7 @@ For [2,3], the interval [3,4] has minimum-"right" start point.
 
 # Submissions
 ---
-**Solution 1:**
+**Solution 1: (Sort by start, search by end interval)**
 ```
 Runtime: 304 ms
 Memory Usage: 18.7 MB

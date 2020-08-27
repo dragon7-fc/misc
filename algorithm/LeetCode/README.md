@@ -373,6 +373,7 @@ Happy Coding!!
 * [[Easy] 404. Sum of Left Leaves](%5BEasy%5D%20404.%20Sum%20of%20Left%20Leaves.md)
 * [[Medium] [Solution] 983. Minimum Cost For Tickets](%5BMedium%5D%20%5BSolution%5D%20983.%20Minimum%20Cost%20For%20Tickets.md)
 * [[Easy] [Solution] 412. Fizz Buzz](%5BEasy%5D%20%5BSolution%5D%20412.%20Fizz%20Buzz.md)
+* [[Medium] 436. Find Right Interval](%5BMedium%5D%20436.%20Find%20Right%20Interval.md)
 
 ## Array <a name="array"></a>
 ---
@@ -9190,6 +9191,22 @@ class Solution:
         return sum([x[0] if i < len(costs)//2 else x[1] for i, x in enumerate(sorted(costs,key=lambda x: x[0]-x[1]))])
 ```
 * [[Easy] 1029. Two City Scheduling](%5BEasy%5D%201029.%20Two%20City%20Scheduling.md)
+
+### Sort by start, search by end interval
+```python
+class Solution:
+    def findRightInterval(self, intervals: List[List[int]]) -> List[int]:
+        N = len(intervals)
+        d = {}
+        start_idx = {start:i for i, (start, _) in enumerate(intervals)}
+        sorted_start = sorted(start for start, _ in intervals)
+        for i, (start, end) in enumerate(intervals):
+            idx = bisect.bisect_left(sorted_start, end)  # search every end in every sorted_start
+            d.setdefault(start, start_idx[sorted_start[idx]] if idx != N else -1)
+
+        return list(map(lambda x: d[x[0]], intervals))
+```
+* [[Medium] 436. Find Right Interval](%5BMedium%5D%20436.%20Find%20Right%20Interval.md)
 
 ### Sort interval
 ```python

@@ -494,19 +494,25 @@ A playground to note something.
         ```bash
         sudo apt-get install tftpd-hpa
 
-        sudo nano /etc/default/tftpd-hpa
+        sudo vim /etc/default/tftpd-hpa
 
-        ##+++>
-        TFTP_USERNAME="tftp"
-        TFTP_DIRECTORY="/path/to/tftproot"
-        TFTP_ADDRESS="0.0.0.0:69"
-        TFTP_OPTIONS="--secure --create"
-        RUN_DAEMON="yes"
-        ##+++<
+        + TFTP_USERNAME="tftp"
+        + TFTP_DIRECTORY="/path/to/tftproot"
+        + TFTP_ADDRESS="0.0.0.0:69"
+        + TFTP_OPTIONS="--secure --create"
+        + RUN_DAEMON="yes"
 
         chmod 777 /path/to/tftproot
         chown nobody:nogroup -R /path/to/tftproot
         sudo service tftpd-hpa restart
+        
+        # power on auto start
+        sudo vim /etc/rc.local
+        
+        + sleep 30
+        + service tftpd-hpa restart
+        
+        exit 0
         ```
 
     - Client
