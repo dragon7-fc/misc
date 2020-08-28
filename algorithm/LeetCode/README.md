@@ -374,6 +374,7 @@ Happy Coding!!
 * [[Medium] [Solution] 983. Minimum Cost For Tickets](%5BMedium%5D%20%5BSolution%5D%20983.%20Minimum%20Cost%20For%20Tickets.md)
 * [[Easy] [Solution] 412. Fizz Buzz](%5BEasy%5D%20%5BSolution%5D%20412.%20Fizz%20Buzz.md)
 * [[Medium] 436. Find Right Interval](%5BMedium%5D%20436.%20Find%20Right%20Interval.md)
+* [[Medium] [Solution] 470. Implement Rand10() Using Rand7()](%5BMedium%5D%20%5BSolution%5D%20470.%20Implement%20Rand10()%20Using%20Rand7().md)
 
 ## Array <a name="array"></a>
 ---
@@ -4217,6 +4218,28 @@ class Solution:
         return "" # original gcd alway has a solution (at least '1')
 ```
 * [[Easy] 1071. Greatest Common Divisor of Strings](%5BEasy%5D%201071.%20Greatest%20Common%20Divisor%20of%20Strings.md)
+
+### Brute Force
+```python
+class Solution:
+    def addBoldTag(self, s: str, dict: List[str]) -> str:
+        N = len(s)
+        mask = [False] * N
+        for i in range(N):
+            prefix = s[i:]
+            for word in dict:
+                if prefix.startswith(word):
+                    for j in range(i, min(i+len(word), N)):
+                        mask[j] = True
+
+        ans = []
+        for incl, grp in itertools.groupby(zip(s, mask), lambda z: z[1]):
+            if incl: ans.append("<b>")
+            ans.append("".join(z[0] for z in grp))
+            if incl: ans.append("</b>")
+        return "".join(ans)
+```
+* [[Lock] [Medium] [Solution] 616. Add Bold Tag in String](%5BLock%5D%20%5BMedium%5D%20%5BSolution%5D%20616.%20Add%20Bold%20Tag%20in%20String.md)
 
 ### Reverse the Whole String and Then Reverse Each Word
 ```python

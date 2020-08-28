@@ -167,7 +167,7 @@ $\begin{align} E\left( \text{# calls to rand7} \right) =\,& 2 \cdot \frac{40}{49
 
 # Submissions
 ---
-**Solution 1: (Rejection Sampling)**
+**Solution 1: (Rejection Sampling, round7() as row / column index)**
 ```
 Runtime: 356 ms
 Memory Usage: 15.6 MB
