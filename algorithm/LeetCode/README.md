@@ -377,6 +377,7 @@ Happy Coding!!
 * [[Medium] [Solution] 470. Implement Rand10() Using Rand7()](%5BMedium%5D%20%5BSolution%5D%20470.%20Implement%20Rand10()%20Using%20Rand7().md)
 * [[Lock] [Hard] [Solution] 489. Robot Room Cleaner](%5BLock%5D%20%5BHard%5D%20%5BSolution%5D%20489.%20Robot%20Room%20Cleaner.md)
 * [[Medium] [Solution] 969. Pancake Sorting](%5BMedium%5D%20%5BSolution%5D%20969.%20Pancake%20Sorting.md)
+* [[Hard] [Solution] 952. Largest Component Size by Common Factor](%5BHard%5D%20%5BSolution%5D%20952.%20Largest%20Component%20Size%20by%20Common%20Factor.md)
 
 ## Array <a name="array"></a>
 ---
