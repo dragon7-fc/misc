@@ -375,6 +375,8 @@ Happy Coding!!
 * [[Easy] [Solution] 412. Fizz Buzz](%5BEasy%5D%20%5BSolution%5D%20412.%20Fizz%20Buzz.md)
 * [[Medium] 436. Find Right Interval](%5BMedium%5D%20436.%20Find%20Right%20Interval.md)
 * [[Medium] [Solution] 470. Implement Rand10() Using Rand7()](%5BMedium%5D%20%5BSolution%5D%20470.%20Implement%20Rand10()%20Using%20Rand7().md)
+* [[Lock] [Hard] [Solution] 489. Robot Room Cleaner](%5BLock%5D%20%5BHard%5D%20%5BSolution%5D%20489.%20Robot%20Room%20Cleaner.md)
+* [[Medium] [Solution] 969. Pancake Sorting](%5BMedium%5D%20%5BSolution%5D%20969.%20Pancake%20Sorting.md)
 
 ## Array <a name="array"></a>
 ---
@@ -4218,6 +4220,66 @@ class Solution:
         return "" # original gcd alway has a solution (at least '1')
 ```
 * [[Easy] 1071. Greatest Common Divisor of Strings](%5BEasy%5D%201071.%20Greatest%20Common%20Divisor%20of%20Strings.md)
+
+### Binary search in string time range
+```python
+class LogSystem:
+
+    def __init__(self):
+        self.data = []
+        self.map = {}
+        
+    def put(self, id: int, timestamp: str) -> None:
+        bisect.insort(self.data, timestamp)
+        self.map[timestamp] = id
+
+    def retrieve(self, s: str, e: str, gra: str) -> List[int]:
+        low, high = '0000:00:00:00:00:00', '9999:99:99:99:99:99'
+        i = {'Year':4, 'Month':7, 'Day':10, 'Hour':13, 'Minute':16, 'Second':19}[gra]
+        s = s[:i] + low[i:]
+        e = e[:i] + high[i:]
+        j = bisect_left(self.data, s)
+        k = bisect_right(self.data, e)
+        return list(map(self.map.get, self.data[j:k]))
+
+# Your LogSystem object will be instantiated and called as such:
+# obj = LogSystem()
+# obj.put(id,timestamp)
+# param_2 = obj.retrieve(s,e,gra)
+```
+* [[Lock] [Medium] [Solution] 635. Design Log Storage System](%5BLock%5D%20%5BMedium%5D%20%5BSolution%5D%20635.%20Design%20Log%20Storage%20System.md)
+
+### Split Concatenated Strings
+```python
+class Solution:
+    def splitLoopedString(self, strs: List[str]) -> str:
+        def getMaxStr(s: str) -> str:
+            i, j = 0, len(s)-1
+            while i < j:
+                if s[i] < s[j]: return s[::-1]
+                if s[i] > s[j]: return s
+                i += 1
+                j -= 1
+            return s
+
+        for i in range(len(strs)): 
+            strs[i] = getMaxStr(strs[i])
+
+        concatenated = ''.join(strs)
+        exclusives = [''] * len(strs)
+        for i in range(len(strs)):
+            exclusives[i] = concatenated[len(strs[i]):]
+            concatenated = concatenated[len(strs[i]):] + strs[i]
+
+        output = ''
+        for i, s in enumerate(strs):
+            sr = s[::-1]
+            for j in range(len(s)+1):
+                output = max(output, s[j:]+exclusives[i]+s[:j], sr[j:]+exclusives[i]+sr[:j])
+
+        return output
+```
+* [[Lock] [Medium] [Solution] 555. Split Concatenated Strings](%5BLock%5D%20%5BMedium%5D%20%5BSolution%5D%20555.%20Split%20Concatenated%20Strings.md)
 
 ### Brute Force
 ```python
