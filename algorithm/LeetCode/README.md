@@ -1318,6 +1318,20 @@ class Solution(object):
 ```
 * [[Easy] [Solution] 746. Min Cost Climbing Stairs](%5BEasy%5D%20%5BSolution%5D%20746.%20Min%20Cost%20Climbing%20Stairs.md)
 
+### Maximum Length of Subarray With Positive Product
+```python
+class Solution:
+    def getMaxLen(self, nums: List[int]) -> int:
+        ans = pos = neg = 0
+        for x in nums: 
+            if x > 0: pos, neg = 1 + pos, 1 + neg if neg else 0
+            elif x < 0: pos, neg = 1 + neg if neg else 0, 1 + pos
+            else: pos = neg = 0 # reset 
+            ans = max(ans, pos)
+        return ans
+```
+* [[Medium] 1567. Maximum Length of Subarray With Positive Product](%5BMedium%5D%201567.%20Maximum%20Length%20of%20Subarray%20With%20Positive%20Product.md)
+
 ### Campus Bikes
 ```python
 class Solution:
