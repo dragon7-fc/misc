@@ -378,6 +378,7 @@ Happy Coding!!
 * [[Lock] [Hard] [Solution] 489. Robot Room Cleaner](%5BLock%5D%20%5BHard%5D%20%5BSolution%5D%20489.%20Robot%20Room%20Cleaner.md)
 * [[Medium] [Solution] 969. Pancake Sorting](%5BMedium%5D%20%5BSolution%5D%20969.%20Pancake%20Sorting.md)
 * [[Hard] [Solution] 952. Largest Component Size by Common Factor](%5BHard%5D%20%5BSolution%5D%20952.%20Largest%20Component%20Size%20by%20Common%20Factor.md)
+* [[Medium] * 450. Delete Node in a BST](%5BMedium%5D%20*%20450.%20Delete%20Node%20in%20a%20BST.md)
 
 ## Array <a name="array"></a>
 ---
@@ -4236,6 +4237,21 @@ class Solution:
 ```
 * [[Easy] 1071. Greatest Common Divisor of Strings](%5BEasy%5D%201071.%20Greatest%20Common%20Divisor%20of%20Strings.md)
 
+### Simulation
+```python
+class Solution:
+    def nextClosestTime(self, time: str) -> str:
+        cur = 60 * int(time[:2]) + int(time[3:])
+        allowed = {int(x) for x in time if x != ':'}
+        while True:
+            cur = (cur + 1) % (24 * 60)
+            if all(digit in allowed
+                    for block in divmod(cur, 60)
+                    for digit in divmod(block, 10)):
+                return "{:02d}:{:02d}".format(*divmod(cur, 60))
+```
+* [[Lock] [Medium] [Solution] 681. Next Closest Time](%5BLock%5D%20%5BMedium%5D%20%5BSolution%5D%20681.%20Next%20Closest%20Time.md)
+
 ### Binary search in string time range
 ```python
 class LogSystem:
@@ -5500,6 +5516,56 @@ class Solution:
 ### Binary Search with Rolling Hash
 ```python
 class Solution:
+    def search(self, L: int, a: int, modulus: int, n: int, nums: List[int]) -> str:
+        """
+        Rabin-Karp with polynomial rolling hash.
+        Search a substring of given length
+        that occurs at least 2 times.
+        @return start position if the substring exits and -1 otherwise.
+        """
+        # compute the hash of string S[:L]
+        h = 0
+        for i in range(L):
+            h = (h * a + nums[i]) % modulus
+
+        # already seen hashes of strings of length L
+        seen = {h} 
+        # const value to be used often : a**L % modulus
+        aL = pow(a, L, modulus) 
+        for start in range(1, n - L + 1):
+            # compute rolling hash in O(1) time
+            h = (h * a - nums[start - 1] * aL + nums[start + L - 1]) % modulus
+            if h in seen:
+                return start
+            seen.add(h)
+        return -1
+
+    def longestRepeatingSubstring(self, S: str) -> int:
+        n = len(S)
+        # convert string to array of integers
+        # to implement constant time slice
+        nums = [ord(S[i]) - ord('a') for i in range(n)]
+        # base value for the rolling hash function
+        a = 26
+        # modulus value for the rolling hash function to avoid overflow
+        modulus = 2**24
+
+        # binary search, L = repeating string length
+        left, right = 1, n
+        while left <= right:
+            L = left + (right - left) // 2
+            if self.search(L, a, modulus, n, nums) != -1:
+                left = L + 1
+            else:
+                right = L - 1
+
+        return left - 1
+```
+* [[Lock] [Medium] [Solution] 1062. Longest Repeating Substring](%5BLock%5D%20%5BMedium%5D%20%5BSolution%5D%201062.%20Longest%20Repeating%20Substring.md)
+
+### Binary Search with Rolling Hash
+```python
+class Solution:
     def findLength(self, A: List[int], B: List[int]) -> int:
         P, MOD = 113, 10**9 + 7
         Pinv = pow(P, MOD-2, MOD)
@@ -5698,6 +5764,43 @@ class Solution:
         return image
 ```
 * [[Easy] [Solution] 733. Flood Fill](%5BEasy%5D%20%5BSolution%5D%20733.%20Flood%20Fill.md)
+
+### Delete Node in a BST
+```python
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+
+class Solution:
+    def findMin(self, node):
+        if node is None:
+            return
+        while node.left:
+            node = node.left
+        return node
+
+    def deleteNode(self, root: TreeNode, key: int) -> TreeNode:
+        if root is None:
+            return
+        if root.val == key:
+            if root.left is None:
+                return root.right
+            if root.right is None:
+                return root.left
+
+            temp = self.findMin(root.right)
+            root.val = temp.val
+            root.right = self.deleteNode(root.right, temp.val)
+        elif key < root.val:
+            root.left = self.deleteNode(root.left, key)
+        else:
+            root.right = self.deleteNode(root.right, key)
+        return root
+```
+* [[Medium] * 450. Delete Node in a BST](%5BMedium%5D%20*%20450.%20Delete%20Node%20in%20a%20BST.md)
 
 ### The Maze
 ```python
@@ -6342,7 +6445,6 @@ return num_connected_components
 ```
 
 * [[Medium] 1110. Delete Nodes And Return Forest](%5BMedium%5D%201110.%20Delete%20Nodes%20And%20Return%20Forest.md)
-* [[Medium] * 450. Delete Node in a BST](%5BMedium%5D%20*%20450.%20Delete%20Node%20in%20a%20BST.md)
 
 ## Binary Search <a name="bs"></a>
 ---
@@ -8527,6 +8629,55 @@ class CustomStack:
 # obj.increment(k,val)
 ```
 * [[Medium] 1381. Design a Stack With Increment Operation](%5BMedium%5D%201381.%20Design%20a%20Stack%20With%20Increment%20Operation.md)
+
+### Two Stack, operator stack + operation stack
+```python
+class Solution:
+    def calculate(self, s: str) -> int:
+        if not s:
+            return None
+
+        def higher(o1, o2):
+            if o1 == '/' or o1 == '*':
+                return (o2 == '+' or o2 == '-' or o2 =='(' )
+            else: 
+                return o2 == '('
+
+        stN = []
+        stO = []
+        num = 0
+        dictO = {'+' : lambda a, b: a+b,
+                '-': lambda a, b: b-a,
+                 '/': lambda a, b: b //a,
+                "*": lambda a, b: a*b,}
+        have_num = False
+        for i, val in enumerate(s):
+            if val.isnumeric():
+                num  = num * 10 + int(val)
+                have_num = True
+            if (not val.isnumeric() and val != ' '):
+                if have_num:
+                    stN.append(num)
+                    num = 0
+                    have_num = False
+                if val == '(':
+                    stO.append(val)
+                elif val == ')':
+                    while stO[-1] != '(':
+                        stN.append(dictO[stO.pop(-1)](stN.pop(-1), stN.pop(-1)))
+                    stO.pop()
+                else:
+                    while stO and not higher(val, stO[-1]):
+                        stN.append(dictO[stO.pop(-1)](stN.pop(-1), stN.pop(-1)))
+                    stO.append(val)
+
+        if have_num:
+            stN.append(num)
+        while stO:
+            stN.append(dictO[stO.pop(-1)](stN.pop(-1), stN.pop(-1)))
+        return stN.pop()
+```
+* [[Lock] [Hard] 772. Basic Calculator III](%5BLock%5D%20%5BHard%5D%20772.%20Basic%20Calculator%20III.md)
 
 ### Histogram
 ```python
