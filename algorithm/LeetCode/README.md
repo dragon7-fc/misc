@@ -48,6 +48,7 @@ Happy Coding!!
 1. [202006 June LeetCoding Challenge](#202006)
 1. [202007 July LeetCoding Challenge](#202007)
 1. [202008 August LeetCoding Challenge](#202008)
+1. [202009 September LeetCoding Challenge](#202009)
 1. [Array](#array)
 1. [Dynamic Programming](#dp)
 1. [Math](#math)
@@ -343,7 +344,7 @@ Happy Coding!!
 * [[Medium] 309. Best Time to Buy and Sell Stock with Cooldown](%5BMedium%5D%20309.%20Best%20Time%20to%20Buy%20and%20Sell%20Stock%20with%20Cooldown.md)
 * [[Easy] [Solution] 70. Climbing Stairs](%5BEasy%5D%20%5BSolution%5D%2070.%20Climbing%20Stairs.md)
 
-## 202007 August LeetCoding Challenge <a name="202008"></a>
+## 202008 August LeetCoding Challenge <a name="202008"></a>
 * [[Easy] [Solution] 520. Detect Capital](%5BEasy%5D%20%5BSolution%5D%20520.%20Detect%20Capital.md)
 * [[Easy] 705. Design HashSet](%5BEasy%5D%20705.%20Design%20HashSet.md)
 * [[Easy] [Solution] 125. Valid Palindrome](%5BEasy%5D%20%5BSolution%5D%20125.%20Valid%20Palindrome.md)
@@ -379,6 +380,10 @@ Happy Coding!!
 * [[Medium] [Solution] 969. Pancake Sorting](%5BMedium%5D%20%5BSolution%5D%20969.%20Pancake%20Sorting.md)
 * [[Hard] [Solution] 952. Largest Component Size by Common Factor](%5BHard%5D%20%5BSolution%5D%20952.%20Largest%20Component%20Size%20by%20Common%20Factor.md)
 * [[Medium] * 450. Delete Node in a BST](%5BMedium%5D%20*%20450.%20Delete%20Node%20in%20a%20BST.md)
+
+## 202009 September LeetCoding Challenge <a name="202009"></a>
+* [[Lock] [Easy] [Solution] 157. Read N Characters Given Read4](%5BLock%5D%20%5BEasy%5D%20%5BSolution%5D%20157.%20Read%20N%20Characters%20Given%20Read4.md)
+* [[Easy] [Solution] 949. Largest Time for Given Digits](%5BEasy%5D%20%5BSolution%5D%20949.%20Largest%20Time%20for%20Given%20Digits.md)
 
 ## Array <a name="array"></a>
 ---
@@ -3972,6 +3977,47 @@ class Solution:
         # no match was found
         return -1
 ```
+
+### Read N Characters Given Read4
+```python
+"""
+The read4 API is already defined for you.
+
+    @param buf4, a list of characters
+    @return an integer
+    def read4(buf4):
+
+# Below is an example of how the read4 API can be called.
+file = File("abcdefghijk") # File is "abcdefghijk", initially file pointer (fp) points to 'a'
+buf4 = [' '] * 4 # Create buffer with enough space to store characters
+read4(buf4) # read4 returns 4. Now buf = ['a','b','c','d'], fp points to 'e'
+read4(buf4) # read4 returns 4. Now buf = ['e','f','g','h'], fp points to 'i'
+read4(buf4) # read4 returns 3. Now buf = ['i','j','k',...], fp points to end of file
+"""
+
+class Solution:
+    def read(self, buf, n):
+        """
+        :type buf: Destination buffer (List[str])
+        :type n: Number of characters to read (int)
+        :rtype: The number of actual characters read (int)
+        """
+        copied_chars = 0
+        read_chars = 4
+        buf4 = [''] * 4
+
+        while copied_chars < n and read_chars == 4:
+            read_chars = read4(buf4)
+
+            for i in range(read_chars):
+                if copied_chars == n:
+                    return copied_chars
+                buf[copied_chars] = buf4[i]
+                copied_chars += 1
+
+        return copied_chars
+```
+* [[Lock] [Easy] [Solution] 157. Read N Characters Given Read4](%5BLock%5D%20%5BEasy%5D%20%5BSolution%5D%20157.%20Read%20N%20Characters%20Given%20Read4.md)
 
 ### KMP
 ```python
