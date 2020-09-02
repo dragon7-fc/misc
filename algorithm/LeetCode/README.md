@@ -384,6 +384,7 @@ Happy Coding!!
 ## 202009 September LeetCoding Challenge <a name="202009"></a>
 * [[Lock] [Easy] [Solution] 157. Read N Characters Given Read4](%5BLock%5D%20%5BEasy%5D%20%5BSolution%5D%20157.%20Read%20N%20Characters%20Given%20Read4.md)
 * [[Easy] [Solution] 949. Largest Time for Given Digits](%5BEasy%5D%20%5BSolution%5D%20949.%20Largest%20Time%20for%20Given%20Digits.md)
+* [[Medium] 220. Contains Duplicate III](%5BMedium%5D%20220.%20Contains%20Duplicate%20III.md)
 
 ## Array <a name="array"></a>
 ---
@@ -7997,6 +7998,30 @@ class Solution:
         return False
 ```
 * [[Easy] 392. Is Subsequence](%5BEasy%5D%20392.%20Is%20Subsequence.md)
+
+### Contains Duplicate
+```python
+class Solution:
+    def containsNearbyAlmostDuplicate(self, nums: List[int], k: int, t: int) -> bool:
+        N = len(nums)
+        if t == 0 and len(nums) == len(set(nums)):
+            # Quick response for special case on t = 0
+            # t = 0 requires at last one pair of duplicate elements
+            return False
+        for i, cur_val in enumerate(nums):
+            for j in range(i+1, i+k+1):
+                if j >= N:
+                    # avoid index out of boundary
+                    break
+                if abs(cur_val - nums[j]) <= t:
+                    # hit: 
+                    # i != j, | i-j | <= k
+                    # | nums[i] - nums[j] | <= t
+                    return True
+
+        return False
+```
+* [[Medium] 220. Contains Duplicate III](%5BMedium%5D%20220.%20Contains%20Duplicate%20III.md)
 
 ### Cycle entrance
 ```python
