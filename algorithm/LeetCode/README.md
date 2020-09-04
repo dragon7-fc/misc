@@ -386,6 +386,7 @@ Happy Coding!!
 * [[Easy] [Solution] 949. Largest Time for Given Digits](%5BEasy%5D%20%5BSolution%5D%20949.%20Largest%20Time%20for%20Given%20Digits.md)
 * [[Medium] 220. Contains Duplicate III](%5BMedium%5D%20220.%20Contains%20Duplicate%20III.md)
 * [[Easy] 459. Repeated Substring Pattern](%5BEasy%5D%20459.%20Repeated%20Substring%20Pattern.md)
+* [[Medium] [Solution] 763. Partition Labels](%5BMedium%5D%20%5BSolution%5D%20763.%20Partition%20Labels.md)
 
 ## Array <a name="array"></a>
 ---
