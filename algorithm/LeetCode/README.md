@@ -387,6 +387,7 @@ Happy Coding!!
 * [[Medium] 220. Contains Duplicate III](%5BMedium%5D%20220.%20Contains%20Duplicate%20III.md)
 * [[Easy] 459. Repeated Substring Pattern](%5BEasy%5D%20459.%20Repeated%20Substring%20Pattern.md)
 * [[Medium] [Solution] 763. Partition Labels](%5BMedium%5D%20%5BSolution%5D%20763.%20Partition%20Labels.md)
+* [[Medium] 1305. All Elements in Two Binary Search Trees](%5BMedium%5D%201305.%20All%20Elements%20in%20Two%20Binary%20Search%20Trees.md)
 
 ## Array <a name="array"></a>
 ---
@@ -4874,6 +4875,37 @@ class Solution:
             return self.searchBST(root.right, val)
 ```
 * [[Easy] 700. Search in a Binary Search Tree](%5BEasy%5D%20700.%20Search%20in%20a%20Binary%20Search%20Tree.md)
+
+### All Elements in Two Binary Search Tree
+```python
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+
+class Solution:
+    def getAllElements(self, root1: TreeNode, root2: TreeNode) -> List[int]:
+        def dfs(root):
+            if not root: return []
+            return dfs(root.left) + [root.val] + dfs(root.right)
+
+        nums1, nums2 = dfs(root1), dfs(root2)
+        i = j = 0
+        ans = []
+
+        while i < len(nums1) and j < len(nums2):
+            if nums1[i] <= nums2[j]:
+                ans.append(nums1[i])
+                i += 1
+            else:
+                ans.append(nums2[j])
+                j += 1
+
+        return ans + (nums1[i:] if i < len(nums1) else nums2[j:])
+```
+* [[Medium] 1305. All Elements in Two Binary Search Trees](%5BMedium%5D%201305.%20All%20Elements%20in%20Two%20Binary%20Search%20Trees.md)
 
 ### Binary Tree Inorder Traversa
 ```python
