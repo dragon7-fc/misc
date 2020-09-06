@@ -8033,6 +8033,30 @@ class Solution:
 ```
 * [[Easy] 392. Is Subsequence](%5BEasy%5D%20392.%20Is%20Subsequence.md)
 
+### Shortest Subarray to be Removed to Make Array Sorted
+```python
+class Solution:
+    def findLengthOfShortestSubarray(self, arr: List[int]) -> int:
+        N = len(arr)
+        left, right = 0, N - 1
+        while left + 1 < N and arr[left] <= arr[left + 1]:
+            left += 1
+        if left == N - 1: 
+            return 0
+        while right > left and arr[right - 1] <= arr[right]:
+            right -= 1
+        ans = min(N - left - 1, right)
+        i, j = 0, right
+        while i <= left and j < N:
+            if arr[j] >= arr[i]:
+                ans = min(ans, j - i - 1)
+                i += 1
+            else:
+                j += 1
+        return ans
+```
+* [[Medium] 1574. Shortest Subarray to be Removed to Make Array Sorted](%5BMedium%5D%201574.%20Shortest%20Subarray%20to%20be%20Removed%20to%20Make%20Array%20Sorted.md)
+
 ### Contains Duplicate
 ```python
 class Solution:
