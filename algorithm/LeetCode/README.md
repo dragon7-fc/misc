@@ -11142,6 +11142,57 @@ class Solution:
 ```
 * [[Hard] [Solution] 952. Largest Component Size by Common Factor](%5BHard%5D%20%5BSolution%5D%20952.%20Largest%20Component%20Size%20by%20Common%20Factor.md)
 
+### Remove Max Number of Edges to Keep Graph Fully Traversable
+```python
+class Solution:
+    def maxNumEdgesToRemove(self, n: int, edges: List[List[int]]) -> int:
+
+        # Union find
+        def find(i):
+            if i != root[i]:
+                root[i] = find(root[i])
+            return root[i]
+
+        def uni(x, y):
+            x, y = find(x), find(y)
+            if x == y: return 0
+            root[x] = y
+            return 1
+
+        res = e1 = e2 = 0
+
+        # Alice and Bob
+        root = list(range(n + 1))
+        for t, i, j in edges:
+            if t == 3:
+                if uni(i, j):
+                    e1 += 1
+                    e2 += 1
+                else:
+                    res += 1
+        root0 = root[:]
+
+        # only Alice
+        for t, i, j in edges:
+            if t == 1:
+                if uni(i, j):
+                    e1 += 1
+                else:
+                    res += 1
+
+        # only Bob
+        root = root0
+        for t, i, j in edges:
+            if t == 2:
+                if uni(i, j):
+                    e2 += 1
+                else:
+                    res += 1
+
+        return res if e1 == e2 == n - 1 else -1
+```
+* [[Hard] 1579. Remove Max Number of Edges to Keep Graph Fully Traversable](%5BHard%5D%201579.%20Remove%20Max%20Number%20of%20Edges%20to%20Keep%20Graph%20Fully%20Traversable.md)
+
 **Template 1:**
 ```python
 class DSU(object):
