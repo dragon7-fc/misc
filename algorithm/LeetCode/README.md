@@ -388,6 +388,7 @@ Happy Coding!!
 * [[Easy] 459. Repeated Substring Pattern](%5BEasy%5D%20459.%20Repeated%20Substring%20Pattern.md)
 * [[Medium] [Solution] 763. Partition Labels](%5BMedium%5D%20%5BSolution%5D%20763.%20Partition%20Labels.md)
 * [[Medium] 1305. All Elements in Two Binary Search Trees](%5BMedium%5D%201305.%20All%20Elements%20in%20Two%20Binary%20Search%20Trees.md)
+* [[Medium] [Solution] 835. Image Overlap](%5BMedium%5D%20%5BSolution%5D%20835.%20Image%20Overlap.md)
 
 ## Array <a name="array"></a>
 ---
@@ -5722,21 +5723,29 @@ class Solution:
 ```
 * [[Medium] 792. Number of Matching Subsequences](%5BMedium%5D%20792.%20Number%20of%20Matching%20Subsequences.md)
 
-### Count by Delta
+### Delta Hash Table Counter
 ```python
 class Solution:
     def largestOverlap(self, A: List[List[int]], B: List[List[int]]) -> int:
-        N = len(A)
-        count = collections.Counter()
-        for i, row in enumerate(A):
-            for j, v in enumerate(row):
-                if v:
-                    for i2, row2 in enumerate(B):
-                        for j2, v2 in enumerate(row2):
-                            if v2:
-                                count[i-i2, j-j2] += 1
+        A_points, B_points, d = [], [], collections.defaultdict(int)
 
-        return max(count.values() or [0])
+        # Filter points having 1 for each matrix respectively.
+        for r in range(len(A)):
+            for c in range(len(A[0])):
+                if A[r][c]:
+                    A_points.append((r, c))
+
+                if B[r][c]:
+                    B_points.append((r, c))
+
+        # For every point in filtered A, calculate the
+        # linear transformation vector with all points of filtered B
+        # count the number of the pairs that have the same transformation vector
+        for r_a, c_a in A_points:
+            for r_b, c_b in B_points:
+                d[(r_b - r_a, c_b - c_a)] += 1
+
+        return max(d.values() or [0])
 ```
 * [[Medium] [Solution] 835. Image Overlap](%5BMedium%5D%20%5BSolution%5D%20835.%20Image%20Overlap.md)
 
