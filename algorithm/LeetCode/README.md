@@ -389,6 +389,7 @@ Happy Coding!!
 * [[Medium] [Solution] 763. Partition Labels](%5BMedium%5D%20%5BSolution%5D%20763.%20Partition%20Labels.md)
 * [[Medium] 1305. All Elements in Two Binary Search Trees](%5BMedium%5D%201305.%20All%20Elements%20in%20Two%20Binary%20Search%20Trees.md)
 * [[Medium] [Solution] 835. Image Overlap](%5BMedium%5D%20%5BSolution%5D%20835.%20Image%20Overlap.md)
+* [[Easy] 290. Word Pattern](%5BEasy%5D%20290.%20Word%20Pattern.md)
 
 ## Array <a name="array"></a>
 ---
@@ -5186,6 +5187,25 @@ class Solution:
 
 ## Hash Table <a name='ht'></a>
 ---
+### Word Pattern
+```python
+class Solution:
+    def wordPattern(self, pattern: str, str: str) -> bool:
+        d = {}
+        word = str.split()
+        if len(word) != len(pattern): return False
+        for i in range(len(pattern)):
+            if not d.get(pattern[i], None):
+                if word[i] in d.values():
+                    return False
+                d[pattern[i]] = word[i]
+            else:
+                if d[pattern[i]] != word[i]:
+                    return False
+        return True
+```
+* [[Easy] 290. Word Pattern](%5BEasy%5D%20290.%20Word%20Pattern.md)
+
 ### Fizz Buzz
 ```python
 class Solution:

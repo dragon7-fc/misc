@@ -34,7 +34,68 @@ Output: false
 
 # Submissions
 ---
-**Solution 1:**
+**Solution 1: (Two Hash Maps)**
+```
+Runtime: 32 ms
+Memory Usage: 14 MB
+```
+```python
+class Solution:
+    def wordPattern(self, pattern: str, str: str) -> bool:
+        map_char = {}
+        map_word = {}
+        
+        words = str.split(' ')
+        if len(words) != len(pattern):
+            return False
+        
+        for c, w in zip(pattern, words):
+            if c not in map_char:
+                if w in map_word:
+                    return False
+                else:
+                    map_char[c] = w
+                    map_word[w] = c
+            else:
+                if map_char[c] != w:
+                    return False
+        return True
+```
+
+**Solution 2: (Single Index Hash Map)**
+```
+Runtime: 32 ms
+Memory Usage: 13.8 MB
+```
+```python
+class Solution:
+    def wordPattern(self, pattern: str, str: str) -> bool:
+        map_index = {}
+        words = str.split()
+        
+        if len(pattern) != len(words):
+            return False
+        
+        for i in range(len(words)):
+            c = pattern[i]
+            w = words[i]
+
+            char_key = 'char_{}'.format(c)
+            char_word = 'word_{}'.format(w)
+            
+            if char_key not in map_index:
+                map_index[char_key] = i
+            
+            if char_word not in map_index:
+                map_index[char_word] = i 
+            
+            if map_index[char_key] != map_index[char_word]:
+                return False
+        
+        return True
+```
+
+**Solution 3: (Hash Table)**
 ```
 Runtime: 16 ms
 Memory Usage: 12.8 MB
