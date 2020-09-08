@@ -393,7 +393,7 @@ A playground to note something.
     - Create branch
 
         `svn copy [SRC_REPO] [DEST_REPO] -m '[MSG]'`
-
+    - [Migrating to Git from SVN](https://blog.axosoft.com/migrating-git-svn/)
 * Tig
 
     - [Tig cheatsheet](https://devhints.io/tig)
@@ -460,7 +460,20 @@ A playground to note something.
 
 * ssh
 
-    * [SSH Cheatsheet](https://cheatsheet.dennyzhang.com/cheatsheet-ssh-a4)
+    - [SSH Cheatsheet](https://cheatsheet.dennyzhang.com/cheatsheet-ssh-a4)
+    - SSH login without password
+        
+        ```bash
+        a@A:~> ssh-keygen -t rsa
+        
+        a@A:~> ssh b@B mkdir -p .ssh
+        b@B's password:
+        
+        a@A:~> cat .ssh/id_rsa.pub | ssh b@B `cat >> .ssh/authorized_keys`
+        b@B's password:
+        
+        a@A:~> ssh b@B
+        ```
 * Samba
 
     ```bash

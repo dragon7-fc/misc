@@ -390,6 +390,7 @@ Happy Coding!!
 * [[Medium] 1305. All Elements in Two Binary Search Trees](%5BMedium%5D%201305.%20All%20Elements%20in%20Two%20Binary%20Search%20Trees.md)
 * [[Medium] [Solution] 835. Image Overlap](%5BMedium%5D%20%5BSolution%5D%20835.%20Image%20Overlap.md)
 * [[Easy] 290. Word Pattern](%5BEasy%5D%20290.%20Word%20Pattern.md)
+* [[Easy] 1022. Sum of Root To Leaf Binary Numbers](%5BEasy%5D%201022.%20Sum%20of%20Root%20To%20Leaf%20Binary%20Numbers.md)
 
 ## Array <a name="array"></a>
 ---
@@ -4768,8 +4769,33 @@ class Solution:
 
 ## Tree <a name='tree'></a>
 ---
-### DFS
+### DFS, Yield
+```python
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+
+class Solution:
+    def sumRootToLeaf(self, root: TreeNode) -> int:
+        def dfs(node, previous):
+            if not node.left and not node.right:
+                yield 2*previous + node.val
+
+            if node.left:
+                yield from dfs(node.left, 2*previous + node.val)
+
+            if node.right:
+                yield from dfs(node.right, 2*previous + node.val)
+
+        return sum(dfs(root, 0))
 ```
+* [[Easy] 1022. Sum of Root To Leaf Binary Numbers](%5BEasy%5D%201022.%20Sum%20of%20Root%20To%20Leaf%20Binary%20Numbers.md)
+
+### DFS
+```python
 # Definition for a binary tree node.
 # class TreeNode:
 #     def __init__(self, x):
