@@ -76,3 +76,22 @@ class Solution:
         # if we make it to the end it was equal so return zero 
         return 0
 ```
+
+**Solution 2: (Greedy)**
+```
+Runtime: 28 ms
+Memory Usage: 13.9 MB
+```
+```python
+class Solution:
+    def compareVersion(self, version1: str, version2: str) -> int:
+        for v1, v2 in itertools.zip_longest(version1.split('.'), version2.split('.')):
+            v1 = int(v1) if v1 else 0
+            v2 = int(v2) if v2 else 0
+            if v1 > v2:
+                return 1
+            elif v1 < v2:
+                return -1
+        return 0
+            
+```

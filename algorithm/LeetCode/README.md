@@ -391,6 +391,7 @@ Happy Coding!!
 * [[Medium] [Solution] 835. Image Overlap](%5BMedium%5D%20%5BSolution%5D%20835.%20Image%20Overlap.md)
 * [[Easy] 290. Word Pattern](%5BEasy%5D%20290.%20Word%20Pattern.md)
 * [[Easy] 1022. Sum of Root To Leaf Binary Numbers](%5BEasy%5D%201022.%20Sum%20of%20Root%20To%20Leaf%20Binary%20Numbers.md)
+* [[Medium] 165. Compare Version Numbers](%5BMedium%5D%20165.%20Compare%20Version%20Numbers.md)
 
 ## Array <a name="array"></a>
 ---
@@ -7138,6 +7139,21 @@ class Solution:
         return n <= 0
 ```
 * [[Easy] [Solution] 605. Can Place Flowers](%5BEasy%5D%20%5BSolution%5D%20605.%20Can%20Place%20Flowers.md)
+
+### zip_longest
+```python
+class Solution:
+    def compareVersion(self, version1: str, version2: str) -> int:
+        for v1, v2 in itertools.zip_longest(version1.split('.'), version2.split('.')):
+            v1 = int(v1) if v1 else 0
+            v2 = int(v2) if v2 else 0
+            if v1 > v2:
+                return 1
+            elif v1 < v2:
+                return -1
+        return 0
+```
+* [[Medium] 165. Compare Version Numbers](%5BMedium%5D%20165.%20Compare%20Version%20Numbers.md)
 
 ### Non-overlapping Intervals
 ```python
