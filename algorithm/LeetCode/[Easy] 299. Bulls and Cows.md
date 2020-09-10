@@ -28,7 +28,7 @@ Explanation: The 1st 1 in friend's guess is a bull, the 2nd or 3rd 1 is a cow.
 
 # Submisssions
 ---
-**Solution 1:**
+**Solution 1: (Hash Table, Two Counter)**
 ```
 Runtime: 36 ms
 Memory Usage: 12.6 MB

@@ -392,6 +392,7 @@ Happy Coding!!
 * [[Easy] 290. Word Pattern](%5BEasy%5D%20290.%20Word%20Pattern.md)
 * [[Easy] 1022. Sum of Root To Leaf Binary Numbers](%5BEasy%5D%201022.%20Sum%20of%20Root%20To%20Leaf%20Binary%20Numbers.md)
 * [[Medium] 165. Compare Version Numbers](%5BMedium%5D%20165.%20Compare%20Version%20Numbers.md)
+* [[Easy] 299. Bulls and Cows](%5BEasy%5D%20299.%20Bulls%20and%20Cows.md)
 
 ## Array <a name="array"></a>
 ---
@@ -5214,6 +5215,16 @@ class Solution:
 
 ## Hash Table <a name='ht'></a>
 ---
+### Two Counter
+```python
+class Solution:
+    def getHint(self, secret: str, guess: str) -> str:
+        cow_count = sum(dict(collections.Counter(secret) & collections.Counter(guess)).values())
+        bull_count = len(["_" for letter_secret, letter_guess in zip(secret, guess) if letter_secret == letter_guess])
+        return '{}A{}B'.format(bull_count, cow_count - bull_count)
+```
+* [[Easy] 299. Bulls and Cows](%5BEasy%5D%20299.%20Bulls%20and%20Cows.md)
+
 ### Word Pattern
 ```python
 class Solution:
