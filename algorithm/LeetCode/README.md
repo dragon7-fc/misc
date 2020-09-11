@@ -393,6 +393,7 @@ Happy Coding!!
 * [[Easy] 1022. Sum of Root To Leaf Binary Numbers](%5BEasy%5D%201022.%20Sum%20of%20Root%20To%20Leaf%20Binary%20Numbers.md)
 * [[Medium] 165. Compare Version Numbers](%5BMedium%5D%20165.%20Compare%20Version%20Numbers.md)
 * [[Easy] 299. Bulls and Cows](%5BEasy%5D%20299.%20Bulls%20and%20Cows.md)
+* [[Medium] 152. Maximum Product Subarray](%5BMedium%5D%20152.%20Maximum%20Product%20Subarray.md)
 
 ## Array <a name="array"></a>
 ---
@@ -1390,6 +1391,17 @@ class Solution:
                 res2[i] = min(nums[i], nums[i]*res1[i-1], nums[i]*res2[i-1])
 
         return max(max(res1), max(res2))
+
+class Solution:
+    def maxProduct(self, nums: List[int]) -> int:
+        ans = max_so_far = min_so_far = nums[0]
+        for i in range(1, len(nums)):
+            candidates = (nums[i], max_so_far*nums[i], min_so_far*nums[i])
+            max_so_far = max(candidates)
+            min_so_far = min(candidates)
+            ans = max(ans, max_so_far)
+
+        return ans   
 ```
 * [[Medium] 152. Maximum Product Subarray](%5BMedium%5D%20152.%20Maximum%20Product%20Subarray.md)
 

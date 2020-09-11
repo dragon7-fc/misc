@@ -18,7 +18,7 @@ Explanation: The result cannot be 2, because [-2,-1] is not a subarray.
 
 # Submissions
 ---
-**Solution 1: (DP)**
+**Solution 1: (DP, Bottom-Up, 1-D)**
 ```
 Runtime: 60 ms
 Memory Usage: 12.9 MB
@@ -36,7 +36,7 @@ class Solution:
         return ans           
 ```
 
-**Solution 2: (DP)**
+**Solution 2: (DP, Bottom-Up)**
 ```
 Runtime: 52 ms
 Memory Usage: 14.2 MB
