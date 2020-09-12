@@ -18,26 +18,32 @@ Output: [[1,2,6], [1,3,5], [2,3,4]]
 ```
 # Submissions
 ---
-**Solution1: (Backtracking)**
+**Solution 1: (Backtracking)**
 ```
-Runtime: 32 ms
-Memory Usage: 12.9 MB
+Runtime: 28 ms
+Memory Usage: 14 MB
 ```
 ```python
 class Solution:
     def combinationSum3(self, k: int, n: int) -> List[List[int]]:
-        def backtrack(index, target, path):
-            if target < 0 or len(path) > k:
-                return None
-            if target == 0 and (len(path) == k) and (path not in ans):
-                ans.append(path)
-            for i in range(index, len(nums)):
-                if nums[i] > target:
-                    break
-                backtrack(i+1, target-nums[i], path+[nums[i]])
-        ans = []
-        nums = [i for i in range(1, 10)]
-        backtrack(0, n, [])
-        
-        return ans
+        results = []
+        def backtrack(remain, comb, next_start):
+            if remain == 0 and len(comb) == k:
+                # make a copy of current combination
+                results.append(list(comb))
+                return
+            elif remain < 0 or len(comb) == k:
+                # exceed the scope, no need to explore further.
+                return
+
+            # Iterate through the reduced list of candidates.
+            for i in range(next_start, 9):
+                comb.append(i+1)
+                backtrack(remain-i-1, comb, i+1)
+                # backtrack the current choice
+                comb.pop()
+
+        backtrack(n, [], 0)
+
+        return results
 ```

@@ -394,6 +394,7 @@ Happy Coding!!
 * [[Medium] 165. Compare Version Numbers](%5BMedium%5D%20165.%20Compare%20Version%20Numbers.md)
 * [[Easy] 299. Bulls and Cows](%5BEasy%5D%20299.%20Bulls%20and%20Cows.md)
 * [[Medium] 152. Maximum Product Subarray](%5BMedium%5D%20152.%20Maximum%20Product%20Subarray.md)
+* [[Medium] 216. Combination Sum III](%5BMedium%5D%20216.%20Combination%20Sum%20III.md)
 
 ## Array <a name="array"></a>
 ---
@@ -9016,6 +9017,33 @@ class Solution:
         return backtrack([])
 ```
 * [[Lock] [Medium] [Solution] 351. Android Unlock Patterns](%5BLock%5D%20%5BMedium%5D%20%5BSolution%5D%20351.%20Android%20Unlock%20Patterns.md)
+
+### Backtracking, next_start wtih path
+```python
+class Solution:
+    def combinationSum3(self, k: int, n: int) -> List[List[int]]:
+        results = []
+        def backtrack(remain, comb, next_start):
+            if remain == 0 and len(comb) == k:
+                # make a copy of current combination
+                results.append(list(comb))
+                return
+            elif remain < 0 or len(comb) == k:
+                # exceed the scope, no need to explore further.
+                return
+
+            # Iterate through the reduced list of candidates.
+            for i in range(next_start, 9):
+                comb.append(i+1)
+                backtrack(remain-i-1, comb, i+1)
+                # backtrack the current choice
+                comb.pop()
+
+        backtrack(n, [], 0)
+
+        return results
+```
+* [[Medium] 216. Combination Sum III](%5BMedium%5D%20216.%20Combination%20Sum%20III.md)
 
 ### Combination, Hash Table
 ```python
