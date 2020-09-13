@@ -24,24 +24,24 @@ Explanation: Because the new interval [4,8] overlaps with [3,5],[6,7],[8,10].
 **Solution 1: (Sort, Greedy, Stack)**
 ```
 Runtime: 80 ms
-Memory Usage: 16.1 MB
+Memory Usage: 17 MB
 ```
 ```python
 class Solution:
     def insert(self, intervals: List[List[int]], newInterval: List[int]) -> List[List[int]]:
         intervals.append(newInterval)
         intervals = sorted(intervals)
-        res_stack = [intervals[0]]
-        
-        for i in range(1, len(intervals)):
-            top = res_stack[-1]
-            if top[1] >= intervals[i][0]:
+        ans = [intervals[0]]
+
+        for s, e in intervals[1:]:
+            top = ans[-1]
+            if top[1] >= s:
                 # tops' end is earlier than the start
-                res_stack.pop()
-                top[1] = max(intervals[i][1], top[1])
-                res_stack.append(top)
+                ans.pop()
+                top[1] = max(e, top[1])
+                ans.append(top)
             else:
-                res_stack.append(intervals[i])
-        
-        return res_stack
+                ans.append([s, e])
+
+        return ans
 ```

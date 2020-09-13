@@ -395,6 +395,7 @@ Happy Coding!!
 * [[Easy] 299. Bulls and Cows](%5BEasy%5D%20299.%20Bulls%20and%20Cows.md)
 * [[Medium] 152. Maximum Product Subarray](%5BMedium%5D%20152.%20Maximum%20Product%20Subarray.md)
 * [[Medium] 216. Combination Sum III](%5BMedium%5D%20216.%20Combination%20Sum%20III.md)
+* [[Hard] 57. Insert Interval](%5BHard%5D%2057.%20Insert%20Interval.md)
 
 ## Array <a name="array"></a>
 ---
@@ -1277,6 +1278,28 @@ class Solution:
         return ans
 ```
 * [[Hard] [Solution] 798. Smallest Rotation with Highest Score](%5BHard%5D%20%5BSolution%5D%20798.%20Smallest%20Rotation%20with%20Highest%20Score.md)
+
+### Append and Sort, Greedy
+```python
+class Solution:
+    def insert(self, intervals: List[List[int]], newInterval: List[int]) -> List[List[int]]:
+        intervals.append(newInterval)
+        intervals = sorted(intervals)
+        ans = [intervals[0]]
+
+        for s, e in intervals[1:]:
+            top = ans[-1]
+            if top[1] >= s:
+                # tops' end is earlier than the start
+                ans.pop()
+                top[1] = max(e, top[1])
+                ans.append(top)
+            else:
+                ans.append([s, e])
+
+        return ans
+```
+* [[Hard] 57. Insert Interval](%5BHard%5D%2057.%20Insert%20Interval.md)
 
 ## Dynamic Programming <a name="dp"></a>
 ---
@@ -5819,6 +5842,32 @@ class Solution:
         return max(d.values() or [0])
 ```
 * [[Medium] [Solution] 835. Image Overlap](%5BMedium%5D%20%5BSolution%5D%20835.%20Image%20Overlap.md)
+
+### Reverse location list
+```python
+class Solution:
+    def isTransformable(self, s: str, t: str) -> bool:
+        #places: this stores the indices of every digit from 0 to 9
+        places = defaultdict(list)
+        for i in reversed(range(len(s))):
+            key = int(s[i])
+            places[key].append(i)
+
+        for e in t: #we loop over t and check every digit
+            key = int(e) #current digit
+            if not places[key]: #digit is not in s, return False
+                return False 
+            i = places[key][-1] #location of current digit
+            for j in range(key): #only loop over digits smaller than current digit
+                if places[j]: #there is a digit smaller than current digit, return false
+                    if places[j][-1] < i: 
+                        return False
+            places[key].pop()
+
+        return True
+```
+* [[Hard] 1585. Check If String Is Transformable With Substring Sort Operations](%5BHard%5D%201585.%20Check%20If%20String%20Is%20Transformable%20With%20Substring%20Sort%20Operations.md)
+
 
 ## Depth-first Search <a name="dfs"></a>
 ---
@@ -10662,6 +10711,31 @@ class Solution:
         return -1
 ```
 * [[Medium] 787. Cheapest Flights Within K Stops](%5BMedium%5D%20787.%20Cheapest%20Flights%20Within%20K%20Stops.md)
+
+### Minimum Spanning Tree
+```python
+class Solution:
+    def minCostConnectPoints(self, points: List[List[int]]) -> int:
+        manhattan = lambda p1, p2: abs(p1[0]-p2[0]) + abs(p1[1]-p2[1])
+        N = len(points)
+        g = collections.defaultdict(list)
+        for i in range(N):
+            for j in range(i+1, N):
+                d = manhattan(points[i], points[j])
+                g[i].append((d, j))
+                g[j].append((d, i))
+        cnt, ans, visited, heap = 1, 0, [0] * N, g[0]
+        visited[0] = 1
+        heapq.heapify(heap)
+        while heap:
+            d, j = heapq.heappop(heap)
+            if not visited[j]:
+                visited[j], cnt, ans = 1, cnt+1, ans+d
+                for record in g[j]: heapq.heappush(heap, record)
+            if cnt >= N: break        
+        return ans
+```
+* [[Medium] 1584. Min Cost to Connect All Points](%5BMedium%5D%201584.%20Min%20Cost%20to%20Connect%20All%20Points.md)
 
 ### Greedy with Heap
 ```python
