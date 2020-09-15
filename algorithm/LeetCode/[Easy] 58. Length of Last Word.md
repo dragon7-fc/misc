@@ -28,3 +28,14 @@ class Solution:
         else:
             return 0
 ```
+
+**Solution 2: (String)**
+```
+Runtime: 52 ms
+Memory Usage: 14.1 MB
+```
+```python
+class Solution:
+    def lengthOfLastWord(self, s: str) -> int:
+        return len(s.strip().split(' ')[-1])
+```

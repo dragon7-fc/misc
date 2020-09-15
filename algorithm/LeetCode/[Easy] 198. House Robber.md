@@ -57,10 +57,10 @@ class Solution:
         N = len(nums)
         
         @functools.lru_cache(None)
-        def dfs(i):
+        def dp(i):
             if i >= N:
                 return 0
-            return max(nums[i] + dfs(i+2), dfs(i+1))
+            return max(nums[i] + dp(i+2), dp(i+1))
         
         return dfs(0)
 ```

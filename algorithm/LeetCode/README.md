@@ -396,6 +396,8 @@ Happy Coding!!
 * [[Medium] 152. Maximum Product Subarray](%5BMedium%5D%20152.%20Maximum%20Product%20Subarray.md)
 * [[Medium] 216. Combination Sum III](%5BMedium%5D%20216.%20Combination%20Sum%20III.md)
 * [[Hard] 57. Insert Interval](%5BHard%5D%2057.%20Insert%20Interval.md)
+* [[Easy] 198. House Robber](%5BEasy%5D%20198.%20House%20Robber.md)
+* [[Easy] 58. Length of Last Word](%5BEasy%5D%2058.%20Length%20of%20Last%20Word.md)
 
 ## Array <a name="array"></a>
 ---
@@ -1303,6 +1305,39 @@ class Solution:
 
 ## Dynamic Programming <a name="dp"></a>
 ---
+### Typical
+```python
+class Solution:
+    def rob(self, nums):
+        """
+        :type nums: List[int]
+        :rtype: int
+        """
+        if len(nums) == 0:
+            return 0
+
+        n = len(nums)
+        rob = [0]*(n+1)
+        rob[0] = 0
+        rob[1] = nums[0]
+        for i in range(2, n+1):
+            rob[i] = max(rob[i-1], nums[i-1]+rob[i-2])
+        return rob[n]
+
+class Solution:
+    def rob(self, nums: List[int]) -> int:
+        N = len(nums)
+
+        @functools.lru_cache(None)
+        def dp(i):
+            if i >= N:
+                return 0
+            return max(nums[i] + dp(i+2), dp(i+1))
+
+        return dfs(0)
+```
+[[Easy] 198. House Robber](%5BEasy%5D%20198.%20House%20Robber.md)
+
 ### Pascal's Triangle
 ```python
 class Solution:
@@ -4022,6 +4057,14 @@ class Solution:
         # no match was found
         return -1
 ```
+
+### split
+```python
+class Solution:
+    def lengthOfLastWord(self, s: str) -> int:
+        return len(s.strip().split(' ')[-1])
+```
+* [[Easy] 58. Length of Last Word](%5BEasy%5D%2058.%20Length%20of%20Last%20Word.md)
 
 ### Read N Characters Given Read4
 ```python
