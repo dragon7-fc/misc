@@ -398,6 +398,7 @@ Happy Coding!!
 * [[Hard] 57. Insert Interval](%5BHard%5D%2057.%20Insert%20Interval.md)
 * [[Easy] 198. House Robber](%5BEasy%5D%20198.%20House%20Robber.md)
 * [[Easy] 58. Length of Last Word](%5BEasy%5D%2058.%20Length%20of%20Last%20Word.md)
+* [[Medium] 421. Maximum XOR of Two Numbers in an Array](%5BMedium%5D%20421.%20Maximum%20XOR%20of%20Two%20Numbers%20in%20an%20Array.md)
 
 ## Array <a name="array"></a>
 ---
