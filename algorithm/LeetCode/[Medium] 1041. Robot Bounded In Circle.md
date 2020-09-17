@@ -42,9 +42,17 @@ The robot moves from (0, 0) -> (0, 1) -> (-1, 1) -> (-1, 0) -> (0, 0) -> ...
 * `1 <= instructions.length <= 100`
 * `instructions[i] is in {'G', 'L', 'R'}`
 
+**Hint 1**
+
+Calculate the final vector of how the robot travels after executing all instructions once - it consists of a change in position plus a change in direction.
+
+**Hinnt 2**
+
+The robot stays in the circle iff (looking at the final vector) it changes direction (ie. doesn't stay pointing north), or it moves 0.
+
 # Submissions
 ---
-**Solution 1:**
+**Solution 1: (Direction, Position)**
 ```
 Runtime: 28 ms
 Memory Usage: 12.7 MB
@@ -70,7 +78,7 @@ class Solution:
         return (x,y) == (0,0) or directions[curr_dir] != (0,1) 
 ```
 
-**Solution 2:**
+**Solution 2: (Direction, Position)**
 
 ![1041_1_1.png](img/1041_1_1.png)
 

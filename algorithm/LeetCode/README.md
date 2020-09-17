@@ -399,6 +399,7 @@ Happy Coding!!
 * [[Easy] 198. House Robber](%5BEasy%5D%20198.%20House%20Robber.md)
 * [[Easy] 58. Length of Last Word](%5BEasy%5D%2058.%20Length%20of%20Last%20Word.md)
 * [[Medium] 421. Maximum XOR of Two Numbers in an Array](%5BMedium%5D%20421.%20Maximum%20XOR%20of%20Two%20Numbers%20in%20an%20Array.md)
+* [[Medium] 1041. Robot Bounded In Circle](%5BMedium%5D%201041.%20Robot%20Bounded%20In%20Circle.md)
 
 ## Array <a name="array"></a>
 ---
@@ -664,6 +665,29 @@ class Solution:
         return sum(([nums[i], nums[i+n]] for i in range(n)), [])
 ```
 * [[Easy] 1470. Shuffle the Array](%5BEasy%5D%201470.%20Shuffle%20the%20Array.md)
+
+### The robot stays in the circle iff (looking at the final vector) it changes direction (ie. doesn't stay pointing north), or it moves 0.
+```python
+class Solution:
+    def isRobotBounded(self, instructions: str) -> bool:
+        # directions -> North, East, South, West -> i.e Up -> Right -> Down -> Left
+        # clockwise sequence for right direction
+        directions = [(0,1), (1,0), (0,-1), (-1,0)] 
+        x = y = 0
+        #we face towards north intially as specified in problem
+        curr_dir = 0 
+        for instr in instructions:
+            if instr == 'G':
+                x += directions[curr_dir][0]
+                y += directions[curr_dir][1]
+            elif instr == 'L':
+                curr_dir = (curr_dir - 1) % 4 # counter clockwise
+            else:
+                curr_dir = (curr_dir + 1) % 4 # clockwise
+
+        return (x,y) == (0,0) or directions[curr_dir] != (0,1) 
+```
+* [[Medium] 1041. Robot Bounded In Circle](%5BMedium%5D%201041.%20Robot%20Bounded%20In%20Circle.md)
 
 ### Using Cumulative Sum and HashSet
 ```python
