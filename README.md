@@ -318,6 +318,7 @@ A playground to note something.
             void unregister_sysctl_table(struct ctl_table_header * table);
             ```
     - [Ubuntu – How to resize root to increase home partition size in ubuntu 16.04 with gparted](https://itectec.com/ubuntu/ubuntu-how-to-resize-root-to-increase-home-partition-size-in-ubuntu-16-04-with-gparted-duplicate/)
+    - [Linux Package Management Cheatsheet](https://danilodellaquila.com/en/blog/linux-package-management-cheatsheet)
 
 - i2c-tools
 

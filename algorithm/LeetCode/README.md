@@ -400,6 +400,7 @@ Happy Coding!!
 * [[Easy] 58. Length of Last Word](%5BEasy%5D%2058.%20Length%20of%20Last%20Word.md)
 * [[Medium] 421. Maximum XOR of Two Numbers in an Array](%5BMedium%5D%20421.%20Maximum%20XOR%20of%20Two%20Numbers%20in%20an%20Array.md)
 * [[Medium] 1041. Robot Bounded In Circle](%5BMedium%5D%201041.%20Robot%20Bounded%20In%20Circle.md)
+* [[Easy] [Solution] 121. Best Time to Buy and Sell Stock](%5BEasy%5D%20%5BSolution%5D%20121.%20Best%20Time%20to%20Buy%20and%20Sell%20Stock.md)
 
 ## Array <a name="array"></a>
 ---
@@ -7235,6 +7236,21 @@ return ans
 
 ## Greedy <a name="greedy"></a>
 ---
+### Max Profit
+```python
+class Solution:
+    def maxProfit(self, prices: List[int]) -> int:
+        min_price = sys.maxsize
+        max_profit = 0
+        for i in range(len(prices)):
+            if prices[i] < min_price:
+                min_price = prices[i]
+            elif prices[i]-min_price > max_profit:
+                max_profit = prices[i]-min_price
+        return max_profit
+```
+* [[Easy] [Solution] 121. Best Time to Buy and Sell Stock](%5BEasy%5D%20%5BSolution%5D%20121.%20Best%20Time%20to%20Buy%20and%20Sell%20Stock.md)
+
 ### Greedy
 ```python
 class Solution:
