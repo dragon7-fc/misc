@@ -401,6 +401,7 @@ Happy Coding!!
 * [[Medium] 421. Maximum XOR of Two Numbers in an Array](%5BMedium%5D%20421.%20Maximum%20XOR%20of%20Two%20Numbers%20in%20an%20Array.md)
 * [[Medium] 1041. Robot Bounded In Circle](%5BMedium%5D%201041.%20Robot%20Bounded%20In%20Circle.md)
 * [[Easy] [Solution] 121. Best Time to Buy and Sell Stock](%5BEasy%5D%20%5BSolution%5D%20121.%20Best%20Time%20to%20Buy%20and%20Sell%20Stock.md)
+* [[Medium] 1291. Sequential Digits](%5BMedium%5D%201291.%20Sequential%20Digits.md)
 
 ## Array <a name="array"></a>
 ---
@@ -11541,6 +11542,22 @@ class Solution:
 
 ## Sliding Window <a name="sw"></a>
 ---
+### Sliding over candidate
+```python
+class Solution:
+    def sequentialDigits(self, low: int, high: int) -> List[int]:
+        len_low = len(str(low))
+        len_high = len(str(high))
+        digits = '123456789'
+        ans = []
+        for win_len in range(len_low, len_high + 1):
+            for i in range(10-win_len):
+                if low <= int(digits[i:i + win_len]) <= high:
+                    ans.append(int(digits[i:i + win_len]))
+        return ans
+```
+* [[Medium] 1291. Sequential Digits](%5BMedium%5D%201291.%20Sequential%20Digits.md)
+
 ### Group All 1's Together
 ```python
 class Solution:
