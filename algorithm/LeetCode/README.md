@@ -402,6 +402,7 @@ Happy Coding!!
 * [[Medium] 1041. Robot Bounded In Circle](%5BMedium%5D%201041.%20Robot%20Bounded%20In%20Circle.md)
 * [[Easy] [Solution] 121. Best Time to Buy and Sell Stock](%5BEasy%5D%20%5BSolution%5D%20121.%20Best%20Time%20to%20Buy%20and%20Sell%20Stock.md)
 * [[Medium] 1291. Sequential Digits](%5BMedium%5D%201291.%20Sequential%20Digits.md)
+* [[Hard] [Solution] 980. Unique Paths III](%5BHard%5D%20%5BSolution%5D%20980.%20Unique%20Paths%20III.md)
 
 ## Array <a name="array"></a>
 ---
@@ -2458,6 +2459,29 @@ class Solution:
         return dp(0, 0)
 ```
 * [[Medium] 1035. Uncrossed Lines](%5BMedium%5D%201035.%20Uncrossed%20Lines.md)
+
+### 2 Group DP with bitmask
+```python
+class Solution:
+    def connectTwoGroups(self, cost: List[List[int]]) -> int:
+        sz1, sz2 = len(cost), len(cost[0])
+        min_sz2 = [min([cost[i][j] for i in range(sz1)]) for j in range(sz2)]
+
+        @lru_cache(None)
+        def dfs(i: int, mask: int):
+            res = 0 if i >= sz1 else float('inf')
+            if i >= sz1:
+                for j in range(sz2):
+                    if mask & (1 << j) == 0:
+                        res += min_sz2[j]
+            else:
+                for j in range(sz2):
+                    res = min(res, cost[i][j] + dfs(i + 1, mask | (1 << j)))
+            return res
+
+        return dfs(0, 0)
+```
+* [[[Hard] 1595. Minimum Cost to Connect Two Groups of Points](%5BHard%5D%201595.%20Minimum%20Cost%20to%20Connect%20Two%20Groups%20of%20Points.md)
 
 ### Character match
 ```python

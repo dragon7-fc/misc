@@ -274,3 +274,37 @@ public:
     }
 };
 ```
+
+**Solution 4: (BFS)**
+```
+Runtime: 124 ms
+Memory Usage: 17.3 MB
+```
+```python
+class Solution:
+    def uniquePathsIII(self, grid: List[List[int]]) -> int:
+        R, C = len(grid), len(grid[0])
+        start = end = (-1, -1)
+        ans = target = 0
+        for r in range(R):
+            for c in range(C):
+                if grid[r][c] == 0:
+                    target += 1
+                elif grid[r][c] == 1:
+                    start = (r, c)
+                elif grid[r][c] == 2:
+                    end = (r, c)
+                    target += 1
+        q = [(start, 0, set())]
+        while q:
+            (r, c), step, path = q.pop(0)
+            if (r, c) == end and step == target:
+                ans += 1
+            else:
+                for nr, nc in [(r+1, c), (r-1, c), (r, c+1), (r, c-1)]:
+                    if 0 <= nr < R and 0 <= nc < C and grid[nr][nc]%2 == 0 and (nr, nc) not in path:
+                        path.add((nr, nc))
+                        q += [((nr, nc), step+1, path.copy())]
+                        path.remove((nr, nc))
+        return ans
+```
