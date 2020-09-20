@@ -5437,6 +5437,23 @@ class Solution:
 ```
 * [[Easy] 1436. Destination City](%5BEasy%5D%201436.%20Destination%20City.md)
 
+### Prefix sum Hash Table index
+```python
+class Solution:
+    def minSubarray(self, nums: List[int], p: int) -> int:
+        need = sum(nums) % p
+        dp = {0: -1}
+        cur = 0
+        res = n = len(nums)
+        for i, a in enumerate(nums):
+            cur = (cur + a) % p
+            dp[cur] = i
+            if (cur - need) % p in dp:
+                res = min(res, i - dp[(cur - need) % p])
+        return res if res < n else -1
+```
+* [[Medium] 1590. Make Sum Divisible by P](%5BMedium%5D%201590.%20Make%20Sum%20Divisible%20by%20P.md)
+
 ### Top K Frequent Elements
 ```python
 class Solution:
@@ -13270,6 +13287,24 @@ return dfs(0, N-1)
 
 ## Line Sweep <a name="ls"></a>
 ---
+### Prefix Sum, Sort
+```python
+class Solution:
+    def maxSumRangeQuery(self, nums: List[int], requests: List[List[int]]) -> int:
+        n = len(nums)
+        count = [0] * (n + 1)
+        for i, j in requests:
+            count[i] += 1
+            count[j + 1] -= 1
+        for i in range(1, n + 1):
+            count[i] += count[i - 1]
+        res = 0
+        for v, c in zip(sorted(count[:-1]), sorted(nums)):
+            res += v * c
+        return res % (10**9 + 7)
+```
+* [[Medium] 1589. Maximum Sum Obtained of Any Permutation](%5BMedium%5D%201589.%20Maximum%20Sum%20Obtained%20of%20Any%20Permutation.md)
+
 ### Greedy
 ```python
 class Solution:
