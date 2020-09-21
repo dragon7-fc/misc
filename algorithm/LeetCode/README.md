@@ -403,6 +403,7 @@ Happy Coding!!
 * [[Easy] [Solution] 121. Best Time to Buy and Sell Stock](%5BEasy%5D%20%5BSolution%5D%20121.%20Best%20Time%20to%20Buy%20and%20Sell%20Stock.md)
 * [[Medium] 1291. Sequential Digits](%5BMedium%5D%201291.%20Sequential%20Digits.md)
 * [[Hard] [Solution] 980. Unique Paths III](%5BHard%5D%20%5BSolution%5D%20980.%20Unique%20Paths%20III.md)
+* [[Medium] 1094. Car Pooling](%5BMedium%5D%201094.%20Car%20Pooling.md)
 
 ## Array <a name="array"></a>
 ---
@@ -9868,6 +9869,42 @@ class Solution:
         return sum([x[0] if i < len(costs)//2 else x[1] for i, x in enumerate(sorted(costs,key=lambda x: x[0]-x[1]))])
 ```
 * [[Easy] 1029. Two City Scheduling](%5BEasy%5D%201029.%20Two%20City%20Scheduling.md)
+
+### Bucket Sort
+```python
+class Solution:
+    def carPooling(self, trips: List[List[int]], capacity: int) -> bool:
+        timestamp = [0] * 1001
+        for trip in trips:
+            timestamp[trip[1]] += trip[0]
+            timestamp[trip[2]] -= trip[0]
+
+        used_capacity = 0
+        for passenger_change in timestamp:
+            used_capacity += passenger_change
+            if used_capacity > capacity:
+                return False
+
+        return True
+    
+class Solution:
+    def carPooling(self, trips: List[List[int]], capacity: int) -> bool:
+        timestamp = []
+        for trip in trips:
+            timestamp.append([trip[1], trip[0]])
+            timestamp.append([trip[2], -trip[0]])
+
+        timestamp.sort()
+
+        used_capacity = 0
+        for time, passenger_change in timestamp:
+            used_capacity += passenger_change
+            if used_capacity > capacity:
+                return False
+
+        return True
+```
+* [[Medium] 1094. Car Pooling](%5BMedium%5D%201094.%20Car%20Pooling.md)
 
 ### Sort by start, search by end interval
 ```python

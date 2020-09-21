@@ -467,7 +467,7 @@ A playground to note something.
         a@A:~> ssh b@B mkdir -p .ssh
         b@B's password:
         
-        a@A:~> cat .ssh/id_rsa.pub | ssh b@B `cat >> .ssh/authorized_keys`
+        a@A:~> cat .ssh/id_rsa.pub | ssh b@B 'cat >> .ssh/authorized_keys'
         b@B's password:
         
         a@A:~> ssh b@B

@@ -43,7 +43,53 @@ Output: true
 
 # Submissions
 ---
-**Solution 1: (Greedy)**
+**Solution 1: (Time Stamp, Greedy Sorted Time Stamp Array)**
+```
+Runtime: 64 ms
+Memory Usage: 14.3 MB
+```
+```python
+class Solution:
+    def carPooling(self, trips: List[List[int]], capacity: int) -> bool:
+        timestamp = []
+        for trip in trips:
+            timestamp.append([trip[1], trip[0]])
+            timestamp.append([trip[2], -trip[0]])
+
+        timestamp.sort()
+
+        used_capacity = 0
+        for time, passenger_change in timestamp:
+            used_capacity += passenger_change
+            if used_capacity > capacity:
+                return False
+
+        return True
+```
+
+**Solution 2: (Bucket Sort)**
+```
+Runtime: 64 ms
+Memory Usage: 14.4 MB
+```
+```python
+class Solution:
+    def carPooling(self, trips: List[List[int]], capacity: int) -> bool:
+        timestamp = [0] * 1001
+        for trip in trips:
+            timestamp[trip[1]] += trip[0]
+            timestamp[trip[2]] -= trip[0]
+
+        used_capacity = 0
+        for passenger_change in timestamp:
+            used_capacity += passenger_change
+            if used_capacity > capacity:
+                return False
+
+        return True
+```
+
+**Solution 3: (Time Stamp, Greedy Sorted Hash Table)**
 ```
 Runtime: 64 ms
 Memory Usage: 13.2 MB
