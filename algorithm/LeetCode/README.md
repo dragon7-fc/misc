@@ -404,6 +404,7 @@ Happy Coding!!
 * [[Medium] 1291. Sequential Digits](%5BMedium%5D%201291.%20Sequential%20Digits.md)
 * [[Hard] [Solution] 980. Unique Paths III](%5BHard%5D%20%5BSolution%5D%20980.%20Unique%20Paths%20III.md)
 * [[Medium] 1094. Car Pooling](%5BMedium%5D%201094.%20Car%20Pooling.md)
+* [[Medium] 229. Majority Element II](%5BMedium%5D%20229.%20Majority%20Element%20II.md)
 
 ## Array <a name="array"></a>
 ---
@@ -5755,6 +5756,38 @@ class RandomizedSet:
 # param_3 = obj.getRandom()
 ```
 * [[Medium] 380. Insert Delete GetRandom O(1)](%5BMedium%5D%20380.%20Insert%20Delete%20GetRandom%20O(1).md)
+
+### Boyer-Moore Voting Algorithm
+```python
+if not nums:
+            return []
+
+        # 1st pass
+        count1, count2, candidate1, candidate2 = 0, 0, None, None
+        for n in nums:
+            if candidate1 == n:
+                count1 += 1
+            elif candidate2 == n:
+                count2 += 1
+            elif count1 == 0:
+                candidate1 = n
+                count1 += 1
+            elif count2 == 0:
+                candidate2 = n
+                count2 += 1
+            else:
+                count1 -= 1
+                count2 -= 1
+
+        # 2nd pass
+        result = []
+        for c in [candidate1, candidate2]:
+            if nums.count(c) > len(nums)//3:
+                result.append(c)
+
+        return result
+```
+* [[Medium] 229. Majority Element II](%5BMedium%5D%20229.%20Majority%20Element%20II.md)
 
 ### Vote
 ```python

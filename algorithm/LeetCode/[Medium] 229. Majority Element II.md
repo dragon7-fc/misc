@@ -17,44 +17,39 @@ Output: [1,2]
 
 # Submissions
 ---
-**Solution 1: (Vote)**
+**Solution 1: (Boyer-Moore Voting Algorithm)**
 ```
-Runtime: 144 ms
+Runtime: 204 ms
 Memory Usage: 15 MB
 ```
 ```python
 class Solution:
     def majorityElement(self, nums: List[int]) -> List[int]:
-        count1 = 0
-        count2 = 0
-        res1 = 0
-        res2 = 0
-        size = len(nums)
-        for num in nums:
-            if res1 == num:
+        if not nums:
+            return []
+        
+        # 1st pass
+        count1, count2, candidate1, candidate2 = 0, 0, None, None
+        for n in nums:
+            if candidate1 == n:
                 count1 += 1
-            elif res2 == num:
+            elif candidate2 == n:
                 count2 += 1
             elif count1 == 0:
-                res1 = num
-                count1 = 1
+                candidate1 = n
+                count1 += 1
             elif count2 == 0:
-                res2 = num
-                count2 = 1
+                candidate2 = n
+                count2 += 1
             else:
                 count1 -= 1
                 count2 -= 1
-        count1 = 0
-        count2 = 0
-        for num in nums:
-            if res1 == num:
-                count1 += 1
-            elif res2 == num:
-                count2 += 1
-        res = []
-        if count1 > size/3:
-            res.append(res1)
-        if count2 > size/3:
-            res.append(res2)
-        return res
+        
+        # 2nd pass
+        result = []
+        for c in [candidate1, candidate2]:
+            if nums.count(c) > len(nums)//3:
+                result.append(c)
+        
+        return result
 ```
