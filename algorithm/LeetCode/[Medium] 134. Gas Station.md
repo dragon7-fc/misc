@@ -49,61 +49,55 @@ Therefore, you can't travel around the circuit once no matter where you start.
 
 # Submissions
 ---
-**Solution 1: (DP Top-down, Time Limit Exceeded)**
+**Solution 1: (DFS|)**
 ```python
-import functools
+Runtime: 8440 ms
+Memory Usage: 26.7 MB
+```
+```python
 class Solution:
     def canCompleteCircuit(self, gas: List[int], cost: List[int]) -> int:
         N = len(gas)
-        ans = -1
         
-        @functools.lru_cache(None)
-        def dfs(start, cur, amount, length):
-            if length > N or amount < 0:
-                return -1
-            if length == N and amount >= 0:
-                return start
+        def dfs(i, s, r):
+            if s == N+1:
+                return True
+            r += gas[i]
+            if cost[i] > r:
+                return False
+            else:
+                return dfs((i+1)%N, s+1, r-cost[i])
             
-            amount += gas[cur]
-            res = dfs(start, (cur + 1) % N, amount - cost[cur], length + 1)
-            return res if res >= 0 else -1
         
-        for i in range(N):
-            ans = dfs(i, i, 0, 0)
-            if ans >= 0:
-                return ans
-        return ans
+        for i in range(len(gas)):
+            if dfs(i, 1, 0):
+                return i
+        return -1
 ```
 
 **Solution 2: (Greedy)**
+
+1. If sum of gas is less than sum of cost, then there is no way to get through all stations. So while we loop through the stations we sum up, so that at the end we can check the sum.
+1. Otherwise, there must be one unique solution, so the first one I find is the right one. If the tank becomes negative, we restart because that can't happen.
+
 ```
 Runtime: 56 ms
-Memory Usage: 13.8 MB
+Memory Usage: 14.6 MB
 ```
 ```python
 class Solution:
     def canCompleteCircuit(self, gas: List[int], cost: List[int]) -> int:
-        # we will keep track of curr_gas and also
-        # of the deficit [+ve means surplus] so that once we have visited all the stations,
-        # the deficit will be exactly the distance required to complete the round-trip.
-        #   gas: [1,2,3,4,5]
-        #  cost: [3,4,5,1,2]
-        #  i = 0 , curr_gas = 0, gas_dificit = -2, start = 1
-        #  i = 1, curr_gas = 0, gas_dificit = -4, start = 2
-        #  i = 2, curr_gas = 0, gas_dificit = -6, start = 3
-        #  i = 3, curr_gas = 3, gas_deficit = 3, start = 3
-        #  i = 4 , curr_gas = 6, gas_deficit = 6, start = 3
-          
-        #  now we can see that we can go from 5th station to 1st -> deficit will be 4, then from 1st to 2nd , deficit will be 2, and then from 2nd to 3rd deficit will be 0, thus completing the round-trip. 
+        if (sum(gas) - sum(cost) < 0):
+            return -1
         
-        curr_gas, gas_dificit = 0, 0
-        start_station = 0
+        gas_tank, start_index = 0, 0
+        
         for i in range(len(gas)):
-            curr_gas += gas[i] - cost[i]
-            gas_dificit += gas[i] - cost[i]
-            if curr_gas < 0: #we cannot travel to next station, try to start from next station
-                start_station = i+1
-                curr_gas = 0  #reset the tank
-
-        return start_station if gas_dificit >= 0 else -1
+            gas_tank += gas[i] - cost[i]
+            
+            if gas_tank < 0:
+                start_index = i+1
+                gas_tank = 0
+            
+        return start_index
 ```

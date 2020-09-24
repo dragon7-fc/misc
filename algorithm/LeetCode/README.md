@@ -405,6 +405,8 @@ Happy Coding!!
 * [[Hard] [Solution] 980. Unique Paths III](%5BHard%5D%20%5BSolution%5D%20980.%20Unique%20Paths%20III.md)
 * [[Medium] 1094. Car Pooling](%5BMedium%5D%201094.%20Car%20Pooling.md)
 * [[Medium] 229. Majority Element II](%5BMedium%5D%20229.%20Majority%20Element%20II.md)
+* [[Medium] 134. Gas Station](LeetCode/%5BMedium%5D%20134.%20Gas%20Station.md)
+* [[Easy] 389. Find the Difference](%5BEasy%5D%20389.%20Find%20the%20Difference.md)
 
 ## Array <a name="array"></a>
 ---
@@ -7373,6 +7375,26 @@ class Solution:
 ```
 * [[Easy] [Solution] 605. Can Place Flowers](%5BEasy%5D%20%5BSolution%5D%20605.%20Can%20Place%20Flowers.md)
 
+### First match
+```python
+class Solution:
+    def canCompleteCircuit(self, gas: List[int], cost: List[int]) -> int:
+        if (sum(gas) - sum(cost) < 0):
+            return -1
+
+        gas_tank, start_index = 0, 0
+
+        for i in range(len(gas)):
+            gas_tank += gas[i] - cost[i]
+
+            if gas_tank < 0:
+                start_index = i+1
+                gas_tank = 0
+
+        return start_index
+```
+* [[Medium] 134. Gas Station](LeetCode/%5BMedium%5D%20134.%20Gas%20Station.md)
+
 ### zip_longest
 ```python
 class Solution:
@@ -9679,6 +9701,17 @@ class Solution(object):
         return ans
 ```
 * [[Easy] [Solution] 191. Number of 1 Bits](%5BEasy%5D%20%5BSolution%5D%20191.%20Number%20of%201%20Bits.md)
+
+### a xor a = 0, a xor 0 = a
+```python
+class Solution:
+    def findTheDifference(self, s: str, t: str) -> str:
+        ans = 0
+        for c in s: ans ^= ord(c)
+        for c in t: ans ^= ord(c)
+        return chr(ans)
+```
+* [[Easy] 389. Find the Difference](%5BEasy%5D%20389.%20Find%20the%20Difference.md)
 
 ### a xor a = 0, a xor 0 = a
 ```python
