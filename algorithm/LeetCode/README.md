@@ -407,6 +407,8 @@ Happy Coding!!
 * [[Medium] 229. Majority Element II](%5BMedium%5D%20229.%20Majority%20Element%20II.md)
 * [[Medium] 134. Gas Station](LeetCode/%5BMedium%5D%20134.%20Gas%20Station.md)
 * [[Easy] 389. Find the Difference](%5BEasy%5D%20389.%20Find%20the%20Difference.md)
+* [[Medium] [Solution] 179. Largest Number](%5BMedium%5D%20%5BSolution%5D%20179.%20Largest%20Number.md)
+* [[Medium] [Solution] 495. Teemo Attacking](%5BMedium%5D%20%5BSolution%5D%20495.%20Teemo%20Attacking.md)
 
 ## Array <a name="array"></a>
 ---
@@ -7521,7 +7523,7 @@ class Solution:
 ```
 * [[Lock] [Medium] [Solution] 370. Range Addition](%5BLock%5D%20%5BMedium%5D%20%5BSolution%5D%20370.%20Range%20Addition.md)
 
-### Total period
+### Overlap interval Sum
 ```python
 class Solution:
     def findPoisonedDuration(self, timeSeries: List[int], duration: int) -> int:
