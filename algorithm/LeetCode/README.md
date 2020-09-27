@@ -409,6 +409,7 @@ Happy Coding!!
 * [[Easy] 389. Find the Difference](%5BEasy%5D%20389.%20Find%20the%20Difference.md)
 * [[Medium] [Solution] 179. Largest Number](%5BMedium%5D%20%5BSolution%5D%20179.%20Largest%20Number.md)
 * [[Medium] [Solution] 495. Teemo Attacking](%5BMedium%5D%20%5BSolution%5D%20495.%20Teemo%20Attacking.md)
+* [[Medium] 399. Evaluate Division](%5BMedium%5D%20399.%20Evaluate%20Division.md)
 
 ## Array <a name="array"></a>
 ---
@@ -6124,6 +6125,37 @@ class Solution:
 ```
 * [[Easy] [Solution] 733. Flood Fill](%5BEasy%5D%20%5BSolution%5D%20733.%20Flood%20Fill.md)
 
+### First neighbor
+```python
+class Solution:
+    def calcEquation(self, equations: List[List[str]], values: List[float], queries: List[List[str]]) -> List[float]:
+        def dfs(source,dest,visited,dist):
+            if source not in graph or dest not in graph:
+                return -1
+            visited.append(source)
+            if source == dest:
+                self.final_value = dist
+                return  
+            for neighbor,value in graph[source]:
+                if neighbor not in visited:
+                    dfs(neighbor, dest, visited,dist * value)
+
+        graph = collections.defaultdict(list)
+        ## creating the graph for each edge
+        for edge , value in zip(equations,values):
+            graph[edge[0]].append((edge[1],(value)))
+            graph[edge[1]].append((edge[0],(1/value)))
+
+        ans = []
+        for query in queries:
+            self.final_value = -1
+            dfs(query[0],query[1],[],1)
+            ans.append((self.final_value))
+
+        return ans
+```
+* [[Medium] 399. Evaluate Division](%5BMedium%5D%20399.%20Evaluate%20Division.md)
+
 ### Delete Node in a BST
 ```python
 # Definition for a binary tree node.
@@ -9522,6 +9554,29 @@ class Solution:
         return ans
 ```
 * [[Medium] 79. Word Search](%5BMedium%5D%2079.%20Word%20Search.md)
+
+### Taken not-taken to balnce
+```python
+class Solution:
+    def maximumRequests(self, n: int, requests: List[List[int]]) -> int:
+        N = len(requests)
+        
+        def dfs(buildings, currentIndex):
+            if currentIndex == N:
+                return 0 if min(buildings) == 0 and max(buildings) == 0  else -999999
+            source, destination = requests[currentIndex]
+            buildings[source] -= 1
+            buildings[destination] += 1
+            taken = 1 + dfs(buildings, currentIndex+1)
+            buildings[source] += 1
+            buildings[destination] -= 1
+            not_taken = dfs(buildings, currentIndex+1)
+            result = max(taken, not_taken)
+            return result
+
+        buildings = [0 for _ in range(n)]
+        return dfs(buildings, 0)
+```
 
 ### Spiral Backtracking
 ```python
