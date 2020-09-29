@@ -409,6 +409,8 @@ Happy Coding!!
 * [[Easy] 389. Find the Difference](%5BEasy%5D%20389.%20Find%20the%20Difference.md)
 * [[Medium] [Solution] 179. Largest Number](%5BMedium%5D%20%5BSolution%5D%20179.%20Largest%20Number.md)
 * [[Medium] [Solution] 495. Teemo Attacking](%5BMedium%5D%20%5BSolution%5D%20495.%20Teemo%20Attacking.md)
+* [[Medium] [Solution] 713. Subarray Product Less Than K](%5BMedium%5D%20%5BSolution%5D%20713.%20Subarray%20Product%20Less%20Than%20K.md)
+* [[Medium] 139. Word Break](%5BMedium%5D%20139.%20Word%20Break.md)
 
 ## Array <a name="array"></a>
 ---
@@ -1427,6 +1429,28 @@ class Solution(object):
         return min(dp[n-1], dp[n-2])
 ```
 * [[Easy] [Solution] 746. Min Cost Climbing Stairs](%5BEasy%5D%20%5BSolution%5D%20746.%20Min%20Cost%20Climbing%20Stairs.md)
+
+### Word Break
+```python
+import functools
+class Solution:
+    def wordBreak(self, s: str, wordDict: List[str]) -> bool:
+        N = len(s)
+
+        @functools.lru_cache(None)
+        def dfs(i):
+            if i == N:
+                return True
+            rst = False
+            for w in wordDict:
+                w_size = len(w)
+                if i + w_size <= N and s[i:i + w_size] == w:
+                    rst = rst | dfs(i + w_size)
+            return rst
+
+        return dfs(0)
+```
+* [[Medium] 139. Word Break](%5BMedium%5D%20139.%20Word%20Break.md)
 
 ### Maximum Length of Subarray With Positive Product
 ```python

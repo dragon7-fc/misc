@@ -319,7 +319,11 @@ A playground to note something.
             ```
     - [Ubuntu – How to resize root to increase home partition size in ubuntu 16.04 with gparted](https://itectec.com/ubuntu/ubuntu-how-to-resize-root-to-increase-home-partition-size-in-ubuntu-16-04-with-gparted-duplicate/)
     - [Linux Package Management Cheatsheet](https://danilodellaquila.com/en/blog/linux-package-management-cheatsheet)
-
+    - Discovering Open Ports
+    
+        - sudo netstat -ltunpe | grep [PORT]
+        - sudo fuser -vn tcp [PORT]
+        - lsof -i@[IP]:[PORT]
 - i2c-tools
 
     |                    | command                                         |
@@ -472,6 +476,16 @@ A playground to note something.
         
         a@A:~> ssh b@B
         ```
+    - Local Port Tunnel
+    
+        - Local post XXXX tunnel to Remote port YYYY
+      
+          `ssh -L XXXX:localhost:YYYY -Nf yy@yyyy`
+    - Remote Port Tunnel
+    
+        - Remote post YYYY tunnel to Local port XXXX
+        
+          `ssh -R YYYY:localhost:XXXX -Nf yy@yyyy`
 * Samba
 
     ```bash
@@ -594,7 +608,7 @@ A playground to note something.
     - Client
 
     ```ftp -p [FTP_SERVER_IP]```
-* DHCP
+- DHCP
 
     - Server
     
@@ -628,7 +642,7 @@ A playground to note something.
             cat /var/lib/misc/dnsmasq.leases
             ```
         - [dnsmasq - ArchWiki](https://wiki.archlinux.org/index.php/dnsmasq)
-* Wireshark
+- Wireshark
 
     - [How to Decrypt SSL and TLS Traffic Using Wireshark](https://support.citrix.com/article/CTX116557)
 
@@ -648,17 +662,41 @@ A playground to note something.
 
         1. Decrypt the SSL traffic
 
-* nmap
+- nmap
 
     - [Nmap Cheat Sheet](https://www.stationx.net/nmap-cheat-sheet/)
     - To see the SSL/TLS algorithms a server supports
 
         `nmap --script ssl-enum-ciphers -p 443 [TARGET|IP]`
-
-* curl
+    - `nmap -p xx,yy-zz A B n1.n2.n3.n4-n5`
+- curl
 
     - [CURL CHEATSHEET](https://cheatsheet.dennyzhang.com/cheatsheet-curl-a4)
-
+- gpg
+    
+    - | Encrypt | Decrpyt |
+      |---------|---------|
+      | x@X:-> gpg --gen-key |  |
+      | x@X:-> gpg --list-keys |  |
+      | x@X:-> gpg --export x > x.pub.key |  |
+      | x@X:-> scp x.pub.key y@Y:/home/y/ |  |
+      |  | y@Y:-> gpg --import x.pub.key |
+      |  | y@Y:-> gpg --list-keys |
+      |  | y@Y:-> echo "This is the message ..." > unencrypted-message
+      |  | y@Y:-> gpg --output encrypted-message --recipient x --armor --encrypt unencrypted-message |
+      |  | y@Y:-> scp encrypted-message x@X:/home/x/ |
+      | x@X:-> gpg --decrypt encrypted-message |  |
+      | x@X:-> gpg --output unencrypted-message --decrypt encrypted-message |  |
+      
+    - | Sign | Verify |
+      |------|--------|
+      | x@X:-> gpg --gen-key |  |
+      | x@X:-> gpg --list-keys |  |
+      | x@X:~> echo "This is the message to sign ..." > message |  |
+      | x@X:~> gpg --output message.sig --sign message |  |
+      | x@X:-> scp message.sig y@Y:/home/y |  |
+      |  | y@Y:-> gpg --verify message.sig |
+      |  | y@Y:-> gpg --output message --decrypt message.sig |
 - iperf
 
     - [Iperf cheat sheet](https://www.jamescoyle.net/cheat-sheets/581-iperf-cheat-sheet)
