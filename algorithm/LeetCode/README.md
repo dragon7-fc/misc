@@ -49,6 +49,7 @@ Happy Coding!!
 1. [202007 July LeetCoding Challenge](#202007)
 1. [202008 August LeetCoding Challenge](#202008)
 1. [202009 September LeetCoding Challenge](#202009)
+1. [202010 October LeetCoding Challenge](#202010)
 1. [Array](#array)
 1. [Dynamic Programming](#dp)
 1. [Math](#math)
@@ -409,12 +410,15 @@ Happy Coding!!
 * [[Easy] 389. Find the Difference](%5BEasy%5D%20389.%20Find%20the%20Difference.md)
 * [[Medium] [Solution] 179. Largest Number](%5BMedium%5D%20%5BSolution%5D%20179.%20Largest%20Number.md)
 * [[Medium] [Solution] 495. Teemo Attacking](%5BMedium%5D%20%5BSolution%5D%20495.%20Teemo%20Attacking.md)
-<<<<<<< HEAD
 * [[Medium] [Solution] 713. Subarray Product Less Than K](%5BMedium%5D%20%5BSolution%5D%20713.%20Subarray%20Product%20Less%20Than%20K.md)
 * [[Medium] 139. Word Break](%5BMedium%5D%20139.%20Word%20Break.md)
-=======
 * [[Medium] 399. Evaluate Division](%5BMedium%5D%20399.%20Evaluate%20Division.md)
->>>>>>> c4a7e6abe23b330f3b1b6d88259651371346c9a9
+* [[Hard] 41. First Missing Positive](%5BHard%5D%2041.%20First%20Missing%20Positive.md)
+
+## 202010 October LeetCoding Challenge <a name="202010"></a>
+* [[Easy] [Solution] 933. Number of Recent Calls](%5BEasy%5D%20%5BSolution%5D%20933.%20Number%20of%20Recent%20Calls.md)
+* [[Medium] 39. Combination Sum](%5BMedium%5D%2039.%20Combination%20Sum.md)
+* [[Easy] 532. K-diff Pairs in an Array](%5BEasy%5D%20532.%20K-diff%20Pairs%20in%20an%20Array.md)
 
 ## Array <a name="array"></a>
 ---
@@ -5379,6 +5383,21 @@ class Solution:
 
 ## Hash Table <a name='ht'></a>
 ---
+### Candidate value hash
+```python
+class Solution:
+    def findPairs(self, nums: List[int], k: int) -> int:
+        nums.sort()
+        res = []
+        dic = {}
+        for num in nums:
+            if num in dic:
+                res.append((dic[num],num))          
+            dic[num+k] = num
+        return len(set(res))
+```
+* [[Easy] 532. K-diff Pairs in an Array](%5BEasy%5D%20532.%20K-diff%20Pairs%20in%20an%20Array.md)
+
 ### Two Counter
 ```python
 class Solution:
@@ -9310,6 +9329,28 @@ class Solution:
 ```
 * [[Lock] [Medium] [Solution] 351. Android Unlock Patterns](%5BLock%5D%20%5BMedium%5D%20%5BSolution%5D%20351.%20Android%20Unlock%20Patterns.md)
 
+### Backtracking, path
+```python
+class Solution:
+    def combinationSum(self, candidates: List[int], target: int) -> List[List[int]]:
+        N = len(candidates)
+        res = []
+        candidates.sort()
+        
+        def dfs(total, index, path, res):
+            if total < 0:
+                return
+            if total == 0:
+                res.append(path)
+                return
+            for i in range(index, N):
+                dfs(total-candidates[i], i, path+[candidates[i]], res)
+
+        dfs(target, 0, [], res)
+        return res
+```
+* [[Medium] 39. Combination Sum](%5BMedium%5D%2039.%20Combination%20Sum.md)
+
 ### Backtracking, next_start wtih path
 ```python
 class Solution:
@@ -10253,6 +10294,29 @@ class Solution:
         return mat
 ```
 * [[Medium] 1329. Sort the Matrix Diagonally](%5BMedium%5D%201329.%20Sort%20the%20Matrix%20Diagonally.md)
+
+### value to correct index, bucket sort
+```python
+class Solution:
+    def firstMissingPositive(self, nums: List[int]) -> int:
+        N = len(nums)
+        i = 0
+        while i < N:
+            if nums[i] <= 0 or nums[i] > N:
+                i += 1
+                continue
+            j = nums[i]
+            if nums[j-1] != nums[i]:
+                nums[j-1], nums[i] = nums[i], nums[j-1]
+            else:
+                i += 1
+
+        for i in range(N):
+            if i + 1 != nums[i]:
+                return i + 1
+        return N + 1
+```
+* [[Hard] 41. First Missing Positive](%5BHard%5D%2041.%20First%20Missing%20Positive.md)
 
 ### DP Bottom-Up, Greedy, Binary Search
 ```python
@@ -13306,6 +13370,21 @@ class Solution:
 
 ## Queue <a name="queue"></a>
 ---
+### Recent Calls
+```python
+class RecentCounter:
+
+    def __init__(self):
+        self.q = collections.deque()
+
+    def ping(self, t: int) -> int:
+        self.q.append(t)
+        while self.q[0] < t-3000:
+            self.q.popleft()
+        return len(self.q)
+```
+* [[Easy] [Solution] 933. Number of Recent Calls](%5BEasy%5D%20%5BSolution%5D%20933.%20Number%20of%20Recent%20Calls.md)
+
 ### Sliding Window
 ```python
 class Solution:

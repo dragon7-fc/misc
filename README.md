@@ -319,6 +319,7 @@ A playground to note something.
             ```
     - [Ubuntu – How to resize root to increase home partition size in ubuntu 16.04 with gparted](https://itectec.com/ubuntu/ubuntu-how-to-resize-root-to-increase-home-partition-size-in-ubuntu-16-04-with-gparted-duplicate/)
     - [Linux Package Management Cheatsheet](https://danilodellaquila.com/en/blog/linux-package-management-cheatsheet)
+    - [Command-Line Printing and Options](https://www.cups.org/doc/options.html)
     - Discovering Open Ports
     
         - sudo netstat -ltunpe | grep [PORT]
@@ -669,6 +670,9 @@ A playground to note something.
 
         `nmap --script ssl-enum-ciphers -p 443 [TARGET|IP]`
     - `nmap -p xx,yy-zz A B n1.n2.n3.n4-n5`
+- dig
+
+    - [Linux and Unix dig Command Examples](https://www.cyberciti.biz/faq/linux-unix-dig-command-examples-usage-syntax/)
 - curl
 
     - [CURL CHEATSHEET](https://cheatsheet.dennyzhang.com/cheatsheet-curl-a4)

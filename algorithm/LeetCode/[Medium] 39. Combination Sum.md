@@ -33,30 +33,27 @@ A solution set is:
 ---
 **Solution 1: (DFS)**
 ```
-Runtime: 124 ms
-Memory Usage: N/A
+Runtime: 92 ms
+Memory Usage: 14.3 MB
 ```
 ```python
 class Solution:
-    def combinationSum(self, candidates, target):
-        """
-        :type candidates: List[int]
-        :type target: int
-        :rtype: List[List[int]]
-        """
+    def combinationSum(self, candidates: List[int], target: int) -> List[List[int]]:
+        N = len(candidates)
         res = []
         candidates.sort()
-        self.dfs(candidates, target, 0, [], res)
-        return res
         
-    def dfs(self, nums, target, index, path, res):
-        if target < 0:
-            return
-        if target == 0:
-            res.append(path)
-            return
-        for i in range(index, len(nums)):
-            self.dfs(nums, target-nums[i], i, path+[nums[i]], res)
+        def dfs(total, index, path, res):
+            if total < 0:
+                return
+            if total == 0:
+                res.append(path)
+                return
+            for i in range(index, N):
+                dfs(total-candidates[i], i, path+[candidates[i]], res)
+
+        dfs(target, 0, [], res)
+        return res
 ```
 
 **Solution 2: (Backtrack)**
