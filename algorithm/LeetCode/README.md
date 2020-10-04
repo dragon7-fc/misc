@@ -419,6 +419,7 @@ Happy Coding!!
 * [[Easy] [Solution] 933. Number of Recent Calls](%5BEasy%5D%20%5BSolution%5D%20933.%20Number%20of%20Recent%20Calls.md)
 * [[Medium] 39. Combination Sum](%5BMedium%5D%2039.%20Combination%20Sum.md)
 * [[Easy] 532. K-diff Pairs in an Array](%5BEasy%5D%20532.%20K-diff%20Pairs%20in%20an%20Array.md)
+* [[Medium] 1288. Remove Covered Intervals](%5BMedium%5D%201288.%20Remove%20Covered%20Intervals.md)
 
 ## Array <a name="array"></a>
 ---
@@ -10060,6 +10061,18 @@ class Solution:
         return sum([x[0] if i < len(costs)//2 else x[1] for i, x in enumerate(sorted(costs,key=lambda x: x[0]-x[1]))])
 ```
 * [[Easy] 1029. Two City Scheduling](%5BEasy%5D%201029.%20Two%20City%20Scheduling.md)
+
+### Covered Interval
+```python
+class Solution:
+    def removeCoveredIntervals(self, intervals: List[List[int]]) -> int:
+        res = right = 0
+        for i, j in sorted(intervals, key=lambda a: [a[0], -a[1]]):
+            res += j > right
+            right = max(right, j)
+        return res
+```
+* [[Medium] 1288. Remove Covered Intervals](%5BMedium%5D%201288.%20Remove%20Covered%20Intervals.md)
 
 ### Bucket Sort
 ```python

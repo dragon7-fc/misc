@@ -21,7 +21,7 @@ Explanation: Interval [3,6] is covered by [2,8], therefore it is removed.
 
 # Submissions
 ---
-**Solution 1: (Greedy)**
+**Solution 1: (Sort)**
 ```
 Runtime: 100 ms
 Memory Usage: 13.1 MB
