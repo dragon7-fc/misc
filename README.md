@@ -662,7 +662,18 @@ A playground to note something.
                 - `Password`: enter the password that you assigned while exporting the server certificate.
 
         1. Decrypt the SSL traffic
+- xhost
 
+    - | Server | Client |
+      |--------|--------|
+      | echo $DISPLAY to get [DISPLAY#] and [SCREEN#] |
+      | xhost + [CLIENT_IP] |  |
+      | telnet or ssh [CLIENT_IP] |  |
+      |  | DISPLAY=[SERVER_IP]:[DISPLAY#.SCREEN#] [application, ex. gedit] |
+      |  | exit |
+      | xhost - [CLIENT_IP] |  |
+      
+      __NOTE__: $DISPLAY = [HOST_NAME:DISPLAY#.SCREEN#]
 - nmap
 
     - [Nmap Cheat Sheet](https://www.stationx.net/nmap-cheat-sheet/)
@@ -1071,6 +1082,7 @@ A playground to note something.
     |  | `a=<ASCII_STRING>; for ((i=0;i<${#a};i++));do printf %02X \'${a:$i:1};done` |
     |  | `a=<ASCII_STRING>; for letter in $(echo "$a" \| sed "s/\(.\)/'\1 /g");do printf '%x' "$letter";done` |
     | convert hex to ascii string | `echo "<HEX_STRING>" \| xxd -ps -r` |
+    |  | `echo "XX XX XX" \| xxd -r -p` |
     | compare binary | `diff <(xxd -g1 OOO.bin) <(xxd -g1 XXX.bin)`   |
 
 * Regular Expression

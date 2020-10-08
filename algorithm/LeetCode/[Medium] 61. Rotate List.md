@@ -24,7 +24,7 @@ rotate 4 steps to the right: 2->0->1->NULL
 
 # Sobmissions
 ---
-**Solution 1: (Two Pointers, Linked List)**
+**Solution 1: (Array, Two Pointers, Linked List)**
 ```
 Runtime: 44 ms
 Memory Usage: 13.7 MB
@@ -57,4 +57,34 @@ class Solution:
             return circle[-shift]
         else:
             return None
+```
+
+**Solution 2: (Linked List)**
+```
+Runtime: 32 ms
+Memory Usage: 14.1 MB
+```
+```python
+# Definition for singly-linked list.
+# class ListNode:
+#     def __init__(self, val=0, next=None):
+#         self.val = val
+#         self.next = next
+class Solution:
+    def rotateRight(self, head: ListNode, k: int) -> ListNode:
+        dummy = ListNode(0)
+        dummy.next = head
+        n = 0
+        while dummy.next:
+            dummy = dummy.next
+            n += 1
+        if n == 0: return None
+        r = n - k%n
+        dummy.next = head
+        while r > 0:
+            dummy = dummy.next
+            r -= 1
+        nh = dummy.next
+        dummy.next = None
+        return nh
 ```

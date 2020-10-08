@@ -420,6 +420,10 @@ Happy Coding!!
 * [[Medium] 39. Combination Sum](%5BMedium%5D%2039.%20Combination%20Sum.md)
 * [[Easy] 532. K-diff Pairs in an Array](%5BEasy%5D%20532.%20K-diff%20Pairs%20in%20an%20Array.md)
 * [[Medium] 1288. Remove Covered Intervals](%5BMedium%5D%201288.%20Remove%20Covered%20Intervals.md)
+* [[Easy] 1009. Complement of Base 10 Integer](%5BEasy%5D%201009.%20Complement%20of%20Base%2010%20Integer.md)
+* [[Medium] 701. Insert into a Binary Search Tree](%5BMedium%5D%20701.%20Insert%20into%20a%20Binary%20Search%20Tree.md)
+* [[Medium] 61. Rotate List](%5BMedium%5D%2061.%20Rotate%20List.md)
+* [[Easy] [Solution] 704. Binary Search](%5BEasy%5D%20%5BSolution%5D%20704.%20Binary%20Search.md)
 
 ## Array <a name="array"></a>
 ---
@@ -5074,6 +5078,27 @@ class Solution:
             return self.searchBST(root.right, val)
 ```
 * [[Easy] 700. Search in a Binary Search Tree](%5BEasy%5D%20700.%20Search%20in%20a%20Binary%20Search%20Tree.md)
+
+### DFS
+```python
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+class Solution:
+    def insertIntoBST(self, root: TreeNode, val: int) -> TreeNode:
+        if not root:
+            return TreeNode(val)
+        else:
+            if root.val > val:
+                root.left = self.insertIntoBST(root.left, val)
+            else:
+                root.right = self.insertIntoBST(root.right, val)
+            return root
+```
+* [[Medium] 701. Insert into a Binary Search Tree](%5BMedium%5D%20701.%20Insert%20into%20a%20Binary%20Search%20Tree.md)
 
 ### All Elements in Two Binary Search Tree
 ```python
@@ -9751,6 +9776,14 @@ return ans
 
 ## Bit Manipulation <a name="bm"></a>
 ---
+### A + ~A = 2**N - 1
+```python
+class Solution:
+    def bitwiseComplement(self, N: int) -> int:
+        return 2 ** (len(bin(N))-2)-1 - N
+```
+* [[Easy] 1009. Complement of Base 10 Integer](%5BEasy%5D%201009.%20Complement%20of%20Base%2010%20Integer.md)
+
 ### Power of Two
 ```python
 class Solution:
@@ -10388,6 +10421,33 @@ class Solution:
         return tmp.next
 ```
 * [[Easy] 203. Remove Linked List Elements](%5BEasy%5D%20203.%20Remove%20Linked%20List%20Elements.md)
+
+### Rotate List
+```python
+# Definition for singly-linked list.
+# class ListNode:
+#     def __init__(self, val=0, next=None):
+#         self.val = val
+#         self.next = next
+class Solution:
+    def rotateRight(self, head: ListNode, k: int) -> ListNode:
+        dummy = ListNode(0)
+        dummy.next = head
+        n = 0
+        while dummy.next:
+            dummy = dummy.next
+            n += 1
+        if n == 0: return None
+        r = n - k%n
+        dummy.next = head
+        while r > 0:
+            dummy = dummy.next
+            r -= 1
+        nh = dummy.next
+        dummy.next = None
+        return nh
+```
+* [[Medium] 61. Rotate List](%5BMedium%5D%2061.%20Rotate%20List.md)
 
 ### Reorder List
 ```python

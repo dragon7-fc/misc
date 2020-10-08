@@ -35,7 +35,7 @@ This tree is also valid:
 
 # Submissions
 ---
-**Solution 1:**
+**Solution 1: (DFS, Iterative)**
 ```
 Runtime: 116 ms
 Memory Usage: 15 MB
@@ -64,4 +64,28 @@ class Solution:
         else:
             prev.right = new
         return root
+```
+
+**Solution 2: (DFS, Recursive)**
+```
+Runtime: 132 ms
+Memory Usage: 16.6 MB
+```
+```python
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+class Solution:
+    def insertIntoBST(self, root: TreeNode, val: int) -> TreeNode:
+        if not root:
+            return TreeNode(val)
+        else:
+            if root.val > val:
+                root.left = self.insertIntoBST(root.left, val)
+            else:
+                root.right = self.insertIntoBST(root.right, val)
+            return root
 ```
