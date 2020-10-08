@@ -220,6 +220,15 @@ A playground to note something.
     - [Vim Awesome](https://vimawesome.com/)'
     - [Learn Vimscript the Hard Way](http://learnvimscriptthehardway.stevelosh.com/)
     - [Vundle, the plug-in manager for Vim](https://github.com/VundleVim/Vundle.vim)
+    - [Vim configuration for Linux kernel development](https://stackoverflow.com/questions/33676829/vim-configuration-for-linux-kernel-development)
+        
+        - index kernel source for aspeed platform
+    
+            ```bash
+            sudo aptitude install cscope exuberant-ctags
+            cd [LINUX]
+            make O=. ARCH=arm SUBARCH=aspeed COMPILED_SOURCE=1 cscope tags
+            ```
     - ack-vim
 
         ```bash
