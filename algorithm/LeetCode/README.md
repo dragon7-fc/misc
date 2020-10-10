@@ -424,6 +424,8 @@ Happy Coding!!
 * [[Medium] 701. Insert into a Binary Search Tree](%5BMedium%5D%20701.%20Insert%20into%20a%20Binary%20Search%20Tree.md)
 * [[Medium] 61. Rotate List](%5BMedium%5D%2061.%20Rotate%20List.md)
 * [[Easy] [Solution] 704. Binary Search](%5BEasy%5D%20%5BSolution%5D%20704.%20Binary%20Search.md)
+* [[Medium] 449. Serialize and Deserialize BST](%5BMedium%5D%20449.%20Serialize%20and%20Deserialize%20BST.md)
+* [[Medium] 452. Minimum Number of Arrows to Burst Balloons](%5BMedium%5D%20452.%20Minimum%20Number%20of%20Arrows%20to%20Burst%20Balloons.md)
 
 ## Array <a name="array"></a>
 ---
@@ -5079,6 +5081,53 @@ class Solution:
 ```
 * [[Easy] 700. Search in a Binary Search Tree](%5BEasy%5D%20700.%20Search%20in%20a%20Binary%20Search%20Tree.md)
 
+### DFS, Queue
+```python
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+
+class Codec:
+
+    def serialize(self, root: TreeNode) -> str:
+        """Encodes a tree to a single string.
+        """
+        res = []
+        def dfs(node):
+            nonlocal res
+            if not node:
+                res += ['null']
+                return 
+            res += [str(node.val)]
+            dfs(node.left)
+            dfs(node.right)
+
+        dfs(root)
+        res = ','.join(res)
+        return res
+
+    def deserialize(self, data: str) -> TreeNode:
+        """Decodes your encoded data to tree.
+        """
+        q = collections.deque(data.split(','))
+        def dfs(data_list):
+            if data_list[0] == 'null':
+                data_list.popleft()
+                return None
+            node = TreeNode(int(data_list[0]))
+            data_list.popleft()
+            node.left = dfs(data_list)
+            node.right = dfs(data_list)
+            return node
+
+        root = dfs(q)    
+        return root
+```
+* [[Medium] 449. Serialize and Deserialize BST](%5BMedium%5D%20449.%20Serialize%20and%20Deserialize%20BST.md)
+
 ### DFS
 ```python
 # Definition for a binary tree node.
@@ -7480,6 +7529,22 @@ class Solution:
         return n <= 0
 ```
 * [[Easy] [Solution] 605. Can Place Flowers](%5BEasy%5D%20%5BSolution%5D%20605.%20Can%20Place%20Flowers.md)
+
+### Sort by end and filter by start
+```python
+class Solution:
+    def findMinArrowShots(self, points: List[List[int]]) -> int:
+        prev_end = float('inf')
+        ans = 0
+        for start, end in sorted(points, key=lambda x: x[1]):
+            if start <= prev_end <= end:
+                continue
+            else:
+                prev_end = end
+                ans += 1
+        return ans
+```
+* [[Medium] 452. Minimum Number of Arrows to Burst Balloons](%5BMedium%5D%20452.%20Minimum%20Number%20of%20Arrows%20to%20Burst%20Balloons.md)
 
 ### First match
 ```python

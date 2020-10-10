@@ -18,7 +18,7 @@ One way is to shoot one arrow for example at x = 6 (bursting the balloons [2,8] 
 
 # Submissions
 ---
-**Solution 1: (Greedy)**
+**Solution 1: (Greedy, Sort by end and filter by start)**
 ```
 Runtime: 448 ms
 Memory Usage: 18 MB
@@ -34,5 +34,28 @@ class Solution:
             else:
                 prev_end = end
                 ans += 1
+        return ans
+```
+
+**Solution2 : (Greedy, Sort by start and filter by end)**
+```
+Runtime: 464 ms
+Memory Usage: 19.2 MB
+```
+```python
+class Solution:
+    def findMinArrowShots(self, points: List[List[int]]) -> int:
+        points.sort()
+        s = []
+        ans = 0
+        for start, end in points:
+            if not s or s and s[-1][1] < start:
+                ans += len(s)
+                s = [[start, end]]
+            elif s and s[-1][1] >= start:
+                s += [[start, min(end, s[-1][1])]]
+                s.pop(-2)
+        ans += len(s)
+        
         return ans
 ```
