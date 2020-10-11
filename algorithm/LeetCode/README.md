@@ -426,6 +426,7 @@ Happy Coding!!
 * [[Easy] [Solution] 704. Binary Search](%5BEasy%5D%20%5BSolution%5D%20704.%20Binary%20Search.md)
 * [[Medium] 449. Serialize and Deserialize BST](%5BMedium%5D%20449.%20Serialize%20and%20Deserialize%20BST.md)
 * [[Medium] 452. Minimum Number of Arrows to Burst Balloons](%5BMedium%5D%20452.%20Minimum%20Number%20of%20Arrows%20to%20Burst%20Balloons.md)
+* [[Hard] 316. Remove Duplicate Letters](%5BHard%5D%20316.%20Remove%20Duplicate%20Letters.md)
 
 ## Array <a name="array"></a>
 ---
@@ -7530,6 +7531,24 @@ class Solution:
 ```
 * [[Easy] [Solution] 605. Can Place Flowers](%5BEasy%5D%20%5BSolution%5D%20605.%20Can%20Place%20Flowers.md)
 
+### Split Two Strings to Make Palindrome
+```python
+class Solution:
+    def checkPalindromeFormation(self, a: str, b: str) -> bool:
+        i, j = 0, len(a) - 1
+        while i < j and a[i] == b[j]:
+            i, j = i + 1, j - 1
+        s1, s2 = a[i:j + 1], b[i:j + 1]
+
+        i, j = 0, len(a) - 1
+        while i < j and b[i] == a[j]:
+            i, j = i + 1, j - 1
+        s3, s4 = a[i:j + 1], b[i:j + 1]
+
+        return any(s == s[::-1] for s in (s1,s2,s3,s4))
+```
+* [[Medium] 1616. Split Two Strings to Make Palindrome](%5BMedium%5D%201616.%20Split%20Two%20Strings%20to%20Make%20Palindrome.md)
+
 ### Sort by end and filter by start
 ```python
 class Solution:
@@ -7953,6 +7972,27 @@ class Solution:
         return ans
 ```
 * [[Medium] 1536. Minimum Swaps to Arrange a Binary Grid](%5BMedium%5D%201536.%20Minimum%20Swaps%20to%20Arrange%20a%20Binary%20Grid.md)
+
+### Greedy add with count and visited
+```python
+class Solution:
+    def removeDuplicateLetters(self, s: str) -> str:
+        N = len(s)
+        cnt = collections.Counter(s)
+        visited = collections.defaultdict(int)
+        ans = "0"
+        for i in range(N):
+            cnt[s[i]] -= 1
+            if visited[s[i]]: continue
+            while s[i] < ans[-1] and cnt[ans[-1]]:
+                visited[ans[-1]] = 0
+                ans = ans[:-1]
+            ans += s[i]
+            visited[s[i]] = 1
+
+        return ans[1:]
+```
+* [[Hard] 316. Remove Duplicate Letters](%5BHard%5D%20316.%20Remove%20Duplicate%20Letters.md)
 
 ### Minimum Number of Increments
 ```python

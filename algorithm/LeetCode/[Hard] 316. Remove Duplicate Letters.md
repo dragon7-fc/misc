@@ -50,19 +50,17 @@ public:
 };
 ```
 
-**Solution 2: (Greedy)**
+**Solution 2: (Greedy, Greedy add with count and visited)**
 ```
-Runtime: 48 ms
-Memory Usage: 13.9 MB
+Runtime: 32 ms
+Memory Usage: 14.2 MB
 ```
 ```python
 class Solution:
     def removeDuplicateLetters(self, s: str) -> str:
-        cnt = collections.defaultdict(int)
-        visited = collections.defaultdict(int)
-        for c in s:
-            cnt[c] += 1
         N = len(s)
+        cnt = collections.Counter(s)
+        visited = collections.defaultdict(int)
         ans = "0"
         for i in range(N):
             cnt[s[i]] -= 1
