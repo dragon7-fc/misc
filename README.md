@@ -671,18 +671,15 @@ A playground to note something.
                 - `Password`: enter the password that you assigned while exporting the server certificate.
 
         1. Decrypt the SSL traffic
-- xhost
+- lspci
 
-    - | Server | Client |
-      |--------|--------|
-      | echo $DISPLAY to get [DISPLAY#] and [SCREEN#] |
-      | xhost + [CLIENT_IP] |  |
-      | telnet or ssh [CLIENT_IP] |  |
-      |  | DISPLAY=[SERVER_IP]:[DISPLAY#.SCREEN#] [application, ex. gedit] |
-      |  | exit |
-      | xhost - [CLIENT_IP] |  |
-      
-      __NOTE__: $DISPLAY = [HOST_NAME:DISPLAY#.SCREEN#]
+    - [7 Linux lspci Command Examples to Get PCI Bus Hardware Device Info](https://www.thegeekstuff.com/2014/04/lspci-examples/)
+- ip
+    
+    - [Linux ip Command Networking Cheat Sheet](https://www.linuxtrainingacademy.com/linux-ip-command-networking-cheat-sheet/)
+- ss
+    
+    - [SS – Socket Statistics Commands Cheatsheet](https://neverendingsecurity.wordpress.com/2015/04/13/ss-socket-statistics-commands-cheatsheet/)
 - nmap
 
     - [Nmap Cheat Sheet](https://www.stationx.net/nmap-cheat-sheet/)
@@ -696,6 +693,18 @@ A playground to note something.
 - curl
 
     - [CURL CHEATSHEET](https://cheatsheet.dennyzhang.com/cheatsheet-curl-a4)
+- xhost
+
+    - | Server | Client |
+      |--------|--------|
+      | echo $DISPLAY to get [DISPLAY#] and [SCREEN#] |
+      | xhost + [CLIENT_IP] |  |
+      | telnet or ssh [CLIENT_IP] |  |
+      |  | DISPLAY=[SERVER_IP]:[DISPLAY#.SCREEN#] [application, ex. gedit] |
+      |  | exit |
+      | xhost - [CLIENT_IP] |  |
+      
+      __NOTE__: $DISPLAY = [HOST_NAME:DISPLAY#.SCREEN#]
 - gpg
     
     - | Encrypt | Decrpyt |
@@ -1075,9 +1084,6 @@ A playground to note something.
             (( var--  ))               C-style variable decrement
             (( var0 = var1<98?9:21  )) C-style ternary operation
             ```
-    - [Linux ip Command Networking Cheat Sheet](https://www.linuxtrainingacademy.com/linux-ip-command-networking-cheat-sheet/)
-    - [SS – Socket Statistics Commands Cheatsheet](https://neverendingsecurity.wordpress.com/2015/04/13/ss-socket-statistics-commands-cheatsheet/)
-    - [7 Linux lspci Command Examples to Get PCI Bus Hardware Device Info](https://www.thegeekstuff.com/2014/04/lspci-examples/)
 
     |             | command     |
     |-------------|-------------------------------------------------------------------------|

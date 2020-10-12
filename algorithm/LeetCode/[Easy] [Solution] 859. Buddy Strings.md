@@ -109,3 +109,31 @@ class Solution:
                 if len(pairs) >= 3: return False
             return len(pairs) == 2 and pairs[0] == pairs[1][::-1]
 ```
+
+**Solution 2: (Enumerate Cases)**
+```
+Runtime: 36 ms
+Memory Usage: 14.8 MB
+```
+```python
+class Solution:
+    def buddyStrings(self, A: str, B: str) -> bool:
+        M, N = len(A), len(B)
+        if M != N or M < 2:
+            return False
+        same, diff = [], []
+        for i in range(M):
+            if A[i] != B[i]:
+                diff += [i]
+            else:
+                same += [i]
+        if len(diff) == 0:
+            if collections.Counter([A[i] for i in same]).most_common()[0][1] >= 2:
+                return True
+            else:
+                return False
+        elif len(diff) == 2 and A[diff[0]] == B[diff[1]] and A[diff[1]] == B[diff[0]]:
+            return True
+        else:
+            return False
+```

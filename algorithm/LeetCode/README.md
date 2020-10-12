@@ -427,6 +427,7 @@ Happy Coding!!
 * [[Medium] 449. Serialize and Deserialize BST](%5BMedium%5D%20449.%20Serialize%20and%20Deserialize%20BST.md)
 * [[Medium] 452. Minimum Number of Arrows to Burst Balloons](%5BMedium%5D%20452.%20Minimum%20Number%20of%20Arrows%20to%20Burst%20Balloons.md)
 * [[Hard] 316. Remove Duplicate Letters](%5BHard%5D%20316.%20Remove%20Duplicate%20Letters.md)
+* [[Easy] [Solution] 859. Buddy Strings](%5BEasy%5D%20%5BSolution%5D%20859.%20Buddy%20Strings.md)
 
 ## Array <a name="array"></a>
 ---
@@ -4154,6 +4155,28 @@ class Solution:
         # no match was found
         return -1
 ```
+
+### Enumerate Cases
+```python
+class Solution:
+    def buddyStrings(self, A: str, B: str) -> bool:
+        if len(A) != len(B): return False
+        if A == B:
+            seen = set()
+            for a in A:
+                if a in seen:
+                    return True
+                seen.add(a)
+            return False
+        else:
+            pairs = []
+            for a, b in zip(A, B):
+                if a != b:
+                    pairs.append((a, b))
+                if len(pairs) >= 3: return False
+            return len(pairs) == 2 and pairs[0] == pairs[1][::-1]
+```
+* [[Easy] [Solution] 859. Buddy Strings](%5BEasy%5D%20%5BSolution%5D%20859.%20Buddy%20Strings.md)
 
 ### split
 ```python
