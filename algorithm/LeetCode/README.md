@@ -428,6 +428,7 @@ Happy Coding!!
 * [[Medium] 452. Minimum Number of Arrows to Burst Balloons](%5BMedium%5D%20452.%20Minimum%20Number%20of%20Arrows%20to%20Burst%20Balloons.md)
 * [[Hard] 316. Remove Duplicate Letters](%5BHard%5D%20316.%20Remove%20Duplicate%20Letters.md)
 * [[Easy] [Solution] 859. Buddy Strings](%5BEasy%5D%20%5BSolution%5D%20859.%20Buddy%20Strings.md)
+* [[Medium] 148. Sort List](%5BMedium%5D%20148.%20Sort%20List.md)
 
 ## Array <a name="array"></a>
 ---

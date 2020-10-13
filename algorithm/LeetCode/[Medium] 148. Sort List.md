@@ -16,7 +16,7 @@ Output: -1->0->3->4->5
 
 # Submissions
 ---
-**Solution 1: (Sort, Linked list)**
+**Solution 1: (Sort, Linked list, Merge Sort)**
 ```
 Runtime: 236 ms
 Memory Usage: 21.9 MB
