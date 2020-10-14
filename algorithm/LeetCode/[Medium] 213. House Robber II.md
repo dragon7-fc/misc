@@ -48,7 +48,28 @@ class Solution:
         return max([rob(nums[:-1]), rob(nums[1:])])
 ```
 
-**Solution 2: (DP Top-Down)**
+**Solution 2: (DP Bottom-Up)**
+```
+Runtime: 28 ms
+Memory Usage: 14.1 MB
+```
+```python
+class Solution:
+    def rob(self, nums: List[int]) -> int:
+        N = len(nums)
+        if N == 1: return nums[0]
+        dp, dp2 = [0]*N, [0]*N
+        dp[1] = nums[0]
+        for i in range(1, N-1):
+            dp[i+1] = max(dp[i], dp[i-1] + nums[i])
+        dp2[1] = nums[1]
+        for i in range(2, N):
+            dp2[i] = max(dp2[i-1], dp2[i-2] + nums[i])
+        
+        return max(dp[-1], dp2[-1])
+```
+
+**Solution 3: (DP Top-Down)**
 ```
 Runtime: 24 ms
 Memory Usage: 13.1 MB

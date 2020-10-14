@@ -429,6 +429,7 @@ Happy Coding!!
 * [[Hard] 316. Remove Duplicate Letters](%5BHard%5D%20316.%20Remove%20Duplicate%20Letters.md)
 * [[Easy] [Solution] 859. Buddy Strings](%5BEasy%5D%20%5BSolution%5D%20859.%20Buddy%20Strings.md)
 * [[Medium] 148. Sort List](%5BMedium%5D%20148.%20Sort%20List.md)
+* [[Medium] 213. House Robber II](%5BMedium%5D%20213.%20House%20Robber%20II.md)
 
 ## Array <a name="array"></a>
 ---
@@ -2427,6 +2428,20 @@ class Solution:
 
 ### Circle DP
 ```python
+class Solution:
+    def rob(self, nums: List[int]) -> int:
+        N = len(nums)
+        if N == 1: return nums[0]
+        dp, dp2 = [0]*N, [0]*N
+        dp[1] = nums[0]
+        for i in range(1, N-1):
+            dp[i+1] = max(dp[i], dp[i-1] + nums[i])
+        dp2[1] = nums[1]
+        for i in range(2, N):
+            dp2[i] = max(dp2[i-1], dp2[i-2] + nums[i])
+
+        return max(dp[-1], dp2[-1])
+
 class Solution:
     def rob(self, nums: List[int]) -> int:
         N = len(nums)
