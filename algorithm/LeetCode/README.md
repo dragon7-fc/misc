@@ -430,6 +430,8 @@ Happy Coding!!
 * [[Easy] [Solution] 859. Buddy Strings](%5BEasy%5D%20%5BSolution%5D%20859.%20Buddy%20Strings.md)
 * [[Medium] 148. Sort List](%5BMedium%5D%20148.%20Sort%20List.md)
 * [[Medium] 213. House Robber II](%5BMedium%5D%20213.%20House%20Robber%20II.md)
+* [[Easy] [Solution] 189. Rotate Array](%5BEasy%5D%20%5BSolution%5D%20189.%20Rotate%20Array.md)
+* [[Medium] 74. Search a 2D Matrix](%5BMedium%5D%2074.%20Search%20a%202D%20Matrix.md)
 
 ## Array <a name="array"></a>
 ---
@@ -448,19 +450,24 @@ class Solution:
 ```
 * [[Easy] [Solution] 832. Flipping an Image](%5BEasy%5D%20%5BSolution%5D%20832.%20Flipping%20an%20Image.md)
 
-### Rotate Array
+### Rotate array = 1 whole reverse + 2 partial reverse
 ```python
-class Solution(object):
-    def rotate(self, nums, k):
+class Solution:
+    def reverse(self, nums: list, start: int, end: int) -> None:
+        while start < end:
+            nums[start], nums[end] = nums[end], nums[start]
+            start, end = start + 1, end - 1
+
+    def rotate(self, nums: List[int], k: int) -> None:
         """
-        :type nums: List[int]
-        :type k: int
-        :rtype: void Do not return anything, modify nums in-place instead.
+        Do not return anything, modify nums in-place instead.
         """
-        k %= len(nums)
-        nums.reverse()
-        nums[:k] = nums[:k][::-1]
-        nums[k:len(nums)] = nums[k:len(nums)][::-1]
+        n = len(nums)
+        k %= n
+
+        self.reverse(nums, 0, n - 1)
+        self.reverse(nums, 0, k - 1)
+        self.reverse(nums, k, n - 1)
 ```
 * [[Easy] [Solution] 189. Rotate Array](%5BEasy%5D%20%5BSolution%5D%20189.%20Rotate%20Array.md)
 
@@ -7085,6 +7092,27 @@ class Solution:
         return right
 ```
 * [[Easy] [Solution] 441. Arranging Coins](%5BEasy%5D%20%5BSolution%5D%20441.%20Arranging%20Coins.md)
+
+### search row head then column
+```python
+class Solution:
+    def searchMatrix(self, matrix: List[List[int]], target: int) -> bool:
+        if not matrix: return False
+        R, C = len(matrix), len(matrix[0])
+        if C == 0: return False
+        row = bisect.bisect_left(list(zip(*matrix))[0], target)
+        if row < R and matrix[row][0] == target:
+            return True
+        row -= 1
+        col = bisect.bisect_left(matrix[row], target)
+        if col == C:
+            return False
+        elif matrix[row][col] == target:
+            return True
+        else:
+            return False
+```
+* [[Medium] 74. Search a 2D Matrix](%5BMedium%5D%2074.%20Search%20a%202D%20Matrix.md)
 
 ### Greedy, Binary Search
 ```python

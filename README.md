@@ -671,6 +671,9 @@ A playground to note something.
                 - `Password`: enter the password that you assigned while exporting the server certificate.
 
         1. Decrypt the SSL traffic
+- grub
+
+    - [GRUB 2 bootloader - Full tutorial](https://www.dedoimedo.com/computers/grub-2.html)
 - lspci
 
     - [7 Linux lspci Command Examples to Get PCI Bus Hardware Device Info](https://www.thegeekstuff.com/2014/04/lspci-examples/)

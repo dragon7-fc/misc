@@ -102,17 +102,23 @@ class Solution:
 
 **Solution 3: (Binary Search)**
 ```
-Runtime: 60 ms
-Memory Usage: 14.9 MB
+Runtime: 40 ms
+Memory Usage: 14.5 MB
 ```
 ```python
 class Solution:
     def searchMatrix(self, matrix: List[List[int]], target: int) -> bool:
-        if not matrix or not matrix[0]: return False
-        rows = [row[0] for row in matrix]
-        row = bisect.bisect(rows, target) - 1
-        col = bisect.bisect(matrix[row], target) - 1
-        if matrix[row][col] == target:
+        if not matrix: return False
+        R, C = len(matrix), len(matrix[0])
+        if C == 0: return False
+        row = bisect.bisect_left(list(zip(*matrix))[0], target)
+        if row < R and matrix[row][0] == target:
+            return True
+        row -= 1
+        col = bisect.bisect_left(matrix[row], target)
+        if col == C:
+            return False
+        elif matrix[row][col] == target:
             return True
         else:
             return False

@@ -33,6 +33,7 @@ We have to rotate the elements of the given array k times to the right.
 ## Approach #1 Brute Force [Time Limit Exceeded]
 The simplest approach is to rotate all the elements of the array in k steps by rotating the elements by 1 unit in each step.
 
+**Java**
 ```java
 public class Solution {
     public void rotate(int[] nums, int k) {
@@ -49,6 +50,19 @@ public class Solution {
 }
 ```
 
+**Python**
+```python
+class Solution:
+    def rotate(self, nums: List[int], k: int) -> None:
+        # speed up the rotation
+        k %= len(nums)
+
+        for i in range(k):
+            previous = nums[-1]
+            for j in range(len(nums)):
+                nums[j], previous = previous, nums[j]
+```
+
 **Complexity Analysis**
 
 * Time complexity : $O(n*k)$. All the numbers are shifted by one step($O(n)$) k times($O(k)$).
@@ -59,6 +73,7 @@ public class Solution {
 
 We use an extra array in which we place every element of the array at its correct position i.e. the number at index $i$ in the original array is placed at the index $(i+k)$. Then, we copy the new array to the original one.
 
+**Java**
 ```java
 public class Solution {
     public void rotate(int[] nums, int k) {
@@ -71,6 +86,18 @@ public class Solution {
         }
     }
 }
+```
+
+**Python**
+```python
+class Solution:
+    def rotate(self, nums: List[int], k: int) -> None:
+        n = len(nums)
+        a = [0] * n
+        for i in range(n):
+            a[(i + k) % n] = nums[i]
+            
+        nums[:] = a
 ```
 
 **Complexity Analysis**
@@ -95,6 +122,7 @@ k: 2
 
 ![189_Rotate_Array](img/189_Rotate_Array.png)
 
+**Java**
 ```java
 public class Solution {
     public void rotate(int[] nums, int k) {
@@ -114,6 +142,27 @@ public class Solution {
         }
     }
 }
+```
+
+**Python**
+```python
+class Solution:
+    def rotate(self, nums: List[int], k: int) -> None:
+        n = len(nums)
+        k %= n
+        
+        start = count = 0
+        while count < n:
+            current, prev = start, nums[start]
+            while True:
+                next_idx = (current + k) % n
+                nums[next_idx], prev = prev, nums[next_idx]
+                current = next_idx
+                count += 1
+                
+                if start == current:
+                    break
+            start += 1
 ```
 
 **Complexity Analysis**
@@ -136,6 +185,8 @@ After reversing all numbers     : 7 6 5 4 3 2 1
 After reversing first k numbers : 5 6 7 4 3 2 1
 After revering last n-k numbers : 5 6 7 1 2 3 4 --> Result
 ```
+
+**Java**
 ```java
 public class Solution {
     public void rotate(int[] nums, int k) {
@@ -156,6 +207,23 @@ public class Solution {
 }
 ```
 
+**Python**
+```python
+class Solution:
+    def reverse(self, nums: list, start: int, end: int) -> None:
+        while start < end:
+            nums[start], nums[end] = nums[end], nums[start]
+            start, end = start + 1, end - 1
+                
+    def rotate(self, nums: List[int], k: int) -> None:
+        n = len(nums)
+        k %= n
+
+        self.reverse(nums, 0, n - 1)
+        self.reverse(nums, 0, k - 1)
+        self.reverse(nums, k, n - 1)
+```
+
 **Complexity Analysis**
 
 * Time complexity : $O(n)$. $n$ elements are reversed a total of three times.
@@ -166,48 +234,8 @@ public class Solution {
 ---
 **Solution 1: (Using Extra Array)**
 ```
-Runtime: 44 ms
-Memory Usage: N/A
-```
-```python
-class Solution(object):
-    def rotate(self, nums, k):
-        """
-        :type nums: List[int]
-        :type k: int
-        :rtype: void Do not return anything, modify nums in-place instead.
-        """
-        n = len(nums)
-        a = [None]*n
-        for i in range(n):
-            a[(i+k) % n] = nums[i]
-        for i in range(n):
-            nums[i] = a[i]
-```
-
-**Solution 2; (Using Reverse)**
-```
-Runtime: 80 ms
-Memory Usage: N/A
-```
-```python
-class Solution(object):
-    def rotate(self, nums, k):
-        """
-        :type nums: List[int]
-        :type k: int
-        :rtype: void Do not return anything, modify nums in-place instead.
-        """
-        k %= len(nums)
-        nums.reverse()
-        nums[:k] = nums[:k][::-1]
-        nums[k:len(nums)] = nums[k:len(nums)][::-1]
-```
-
-**Solution 3: (Using Extra Array)**
-```
-Runtime: 72 ms
-Memory Usage: 15.3 MB
+Runtime: 52 ms
+Memory Usage: 15.4 MB
 ```
 ```python
 class Solution:
@@ -215,7 +243,62 @@ class Solution:
         """
         Do not return anything, modify nums in-place instead.
         """
-        arr_1 = nums[len(nums)-k:]
-        del nums[len(nums)-k:] 
-        nums[:] = arr_1+nums
+        n = len(nums)
+        a = [0] * n
+        for i in range(n):
+            a[(i + k) % n] = nums[i]
+            
+        nums[:] = a
+```
+
+**Solution 2: (Using Cyclic Replacements)**
+```
+Runtime: 60 ms
+Memory Usage: 15.4 MB
+```
+```python
+class Solution:
+    def rotate(self, nums: List[int], k: int) -> None:
+        """
+        Do not return anything, modify nums in-place instead.
+        """
+        n = len(nums)
+        k %= n
+        
+        start = count = 0
+        while count < n:
+            current, prev = start, nums[start]
+            while True:
+                next_idx = (current + k) % n
+                nums[next_idx], prev = prev, nums[next_idx]
+                current = next_idx
+                count += 1
+                
+                if start == current:
+                    break
+            start += 1
+```
+
+**Solution 3; (Using Reverse)**
+```
+Runtime: 64 ms
+Memory Usage: 15.4 MB
+```
+```python
+class Solution:
+    def reverse(self, nums: list, start: int, end: int) -> None:
+        while start < end:
+            nums[start], nums[end] = nums[end], nums[start]
+            start, end = start + 1, end - 1
+            
+    def rotate(self, nums: List[int], k: int) -> None:
+        """
+        Do not return anything, modify nums in-place instead.
+        """
+        n = len(nums)
+        k %= n
+
+        self.reverse(nums, 0, n - 1)
+        self.reverse(nums, 0, k - 1)
+        self.reverse(nums, k, n - 1)
 ```
