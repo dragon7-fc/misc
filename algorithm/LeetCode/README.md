@@ -432,6 +432,7 @@ Happy Coding!!
 * [[Medium] 213. House Robber II](%5BMedium%5D%20213.%20House%20Robber%20II.md)
 * [[Easy] [Solution] 189. Rotate Array](%5BEasy%5D%20%5BSolution%5D%20189.%20Rotate%20Array.md)
 * [[Medium] 74. Search a 2D Matrix](%5BMedium%5D%2074.%20Search%20a%202D%20Matrix.md)
+* [[Medium] 187. Repeated DNA Sequences](%5BMedium%5D%20187.%20Repeated%20DNA%20Sequences.md)
 
 ## Array <a name="array"></a>
 ---
@@ -3406,6 +3407,14 @@ class Solution:
 ```
 * [[Easy] [Solution] 976. Largest Perimeter Triangle](%5BEasy%5D%20%5BSolution%5D%20976.%20Largest%20Perimeter%20Triangle.md)
 
+### Transform to select 2k points from n+k-1
+```python
+class Solution:
+    def numberOfSets(self, n: int, k: int) -> int:
+        return math.comb(n + k - 1, k * 2) % (10**9 + 7)
+```
+* [1621. Number of Sets of K Non-Overlapping Line Segments](%5BMedium%5D%201621.%20Number%20of%20Sets%20of%20K%20Non-Overlapping%20Line%20Segments.md)
+
 ### Task Scheduler
 ```python
 class Solution:
@@ -5635,6 +5644,22 @@ class Solution:
         return (B - A).pop()
 ```
 * [[Easy] 1436. Destination City](%5BEasy%5D%201436.%20Destination%20City.md)
+
+### Hash Key = Pattern sequence
+```python
+class Solution:
+    def findRepeatedDnaSequences(self, s: str) -> List[str]:
+        table = {}
+        ret = []
+        for index, num in enumerate(s):
+            pattern = s[index:index+10]            
+            if pattern in table:
+                ret.append(pattern)
+            else:
+                table[pattern] = index
+        return list(set(ret))
+```
+* [[Medium] 187. Repeated DNA Sequences](%5BMedium%5D%20187.%20Repeated%20DNA%20Sequences.md)
 
 ### Prefix sum Hash Table index
 ```python

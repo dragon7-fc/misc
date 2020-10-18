@@ -122,7 +122,6 @@ A playground to note something.
         -e DISPLAY=[HOST_IP]:0 -v "$HOME":"/home/user" \
         zeitgeist/docker-bcompare
         ```
-
 * putty
 
     - X11 Forwarding
@@ -142,7 +141,6 @@ A playground to note something.
 
         export TERM=xterm-256color
         ```
-
 * Tmux
 
     - [Tmux Plugin Manager](https://github.com/tmux-plugins/tpm)
@@ -206,7 +204,6 @@ A playground to note something.
     |             | command                                                               |
     |-------------|-----------------------------------------------------------------------|
     | edit binary | `vi -b [FILE] ` -> `:%!xxd` -> edit binary... -> `:%!xxd -r` -> `:wq` |
-
 * Vim
 
     - [Vim Cheatsheet](https://alejandrodev.com/vim)
@@ -293,39 +290,8 @@ A playground to note something.
         - (Optional) Generate GRUB boot menu
 
             `grub2-mkconfig -o /boot/grub2/grub.cfg`
-
         - reboot
         - `unaame -r` to see new kernel version
-
-    - sysctl
-
-        - kernel parameters
-            
-            `/proc/sys`
-        
-        - register/unregister
-        
-            `include/linux/sysctl.h`
-
-            ```c
-            /* A sysctl table is an array of struct ctl_table: */
-            struct ctl_table 
-            {
-                const char *procname;		/* Text ID for /proc/sys, or zero */
-                void *data;
-                int maxlen;
-                umode_t mode;
-                struct ctl_table *child;	/* Deprecated */
-                proc_handler *proc_handler;	/* Callback for text formatting */
-                struct ctl_table_poll *poll;
-                void *extra1;
-                void *extra2;
-            };
-
-            struct ctl_table_header *register_sysctl_table(struct ctl_table * table);
-
-            void unregister_sysctl_table(struct ctl_table_header * table);
-            ```
     - [Ubuntu – How to resize root to increase home partition size in ubuntu 16.04 with gparted](https://itectec.com/ubuntu/ubuntu-how-to-resize-root-to-increase-home-partition-size-in-ubuntu-16-04-with-gparted-duplicate/)
     - [Linux Package Management Cheatsheet](https://danilodellaquila.com/en/blog/linux-package-management-cheatsheet)
     - [Command-Line Printing and Options](https://www.cups.org/doc/options.html)
@@ -343,8 +309,7 @@ A playground to note something.
     | dump register      | `i2cdump -y [BUS] [SLAVE_ADDRESS]`              |
     | write register     | `i2cset -f -y [BUS] [SLAVE_ADDRESS] [REGISTER]` |
     | read register      | `i2cget -y [BUS] [SLAVE_ADDRESS] [REGISTER]`    |
-
-* BSOD/Kernel Panic
+- BSOD/Kernel Panic
 
     - [Cause a Linux Kernel Panic or a Windows BSOD](https://technodrone.blogspot.com/2012/03/cause-linux-kernel-panic-or-windows.html)
 
@@ -365,7 +330,6 @@ A playground to note something.
         - Linux Kernel Panic
 
             `echo c > /proc/sysrq-trigger`
-
 * Git
 
     - GitHub & Collaboration
@@ -399,7 +363,6 @@ A playground to note something.
     |                   | command                      |
     |-------------------|------------------------------|
     | Get older version | `git checkout [COMMIT_HASH]` |
-
 * SVN
 
     - Create branch
@@ -409,7 +372,6 @@ A playground to note something.
 * Tig
 
     - [Tig cheatsheet](https://devhints.io/tig)
-
 * Gitlab
 
     - Install
@@ -459,7 +421,6 @@ A playground to note something.
 
     mount -t tmpfs -o size=100G tmpfs /tmp/ramdisk/
     ```
-
 * sudo
 
     ```bash
@@ -469,7 +430,6 @@ A playground to note something.
     XXX      ALL=(ALL) NOPASSWD:ALL
     ##+++<
     ```
-
 * ssh
 
     - [SSH Cheatsheet](https://cheatsheet.dennyzhang.com/cheatsheet-ssh-a4)
@@ -521,8 +481,7 @@ A playground to note something.
     sudo service smbd restart
     sudo smbstatus
     ```
-
-* TFTP
+- TFTP
 
     - Server
 
@@ -556,7 +515,6 @@ A playground to note something.
         |-----|--------------------------------------|
         | put | `tftp -p -l [FILE] [TFTP_SERVER_IP]` |
         | get | `tftp -g -r [FILE] [TFTP_SERVER_IP]` |
-
 * NFS
 
     - Server
@@ -577,7 +535,7 @@ A playground to note something.
 
         `mount -t nfs -o tcp,nolock [NFS_SERVER_IP]:/path/to/nfsroot /path/to/mount`
 
-- FTP
+* FTP
 
      - Server
          ```
@@ -618,7 +576,7 @@ A playground to note something.
     - Client
 
     ```ftp -p [FTP_SERVER_IP]```
-- DHCP
+* DHCP
 
     - Server
     
@@ -652,7 +610,7 @@ A playground to note something.
             cat /var/lib/misc/dnsmasq.leases
             ```
         - [dnsmasq - ArchWiki](https://wiki.archlinux.org/index.php/dnsmasq)
-- Wireshark
+* Wireshark
 
     - [How to Decrypt SSL and TLS Traffic Using Wireshark](https://support.citrix.com/article/CTX116557)
 
@@ -671,32 +629,71 @@ A playground to note something.
                 - `Password`: enter the password that you assigned while exporting the server certificate.
 
         1. Decrypt the SSL traffic
-- grub
+* grub
 
     - [GRUB 2 bootloader - Full tutorial](https://www.dedoimedo.com/computers/grub-2.html)
-- lspci
+* top
+
+    - [Cheatsheet on the `top` utility](https://dev.to/yanhan/cheatsheet-on-the-top-utility--82c)
+* lspci
 
     - [7 Linux lspci Command Examples to Get PCI Bus Hardware Device Info](https://www.thegeekstuff.com/2014/04/lspci-examples/)
-- ip
+* strace
+
+    - [Linux Troubleshooting Cheatsheet: strace, htop, lsof, tcpdump, iftop & sysdig](https://sysdig.com/blog/linux-troubleshooting-cheatsheet/)
+    - [Tracing Tools - strace, ltrace](https://doc.opensuse.org/documentation/leap/archive/42.3/tuning/html/book.sle.tuning/cha.tuning.tracing.html)
+* sysctl
+
+    - kernel parameters
+        
+        `/proc/sys`
+    
+    - register/unregister
+    
+        `include/linux/sysctl.h`
+
+        ```c
+        /* A sysctl table is an array of struct ctl_table: */
+        struct ctl_table 
+        {
+            const char *procname;		/* Text ID for /proc/sys, or zero */
+            void *data;
+            int maxlen;
+            umode_t mode;
+            struct ctl_table *child;	/* Deprecated */
+            proc_handler *proc_handler;	/* Callback for text formatting */
+            struct ctl_table_poll *poll;
+            void *extra1;
+            void *extra2;
+        };
+
+        struct ctl_table_header *register_sysctl_table(struct ctl_table * table);
+
+        void unregister_sysctl_table(struct ctl_table_header * table);
+        ```
+* udevadm
+
+    - [udev](https://wiki.archlinux.org/index.php/udev)
+* ip
     
     - [Linux ip Command Networking Cheat Sheet](https://www.linuxtrainingacademy.com/linux-ip-command-networking-cheat-sheet/)
-- ss
+* ss
     
     - [SS – Socket Statistics Commands Cheatsheet](https://neverendingsecurity.wordpress.com/2015/04/13/ss-socket-statistics-commands-cheatsheet/)
-- nmap
+* nmap
 
     - [Nmap Cheat Sheet](https://www.stationx.net/nmap-cheat-sheet/)
     - To see the SSL/TLS algorithms a server supports
 
         `nmap --script ssl-enum-ciphers -p 443 [TARGET|IP]`
     - `nmap -p xx,yy-zz A B n1.n2.n3.n4-n5`
-- dig
+* dig
 
     - [Linux and Unix dig Command Examples](https://www.cyberciti.biz/faq/linux-unix-dig-command-examples-usage-syntax/)
-- curl
+* curl
 
     - [CURL CHEATSHEET](https://cheatsheet.dennyzhang.com/cheatsheet-curl-a4)
-- xhost
+* xhost
 
     - | Server | Client |
       |--------|--------|
@@ -708,7 +705,7 @@ A playground to note something.
       | xhost - [CLIENT_IP] |  |
       
       __NOTE__: $DISPLAY = [HOST_NAME:DISPLAY#.SCREEN#]
-- gpg
+* gpg
     
     - | Encrypt | Decrpyt |
       |---------|---------|
@@ -733,11 +730,10 @@ A playground to note something.
       | x@X:-> scp message.sig y@Y:/home/y |  |
       |  | y@Y:-> gpg --verify message.sig |
       |  | y@Y:-> gpg --output message --decrypt message.sig |
-- iperf
+* iperf
 
     - [Iperf cheat sheet](https://www.jamescoyle.net/cheat-sheets/581-iperf-cheat-sheet)
-
-- iptables
+* iptables
 
     - NAT Server
     
