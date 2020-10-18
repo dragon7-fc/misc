@@ -433,6 +433,7 @@ Happy Coding!!
 * [[Easy] [Solution] 189. Rotate Array](%5BEasy%5D%20%5BSolution%5D%20189.%20Rotate%20Array.md)
 * [[Medium] 74. Search a 2D Matrix](%5BMedium%5D%2074.%20Search%20a%202D%20Matrix.md)
 * [[Medium] 187. Repeated DNA Sequences](%5BMedium%5D%20187.%20Repeated%20DNA%20Sequences.md)
+* [[Hard] 188. Best Time to Buy and Sell Stock IV](%5BHard%5D%20188.%20Best%20Time%20to%20Buy%20and%20Sell%20Stock%20IV.md)
 
 ## Array <a name="array"></a>
 ---
@@ -1456,6 +1457,23 @@ class Solution(object):
         return min(dp[n-1], dp[n-2])
 ```
 * [[Easy] [Solution] 746. Min Cost Climbing Stairs](%5BEasy%5D%20%5BSolution%5D%20746.%20Min%20Cost%20Climbing%20Stairs.md)
+
+### Sorted by age and DP through score
+```python
+class Solution:
+    def bestTeamScore(self, scores: List[int], ages: List[int]) -> int:
+        z = sorted(zip(ages, scores))
+        n = len(z)
+        dp = [0] * n
+        for i in range(n):
+            dp[i] = z[i][1]
+            for j in range(i):
+                if z[j][1] <= z[i][1]:
+                    dp[i] = max(dp[i], dp[j] + z[i][1])
+
+        return max(dp)
+```
+* [[Medium] 1626. Best Team With No Conflicts](%5BMedium%5D%201626.%20Best%20Team%20With%20No%20Conflicts.md)
 
 ### Word Break
 ```python
@@ -2937,36 +2955,41 @@ class Solution:
 ```
 * [[Hard] 140. Word Break II](%5BHard%5D%20140.%20Word%20Break%20II.md)
 
-### k state
+### n day * k transaction * 2 (buy|sell) state
 ```python
 class Solution:
     def maxProfit(self, k: int, prices: List[int]) -> int:
-        if not prices or k == 0:
-            return 0
         n = len(prices)
 
-        #PRECHECK if 2*k >= n  that means we just need to count everyday's profit no need to DP 
-        if 2*k >= n:
+        # solve special cases
+        if not prices or k==0:
+            return 0
+
+        if 2*k > n:
             res = 0
-            for i in range(1, n):
-                res += max(prices[i] - prices[i-1], 0)
+            for i, j in zip(prices[1:], prices[:-1]):
+                res += max(0, i - j)
             return res
 
-        #dp status of buy and sell, only need One-Dimention
-        bsk = [0 for i in range(2*k)]   #buy_1 sell_1 buy_2 sell_2 ==> buy_k sell_k (k times)
-        for b in range(2*k):
-            if b%2 == 0:
-                bsk[b] = -prices[0]
+        # dp[i][used_k][ishold] = balance
+        # ishold: 0 nothold, 1 hold
+        dp = [[[-math.inf]*2 for _ in range(k+1)] for _ in range(n)]
 
+        # set starting value
+        dp[0][0][0] = 0
+        dp[0][1][1] = -prices[0]
+
+        # fill the array
         for i in range(1, n):
-            bsk[0] = max(bsk[0], -prices[i])
-            #for buys
-            for j in range(2, 2*k, 2):
-                bsk[j] = max(bsk[j-1]-prices[i], bsk[j])
-            #for sells
-            for o in range(1, 2*k, 2):
-                bsk[o] = max(bsk[o-1]+prices[i], bsk[o])
-        return bsk[2*k-1]
+            for j in range(k+1):
+                # transition equation
+                dp[i][j][0] = max(dp[i-1][j][0], dp[i-1][j][1]+prices[i])
+                # you can't hold stock without any transaction
+                if j > 0:
+                    dp[i][j][1] = max(dp[i-1][j][1], dp[i-1][j-1][0]-prices[i])
+
+        res = max(dp[n-1][j][0] for j in range(k+1))
+        return res
 ```
 * [[Hard] 188. Best Time to Buy and Sell Stock IV](%5BHard%5D%20188.%20Best%20Time%20to%20Buy%20and%20Sell%20Stock%20IV.md)
 
@@ -8116,6 +8139,45 @@ return ans
 
 ## Breadth-first Search <a name="bfs"></a>
 ---
+### BFS with seen
+```python
+class Solution:
+    def findLexSmallestString(self, s: str, a: int, b: int) -> str:
+        dq, seen, smallest = deque([s]), {s}, s
+        while dq:
+            cur = dq.popleft()
+            if smallest > cur:
+                smallest = cur
+            addA = list(cur)    
+            for i, c in enumerate(addA):
+                if i % 2 == 1:
+                    addA[i] = str((int(c) + a) % 10)
+            addA = ''.join(addA)        
+            if addA not in seen:
+                seen.add(addA);
+                dq.append(addA)
+            rotate = cur[-b :] + cur[: -b]
+            if rotate not in seen:
+                seen.add(rotate)
+                dq.append(rotate)
+        return smallest
+    
+class Solution:
+    def findLexSmallestString(self, s: str, a: int, b: int) -> str:
+        rec = set()
+
+        def dfs(s):
+            if s in rec:
+                return           
+            rec.add(s)
+            dfs(s[-b:] + s[:-b])
+            dfs("".join([str((int(c) + a * (i % 2)) % 10) for i, c in enumerate(s)]))
+
+        dfs(s)
+        return min(rec)
+```
+* [[Medium] 1625. Lexicographically Smallest String After Applying Operations](%5BMedium%5D%201625.%20Lexicographically%20Smallest%20String%20After%20Applying%20Operations.md)
+
 ### BFS
 ```python
 from collections import defaultdict

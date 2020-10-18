@@ -23,9 +23,116 @@ Explanation: Buy on day 2 (price = 2) and sell on day 3 (price = 6), profit = 6-
              Then buy on day 5 (price = 0) and sell on day 6 (price = 3), profit = 3-0 = 3.
 ```
 
+**Constraints:**
+
+* `0 <= k <= 109`
+* `0 <= prices.length <= 104`
+* `0 <= prices[i] <= 1000`
+
 # Submissions
 ---
-**Solution 1: (DP Bottom-Up)**
+**Solution 1: (Dynamic Programming)**
+```
+Runtime: 176 ms
+Memory Usage: 25.7 MB
+```
+```python
+class Solution:
+    def maxProfit(self, k: int, prices: List[int]) -> int:
+        n = len(prices)
+
+        # solve special cases
+        if not prices or k==0:
+            return 0
+
+        if 2*k > n:
+            res = 0
+            for i, j in zip(prices[1:], prices[:-1]):
+                res += max(0, i - j)
+            return res
+
+        # dp[i][used_k][ishold] = balance
+        # ishold: 0 nothold, 1 hold
+        dp = [[[-math.inf]*2 for _ in range(k+1)] for _ in range(n)]
+
+        # set starting value
+        dp[0][0][0] = 0
+        dp[0][1][1] = -prices[0]
+
+        # fill the array
+        for i in range(1, n):
+            for j in range(k+1):
+                # transition equation
+                dp[i][j][0] = max(dp[i-1][j][0], dp[i-1][j][1]+prices[i])
+                # you can't hold stock without any transaction
+                if j > 0:
+                    dp[i][j][1] = max(dp[i-1][j][1], dp[i-1][j-1][0]-prices[i])
+
+        res = max(dp[n-1][j][0] for j in range(k+1))
+        return res
+```
+
+**Solution 2: (Merging)**
+```
+Runtime: 80 ms
+Memory Usage: 14.8 MB
+```
+```python
+class Solution:
+    def maxProfit(self, k: int, prices: List[int]) -> int:
+        n = len(prices)
+
+        # solve special cases
+        if not prices or k == 0:
+            return 0
+
+        # find all consecutively increasing subsequence
+        transactions = []
+        start = 0
+        end = 0
+        for i in range(1, n):
+            if prices[i] >= prices[i-1]:
+                end = i
+            else:
+                if end > start:
+                    transactions.append([start, end])
+                start = i
+        if end > start:
+            transactions.append([start, end])
+
+        while len(transactions) > k:
+            # check delete loss
+            delete_index = 0
+            min_delete_loss = math.inf
+            for i in range(len(transactions)):
+                t = transactions[i]
+                profit_loss = prices[t[1]] - prices[t[0]]
+                if profit_loss < min_delete_loss:
+                    min_delete_loss = profit_loss
+                    delete_index = i
+
+            # check merge loss
+            merge_index = 0
+            min_merge_loss = math.inf
+            for i in range(1, len(transactions)):
+                t1 = transactions[i-1]
+                t2 = transactions[i]
+                profit_loss = prices[t1[1]] - prices[t2[0]]
+                if profit_loss < min_merge_loss:
+                    min_merge_loss = profit_loss
+                    merge_index = i
+
+            # delete or merge
+            if min_delete_loss <= min_merge_loss:
+                transactions.pop(delete_index)
+            else:
+                transactions[merge_index - 1][1] = transactions[merge_index][1]
+                transactions.pop(merge_index)
+
+        return sum(prices[j]-prices[i] for i, j in transactions)
+```
+
+**Solution 3: (DP Bottom-Up)**
 ```
 Runtime: 112 ms
 Memory Usage: 13.6 MB
@@ -59,4 +166,34 @@ class Solution:
             for o in range(1, 2*k, 2):
                 bsk[o] = max(bsk[o-1]+prices[i], bsk[o])
         return bsk[2*k-1]
+```
+
+**Solution 4: (DP, Top-Down DP)**
+```
+Runtime: 568 ms
+Memory Usage: 106.4 MB
+```
+```python
+class Solution:
+    def maxProfit(self, k: int, prices: List[int]) -> int:
+        N = len(prices)
+        if not N: return 0
+        if N < 2 * k:
+            return sum([max(0, prices[i+1] - prices[i]) for i in range(N - 1)])
+
+        max_price = 1001
+        @functools.lru_cache(None)
+        def max_profit_from(idx=0, tr_left=k, buy_price=max_price):
+            if not tr_left: return 0
+            if idx == N - 1: return max(0, prices[idx] - buy_price)
+
+            profit = prices[idx] - buy_price
+            profit_when_buying = max_profit_from(idx + 1, tr_left, prices[idx])
+            if profit <= 0: return profit_when_buying
+            profit_when_sold = profit + max_profit_from(idx + 1, tr_left - 1, max_price)
+            profit_when_pass = max_profit_from(idx + 1, tr_left, buy_price)
+
+            return max(profit_when_sold, profit_when_buying, profit_when_pass)
+
+        return max_profit_from()
 ```
