@@ -415,12 +415,15 @@ A playground to note something.
         ```
 * RamDisk
 
-    ```bash
-    mkdir /tmp/ramdisk
-    chmod 777 /tmp/ramdisk
+    - create 100G ramdisk
+    
+        ```bash
+        mkdir /tmp/ramdisk
+        chmod 777 /tmp/ramdisk
 
-    mount -t tmpfs -o size=100G tmpfs /tmp/ramdisk/
-    ```
+        mount -t tmpfs -o size=100G tmpfs /tmp/ramdisk/
+        ```
+    - [Linux: Create RAM Disk Filesystem](https://stackpointer.io/unix/linux-create-ram-disk-filesystem/438/)
 * sudo
 
     ```bash
@@ -638,6 +641,12 @@ A playground to note something.
 * lspci
 
     - [7 Linux lspci Command Examples to Get PCI Bus Hardware Device Info](https://www.thegeekstuff.com/2014/04/lspci-examples/)
+* vmstat
+
+    - [Linux Performance Monitoring with Vmstat and Iostat Commands](https://www.tecmint.com/linux-performance-monitoring-with-vmstat-and-iostat-commands/)
+* sar
+
+    - [10 Useful Sar (Sysstat) Examples for UNIX / Linux Performance Monitoring](https://www.thegeekstuff.com/2011/03/sar-examples/)
 * strace
 
     - [Linux Troubleshooting Cheatsheet: strace, htop, lsof, tcpdump, iftop & sysdig](https://sysdig.com/blog/linux-troubleshooting-cheatsheet/)
@@ -674,6 +683,12 @@ A playground to note something.
 * udevadm
 
     - [udev](https://wiki.archlinux.org/index.php/udev)
+* modprobe
+
+    - [Kernel module](https://wiki.archlinux.org/index.php/Kernel_module)
+* dkms
+
+    - [Dynamic Kernel Module Support](https://wiki.archlinux.org/index.php/Dynamic_Kernel_Module_Support)
 * ip
     
     - [Linux ip Command Networking Cheat Sheet](https://www.linuxtrainingacademy.com/linux-ip-command-networking-cheat-sheet/)

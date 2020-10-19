@@ -434,6 +434,7 @@ Happy Coding!!
 * [[Medium] 74. Search a 2D Matrix](%5BMedium%5D%2074.%20Search%20a%202D%20Matrix.md)
 * [[Medium] 187. Repeated DNA Sequences](%5BMedium%5D%20187.%20Repeated%20DNA%20Sequences.md)
 * [[Hard] 188. Best Time to Buy and Sell Stock IV](%5BHard%5D%20188.%20Best%20Time%20to%20Buy%20and%20Sell%20Stock%20IV.md)
+* [[Medium] 1007. Minimum Domino Rotations For Equal Row](%5BMedium%5D%201007.%20Minimum%20Domino%20Rotations%20For%20Equal%20Row.md)
 
 ## Array <a name="array"></a>
 ---
@@ -704,6 +705,28 @@ class Solution:
         return sum(([nums[i], nums[i+n]] for i in range(n)), [])
 ```
 * [[Easy] 1470. Shuffle the Array](%5BEasy%5D%201470.%20Shuffle%20the%20Array.md)
+
+### Vote
+```python
+class Solution:
+    def minDominoRotations(self, A: List[int], B: List[int]) -> int:
+        n = len(A)
+        cntA = [0] * 7
+        cntB = [0] * 7
+        cntSame = [0] * 7
+        for i in range(n):
+            a, b = A[i], B[i]
+            cntA[a] += 1
+            cntB[b] += 1
+            if a == b: cntSame[a] += 1
+        ans = n
+        for v in range(1, 7):
+            if cntA[v] + cntB[v] - cntSame[v] == n:
+                minSwap = min(cntA[v], cntB[v]) - cntSame[v]
+                ans = min(ans, minSwap)
+        return -1 if ans == n else ans
+```
+* [[Medium] 1007. Minimum Domino Rotations For Equal Row](%5BMedium%5D%201007.%20Minimum%20Domino%20Rotations%20For%20Equal%20Row.md)
 
 ### The robot stays in the circle iff (looking at the final vector) it changes direction (ie. doesn't stay pointing north), or it moves 0.
 ```python
