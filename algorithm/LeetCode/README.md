@@ -435,6 +435,7 @@ Happy Coding!!
 * [[Medium] 187. Repeated DNA Sequences](%5BMedium%5D%20187.%20Repeated%20DNA%20Sequences.md)
 * [[Hard] 188. Best Time to Buy and Sell Stock IV](%5BHard%5D%20188.%20Best%20Time%20to%20Buy%20and%20Sell%20Stock%20IV.md)
 * [[Medium] 1007. Minimum Domino Rotations For Equal Row](%5BMedium%5D%201007.%20Minimum%20Domino%20Rotations%20For%20Equal%20Row.md)
+* [[Medium] 133. Clone Graph](%5BMedium%5D%20133.%20Clone%20Graph.md)
 
 ## Array <a name="array"></a>
 ---
@@ -6363,6 +6364,26 @@ class Solution:
         return image
 ```
 * [[Easy] [Solution] 733. Flood Fill](%5BEasy%5D%20%5BSolution%5D%20733.%20Flood%20Fill.md)
+
+### Seen node hash table
+```python
+class Solution:
+    def cloneGraph(self, node: 'Node') -> 'Node':
+        seen = {}
+
+        def dfs(node):
+            if node in seen:
+                return seen[node]
+
+            new_node = Node(node.val, [])
+            seen[node] = new_node
+            for nei in node.neighbors:
+                new_node.neighbors.append(dfs(nei))
+            return new_node
+
+        return dfs(node)
+```
+* [[Medium] 133. Clone Graph](%5BMedium%5D%20133.%20Clone%20Graph.md)
 
 ### First neighbor
 ```python

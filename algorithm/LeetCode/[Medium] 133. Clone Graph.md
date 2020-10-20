@@ -27,7 +27,7 @@ Node 4's value is 4, and it has two neighbors: Node 1 and 3.
 
 # Submissions
 ---
-**Solution 1: (DFS)**
+**Solution 1: (DFS, Hash Table)**
 ```
 Runtime: 40 ms
 Memory Usage: 13.5 MB
@@ -57,7 +57,7 @@ class Solution:
         return dfs(node)
 ```
 
-**Solution 2: (BFS)**
+**Solution 2: (BFS, Hash Table)**
 ```
 Runtime: 32 ms
 Memory Usage: 13 MB
@@ -86,4 +86,35 @@ class Solution:
                 seen[cur].neighbors.append(seen[nei])
             
         return seen[node]
+```
+
+**Solution 3: (DFS, Array)**
+```
+Runtime: 32 ms
+Memory Usage: 14.5 MB
+```
+```python
+"""
+# Definition for a Node.
+class Node:
+    def __init__(self, val = 0, neighbors = None):
+        self.val = val
+        self.neighbors = neighbors if neighbors is not None else []
+"""
+
+class Solution:
+    def cloneGraph(self, node: 'Node') -> 'Node':
+        if not node: return None
+        ans = [Node(_) for _ in range(1, 101)]
+        seen = set()
+        
+        def dfs(src):
+            seen.add(src)
+            for nei in src.neighbors:
+                ans[src.val-1].neighbors += [ans[nei.val-1]]
+                if nei not in seen:
+                    dfs(nei)
+
+        dfs(node)
+        return ans[node.val-1]
 ```
