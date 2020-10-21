@@ -636,6 +636,9 @@ A playground to note something.
 * grub
 
     - [GRUB 2 bootloader - Full tutorial](https://www.dedoimedo.com/computers/grub-2.html)
+- syslinux
+
+    - [Syslinux](https://wiki.gentoo.org/wiki/Syslinux)
 * top
 
     - [Cheatsheet on the `top` utility](https://dev.to/yanhan/cheatsheet-on-the-top-utility--82c)
@@ -687,6 +690,7 @@ A playground to note something.
 * modprobe
 
     - [Kernel module](https://wiki.archlinux.org/index.php/Kernel_module)
+    - [How to find Linux kernel driver associated to a device](https://wiki.st.com/stm32mpu/wiki/How_to_find_Linux_kernel_driver_associated_to_a_device#cite_note-3)
 * dkms
 
     - [Dynamic Kernel Module Support](https://wiki.archlinux.org/index.php/Dynamic_Kernel_Module_Support)

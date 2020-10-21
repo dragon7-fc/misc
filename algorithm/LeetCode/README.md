@@ -436,6 +436,7 @@ Happy Coding!!
 * [[Hard] 188. Best Time to Buy and Sell Stock IV](%5BHard%5D%20188.%20Best%20Time%20to%20Buy%20and%20Sell%20Stock%20IV.md)
 * [[Medium] 1007. Minimum Domino Rotations For Equal Row](%5BMedium%5D%201007.%20Minimum%20Domino%20Rotations%20For%20Equal%20Row.md)
 * [[Medium] 133. Clone Graph](%5BMedium%5D%20133.%20Clone%20Graph.md)
+* [[Medium] [Solution] 735. Asteroid Collision](%5BMedium%5D%20%5BSolution%5D%20735.%20Asteroid%20Collision.md)
 
 ## Array <a name="array"></a>
 ---
@@ -9263,6 +9264,25 @@ class Solution:
         return not stack
 ```
 * [[Easy] [Solution] 20. Valid Parentheses](%5BEasy%5D%20%5BSolution%5D%2020.%20Valid%20Parentheses.md)
+
+### Keep append and pop smaller with different direction
+```python
+class Solution:
+    def asteroidCollision(self, asteroids: List[int]) -> List[int]:
+        ans = []
+        for new in asteroids:
+            while ans and new < 0 < ans[-1]:
+                if ans[-1] < -new:
+                    ans.pop()
+                    continue
+                elif ans[-1] == -new:
+                    ans.pop()
+                break
+            else:
+                ans.append(new)
+        return ans
+```
+* [[Medium] [Solution] 735. Asteroid Collision](%5BMedium%5D%20%5BSolution%5D%20735.%20Asteroid%20Collision.md)
 
 ### Find Permutation
 ```python
