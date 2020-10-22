@@ -437,6 +437,7 @@ Happy Coding!!
 * [[Medium] 1007. Minimum Domino Rotations For Equal Row](%5BMedium%5D%201007.%20Minimum%20Domino%20Rotations%20For%20Equal%20Row.md)
 * [[Medium] 133. Clone Graph](%5BMedium%5D%20133.%20Clone%20Graph.md)
 * [[Medium] [Solution] 735. Asteroid Collision](%5BMedium%5D%20%5BSolution%5D%20735.%20Asteroid%20Collision.md)
+* [[Easy] 111. Minimum Depth of Binary Tree](%5BEasy%5D%20111.%20Minimum%20Depth%20of%20Binary%20Tree.md)
 
 ## Array <a name="array"></a>
 ---
@@ -8184,6 +8185,52 @@ return ans
 
 ## Breadth-first Search <a name="bfs"></a>
 ---
+### Minimum Depth
+```python
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+
+class Solution:
+    def minDepth(self, root: TreeNode) -> int:
+        if not root:
+            return 0
+
+        q = collections.deque()
+        q.append((root,1))
+
+        while q:
+            node, level = q.popleft()
+            if not node.left and not node.right:
+                return level
+
+            for node in [node.left, node.right]:
+                if node:
+                    q.append((node, level+1))
+                    
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+class Solution:
+    def minDepth(self, root: TreeNode) -> int:
+        if root == None: 
+            return 0
+        if root.left == None and root.right == None: # Reach leaf node
+            return 1
+        if root.left == None:
+            return self.minDepth(root.right) + 1
+        if root.right == None:
+            return self.minDepth(root.left) + 1
+        return min(self.minDepth(root.left), self.minDepth(root.right)) + 1
+```
+* [[Easy] 111. Minimum Depth of Binary Tree](%5BEasy%5D%20111.%20Minimum%20Depth%20of%20Binary%20Tree.md)
+
 ### BFS with seen
 ```python
 class Solution:

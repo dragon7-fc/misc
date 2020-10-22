@@ -638,7 +638,9 @@ A playground to note something.
     - [GRUB 2 bootloader - Full tutorial](https://www.dedoimedo.com/computers/grub-2.html)
 - syslinux
 
-    - [Syslinux](https://wiki.gentoo.org/wiki/Syslinux)
+    - [Syslinux](https://wiki.archlinux.org/index.php/syslinux)
+    - [How to create a multiboot USB drive using syslinux](https://opensourceict.com/linux/how-to-create-a-multiboot-usb-drive-using-syslinux)
+    - [Tutorial Using Syslinux to make bootable media](https://tool.frogg.fr/Tutorial_Syslinux)
 * top
 
     - [Cheatsheet on the `top` utility](https://dev.to/yanhan/cheatsheet-on-the-top-utility--82c)
