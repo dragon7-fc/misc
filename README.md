@@ -532,13 +532,17 @@ A playground to note something.
         /path/to/nfsroot *(rw,no_root_squash)
         ##+++<
 
+        sudo exportfs -a
         sudo service nfs-kernel-server restart
         ```
 
     - Client
 
-        `mount -t nfs -o tcp,nolock [NFS_SERVER_IP]:/path/to/nfsroot /path/to/mount`
-
+        ```
+        sudo apt install nfs-common
+        
+        mount -t nfs -o tcp,nolock [NFS_SERVER_IP]:/path/to/nfsroot /path/to/mount
+        ```
 * FTP
 
      - Server

@@ -438,6 +438,7 @@ Happy Coding!!
 * [[Medium] 133. Clone Graph](%5BMedium%5D%20133.%20Clone%20Graph.md)
 * [[Medium] [Solution] 735. Asteroid Collision](%5BMedium%5D%20%5BSolution%5D%20735.%20Asteroid%20Collision.md)
 * [[Easy] 111. Minimum Depth of Binary Tree](%5BEasy%5D%20111.%20Minimum%20Depth%20of%20Binary%20Tree.md)
+* [[Medium] [Solution] 456. 132 Pattern](%5BMedium%5D%20%5BSolution%5D%20456.%20132%20Pattern.md)
 
 ## Array <a name="array"></a>
 ---
@@ -9311,6 +9312,30 @@ class Solution:
         return not stack
 ```
 * [[Easy] [Solution] 20. Valid Parentheses](%5BEasy%5D%20%5BSolution%5D%2020.%20Valid%20Parentheses.md)
+
+### Fix one direction and use stack to filter minimum in the other side
+```python
+class Solution:
+    def find132pattern(self, nums: List[int]) -> bool:
+        N = len(nums)
+        if N < 3:
+            return False
+        stack = []
+        mi = [None]*N
+        mi[0] = nums[0]
+        for i in range(1, N):
+            mi[i] = min(mi[i-1], nums[i])
+        for j in range(N-1, -1, -1):
+            if nums[j] > mi[j]:
+                while stack and stack[-1] <= mi[j]:
+                    stack.pop()
+                if stack and stack[-1] < nums[j]:
+                    return True
+                stack.append(nums[j])
+
+        return False
+```
+* [[Medium] [Solution] 456. 132 Pattern](%5BMedium%5D%20%5BSolution%5D%20456.%20132%20Pattern.md)
 
 ### Keep append and pop smaller with different direction
 ```python
