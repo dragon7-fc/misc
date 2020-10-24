@@ -439,6 +439,7 @@ Happy Coding!!
 * [[Medium] [Solution] 735. Asteroid Collision](%5BMedium%5D%20%5BSolution%5D%20735.%20Asteroid%20Collision.md)
 * [[Easy] 111. Minimum Depth of Binary Tree](%5BEasy%5D%20111.%20Minimum%20Depth%20of%20Binary%20Tree.md)
 * [[Medium] [Solution] 456. 132 Pattern](%5BMedium%5D%20%5BSolution%5D%20456.%20132%20Pattern.md)
+* [[Medium] [Solution] 948. Bag of Tokens](%5BMedium%5D%20%5BSolution%5D%20948.%20Bag%20of%20Tokens.md)
 
 ## Array <a name="array"></a>
 ---
@@ -7693,6 +7694,27 @@ class Solution:
 ```
 * [[Easy] [Solution] 605. Can Place Flowers](%5BEasy%5D%20%5BSolution%5D%20605.%20Can%20Place%20Flowers.md)
 
+### Sort then lost min and gain max
+```python
+class Solution:
+    def bagOfTokensScore(self, tokens: List[int], P: int) -> int:
+        tokens.sort()
+        deque = collections.deque(tokens)
+        ans = bns = 0
+        while deque and (P >= deque[0] or bns):
+            while deque and P >= deque[0]:
+                P -= deque.popleft()
+                bns += 1
+            ans = max(ans, bns)
+
+            if deque and bns:
+                P += deque.pop()
+                bns -= 1
+
+        return ans
+```
+* [[Medium] [Solution] 948. Bag of Tokens](%5BMedium%5D%20%5BSolution%5D%20948.%20Bag%20of%20Tokens.md)
+
 ### Split Two Strings to Make Palindrome
 ```python
 class Solution:
@@ -9313,7 +9335,7 @@ class Solution:
 ```
 * [[Easy] [Solution] 20. Valid Parentheses](%5BEasy%5D%20%5BSolution%5D%2020.%20Valid%20Parentheses.md)
 
-### Fix one direction and use stack to filter minimum in the other side
+### Fix one direction and use decreasing stack to filter element in the other side
 ```python
 class Solution:
     def find132pattern(self, nums: List[int]) -> bool:
