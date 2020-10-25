@@ -440,6 +440,7 @@ Happy Coding!!
 * [[Easy] 111. Minimum Depth of Binary Tree](%5BEasy%5D%20111.%20Minimum%20Depth%20of%20Binary%20Tree.md)
 * [[Medium] [Solution] 456. 132 Pattern](%5BMedium%5D%20%5BSolution%5D%20456.%20132%20Pattern.md)
 * [[Medium] [Solution] 948. Bag of Tokens](%5BMedium%5D%20%5BSolution%5D%20948.%20Bag%20of%20Tokens.md)
+* [[Hard] 1510. Stone Game IV](%5BHard%5D%201510.%20Stone%20Game%20IV.md)
 
 ## Array <a name="array"></a>
 ---
@@ -1636,8 +1637,25 @@ class Solution:
 ```
 * [[Medium] [Solution] 873. Length of Longest Fibonacci Subsequence](%5BMedium%5D%20%5BSolution%5D%20873.%20Length%20of%20Longest%20Fibonacci%20Subsequence.md)
 
-### Top-down
+### Maximize one and minimize the other one
 ```python
+from functools import lru_cache
+class Solution:
+    def stoneGame(self, piles: List[int]) -> bool:
+        N = len(piles)
+
+        @lru_cache(None)
+        def dp(i, j):
+            # The value of the game [piles[i], piles[i+1], ..., piles[j]].
+            if i > j: return 0
+            parity = (j - i - N) % 2
+            if parity == 1:  # first player
+                return max(piles[i] + dp(i+1,j), piles[j] + dp(i,j-1))
+            else:
+                return min(-piles[i] + dp(i+1,j), -piles[j] + dp(i,j-1))
+
+        return dp(0, N - 1) > 0
+
 import functools
 class Solution:
     def stoneGame(self, piles: List[int]) -> bool:
@@ -1649,7 +1667,19 @@ class Solution:
             b = piles[j] - dfs(i, j-1)
             return max(a, b)
 
-        return dfs(0, len(piles)-1) >= 0
+        return dfs(0, len(piles)-1) >= 0    
+    
+class Solution:
+    def stoneGame(self, piles: List[int]) -> bool:
+
+        @functools.lru_cache(None)
+        def dfs(i, j):
+            if i + 1 == j:
+                return max(piles[i], piles[j])
+            return max(piles[i] + min(dfs(i + 2, j), dfs(i + 1, j - 1)), piles[j] + min(dfs(i, j - 2), dfs(i + 1, j - 1)))
+
+        alex_score = dfs(0, len(piles) - 1)
+        return alex_score > sum(piles) - alex_score 
 ```
 * [[Medium] [Solution] 877. Stone Game](%5BMedium%5D%20%5BSolution%5D%20877.%20Stone%20Game.md)
 
@@ -1844,6 +1874,51 @@ class Solution:
         return max(dfs(0, True), dfs(0, False))
 ```
 * [[Medium] [Solution] 376. Wiggle Subsequence](%5BMedium%5D%20%5BSolution%5D%20376.%20Wiggle%20Subsequence.md)
+
+### One can win if he/she can force the other one onto a losing state
+```python
+class Solution:
+    def winnerSquareGame(self, n: int) -> bool:
+
+        @lru_cache(maxsize=None)
+        def dfs(remain):
+            if remain == 0:
+                return False
+
+            sqrt_root = int(remain**0.5)
+            for i in range(1, sqrt_root+1):
+                # if there is any chance to make the opponent lose the game in the next round,
+                #  then the current player will win.
+                if not dfs(remain - i*i):
+                    return True
+
+            return False
+
+        return dfs(n)
+    
+class Solution:
+    def winnerSquareGame(self, n: int) -> bool:
+        dp = [False]*(n+1)
+        for i in range(1, n+1):
+            for k in range(1, int(i**0.5)+1):
+                if dp[i-k*k] == False:
+                    dp[i] = True
+                    break
+        return dp[n]
+
+class Solution:
+    def winnerSquareGame(self, n: int) -> bool:
+        squares = [i*i for i in range(int(n**0.5), 0, -1)]
+
+        @functools.lru_cache(None)
+        def alice_wins(stones=n, alice_plays=True):
+            if not stones: return not alice_plays
+            criterion = any if alice_plays else all
+            return criterion(alice_wins(stones - move, not alice_plays) for move in squares if stones >= move)
+
+        return alice_wins()
+```
+* [[Hard] 1510. Stone Game IV](%5BHard%5D%201510.%20Stone%20Game%20IV.md)
 
 ### Range Sum, Binary Search
 ```python
@@ -11536,6 +11611,29 @@ class Solution:
         return [heapq.heappop(heap)[1] for _ in range(k)]
 ```
 * [[Medium] [Solution] 692. Top K Frequent Words](%5BMedium%5D%20%5BSolution%5D%20692.%20Top%20K%20Frequent%20Words.md)
+
+### Dijkstra's Algorithm
+```python
+class Solution:
+    def minimumEffortPath(self, heights: List[List[int]]) -> int:
+        m, n = len(heights), len(heights[0])
+        dist = [[float('inf')] * n for _ in range(m)]
+        minHeap = []
+        minHeap.append((0, 0, 0))  # distance, row, col
+        DIR = [0, 1, 0, -1, 0]
+        while minHeap:
+            d, r, c = heappop(minHeap)
+            if r == m - 1 and c == n - 1:
+                return d  # Reach to bottom right
+            for i in range(4):
+                nr, nc = r + DIR[i], c + DIR[i + 1]
+                if 0 <= nr < m and 0 <= nc < n:
+                    newDist = max(d, abs(heights[nr][nc] - heights[r][c]))
+                    if dist[nr][nc] > newDist:
+                        dist[nr][nc] = newDist
+                        heappush(minHeap, (dist[nr][nc], nr, nc))
+```
+* [[Medium] 1631. Path With Minimum Effort](%5BMedium%5D%201631.%20Path%20With%20Minimum%20Effort.md)
 
 ### Dijkstra's Algorithm
 ```python
