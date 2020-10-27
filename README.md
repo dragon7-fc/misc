@@ -700,6 +700,22 @@ A playground to note something.
 * dkms
 
     - [Dynamic Kernel Module Support](https://wiki.archlinux.org/index.php/Dynamic_Kernel_Module_Support)
+* cdrecord
+
+    - [CD writing using cdrecord](https://www.axllent.org/docs/cd-writing-using-cdrecord/)
+* dd
+
+    - [dd Cheat Sheet](https://www.jamescoyle.net/cheat-sheets/1012-dd-cheat-sheet)
+* losetup
+
+    - [How to create virtual block device (loop device/filesystem) in Linux](https://www.thegeekdiary.com/how-to-create-virtual-block-device-loop-device-filesystem-in-linux/)
+* cryptsetup
+
+    - [dm-crypt/Device encryption](https://wiki.archlinux.org/index.php/dm-crypt/Device_encryption#Encryption_options_for_plain_mode)
+    - [Encrypt disk with DM-Crypt Luks](https://linuxlasse.net/linux/howtos/Encrypt_disk_with_DM-Crypt_and_Luks)
+* mdadm
+
+    - [MDADM: Full usefull ‘Cheat Sheet’](https://upwork.link/arraysanddisks/mdadm-full-usefull-cheat-sheet/)
 * ip
     
     - [Linux ip Command Networking Cheat Sheet](https://www.linuxtrainingacademy.com/linux-ip-command-networking-cheat-sheet/)

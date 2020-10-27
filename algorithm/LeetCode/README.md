@@ -441,6 +441,8 @@ Happy Coding!!
 * [[Medium] [Solution] 456. 132 Pattern](%5BMedium%5D%20%5BSolution%5D%20456.%20132%20Pattern.md)
 * [[Medium] [Solution] 948. Bag of Tokens](%5BMedium%5D%20%5BSolution%5D%20948.%20Bag%20of%20Tokens.md)
 * [[Hard] 1510. Stone Game IV](%5BHard%5D%201510.%20Stone%20Game%20IV.md)
+* [[Medium] [Solution] 799. Champagne Tower](%5BMedium%5D%20%5BSolution%5D%20799.%20Champagne%20Tower.md)
+* [[Medium] 142. Linked List Cycle II](%5BMedium%5D%20142.%20Linked%20List%20Cycle%20II.md)
 
 ## Array <a name="array"></a>
 ---
@@ -1486,6 +1488,23 @@ class Solution(object):
         return min(dp[n-1], dp[n-2])
 ```
 * [[Easy] [Solution] 746. Min Cost Climbing Stairs](%5BEasy%5D%20%5BSolution%5D%20746.%20Min%20Cost%20Climbing%20Stairs.md)
+
+### Simulation, child = (current - 1) // 2
+```python
+class Solution:
+    def champagneTower(self, poured: int, query_row: int, query_glass: int) -> float:
+        A = [[0] * k for k in range(1, 102)]
+        A[0][0] = poured
+        for r in range(query_row + 1):
+            for c in range(r+1):
+                q = (A[r][c] - 1.0) / 2.0
+                if q > 0:
+                    A[r+1][c] += q
+                    A[r+1][c+1] += q
+
+        return min(1, A[query_row][query_glass])
+```
+* [[Medium] [Solution] 799. Champagne Tower](%5BMedium%5D%20%5BSolution%5D%20799.%20Champagne%20Tower.md)
 
 ### Sorted by age and DP through score
 ```python
@@ -8874,7 +8893,7 @@ class Solution:
 ```
 * [[Easy] [Solution] 922. Sort Array By Parity](%5BEasy%5D%20%5BSolution%5D%20905.%20Sort%20Array%20By%20Parity.md)
 
-### Cycle
+### Cycle, slow/fast start from head
 ```python
 # Definition for singly-linked list.
 # class ListNode:
@@ -10913,6 +10932,30 @@ class Solution:
         return tmp.next
 ```
 * [[Easy] 203. Remove Linked List Elements](%5BEasy%5D%20203.%20Remove%20Linked%20List%20Elements.md)
+
+### cycle entrance
+```python
+class Solution:
+    def detectCycle(self, head: ListNode) -> ListNode:
+        if not head or not head.next: 
+            return
+        slow = fast = head
+        while fast and fast.next:
+            slow = slow.next
+            fast = fast.next.next
+            if fast == slow: 
+                break
+        if fast != slow: 
+            return
+        start = head
+        meet = slow
+        while meet != start:
+            meet = meet.next
+            start = start.next
+
+        return start
+```
+* [[Medium] 142. Linked List Cycle II](%5BMedium%5D%20142.%20Linked%20List%20Cycle%20II.md)
 
 ### Rotate List
 ```python
