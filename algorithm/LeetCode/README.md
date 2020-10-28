@@ -443,6 +443,7 @@ Happy Coding!!
 * [[Hard] 1510. Stone Game IV](%5BHard%5D%201510.%20Stone%20Game%20IV.md)
 * [[Medium] [Solution] 799. Champagne Tower](%5BMedium%5D%20%5BSolution%5D%20799.%20Champagne%20Tower.md)
 * [[Medium] 142. Linked List Cycle II](%5BMedium%5D%20142.%20Linked%20List%20Cycle%20II.md)
+* [[Medium] 228. Summary Ranges](%5BMedium%5D%20228.%20Summary%20Ranges.md)
 
 ## Array <a name="array"></a>
 ---
@@ -8932,6 +8933,29 @@ class Solution:
         return False
 ```
 * [[Easy] 392. Is Subsequence](%5BEasy%5D%20392.%20Is%20Subsequence.md)
+
+### Greedy increase then rebase
+```python
+class Solution:
+    def summaryRanges(self, nums: List[int]) -> List[str]:
+        if not nums:
+            return []
+        N = len(nums)
+        i, j = 0, 0
+        ans = []
+        while i < N:
+            while j + 1 < N and nums[j + 1] == nums[j] + 1:
+                j += 1
+            if i != j:
+                ans.append('{}->{}'.format(nums[i], nums[j]))
+            else:
+                ans .append('{}'.format(str(nums[i])))
+            j = j + 1
+            i = j
+
+        return ans
+```
+* [[Medium] 228. Summary Ranges](%5BMedium%5D%20228.%20Summary%20Ranges.md)
 
 ### Shortest Subarray to be Removed to Make Array Sorted
 ```python

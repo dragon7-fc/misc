@@ -690,6 +690,7 @@ A playground to note something.
 
         void unregister_sysctl_table(struct ctl_table_header * table);
         ```
+    - [Sysctl Command in Linux](https://linuxize.com/post/sysctl-command-in-linux/)
 * udevadm
 
     - [udev](https://wiki.archlinux.org/index.php/udev)
@@ -716,6 +717,12 @@ A playground to note something.
 * mdadm
 
     - [MDADM: Full usefull ‘Cheat Sheet’](https://upwork.link/arraysanddisks/mdadm-full-usefull-cheat-sheet/)
+* hdparm
+
+    - [hdparm](https://wiki.archlinux.org/index.php/hdparm)
+* tgtadm/iscsiadm
+
+    - [iSCSI devices](http://linux-training.be/sysadmin/ch12.html)
 * ip
     
     - [Linux ip Command Networking Cheat Sheet](https://www.linuxtrainingacademy.com/linux-ip-command-networking-cheat-sheet/)
@@ -826,6 +833,9 @@ A playground to note something.
             ```
             
             __NOTE__: can write ot `/etc/rc.local`
+* firewall-cmd
+
+    - [Introduction to firewalld and firewall-cmd command on Linux](https://linuxconfig.org/introduction-to-firewalld-and-firewall-cmd-command-on-linux)
 * VirtualBox
 
     |          | command                                  |
