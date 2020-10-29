@@ -155,7 +155,7 @@ A playground to note something.
 
         `export DISPLAY="`tmux show-env | sed -n 's/^DISPLAY=//p'`"`
 
-* Minicom
+* minicom
 
     - Start
 
@@ -217,6 +217,9 @@ A playground to note something.
     - [Vim Awesome](https://vimawesome.com/)'
     - [Learn Vimscript the Hard Way](http://learnvimscriptthehardway.stevelosh.com/)
     - [Vundle, the plug-in manager for Vim](https://github.com/VundleVim/Vundle.vim)
+    - file revision compare
+    
+        `vimdiff <( git show [REVISION_1]:[XXX_FI|LE] ) <( git show [REVISION_2]:[XXX_FI|LE] )`
     - [Vim configuration for Linux kernel development](https://stackoverflow.com/questions/33676829/vim-configuration-for-linux-kernel-development)
         
         - index kernel source for aspeed platform
@@ -723,6 +726,9 @@ A playground to note something.
 * tgtadm/iscsiadm
 
     - [iSCSI devices](http://linux-training.be/sysadmin/ch12.html)
+* scsi_id/multipath
+
+    - [Configuring persistent storage Naming with UDEV on Linux](https://two-oes.medium.com/configuring-persistent-storage-naming-with-udev-on-linux-b81a6e7dc786)
 * ip
     
     - [Linux ip Command Networking Cheat Sheet](https://www.linuxtrainingacademy.com/linux-ip-command-networking-cheat-sheet/)

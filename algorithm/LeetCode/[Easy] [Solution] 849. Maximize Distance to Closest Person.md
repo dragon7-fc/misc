@@ -202,3 +202,20 @@ class Solution:
                    for i, seat in enumerate(seats) if not seat)
         
 ```
+
+**Solution 4: (Prepross array)**
+```
+Runtime: 124 ms
+Memory Usage: 15 MB
+```
+```python
+class Solution:
+    def maxDistToClosest(self, seats: List[int]) -> int:
+        ones = [i for i, v in enumerate(seats) if v]
+        ans = 0
+        ans = max(ans, ones[0])
+        for i, j in zip(ones[:], ones[1:]):
+            ans = max(ans, (j-i) // 2)
+        ans = max(ans, len(seats)-ones[-1]-1) 
+        return ans
+```

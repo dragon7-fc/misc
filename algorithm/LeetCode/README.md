@@ -444,9 +444,24 @@ Happy Coding!!
 * [[Medium] [Solution] 799. Champagne Tower](%5BMedium%5D%20%5BSolution%5D%20799.%20Champagne%20Tower.md)
 * [[Medium] 142. Linked List Cycle II](%5BMedium%5D%20142.%20Linked%20List%20Cycle%20II.md)
 * [[Medium] 228. Summary Ranges](%5BMedium%5D%20228.%20Summary%20Ranges.md)
+* [[Easy] [Solution] 849. Maximize Distance to Closest Person](%5BEasy%5D%20%5BSolution%5D%20849.%20Maximize%20Distance%20to%20Closest%20Person.md)
 
 ## Array <a name="array"></a>
 ---
+### Preprocess array
+```python
+class Solution:
+    def maxDistToClosest(self, seats: List[int]) -> int:
+        ones = [i for i, v in enumerate(seats) if v]
+        ans = 0
+        ans = max(ans, ones[0])
+        for i, j in zip(ones[:], ones[1:]):
+            ans = max(ans, (j-i) // 2)
+        ans = max(ans, len(seats)-ones[-1]-1) 
+        return ans
+```
+* [[Easy] [Solution] 849. Maximize Distance to Closest Person](%5BEasy%5D%20%5BSolution%5D%20849.%20Maximize%20Distance%20to%20Closest%20Person.md)
+
 ### Direct
 ```python
 class Solution:
