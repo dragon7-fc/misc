@@ -729,6 +729,9 @@ A playground to note something.
 * scsi_id/multipath
 
     - [Configuring persistent storage Naming with UDEV on Linux](https://two-oes.medium.com/configuring-persistent-storage-naming-with-udev-on-linux-b81a6e7dc786)
+* lvm
+
+    - [LVM](https://wiki.archlinux.org/index.php/LVM)
 * ip
     
     - [Linux ip Command Networking Cheat Sheet](https://www.linuxtrainingacademy.com/linux-ip-command-networking-cheat-sheet/)
@@ -1046,7 +1049,10 @@ A playground to note something.
         ```
     - finish
     
-        `source ~/.zshrc`      
+        ```bash
+        chsh -s /bin/zsh
+        source ~/.zshrc
+        ```
 * Midnight Commander
 
     - [Cheetsheet for Midnight Commander](http://www.softpanorama.org/OFM/MC/cheetsheet.shtml)
