@@ -446,6 +446,7 @@ Happy Coding!!
 * [[Medium] 228. Summary Ranges](%5BMedium%5D%20228.%20Summary%20Ranges.md)
 * [[Easy] [Solution] 849. Maximize Distance to Closest Person](%5BEasy%5D%20%5BSolution%5D%20849.%20Maximize%20Distance%20to%20Closest%20Person.md)
 * [[Medium] [Solution] 673. Number of Longest Increasing Subsequence](%5BMedium%5D%20%5BSolution%5D%20673.%20Number%20of%20Longest%20Increasing%20Subsequence.md)
+* [[Hard] 99. Recover Binary Search Tree](%5BHard%5D%2099.%20Recover%20Binary%20Search%20Tree.md)
 
 ## Array <a name="array"></a>
 ---
@@ -5643,7 +5644,7 @@ class Solution:
 ```
 * [[Medium] 129. Sum Root to Leaf Numbers](%5BMedium%5D%20129.%20Sum%20Root%20to%20Leaf%20Numbers.md)
 
-### Recover Binary Search Tree
+### DFS with pre node pointer
 ```python
 # Definition for a binary tree node.
 # class TreeNode:
