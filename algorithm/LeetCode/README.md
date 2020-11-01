@@ -50,6 +50,7 @@ Happy Coding!!
 1. [202008 August LeetCoding Challenge](#202008)
 1. [202009 September LeetCoding Challenge](#202009)
 1. [202010 October LeetCoding Challenge](#202010)
+1. [202011 November LeetCoding Challenge](#202011)
 1. [Array](#array)
 1. [Dynamic Programming](#dp)
 1. [Math](#math)
@@ -447,6 +448,9 @@ Happy Coding!!
 * [[Easy] [Solution] 849. Maximize Distance to Closest Person](%5BEasy%5D%20%5BSolution%5D%20849.%20Maximize%20Distance%20to%20Closest%20Person.md)
 * [[Medium] [Solution] 673. Number of Longest Increasing Subsequence](%5BMedium%5D%20%5BSolution%5D%20673.%20Number%20of%20Longest%20Increasing%20Subsequence.md)
 * [[Hard] 99. Recover Binary Search Tree](%5BHard%5D%2099.%20Recover%20Binary%20Search%20Tree.md)
+
+## 202011 October LeetCoding Challenge <a name="202011"></a>
+* [[Easy] 1290. Convert Binary Number in a Linked List to Integer](%5BEasy%5D%201290.%20Convert%20Binary%20Number%20in%20a%20Linked%20List%20to%20Integer.md)
 
 ## Array <a name="array"></a>
 ---
@@ -4101,6 +4105,28 @@ class Solution:
         return (angle)
 ```
 * [[Medium] 1344. Angle Between Hands of a Clock](%5BMedium%5D%201344.%20Angle%20Between%20Hands%20of%20a%20Clock.md)
+
+### Greedy with combination
+```python
+class Solution:
+    def kthSmallestPath(self, destination: List[int], k: int) -> str:
+        m, n, ans = destination[0], destination[1], ""
+        for i in range(m+n):
+            if k == 1:  #no options left
+                ans += "H"*n + "V"*m
+                break
+
+            if k <= math.comb(m+n-1, m):
+                n -= 1
+                ans += "H"
+            else:
+                ans += "V"
+                k -= math.comb(m+n-1, m)
+                m -= 1
+
+        return ans
+```
+* [[Hard] 1643. Kth Smallest Instructions](%5BHard%5D%201643.%20Kth%20Smallest%20Instructions.md)
 
 ### Moving Average
 ```python
@@ -10960,6 +10986,25 @@ class Solution:
 
 ## Linked List <a name="ll"></a>
 ---
+### Binary Representation
+```python
+# Definition for singly-linked list.
+# class ListNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.next = None
+
+class Solution:
+    def getDecimalValue(self, head: ListNode) -> int:
+        ans = 0
+        while head:
+            ans = ans * 2 + head.val
+            head = head.next
+        return ans
+```
+* [[Easy] 1290. Convert Binary Number in a Linked List to Integer](%5BEasy%5D%201290.%20Convert%20Binary%20Number%20in%20a%20Linked%20List%20to%20Integer.md)
+
+
 ### Delete Node
 ```python
 # Definition for singly-linked list.
@@ -11679,6 +11724,23 @@ return dummy.next
 
 ## Heap <a name="heap"></a>
 ---
+### Greedy push to/pop from Heap with max profit
+```python
+class Solution:
+    def furthestBuilding(self, heights: List[int], bricks: int, ladders: int) -> int:
+        heap = []
+        for i in range(len(heights) - 1):
+            d = heights[i + 1] - heights[i]
+            if d > 0:
+                heapq.heappush(heap, d)
+            if len(heap) > ladders:
+                bricks -= heapq.heappop(heap)
+            if bricks < 0:
+                return i
+        return len(heights) - 1
+```
+* [[Medium] 1642. Furthest Building You Can Reach](%5BMedium%5D%201642.%20Furthest%20Building%20You%20Can%20Reach.md)
+
 ### Count
 ```python
 class Solution:
