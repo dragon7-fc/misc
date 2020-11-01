@@ -2828,6 +2828,34 @@ class Solution:
 ````
 * [[Medium] [Solution] 799. Champagne Tower](%5BMedium%5D%20%5BSolution%5D%20799.%20Champagne%20Tower.md)
 
+### DP Top Down with Preprocessing count
+```python
+class Solution:
+    def numWays(self, words: List[str], target: str) -> int:
+        MOD = 10 ** 9 + 7
+        m, n = len(words[0]), len(target)
+        charAtIndexCnt = collections.defaultdict(int)
+        for word in words:
+            for i, c in enumerate(word):
+                charAtIndexCnt[(c, i)] += 1  # Count the number of character `c` at index `i` of all words
+
+        @lru_cache(None)
+        def dp(k, i):
+            if i == n:  # Formed a valid target
+                return 1
+            if k == m:  # Reached to length of words[x] but don't found any result
+                return 0
+            c = target[i]
+            ans = dp(k + 1, i)  # Skip k_th index of words
+            if charAtIndexCnt[(c, k)] > 0: # Take k_th index of words if found character `c` at index k_th
+                ans += dp(k + 1, i + 1) * charAtIndexCnt[(c, k)]
+                ans %= MOD
+            return ans
+
+        return dp(0, 0)
+```
+* [[Hard] 1639. Number of Ways to Form a Target String Given a Dictionary](%5BHard%5D%201639.%20Number%20of%20Ways%20to%20Form%20a%20Target%20String%20Given%20a%20Dictionary.md)
+
 ### Best Time to Buy and Sell Stock
 ```python
 class Solution:
