@@ -748,6 +748,12 @@ A playground to note something.
 
         `nmap --script ssl-enum-ciphers -p 443 [TARGET|IP]`
     - `nmap -p xx,yy-zz A B n1.n2.n3.n4-n5`
+* mtf
+
+    - [How to use the Linux mtr (My Traceroute) command](https://vitux.com/how-to-use-the-linux-mtr-command/)
+* nc
+
+    - [NetcatCheatSheet](https://www.sans.org/security-resources/sec560/netcat_cheat_sheet_v1.pdf)
 * dig
 
     - [Linux and Unix dig Command Examples](https://www.cyberciti.biz/faq/linux-unix-dig-command-examples-usage-syntax/)
