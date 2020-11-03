@@ -854,6 +854,10 @@ A playground to note something.
 * firewall-cmd
 
     - [Introduction to firewalld and firewall-cmd command on Linux](https://linuxconfig.org/introduction-to-firewalld-and-firewall-cmd-command-on-linux)
+* ipsec
+
+    - [CLI: Example for Using the Open-Source Software OpenSWan to Establish an IPSec VPN Tunnel to the](https://support.huawei.com/enterprise/en/doc/EDOC1000154805/d7d49f0a/cli-example-for-using-the-open-source-software-openswan-to-establish-an-ipsec-vpn-tunnel-to-the)
+    - [strongSwan](https://wiki.archlinux.org/index.php/StrongSwan)
 * VirtualBox
 
     |          | command                                  |

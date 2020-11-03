@@ -452,9 +452,18 @@ Happy Coding!!
 ## 202011 October LeetCoding Challenge <a name="202011"></a>
 * [[Easy] 1290. Convert Binary Number in a Linked List to Integer](%5BEasy%5D%201290.%20Convert%20Binary%20Number%20in%20a%20Linked%20List%20to%20Integer.md)
 * [[Medium] 147. Insertion Sort List](%5BMedium%5D%20147.%20Insertion%20Sort%20List.md)
+* [[Easy] 1446. Consecutive Characters](%5BEasy%5D%201446.%20Consecutive%20Characters.md)
 
 ## Array <a name="array"></a>
 ---
+### Groupby
+```python
+class Solution:
+    def maxPower(self, s: str) -> int:
+        return max(len(list(g)) for k, g in itertools.groupby(s))
+```
+* [[Easy] 1446. Consecutive Characters](%5BEasy%5D%201446.%20Consecutive%20Characters.md)
+
 ### Preprocess array
 ```python
 class Solution:
