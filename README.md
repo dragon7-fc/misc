@@ -296,6 +296,7 @@ A playground to note something.
             `grub2-mkconfig -o /boot/grub2/grub.cfg`
         - reboot
         - `unaame -r` to see new kernel version
+    - [How To Upgrade Linux Kernel In CentOS 7](https://phoenixnap.com/kb/how-to-upgrade-kernel-centos)
     - [Ubuntu – How to resize root to increase home partition size in ubuntu 16.04 with gparted](https://itectec.com/ubuntu/ubuntu-how-to-resize-root-to-increase-home-partition-size-in-ubuntu-16-04-with-gparted-duplicate/)
     - [Linux Package Management Cheatsheet](https://danilodellaquila.com/en/blog/linux-package-management-cheatsheet)
     - [Command-Line Printing and Options](https://www.cups.org/doc/options.html)
@@ -732,9 +733,21 @@ A playground to note something.
 * lvm
 
     - [LVM](https://wiki.archlinux.org/index.php/LVM)
+* patch
+
+    - [How to use diff and patch](https://www.pair.com/support/kb/paircloud-diff-and-patch/)
+* tar
+
+    - [CHEATSHEET: LINUX COMPRESS AND DECOMPRESS](https://cheatsheet.dennyzhang.com/cheatsheet-archive-a4)
+* rsync
+
+    - [How to Backup Linux? 15 rsync Command Examples](https://www.thegeekstuff.com/2010/09/rsync-command-examples/)
 * ip
     
     - [Linux ip Command Networking Cheat Sheet](https://www.linuxtrainingacademy.com/linux-ip-command-networking-cheat-sheet/)
+* nmcli
+
+    - [27 nmcli command examples (cheatsheet), compare nm-settings with if-cfg file](https://www.golinuxcloud.com/nmcli-command-examples-cheatsheet-centos-rhel/)
 * ss
     
     - [SS – Socket Statistics Commands Cheatsheet](https://neverendingsecurity.wordpress.com/2015/04/13/ss-socket-statistics-commands-cheatsheet/)
@@ -854,6 +867,9 @@ A playground to note something.
 * firewall-cmd
 
     - [Introduction to firewalld and firewall-cmd command on Linux](https://linuxconfig.org/introduction-to-firewalld-and-firewall-cmd-command-on-linux)
+* TCP Wrappers
+
+    - [TCP Wrappers and xinetd](https://web.mit.edu/rhel-doc/5/RHEL-5-manual/Deployment_Guide-en-US/ch-tcpwrappers.html)
 * ipsec
 
     - [CLI: Example for Using the Open-Source Software OpenSWan to Establish an IPSec VPN Tunnel to the](https://support.huawei.com/enterprise/en/doc/EDOC1000154805/d7d49f0a/cli-example-for-using-the-open-source-software-openswan-to-establish-an-ipsec-vpn-tunnel-to-the)

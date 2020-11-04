@@ -453,6 +453,7 @@ Happy Coding!!
 * [[Easy] 1290. Convert Binary Number in a Linked List to Integer](%5BEasy%5D%201290.%20Convert%20Binary%20Number%20in%20a%20Linked%20List%20to%20Integer.md)
 * [[Medium] 147. Insertion Sort List](%5BMedium%5D%20147.%20Insertion%20Sort%20List.md)
 * [[Easy] 1446. Consecutive Characters](%5BEasy%5D%201446.%20Consecutive%20Characters.md)
+* [[Medium] 310. Minimum Height Trees](%5BMedium%5D%20310.%20Minimum%20Height%20Trees.md)
 
 ## Array <a name="array"></a>
 ---
@@ -8429,6 +8430,48 @@ class Solution:
         return min(self.minDepth(root.left), self.minDepth(root.right)) + 1
 ```
 * [[Easy] 111. Minimum Depth of Binary Tree](%5BEasy%5D%20111.%20Minimum%20Depth%20of%20Binary%20Tree.md)
+
+### Topological Sorting, BFS from leaf to centroid
+```python
+class Solution:
+    def findMinHeightTrees(self, n: int, edges: List[List[int]]) -> List[int]:
+
+        # base cases
+        if n <= 2:
+            return [i for i in range(n)]
+
+        # Build the graph with the adjacency list
+        neighbors = [set() for i in range(n)]
+        for start, end in edges:
+            neighbors[start].add(end)
+            neighbors[end].add(start)
+
+        # Initialize the first layer of leaves
+        leaves = []
+        for i in range(n):
+            if len(neighbors[i]) == 1:
+                leaves.append(i)
+
+        # Trim the leaves until reaching the centroids
+        remaining_nodes = n
+        while remaining_nodes > 2:
+            remaining_nodes -= len(leaves)
+            new_leaves = []
+            # remove the current leaves along with the edges
+            while leaves:
+                leaf = leaves.pop()
+                for neighbor in neighbors[leaf]:
+                    neighbors[neighbor].remove(leaf)
+                    if len(neighbors[neighbor]) == 1:
+                        new_leaves.append(neighbor)
+
+            # prepare for the next round
+            leaves = new_leaves
+
+        # The remaining nodes are the centroids of the graph
+        return leaves
+```
+* [[Medium] 310. Minimum Height Trees](%5BMedium%5D%20310.%20Minimum%20Height%20Trees.md)
 
 ### BFS with seen
 ```python

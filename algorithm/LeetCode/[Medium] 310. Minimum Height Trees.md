@@ -40,34 +40,57 @@ Output: [3, 4]
 * According to the definition of tree on Wikipedia: “a tree is an undirected graph in which any two vertices are connected by exactly one path. In other words, any connected graph without simple cycles is a tree.”
 * The height of a rooted tree is the number of edges on the longest downward path between the root and a leaf.
 
+**Hint**
+
+* How many MHTs can a graph have at most?
+
+    For the tree-alike graph, the number of centroids is no more than 2.
+    * If the number of nodes is even, then there would be two centroids.
+    * If the number of nodes is odd, then there would be only one centroid 
+
 # Submissions
 ---
-**Solution 1: (BFS, Graph)**
+**Solution 1: (Topological Sorting, BFS from leaf to centroid)**
 ```
-Runtime: 256 ms
-Memory Usage: 17.1 MB
+Runtime: 228 ms
+Memory Usage: 18.3 MB
 ```
 ```python
 class Solution:
     def findMinHeightTrees(self, n: int, edges: List[List[int]]) -> List[int]:
-        graph = [set() for _ in range(n)]
         
-        for u, v in edges:
-            graph[u].add(v)
-            graph[v].add(u)
+        # base cases
+        if n <= 2:
+            return [i for i in range(n)]
 
-        leaves = [x for x in range(n) if len(graph[x]) <= 1]
-        prev_leaves = leaves
-        while leaves:
+        # Build the graph with the adjacency list
+        neighbors = [set() for i in range(n)]
+        for start, end in edges:
+            neighbors[start].add(end)
+            neighbors[end].add(start)
+
+        # Initialize the first layer of leaves
+        leaves = []
+        for i in range(n):
+            if len(neighbors[i]) == 1:
+                leaves.append(i)
+
+        # Trim the leaves until reaching the centroids
+        remaining_nodes = n
+        while remaining_nodes > 2:
+            remaining_nodes -= len(leaves)
             new_leaves = []
-            for leaf in leaves:
-                if not graph[leaf]:
-                    return leaves
-                neighbor = graph[leaf].pop()
-                graph[neighbor].remove(leaf)
-                if len(graph[neighbor]) == 1:
-                    new_leaves.append(neighbor)
-            prev_leaves, leaves = leaves, new_leaves
+            # remove the current leaves along with the edges
+            while leaves:
+                leaf = leaves.pop()
+                for neighbor in neighbors[leaf]:
+                    neighbors[neighbor].remove(leaf)
+                    if len(neighbors[neighbor]) == 1:
+                        new_leaves.append(neighbor)
 
-        return prev_leaves
+            # prepare for the next round
+            leaves = new_leaves
+
+        # The remaining nodes are the centroids of the graph
+        return leaves
 ```
