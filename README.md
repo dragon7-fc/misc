@@ -253,6 +253,7 @@ A playground to note something.
     - [Linux Quick Reference Guide](https://perso.crans.org/~raffo/docs/linux-guide.pdf)
     - [Inter Process Communication Tutorial](https://www.tutorialspoint.com/inter_process_communication/index.htm)
     - [systemd](https://wiki.archlinux.org/index.php/systemd)
+    - [How To Use Systemctl to Manage Systemd Services and Units](https://www.digitalocean.com/community/tutorials/how-to-use-systemctl-to-manage-systemd-services-and-units)
     - [Terry : systemd](https://terry.im/wiki/terry/systemd.html)
     - [D-Bus Specification](https://dbus.freedesktop.org/doc/dbus-specification.html#type-system)
     - [The new sd-bus API of systemd](http://0pointer.net/blog/the-new-sd-bus-api-of-systemd.html)
@@ -599,8 +600,8 @@ A playground to note something.
             IF = "eth[x]"  # bind DPCP server interface
             IF_IP = "x.x.x.x/x"  # ip/mask
             
-            echo "interface $(IF)" >> /etc/dhcpcd.conf
-            echo "static ip_address=$(IF_IP" >> /etc/dhcpcd.conf     
+            echo "interface=${IF}" >> /etc/dhcpcd.conf
+            echo "static ip_address=${IF_IP}" >> /etc/dhcpcd.conf
             
             # install dnsmasq
             sudo apt-get install dnsmasq
@@ -611,8 +612,9 @@ A playground to note something.
             NETMASK="x.x.x.x"
             BMCx_MAC="xx:xx:xx:xx:xx:xx"
             BMCx_IP="x.x.x.x"
-            sudo echo "dhcp-range=$(IF),$(IP_START),$(IP_END),$(NETMASK)" >> /etc/dnsmasq.conf
-            sudo echo "dhcp-host=$(BMCx_MAC),$(BMCx_IP)" >> /etc/dnsmasq.conf
+            sudo echo "interface=${IF}" >> /etc/dnsmasq.conf
+            sudo echo "dhcp-range=${IP_START},${IP_END},${NETMASK}" >> /etc/dnsmasq.conf
+            sudo echo "dhcp-host=${BMCx_MAC},${BMCx_IP}" >> /etc/dnsmasq.conf
             
             # start/enable service
             sudo systemctl start dnsmasq
@@ -739,9 +741,15 @@ A playground to note something.
 * tar
 
     - [CHEATSHEET: LINUX COMPRESS AND DECOMPRESS](https://cheatsheet.dennyzhang.com/cheatsheet-archive-a4)
+* cpio
+    
+    - [Backing Up and Restoring Using the cpio Command](http://www.debianhelp.co.uk/cpiocommand.htm)
 * rsync
 
     - [How to Backup Linux? 15 rsync Command Examples](https://www.thegeekstuff.com/2010/09/rsync-command-examples/)
+* wall
+
+    - [Linux wall Command Tutorial for Beginners (with Examples)](https://www.howtoforge.com/linux-wall-command/)
 * ip
     
     - [Linux ip Command Networking Cheat Sheet](https://www.linuxtrainingacademy.com/linux-ip-command-networking-cheat-sheet/)
@@ -891,7 +899,7 @@ A playground to note something.
 
         `raspi-config`
 
-    - [Setting up a Raspberry Pi as an access point in a standalone network (NAT)](https://www.raspberrypi.org/documentation/configuration/wireless/access-point.md)
+    - [Setting up a Raspberry Pi as a routed wireless access point](https://www.raspberrypi.org/documentation/configuration/wireless/access-point-routed.md)
 
 * RU
 

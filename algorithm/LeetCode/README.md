@@ -454,6 +454,7 @@ Happy Coding!!
 * [[Medium] 147. Insertion Sort List](%5BMedium%5D%20147.%20Insertion%20Sort%20List.md)
 * [[Easy] 1446. Consecutive Characters](%5BEasy%5D%201446.%20Consecutive%20Characters.md)
 * [[Medium] 310. Minimum Height Trees](%5BMedium%5D%20310.%20Minimum%20Height%20Trees.md)
+* [[Easy] 1217. Play with Chips](%5BEasy%5D%201217.%20Play%20with%20Chips.md)
 
 ## Array <a name="array"></a>
 ---
@@ -3403,6 +3404,20 @@ class Solution:
 
 ## Math <a name="math"></a>
 ---
+### Count of even of odd
+```pyth0on
+class Solution:
+    def minCostToMoveChips(self, chips: List[int]) -> int:
+        odd = even = 0
+        for c in chips:
+            if not c %2:
+                even += 1
+            else:
+                odd += 1
+        return min(odd, even)
+```
+* [[Easy] 1217. Play with Chips](%5BEasy%5D%201217.%20Play%20with%20Chips.md)
+
 ### Base Conversion
 ```python
 class Solution:
