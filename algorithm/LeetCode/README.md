@@ -455,6 +455,7 @@ Happy Coding!!
 * [[Easy] 1446. Consecutive Characters](%5BEasy%5D%201446.%20Consecutive%20Characters.md)
 * [[Medium] 310. Minimum Height Trees](%5BMedium%5D%20310.%20Minimum%20Height%20Trees.md)
 * [[Easy] 1217. Play with Chips](%5BEasy%5D%201217.%20Play%20with%20Chips.md)
+* [[Medium] 1283. Find the Smallest Divisor Given a Threshold](%5BMedium%5D%201283.%20Find%20the%20Smallest%20Divisor%20Given%20a%20Threshold.md)
 
 ## Array <a name="array"></a>
 ---
@@ -7380,6 +7381,28 @@ class Solution:
         return right
 ```
 * [[Easy] [Solution] 441. Arranging Coins](%5BEasy%5D%20%5BSolution%5D%20441.%20Arranging%20Coins.md)
+
+### Fix upper bound and increase lower bound
+```python
+class Solution:
+    def smallestDivisor(self, nums: List[int], threshold: int) -> int:
+        lo, hi = 1, max(nums)
+        def check(n):
+            s = 0
+            for x in nums:
+                s += math.ceil(x / n)
+            return s <= threshold
+
+        while lo < hi:
+            mi = lo + (hi - lo) // 2
+            if check(mi):
+                hi = mi
+            else:
+                lo = mi + 1
+
+        return lo
+```
+* [[Medium] 1283. Find the Smallest Divisor Given a Threshold](%5BMedium%5D%201283.%20Find%20the%20Smallest%20Divisor%20Given%20a%20Threshold.md)
 
 ### search row head then column
 ```python
