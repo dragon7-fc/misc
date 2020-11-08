@@ -456,6 +456,8 @@ Happy Coding!!
 * [[Medium] 310. Minimum Height Trees](%5BMedium%5D%20310.%20Minimum%20Height%20Trees.md)
 * [[Easy] 1217. Play with Chips](%5BEasy%5D%201217.%20Play%20with%20Chips.md)
 * [[Medium] 1283. Find the Smallest Divisor Given a Threshold](%5BMedium%5D%201283.%20Find%20the%20Smallest%20Divisor%20Given%20a%20Threshold.md)
+* [[Medium] 445. Add Two Numbers II](%5BMedium%5D%20445.%20Add%20Two%20Numbers%20II.md)
+* [[Easy] [Solution] 563. Binary Tree Tilt](%5BEasy%5D%20%5BSolution%5D%20563.%20Binary%20Tree%20Tilt.md)
 
 ## Array <a name="array"></a>
 ---
@@ -6458,6 +6460,32 @@ class Solution:
 
 ## Depth-first Search <a name="dfs"></a>
 ---
+### Post-Order
+```python
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+
+class Solution:
+    def findTilt(self, root: TreeNode) -> int:
+        self.ans = 0
+        def dfs(node):
+            if not node:
+                return 0
+            left = dfs(node.left)
+            right = dfs(node.right)
+            diff = abs(left - right)
+            self.ans += diff
+            return node.val + left + right
+
+        dfs(root)
+        return self.ans
+```
+* [[Easy] [Solution] 563. Binary Tree Tilt](%5BEasy%5D%20%5BSolution%5D%20563.%20Binary%20Tree%20Tilt.md)
+
 ### Sum of Left Leaves
 ```python
 # Definition for a binary tree node.
@@ -7908,6 +7936,27 @@ class Solution:
         return n <= 0
 ```
 * [[Easy] [Solution] 605. Can Place Flowers](%5BEasy%5D%20%5BSolution%5D%20605.%20Can%20Place%20Flowers.md)
+
+### Sort then greedy add rectangle area arithmetic sum
+```python
+class Solution:
+    def maxProfit(self, inventory: List[int], orders: int) -> int:
+        inventory.sort(reverse=True) # inventory high to low 
+        inventory += [0]
+        ans = 0
+        k = 1
+        for i in range(len(inventory)-1): 
+            if inventory[i] > inventory[i+1]: 
+                if k*(inventory[i] - inventory[i+1]) < orders: 
+                    ans += k*(inventory[i] + inventory[i+1] + 1)*(inventory[i] - inventory[i+1])//2 # arithmic sum 
+                    orders -= k*(inventory[i] - inventory[i+1])
+                else: 
+                    q, r = divmod(orders, k)
+                    ans += k*(2*inventory[i] - q + 1) * q//2 + r*(inventory[i] - q)
+                    return ans % 1_000_000_007
+            k += 1
+```
+* [[Medium] 1648. Sell Diminishing-Valued Colored Balls](%5BMedium%5D%201648.%20Sell%20Diminishing-Valued%20Colored%20Balls.md)
 
 ### Sort then lost min and gain max
 ```python
@@ -11137,6 +11186,35 @@ class Solution:
         return tmp.next
 ```
 * [[Easy] 203. Remove Linked List Elements](%5BEasy%5D%20203.%20Remove%20Linked%20List%20Elements.md)
+
+### Number to string stack
+```pyghon
+# Definition for singly-linked list.
+# class ListNode:
+#     def __init__(self, val=0, next=None):
+#         self.val = val
+#         self.next = next
+class Solution:
+    def addTwoNumbers(self, l1: ListNode, l2: ListNode) -> ListNode:
+        cur = 0
+        while l1 != None:
+            cur = cur*10 + l1.val
+            l1 = l1.next
+        n1 = cur
+        cur = 0
+        while l2:
+            cur = cur*10 + l2.val
+            l2 = l2.next
+        n2 = cur
+        s = list(str(n1+n2))
+        dummy = cur = ListNode(-1)
+        while s:
+            cur.next = ListNode(s[0])
+            cur = cur.next
+            s.pop(0)
+        return dummy.next 
+```
+* [[Medium] 445. Add Two Numbers II](%5BMedium%5D%20445.%20Add%20Two%20Numbers%20II.md)
 
 ### cycle entrance
 ```python

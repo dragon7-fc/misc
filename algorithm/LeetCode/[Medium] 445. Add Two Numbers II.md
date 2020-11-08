@@ -55,3 +55,35 @@ class Solution:
             
         return stack[-1]
 ```
+
+**Solution 2: (String, Stack, Linked List)**
+```
+Runtime: 64 ms
+Memory Usage: 14.1 MB
+```
+```python
+# Definition for singly-linked list.
+# class ListNode:
+#     def __init__(self, val=0, next=None):
+#         self.val = val
+#         self.next = next
+class Solution:
+    def addTwoNumbers(self, l1: ListNode, l2: ListNode) -> ListNode:
+        cur = 0
+        while l1 != None:
+            cur = cur*10 + l1.val
+            l1 = l1.next
+        n1 = cur
+        cur = 0
+        while l2:
+            cur = cur*10 + l2.val
+            l2 = l2.next
+        n2 = cur
+        s = list(str(n1+n2))
+        dummy = cur = ListNode(-1)
+        while s:
+            cur.next = ListNode(s[0])
+            cur = cur.next
+            s.pop(0)
+        return dummy.next 
+```
