@@ -458,6 +458,7 @@ Happy Coding!!
 * [[Medium] 1283. Find the Smallest Divisor Given a Threshold](%5BMedium%5D%201283.%20Find%20the%20Smallest%20Divisor%20Given%20a%20Threshold.md)
 * [[Medium] 445. Add Two Numbers II](%5BMedium%5D%20445.%20Add%20Two%20Numbers%20II.md)
 * [[Easy] [Solution] 563. Binary Tree Tilt](%5BEasy%5D%20%5BSolution%5D%20563.%20Binary%20Tree%20Tilt.md)
+* [[Medium] 1026. Maximum Difference Between Node and Ancestor](%5BMedium%5D%201026.%20Maximum%20Difference%20Between%20Node%20and%20Ancestor.md)
 
 ## Array <a name="array"></a>
 ---
@@ -6589,6 +6590,35 @@ class Solution:
         return image
 ```
 * [[Easy] [Solution] 733. Flood Fill](%5BEasy%5D%20%5BSolution%5D%20733.%20Flood%20Fill.md)
+
+### Maximum Minus Minimum, Postorder with current max and min as parameter and return as answer
+```python
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+class Solution:
+    def maxAncestorDiff(self, root: TreeNode) -> int:
+        if not root:
+            return 0
+
+        def helper(node, cur_max, cur_min):
+            # if encounter leaves, return the max-min along the path
+            if not node:
+                return cur_max - cur_min
+            # else, update max and min
+            # and return the max of left and right subtrees
+            cur_max = max(cur_max, node.val)
+            cur_min = min(cur_min, node.val)
+            left = helper(node.left, cur_max, cur_min)
+            right = helper(node.right, cur_max, cur_min)
+            return max(left, right)
+
+        return helper(root, root.val, root.val)
+```
+* [[Medium] 1026. Maximum Difference Between Node and Ancestor](%5BMedium%5D%201026.%20Maximum%20Difference%20Between%20Node%20and%20Ancestor.md)
 
 ### Seen node hash table
 ```python
