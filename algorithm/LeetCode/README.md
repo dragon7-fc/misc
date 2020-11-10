@@ -459,6 +459,7 @@ Happy Coding!!
 * [[Medium] 445. Add Two Numbers II](%5BMedium%5D%20445.%20Add%20Two%20Numbers%20II.md)
 * [[Easy] [Solution] 563. Binary Tree Tilt](%5BEasy%5D%20%5BSolution%5D%20563.%20Binary%20Tree%20Tilt.md)
 * [[Medium] 1026. Maximum Difference Between Node and Ancestor](%5BMedium%5D%201026.%20Maximum%20Difference%20Between%20Node%20and%20Ancestor.md)
+* [[Easy] [Solution] 832. Flipping an Image](%5BEasy%5D%20%5BSolution%5D%20832.%20Flipping%20an%20Image.md)
 
 ## Array <a name="array"></a>
 ---
@@ -496,6 +497,10 @@ class Solution:
                 """
                 row[i], row[~i] = row[~i] ^ 1, row[i] ^ 1
         return A
+
+class Solution:
+    def flipAndInvertImage(self, A: List[List[int]]) -> List[List[int]]:
+        return [[col^1 for col in row[::-1]] for row in A]
 ```
 * [[Easy] [Solution] 832. Flipping an Image](%5BEasy%5D%20%5BSolution%5D%20832.%20Flipping%20an%20Image.md)
 

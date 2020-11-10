@@ -100,3 +100,14 @@ class Solution:
             ans.append([element^1 for element in sub_list[::-1]])
         return ans
 ```
+
+**Solution 3: (Array)**
+```
+Runtime: 40 ms
+Memory Usage: 14.1 MB
+```
+```python
+class Solution:
+    def flipAndInvertImage(self, A: List[List[int]]) -> List[List[int]]:
+        return [[col^1 for col in row[::-1]] for row in A]
+```
