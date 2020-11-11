@@ -130,16 +130,13 @@ public class Solution {
 ---
 **Solution 1: (Using Sorting)**
 ```
-Runtime: 28 ms
-Memory Usage: 12.7 MB
+Runtime: 24 ms
+Memory Usage: 13.9 MB
 ```
 ```python
 class Solution:
     def validSquare(self, p1: List[int], p2: List[int], p3: List[int], p4: List[int]) -> bool:
-        def dist(p1, p2):
-            return (p2[1] - p1[1])**2 + (p2[0] - p1[0])**2
-        
-        p = [p1,p2,p3,p4]
-        p.sort()
-        return dist(p[0], p[1]) != 0 and dist(p[0], p[1]) == dist(p[1], p[3]) and dist(p[1], p[3]) == dist(p[3], p[2]) and dist(p[3], p[2]) == dist(p[2], p[0]) and dist(p[0],p[3]) == dist(p[1],p[2])
+        p = sorted([p1, p2, p3, p4])
+        dist = lambda i, j: (p[i][0] - p[j][0])**2 + (p[i][1] - p[j][1])**2
+        return dist(0, 1) != 0 and dist(0, 1) == dist(1, 3) == dist(3, 2) == dist(2, 0) and dist(0, 3) == dist(1, 2)
 ```

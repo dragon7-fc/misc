@@ -460,6 +460,7 @@ Happy Coding!!
 * [[Easy] [Solution] 563. Binary Tree Tilt](%5BEasy%5D%20%5BSolution%5D%20563.%20Binary%20Tree%20Tilt.md)
 * [[Medium] 1026. Maximum Difference Between Node and Ancestor](%5BMedium%5D%201026.%20Maximum%20Difference%20Between%20Node%20and%20Ancestor.md)
 * [[Easy] [Solution] 832. Flipping an Image](%5BEasy%5D%20%5BSolution%5D%20832.%20Flipping%20an%20Image.md)
+* [[Medium] [Solution] 593. Valid Square](%5BMedium%5D%20%5BSolution%5D%20593.%20Valid%20Square.md)
 
 ## Array <a name="array"></a>
 ---
@@ -3955,16 +3956,13 @@ class Solution(object):
 ```
 * [[Medium] [Solution] 667. Beautiful Arrangement II](%5BMedium%5D%20%5BSolution%5D%20667.%20Beautiful%20Arrangement%20II.md)
 
-### Valid Square
+### Sort and map 4 points to plane
 ```python
 class Solution:
     def validSquare(self, p1: List[int], p2: List[int], p3: List[int], p4: List[int]) -> bool:
-        def dist(p1, p2):
-            return (p2[1] - p1[1])**2 + (p2[0] - p1[0])**2
-
-        p = [p1,p2,p3,p4]
-        p.sort()
-        return dist(p[0], p[1]) != 0 and dist(p[0], p[1]) == dist(p[1], p[3]) and dist(p[1], p[3]) == dist(p[3], p[2]) and dist(p[3], p[2]) == dist(p[2], p[0]) and dist(p[0],p[3]) == dist(p[1],p[2])
+        p = sorted([p1, p2, p3, p4])
+        dist = lambda i, j: (p[i][0] - p[j][0])**2 + (p[i][1] - p[j][1])**2
+        return dist(0, 1) != 0 and dist(0, 1) == dist(1, 3) == dist(3, 2) == dist(2, 0) and dist(0, 3) == dist(1, 2)
 ```
 * [[Medium] [Solution] 593. Valid Square](%5BMedium%5D%20%5BSolution%5D%20593.%20Valid%20Square.md)
 
