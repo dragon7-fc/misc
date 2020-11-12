@@ -15,28 +15,36 @@ Output:
 
 # Submissions
 ---
-**Solution 1: (Backtracking)**
+**Solution 1: (Backtracking with Groups of Numbers)**
 ```
-Runtime: 336 ms
-Memory Usage: 13.1 MB
+Runtime: 56 ms
+Memory Usage: 14.4 MB
 ```
 ```python
 class Solution:
     def permuteUnique(self, nums: List[int]) -> List[List[int]]:
-        N = len(nums)
-        def backtrack(nums, permutation):
-            if len(permutation) == N:
-                ans.add(tuple(permutation))
+        results = []
+        def backtrack(comb, counter):
+            if len(comb) == len(nums):
+                # make a deep copy of the resulting permutation,
+                # since the permutation would be backtracked later.
+                results.append(list(comb))
                 return
-            for i in range(len(nums)):
-                permutation.append(nums[i])
-                backtrack(nums[:i]+nums[i+1:], permutation)
-                permutation.pop()
-        ans = set()
-        permutation = []
-        backtrack(nums, permutation)
-        
-        return ans
+
+            for num in counter:
+                if counter[num] > 0:
+                    # add this number into the current combination
+                    comb.append(num)
+                    counter[num] -= 1
+                    # continue the exploration
+                    backtrack(comb, counter)
+                    # revert the choice for the next exploration
+                    comb.pop()
+                    counter[num] += 1
+
+        backtrack([], Counter(nums))
+
+        return results
 ```
 
 **Solution 2: (itertools)**

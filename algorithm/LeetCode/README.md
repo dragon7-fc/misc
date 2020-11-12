@@ -461,6 +461,7 @@ Happy Coding!!
 * [[Medium] 1026. Maximum Difference Between Node and Ancestor](%5BMedium%5D%201026.%20Maximum%20Difference%20Between%20Node%20and%20Ancestor.md)
 * [[Easy] [Solution] 832. Flipping an Image](%5BEasy%5D%20%5BSolution%5D%20832.%20Flipping%20an%20Image.md)
 * [[Medium] [Solution] 593. Valid Square](%5BMedium%5D%20%5BSolution%5D%20593.%20Valid%20Square.md)
+* [[Medium] 47. Permutations II](%5BMedium%5D%2047.%20Permutations%20II.md)
 
 ## Array <a name="array"></a>
 ---
@@ -10087,6 +10088,36 @@ return ans
 
 ## Backtracking <a name="backtracking"></a>
 ---
+### Backtracking with Groups of Numbers
+```python
+class Solution:
+    def permuteUnique(self, nums: List[int]) -> List[List[int]]:
+        results = []
+        def backtrack(comb, counter):
+            if len(comb) == len(nums):
+                # make a deep copy of the resulting permutation,
+                # since the permutation would be backtracked later.
+                results.append(list(comb))
+                return
+
+            for num in counter:
+                if counter[num] > 0:
+                    # add this number into the current combination
+                    comb.append(num)
+                    counter[num] -= 1
+                    # continue the exploration
+                    backtrack(comb, counter)
+                    # revert the choice for the next exploration
+                    comb.pop()
+                    counter[num] += 1
+
+        backtrack([], Counter(nums))
+
+        return results
+```
+* [[Medium] 47. Permutations II](%5BMedium%5D%2047.%20Permutations%20II.md)
+
+
 ### Android Unlock Patterns
 ```python
 class Solution:
