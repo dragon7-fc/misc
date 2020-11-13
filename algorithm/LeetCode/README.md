@@ -462,6 +462,7 @@ Happy Coding!!
 * [[Easy] [Solution] 832. Flipping an Image](%5BEasy%5D%20%5BSolution%5D%20832.%20Flipping%20an%20Image.md)
 * [[Medium] [Solution] 593. Valid Square](%5BMedium%5D%20%5BSolution%5D%20593.%20Valid%20Square.md)
 * [[Medium] 47. Permutations II](%5BMedium%5D%2047.%20Permutations%20II.md)
+* [[Medium] 116. Populating Next Right Pointers in Each Node](%5BMedium%5D%20116.%20Populating%20Next%20Right%20Pointers%20in%20Each%20Node.md)
 
 ## Array <a name="array"></a>
 ---
@@ -8551,6 +8552,35 @@ class Solution:
         return min(self.minDepth(root.left), self.minDepth(root.right)) + 1
 ```
 * [[Easy] 111. Minimum Depth of Binary Tree](%5BEasy%5D%20111.%20Minimum%20Depth%20of%20Binary%20Tree.md)
+
+### Level-order
+```python
+"""
+# Definition for a Node.
+class Node:
+    def __init__(self, val: int = 0, left: 'Node' = None, right: 'Node' = None, next: 'Node' = None):
+        self.val = val
+        self.left = left
+        self.right = right
+        self.next = next
+"""
+
+class Solution:
+    def connect(self, root: 'Node') -> 'Node':
+        q = [root] if root else []
+        while q:
+            nq = []
+            n = len(q)
+            for i in range(len(q)):
+                if i != n-1:
+                    q[i].next = q[i+1]
+                if q[i].left:
+                    nq += [q[i].left, q[i].right]
+            q = nq
+
+        return root
+```
+* [[Medium] 116. Populating Next Right Pointers in Each Node](%5BMedium%5D%20116.%20Populating%20Next%20Right%20Pointers%20in%20Each%20Node.md)
 
 ### Topological Sorting, BFS from leaf to centroid
 ```python

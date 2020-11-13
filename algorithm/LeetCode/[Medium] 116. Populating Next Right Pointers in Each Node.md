@@ -37,7 +37,7 @@ Explanation: Given the above perfect binary tree (Figure A), your function shoul
 
 # Submissions
 ---
-**Solution 1:**
+**Solution 1: (DFS)**
 ```
 Runtime: 64 ms
 Memory Usage: 14.2 MB
@@ -70,10 +70,10 @@ class Solution:
         return root
 ```
 
-**Solution 2:**
+**Solution 2: (BFS)**
 ```
-Runtime: 52 ms
-Memory Usage: 14.2 MB
+Runtime: 60 ms
+Memory Usage: 15.4 MB
 ```
 ```python
 """
@@ -85,22 +85,19 @@ class Node:
         self.right = right
         self.next = next
 """
+
 class Solution:
     def connect(self, root: 'Node') -> 'Node':
-        if root == None:
-            return None
-        stack = [root]
-
-        while stack != []:
-            for i in range(0,len(stack)-1):
-                stack[i].next = stack[i+1]
-            new_stack = []
-            for i in stack:
-                if i.left:
-                    new_stack.append(i.left)
-                if i.right:
-                    new_stack.append(i.right)
-            stack = new_stack
-
+        q = [root] if root else []
+        while q:
+            nq = []
+            n = len(q)
+            for i in range(len(q)):
+                if i != n-1:
+                    q[i].next = q[i+1]
+                if q[i].left:
+                    nq += [q[i].left, q[i].right]
+            q = nq
+            
         return root
 ```
