@@ -463,9 +463,25 @@ Happy Coding!!
 * [[Medium] [Solution] 593. Valid Square](%5BMedium%5D%20%5BSolution%5D%20593.%20Valid%20Square.md)
 * [[Medium] 47. Permutations II](%5BMedium%5D%2047.%20Permutations%20II.md)
 * [[Medium] 116. Populating Next Right Pointers in Each Node](%5BMedium%5D%20116.%20Populating%20Next%20Right%20Pointers%20in%20Each%20Node.md)
+* [[Hard] 458. Poor Pigs](%5BHard%5D%20458.%20Poor%20Pigs.md)
 
 ## Array <a name="array"></a>
 ---
+### space transformation
+```python
+class Solution:
+    def decrypt(self, code: List[int], k: int) -> List[int]:
+        if k < 0: return self.decrypt(code[::-1], -k)[::-1]
+        n = len(code)
+        prefix = code * 2
+        for i in range(1, 2 * n):
+            prefix[i] += prefix[i - 1]
+        for i in range(n):
+            code[i] = prefix[i + k] - prefix[i]
+        return code
+```
+* [[Easy] 1652. Defuse the Bomb](%5BEasy%5D%201652.%20Defuse%20the%20Bomb.md)
+
 ### Groupby
 ```python
 class Solution:
@@ -781,6 +797,44 @@ class Solution:
         return -1 if ans == n else ans
 ```
 * [[Medium] 1007. Minimum Domino Rotations For Equal Row](%5BMedium%5D%201007.%20Minimum%20Domino%20Rotations%20For%20Equal%20Row.md)
+
+### Count from left and right side for each element
+```python
+class Solution:
+    def minimumDeletions(self, s: str) -> int:
+        a_right_count = [0] * len(s)
+        b_left_count = [0] * len(s)
+        
+        count = 0
+        for i in range(len(s)):
+            b_left_count[i] = count
+            if s[i] == 'b':
+                count += 1
+        
+        count = 0
+        for i in range(len(s) - 1 ,-1, -1):
+            a_right_count[i] = count
+            if s[i] == 'a':
+                count += 1
+        
+        min_delete = len(s)
+        for i in range(len(s)):
+            min_delete = min(min_delete, a_right_count[i] + b_left_count[i])
+        return min_delete
+
+class Solution:
+    def minimumDeletions(self, s: str) -> int:
+        cnt_b = 0
+        dp = [0]
+        for c in s:
+            if c == 'b':
+                cnt_b+=1
+                dp.append( dp[-1] )
+            else:
+                dp.append( min(cnt_b,dp[-1]+1) )
+        return dp[-1]
+```
+* [[Medium] 1653. Minimum Deletions to Make String Balanced](%5BMedium%5D%201653.%20Minimum%20Deletions%20to%20Make%20String%20Balanced.md)
 
 ### The robot stays in the circle iff (looking at the final vector) it changes direction (ie. doesn't stay pointing north), or it moves 0.
 ```python
@@ -4190,7 +4244,7 @@ class Solution:
 ```
 * [[Hard] 1359. Count All Valid Pickup and Delivery Options](%5BHard%5D%201359.%20Count%20All%20Valid%20Pickup%20and%20Delivery%20Options.md)
 
-### Combination
+### (rounds+1)\*\*x >= n
 ```python
 class Solution:
     def poorPigs(self, buckets: int, minutesToDie: int, minutesToTest: int) -> int:
@@ -8553,6 +8607,30 @@ class Solution:
 ```
 * [[Easy] 111. Minimum Depth of Binary Tree](%5BEasy%5D%20111.%20Minimum%20Depth%20of%20Binary%20Tree.md)
 
+### Jump to home
+```python
+class Solution:
+    def minimumJumps(self, forbidden: List[int], a: int, b: int, x: int) -> int:
+        max_val = max([x]+forbidden) + a + b
+        jumps = [0] + [math.inf]*(max_val)
+        for pos in forbidden: 
+            jumps[pos] = -1
+        stack = deque([0])
+        while stack:
+            pos=stack.popleft()
+            if pos + a <= max_val and jumps[pos+a] > jumps[pos]+1:
+                stack.append(pos+a)
+                jumps[pos+a] = jumps[pos]+1
+            if pos-b > 0 and jumps[pos-b] > jumps[pos]+1:
+                jumps[pos-b] = jumps[pos]+1
+                if pos-b+a <= max_val and jumps[pos-b+a] > jumps[pos]+2:  # It cannot jump backward twice in a row.
+                    stack.append(pos-b+a)
+                    jumps[pos-b+a] = jumps[pos]+2
+
+        return jumps[x] if jumps[x] < math.inf else -1
+```
+* [[Medium] 1654. Minimum Jumps to Reach Home](%5BMedium%5D%201654.%20Minimum%20Jumps%20to%20Reach%20Home.md)
+
 ### Level-order
 ```python
 """
@@ -10147,7 +10225,6 @@ class Solution:
 ```
 * [[Medium] 47. Permutations II](%5BMedium%5D%2047.%20Permutations%20II.md)
 
-
 ### Android Unlock Patterns
 ```python
 class Solution:
@@ -10580,6 +10657,34 @@ class Solution:
         backtrack()
 ```
 * [[Lock] [Hard] [Solution] 489. Robot Room Cleaner](%5BLock%5D%20%5BHard%5D%20%5BSolution%5D%20489.%20Robot%20Room%20Cleaner.md)
+
+### Sort before backtracking
+```python
+class Solution:
+    def canDistribute(self, nums: List[int], quantity: List[int]) -> bool:
+        c = Counter(nums)
+        m = len(quantity)
+        # we only need at most m different numbers, so we choose the ones which are most abundant
+        left = sorted(c.values())[-m:]
+
+        # If the customer with most quantity required can't be fulfilled, we don't need to go further and answer will be false
+        quantity.sort(reverse=True)
+
+        def func(left, quantity, customer):
+            if customer == m:
+                return True
+
+            for i in range(len(left)):
+                if left[i] >= quantity[customer]:
+                    left[i] -= quantity[customer]
+                    if func(left, quantity, customer+1):
+                        return True
+                    left[i] += quantity[customer]
+            return False
+
+        return func(left, quantity, 0)
+```
+* [[Hard] 1655. Distribute Repeating Integers](%5BHard%5D%201655.%20Distribute%20Repeating%20Integers.md)
 
 **Template 1:**
 ```python

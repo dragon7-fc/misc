@@ -18,9 +18,22 @@ If there are `n` buckets and a pig drinking poison will die within `m` minutes, 
 * After a pig has instantly finished drinking buckets, there has to be a **cool down time** of m minutes. During this time, only observation is allowed and no feedings at all.
 * Any given bucket can be sampled an infinite number of times (by an unlimited number of pigs).
 
+**Hint 1:**
+
+What if you only have one shot? Eg. 4 buckets, 15 mins to die, and 15 mins to test.
+
+**Hint 2:**
+
+How many states can we generate with x pigs and T tests?
+
+**Hint 3:**
+
+Find minimum `x` such that `(T+1)^x >= N`
+
+
 # Submissions
 ---
-**Solution 1: (Math)**
+**Solution 1: (Math, (rounds+1)\*\*x >= n)**
 
 If there are only 2 rounds of tests,
 Then for each bucket, a pig can have 3 choices:
@@ -48,4 +61,16 @@ class Solution:
             pigs += 1
             
         return pigs
+```
+
+**Solution 2: (Math, (rounds+1)\*\*x >= n)**
+```
+Runtime: 24 ms
+Memory Usage: 14.1 MB
+```
+```python
+class Solution:
+    def poorPigs(self, buckets: int, minutesToDie: int, minutesToTest: int) -> int:
+        T = minutesToTest//minutesToDie
+        return math.ceil(math.log(buckets, T+1))
 ```
