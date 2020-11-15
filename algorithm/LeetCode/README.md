@@ -464,6 +464,7 @@ Happy Coding!!
 * [[Medium] 47. Permutations II](%5BMedium%5D%2047.%20Permutations%20II.md)
 * [[Medium] 116. Populating Next Right Pointers in Each Node](%5BMedium%5D%20116.%20Populating%20Next%20Right%20Pointers%20in%20Each%20Node.md)
 * [[Hard] 458. Poor Pigs](%5BHard%5D%20458.%20Poor%20Pigs.md)
+* [[Easy] [Solution] 938. Range Sum of BST](%5BEasy%5D%20%5BSolution%5D%20938.%20Range%20Sum%20of%20BST.md)
 
 ## Array <a name="array"></a>
 ---
@@ -4829,6 +4830,14 @@ class Solution:
 ```
 * [[Easy] 1071. Greatest Common Divisor of Strings](%5BEasy%5D%201071.%20Greatest%20Common%20Divisor%20of%20Strings.md)
 
+### check 2 strings have same unique characters and the value patterns are same
+```python
+class Solution:
+    def closeStrings(self, word1: str, word2: str) -> bool:
+        return set(word1) == set(word2) and Counter(Counter(word1).values()) == Counter(Counter(word2).values())
+```
+* [[Medium] 1657. Determine if Two Strings Are Close](%5BMedium%5D%201657.%20Determine%20if%20Two%20Strings%20Are%20Close.md)
+
 ### Simulation
 ```python
 class Solution:
@@ -5380,6 +5389,32 @@ class Solution:
         return root
 ```
 * [[Easy] [Solution] 538. Convert BST to Greater Tree](%5BEasy%5D%20%5BSolution%5D%20538.%20Convert%20BST%20to%20Greater%20Tree.md)
+
+### Range Sum
+```python
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+
+class Solution:
+    def rangeSumBST(self, root: TreeNode, L: int, R: int) -> int:
+        def dfs(node):
+            if node:
+                if L <= node.val <= R:
+                    self.ans += node.val
+                if L < node.val:
+                    dfs(node.left)
+                if node.val < R:
+                    dfs(node.right)
+
+        self.ans = 0
+        dfs(root)
+        return self.ans
+```
+* [[Easy] [Solution] 938. Range Sum of BST](%5BEasy%5D%20%5BSolution%5D%20938.%20Range%20Sum%20of%20BST.md)
 
 ### DFS
 ```python
