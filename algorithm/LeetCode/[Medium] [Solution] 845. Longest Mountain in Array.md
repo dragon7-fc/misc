@@ -93,7 +93,7 @@ class Solution(object):
 
 # Submissions
 ---
-**Solution: (Two Pointers)**
+**Solution: (Two Pointers, step by step sliding and check max)**
 ```
 Runtime: 260 ms
 Memory Usage: 13.6 MB
@@ -120,5 +120,40 @@ class Solution:
 
             base = max(end, base + 1)
 
+        return ans
+```
+
+**Solution 2: (Case study)**
+```
+Runtime: 144 ms
+Memory Usage: 15 MB
+```
+```python
+class Solution:
+    def longestMountain(self, A: List[int]) -> int:
+        sub, state = 0, 0
+        ans = 0
+        for j in range(1, len(A)):
+            if A[j] > A[j-1]:
+                if state == 0:
+                    state = 1
+                    sub = 2
+                elif state == 1:
+                    sub += 1
+                elif state == 2:
+                    ans = max(ans, sub)
+                    state = 1
+                    sub = 2
+            elif A[j] < A[j-1]:
+                if state > 0:
+                    state = 2
+                    sub += 1
+            else:
+                if state == 2:
+                    ans = max(ans, sub)
+                state = 0
+        if state == 2:
+            ans = max(ans, sub)
+        
         return ans
 ```

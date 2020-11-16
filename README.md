@@ -781,6 +781,9 @@ A playground to note something.
 * dig
 
     - [Linux and Unix dig Command Examples](https://www.cyberciti.biz/faq/linux-unix-dig-command-examples-usage-syntax/)
+* nslookup
+
+    - [How to Use Nslookup Command](https://networkproguide.com/how-to-use-nslookup-command/)
 * curl
 
     - [CURL CHEATSHEET](https://cheatsheet.dennyzhang.com/cheatsheet-curl-a4)
