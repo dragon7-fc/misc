@@ -466,6 +466,7 @@ Happy Coding!!
 * [[Hard] 458. Poor Pigs](%5BHard%5D%20458.%20Poor%20Pigs.md)
 * [[Easy] [Solution] 938. Range Sum of BST](%5BEasy%5D%20%5BSolution%5D%20938.%20Range%20Sum%20of%20BST.md)
 * [[Medium] [Solution] 845. Longest Mountain in Array](%5BMedium%5D%20%5BSolution%5D%20845.%20Longest%20Mountain%20in%20Array.md)
+* [[Medium] 858. Mirror Reflection](%5BMedium%5D%20858.%20Mirror%20Reflection.md)
 
 ## Array <a name="array"></a>
 ---
@@ -3703,6 +3704,15 @@ class Solution:
         return math.comb(n + k - 1, k * 2) % (10**9 + 7)
 ```
 * [1621. Number of Sets of K Non-Overlapping Line Segments](%5BMedium%5D%201621.%20Number%20of%20Sets%20of%20K%20Non-Overlapping%20Line%20Segments.md)
+
+### GCD
+```python
+class Solution:
+    def mirrorReflection(self, p: int, q: int) -> int:
+        g = math.gcd(p,q)
+        return 2 if not p//g % 2 else q//g % 2
+```
+* [[Medium] 858. Mirror Reflection](%5BMedium%5D%20858.%20Mirror%20Reflection.md)
 
 ### Task Scheduler
 ```python
