@@ -468,6 +468,7 @@ Happy Coding!!
 * [[Medium] [Solution] 845. Longest Mountain in Array](%5BMedium%5D%20%5BSolution%5D%20845.%20Longest%20Mountain%20in%20Array.md)
 * [[Medium] 858. Mirror Reflection](%5BMedium%5D%20858.%20Mirror%20Reflection.md)
 * [[Medium] [Solution] 56. Merge Intervals](%5BMedium%5D%20%5BSolution%5D%2056.%20Merge%20Intervals.md)
+* [![Medium] 394. Decode String](!%5BMedium%5D%20394.%20Decode%20String.md)
 
 ## Array <a name="array"></a>
 ---
