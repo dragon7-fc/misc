@@ -415,7 +415,7 @@ A playground to note something.
          sudo docker run --name jenkins \
          -d -u root --restart always \
          -p 8080:8080 \
-         -v /path/to/jenkins/jenkins-data:/var/jenkins_home \
+         -v [/PAT|H/TO/JENKINS]/jenkins-data:/var/jenkins_home \
          -v /var/run/docker.sock:/var/run/docker.sock \
          jenkinsci/blueocean
         ```
@@ -505,8 +505,8 @@ A playground to note something.
         + TFTP_OPTIONS="--secure --create"
         + RUN_DAEMON="yes"
 
-        chmod 777 /path/to/tftproot
-        chown nobody:nogroup -R /path/to/tftproot
+        chmod 777 [/PATH/TO/TFTPROOT]
+        chown nobody:nogroup -R [/PATH/TO/TFTPROOT]
         sudo service tftpd-hpa restart
         
         # power on auto start
@@ -1130,16 +1130,82 @@ A playground to note something.
     - [Yocto Project Reference Manual](https://www.yoctoproject.org/docs/3.1/ref-manual/ref-manual.html#var-FILES)
     - [Yocto Project Cheatsheet](https://github.com/LetoThe2nd/yoctoproject-cheatsheet)
     - [Quick start guide to kas - best tool for setting up the Yocto projects](https://blog.3mdeb.com/2019/2019-02-07-kas/)
-    - Docker
-
-        - Poky Container
+    - Build and Run
     
         ```bash
-        sudo docker run --name yocto --rm -it -v /path/to/workdir:/workdir -v /path/to/downloads:/downloads -v /path/to/sstate_cache:/sstate_cache --workdir=/workdir crops/poky
+        sudo docker run --name yocto --rm -it \
+        -v [/PATH/TO/WORKDIR]:/workdir \
+        -v [/PATH/TO/DOWNLOADS]:/downloads \
+        -v [/PATH/TO/SSTATE_CACHE]:/sstate_cache \
+        --workdir=/workdir crops/poky
+        
+        # build
+        . poky/oe-init-build-env
+        bitbake core-image-minimal
+        
+        # Run QEMU
+        runqemu qemuarm slirp nographic
+        ```
+        **Note:** quit QEMU: `ctrl-a x`
+    - Run container
+    
+        ```bash
+        sudo docker exec -u root -it yocto
         ```
 * OpenBMC
     
     - [OpenBMC cheatsheet](https://github.com/openbmc/docs/blob/master/cheatsheet.md)
+    - Build
+    
+        ```bash
+        sudo docker run --name openbmc --rm -it \
+        -v [/PATH/TO/WORKDIR]:/workdir \
+        -v [/PATH/TO/DOWNLOADS]:/downloads \
+        -v [/PATH/TO/SSTATE_CACHE]:/sstate_cache \
+        --workdir=/workdir crops/poky
+        
+        # build romulus
+        cd [/PATH/TO/OPENBMC]
+        . setup romulus [/PATH/TO/BUILD]
+        bitbake obmc-phosphor-image
+        ```
+    - Run QEMU
+    
+        ```bash
+        sudo docker exec -u root -it openbmc bash
+        
+        apt install libpixman-1-dev
+        
+        # Run romulus
+        ./qemu-system-arm -m 256 -M romulus-bmc -nographic \
+        -drive file=[/PATH/TO/BUILD]/tmp/deploy/images/romulus/flash-romulus,format=raw,if=mtd \
+        -net nic \
+        -net user,hostfwd=:127.0.0.1:2222-:22,hostfwd=:127.0.0.1:2443-:443,hostname=qemu
+        ```
+        
+        **Note:** user: `root`, password: `0penBmc`
+* Intel-BMC/openbmc
+
+    - Build
+    
+        ```bash
+        sudo docker run --name intel-bmc --rm -it \
+        -v [/PATH/TO/WORKDIR]:/workdir \
+        -v [/PATH/TO/DOWNLOADS]:/downloads \
+        -v [/PATH/TO/SSTATE_CACHE]:/sstate_cache \
+        --workdir=/workdir crops/poky
+        
+        export TEMPLATECONF=[/PATH/TO/OPENBMC]/meta-openbmc-mods/meta-wolfpass/conf
+        . [/PATH/TO/OPENBMC]/oe-init-build-env
+        bitbake intel-platforms
+        ```
+    - Run QEMU
+    
+        ```bash
+        sudo docker exec -it openbmc bash
+        
+        runqemu intel-ast2500 slirp nographic
+        ```
 
 ## Language
 

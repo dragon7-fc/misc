@@ -469,6 +469,7 @@ Happy Coding!!
 * [[Medium] 858. Mirror Reflection](%5BMedium%5D%20858.%20Mirror%20Reflection.md)
 * [[Medium] [Solution] 56. Merge Intervals](%5BMedium%5D%20%5BSolution%5D%2056.%20Merge%20Intervals.md)
 * [![Medium] 394. Decode String](!%5BMedium%5D%20394.%20Decode%20String.md)
+* [[Medium] 81. Search in Rotated Sorted Array II](%5BMedium%5D%2081.%20Search%20in%20Rotated%20Sorted%20Array%20II.md)
 
 ## Array <a name="array"></a>
 ---
@@ -7546,6 +7547,112 @@ class Solution:
         return right
 ```
 * [[Easy] [Solution] 441. Arranging Coins](%5BEasy%5D%20%5BSolution%5D%20441.%20Arranging%20Coins.md)
+
+### Binary Search without diplicate
+```python
+class Solution:
+    def search(self, nums: List[int], target: int) -> int:
+        left, right = 0, len(nums)-1
+        ans = -1
+        
+        while left <= right:
+            mid = left + (right - left) // 2
+
+            if target == nums[mid]:
+                ans = mid
+                break
+            elif (nums[left] <= target < nums[mid] or
+                    target <= nums[mid] < nums[left] or
+                    nums[mid] < nums[left] <= target):
+                right = mid - 1
+            else:
+                left = mid + 1
+
+        return ans
+
+class Solution:
+    def search(self, nums: List[int], target: int) -> int:
+        
+        def binary_search(left, right, target):
+            if left > right:
+                return -1
+            
+            mid = left + (right - left) // 2
+            if target == nums[mid]:
+                return mid            
+            elif (nums[left] <= target < nums[mid] or
+                    target <= nums[mid] < nums[left] or
+                    nums[mid] < nums[left] <= target):
+                return binary_search(left, mid-1, target)
+            else:
+                return binary_search(mid+1, right, target)        
+            
+        return binary_search(0, len(nums)-1, target)
+```
+* [[Medium] 33. Search in Rotated Sorted Array](%5BMedium%5D%2033.%20Search%20in%20Rotated%20Sorted%20Array.md)
+
+### Binary Search with duplicate
+```python
+class Solution:
+    def search(self, nums: List[int], target: int) -> bool:
+        N = len(nums)
+        if N == 0: return False
+        end = N - 1
+        start = 0
+
+        # returns true if we can reduce the search space in current binary search space
+        def isBinarySearchHelpful(start, element):
+            return nums[start] != element
+
+        # returns true if element exists in first array, false if it exists in second
+        def existsInFirst(start, element):
+            return nums[start] <= element
+        
+        while start <= end:
+            mid = start + (end - start) // 2
+
+            if nums[mid] == target:
+                return True
+
+            if not isBinarySearchHelpful(start, nums[mid]):
+                start += 1
+                continue
+            # which array does pivot belong to.
+            pivotArray = existsInFirst(start, nums[mid])
+
+            # which array does target belong to.
+            targetArray = existsInFirst(start, target)
+            if pivotArray ^ targetArray: # If pivot and target exist in different sorted arrays, recall that xor is true when both operands are distinct
+                if pivotArray:
+                    start = mid + 1 # pivot in the first, target in the second
+                else:
+                    end = mid - 1 # target in the first, pivot in the second
+            else: # If pivot and target exist in same sorted array
+                if nums[mid] < target:
+                    start = mid + 1
+                else:
+                    end = mid - 1
+
+        return False
+
+class Solution:
+    def search(self, nums: List[int], target: int) -> bool:
+        if not nums: return False
+
+        def dfs(left, right):
+            if left >= right: return False
+            mid = left + (right - left) // 2
+            if nums[mid] == target: return True
+            if nums[mid] == nums[left] and nums[left] == nums[right - 1]:
+                return dfs(left, mid) or dfs(mid + 1, right)
+            if nums[mid] >= nums[left]:                
+                return dfs(left, mid) if nums[left] <= target < nums[mid] else dfs(mid + 1, right)
+            else:
+                return dfs(mid + 1, right) if nums[mid] < target <= nums[right - 1] else dfs(left, mid)
+        
+        return dfs(0, len(nums))
+```
+* [[Medium] 81. Search in Rotated Sorted Array II](%5BMedium%5D%2081.%20Search%20in%20Rotated%20Sorted%20Array%20II.md)
 
 ### Fix upper bound and increase lower bound
 ```python

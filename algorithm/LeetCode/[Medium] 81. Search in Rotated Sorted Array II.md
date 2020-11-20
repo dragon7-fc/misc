@@ -25,6 +25,55 @@ Output: false
 
 # Submissions
 ---
+**Solution 1: (Binary Search)**
+```
+Runtime: 56 ms
+Memory Usage: 15 MB
+```
+```python
+class Solution:
+    def search(self, nums: List[int], target: int) -> bool:
+        N = len(nums)
+        if N == 0: return False
+        end = N - 1
+        start = 0
+
+        # returns true if we can reduce the search space in current binary search space
+        def isBinarySearchHelpful(start, element):
+            return nums[start] != element
+
+        # returns true if element exists in first array, false if it exists in second
+        def existsInFirst(start, element):
+            return nums[start] <= element
+        
+        while start <= end:
+            mid = start + (end - start) // 2
+
+            if nums[mid] == target:
+                return True
+
+            if not isBinarySearchHelpful(start, nums[mid]):
+                start += 1
+                continue
+            # which array does pivot belong to.
+            pivotArray = existsInFirst(start, nums[mid])
+
+            # which array does target belong to.
+            targetArray = existsInFirst(start, target)
+            if pivotArray ^ targetArray: # If pivot and target exist in different sorted arrays, recall that xor is true when both operands are distinct
+                if pivotArray:
+                    start = mid + 1 # pivot in the first, target in the second
+                else:
+                    end = mid - 1 # target in the first, pivot in the second
+            else: # If pivot and target exist in same sorted array
+                if nums[mid] < target:
+                    start = mid + 1
+                else:
+                    end = mid - 1
+
+        return False
+```
+
 **Solution 1: (Set)**
 ```
 Runtime: 60 ms
