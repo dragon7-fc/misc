@@ -74,7 +74,7 @@ class Solution:
         return False
 ```
 
-**Solution 1: (Set)**
+**Solution 2: (Set)**
 ```
 Runtime: 60 ms
 Memory Usage: 14.4 MB
@@ -85,7 +85,7 @@ class Solution:
         if target in set(nums): return True
 ```
 
-**Solution 2: (DFS, Binary Search)**
+**Solution 3: (DFS, Binary Search)**
 ```
 Runtime: 52 ms
 Memory Usage: 13.4 MB
@@ -107,4 +107,32 @@ class Solution:
                 return dfs(mid + 1, right) if nums[mid] < target <= nums[right - 1] else dfs(left, mid)
         
         return dfs(0, len(nums))
+```
+
+**Solution 4: (DFS, Binary Search)**
+```
+Runtime: 56 ms
+Memory Usage: 15 MB
+```
+```python
+class Solution:
+    def search(self, nums: List[int], target: int) -> bool:
+        def dfs(beg, end):
+            if end - beg <= 1: return target in nums[beg: end+1]
+            
+            mid = (beg + end)//2
+            if nums[mid] > nums[end]:   # eg. 3,4,5,6,7,1,2
+                if nums[end] < target <= nums[mid]:
+                    return dfs(beg, mid)
+                else:
+                    return dfs(mid + 1, end)
+            elif nums[mid] < nums[end]: # eg. 6,7,1,2,3,4,5
+                if nums[mid] < target <= nums[end]:
+                    return dfs(mid + 1, end)
+                else:
+                    return dfs(beg, mid)
+            else:
+                return dfs(mid+1, end) or dfs(beg, mid)
+    
+        return dfs(0, len(nums)-1)
 ```

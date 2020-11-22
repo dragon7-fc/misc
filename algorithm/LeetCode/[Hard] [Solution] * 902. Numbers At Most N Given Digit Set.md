@@ -148,7 +148,7 @@ class Solution(object):
 
 # Submissions
 ---
-**Solution 1: (Dynamic Programming + Counting Bottom-Dup)**
+**Solution 1: (Dynamic Programming + Counting Bottom-up)**
 ```
 Runtime: 32 ms
 Memory Usage: 13.7 MB

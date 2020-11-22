@@ -470,6 +470,7 @@ Happy Coding!!
 * [[Medium] [Solution] 56. Merge Intervals](%5BMedium%5D%20%5BSolution%5D%2056.%20Merge%20Intervals.md)
 * [![Medium] 394. Decode String](!%5BMedium%5D%20394.%20Decode%20String.md)
 * [[Medium] 81. Search in Rotated Sorted Array II](%5BMedium%5D%2081.%20Search%20in%20Rotated%20Sorted%20Array%20II.md)
+* [[Hard] [Solution] * 902. Numbers At Most N Given Digit Set](%5BHard%5D%20%5BSolution%5D%20*%20902.%20Numbers%20At%20Most%20N%20Given%20Digit%20Set.md)
 
 ## Array <a name="array"></a>
 ---
@@ -3048,6 +3049,30 @@ class Solution:
                     dp[i] += dp[i+1]
 
         return dp[0] + sum(len(D) ** i for i in range(1, K))
+
+class Solution:
+    def atMostNGivenDigitSet(self, D: List[str], N: int) -> int:
+        S = str(N)
+        K = len(S)
+
+        @functools.lru_cache(None)
+        def dfs(idx):
+            ans = 0
+            if idx >= K:
+                return 1
+            for i in D:
+                if i < S[idx]:          
+                    # not need to consider the following digits since all is less than N 
+                    ans += len(D) ** (K - idx - 1)
+                elif i == S[idx]:  
+                    # compare the following digits to N
+                    ans += dfs(idx + 1)
+                else:      
+                    # not need to consider the following digits since all is more than N 
+                    break
+            return ans
+
+        return dfs(0) + sum([len(D) ** i for i in range(1, K)])
 ```
 * [[Hard] [Solution] * 902. Numbers At Most N Given Digit Set](%5BHard%5D%20%5BSolution%5D%20*%20902.%20Numbers%20At%20Most%20N%20Given%20Digit%20Set.md)
 
@@ -7651,6 +7676,27 @@ class Solution:
                 return dfs(mid + 1, right) if nums[mid] < target <= nums[right - 1] else dfs(left, mid)
         
         return dfs(0, len(nums))
+
+class Solution:
+    def search(self, nums: List[int], target: int) -> bool:
+        def dfs(beg, end):
+            if end - beg <= 1: return target in nums[beg: end+1]
+            
+            mid = (beg + end)//2
+            if nums[mid] > nums[end]:   # eg. 3,4,5,6,7,1,2
+                if nums[end] < target <= nums[mid]:
+                    return dfs(beg, mid)
+                else:
+                    return dfs(mid + 1, end)
+            elif nums[mid] < nums[end]: # eg. 6,7,1,2,3,4,5
+                if nums[mid] < target <= nums[end]:
+                    return dfs(mid + 1, end)
+                else:
+                    return dfs(beg, mid)
+            else:
+                return dfs(mid+1, end) or dfs(beg, mid)
+    
+        return dfs(0, len(nums)-1)
 ```
 * [[Medium] 81. Search in Rotated Sorted Array II](%5BMedium%5D%2081.%20Search%20in%20Rotated%20Sorted%20Array%20II.md)
 
