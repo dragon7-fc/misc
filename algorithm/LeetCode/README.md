@@ -471,6 +471,7 @@ Happy Coding!!
 * [![Medium] 394. Decode String](!%5BMedium%5D%20394.%20Decode%20String.md)
 * [[Medium] 81. Search in Rotated Sorted Array II](%5BMedium%5D%2081.%20Search%20in%20Rotated%20Sorted%20Array%20II.md)
 * [[Hard] [Solution] * 902. Numbers At Most N Given Digit Set](%5BHard%5D%20%5BSolution%5D%20*%20902.%20Numbers%20At%20Most%20N%20Given%20Digit%20Set.md)
+* [[Easy] [Solution] 804. Unique Morse Code Words](%5BEasy%5D%20%5BSolution%5D%20804.%20Unique%20Morse%20Code%20Words.md)
 
 ## Array <a name="array"></a>
 ---
@@ -3051,20 +3052,19 @@ class Solution:
         return dp[0] + sum(len(D) ** i for i in range(1, K))
 
 class Solution:
-    def atMostNGivenDigitSet(self, D: List[str], N: int) -> int:
-        S = str(N)
+    def atMostNGivenDigitSet(self, digits: List[str], n: int) -> int:
+        S = str(n)
         K = len(S)
 
-        @functools.lru_cache(None)
         def dfs(idx):
             ans = 0
             if idx >= K:
                 return 1
-            for i in D:
-                if i < S[idx]:          
+            for d in digits:
+                if d < S[idx]:          
                     # not need to consider the following digits since all is less than N 
-                    ans += len(D) ** (K - idx - 1)
-                elif i == S[idx]:  
+                    ans += len(digits) ** (K - idx - 1)
+                elif d == S[idx]:  
                     # compare the following digits to N
                     ans += dfs(idx + 1)
                 else:      
@@ -3072,7 +3072,7 @@ class Solution:
                     break
             return ans
 
-        return dfs(0) + sum([len(D) ** i for i in range(1, K)])
+        return dfs(0) + sum([len(digits) ** i for i in range(1, K)])
 ```
 * [[Hard] [Solution] * 902. Numbers At Most N Given Digit Set](%5BHard%5D%20%5BSolution%5D%20*%20902.%20Numbers%20At%20Most%20N%20Given%20Digit%20Set.md)
 
@@ -5894,6 +5894,25 @@ class Solution:
 
 ## Hash Table <a name='ht'></a>
 ---
+### Hash Set
+```python
+class Solution(object):
+    def uniqueMorseRepresentations(self, words):
+        """
+        :type words: List[str]
+        :rtype: int
+        """
+        MORSE = [".-","-...","-.-.","-..",".","..-.","--.",
+                 "....","..",".---","-.-",".-..","--","-.",
+                 "---",".--.","--.-",".-.","...","-","..-",
+                 "...-",".--","-..-","-.--","--.."]
+
+        seen = {"".join(MORSE[ord(c) - ord('a')] for c in word) for word in words}
+
+        return len(seen)
+```
+* [[Easy] [Solution] 804. Unique Morse Code Words](%5BEasy%5D%20%5BSolution%5D%20804.%20Unique%20Morse%20Code%20Words.md)
+
 ### Candidate value hash
 ```python
 class Solution:

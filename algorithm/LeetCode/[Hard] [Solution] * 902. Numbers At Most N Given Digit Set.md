@@ -218,33 +218,32 @@ This problem can be devided into two part, one is to count the numbers that is s
 * For the latter one it's a little bit complex, I construct a recursion function and compare every digit of the number to the corresponding digit in N, then count the numbers.
 
 ```
-Runtime: 32 ms
-Memory Usage: 13.9 MB
+Runtime: 28 ms
+Memory Usage: 14.4 MB
 ```
 ```python
 class Solution:
-    def atMostNGivenDigitSet(self, D: List[str], N: int) -> int:
-        S = str(N)
+    def atMostNGivenDigitSet(self, digits: List[str], n: int) -> int:
+        S = str(n)
         K = len(S)
-        
-        @functools.lru_cache(None)
+
         def dfs(idx):
             ans = 0
             if idx >= K:
                 return 1
-            for i in D:
-                if i < S[idx]:          
+            for d in digits:
+                if d < S[idx]:          
                     # not need to consider the following digits since all is less than N 
-                    ans += len(D) ** (K - idx - 1)
-                elif i == S[idx]:  
+                    ans += len(digits) ** (K - idx - 1)
+                elif d == S[idx]:  
                     # compare the following digits to N
                     ans += dfs(idx + 1)
                 else:      
                     # not need to consider the following digits since all is more than N 
                     break
             return ans
-        
-        return dfs(0) + sum([len(D) ** i for i in range(1, K)])
+
+        return dfs(0) + sum([len(digits) ** i for i in range(1, K)])
 ```
 
 **Solution 4: (DP Top-Down, Digit DP)**
