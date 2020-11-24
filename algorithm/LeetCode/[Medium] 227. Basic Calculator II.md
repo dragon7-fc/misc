@@ -60,7 +60,7 @@ class Solution:
         return sum(stack)
 ```
 
-**Solution 2: (Stack)**
+**Solution 2: (Stack, previous operator)**
 ```
 Runtime: 68 ms
 Memory Usage: 14.6 MB

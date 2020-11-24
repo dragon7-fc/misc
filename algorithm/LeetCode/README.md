@@ -473,6 +473,7 @@ Happy Coding!!
 * [[Hard] [Solution] * 902. Numbers At Most N Given Digit Set](%5BHard%5D%20%5BSolution%5D%20*%20902.%20Numbers%20At%20Most%20N%20Given%20Digit%20Set.md)
 * [[Easy] [Solution] 804. Unique Morse Code Words](%5BEasy%5D%20%5BSolution%5D%20804.%20Unique%20Morse%20Code%20Words.md)
 * [[Medium] 337. House Robber III](%5BMedium%5D%20337.%20House%20Robber%20III.md)
+* [[Medium] 227. Basic Calculator II](%5BMedium%5D%20227.%20Basic%20Calculator%20II.md)
 
 ## Array <a name="array"></a>
 ---
@@ -5178,7 +5179,7 @@ class Solution:
 ```
 * [[Medium] 151. Reverse Words in a String](%5BMedium%5D%20151.%20Reverse%20Words%20in%20a%20String.md)
 
-### Stack
+### Stack, previous operator
 ```python
 class Solution:
     def calculate(self, s: str) -> int:
