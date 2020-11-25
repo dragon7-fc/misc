@@ -1202,7 +1202,7 @@ A playground to note something.
     - Run QEMU
     
         ```bash
-        sudo docker exec -it openbmc bash
+        sudo docker exec -u pokyuser -it openbmc bash
         
         runqemu intel-ast2500 slirp nographic
         ```

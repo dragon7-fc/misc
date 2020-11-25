@@ -33,7 +33,23 @@ Explanation: The smallest answer is N = 111, which has length 3.
 
 # Submissions
 ---
-**Solution 1:**
+**Solution 1: (Checking Loop)**
+```
+Runtime: 48 ms
+Memory Usage: 14.3 MB
+```
+```python
+class Solution:
+    def smallestRepunitDivByK(self, K: int) -> int:
+        remainder = 0
+        for length_N in range(1,K+1):
+            remainder = (remainder*10+1) % K
+            if remainder == 0:
+                return length_N
+        return -1
+```
+
+**Solution 2:**
 
 Solution exists except for K % 2 == 0 or K%5 == 0
 ```

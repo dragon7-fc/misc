@@ -474,6 +474,7 @@ Happy Coding!!
 * [[Easy] [Solution] 804. Unique Morse Code Words](%5BEasy%5D%20%5BSolution%5D%20804.%20Unique%20Morse%20Code%20Words.md)
 * [[Medium] 337. House Robber III](%5BMedium%5D%20337.%20House%20Robber%20III.md)
 * [[Medium] 227. Basic Calculator II](%5BMedium%5D%20227.%20Basic%20Calculator%20II.md)
+* [[Medium] 1015. Smallest Integer Divisible by K](%5BMedium%5D%201015.%20Smallest%20Integer%20Divisible%20by%20K.md)
 
 ## Array <a name="array"></a>
 ---
@@ -3836,6 +3837,19 @@ class Solution:
         return math.comb(n + k - 1, k * 2) % (10**9 + 7)
 ```
 * [1621. Number of Sets of K Non-Overlapping Line Segments](%5BMedium%5D%201621.%20Number%20of%20Sets%20of%20K%20Non-Overlapping%20Line%20Segments.md)
+
+### Checking Loop
+```python
+class Solution:
+    def smallestRepunitDivByK(self, K: int) -> int:
+        remainder = 0
+        for length_N in range(1,K+1):
+            remainder = (remainder*10+1) % K
+            if remainder == 0:
+                return length_N
+        return -1
+```
+* [[Medium] 1015. Smallest Integer Divisible by K](%5BMedium%5D%201015.%20Smallest%20Integer%20Divisible%20by%20K.md)
 
 ### GCD
 ```python
