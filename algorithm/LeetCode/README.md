@@ -475,6 +475,7 @@ Happy Coding!!
 * [[Medium] 337. House Robber III](%5BMedium%5D%20337.%20House%20Robber%20III.md)
 * [[Medium] 227. Basic Calculator II](%5BMedium%5D%20227.%20Basic%20Calculator%20II.md)
 * [[Medium] 1015. Smallest Integer Divisible by K](%5BMedium%5D%201015.%20Smallest%20Integer%20Divisible%20by%20K.md)
+* [[Medium] 395. Longest Substring with At Least K Repeating Characters](%5BMedium%5D%20395.%20Longest%20Substring%20with%20At%20Least%20K%20Repeating%20Characters.md)
 
 ## Array <a name="array"></a>
 ---
@@ -5422,7 +5423,7 @@ class Solution:
 ```
 * [[Medium] [Solution] 966. Vowel Spellchecker](%5BMedium%5D%20%5BSolution%5D%20966.%20Vowel%20Spellchecker.md)
 
-### break string
+### break string, stack
 ```python
 class Solution:
     def longestSubstring(self, s: str, k: int) -> int:

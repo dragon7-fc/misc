@@ -26,7 +26,7 @@ The longest substring is "ababb", as 'a' is repeated 2 times and 'b' is repeated
 
 # Submissions
 ---
-**Solution 1: (String)**
+**Solution 1: (Stack)**
 ```
 Runtime: 36 ms
 Memory Usage: 14 MB
