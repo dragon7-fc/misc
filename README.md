@@ -430,6 +430,14 @@ A playground to note something.
         mount -t tmpfs -o size=100G tmpfs /tmp/ramdisk/
         ```
     - [Linux: Create RAM Disk Filesystem](https://stackpointer.io/unix/linux-create-ram-disk-filesystem/438/)
+* TCP Wrappers
+
+    - support
+    
+        `ldd /PATH/TO/EXE | grep libwrap`
+    - order
+    
+        - `/etc/hosts.deny` -> `/etc/hosts.deny`
 * sudo
 
     ```bash
@@ -467,29 +475,190 @@ A playground to note something.
           `ssh -R YYYY:localhost:XXXX -Nf yy@yyyy`
 * Samba
 
-    ```bash
-    sudo apt-get install samba
-    sudo apt-get install winbind
-    sudo get install libnss-winbind
+    - Server
+    
+        - Setup
+        
+            ```bash
+            sudo apt install samba
 
-    ## sudo smbpasswd -a XXX
+            sudo smbpasswd -a [XXX_USER]
 
-    sudo cp /etc/samba/smb.conf /etc/samba/smb.conf.bak
-    sudo nano /etc/samba/smb.conf
+            sudo cp /etc/samba/smb.conf /etc/samba/smb.conf.bak
+            
+            sudo vim /etc/samba/smb.conf
+            ##+++>
+            [MyShare]
+            path =/
+            read only = no
+            valid users = [XXX_USER]
+            force user = root
+            force group = root
+            ##+++<
 
-    ##+++>
-    [MyShare]
-    path =/
-    available = yes
-    browsealbe = yes
-    public = yes
-    writable = yes
-    ##+++<
+            sudo testparm
+            sudo systemctl enable samba
+            sudo systemctl start samba
+            
+            ## only reload config
+            # sudo smbcontrol smbd reload-config
+            ```
+        - list all smb connections
+        
+            - `sudo smbstatus`
+            - `sudo net status shares`
+        - Log
+        
+            - `/var/log/samba`
+        - Port
+        
+            - udp/137: nmbd
+            - tcp/139, tcp/445: smbd
+    - Client
+    
+        - NetBios Name lookup
+            ```bash
+            sudo apt install samba-common-bin
+            
+            nmblookup [NETBIOS_NAME]
+            ```
+        - Not mount
+        
+            ```bash
+            sudo apt install smbclient
+            
+            smbclient -U [XXX_USER] //[SAMBA_SERVER_IP]/MyShare
+            ```
+        - Mount
+        
+            `sudo mount //[SAMBA_SERVER_IP]/MyShare [/PATH|/TO/MOUNT-POINT] -o username=[XXX_USER],password=[XXX_USER_PASSWORD]`
+        - Mount on power on
+        
+            ```bash
+            # vim /etc/fstab
+            ##+++>
+            //[SAMBA_SERVER_IP]/MyShare [/PATH|/TO/MOUNT-POINT] cifs credentials=/mnt/.smbcredentials 0 0
+            ##+++<
 
-    sudo testparm
-    sudo service smbd restart
-    sudo smbstatus
-    ```
+            sudo touch /mnt/.smbcredentials
+            sudo chmod 600 /mnt/.smbcredentials
+            
+            # sudo vim /mnt/.smbcredentials
+            username=[XXX_USER]
+            password=[XXX_USER_PASSWORD]
+
+            sudo mount -a
+            ```
+* NFS
+
+    - Server
+
+        - Setup
+        
+            ```bash
+            sudo apt-get install nfs-kernel-server 
+
+            sudo vim /etc/exports
+            # format: 
+            # <export> <host1>(<options>) <hostN>(<options>)...
+            # no_root_squash: map users root client acount to the server root account
+            ##+++>
+            [/PATH/TO/NFSROOT] [NFS_SERVER_IP|*](rw,no_root_squash)
+            ##+++<
+
+            sudo exportfs -a
+            sudo service nfs-kernel-server restart
+            ```
+        - Port
+        
+            - tcp/111, udp/111: rpcbind.portmapper
+            - tcp/2049, udp/2049: rpc.nfsd
+            - tcp/random, udp/random: rpc.mountd (setup in /etc/sysconfig/nfs)
+            - tcp/random, udp/random: rpc.statd (setup in /etc/sysconfig/nfs)
+            - tcp/random, udp/random: rpc.lockd (setup in /etc/sysconfig/nfs)
+        - view rpc service status for `rpcbind`
+        
+            `rpcinfo -p`
+        - show nfs share
+        
+            `exportfs` or `showmount -e`
+        - reports NFS statistics
+        
+            `nfsstat`
+        - Firewall (For CentOS)
+        
+            ```bash
+            sudo firewall-cmd --permanent --add-service=rpc-bind
+            sudo firewall-cmd --permanent --add-service=mountd
+            sudo firewall-cmd --permanent --add-port=2049/tcp
+            sudo firewall-cmd --permanent --add-port=2049/udp
+            sudo firewall-cmd --reload
+            ```
+    - Client
+
+        - Mount
+            ```
+            sudo apt install nfs-common
+            mount -t nfs -o tcp,nolock [NFS_SERVER_IP]:[/PATH/TO/NFSROOT] [/PATH/TO/MOUNT]
+            ```
+        - Mount on power on
+        
+            ```bash
+            # vim /etc/fstab
+            ##+++>
+            # creating an entry to mount our NFS share
+            192.168.10.133:/nfsshare    /mnt/nfsmounthere    nfs    hard,bg,timeo=300,rsize=1024,wsize=2048        0 0
+            ##+++<
+            ```
+        - show rpc service status for `rpcbind`
+        
+            `rpcinfo -p [NFS_SERVER_IP]`
+        - Lists the available shares at the remote server
+        
+            - `showmount -e [NFS_SERVER_IP]`
+* DHCP
+
+    - Server
+    
+        - install dnsmasq
+            
+            ```bash
+            ## setup static ip address for DHCP server
+            # vim /etc/dhcpcd.conf
+            ##+++>
+            interface=eth1
+            static ip_address=192.168.2.2/24
+            ##+++<
+            
+            ## install dnsmasq
+            sudo apt-get install dnsmasq
+            
+            ## setup dnsmasq
+            # vim /etc/dnsmasq.conf
+            ##+++>
+            interface=eth1
+            dhcp-range=${IP_START},${IP_END},${NETMASK}
+            dhcp-host=${BMCx_MAC},${BMCx_IP}
+            ##+++<
+            
+            # start/enable service
+            sudo systemctl start dnsmasq
+            sudo systemctl enable dnsmasq
+            
+            # test
+            cat /var/lib/misc/dnsmasq.leases
+            ```
+        - Port
+        
+            - udp/67
+        - Misc
+        
+            - [dnsmasq - ArchWiki](https://wiki.archlinux.org/index.php/dnsmasq)
+    - Client
+    
+        - Port
+        
+            - udp/68
 - TFTP
 
     - Server
@@ -498,12 +667,13 @@ A playground to note something.
         sudo apt-get install tftpd-hpa
 
         sudo vim /etc/default/tftpd-hpa
-
-        + TFTP_USERNAME="tftp"
-        + TFTP_DIRECTORY="/path/to/tftproot"
-        + TFTP_ADDRESS="0.0.0.0:69"
-        + TFTP_OPTIONS="--secure --create"
-        + RUN_DAEMON="yes"
+        ##+++>
+        TFTP_USERNAME="tftp"
+        TFTP_DIRECTORY="/path/to/tftproot"
+        TFTP_ADDRESS="0.0.0.0:69"
+        TFTP_OPTIONS="--secure --create"
+        RUN_DAEMON="yes"
+        ##+++<
 
         chmod 777 [/PATH/TO/TFTPROOT]
         chown nobody:nogroup -R [/PATH/TO/TFTPROOT]
@@ -524,30 +694,6 @@ A playground to note something.
         |-----|--------------------------------------|
         | put | `tftp -p -l [FILE] [TFTP_SERVER_IP]` |
         | get | `tftp -g -r [FILE] [TFTP_SERVER_IP]` |
-* NFS
-
-    - Server
-
-        ```bash
-        sudo apt-get install nfs-kernel-server 
-
-        sudo nano /etc/exports
-
-        ##+++>
-        /path/to/nfsroot *(rw,no_root_squash)
-        ##+++<
-
-        sudo exportfs -a
-        sudo service nfs-kernel-server restart
-        ```
-
-    - Client
-
-        ```
-        sudo apt install nfs-common
-        
-        mount -t nfs -o tcp,nolock [NFS_SERVER_IP]:/path/to/nfsroot /path/to/mount
-        ```
 * FTP
 
      - Server
@@ -588,42 +734,7 @@ A playground to note something.
          ```
     - Client
 
-    ```ftp -p [FTP_SERVER_IP]```
-* DHCP
-
-    - Server
-    
-        - install dnsmasq
-            
-            ```bash
-            # setup static ip address
-            IF = "eth[x]"  # bind DPCP server interface
-            IF_IP = "x.x.x.x/x"  # ip/mask
-            
-            echo "interface=${IF}" >> /etc/dhcpcd.conf
-            echo "static ip_address=${IF_IP}" >> /etc/dhcpcd.conf
-            
-            # install dnsmasq
-            sudo apt-get install dnsmasq
-            
-            # setup dnsmasq
-            IP_START="x.x.x.x"
-            IP_END="x.x.x.x"
-            NETMASK="x.x.x.x"
-            BMCx_MAC="xx:xx:xx:xx:xx:xx"
-            BMCx_IP="x.x.x.x"
-            sudo echo "interface=${IF}" >> /etc/dnsmasq.conf
-            sudo echo "dhcp-range=${IP_START},${IP_END},${NETMASK}" >> /etc/dnsmasq.conf
-            sudo echo "dhcp-host=${BMCx_MAC},${BMCx_IP}" >> /etc/dnsmasq.conf
-            
-            # start/enable service
-            sudo systemctl start dnsmasq
-            sudo systemctl enable dnsmasq
-            
-            # test
-            cat /var/lib/misc/dnsmasq.leases
-            ```
-        - [dnsmasq - ArchWiki](https://wiki.archlinux.org/index.php/dnsmasq)
+        `ftp -p [FTP_SERVER_IP]`
 * Wireshark
 
     - [How to Decrypt SSL and TLS Traffic Using Wireshark](https://support.citrix.com/article/CTX116557)

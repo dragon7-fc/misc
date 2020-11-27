@@ -476,6 +476,7 @@ Happy Coding!!
 * [[Medium] 227. Basic Calculator II](%5BMedium%5D%20227.%20Basic%20Calculator%20II.md)
 * [[Medium] 1015. Smallest Integer Divisible by K](%5BMedium%5D%201015.%20Smallest%20Integer%20Divisible%20by%20K.md)
 * [[Medium] 395. Longest Substring with At Least K Repeating Characters](%5BMedium%5D%20395.%20Longest%20Substring%20with%20At%20Least%20K%20Repeating%20Characters.md)
+* [[Medium] 416. Partition Equal Subset Sum](%5BMedium%5D%20416.%20Partition%20Equal%20Subset%20Sum.md)
 
 ## Array <a name="array"></a>
 ---
@@ -1600,6 +1601,51 @@ class Solution(object):
         return min(dp[n-1], dp[n-2])
 ```
 * [[Easy] [Solution] 746. Min Cost Climbing Stairs](%5BEasy%5D%20%5BSolution%5D%20746.%20Min%20Cost%20Climbing%20Stairs.md)
+
+### Try every sum for each number
+```python
+class Solution:
+    def canPartition(self, nums: List[int]) -> bool:
+        if not nums:
+            return True
+
+        # in case total is odd, then there is no way for us to evenly divide the sum
+        total = sum(nums)
+
+        if total & 1:
+            return False
+
+        total >>= 1
+
+        dp = [False] * (total + 1)
+        dp[0] = True
+
+        for num in nums:
+            for s in range(total, num - 1, -1):
+                dp[s] = dp[s] or dp[s - num]
+
+        return dp[-1]
+    
+class Solution:
+    def canPartition(self, nums: List[int]) -> bool:
+        N = len(nums)
+        sm = sum(nums)
+        if sm%2: return False
+        target = sm//2
+
+        @functools.lru_cache(None)
+        def dfs(i, g1):
+            if i == N:
+                if g1 == 0:
+                    return True
+                else:
+                    return False
+            if dfs(i+1, g1-nums[i]) or dfs(i+1, g1):
+                return True
+            else:
+                return False
+```
+* [[Medium] 416. Partition Equal Subset Sum](%5BMedium%5D%20416.%20Partition%20Equal%20Subset%20Sum.md)
 
 ### Full Binary Tree
 ```python
