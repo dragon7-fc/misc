@@ -477,6 +477,7 @@ Happy Coding!!
 * [[Medium] 1015. Smallest Integer Divisible by K](%5BMedium%5D%201015.%20Smallest%20Integer%20Divisible%20by%20K.md)
 * [[Medium] 395. Longest Substring with At Least K Repeating Characters](%5BMedium%5D%20395.%20Longest%20Substring%20with%20At%20Least%20K%20Repeating%20Characters.md)
 * [[Medium] 416. Partition Equal Subset Sum](%5BMedium%5D%20416.%20Partition%20Equal%20Subset%20Sum.md)
+* [[Hard] 239. Sliding Window Maximum](%5BHard%5D%20239.%20Sliding%20Window%20Maximum.md)
 
 ## Array <a name="array"></a>
 ---
@@ -14956,6 +14957,25 @@ class Solution:
         return ans if ans < N+1 else -1
 ```
 * [[Hard] [Solution] 862. Shortest Subarray with Sum at Least K](%5BHard%5D%20%5BSolution%5D%20862.%20Shortest%20Subarray%20with%20Sum%20at%20Least%20K.md)
+
+### Decreasing deque index
+```python
+class Solution:
+    def maxSlidingWindow(self, nums: List[int], k: int) -> List[int]:
+        deq, n, ans = deque([0]), len(nums), []
+
+        for i in range (n):
+            while deq and deq[0] <= i - k:
+                deq.popleft()
+            while deq and nums[i] >= nums[deq[-1]] :
+                deq.pop()
+            deq.append(i)
+
+            ans.append(nums[deq[0]])
+
+        return ans[k-1:]
+```
+* [[Hard] 239. Sliding Window Maximum](%5BHard%5D%20239.%20Sliding%20Window%20Maximum.md)
 
 ## Minimax <a name="minimax"></a>
 ---

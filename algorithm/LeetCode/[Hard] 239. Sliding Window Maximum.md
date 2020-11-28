@@ -30,19 +30,8 @@ Window position                Max
 ---
 **Solution 1: (Sliding Window)**
 ```
-Runtime: 688 ms
-Memory Usage: 19.4 MB
-```
-```python
-class Solution:
-    def maxSlidingWindow(self, nums: List[int], k: int) -> List[int]:
-        return [max(nums[i: i + k]) for i in range(len(nums) - (k -1))] if nums else []
-```
-
-**Solution 2: (Sliding Window)**
-```
-Runtime: 152 ms
-Memory Usage: 19.8 MB
+Runtime: 9784 ms
+Memory Usage: 30.7 MB
 ```
 ```python
 class Solution:
@@ -58,4 +47,26 @@ class Solution:
             else:                
                 ans += [max(num_cur)]
         return ans
+```
+
+**Solution 2: (Decreasing deque index)**
+```
+Runtime: 1552 ms
+Memory Usage: 30.5 MB
+```
+```python
+class Solution:
+    def maxSlidingWindow(self, nums: List[int], k: int) -> List[int]:
+        deq, n, ans = deque([0]), len(nums), []
+
+        for i in range (n):
+            while deq and deq[0] <= i - k:
+                deq.popleft()
+            while deq and nums[i] >= nums[deq[-1]] :
+                deq.pop()
+            deq.append(i)
+            
+            ans.append(nums[deq[0]])
+            
+        return ans[k-1:]
 ```

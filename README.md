@@ -585,9 +585,10 @@ A playground to note something.
         - reports NFS statistics
         
             `nfsstat`
-        - Firewall (For CentOS)
+        - Firewall
         
             ```bash
+            # (For CentOS)
             sudo firewall-cmd --permanent --add-service=rpc-bind
             sudo firewall-cmd --permanent --add-service=mountd
             sudo firewall-cmd --permanent --add-port=2049/tcp
@@ -620,37 +621,89 @@ A playground to note something.
 
     - Server
     
-        - install dnsmasq
+        - isc-dhcp-server
+        
+            - Setup
+        
+                ```bash
+                sudo apt install isc-dhcp-server
+
+                # vim /etc/default/isc-dhcp-server
+                ##***>
+                INTERFACES="[NETWROK_INTERFACE]"
+                ##***<
+
+                # vim /etc/dhcp/dhcpd.conf
+                ##+++>
+                subnet [NETWORK_IP] netmask [NETMASK] {
+                  range [IP_START],[IP_END];
+                  option routers [ROUTER_IP];
+                }
+                ##+++<
+
+                # check config
+                dhcpd -t -cf /etc/dhcp/dhcpd.conf
+
+                sudo systemctl restart isc-dhcp-server
+                ```
+            - Lease status
+                
+                `cat /var/lib/dhcp/dhclient.leases`
+            - Log
             
-            ```bash
-            ## setup static ip address for DHCP server
-            # vim /etc/dhcpcd.conf
-            ##+++>
-            interface=eth1
-            static ip_address=192.168.2.2/24
-            ##+++<
+                `czat /var/log/syslog | grep dhcpd`
+        - dnsmasq
             
-            ## install dnsmasq
-            sudo apt-get install dnsmasq
+            - Setup
             
-            ## setup dnsmasq
-            # vim /etc/dnsmasq.conf
-            ##+++>
-            interface=eth1
-            dhcp-range=${IP_START},${IP_END},${NETMASK}
-            dhcp-host=${BMCx_MAC},${BMCx_IP}
-            ##+++<
+                ```bash
+                ## setup static ip address for DHCP server
+                # vim /etc/dhcpcd.conf
+                ##+++>
+                interface=eth1
+                static ip_address=192.168.2.2/24
+                ##+++<
+
+                ## install dnsmasq
+                sudo apt-get install dnsmasq
+
+                ## setup dnsmasq
+                # vim /etc/dnsmasq.conf
+                ##+++>
+                interface=[NETWROK_INTERFACE]
+                dhcp-range=[IP_START],[IP_END],$[NETMASK]
+                dhcp-host=[BMCx_MAC],[BMCx_IP]
+                ##+++<
+
+                # start/enable service
+                sudo systemctl start dnsmasq
+                sudo systemctl enable dnsmasq
+                ```
+            - Lease status
+
+                `cat /var/lib/misc/dnsmasq.leases`
+            - Log
             
-            # start/enable service
-            sudo systemctl start dnsmasq
-            sudo systemctl enable dnsmasq
-            
-            # test
-            cat /var/lib/misc/dnsmasq.leases
-            ```
+                `czat /var/log/syslog | grep dnsmasq`
         - Port
         
             - udp/67
+        - Firewall
+        
+            ```bash
+            # iptables (CentOS/RHEL 6)
+            iptables -A INPUT -p udp -m state --state NEW --dport 67 -j ACCEPT
+            service iptables save
+            
+            # firewalld (CentOS/RHEL 7)
+            firewall-cmd --add-service=dhcp --permanent 
+            firewall-cmd --reload
+            
+            # uncomplicated firewall (Ubuntu)
+            ufw allow  67/udp
+            ufw reload
+            ufw show
+            ```
         - Misc
         
             - [dnsmasq - ArchWiki](https://wiki.archlinux.org/index.php/dnsmasq)
@@ -659,6 +712,12 @@ A playground to note something.
         - Port
         
             - udp/68
+        - Renew dhcp
+        
+            ```bash
+            dhclient -r
+            dhclient
+            ```
 - TFTP
 
     - Server
