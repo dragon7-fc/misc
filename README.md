@@ -709,6 +709,24 @@ A playground to note something.
             - [dnsmasq - ArchWiki](https://wiki.archlinux.org/index.php/dnsmasq)
     - Client
     
+        - Config
+        
+            - CentOS
+            
+                ```bash
+                # vim /etc/sysconfig/network-scripts/ifcfg-eth0
+                DEVICE=eth0
+                BOOTPROTO=dhcp
+                TYPE=Ethernet
+                ONBOOT=yes
+                ```
+            - Ubuntu
+            
+                ```bash
+                # vim /etc/network/interfaces
+                auto  eth0
+                iface eth0 inet dhcp
+                ```
         - Port
         
             - udp/68

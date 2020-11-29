@@ -478,6 +478,7 @@ Happy Coding!!
 * [[Medium] 395. Longest Substring with At Least K Repeating Characters](%5BMedium%5D%20395.%20Longest%20Substring%20with%20At%20Least%20K%20Repeating%20Characters.md)
 * [[Medium] 416. Partition Equal Subset Sum](%5BMedium%5D%20416.%20Partition%20Equal%20Subset%20Sum.md)
 * [[Hard] 239. Sliding Window Maximum](%5BHard%5D%20239.%20Sliding%20Window%20Maximum.md)
+* [[Medium] 1306. Jump Game III](%5BMedium%5D%201306.%20Jump%20Game%20III.md)
 
 ## Array <a name="array"></a>
 ---
@@ -8993,6 +8994,44 @@ class Solution:
 ```
 * [[Easy] 111. Minimum Depth of Binary Tree](%5BEasy%5D%20111.%20Minimum%20Depth%20of%20Binary%20Tree.md)
 
+### Jump to index
+```python
+class Solution:
+    def canReach(self, arr: List[int], start: int) -> bool:
+        n = len(arr)
+        q = [start]
+
+        while q:
+            node = q.pop(0)
+            # check if reach zero
+            if arr[node] == 0:
+                return True
+            if arr[node] < 0:
+                continue
+
+            # check available next steps            
+            for i in [node + arr[node], node - arr[node]]:
+                if 0 <= i < n:
+                    q.append(i)
+
+            # mark as visited
+            arr[node] = -arr[node]
+
+        return False
+    
+class Solution:
+    def canReach(self, arr: List[int], start: int) -> bool:
+        if 0 <= start < len(arr) and arr[start] >= 0:
+            if arr[start] == 0:
+                return True
+
+            arr[start] = -arr[start]
+            return self.canReach(arr, start+arr[start]) or self.canReach(arr, start-arr[start])
+
+        return False
+```
+* [[Medium] 1306. Jump Game III](%5BMedium%5D%201306.%20Jump%20Game%20III.md)
+
 ### Jump to home
 ```python
 class Solution:
@@ -10191,6 +10230,21 @@ class Solution:
         return not stack
 ```
 * [[Easy] [Solution] 20. Valid Parentheses](%5BEasy%5D%20%5BSolution%5D%2020.%20Valid%20Parentheses.md)
+
+### Monotonic Stack
+```python
+class Solution:
+    def mostCompetitive(self, nums: List[int], k: int) -> List[int]:
+        N = len(nums)
+        stk = []
+        for i, n in enumerate(nums):
+            while stk and stk[-1] > n and len(stk) + N - i > k:
+                stk.pop()
+            if len(stk) < k:    
+                stk.append(n)
+        return stk 
+```
+* [[Medium] 1673. Find the Most Competitive Subsequence](%5BMedium%5D%201673.%20Find%20the%20Most%20Competitive%20Subsequence.md)
 
 ### Fix one direction and use decreasing stack to filter element in the other side
 ```python
