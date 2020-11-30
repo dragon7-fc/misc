@@ -306,6 +306,7 @@ A playground to note something.
         - sudo netstat -ltunpe | grep [PORT]
         - sudo fuser -vn tcp [PORT]
         - lsof -i@[IP]:[PORT]
+    - [IPv6 Explained for Beginners](http://www.steves-internet-guide.com/ipv6-guide/)
 - i2c-tools
 
     |                    | command                                         |
@@ -660,8 +661,10 @@ A playground to note something.
                 ## setup static ip address for DHCP server
                 # vim /etc/dhcpcd.conf
                 ##+++>
-                interface=eth1
-                static ip_address=192.168.2.2/24
+                interface=[NETWORK_INTERFACE]
+                static ip_address=[NETWORK_INTERFACE]/[NETMASK]
+                # interface=eth1
+                # static ip_address=192.168.2.2/24
                 ##+++<
 
                 ## install dnsmasq
@@ -673,6 +676,9 @@ A playground to note something.
                 interface=[NETWROK_INTERFACE]
                 dhcp-range=[IP_START],[IP_END],$[NETMASK]
                 dhcp-host=[BMCx_MAC],[BMCx_IP]
+                # interface=eth1
+                # dhcp-range=192.168.2.10,192.168.2.50,255.255.255.0
+                # dhcp-host=28:C1:3C:89:FD:5B,192.168.2.10
                 ##+++<
 
                 # start/enable service
@@ -1069,6 +1075,9 @@ A playground to note something.
 * firewall-cmd
 
     - [Introduction to firewalld and firewall-cmd command on Linux](https://linuxconfig.org/introduction-to-firewalld-and-firewall-cmd-command-on-linux)
+* UFW
+
+    - [UFW - Community Help Wiki - Official Ubuntu Documentation](https://help.ubuntu.com/community/UFW)
 * TCP Wrappers
 
     - [TCP Wrappers and xinetd](https://web.mit.edu/rhel-doc/5/RHEL-5-manual/Deployment_Guide-en-US/ch-tcpwrappers.html)
