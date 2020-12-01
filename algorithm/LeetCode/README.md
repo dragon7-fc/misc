@@ -480,6 +480,7 @@ Happy Coding!!
 * [[Hard] 239. Sliding Window Maximum](%5BHard%5D%20239.%20Sliding%20Window%20Maximum.md)
 * [[Medium] 1306. Jump Game III](%5BMedium%5D%201306.%20Jump%20Game%20III.md)
 * [[Hard] 218. The Skyline Problem](%5BHard%5D%20218.%20The%20Skyline%20Problem.md)
+* [[Easy] 104. Maximum Depth of Binary Tree](%5BEasy%5D%20104.%20Maximum%20Depth%20of%20Binary%20Tree.md)
 
 ## Array <a name="array"></a>
 ---
@@ -5524,6 +5525,45 @@ class Solution:
 
 ## Tree <a name='tree'></a>
 ---
+### DFS/BFS
+```python
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+
+class Solution:
+    def maxDepth(self, root: TreeNode) -> int:
+        if not root:
+            return 0
+        elif root.left == None and root.right == None:
+            return 1
+        else:
+             return 1 + max(self.maxDepth(root.left), self.maxDepth(root.right))
+            
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+class Solution:
+    def maxDepth(self, root: TreeNode) -> int:
+        q = [[root, 1]] if root else []
+        depth = 0
+        while q:
+            node, d = q.pop(0)
+            depth = max(depth, d)
+            for c in [node.left, node.right]:
+                if c:
+                    q += [[c, d+1]]
+
+        return depth
+```
+* [[Easy] 104. Maximum Depth of Binary Tree](%5BEasy%5D%20104.%20Maximum%20Depth%20of%20Binary%20Tree.md)
+
 ### DFS, Yield
 ```python
 # Definition for a binary tree node.

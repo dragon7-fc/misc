@@ -76,3 +76,29 @@ public:
     }
 };
 ```
+
+**Solution 3: (BFS)**
+```
+Runtime: 40 ms
+Memory Usage: 15.3 MB
+```
+```python
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+class Solution:
+    def maxDepth(self, root: TreeNode) -> int:
+        q = [[root, 1]] if root else []
+        depth = 0
+        while q:
+            node, d = q.pop(0)
+            depth = max(depth, d)
+            for c in [node.left, node.right]:
+                if c:
+                    q += [[c, d+1]]
+            
+        return depth
+```

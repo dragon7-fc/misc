@@ -217,6 +217,7 @@ A playground to note something.
     - [Vim Awesome](https://vimawesome.com/)'
     - [Learn Vimscript the Hard Way](http://learnvimscriptthehardway.stevelosh.com/)
     - [Vundle, the plug-in manager for Vim](https://github.com/VundleVim/Vundle.vim)
+    - [Use vim with ctags](https://kulkarniamit.github.io/whatwhyhow/howto/use-vim-ctags.html)
     - file revision compare
     
         `vimdiff <( git show [REVISION_1]:[XXX_FI|LE] ) <( git show [REVISION_2]:[XXX_FI|LE] )`
