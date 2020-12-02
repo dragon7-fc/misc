@@ -623,126 +623,195 @@ A playground to note something.
 
     - Server
     
-        - isc-dhcp-server
-        
-            - Setup
-        
+        - IPv4
+    
+            - isc-dhcp-server
+
+                - Setup
+
+                    ```bash
+                    sudo apt install isc-dhcp-server
+
+                    # vim /etc/default/isc-dhcp-server
+                    ##***>
+                    INTERFACES="[NETWROK_INTERFACE]"
+                    ##***<
+
+                    # vim /etc/dhcp/dhcpd.conf
+                    ##+++>
+                    subnet [NETWORK_IP] netmask [NETMASK] {
+                      range [IP_START],[IP_END];
+                      option routers [ROUTER_IP];
+                    }
+                    ##+++<
+
+                    # check config
+                    dhcpd -t -cf /etc/dhcp/dhcpd.conf
+
+                    sudo systemctl restart isc-dhcp-server
+                    ```
+                - Lease status
+
+                    `cat /var/lib/dhcp/dhclient.leases`
+                - Log
+
+                    `czat /var/log/syslog | grep dhcpd`
+            - dnsmasq
+
+                - Setup
+
+                    ```bash
+                    ## setup static ip address for DHCP server
+                    # vim /etc/dhcpcd.conf
+                    ##+++>
+                    interface=[NETWORK_INTERFACE]
+                    static ip_address=[NETWORK_INTERFACE]/[NETMASK]
+                    # interface=eth1
+                    # static ip_address=192.168.2.2/24
+                    ##+++<
+
+                    ## install dnsmasq
+                    sudo apt-get install dnsmasq
+
+                    ## setup dnsmasq
+                    # vim /etc/dnsmasq.conf
+                    ##+++>
+                    interface=[NETWROK_INTERFACE]
+                    dhcp-range=[IP_START],[IP_END],$[NETMASK]
+                    dhcp-host=[BMCx_MAC],[BMCx_IP]
+                    # interface=eth1
+                    # dhcp-range=192.168.2.10,192.168.2.50,255.255.255.0
+                    # dhcp-host=28:C1:3C:89:FD:5B,192.168.2.10
+                    ##+++<
+
+                    # start/enable service
+                    sudo systemctl start dnsmasq
+                    sudo systemctl enable dnsmasq
+                    ```
+                - Lease status
+
+                    `cat /var/lib/misc/dnsmasq.leases`
+                - Log
+
+                    `czat /var/log/syslog | grep dnsmasq`
+            - Port
+
+                - udp/67
+            - Firewall
+
                 ```bash
-                sudo apt install isc-dhcp-server
+                # iptables (CentOS/RHEL 6)
+                iptables -A INPUT -p udp -m state --state NEW --dport 67 -j ACCEPT
+                service iptables save
 
-                # vim /etc/default/isc-dhcp-server
-                ##***>
-                INTERFACES="[NETWROK_INTERFACE]"
-                ##***<
+                # firewalld (CentOS/RHEL 7)
+                firewall-cmd --add-service=dhcp --permanent 
+                firewall-cmd --reload
 
-                # vim /etc/dhcp/dhcpd.conf
-                ##+++>
-                subnet [NETWORK_IP] netmask [NETMASK] {
-                  range [IP_START],[IP_END];
-                  option routers [ROUTER_IP];
-                }
-                ##+++<
-
-                # check config
-                dhcpd -t -cf /etc/dhcp/dhcpd.conf
-
-                sudo systemctl restart isc-dhcp-server
+                # uncomplicated firewall (Ubuntu)
+                ufw allow  67/udp
+                ufw reload
+                ufw show
                 ```
-            - Lease status
+            - Misc
+
+                - [dnsmasq - ArchWiki](https://wiki.archlinux.org/index.php/dnsmasq)
+        - IPv6
+        
+            - isc-dhcp-server (statefull)
+            
+                - Setup
                 
-                `cat /var/lib/dhcp/dhclient.leases`
-            - Log
+                    ```bash
+                    # vim /etc/dhcp/dhcpd6.conf
+                    ##+++>
+                    subnet6 2001:db8:0:1::/64 {
+                            range6 2001:db8:0:1::129 2001:db8:0:1::254;
+                            option dhcp6.name-servers fec0:0:0:1::1;
+                            option dhcp6.domain-search "domain.example";
+                    }
+                    ##+++<
+                    ```
+                - Port
+                
+                    - udp/547
+            - radvd (stateless)
             
-                `czat /var/log/syslog | grep dhcpd`
-        - dnsmasq
-            
-            - Setup
-            
-                ```bash
-                ## setup static ip address for DHCP server
-                # vim /etc/dhcpcd.conf
-                ##+++>
-                interface=[NETWORK_INTERFACE]
-                static ip_address=[NETWORK_INTERFACE]/[NETMASK]
-                # interface=eth1
-                # static ip_address=192.168.2.2/24
-                ##+++<
+                - Setup
+                
+                    ```bash
+                    apt install radvd
+                    
+                    # setup static ip address
+                    # vim /etc/dhcpcd.conf
+                    ##+++>
+                    interface eth1
+                    noipv6rs
+                    static ip6_address=fd00:1234:5678:9abc::1/64
+                    ##+++<
+                    
+                    # vim /etc/radvd.conf
+                    ##+++>
+                    interface eth1
+                    {
+                                        AdvSendAdvert on;
+                                        MinRtrAdvInterval 30;
+                                        MaxRtrAdvInterval 100;
+                                        prefix fd00:1234:5678:9abc::/64
+                                        {
+                                                            AdvOnLink on;
+                                                            AdvAutonomous on;
+                                                            AdvRouterAddr off;
+                                        };
 
-                ## install dnsmasq
-                sudo apt-get install dnsmasq
-
-                ## setup dnsmasq
-                # vim /etc/dnsmasq.conf
-                ##+++>
-                interface=[NETWROK_INTERFACE]
-                dhcp-range=[IP_START],[IP_END],$[NETMASK]
-                dhcp-host=[BMCx_MAC],[BMCx_IP]
-                # interface=eth1
-                # dhcp-range=192.168.2.10,192.168.2.50,255.255.255.0
-                # dhcp-host=28:C1:3C:89:FD:5B,192.168.2.10
-                ##+++<
-
-                # start/enable service
-                sudo systemctl start dnsmasq
-                sudo systemctl enable dnsmasq
-                ```
-            - Lease status
-
-                `cat /var/lib/misc/dnsmasq.leases`
-            - Log
-            
-                `czat /var/log/syslog | grep dnsmasq`
-        - Port
-        
-            - udp/67
-        - Firewall
-        
-            ```bash
-            # iptables (CentOS/RHEL 6)
-            iptables -A INPUT -p udp -m state --state NEW --dport 67 -j ACCEPT
-            service iptables save
-            
-            # firewalld (CentOS/RHEL 7)
-            firewall-cmd --add-service=dhcp --permanent 
-            firewall-cmd --reload
-            
-            # uncomplicated firewall (Ubuntu)
-            ufw allow  67/udp
-            ufw reload
-            ufw show
-            ```
-        - Misc
-        
-            - [dnsmasq - ArchWiki](https://wiki.archlinux.org/index.php/dnsmasq)
+                    };
+                    ##+++<
+                    
+                    # check ICMP6 broadcasting
+                    tcpdump -i eth1 icmp6
+                    ```
     - Client
     
-        - Config
-        
-            - CentOS
-            
+        - IPv4
+    
+            - Config
+
+                - CentOS
+
+                    ```bash
+                    # vim /etc/sysconfig/network-scripts/ifcfg-eth0
+                    DEVICE=eth0
+                    BOOTPROTO=dhcp
+                    TYPE=Ethernet
+                    ONBOOT=yes
+                    ```
+                - Ubuntu
+
+                    ```bash
+                    # vim /etc/network/interfaces
+                    auto  eth0
+                    iface eth0 inet dhcp
+                    ```
+            - Renew dhcp
+
                 ```bash
-                # vim /etc/sysconfig/network-scripts/ifcfg-eth0
-                DEVICE=eth0
-                BOOTPROTO=dhcp
-                TYPE=Ethernet
-                ONBOOT=yes
+                dhclient -r
+                dhclient
                 ```
-            - Ubuntu
-            
+            - Port
+
+                - udp/68
+        - IPv6
+        
+            - Renew dhcp
+
                 ```bash
-                # vim /etc/network/interfaces
-                auto  eth0
-                iface eth0 inet dhcp
+                dhclient -r
+                dhclient
                 ```
-        - Port
-        
-            - udp/68
-        - Renew dhcp
-        
-            ```bash
-            dhclient -r
-            dhclient
-            ```
+            - Port (statefull)
+            
+                - udp/546
 - TFTP
 
     - Server

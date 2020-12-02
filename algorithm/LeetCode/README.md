@@ -51,6 +51,7 @@ Happy Coding!!
 1. [202009 September LeetCoding Challenge](#202009)
 1. [202010 October LeetCoding Challenge](#202010)
 1. [202011 November LeetCoding Challenge](#202011)
+1. [202012 December LeetCoding Challenge](#202012)
 1. [Array](#array)
 1. [Dynamic Programming](#dp)
 1. [Math](#math)
@@ -449,7 +450,7 @@ Happy Coding!!
 * [[Medium] [Solution] 673. Number of Longest Increasing Subsequence](%5BMedium%5D%20%5BSolution%5D%20673.%20Number%20of%20Longest%20Increasing%20Subsequence.md)
 * [[Hard] 99. Recover Binary Search Tree](%5BHard%5D%2099.%20Recover%20Binary%20Search%20Tree.md)
 
-## 202011 October LeetCoding Challenge <a name="202011"></a>
+## 202011 November LeetCoding Challenge <a name="202011"></a>
 * [[Easy] 1290. Convert Binary Number in a Linked List to Integer](%5BEasy%5D%201290.%20Convert%20Binary%20Number%20in%20a%20Linked%20List%20to%20Integer.md)
 * [[Medium] 147. Insertion Sort List](%5BMedium%5D%20147.%20Insertion%20Sort%20List.md)
 * [[Easy] 1446. Consecutive Characters](%5BEasy%5D%201446.%20Consecutive%20Characters.md)
@@ -480,7 +481,10 @@ Happy Coding!!
 * [[Hard] 239. Sliding Window Maximum](%5BHard%5D%20239.%20Sliding%20Window%20Maximum.md)
 * [[Medium] 1306. Jump Game III](%5BMedium%5D%201306.%20Jump%20Game%20III.md)
 * [[Hard] 218. The Skyline Problem](%5BHard%5D%20218.%20The%20Skyline%20Problem.md)
+
+## 202012 December LeetCoding Challenge <a name="202012"></a>
 * [[Easy] 104. Maximum Depth of Binary Tree](%5BEasy%5D%20104.%20Maximum%20Depth%20of%20Binary%20Tree.md)
+* [[Medium] 382. Linked List Random Node](%5BMedium%5D%20382.%20Linked%20List%20Random%20Node.md)
 
 ## Array <a name="array"></a>
 ---
@@ -15311,6 +15315,41 @@ class Solution:
 
 ## Random <a name="random"></a>
 ---
+### Reservoir Sampling
+```python
+# Definition for singly-linked list.
+# class ListNode:
+#     def __init__(self, val=0, next=None):
+#         self.val = val
+#         self.next = next
+class Solution:
+
+    def __init__(self, head: ListNode):
+        """
+        @param head The linked list's head.
+        Note that the head is guaranteed to be not null, so it contains at least one node.
+        """
+        self.head = head
+
+    def getRandom(self) -> int:
+        """
+        Returns a random node's value.
+        """
+        scope = 1
+        chosen_value = 0
+        curr = self.head
+
+        while curr:
+            # decide whether to include the element in reservoir
+            if random.random() < 1 / scope:
+                chosen_value = curr.val
+            # move on to the next node
+            curr = curr.next
+            scope += 1
+        return chosen_value
+```
+* [[Medium] 382. Linked List Random Node](%5BMedium%5D%20382.%20Linked%20List%20Random%20Node.md)
+
 ### Rejection Sampling, Utilizing out-of-range samples
 ```python
 class Solution:
