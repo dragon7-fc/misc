@@ -485,6 +485,7 @@ Happy Coding!!
 ## 202012 December LeetCoding Challenge <a name="202012"></a>
 * [[Easy] 104. Maximum Depth of Binary Tree](%5BEasy%5D%20104.%20Maximum%20Depth%20of%20Binary%20Tree.md)
 * [[Medium] 382. Linked List Random Node](%5BMedium%5D%20382.%20Linked%20List%20Random%20Node.md)
+* [[Easy] [Solution] 897. Increasing Order Search Tree](%5BEasy%5D%20%5BSolution%5D%20897.%20Increasing%20Order%20Search%20Tree.md)
 
 ## Array <a name="array"></a>
 ---
@@ -5529,6 +5530,31 @@ class Solution:
 
 ## Tree <a name='tree'></a>
 ---
+### Traversal with Relinking
+```python
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+
+class Solution:
+    def increasingBST(self, root: TreeNode) -> TreeNode:
+        def inorder(node):
+            if node:
+                inorder(node.left)
+                node.left = None
+                self.cur.right = node
+                self.cur = node
+                inorder(node.right)
+
+        ans = self.cur = TreeNode(None)
+        inorder(root)
+        return ans.right
+```
+* [[Easy] [Solution] 897. Increasing Order Search Tree](%5BEasy%5D%20%5BSolution%5D%20897.%20Increasing%20Order%20Search%20Tree.md)
+
 ### DFS/BFS
 ```python
 # Definition for a binary tree node.

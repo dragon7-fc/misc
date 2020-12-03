@@ -630,6 +630,15 @@ A playground to note something.
                 - Setup
 
                     ```bash
+                    ## setup static ip address for DHCP server
+                    # vim /etc/network/interfaces
+                    ##+++>
+                    auto [NETWORK_INTERFACE]
+                    iface [NETWORK_INTERFACE] inet static
+                    address [DHCP_IP]
+                    netmask [DHCP_NETMASK]
+                    ##+++<
+                    
                     sudo apt install isc-dhcp-server
 
                     # vim /etc/default/isc-dhcp-server

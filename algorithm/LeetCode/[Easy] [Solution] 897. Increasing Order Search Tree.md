@@ -104,7 +104,7 @@ class Solution:
 
 # Submissions
 ---
-**Solution:**
+**Solution: (Traversal with Relinking)**
 ```
 Runtime: 88 ms
 Memory Usage: 13 MB
