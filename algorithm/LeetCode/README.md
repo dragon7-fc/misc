@@ -486,6 +486,7 @@ Happy Coding!!
 * [[Easy] 104. Maximum Depth of Binary Tree](%5BEasy%5D%20104.%20Maximum%20Depth%20of%20Binary%20Tree.md)
 * [[Medium] 382. Linked List Random Node](%5BMedium%5D%20382.%20Linked%20List%20Random%20Node.md)
 * [[Easy] [Solution] 897. Increasing Order Search Tree](%5BEasy%5D%20%5BSolution%5D%20897.%20Increasing%20Order%20Search%20Tree.md)
+* [[Medium] 1492. The kth Factor of n](%5BMedium%5D%201492.%20The%20kth%20Factor%20of%20n.md)
 
 ## Array <a name="array"></a>
 ---
@@ -3892,7 +3893,20 @@ class Solution:
     def numberOfSets(self, n: int, k: int) -> int:
         return math.comb(n + k - 1, k * 2) % (10**9 + 7)
 ```
-* [1621. Number of Sets of K Non-Overlapping Line Segments](%5BMedium%5D%201621.%20Number%20of%20Sets%20of%20K%20Non-Overlapping%20Line%20Segments.md)
+* [[Medium] 1621. Number of Sets of K Non-Overlapping Line Segments](%5BMedium%5D%201621.%20Number%20of%20Sets%20of%20K%20Non-Overlapping%20Line%20Segments.md)
+
+### Factor
+```python
+class Solution:
+    def kthFactor(self, n: int, k: int) -> int:
+        for factor in range(1, n + 1):
+            if n % factor == 0:
+                k -= 1
+                if k == 0:
+                    return factor
+        return -1
+```
+* [[Medium] 1492. The kth Factor of n](%5BMedium%5D%201492.%20The%20kth%20Factor%20of%20n.md)
 
 ### Checking Loop
 ```python
