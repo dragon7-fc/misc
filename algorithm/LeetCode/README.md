@@ -487,6 +487,7 @@ Happy Coding!!
 * [[Medium] 382. Linked List Random Node](%5BMedium%5D%20382.%20Linked%20List%20Random%20Node.md)
 * [[Easy] [Solution] 897. Increasing Order Search Tree](%5BEasy%5D%20%5BSolution%5D%20897.%20Increasing%20Order%20Search%20Tree.md)
 * [[Medium] 1492. The kth Factor of n](%5BMedium%5D%201492.%20The%20kth%20Factor%20of%20n.md)
+* [[Easy] [Solution] 605. Can Place Flowers](%5BEasy%5D%20%5BSolution%5D%20605.%20Can%20Place%20Flowers.md)
 
 ## Array <a name="array"></a>
 ---
