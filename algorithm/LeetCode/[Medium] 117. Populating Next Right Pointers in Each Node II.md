@@ -38,10 +38,10 @@ Explanation: Given the above binary tree (Figure A), your function should popula
 
 # Submissions
 ---
-**Solution 1:**
+**Solution 1: (Level Order)**
 ```
-Runtime: 48 ms
-Memory Usage: 13.9 MB
+Runtime: 52 ms
+Memory Usage: 15.4 MB
 ```
 ```python
 """
@@ -53,22 +53,57 @@ class Node:
         self.right = right
         self.next = next
 """
+
 class Solution:
     def connect(self, root: 'Node') -> 'Node':
         if root == None:
             return None
-        stack = [root]
-        
-        while stack != []:
-            for i in range(0,len(stack)-1):
-                stack[i].next = stack[i+1]
-            new_stack = []
-            for i in stack:
-                if i.left != None:
-                    new_stack.append(i.left)
-                if i.right != None:
-                    new_stack.append(i.right)
-            stack = new_stack
-            
+        q = [root]
+
+        while q != []:
+            for i in range(0,len(q)-1):
+                q[i].next = q[i+1]
+            nq = []
+            for node in q:
+                if node.left != None:
+                    nq.append(node.left)
+                if node.right != None:
+                    nq.append(node.right)
+            q = nq
+
+        return root 
+```
+
+**Solution 2 (Tree, Linked-List Walk through every level)**
+```
+Runtime: 40 ms
+Memory Usage: 15.4 MB
+```
+```python
+"""
+# Definition for a Node.
+class Node:
+    def __init__(self, val: int = 0, left: 'Node' = None, right: 'Node' = None, next: 'Node' = None):
+        self.val = val
+        self.left = left
+        self.right = right
+        self.next = next
+"""
+
+class Solution:
+    def connect(self, root: 'Node') -> 'Node':
+        node = root
+        while node:
+            curr = dummy = Node(0)
+            while node:
+                if node.left:
+                    curr.next = node.left
+                    curr = curr.next
+                if node.right:
+                    curr.next = node.right
+                    curr = curr.next
+                node = node.next
+            node = dummy.next
+               
         return root
 ```

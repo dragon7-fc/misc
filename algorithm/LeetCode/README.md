@@ -488,6 +488,7 @@ Happy Coding!!
 * [[Easy] [Solution] 897. Increasing Order Search Tree](%5BEasy%5D%20%5BSolution%5D%20897.%20Increasing%20Order%20Search%20Tree.md)
 * [[Medium] 1492. The kth Factor of n](%5BMedium%5D%201492.%20The%20kth%20Factor%20of%20n.md)
 * [[Easy] [Solution] 605. Can Place Flowers](%5BEasy%5D%20%5BSolution%5D%20605.%20Can%20Place%20Flowers.md)
+* [[Medium] 117. Populating Next Right Pointers in Each Node II](%5BMedium%5D%20117.%20Populating%20Next%20Right%20Pointers%20in%20Each%20Node%20II.md)
 
 ## Array <a name="array"></a>
 ---
@@ -5769,6 +5770,37 @@ class Solution:
             return self.searchBST(root.right, val)
 ```
 * [[Easy] 700. Search in a Binary Search Tree](%5BEasy%5D%20700.%20Search%20in%20a%20Binary%20Search%20Tree.md)
+
+### Linked-List Walk through every level
+```python
+"""
+# Definition for a Node.
+class Node:
+    def __init__(self, val: int = 0, left: 'Node' = None, right: 'Node' = None, next: 'Node' = None):
+        self.val = val
+        self.left = left
+        self.right = right
+        self.next = next
+"""
+
+class Solution:
+    def connect(self, root: 'Node') -> 'Node':
+        node = root
+        while node:
+            curr = dummy = Node(0)
+            while node:
+                if node.left:
+                    curr.next = node.left
+                    curr = curr.next
+                if node.right:
+                    curr.next = node.right
+                    curr = curr.next
+                node = node.next
+            node = dummy.next
+
+        return root
+```
+* [[Medium] 117. Populating Next Right Pointers in Each Node II](%5BMedium%5D%20117.%20Populating%20Next%20Right%20Pointers%20in%20Each%20Node%20II.md)
 
 ### DFS, Queue
 ```python
