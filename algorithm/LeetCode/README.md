@@ -489,6 +489,7 @@ Happy Coding!!
 * [[Medium] 1492. The kth Factor of n](%5BMedium%5D%201492.%20The%20kth%20Factor%20of%20n.md)
 * [[Easy] [Solution] 605. Can Place Flowers](%5BEasy%5D%20%5BSolution%5D%20605.%20Can%20Place%20Flowers.md)
 * [[Medium] 117. Populating Next Right Pointers in Each Node II](%5BMedium%5D%20117.%20Populating%20Next%20Right%20Pointers%20in%20Each%20Node%20II.md)
+* [[Medium] 59. Spiral Matrix II](%5BMedium%5D%2059.%20Spiral%20Matrix%20II.md)
 
 ## Array <a name="array"></a>
 ---
@@ -7027,6 +7028,30 @@ class Solution:
         return image
 ```
 * [[Easy] [Solution] 733. Flood Fill](%5BEasy%5D%20%5BSolution%5D%20733.%20Flood%20Fill.md)
+
+### Spiral
+```python
+class Solution:
+    def generateMatrix(self, n: int) -> List[List[int]]:
+        ans = [[0]*n for _ in range(n)]
+        dx = [0, 1, 0, -1]
+        dy = [1, 0, -1, 0]
+        
+        def dfs(x, y, d, k):
+            ans[x][y] = k
+            nx, ny = x+dx[d], y+dy[d]
+            if 0 <= nx < n and  0 <= ny < n and ans[nx][ny] == 0:
+                dfs(nx, ny, d, k+1)
+            else:
+                d = (d+1)%4
+                nx, ny = x+dx[d], y+dy[d]
+                if 0 <= nx < n and  0 <= ny < n and ans[nx][ny] == 0:
+                    dfs(nx, ny, d, k+1)
+            
+        dfs(0, 0, 0, 1)
+        return ans
+```
+* [[Medium] 59. Spiral Matrix II](%5BMedium%5D%2059.%20Spiral%20Matrix%20II.md)
 
 ### Maximum Minus Minimum, Postorder with current max and min as parameter and return as answer
 ```python

@@ -40,31 +40,27 @@ class Solution:
 
 **Solution 2: (DFS)**
 ```
-Runtime: 32 ms
-Memory Usage: 13.3 MB
+Runtime: 28 ms
+Memory Usage: 14.6 MB
 ```
 ```python
 class Solution:
     def generateMatrix(self, n: int) -> List[List[int]]:
-        if n == 1: return [[1]]
         ans = [[0]*n for _ in range(n)]
-        dr = [0, 1, 0, -1]
-        dc = [1, 0, -1, 0]
-        seen = set()
+        dx = [0, 1, 0, -1]
+        dy = [1, 0, -1, 0]
         
-        def dfs(r, c, i, direction):
-            nonlocal ans
-            ans[r][c] = i
-            i += 1
-            seen.add((r, c))
-            nr, nc = r+dr[direction], c + dc[direction]
-            if not (0 <= nr < n and 0 <= nc < n) or (nr, nc) in seen:
-                direction = (direction + 1)%4
-                nr, nc = r+dr[direction], c + dc[direction]
-                if (nr, nc) in seen:
-                    return
-            dfs(nr, nc, i, direction)
-                 
-        dfs(0, 0, 1, 0)
+        def dfs(x, y, d, k):
+            ans[x][y] = k
+            nx, ny = x+dx[d], y+dy[d]
+            if 0 <= nx < n and  0 <= ny < n and ans[nx][ny] == 0:
+                dfs(nx, ny, d, k+1)
+            else:
+                d = (d+1)%4
+                nx, ny = x+dx[d], y+dy[d]
+                if 0 <= nx < n and  0 <= ny < n and ans[nx][ny] == 0:
+                    dfs(nx, ny, d, k+1)
+            
+        dfs(0, 0, 0, 1)
         return ans
 ```
