@@ -490,9 +490,26 @@ Happy Coding!!
 * [[Easy] [Solution] 605. Can Place Flowers](%5BEasy%5D%20%5BSolution%5D%20605.%20Can%20Place%20Flowers.md)
 * [[Medium] 117. Populating Next Right Pointers in Each Node II](%5BMedium%5D%20117.%20Populating%20Next%20Right%20Pointers%20in%20Each%20Node%20II.md)
 * [[Medium] 59. Spiral Matrix II](%5BMedium%5D%2059.%20Spiral%20Matrix%20II.md)
+* [[Easy] 1010. Pairs of Songs With Total Durations Divisible by 60](%5BEasy%5D%201010.%20Pairs%20of%20Songs%20With%20Total%20Durations%20Divisible%20by%2060.md)
 
 ## Array <a name="array"></a>
 ---
+### Counter
+```python
+class Solution:
+    def numPairsDivisibleBy60(self, time: List[int]) -> int:
+        c = collections.Counter(map(lambda x: x % 60, time))
+        ans = 0
+        for k in c.keys():
+            if k <= 30 and c[(60-k) % 60]:
+                if k == 0 or k == 30:
+                    ans += (c[k] * (c[k]-1)) // 2
+                else:
+                    ans += c[k] * c[60-k]
+        return ans
+```
+* [[Easy] 1010. Pairs of Songs With Total Durations Divisible by 60](%5BEasy%5D%201010.%20Pairs%20of%20Songs%20With%20Total%20Durations%20Divisible%20by%2060.md)
+
 ### space transformation
 ```python
 class Solution:
