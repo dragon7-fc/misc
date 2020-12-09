@@ -491,6 +491,7 @@ Happy Coding!!
 * [[Medium] 117. Populating Next Right Pointers in Each Node II](%5BMedium%5D%20117.%20Populating%20Next%20Right%20Pointers%20in%20Each%20Node%20II.md)
 * [[Medium] 59. Spiral Matrix II](%5BMedium%5D%2059.%20Spiral%20Matrix%20II.md)
 * [[Easy] 1010. Pairs of Songs With Total Durations Divisible by 60](%5BEasy%5D%201010.%20Pairs%20of%20Songs%20With%20Total%20Durations%20Divisible%20by%2060.md)
+* [[Medium] [Solution] 173. Binary Search Tree Iterator](%5BMedium%5D%20%5BSolution%5D%20173.%20Binary%20Search%20Tree%20Iterator.md)
 
 ## Array <a name="array"></a>
 ---
@@ -10390,6 +10391,55 @@ class Solution:
         return not stack
 ```
 * [[Easy] [Solution] 20. Valid Parentheses](%5BEasy%5D%20%5BSolution%5D%2020.%20Valid%20Parentheses.md)
+
+### Controlled Recursion
+```python
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+class BSTIterator:
+
+    def __init__(self, root: TreeNode):
+
+        # Stack for the recursion simulation
+        self.stack = []
+
+        # Remember that the algorithm starts with a call to the helper function
+        # with the root node as the input
+        self._leftmost_inorder(root)
+
+    def _leftmost_inorder(self, root):
+
+        # For a given node, add all the elements in the leftmost branch of the tree
+        # under it to the stack.
+        while root:
+            self.stack.append(root)
+            root = root.left
+
+    def next(self) -> int:
+
+        # Node at the top of the stack is the next smallest element
+        topmost_node = self.stack.pop()
+
+        # Need to maintain the invariant. If the node has a right child, call the
+        # helper function for the right child
+        if topmost_node.right:
+            self._leftmost_inorder(topmost_node.right)
+        return topmost_node.val
+
+    def hasNext(self) -> bool:
+        return len(self.stack) > 0
+
+
+# Your BSTIterator object will be instantiated and called as such:
+# obj = BSTIterator(root)
+# param_1 = obj.next()
+# param_2 = obj.hasNext()
+```
+* [[Medium] [Solution] 173. Binary Search Tree Iterator](%5BMedium%5D%20%5BSolution%5D%20173.%20Binary%20Search%20Tree%20Iterator.md)
 
 ### Monotonic Stack
 ```python
