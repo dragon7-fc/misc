@@ -492,9 +492,33 @@ Happy Coding!!
 * [[Medium] 59. Spiral Matrix II](%5BMedium%5D%2059.%20Spiral%20Matrix%20II.md)
 * [[Easy] 1010. Pairs of Songs With Total Durations Divisible by 60](%5BEasy%5D%201010.%20Pairs%20of%20Songs%20With%20Total%20Durations%20Divisible%20by%2060.md)
 * [[Medium] [Solution] 173. Binary Search Tree Iterator](%5BMedium%5D%20%5BSolution%5D%20173.%20Binary%20Search%20Tree%20Iterator.md)
+* [[Easy] [Solution] 941. Valid Mountain Array](%5BEasy%5D%20%5BSolution%5D%20941.%20Valid%20Mountain%20Array.md)
 
 ## Array <a name="array"></a>
 ---
+### Two while loop for Walk up and down
+```python
+class Solution:
+    def validMountainArray(self, arr: List[int]) -> bool:
+        N = len(arr)
+        i = 0
+
+        # walk up
+        while i+1 < N and arr[i] < arr[i+1]:
+            i += 1
+
+        # peak can't be first or last
+        if i == 0 or i == N-1:
+            return False
+
+        # walk down
+        while i+1 < N and arr[i] > arr[i+1]:
+            i += 1
+
+        return i == N-1
+```
+* [[Easy] [Solution] 941. Valid Mountain Array](%5BEasy%5D%20%5BSolution%5D%20941.%20Valid%20Mountain%20Array.md)
+
 ### Counter
 ```python
 class Solution:
