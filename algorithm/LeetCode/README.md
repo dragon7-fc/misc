@@ -493,6 +493,7 @@ Happy Coding!!
 * [[Easy] 1010. Pairs of Songs With Total Durations Divisible by 60](%5BEasy%5D%201010.%20Pairs%20of%20Songs%20With%20Total%20Durations%20Divisible%20by%2060.md)
 * [[Medium] [Solution] 173. Binary Search Tree Iterator](%5BMedium%5D%20%5BSolution%5D%20173.%20Binary%20Search%20Tree%20Iterator.md)
 * [[Easy] [Solution] 941. Valid Mountain Array](%5BEasy%5D%20%5BSolution%5D%20941.%20Valid%20Mountain%20Array.md)
+* [[Medium] 80. Remove Duplicates from Sorted Array II](%5BMedium%5D%2080.%20Remove%20Duplicates%20from%20Sorted%20Array%20II.md)
 
 ## Array <a name="array"></a>
 ---
@@ -9896,6 +9897,21 @@ class Solution:
         return False
 ```
 * [[Easy] 392. Is Subsequence](%5BEasy%5D%20392.%20Is%20Subsequence.md)
+
+### Greedy Increase and assign
+```python
+class Solution:
+    def removeDuplicates(self, nums: List[int]) -> int:
+        if len(nums) < 3:
+            return len(nums)
+        i = 1
+        for j in range(2, len(nums)):
+            if (nums[i-1] != nums[j]) or (nums[i] != nums[j]):
+                i += 1        
+            nums[i] = nums[j]   
+        return i+1
+```
+* [[Medium] 80. Remove Duplicates from Sorted Array II](%5BMedium%5D%2080.%20Remove%20Duplicates%20from%20Sorted%20Array%20II.md)
 
 ### Greedy increase then rebase
 ```python
