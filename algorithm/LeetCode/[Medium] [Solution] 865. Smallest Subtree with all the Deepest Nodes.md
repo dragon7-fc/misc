@@ -137,7 +137,7 @@ class Solution(object):
 
 # Submissions
 ---
-**Solution:**
+**Solution 1: (Recursion)**
 ```
 Runtime: 28 ms
 Memory Usage: 12.9 MB
@@ -167,4 +167,34 @@ class Solution:
             return Result(node, L.dist + 1)
 
         return dfs(root).node
+```
+
+**solution 2: (DFS)**
+```
+Runtime: 28 ms
+Memory Usage: 14.5 MB
+```
+```python
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+class Solution:
+    def subtreeWithAllDeepest(self, root: TreeNode) -> TreeNode:
+        
+        def dfs(node, depth):
+            if not node:
+                return [depth, None]
+            left_depth, left_node = dfs(node.left, depth+1)
+            right_depth, right_node = dfs(node.right, depth+1)
+            if left_depth > right_depth:
+                return [left_depth, left_node]
+            elif left_depth < right_depth:
+                return [right_depth, right_node]
+            else:
+                return [left_depth, node]
+        
+        return dfs(root, 0)[1]
 ```

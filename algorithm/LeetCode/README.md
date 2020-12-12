@@ -494,6 +494,7 @@ Happy Coding!!
 * [[Medium] [Solution] 173. Binary Search Tree Iterator](%5BMedium%5D%20%5BSolution%5D%20173.%20Binary%20Search%20Tree%20Iterator.md)
 * [[Easy] [Solution] 941. Valid Mountain Array](%5BEasy%5D%20%5BSolution%5D%20941.%20Valid%20Mountain%20Array.md)
 * [[Medium] 80. Remove Duplicates from Sorted Array II](%5BMedium%5D%2080.%20Remove%20Duplicates%20from%20Sorted%20Array%20II.md)
+* [[Medium] [Solution] 865. Smallest Subtree with all the Deepest Nodes](%5BMedium%5D%20%5BSolution%5D%20865.%20Smallest%20Subtree%20with%20all%20the%20Deepest%20Nodes.md)
 
 ## Array <a name="array"></a>
 ---
@@ -7071,6 +7072,35 @@ class Solution:
         return image
 ```
 * [[Easy] [Solution] 733. Flood Fill](%5BEasy%5D%20%5BSolution%5D%20733.%20Flood%20Fill.md)
+
+### Return tupple
+```python
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+
+class Solution:
+    def subtreeWithAllDeepest(self, root: TreeNode) -> TreeNode:
+        # The result of a subtree is:
+        # Result.node: the largest depth node that is equal to or
+        #              an ancestor of all the deepest nodes of this subtree.
+        # Result.dist: the number of nodes in the path from the root
+        #              of this subtree, to the deepest node in this subtree.
+        Result = collections.namedtuple("Result", ("node", "dist"))
+        def dfs(node):
+            # Return the result of the subtree at this node.
+            if not node: return Result(None, 0)
+            L, R = dfs(node.left), dfs(node.right)
+            if L.dist > R.dist: return Result(L.node, L.dist + 1)
+            if L.dist < R.dist: return Result(R.node, R.dist + 1)
+            return Result(node, L.dist + 1)
+
+        return dfs(root).node
+```
+* [[Medium] [Solution] 865. Smallest Subtree with all the Deepest Nodes](%5BMedium%5D%20%5BSolution%5D%20865.%20Smallest%20Subtree%20with%20all%20the%20Deepest%20Nodes.md)
 
 ### Spiral
 ```python
