@@ -495,6 +495,7 @@ Happy Coding!!
 * [[Easy] [Solution] 941. Valid Mountain Array](%5BEasy%5D%20%5BSolution%5D%20941.%20Valid%20Mountain%20Array.md)
 * [[Medium] 80. Remove Duplicates from Sorted Array II](%5BMedium%5D%2080.%20Remove%20Duplicates%20from%20Sorted%20Array%20II.md)
 * [[Medium] [Solution] 865. Smallest Subtree with all the Deepest Nodes](%5BMedium%5D%20%5BSolution%5D%20865.%20Smallest%20Subtree%20with%20all%20the%20Deepest%20Nodes.md)
+* [[Hard] 312. Burst Balloons](%5BHard%5D%20312.%20Burst%20Balloons.md)
 
 ## Array <a name="array"></a>
 ---
@@ -14216,21 +14217,37 @@ class Solution:
 import functools
 class Solution:
     def maxCoins(self, nums: List[int]) -> int:
-
+        nums_ext = [1] + [num for num in nums if num != 0] + [1]
+        N = len(nums_ext) - 2
+        
         @functools.lru_cache(None)
-        def dfs(seq, lower, upper):
+        def dfs(lower, upper):
             max_coins = 0
             for i in range(lower, upper+1):
-                coins = seq[lower-1] * seq[i] * seq[upper+1]
-                coins += dfs(seq, lower, i-1)
-                coins += dfs(seq, i+1, upper)
+                coins = nums_ext[lower-1] * nums_ext[i] * nums_ext[upper+1]
+                coins += dfs(lower, i-1)
+                coins += dfs(i+1, upper)
                 if coins > max_coins:
                     max_coins = coins
             return max_coins
 
-        nums_ext = [1] + [num for num in nums if num != 0] + [1]
-        N = len(nums_ext) - 2
-        return dfs(tuple(nums_ext), 1, N)
+        return dfs(1, N)
+    
+class Solution:
+    def maxCoins(self, nums: List[int]) -> int:
+        nums = [1] + [num for num in nums if num > 0] + [1]
+        n = len(nums)
+        dp = [[0]*n for _ in range(n)]
+
+        for length in range(1, n-1):
+            for left in range(0, n-1-length):
+                right = left + length + 1
+                for i in range(left+1, right):
+                    dp[left][right] = max(dp[left][right], 
+                                          nums[left]*nums[i]*nums[right] +
+                                          dp[left][i] + dp[i][right])
+
+        return dp[0][n-1]
 ```
 * [[Hard] 312. Burst Balloons](%5BHard%5D%20312.%20Burst%20Balloons.md)
 

@@ -60,13 +60,14 @@ class Solution:
 ![312_2.jpeg](img/312_2.jpeg)
 
 ```
-Runtime: 476 ms
-Memory Usage: 16.3 MB
+Runtime: 456 ms
+Memory Usage: 16.1 MB
 ```
 ```python
-import functools
 class Solution:
     def maxCoins(self, nums: List[int]) -> int:
+        nums_ext = [1] + [num for num in nums if num != 0] + [1]
+        N = len(nums_ext) - 2
         
         @functools.lru_cache(None)
         def dfs(lower, upper):
@@ -79,8 +80,6 @@ class Solution:
                     max_coins = coins
             return max_coins
 
-        nums_ext = [1] + [num for num in nums if num != 0] + [1]
-        N = len(nums_ext) - 2
         return dfs(1, N)
 ```
 
