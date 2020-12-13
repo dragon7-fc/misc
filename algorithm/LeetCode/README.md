@@ -12812,6 +12812,28 @@ return dummy.next
 
 ## Heap <a name="heap"></a>
 ---
+### Greedy Max Heap
+```python
+class Solution:
+    def stoneGameVI(self, aliceValues: List[int], bobValues: List[int]) -> int:
+        heap = [(-i-j, i, j) for i,j in zip(aliceValues,bobValues)] #max heap
+        AScore = 0
+        BScore = 0
+        heapq.heapify(heap)
+        turn = "A"
+        while heap:
+            _, ascore, bscore = heapq.heappop(heap)
+            if turn == "A":
+                AScore += ascore
+                turn = "B"
+            else:
+                BScore += bscore
+                turn = "A"
+        if AScore == BScore : return 0
+        return 1 if AScore > BScore else  -1
+```
+* [[Medium] 1686. Stone Game VI](%5BMedium%5D%201686.%20Stone%20Game%20VI.md)
+
 ### Greedy push to/pop from Heap with max profit
 ```python
 class Solution:
