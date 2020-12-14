@@ -496,6 +496,7 @@ Happy Coding!!
 * [[Medium] 80. Remove Duplicates from Sorted Array II](%5BMedium%5D%2080.%20Remove%20Duplicates%20from%20Sorted%20Array%20II.md)
 * [[Medium] [Solution] 865. Smallest Subtree with all the Deepest Nodes](%5BMedium%5D%20%5BSolution%5D%20865.%20Smallest%20Subtree%20with%20all%20the%20Deepest%20Nodes.md)
 * [[Hard] 312. Burst Balloons](%5BHard%5D%20312.%20Burst%20Balloons.md)
+* [[Medium] 131. Palindrome Partitioning](%5BMedium%5D%20131.%20Palindrome%20Partitioning.md)
 
 ## Array <a name="array"></a>
 ---
@@ -10917,6 +10918,25 @@ return ans
 
 ## Backtracking <a name="backtracking"></a>
 ---
+### Backtracking
+```python
+class Solution:
+    def partition(self, s: str) -> List[List[str]]:    
+        def backtrack(s, candidate):
+            if not s: res.append(candidate[:]); return
+            for i in range(1, len(s)+1):
+                #equal to s[:i] == s[:i][::-1]
+                if s[:i] == s[i-1::-1]:
+                    candidate.append(s[:i])
+                    backtrack(s[i:], candidate)
+                    candidate.pop()
+        res = []
+        backtrack(s, [])
+
+        return res
+```
+* [[Medium] 131. Palindrome Partitioning](%5BMedium%5D%20131.%20Palindrome%20Partitioning.md)
+
 ### Backtracking with Groups of Numbers
 ```python
 class Solution:
