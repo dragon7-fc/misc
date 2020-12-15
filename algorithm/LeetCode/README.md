@@ -497,6 +497,7 @@ Happy Coding!!
 * [[Medium] [Solution] 865. Smallest Subtree with all the Deepest Nodes](%5BMedium%5D%20%5BSolution%5D%20865.%20Smallest%20Subtree%20with%20all%20the%20Deepest%20Nodes.md)
 * [[Hard] 312. Burst Balloons](%5BHard%5D%20312.%20Burst%20Balloons.md)
 * [[Medium] 131. Palindrome Partitioning](%5BMedium%5D%20131.%20Palindrome%20Partitioning.md)
+* [[Easy] [Solution] 977. Squares of a Sorted Array](%5BEasy%5D%20%5BSolution%5D%20977.%20Squares%20of%20a%20Sorted%20Array.md)
 
 ## Array <a name="array"></a>
 ---
@@ -9872,6 +9873,37 @@ return ans if len(ans) == N else []
 
 ## Two Pointers <a name="tp"></a>
 ---
+### Two Pointers
+```python
+class Solution:
+    def sortedSquares(self, A: List[int]) -> List[int]:
+        N = len(A)
+        # i, j: negative, positive parts
+        j = 0
+        while j < N and A[j] < 0:
+            j += 1
+        i = j - 1
+
+        ans = []
+        while 0 <= i and j < N:
+            if A[i]**2 < A[j]**2:
+                ans.append(A[i]**2)
+                i -= 1
+            else:
+                ans.append(A[j]**2)
+                j += 1
+
+        while i >= 0:
+            ans.append(A[i]**2)
+            i -= 1
+        while j < N:
+            ans.append(A[j]**2)
+            j += 1
+
+        return ans
+```
+* [[Easy] [Solution] 977. Squares of a Sorted Array](%5BEasy%5D%20%5BSolution%5D%20977.%20Squares%20of%20a%20Sorted%20Array.md)
+
 ### Sort Array By Parity
 ```python
 class Solution:
