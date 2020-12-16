@@ -859,6 +859,7 @@ A playground to note something.
 * FTP
 
      - Server
+     
          ```
          # Install
          sudo apt update
@@ -897,6 +898,41 @@ A playground to note something.
     - Client
 
         `ftp -p [FTP_SERVER_IP]`
+* HTTP
+
+    - apache
+    
+        - [Apache HTTP Server - ArchWiki](https://wiki.archlinux.org/index.php/Apache_HTTP_Server)
+* Proxy
+
+    - forward
+    
+        - squid
+
+            - [Squid - Arch Wiki](https://wiki.archlinux.org/index.php/squid)
+            - Forward request to other proxy
+
+                ```
+                sudo diff /etc/squid/squid.conf /etc/squid/squid.conf.bak
+
+                612,614d611
+                < acl localnet src 10.32.2.0/21 # RFC1918 possible internal network
+                < acl localnet src 10.32.3.0/21 # RFC1918 possible internal network
+                < acl localnet src 10.32.4.0/21 # RFC1918 possible internal network
+                679c676
+                < http_access allow localnet
+                ---
+                > #http_access allow localnet
+                4952,4953d4948
+                <
+                < cache_peer [PROXY_IP] parent [PROXY_PORT] 0 no-query default login=[PROXY_USER]:[PROXY_PASSWORD]
+                ```
+    - reverse
+    
+        - nginx
+    
+            - [nginx - ArchWiki](https://wiki.archlinux.org/index.php/nginx)
+            - [How to Set up a Reverse Proxy (Step-By-Steps for Nginx and Apache)](https://kinsta.com/blog/reverse-proxy/)
 * Wireshark
 
     - [How to Decrypt SSL and TLS Traffic Using Wireshark](https://support.citrix.com/article/CTX116557)

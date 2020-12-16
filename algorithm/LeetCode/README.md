@@ -498,6 +498,7 @@ Happy Coding!!
 * [[Hard] 312. Burst Balloons](%5BHard%5D%20312.%20Burst%20Balloons.md)
 * [[Medium] 131. Palindrome Partitioning](%5BMedium%5D%20131.%20Palindrome%20Partitioning.md)
 * [[Easy] [Solution] 977. Squares of a Sorted Array](%5BEasy%5D%20%5BSolution%5D%20977.%20Squares%20of%20a%20Sorted%20Array.md)
+* [[Medium] 98. Validate Binary Search Tree](%5BMedium%5D%2098.%20Validate%20Binary%20Search%20Tree.md)
 
 ## Array <a name="array"></a>
 ---
@@ -5818,6 +5819,26 @@ class Solution:
             return self.searchBST(root.right, val)
 ```
 * [[Easy] 700. Search in a Binary Search Tree](%5BEasy%5D%20700.%20Search%20in%20a%20Binary%20Search%20Tree.md)
+
+### Pre-order
+```python
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+
+class Solution:
+    def isValidBST(self, root: TreeNode) -> bool:
+        def dfs(node, low, high):    
+            if not node: return True       
+            if node.val >= high or node.val <= low: return False      
+            return dfs(node.left, low, node.val) and dfs(node.right, node.val, high)
+
+        return dfs(root, float('-inf'), float('inf'))
+```
+* [[Medium] 98. Validate Binary Search Tree](%5BMedium%5D%2098.%20Validate%20Binary%20Search%20Tree.md)
 
 ### Linked-List Walk through every level
 ```python
