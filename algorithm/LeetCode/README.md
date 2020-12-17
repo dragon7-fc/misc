@@ -499,6 +499,7 @@ Happy Coding!!
 * [[Medium] 131. Palindrome Partitioning](%5BMedium%5D%20131.%20Palindrome%20Partitioning.md)
 * [[Easy] [Solution] 977. Squares of a Sorted Array](%5BEasy%5D%20%5BSolution%5D%20977.%20Squares%20of%20a%20Sorted%20Array.md)
 * [[Medium] 98. Validate Binary Search Tree](%5BMedium%5D%2098.%20Validate%20Binary%20Search%20Tree.md)
+* [[Medium] 454. 4Sum II](%5BMedium%5D%20454.%204Sum%20II.md)
 
 ## Array <a name="array"></a>
 ---
@@ -6397,6 +6398,25 @@ class Solution:
         return (B - A).pop()
 ```
 * [[Easy] 1436. Destination City](%5BEasy%5D%201436.%20Destination%20City.md)
+
+### Hash Table Counter
+```python
+class Solution:
+    def fourSumCount(self, A: List[int], B: List[int], C: List[int], D: List[int]) -> int:
+        total_sum = 0
+        cache = collections.defaultdict(int)
+        for i in C:
+            for j in D:
+                key = i + j
+                cache[key] += 1
+        for i in A:
+            for j in B:
+                key = 0 - i - j
+                if key in cache:
+                    total_sum += cache[key]
+        return total_sum
+```
+* [[Medium] 454. 4Sum II](%5BMedium%5D%20454.%204Sum%20II.md)
 
 ### Hash Key = Pattern sequence
 ```python

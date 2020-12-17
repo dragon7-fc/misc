@@ -903,36 +903,56 @@ A playground to note something.
     - apache
     
         - [Apache HTTP Server - ArchWiki](https://wiki.archlinux.org/index.php/Apache_HTTP_Server)
+        - [How To Configure Apache 2](https://www3.ntu.edu.sg/home/ehchua/programming/howto/Apache_HowToConfigure.html)
 * Proxy
 
     - forward
     
-        - squid
-
-            - [Squid - Arch Wiki](https://wiki.archlinux.org/index.php/squid)
-            - Forward request to other proxy
-
-                ```
-                sudo diff /etc/squid/squid.conf /etc/squid/squid.conf.bak
-
-                612,614d611
-                < acl localnet src 10.32.2.0/21 # RFC1918 possible internal network
-                < acl localnet src 10.32.3.0/21 # RFC1918 possible internal network
-                < acl localnet src 10.32.4.0/21 # RFC1918 possible internal network
-                679c676
-                < http_access allow localnet
-                ---
-                > #http_access allow localnet
-                4952,4953d4948
-                <
-                < cache_peer [PROXY_IP] parent [PROXY_PORT] 0 no-query default login=[PROXY_USER]:[PROXY_PASSWORD]
-                ```
+        - Server
+    
+            - squid
+        
+                - Setup
+                
+                    ```
+                    sudo apt install squid -y
+                    
+                    sudo git diff /etc/squid/squid.conf.bak /etc/squid/squid.conf 
+                    
+                    
+                    ...
+                     acl localnet src 192.168.0.0/16        # RFC1918 possible internal network
+                     +acl localnet src X.X.X.X/X  # add X.X.X.X/X as localnet acl
+                    ...
+                    -#http_access allow localnet
+                    +http_access allow localnet  # allow localnet acl
+                    ...
+                    +cache_peer [PROXY_IP] parent [PROXY_PORT] 0 no-query default login=[PROXY_USER|]:[PROXY_PASSWORD]  # add another proxy to forward request
+                    
+                    sudo systemctl restart squid
+                    ```
+                - Port
+                
+                    - tcp/3128
+                - Log
+                
+                    ```
+                    /var/log/squid/access.log
+                    /var/log/squid/store.log
+                    ```
+                - [Squid - Arch Wiki](https://wiki.archlinux.org/index.php/squid)
+                - [How To Setup Your Own Free Proxy Server Using Squid Proxy](https://comtechies.com/free-proxy-server-setup-squid-proxy.html)
     - reverse
     
         - nginx
     
             - [nginx - ArchWiki](https://wiki.archlinux.org/index.php/nginx)
             - [How to Set up a Reverse Proxy (Step-By-Steps for Nginx and Apache)](https://kinsta.com/blog/reverse-proxy/)
+    - client
+    
+        - Setup environment variable
+            
+            `export http_proxy=[PROXY_USER]:[PROXY_PASSWORD]@[PROXY_IP]:[PROXY_PORT]`
 * Wireshark
 
     - [How to Decrypt SSL and TLS Traffic Using Wireshark](https://support.citrix.com/article/CTX116557)

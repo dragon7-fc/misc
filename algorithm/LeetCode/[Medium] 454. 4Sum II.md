@@ -23,7 +23,7 @@ The two tuples are:
 
 # Submissions
 ---
-**Solution 1:**
+**Solution 1: (Hash Table)**
 
 first we put sum of C and D values into dict
 ```
