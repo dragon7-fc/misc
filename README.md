@@ -900,10 +900,254 @@ A playground to note something.
         `ftp -p [FTP_SERVER_IP]`
 * HTTP
 
-    - apache
+    - Server
     
-        - [Apache HTTP Server - ArchWiki](https://wiki.archlinux.org/index.php/Apache_HTTP_Server)
-        - [How To Configure Apache 2](https://www3.ntu.edu.sg/home/ehchua/programming/howto/Apache_HowToConfigure.html)
+        - apache
+        
+            - Setup
+            
+                - CentOS
+            
+                    ```bash
+                    sudo yum -y  install httpd.x86_64 
+
+                    ## main configuration file 
+                    # /etc/httpd/conf/httpd.conf
+
+                    ## Web page
+                    # /var/www
+
+                    ## install php module
+                    # sudo yum install php
+
+                    ## install perl module
+                    # sudo yum install mod_perl
+
+                    ## module file
+                    # /etc/httpd/modules/
+
+                    ## module configuration file
+                    # /etc/httpd/conf.modules.d
+
+                    ## Name Based Virtual Hosting (every domains to Single IP)
+                    sudo vim /etc/httpd/conf/httpd.conf
+                    ##+++>
+                    NameVirtualHost 192.168.10.128:80
+
+                    <VirtualHost 192.168.10.128:80>
+                        ServerAdmin webmaster@example1.com
+                        DocumentRoot /var/www/html/example1
+                        ServerName www.example1.com
+                        ErrorLog /var/log/httpd/error_log
+                        CustomLog /var/log/httpd/access_log
+                    </VirtualHost>
+                    <VirtualHost *:80>
+                        ServerAdmin webmaster@example2.com
+                        DocumentRoot /var/www/html/example2
+                        ServerName www.example2.com
+                        ErrorLog /var/log/httpd/error_log
+                        CustomLog /var/log/httpd/access_log
+                    </VirtualHost>
+                    ##+++<
+
+                    ## IP Based Virtual Hosting (every domain to specific ip)
+                    sudo vim /etc/httpd/conf/httpd.conf
+                    ##+++>
+                    <VirtualHost 192.168.10.128:80>
+                        ServerAdmin webmaster@example1.com
+                        DocumentRoot /var/www/html/example1
+                        ServerName www.example1.com
+                        ErrorLog /var/log/httpd/error_log
+                        TransferLog /var/log/httpd/access_log
+                    </VirtualHost>
+                    <VirtualHost 192.168.10.133:80>
+                        ServerAdmin webmaster@example2.com
+                        DocumentRoot /var/www/html/example2
+                        ServerName www.example2.com
+                        ErrorLog /var/log/httpd/error_log
+                        TransferLog /var/log/httpd/access_log
+                    </VirtualHost>
+                    ##+++<
+                    ```
+                    
+                - Ubuntu
+                
+                    ```bash
+                    sudo apt install apache2
+
+                    ## main configuration file 
+                    # /etc/apache2/apache2.conf
+
+                    ## Web page
+                    # /var/www
+
+                    ## install php module
+                    # sudo apt-get install libapache2-mod-php
+
+                    ## install perl module
+                    # sudo apt-get install libapache2-mod-perl2
+
+                    ## enabled modules
+                    # /etc/apache2/mods-enabled
+                    # `a2enmod [module name]` to enable module
+                    # `a2dismod [module name]` to disable module
+
+                    ## mpm module configuration
+                    # /etc/apache2/mods-enabled/mpm_prefork.conf
+
+                    ## enabled sites
+                    # /etc/apache2/sites-enabled
+                    # `a2ensite [site name]` to enable site
+                    # `a2dissite [site name]` to disable site
+
+                    ## user authentication
+                    ## Method 1:
+                    sudo apt-get install apache2.utils
+                    # create user1 authentication and stored in /etc/apache2/webpass
+                    sudo htpasswd -c /etc/apache2/webpass user1
+                    # add user2
+                    sudo htpasswd /etc/apache2/webpass user2
+
+                    sudo vim /etc/apache2/sites-enabled/000-default.conf
+                    ##+++>
+                    <Directory /var/www/html/XXX>
+
+                        AuthType Basic
+                        AuthName "This name will be appeared in dialog box"
+                        #Passord file wich we will create using htpasswd tool
+                        AuthUserFile /etc/apache2/webpass 
+                        #Only user who have valid user nad pass word can access
+                        Require valid-user 
+                    </Directory>
+                    ##+++<
+
+                    ## Method 2: .htaccess file in each proteced folder
+                    sudo apt-get install apache2.utils
+                    # create user1 authentication and stored in /etc/apache2/webpass
+                    sudo htpasswd -c /etc/apache2/webpass user1
+                    # add user2
+                    sudo htpasswd /etc/apache2/webpass user2
+
+                    cd /var/www/html/XXXX
+                    sudo touch .htaccess
+                    sudo vim .htaccess
+                    ##+++>
+                    AuthName "secure folder2"
+                    AuthType Basic
+                    AuthUserFile /etc/apache2/webpass
+                    Require valid-user
+                    ##+++<
+
+                    sudo vim /etc/apache2/sites-enabled/000-default.conf
+                    ##+++>
+                    <Directory /var/www/html/XXXX>
+                        AllowOverride AuthConfig
+                    </Directory>
+                    ##+++<
+
+                    ## Redirection
+                    sudo vim /etc/apache2/apache2.conf
+                    ##+++>
+                    <VirtualHost *:80>
+
+                    #Redirecting form one directory to another directory
+                    # Temporary redirect (single page)
+                    Redirect /protected /redirected
+                    # Temporary redirect (every page)
+                    RedirectMatch ^/images/(.*)$ http://XXX/$1
+
+                    # Permanent redirect
+                    # Method 1
+                    Redirect permanent /oldlocation http://www.example.com/newlocation
+                    # Method 2
+                    Redirect 301 /oldlocation http://www.example.com/newlocation
+                    </VirtualHost>
+                    ##+++<
+
+                    ## Name Based Virtual Hosting (every domains to Single IP)
+                    sudo touch /etc/apache2/sites-available/example1.conf
+                    sudo vim /etc/apache2/sites-available/example1.conf
+
+                    ##+++>
+                    <VirtualHost 192.168.10.128:80>
+                        ServerAdmin webmaster@example1.com
+                        DocumentRoot /var/www/html/example1
+                        ServerName www.example1.com
+                        ErrorLog ${APACHE_LOG_DIR}/error-example1.log
+                        CustomLog ${APACHE_LOG_DIR}/access-example1.log combined
+
+                    </VirtualHost>
+                    ##+++<
+
+                    sudo touch /etc/apache2/sites-available/example2.conf
+                    sudo vim /etc/apache2/sites-available/example2.conf
+                    ##+++>
+                    <VirtualHost *:80>
+                        ServerAdmin webmaster@example2.com
+                        DocumentRoot /var/www/html/example2
+                        ServerName www.example2.com
+                        ErrorLog ${APACHE_LOG_DIR}/error-example2.log
+                        CustomLog ${APACHE_LOG_DIR}/access-example2.log combined
+
+                    </VirtualHost>
+                    ##+++<
+                    ```
+            - Setup (HTTPS)
+            
+                - CentOS
+                
+                    ```bash
+                    ## generating self signed certificates
+                    sudo openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout /etc/httpd/ssl/XXX.key -out /etc/httpd/ssl/XXX.crt
+                    
+                    ## check public key
+                    openssl x509 -in /etc/httpd/ssl/XXX.crt -text
+                    
+                    ## install apache module mod_ssl
+                    yum install mod_ssl
+                    
+                    sudo vim /etc/httpd/conf.d/ssl.conf
+                    
+                    ...
+                    <VirtualHost _default_:443>
+                    ...
+                    DocumentRoot "/var/www/html"
+                    ...
+                    SSLCertificateFile /etc/httpd/ssl/XXX.crt
+                    ...
+                    SSLCertificateKeyFile /etc/httpd/ssl/XXX.key
+                    ...
+                    </VirtualHost>
+                    
+                    ## check configuration
+                    httpd -V
+                    
+                    ## restart httpd
+                    sudo systemctl restart httpd
+                    
+                    ## enable 443 port on firewall
+                    sudo firewall-cmd --permanent --zone=public --add-port=443/tcp
+                    sudo firewall-cmd --reload
+                    sudo firewall-cmd --list-all
+                    ```
+            - Port
+            
+                - tcp/80, tcp/443
+            - Log
+            
+                - CentOS
+                    ```
+                    /var/log/httpd/access_log
+                    /var/log/httpd/error_log
+                    ```
+                - Ubuntu
+                
+                    ```
+                    /var/log/apache2/access.log
+                    /var/log/apache2/error.log
+                    ```
+            - [Apache HTTP Server - ArchWiki](https://wiki.archlinux.org/index.php/Apache_HTTP_Server)
+            - [How To Configure Apache 2](https://www3.ntu.edu.sg/home/ehchua/programming/howto/Apache_HowToConfigure.html)
 * Proxy
 
     - forward

@@ -500,6 +500,7 @@ Happy Coding!!
 * [[Easy] [Solution] 977. Squares of a Sorted Array](%5BEasy%5D%20%5BSolution%5D%20977.%20Squares%20of%20a%20Sorted%20Array.md)
 * [[Medium] 98. Validate Binary Search Tree](%5BMedium%5D%2098.%20Validate%20Binary%20Search%20Tree.md)
 * [[Medium] 454. 4Sum II](%5BMedium%5D%20454.%204Sum%20II.md)
+* [[Medium] 334. Increasing Triplet Subsequence](%5BMedium%5D%20334.%20Increasing%20Triplet%20Subsequence.md)
 
 ## Array <a name="array"></a>
 ---
@@ -8821,7 +8822,7 @@ class Solution:
 ```
 * [[Medium] [Solution] 435. Non-overlapping Intervals](%5BMedium%5D%20%5BSolution%5D%20435.%20Non-overlapping%20Intervals.md)
 
-### Increasing Triplet Subsequence
+### Greedy check expected position
 ```python
 class Solution:
     def increasingTriplet(self, nums: List[int]) -> bool:
