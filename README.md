@@ -1161,17 +1161,41 @@ A playground to note something.
                     ```
                     sudo apt install squid -y
                     
-                    sudo git diff /etc/squid/squid.conf.bak /etc/squid/squid.conf 
+                    sudo vim /etc/squid/squid.conf
                     
                     
                     ...
-                     acl localnet src 192.168.0.0/16        # RFC1918 possible internal network
-                     +acl localnet src X.X.X.X/X  # add X.X.X.X/X as localnet acl
+                    #acl localnet src 192.168.0.0/16        # RFC1918 possible internal network
+                    acl localnet src X.X.X.X/X  # add X.X.X.X/X as localnet acl
                     ...
-                    -#http_access allow localnet
-                    +http_access allow localnet  # allow localnet acl
+                    #http_access allow localnet
+                    http_access allow localnet  # allow localnet acl
                     ...
-                    +cache_peer [PROXY_IP] parent [PROXY_PORT] 0 no-query default login=[PROXY_USER|]:[PROXY_PASSWORD]  # add another proxy to forward request
+                    cache_peer [PROXY_IP] parent [PROXY_PORT] 0 no-query default login=[PROXY_USER|]:[PROXY_PASSWORD]  # add another proxy to forward request
+                    
+                    sudo systemctl restart squid
+                    ```
+                - Setup (Authority)
+                
+                    ```
+                    sudo vim /etc/squid/squid.conf
+                    
+                    ##auth_param basic program <uncomment and complete this line>
+                    ##auth_param basic children 5 startup=5 idle=1
+                    ##auth_param basic realm Squid proxy-caching web server
+                    ##auth_param basic credentialsttl 2 hours
+                    auth_param basic program /usr/lib/squid/basic_ncsa_auth /etc/squid/passwords
+                    auth_param basic children 5 startup=5 idle=1
+                    auth_param basic realm Squid proxy-caching web server
+                    auth_param basic credentialsttl 2 hours
+                    acl MYBASICAUTH proxy_auth REQUIRED
+                    http_access allow MYBASICAUTH
+                    
+                    # create password file
+                    sudo htpasswd -c /etc/squid/passwords [PROXY_USER]
+                    
+                    # check password file
+                    /usr/lib/squid/basic_ncsa_auth /etc/squid/passwords
                     
                     sudo systemctl restart squid
                     ```
@@ -1182,6 +1206,7 @@ A playground to note something.
                 
                     ```
                     /var/log/squid/access.log
+                    /var/log/squid/cache.log
                     /var/log/squid/store.log
                     ```
                 - [Squid - Arch Wiki](https://wiki.archlinux.org/index.php/squid)
@@ -1197,6 +1222,27 @@ A playground to note something.
         - Setup environment variable
             
             `export http_proxy=[PROXY_USER]:[PROXY_PASSWORD]@[PROXY_IP]:[PROXY_PORT]`
+* LDAP
+
+    - Server
+    
+        - Setup
+        
+            ```
+            yum install openldap openldap-servers openldap-clients.x86_64
+            ```
+        - configuration files
+        
+            `/etc/openldap/slapd.d/`
+        - ldap directory database and log
+        
+            `/var/lib/ldap`
+        - Port
+        
+            - tcp/389, tcp8/636
+    - Client
+
+        - 
 * Wireshark
 
     - [How to Decrypt SSL and TLS Traffic Using Wireshark](https://support.citrix.com/article/CTX116557)

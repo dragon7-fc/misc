@@ -501,6 +501,8 @@ Happy Coding!!
 * [[Medium] 98. Validate Binary Search Tree](%5BMedium%5D%2098.%20Validate%20Binary%20Search%20Tree.md)
 * [[Medium] 454. 4Sum II](%5BMedium%5D%20454.%204Sum%20II.md)
 * [[Medium] 334. Increasing Triplet Subsequence](%5BMedium%5D%20334.%20Increasing%20Triplet%20Subsequence.md)
+* [[Hard] 1463. Cherry Pickup II](%5BHard%5D%201463.%20Cherry%20Pickup%20II.md)
+* [[Medium] [Solution] 880. Decoded String at Index](%5BMedium%5D%20%5BSolution%5D%20880.%20Decoded%20String%20at%20Index.md)
 
 ## Array <a name="array"></a>
 ---
@@ -3133,6 +3135,56 @@ class Solution:
 ````
 * [[Medium] [Solution] 799. Champagne Tower](%5BMedium%5D%20%5BSolution%5D%20799.%20Champagne%20Tower.md)
 
+### Row by row
+```python
+class Solution:
+    def cherryPickup(self, grid: List[List[int]]) -> int:
+        m = len(grid)
+        n = len(grid[0])
+
+        @lru_cache(None)
+        def dp(row, col1, col2):
+            if col1 < 0 or col1 >= n or col2 < 0 or col2 >= n:
+                return -inf
+            # current cell
+            result = 0
+            result += grid[row][col1]
+            if col1 != col2:
+                result += grid[row][col2]
+            # transition
+            if row != m-1:
+                result += max(dp(row+1, new_col1, new_col2)
+                              for new_col1 in [col1, col1+1, col1-1]
+                              for new_col2 in [col2, col2+1, col2-1])
+            return result
+
+        return dp(0, 0, n-1)
+    
+class Solution:
+    def cherryPickup(self, grid: List[List[int]]) -> int:
+        m = len(grid)
+        n = len(grid[0])
+        dp = [[[0]*n for _ in range(n)] for __ in range(m)]
+
+        for row in reversed(range(m)):
+            for col1 in range(n):
+                for col2 in range(n):
+                    result = 0
+                    # current cell
+                    result += grid[row][col1]
+                    if col1 != col2:
+                        result += grid[row][col2]
+                    # transition
+                    if row != m-1:
+                        result += max(dp[row+1][new_col1][new_col2]
+                                      for new_col1 in [col1, col1+1, col1-1]
+                                      for new_col2 in [col2, col2+1, col2-1]
+                                      if 0 <= new_col1 < n and 0 <= new_col2 < n)
+                    dp[row][col1][col2] = result
+        return dp[0][0][n-1]
+```
+* [[Hard] 1463. Cherry Pickup II](%5BHard%5D%201463.%20Cherry%20Pickup%20II.md)
+
 ### DP Top Down with Preprocessing count
 ```python
 class Solution:
@@ -5098,6 +5150,30 @@ class Solution:
         return sorted(logs, key = f)
 ```
 * [[Easy] [Solution] 937. Reorder Data in Log Files](%5BEasy%5D%20%5BSolution%5D%20937.%20Reorder%20Data%20in%20Log%20Files.md)
+
+### Work Backwards
+```python
+class Solution:
+    def decodeAtIndex(self, S: str, K: int) -> str:
+        size = 0
+        # Find size = length of decoded string
+        for c in S:
+            if c.isdigit():
+                size *= int(c)
+            else:
+                size += 1
+
+        for c in reversed(S):
+            K %= size
+            if K == 0 and c.isalpha():
+                return c
+
+            if c.isdigit():
+                size /= int(c)
+            else:
+                size -= 1
+```
+* [[Medium] [Solution] 880. Decoded String at Index](%5BMedium%5D%20%5BSolution%5D%20880.%20Decoded%20String%20at%20Index.md)
 
 ### GCD
 ```python
@@ -13832,6 +13908,52 @@ class Solution:
 
 ## Sliding Window <a name="sw"></a>
 ---
+### Sliding window with cumulative sum
+```python
+class Solution:
+    def maximumUniqueSubarray(self, nums: List[int]) -> int:
+        ans = float('-inf')
+        cur = 0
+        # sliding window; current value = [i, j]
+        seen = set()
+        i = 0
+        for j in range(len(nums)):
+            while nums[j] in seen:
+                cur -= nums[i]
+                seen.remove(nums[i])
+                i += 1
+            seen.add(nums[j])
+            cur += nums[j]
+            ans = max(ans, cur)
+            
+        return ans
+```
+*[[Medium] 1695. Maximum Erasure Value](%5BMedium%5D%201695.%20Maximum%20Erasure%20Value.md)
+
+### Mono queue
+```python
+class Solution:
+    def maxResult(self, nums: List[int], k: int) -> int:
+        n = len(nums)
+        best = [float('-inf')] * n
+        best[0] = nums[0]
+        dec = collections.deque([0])
+        
+        for i in range(1, n):
+            # lazy deletion
+            while dec and dec[0] < i - k:
+                dec.popleft()
+            # calculate the best score up until i
+            best[i] = best[dec[0]] + nums[i]
+            # maintain the mono dec deque
+            while dec and best[dec[-1]] <= best[i]:
+                dec.pop()
+            dec.append(i)
+            
+        return best[-1]
+```
+* [[Medium] 1696. Jump Game VI](%5BMedium%5D%201696.%20Jump%20Game%20VI.md)
+
 ### Sliding over candidate
 ```python
 class Solution:
