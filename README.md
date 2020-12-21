@@ -1229,7 +1229,38 @@ A playground to note something.
         - Setup
         
             ```
-            yum install openldap openldap-servers openldap-clients.x86_64
+            sudo yum install openldap openldap-servers openldap-clients.x86_64
+            
+            # shows default configurations:
+            slapcat -b cn=config
+            
+            # create a OpenLDAP administrative password
+            slappasswd
+            
+            [{SSHA}XXXXXXXXXXXXXXXX]
+            
+            # create a ldif file
+            vim cat mydb.ldif
+            
+            ##+++>
+            dn: olcDatabase={2}hdb,cn=config
+            changetype: modify
+            replace: olcSuffix
+            olcSuffix: dc=example,dc=com
+
+            dn: olcDatabase={2}hdb,cn=config
+            changetype: modify
+            replace: olcRootDN
+            olcRootDN: cn=ldapadm,dc=example,dc=com
+
+            dn: olcDatabase={2}hdb,cn=config
+            changetype: modify
+            replace: olcRootPW
+            olcRootPW: [{SSHA}XXXXXXXXXXXXXXXX]   <- copy from previous step
+            ##+++<
+            
+            # add a ldap entry
+            ldapmodify -Y EXTERNAL -H ldapi:/// -f mydb.ldif
             ```
         - configuration files
         
@@ -1243,6 +1274,7 @@ A playground to note something.
     - Client
 
         - 
+    - [How To Install OpenLDAP Server for Centralized Authentication](https://www.tecmint.com/install-openldap-server-for-centralized-authentication/)
 * Wireshark
 
     - [How to Decrypt SSL and TLS Traffic Using Wireshark](https://support.citrix.com/article/CTX116557)
