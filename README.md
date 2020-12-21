@@ -1260,7 +1260,16 @@ A playground to note something.
             ##+++<
             
             # add a ldap entry
-            ldapmodify -Y EXTERNAL -H ldapi:/// -f mydb.ldif
+            sudo ldapmodify -Y EXTERNAL -H ldapi:/// -f mydb.ldif
+            
+            # check the suitability of the OpenLDAP slapd.conf file
+            sudo slaptest -u -v
+            
+            # see what we have added
+            sudo slapcat -b "cn=config" | tail -n 18
+            
+            # ldapsearch opens a connection to an LDAP server, binds, and performs a search using specified parameters
+            ldapsearch -x -b '' -s base '(objectclass=*)' namingContexts
             ```
         - configuration files
         
