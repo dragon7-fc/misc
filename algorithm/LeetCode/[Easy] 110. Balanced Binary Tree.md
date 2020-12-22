@@ -36,7 +36,7 @@ Return false.
 
 # Submissions
 ---
-**Solution 1:**
+**Solution 1: (DFS)**
 ```
 Runtime: 52 ms
 Memory Usage: 17.6 MB

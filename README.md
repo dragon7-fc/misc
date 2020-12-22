@@ -1230,7 +1230,12 @@ A playground to note something.
         
             ```
             sudo yum install openldap openldap-servers openldap-clients.x86_64
+            sudo systemctl start slapd
+            firewall-cmd --add-service=ldap 
             
+            ###########################
+            ## Configuring LDAP Server
+            ###########################
             # shows default configurations:
             slapcat -b cn=config
             
@@ -1239,6 +1244,7 @@ A playground to note something.
             
             [{SSHA}XXXXXXXXXXXXXXXX]
             
+            # Configure LDAP for domain and add administrative user.
             # create a ldif file
             vim cat mydb.ldif
             
@@ -1268,8 +1274,33 @@ A playground to note something.
             # see what we have added
             sudo slapcat -b "cn=config" | tail -n 18
             
-            # ldapsearch opens a connection to an LDAP server, binds, and performs a search using specified parameters
+            # search ldap entry for everything
             ldapsearch -x -b '' -s base '(objectclass=*)' namingContexts
+            
+            ##############################
+            ## Configuring LDAP Database
+            ##############################
+            sudo cp /usr/share/openldap-servers/DB_CONFIG.example /var/lib/ldap/DB_CONFIG
+            sudo chown ldap:ldap /var/lib/ldap -R
+            
+            # create DN an the associated top levels DCs
+            vim mydc.ldif
+            
+            ##+++>
+            dn: dc=example,dc=com
+            dc: example
+            description: creating my dc 
+            objectClass: dcObject
+            objectClass: organization
+            o: example,organization.
+            ##+++<
+            
+            sudo systemctl stop slapd
+            sudo slapadd -l mydc.ldif
+            sudo systemctl start slapd
+            
+            # check result
+            sudo slapcat
             ```
         - configuration files
         
@@ -1282,8 +1313,198 @@ A playground to note something.
             - tcp/389, tcp8/636
     - Client
 
-        - 
-    - [How To Install OpenLDAP Server for Centralized Authentication](https://www.tecmint.com/install-openldap-server-for-centralized-authentication/)
+        - ldapsearch
+        
+            - opens a connection to an LDAP server, binds, and performs a search using specified parameters
+            - ex.
+                ```
+                ldapsearch -x -b '' -s base '(objectclass=*)' namingContexts
+                
+                # search uid in managers ou
+                ldapsearch -x -b 'ou=managers,dc=example,dc=com' '(objectclass=inetorgperson)' uid
+                
+                # search user 'Maria Garcia'
+                ldapsearch (-L/LL/LLL) -x -b 'ou=managers,dc=example,dc=com' '(cn=Maria Garcia)' uid
+                ```
+        - ldapadd
+        
+            - add ldap entry
+            - ex.
+                ```
+                # add manager ou
+                vim myou.ldif
+
+                ##+++>
+                dn: ou=managers,dc=example,dc=com
+                ou: managers
+                description : Managers in the company
+                objectclass: organizationalunit
+                ##+++<
+
+                sudo ldapadd -x -D "cn=ldapadm,dc=example,dc=com" -W -f myou.ldif
+                
+                sudo slapcat
+                
+                # add user for manager ou
+                vim myuser.ldif
+                
+                ##+++>
+                dn: cn=Bob Smith,ou=managers,dc=example,dc=com
+                objectclass: inetOrgperson
+                cn: Bob Smith
+                cn: Bob J Smith
+                cn: bob smith
+                sn: smith
+                uid: bjsmith
+                userpassword: Aa12345
+                carlicense: abc123
+                homephone: 111-222-3344
+                mail: b.smith@example.com
+                mail: bsmith@example.com
+                mail: bob.smith@exmple.com
+                description: Big Boss
+                ou: IT Department
+                ##+++<
+                
+                sudo ldapadd -x -D "cn=ldapadm,dc=example,dc=com" -W -f myuser.ldif
+                
+                sudo slapcat
+                
+                # add more user for manager ou
+                vim moreusers.ldif
+                
+                ##+++>
+                dn: cn=James Smith,ou=managers,dc=example,dc=com
+                objectclass: inetOrgPerson
+                cn: James Smith
+                cn: James J Smith
+                sn: James
+                uid: jsmith
+                userpassword: Aa12345
+                carlicense: A1B2C3
+                homephone: 222-333-4455
+                mail: j.smith@example.com
+                mail: jsmith@example.com
+                mail: james.smith@example.com
+                ou: managers
+
+                ### add anothr Entry to our OU
+                dn: cn=Maria Garcia,ou=managers,dc=example,dc=com
+                objectclass: inetOrgPerson
+                cn: Maria Garcia
+                sn: garcia
+                uid: mgarcia
+                userpassword: Aa12345
+                carlicense: AABBCC
+                homephone: 333-444-4466
+                mail: m.garcia@example.com
+                mail: mgarcia@example.com
+                mail: maria.garcia@example.com
+                ou: managers
+                ##+++<
+                
+                sudo ldapadd -x -D "cn=ldapadm,dc=example,dc=com" -W -f moreusers.ldif
+                sudo slapcat
+                
+                # add more ou
+                vim moreou.ldif
+                
+                ##+++>
+                ### Add Users OU
+                dn: ou=users,dc=example,dc=com
+                ou: users
+                description : Ordinary users in the company
+                objectclass: organizationalunit
+
+                ### Add Devices OU
+
+                dn: ou=sales,dc=example,dc=com
+                ou: sales
+                description: Sales group OU
+                objectclass: organizationalunit
+                ##+++<
+                
+                sudo ldapadd -x -D "cn=ldapadm,dc=example,dc=com" -W -f moreou.ldif
+                sudo slapcat
+                ```
+        - ldapdelete
+        
+            - delete ldap entry
+            - ex.
+            
+                `ldapdelete "cn= Maria Garcia,ou=managers,dc=example,dc=com" -x -D "cn=ldapadm,dc=example,dc=com" -W`
+        - ldappasswd
+        
+            - change the password of an LDAP entry
+            - ex.
+            
+                ```
+                #change ldap administrator password
+                ldapsswd
+                
+                # change Maria Garcia's password
+                ldappasswd -x -D "cn=ldapadm,dc=example,dc=com" -s UserNewPassword -W "cn=Maria Garcia,ou=managers,dc=example,dc=com"
+                ```
+* PAM
+
+    - configuratgion
+    
+        `/etc/pam.d`
+    - module
+    
+        - Directory
+        
+            `/lib/security` or `/lib64/security`
+        - `pam_unix.so`: configures authentication via /etc/passwd and /etc/shadow
+        
+            - ex. remember last 3 user's password and dose not let user to set them again
+            
+                ```
+                vim /etc/pam.d/system-auth
+                
+                ##+++>
+                password    sufficient    pam_unix.so sha512 shadow nullok try_first_pass use_authtok remember=3
+                ##+++<
+                ```
+        - `pam_cracklib.so`: provides strength-checking for passwords
+        
+            - ex. set minimum charachters wich are required for a password
+            
+                ```
+                vim /etc/pam.d/system-auth
+                
+                ##+++>
+                password    requisite     pam_pwquality.so try_first_pass local_users_only retry=3 minlen=10 authtok_type=
+                ##+++<
+                
+                # note: pam_pwquality.s = pam_cracklib.so
+                ```
+        - `pam_limits.so`: sets limits on the system resources that can be obtained in a user-session
+        
+            - ex. avoid `pooruser` from loging more than once
+            
+                ```
+                vim /etc/security/limits.conf
+                
+                ##+++>
+                @pooruser    hard    maxlogins    1
+                ##+++<
+                ```
+        - `pam_listfile.so`: allows or denies an action based on the presence of the item in a listfile
+            
+            - ex. vsftpd denying every user which his name/ her name is inside /etc/vsftpd/ftpusers
+
+                ```
+                vim /etc/pam.d/vsftfp
+
+                ##+++>
+                auth       required    pam_listfile.so item=user sense=deny file=/etc/vsftpd/ftpusers onerr=succeed
+                ##+++<
+                ```
+        - `pam_sss.so`: System Security Services daemon (SSSD). Errors and results are logged through syslog.
+    - nsswitch.conf
+    
+        `/etc/nsswitch.conf`
 * Wireshark
 
     - [How to Decrypt SSL and TLS Traffic Using Wireshark](https://support.citrix.com/article/CTX116557)

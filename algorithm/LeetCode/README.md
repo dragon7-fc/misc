@@ -504,6 +504,7 @@ Happy Coding!!
 * [[Hard] 1463. Cherry Pickup II](%5BHard%5D%201463.%20Cherry%20Pickup%20II.md)
 * [[Medium] [Solution] 880. Decoded String at Index](%5BMedium%5D%20%5BSolution%5D%20880.%20Decoded%20String%20at%20Index.md)
 * [[Medium] [Solution] 910. Smallest Range II](%5BMedium%5D%20%5BSolution%5D%20910.%20Smallest%20Range%20II.md)
+* [[Easy] 110. Balanced Binary Tree](%5BEasy%5D%20110.%20Balanced%20Binary%20Tree.md)
 
 ## Array <a name="array"></a>
 ---
@@ -5674,6 +5675,36 @@ class Solution:
 
 ## Tree <a name='tree'></a>
 ---
+### DFS
+```python
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+
+class Solution:
+    def isBalanced(self, root: TreeNode) -> bool:
+        self.isBalanced = True
+
+        def height(root):
+            if not root:
+                return 0
+
+            left = height(root.left)
+            right = height(root.right)
+            if self.isBalanced:
+                self.isBalanced = abs(left - right) < 2 
+
+            return 1 + max(left, right)
+
+
+        height(root)
+        return self.isBalanced
+```
+* [[Easy] 110. Balanced Binary Tree](%5BEasy%5D%20110.%20Balanced%20Binary%20Tree.md)
+
 ### Traversal with Relinking
 ```python
 # Definition for a binary tree node.
