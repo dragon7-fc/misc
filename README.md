@@ -1222,6 +1222,52 @@ A playground to note something.
         - Setup environment variable
             
             `export http_proxy=[PROXY_USER]:[PROXY_PASSWORD]@[PROXY_IP]:[PROXY_PORT]`
+* DNS
+
+    - Server
+    
+        - setup
+        
+            ```
+            sudo apt install bind9 bind9utils
+            
+            sudo vim /etc/bind/named.conf
+            ```
+        - port
+        
+            - tcp/53, udp/53
+    - Client
+    
+        - dig
+
+            - [Linux and Unix dig Command Examples](https://www.cyberciti.biz/faq/linux-unix-dig-command-examples-usage-syntax/)
+        - nslookup
+
+            - [How to Use Nslookup Command](https://networkproguide.com/how-to-use-nslookup-command/)
+* Postfix
+
+    - Server
+    
+        - setup
+        
+            ```
+            sudo yum install postfix
+            
+            sudo vim /etc/postfix/main.cf
+            
+            sudo systemctl restart postfix.service
+            ```
+        - port
+        
+            `tcp/25`
+            
+        - queued messagesare
+        
+            `/var/spool/postfix`
+        - default mail drop directory
+        
+            `/var/spool/mail`
+    -
 * LDAP
 
     - Server
@@ -1502,9 +1548,50 @@ A playground to note something.
                 ##+++<
                 ```
         - `pam_sss.so`: System Security Services daemon (SSSD). Errors and results are logged through syslog.
+    - sssd
+    
+        - Configure SSSD for LDAP authentication
+        - install
+        
+            `yum install sssd`
+        - ex.
+            ```
+            authconfig \
+            --enablesssd \
+            --enablesssdauth \
+            --enablelocauthorize \
+            --enableldap \
+            --enableldapauth \
+            --ldapserver=ldap://ldap.example.com:389 \
+            --disableldaptls \
+            --ldapbasedn=dc=example,dc=com \
+            --enablerfc2307bis \
+            --enablemkhomedir \
+            --enablecachecreds \
+            --update
+
+            # check - method 1
+            authconfig --test
+            # check - method 2
+            cat /etc/sssd/sssd.conf
+            
+            systemctl restart sssd
+            
+            # Update /etc/openldap.conf
+            
+            ##+++>
+            SASL_NOCANON on
+            URI ldaps://ldap.example.com:389
+            BASE dc=example,dc=com
+            TLS_REQUIRE never
+            TLS_CACERTDIR /etc/pki/tls/cacerts
+            TLS_CACERT /etc/pki/tls/certs/mybundle.pem
+            ##+++<
+            ```
     - nsswitch.conf
     
-        `/etc/nsswitch.conf`
+        - `/etc/pam.d/*` -> type (first column) = `auth` -> `/etc/nsswitch.conf`
+    - [PAM - ArchWiki](https://wiki.archlinux.org/index.php/PAM)
 * Wireshark
 
     - [How to Decrypt SSL and TLS Traffic Using Wireshark](https://support.citrix.com/article/CTX116557)
@@ -1634,6 +1721,9 @@ A playground to note something.
 * wall
 
     - [Linux wall Command Tutorial for Beginners (with Examples)](https://www.howtoforge.com/linux-wall-command/)
+* update-alternatives
+
+    - [How to Use update-alternatives Command on Ubuntu](https://linuxhint.com/update_alternatives_ubuntu/)
 * ip
     
     - [Linux ip Command Networking Cheat Sheet](https://www.linuxtrainingacademy.com/linux-ip-command-networking-cheat-sheet/)
@@ -1659,12 +1749,6 @@ A playground to note something.
 * nc
 
     - [NetcatCheatSheet](https://www.sans.org/security-resources/sec560/netcat_cheat_sheet_v1.pdf)
-* dig
-
-    - [Linux and Unix dig Command Examples](https://www.cyberciti.biz/faq/linux-unix-dig-command-examples-usage-syntax/)
-* nslookup
-
-    - [How to Use Nslookup Command](https://networkproguide.com/how-to-use-nslookup-command/)
 * curl
 
     - [CURL CHEATSHEET](https://cheatsheet.dennyzhang.com/cheatsheet-curl-a4)
