@@ -506,6 +506,7 @@ Happy Coding!!
 * [[Medium] [Solution] 910. Smallest Range II](%5BMedium%5D%20%5BSolution%5D%20910.%20Smallest%20Range%20II.md)
 * [[Easy] 110. Balanced Binary Tree](%5BEasy%5D%20110.%20Balanced%20Binary%20Tree.md)
 * [[Medium] 556. Next Greater Element III](%5BMedium%5D%20556.%20Next%20Greater%20Element%20III.md)
+* [[Medium] 24. Swap Nodes in Pairs](%5BMedium%5D%2024.%20Swap%20Nodes%20in%20Pairs.md)
 
 ## Array <a name="array"></a>
 ---

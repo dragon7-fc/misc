@@ -1255,8 +1255,70 @@ A playground to note something.
             
             sudo vim /etc/postfix/main.cf
             
+            # see just customized settings
+            postconf -n
+            
             sudo systemctl restart postfix.service
+            
+            # send mail
+            mail -s "hello root!" root@localhost
+            Hi there! I am user1
+            .
+            
+            # check the mail queue - method 1
+            sendmail -bp
+            
+            # check the mail queue - method 2
+            mailq
             ```
+        - email aliases
+        
+            - ex. ssend mail to user3 who doesn't existed
+            
+                ```
+                # change to user1 
+                su user1
+                sudo systemctl stop postfix.service
+                ls -la /etc/aliases.db
+                
+                # add user3 as root aliases
+                sudo echo "user3:    root" >> /etc/aliases
+                
+                # update /etc/aliases.db database
+                sudo newaliases
+                ls -la /etc/aliases.db
+                sudo systemctl start postfix
+                
+                # send mail to root
+                mail -s "From user1 to user3" user3@localhost
+                Hi my dear friend are you there? 
+                .
+                
+                # change to root
+                su -
+                
+                # receive mail
+                mail
+                ```
+        - virtual: redirect e-mail to the virtual destinations
+        
+            - ex. deliver user4@localhost ot abc@xyz.com
+            
+                ```
+                sudo systemctl stop postfix.service
+
+                sudo echo "abc@xyz.com        user4" >> /etc/aliases
+
+                # convert to binary file 
+                sudo postmap /etc/postfix/virtual
+
+                # update main.cf
+                sudo echo ""#virtual_alias_map = unix:hash:/etc/postfix/virtual" >> /etc/postfix/main.cf
+
+                sudo systemctl stop postfix.service
+
+                sudo tail /var/log/maillog
+                ```
         - port
         
             `tcp/25`
@@ -1267,7 +1329,9 @@ A playground to note something.
         - default mail drop directory
         
             `/var/spool/mail`
-    -
+        - Log
+        
+            `/var/log/maillog`
 * LDAP
 
     - Server
