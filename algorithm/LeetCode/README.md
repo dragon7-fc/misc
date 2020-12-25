@@ -507,6 +507,7 @@ Happy Coding!!
 * [[Easy] 110. Balanced Binary Tree](%5BEasy%5D%20110.%20Balanced%20Binary%20Tree.md)
 * [[Medium] 556. Next Greater Element III](%5BMedium%5D%20556.%20Next%20Greater%20Element%20III.md)
 * [[Medium] 24. Swap Nodes in Pairs](%5BMedium%5D%2024.%20Swap%20Nodes%20in%20Pairs.md)
+* [[Medium] 498. Diagonal Traverse](%5BMedium%5D%20498.%20Diagonal%20Traverse.md)
 
 ## Array <a name="array"></a>
 ---
@@ -857,6 +858,52 @@ class Solution:
         return sum(([nums[i], nums[i+n]] for i in range(n)), [])
 ```
 * [[Easy] 1470. Shuffle the Array](%5BEasy%5D%201470.%20Shuffle%20the%20Array.md)
+
+### Diagonal Iteration and Reversal
+```python
+class Solution:
+    def findDiagonalOrder(self, matrix: List[List[int]]) -> List[int]:
+        # Check for empty matrices
+        if not matrix or not matrix[0]:
+            return []
+
+        # Variables to track the size of the matrix
+        N, M = len(matrix), len(matrix[0])
+
+        # The two arrays as explained in the algorithm
+        result, intermediate = [], []
+
+        # We have to go over all the elements in the first
+        # row and the last column to cover all possible diagonals
+        for d in range(N + M - 1):
+
+            # Clear the intermediate array everytime we start
+            # to process another diagonal
+            intermediate.clear()
+
+            # We need to figure out the "head" of this diagonal
+            # The elements in the first row and the last column
+            # are the respective heads.
+            r, c = 0 if d < M else d - M + 1, d if d < M else M - 1
+
+            # Iterate until one of the indices goes out of scope
+            # Take note of the index math to go down the diagonal
+            while r < N and c > -1:
+                intermediate.append(matrix[r][c])
+                r += 1
+                c -= 1
+
+            # Reverse even numbered diagonals. The
+            # article says we have to reverse odd 
+            # numbered articles but here, the numbering
+            # is starting from 0 :P
+            if d % 2 == 0:
+                result.extend(intermediate[::-1])
+            else:
+                result.extend(intermediate)
+        return result   
+```
+* [[Medium] 498. Diagonal Traverse](%5BMedium%5D%20498.%20Diagonal%20Traverse.md)
 
 ### Vote
 ```python
