@@ -508,6 +508,7 @@ Happy Coding!!
 * [[Medium] 556. Next Greater Element III](%5BMedium%5D%20556.%20Next%20Greater%20Element%20III.md)
 * [[Medium] 24. Swap Nodes in Pairs](%5BMedium%5D%2024.%20Swap%20Nodes%20in%20Pairs.md)
 * [[Medium] 498. Diagonal Traverse](%5BMedium%5D%20498.%20Diagonal%20Traverse.md)
+* [[Hard] 1345. Jump Game IV](%5BHard%5D%201345.%20Jump%20Game%20IV.md)
 
 ## Array <a name="array"></a>
 ---
@@ -9999,6 +10000,57 @@ class Solution:
         return -1
 ```
 * [[Medium] 433. Minimum Genetic Mutation](%5BMedium%5D%20433.%20Minimum%20Genetic%20Mutation.md)
+
+### BFS with visited
+```python
+class Solution:
+    def minJumps(self, arr: List[int]) -> int:
+        n = len(arr)
+        if n <= 1:
+            return 0
+
+        graph = {}
+        for i in range(n):
+            if arr[i] in graph:
+                graph[arr[i]].append(i)
+            else:
+                graph[arr[i]] = [i]
+
+        curs = [0]  # store current layers
+        visited = {0}
+        step = 0
+
+        # when current layer exists
+        while curs:
+            nex = []
+
+            # iterate the layer
+            for node in curs:
+                # check if reached end
+                if node == n-1:
+                    return step
+
+                # check same value
+                for child in graph[arr[node]]:
+                    if child not in visited:
+                        visited.add(child)
+                        nex.append(child)
+
+                # clear the list to prevent redundant search
+                graph[arr[node]].clear()
+
+                # check neighbors
+                for child in [node-1, node+1]:
+                    if 0 <= child < len(arr) and child not in visited:
+                        visited.add(child)
+                        nex.append(child)
+
+            curs = nex
+            step += 1
+
+        return -1
+```
+* [[Hard] 1345. Jump Game IV](%5BHard%5D%201345.%20Jump%20Game%20IV.md)
 
 **Template 1:**
 ```python

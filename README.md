@@ -1907,6 +1907,7 @@ A playground to note something.
             ```
             
             __NOTE__: can write ot `/etc/rc.local`
+    - [iptables - ArchWiki](https://wiki.archlinux.org/index.php/iptables)
 * firewall-cmd
 
     - [Introduction to firewalld and firewall-cmd command on Linux](https://linuxconfig.org/introduction-to-firewalld-and-firewall-cmd-command-on-linux)
