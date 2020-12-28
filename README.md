@@ -1248,90 +1248,216 @@ A playground to note something.
 
     - Server
     
-        - setup
+        - postfix
         
-            ```
-            sudo yum install postfix
-            
-            sudo vim /etc/postfix/main.cf
-            
-            # see just customized settings
-            postconf -n
-            
-            sudo systemctl restart postfix.service
-            
-            # send mail
-            mail -s "hello root!" root@localhost
-            Hi there! I am user1
-            .
-            
-            # check the mail queue - method 1
-            sendmail -bp
-            
-            # check the mail queue - method 2
-            mailq
-            ```
-        - email aliases
+            - setup
+
+                ```
+                sudo yum install postfix
+
+                sudo vim /etc/postfix/main.cf
+
+                # see just customized settings
+                postconf -n
+
+                sudo systemctl restart postfix.service
+
+                # send mail
+                mail -s "hello root!" root@localhost
+                Hi there! I am user1
+                .
+
+                # check the mail queue - method 1
+                sendmail -bp
+
+                # check the mail queue - method 2
+                mailq
+                ```
+            - email aliases
+
+                - ex. ssend mail to user3 who doesn't existed
+
+                    ```
+                    # change to user1 
+                    su user1
+                    sudo systemctl stop postfix.service
+                    ls -la /etc/aliases.db
+
+                    # add user3 as root aliases
+                    sudo echo "user3:    root" >> /etc/aliases
+
+                    # update /etc/aliases.db database
+                    sudo newaliases
+                    ls -la /etc/aliases.db
+                    sudo systemctl start postfix
+
+                    # send mail to root
+                    mail -s "From user1 to user3" user3@localhost
+                    Hi my dear friend are you there? 
+                    .
+
+                    # change to root
+                    su -
+
+                    # receive mail
+                    mail
+                    ```
+            - virtual: redirect e-mail to the virtual destinations
+
+                - ex. deliver user4@localhost ot abc@xyz.com
+
+                    ```
+                    sudo systemctl stop postfix.service
+
+                    sudo echo "abc@xyz.com        user4" >> /etc/aliases
+
+                    # convert to binary file 
+                    sudo postmap /etc/postfix/virtual
+
+                    # update main.cf
+                    sudo echo ""#virtual_alias_map = unix:hash:/etc/postfix/virtual" >> /etc/postfix/main.cf
+
+                    sudo systemctl stop postfix.service
+
+                    sudo tail /var/log/maillog
+                    ```
+            - port
+
+                `tcp/25`
+
+            - queued messagesare
+
+                `/var/spool/postfix`
+            - default mail drop directory
+
+                `/var/spool/mail`
+            - Log
+
+                `/var/log/maillog`
+        - courier-imap
         
-            - ex. ssend mail to user3 who doesn't existed
+            - setup
             
                 ```
-                # change to user1 
-                su user1
-                sudo systemctl stop postfix.service
-                ls -la /etc/aliases.db
+                sudo apt-get install courier-imap
                 
-                # add user3 as root aliases
-                sudo echo "user3:    root" >> /etc/aliases
+                sudo vim /etc/courier/imapd
                 
-                # update /etc/aliases.db database
-                sudo newaliases
-                ls -la /etc/aliases.db
-                sudo systemctl start postfix
+                ##+++>
+                MAILDIRPATH=XXX
+                ##+++<
                 
-                # send mail to root
-                mail -s "From user1 to user3" user3@localhost
-                Hi my dear friend are you there? 
+                sudo systemctl restart courier-imap.service 
+                ```
+            - port
+            
+                - tcp/143
+        - courier-pop
+        
+            - setup
+            
+                ```
+                sudo apt-get install courier-pop
+                
+                sudo vim /etc/courier/pop3d
+                
+                ##+++>
+                MAILDIRPATH=XXX
+                ##+++<
+                
+                sudo systemctl restart courier-pop.service
+                ```
+            - port
+            
+                - tcp/110
+        - dovecot
+        
+            - setup
+            
+                ```
+                sudo apt-get install dovecot-imapd dovecot-pop3d
+                
+                
+                ```
+    - client
+    
+        - procmail
+        
+            - Setup
+            
+                ```
+                sudo yum install procmail
+                
+                sudo vim /etc/postfix/main.cf
+                
+                ##+++>
+                mailbox_command = procmail
+                ##+++<
+                
+                sudo vim /etc/procmailrc
+                
+                ##+++>
+                ### Define where we want to emails be stored
+                MAILDIR=$HOME/mail
+
+                ### Defining mail storage Format
+
+                # For mbox format
+                DEFAULT=$HOME/mail/inbox
+                
+                #For maildir format
+                #DEFAULT=$HOME/mail/inbox/
+                ##+++<
+                
+                # send email
+                su - user1
+                mkdir mail
+                exit
+                
+                mail -s "test mbox for user 1" user1@localhost
+                Hi this is my first message for testing mbox
                 .
                 
-                # change to root
-                su -
+                mail -s "test mbox for user 1 #2" user1@localhost
+                Hi this is my second message for testing mbox 
+                .
                 
-                # receive mail
-                mail
+                # view email
+                su - user1
+                cat mail/inbox
+                
+                # list email
+                mail -f ~/mail/inbox
                 ```
-        - virtual: redirect e-mail to the virtual destinations
-        
-            - ex. deliver user4@localhost ot abc@xyz.com
+            - recipes
             
-                ```
-                sudo systemctl stop postfix.service
-
-                sudo echo "abc@xyz.com        user4" >> /etc/aliases
-
-                # convert to binary file 
-                sudo postmap /etc/postfix/virtual
-
-                # update main.cf
-                sudo echo ""#virtual_alias_map = unix:hash:/etc/postfix/virtual" >> /etc/postfix/main.cf
-
-                sudo systemctl stop postfix.service
-
-                sudo tail /var/log/maillog
-                ```
-        - port
-        
-            `tcp/25`
-            
-        - queued messagesare
-        
-            `/var/spool/postfix`
-        - default mail drop directory
-        
-            `/var/spool/mail`
-        - Log
-        
-            `/var/log/maillog`
+                - to filter email
+                
+                - format
+                
+                    ```
+                    :0 [flags] [: lockfile-name ]
+                    * [ condition_1_special-condition-character condition_1_regular_expression ]
+                    * [ condition_2_special-condition-character condition-2_regular_expression ]
+                    * [ condition_N_special-condition-character condition-N_regular_expression ]
+                            special-action-character
+                            action-to-perform
+                    ```
+                - ex.
+                
+                    ```
+                    su - user1
+                    vim .procmailrc
+                    
+                    ##+++>
+                    :0:
+                    * ^Subject:.lpi
+                    linuxcert
+                    
+                    mail -s "lpi" user1@localhost
+                    cat mail/linuxcert 
+                    ##+++<
+                    ```
 * LDAP
 
     - Server

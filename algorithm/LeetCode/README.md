@@ -509,6 +509,7 @@ Happy Coding!!
 * [[Medium] 24. Swap Nodes in Pairs](%5BMedium%5D%2024.%20Swap%20Nodes%20in%20Pairs.md)
 * [[Medium] 498. Diagonal Traverse](%5BMedium%5D%20498.%20Diagonal%20Traverse.md)
 * [[Hard] 1345. Jump Game IV](%5BHard%5D%201345.%20Jump%20Game%20IV.md)
+* [[Medium] [Solution] 754. Reach a Number](%5BMedium%5D%20%5BSolution%5D%20754.%20Reach%20a%20Number.md)
 
 ## Array <a name="array"></a>
 ---
