@@ -37,13 +37,10 @@ Output: 1
 
 # Submissions
 ---
-**Solution 1: (DFS, Bit Manipulations)**
-
-1. Count the frequencies of same numbers in each path, if there are at most 1 frequency is odd, then it is a valid path;
-1. Use the 0th to 9th bit s of a int to record the odd/even frequency in a path, since the numbers range from 0 ~ 9;
+**Solution 1: (Iterative Preorder Traversal)**
 ```
-Runtime: 356 ms
-Memory Usage: 49.5 MB
+Runtime: 332 ms
+Memory Usage: 50 MB
 ```
 ```python
 # Definition for a binary tree node.
@@ -54,14 +51,57 @@ Memory Usage: 49.5 MB
 #         self.right = right
 class Solution:
     def pseudoPalindromicPaths (self, root: TreeNode) -> int:
+        count = 0
         
-        def dfs(node, cnt) :
-            if not node:
-                return 0
-            cnt ^= 1 << node.val
-            if not node.left and not node.right:
-                return 0 if bin(cnt).count('1') > 1 else 1
-            return dfs(node.left, cnt) + dfs(node.right, cnt)
-            
-        return dfs(root, 0)
+        stack = [(root, 0) ]
+        while stack:
+            node, path = stack.pop()
+            if node is not None:
+                # compute occurences of each digit 
+                # in the corresponding register
+                path = path ^ (1 << node.val)
+                # if it's a leaf, check if the path is pseudo-palindromic
+                if node.left is None and node.right is None:
+                    # check if at most one digit has an odd frequency
+                    if path & (path - 1) == 0:
+                        count += 1
+                else:
+                    stack.append((node.right, path))
+                    stack.append((node.left, path))
+        
+        return count
+```
+
+**Solution 2: (Recursive Preorder Traversal)**
+```
+Runtime: 324 ms
+Memory Usage: 49.3 MB
+```
+```python
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+class Solution:
+    def pseudoPalindromicPaths (self, root: TreeNode) -> int:
+        def preorder(node, path):
+            nonlocal count
+            if node:
+                # compute occurences of each digit 
+                # in the corresponding register
+                path = path ^ (1 << node.val)
+                # if it's a leaf, check if the path is pseudo-palindromic
+                if node.left is None and node.right is None:
+                    # check if at most one digit has an odd frequency
+                    if path & (path - 1) == 0:
+                        count += 1
+                else:                    
+                    preorder(node.left, path)
+                    preorder(node.right, path) 
+        
+        count = 0
+        preorder(root, 0)
+        return count
 ```

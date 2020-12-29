@@ -858,44 +858,58 @@ A playground to note something.
         | get | `tftp -g -r [FILE] [TFTP_SERVER_IP]` |
 * FTP
 
-     - Server
+     - server
      
-         ```
-         # Install
-         sudo apt update
-         sudo apt install vsftpd
-         sudo cp /etc/vsftpd.conf /etc/vsftpd.conf.orig
+         - vsftpd
+         
+             - setup
+             
+                 ```
+                 # Install
+                 sudo apt update
+                 sudo apt install vsftpd
+                 sudo cp /etc/vsftpd.conf /etc/vsftpd.conf.orig
 
-         # Firwall rules
-         sudo ufw allow ftp-data
-         sudo ufw allow ftp
-         sudo ufw status
+                 # Firwall rules
+                 sudo ufw allow ftp-data
+                 sudo ufw allow ftp
+                 sudo ufw status
 
-         # Preparing Space for Files
-         sudo mkdir -p /var/ftp
-         sudo chown nobody:nogroup /var/ftp
-         echo "vsftpd test file" | sudo tee /var/ftp/test.log
-         sudo mkdir /var/ftp/pub
-         sudo chmod a+rwx /var/ftp/pub
+                 # Preparing Space for Files
+                 sudo mkdir -p /var/ftp
+                 sudo chown nobody:nogroup /var/ftp
+                 echo "vsftpd test file" | sudo tee /var/ftp/test.log
+                 sudo mkdir /var/ftp/pub
+                 sudo chmod a+rwx /var/ftp/pub
 
-         # enable anonymous write & read
-         sudo nano /etc/vsftpd.conf
+                 # enable anonymous write & read
+                 sudo nano /etc/vsftpd.conf
 
-         ##+++>
-         anonymous_enable=YES
-         write_enable=YES
-         anon_upload_enable=YES
-         anon_mkdir_write_enable=YES
-         anon_umask=022
-         anon_other_write_enable=YES
-         anon_root=/var/ftp
-         no_anon_password=YES
-         hide_ids=YES
-         pasv_min_port=40000
-         pasv_max_port=50000
-         ##+++<
-         ```
-    - Client
+                 ##+++>
+                 anonymous_enable=YES
+                 write_enable=YES
+                 anon_upload_enable=YES
+                 anon_mkdir_write_enable=YES
+                 anon_umask=022
+                 anon_other_write_enable=YES
+                 anon_root=/var/ftp
+                 no_anon_password=YES
+                 hide_ids=YES
+                 pasv_min_port=40000
+                 pasv_max_port=50000
+                 ##+++<
+                 ```
+             - pureftpd
+             
+                 -
+             - Proftpd
+             
+                 -
+         - port
+         
+             - command: tcp/21
+             - data: tcp/20
+    - client
 
         `ftp -p [FTP_SERVER_IP]`
 * HTTP
@@ -1244,7 +1258,7 @@ A playground to note something.
         - nslookup
 
             - [How to Use Nslookup Command](https://networkproguide.com/how-to-use-nslookup-command/)
-* Postfix
+* Mail
 
     - Server
     
@@ -1352,6 +1366,9 @@ A playground to note something.
             - port
             
                 - tcp/143
+            - storage format
+            
+                - maildir
         - courier-pop
         
             - setup
@@ -1370,6 +1387,9 @@ A playground to note something.
             - port
             
                 - tcp/110
+            - storage format
+            
+                - maildir
         - dovecot
         
             - setup
@@ -1378,7 +1398,56 @@ A playground to note something.
                 sudo apt-get install dovecot-imapd dovecot-pop3d
                 
                 
+                sudo systemctl restart dovecot
+                
+                # check status
+                lsof -i | grep dovecot
+                netstat -tulpen | grep 143
+                netstat -tulpen | grep 110
+                
+                # view mail
+                telnet localhost 110
+                user XXX
+                pass OOO
+                list
+                retr X
+                ...
+                quit
                 ```
+            - TLS Configuration
+                - setup
+                    ```
+                    # generate self signed SSL certificate
+                    sudo openssl req -new -x509 -days 1000 -nodes -out "/etc/dovecot/private/XXX.pem" -keyout "/etc/dovecot/private/XXX.key"
+                    
+                    sudo vim /etc/dovecot/conf.d/10-ssl.conf
+                    
+                    ##+++>
+                    # ssl_cert = </etc/dovecot/private/dovecot.pem
+                    # ssl_key = </etc/dovecot/private/dovecot.key
+                    ssl_cert = </etc/dovecot/private/XXX.pem
+                    ssl_cert = </etc/dovecot/private/XXX.key
+                    ##+++<
+                    
+                    # check pop3s connection
+                    openssl s_client -connect server1:995
+                    
+                    # check imaps connection
+                    openssl s_client -connect server1:imaps
+                    ```
+                - port
+                
+                    - imaps: tcp/993
+                    - pop3s: tcp/995
+            - doveconf
+            
+                - reads and parses Dovecot's configuration files and converts them into a simpler format 
+                - show only settings with non-default values
+                
+                    - `doveconf -n`
+            - doveadm
+            
+                - Dovecot administration tool
     - client
     
         - procmail

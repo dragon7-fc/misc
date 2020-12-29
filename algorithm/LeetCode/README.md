@@ -510,6 +510,7 @@ Happy Coding!!
 * [[Medium] 498. Diagonal Traverse](%5BMedium%5D%20498.%20Diagonal%20Traverse.md)
 * [[Hard] 1345. Jump Game IV](%5BHard%5D%201345.%20Jump%20Game%20IV.md)
 * [[Medium] [Solution] 754. Reach a Number](%5BMedium%5D%20%5BSolution%5D%20754.%20Reach%20a%20Number.md)
+* [[Medium] 1457. Pseudo-Palindromic Paths in a Binary Tree](%5BMedium%5D%201457.%20Pseudo-Palindromic%20Paths%20in%20a%20Binary%20Tree.md)
 
 ## Array <a name="array"></a>
 ---
@@ -7276,6 +7277,65 @@ class Solution:
         return image
 ```
 * [[Easy] [Solution] 733. Flood Fill](%5BEasy%5D%20%5BSolution%5D%20733.%20Flood%20Fill.md)
+
+### Count Preorder Traversal
+```python
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+class Solution:
+    def pseudoPalindromicPaths (self, root: TreeNode) -> int:
+        count = 0
+
+        stack = [(root, 0) ]
+        while stack:
+            node, path = stack.pop()
+            if node is not None:
+                # compute occurences of each digit 
+                # in the corresponding register
+                path = path ^ (1 << node.val)
+                # if it's a leaf, check if the path is pseudo-palindromic
+                if node.left is None and node.right is None:
+                    # check if at most one digit has an odd frequency
+                    if path & (path - 1) == 0:
+                        count += 1
+                else:
+                    stack.append((node.right, path))
+                    stack.append((node.left, path))
+
+        return count
+
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+class Solution:
+    def pseudoPalindromicPaths (self, root: TreeNode) -> int:
+        def preorder(node, path):
+            nonlocal count
+            if node:
+                # compute occurences of each digit 
+                # in the corresponding register
+                path = path ^ (1 << node.val)
+                # if it's a leaf, check if the path is pseudo-palindromic
+                if node.left is None and node.right is None:
+                    # check if at most one digit has an odd frequency
+                    if path & (path - 1) == 0:
+                        count += 1
+                else:                    
+                    preorder(node.left, path)
+                    preorder(node.right, path) 
+
+        count = 0
+        preorder(root, 0)
+        return count
+```
+* [[Medium] 1457. Pseudo-Palindromic Paths in a Binary Tree](%5BMedium%5D%201457.%20Pseudo-Palindromic%20Paths%20in%20a%20Binary%20Tree.md)
 
 ### Return tupple
 ```python
