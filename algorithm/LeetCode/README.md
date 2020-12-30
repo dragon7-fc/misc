@@ -511,6 +511,7 @@ Happy Coding!!
 * [[Hard] 1345. Jump Game IV](%5BHard%5D%201345.%20Jump%20Game%20IV.md)
 * [[Medium] [Solution] 754. Reach a Number](%5BMedium%5D%20%5BSolution%5D%20754.%20Reach%20a%20Number.md)
 * [[Medium] 1457. Pseudo-Palindromic Paths in a Binary Tree](%5BMedium%5D%201457.%20Pseudo-Palindromic%20Paths%20in%20a%20Binary%20Tree.md)
+* [[Medium] [Solution] 289. Game of Life](%5BMedium%5D%20%5BSolution%5D%20289.%20Game%20of%20Life.md)
 
 ## Array <a name="array"></a>
 ---
@@ -861,6 +862,54 @@ class Solution:
         return sum(([nums[i], nums[i+n]] for i in range(n)), [])
 ```
 * [[Easy] 1470. Shuffle the Array](%5BEasy%5D%201470.%20Shuffle%20the%20Array.md)
+
+### scan neighbor of each cell
+```python
+class Solution:
+    def gameOfLife(self, board: List[List[int]]) -> None:
+        """
+        Do not return anything, modify board in-place instead.
+        """
+        # Neighbors array to find 8 neighboring cells for a given cell
+        neighbors = [(1,0), (1,-1), (0,-1), (-1,-1), (-1,0), (-1,1), (0,1), (1,1)]
+
+        rows = len(board)
+        cols = len(board[0])
+
+        # Iterate through board cell by cell.
+        for row in range(rows):
+            for col in range(cols):
+
+                # For each cell count the number of live neighbors.
+                live_neighbors = 0
+                for neighbor in neighbors:
+
+                    # row and column of the neighboring cell
+                    r = (row + neighbor[0])
+                    c = (col + neighbor[1])
+
+                    # Check the validity of the neighboring cell and if it was originally a live cell.
+                    if (r < rows and r >= 0) and (c < cols and c >= 0) and abs(board[r][c]) == 1:
+                        live_neighbors += 1
+
+                # Rule 1 or Rule 3
+                if board[row][col] == 1 and (live_neighbors < 2 or live_neighbors > 3):
+                    # -1 signifies the cell is now dead but originally was live.
+                    board[row][col] = -1
+                # Rule 4
+                if board[row][col] == 0 and live_neighbors == 3:
+                    # 2 signifies the cell is now live but was originally dead.
+                    board[row][col] = 2
+
+        # Get the final representation for the newly updated board.
+        for row in range(rows):
+            for col in range(cols):
+                if board[row][col] > 0:
+                    board[row][col] = 1
+                else:
+                    board[row][col] = 0
+```
+* [[Medium] [Solution] 289. Game of Life](%5BMedium%5D%20%5BSolution%5D%20289.%20Game%20of%20Life.md)
 
 ### Diagonal Iteration and Reversal
 ```python

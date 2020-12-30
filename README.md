@@ -883,7 +883,7 @@ A playground to note something.
                  sudo chmod a+rwx /var/ftp/pub
 
                  # enable anonymous write & read
-                 sudo nano /etc/vsftpd.conf
+                 sudo vim /etc/vsftpd.conf
 
                  ##+++>
                  anonymous_enable=YES
@@ -899,19 +899,51 @@ A playground to note something.
                  pasv_max_port=50000
                  ##+++<
                  ```
-             - pureftpd
+             - files
              
-                 -
-             - Proftpd
+                 - `/etc/vsftpd/vsftpd.conf`: The configuration file for vsftpd
+                 - `/etc/pam.d/vsftpd`:  The Pluggable Authentication Modules (PAM) configuration file for vsftpd
+                 - `/etc/vsftpd/ftpusers`: A list of users not allowed to log into vsftpd
+                 - `/etc/vsftpd/user_list`: This file can be configured to either deny or allow access to the users listed, depending on whether the userlist_deny directive is set to YES (default) or NO in /etc/vsftpd/vsftpd.conf
+         - pureftpd
              
-                 -
+             - setup
+             
+                 ```
+                 # start with anounymous access
+                 pure-ftpd -B -S localhost,21 -e
+                 
+                 # start without anounymous access
+                 pure-ftpd -B -S localhost,21 -E
+                 
+                 # stop
+                 killall pure-ftpd
+                 ```
+         - Proftpd
+             
+             - setup
+             
+                 ```
+                 sudo apt install proftpd
+                 
+                 vim /etc/proftpd/proftpd.conf
+                 ```
          - port
          
-             - command: tcp/21
-             - data: tcp/20
+             | | Active FTP | Passive FTP |
+             |-|------------|-------------|
+             | command | client >1023 -> server 21 | client >1023 -> server 21    |
+             | data    | client >1023 <- server 20 | client >1024 -> server >1023 |
+         - compare
+         
+             | advantage | server |
+             |--|--|
+             | many users | vsftpd |
+             | simple, secure | pureftpd |
+             | flexible, external modules | Proftpd |
     - client
 
-        `ftp -p [FTP_SERVER_IP]`
+        - [Summary of FTP Commands](http://www.cryst.bbk.ac.uk/education/Internet/ftp_old/FTP_Summary.html)   
 * HTTP
 
     - Server
