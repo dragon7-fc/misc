@@ -451,30 +451,66 @@ A playground to note something.
     ```
 * ssh
 
-    - [SSH Cheatsheet](https://cheatsheet.dennyzhang.com/cheatsheet-ssh-a4)
-    - SSH login without password
-        
-        ```bash
-        a@A:~> ssh-keygen -t rsa
-        
-        a@A:~> ssh b@B mkdir -p .ssh
-        b@B's password:
-        
-        a@A:~> cat .ssh/id_rsa.pub | ssh b@B 'cat >> .ssh/authorized_keys'
-        b@B's password:
-        
-        a@A:~> ssh b@B
-        ```
-    - Local Port Tunnel
+    - server
     
-        - Local post XXXX tunnel to Remote port YYYY
-      
-          `ssh -L XXXX:localhost:YYYY -Nf yy@yyyy`
-    - Remote Port Tunnel
-    
-        - Remote post YYYY tunnel to Local port XXXX
+        - setup
         
-          `ssh -R YYYY:localhost:XXXX -Nf yy@yyyy`
+            ```
+            sudo yum search openssh | grep -i server
+            
+            sudo vim /etc/ssh/sshd_config
+            
+            #PermitRootLogin yes
+            X11Forwarding yes
+            ```
+        - port
+        
+            - tcp/22
+        - log
+        
+            - '/var/log/secure.log': centos
+            - '/var/log/auth.log': debian
+    - client
+    
+        - setup
+        
+            - file: `/etc/ssh/ssh_config`
+            - precedence: 
+                
+                - ssh command > `~/.ssh/config` > `/etc/ssh/ssh_config`
+        - [cheatsheet-ssh-A4](https://github.com/dennyzhang/cheatsheet-ssh-A4)
+        - ssh
+        
+            - [SSH Cheatsheet](https://cheatsheet.dennyzhang.com/cheatsheet-ssh-a4)
+            - SSH login without password
+
+                ```bash
+                a@A:~> ssh-keygen -t rsa
+
+                a@A:~> ssh b@B mkdir -p .ssh
+                b@B's password:
+
+                a@A:~> cat .ssh/id_rsa.pub | ssh b@B 'cat >> .ssh/authorized_keys'
+                b@B's password:
+
+                a@A:~> ssh b@B
+                ```
+            - Local Port Tunnel
+
+                - Local post XXXX tunnel to Remote port YYYY
+
+                  `ssh -L XXXX:localhost:YYYY -Nf yy@yyyy`
+            - Remote Port Tunnel
+
+                - Remote post YYYY tunnel to Local port XXXX
+
+                  `ssh -R YYYY:localhost:XXXX -Nf yy@yyyy`
+        - scp
+        
+            - [SCP Command Examples to Securely Transfer Files in Linux](SCP Command Examples to Securely Transfer Files in Linux)
+        - sftp
+        
+            - [SFTP commands and options](https://learn.akamai.com/en-us/webhelp/netstorage/netstorage-user-guide/GUID-E0B5C44E-7618-4C41-B9AB-186CF3E28628.html)
 * Samba
 
     - Server
