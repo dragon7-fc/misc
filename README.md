@@ -463,6 +463,9 @@ A playground to note something.
             #PermitRootLogin yes
             X11Forwarding yes
             ```
+        - file
+        
+            - `~/.ssh/authorized_keys`: client public key
         - port
         
             - tcp/22
@@ -478,6 +481,9 @@ A playground to note something.
             - precedence: 
                 
                 - ssh command > `~/.ssh/config` > `/etc/ssh/ssh_config`
+        - file
+        
+            - `~/.ssh/known_hosts`: server public key
         - [cheatsheet-ssh-A4](https://github.com/dennyzhang/cheatsheet-ssh-A4)
         - ssh
         
@@ -485,15 +491,31 @@ A playground to note something.
             - SSH login without password
 
                 ```bash
-                a@A:~> ssh-keygen -t rsa
+                # can create passphrase
+                a@A:~> ssh-keygen -t rsa  # generage ~/.ssh/id_rsa  and ~/.ssh/id_rsa.pub
 
                 a@A:~> ssh b@B mkdir -p .ssh
                 b@B's password:
 
                 a@A:~> cat .ssh/id_rsa.pub | ssh b@B 'cat >> .ssh/authorized_keys'
+                # or ssh-copy-id -i ~/.ssh/id_rsa.pub b@B
                 b@B's password:
 
+                # can use ssh-agent and ssh-add to keep passhprase
+                # ssh-agent - agent to hold private key for single sign-on
+                # ssh-add - tool to add a key to the agent
+                # 
+                # ssh-agent /bin/bash
+                # ssh-add
+                # Enter passphrase for /home/a/.ssh/id_rsa:
+
                 a@A:~> ssh b@B
+                
+                # exit from B
+                # exit
+                #
+                # exit from /bin/bash to release passphrase
+                # exit
                 ```
             - Local Port Tunnel
 
@@ -513,9 +535,9 @@ A playground to note something.
             - [SFTP commands and options](https://learn.akamai.com/en-us/webhelp/netstorage/netstorage-user-guide/GUID-E0B5C44E-7618-4C41-B9AB-186CF3E28628.html)
 * Samba
 
-    - Server
+    - server
     
-        - Setup
+        - setup
         
             ```bash
             sudo apt install samba
@@ -545,32 +567,32 @@ A playground to note something.
         
             - `sudo smbstatus`
             - `sudo net status shares`
-        - Log
+        - log
         
             - `/var/log/samba`
-        - Port
+        - port
         
             - udp/137: nmbd
             - tcp/139, tcp/445: smbd
-    - Client
+    - client
     
-        - NetBios Name lookup
+        - netbios name lookup
             ```bash
             sudo apt install samba-common-bin
             
             nmblookup [NETBIOS_NAME]
             ```
-        - Not mount
+        - not mount
         
             ```bash
             sudo apt install smbclient
             
             smbclient -U [XXX_USER] //[SAMBA_SERVER_IP]/MyShare
             ```
-        - Mount
+        - mount
         
             `sudo mount //[SAMBA_SERVER_IP]/MyShare [/PATH|/TO/MOUNT-POINT] -o username=[XXX_USER],password=[XXX_USER_PASSWORD]`
-        - Mount on power on
+        - mount on power on
         
             ```bash
             # vim /etc/fstab
@@ -589,9 +611,9 @@ A playground to note something.
             ```
 * NFS
 
-    - Server
+    - server
 
-        - Setup
+        - setup
         
             ```bash
             sudo apt-get install nfs-kernel-server 
@@ -607,7 +629,7 @@ A playground to note something.
             sudo exportfs -a
             sudo service nfs-kernel-server restart
             ```
-        - Port
+        - port
         
             - tcp/111, udp/111: rpcbind.portmapper
             - tcp/2049, udp/2049: rpc.nfsd
@@ -633,14 +655,14 @@ A playground to note something.
             sudo firewall-cmd --permanent --add-port=2049/udp
             sudo firewall-cmd --reload
             ```
-    - Client
+    - client
 
-        - Mount
+        - mount
             ```
             sudo apt install nfs-common
             mount -t nfs -o tcp,nolock [NFS_SERVER_IP]:[/PATH/TO/NFSROOT] [/PATH/TO/MOUNT]
             ```
-        - Mount on power on
+        - mount on power on
         
             ```bash
             # vim /etc/fstab
@@ -652,18 +674,18 @@ A playground to note something.
         - show rpc service status for `rpcbind`
         
             `rpcinfo -p [NFS_SERVER_IP]`
-        - Lists the available shares at the remote server
+        - ,ists the available shares at the remote server
         
             - `showmount -e [NFS_SERVER_IP]`
 * DHCP
 
-    - Server
+    - server
     
-        - IPv4
+        - ipv4
     
             - isc-dhcp-server
 
-                - Setup
+                - setup
 
                     ```bash
                     ## setup static ip address for DHCP server
@@ -703,7 +725,7 @@ A playground to note something.
                     `czat /var/log/syslog | grep dhcpd`
             - dnsmasq
 
-                - Setup
+                - setup
 
                     ```bash
                     ## setup static ip address for DHCP server
@@ -733,16 +755,16 @@ A playground to note something.
                     sudo systemctl start dnsmasq
                     sudo systemctl enable dnsmasq
                     ```
-                - Lease status
+                - lease status
 
                     `cat /var/lib/misc/dnsmasq.leases`
-                - Log
+                - log
 
                     `czat /var/log/syslog | grep dnsmasq`
-            - Port
+            - port
 
                 - udp/67
-            - Firewall
+            - firewall
 
                 ```bash
                 # iptables (CentOS/RHEL 6)
@@ -758,14 +780,14 @@ A playground to note something.
                 ufw reload
                 ufw show
                 ```
-            - Misc
+            - misc
 
                 - [dnsmasq - ArchWiki](https://wiki.archlinux.org/index.php/dnsmasq)
-        - IPv6
+        - ipv6
         
             - isc-dhcp-server (statefull)
             
-                - Setup
+                - setup
                 
                     ```bash
                     # vim /etc/dhcp/dhcpd6.conf
@@ -777,12 +799,12 @@ A playground to note something.
                     }
                     ##+++<
                     ```
-                - Port
+                - port
                 
                     - udp/547
             - radvd (stateless)
             
-                - Setup
+                - setup
                 
                     ```bash
                     apt install radvd
@@ -815,11 +837,11 @@ A playground to note something.
                     # check ICMP6 broadcasting
                     tcpdump -i eth1 icmp6
                     ```
-    - Client
+    - client
     
-        - IPv4
+        - ipv4
     
-            - Config
+            - config
 
                 - CentOS
 
@@ -837,29 +859,29 @@ A playground to note something.
                     auto  eth0
                     iface eth0 inet dhcp
                     ```
-            - Renew dhcp
+            - renew dhcp
 
                 ```bash
                 dhclient -r
                 dhclient
                 ```
-            - Port
+            - port
 
                 - udp/68
-        - IPv6
+        - ipv6
         
-            - Renew dhcp
+            - renew dhcp
 
                 ```bash
                 dhclient -r
                 dhclient
                 ```
-            - Port (statefull)
+            - port (statefull)
             
                 - udp/546
 - TFTP
 
-    - Server
+    - server
 
         ```bash
         sudo apt-get install tftpd-hpa
@@ -886,7 +908,7 @@ A playground to note something.
         exit 0
         ```
 
-    - Client
+    - client
 
         |     | command                              |
         |-----|--------------------------------------|
@@ -982,13 +1004,13 @@ A playground to note something.
         - [Summary of FTP Commands](http://www.cryst.bbk.ac.uk/education/Internet/ftp_old/FTP_Summary.html)   
 * HTTP
 
-    - Server
+    - server
     
         - apache
         
-            - Setup
+            - setup
             
-                - CentOS
+                - centOS
             
                     ```bash
                     sudo yum -y  install httpd.x86_64 
@@ -1052,7 +1074,7 @@ A playground to note something.
                     ##+++<
                     ```
                     
-                - Ubuntu
+                - ubuntu
                 
                     ```bash
                     sudo apt install apache2
@@ -1174,7 +1196,7 @@ A playground to note something.
                     </VirtualHost>
                     ##+++<
                     ```
-            - Setup (HTTPS)
+            - setup (HTTPS)
             
                 - CentOS
                 
@@ -1212,17 +1234,17 @@ A playground to note something.
                     sudo firewall-cmd --reload
                     sudo firewall-cmd --list-all
                     ```
-            - Port
+            - port
             
                 - tcp/80, tcp/443
-            - Log
+            - log
             
-                - CentOS
+                - centOS
                     ```
                     /var/log/httpd/access_log
                     /var/log/httpd/error_log
                     ```
-                - Ubuntu
+                - ubuntu
                 
                     ```
                     /var/log/apache2/access.log
@@ -1234,11 +1256,11 @@ A playground to note something.
 
     - forward
     
-        - Server
+        - server
     
             - squid
         
-                - Setup
+                - setup
                 
                     ```
                     sudo apt install squid -y
@@ -1257,7 +1279,7 @@ A playground to note something.
                     
                     sudo systemctl restart squid
                     ```
-                - Setup (Authority)
+                - setup (Authority)
                 
                     ```
                     sudo vim /etc/squid/squid.conf
@@ -1281,10 +1303,10 @@ A playground to note something.
                     
                     sudo systemctl restart squid
                     ```
-                - Port
+                - port
                 
                     - tcp/3128
-                - Log
+                - log
                 
                     ```
                     /var/log/squid/access.log
@@ -1306,7 +1328,7 @@ A playground to note something.
             `export http_proxy=[PROXY_USER]:[PROXY_PASSWORD]@[PROXY_IP]:[PROXY_PORT]`
 * DNS
 
-    - Server
+    - server
     
         - setup
         
@@ -1318,7 +1340,7 @@ A playground to note something.
         - port
         
             - tcp/53, udp/53
-    - Client
+    - client
     
         - dig
 
@@ -1328,7 +1350,7 @@ A playground to note something.
             - [How to Use Nslookup Command](https://networkproguide.com/how-to-use-nslookup-command/)
 * Mail
 
-    - Server
+    - server
     
         - postfix
         
@@ -1413,7 +1435,7 @@ A playground to note something.
             - default mail drop directory
 
                 `/var/spool/mail`
-            - Log
+            - log
 
                 `/var/log/maillog`
         - courier-imap
@@ -1482,7 +1504,7 @@ A playground to note something.
                 ...
                 quit
                 ```
-            - TLS Configuration
+            - tls Configuration
                 - setup
                     ```
                     # generate self signed SSL certificate
@@ -1597,9 +1619,9 @@ A playground to note something.
                     ```
 * LDAP
 
-    - Server
+    - server
     
-        - Setup
+        - setup
         
             ```
             sudo yum install openldap openldap-servers openldap-clients.x86_64
@@ -1681,10 +1703,10 @@ A playground to note something.
         - ldap directory database and log
         
             `/var/lib/ldap`
-        - Port
+        - port
         
             - tcp/389, tcp8/636
-    - Client
+    - client
 
         - ldapsearch
         
@@ -1825,7 +1847,7 @@ A playground to note something.
         `/etc/pam.d`
     - module
     
-        - Directory
+        - directory
         
             `/lib/security` or `/lib64/security`
         - `pam_unix.so`: configures authentication via /etc/passwd and /etc/shadow
@@ -1919,6 +1941,127 @@ A playground to note something.
     
         - `/etc/pam.d/*` -> type (first column) = `auth` -> `/etc/nsswitch.conf`
     - [PAM - ArchWiki](https://wiki.archlinux.org/index.php/PAM)
+* firewall
+
+    * iptables
+
+        - NAT Server
+
+            - environment
+
+                - ---> eth0 -> eth1 -> BMCx
+
+                    - eth0(internet): 10.32.4.40
+                    - eth1(intranet): 192.168.2.2 (ssh user: sysadmin)
+            - Setup
+
+                ```bash
+                BMCx_IP = "x.x.x.x"
+
+                # Activate IP-forwarding in the kernel!
+                # cat /proc/sys/net/ipv4/ip_forward -> 1
+                # echo "net.ipv4.ip_forward=1" >> /etc/sysctl.conf
+                echo 1 > /proc/sys/net/ipv4/ip_forward
+
+                # clear filter table
+                sudo iptables -F
+                sudo iptables -X
+                sudo iptables -Z
+                # clear nat table
+                sudo iptables -t nat -F
+                sudo iptables -t nat -X
+                sudo iptables -t nat -Z
+
+                # Connect a private subnet to the internet using NAT
+                sudo iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE
+
+                # Running a HTTPS Server behind a NAT-router
+                sudo iptables -t nat -A PREROUTING -i eth0 -p tcp --dport 443 \
+                -j DNAT --to-destination ${BMCx_IP}:443
+
+                # IPMI server
+                sudo iptables -t nat -A PREROUTING -i eth0 -p udp --dport 623 \
+                -j DNAT --to-destination ${BMCx_IP}:623
+
+                # SSH server (ssh -p 2222 sysadmin@10.32.4.40)
+                sudo iptables -t nat -A PREROUTING -i eth0 -p tcp --dport 2222 \
+                -j DNAT --to-destination ${BMCx_IP}:22
+
+                # show filter table
+                sudo iptables -L -n -v
+                # show nat table
+                sudo iptables -t nat -L -n -v
+                ```
+
+                __NOTE__: can write ot `/etc/rc.local`
+        - [iptables - ArchWiki](https://wiki.archlinux.org/index.php/iptables)
+    * firewall-cmd
+
+        - [Introduction to firewalld and firewall-cmd command on Linux](https://linuxconfig.org/introduction-to-firewalld-and-firewall-cmd-command-on-linux)
+    * UFW
+
+        - [UFW - Community Help Wiki - Official Ubuntu Documentation](https://help.ubuntu.com/community/UFW)
+* VPN
+
+    - server
+    
+        - OpenVPN
+        
+            - setup
+        
+                ```
+                sudo yum install epel-release.noarch  -y
+                yum repolist 
+                yum search openvpn
+                sudo yum install openvpn.x86_64 -y
+                
+                # open openvpn port
+                sudo firewall-cmd --permanent --add-service openvpn
+                sudo firewall-cmd --reload
+                sudo firewall-cmd --list-all
+                
+                # generate shared key
+                openvpn --genkey --secret openvpn.key
+                
+                # transfer shared-key to the client machine
+                scp openvpn.key [CLIENT]:/home/[USER]
+                
+                # server: 10.10.10.1
+                # client: 10.10.10.2
+                vim server.conf
+                
+                ##+++>
+                dev tun
+                ifconfig 10.10.10.1 10.10.10.2
+                secret openvpn.key
+                ##+++<
+                
+                # start to listen openvpn client request...
+                sudo openvpn --config server.conf
+                ```
+            - port
+            
+                - udp/1194
+    - client
+    
+        - setup
+        
+            ```bash
+            sudo apt install openvpn
+            
+            cd
+            vim client.conf
+            
+            ##+++>
+            remote [SERVER]
+            dev tun
+            ifconfig 10.10.10.2 10.10.10.1
+            secret openvpn.key
+            ##+++<
+            
+            # connectting to openvpn server
+            sudo openvpn --config client.conf 
+            ```
 * Wireshark
 
     - [How to Decrypt SSL and TLS Traffic Using Wireshark](https://support.citrix.com/article/CTX116557)
@@ -2076,6 +2219,36 @@ A playground to note something.
 * nc
 
     - [NetcatCheatSheet](https://www.sans.org/security-resources/sec560/netcat_cheat_sheet_v1.pdf)
+* fail2ban
+
+    - setup
+    
+       ```bash
+       sudo apt install fail2ban
+       
+       systemctl status fail2ban
+       
+       cd /etc/fail2ban
+       
+       # precedence: *.local > *.conf
+       sudo cp fail2ban.conf fail2ban.local
+       sudo vim fail2ban.local
+       
+       # Ban Time and Retry Amount
+       # email alerts
+       # service/port ban rule
+       sudo cp jail.conf jail.local
+       sudo vim jail.local
+       
+       # check iptables
+       sudo iptables -S
+       
+       # check status for ssh login fail
+       sudo fail2ban-client status sshd
+       ```
+   - log
+   
+       - /var/log/fail2ban.log
 * curl
 
     - [CURL CHEATSHEET](https://cheatsheet.dennyzhang.com/cheatsheet-curl-a4)
@@ -2119,64 +2292,6 @@ A playground to note something.
 * iperf
 
     - [Iperf cheat sheet](https://www.jamescoyle.net/cheat-sheets/581-iperf-cheat-sheet)
-* iptables
-
-    - NAT Server
-    
-        - environment
-        
-            - ---> eth0 -> eth1 -> BMCx
-        
-                - eth0(internet): 10.32.4.40
-                - eth1(intranet): 192.168.2.2 (ssh user: sysadmin)
-        - Setup
-        
-            ```bash
-            BMCx_IP = "x.x.x.x"
-            
-            # Activate IP-forwarding in the kernel!
-            # cat /proc/sys/net/ipv4/ip_forward -> 1
-            # echo "net.ipv4.ip_forward=1" >> /etc/sysctl.conf
-            echo 1 > /proc/sys/net/ipv4/ip_forward
-
-            # clear filter table
-            sudo iptables -F
-            sudo iptables -X
-            sudo iptables -Z
-            # clear nat table
-            sudo iptables -t nat -F
-            sudo iptables -t nat -X
-            sudo iptables -t nat -Z
-
-            # Connect a private subnet to the internet using NAT
-            sudo iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE
-
-            # Running a HTTPS Server behind a NAT-router
-            sudo iptables -t nat -A PREROUTING -i eth0 -p tcp --dport 443 \
-            -j DNAT --to-destination ${BMCx_IP}:443
-            
-            # IPMI server
-            sudo iptables -t nat -A PREROUTING -i eth0 -p udp --dport 623 \
-            -j DNAT --to-destination ${BMCx_IP}:623
-            
-            # SSH server (ssh -p 2222 sysadmin@10.32.4.40)
-            sudo iptables -t nat -A PREROUTING -i eth0 -p tcp --dport 2222 \
-            -j DNAT --to-destination ${BMCx_IP}:22
-            
-            # show filter table
-            sudo iptables -L -n -v
-            # show nat table
-            sudo iptables -t nat -L -n -v
-            ```
-            
-            __NOTE__: can write ot `/etc/rc.local`
-    - [iptables - ArchWiki](https://wiki.archlinux.org/index.php/iptables)
-* firewall-cmd
-
-    - [Introduction to firewalld and firewall-cmd command on Linux](https://linuxconfig.org/introduction-to-firewalld-and-firewall-cmd-command-on-linux)
-* UFW
-
-    - [UFW - Community Help Wiki - Official Ubuntu Documentation](https://help.ubuntu.com/community/UFW)
 * TCP Wrappers
 
     - [TCP Wrappers and xinetd](https://web.mit.edu/rhel-doc/5/RHEL-5-manual/Deployment_Guide-en-US/ch-tcpwrappers.html)
@@ -2202,7 +2317,6 @@ A playground to note something.
         `raspi-config`
 
     - [Setting up a Raspberry Pi as a routed wireless access point](https://www.raspberrypi.org/documentation/configuration/wireless/access-point-routed.md)
-
 * RU
 
     - [RU.EXE + RU.EFI](http://ruexe.blogspot.com/)

@@ -61,7 +61,69 @@ Output: 2
 
 # Submissions
 ---
-**Solution 1: (DFS)**
+**Solution 1: (DFS: Recursive Inorder Traversal)**
+```
+Runtime: 632 ms
+Memory Usage: 24.2 MB
+```
+```python
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+
+class Solution:
+    def getTargetCopy(self, original: TreeNode, cloned: TreeNode, target: TreeNode) -> TreeNode:
+        def inorder(o: TreeNode, c: TreeNode):
+            if o:
+                inorder(o.left, c.left)
+                if o is target:
+                    self.ans = c
+                inorder(o.right, c.right)
+                
+        inorder(original, cloned)
+        return self.ans 
+```
+
+**Solution 2: (DFS: Iterative Inorder Traversal)**
+```
+Runtime: 608 ms
+Memory Usage: 24.2 MB
+```
+```python
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+
+class Solution:
+    def getTargetCopy(self, original: TreeNode, cloned: TreeNode, target: TreeNode) -> TreeNode:
+        stack_o, stack_c = [], []
+        node_o, node_c = original, cloned
+        
+        while stack_o or node_c:
+            while node_o:
+                stack_o.append(node_o)
+                stack_c.append(node_c)
+                
+                node_o = node_o.left
+                node_c = node_c.left
+                
+            node_o = stack_o.pop()
+            node_c = stack_c.pop()
+            
+            if node_o is target:
+                return node_c
+            
+            node_o = node_o.right
+            node_c = node_c.right 
+```
+
+**Solution 3: (DFS)**
 ```
 Runtime: 652 ms
 Memory Usage: 23.5 MB

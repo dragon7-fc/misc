@@ -52,6 +52,7 @@ Happy Coding!!
 1. [202010 October LeetCoding Challenge](#202010)
 1. [202011 November LeetCoding Challenge](#202011)
 1. [202012 December LeetCoding Challenge](#202012)
+1. [202101 January LeetCoding Challenge](#202101)
 1. [Array](#array)
 1. [Dynamic Programming](#dp)
 1. [Math](#math)
@@ -512,6 +513,12 @@ Happy Coding!!
 * [[Medium] [Solution] 754. Reach a Number](%5BMedium%5D%20%5BSolution%5D%20754.%20Reach%20a%20Number.md)
 * [[Medium] 1457. Pseudo-Palindromic Paths in a Binary Tree](%5BMedium%5D%201457.%20Pseudo-Palindromic%20Paths%20in%20a%20Binary%20Tree.md)
 * [[Medium] [Solution] 289. Game of Life](%5BMedium%5D%20%5BSolution%5D%20289.%20Game%20of%20Life.md)
+* [[Hard] 84. Largest Rectangle in Histogram](%5BHard%5D%2084.%20Largest%20Rectangle%20in%20Histogram.md)
+
+## 202101 January LeetCoding Challenge <a name="202101"></a>
+* [[Easy] 1640. Check Array Formation Through Concatenation](%5BEasy%5D%201640.%20Check%20Array%20Formation%20Through%20Concatenation.md)
+* [[Medium] 1379. Find a Corresponding Node of a Binary Tree in a Clone of That Tree](%5BMedium%5D%201379.%20Find%20a%20Corresponding%20Node%20of%20a%20Binary%20Tree%20in%20a%20Clone%20of%20That%20Tree.md)
+* [[Medium] [Solution] 526. Beautiful Arrangement](%5BMedium%5D%20%5BSolution%5D%20526.%20Beautiful%20Arrangement.md)
 
 ## Array <a name="array"></a>
 ---
@@ -6459,6 +6466,19 @@ class Solution:
 
 ## Hash Table <a name='ht'></a>
 ---
+### Hash Table
+```python
+class Solution:
+    def canFormArray(self, arr: List[int], pieces: List[List[int]]) -> bool:
+        mp = {x[0]: x for x in pieces}
+        i = 0
+        while i < len(arr): 
+            if (x := arr[i]) not in mp or mp[x] != arr[i:i+len(mp[x])]: return False 
+            i += len(mp[x])
+        return True
+```
+* [[Easy] 1640. Check Array Formation Through Concatenation](%5BEasy%5D%201640.%20Check%20Array%20Formation%20Through%20Concatenation.md)
+
 ### Hash Set
 ```python
 class Solution(object):
@@ -7326,6 +7346,25 @@ class Solution:
         return image
 ```
 * [[Easy] [Solution] 733. Flood Fill](%5BEasy%5D%20%5BSolution%5D%20733.%20Flood%20Fill.md)
+
+### DFS
+```python
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+
+class Solution:
+    def getTargetCopy(self, original: TreeNode, cloned: TreeNode, target: TreeNode) -> TreeNode:
+        if not original:
+            return
+        if target == original:
+            return cloned
+        return self.getTargetCopy(original.left, cloned.left, target) or self.getTargetCopy(original.right, cloned.right, target)
+```
+* [[Medium] 1379. Find a Corresponding Node of a Binary Tree in a Clone of That Tree](%5BMedium%5D%201379.%20Find%20a%20Corresponding%20Node%20of%20a%20Binary%20Tree%20in%20a%20Clone%20of%20That%20Tree.md)
 
 ### Count Preorder Traversal
 ```python
@@ -11243,7 +11282,7 @@ class Solution:
 ```
 * [[Lock] [Hard] 772. Basic Calculator III](%5BLock%5D%20%5BHard%5D%20772.%20Basic%20Calculator%20III.md)
 
-### Histogram
+### stack maintain first and second hightest value index
 ```python
 class Solution:
     def largestRectangleArea(self, heights: List[int]) -> int:
