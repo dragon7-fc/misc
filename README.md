@@ -1335,11 +1335,139 @@ A playground to note something.
             ```
             sudo apt install bind9 bind9utils
             
-            sudo vim /etc/bind/named.conf
+            # default: caching DNS server
+            sudo vim /etc/bind/named.conf.options
+            
+            # change to forward DNS server
+            sudo vim /etc/bind/named.conf.options
+            
+            options {
+            ...
+                ##+++>
+                forwarders {
+                        X.X.X.X;
+                };
+                forward only;
+                ##+++<
+            ...
+            };
+            
+            
+            
+            # BIND includes a utility called rndc (Remote Name Daemon Control) which allows command line administration of the named daemon from the localhost or a remote host.
+            cd /etc/bind
+            # generate rndc.key
+            sudo rm rndc.key
+            sudo rndc-confgen -r /dev/urandom -a
+            sudo chown bind.bind rndc.key 
+            sudo chmod 640 rndc.key
+            
+            # add myzone
+            cd /etc/named
+            wudo vim /etc/bind/named.conf.local
+            
+            ##+++>
+            zone "myzone" {
+            type master;
+            file "/etc/bind/zonedbfiles/db.myzone";
+                };
+
+            zone "YY.XX.WW.in-addr.arpa" {
+            type master;
+            file "/etc/bind/zonedbfiles/db.YY.XX.WW";
+                };
+            ##+++<
+            
+            
+            sudo mkdir zonedbfiles
+            sudo cp db.local zonedbfiles/db.myzone
+            sudo cp db.z zonedbfiles/db.YY.XX.WW
+            
+            sudo vim zonedbfiles/db.myzone
+            
+            ##***>
+            ;
+            ; BIND data file for local loopback interface
+            ;
+            $TTL    604800
+            @    IN    SOA    myzone. root.myzone. (
+                              4        ; Serial
+                         604800        ; Refresh
+                          86400        ; Retry
+                        2419200        ; Expire
+                         604800 )    ; Negative Cache TTL
+            ;
+            @        IN    NS    ns.myzone.
+            ns       IN    A     WW.XX.YY.ZZ
+            @        IN    A     WW.XX.YY.XX
+            host2    IN    A     WW.XX.YY.PP
+            ##+++<
+            sudo vim zonedbfiles/db.YY.XX.WW
+            
+            ##***>
+            ;
+            ; BIND reverse data file for local loopback interface
+            ;
+            $TTL    604800
+            @    IN    SOA    myzone. root.myzone. (
+                              8        ; Serial
+                         604800        ; Refresh
+                          86400        ; Retry
+                        2419200        ; Expire
+                         604800 )    ; Negative Cache TTL
+            ;
+            @    IN    NS    ns.myzone.
+            PP    IN    PTR    host2.myzone.
+            ##+++<
+            
+            # check config
+            sudo named-checkzone myzone. db.myzone
+            sudo named-checkzone WW.XX.YY.in-addr.arpa db.YY.XX.WW
+            sudo named-checkconf
+            
+            sudo systemctl restart bind9.service
+            sudo rndc reload
+            
+            # check
+            dig @localhost myzone
+            dig @localhost host2.myzone
+            dig @localhost -x WW.XX.YY.ZZ
+            ```
+        - dnsseq
+        
+            ```
+            cd /etc/bind
+            sudo mkdir dnsseckeys
+            cd dnsseckeys
+            
+            # generate KSK
+            sudo dnssec-keygen -a RSASHA256 -b 512 -n ZONE -f KSK myzone.
+            
+            # generate ZSK
+            dnssec-keygen -a RSASHA256 -b 512 -n ZONE myzone.
+            
+            # sign myzone
+            cp ../zonedbfiles/db.myzone .
+            dnssec-signzone -o myzone. -S db.myzone
+            
+            sudo vim /etc/bind/named.conf.options
+            
+            options {
+            ...
+            ##+++>
+                dnssec-enable yes; 
+                dnssec-validation yes; 
+                dns-seclookaside auto;
+            ##+++<
+            ...
+            }l
             ```
         - port
         
             - tcp/53, udp/53
+        - log
+        
+            - /var/log/syslog
     - client
     
         - dig
@@ -1348,6 +1476,9 @@ A playground to note something.
         - nslookup
 
             - [How to Use Nslookup Command](https://networkproguide.com/how-to-use-nslookup-command/)
+        - host
+        
+            - [host command in Linux with examples](https://www.geeksforgeeks.org/host-command-in-linux-with-examples/)
 * Mail
 
     - server

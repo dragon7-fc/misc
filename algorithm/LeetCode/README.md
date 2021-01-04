@@ -519,6 +519,7 @@ Happy Coding!!
 * [[Easy] 1640. Check Array Formation Through Concatenation](%5BEasy%5D%201640.%20Check%20Array%20Formation%20Through%20Concatenation.md)
 * [[Medium] 1379. Find a Corresponding Node of a Binary Tree in a Clone of That Tree](%5BMedium%5D%201379.%20Find%20a%20Corresponding%20Node%20of%20a%20Binary%20Tree%20in%20a%20Clone%20of%20That%20Tree.md)
 * [[Medium] [Solution] 526. Beautiful Arrangement](%5BMedium%5D%20%5BSolution%5D%20526.%20Beautiful%20Arrangement.md)
+* [[Easy] 21. Merge Two Sorted Lists](%5BEasy%5D%2021.%20Merge%20Two%20Sorted%20Lists.md)
 
 ## Array <a name="array"></a>
 ---
@@ -12498,6 +12499,40 @@ class Solution:
 
 ## Linked List <a name="ll"></a>
 ---
+### Linked List
+```python
+# Definition for singly-linked list.
+# class ListNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.next = None
+
+class Solution:
+    def mergeTwoLists(self, l1: ListNode, l2: ListNode) -> ListNode:
+        current = None
+        head = None
+        while l1 and l2:
+            if l1.val <= l2.val:
+                node = ListNode(l1.val)
+                l1 = l1.next
+            else:
+                node = ListNode(l2.val)
+                l2 = l2.next
+            if current == None:
+                current = node
+                head = current
+            else:
+                current.next = node
+                current = current.next
+        if head == None:
+            head = l1 or l2
+            current = head
+        else:
+            current.next = l1 or l2
+        return head
+```
+* [[Easy] 21. Merge Two Sorted Lists](%5BEasy%5D%2021.%20Merge%20Two%20Sorted%20Lists.md)
+
 ### Binary Representation
 ```python
 # Definition for singly-linked list.
