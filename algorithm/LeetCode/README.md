@@ -520,6 +520,7 @@ Happy Coding!!
 * [[Medium] 1379. Find a Corresponding Node of a Binary Tree in a Clone of That Tree](%5BMedium%5D%201379.%20Find%20a%20Corresponding%20Node%20of%20a%20Binary%20Tree%20in%20a%20Clone%20of%20That%20Tree.md)
 * [[Medium] [Solution] 526. Beautiful Arrangement](%5BMedium%5D%20%5BSolution%5D%20526.%20Beautiful%20Arrangement.md)
 * [[Easy] 21. Merge Two Sorted Lists](%5BEasy%5D%2021.%20Merge%20Two%20Sorted%20Lists.md)
+* [[Medium] 82. Remove Duplicates from Sorted List II](%5BMedium%5D%2082.%20Remove%20Duplicates%20from%20Sorted%20List%20II.md)
 
 ## Array <a name="array"></a>
 ---
@@ -12551,7 +12552,6 @@ class Solution:
 ```
 * [[Easy] 1290. Convert Binary Number in a Linked List to Integer](%5BEasy%5D%201290.%20Convert%20Binary%20Number%20in%20a%20Linked%20List%20to%20Integer.md)
 
-
 ### Delete Node
 ```python
 # Definition for singly-linked list.
@@ -12593,6 +12593,40 @@ class Solution:
         return tmp.next
 ```
 * [[Easy] 203. Remove Linked List Elements](%5BEasy%5D%20203.%20Remove%20Linked%20List%20Elements.md)
+
+### Greedy, stack
+```python
+# Definition for singly-linked list.
+# class ListNode:
+#     def __init__(self, val=0, next=None):
+#         self.val = val
+#         self.next = next
+class Solution:
+    def deleteDuplicates(self, head: ListNode) -> ListNode:
+        s = []
+        dup = 0
+        while head:
+            if not s:
+                s += [head]
+            else:
+                if s[-1].val == head.val:
+                    dup = 1
+                elif s[-1].val < head.val:
+                    if dup:
+                        s.pop()
+                    dup = 0
+                    s += [head]
+                    if len(s) >= 2:
+                        s[-2].next = s[-1]
+            head = head.next
+            if not head and dup:
+                s.pop()
+                if s:
+                    s[-1].next = None
+
+        return s[0] if s else None
+```
+* [[Medium] 82. Remove Duplicates from Sorted List II](%5BMedium%5D%2082.%20Remove%20Duplicates%20from%20Sorted%20List%20II.md)
 
 ### Number to string stack
 ```pyghon

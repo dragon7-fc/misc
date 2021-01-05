@@ -54,3 +54,40 @@ class Solution:
             
         return dummy.next
 ```
+
+**Solution 2: (Greedy)**
+```
+Runtime: 44 ms
+Memory Usage: 14.2 MB
+```
+```python
+# Definition for singly-linked list.
+# class ListNode:
+#     def __init__(self, val=0, next=None):
+#         self.val = val
+#         self.next = next
+class Solution:
+    def deleteDuplicates(self, head: ListNode) -> ListNode:
+        s = []
+        dup = 0
+        while head:
+            if not s:
+                s += [head]
+            else:
+                if s[-1].val == head.val:
+                    dup = 1
+                elif s[-1].val < head.val:
+                    if dup:
+                        s.pop()
+                    dup = 0
+                    s += [head]
+                    if len(s) >= 2:
+                        s[-2].next = s[-1]
+            head = head.next
+            if not head and dup:
+                s.pop()
+                if s:
+                    s[-1].next = None
+                
+        return s[0] if s else None
+```

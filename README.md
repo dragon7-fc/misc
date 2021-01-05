@@ -1032,6 +1032,9 @@ A playground to note something.
 
                     ## module configuration file
                     # /etc/httpd/conf.modules.d
+                    
+                    ## check mpm
+                    # httpd -V | grep -i mpm
 
                     ## Name Based Virtual Hosting (every domains to Single IP)
                     sudo vim /etc/httpd/conf/httpd.conf
@@ -1090,6 +1093,17 @@ A playground to note something.
 
                     ## install perl module
                     # sudo apt-get install libapache2-mod-perl2
+                    
+                    # vim /etc/apache2/apache2.conf
+                    # 
+                    # ################ Perl support
+                    # Alias /perl /var/www/perl
+                    # <Directory /var/www/perl>
+                    #     AddHandler perl-script .cgi .pl
+                    #     PerlResponseHandler ModPerl::PerlRun
+                    #     PerlOptions +ParseHeaders
+                    #     Options +ExecCGI
+                    # </Directory>
 
                     ## enabled modules
                     # /etc/apache2/mods-enabled
@@ -1098,6 +1112,9 @@ A playground to note something.
 
                     ## mpm module configuration
                     # /etc/apache2/mods-enabled/mpm_prefork.conf
+                    
+                    ## check mpm
+                    # apache2ctl -V | grep -i mpm
 
                     ## enabled sites
                     # /etc/apache2/sites-enabled
@@ -1195,6 +1212,9 @@ A playground to note something.
 
                     </VirtualHost>
                     ##+++<
+                    
+                    # check config
+                    apache2ctl configtest
                     ```
             - setup (HTTPS)
             
@@ -1332,11 +1352,16 @@ A playground to note something.
     
         - setup
         
-            ```
+            ```bash
             sudo apt install bind9 bind9utils
             
             # default: caching DNS server
             sudo vim /etc/bind/named.conf.options
+            
+            options {
+                ...
+                recursion yes;
+            };
             
             # change to forward DNS server
             sudo vim /etc/bind/named.conf.options
@@ -1381,7 +1406,7 @@ A playground to note something.
             
             sudo mkdir zonedbfiles
             sudo cp db.local zonedbfiles/db.myzone
-            sudo cp db.z zonedbfiles/db.YY.XX.WW
+            sudo cp db.127 zonedbfiles/db.YY.XX.WW
             
             sudo vim zonedbfiles/db.myzone
             
@@ -1402,6 +1427,7 @@ A playground to note something.
             @        IN    A     WW.XX.YY.XX
             host2    IN    A     WW.XX.YY.PP
             ##+++<
+            
             sudo vim zonedbfiles/db.YY.XX.WW
             
             ##***>
@@ -1433,9 +1459,9 @@ A playground to note something.
             dig @localhost host2.myzone
             dig @localhost -x WW.XX.YY.ZZ
             ```
-        - dnsseq
+        - dnssec
         
-            ```
+            ```bash
             cd /etc/bind
             sudo mkdir dnsseckeys
             cd dnsseckeys
@@ -1450,6 +1476,9 @@ A playground to note something.
             cp ../zonedbfiles/db.myzone .
             dnssec-signzone -o myzone. -S db.myzone
             
+            # check
+            db.myzone.signed
+            
             sudo vim /etc/bind/named.conf.options
             
             options {
@@ -1461,6 +1490,94 @@ A playground to note something.
             ##+++<
             ...
             }l
+            ```
+        - transaction signatures (TSIG)
+        
+            ```bash
+            cd /etc/bind
+            sudo mkdir mykeys
+            cd mykeys
+            
+            # generate tsig key
+            sudo dnssec-keygen -a HMAC-MD5 -b 128 -n HOST -r /dev/urandom mykey
+            
+            cat Kmykey.XXX.private
+            
+            ...
+            Key: KKK             <- public key
+            ...
+            
+            # create key file for transaction
+            cd /etc/bind
+            sudo vim named.conf.tsig
+            
+            ##+++>
+            key "mykey" {
+            algorithm HMAC-MD5;
+            secret "KKK"              <- public key
+            };
+            ##+++<
+            
+            # include key file
+            cd /etc/bind
+            sudo vim named.conf
+            
+            ##+++>
+            include "/etc/bind/named.conf.tsig";
+            ##+++<
+            
+            # allow zone transfer with with whom has the shared-key
+            cd /etc/bind
+            sudo vim named.conf
+            
+            zone "myzone" {
+                type master;
+                file "/etc/bind/zonedbfiles/db.myzone";
+                allow-transfer    { key "mykey"; };       <- key name
+            };
+            
+            sudo rndc reload
+            
+            # triger zone transfer
+            sudo vim /etc/bind/db.myzone
+            
+            ##***>
+                (( XX+1 ))       ; Serial
+            ##***<
+            
+            # check zone transfer
+            root@slave:/var/cache/bind# cat /var/log/syslog
+            
+            # add key to slave server
+            root@slave:/etc/bind# vim named.conf.tsig
+            
+            key "mykey" {
+                algorithm HMAC-MD5;
+                secret "KKK" ;
+                };
+
+            server [MASTER_IP] {
+                keys { "mykey" ; };
+                };
+            
+            root@slave:/etc/bind# vim named.conf
+            
+            ##+++>
+            include "/etc/bind/named.conf.tsig";
+            ##+++<
+            
+            root@slave:/etc/bind# rndc reload
+            
+            # check zone transfer
+            root@slave:/etc/bind# cat /var/log/syslog
+            ```
+        - chroot
+        
+            ```bash
+            sudo yum install bind bind-utils -y
+            sudo yum install bind-chroot
+            
+            cd /var/named/chroot
             ```
         - port
         
@@ -1508,6 +1625,16 @@ A playground to note something.
                 # check the mail queue - method 2
                 mailq
                 ```
+            - /usr/libexec/postfix/master
+            
+                - main process
+            
+                - configuration
+                
+                    `/etc/postfix/master.cf`
+            - /etc/postfix/main.cf
+            
+                - controls mail processing
             - email aliases
 
                 - ex. ssend mail to user3 who doesn't existed
@@ -1560,7 +1687,7 @@ A playground to note something.
 
                 `tcp/25`
 
-            - queued messagesare
+            - queued messages
 
                 `/var/spool/postfix`
             - default mail drop directory
