@@ -674,7 +674,7 @@ A playground to note something.
         - show rpc service status for `rpcbind`
         
             `rpcinfo -p [NFS_SERVER_IP]`
-        - ,ists the available shares at the remote server
+        - ists the available shares at the remote server
         
             - `showmount -e [NFS_SERVER_IP]`
 * DHCP
@@ -1796,6 +1796,12 @@ A playground to note something.
             - doveadm
             
                 - Dovecot administration tool
+        - POP3 vs IMAP
+        
+            | POP3 (Post Office Protocol) | IMAP (Internet Message Access Protocol) |
+            |-----------------------------|-----------------------------------------|
+            | Downloads e-mails(could be configured to leave a copy on server) | e-mails stay on the server |
+            | Mails are stored on the clients | Clients read e-mail remotely |
     - client
     
         - procmail
