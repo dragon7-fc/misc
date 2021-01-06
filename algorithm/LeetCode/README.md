@@ -521,9 +521,25 @@ Happy Coding!!
 * [[Medium] [Solution] 526. Beautiful Arrangement](%5BMedium%5D%20%5BSolution%5D%20526.%20Beautiful%20Arrangement.md)
 * [[Easy] 21. Merge Two Sorted Lists](%5BEasy%5D%2021.%20Merge%20Two%20Sorted%20Lists.md)
 * [[Medium] 82. Remove Duplicates from Sorted List II](%5BMedium%5D%2082.%20Remove%20Duplicates%20from%20Sorted%20List%20II.md)
+* [[Easy] 1539. Kth Missing Positive Number](%5BEasy%5D%201539.%20Kth%20Missing%20Positive%20Number.md)
 
 ## Array <a name="array"></a>
 ---
+### Greedy
+```python
+class Solution:
+    def findKthPositive(self, arr: List[int], k: int) -> int:
+        arr = [0] + arr
+        nk = k
+        for a, b in zip(arr[:], arr[1:]):
+            nk -= b-a-1
+            if nk <= 0:
+                return a+k
+            k = nk
+        return arr[-1]+k
+```
+* [[Easy] 1539. Kth Missing Positive Number](%5BEasy%5D%201539.%20Kth%20Missing%20Positive%20Number.md)
+
 ### Two while loop for Walk up and down
 ```python
 class Solution:
