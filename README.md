@@ -710,6 +710,13 @@ A playground to note something.
                       range [IP_START],[IP_END];
                       option routers [ROUTER_IP];
                     }
+                    
+                    ### add static IP address
+                    # host [name] { [static network information] }
+                    host [NAME] {
+                      hardware  ethernet [MAC];
+                      fixed-address [IP];
+                    }
                     ##+++<
 
                     # check config
@@ -733,6 +740,7 @@ A playground to note something.
                     ##+++>
                     interface=[NETWORK_INTERFACE]
                     static ip_address=[NETWORK_INTERFACE]/[NETMASK]
+                    # ex.
                     # interface=eth1
                     # static ip_address=192.168.2.2/24
                     ##+++<
@@ -746,6 +754,7 @@ A playground to note something.
                     interface=[NETWROK_INTERFACE]
                     dhcp-range=[IP_START],[IP_END],$[NETMASK]
                     dhcp-host=[BMCx_MAC],[BMCx_IP]
+                    # ex.
                     # interface=eth1
                     # dhcp-range=192.168.2.10,192.168.2.50,255.255.255.0
                     # dhcp-host=28:C1:3C:89:FD:5B,192.168.2.10
@@ -1883,6 +1892,16 @@ A playground to note something.
                     ```
 * LDAP
 
+    - defination
+    
+        - Object: Sometimes reffered to as a record or an entry, reperesnt a single item in the direstory. This object provides a description based on the structure of the schema.
+        - Schema: This is the structure that is built to define the characteristics (or attributes) of an object. It also defines what can be stored in each attributes.
+Attribute: This is a part of an object. One or more attributes make up an object, as defined by schema.
+        - LDIF: Stands for LDAP Interchange Format. It is used to create objects within the LDAP directory. These values are placed into a file and can be loaded into a directory with the slapadd command.
+        - DC: Stands for Domain Component. And that is one of the domain that is reflected in hierarchy.
+        - OU: Stands for Organizational Unit.
+        - CN: Stands for Common Name and is the name of object(often a username, but not always)
+        - DN: Stands for Distinguished Name. Each object in our directory has to have a unique name in order to provide structure. It is build with a CN and one or more DC (example: cn=user,dc=abc,dc=com)
     - server
     
         - setup
@@ -2109,6 +2128,12 @@ A playground to note something.
     - configuratgion
     
         `/etc/pam.d`
+    - flag
+        
+        - requisite: Upon failure, the authentication process will be terminated immediately.
+        - required: This will return failure after the remaining modules for this service and type have been invoked.
+        - sufficient: Upon success, the authentication process will be satisfied, unless a prior required module has failed the authentication.
+        - optional: The success or failure of this module is only important if this is the only module associated with this service and this type.
     - module
     
         - directory

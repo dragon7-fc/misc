@@ -522,6 +522,7 @@ Happy Coding!!
 * [[Easy] 21. Merge Two Sorted Lists](%5BEasy%5D%2021.%20Merge%20Two%20Sorted%20Lists.md)
 * [[Medium] 82. Remove Duplicates from Sorted List II](%5BMedium%5D%2082.%20Remove%20Duplicates%20from%20Sorted%20List%20II.md)
 * [[Easy] 1539. Kth Missing Positive Number](%5BEasy%5D%201539.%20Kth%20Missing%20Positive%20Number.md)
+* [[Medium] [Solution] 3. Longest Substring Without Repeating Characters](%5BMedium%5D%20%5BSolution%5D%203.%20Longest%20Substring%20Without%20Repeating%20Characters.md)
 
 ## Array <a name="array"></a>
 ---
