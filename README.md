@@ -12,6 +12,9 @@ A playground to note something.
 
             ```bash
             apt-get install automake libtool
+            apt-get intall libssl-dev
+            # yum install openssl-devel
+            
             ./bootstrap
             ./configure
             make
@@ -471,8 +474,8 @@ A playground to note something.
             - tcp/22
         - log
         
-            - '/var/log/secure.log': centos
-            - '/var/log/auth.log': debian
+            - `/var/log/secure.log`: centos
+            - `/var/log/auth.log`: debian
     - client
     
         - setup
@@ -491,7 +494,7 @@ A playground to note something.
             - SSH login without password
 
                 ```bash
-                # can create passphrase
+                ## can create passphrase
                 a@A:~> ssh-keygen -t rsa  # generage ~/.ssh/id_rsa  and ~/.ssh/id_rsa.pub
 
                 a@A:~> ssh b@B mkdir -p .ssh
@@ -501,9 +504,9 @@ A playground to note something.
                 # or ssh-copy-id -i ~/.ssh/id_rsa.pub b@B
                 b@B's password:
 
-                # can use ssh-agent and ssh-add to keep passhprase
-                # ssh-agent - agent to hold private key for single sign-on
-                # ssh-add - tool to add a key to the agent
+                ## can use ssh-agent and ssh-add to keep passhprase
+                ## ssh-agent - agent to hold private key for single sign-on
+                ## ssh-add - tool to add a key to the agent
                 # 
                 # ssh-agent /bin/bash
                 # ssh-add
@@ -511,10 +514,10 @@ A playground to note something.
 
                 a@A:~> ssh b@B
                 
-                # exit from B
+                ## exit from B
                 # exit
                 #
-                # exit from /bin/bash to release passphrase
+                ## exit from /bin/bash to release passphrase
                 # exit
                 ```
             - Local Port Tunnel
@@ -522,14 +525,18 @@ A playground to note something.
                 - Local post XXXX tunnel to Remote port YYYY
 
                   `ssh -L XXXX:localhost:YYYY -Nf yy@yyyy`
+                  
+                  __NOTE__: localhost: yyyy (remote machine)
             - Remote Port Tunnel
 
                 - Remote post YYYY tunnel to Local port XXXX
 
                   `ssh -R YYYY:localhost:XXXX -Nf yy@yyyy`
+                  
+                  __NOTE__: localhost: local machine
         - scp
         
-            - [SCP Command Examples to Securely Transfer Files in Linux](SCP Command Examples to Securely Transfer Files in Linux)
+            - [SCP Command Examples to Securely Transfer Files in Linux](https://www.linuxtechi.com/scp-command-examples-in-linux/)
         - sftp
         
             - [SFTP commands and options](https://learn.akamai.com/en-us/webhelp/netstorage/netstorage-user-guide/GUID-E0B5C44E-7618-4C41-B9AB-186CF3E28628.html)
@@ -2523,9 +2530,10 @@ Attribute: This is a part of an object. One or more attributes make up an object
        sudo cp fail2ban.conf fail2ban.local
        sudo vim fail2ban.local
        
-       # Ban Time and Retry Amount
-       # email alerts
-       # service/port ban rule
+       #  rules
+       # ex. Ban Time and Retry Amount
+       # ex. email alerts
+       # ex. service/port ban rule
        sudo cp jail.conf jail.local
        sudo vim jail.local
        
