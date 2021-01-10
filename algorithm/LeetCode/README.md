@@ -524,6 +524,7 @@ Happy Coding!!
 * [[Easy] 1539. Kth Missing Positive Number](%5BEasy%5D%201539.%20Kth%20Missing%20Positive%20Number.md)
 * [[Medium] [Solution] 3. Longest Substring Without Repeating Characters](%5BMedium%5D%20%5BSolution%5D%203.%20Longest%20Substring%20Without%20Repeating%20Characters.md)
 * [[Easy] 1662. Check If Two String Arrays are Equivalent](%5BEasy%5D%201662.%20Check%20If%20Two%20String%20Arrays%20are%20Equivalent.md)
+* [[Medium] [Solution] 127. Word Ladder](%5BMedium%5D%20%5BSolution%5D%20127.%20Word%20Ladder.md)
 
 ## Array <a name="array"></a>
 ---
@@ -9008,6 +9009,32 @@ class Solution:
 ```
 * [[Easy] [Solution] 605. Can Place Flowers](%5BEasy%5D%20%5BSolution%5D%20605.%20Can%20Place%20Flowers.md)
 
+### Focus on some patter
+```python
+class Solution:
+    def maximumGain(self, s: str, x: int, y: int) -> int:
+        a = 'a'
+        b = 'b'
+        if x < y:
+            x, y = y, x
+            a, b = b, a
+        seen = Counter()
+        ans = 0
+        for c in s + 'x':
+            if c in 'ab':
+                if c == b and 0 < seen[a]:
+                    ans += x
+                    seen[a] -= 1
+                else:
+                    seen[c] += 1
+            else:
+                ans += y * min(seen[a], seen[b])
+                seen = Counter()
+
+        return ans
+```
+* [[Medium] 1717. Maximum Score From Removing Substrings](%5BMedium%5D%201717.%20Maximum%20Score%20From%20Removing%20Substrings.md)
+
 ### Sort then greedy add rectangle area arithmetic sum
 ```python
 class Solution:
@@ -9761,55 +9788,70 @@ class Solution:
 ```
 * [[Medium] 1625. Lexicographically Smallest String After Applying Operations](%5BMedium%5D%201625.%20Lexicographically%20Smallest%20String%20After%20Applying%20Operations.md)
 
-### BFS
+### Bidirectional BFS
 ```python
-from collections import defaultdict
-class Solution(object):
-    def ladderLength(self, beginWord, endWord, wordList):
-        """
-        :type beginWord: str
-        :type endWord: str
-        :type wordList: List[str]
-        :rtype: int
-        """
+class Solution:
+    def __init__(self):
+        self.length = 0
+        # Dictionary to hold combination of words that can be formed,
+        # from any given word. By changing one letter at a time.
+        self.all_combo_dict = collections.defaultdict(list)
+
+    def visitWordNode(self, queue, visited, others_visited):
+        current_word, level = queue.popleft()
+        for i in range(self.length):
+            # Intermediate words for current word
+            intermediate_word = current_word[:i] + "*" + current_word[i+1:]
+
+            # Next states are all the words which share the same intermediate state.
+            for word in self.all_combo_dict[intermediate_word]:
+                # If the intermediate state/word has already been visited from the
+                # other parallel traversal this means we have found the answer.
+                if word in others_visited:
+                    return level + others_visited[word]
+                if word not in visited:
+                    # Save the level as the value of the dictionary, to save number of hops.
+                    visited[word] = level + 1
+                    queue.append((word, level + 1))
+        return None
+
+    def ladderLength(self, beginWord: str, endWord: str, wordList: List[str]) -> int:
 
         if endWord not in wordList or not endWord or not beginWord or not wordList:
             return 0
 
         # Since all words are of same length.
-        L = len(beginWord)
+        self.length = len(beginWord)
 
-        # Dictionary to hold combination of words that can be formed,
-        # from any given word. By changing one letter at a time.
-        all_combo_dict = defaultdict(list)
         for word in wordList:
-            for i in range(L):
+            for i in range(self.length):
                 # Key is the generic word
                 # Value is a list of words which have the same intermediate generic word.
-                all_combo_dict[word[:i] + "*" + word[i+1:]].append(word)
+                self.all_combo_dict[word[:i] + "*" + word[i+1:]].append(word)
 
 
-        # Queue for BFS
-        queue = collections.deque([(beginWord, 1)])
-        # Visited to make sure we don't repeat processing same word.
-        visited = {beginWord: True}
-        while queue:
-            current_word, level = queue.popleft()      
-            for i in range(L):
-                # Intermediate words for current word
-                intermediate_word = current_word[:i] + "*" + current_word[i+1:]
+        # Queues for birdirectional BFS
+        queue_begin = collections.deque([(beginWord, 1)]) # BFS starting from beginWord
+        queue_end = collections.deque([(endWord, 1)]) # BFS starting from endWord
 
-                # Next states are all the words which share the same intermediate state.
-                for word in all_combo_dict[intermediate_word]:
-                    # If at any point if we find what we are looking for
-                    # i.e. the end word - we can return with the answer.
-                    if word == endWord:
-                        return level + 1
-                    # Otherwise, add it to the BFS Queue. Also mark it visited
-                    if word not in visited:
-                        visited[word] = True
-                        queue.append((word, level + 1))
-                all_combo_dict[intermediate_word] = []
+        # Visited to make sure we don't repeat processing same word
+        visited_begin = {beginWord: 1}
+        visited_end = {endWord: 1}
+        ans = None
+
+        # We do a birdirectional search starting one pointer from begin
+        # word and one pointer from end word. Hopping one by one.
+        while queue_begin and queue_end:
+
+            # One hop from begin word
+            ans = self.visitWordNode(queue_begin, visited_begin, visited_end)
+            if ans:
+                return ans
+            # One hop from end word
+            ans = self.visitWordNode(queue_end, visited_end, visited_begin)
+            if ans:
+                return ans
+
         return 0
 ```
 * [[Medium] [Solution] 127. Word Ladder](%5BMedium%5D%20%5BSolution%5D%20127.%20Word%20Ladder.md)
@@ -11377,6 +11419,64 @@ return ans
 
 ## Backtracking <a name="backtracking"></a>
 ---
+### more smaller current more larger result
+```python
+class Solution:
+    def constructDistancedSequence(self, n: int) -> List[int]:
+        arr = [0]*(2*n-1)     # the array we want to put numbers. 0 means no number has been put here
+        i = 0                 # current index to put a number                
+        vi = [False] * (n+1)  # check if we have used that number
+
+        # backtracking
+        def dfs(arr, i, vi):
+            # if we already fill the array successfully, return True
+            if i >= (2*n-1):
+                return True
+
+            # try each number from n to 1
+            for x in range(n, 0, -1):
+                # two cases:
+                # x > 1, we check two places. Mind index out of bound here.
+                # x = 1, we only check one place
+                # arr[i] == 0 means index i is not occupied
+                if (x > 1 and ((not (arr[i] == 0 and (i+x < 2*n-1) and arr[i+x] == 0)) or vi[x]))  \
+                    or (x == 1 and (arr[i] != 0 or vi[x])):
+                    continue
+
+                # if it can be placed, then place it
+                if x > 1:
+                    arr[i] = x
+                    arr[i+x] = x
+                else:
+                    arr[i] = x
+                vi[x] = True
+
+                # find the next available place
+                nexti = i+1
+                while nexti < 2*n-1 and arr[nexti]:
+                    nexti += 1
+
+                # place the next one
+                if dfs(arr, nexti, vi):
+                    # if it success, it is already the lexicographically largest one, we don't search anymore
+                    return True
+
+                # backtracking... restore the state
+                if x > 1:
+                    arr[i] = 0
+                    arr[i+x] = 0
+                else:
+                    arr[i] = 0
+                vi[x] = False
+
+            # we could not find a solution, return False
+            return False
+
+        dfs(arr, i, vi)
+        return arr
+```
+* [[Medium] 1718. Construct the Lexicographically Largest Valid Sequence](%5BMedium%5D%201718.%20Construct%20the%20Lexicographically%20Largest%20Valid%20Sequence.md)
+
 ### Backtracking
 ```python
 class Solution:

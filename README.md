@@ -1493,7 +1493,7 @@ A playground to note something.
             dnssec-signzone -o myzone. -S db.myzone
             
             # check
-            db.myzone.signed
+            cat db.myzone.signed
             
             sudo vim /etc/bind/named.conf.options
             
@@ -1623,6 +1623,11 @@ A playground to note something.
                 ```
                 sudo yum install postfix
 
+                sudo vim /etc/postfix/master.cf
+                
+                ## enble TLS security
+                #  -o smtpd_tls_security_level=encrypt
+                
                 sudo vim /etc/postfix/main.cf
 
                 # see just customized settings
@@ -1670,7 +1675,7 @@ A playground to note something.
                     sudo systemctl start postfix
 
                     # send mail to root
-                    mail -s "From user1 to user3" user3@localhost
+                    mail -s "From user1 to root" root@localhost
                     Hi my dear friend are you there? 
                     .
 
@@ -1682,7 +1687,7 @@ A playground to note something.
                     ```
             - virtual: redirect e-mail to the virtual destinations
 
-                - ex. deliver user4@localhost ot abc@xyz.com
+                - ex. deliver user4@localhost to abc@xyz.com
 
                     ```
                     sudo systemctl stop postfix.service
@@ -2135,10 +2140,10 @@ Attribute: This is a part of an object. One or more attributes make up an object
     - configuratgion
     
         `/etc/pam.d`
-    - flag
+    - control flag
         
         - requisite: Upon failure, the authentication process will be terminated immediately.
-        - required: This will return failure after the remaining modules for this service and type have been invoked.
+        - required: This will return failure after the remaining modules for this service and type have been invoked. (The success of the module is needed for the module-type facility to succeed. However, all remaining modules of the same type will be invoked)
         - sufficient: Upon success, the authentication process will be satisfied, unless a prior required module has failed the authentication.
         - optional: The success or failure of this module is only important if this is the only module associated with this service and this type.
     - module
@@ -2530,7 +2535,7 @@ Attribute: This is a part of an object. One or more attributes make up an object
        sudo cp fail2ban.conf fail2ban.local
        sudo vim fail2ban.local
        
-       #  rules
+       # A filter definition and a set of one or more actions to take when the filter is matched
        # ex. Ban Time and Retry Amount
        # ex. email alerts
        # ex. service/port ban rule
