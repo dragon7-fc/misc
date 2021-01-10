@@ -525,6 +525,7 @@ Happy Coding!!
 * [[Medium] [Solution] 3. Longest Substring Without Repeating Characters](%5BMedium%5D%20%5BSolution%5D%203.%20Longest%20Substring%20Without%20Repeating%20Characters.md)
 * [[Easy] 1662. Check If Two String Arrays are Equivalent](%5BEasy%5D%201662.%20Check%20If%20Two%20String%20Arrays%20are%20Equivalent.md)
 * [[Medium] [Solution] 127. Word Ladder](%5BMedium%5D%20%5BSolution%5D%20127.%20Word%20Ladder.md)
+* [[Hard] 1649. Create Sorted Array through Instructions](%5BHard%5D%201649.%20Create%20Sorted%20Array%20through%20Instructions.md)
 
 ## Array <a name="array"></a>
 ---
@@ -1591,6 +1592,21 @@ class Solution:
         return res
 ```
 * [[Medium] 1562. Find Latest Group of Size M](%5BMedium%5D%201562.%20Find%20Latest%20Group%20of%20Size%20M.md)
+
+### Sorted List
+```python
+class Solution:
+    def createSortedArray(self, instructions: List[int]) -> int:
+        SList = SortedList()
+        ans = 0
+        for num in instructions:
+            ans += min(SList.bisect_left(num), len(SList) - SList.bisect_right(num))
+            ans %= (10**9 + 7)
+            SList.add(num)
+
+        return ans
+```
+* [[Hard] 1649. Create Sorted Array through Instructions](%5BHard%5D%201649.%20Create%20Sorted%20Array%20through%20Instructions.md)
 
 ### Ad-Hoc
 ```python
