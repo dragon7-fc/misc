@@ -526,6 +526,7 @@ Happy Coding!!
 * [[Easy] 1662. Check If Two String Arrays are Equivalent](%5BEasy%5D%201662.%20Check%20If%20Two%20String%20Arrays%20are%20Equivalent.md)
 * [[Medium] [Solution] 127. Word Ladder](%5BMedium%5D%20%5BSolution%5D%20127.%20Word%20Ladder.md)
 * [[Hard] 1649. Create Sorted Array through Instructions](%5BHard%5D%201649.%20Create%20Sorted%20Array%20through%20Instructions.md)
+* [[Easy] 88. Merge Sorted Array](%5BEasy%5D%2088.%20Merge%20Sorted%20Array.md)
 
 ## Array <a name="array"></a>
 ---
@@ -10358,6 +10359,30 @@ return ans if len(ans) == N else []
 
 ## Two Pointers <a name="tp"></a>
 ---
+### walk backward
+```python
+class Solution:
+    def merge(self, nums1: List[int], m: int, nums2: List[int], n: int) -> None:
+        """
+        Do not return anything, modify nums1 in-place instead.
+        """
+        p1, p2 = m - 1, n - 1
+        for i in range(m+n-1, -1, -1):
+            if p1 < 0 or p2 < 0: break
+            if nums1[p1] > nums2[p2]:
+                nums1[i] = nums1[p1]
+                p1 -= 1
+            else:
+                nums1[i] = nums2[p2]
+                p2 -= 1
+              
+        while p2 >= 0:
+            nums1[i] = nums2[p2]
+            i -= 1
+            p2 -= 1
+```
+* [[Easy] 88. Merge Sorted Array](%5BEasy%5D%2088.%20Merge%20Sorted%20Array.md)
+
 ### Two Pointers
 ```python
 class Solution:
