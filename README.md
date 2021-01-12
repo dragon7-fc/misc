@@ -311,6 +311,8 @@ A playground to note something.
         - sudo fuser -vn tcp [PORT]
         - lsof -i@[IP]:[PORT]
     - [IPv6 Explained for Beginners](http://www.steves-internet-guide.com/ipv6-guide/)
+    
+        __NOTE__: link local address: fe80::/10
 - i2c-tools
 
     |                    | command                                         |

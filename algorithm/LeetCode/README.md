@@ -527,6 +527,7 @@ Happy Coding!!
 * [[Medium] [Solution] 127. Word Ladder](%5BMedium%5D%20%5BSolution%5D%20127.%20Word%20Ladder.md)
 * [[Hard] 1649. Create Sorted Array through Instructions](%5BHard%5D%201649.%20Create%20Sorted%20Array%20through%20Instructions.md)
 * [[Easy] 88. Merge Sorted Array](%5BEasy%5D%2088.%20Merge%20Sorted%20Array.md)
+* [[Medium] [Solution] 2. Add Two Numbers](%5BMedium%5D%20%5BSolution%5D%202.%20Add%20Two%20Numbers.md)
 
 ## Array <a name="array"></a>
 ---
@@ -12936,7 +12937,7 @@ class Solution:
 ```
 * [[Medium] [Solution] 328. Odd Even Linked List](%5BMedium%5D%20%5BSolution%5D%20328.%20Odd%20Even%20Linked%20List.md)
 
-### Elementary Math
+### Elementary Math, Three Pointers
 ```python
 # Definition for singly-linked list.
 # class ListNode:
