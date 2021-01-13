@@ -528,6 +528,7 @@ Happy Coding!!
 * [[Hard] 1649. Create Sorted Array through Instructions](%5BHard%5D%201649.%20Create%20Sorted%20Array%20through%20Instructions.md)
 * [[Easy] 88. Merge Sorted Array](%5BEasy%5D%2088.%20Merge%20Sorted%20Array.md)
 * [[Medium] [Solution] 2. Add Two Numbers](%5BMedium%5D%20%5BSolution%5D%202.%20Add%20Two%20Numbers.md)
+* [[Medium] [Solution] 881. Boats to Save People](%5BMedium%5D%20%5BSolution%5D%20881.%20Boats%20to%20Save%20People.md)
 
 ## Array <a name="array"></a>
 ---
@@ -9026,6 +9027,22 @@ class Solution:
         return n <= 0
 ```
 * [[Easy] [Solution] 605. Can Place Flowers](%5BEasy%5D%20%5BSolution%5D%20605.%20Can%20Place%20Flowers.md)
+
+### Two Pointers, greedy from back
+```python
+class Solution:
+    def numRescueBoats(self, people: List[int], limit: int) -> int:
+        people.sort()
+        i, j = 0, len(people) - 1
+        ans = 0
+        while i <= j:
+            ans += 1
+            if people[i] + people[j] <= limit:
+                i += 1
+            j -= 1
+        return ans
+```
+* [[Medium] [Solution] 881. Boats to Save People](%5BMedium%5D%20%5BSolution%5D%20881.%20Boats%20to%20Save%20People.md)
 
 ### Focus on some patter
 ```python
