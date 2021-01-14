@@ -4,7 +4,13 @@ You are given an integer array `nums` and an integer `x`. In one operation, you 
 
 Return the **minimum number** of operations to reduce `x` to **exactly** `0` if it's possible, otherwise, return `-1`.
 
- 
+__Hint1__:
+
+Think in reverse; instead of finding the minimum prefix + suffix, find the maximum subarray.
+
+__Hint2__:
+
+Finding the maximum subarray is standard and can be done greedily.
 
 **Example 1:**
 ```

@@ -529,6 +529,7 @@ Happy Coding!!
 * [[Easy] 88. Merge Sorted Array](%5BEasy%5D%2088.%20Merge%20Sorted%20Array.md)
 * [[Medium] [Solution] 2. Add Two Numbers](%5BMedium%5D%20%5BSolution%5D%202.%20Add%20Two%20Numbers.md)
 * [[Medium] [Solution] 881. Boats to Save People](%5BMedium%5D%20%5BSolution%5D%20881.%20Boats%20to%20Save%20People.md)
+* [[Medium] 1658. Minimum Operations to Reduce X to Zero](%5BMedium%5D%201658.%20Minimum%20Operations%20to%20Reduce%20X%20to%20Zero.md)
 
 ## Array <a name="array"></a>
 ---
@@ -14443,6 +14444,22 @@ class Solution:
 
 ## Sliding Window <a name="sw"></a>
 ---
+### maximum subarray
+```python
+class Solution:
+    def minOperations(self, nums: List[int], x: int) -> int:
+        target, size, win_sum, lo = sum(nums) - x, -1, 0, -1
+        for hi, num in enumerate(nums):
+            win_sum += num
+            while lo + 1< len(nums) and win_sum > target:
+                lo += 1
+                win_sum -= nums[lo]
+            if win_sum == target:
+                size = max(size, hi - lo)
+        return -1 if size < 0 else len(nums) - size
+```
+* [[Medium] 1658. Minimum Operations to Reduce X to Zero](%5BMedium%5D%201658.%20Minimum%20Operations%20to%20Reduce%20X%20to%20Zero.md)
+
 ### Sliding window with cumulative sum
 ```python
 class Solution:
@@ -14463,7 +14480,7 @@ class Solution:
             
         return ans
 ```
-*[[Medium] 1695. Maximum Erasure Value](%5BMedium%5D%201695.%20Maximum%20Erasure%20Value.md)
+* [[Medium] 1695. Maximum Erasure Value](%5BMedium%5D%201695.%20Maximum%20Erasure%20Value.md)
 
 ### Mono queue
 ```python
