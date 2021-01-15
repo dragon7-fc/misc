@@ -530,9 +530,23 @@ Happy Coding!!
 * [[Medium] [Solution] 2. Add Two Numbers](%5BMedium%5D%20%5BSolution%5D%202.%20Add%20Two%20Numbers.md)
 * [[Medium] [Solution] 881. Boats to Save People](%5BMedium%5D%20%5BSolution%5D%20881.%20Boats%20to%20Save%20People.md)
 * [[Medium] 1658. Minimum Operations to Reduce X to Zero](%5BMedium%5D%201658.%20Minimum%20Operations%20to%20Reduce%20X%20to%20Zero.md)
+* [[Easy] 1646. Get Maximum in Generated Array](%5BEasy%5D%201646.%20Get%20Maximum%20in%20Generated%20Array.md)
 
 ## Array <a name="array"></a>
 ---
+### Simulate
+```python
+class Solution:
+    def getMaximumGenerated(self, n: int) -> int:
+        if not n: return 0 # edge case 
+        nums = [0, 1]
+        for i in range(2, n+1): 
+            if i&1: nums.append(nums[i//2] + nums[i//2+1])
+            else: nums.append(nums[i//2])
+        return max(nums)
+```
+* [[Easy] 1646. Get Maximum in Generated Array](%5BEasy%5D%201646.%20Get%20Maximum%20in%20Generated%20Array.md)
+
 ### Greedy
 ```python
 class Solution:
