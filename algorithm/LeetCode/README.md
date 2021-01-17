@@ -531,6 +531,7 @@ Happy Coding!!
 * [[Medium] [Solution] 881. Boats to Save People](%5BMedium%5D%20%5BSolution%5D%20881.%20Boats%20to%20Save%20People.md)
 * [[Medium] 1658. Minimum Operations to Reduce X to Zero](%5BMedium%5D%201658.%20Minimum%20Operations%20to%20Reduce%20X%20to%20Zero.md)
 * [[Easy] 1646. Get Maximum in Generated Array](%5BEasy%5D%201646.%20Get%20Maximum%20in%20Generated%20Array.md)
+* [[Medium] 215. Kth Largest Element in an Array](%5BMedium%5D%20215.%20Kth%20Largest%20Element%20in%20an%20Array.md)
 
 ## Array <a name="array"></a>
 ---
@@ -909,6 +910,24 @@ class Solution:
         return sum(([nums[i], nums[i+n]] for i in range(n)), [])
 ```
 * [[Easy] 1470. Shuffle the Array](%5BEasy%5D%201470.%20Shuffle%20the%20Array.md)
+
+### submatrix rearrangement, prefix sum
+```python
+class Solution:
+    def largestSubmatrix(self, matrix: List[List[int]]) -> int:
+        ans = 0
+        for row in range(len(matrix)):
+            for col in range(len(matrix[0])):
+                if matrix[row][col] != 0 and row > 0:
+                    matrix[row][col] += matrix[row - 1][col]
+
+            curr = sorted(matrix[row], reverse=True) 
+            for i in range(len(matrix[0])):
+                ans = max(ans, curr[i] * (i + 1))
+        
+        return ans
+```
+* [[Medium] 1727. Largest Submatrix With Rearrangements](%5BMedium%5D%201727.%20Largest%20Submatrix%20With%20Rearrangements.md)
 
 ### scan neighbor of each cell
 ```python
@@ -6691,6 +6710,21 @@ class Solution:
 ```
 * [[Easy] 1436. Destination City](%5BEasy%5D%201436.%20Destination%20City.md)
 
+### Frequency Table
+```python
+class Solution:
+    def tupleSameProduct(self, nums: List[int]) -> int:
+        ans = 0
+        freq = {}
+        for i in range(len(nums)):
+            for j in range(i+1, len(nums)): 
+                key = nums[i] * nums[j]
+                ans += freq.get(key, 0)
+                freq[key] = 1 + freq.get(key, 0)
+        return 8*ans
+```
+* [[Medium] 1726. Tuple with Same Product](%5BMedium%5D%201726.%20Tuple%20with%20Same%20Product.md)
+
 ### Hash Table Counter
 ```python
 class Solution:
@@ -12413,6 +12447,28 @@ class Solution:
         return sum([x[0] if i < len(costs)//2 else x[1] for i, x in enumerate(sorted(costs,key=lambda x: x[0]-x[1]))])
 ```
 * [[Easy] 1029. Two City Scheduling](%5BEasy%5D%201029.%20Two%20City%20Scheduling.md)
+
+### Quick sort
+```python
+class Solution:
+    def findKthLargest(self, nums: List[int], k: int) -> int:
+        if len(nums) == 1:
+            return nums[k-1]
+        b = 0
+        a = nums[-1]
+        for i in range( len(nums)-1):
+            if nums[i] < a:
+                nums[i], nums[b] = nums[b], nums[i]
+                b += 1
+        nums[-1], nums[b] = nums[b], nums[-1]
+        if len(nums)-b == k:
+            return nums[b]
+        elif k > len(nums)-b:
+            return self.findKthLargest(nums[:b], k-len(nums)+b)
+        else:
+            return self.findKthLargest(nums[b+1:], k)
+```
+* [[Medium] 215. Kth Largest Element in an Array](%5BMedium%5D%20215.%20Kth%20Largest%20Element%20in%20an%20Array.md)
 
 ### Covered Interval
 ```python
