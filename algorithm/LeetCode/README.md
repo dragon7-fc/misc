@@ -532,6 +532,8 @@ Happy Coding!!
 * [[Medium] 1658. Minimum Operations to Reduce X to Zero](%5BMedium%5D%201658.%20Minimum%20Operations%20to%20Reduce%20X%20to%20Zero.md)
 * [[Easy] 1646. Get Maximum in Generated Array](%5BEasy%5D%201646.%20Get%20Maximum%20in%20Generated%20Array.md)
 * [[Medium] 215. Kth Largest Element in an Array](%5BMedium%5D%20215.%20Kth%20Largest%20Element%20in%20an%20Array.md)
+* [[Medium] 1641. Count Sorted Vowel Strings](%5BMedium%5D%201641.%20Count%20Sorted%20Vowel%20Strings.md)
+* [[Medium] 1679. Max Number of K-Sum Pairs](%5BMedium%5D%201679.%20Max%20Number%20of%20K-Sum%20Pairs.md)
 
 ## Array <a name="array"></a>
 ---
@@ -6710,6 +6712,24 @@ class Solution:
 ```
 * [[Easy] 1436. Destination City](%5BEasy%5D%201436.%20Destination%20City.md)
 
+### Counter
+```python
+class Solution:
+    def maxOperations(self, nums: List[int], k: int) -> int:
+        d = Counter(nums)
+        ans = 0
+        for key in d.keys():
+            if key * 2 == k:
+                ans += d[key] // 2
+            elif d[k - key] > 0:
+                mi = min(d[key], d[k - key])
+                d[key] -= mi     
+                d[k - key] -= mi
+                ans += mi
+        return ans
+```
+* [[Medium] 1679. Max Number of K-Sum Pairs](%5BMedium%5D%201679.%20Max%20Number%20of%20K-Sum%20Pairs.md)
+
 ### Frequency Table
 ```python
 class Solution:
@@ -11527,6 +11547,23 @@ return ans
 
 ## Backtracking <a name="backtracking"></a>
 ---
+### count
+```python
+class Solution:
+    def countVowelStrings(self, n: int) -> int:
+
+        @lru_cache(None)
+        def dp(n, i):
+            if n == 0: return 1  # Found a valid answer
+            if i == 5:  return 0  # Reach to length of vowels [a, e, i, o, u]
+            ans = dp(n, i + 1)  # Skip vowels[i]
+            ans += dp(n - 1, i)  # Include vowels[i]
+            return ans
+
+        return dp(n, 0)
+```
+* [[Medium] 1641. Count Sorted Vowel Strings](%5BMedium%5D%201641.%20Count%20Sorted%20Vowel%20Strings.md)
+
 ### more smaller current more larger result
 ```python
 class Solution:

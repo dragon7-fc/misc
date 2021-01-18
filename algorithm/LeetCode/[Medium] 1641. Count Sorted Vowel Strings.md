@@ -68,3 +68,24 @@ class Solution:
                 dp[k] += dp[k - 1]
         return dp[5]
 ```
+
+**Solution 3: (DP Top-Down)**
+```
+Runtime: 52 ms
+Memory Usage: 14.3 MB
+```
+```python
+class Solution:
+    def countVowelStrings(self, n: int) -> int:
+        
+        @functools.lru_cache(None)
+        def bt(i, j):
+            if i == n:
+                return 1
+            rst = 0
+            for k in range(j, 5):
+                rst += bt(i+1, k)
+            return rst
+            
+        return bt(0, 0)
+```
