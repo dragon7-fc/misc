@@ -534,6 +534,8 @@ Happy Coding!!
 * [[Medium] 215. Kth Largest Element in an Array](%5BMedium%5D%20215.%20Kth%20Largest%20Element%20in%20an%20Array.md)
 * [[Medium] 1641. Count Sorted Vowel Strings](%5BMedium%5D%201641.%20Count%20Sorted%20Vowel%20Strings.md)
 * [[Medium] 1679. Max Number of K-Sum Pairs](%5BMedium%5D%201679.%20Max%20Number%20of%20K-Sum%20Pairs.md)
+* [[Medium] [Solution] 5. Longest Palindromic Substring](%5BMedium%5D%20%5BSolution%5D%205.%20Longest%20Palindromic%20Substring.md)
+* [[Easy] [Solution] 20. Valid Parentheses](%5BEasy%5D%20%5BSolution%5D%2020.%20Valid%20Parentheses.md)
 
 ## Array <a name="array"></a>
 ---
@@ -11003,6 +11005,45 @@ return ans
 
 ## Stack <a name="stack"></a>
 ---
+### Mapping
+```python
+class Solution:
+    def isValid(self, s):
+        """
+        :type s: str
+        :rtype: bool
+        """
+        # The stack to keep track of opening brackets.
+        stack = []
+
+        # Hash map for keeping track of mappings. This keeps the code very clean.
+        # Also makes adding more types of parenthesis easier
+        mapping = {")": "(", "}": "{", "]": "["}
+
+        # For every bracket in the expression.
+        for char in s:
+
+            # If the character is an closing bracket
+            if char in mapping:
+
+                # Pop the topmost element from the stack, if it is non empty
+                # Otherwise assign a dummy value of '#' to the top_element variable
+                top_element = stack.pop() if stack else '#'
+
+                # The mapping for the opening bracket in our hash and the top
+                # element of the stack don't match, return False
+                if mapping[char] != top_element:
+                    return False
+            else:
+                # We have an opening bracket, simply push it onto the stack.
+                stack.append(char)
+
+        # In the end, if the stack is empty, then we have a valid expression.
+        # The stack won't be empty for cases like ((()
+        return not stack
+```
+* [[Easy] [Solution] 20. Valid Parentheses](%5BEasy%5D%20%5BSolution%5D%2020.%20Valid%20Parentheses.md)
+
 ### PreOrder
 ```python
 class Solution:

@@ -12,7 +12,7 @@ A playground to note something.
 
             ```bash
             apt-get install automake libtool
-            apt-get intall libssl-dev
+            apt-get install libssl-dev
             # yum install openssl-devel
             
             ./bootstrap
@@ -104,6 +104,9 @@ A playground to note something.
         - Take a peek at the directory structure to make sure it looks like it did before the mv: `ls /var/lib/docker/` (note the trailing slash to resolve the symlink)
         - Start docker back up service `docker start`
         - restart your containers
+    - Build with proxy
+    
+        `sudo docker build --build-arg http_proxy="$http_proxy" --build-arg https_proxy="$https_proxy" -t XXX .`
 * Beyond Compare
 
     - __Linux__:
