@@ -536,6 +536,8 @@ Happy Coding!!
 * [[Medium] 1679. Max Number of K-Sum Pairs](%5BMedium%5D%201679.%20Max%20Number%20of%20K-Sum%20Pairs.md)
 * [[Medium] [Solution] 5. Longest Palindromic Substring](%5BMedium%5D%20%5BSolution%5D%205.%20Longest%20Palindromic%20Substring.md)
 * [[Easy] [Solution] 20. Valid Parentheses](%5BEasy%5D%20%5BSolution%5D%2020.%20Valid%20Parentheses.md)
+* [[Medium] 1673. Find the Most Competitive Subsequence](%5BMedium%5D%201673.%20Find%20the%20Most%20Competitive%20Subsequence.md)
+* [[Medium] 1657. Determine if Two Strings Are Close](%5BMedium%5D%201657.%20Determine%20if%20Two%20Strings%20Are%20Close.md)
 
 ## Array <a name="array"></a>
 ---
@@ -5381,7 +5383,7 @@ class Solution:
 ```
 * [[Easy] 1071. Greatest Common Divisor of Strings](%5BEasy%5D%201071.%20Greatest%20Common%20Divisor%20of%20Strings.md)
 
-### check 2 strings have same unique characters and the value patterns are same
+### same set and frequency
 ```python
 class Solution:
     def closeStrings(self, word1: str, word2: str) -> bool:

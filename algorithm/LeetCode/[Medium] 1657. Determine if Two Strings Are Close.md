@@ -11,7 +11,14 @@ You can use the operations on either string as many times as necessary.
 
 Given two strings, `word1` and `word2`, return `true` if `word1` and `word2` are **close**, and `false` otherwise.
 
- 
+__Hint1:__
+
+Operation 1 allows you to freely reorder the string.
+
+__Hint2:__
+
+Operation 2 allows you to freely reassign the letters' frequencies.
+
 
 **Example 1:**
 ```
