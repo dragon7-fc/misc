@@ -538,6 +538,8 @@ Happy Coding!!
 * [[Easy] [Solution] 20. Valid Parentheses](%5BEasy%5D%20%5BSolution%5D%2020.%20Valid%20Parentheses.md)
 * [[Medium] 1673. Find the Most Competitive Subsequence](%5BMedium%5D%201673.%20Find%20the%20Most%20Competitive%20Subsequence.md)
 * [[Medium] 1657. Determine if Two Strings Are Close](%5BMedium%5D%201657.%20Determine%20if%20Two%20Strings%20Are%20Close.md)
+* [[Medium] 1329. Sort the Matrix Diagonally](%5BMedium%5D%201329.%20Sort%20the%20Matrix%20Diagonally.md)
+* [[Hard] [Solution] 23. Merge k Sorted Lists](%5BHard%5D%20%5BSolution%5D%2023.%20Merge%20k%20Sorted%20Lists.md)
 
 ## Array <a name="array"></a>
 ---

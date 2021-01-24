@@ -12,6 +12,18 @@ Input: mat = [[3,3,1,1],[2,2,1,2],[1,1,1,2]]
 Output: [[1,1,1,1],[1,2,2,2],[1,2,3,3]]
 ```
 
+__Hint1:__
+
+Use a data structure to store all values of each diagonal.
+
+__Hint2:__
+
+How to index the data structure with the id of the diagonal?
+
+__Hint3:__
+
+All cells in the same diagonal (i,j) have the same difference so we can get the diagonal of a cell using the difference i-j.
+
 **Constraints:**
 
 * `m == mat.length`
