@@ -540,6 +540,7 @@ Happy Coding!!
 * [[Medium] 1657. Determine if Two Strings Are Close](%5BMedium%5D%201657.%20Determine%20if%20Two%20Strings%20Are%20Close.md)
 * [[Medium] 1329. Sort the Matrix Diagonally](%5BMedium%5D%201329.%20Sort%20the%20Matrix%20Diagonally.md)
 * [[Hard] [Solution] 23. Merge k Sorted Lists](%5BHard%5D%20%5BSolution%5D%2023.%20Merge%20k%20Sorted%20Lists.md)
+* [[Medium] 1437. Check If All 1's Are at Least Length K Places Away](%5BMedium%5D%201437.%20Check%20If%20All%201's%20Are%20at%20Least%20Length%20K%20Places%20Away.md)
 
 ## Array <a name="array"></a>
 ---
@@ -9102,6 +9103,32 @@ class Solution:
         return n <= 0
 ```
 * [[Easy] [Solution] 605. Can Place Flowers](%5BEasy%5D%20%5BSolution%5D%20605.%20Can%20Place%20Flowers.md)
+
+### One Pass + Count
+```python
+class Solution:
+    def kLengthApart(self, nums: List[int], k: int) -> bool:
+        # initialize the counter of zeros to k
+        # to pass the first 1 in nums
+        count = k
+        
+        for num in nums:
+            # if the current integer is 1
+            if num == 1:
+                # check that number of zeros in-between 1s
+                # is greater than or equal to k
+                if count < k:
+                    return False
+                # reinitialize counter
+                count = 0
+            # if the current integer is 0
+            else:
+                # increase the counter
+                count += 1
+                
+        return True
+```
+* [[Medium] 1437. Check If All 1's Are at Least Length K Places Away](%5BMedium%5D%201437.%20Check%20If%20All%201's%20Are%20at%20Least%20Length%20K%20Places%20Away.md)
 
 ### Two Pointers, greedy from back
 ```python

@@ -42,7 +42,75 @@ Output: true
 
 # Submissions
 ---
-**Solution 1: (Brute Force)**
+**Solution 1: (One Pass + Count)**
+```
+Runtime: 544 ms
+Memory Usage: 17 MB
+```
+```python
+class Solution:
+    def kLengthApart(self, nums: List[int], k: int) -> bool:
+        # initialize the counter of zeros to k
+        # to pass the first 1 in nums
+        count = k
+        
+        for num in nums:
+            # if the current integer is 1
+            if num == 1:
+                # check that number of zeros in-between 1s
+                # is greater than or equal to k
+                if count < k:
+                    return False
+                # reinitialize counter
+                count = 0
+            # if the current integer is 0
+            else:
+                # increase the counter
+                count += 1
+                
+        return True
+```
+
+**Solution 2: (Bit Manipulation)**
+```
+Runtime: 888 ms
+Memory Usage: 16.8 MB
+```
+```python
+class Solution:
+    def kLengthApart(self, nums: List[int], k: int) -> bool:
+        # convert binary array into int
+        x = 0
+        for num in nums:
+            x = (x << 1) | num
+        
+        # base case
+        if x == 0 or k == 0:
+            return True
+        
+        # remove trailing zeros
+        while x & 1 == 0:
+            x = x >> 1
+        
+        while x != 1:
+            # remove trailing 1-bit
+            x = x >> 1
+            
+            # count trailing zeros
+            count = 0
+            while x & 1 == 0:
+                x = x >> 1
+                count += 1
+                
+            # number of zeros in-between 1-bits
+            # should be greater than or equal to k
+            if count < k:
+                return False
+        
+        return True
+```
+
+**Solution 3: (Brute Force)**
 ```
 Runtime: 1008 ms
 Memory Usage: 20.2 MB
@@ -57,7 +125,7 @@ class Solution:
             return False
 ```
 
-**Solution 2: (Two Pointers)**
+**Solution 4: (Two Pointers)**
 ```
 Runtime: 600 ms
 Memory Usage: 16.5 MB
@@ -78,7 +146,7 @@ class Solution:
         return True
 ```
 
-**Solution 3: (Greedy)**
+**Solution 5: (Greedy)**
 ```
 Runtime: 628 ms
 Memory Usage: 19.4 MB
