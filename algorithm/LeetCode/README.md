@@ -541,6 +541,7 @@ Happy Coding!!
 * [[Medium] 1329. Sort the Matrix Diagonally](%5BMedium%5D%201329.%20Sort%20the%20Matrix%20Diagonally.md)
 * [[Hard] [Solution] 23. Merge k Sorted Lists](%5BHard%5D%20%5BSolution%5D%2023.%20Merge%20k%20Sorted%20Lists.md)
 * [[Medium] 1437. Check If All 1's Are at Least Length K Places Away](%5BMedium%5D%201437.%20Check%20If%20All%201's%20Are%20at%20Least%20Length%20K%20Places%20Away.md)
+* [[Medium] 1631. Path With Minimum Effort](%5BMedium%5D%201631.%20Path%20With%20Minimum%20Effort.md)
 
 ## Array <a name="array"></a>
 ---
