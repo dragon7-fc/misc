@@ -542,6 +542,7 @@ Happy Coding!!
 * [[Hard] [Solution] 23. Merge k Sorted Lists](%5BHard%5D%20%5BSolution%5D%2023.%20Merge%20k%20Sorted%20Lists.md)
 * [[Medium] 1437. Check If All 1's Are at Least Length K Places Away](%5BMedium%5D%201437.%20Check%20If%20All%201's%20Are%20at%20Least%20Length%20K%20Places%20Away.md)
 * [[Medium] 1631. Path With Minimum Effort](%5BMedium%5D%201631.%20Path%20With%20Minimum%20Effort.md)
+* [[Medium] 1680. Concatenation of Consecutive Binary Numbers](%5BMedium%5D%201680.%20Concatenation%20of%20Consecutive%20Binary%20Numbers.md)
 
 ## Array <a name="array"></a>
 ---
@@ -5386,6 +5387,14 @@ class Solution:
         return "" # original gcd alway has a solution (at least '1')
 ```
 * [[Easy] 1071. Greatest Common Divisor of Strings](%5BEasy%5D%201071.%20Greatest%20Common%20Divisor%20of%20Strings.md)
+
+### Binary
+```python
+class Solution:
+    def concatenatedBinary(self, n: int) -> int:
+        return int(''.join(bin(i)[2 :] for i in range(1, n + 1)), 2) % (10 ** 9 + 7)
+```
+* [[Medium] 1680. Concatenation of Consecutive Binary Numbers](%5BMedium%5D%201680.%20Concatenation%20of%20Consecutive%20Binary%20Numbers.md)
 
 ### same set and frequency
 ```python
