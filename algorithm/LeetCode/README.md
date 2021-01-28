@@ -543,6 +543,7 @@ Happy Coding!!
 * [[Medium] 1437. Check If All 1's Are at Least Length K Places Away](%5BMedium%5D%201437.%20Check%20If%20All%201's%20Are%20at%20Least%20Length%20K%20Places%20Away.md)
 * [[Medium] 1631. Path With Minimum Effort](%5BMedium%5D%201631.%20Path%20With%20Minimum%20Effort.md)
 * [[Medium] 1680. Concatenation of Consecutive Binary Numbers](%5BMedium%5D%201680.%20Concatenation%20of%20Consecutive%20Binary%20Numbers.md)
+* [[Medium] 1663. Smallest String With A Given Numeric Value](%5BMedium%5D%201663.%20Smallest%20String%20With%20A%20Given%20Numeric%20Value.md)
 
 ## Array <a name="array"></a>
 ---
@@ -9113,6 +9114,26 @@ class Solution:
         return n <= 0
 ```
 * [[Easy] [Solution] 605. Can Place Flowers](%5BEasy%5D%20%5BSolution%5D%20605.%20Can%20Place%20Flowers.md)
+
+### construct string from base to remaining
+```python
+class Solution:
+    def getSmallestString(self, n: int, k: int) -> str:
+        ans = ''
+        i = 0
+        while i < n:
+            if k > (n-i-1)*26:
+                r = k - (n-i-1)*26
+                ans += chr(96+r)
+                ans += 'z'*(n-i-1)
+                break
+            else:
+                k -= 1
+                ans += 'a'
+            i += 1
+        return ans
+```
+* [[Medium] 1663. Smallest String With A Given Numeric Value](%5BMedium%5D%201663.%20Smallest%20String%20With%20A%20Given%20Numeric%20Value.md)
 
 ### One Pass + Count
 ```python

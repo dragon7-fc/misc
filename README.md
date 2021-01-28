@@ -2401,6 +2401,9 @@ Attribute: This is a part of an object. One or more attributes make up an object
 * top
 
     - [Cheatsheet on the `top` utility](https://dev.to/yanhan/cheatsheet-on-the-top-utility--82c)
+* nice/renice
+
+    - [How to Set Linux Process Priority Using nice and renice Commands](https://www.tecmint.com/set-linux-process-priority-using-nice-and-renice-commands/)
 * lspci
 
     - [7 Linux lspci Command Examples to Get PCI Bus Hardware Device Info](https://www.thegeekstuff.com/2014/04/lspci-examples/)
