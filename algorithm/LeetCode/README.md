@@ -544,6 +544,7 @@ Happy Coding!!
 * [[Medium] 1631. Path With Minimum Effort](%5BMedium%5D%201631.%20Path%20With%20Minimum%20Effort.md)
 * [[Medium] 1680. Concatenation of Consecutive Binary Numbers](%5BMedium%5D%201680.%20Concatenation%20of%20Consecutive%20Binary%20Numbers.md)
 * [[Medium] 1663. Smallest String With A Given Numeric Value](%5BMedium%5D%201663.%20Smallest%20String%20With%20A%20Given%20Numeric%20Value.md)
+* [[Hard] 1675. Minimize Deviation in Array](%5BHard%5D%201675.%20Minimize%20Deviation%20in%20Array.md)
 
 ## Array <a name="array"></a>
 ---
@@ -13931,6 +13932,23 @@ class Solution:
         return heapq.nsmallest(K, points, key= lambda x: x[0]**2 + x[1]**2)
 ```
 * [[Medium] [Solution] 973. K Closest Points to Origin](%5BMedium%5D%20%5BSolution%5D%20973.%20K%20Closest%20Points%20to%20Origin.md)
+
+### Unify and solve by one method
+```python
+class Solution:
+    def minimumDeviation(self, nums: List[int]) -> int:
+        heap = list(set(-(x * 2 if x & 1 else x) for x in nums))
+        heapify(heap)
+        ma, mi = -heap[0], -max(heap)
+        ans = ma - mi
+        while heap[0] % 2 == 0:
+            x = heappop(heap) // 2
+            heappush(heap, x)
+            ma, mi = -heap[0], min(mi, -x)
+            ans = min(ans, ma - mi)
+        return ans
+```
+* [[Hard] 1675. Minimize Deviation in Array](%5BHard%5D%201675.%20Minimize%20Deviation%20in%20Array.md)
 
 ### Sort and step-by-step count from smallest/highest
 ```python
