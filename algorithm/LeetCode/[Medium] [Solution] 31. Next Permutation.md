@@ -93,8 +93,8 @@ public class Solution {
 ---
 **Solution 1: (Two Pointers)**
 ```
-Runtime: 48 ms
-Memory Usage: 13.7 MB
+Runtime: 44 ms
+Memory Usage: 14.3 MB
 ```
 ```python
 class Solution:
@@ -102,28 +102,20 @@ class Solution:
         """
         Do not return anything, modify nums in-place instead.
         """
-        i = len(nums)-2
+        # first decreasing element from right
+        i = len(nums) - 2
         while (i >= 0 and nums[i+1] <= nums[i]):
             i -= 1
-            
+
+        # nums[j] = element just greater than nums[i]
         if i >= 0:
             j = len(nums)-1
             while (j >= 0 and nums[j] <= nums[i]):
                 j -= 1
-            
+
             # swap nums[i], nums[j]
             nums[i], nums[j] = nums[j], nums[i]
-            
+
         # reverse nums[i+1],...
-        p = i+1
-        q = len(nums)-1
-        while p<q:
-            nums[p], nums[q] = nums[q], nums[p]
-            p += 1
-            q -= 1
-                
-            
-        
-        
-        
+        nums[i+1:] = nums[i+1:][::-1]
 ```

@@ -53,6 +53,7 @@ Happy Coding!!
 1. [202011 November LeetCoding Challenge](#202011)
 1. [202012 December LeetCoding Challenge](#202012)
 1. [202101 January LeetCoding Challenge](#202101)
+1. [202102 Fabruary LeetCoding Challenge](#202102)
 1. [Array](#array)
 1. [Dynamic Programming](#dp)
 1. [Math](#math)
@@ -545,6 +546,10 @@ Happy Coding!!
 * [[Medium] 1680. Concatenation of Consecutive Binary Numbers](%5BMedium%5D%201680.%20Concatenation%20of%20Consecutive%20Binary%20Numbers.md)
 * [[Medium] 1663. Smallest String With A Given Numeric Value](%5BMedium%5D%201663.%20Smallest%20String%20With%20A%20Given%20Numeric%20Value.md)
 * [[Hard] 1675. Minimize Deviation in Array](%5BHard%5D%201675.%20Minimize%20Deviation%20in%20Array.md)
+* [[Medium] [Solution] 31. Next Permutation](%5BMedium%5D%20%5BSolution%5D%2031.%20Next%20Permutation.md)
+
+## 202102 Fabruary LeetCoding Challenge <a name="202101"></a>
+* [[Easy] [Solution] 191. Number of 1 Bits](%5BEasy%5D%20%5BSolution%5D%20191.%20Number%20of%201%20Bits.md)
 
 ## Array <a name="array"></a>
 ---
@@ -10623,6 +10628,32 @@ class Solution:
         return False
 ```
 * [[Easy] 392. Is Subsequence](%5BEasy%5D%20392.%20Is%20Subsequence.md)
+
+### first decreasing element from right
+```python
+class Solution:
+    def nextPermutation(self, nums: List[int]) -> None:
+        """
+        Do not return anything, modify nums in-place instead.
+        """
+        # first decreasing element from right
+        i = len(nums) - 2
+        while (i >= 0 and nums[i+1] <= nums[i]):
+            i -= 1
+
+        # nums[j] = element just greater than nums[i]
+        if i >= 0:
+            j = len(nums)-1
+            while (j >= 0 and nums[j] <= nums[i]):
+                j -= 1
+
+            # swap nums[i], nums[j]
+            nums[i], nums[j] = nums[j], nums[i]
+
+        # reverse nums[i+1],...
+        nums[i+1:] = nums[i+1:][::-1]
+```
+* [[Medium] [Solution] 31. Next Permutation](%5BMedium%5D%20%5BSolution%5D%2031.%20Next%20Permutation.md)
 
 ### Greedy Increase and assign
 ```python
