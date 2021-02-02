@@ -125,17 +125,13 @@ class Solution(object):
         return ans
 ```
 
-**Solution 2: (String)**
+**Solution 2: (Math)**
 ```
-Runtime: 24 ms
-Memory Usage: N/A
+Runtime: 36 ms
+Memory Usage: 14.3 MB
 ```
 ```python
-class Solution(object):
-    def hammingWeight(self, n):
-        """
-        :type n: int
-        :rtype: int
-        """
-        return (sum([int(bit) for bit in bin(n)[2:]]))
+class Solution:
+    def hammingWeight(self, n: int) -> int:
+        return sum([(n>>i)%2 for i in range(32)])
 ```

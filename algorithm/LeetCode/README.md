@@ -550,6 +550,7 @@ Happy Coding!!
 
 ## 202102 Fabruary LeetCoding Challenge <a name="202101"></a>
 * [[Easy] [Solution] 191. Number of 1 Bits](%5BEasy%5D%20%5BSolution%5D%20191.%20Number%20of%201%20Bits.md)
+* [[Easy] [Solution] 669. Trim a Binary Search Tree](%5BEasy%5D%20%5BSolution%5D%20669.%20Trim%20a%20Binary%20Search%20Tree.md)
 
 ## Array <a name="array"></a>
 ---
@@ -5890,6 +5891,33 @@ class Solution:
 
 ## Tree <a name='tree'></a>
 ---
+### DFS
+```python
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+
+class Solution:
+    def trimBST(self, root: TreeNode, L: int, R: int) -> TreeNode:
+        def trim(node):
+            if not node:
+                return None
+            elif node.val > R:
+                return trim(node.left)
+            elif node.val < L:
+                return trim(node.right)
+            else:
+                node.left = trim(node.left)
+                node.right = trim(node.right)
+                return node
+
+        return trim(root)
+```
+* [[Easy] [Solution] 669. Trim a Binary Search Tree](%5BEasy%5D%20%5BSolution%5D%20669.%20Trim%20a%20Binary%20Search%20Tree.md)
+
 ### DFS
 ```python
 # Definition for a binary tree node.

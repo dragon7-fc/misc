@@ -77,7 +77,7 @@ class Solution(object):
 
 # Submissions
 ---
-**Solution:**
+**Solution: (Recursion)**
 ```
 Runtime: 48 ms
 Memory Usage: 16.6 MB
