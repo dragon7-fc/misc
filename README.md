@@ -1316,6 +1316,9 @@ A playground to note something.
                     #http_access allow localnet
                     http_access allow localnet  # allow localnet acl
                     ...
+                    #http_access deny all
+                    http_access allow all
+                    ...
                     cache_peer [PROXY_IP] parent [PROXY_PORT] 0 no-query default login=[PROXY_USER|]:[PROXY_PASSWORD]  # add another proxy to forward request
                     
                     sudo systemctl restart squid
@@ -1356,6 +1359,7 @@ A playground to note something.
                     ```
                 - [Squid - Arch Wiki](https://wiki.archlinux.org/index.php/squid)
                 - [How To Setup Your Own Free Proxy Server Using Squid Proxy](https://comtechies.com/free-proxy-server-setup-squid-proxy.html)
+                - [How to Install Squid Proxy Server on Ubuntu 16.04](https://www.liquidweb.com/kb/install-squid-proxy-server-ubuntu-16-04/)
     - reverse
     
         - nginx
