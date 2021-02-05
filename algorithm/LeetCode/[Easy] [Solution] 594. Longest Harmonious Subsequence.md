@@ -243,7 +243,7 @@ public class Solution {
 
 # Submissions
 ---
-**Solution 1:**
+**Solution 1: (Using HashMap)**
 ```
 Runtime: 320 ms
 Memory Usage: 14.4 MB

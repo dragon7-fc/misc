@@ -552,6 +552,8 @@ Happy Coding!!
 * [[Easy] [Solution] 191. Number of 1 Bits](%5BEasy%5D%20%5BSolution%5D%20191.%20Number%20of%201%20Bits.md)
 * [[Easy] [Solution] 669. Trim a Binary Search Tree](%5BEasy%5D%20%5BSolution%5D%20669.%20Trim%20a%20Binary%20Search%20Tree.md)
 * [[Easy] [Solution] 141. Linked List Cycle](%5BEasy%5D%20%5BSolution%5D%20141.%20Linked%20List%20Cycle.md)
+* [[Easy] [Solution] 594. Longest Harmonious Subsequence](%5BEasy%5D%20%5BSolution%5D%20594.%20Longest%20Harmonious%20Subsequence.md)
+* [[Medium] 71. Simplify Path](%5BMedium%5D%2071.%20Simplify%20Path.md)
 
 ## Array <a name="array"></a>
 ---
@@ -6602,6 +6604,21 @@ class Solution:
 
 ## Hash Table <a name='ht'></a>
 ---
+### Counter
+```python
+class Solution:
+    def findLHS(self, nums: List[int]) -> int:
+        seen_d = collections.Counter(nums)        # prep dict { elem: times_seen }
+
+        # find 2 harmomious keys in seen_d with max times_seen for both of them
+        max_seen = 0
+        for k in seen_d:
+            if k + 1 in seen_d:
+                max_seen = max(max_seen, seen_d[k] + seen_d[k + 1])
+        return max_seen
+```
+* [[Easy] [Solution] 594. Longest Harmonious Subsequence](%5BEasy%5D%20%5BSolution%5D%20594.%20Longest%20Harmonious%20Subsequence.md)
+
 ### Hash Table
 ```python
 class Solution:
@@ -11256,6 +11273,25 @@ class Solution:
         return not stack
 ```
 * [[Easy] [Solution] 20. Valid Parentheses](%5BEasy%5D%20%5BSolution%5D%2020.%20Valid%20Parentheses.md)
+
+### path
+```python
+class Solution:
+    def simplifyPath(self, path: str) -> str:
+        stack = []
+        path_split = path.split("/")
+        for subdir in path_split:
+            if subdir == "." or len(subdir) == 0:
+                continue
+            elif subdir == "..":
+                if stack:
+                    stack.pop()
+            else:
+                stack.append(subdir)
+
+        return "/"+"/".join(stack)
+```
+* [[Medium] 71. Simplify Path](%5BMedium%5D%2071.%20Simplify%20Path.md)
 
 ### Controlled Recursion
 ```python
