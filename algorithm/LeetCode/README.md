@@ -554,6 +554,7 @@ Happy Coding!!
 * [[Easy] [Solution] 141. Linked List Cycle](%5BEasy%5D%20%5BSolution%5D%20141.%20Linked%20List%20Cycle.md)
 * [[Easy] [Solution] 594. Longest Harmonious Subsequence](%5BEasy%5D%20%5BSolution%5D%20594.%20Longest%20Harmonious%20Subsequence.md)
 * [[Medium] 71. Simplify Path](%5BMedium%5D%2071.%20Simplify%20Path.md)
+* [[Medium] [Solution] 199. Binary Tree Right Side View](%5BMedium%5D%20%5BSolution%5D%20199.%20Binary%20Tree%20Right%20Side%20View.md)
 
 ## Array <a name="array"></a>
 ---
@@ -9835,6 +9836,26 @@ class Solution:
         return min(self.minDepth(root.left), self.minDepth(root.right)) + 1
 ```
 * [[Easy] 111. Minimum Depth of Binary Tree](%5BEasy%5D%20111.%20Minimum%20Depth%20of%20Binary%20Tree.md)
+
+### BFS
+```python
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+
+class Solution:
+    def rightSideView(self, root: TreeNode) -> List[int]:
+        ans = []
+        level = root and [root]
+        while level:
+            ans.append([node for node in level][-1].val)
+            level = [c for node in level for c in [node.left, node.right] if c]
+        return ans
+```
+* [[Medium] [Solution] 199. Binary Tree Right Side View](%5BMedium%5D%20%5BSolution%5D%20199.%20Binary%20Tree%20Right%20Side%20View.md)
 
 ### Jump to index
 ```python
