@@ -4007,6 +4007,14 @@ class Solution:
 
 ## Math <a name="math"></a>
 ---
+### Conclude possible case
+```python
+class Solution:
+    def check(self, nums: List[int]) -> bool:
+        return sum(a > b for a, b in zip(nums, nums[1:] + nums[:1])) <= 1
+```
+* [[Easy] 1752. Check if Array Is Sorted and Rotated](%5BEasy%5D%201752.%20Check%20if%20Array%20Is%20Sorted%20and%20Rotated.md)
+
 ### Count of even of odd
 ```pyth0on
 class Solution:
@@ -7545,6 +7553,32 @@ class Solution:
                self.isSameTree(p.left, q.left)
 ```
 * [[Easy] [Solution] 100. Same Tree](%5BEasy%5D%20%5BSolution%5D%20100.%20Same%20Tree.md)
+
+### DFS + Greedy
+```python
+class Solution:
+    def largestMerge(self, word1: str, word2: str) -> str:
+        if word1 >= word2 > '':
+            return word1[0] + self.largestMerge(word1[1:], word2)
+        if word2 >= word1 > '':
+            return word2[0] + self.largestMerge(word1, word2[1:])
+        return word1 + word2
+
+class Solution:
+    def largestMerge(self, word1: str, word2: str) -> str:
+        ans = ''
+        while word1 and word2:
+            if word1 > word2:
+                ans += word1[0]
+                word1 = word1[1:]
+            else:
+                ans += word2[0]
+                word2 = word2[1:]
+        ans += word1
+        ans += word2
+        return ans
+```
+* [[Medium] 1754. Largest Merge Of Two Strings](%5BMedium%5D%201754.%20Largest%20Merge%20Of%20Two%20Strings.md)
 
 ### Flood Fill
 ```python
