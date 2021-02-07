@@ -3203,6 +3203,38 @@ class Solution:
 ```
 * [[Medium] 1035. Uncrossed Lines](%5BMedium%5D%201035.%20Uncrossed%20Lines.md)
 
+### DP + Binary Search
+```python
+class Solution:
+    def maxValue(self, events: List[List[int]], k: int) -> int:
+        events.sort()
+        starts = [x for x,y,z in events]
+
+        def bs(idx):
+            return bisect_right(starts, idx)
+
+        @lru_cache(None)
+        def dp(idx, k):
+            if k == 0 or idx >= len(events):
+                return 0
+            return max(dp(idx+1, k), events[idx][2] + dp(bs(events[idx][1]), k-1))
+
+        return dp(0,k)
+
+class Solution:
+    def maxValue(self, events: List[List[int]], k: int) -> int:
+        events.sort(key=lambda x: x[1])
+        dp, dp2 = [[0, 0]], [[0, 0]]
+        for _ in range(k):
+            for s, e, v in events:
+                i = bisect.bisect(dp, [s]) - 1
+                if dp[i][1] + v > dp2[-1][1]:
+                    dp2.append([e, dp[i][1] + v])
+            dp, dp2 = dp2, [[0, 0]]
+        return dp[-1][-1]
+```
+* [[Hard] 1751. Maximum Number of Events That Can Be Attended II.md](%5BHard%5D%201751.%20Maximum%20Number%20of%20Events%20That%20Can%20Be%20Attended%20II.md)
+
 ### 2 Group DP with bitmask
 ```python
 class Solution:
