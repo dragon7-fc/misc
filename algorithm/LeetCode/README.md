@@ -555,9 +555,30 @@ Happy Coding!!
 * [[Easy] [Solution] 594. Longest Harmonious Subsequence](%5BEasy%5D%20%5BSolution%5D%20594.%20Longest%20Harmonious%20Subsequence.md)
 * [[Medium] 71. Simplify Path](%5BMedium%5D%2071.%20Simplify%20Path.md)
 * [[Medium] [Solution] 199. Binary Tree Right Side View](%5BMedium%5D%20%5BSolution%5D%20199.%20Binary%20Tree%20Right%20Side%20View.md)
+* [[Easy] [Solution] 821. Shortest Distance to a Character](%5BEasy%5D%20%5BSolution%5D%20821.%20Shortest%20Distance%20to%20a%20Character.md)
+* [[Medium] 284. Peeking Iterator](%5BMedium%5D%20284.%20Peeking%20Iterator.md)
 
 ## Array <a name="array"></a>
 ---
+### Min Array, Two Pass
+```python
+class Solution:
+    def shortestToChar(self, S: str, C: str) -> List[int]:
+        prev = float('-inf')
+        ans = []
+        for i, x in enumerate(S):
+            if x == C: prev = i
+            ans.append(i - prev)
+
+        prev = float('inf')
+        for i in range(len(S) - 1, -1, -1):
+            if S[i] == C: prev = i
+            ans[i] = min(ans[i], prev - i)
+
+        return ans
+```
+* [[Easy] [Solution] 821. Shortest Distance to a Character](%5BEasy%5D%20%5BSolution%5D%20821.%20Shortest%20Distance%20to%20a%20Character.md)
+
 ### Simulate
 ```python
 class Solution:
@@ -13172,6 +13193,69 @@ class Solution:
         return tmp.next
 ```
 * [[Easy] 203. Remove Linked List Elements](%5BEasy%5D%20203.%20Remove%20Linked%20List%20Elements.md)
+
+### Linked List, Greedy
+```python
+# Below is the interface for Iterator, which is already defined for you.
+#
+# class Iterator:
+#     def __init__(self, nums):
+#         """
+#         Initializes an iterator object to the beginning of a list.
+#         :type nums: List[int]
+#         """
+#
+#     def hasNext(self):
+#         """
+#         Returns true if the iteration has more elements.
+#         :rtype: bool
+#         """
+#
+#     def next(self):
+#         """
+#         Returns the next element in the iteration.
+#         :rtype: int
+#         """
+
+class PeekingIterator:
+    def __init__(self, iterator):
+        """
+        Initialize your data structure here.
+        :type iterator: Iterator
+        """
+        self.it = iterator
+        self.val = None
+
+    def peek(self):
+        """
+        Returns the next element in the iteration without advancing the iterator.
+        :rtype: int
+        """
+        if self.val is None: self.val = self.it.next()
+        return self.val
+
+    def next(self):
+        """
+        :rtype: int
+        """
+        if self.val: 
+            tmp, self.val = self.val, None
+            return tmp
+        return self.it.next()
+
+    def hasNext(self):
+        """
+        :rtype: bool
+        """
+        return self.val is not None or self.it.hasNext()
+
+# Your PeekingIterator object will be instantiated and called as such:
+# iter = PeekingIterator(Iterator(nums))
+# while iter.hasNext():
+#     val = iter.peek()   # Get the next element but not advance the iterator.
+#     iter.next()         # Should return the same value as [val].
+```
+* [[Medium] 284. Peeking Iterator](%5BMedium%5D%20284.%20Peeking%20Iterator.md)
 
 ### Greedy, stack
 ```python
