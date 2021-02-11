@@ -555,6 +555,9 @@ Happy Coding!!
 * [[Easy] [Solution] 594. Longest Harmonious Subsequence](%5BEasy%5D%20%5BSolution%5D%20594.%20Longest%20Harmonious%20Subsequence.md)
 * [[Medium] 71. Simplify Path](%5BMedium%5D%2071.%20Simplify%20Path.md)
 * [[Medium] [Solution] 199. Binary Tree Right Side View](%5BMedium%5D%20%5BSolution%5D%20199.%20Binary%20Tree%20Right%20Side%20View.md)
+* [[Easy] [Solution] 538. Convert BST to Greater Tree](%5BEasy%5D%20%5BSolution%5D%20538.%20Convert%20BST%20to%20Greater%20Tree.md)
+* [[Medium] 138. Copy List with Random Pointer](%5BMedium%5D%20138.%20Copy%20List%20with%20Random%20Pointer.md)
+* [[Easy] [Solution] 242. Valid Anagram](%5BEasy%5D%20%5BSolution%5D%20242.%20Valid%20Anagram.md)
 
 ## Array <a name="array"></a>
 ---
@@ -6102,7 +6105,7 @@ class Solution:
 ```
 * [[Easy] [Solution] 226. Invert Binary Tree](%5BEasy%5D%20%5BSolution%5D%20226.%20Invert%20Binary%20Tree.md)
 
-### Binary Search Tree
+### In-Order with extra pointer
 ```python
 # Definition for a binary tree node.
 # class TreeNode:
@@ -6645,6 +6648,19 @@ class Solution:
 
 ## Hash Table <a name='ht'></a>
 ---
+### Counter
+```python
+class Solution:
+    def isAnagram(self, s, t):
+        """
+        :type s: str
+        :type t: str
+        :rtype: bool
+        """
+        return collections.Counter(s) == collections.Counter(t)
+```
+* [[Easy] [Solution] 242. Valid Anagram](%5BEasy%5D%20%5BSolution%5D%20242.%20Valid%20Anagram.md)
+
 ### Counter
 ```python
 class Solution:
@@ -13665,7 +13681,7 @@ class Solution:
 ```
 * [[Medium] [Solution] 109. Convert Sorted List to Binary Search Tree](%5BMedium%5D%20%5BSolution%5D%20109.%20Convert%20Sorted%20List%20to%20Binary%20Search%20Tree.md)
 
-### Hash Table
+### Hash Table pointer
 ```python
 """
 # Definition for a Node.
