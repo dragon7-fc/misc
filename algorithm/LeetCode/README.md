@@ -555,15 +555,11 @@ Happy Coding!!
 * [[Easy] [Solution] 594. Longest Harmonious Subsequence](%5BEasy%5D%20%5BSolution%5D%20594.%20Longest%20Harmonious%20Subsequence.md)
 * [[Medium] 71. Simplify Path](%5BMedium%5D%2071.%20Simplify%20Path.md)
 * [[Medium] [Solution] 199. Binary Tree Right Side View](%5BMedium%5D%20%5BSolution%5D%20199.%20Binary%20Tree%20Right%20Side%20View.md)
-<<<<<<< HEAD
 * [[Easy] [Solution] 538. Convert BST to Greater Tree](%5BEasy%5D%20%5BSolution%5D%20538.%20Convert%20BST%20to%20Greater%20Tree.md)
 * [[Medium] 138. Copy List with Random Pointer](%5BMedium%5D%20138.%20Copy%20List%20with%20Random%20Pointer.md)
-* [[Easy] [Solution] 242. Valid Anagram](%5BEasy%5D%20%5BSolution%5D%20242.%20Valid%20Anagram.md)
-||||||| merged common ancestors
-=======
 * [[Easy] [Solution] 821. Shortest Distance to a Character](%5BEasy%5D%20%5BSolution%5D%20821.%20Shortest%20Distance%20to%20a%20Character.md)
 * [[Medium] 284. Peeking Iterator](%5BMedium%5D%20284.%20Peeking%20Iterator.md)
->>>>>>> 76d5500213000a7348c6c5077bd7c20cb21fe8d1
+* [[Easy] [Solution] 242. Valid Anagram](%5BEasy%5D%20%5BSolution%5D%20242.%20Valid%20Anagram.md)
 
 ## Array <a name="array"></a>
 ---
