@@ -429,6 +429,9 @@ A playground to note something.
          -v /var/run/docker.sock:/var/run/docker.sock \
          jenkinsci/blueocean
         ```
+* Kubernetes
+
+    - [kubectl Cheat Sheet](https://kubernetes.io/docs/reference/kubectl/cheatsheet/)
 * RamDisk
 
     - create 100G ramdisk

@@ -16,7 +16,7 @@ Calling hasNext() after that should return false.
 
 # Submissions
 ---
-**Solution 1:**
+**Solution 1: (Linked List)**
 ```
 Runtime: 28 ms
 Memory Usage: 12.7 MB
