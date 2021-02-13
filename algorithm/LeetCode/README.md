@@ -560,6 +560,8 @@ Happy Coding!!
 * [[Easy] [Solution] 821. Shortest Distance to a Character](%5BEasy%5D%20%5BSolution%5D%20821.%20Shortest%20Distance%20to%20a%20Character.md)
 * [[Medium] 284. Peeking Iterator](%5BMedium%5D%20284.%20Peeking%20Iterator.md)
 * [[Easy] [Solution] 242. Valid Anagram](%5BEasy%5D%20%5BSolution%5D%20242.%20Valid%20Anagram.md)
+* [[Easy] 1342. Number of Steps to Reduce a Number to Zero](%5BEasy%5D%201342.%20Number%20of%20Steps%20to%20Reduce%20a%20Number%20to%20Zero.md)
+* [[Medium] 1091. Shortest Path in Binary Matrix](%5BMedium%5D%201091.%20Shortest%20Path%20in%20Binary%20Matrix.md)
 
 ## Array <a name="array"></a>
 ---
@@ -4031,6 +4033,22 @@ class Solution:
 
 ## Math <a name="math"></a>
 ---
+### Simulation
+```python
+class Solution:
+    def numberOfSteps (self, num: int) -> int:
+        ans = 0
+        while num > 0:
+            if num%2:
+                num -= 1
+            else:
+                num //= 2
+            ans += 1
+
+        return ans
+```
+* [[Easy] 1342. Number of Steps to Reduce a Number to Zero](%5BEasy%5D%201342.%20Number%20of%20Steps%20to%20Reduce%20a%20Number%20to%20Zero.md)
+
 ### Conclude possible case
 ```python
 class Solution:
@@ -9939,6 +9957,36 @@ class Solution:
         return min(self.minDepth(root.left), self.minDepth(root.right)) + 1
 ```
 * [[Easy] 111. Minimum Depth of Binary Tree](%5BEasy%5D%20111.%20Minimum%20Depth%20of%20Binary%20Tree.md)
+
+### Search grid
+```python
+class Solution:
+    def shortestPathBinaryMatrix(self, grid: List[List[int]]) -> int:
+        if len(grid) == 0 or len(grid[0]) == 0:
+            return -1
+        if grid[0][0] == 1 or grid[-1][-1] == 1:
+            return -1  
+
+        R, C = len(grid), len(grid[0])
+        q = collections.deque([(0,0, 1)])
+        grid[0][0] = 1
+
+        def neighbours(r, c):
+            for nr, nc in [(r-1, c-1), (r-1, c), (r-1, c+1), (r, c-1), (r, c+1), (r+1, c-1), (r+1, c), (r+1, c+1)]:
+                if 0 <= nr < R and 0 <= nc < C:
+                    yield nr, nc
+
+        while q:
+            r, c, step = q.popleft()
+            if r == R-1 and c == C-1:
+                return step
+            for nr, nc in neighbours(r, c):
+                if not grid[nr][nc]:
+                    grid[nr][nc] = 1
+                    q.append((nr, nc, step+1))
+        return -1
+```
+* [[Medium] 1091. Shortest Path in Binary Matrix](%5BMedium%5D%201091.%20Shortest%20Path%20in%20Binary%20Matrix.md)
 
 ### BFS
 ```python
