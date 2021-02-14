@@ -562,6 +562,7 @@ Happy Coding!!
 * [[Easy] [Solution] 242. Valid Anagram](%5BEasy%5D%20%5BSolution%5D%20242.%20Valid%20Anagram.md)
 * [[Easy] 1342. Number of Steps to Reduce a Number to Zero](%5BEasy%5D%201342.%20Number%20of%20Steps%20to%20Reduce%20a%20Number%20to%20Zero.md)
 * [[Medium] 1091. Shortest Path in Binary Matrix](%5BMedium%5D%201091.%20Shortest%20Path%20in%20Binary%20Matrix.md)
+* [[Medium] 785. Is Graph Bipartite?](%5BMedium%5D%20785.%20Is%20Graph%20Bipartite?.md)
 
 ## Array <a name="array"></a>
 ---
@@ -8635,6 +8636,21 @@ class Solution:
 ```
 * [[Easy] [Solution] 441. Arranging Coins](%5BEasy%5D%20%5BSolution%5D%20441.%20Arranging%20Coins.md)
 
+### Binary Search
+```python
+class Solution:
+    def minimumSize(self, nums: List[int], maxOperations: int) -> int:
+        left, right = 1, max(nums)
+        while left < right:
+            mid = (left + right) // 2
+            if sum((a - 1) // mid for a in nums) > maxOperations:
+                left = mid + 1
+            else:
+                right = mid
+        return left
+```
+* [[Medium] 1760. Minimum Limit of Balls in a Bag](%5BMedium%5D%201760.%20Minimum%20Limit%20of%20Balls%20in%20a%20Bag.md)
+
 ### Binary Search without diplicate
 ```python
 class Solution:
@@ -10361,7 +10377,7 @@ class Solution:
 ```
 * [[Medium] 130. Surrounded Regions](%5BMedium%5D%20130.%20Surrounded%20Regions.md)
 
-### Bipartite
+### Bipartite, Hash Table as visited group
 ```python
 class Solution:
     def isBipartite(self, graph: List[List[int]]) -> bool:
