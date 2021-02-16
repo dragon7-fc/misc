@@ -563,9 +563,19 @@ Happy Coding!!
 * [[Easy] 1342. Number of Steps to Reduce a Number to Zero](%5BEasy%5D%201342.%20Number%20of%20Steps%20to%20Reduce%20a%20Number%20to%20Zero.md)
 * [[Medium] 1091. Shortest Path in Binary Matrix](%5BMedium%5D%201091.%20Shortest%20Path%20in%20Binary%20Matrix.md)
 * [[Medium] 785. Is Graph Bipartite?](%5BMedium%5D%20785.%20Is%20Graph%20Bipartite?.md)
+* [[Easy] 1337. The K Weakest Rows in a Matrix](%5BEasy%5D%201337.%20The%20K%20Weakest%20Rows%20in%20a%20Matrix.md)
+* [[Easy] 784. Letter Case Permutation](%5BEasy%5D%20784.%20Letter%20Case%20Permutation.md)
 
 ## Array <a name="array"></a>
 ---
+### Sort by value and index
+```python
+class Solution:
+    def kWeakestRows(self, mat: List[List[int]], k: int) -> List[int]:
+        return list(zip(*sorted((sum(row), i) for i, row in enumerate(mat))[:k]))[1]
+```
+* [[Easy] 1337. The K Weakest Rows in a Matrix](%5BEasy%5D%201337.%20The%20K%20Weakest%20Rows%20in%20a%20Matrix.md)
+
 ### Min Array, Two Pass
 ```python
 class Solution:
@@ -5116,6 +5126,14 @@ class Solution:
         # no match was found
         return -1
 ```
+### product
+```python
+class Solution:
+    def letterCasePermutation(self, S: str) -> List[str]:
+        return set(map(''.join, itertools.product(*zip(S.lower(), S.upper()))))
+```
+* [[Easy] 784. Letter Case Permutation](%5BEasy%5D%20784.%20Letter%20Case%20Permutation.md)
+
 ### string concatenate
 ```python
 class Solution:
