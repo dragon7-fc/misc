@@ -565,6 +565,7 @@ Happy Coding!!
 * [[Medium] 785. Is Graph Bipartite?](%5BMedium%5D%20785.%20Is%20Graph%20Bipartite?.md)
 * [[Easy] 1337. The K Weakest Rows in a Matrix](%5BEasy%5D%201337.%20The%20K%20Weakest%20Rows%20in%20a%20Matrix.md)
 * [[Easy] 784. Letter Case Permutation](%5BEasy%5D%20784.%20Letter%20Case%20Permutation.md)
+* [[Medium] [Solution] 11. Container With Most Water](%5BMedium%5D%20%5BSolution%5D%2011.%20Container%20With%20Most%20Water.md)
 
 ## Array <a name="array"></a>
 ---
@@ -10880,6 +10881,24 @@ class Solution:
         return False
 ```
 * [[Easy] 392. Is Subsequence](%5BEasy%5D%20392.%20Is%20Subsequence.md)
+
+### Greedy, Two Pointers
+```python
+class Solution:
+    def maxArea(self, height):
+        """
+        :type height: List[int]
+        :rtype: int
+        """
+        left, right, res = 0, len(height)-1, 0
+        while left < right:
+            area = (right-left) * min(height[right], height[left])
+            res = max(res, area)
+            if height[right] < height[left]: right-=1  
+            else: left+=1
+        return res
+```
+* [[Medium] [Solution] 11. Container With Most Water](%5BMedium%5D%20%5BSolution%5D%2011.%20Container%20With%20Most%20Water.md)
 
 ### first decreasing element from right
 ```python
