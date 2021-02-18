@@ -566,6 +566,7 @@ Happy Coding!!
 * [[Easy] 1337. The K Weakest Rows in a Matrix](%5BEasy%5D%201337.%20The%20K%20Weakest%20Rows%20in%20a%20Matrix.md)
 * [[Easy] 784. Letter Case Permutation](%5BEasy%5D%20784.%20Letter%20Case%20Permutation.md)
 * [[Medium] [Solution] 11. Container With Most Water](%5BMedium%5D%20%5BSolution%5D%2011.%20Container%20With%20Most%20Water.md)
+* [[Medium] [Solution] 413. Arithmetic Slices](%5BMedium%5D%20%5BSolution%5D%20413.%20Arithmetic%20Slices.md)
 
 ## Array <a name="array"></a>
 ---
