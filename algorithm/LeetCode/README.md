@@ -567,6 +567,7 @@ Happy Coding!!
 * [[Easy] 784. Letter Case Permutation](%5BEasy%5D%20784.%20Letter%20Case%20Permutation.md)
 * [[Medium] [Solution] 11. Container With Most Water](%5BMedium%5D%20%5BSolution%5D%2011.%20Container%20With%20Most%20Water.md)
 * [[Medium] [Solution] 413. Arithmetic Slices](%5BMedium%5D%20%5BSolution%5D%20413.%20Arithmetic%20Slices.md)
+* [[Medium] 1249. Minimum Remove to Make Valid Parentheses](%5BMedium%5D%201249.%20Minimum%20Remove%20to%20Make%20Valid%20Parentheses.md)
 
 ## Array <a name="array"></a>
 ---
@@ -11499,6 +11500,31 @@ class Solution:
         return not stack
 ```
 * [[Easy] [Solution] 20. Valid Parentheses](%5BEasy%5D%20%5BSolution%5D%2020.%20Valid%20Parentheses.md)
+
+### index-element stack
+```python
+class Solution:
+    def minRemoveToMakeValid(self, s: str) -> str:
+        if not s:
+            return
+        stack = []
+        for i, token in enumerate(s):
+            if token == ")" and stack and stack[-1][1] == "(":
+                stack.pop()
+            elif token in ('(',')'):
+                stack.append((i,token))     # Trick is to append index and token both to stack. All unmatched/extra brackets will be 
+                                            # left on stack which have to be removed from given string.
+            else:
+                continue
+        s = list(s)
+        while stack:
+            index = stack.pop()[0]
+            s.pop(index)                # Remove unmatched from string.
+            #s[:] = s[:index] + s[index+1:]
+
+        return ''.join(s)
+```
+* [[Medium] 1249. Minimum Remove to Make Valid Parentheses](%5BMedium%5D%201249.%20Minimum%20Remove%20to%20Make%20Valid%20Parentheses.md)
 
 ### path
 ```python
