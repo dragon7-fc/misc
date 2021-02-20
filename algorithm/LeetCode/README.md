@@ -568,6 +568,7 @@ Happy Coding!!
 * [[Medium] [Solution] 11. Container With Most Water](%5BMedium%5D%20%5BSolution%5D%2011.%20Container%20With%20Most%20Water.md)
 * [[Medium] [Solution] 413. Arithmetic Slices](%5BMedium%5D%20%5BSolution%5D%20413.%20Arithmetic%20Slices.md)
 * [[Medium] 1249. Minimum Remove to Make Valid Parentheses](%5BMedium%5D%201249.%20Minimum%20Remove%20to%20Make%20Valid%20Parentheses.md)
+* [[Easy] 13. Roman to Integer](%5BEasy%5D%2013.%20Roman%20to%20Integer.md)
 
 ## Array <a name="array"></a>
 ---
@@ -6709,6 +6710,33 @@ class Solution:
 
 ## Hash Table <a name='ht'></a>
 ---
+### Greedy, Hash Table
+```python
+class Solution:
+    def romanToInt(self, s):
+        """
+        :type s: str
+        :rtype: int
+        """
+        roman_dict = {
+            'I': 1,
+            'V': 5,
+            'X': 10,
+            'L': 50,
+            'C': 100,
+            'D': 500,
+            'M': 1000
+        }
+
+        result = 0    
+        for i in range(0, len(s)):
+            result +=  roman_dict[s[i]]
+            if i>=1 and roman_dict[s[i]]>roman_dict[s[i-1]]:
+                result -= 2*roman_dict[s[i-1]]
+        return result
+```
+* [[Easy] 13. Roman to Integer](%5BEasy%5D%2013.%20Roman%20to%20Integer.md)
+
 ### Counter
 ```python
 class Solution:
