@@ -1318,11 +1318,10 @@ A playground to note something.
                     ...
                     #http_access allow localnet
                     http_access allow localnet  # allow localnet acl
-                    ...
-                    #http_access deny all
-                    http_access allow all
-                    ...
+                    ...                    ...
                     cache_peer [PROXY_IP] parent [PROXY_PORT] 0 no-query default login=[PROXY_USER|]:[PROXY_PASSWORD]  # add another proxy to forward request
+                    acl all src 0.0.0.0/0.0.0.0
+                    never_direct allow all
                     
                     sudo systemctl restart squid
                     ```

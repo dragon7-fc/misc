@@ -569,6 +569,7 @@ Happy Coding!!
 * [[Medium] [Solution] 413. Arithmetic Slices](%5BMedium%5D%20%5BSolution%5D%20413.%20Arithmetic%20Slices.md)
 * [[Medium] 1249. Minimum Remove to Make Valid Parentheses](%5BMedium%5D%201249.%20Minimum%20Remove%20to%20Make%20Valid%20Parentheses.md)
 * [[Easy] 13. Roman to Integer](%5BEasy%5D%2013.%20Roman%20to%20Integer.md)
+* [[Medium] [Solution] 991. Broken Calculator](%5BMedium%5D%20%5BSolution%5D%20991.%20Broken%20Calculator.md)
 
 ## Array <a name="array"></a>
 ---
@@ -974,6 +975,26 @@ class Solution:
         return sum(([nums[i], nums[i+n]] for i in range(n)), [])
 ```
 * [[Easy] 1470. Shuffle the Array](%5BEasy%5D%201470.%20Shuffle%20the%20Array.md)
+
+### Current and accumulate
+```python
+class Solution:
+    def minOperations(self, boxes: str) -> List[int]:
+        n = len(boxes)
+        answer = [0] * n
+        curr, steps = 0, 0
+        for i in range(n):
+            answer[i] += steps
+            if boxes[i] == '1': curr += 1
+            steps += curr
+        curr, steps = 0, 0
+        for i in reversed(range(n)):
+            answer[i] += steps
+            if boxes[i] == '1': curr += 1
+            steps += curr
+        return answer
+```
+* [[Medium] 1769. Minimum Number of Operations to Move All Balls to Each Box](%5BMedium%5D%201769.%20Minimum%20Number%20of%20Operations%20to%20Move%20All%20Balls%20to%20Each%20Box.md?_xsrf=2%7C7eed98f1%7Cbf410358aefd6ff8768bea00e809b278%7C1613311316)
 
 ### submatrix rearrangement, prefix sum
 ```python
