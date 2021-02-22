@@ -570,6 +570,7 @@ Happy Coding!!
 * [[Medium] 1249. Minimum Remove to Make Valid Parentheses](%5BMedium%5D%201249.%20Minimum%20Remove%20to%20Make%20Valid%20Parentheses.md)
 * [[Easy] 13. Roman to Integer](%5BEasy%5D%2013.%20Roman%20to%20Integer.md)
 * [[Medium] [Solution] 991. Broken Calculator](%5BMedium%5D%20%5BSolution%5D%20991.%20Broken%20Calculator.md)
+* [[Medium] [Solution] 524. Longest Word in Dictionary through Deleting](%5BMedium%5D%20%5BSolution%5D%20524.%20Longest%20Word%20in%20Dictionary%20through%20Deleting.md)
 
 ## Array <a name="array"></a>
 ---
@@ -13147,7 +13148,7 @@ class Solution:
 ```
 * [[Medium] [Solution] 179. Largest Number](%5BMedium%5D%20%5BSolution%5D%20179.%20Largest%20Number.md)
 
-### Heap
+### Heap with string iterator
 ```python
 class Solution:
     def findLongestWord(self, s: str, d: List[str]) -> str:
