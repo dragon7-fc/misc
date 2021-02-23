@@ -571,6 +571,7 @@ Happy Coding!!
 * [[Easy] 13. Roman to Integer](%5BEasy%5D%2013.%20Roman%20to%20Integer.md)
 * [[Medium] [Solution] 991. Broken Calculator](%5BMedium%5D%20%5BSolution%5D%20991.%20Broken%20Calculator.md)
 * [[Medium] [Solution] 524. Longest Word in Dictionary through Deleting](%5BMedium%5D%20%5BSolution%5D%20524.%20Longest%20Word%20in%20Dictionary%20through%20Deleting.md)
+* [[Medium] 240. Search a 2D Matrix II](%5BMedium%5D%20240.%20Search%20a%202D%20Matrix%20II.md)
 
 ## Array <a name="array"></a>
 ---
@@ -7680,6 +7681,31 @@ class Solution:
                self.isSameTree(p.left, q.left)
 ```
 * [[Easy] [Solution] 100. Same Tree](%5BEasy%5D%20%5BSolution%5D%20100.%20Same%20Tree.md)
+
+### Search map, fix one axes and move forward the other
+```python
+class Solution:
+    def searchMatrix(self, matrix, target):
+        """
+        :type matrix: List[List[int]]
+        :type target: int
+        :rtype: bool
+        """
+        if not matrix:
+            return False
+        def search(matrix, rows, cols):
+            if rows >= len(matrix) or cols < 0:
+                return False
+            upper_right = matrix[rows][cols]
+            if upper_right > target:
+                return search(matrix, rows, cols - 1)
+            elif upper_right < target:
+                return search(matrix, rows + 1, cols)
+            else:
+                return True
+        return search(matrix, 0, len(matrix[0]) - 1)
+```
+* [[Medium] 240. Search a 2D Matrix II](%5BMedium%5D%20240.%20Search%20a%202D%20Matrix%20II.md)
 
 ### DFS + Greedy
 ```python
