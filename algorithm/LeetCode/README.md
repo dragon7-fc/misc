@@ -572,6 +572,7 @@ Happy Coding!!
 * [[Medium] [Solution] 991. Broken Calculator](%5BMedium%5D%20%5BSolution%5D%20991.%20Broken%20Calculator.md)
 * [[Medium] [Solution] 524. Longest Word in Dictionary through Deleting](%5BMedium%5D%20%5BSolution%5D%20524.%20Longest%20Word%20in%20Dictionary%20through%20Deleting.md)
 * [[Medium] 240. Search a 2D Matrix II](%5BMedium%5D%20240.%20Search%20a%202D%20Matrix%20II.md)
+* [[Medium] [Solution] 856. Score of Parentheses](%5BMedium%5D%20%5BSolution%5D%20856.%20Score%20of%20Parentheses.md)
 
 ## Array <a name="array"></a>
 ---
