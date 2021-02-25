@@ -573,6 +573,7 @@ Happy Coding!!
 * [[Medium] [Solution] 524. Longest Word in Dictionary through Deleting](%5BMedium%5D%20%5BSolution%5D%20524.%20Longest%20Word%20in%20Dictionary%20through%20Deleting.md)
 * [[Medium] 240. Search a 2D Matrix II](%5BMedium%5D%20240.%20Search%20a%202D%20Matrix%20II.md)
 * [[Medium] [Solution] 856. Score of Parentheses](%5BMedium%5D%20%5BSolution%5D%20856.%20Score%20of%20Parentheses.md)
+* [[Easy] [Solution] 581. Shortest Unsorted Continuous Subarray](%5BEasy%5D%20%5BSolution%5D%20581.%20Shortest%20Unsorted%20Continuous%20Subarray.md)
 
 ## Array <a name="array"></a>
 ---

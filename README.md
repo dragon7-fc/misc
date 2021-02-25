@@ -432,6 +432,15 @@ A playground to note something.
 * Kubernetes
 
     - [kubectl Cheat Sheet](https://kubernetes.io/docs/reference/kubectl/cheatsheet/)
+    - Weave Net Addon
+    
+        - IPALLOC_RANGE
+        
+            - the range of IP addresses used by Weave Net and the subnet they are placed in (CIDR format; default 10.32.0.0/12)
+            - ex. change to 10.244.0.0/24
+            
+                `kubectl apply -f "https://cloud.weave.works/k8s/net?k8s-version=$(kubectl version | base64 | tr -d '\n')&env.IPALLOC_RANGE=10.244.0.0/16"`
+    
 * RamDisk
 
     - create 100G ramdisk
