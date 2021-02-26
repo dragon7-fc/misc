@@ -574,6 +574,7 @@ Happy Coding!!
 * [[Medium] 240. Search a 2D Matrix II](%5BMedium%5D%20240.%20Search%20a%202D%20Matrix%20II.md)
 * [[Medium] [Solution] 856. Score of Parentheses](%5BMedium%5D%20%5BSolution%5D%20856.%20Score%20of%20Parentheses.md)
 * [[Easy] [Solution] 581. Shortest Unsorted Continuous Subarray](%5BEasy%5D%20%5BSolution%5D%20581.%20Shortest%20Unsorted%20Continuous%20Subarray.md)
+* [[Medium] [Solution] 946. Validate Stack Sequences](%5BMedium%5D%20%5BSolution%5D%20946.%20Validate%20Stack%20Sequences.md)
 
 ## Array <a name="array"></a>
 ---
@@ -11578,6 +11579,22 @@ class Solution:
         return not stack
 ```
 * [[Easy] [Solution] 20. Valid Parentheses](%5BEasy%5D%20%5BSolution%5D%2020.%20Valid%20Parentheses.md)
+
+### Greedy
+```python
+class Solution:
+    def validateStackSequences(self, pushed: List[int], popped: List[int]) -> bool:
+        j = 0
+        stack = []
+        for x in pushed:
+            stack.append(x)
+            while stack and j < len(popped) and stack[-1] == popped[j]:
+                stack.pop()
+                j += 1
+
+        return j == len(popped)
+```
+* [[Medium] [Solution] 946. Validate Stack Sequences](%5BMedium%5D%20%5BSolution%5D%20946.%20Validate%20Stack%20Sequences.md)
 
 ### index-element stack
 ```python
