@@ -66,7 +66,7 @@ class Solution:
         return min(2**31 -1, max(-quotient if is_negative else quotient, -2**31))
 ```
 
-**Solution 2: (Mth, Without bitwise operators)**
+**Solution 2: (Math, Without bitwise operators)**
 ```
 Runtime: 28 ms
 Memory Usage: 12.7 MB

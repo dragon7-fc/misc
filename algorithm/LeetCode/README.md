@@ -575,6 +575,7 @@ Happy Coding!!
 * [[Medium] [Solution] 856. Score of Parentheses](%5BMedium%5D%20%5BSolution%5D%20856.%20Score%20of%20Parentheses.md)
 * [[Easy] [Solution] 581. Shortest Unsorted Continuous Subarray](%5BEasy%5D%20%5BSolution%5D%20581.%20Shortest%20Unsorted%20Continuous%20Subarray.md)
 * [[Medium] [Solution] 946. Validate Stack Sequences](%5BMedium%5D%20%5BSolution%5D%20946.%20Validate%20Stack%20Sequences.md)
+* [[Medium] 29. Divide Two Integers](%5BMedium%5D%2029.%20Divide%20Two%20Integers.md)
 
 ## Array <a name="array"></a>
 ---
@@ -12744,6 +12745,29 @@ class Solution:
          return int(''.join(chr(ord('0') + ord('1') - ord(ch)) for ch in bin(num)[2:]),2)
 ```
 * [[Easy] 476. Number Complement](%5BEasy%5D%20476.%20Number%20Complement.md?_xsrf=2%7C5e3776f8%7C24c18c3d2c50a10817453c72e445205a%7C1587427356)
+
+### division simulation
+```python
+class Solution:
+    def divide(self, dividend: int, divisor: int) -> int:
+        is_negative = (dividend < 0) != (divisor < 0)
+        divisor, dividend = abs(divisor), abs(dividend)
+
+        quotient = 0
+        the_sum = divisor
+
+        while the_sum <= dividend:
+            current_quotient = 1
+            while (the_sum << 1) <= dividend:
+                the_sum <<= 1
+                current_quotient <<= 1            
+            dividend -= the_sum
+            the_sum = divisor
+            quotient += current_quotient
+
+        return min(2**31 -1, max(-quotient if is_negative else quotient, -2**31))
+```
+* [[Medium] 29. Divide Two Integers](%5BMedium%5D%2029.%20Divide%20Two%20Integers.md)
 
 ### Common Prefix
 ```python
