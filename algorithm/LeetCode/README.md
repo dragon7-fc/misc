@@ -54,6 +54,7 @@ Happy Coding!!
 1. [202012 December LeetCoding Challenge](#202012)
 1. [202101 January LeetCoding Challenge](#202101)
 1. [202102 Fabruary LeetCoding Challenge](#202102)
+1. [202103 March LeetCoding Challenge](#202103)
 1. [Array](#array)
 1. [Dynamic Programming](#dp)
 1. [Math](#math)
@@ -548,7 +549,7 @@ Happy Coding!!
 * [[Hard] 1675. Minimize Deviation in Array](%5BHard%5D%201675.%20Minimize%20Deviation%20in%20Array.md)
 * [[Medium] [Solution] 31. Next Permutation](%5BMedium%5D%20%5BSolution%5D%2031.%20Next%20Permutation.md)
 
-## 202102 Fabruary LeetCoding Challenge <a name="202101"></a>
+## 202102 Fabruary LeetCoding Challenge <a name="202102"></a>
 * [[Easy] [Solution] 191. Number of 1 Bits](%5BEasy%5D%20%5BSolution%5D%20191.%20Number%20of%201%20Bits.md)
 * [[Easy] [Solution] 669. Trim a Binary Search Tree](%5BEasy%5D%20%5BSolution%5D%20669.%20Trim%20a%20Binary%20Search%20Tree.md)
 * [[Easy] [Solution] 141. Linked List Cycle](%5BEasy%5D%20%5BSolution%5D%20141.%20Linked%20List%20Cycle.md)
@@ -576,6 +577,9 @@ Happy Coding!!
 * [[Easy] [Solution] 581. Shortest Unsorted Continuous Subarray](%5BEasy%5D%20%5BSolution%5D%20581.%20Shortest%20Unsorted%20Continuous%20Subarray.md)
 * [[Medium] [Solution] 946. Validate Stack Sequences](%5BMedium%5D%20%5BSolution%5D%20946.%20Validate%20Stack%20Sequences.md)
 * [[Medium] 29. Divide Two Integers](%5BMedium%5D%2029.%20Divide%20Two%20Integers.md)
+
+## 202103 March LeetCoding Challenge <a name="202103"></a>
+* [[Easy] [Solution] 575. Distribute Candies](%5BEasy%5D%20%5BSolution%5D%20575.%20Distribute%20Candies.md)
 
 ## Array <a name="array"></a>
 ---
@@ -6737,6 +6741,14 @@ class Solution:
 
 ## Hash Table <a name='ht'></a>
 ---
+### Count set size
+```python
+class Solution:
+    def distributeCandies(self, candies: List[int]) -> int:
+        return min(len(set(candies)), len(candies) // 2)
+```
+* [[Easy] [Solution] 575. Distribute Candies](%5BEasy%5D%20%5BSolution%5D%20575.%20Distribute%20Candies.md)
+
 ### Greedy, Hash Table
 ```python
 class Solution:
