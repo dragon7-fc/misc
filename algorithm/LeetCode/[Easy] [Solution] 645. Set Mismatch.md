@@ -262,7 +262,7 @@ public class Solution {
 
 # Submisssions
 ---
-**Solution 1:**
+**Solution 1: (Using Constant Space)**
 ```
 Runtime: 236 ms
 Memory Usage: 13.9 MB

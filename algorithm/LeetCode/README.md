@@ -580,9 +580,29 @@ Happy Coding!!
 
 ## 202103 March LeetCoding Challenge <a name="202103"></a>
 * [[Easy] [Solution] 575. Distribute Candies](%5BEasy%5D%20%5BSolution%5D%20575.%20Distribute%20Candies.md)
+* [[Easy] [Solution] 645. Set Mismatch](%5BEasy%5D%20%5BSolution%5D%20645.%20Set%20Mismatch.md)
 
 ## Array <a name="array"></a>
 ---
+### Mask as visited
+```python
+class Solution:
+    def findErrorNums(self, nums: List[int]) -> List[int]:
+        dup = -1
+        missing = 1
+        for num in nums:
+            if nums[abs(num) - 1] < 0:
+                dup = abs(num);
+            else:
+                nums[abs(num) - 1] *= -1
+
+        for i in range(1, len(nums)):
+            if nums[i] > 0:
+                missing = i + 1
+        return [dup, missing]
+```
+* [[Easy] [Solution] 645. Set Mismatch](%5BEasy%5D%20%5BSolution%5D%20645.%20Set%20Mismatch.md)
+
 ### Sort by value and index
 ```python
 class Solution:
