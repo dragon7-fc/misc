@@ -581,6 +581,7 @@ Happy Coding!!
 ## 202103 March LeetCoding Challenge <a name="202103"></a>
 * [[Easy] [Solution] 575. Distribute Candies](%5BEasy%5D%20%5BSolution%5D%20575.%20Distribute%20Candies.md)
 * [[Easy] [Solution] 645. Set Mismatch](%5BEasy%5D%20%5BSolution%5D%20645.%20Set%20Mismatch.md)
+* [[Easy] [Solution] 268. Missing Number](%5BEasy%5D%20%5BSolution%5D%20268.%20Missing%20Number.md)
 
 ## Array <a name="array"></a>
 ---
