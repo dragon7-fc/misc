@@ -582,6 +582,7 @@ Happy Coding!!
 * [[Easy] [Solution] 575. Distribute Candies](%5BEasy%5D%20%5BSolution%5D%20575.%20Distribute%20Candies.md)
 * [[Easy] [Solution] 645. Set Mismatch](%5BEasy%5D%20%5BSolution%5D%20645.%20Set%20Mismatch.md)
 * [[Easy] [Solution] 268. Missing Number](%5BEasy%5D%20%5BSolution%5D%20268.%20Missing%20Number.md)
+* [[Easy] [Solution] 160. Intersection of Two Linked Lists](%5BEasy%5D%20%5BSolution%5D%20160.%20Intersection%20of%20Two%20Linked%20Lists.md)
 
 ## Array <a name="array"></a>
 ---
@@ -13396,6 +13397,31 @@ class Solution:
 
 ## Linked List <a name="ll"></a>
 ---
+### interaction
+```python
+# Definition for singly-linked list.
+# class ListNode(object):
+#     def __init__(self, x):
+#         self.val = x
+#         self.next = None
+
+class Solution(object):
+    def getIntersectionNode(self, headA, headB):
+        """
+        :type head1, head1: ListNode
+        :rtype: ListNode
+        """
+        if not headA or not headB:
+            return None
+        pa = headA
+        pb = headB
+        while pa is not pb:
+            pa = headB if not pa else pa.next
+            pb = headA if not pb else pb.next
+        return pa
+```
+* [[Easy] [Solution] 160. Intersection of Two Linked Lists](%5BEasy%5D%20%5BSolution%5D%20160.%20Intersection%20of%20Two%20Linked%20Lists.md)
+
 ### Linked List
 ```python
 # Definition for singly-linked list.
