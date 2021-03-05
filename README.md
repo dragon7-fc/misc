@@ -316,6 +316,7 @@ A playground to note something.
     - [IPv6 Explained for Beginners](http://www.steves-internet-guide.com/ipv6-guide/)
     
         __NOTE__: link local address: fe80::/10
+    - [File locking in Linux](https://gavv.github.io/articles/file-locks/#command-line-tools)
 - i2c-tools
 
     |                    | command                                         |
@@ -440,6 +441,77 @@ A playground to note something.
             - ex. change to 10.244.0.0/24
             
                 `kubectl apply -f "https://cloud.weave.works/k8s/net?k8s-version=$(kubectl version | base64 | tr -d '\n')&env.IPALLOC_RANGE=10.244.0.0/16"`
+    - Miac
+    
+        - Backing up an etcd cluster
+            
+            ```bash
+            ETCDCTL_API='3' etcdctl snapshot save --cacert=/etc/kubernetes/pki/etcd/ca.crt --cert=/etc/kubernetes/pki/etcd/server.crt --key=/etc/kubernetes/pki/etcd/server.key --endpoints=127.0.0.1:2379 /PATH/TO/BACKUP.XX
+            ```
+        - Upgrade (ex. 1.18.0 -> 1.19.0)
+        
+            ```bash
+            # On Master Node:-
+
+            kubectl drain controlplane --ignore-daemonsets
+            apt-get install kubeadm=1.19.0-00
+            kubeadm  upgrade plan
+            kubeadm  upgrade apply v1.19.0
+            apt-get install kubelet=1.19.0-00
+            systemctl daemon-reload
+            systemctl restart kubelet
+            kubectl uncordon controlplane
+            kubectl drain node01 --ignore-daemonsets
+
+
+            # On Worker Node:-
+
+            apt-get install kubeadm=1.19.0-00
+            kubeadm upgrade node --kubelet-version=v1.19.0
+            apt-get install kubelet=1.19.0-00
+            systemctl daemon-reload
+            systemctl restart kubelet     
+
+            # Back on Master Node:-
+
+            kubectl uncordon node01
+            ```
+        - RBAC
+        
+            ```python
+            # generate XXX.key private key
+            openssl genrsa -out XXX.key 2048
+            
+            # generate XXX.csr public key
+            openssl req -new -key XXX.key -out XXX.csr
+            
+            # create csr
+            cat <<EOF | kubectl apply -f -
+            apiVersion: certificates.k8s.io/v1
+            kind: CertificateSigningRequest
+            metadata:
+              name: john-developer
+            spec:
+              groups:
+              - system:authenticated
+              request: $(cat XXX.csr | base64 | tr -d "\n")
+              signerName: kubernetes.io/kube-apiserver-client
+              usages:
+              - client auth
+            EOF
+            
+            # approve csr
+            kubectl certificate approve john-developer
+            
+            # create role
+            kubectl create role developer --resource=pods --verb=create,list,get,update,delete --namespace=development
+            
+            # create rolebinding
+            kubectl create rolebinding developer-role-binding --role=developer --user=john --namespace=development
+            
+            # check authority
+            kubectl auth can-i update pods --as=john --namespace=development
+            ```
     
 * RamDisk
 

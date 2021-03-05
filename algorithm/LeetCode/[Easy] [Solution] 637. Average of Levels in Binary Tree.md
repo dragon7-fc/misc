@@ -179,7 +179,7 @@ public class Solution {
 
 # Submissions
 ---
-**Solution 1:**
+**Solution 1: (Level-Order)**
 ```
 Runtime: 48 ms
 Memory Usage: 14.9 MB

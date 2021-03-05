@@ -583,6 +583,7 @@ Happy Coding!!
 * [[Easy] [Solution] 645. Set Mismatch](%5BEasy%5D%20%5BSolution%5D%20645.%20Set%20Mismatch.md)
 * [[Easy] [Solution] 268. Missing Number](%5BEasy%5D%20%5BSolution%5D%20268.%20Missing%20Number.md)
 * [[Easy] [Solution] 160. Intersection of Two Linked Lists](%5BEasy%5D%20%5BSolution%5D%20160.%20Intersection%20of%20Two%20Linked%20Lists.md)
+* [[Easy] [Solution] 637. Average of Levels in Binary Tree](%5BEasy%5D%20%5BSolution%5D%20637.%20Average%20of%20Levels%20in%20Binary%20Tree.md)
 
 ## Array <a name="array"></a>
 ---
@@ -10063,6 +10064,19 @@ return ans
 
 ## Breadth-first Search <a name="bfs"></a>
 ---
+### Level-Order
+```python
+class Solution:
+    def averageOfLevels(self, root: TreeNode) -> List[float]:
+        ans = []
+        level = [root]
+        while level:
+            ans += [sum([node.val for node in level])/len(level)]
+            level = [c for node in level if node for c in [node.left, node.right] if c]
+        return ans
+```
+* [[Easy] [Solution] 637. Average of Levels in Binary Tree](%5BEasy%5D%20%5BSolution%5D%20637.%20Average%20of%20Levels%20in%20Binary%20Tree.md)
+
 ### Minimum Depth
 ```python
 # Definition for a binary tree node.
