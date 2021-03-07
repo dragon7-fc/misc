@@ -446,9 +446,9 @@ A playground to note something.
         - Backing up an etcd cluster
             
             ```bash
-            ETCDCTL_API='3' etcdctl snapshot save --cacert=/etc/kubernetes/pki/etcd/ca.crt --cert=/etc/kubernetes/pki/etcd/server.crt --key=/etc/kubernetes/pki/etcd/server.key --endpoints=127.0.0.1:2379 /PATH/TO/BACKUP.XX
+            ETCDCTL_API='3' etcdctl snapshot save --cacert=/etc/kubernetes/pki/etcd/ca.crt --cert=/etc/kubernetes/pki/etcd/server.crt --key=/etc/kubernetes/pki/etcd/server.key /PATH/TO/BACKUP.XX
             ```
-        - Upgrade (ex. 1.18.0 -> 1.19.0)
+        - upgrade (ex. 1.18.0 -> 1.19.0)
         
             ```bash
             # On Master Node:-
@@ -476,43 +476,115 @@ A playground to note something.
 
             kubectl uncordon node01
             ```
-        - RBAC
+        - add user (ex. add john)
         
             ```python
-            # generate XXX.key private key
-            openssl genrsa -out XXX.key 2048
+            # Create private key
+            #
+            # generate private key
+            openssl genrsa -out john.key 2048
             
-            # generate XXX.csr public key
-            openssl req -new -key XXX.key -out XXX.csr
+            # generate public key
+            openssl req -new -key john.key -out john.csr
             
+            # Create CertificateSigningRequest
+            #
             # create csr
             cat <<EOF | kubectl apply -f -
             apiVersion: certificates.k8s.io/v1
             kind: CertificateSigningRequest
             metadata:
-              name: john-developer
+              name: john
             spec:
               groups:
               - system:authenticated
-              request: $(cat XXX.csr | base64 | tr -d "\n")
+              request: $(cat john.csr | base64 | tr -d "\n")
               signerName: kubernetes.io/kube-apiserver-client
               usages:
               - client auth
             EOF
             
+            # Approve certificate signing request
+            #
             # approve csr
-            kubectl certificate approve john-developer
+            kubectl certificate approve john
             
+            # Create Role and RoleBinding
+            #
             # create role
-            kubectl create role developer --resource=pods --verb=create,list,get,update,delete --namespace=development
+            kubectl create role developer --resource=pods --verb=create,list,get,update,delete
             
             # create rolebinding
-            kubectl create rolebinding developer-role-binding --role=developer --user=john --namespace=development
+            kubectl create rolebinding developer-role-binding --role=developer --user=john
             
             # check authority
             kubectl auth can-i update pods --as=john --namespace=development
+            
+            # Add to kubeconfig
+            #
+            # add new credentials
+            kubectl config set-credentials john --client-key=john.key --client-certificate=john.csr --embed-certs=true
+            
+            # add the context
+            kubectl config set-context john --cluster=kubernetes --user=john
+            
+            # change the context to john
+            kubectl config use-context john
             ```
-    
+        - add service account (ex. add pvviewer)
+        
+            ```bash
+            kubectl create serviceaccount pvviewer
+            kubectl create clusterrole pvviewer-role --resource=persistentvolumes --verb=list
+            kubectl create clusterrolebinding pvviewer-role-binding --clusterrole=pvviewer-role --serviceaccount=default:pvviewer
+
+            vim XXX-pod.yaml
+            
+            ...
+            kind: pod
+            ...
+            spec:
+              serviceAccountName: pvviewer
+            ...
+            ```
+        - add service account
+        
+            ```bash
+            kubectl -n project-hamster create sa processor
+            
+            kubectl -n project-hamster create role processor \
+              --verb=create \
+              --resource=secret \
+              --resource=configmap
+              
+            kubectl -n project-hamster create rolebinding processor \
+              --role processor \
+              --serviceaccount project-hamster:processor
+              
+            kubectl -n project-hamster auth can-i create secret \
+              --as system:serviceaccount:project-hamster:processor
+            
+            kubectl -n project-hamster auth can-i create configmap \
+              --as system:serviceaccount:project-hamster:processor
+            ```
+        - check certificate
+        
+            - ex. echeck apiserver expiration: `kubeadm certs check-expiration | grep apiserver`
+            - ex. renew the apiserver server certificate: `kubeadm certs renew apiserver`
+        - check kubelet certificate directory
+        
+            - `/var/lib/kubelet/pki`: default of `kubelet --cert-dir`
+        - Pod
+        
+            ```
+            ...
+            kind: Pod
+            ...
+            spec:
+              nodeName: foo-node # schedule pod to specific node
+              nodeSelector: foo-node # node affinity
+              ...
+            ```
 * RamDisk
 
     - create 100G ramdisk
