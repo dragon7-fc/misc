@@ -584,9 +584,48 @@ Happy Coding!!
 * [[Easy] [Solution] 268. Missing Number](%5BEasy%5D%20%5BSolution%5D%20268.%20Missing%20Number.md)
 * [[Easy] [Solution] 160. Intersection of Two Linked Lists](%5BEasy%5D%20%5BSolution%5D%20160.%20Intersection%20of%20Two%20Linked%20Lists.md)
 * [[Easy] [Solution] 637. Average of Levels in Binary Tree](%5BEasy%5D%20%5BSolution%5D%20637.%20Average%20of%20Levels%20in%20Binary%20Tree.md)
+* [[Easy] 706. Design HashMap](/%5BEasy%5D%20706.%20Design%20HashMap.md)
+* [[Easy] 1332. Remove Palindromic Subsequences](%5BEasy%5D%201332.%20Remove%20Palindromic%20Subsequences.md)
 
 ## Array <a name="array"></a>
 ---
+### Simulate hash table
+```python
+class MyHashMap:
+
+    def __init__(self):
+        """
+        Initialize your data structure here.
+        """
+        self.buckets = [-1 for _ in range(1000001)]
+
+    def put(self, key: int, value: int) -> None:
+        """
+        value will always be non-negative.
+        """
+        self.buckets[key] = value
+
+    def get(self, key: int) -> int:
+        """
+        Returns the value to which the specified key is mapped, or -1 if this map contains no mapping for the key
+        """
+        return self.buckets[key]
+
+    def remove(self, key: int) -> None:
+        """
+        Removes the mapping of the specified value key if this map contains a mapping for the key
+        """
+        self.buckets[key] = -1
+
+
+# Your MyHashMap object will be instantiated and called as such:
+# obj = MyHashMap()
+# obj.put(key,value)
+# param_2 = obj.get(key)
+# obj.remove(key)
+```
+* [[Easy] 706. Design HashMap](/%5BEasy%5D%20706.%20Design%20HashMap.md)
+
 ### Mask as visited
 ```python
 class Solution:
@@ -5184,6 +5223,14 @@ class Solution:
         # no match was found
         return -1
 ```
+### Math
+```python
+class Solution:
+    def removePalindromeSub(self, s: str) -> int:
+        return 2 - (s == s[::-1]) - (s == "")
+```
+* [[Easy] 1332. Remove Palindromic Subsequences](%5BEasy%5D%201332.%20Remove%20Palindromic%20Subsequences.md)
+
 ### product
 ```python
 class Solution:

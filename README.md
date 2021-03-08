@@ -448,6 +448,24 @@ A playground to note something.
             ```bash
             ETCDCTL_API='3' etcdctl snapshot save --cacert=/etc/kubernetes/pki/etcd/ca.crt --cert=/etc/kubernetes/pki/etcd/server.crt --key=/etc/kubernetes/pki/etcd/server.key /PATH/TO/BACKUP.XX
             ```
+        - Restore an etcd cluster
+        
+            ```bash
+            ETCDCTL_API=3 etcdctl snapshot restore /tmp/etcd-backup.db --data-dir /var/lib/etcd-backup
+            
+            vim /etc/kubernetes/manifests/etcd.yaml
+            
+            ...
+            spec:
+              ...
+              volumes:
+              ...
+              - hostPath:
+                  path: /var/lib/etcd-backup                # change
+                  type: DirectoryOrCreate
+                name: etcd-data
+              ...
+            ```
         - upgrade (ex. 1.18.0 -> 1.19.0)
         
             ```bash
@@ -574,6 +592,52 @@ A playground to note something.
         - check kubelet certificate directory
         
             - `/var/lib/kubelet/pki`: default of `kubelet --cert-dir`
+        - service cidr
+        
+            - parameter: `--service-cluster-ip-range`
+            
+                - `/etc/kubernetes/manifests/kube-apiserver.yaml`
+                - `/etc/kubernetes/manifests/kube-controller-manager.yaml`
+        - Inter-pod anti-affinity
+        
+            ```bash
+            apiVersion: apps/v1
+            kind: Deployment
+            metadata:
+              creationTimestamp: null
+              labels:
+                id: very-important                  # change
+              name: deploy-important
+              namespace: project-tiger              # important
+            spec:
+              replicas: 3                           # change
+              selector:
+                matchLabels:
+                  id: very-important                # change
+              strategy: {}
+              template:
+                metadata:
+                  creationTimestamp: null
+                  labels:
+                    id: very-important              # change
+                spec:
+                  containers:
+                  - image: nginx:1.17.6-alpine
+                    name: container1                # change
+                    resources: {}
+                  - image: kubernetes/pause         # add
+                    name: container2                # add
+                  affinity:                                             # add
+                    podAntiAffinity:                                    # add
+                      requiredDuringSchedulingIgnoredDuringExecution:   # add
+                      - labelSelector:                                  # add
+                          matchExpressions:                             # add
+                          - key: id                                     # add
+                            operator: In                                # add
+                            values:                                     # add
+                            - very-important                            # add
+                        topologyKey: kubernetes.io/hostname             # add
+            ```
         - Pod
         
             ```
@@ -583,6 +647,16 @@ A playground to note something.
             spec:
               nodeName: foo-node # schedule pod to specific node
               nodeSelector: foo-node # node affinity
+              schedulerName: my-shiny-scheduler     # customized scheduler
+              containers:
+              - c1
+                # Expose Pod Information to Containers Through Environment Variables
+                env:
+                  - name: MY_NODE_NAME
+                    valueFrom:
+                      fieldRef:
+                        fieldPath: spec.nodeName
+                
               ...
             ```
 * RamDisk
