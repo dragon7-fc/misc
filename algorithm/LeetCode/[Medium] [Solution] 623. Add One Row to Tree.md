@@ -297,7 +297,7 @@ public class Solution {
 
 # Submissions
 --
-**Solution 1:**
+**Solution 1: (BFS)**
 ```
 Runtime: 48 ms
 Memory Usage: 13.9 MB

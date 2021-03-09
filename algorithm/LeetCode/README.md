@@ -586,6 +586,7 @@ Happy Coding!!
 * [[Easy] [Solution] 637. Average of Levels in Binary Tree](%5BEasy%5D%20%5BSolution%5D%20637.%20Average%20of%20Levels%20in%20Binary%20Tree.md)
 * [[Easy] 706. Design HashMap](/%5BEasy%5D%20706.%20Design%20HashMap.md)
 * [[Easy] 1332. Remove Palindromic Subsequences](%5BEasy%5D%201332.%20Remove%20Palindromic%20Subsequences.md)
+* [[Medium] [Solution] 623. Add One Row to Tree](%5BMedium%5D%20%5BSolution%5D%20623.%20Add%20One%20Row%20to%20Tree.md)
 
 ## Array <a name="array"></a>
 ---
@@ -10169,6 +10170,40 @@ class Solution:
         return min(self.minDepth(root.left), self.minDepth(root.right)) + 1
 ```
 * [[Easy] 111. Minimum Depth of Binary Tree](%5BEasy%5D%20111.%20Minimum%20Depth%20of%20Binary%20Tree.md)
+
+### BFS
+```python
+class Solution:
+    def addOneRow(self, root: TreeNode, v: int, d: int) -> TreeNode:
+        depth = 1
+        level = [root] if root else []
+        if d == 1:
+            new_node = TreeNode(v)
+            new_node.left = root
+            root = new_node
+        else:
+            while level:
+                if depth + 1 == d:
+                    for node in level:
+                        if node:
+                            new_node = TreeNode(v)
+                            if node.left:
+                                new_node.left = node.left
+                            node.left = new_node
+
+                            new_node = TreeNode(v)
+                            if node.right:
+                                new_node.right = node.right
+                            node.right = new_node
+                    break
+                else:
+                    next_level = [c for node in level if node for c in [node.left , node.right]]
+                level = next_level
+                depth += 1
+
+        return root
+```
+* [[Medium] [Solution] 623. Add One Row to Tree](%5BMedium%5D%20%5BSolution%5D%20623.%20Add%20One%20Row%20to%20Tree.md)
 
 ### Search grid
 ```python
