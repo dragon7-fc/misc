@@ -587,6 +587,7 @@ Happy Coding!!
 * [[Easy] 706. Design HashMap](/%5BEasy%5D%20706.%20Design%20HashMap.md)
 * [[Easy] 1332. Remove Palindromic Subsequences](%5BEasy%5D%201332.%20Remove%20Palindromic%20Subsequences.md)
 * [[Medium] [Solution] 623. Add One Row to Tree](%5BMedium%5D%20%5BSolution%5D%20623.%20Add%20One%20Row%20to%20Tree.md)
+* [[Medium] 12. Integer to Roman](%5BMedium%5D%2012.%20Integer%20to%20Roman.md)
 
 ## Array <a name="array"></a>
 ---
@@ -4389,6 +4390,32 @@ class Solution:
         return 0
 ```
 * [[Easy] [Solution] 976. Largest Perimeter Triangle](%5BEasy%5D%20%5BSolution%5D%20976.%20Largest%20Perimeter%20Triangle.md)
+
+### Hash Map
+```python
+class Solution:
+    def intToRoman(self, num: int) -> str:
+        ans = ''
+        rm = ((1000, 'M'), 
+              (900, 'CM'),
+              (500, 'D'), 
+              (400, 'CD'), 
+              (100, 'C'), 
+              (90, 'XC'), 
+              (50, 'L'), 
+              (40, 'XL'), 
+              (10, 'X'), 
+              (9, 'IX'), 
+              (5, 'V'), 
+              (4, 'IV'), 
+              (1, 'I'))
+        for i, m in enumerate(rm):
+            q, _ = divmod(num, m[0])
+            ans += m[1] * q
+            num -= q * m[0]
+        return ans
+```
+* [[Medium] 12. Integer to Roman](%5BMedium%5D%2012.%20Integer%20to%20Roman.md)
 
 ### Transform to select 2k points from n+k-1
 ```python

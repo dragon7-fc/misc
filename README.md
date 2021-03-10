@@ -485,7 +485,7 @@ A playground to note something.
             # On Worker Node:-
 
             apt-get install kubeadm=1.19.0-00
-            kubeadm upgrade node --kubelet-version=v1.19.0
+            kubeadm upgrade node
             apt-get install kubelet=1.19.0-00
             systemctl daemon-reload
             systemctl restart kubelet     
