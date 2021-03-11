@@ -588,6 +588,7 @@ Happy Coding!!
 * [[Easy] 1332. Remove Palindromic Subsequences](%5BEasy%5D%201332.%20Remove%20Palindromic%20Subsequences.md)
 * [[Medium] [Solution] 623. Add One Row to Tree](%5BMedium%5D%20%5BSolution%5D%20623.%20Add%20One%20Row%20to%20Tree.md)
 * [[Medium] 12. Integer to Roman](%5BMedium%5D%2012.%20Integer%20to%20Roman.md)
+* [[Medium] [Solution] 322. Coin Change](%5BMedium%5D%20%5BSolution%5D%20322.%20Coin%20Change.md)
 
 ## Array <a name="array"></a>
 ---
@@ -2009,6 +2010,41 @@ class Solution(object):
         return min(dp[n-1], dp[n-2])
 ```
 * [[Easy] [Solution] 746. Min Cost Climbing Stairs](%5BEasy%5D%20%5BSolution%5D%20746.%20Min%20Cost%20Climbing%20Stairs.md)
+
+### min ammount
+```python
+class Solution:
+    def coinChange(self, coins: List[int], amount: int) -> int:
+
+        @functools.lru_cache(None)
+        def coinChange(rem):
+            if rem < 0:
+                return -1
+            if rem == 0:
+                return 0
+            min_ = float('inf')
+            for coin in coins:
+                res = coinChange(rem - coin)
+                if res >= 0 and res < min_:
+                    min_ = 1 + res
+            return -1 if (min_ == float('inf')) else min_
+
+        if amount < 1:
+            return 0
+        return coinChange(amount)
+    
+class Solution:
+    def coinChange(self, coins: List[int], amount: int) -> int:
+        dp = [float('inf')] * (amount + 1)
+        dp[0] = 0
+        for i in range(amount+1):
+            for coin in coins:
+                if coin <= i:
+                    dp[i] = min(dp[i], dp[i - coin] + 1)
+
+        return dp[-1] if dp[-1] != float('inf') else -1
+```
+* [[Medium] [Solution] 322. Coin Change](%5BMedium%5D%20%5BSolution%5D%20322.%20Coin%20Change.md)
 
 ### Try every sum for each number
 ```python

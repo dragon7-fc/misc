@@ -646,7 +646,14 @@ A playground to note something.
             ...
             spec:
               nodeName: foo-node # schedule pod to specific node
-              nodeSelector: foo-node # node affinity
+              # node affinity
+              nodeSelector:
+                # <LABEL-NAME>: <LABEL-VALUE>
+                node-role.kubernetes.io/master: ""
+              # toleration
+              tolerations:
+  -             effect: NoSchedule
+                key: node-role.kubernetes.io/master
               schedulerName: my-shiny-scheduler     # customized scheduler
               containers:
               - c1
