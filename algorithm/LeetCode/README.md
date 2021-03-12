@@ -589,6 +589,7 @@ Happy Coding!!
 * [[Medium] [Solution] 623. Add One Row to Tree](%5BMedium%5D%20%5BSolution%5D%20623.%20Add%20One%20Row%20to%20Tree.md)
 * [[Medium] 12. Integer to Roman](%5BMedium%5D%2012.%20Integer%20to%20Roman.md)
 * [[Medium] [Solution] 322. Coin Change](%5BMedium%5D%20%5BSolution%5D%20322.%20Coin%20Change.md)
+* [[Medium] 1461. Check If a String Contains All Binary Codes of Size K](%5BMedium%5D%201461.%20Check%20If%20a%20String%20Contains%20All%20Binary%20Codes%20of%20Size%20K.md)
 
 ## Array <a name="array"></a>
 ---

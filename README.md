@@ -652,7 +652,7 @@ A playground to note something.
                 node-role.kubernetes.io/master: ""
               # toleration
               tolerations:
-  -             effect: NoSchedule
+              - effect: NoSchedule
                 key: node-role.kubernetes.io/master
               schedulerName: my-shiny-scheduler     # customized scheduler
               containers:
@@ -663,7 +663,6 @@ A playground to note something.
                     valueFrom:
                       fieldRef:
                         fieldPath: spec.nodeName
-                
               ...
             ```
 * RamDisk
