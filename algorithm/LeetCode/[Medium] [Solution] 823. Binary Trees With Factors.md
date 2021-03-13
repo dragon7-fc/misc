@@ -77,21 +77,21 @@ class Solution(object):
 ---
 **Solution 1: (Dynamic Programming, Bottom-Up)**
 ```
-Runtime: 540 ms
-Memory Usage: 14.1 MB
+Runtime: 388 ms
+Memory Usage: 14.4 MB
 ```
 ```python
 class Solution:
-    def numFactoredBinaryTrees(self, A: List[int]) -> int:
+    def numFactoredBinaryTrees(self, arr: List[int]) -> int:
         MOD = 10 ** 9 + 7
-        N = len(A)
-        A.sort()
+        N = len(arr)
+        arr.sort()
         dp = [1] * N
-        index = {x: i for i, x in enumerate(A)}
-        for i, x in enumerate(A):
+        index = {x: i for i, x in enumerate(arr)}
+        for i, x in enumerate(arr):
             for j in range(i):
-                if x % A[j] == 0: #A[j] will be left child
-                    right = x // A[j]
+                if x % arr[j] == 0: #arr[j] will be left child
+                    right = x // arr[j]
                     if right in index:
                         dp[i] += dp[j] * dp[index[right]]
                         dp[i] %= MOD
@@ -99,26 +99,23 @@ class Solution:
         return sum(dp) % MOD
 ```
 
-**Solution 2: (DP Bottom-Up)**
+**Solution 2: (DP Top-Down)**
 ```
-Runtime: 132 ms
-Memory Usage: 18.1 MB
+Runtime: 584 ms
+Memory Usage: 15.2 MB
 ```
-```c++
+```python
 class Solution:
-    def numFactoredBinaryTrees(self, A: List[int]) -> int:
-        MOD = 10 ** 9 + 7
-        N = len(A)
-        A.sort()
-        dp = [1] * N
-        index = {x: i for i, x in enumerate(A)}
-        for i, x in enumerate(A):
-            for j in range(i):
-                if x % A[j] == 0: #A[j] will be left child
-                    right = x // A[j]
-                    if right in index:
-                        dp[i] += dp[j] * dp[index[right]]
-                        dp[i] %= MOD
-
-        return sum(dp) % MOD
+    def numFactoredBinaryTrees(self, arr: List[int]) -> int:
+        s_arr, N = set(arr), 10**9 + 7
+        
+        @lru_cache(None)
+        def dp(num):
+            ans = 1
+            for cand in s_arr:
+                if num % cand == 0 and num//cand in s_arr:
+                    ans += dp(cand)*dp(num//cand)
+            return ans
+        
+        return sum(dp(num) for num in s_arr) % N
 ```

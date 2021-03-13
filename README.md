@@ -574,6 +574,9 @@ A playground to note something.
         - check kubelet certificate directory
         
             - `/var/lib/kubelet/pki`: default of `kubelet --cert-dir`
+        - customized kubelet manifests directory
+        
+            - `--pod-manifest-path`
         - Pod
         
             ```

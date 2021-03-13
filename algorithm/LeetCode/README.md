@@ -584,6 +584,7 @@ Happy Coding!!
 * [[Easy] [Solution] 268. Missing Number](%5BEasy%5D%20%5BSolution%5D%20268.%20Missing%20Number.md)
 * [[Easy] [Solution] 160. Intersection of Two Linked Lists](%5BEasy%5D%20%5BSolution%5D%20160.%20Intersection%20of%20Two%20Linked%20Lists.md)
 * [[Easy] [Solution] 637. Average of Levels in Binary Tree](%5BEasy%5D%20%5BSolution%5D%20637.%20Average%20of%20Levels%20in%20Binary%20Tree.md)
+* [[Medium] [Solution] 823. Binary Trees With Factors](%5BMedium%5D%20%5BSolution%5D%20823.%20Binary%20Trees%20With%20Factors.md)
 
 ## Array <a name="array"></a>
 ---
@@ -3422,21 +3423,35 @@ class Solution:
 ### factor dependency
 ```python
 class Solution:
-    def numFactoredBinaryTrees(self, A: List[int]) -> int:
+    def numFactoredBinaryTrees(self, arr: List[int]) -> int:
         MOD = 10 ** 9 + 7
-        N = len(A)
-        A.sort()
+        N = len(arr)
+        arr.sort()
         dp = [1] * N
-        index = {x: i for i, x in enumerate(A)}
-        for i, x in enumerate(A):
+        index = {x: i for i, x in enumerate(arr)}
+        for i, x in enumerate(arr):
             for j in range(i):
-                if x % A[j] == 0: #A[j] will be left child
-                    right = x // A[j]
+                if x % arr[j] == 0: #arr[j] will be left child
+                    right = x // arr[j]
                     if right in index:
                         dp[i] += dp[j] * dp[index[right]]
                         dp[i] %= MOD
 
         return sum(dp) % MOD
+
+class Solution:
+    def numFactoredBinaryTrees(self, arr: List[int]) -> int:
+        s_arr, N = set(arr), 10**9 + 7
+
+        @lru_cache(None)
+        def dp(num):
+            ans = 1
+            for cand in s_arr:
+                if num % cand == 0 and num//cand in s_arr:
+                    ans += dp(cand)*dp(num//cand)
+            return ans
+
+        return sum(dp(num) for num in s_arr) % N
 ```
 * [[Medium] [Solution] 823. Binary Trees With Factors](%5BMedium%5D%20%5BSolution%5D%20823.%20Binary%20Trees%20With%20Factors.md)
 
