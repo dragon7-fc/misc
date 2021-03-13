@@ -584,10 +584,57 @@ Happy Coding!!
 * [[Easy] [Solution] 268. Missing Number](%5BEasy%5D%20%5BSolution%5D%20268.%20Missing%20Number.md)
 * [[Easy] [Solution] 160. Intersection of Two Linked Lists](%5BEasy%5D%20%5BSolution%5D%20160.%20Intersection%20of%20Two%20Linked%20Lists.md)
 * [[Easy] [Solution] 637. Average of Levels in Binary Tree](%5BEasy%5D%20%5BSolution%5D%20637.%20Average%20of%20Levels%20in%20Binary%20Tree.md)
+<<<<<<< HEAD
 * [[Medium] [Solution] 823. Binary Trees With Factors](%5BMedium%5D%20%5BSolution%5D%20823.%20Binary%20Trees%20With%20Factors.md)
+||||||| merged common ancestors
+=======
+* [[Easy] 706. Design HashMap](/%5BEasy%5D%20706.%20Design%20HashMap.md)
+* [[Easy] 1332. Remove Palindromic Subsequences](%5BEasy%5D%201332.%20Remove%20Palindromic%20Subsequences.md)
+* [[Medium] [Solution] 623. Add One Row to Tree](%5BMedium%5D%20%5BSolution%5D%20623.%20Add%20One%20Row%20to%20Tree.md)
+* [[Medium] 12. Integer to Roman](%5BMedium%5D%2012.%20Integer%20to%20Roman.md)
+* [[Medium] [Solution] 322. Coin Change](%5BMedium%5D%20%5BSolution%5D%20322.%20Coin%20Change.md)
+* [[Medium] 1461. Check If a String Contains All Binary Codes of Size K](%5BMedium%5D%201461.%20Check%20If%20a%20String%20Contains%20All%20Binary%20Codes%20of%20Size%20K.md)
+>>>>>>> f10690d1a64e1dfb44f50e8425c2e4cb12bc2715
 
 ## Array <a name="array"></a>
 ---
+### Simulate hash table
+```python
+class MyHashMap:
+
+    def __init__(self):
+        """
+        Initialize your data structure here.
+        """
+        self.buckets = [-1 for _ in range(1000001)]
+
+    def put(self, key: int, value: int) -> None:
+        """
+        value will always be non-negative.
+        """
+        self.buckets[key] = value
+
+    def get(self, key: int) -> int:
+        """
+        Returns the value to which the specified key is mapped, or -1 if this map contains no mapping for the key
+        """
+        return self.buckets[key]
+
+    def remove(self, key: int) -> None:
+        """
+        Removes the mapping of the specified value key if this map contains a mapping for the key
+        """
+        self.buckets[key] = -1
+
+
+# Your MyHashMap object will be instantiated and called as such:
+# obj = MyHashMap()
+# obj.put(key,value)
+# param_2 = obj.get(key)
+# obj.remove(key)
+```
+* [[Easy] 706. Design HashMap](/%5BEasy%5D%20706.%20Design%20HashMap.md)
+
 ### Mask as visited
 ```python
 class Solution:
@@ -1969,6 +2016,41 @@ class Solution(object):
         return min(dp[n-1], dp[n-2])
 ```
 * [[Easy] [Solution] 746. Min Cost Climbing Stairs](%5BEasy%5D%20%5BSolution%5D%20746.%20Min%20Cost%20Climbing%20Stairs.md)
+
+### min ammount
+```python
+class Solution:
+    def coinChange(self, coins: List[int], amount: int) -> int:
+
+        @functools.lru_cache(None)
+        def coinChange(rem):
+            if rem < 0:
+                return -1
+            if rem == 0:
+                return 0
+            min_ = float('inf')
+            for coin in coins:
+                res = coinChange(rem - coin)
+                if res >= 0 and res < min_:
+                    min_ = 1 + res
+            return -1 if (min_ == float('inf')) else min_
+
+        if amount < 1:
+            return 0
+        return coinChange(amount)
+    
+class Solution:
+    def coinChange(self, coins: List[int], amount: int) -> int:
+        dp = [float('inf')] * (amount + 1)
+        dp[0] = 0
+        for i in range(amount+1):
+            for coin in coins:
+                if coin <= i:
+                    dp[i] = min(dp[i], dp[i - coin] + 1)
+
+        return dp[-1] if dp[-1] != float('inf') else -1
+```
+* [[Medium] [Solution] 322. Coin Change](%5BMedium%5D%20%5BSolution%5D%20322.%20Coin%20Change.md)
 
 ### Try every sum for each number
 ```python
@@ -4365,6 +4447,32 @@ class Solution:
 ```
 * [[Easy] [Solution] 976. Largest Perimeter Triangle](%5BEasy%5D%20%5BSolution%5D%20976.%20Largest%20Perimeter%20Triangle.md)
 
+### Hash Map
+```python
+class Solution:
+    def intToRoman(self, num: int) -> str:
+        ans = ''
+        rm = ((1000, 'M'), 
+              (900, 'CM'),
+              (500, 'D'), 
+              (400, 'CD'), 
+              (100, 'C'), 
+              (90, 'XC'), 
+              (50, 'L'), 
+              (40, 'XL'), 
+              (10, 'X'), 
+              (9, 'IX'), 
+              (5, 'V'), 
+              (4, 'IV'), 
+              (1, 'I'))
+        for i, m in enumerate(rm):
+            q, _ = divmod(num, m[0])
+            ans += m[1] * q
+            num -= q * m[0]
+        return ans
+```
+* [[Medium] 12. Integer to Roman](%5BMedium%5D%2012.%20Integer%20to%20Roman.md)
+
 ### Transform to select 2k points from n+k-1
 ```python
 class Solution:
@@ -5199,6 +5307,14 @@ class Solution:
         # no match was found
         return -1
 ```
+### Math
+```python
+class Solution:
+    def removePalindromeSub(self, s: str) -> int:
+        return 2 - (s == s[::-1]) - (s == "")
+```
+* [[Easy] 1332. Remove Palindromic Subsequences](%5BEasy%5D%201332.%20Remove%20Palindromic%20Subsequences.md)
+
 ### product
 ```python
 class Solution:
@@ -10137,6 +10253,40 @@ class Solution:
         return min(self.minDepth(root.left), self.minDepth(root.right)) + 1
 ```
 * [[Easy] 111. Minimum Depth of Binary Tree](%5BEasy%5D%20111.%20Minimum%20Depth%20of%20Binary%20Tree.md)
+
+### BFS
+```python
+class Solution:
+    def addOneRow(self, root: TreeNode, v: int, d: int) -> TreeNode:
+        depth = 1
+        level = [root] if root else []
+        if d == 1:
+            new_node = TreeNode(v)
+            new_node.left = root
+            root = new_node
+        else:
+            while level:
+                if depth + 1 == d:
+                    for node in level:
+                        if node:
+                            new_node = TreeNode(v)
+                            if node.left:
+                                new_node.left = node.left
+                            node.left = new_node
+
+                            new_node = TreeNode(v)
+                            if node.right:
+                                new_node.right = node.right
+                            node.right = new_node
+                    break
+                else:
+                    next_level = [c for node in level if node for c in [node.left , node.right]]
+                level = next_level
+                depth += 1
+
+        return root
+```
+* [[Medium] [Solution] 623. Add One Row to Tree](%5BMedium%5D%20%5BSolution%5D%20623.%20Add%20One%20Row%20to%20Tree.md)
 
 ### Search grid
 ```python

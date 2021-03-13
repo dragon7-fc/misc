@@ -448,6 +448,24 @@ A playground to note something.
             ```bash
             ETCDCTL_API='3' etcdctl snapshot save --cacert=/etc/kubernetes/pki/etcd/ca.crt --cert=/etc/kubernetes/pki/etcd/server.crt --key=/etc/kubernetes/pki/etcd/server.key /PATH/TO/BACKUP.XX
             ```
+        - Restore an etcd cluster
+        
+            ```bash
+            ETCDCTL_API=3 etcdctl snapshot restore /tmp/etcd-backup.db --data-dir /var/lib/etcd-backup
+            
+            vim /etc/kubernetes/manifests/etcd.yaml
+            
+            ...
+            spec:
+              ...
+              volumes:
+              ...
+              - hostPath:
+                  path: /var/lib/etcd-backup                # change
+                  type: DirectoryOrCreate
+                name: etcd-data
+              ...
+            ```
         - upgrade (ex. 1.18.0 -> 1.19.0)
         
             ```bash
@@ -467,7 +485,7 @@ A playground to note something.
             # On Worker Node:-
 
             apt-get install kubeadm=1.19.0-00
-            kubeadm upgrade node --kubelet-version=v1.19.0
+            kubeadm upgrade node
             apt-get install kubelet=1.19.0-00
             systemctl daemon-reload
             systemctl restart kubelet     
@@ -574,9 +592,59 @@ A playground to note something.
         - check kubelet certificate directory
         
             - `/var/lib/kubelet/pki`: default of `kubelet --cert-dir`
+<<<<<<< HEAD
         - customized kubelet manifests directory
         
             - `--pod-manifest-path`
+||||||| merged common ancestors
+=======
+        - service cidr
+        
+            - parameter: `--service-cluster-ip-range`
+            
+                - `/etc/kubernetes/manifests/kube-apiserver.yaml`
+                - `/etc/kubernetes/manifests/kube-controller-manager.yaml`
+        - Inter-pod anti-affinity
+        
+            ```bash
+            apiVersion: apps/v1
+            kind: Deployment
+            metadata:
+              creationTimestamp: null
+              labels:
+                id: very-important                  # change
+              name: deploy-important
+              namespace: project-tiger              # important
+            spec:
+              replicas: 3                           # change
+              selector:
+                matchLabels:
+                  id: very-important                # change
+              strategy: {}
+              template:
+                metadata:
+                  creationTimestamp: null
+                  labels:
+                    id: very-important              # change
+                spec:
+                  containers:
+                  - image: nginx:1.17.6-alpine
+                    name: container1                # change
+                    resources: {}
+                  - image: kubernetes/pause         # add
+                    name: container2                # add
+                  affinity:                                             # add
+                    podAntiAffinity:                                    # add
+                      requiredDuringSchedulingIgnoredDuringExecution:   # add
+                      - labelSelector:                                  # add
+                          matchExpressions:                             # add
+                          - key: id                                     # add
+                            operator: In                                # add
+                            values:                                     # add
+                            - very-important                            # add
+                        topologyKey: kubernetes.io/hostname             # add
+            ```
+>>>>>>> f10690d1a64e1dfb44f50e8425c2e4cb12bc2715
         - Pod
         
             ```
@@ -585,7 +653,23 @@ A playground to note something.
             ...
             spec:
               nodeName: foo-node # schedule pod to specific node
-              nodeSelector: foo-node # node affinity
+              # node affinity
+              nodeSelector:
+                # <LABEL-NAME>: <LABEL-VALUE>
+                node-role.kubernetes.io/master: ""
+              # toleration
+              tolerations:
+              - effect: NoSchedule
+                key: node-role.kubernetes.io/master
+              schedulerName: my-shiny-scheduler     # customized scheduler
+              containers:
+              - c1
+                # Expose Pod Information to Containers Through Environment Variables
+                env:
+                  - name: MY_NODE_NAME
+                    valueFrom:
+                      fieldRef:
+                        fieldPath: spec.nodeName
               ...
             ```
 * RamDisk
@@ -3284,6 +3368,8 @@ Objects such as lists and dictionaries are passed by object reference too, which
 * C/C++
 
     - [The GNU C Reference Manual - GNU.org](https://www.gnu.org/software/gnu-c-manual/gnu-c-manual.html)
+    - [Function Index (The GNU C Library)](https://www.gnu.org/software/libc/manual/html_node/Function-Index.html)
+    - [Linux System Call Table](https://thevivekpandey.github.io/posts/2017-09-25-linux-system-calls.html)
     - [Cprogramming.com: Learn C and C++ Programming](https://www.cprogramming.com/)
     - [C++ reference](https://en.cppreference.com/w/)
     - [cplusplus.com - The C++ Resources Network](http://www.cplusplus.com/)
