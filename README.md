@@ -592,12 +592,9 @@ A playground to note something.
         - check kubelet certificate directory
         
             - `/var/lib/kubelet/pki`: default of `kubelet --cert-dir`
-<<<<<<< HEAD
         - customized kubelet manifests directory
         
             - `--pod-manifest-path`
-||||||| merged common ancestors
-=======
         - service cidr
         
             - parameter: `--service-cluster-ip-range`
@@ -644,7 +641,6 @@ A playground to note something.
                             - very-important                            # add
                         topologyKey: kubernetes.io/hostname             # add
             ```
->>>>>>> f10690d1a64e1dfb44f50e8425c2e4cb12bc2715
         - Pod
         
             ```

@@ -584,17 +584,14 @@ Happy Coding!!
 * [[Easy] [Solution] 268. Missing Number](%5BEasy%5D%20%5BSolution%5D%20268.%20Missing%20Number.md)
 * [[Easy] [Solution] 160. Intersection of Two Linked Lists](%5BEasy%5D%20%5BSolution%5D%20160.%20Intersection%20of%20Two%20Linked%20Lists.md)
 * [[Easy] [Solution] 637. Average of Levels in Binary Tree](%5BEasy%5D%20%5BSolution%5D%20637.%20Average%20of%20Levels%20in%20Binary%20Tree.md)
-<<<<<<< HEAD
 * [[Medium] [Solution] 823. Binary Trees With Factors](%5BMedium%5D%20%5BSolution%5D%20823.%20Binary%20Trees%20With%20Factors.md)
-||||||| merged common ancestors
-=======
 * [[Easy] 706. Design HashMap](/%5BEasy%5D%20706.%20Design%20HashMap.md)
 * [[Easy] 1332. Remove Palindromic Subsequences](%5BEasy%5D%201332.%20Remove%20Palindromic%20Subsequences.md)
 * [[Medium] [Solution] 623. Add One Row to Tree](%5BMedium%5D%20%5BSolution%5D%20623.%20Add%20One%20Row%20to%20Tree.md)
 * [[Medium] 12. Integer to Roman](%5BMedium%5D%2012.%20Integer%20to%20Roman.md)
 * [[Medium] [Solution] 322. Coin Change](%5BMedium%5D%20%5BSolution%5D%20322.%20Coin%20Change.md)
 * [[Medium] 1461. Check If a String Contains All Binary Codes of Size K](%5BMedium%5D%201461.%20Check%20If%20a%20String%20Contains%20All%20Binary%20Codes%20of%20Size%20K.md)
->>>>>>> f10690d1a64e1dfb44f50e8425c2e4cb12bc2715
+* [[Medium] 1721. Swapping Nodes in a Linked List](%5BMedium%5D%201721.%20Swapping%20Nodes%20in%20a%20Linked%20List.md)
 
 ## Array <a name="array"></a>
 ---
@@ -13694,6 +13691,27 @@ class Solution:
         return tmp.next
 ```
 * [[Easy] 203. Remove Linked List Elements](%5BEasy%5D%20203.%20Remove%20Linked%20List%20Elements.md)
+
+### Two pointer, runner and walker
+```python
+# Definition for singly-linked list.
+# class ListNode:
+#     def __init__(self, val=0, next=None):
+#         self.val = val
+#         self.next = next
+class Solution:
+    def swapNodes(self, head: ListNode, k: int) -> ListNode:
+        walker = runner = head
+        for _ in range(k - 1):
+            runner = runner.next
+        first, runner = runner, runner.next
+        while runner:
+            walker = walker.next
+            runner = runner.next
+        walker.val, first.val = first.val, walker.val
+        return head
+```
+* [[Medium] 1721. Swapping Nodes in a Linked List](%5BMedium%5D%201721.%20Swapping%20Nodes%20in%20a%20Linked%20List.md)
 
 ### Linked List, Greedy
 ```python
