@@ -592,6 +592,7 @@ Happy Coding!!
 * [[Medium] [Solution] 322. Coin Change](%5BMedium%5D%20%5BSolution%5D%20322.%20Coin%20Change.md)
 * [[Medium] 1461. Check If a String Contains All Binary Codes of Size K](%5BMedium%5D%201461.%20Check%20If%20a%20String%20Contains%20All%20Binary%20Codes%20of%20Size%20K.md)
 * [[Medium] 1721. Swapping Nodes in a Linked List](%5BMedium%5D%201721.%20Swapping%20Nodes%20in%20a%20Linked%20List.md)
+* [[Medium] 535. Encode and Decode TinyURL](%5BMedium%5D%20535.%20Encode%20and%20Decode%20TinyURL.md)
 
 ## Array <a name="array"></a>
 ---
@@ -7117,6 +7118,34 @@ class Solution:
         return (B - A).pop()
 ```
 * [[Easy] 1436. Destination City](%5BEasy%5D%201436.%20Destination%20City.md)
+
+### Hash table to counter
+```python
+class Codec:
+    def __init__(self):
+        self.url_map = {}
+        self.count = 1
+
+    def encode(self, longUrl: str) -> str:
+        """Encodes a URL to a shortened URL.
+        """
+        if self.url_map.get(longUrl):
+            return
+        self.url_map[self.count] = longUrl
+        self.count += 1
+
+        return self.count - 1
+
+    def decode(self, shortUrl: str) -> str:
+        """Decodes a shortened URL to its original URL.
+        """
+        return self.url_map[int(shortUrl)]
+
+# Your Codec object will be instantiated and called as such:
+# codec = Codec()
+# codec.decode(codec.encode(url))
+```
+* [[Medium] 535. Encode and Decode TinyURL](%5BMedium%5D%20535.%20Encode%20and%20Decode%20TinyURL.md)
 
 ### Counter
 ```python
