@@ -593,6 +593,7 @@ Happy Coding!!
 * [[Medium] 1461. Check If a String Contains All Binary Codes of Size K](%5BMedium%5D%201461.%20Check%20If%20a%20String%20Contains%20All%20Binary%20Codes%20of%20Size%20K.md)
 * [[Medium] 1721. Swapping Nodes in a Linked List](%5BMedium%5D%201721.%20Swapping%20Nodes%20in%20a%20Linked%20List.md)
 * [[Medium] 535. Encode and Decode TinyURL](%5BMedium%5D%20535.%20Encode%20and%20Decode%20TinyURL.md)
+* [[Medium] [Solution] 714. Best Time to Buy and Sell Stock with Transaction Fee](%5BMedium%5D%20%5BSolution%5D%20714.%20Best%20Time%20to%20Buy%20and%20Sell%20Stock%20with%20Transaction%20Fee.md)
 
 ## Array <a name="array"></a>
 ---
