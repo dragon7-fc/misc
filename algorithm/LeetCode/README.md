@@ -594,6 +594,7 @@ Happy Coding!!
 * [[Medium] 1721. Swapping Nodes in a Linked List](%5BMedium%5D%201721.%20Swapping%20Nodes%20in%20a%20Linked%20List.md)
 * [[Medium] 535. Encode and Decode TinyURL](%5BMedium%5D%20535.%20Encode%20and%20Decode%20TinyURL.md)
 * [[Medium] [Solution] 714. Best Time to Buy and Sell Stock with Transaction Fee](%5BMedium%5D%20%5BSolution%5D%20714.%20Best%20Time%20to%20Buy%20and%20Sell%20Stock%20with%20Transaction%20Fee.md)
+* [[Medium] 478. Generate Random Point in a Circle](%5BMedium%5D%20478.%20Generate%20Random%20Point%20in%20a%20Circle.md)
 
 ## Array <a name="array"></a>
 ---
@@ -4776,18 +4777,15 @@ class Solution:
 class Solution:
 
     def __init__(self, radius: float, x_center: float, y_center: float):
-        self.r = radius
-        self.x = x_center
-        self.y = y_center
+        self.radius = radius
+        self.x_center = x_center
+        self.y_center = y_center
+        self.MAX_AREA = math.pi * self.radius**2
 
     def randPoint(self) -> List[float]:
-        r = (self.randomize(0, math.pi * self.r ** 2) / math.pi) ** 0.5
-        theta = self.randomize(0, 2 * math.pi)
-        return [self.x + r * math.cos(theta), self.y + r * math.sin(theta)]
-
-
-    def randomize(self,a,b):
-        return random.uniform(a, b)
+        r = (random.uniform(0, self.MAX_AREA) / math.pi) ** 0.5
+        theta = random.uniform(0, 2 * math.pi)
+        return [self.x_center + r * math.cos(theta), self.y_center + r * math.sin(theta)]
 
 
 # Your Solution object will be instantiated and called as such:

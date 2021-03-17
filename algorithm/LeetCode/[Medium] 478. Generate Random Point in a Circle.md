@@ -67,25 +67,22 @@ x = yx + ysin(theta)
 where theta is a random angle in radius (at most 2 pi = 360 deg)
 
 ```
-Runtime: 160 ms
-Memory Usage: 23.1 MB
+Runtime: 148 ms
+Memory Usage: 24.5 MB
 ```
 ```python
 class Solution:
 
     def __init__(self, radius: float, x_center: float, y_center: float):
-        self.r = radius
-        self.x = x_center
-        self.y = y_center
+        self.radius = radius
+        self.x_center = x_center
+        self.y_center = y_center
+        self.MAX_AREA = math.pi * self.radius**2
 
     def randPoint(self) -> List[float]:
-        r = (self.randomize(0, math.pi * self.r ** 2) / math.pi) ** 0.5
-        theta = self.randomize(0, 2 * math.pi)
-        return [self.x + r * math.cos(theta), self.y + r * math.sin(theta)]
-        
-
-    def randomize(self,a,b):
-        return random.uniform(a, b)
+        r = (random.uniform(0, self.MAX_AREA) / math.pi) ** 0.5
+        theta = random.uniform(0, 2 * math.pi)
+        return [self.x_center + r * math.cos(theta), self.y_center + r * math.sin(theta)]
 
 
 # Your Solution object will be instantiated and called as such:
