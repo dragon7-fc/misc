@@ -595,6 +595,8 @@ Happy Coding!!
 * [[Medium] 535. Encode and Decode TinyURL](%5BMedium%5D%20535.%20Encode%20and%20Decode%20TinyURL.md)
 * [[Medium] [Solution] 714. Best Time to Buy and Sell Stock with Transaction Fee](%5BMedium%5D%20%5BSolution%5D%20714.%20Best%20Time%20to%20Buy%20and%20Sell%20Stock%20with%20Transaction%20Fee.md)
 * [[Medium] 478. Generate Random Point in a Circle](%5BMedium%5D%20478.%20Generate%20Random%20Point%20in%20a%20Circle.md)
+* [[Medium] [Solution] 376. Wiggle Subsequence](%5BMedium%5D%20%5BSolution%5D%20376.%20Wiggle%20Subsequence.md)
+* [[Medium] [Solution] 841. Keys and Rooms](%5BMedium%5D%20%5BSolution%5D%20841.%20Keys%20and%20Rooms.md)
 
 ## Array <a name="array"></a>
 ---
@@ -2601,6 +2603,22 @@ class Solution:
                     return dfs(i+1, False)
 
         return max(dfs(0, True), dfs(0, False))
+
+class Solution:
+    def wiggleMaxLength(self, nums: List[int]) -> int:
+        N = len(nums)
+        if N < 2:
+            return N
+
+        prevdiff = nums[1] - nums[0];
+        count = 2 if prevdiff != 0 else 1
+        for i in range(2, N):
+            diff = nums[i] - nums[i - 1]
+            if ((diff > 0 and prevdiff <= 0) or (diff < 0 and prevdiff >= 0)):
+                count += 1
+                prevdiff = diff
+
+        return count
 ```
 * [[Medium] [Solution] 376. Wiggle Subsequence](%5BMedium%5D%20%5BSolution%5D%20376.%20Wiggle%20Subsequence.md)
 
