@@ -598,6 +598,7 @@ Happy Coding!!
 * [[Medium] [Solution] 376. Wiggle Subsequence](%5BMedium%5D%20%5BSolution%5D%20376.%20Wiggle%20Subsequence.md)
 * [[Medium] [Solution] 841. Keys and Rooms](%5BMedium%5D%20%5BSolution%5D%20841.%20Keys%20and%20Rooms.md)
 * [[Medium] 1396. Design Underground System](%5BMedium%5D%201396.%20Design%20Underground%20System.md)
+* [[Medium] [Solution] 869. Reordered Power of 2](%5BMedium%5D%20%5BSolution%5D%20869.%20Reordered%20Power%20of%202.md)
 
 ## Array <a name="array"></a>
 ---
@@ -4929,7 +4930,7 @@ class Solution:
 ```
 * [[Medium] [Solution] 866. Prime Palindrome](%5BMedium%5D%20%5BSolution%5D%20866.%20Prime%20Palindrome.md)
 
-### Power of 2
+### Counting, search from candidate answer
 ```python
 class Solution:
     def reorderedPowerOf2(self, N: int) -> bool:
