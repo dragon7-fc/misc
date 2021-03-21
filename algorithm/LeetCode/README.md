@@ -597,6 +597,7 @@ Happy Coding!!
 * [[Medium] 478. Generate Random Point in a Circle](%5BMedium%5D%20478.%20Generate%20Random%20Point%20in%20a%20Circle.md)
 * [[Medium] [Solution] 376. Wiggle Subsequence](%5BMedium%5D%20%5BSolution%5D%20376.%20Wiggle%20Subsequence.md)
 * [[Medium] [Solution] 841. Keys and Rooms](%5BMedium%5D%20%5BSolution%5D%20841.%20Keys%20and%20Rooms.md)
+* [[Medium] 1396. Design Underground System](%5BMedium%5D%201396.%20Design%20Underground%20System.md)
 
 ## Array <a name="array"></a>
 ---
@@ -7135,6 +7136,39 @@ class Solution:
         return (B - A).pop()
 ```
 * [[Easy] 1436. Destination City](%5BEasy%5D%201436.%20Destination%20City.md)
+
+### 2 hash table
+```python
+class UndergroundSystem:
+
+    def __init__(self):
+        self.check = {}
+        self.time = {}
+
+    def checkIn(self, id: int, stationName: str, t: int) -> None:
+        self.check[id] = (stationName,t)
+
+    def checkOut(self, id: int, stationName: str, t: int) -> None:
+        prevstation, prevt = self.check[id]
+        time = t-prevt
+        if (prevstation,stationName) in self.time:
+            totaltime,stationN = self.time[(prevstation,stationName)]
+            self.time[(prevstation,stationName)] = (totaltime+time,stationN+1)
+        else:
+            self.time[(prevstation,stationName)] = (time,1)
+
+    def getAverageTime(self, startStation: str, endStation: str) -> float:
+        totaltime,stationN = self.time[(startStation,endStation)]
+        return totaltime/stationN
+
+
+# Your UndergroundSystem object will be instantiated and called as such:
+# obj = UndergroundSystem()
+# obj.checkIn(id,stationName,t)
+# obj.checkOut(id,stationName,t)
+# param_3 = obj.getAverageTime(startStation,endStation)
+```
+* [[Medium] 1396. Design Underground System](%5BMedium%5D%201396.%20Design%20Underground%20System.md)
 
 ### Hash table to counter
 ```python
