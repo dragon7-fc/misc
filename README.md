@@ -209,7 +209,7 @@ A playground to note something.
 
     |             | command                                                               |
     |-------------|-----------------------------------------------------------------------|
-    | edit binary | `vi -b [FILE] ` -> `:%!xxd` -> edit binary... -> `:%!xxd -r` -> `:wq` |
+    | edit binary | `vi -b [FILE] ` -> `:%!xxd -g1` -> edit binary... -> `:%!xxd -r` -> `:wq` |
 * Vim
 
     - [Vim Cheatsheet](https://alejandrodev.com/vim)

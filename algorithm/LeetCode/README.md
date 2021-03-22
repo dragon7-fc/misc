@@ -599,6 +599,7 @@ Happy Coding!!
 * [[Medium] [Solution] 841. Keys and Rooms](%5BMedium%5D%20%5BSolution%5D%20841.%20Keys%20and%20Rooms.md)
 * [[Medium] 1396. Design Underground System](%5BMedium%5D%201396.%20Design%20Underground%20System.md)
 * [[Medium] [Solution] 869. Reordered Power of 2](%5BMedium%5D%20%5BSolution%5D%20869.%20Reordered%20Power%20of%202.md)
+* [[Medium] [Solution] 966. Vowel Spellchecker](%5BMedium%5D%20%5BSolution%5D%20966.%20Vowel%20Spellchecker.md)
 
 ## Array <a name="array"></a>
 ---
@@ -6116,7 +6117,7 @@ class Solution:
 ```
 * [[Medium] [Solution] 890. Find and Replace Pattern](%5BMedium%5D%20%5BSolution%5D%20890.%20Find%20and%20Replace%20Pattern.md)
 
-### HashMap
+### HashMap, map candidate and answer to the same entry
 ```python
 class Solution:
     def spellchecker(self, wordlist: List[str], queries: List[str]) -> List[str]:
