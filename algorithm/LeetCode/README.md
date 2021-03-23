@@ -600,6 +600,7 @@ Happy Coding!!
 * [[Medium] 1396. Design Underground System](%5BMedium%5D%201396.%20Design%20Underground%20System.md)
 * [[Medium] [Solution] 869. Reordered Power of 2](%5BMedium%5D%20%5BSolution%5D%20869.%20Reordered%20Power%20of%202.md)
 * [[Medium] [Solution] 966. Vowel Spellchecker](%5BMedium%5D%20%5BSolution%5D%20966.%20Vowel%20Spellchecker.md)
+* [[Medium] [Solution] 923. 3Sum With Multiplicity](%5BMedium%5D%20%5BSolution%5D%20923.%203Sum%20With%20Multiplicity.md)
 
 ## Array <a name="array"></a>
 ---
