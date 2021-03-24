@@ -601,6 +601,7 @@ Happy Coding!!
 * [[Medium] [Solution] 869. Reordered Power of 2](%5BMedium%5D%20%5BSolution%5D%20869.%20Reordered%20Power%20of%202.md)
 * [[Medium] [Solution] 966. Vowel Spellchecker](%5BMedium%5D%20%5BSolution%5D%20966.%20Vowel%20Spellchecker.md)
 * [[Medium] [Solution] 923. 3Sum With Multiplicity](%5BMedium%5D%20%5BSolution%5D%20923.%203Sum%20With%20Multiplicity.md)
+* [[Medium] [Solution] 870. Advantage Shuffle](%5BMedium%5D%20%5BSolution%5D%20870.%20Advantage%20Shuffle.md)
 
 ## Array <a name="array"></a>
 ---
@@ -9996,7 +9997,7 @@ class Solution:
 ```
 * [[Medium] [Solution] 714. Best Time to Buy and Sell Stock with Transaction Fee](%5BMedium%5D%20%5BSolution%5D%20714.%20Best%20Time%20to%20Buy%20and%20Sell%20Stock%20with%20Transaction%20Fee.md)
 
-### Sort
+### Hash table, Sort and remaining
 ```python
 class Solution:
     def advantageCount(self, A: List[int], B: List[int]) -> List[int]:
