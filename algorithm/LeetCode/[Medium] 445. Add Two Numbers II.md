@@ -16,47 +16,7 @@ Output: 7 -> 8 -> 0 -> 7
 
 # Submissions
 ---
-**Solution 1: (Stack, Linked List)**
-```
-Runtime: 76 ms
-Memory Usage: 13.9 MB
-```
-```python
-# Definition for singly-linked list.
-# class ListNode:
-#     def __init__(self, x):
-#         self.val = x
-#         self.next = None
-
-class Solution:
-    def addTwoNumbers(self, l1: ListNode, l2: ListNode) -> ListNode:
-        cur = l1
-        num1, num2 = 0, 0
-        stack = []
-        
-        while cur:
-            num1 = num1*10 + cur.val
-            cur = cur.next
-            
-        cur = l2
-        while cur:
-            num2 = num2*10 + cur.val
-            cur = cur.next
-        
-        sum_ = num1+num2
-        while sum_ >= 10:
-            sum_, mod = divmod(sum_, 10)
-            stack.append(ListNode(mod))
-        stack.append(ListNode(sum_))
-        
-        if len(stack) >= 2:
-            for i in range(len(stack)-1, 0, -1):
-                stack[i].next = stack[i-1]
-            
-        return stack[-1]
-```
-
-**Solution 2: (String, Stack, Linked List)**
+**Solution 1: (String, Stack, Linked List)**
 ```
 Runtime: 64 ms
 Memory Usage: 14.1 MB

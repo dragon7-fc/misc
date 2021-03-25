@@ -31,7 +31,7 @@ Return:
 
 # Submissions
 ---
-**Solution 1: (DFS)**
+**Solution 1: (DFS, question transform, from side to center)**
 ```
 Runtime: 280 ms
 Memory Usage: 16.2 MB
@@ -71,7 +71,7 @@ class Solution:
         return list(p_visited & a_visited)
 ```
 
-**Solution 2: (BFS)**
+**Solution 2: (BFS, question transform, from side to center)**
 ```
 Runtime: 316 ms
 Memory Usage: 14.1 MB
