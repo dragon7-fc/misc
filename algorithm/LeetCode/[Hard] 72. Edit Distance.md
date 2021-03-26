@@ -99,8 +99,8 @@ class Solution:
             if word1[i] == word2[j]:
                 return dp(i+1, j+1)           # Nothing to do 
             else:
-                return min( dp(i+1, j)+1,     # Word1[i] Insert
-                            dp(i, j+1)+1,     # Word1[i] Delete
+                return min( dp(i+1, j)+1,     # Word1[i] Delete
+                            dp(i, j+1)+1,     # Word1[i] Insert
                             dp(i+1, j+1)+1 )  # Word1[i] Replace 
 
         return dp(0, 0)

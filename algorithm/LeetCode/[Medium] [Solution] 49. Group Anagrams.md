@@ -81,7 +81,7 @@ class Solution:
 
 # Submissions
 ---
-**Solution: (Categorize by Sorted String)**
+**Solution 1: (Categorize by Sorted String)**
 ```
 Runtime: 108 ms
 Memory Usage: 17.9 MB
@@ -95,7 +95,7 @@ class Solution:
         return ans.values()
 ```
 
-**Solution: (Categorize by Count)**
+**Solution 2: (Categorize by Count)**
 ```
 Runtime: 224 ms
 Memory Usage: 19.3 MB
@@ -111,4 +111,29 @@ class Solution:
             ans[tuple(count)].append(s)
             
         return ans.values()
+```
+
+**Solution 3: (Set)**
+```
+Runtime: 28 ms
+Memory Usage: 20.5 MB
+```
+```c++
+class Solution {
+public:
+    vector<vector<string>> groupAnagrams(vector<string>& strs) {
+        unordered_map<string,vector<string>>m;
+        string temp;
+        for(auto i=0;i<strs.size();i++){
+            temp = strs[i];
+            sort(strs[i].begin(),strs[i].end());
+            m[strs[i]].push_back(temp);
+        }
+        vector<vector<string>>ans;
+        for(auto i:m){
+            ans.push_back(i.second);
+        }
+        return ans;
+    }
+};
 ```

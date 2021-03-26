@@ -136,3 +136,33 @@ class Solution:
                 right = mid
         return arr[left : left + k]
 ```
+
+**Solution 3: (Queue)**
+```
+Runtime: 24 ms
+Memory Usage: 31.8 MB
+```
+```python
+class Solution {
+public:
+    vector<int> findClosestElements(vector<int>& arr, int k, int x) {
+        deque<int> closest;
+        
+        for(int i = 0; i < arr.size(); ++i){
+            closest.push_back(arr[i]);
+            while(closest.size() > k) {
+                int front = abs(closest.front() - x);
+                int back = abs(closest.back() - x);
+                
+                if(front < back || (front == back && closest.front() < closest.back())){
+                    closest.pop_back();
+                } else {
+                    closest.pop_front();
+                }
+            }
+        }
+        
+        return vector<int>(begin(closest),end(closest));
+    }
+};
+```

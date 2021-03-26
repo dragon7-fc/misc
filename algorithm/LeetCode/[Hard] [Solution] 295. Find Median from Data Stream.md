@@ -435,7 +435,7 @@ class MedianFinder:
 # param_2 = obj.findMedian()
 ```
 
-**Solution 3: (Two Heaps)**
+**Solution 3: (Two Heaps, Min and Max Heap)**
 ```
 Runtime: 212 ms
 Memory Usage: 23.6 MB
@@ -498,4 +498,63 @@ class MedianFinder:
 # obj = MedianFinder()
 # obj.addNum(num)
 # param_2 = obj.findMedian()
+```
+
+**Solution 5: (Heap)**
+```
+Runtime: 84 ms
+Memory Usage: 46.8 MB
+```
+```c++
+class MedianFinder {
+public:
+    /** initialize your data structure here. */
+    MedianFinder() {
+        
+    }
+    
+    void addNum(int num) {
+        const size_t total_size = smaller_.size() + greater_.size();
+        if (total_size == 0) {
+            greater_.push(num);
+            return;
+        }
+        
+        if (num >= findMedian()) {
+            greater_.push(num);
+        } else {
+            smaller_.push(num);
+        }
+        
+        if (greater_.size() > smaller_.size() + 1) {
+            smaller_.push(greater_.top());
+            greater_.pop();
+        }
+        if (smaller_.size() > greater_.size()) {
+            greater_.push(smaller_.top());
+            smaller_.pop();
+        }
+    }
+    
+    double findMedian() {
+        const size_t total_size = smaller_.size() + greater_.size();
+        if (total_size == 0) return 0;
+        
+        if (total_size % 2 == 1) {
+            return greater_.top();
+        }
+		
+        return (static_cast<double>(smaller_.top()) +
+                static_cast<double>(greater_.top())) / 2;
+    }
+    std::priority_queue<int, std::vector<int>, std::greater<int>> greater_;  // Greater half values
+    std::priority_queue<int> smaller_;  // // Smaller half values
+};
+
+/**
+ * Your MedianFinder object will be instantiated and called as such:
+ * MedianFinder* obj = new MedianFinder();
+ * obj->addNum(num);
+ * double param_2 = obj->findMedian();
+ */
 ```
