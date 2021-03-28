@@ -24,22 +24,22 @@ Output: "45"
 
 # Submissions
 ---
-**Solution 1: (Math, Greedy)**
+**Solution 1: (Hash Table)**
 ```
-Runtime: 84 ms
-Memory Usage: 12.8 MB
+Runtime: 44 ms
+Memory Usage: 14.6 MB
 ```
 ```python
 class Solution:
     def originalDigits(self, s: str) -> str:
         names = [('zero','z','0'),('two','w','2'),('four','u','4'),('six','x','6'),('eight','g','8'),('one','o','1'),('three','t','3'),\
                  ('five','f','5'),('seven','s','7'),('nine','i','9')]
-        chars,result = [0]*26,[]
-        for char in s: chars[ord(char) - ord('a')] += 1
-        for name in names: 
-            count = chars[ord(name[1]) - ord('a')]
+        result = []
+        cnt = collections.Counter(s)
+        for name in names:
+            count = cnt[name[1]]
             if not count: continue
-            for char in name[0]: chars[ord(char) - ord('a')] -= count
+            for c in name[0]: cnt[c] -= count
             result.append(name[2]*count)
         return ''.join(sorted(result))
 ```

@@ -89,7 +89,7 @@ public int[] twoSum(int[] nums, int target) {
 
 # Submissions
 ---
-**Solution: (Hash Table)**
+**Solution 1: (Hash Table)**
 ```
 Runtime: 60 ms
 Memory Usage: 15.2 MB
@@ -103,4 +103,26 @@ class Solution:
                 return [i, sum_dict[target-nums[i]]]
             else:
                 sum_dict[nums[i]] = i
+```
+
+**Solution 2: (Hash Table)**
+```
+Runtime: 4 ms
+Memory Usage: 8.9 MB
+```
+```c++
+class Solution {
+public:
+    vector<int> twoSum(vector<int>& nums, int target) {
+        unordered_map<int,int> m;
+        for(int i = 0; i <nums.size(); i++)
+        {
+            if(m.find(target - nums[i]) != m.end())
+                return {m[target - nums[i]],i};
+        else
+            m[nums[i]] = i;
+        }
+        return {0,0};
+    }
+};
 ```

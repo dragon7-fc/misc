@@ -317,7 +317,7 @@ class Solution:
 
 # Submissions
 ---
-**Solution:**
+**Solution 1: (Recursive Approach)**
 ```
 Runtime: 80 ms
 Memory Usage: 25.8 MB
@@ -364,7 +364,7 @@ class Solution:
         return self.ans
 ```
 
-**Solution:**
+**Solution 2: (Iterative using parent pointers)**
 ```
 Runtime: 72 ms
 Memory Usage: 16.6 MB

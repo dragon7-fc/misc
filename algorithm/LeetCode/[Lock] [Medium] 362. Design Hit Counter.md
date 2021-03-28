@@ -74,3 +74,54 @@ class HitCounter:
 # obj.hit(timestamp)
 # param_2 = obj.getHits(timestamp)
 ```
+
+**Solution 2: (Queue)**
+```
+Runtime: 4 ms
+Memory Usage: 7.4 MB
+```
+```c++
+class HitCounter {
+    queue<pair<int, int>> hits;
+    int total = 0;
+public:
+    /** Initialize your data structure here. */
+    HitCounter() {
+        
+    }
+    
+    /** Record a hit.
+        @param timestamp - The current timestamp (in seconds granularity). */
+    void hit(int timestamp) {
+        if(hits.empty() || hits.back().first != timestamp)
+            hits.push({timestamp, 1});
+        
+        else hits.back().second++;
+        
+        total++;
+    }
+    
+    /** Return the number of hits in the past 5 minutes.
+        @param timestamp - The current timestamp (in seconds granularity). */
+    int getHits(int timestamp) {
+        while(!hits.empty()){
+            int diff = timestamp - hits.front().first;
+            if(diff >= 300){
+                total -= hits.front().second;
+                hits.pop();
+            }
+            
+            else break;
+        }   
+        
+        return total;
+    }
+};
+
+/**
+ * Your HitCounter object will be instantiated and called as such:
+ * HitCounter* obj = new HitCounter();
+ * obj->hit(timestamp);
+ * int param_2 = obj->getHits(timestamp);
+ */
+```

@@ -57,3 +57,58 @@ class Solution:
         
         return copy_dict[head]
 ```
+
+**Solution 2: (Hash Table, Linked List)**
+```
+Runtime: 8 ms
+Memory Usage: 11.1 MB
+```
+```c++
+/*
+// Definition for a Node.
+class Node {
+public:
+    int val;
+    Node* next;
+    Node* random;
+    
+    Node(int _val) {
+        val = _val;
+        next = NULL;
+        random = NULL;
+    }
+};
+*/
+
+class Solution {
+public:
+    Node* copyRandomList(Node* head) {
+        Node* newHead = nullptr;
+        auto node = head;
+        unordered_map<Node*, Node*> old2NewHash;
+        
+        //copy node
+        Node* pre = nullptr;
+        while(node) {
+            Node* copy = new Node(node->val);
+            old2NewHash[node] = copy;
+            if(!newHead)
+                newHead = copy;
+           if(pre)
+               pre->next = copy;
+            node = node->next;
+            pre = copy;
+        }
+        
+        // fill random 
+        node = head;
+        Node* newNode = newHead;
+        while(node) {
+            newNode->random = old2NewHash[node->random];
+            node = node->next;
+            newNode = newNode->next;
+        }
+        return newHead;
+    }
+};
+```

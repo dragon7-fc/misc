@@ -75,10 +75,49 @@ class Solution:
                 dfs(v, u)
 
         dfs(0, -1)
-        return self.res
+        return self.res            
+```
+
+**Solution 2: (DFS)**
+```
+Runtime: 428 ms
+Memory Usage: 113.9 MB
+```
+```c++
+class Solution {
+public:
+    int minReorder(int n, vector<vector<int>>& connections) {
+        // build undirected graph
+        vector<vector<int>> graph(n);
+        for(auto& conn : connections) {
+            graph[conn[0]].push_back(conn[1]);
+            graph[conn[1]].push_back(conn[0]);
+        }
         
+        // set
+        set<vector<int>> conn_set(connections.begin(), connections.end());
+        
+        // dfs
+        int ans = 0;
+        vector<bool> visited(n);
+        dfs(graph, conn_set, visited, 0, ans);
+        
+        return ans;
+    }
     
+    void dfs(vector<vector<int>>& graph, set<vector<int>>& conn_set, vector<bool>& visited, int cur, int& ans) {
+        if(visited[cur]) return;
         
-        
-                    
+        visited[cur] = true;
+
+        for(int next : graph[cur]) {          
+            if(!visited[next]) {
+                if(conn_set.count({cur, next})) {
+                    ans += 1;
+                }
+                dfs(graph, conn_set, visited, next, ans);
+            }
+        }
+    }
+};
 ```

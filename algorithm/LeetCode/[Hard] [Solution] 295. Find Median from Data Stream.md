@@ -447,8 +447,8 @@ class MedianFinder:
         """
         initialize your data structure here.
         """
-        self.lo = []
-        self.hi = []
+        self.lo = []  // max heap
+        self.hi = []  // min heap
 
     def addNum(self, num: int) -> None:
         heapq.heappush(self.lo, -num)
@@ -500,13 +500,16 @@ class MedianFinder:
 # param_2 = obj.findMedian()
 ```
 
-**Solution 5: (Heap)**
+**Solution 5: (Two Heaps)**
 ```
-Runtime: 84 ms
+Runtime: 108 ms
 Memory Usage: 46.8 MB
 ```
 ```c++
 class MedianFinder {
+    priority_queue<int> lo;                              // max heap
+    priority_queue<int, vector<int>, greater<int>> hi;   // min heap
+    
 public:
     /** initialize your data structure here. */
     MedianFinder() {
@@ -514,41 +517,20 @@ public:
     }
     
     void addNum(int num) {
-        const size_t total_size = smaller_.size() + greater_.size();
-        if (total_size == 0) {
-            greater_.push(num);
-            return;
-        }
-        
-        if (num >= findMedian()) {
-            greater_.push(num);
-        } else {
-            smaller_.push(num);
-        }
-        
-        if (greater_.size() > smaller_.size() + 1) {
-            smaller_.push(greater_.top());
-            greater_.pop();
-        }
-        if (smaller_.size() > greater_.size()) {
-            greater_.push(smaller_.top());
-            smaller_.pop();
+        lo.push(num);                                    // Add to max heap
+
+        hi.push(lo.top());                               // balancing step
+        lo.pop();
+
+        if (lo.size() < hi.size()) {                     // maintain size property
+            lo.push(hi.top());
+            hi.pop();
         }
     }
     
     double findMedian() {
-        const size_t total_size = smaller_.size() + greater_.size();
-        if (total_size == 0) return 0;
-        
-        if (total_size % 2 == 1) {
-            return greater_.top();
-        }
-		
-        return (static_cast<double>(smaller_.top()) +
-                static_cast<double>(greater_.top())) / 2;
+        return lo.size() > hi.size() ? lo.top() : ((double) lo.top() + hi.top()) * 0.5;
     }
-    std::priority_queue<int, std::vector<int>, std::greater<int>> greater_;  // Greater half values
-    std::priority_queue<int> smaller_;  // // Smaller half values
 };
 
 /**

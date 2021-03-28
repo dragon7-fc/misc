@@ -95,7 +95,7 @@ class Solution(object):
 
 # Submissions
 ---
-**Solution: (Read and Write Heads, Greedy)**
+**Solution: (Read and Write Heads, Greedy, Three pointers: read, write and range start)**
 ```
 Runtime: 64 ms
 Memory Usage: 13.9 MB

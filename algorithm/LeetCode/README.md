@@ -602,6 +602,7 @@ Happy Coding!!
 * [[Medium] [Solution] 966. Vowel Spellchecker](%5BMedium%5D%20%5BSolution%5D%20966.%20Vowel%20Spellchecker.md)
 * [[Medium] [Solution] 923. 3Sum With Multiplicity](%5BMedium%5D%20%5BSolution%5D%20923.%203Sum%20With%20Multiplicity.md)
 * [[Medium] [Solution] 870. Advantage Shuffle](%5BMedium%5D%20%5BSolution%5D%20870.%20Advantage%20Shuffle.md)
+* [[Medium] 423. Reconstruct Original Digits from English](%5BMedium%5D%20423.%20Reconstruct%20Original%20Digits%20from%20English.md)
 
 ## Array <a name="array"></a>
 ---
@@ -7140,6 +7141,23 @@ class Solution:
         return (B - A).pop()
 ```
 * [[Easy] 1436. Destination City](%5BEasy%5D%201436.%20Destination%20City.md)
+
+### feature set Hash Table
+```python
+class Solution:
+    def originalDigits(self, s: str) -> str:
+        names = [('zero','z','0'),('two','w','2'),('four','u','4'),('six','x','6'),('eight','g','8'),('one','o','1'),('three','t','3'),\
+                 ('five','f','5'),('seven','s','7'),('nine','i','9')]
+        result = []
+        cnt = collections.Counter(s)
+        for name in names:
+            count = cnt[name[1]]
+            if not count: continue
+            for c in name[0]: cnt[c] -= count
+            result.append(name[2]*count)
+        return ''.join(sorted(result))
+```
+* [[Medium] 423. Reconstruct Original Digits from English](%5BMedium%5D%20423.%20Reconstruct%20Original%20Digits%20from%20English.md)
 
 ### 2 hash table
 ```python

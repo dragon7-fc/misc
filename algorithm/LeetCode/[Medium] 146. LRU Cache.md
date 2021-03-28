@@ -67,3 +67,63 @@ class LRUCache:
 # param_1 = obj.get(key)
 # obj.put(key,value)
 ```
+
+**Solution 2: (List, Hash Table)**
+```
+Runtime: 384 ms
+Memory Usage: 41.9 MB
+```
+```c++
+class LRUCache {
+public:
+    list<int>  lru_key;
+    //LRU map with integer key and value
+    unordered_map<int, int> lru;
+    int capacity;
+    
+    LRUCache(int capacity) {
+        this->capacity = capacity;
+        lru.clear();
+    }
+    
+    int get(int key) {
+        if(lru.count(key)>0)
+        {
+            lru_key.remove(key);
+            lru_key.push_front(key);
+            return lru[key];
+        }
+        else
+            return -1;
+    }
+    
+    void put(int key, int value) {
+        if(lru.count(key)>0)
+        {
+            lru[key] = value;
+            lru_key.remove(key);
+            lru_key.push_front(key);
+        }
+        else if(lru.size()>=capacity)
+        {   
+            lru.erase(lru_key.back());
+            lru_key.pop_back();
+            
+            lru.insert({key,value});
+            lru_key.push_front(key);
+        }
+        else
+        {
+            lru.insert({key,value});
+            lru_key.push_front(key);
+        }  
+    }
+};
+
+/**
+ * Your LRUCache object will be instantiated and called as such:
+ * LRUCache* obj = new LRUCache(capacity);
+ * int param_1 = obj->get(key);
+ * obj->put(key,value);
+ */
+```

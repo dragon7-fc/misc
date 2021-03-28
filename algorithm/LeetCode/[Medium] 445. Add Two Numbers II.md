@@ -1,6 +1,5 @@
 445. Add Two Numbers II
 
-Share
 You are given two **non-empty** linked lists representing two non-negative integers. The most significant digit comes first and each of their nodes contain a single digit. Add the two numbers and return it as a linked list.
 
 You may assume the two numbers do not contain any leading zero, except the number 0 itself.
@@ -16,7 +15,7 @@ Output: 7 -> 8 -> 0 -> 7
 
 # Submissions
 ---
-**Solution 1: (String, Stack, Linked List)**
+**Solution 1: (String, Linked List)**
 ```
 Runtime: 64 ms
 Memory Usage: 14.1 MB

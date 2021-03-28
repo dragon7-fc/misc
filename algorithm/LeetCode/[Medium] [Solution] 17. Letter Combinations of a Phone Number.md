@@ -129,3 +129,105 @@ class Solution:
             backtrack("", digits)
         return output
 ```
+
+**Solution 2: (Backtracking)**
+```
+Runtime: 32 ms
+Memory Usage: 14.4 MB
+```
+```python
+class Solution:
+    def letterCombinations(self, digits: str) -> List[str]:
+        # If the input is empty, immediately return an empty answer array
+        if len(digits) == 0: 
+            return []
+        
+        # Map all the digits to their corresponding letters
+        letters = {"2": "abc", "3": "def", "4": "ghi", "5": "jkl", 
+                   "6": "mno", "7": "pqrs", "8": "tuv", "9": "wxyz"}
+        
+        def backtrack(index, path):
+            # If the path is the same length as digits, we have a complete combination
+            if len(path) == len(digits):
+                combinations.append("".join(path))
+                return # Backtrack
+            
+            # Get the letters that the current digit maps to, and loop through them
+            possible_letters = letters[digits[index]]
+            for letter in possible_letters:
+                # Add the letter to our current path
+                path.append(letter)
+                # Move on to the next digit
+                backtrack(index + 1, path)
+                # Backtrack by removing the letter before moving onto the next
+                path.pop()
+
+        # Initiate backtracking with an empty path and starting index of 0
+        combinations = []
+        backtrack(0, [])
+        return combinations
+```
+
+**Solution 3: (itertools)**
+```
+Runtime: 24 ms
+Memory Usage: 14.2 MB
+```
+```python
+class Solution:
+    def letterCombinations(self, digits: str) -> List[str]:
+        if not digits: return []
+        phone = {'2': ['a', 'b', 'c'],
+                 '3': ['d', 'e', 'f'],
+                 '4': ['g', 'h', 'i'],
+                 '5': ['j', 'k', 'l'],
+                 '6': ['m', 'n', 'o'],
+                 '7': ['p', 'q', 'r', 's'],
+                 '8': ['t', 'u', 'v'],
+                 '9': ['w', 'x', 'y', 'z']}
+        letters = list(map(lambda d: phone[d], digits))
+        return [''.join(p) for p in itertools.product(*letters)]
+```
+
+**Solution 4: (Backtracking)**
+```
+Runtime: 0 ms
+Memory Usage: 6.5 MB
+```
+```c++
+class Solution {
+public:
+    unordered_map<char,string> lettermap ={{'2',"abc"},{'3',"def"},{'4',"ghi"},{'5',"jkl"},{'6',"mno"},{'7',"pqrs"},{'8',"tuv"},{'9',"wxyz"}};
+    
+    vector<string> letterCombinations(string digits) {
+        if(digits.empty())
+    {
+        return {};
+    }
+    
+    vector<string> result;
+    string substring = "";
+    
+    backTrack(digits,result,0,substring);
+    return result;
+}
+
+void backTrack(string& digits,vector<string> &result,int pos,string &substring)
+{
+    if(pos == digits.size())
+    {
+        result.push_back(substring);
+
+        return;
+    }
+    
+     for(char c : lettermap[digits[pos]])
+     {
+         substring.push_back(c);
+         backTrack(digits,result,pos+1,substring);
+         substring.pop_back();
+     }  
+    
+}
+};
+```

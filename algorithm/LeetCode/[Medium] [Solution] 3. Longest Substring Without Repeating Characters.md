@@ -184,26 +184,66 @@ public class Solution {
 
 # Submissions
 ---
-**Solution 1: (Hash Table, Greedy, Slding Window)**
+**Solution 1: (Slding Window)**
 ```
-Runtime: 64 ms
-Memory Usage: 12.9 MB
+Runtime: 56 ms
+Memory Usage: 13.6 MB
 ```
 ```python
-class Solution:
+class Solution(object):
     def lengthOfLongestSubstring(self, s):
         """
         :type s: str
         :rtype: int
         """
-        N = len(s)
-        ans = 0
-        d = {}
-        i = 0
-        for j in range(N):
-            if d.get(s[j], None):
-                i = max(d[s[j]], i)
-            ans = max(ans, j - i + 1)
-            d[s[j]] = j + 1
-        return ans
+        chars = [None] * 128
+
+        left = right = 0
+
+        res = 0
+        while right < len(s):
+            r = s[right]
+
+            index = chars[ord(r)]
+            if index != None and index >= left and index < right:
+                left = index + 1
+
+            res = max(res, right - left + 1)
+
+            chars[ord(r)] = right
+            right += 1
+        return res
+```
+
+**Solution 2: (Sliding Window)**
+```
+Runtime: 8 ms
+Memory Usage: 7.6 MB
+```
+```c++
+class Solution {
+public:
+    int lengthOfLongestSubstring(string s) {
+        // we will store a senitel value of -1 to simulate 'null'/'None' in C++
+        vector<int> chars(128, -1);
+
+        int left = 0;
+        int right = 0;
+
+        int res = 0;
+        while (right < s.length()) {
+            char r = s[right];
+
+            int index = chars[r];
+            if (index != -1 and index >= left and index < right) {
+                left = index + 1;
+            }
+            res = max(res, right - left + 1);
+
+            chars[r] = right;
+            right++;
+        }
+        return res;
+    }
+};
 ```

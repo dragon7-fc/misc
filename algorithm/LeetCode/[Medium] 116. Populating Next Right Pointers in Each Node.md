@@ -101,3 +101,82 @@ class Solution:
             
         return root
 ```
+
+**Solution 3: (BFS)**
+```
+Runtime: 64 ms
+Memory Usage: 15.6 MB
+```
+```python
+"""
+# Definition for a Node.
+class Node:
+    def __init__(self, val: int = 0, left: 'Node' = None, right: 'Node' = None, next: 'Node' = None):
+        self.val = val
+        self.left = left
+        self.right = right
+        self.next = next
+"""
+
+class Solution:
+    def connect(self, root: 'Node') -> 'Node':
+        q = [root] if root else []
+        while q:
+            nq = [c for node in q for c in [node.left, node.right] if c]
+            for i, node in enumerate(nq):
+                if i != len(nq)-1:
+                    node.next = nq[i+1]
+            q = nq
+                
+        return root
+```
+
+**Solution 4: (BFS)**
+```
+Runtime: 20 ms
+Memory Usage: 17.3 MB
+```
+```c++
+/*
+// Definition for a Node.
+class Node {
+public:
+    int val;
+    Node* left;
+    Node* right;
+    Node* next;
+
+    Node() : val(0), left(NULL), right(NULL), next(NULL) {}
+
+    Node(int _val) : val(_val), left(NULL), right(NULL), next(NULL) {}
+
+    Node(int _val, Node* _left, Node* _right, Node* _next)
+        : val(_val), left(_left), right(_right), next(_next) {}
+};
+*/
+
+class Solution {
+public:
+    Node* connect(Node* root) {
+        if(!root)
+            return root;
+        queue<Node*> q;
+        q.push(root);
+        while(!q.empty())
+        {
+           int n =q.size();
+           while(n--)
+           {
+               Node* x = q.front();
+               q.pop();
+               x->next = n == 0 ? NULL :q.front();
+               if(x->left)
+                   q.push(x->left);
+               if(x->right)
+                   q.push(x->right);
+           }
+        }
+        return root;
+    }
+};
+```

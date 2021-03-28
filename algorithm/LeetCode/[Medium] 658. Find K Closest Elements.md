@@ -23,7 +23,7 @@ Output: [1,2,3,4]
 
 # Submissions
 ---
-**Solution 1:**
+**Solution 1: (Two Pointers)**
 ```
 Runtime: 328 ms
 Memory Usage: 14 MB
@@ -165,4 +165,28 @@ public:
         return vector<int>(begin(closest),end(closest));
     }
 };
+```
+
+**Solution 4: (Queue)**
+```
+Runtime: 352 ms
+Memory Usage: 15.5 MB
+```
+```python
+class Solution:
+    def findClosestElements(self, arr: List[int], k: int, x: int) -> List[int]:
+        closest = []
+
+        for i in range(len(arr)):
+            closest += [arr[i]]
+            while len(closest) > k:
+                front = abs(closest[0] - x)
+                back = abs(closest[-1] - x)
+
+                if front < back or (front == back and closest[0] < closest[-1]):
+                    closest.pop()
+                else:
+                    closest.pop(0)
+
+        return closest
 ```
