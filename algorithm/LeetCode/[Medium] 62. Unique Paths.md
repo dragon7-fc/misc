@@ -68,7 +68,7 @@ class Solution:
 
 **Solution 3: (DP Top-Down, DFS, Post-Order)**
 ```
-Runtime: 28 ms
+Runtime: 24 ms
 Memory Usage: 13 MB
 ```
 ```python
@@ -76,8 +76,8 @@ import functools
 class Solution:
     def uniquePaths(self, m: int, n: int) -> int:
         @functools.lru_cache
-        def dfs(i, j ):
-            if i == m-1 and j == n-1:
+        def dfs(i, j):
+            if i == m-1 or j == n-1:
                 return 1
             count = 0
             if i < m-1:

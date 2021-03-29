@@ -603,6 +603,8 @@ Happy Coding!!
 * [[Medium] [Solution] 923. 3Sum With Multiplicity](%5BMedium%5D%20%5BSolution%5D%20923.%203Sum%20With%20Multiplicity.md)
 * [[Medium] [Solution] 870. Advantage Shuffle](%5BMedium%5D%20%5BSolution%5D%20870.%20Advantage%20Shuffle.md)
 * [[Medium] 423. Reconstruct Original Digits from English](%5BMedium%5D%20423.%20Reconstruct%20Original%20Digits%20from%20English.md)
+* [[Lock] [Hard] 1136. Parallel Courses](%5BLock%5D%20%5BHard%5D%201136.%20Parallel%20Courses.md)
+* [[Medium] [Solution] 971. Flip Binary Tree To Match Preorder Traversal](%5BMedium%5D%20%5BSolution%5D%20971.%20Flip%20Binary%20Tree%20To%20Match%20Preorder%20Traversal.md)
 
 ## Array <a name="array"></a>
 ---
@@ -6498,6 +6500,43 @@ class Solution:
 #         self.right = None
 
 class Solution:
+    def flipMatchVoyage(self, root: TreeNode, voyage: List[int]) -> List[int]:
+        self.flipped = []
+        self.i = 0
+
+        def dfs(node):
+            if node:
+                if node.val != voyage[self.i]:
+                    self.flipped = [-1]
+                    return
+                self.i += 1
+
+                if (self.i < len(voyage) and
+                        node.left and node.left.val != voyage[self.i]):
+                    self.flipped.append(node.val)
+                    dfs(node.right)
+                    dfs(node.left)
+                else:
+                    dfs(node.left)
+                    dfs(node.right)
+
+        dfs(root)
+        if self.flipped and self.flipped[0] == -1:
+            self.flipped = [-1]
+        return self.flipped
+```
+* [[Medium] [Solution] 971. Flip Binary Tree To Match Preorder Traversal](%5BMedium%5D%20%5BSolution%5D%20971.%20Flip%20Binary%20Tree%20To%20Match%20Preorder%20Traversal.md)
+
+### Pre-order
+```python
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+
+class Solution:
     def isValidBST(self, root: TreeNode) -> bool:
         def dfs(node, low, high):    
             if not node: return True       
@@ -11019,6 +11058,31 @@ class Solution:
         return topological_sorted_order if len(topological_sorted_order) == numCourses else []
 ```
 * [[Medium] [Solution] 210. Course Schedule II](%5BMedium%5D%20%5BSolution%5D%20210.%20Course%20Schedule%20II.md)
+
+### Topological Sort
+```python
+class Solution:
+    def minimumSemesters(self, N: int, relations: List[List[int]]) -> int:
+        indeg = [0]*N
+        g = collections.defaultdict(list)
+        for X, Y in relations:
+            g[X-1] += [Y-1]
+            indeg[Y-1] += 1
+        q = [(i, 1) for i, _ in enumerate(indeg) if _ == 0]
+        ans = [0]*N
+        while q:
+            u, semester = q.pop()
+            ans[u] = 1
+            if all(ans):
+                return semester
+            for v in g[u]:
+                indeg[v] -= 1
+                if indeg[v] == 0:
+                    q.insert(0, (v, semester+1))
+
+        return -1
+```
+* [[Lock] [Hard] 1136. Parallel Courses](%5BLock%5D%20%5BHard%5D%201136.%20Parallel%20Courses.md)
 
 ### Minimum Genetic Mutation
 ```python

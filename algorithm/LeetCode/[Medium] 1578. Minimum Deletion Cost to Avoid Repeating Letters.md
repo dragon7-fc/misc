@@ -39,7 +39,7 @@ Explanation: Delete the first and the last character, getting the string ("aba")
 
 # Submissions
 ---
-**Solution 1: (DFS)**
+**Solution 1: (DFS, PreOrder)**
 ```
 Runtime: 1240 ms
 Memory Usage: 114.3 MB

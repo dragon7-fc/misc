@@ -42,7 +42,7 @@ Explanation: Root is considered as good.
 
 # Submissions
 ---
-**Solution 1: (DFS, PostOrder)**
+**Solution 1: (DFS, PreOrder)**
 ```
 Runtime: 408 ms
 Memory Usage: 32.4 MB

@@ -6,7 +6,7 @@ The **network rank of two different cities** is defined as the total number of *
 
 The **maximal network rank** of the infrastructure is the **maximum network rank** of all pairs of different cities.
 
-Given the integer n and the array roads, return the **maximal network rank** of the entire infrastructure.
+Given the integer `n` and the array `roads`, return the **maximal network rank** of the entire infrastructure.
 
  
 
