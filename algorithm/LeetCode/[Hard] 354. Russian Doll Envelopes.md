@@ -83,26 +83,26 @@ class Solution:
         return bisect.bisect_right(heights, 0x3f3f3f3f - 1)
 ```
 
-**Solution 3: (Binary Search)**
+**Solution 3: (Sort, Binary Search)**
 ```
-Runtime: 164 ms
-Memory Usage: 15.1 MB
+Runtime: 144 ms
+Memory Usage: 16.4 MB
 ```
 ```python
 class Solution:
-    def maxEnvelopes(self, envelopes: List[List[int]]) -> int:    
-        
-        # longest increasing subsequence
-        def lis(arr):
-            dp = [0] * len(arr)
-            L = 0
-            for x in arr:
-                i = bisect.bisect_left(dp, x, lo = 0, hi = max(L, 0))
-                if i == L:
-                    L += 1
-                dp[i] = x
-            return L
-        
-        envelopes.sort(key = lambda x: (x[0], -x[1]))
-        return lis([x[1] for x in envelopes])
+    def maxEnvelopes(self, envelopes: List[List[int]]) -> int:
+        # sort increasing in first dimension and decreasing on second
+        envelopes.sort(key=lambda x: (x[0], -x[1]))
+
+        def lis(nums):
+            dp = []
+            for i in range(len(nums)):
+                idx = bisect_left(dp, nums[i])
+                if idx == len(dp):
+                    dp.append(nums[i])
+                else:
+                    dp[idx] = nums[i]
+            return len(dp)
+        # extract the second dimension and run the LIS
+        return lis([e[1] for e in envelopes])
 ```

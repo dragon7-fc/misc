@@ -605,6 +605,7 @@ Happy Coding!!
 * [[Medium] 423. Reconstruct Original Digits from English](%5BMedium%5D%20423.%20Reconstruct%20Original%20Digits%20from%20English.md)
 * [[Lock] [Hard] 1136. Parallel Courses](%5BLock%5D%20%5BHard%5D%201136.%20Parallel%20Courses.md)
 * [[Medium] [Solution] 971. Flip Binary Tree To Match Preorder Traversal](%5BMedium%5D%20%5BSolution%5D%20971.%20Flip%20Binary%20Tree%20To%20Match%20Preorder%20Traversal.md)
+* [[Hard] 354. Russian Doll Envelopes](%5BHard%5D%20354.%20Russian%20Doll%20Envelopes.md)
 
 ## Array <a name="array"></a>
 ---
@@ -9326,6 +9327,27 @@ class Solution:
                 right = mid - 1
 ```
 * [[Medium] [Solution] 153. Find Minimum in Rotated Sorted Array](%5BMedium%5D%20%5BSolution%5D%20153.%20Find%20Minimum%20in%20Rotated%20Sorted%20Array.md)
+
+### Sort, Binary Search, insert
+```python
+class Solution:
+    def maxEnvelopes(self, envelopes: List[List[int]]) -> int:
+        # sort increasing in first dimension and decreasing on second
+        envelopes.sort(key=lambda x: (x[0], -x[1]))
+
+        def lis(nums):
+            dp = []
+            for i in range(len(nums)):
+                idx = bisect_left(dp, nums[i])
+                if idx == len(dp):
+                    dp.append(nums[i])
+                else:
+                    dp[idx] = nums[i]
+            return len(dp)
+        # extract the second dimension and run the LIS
+        return lis([e[1] for e in envelopes])
+```
+* [[Hard] 354. Russian Doll Envelopes](%5BHard%5D%20354.%20Russian%20Doll%20Envelopes.md)
 
 ### Rotated Sorted Array, dupliczated
 ```python
