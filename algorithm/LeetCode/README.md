@@ -43,6 +43,9 @@ Happy Coding!!
 
 1. [Libraries](#libraries)
 1. [Concepts](#concept)
+1. [Top Microsoft Questions](#top_ms)
+1. [Top Google Questions](#top_go)
+1. [Top Amazon Questions](#top_az)
 1. [20204 30-Day LeetCoding Challenge](#202004)
 1. [202005 May LeetCoding Challenge](#202005)
 1. [202006 June LeetCoding Challenge](#202006)
@@ -55,6 +58,7 @@ Happy Coding!!
 1. [202101 January LeetCoding Challenge](#202101)
 1. [202102 Fabruary LeetCoding Challenge](#202102)
 1. [202103 March LeetCoding Challenge](#202103)
+1. [202103 April LeetCoding Challenge](#202104)
 1. [Array](#array)
 1. [Dynamic Programming](#dp)
 1. [Math](#math)
@@ -221,6 +225,18 @@ Happy Coding!!
 ---
 * [Rolling hash, a constant time window search](https://medium.com/algorithm-and-datastructure/rolling-hash-a-constant-time-window-search-f8af6ee12d3f)
 * [Kadane’s Algorithm — (Dynamic Programming) — How and Why does it Work?](https://medium.com/@rsinghal757/kadanes-algorithm-dynamic-programming-how-and-why-does-it-work-3fd8849ed73d)
+
+## Top Microsoft Questions <a name="top_ms"></a>
+
+146, 200, 42, 2, 3, 273, 295, 5, 139, 49, 443, 460, 53, 41, 17, 297, 54, 138, 236, 234, 445, 25, 227, 212, 98, 362, 642, 348, 128, 72, 545, 218, 1578, 62, 151, 1239, 99, 1448, 836, 277, 59, 658, 1647, 116, 117, 266, 722, 285, 1466, 1576
+
+## Top Google Questions <a name="top_go"></a>
+
+1, 253, 295, 528, 695, 394, 692, 843, 721, 149, 85, 1048, 329, 315, 465, 1423, 489, 1146, 359, 729, 1153, 593, 715, 346, 304, 57, 410, 1277, 727, 130, 853, 652, 1610, 1110, 690, 1654, 1231, 562, 995, 1499, 1219, 792, 951, 809, 354, 418, 1376, 308, 1406, 1776
+
+## Top Amazon Questions <a name="top_az"></a>
+
+1, 146, 200, 42, 1041, 1335, 238, 829, 273, 253, 380, 295, 973, 221, 1010, 127, 588, 23, 239, 1465, 460, 1192, 547, 138, 21, 1152, 140, 692, 210, 994, 937, 103, 863, 735, 1091, 572, 763, 240, 503, 472, 1328, 323, 353, 957, 1710, 1167, 1629, 1648, 1135, 1597
 
 ## 202004 30-Day LeetCoding Challenge <a name="202004"></a>
 ---
@@ -606,6 +622,14 @@ Happy Coding!!
 * [[Lock] [Hard] 1136. Parallel Courses](%5BLock%5D%20%5BHard%5D%201136.%20Parallel%20Courses.md)
 * [[Medium] [Solution] 971. Flip Binary Tree To Match Preorder Traversal](%5BMedium%5D%20%5BSolution%5D%20971.%20Flip%20Binary%20Tree%20To%20Match%20Preorder%20Traversal.md)
 * [[Hard] 354. Russian Doll Envelopes](%5BHard%5D%20354.%20Russian%20Doll%20Envelopes.md)
+* [[Hard] [Solution] 936. Stamping The Sequence](%5BHard%5D%20%5BSolution%5D%20936.%20Stamping%20The%20Sequence.md)
+
+## 202104 April LeetCoding Challenge <a name="202104"></a>
+* [[Lock] [Easy] 1133. Largest Unique Number](%5BLock%5D%20%5BEasy%5D%201133.%20Largest%20Unique%20Number.md)
+* [[Easy] 234. Palindrome Linked List](%5BEasy%5D%20234.%20Palindrome%20Linked%20List.md)
+* [[Medium] 474. Ones and Zeroes](%5BMedium%5D%20474.%20Ones%20and%20Zeroes.md)
+* [[Hard] [Solution] 32. Longest Valid Parentheses](%5BHard%5D%20%5BSolution%5D%2032.%20Longest%20Valid%20Parentheses.md)
+* [[Medium] 622. Design Circular Queue](%5BMedium%5D%20622.%20Design%20Circular%20Queue.md)
 
 ## Array <a name="array"></a>
 ---
@@ -2027,6 +2051,37 @@ class Solution(object):
         return min(dp[n-1], dp[n-2])
 ```
 * [[Easy] [Solution] 746. Min Cost Climbing Stairs](%5BEasy%5D%20%5BSolution%5D%20746.%20Min%20Cost%20Climbing%20Stairs.md)
+
+### taken not-taken
+```python
+class Solution:
+    def findMaxForm(self, strs: List[str], m: int, n: int) -> int:
+        N = len(strs)
+
+        @functools.lru_cache(None)
+        def dp(index, m_zeroes, n_ones):
+            if index >= N:
+                return 0
+            else:
+                s = strs[index]
+                ones, zeroes = s.count('1'), s.count('0')
+                if m_zeroes - zeroes >= 0 and n_ones - ones >= 0:
+                    return max(1 + dp(index + 1, m_zeroes - zeroes, n_ones - ones), dp(index + 1, m_zeroes, n_ones))
+                else:
+                    return dp(index + 1, m_zeroes, n_ones)
+        return dp(0, m, n)
+    
+class Solution:
+    def findMaxForm(self, strs: List[str], m: int, n: int) -> int:
+        dp = [[0] * (n + 1) for _ in range(m + 1)]
+        for s in strs:
+            zeros, ones = s.count("0"), s.count("1")
+            for i in range(m, zeros-1, -1):
+                for j in range(n , ones-1, -1):
+                    dp[i][j] = max(dp[i][j], 1 + dp[i - zeros][j - ones])
+        return dp[-1][-1]
+```
+* [[Medium] 474. Ones and Zeroes](%5BMedium%5D%20474.%20Ones%20and%20Zeroes.md)
 
 ### min ammount
 ```python
@@ -6956,6 +7011,18 @@ class Solution:
 
 ## Hash Table <a name='ht'></a>
 ---
+### Counter
+```python
+class Solution:
+    def largestUniqueNumber(self, A: List[int]) -> int:
+        cnt = collections.Counter(A)
+        for k in sorted(cnt, reverse=True):
+            if cnt[k] == 1:
+                return k
+        return -1
+```
+* [[Lock] [Easy] 1133. Largest Unique Number](%5BLock%5D%20%5BEasy%5D%201133.%20Largest%20Unique%20Number.md)
+
 ### Count set size
 ```python
 class Solution:
@@ -10304,6 +10371,49 @@ class Solution:
 ```
 * [[Medium] 1536. Minimum Swaps to Arrange a Binary Grid](%5BMedium%5D%201536.%20Minimum%20Swaps%20to%20Arrange%20a%20Binary%20Grid.md)
 
+### Greedy, Work Backwards
+```python
+class Solution:
+    def movesToStamp(self, stamp: str, target: str) -> List[int]:
+        ns = len(stamp)        
+        stamp_patterns = []
+        # Step - 1:
+        # we need to collect all possible stamp patters, like
+        # 'abcde'
+        # 'abcd*'
+        # '*bcde'
+        # 'abc**'
+        # '**cde'
+        # 'ab***'
+        # '*bc**'
+        # '**cd*'
+        # '***de'
+        # ‘****e’ and etc
+        for window_size in range(1, ns + 1):
+            for i in range(ns - window_size + 1):
+                curr = '*' * i + stamp[i:i + window_size] + '*' * (ns - window_size - i)
+                stamp_patterns.append(curr)
+        stamp_patterns.append('*' * ns)
+
+        res = []
+        nt = len(target)
+        # Step - 2
+        # '*****' is our final target
+        while target != '*' * nt:
+            old_target = target
+            # greedy, keep replace current target string with possible patter
+            for pattern in stamp_patterns:
+                inx = target.find(pattern)
+                if inx != -1:
+                    target = target[:inx] + '*' * ns + target[inx + ns:]
+                    res.append(inx)
+            if old_target == target:
+                return []
+
+        return res[::-1]
+```
+* [[Hard] [Solution] 936. Stamping The Sequence](%5BHard%5D%20%5BSolution%5D%20936.%20Stamping%20The%20Sequence.md)
+
 ### Greedy add with count and visited
 ```python
 class Solution:
@@ -12376,6 +12486,26 @@ class CustomStack:
 ```
 * [[Medium] 1381. Design a Stack With Increment Operation](%5BMedium%5D%201381.%20Design%20a%20Stack%20With%20Increment%20Operation.md)
 
+### index stack
+```python
+class Solution:
+    def longestValidParentheses(self, s: str) -> int:
+        maxans = 0
+        stack = [-1]
+        for i in range(len(s)):
+            if s[i] == '(':
+                stack += [i]
+            else:
+                stack.pop()
+                if not stack:
+                    stack += [i]
+                else:
+                    maxans = max(maxans, i - stack[-1])
+
+        return maxans
+```
+* [[Hard] [Solution] 32. Longest Valid Parentheses](%5BHard%5D%20%5BSolution%5D%2032.%20Longest%20Valid%20Parentheses.md)
+
 ### Two Stack, operator stack + operation stack
 ```python
 class Solution:
@@ -13761,6 +13891,44 @@ class Solution:
 
 ## Linked List <a name="ll"></a>
 ---
+### fast and slow pointer
+```python
+# Definition for singly-linked list.
+# class ListNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.next = None
+
+class Solution:
+    def isPalindrome(self, head: ListNode) -> bool:
+        if not head or not head.next:
+            return True
+
+        slow = fast = head
+        prev = None
+
+        #Reverse the list until it's mid point
+
+        while fast and fast.next:
+            fast = fast.next.next
+            temp = slow.next
+            slow.next = prev
+            prev = slow
+            slow = temp
+
+        if fast and not fast.next:
+            slow = slow.next
+
+        while prev and slow:
+            if prev.val != slow.val:
+                return False
+            prev = prev.next
+            slow = slow.next
+
+        return True
+```
+* [[Easy] 234. Palindrome Linked List](%5BEasy%5D%20234.%20Palindrome%20Linked%20List.md)
+
 ### interaction
 ```python
 # Definition for singly-linked list.
@@ -17274,6 +17442,86 @@ class RecentCounter:
         return len(self.q)
 ```
 * [[Easy] [Solution] 933. Number of Recent Calls](%5BEasy%5D%20%5BSolution%5D%20933.%20Number%20of%20Recent%20Calls.md)
+
+### head, tail pointer, size and filled
+```python
+class MyCircularQueue:
+
+    def __init__(self, k: int):
+        """
+        Initialize your data structure here. Set the size of the queue to be k.
+        """
+        self.size = k
+        self.filled = 0
+        self.q = [0]*self.size
+        self.head = self.tail = None
+
+    def enQueue(self, value: int) -> bool:
+        """
+        Insert an element into the circular queue. Return true if the operation is successful.
+        """
+        if self.isFull():
+            return False
+        else:
+            # no elements yet
+            if self.head is None and self.tail is None:
+                self.head = self.tail = 0
+
+            else: # some elements
+                self.tail = (self.tail+1) % self.size
+            self.q[self.tail] = value    
+            self.filled += 1
+        return True
+
+    def deQueue(self) -> bool:
+        """
+        Delete an element from the circular queue. Return true if the operation is successful.
+        """
+        if self.isEmpty():
+            return False
+
+        if self.head == self.tail:
+            self.head = self.tail = None
+        else:
+            self.head = (self.head+1)% self.size
+        self.filled -= 1
+        return True
+
+    def Front(self) -> int:
+        """
+        Get the front item from the queue.
+        """
+        return self.q[self.head] if not self.isEmpty() else -1
+
+    def Rear(self) -> int:
+        """
+        Get the last item from the queue.
+        """
+        return self.q[self.tail] if not self.isEmpty() else -1
+
+    def isEmpty(self) -> bool:
+        """
+        Checks whether the circular queue is empty or not.
+        """
+        return self.filled == 0
+
+    def isFull(self) -> bool:
+        """
+        Checks whether the circular queue is full or not.
+        """
+        return self.filled == self.size
+
+
+# Your MyCircularQueue object will be instantiated and called as such:
+# obj = MyCircularQueue(k)
+# param_1 = obj.enQueue(value)
+# param_2 = obj.deQueue()
+# param_3 = obj.Front()
+# param_4 = obj.Rear()
+# param_5 = obj.isEmpty()
+# param_6 = obj.isFull()
+```
+* [[Medium] 622. Design Circular Queue](%5BMedium%5D%20622.%20Design%20Circular%20Queue.md)
 
 ### Sliding Window
 ```python
