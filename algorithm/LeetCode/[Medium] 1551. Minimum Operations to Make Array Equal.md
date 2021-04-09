@@ -59,3 +59,19 @@ class Solution:
     def minOperations(self, n: int) -> int:
         return (n+1)*(n-1)//4 if n%2 else n*n//4
 ```
+
+**Solution 3: (Math)**
+```
+Runtime: 32 ms
+Memory Usage: 14 MB
+```
+```python
+class Solution:
+    def minOperations(self, n: int) -> int:
+        last = 2*(n-1) + 1
+        mid = (last+1)//2
+        if n%2:
+            return (last-mid) * ((n+1)//2) // 2
+        else:
+            return (1 + last-mid) * n//2 // 2
+```

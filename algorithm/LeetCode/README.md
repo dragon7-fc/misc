@@ -630,6 +630,11 @@ Happy Coding!!
 * [[Medium] 474. Ones and Zeroes](%5BMedium%5D%20474.%20Ones%20and%20Zeroes.md)
 * [[Hard] [Solution] 32. Longest Valid Parentheses](%5BHard%5D%20%5BSolution%5D%2032.%20Longest%20Valid%20Parentheses.md)
 * [[Medium] 622. Design Circular Queue](%5BMedium%5D%20622.%20Design%20Circular%20Queue.md)
+* [[Medium] 775. Global and Local Inversions](%5BMedium%5D%20775.%20Global%20and%20Local%20Inversions.md)
+* [[Medium] 1551. Minimum Operations to Make Array Equal](%5BMedium%5D%201551.%20Minimum%20Operations%20to%20Make%20Array%20Equal.md)
+* [[Easy] 1704. Determine if String Halves Are Alike](%5BEasy%5D%201704.%20Determine%20if%20String%20Halves%20Are%20Alike.md)
+* [[Medium] [Solution] 17. Letter Combinations of a Phone Number](%5BMedium%5D%20%5BSolution%5D%2017.%20Letter%20Combinations%20of%20a%20Phone%20Number.md)
+* [[Easy] [Solution] 953. Verifying an Alien Dictionary](%5BEasy%5D%20%5BSolution%5D%20953.%20Verifying%20an%20Alien%20Dictionary.md)
 
 ## Array <a name="array"></a>
 ---
@@ -4529,6 +4534,23 @@ class Solution:
 ```
 * [[Easy] [Solution] 976. Largest Perimeter Triangle](%5BEasy%5D%20%5BSolution%5D%20976.%20Largest%20Perimeter%20Triangle.md)
 
+### Area sum
+```python
+class Solution:
+    def minOperations(self, n: int) -> int:
+        return (n+1)*(n-1)//4 if n%2 else n*n//4
+
+class Solution:
+    def minOperations(self, n: int) -> int:
+        last = 2*(n-1) + 1
+        mid = (last+1)//2
+        if n%2:
+            return (last-mid) * ((n+1)//2) // 2
+        else:
+            return (1 + last-mid) * n//2 // 2
+```
+* [[Medium] 1551. Minimum Operations to Make Array Equal](%5BMedium%5D%201551.%20Minimum%20Operations%20to%20Make%20Array%20Equal.md)
+
 ### Hash Map
 ```python
 class Solution:
@@ -5393,6 +5415,14 @@ class Solution:
         return 2 - (s == s[::-1]) - (s == "")
 ```
 * [[Easy] 1332. Remove Palindromic Subsequences](%5BEasy%5D%201332.%20Remove%20Palindromic%20Subsequences.md)
+
+### Sort
+```python
+class Solution:
+    def isAlienSorted(self, words: List[str], order: str) -> bool:
+        return words == sorted(words, key= lambda word: [order.index(c) for c in word])
+```
+* [[Easy] [Solution] 953. Verifying an Alien Dictionary](%5BEasy%5D%20%5BSolution%5D%20953.%20Verifying%20an%20Alien%20Dictionary.md)
 
 ### product
 ```python
@@ -7248,6 +7278,16 @@ class Solution:
         return (B - A).pop()
 ```
 * [[Easy] 1436. Destination City](%5BEasy%5D%201436.%20Destination%20City.md)
+
+### Set
+```python
+class Solution:
+    def halvesAreAlike(self, s: str) -> bool:
+        a = s.lower()[:len(s)//2]
+        b = s.lower()[len(s)//2:]
+        return collections.Counter(c in 'aeiou' for c in a) == collections.Counter(c in 'aeiou' for c in b)
+```
+* [[Easy] 1704. Determine if String Halves Are Alike](%5BEasy%5D%201704.%20Determine%20if%20String%20Halves%20Are%20Alike.md)
 
 ### feature set Hash Table
 ```python
@@ -9798,6 +9838,17 @@ class Solution:
         return n <= 0
 ```
 * [[Easy] [Solution] 605. Can Place Flowers](%5BEasy%5D%20%5BSolution%5D%20605.%20Can%20Place%20Flowers.md)
+
+### global != local inversion
+```python
+class Solution:
+    def isIdealPermutation(self, A: List[int]) -> bool:
+        for idx, value in enumerate(A):
+            if abs(idx - value) > 1:
+                return False
+        return True
+```
+* [[Medium] 775. Global and Local Inversions](%5BMedium%5D%20775.%20Global%20and%20Local%20Inversions.md)
 
 ### construct string from base to remaining
 ```python

@@ -95,11 +95,6 @@ Memory Usage: 12.8 MB
 ```
 ```python
 class Solution:
-    def letterCombinations(self, digits):
-        """
-        :type digits: str
-        :rtype: List[str]
-        """
     def letterCombinations(self, digits: str) -> List[str]:
         phone = {'2': ['a', 'b', 'c'],
                  '3': ['d', 'e', 'f'],
