@@ -635,6 +635,7 @@ Happy Coding!!
 * [[Easy] 1704. Determine if String Halves Are Alike](%5BEasy%5D%201704.%20Determine%20if%20String%20Halves%20Are%20Alike.md)
 * [[Medium] [Solution] 17. Letter Combinations of a Phone Number](%5BMedium%5D%20%5BSolution%5D%2017.%20Letter%20Combinations%20of%20a%20Phone%20Number.md)
 * [[Easy] [Solution] 953. Verifying an Alien Dictionary](%5BEasy%5D%20%5BSolution%5D%20953.%20Verifying%20an%20Alien%20Dictionary.md)
+* [[Hard] 329. Longest Increasing Path in a Matrix](%5BHard%5D%20329.%20Longest%20Increasing%20Path%20in%20a%20Matrix.md?_xsrf=2%7Cb607cbb0%7C38c2ab78d0bba728bf04857e61acb0a7%7C1583367857)
 
 ## Array <a name="array"></a>
 ---
