@@ -18,7 +18,7 @@ Output: 15
 
 # Submissions
 ---
-**Solution 1:**
+**Solution 1: (BFS)**
 
 **Explanation**
 

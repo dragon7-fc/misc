@@ -636,6 +636,7 @@ Happy Coding!!
 * [[Medium] [Solution] 17. Letter Combinations of a Phone Number](%5BMedium%5D%20%5BSolution%5D%2017.%20Letter%20Combinations%20of%20a%20Phone%20Number.md)
 * [[Easy] [Solution] 953. Verifying an Alien Dictionary](%5BEasy%5D%20%5BSolution%5D%20953.%20Verifying%20an%20Alien%20Dictionary.md)
 * [[Hard] 329. Longest Increasing Path in a Matrix](%5BHard%5D%20329.%20Longest%20Increasing%20Path%20in%20a%20Matrix.md?_xsrf=2%7Cb607cbb0%7C38c2ab78d0bba728bf04857e61acb0a7%7C1583367857)
+* [[Medium] 1302. Deepest Leaves Sum](%5BMedium%5D%201302.%20Deepest%20Leaves%20Sum.md)
 
 ## Array <a name="array"></a>
 ---
@@ -10575,6 +10576,24 @@ class Solution:
         return min(self.minDepth(root.left), self.minDepth(root.right)) + 1
 ```
 * [[Easy] 111. Minimum Depth of Binary Tree](%5BEasy%5D%20111.%20Minimum%20Depth%20of%20Binary%20Tree.md)
+
+### Level order
+```python
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+
+class Solution:
+    def deepestLeavesSum(self, root: TreeNode) -> int:
+        l = [root]
+        while l:
+            pre, l = l, [child for p in l for child in [p.left, p.right] if child]
+        return sum(node.val for node in pre)
+```
+* [[Medium] 1302. Deepest Leaves Sum](%5BMedium%5D%201302.%20Deepest%20Leaves%20Sum.md)
 
 ### BFS
 ```python
