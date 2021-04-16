@@ -637,6 +637,12 @@ Happy Coding!!
 * [[Easy] [Solution] 953. Verifying an Alien Dictionary](%5BEasy%5D%20%5BSolution%5D%20953.%20Verifying%20an%20Alien%20Dictionary.md)
 * [[Hard] 329. Longest Increasing Path in a Matrix](%5BHard%5D%20329.%20Longest%20Increasing%20Path%20in%20a%20Matrix.md?_xsrf=2%7Cb607cbb0%7C38c2ab78d0bba728bf04857e61acb0a7%7C1583367857)
 * [[Medium] 1302. Deepest Leaves Sum](%5BMedium%5D%201302.%20Deepest%20Leaves%20Sum.md)
+* [[Medium] [Solution] 667. Beautiful Arrangement II](%5BMedium%5D%20%5BSolution%5D%20667.%20Beautiful%20Arrangement%20II.md)
+* [[Medium] 341. Flatten Nested List Iterator](%5BMedium%5D%20341.%20Flatten%20Nested%20List%20Iterator.md)
+* [[Medium] [Solution] 86. Partition List](%5BMedium%5D%20%5BSolution%5D%2086.%20Partition%20List.md)
+* [[Lock] [Medium] 1151. Minimum Swaps to Group All 1's Together](%5BLock%5D%20%5BMedium%5D%201151.%20Minimum%20Swaps%20to%20Group%20All%201's%20Together.md)
+* [[Easy] [Solution] 509. Fibonacci Number](%5BEasy%5D%20%5BSolution%5D%20509.%20Fibonacci%20Number.md)
+* [[Medium] 1209. Remove All Adjacent Duplicates in String II](%5BMedium%5D%201209.%20Remove%20All%20Adjacent%20Duplicates%20in%20String%20II.md)
 
 ## Array <a name="array"></a>
 ---
@@ -1970,6 +1976,25 @@ class Solution:
 
 ## Dynamic Programming <a name="dp"></a>
 ---
+### Bottom-Up
+```python
+class Solution:
+    def fib(self, N: int) -> int:
+        if N <= 1:
+            return N
+        return self.memoize(N)
+
+    def memoize(self, N: int) -> {}:
+        cache = {0: 0, 1: 1}
+
+        # Since range is exclusive and we want to include N, we need to put N+1.
+        for i in range(2, N+1):
+            cache[i] = cache[i-1] + cache[i-2]
+
+        return cache[N]
+```
+* [[Easy] [Solution] 509. Fibonacci Number](%5BEasy%5D%20%5BSolution%5D%20509.%20Fibonacci%20Number.md)
+
 ### Typical
 ```python
 class Solution:
@@ -12160,6 +12185,22 @@ class Solution:
 ```
 * [[Easy] [Solution] 20. Valid Parentheses](%5BEasy%5D%20%5BSolution%5D%2020.%20Valid%20Parentheses.md)
 
+### 2 element stack: key and count
+```python
+class Solution:
+    def removeDuplicates(self, s: str, k: int) -> str:
+        stack = [['#', 0]]
+        for c in s:
+            if stack[-1][0] == c:
+                stack[-1][1] += 1
+                if stack[-1][1] == k:
+                    stack.pop()
+            else:
+                stack.append([c, 1])
+        return ''.join(c * k for c, k in stack)
+```
+* [[Medium] 1209. Remove All Adjacent Duplicates in String II](%5BMedium%5D%201209.%20Remove%20All%20Adjacent%20Duplicates%20in%20String%20II.md)
+
 ### Greedy
 ```python
 class Solution:
@@ -12694,6 +12735,55 @@ return ans
 
 ## Backtracking <a name="backtracking"></a>
 ---
+### DFS
+```python
+# """
+# This is the interface that allows for creating nested lists.
+# You should not implement it, or speculate about its implementation
+# """
+#class NestedInteger:
+#    def isInteger(self) -> bool:
+#        """
+#        @return True if this NestedInteger holds a single integer, rather than a nested list.
+#        """
+#
+#    def getInteger(self) -> int:
+#        """
+#        @return the single integer that this NestedInteger holds, if it holds a single integer
+#        Return None if this NestedInteger holds a nested list
+#        """
+#
+#    def getList(self) -> [NestedInteger]:
+#        """
+#        @return the nested list that this NestedInteger holds, if it holds a nested list
+#        Return None if this NestedInteger holds a single integer
+#        """
+
+class NestedIterator:
+    def __init__(self, nestedList: [NestedInteger]):
+        self.s = []
+
+        def dfs(lst):
+            for node in lst:
+                if node.isInteger():
+                    self.s += [node.getInteger()]
+                else:
+                    dfs(node.getList())
+
+        dfs(nestedList)
+
+    def next(self) -> int:
+        return self.s.pop(0)
+
+    def hasNext(self) -> bool:
+         return self.s
+
+# Your NestedIterator object will be instantiated and called as such:
+# i, v = NestedIterator(nestedList), []
+# while i.hasNext(): v.append(i.next())
+```
+* [[Medium] 341. Flatten Nested List Iterator](%5BMedium%5D%20341.%20Flatten%20Nested%20List%20Iterator.md)
+
 ### count
 ```python
 class Solution:
