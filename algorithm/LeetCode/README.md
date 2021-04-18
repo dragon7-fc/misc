@@ -46,6 +46,7 @@ Happy Coding!!
 1. [Top Microsoft Questions](#top_ms)
 1. [Top Google Questions](#top_go)
 1. [Top Amazon Questions](#top_az)
+1. [Nvidia](#nvidia)
 1. [20204 30-Day LeetCoding Challenge](#202004)
 1. [202005 May LeetCoding Challenge](#202005)
 1. [202006 June LeetCoding Challenge](#202006)
@@ -227,16 +228,20 @@ Happy Coding!!
 * [Kadane’s Algorithm — (Dynamic Programming) — How and Why does it Work?](https://medium.com/@rsinghal757/kadanes-algorithm-dynamic-programming-how-and-why-does-it-work-3fd8849ed73d)
 
 ## Top Microsoft Questions <a name="top_ms"></a>
-
+---
 146, 200, 42, 2, 3, 273, 295, 5, 139, 49, 443, 460, 53, 41, 17, 297, 54, 138, 236, 234, 445, 25, 227, 212, 98, 362, 642, 348, 128, 72, 545, 218, 1578, 62, 151, 1239, 99, 1448, 836, 277, 59, 658, 1647, 116, 117, 266, 722, 285, 1466, 1576
 
 ## Top Google Questions <a name="top_go"></a>
-
+---
 1, 253, 295, 528, 695, 394, 692, 843, 721, 149, 85, 1048, 329, 315, 465, 1423, 489, 1146, 359, 729, 1153, 593, 715, 346, 304, 57, 410, 1277, 727, 130, 853, 652, 1610, 1110, 690, 1654, 1231, 562, 995, 1499, 1219, 792, 951, 809, 354, 418, 1376, 308, 1406, 1776
 
 ## Top Amazon Questions <a name="top_az"></a>
-
+---
 1, 146, 200, 42, 1041, 1335, 238, 829, 273, 253, 380, 295, 973, 221, 1010, 127, 588, 23, 239, 1465, 460, 1192, 547, 138, 21, 1152, 140, 692, 210, 994, 937, 103, 863, 735, 1091, 572, 763, 240, 503, 472, 1328, 323, 353, 957, 1710, 1167, 1629, 1648, 1135, 1597
+
+## Nvidia <a name="nvidia"></a>
+---
+274, 380, 295, 33, 443, 74, 75, 48, 22, 238, 70, 200
 
 ## 202004 30-Day LeetCoding Challenge <a name="202004"></a>
 ---
@@ -644,6 +649,7 @@ Happy Coding!!
 * [[Easy] [Solution] 509. Fibonacci Number](%5BEasy%5D%20%5BSolution%5D%20509.%20Fibonacci%20Number.md)
 * [[Medium] 1209. Remove All Adjacent Duplicates in String II](%5BMedium%5D%201209.%20Remove%20All%20Adjacent%20Duplicates%20in%20String%20II.md)
 * [[Hard] 1074. Number of Submatrices That Sum to Target](%5BHard%5D%201074.%20Number%20of%20Submatrices%20That%20Sum%20to%20Target.md)
+* [[Medium] [Solution] 19. Remove Nth Node From End of List](%5BMedium%5D%20%5BSolution%5D%2019.%20Remove%20Nth%20Node%20From%20End%20of%20List.md)
 
 ## Array <a name="array"></a>
 ---
