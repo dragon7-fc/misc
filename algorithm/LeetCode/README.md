@@ -643,6 +643,7 @@ Happy Coding!!
 * [[Lock] [Medium] 1151. Minimum Swaps to Group All 1's Together](%5BLock%5D%20%5BMedium%5D%201151.%20Minimum%20Swaps%20to%20Group%20All%201's%20Together.md)
 * [[Easy] [Solution] 509. Fibonacci Number](%5BEasy%5D%20%5BSolution%5D%20509.%20Fibonacci%20Number.md)
 * [[Medium] 1209. Remove All Adjacent Duplicates in String II](%5BMedium%5D%201209.%20Remove%20All%20Adjacent%20Duplicates%20in%20String%20II.md)
+* [[Hard] 1074. Number of Submatrices That Sum to Target](%5BHard%5D%201074.%20Number%20of%20Submatrices%20That%20Sum%20to%20Target.md)
 
 ## Array <a name="array"></a>
 ---
@@ -16316,40 +16317,38 @@ class Solution:
 ```
 * [[Hard] [Solution] 995. Minimum Number of K Consecutive Bit Flips](%5BHard%5D%20%5BSolution%5D%20995.%20Minimum%20Number%20of%20K%20Consecutive%20Bit%20Flips.md)
 
-### Prefix Sum
+### Horizontal 1D Prefix Sum
 ```python
 class Solution:
     def numSubmatrixSumTarget(self, matrix: List[List[int]], target: int) -> int:
-        if not matrix:
-            return 0
-        
-        def num_for_one_row(nums):
-            prev = {}
-            prev[0] = 1
-            cur_sum = 0
-            ans = 0
-            for num in nums:
-                cur_sum += num
-                if cur_sum - target in prev:
-                    ans += prev[cur_sum - target]
-                if cur_sum not in prev:
-                    prev[cur_sum] = 1
-                else:
-                    prev[cur_sum] += 1
-            return ans 
-        
-        res = 0
-        R = len(matrix)
-        C = len(matrix[0])
-        
-        for i in range(R):
-            col_prefix = [0]*C
-            for j in range(i, R):
-                for k in range(C):
-                    col_prefix[k] += matrix[j][k]
-                res += num_for_one_row(col_prefix)
-                
-        return res
+        r, c = len(matrix), len(matrix[0])
+
+        # compute 2D prefix sum
+        ps = [[0] * (c + 1) for _ in range(r + 1)]
+        for i in range(1, r + 1):
+            for j in range(1, c + 1):
+                ps[i][j] = ps[i - 1][j] + ps[i][j - 1] - ps[i - 1][j - 1] + matrix[i - 1][j - 1]
+
+        count = 0
+        # reduce 2D problem to 1D one
+        # by fixing two rows r1 and r2 and 
+        # computing 1D prefix sum for all matrices using [r1..r2] rows
+        for r1 in range(1, r + 1):
+            for r2 in range(r1, r + 1):
+                h = defaultdict(int)
+                h[0] = 1
+
+                for col in range(1, c + 1):
+                    # current 1D prefix sum  
+                    curr_sum = ps[r2][col] - ps[r1 - 1][col]
+
+                    # add subarrays which sum up to (curr_sum - target)
+                    count += h[curr_sum - target]
+
+                    # save current prefix sum
+                    h[curr_sum] += 1
+
+        return count
 ```
 * [[Hard] 1074. Number of Submatrices That Sum to Target](%5BHard%5D%201074.%20Number%20of%20Submatrices%20That%20Sum%20to%20Target.md)
 
