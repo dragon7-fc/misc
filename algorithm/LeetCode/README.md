@@ -650,6 +650,11 @@ Happy Coding!!
 * [[Medium] 1209. Remove All Adjacent Duplicates in String II](%5BMedium%5D%201209.%20Remove%20All%20Adjacent%20Duplicates%20in%20String%20II.md)
 * [[Hard] 1074. Number of Submatrices That Sum to Target](%5BHard%5D%201074.%20Number%20of%20Submatrices%20That%20Sum%20to%20Target.md)
 * [[Medium] [Solution] 19. Remove Nth Node From End of List](%5BMedium%5D%20%5BSolution%5D%2019.%20Remove%20Nth%20Node%20From%20End%20of%20List.md)
+* [[Medium] 377. Combination Sum IV](%5BMedium%5D%20377.%20Combination%20Sum%20IV.md)
+* [[Easy] 589. N-ary Tree Preorder Traversal](%5BEasy%5D%20589.%20N-ary%20Tree%20Preorder%20Traversal.md)
+* [[Medium] 120. Triangle](%5BMedium%5D%20120.%20Triangle.md)
+* [[Medium] 554. Brick Wall](%5BMedium%5D%20554.%20Brick%20Wall.md)
+* [[Easy] [Solution] 696. Count Binary Substrings](%5BEasy%5D%20%5BSolution%5D%20696.%20Count%20Binary%20Substrings.md)
 
 ## Array <a name="array"></a>
 ---
@@ -2090,6 +2095,55 @@ class Solution(object):
         return min(dp[n-1], dp[n-2])
 ```
 * [[Easy] [Solution] 746. Min Cost Climbing Stairs](%5BEasy%5D%20%5BSolution%5D%20746.%20Min%20Cost%20Climbing%20Stairs.md)
+
+### 1-D array DP
+```python
+class Solution:
+    def minimumTotal(self, triangle: List[List[int]]) -> int:
+        R = len(triangle)
+
+        if R == 0:
+            return 0
+        if R == 1:
+            return triangle[0][0]
+
+        dp = triangle[-1][:]
+
+        for i in range(R-2, -1, -1):
+            for j in range(i+1):
+                dp[j] = min(dp[j], dp[j+1]) + triangle[i][j]
+
+        return dp[0]
+```
+* [[Medium] 120. Triangle](%5BMedium%5D%20120.%20Triangle.md)
+
+### all combination
+```python
+class Solution:
+    def combinationSum4(self, nums: List[int], target: int) -> int:
+        dp = [0 for _ in range(target+1)]
+        dp[0] = 1
+        for i in range(1, target+1):
+            dp[i] = sum([dp[i-num] for num in nums if i-num >= 0])
+        return dp[target]
+
+class Solution:
+    def combinationSum4(self, nums: List[int], target: int) -> int:
+
+        @functools.lru_cache(None)
+        def dfs(s):
+            if s == 0:
+                return 1
+            elif s < 0:
+                return 0
+            rst = 0
+            for num in nums:
+                rst += dfs(s - num)
+            return rst
+
+        return dfs(target)
+```
+* [[Medium] 377. Combination Sum IV](%5BMedium%5D%20377.%20Combination%20Sum%20IV.md)
 
 ### taken not-taken
 ```python
@@ -7323,6 +7377,21 @@ class Solution:
 ```
 * [[Easy] 1704. Determine if String Halves Are Alike](%5BEasy%5D%201704.%20Determine%20if%20String%20Halves%20Are%20Alike.md)
 
+### Counter
+```python
+class Solution:
+    def leastBricks(self, wall: List[List[int]]) -> int:
+        R = len(wall)
+        counter = collections.Counter()
+        for row in wall:
+            pos = 0
+            for width in row[:-1]:
+                pos += width
+                counter[pos] += 1
+        return R - counter.most_common(1)[0][1] if counter else R
+```
+* [[Medium] 554. Brick Wall](%5BMedium%5D%20554.%20Brick%20Wall.md)
+
 ### feature set Hash Table
 ```python
 class Solution:
@@ -8022,6 +8091,46 @@ class Solution:
 
 ## Depth-first Search <a name="dfs"></a>
 ---
+### Pre-Order
+```python
+"""
+# Definition for a Node.
+class Node:
+    def __init__(self, val=None, children=None):
+        self.val = val
+        self.children = children
+"""
+class Solution:
+    def preorder(self, root: 'Node') -> List[int]:
+        self.ans = []
+        def dfs(node):
+            if not node:
+                return
+            self.ans.append(node.val)
+            for c in node.children:
+                dfs(c)
+        dfs(root)
+        return self.ans
+    
+"""
+# Definition for a Node.
+class Node:
+    def __init__(self, val=None, children=None):
+        self.val = val
+        self.children = children
+"""
+class Solution:
+    def preorder(self, root: 'Node') -> List[int]:
+        ans = []
+        stack = root and [root]
+        while stack:
+            node = stack.pop()
+            ans.append(node.val)
+            stack.extend([c for c in node.children[::-1] if c])
+        return ans
+```
+* [[Easy] 589. N-ary Tree Preorder Traversal](%5BEasy%5D%20589.%20N-ary%20Tree%20Preorder%20Traversal.md)
+
 ### Post-Order
 ```python
 # Definition for a binary tree node.

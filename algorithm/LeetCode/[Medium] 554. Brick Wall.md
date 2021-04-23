@@ -30,7 +30,7 @@ Explanation:
 
 # Submissions
 ---
-**Solution 1:**
+**Solution 1: (Counter)**
 ```
 Runtime: 188 ms
 Memory Usage: 17.8 MB
