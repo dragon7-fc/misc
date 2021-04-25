@@ -655,6 +655,8 @@ Happy Coding!!
 * [[Medium] 120. Triangle](%5BMedium%5D%20120.%20Triangle.md)
 * [[Medium] 554. Brick Wall](%5BMedium%5D%20554.%20Brick%20Wall.md)
 * [[Easy] [Solution] 696. Count Binary Substrings](%5BEasy%5D%20%5BSolution%5D%20696.%20Count%20Binary%20Substrings.md)
+* [[Hard] 1192. Critical Connections in a Network](%5BHard%5D%201192.%20Critical%20Connections%20in%20a%20Network.md)
+* [[Medium] 48. Rotate Image](%5BMedium%5D%2048.%20Rotate%20Image.md)
 
 ## Array <a name="array"></a>
 ---
@@ -1116,6 +1118,24 @@ class Solution:
         return sum(([nums[i], nums[i+n]] for i in range(n)), [])
 ```
 * [[Easy] 1470. Shuffle the Array](%5BEasy%5D%201470.%20Shuffle%20the%20Array.md)
+
+### Rotate Groups of Four Cells
+```python
+class Solution:
+    def rotate(self, matrix: List[List[int]]) -> None:
+        """
+        Do not return anything, modify matrix in-place instead.
+        """
+        n = len(matrix[0])
+        for i in range(n // 2 + n % 2):
+            for j in range(n // 2):
+                tmp = matrix[n - 1 - j][i]
+                matrix[n - 1 - j][i] = matrix[n - 1 - i][n - j - 1]
+                matrix[n - 1 - i][n - j - 1] = matrix[j][n - 1 -i]
+                matrix[j][n - 1 - i] = matrix[i][j]
+                matrix[i][j] = tmp
+```
+* [[Medium] 48. Rotate Image](%5BMedium%5D%2048.%20Rotate%20Image.md)
 
 ### Current and accumulate
 ```python
@@ -9109,6 +9129,35 @@ class Solution:
         return ans
 ```
 * [[Medium] 1530. Number of Good Leaf Nodes Pairs](%5BMedium%5D%201530.%20Number%20of%20Good%20Leaf%20Nodes%20Pairs.md)
+
+### Tarjan's algorithm
+```python
+class Solution:
+    def criticalConnections(self, n: int, connections: List[List[int]]) -> List[List[int]]:
+        graph = {} # graph as adjacency list 
+        for u, v in connections: 
+            graph.setdefault(u, []).append(v)
+            graph.setdefault(v, []).append(u)
+
+        def dfs(x, p, step): 
+            """Traverse the graph and collect bridges using Tarjan's algo."""
+            disc[x] = low[x] = step
+            for xx in graph.get(x, []): 
+                if disc[xx] == inf: 
+                    step += 1
+                    dfs(xx, x, step)
+                    low[x] = min(low[x], low[xx])
+                    if low[xx] > disc[x]: ans.append([x, xx]) # bridge
+                elif xx != p: low[x] = min(low[x], disc[xx])
+
+        ans = []
+        low = [inf]*n
+        disc = [inf]*n
+
+        dfs(0, -1, 0)
+        return ans
+```
+* [[Hard] 1192. Critical Connections in a Network](%5BHard%5D%201192.%20Critical%20Connections%20in%20a%20Network.md)
 
 **Template 1: (Postorder)**
 ```python
