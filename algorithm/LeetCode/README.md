@@ -657,6 +657,11 @@ Happy Coding!!
 * [[Easy] [Solution] 696. Count Binary Substrings](%5BEasy%5D%20%5BSolution%5D%20696.%20Count%20Binary%20Substrings.md)
 * [[Hard] 1192. Critical Connections in a Network](%5BHard%5D%201192.%20Critical%20Connections%20in%20a%20Network.md)
 * [[Medium] 48. Rotate Image](%5BMedium%5D%2048.%20Rotate%20Image.md)
+* [[Medium] 1642. Furthest Building You Can Reach](%5BMedium%5D%201642.%20Furthest%20Building%20You%20Can%20Reach.md)
+* [[Easy] 326. Power of Three](%5BEasy%5D%20326.%20Power%20of%20Three.md)
+* [[Medium] [Solution] 63. Unique Paths II](%5BMedium%5D%20%5BSolution%5D%2063.%20Unique%20Paths%20II.md)
+* [[Medium] [Solution] 34. Find First and Last Position of Element in Sorted Array](%5BMedium%5D%20%5BSolution%5D%2034.%20Find%20First%20and%20Last%20Position%20of%20Element%20in%20Sorted%20Array.md)
+* [[Easy] [Solution] 970. Powerful Integers](%5BEasy%5D%20%5BSolution%5D%20970.%20Powerful%20Integers.md)
 
 ## Array <a name="array"></a>
 ---
@@ -2115,6 +2120,35 @@ class Solution(object):
         return min(dp[n-1], dp[n-2])
 ```
 * [[Easy] [Solution] 746. Min Cost Climbing Stairs](%5BEasy%5D%20%5BSolution%5D%20746.%20Min%20Cost%20Climbing%20Stairs.md)
+
+### Count
+```python
+import functools
+class Solution(object):
+    def uniquePathsWithObstacles(self, obstacleGrid):
+        """
+        :type obstacleGrid: List[List[int]]
+        :rtype: int
+        """
+
+        m = len(obstacleGrid)
+        n = len(obstacleGrid[0])
+
+        @functools.lru_cache
+        def dfs(i, j):
+            if obstacleGrid[i][j] == 1:
+                return 0
+            elif i == 0 and j == 0:
+                return 1
+            count = 0
+            if i >= 1:
+                count += dfs(i-1, j)    # go down
+            if j >= 1:
+                count += dfs(i, j-1)    # go right
+            return count
+        return dfs(m-1, n-1)
+```
+* [[Medium] [Solution] 63. Unique Paths II](%5BMedium%5D%20%5BSolution%5D%2063.%20Unique%20Paths%20II.md)
 
 ### 1-D array DP
 ```python
@@ -4394,6 +4428,50 @@ class Solution:
 
 ## Math <a name="math"></a>
 ---
+### Logartihmic Bounds
+```python
+class Solution:
+    def powerfulIntegers(self, x: int, y: int, bound: int) -> List[int]:
+
+        a = bound if x == 1 else int(log(bound, x))
+        b = bound if y == 1 else int(log(bound, y))
+
+        powerful_integers = set([])
+
+        for i in range(a + 1):
+            for j in range(b + 1):
+
+                value = x**i + y**j
+
+                if value <= bound:
+                    powerful_integers.add(value)
+
+                if y == 1:
+                    break
+
+            if x == 1:
+                break
+
+        return list(powerful_integers)
+```
+* [[Easy] [Solution] 970. Powerful Integers](%5BEasy%5D%20%5BSolution%5D%20970.%20Powerful%20Integers.md)
+
+### Greedy
+```python
+class Solution:
+    def isPowerOfThree(self, n):
+        """
+        :type n: int
+        :rtype: bool
+        """
+        if n == 0:
+            return False
+        while n%3 == 0:
+            n = n/3
+        return True if n == 1 else False
+```
+* [[Easy] 326. Power of Three](%5BEasy%5D%20326.%20Power%20of%20Three.md)
+
 ### Simulation
 ```python
 class Solution:
@@ -9341,6 +9419,23 @@ class Solution:
 ```
 * [[Easy] [Solution] 441. Arranging Coins](%5BEasy%5D%20%5BSolution%5D%20441.%20Arranging%20Coins.md)
 
+### search boundary
+```python
+class Solution:
+    def searchRange(self, nums, target):
+        """
+        :type nums: List[int]
+        :type target: int
+        :rtype: List[int]
+        """
+        start = bisect.bisect_left(nums, target)  # Find left index
+        if start >= len(nums): return [-1, -1]
+        end = bisect.bisect_right(nums, target)  # Find right index
+        if (end == 0 and nums[end] != target) or target != nums[end-1]: return [-1, -1]
+        return [start, end-1]  # bisect_right returns the position after the last occurrence of our target. So we return end -1
+```
+* [[Medium] [Solution] 34. Find First and Last Position of Element in Sorted Array](%5BMedium%5D%20%5BSolution%5D%2034.%20Find%20First%20and%20Last%20Position%20of%20Element%20in%20Sorted%20Array.md)
+
 ### Binary Search
 ```python
 class Solution:
@@ -10030,6 +10125,23 @@ class Solution:
         return n <= 0
 ```
 * [[Easy] [Solution] 605. Can Place Flowers](%5BEasy%5D%20%5BSolution%5D%20605.%20Can%20Place%20Flowers.md)
+
+### Heap to record smallest
+```python
+class Solution:
+    def furthestBuilding(self, heights: List[int], bricks: int, ladders: int) -> int:
+        heap = []
+        for i in range(len(heights) - 1):
+            d = heights[i + 1] - heights[i]
+            if d > 0:
+                heapq.heappush(heap, d)
+            if len(heap) > ladders:
+                bricks -= heapq.heappop(heap)
+            if bricks < 0:
+                return i
+        return len(heights) - 1
+```
+* [[Medium] 1642. Furthest Building You Can Reach](%5BMedium%5D%201642.%20Furthest%20Building%20You%20Can%20Reach.md)
 
 ### global != local inversion
 ```python
