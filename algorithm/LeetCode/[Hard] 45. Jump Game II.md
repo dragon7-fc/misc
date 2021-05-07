@@ -70,3 +70,24 @@ class Solution:
             left, right, res = right, max(tmp[left:right+1]), res + 1
         return res
 ```
+
+**Solution 3: (DP Top-Down)**
+```
+Runtime: 36 ms
+Memory Usage: 14.4 MB
+```
+```python
+class Solution:
+    def jump(self, nums: List[int]) -> int:
+        N = len(nums)
+        
+        @functools.lru_cache(None)
+        def dp(i):
+            if i == N-1:
+                return 0
+            elif i > N-1 or nums[i] == 0:
+                return float('inf')
+            return 1 + min(dp(j) for j in range(i + 1, i + nums[i] + 1))
+            
+        return dp(0)
+```

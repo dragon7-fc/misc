@@ -59,7 +59,8 @@ Happy Coding!!
 1. [202101 January LeetCoding Challenge](#202101)
 1. [202102 Fabruary LeetCoding Challenge](#202102)
 1. [202103 March LeetCoding Challenge](#202103)
-1. [202103 April LeetCoding Challenge](#202104)
+1. [202104 April LeetCoding Challenge](#202104)
+1. [202105 May LeetCoding Challenge](#202105)
 1. [Array](#array)
 1. [Dynamic Programming](#dp)
 1. [Math](#math)
@@ -663,8 +664,40 @@ Happy Coding!!
 * [[Medium] [Solution] 34. Find First and Last Position of Element in Sorted Array](%5BMedium%5D%20%5BSolution%5D%2034.%20Find%20First%20and%20Last%20Position%20of%20Element%20in%20Sorted%20Array.md)
 * [[Easy] [Solution] 970. Powerful Integers](%5BEasy%5D%20%5BSolution%5D%20970.%20Powerful%20Integers.md)
 
+## 202105 May LeetCoding Challenge <a name="202105"></a>
+* [[Hard] [Solution] 745. Prefix and Suffix Search](%5BHard%5D%20%5BSolution%5D%20745.%20Prefix%20and%20Suffix%20Search.md)
+* [[Hard] [Solution] 630. Course Schedule III](%5BHard%5D%20%5BSolution%5D%20630.%20Course%20Schedule%20III.md)
+* [[Easy] 1480. Running Sum of 1d Array](%5BEasy%5D%201480.%20Running%20Sum%20of%201d%20Array.md)
+* [[Easy] [Solution] 665. Non-decreasing Array](%5BEasy%5D%20%5BSolution%5D%20665.%20Non-decreasing%20Array.md)
+* [[Hard] 45. Jump Game II](%5BHard%5D%2045.%20Jump%20Game%20II.md)
+* [[Medium] [Solution] 109. Convert Sorted List to Binary Search Tree](%5BMedium%5D%20%5BSolution%5D%20109.%20Convert%20Sorted%20List%20to%20Binary%20Search%20Tree.md)
+
 ## Array <a name="array"></a>
 ---
+### Locate and Analyze Problem Index
+```python
+class Solution:
+    def checkPossibility(self, nums: List[int]) -> bool:
+        p = None
+        for i in range(len(nums) - 1):
+            if nums[i] > nums[i+1]:
+                if p is not None:
+                    return False
+                p = i
+
+        return (p is None or p == 0 or p == len(nums)-2 or
+                nums[p-1] <= nums[p+1] or nums[p] <= nums[p+2])
+```
+* [[Easy] [Solution] 665. Non-decreasing Array](%5BEasy%5D%20%5BSolution%5D%20665.%20Non-decreasing%20Array.md)
+
+### Accumulate
+```python
+class Solution:
+    def runningSum(self, nums: List[int]) -> List[int]:
+        return itertools.accumulate(nums)
+```
+* [[Easy] 1480. Running Sum of 1d Array](%5BEasy%5D%201480.%20Running%20Sum%20of%201d%20Array.md)
+
 ### Simulate hash table
 ```python
 class MyHashMap:
@@ -2832,6 +2865,24 @@ class Solution:
         return count
 ```
 * [[Medium] [Solution] 376. Wiggle Subsequence](%5BMedium%5D%20%5BSolution%5D%20376.%20Wiggle%20Subsequence.md)
+
+### jump index
+```python
+class Solution:
+    def jump(self, nums: List[int]) -> int:
+        N = len(nums)
+
+        @functools.lru_cache(None)
+        def dp(i):
+            if i == N-1:
+                return 0
+            elif i > N-1 or nums[i] == 0:
+                return float('inf')
+            return 1 + min(dp(j) for j in range(i + 1, i + nums[i] + 1))
+
+        return dp(0)
+```
+* [[Hard] 45. Jump Game II](%5BHard%5D%2045.%20Jump%20Game%20II.md)
 
 ### One can win if he/she can force the other one onto a losing state
 ```python
@@ -9419,6 +9470,64 @@ class Solution:
 ```
 * [[Easy] [Solution] 441. Arranging Coins](%5BEasy%5D%20%5BSolution%5D%20441.%20Arranging%20Coins.md)
 
+### Inorder Simulation
+```python
+# Definition for singly-linked list.
+# class ListNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.next = None
+
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+
+class Solution:
+
+    def findSize(self, head):
+        ptr = head
+        c = 0
+        while ptr:
+            ptr = ptr.next
+            c += 1
+        return c
+
+    def sortedListToBST(self, head: ListNode) -> TreeNode:        
+
+        # Get the size of the linked list first
+        size = self.findSize(head)
+
+        # Recursively form a BST out of linked list from l --> r
+        def convert(l, r):
+            nonlocal head
+
+            # Invalid case
+            if l > r:
+                return None
+
+            mid = (l + r) // 2
+
+            # First step of simulated inorder traversal. Recursively form
+            # the left half
+            left = convert(l, mid - 1)
+
+            # Once left half is traversed, process the current node
+            node = TreeNode(head.val)   
+            node.left = left
+
+            # Maintain the invariance mentioned in the algorithm
+            head = head.next
+
+            # Recurse on the right hand side and form BST out of them
+            node.right = convert(mid + 1, r)
+            return node
+        return convert(0, size - 1)
+```
+* [[Medium] [Solution] 109. Convert Sorted List to Binary Search Tree](%5BMedium%5D%20%5BSolution%5D%20109.%20Convert%20Sorted%20List%20to%20Binary%20Search%20Tree.md)
+
 ### search boundary
 ```python
 class Solution:
@@ -15513,6 +15622,21 @@ class Solution:
 ```
 * [[Medium] [Solution] 973. K Closest Points to Origin](%5BMedium%5D%20%5BSolution%5D%20973.%20K%20Closest%20Points%20to%20Origin.md)
 
+### Greedy with max heap
+```python
+class Solution:
+    def scheduleCourse(self, courses: List[List[int]]) -> int:
+        heap, time = [], 0
+        for t, end in sorted(courses, key=lambda x: x[1]):
+            time += t
+            heapq.heappush(heap, -t)
+            if time > end:
+                nt = heapq.heappop(heap)
+                time += nt
+        return len(heap)
+```
+* [[Hard] [Solution] 630. Course Schedule III](%5BHard%5D%20%5BSolution%5D%20630.%20Course%20Schedule%20III.md)
+
 ### Unify and solve by one method
 ```python
 class Solution:
@@ -17206,6 +17330,40 @@ class Solution:
         return max_xor
 ```
 * [[Medium] 421. Maximum XOR of Two Numbers in an Array](%5BMedium%5D%20421.%20Maximum%20XOR%20of%20Two%20Numbers%20in%20an%20Array.md)
+
+### Trie of Suffix Wrapped Words
+```python
+Trie = lambda: collections.defaultdict(Trie)
+WEIGHT = False
+
+class WordFilter:
+
+    def __init__(self, words: List[str]):
+        self.trie = Trie()
+
+        for weight, word in enumerate(words):
+            word += '#'
+            for i in range(len(word)):
+                cur = self.trie
+                cur[WEIGHT] = weight
+                for j in range(i, 2 * len(word) - 1):
+                    cur = cur[word[j % len(word)]]
+                    cur[WEIGHT] = weight
+
+    def f(self, prefix: str, suffix: str) -> int:
+        cur = self.trie
+        for letter in suffix + '#' + prefix:
+            if letter not in cur:
+                return -1
+            cur = cur[letter]
+        return cur[WEIGHT]
+
+
+# Your WordFilter object will be instantiated and called as such:
+# obj = WordFilter(words)
+# param_1 = obj.f(prefix,suffix)
+```
+* [[Hard] [Solution] 745. Prefix and Suffix Search](%5BHard%5D%20%5BSolution%5D%20745.%20Prefix%20and%20Suffix%20Search.md)
 
 ### Stream of Characters
 ```python
