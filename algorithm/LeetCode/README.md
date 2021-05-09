@@ -671,6 +671,9 @@ Happy Coding!!
 * [[Easy] [Solution] 665. Non-decreasing Array](%5BEasy%5D%20%5BSolution%5D%20665.%20Non-decreasing%20Array.md)
 * [[Hard] 45. Jump Game II](%5BHard%5D%2045.%20Jump%20Game%20II.md)
 * [[Medium] [Solution] 109. Convert Sorted List to Binary Search Tree](%5BMedium%5D%20%5BSolution%5D%20109.%20Convert%20Sorted%20List%20to%20Binary%20Search%20Tree.md)
+* [[Medium] [Solution] 583. Delete Operation for Two Strings](%5BMedium%5D%20%5BSolution%5D%20583.%20Delete%20Operation%20for%20Two%20Strings.md)
+* [[Hard] [Solution] 906. Super Palindromes](%5BHard%5D%20%5BSolution%5D%20906.%20Super%20Palindromes.md)
+* [[Hard] 1354. Construct Target Array With Multiple Sums](%5BHard%5D%201354.%20Construct%20Target%20Array%20With%20Multiple%20Sums.md)
 
 ## Array <a name="array"></a>
 ---
@@ -3092,6 +3095,26 @@ class Solution:
 ```
 * [[Medium] 1143. Longest Common Subsequence](%5BMedium%5D%201143.%20Longest%20Common%20Subsequence.md)
 
+### Longest Common Subsequence
+```python
+import functools
+class Solution:
+    def minDistance(self, word1: str, word2: str) -> int:
+        M, N = len(word1), len(word2)
+
+        @functools.lru_cache(None)
+        def dp(i, j):
+            if i == 0 or j == 0:
+                return i+j
+            elif word1[i-1] == word2[j-1]:
+                return dp(i-1, j-1)
+            else:
+                return 1 + min(dp(i-1, j), dp(i, j-1))
+
+        return dp(M, N)
+```
+* [[Medium] [Solution] 583. Delete Operation for Two Strings](%5BMedium%5D%20%5BSolution%5D%20583.%20Delete%20Operation%20for%20Two%20Strings.md)
+
 ### longest increasing number with count
 ```python
 class Solution:
@@ -5346,6 +5369,47 @@ class Solution:
         return (angle)
 ```
 * [[Medium] 1344. Angle Between Hands of a Clock](%5BMedium%5D%201344.%20Angle%20Between%20Hands%20of%20a%20Clock.md)
+
+### shrink program space
+```python
+class Solution:
+    def superpalindromesInRange(self, L: str, R: str) -> int:
+        L, R = int(L), int(R)
+        MAGIC = 100000
+
+        def reverse(x):
+            ans = 0
+            while x:
+                ans = 10 * ans + x % 10
+                x //= 10
+            return ans
+
+        def is_palindrome(x):
+            return x == reverse(x)
+
+        ans = 0
+
+        # count odd length
+        for k in range(MAGIC):
+            s = str(k)  # Eg. s = '1234'
+            t = s + s[-2::-1]  # t = '1234321'
+            v = int(t) ** 2
+            if v > R: break
+            if v >= L and is_palindrome(v):
+                ans += 1
+
+        # count even length
+        for k in range(MAGIC):
+            s = str(k)  # Eg. s = '1234'
+            t = s + s[::-1]  # t = '12344321'
+            v = int(t) ** 2
+            if v > R: break
+            if v >= L and is_palindrome(v):
+                ans += 1
+
+        return ans
+```
+* [[Hard] [Solution] 906. Super Palindromes](%5BHard%5D%20%5BSolution%5D%20906.%20Super%20Palindromes.md)
 
 ### Greedy with combination
 ```python
@@ -15621,6 +15685,26 @@ class Solution:
         return heapq.nsmallest(K, points, key= lambda x: x[0]**2 + x[1]**2)
 ```
 * [[Medium] [Solution] 973. K Closest Points to Origin](%5BMedium%5D%20%5BSolution%5D%20973.%20K%20Closest%20Points%20to%20Origin.md)
+
+### think backward
+```python
+class Solution:
+    def isPossible(self, target: List[int]) -> bool:
+        total = sum(target)
+        target = [-x for x in target]
+        heapq.heapify(target)
+
+        while -target[0] > 1:
+            num = -heapq.heappop(target)
+            rest_sum = total - num
+            if num < rest_sum or not rest_sum or (not num % rest_sum and rest_sum != 1):
+                return False
+            num %= rest_sum
+            total = num + rest_sum 
+            heapq.heappush(target, -num)
+        return True  
+```
+* [[Hard] 1354. Construct Target Array With Multiple Sums](%5BHard%5D%201354.%20Construct%20Target%20Array%20With%20Multiple%20Sums.md)
 
 ### Greedy with max heap
 ```python
