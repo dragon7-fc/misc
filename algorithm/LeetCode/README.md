@@ -674,6 +674,11 @@ Happy Coding!!
 * [[Medium] [Solution] 583. Delete Operation for Two Strings](%5BMedium%5D%20%5BSolution%5D%20583.%20Delete%20Operation%20for%20Two%20Strings.md)
 * [[Hard] [Solution] 906. Super Palindromes](%5BHard%5D%20%5BSolution%5D%20906.%20Super%20Palindromes.md)
 * [[Hard] 1354. Construct Target Array With Multiple Sums](%5BHard%5D%201354.%20Construct%20Target%20Array%20With%20Multiple%20Sums.md)
+* [[Easy] 204. Count Primes](%5BEasy%5D%20204.%20Count%20Primes.md)
+* [[Medium] 1423. Maximum Points You Can Obtain from Cards](%5BMedium%5D%201423.%20Maximum%20Points%20You%20Can%20Obtain%20from%20Cards.md)
+* [[Medium] [Solution] 304. Range Sum Query 2D - Immutable](%5BMedium%5D%20%5BSolution%5D%20304.%20Range%20Sum%20Query%202D%20-%20Immutable.md)
+* [[Medium] [Solution] 816. Ambiguous Coordinates](%5BMedium%5D%20%5BSolution%5D%20816.%20Ambiguous%20Coordinates.md)
+* [[Medium] 114. Flatten Binary Tree to Linked List](%5BMedium%5D%20114.%20Flatten%20Binary%20Tree%20to%20Linked%20List.md)
 
 ## Array <a name="array"></a>
 ---
@@ -4502,6 +4507,25 @@ class Solution:
 
 ## Math <a name="math"></a>
 ---
+### brute force
+```python
+class Solution:
+    def countPrimes(self, n):
+        """
+        :type n: int
+        :rtype: int
+        """
+        if n < 3:
+            return 0
+        prime = [True]*n
+        prime[0] = prime[1] = False
+        for i in range(2, int(n**0.5)+1):
+            if prime[i]:
+                prime[i*i: n: i] = [False] * len(prime[i*i: n: i])
+        return sum(prime)
+```
+* [[Easy] 204. Count Primes](%5BEasy%5D%20204.%20Count%20Primes.md)
+
 ### Logartihmic Bounds
 ```python
 class Solution:
@@ -6065,6 +6089,26 @@ class Solution:
 ```
 * [[Easy] [Solution] 937. Reorder Data in Log Files](%5BEasy%5D%20%5BSolution%5D%20937.%20Reorder%20Data%20in%20Log%20Files.md)
 
+### Cartesian Product, Brute force all combination
+```python
+class Solution:
+    def ambiguousCoordinates(self, S: str) -> List[str]:
+        def make(frag):
+            N = len(frag)
+            for d in range(1, N+1):
+                left = frag[:d]
+                right = frag[d:]
+                if ((not left.startswith('0') or left == '0')
+                        and (not right.endswith('0'))):
+                    yield left + ('.' if d != N else '') + right
+
+        S = S[1:-1]
+        return ["({}, {})".format(*cand)
+                for i in range(1, len(S))
+                for cand in itertools.product(make(S[:i]), make(S[i:]))]
+```
+* [[Medium] [Solution] 816. Ambiguous Coordinates](%5BMedium%5D%20%5BSolution%5D%20816.%20Ambiguous%20Coordinates.md)
+
 ### Work Backwards
 ```python
 class Solution:
@@ -6876,6 +6920,56 @@ class Solution:
             return self.searchBST(root.right, val)
 ```
 * [[Easy] 700. Search in a Binary Search Tree](%5BEasy%5D%20700.%20Search%20in%20a%20Binary%20Search%20Tree.md)
+
+### Post-Order
+```python
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+
+class Solution:
+    prev = None
+    def flatten(self, root: TreeNode) -> None:
+        """
+        Do not return anything, modify root in-place instead.
+        """
+        if not root:
+            return
+        self.flatten(root.right)
+        self.flatten(root.left)
+        root.right = self.prev
+        root.left = None
+        self.prev = root
+        
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+class Solution:
+    def flatten(self, root: TreeNode) -> None:
+        """
+        Do not return anything, modify root in-place instead.
+        """
+        if root is None:
+            return 
+
+        stack = [root]
+        while stack:
+            node = stack.pop()
+            if node.right is not None:
+                stack.append(node.right)    
+            if node.left is not None:
+                stack.append(node.left)
+            if stack:
+                node.right = stack[-1]
+            node.left = None
+```
+* [[Medium] 114. Flatten Binary Tree to Linked List](%5BMedium%5D%20114.%20Flatten%20Binary%20Tree%20to%20Linked%20List.md)
 
 ### Pre-order
 ```python
@@ -16667,13 +16761,16 @@ class Solution:
 ```python
 class Solution:
     def maxScore(self, cardPoints: List[int], k: int) -> int:
-        ans = win = 0
-        for i in range(-k, k):
-            win += cardPoints[i]
-            if i >= 0:
-                win -= cardPoints[i - k]
-            ans = max(win, ans)    
-        return ans
+        N = len(cardPoints)
+        s = sum(cardPoints)
+        min_ = cur = sum(cardPoints[:N-k])
+        i = 0
+        for j in range(N-k, N):
+            cur += cardPoints[j]
+            cur -= cardPoints[i]
+            min_ = min(min_, cur)
+            i += 1
+        return s - min_
 ```
 * [[Medium] 1423. Maximum Points You Can Obtain from Cards](%5BMedium%5D%201423.%20Maximum%20Points%20You%20Can%20Obtain%20from%20Cards.md)
 

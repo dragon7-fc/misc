@@ -126,3 +126,23 @@ class Solution:
             dp[i] = dp[i-1] + cardPoints[i-1] - cardPoints[-k+i-1]
         return max(dp)
 ```
+
+**Solution 5: (Sliding Window)**
+```
+Runtime: 400 ms
+Memory Usage: 27.6 MB
+```
+```python
+class Solution:
+    def maxScore(self, cardPoints: List[int], k: int) -> int:
+        N = len(cardPoints)
+        s = sum(cardPoints)
+        min_ = cur = sum(cardPoints[:N-k])
+        i = 0
+        for j in range(N-k, N):
+            cur += cardPoints[j]
+            cur -= cardPoints[i]
+            min_ = min(min_, cur)
+            i += 1
+        return s - min_
+```
