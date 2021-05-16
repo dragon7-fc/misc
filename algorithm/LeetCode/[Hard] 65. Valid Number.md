@@ -1,108 +1,93 @@
 65. Valid Number
 
-Validate if a given string can be interpreted as a decimal number.
+A **valid number** can be split up into these components (in order):
 
-Some examples:
+1. A **decimal number** or an integer.
+1. (Optional) An `'e'` or `'E'`, followed by an **integer**.
+
+A **decimal number** can be split up into these components (in order):
+
+1. (Optional) A sign character (either `'+'` or '`-'`).
+1. One of the following formats:
+    1. At least one digit, followed by a dot `'.'`.
+    1. At least one digit, followed by a dot `'.'`, followed by at least one digit.
+    1. A dot `'.'`, followed by at least one digit.
+
+An **integer** can be split up into these components (in order):
+
+1. (Optional) A sign character (either `'+'` or `'-'`).
+1. At least one digit.
+
+For example, all the following are valid numbers: `["2", "0089", "-0.1", "+3.14", "4.", "-.9", "2e10", "-90E3", "3e+7", "+6e-1", "53.5e93", "-123.456e789"]`, while the following are not valid numbers: `["abc", "1a", "1e", "e3", "99e2.5", "--6", "-+3", "95a54e53"]`.
+
+Given a string `s`, return `true` if `s` is a **valid number**.
+
+ 
+
+**Example 1:**
 ```
-"0" => true
-" 0.1 " => true
-"abc" => false
-"1 a" => false
-"2e10" => true
-" -90e3   " => true
-" 1e" => false
-"e3" => false
-" 6e-1" => true
-" 99e2.5 " => false
-"53.5e93" => true
-" --6 " => false
-"-+3" => false
-"95a54e53" => false
+Input: s = "0"
+Output: true
 ```
 
-**Note:** It is intended for the problem statement to be ambiguous. You should gather all requirements up front before implementing one. However, here is a list of characters that can be in a valid decimal number:
+**Example 2:**
+```
+Input: s = "e"
+Output: false
+```
 
-* Numbers 0-9
-* Exponent - "e"
-* Positive/negative sign - "+"/"-"
-* Decimal point - "."
+**Example 3:**
+```
+Input: s = "."
+Output: false
+```
 
-Of course, the context of these characters also matters in the input.
+**Example 4:**
+```
+Input: s = ".1"
+Output: true
+```
 
-**Update (2015-02-10):**
+**Constraints:**
 
-The signature of the C++ function had been updated. If you still see your function signature accepts a const char * argument, please click the reload button to reset your code definition.
+* `1 <= s.length <= 20`
+* `s` consists of only English letters (both uppercase and lowercase), digits (`0-9`), plus `'+'`, minus `'-'`, or dot `'.'`.
 
 # Submissions
 ---
-**Solution 1: (Math, String)**
+**Solution 1: (Math, Regular Expression)**
 ```
-Runtime: 32 ms
-Memory Usage: 13.8 MB
+Runtime: 28 ms
+Memory Usage: 14.1 MB
 ```
 ```python
 class Solution:
     def isNumber(self, s: str) -> bool:
-        try:
-            float(s.strip())
-            return True
-        except:
+        return re.match(r'[ ]*[\+-]{0,1}([0-9]+|([0-9]*\.[0-9]{1,}|[0-9]+\.[0-9]{0,}))(eE[+-]{0,1}[0-9]+){0,1}[ ]*$',s)
+```
+
+**Solution 2: (Math, String)**
+```
+Runtime: 28 ms
+Memory Usage: 14.2 MB
+```
+```python
+class Solution:
+    def isNumber(self, s: str) -> bool:
+        def is_integer(s):
+            return s.isdigit() or len(s) > 0 and s[0] in "+-" and s[1:].isdigit()
+        
+        def is_decimal(s):
+            parts = s.split(".")
+            if len(parts) != 2: return False
+            if is_integer(parts[0]) and parts[1].isdigit(): return True
+            if parts[0] in ["","+","-"] and parts[1].isdigit(): return True
+            if is_integer(parts[0]) and not parts[1]: return True
             return False
-```
-
-**Solution 2: (Math, Regular Expression)**
-```
-Runtime: 36 ms
-Memory Usage: 13.8 MB
-```
-```python
-class Solution:
-    def isNumber(self, s: str) -> bool:
-        return re.match(r'[ ]*[\+-]{0,1}([0-9]+|([0-9]*\.[0-9]{1,}|[0-9]+\.[0-9]{0,}))(e[+-]{0,1}[0-9]+){0,1}[ ]*$',s)
-```
-
-**Solution 3: (Math, Greedy)**
-```
-Runtime: 32 ms
-Memory Usage: 13.8 MB
-```
-```python
-class Solution:
-    def isNumber(self, s: str) -> bool:
-        decimalFound = False
-        started = False
-        negposfound = False
-        eFound = False
-        spaceFoundAfterStart = False
-        for i in range(0, len(s)):
-            if s[i] >= '0' and s[i] <= '9':
-                if spaceFoundAfterStart:
-                    return False
-                if not started:
-                    started = True
-            elif s[i] == '.':
-                if decimalFound or eFound or spaceFoundAfterStart:
-                    return False
-                decimalFound = True
-            elif s[i] == '+' or s[i] == '-':
-                if eFound and (started or negposFound or spaceFoundAfterStart):
-                    return False
-                if not eFound and (started or negposfound or decimalFound or spaceFoundAfterStart):
-                    return False
-                negposfound = True
-            elif s[i] == 'e':
-                if not started or eFound or spaceFoundAfterStart:
-                    return False
-                if i+1 == len(s) or (s[i+1] != '-' and s[i+1] != '+' and  (s[i+1] < '0' or s[i+1] > '9')):
-                    return False
-                eFound = True
-                started = False
-                negposFound = False
-            elif s[i] == ' ':
-                if started or decimalFound or negposfound or eFound:
-                    spaceFoundAfterStart = True
-            else:
-                return False
-            
-        return started
+        
+        s = s.lower()
+        parts = s.split("e")
+        if len(parts) > 2: return False
+        if not is_integer(parts[0]) and not is_decimal(parts[0]): return False
+        return True if len(parts) == 1 else is_integer(parts[1])
 ```

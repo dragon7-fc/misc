@@ -679,6 +679,7 @@ Happy Coding!!
 * [[Medium] [Solution] 304. Range Sum Query 2D - Immutable](%5BMedium%5D%20%5BSolution%5D%20304.%20Range%20Sum%20Query%202D%20-%20Immutable.md)
 * [[Medium] [Solution] 816. Ambiguous Coordinates](%5BMedium%5D%20%5BSolution%5D%20816.%20Ambiguous%20Coordinates.md)
 * [[Medium] 114. Flatten Binary Tree to Linked List](%5BMedium%5D%20114.%20Flatten%20Binary%20Tree%20to%20Linked%20List.md)
+* [[Hard] 65. Valid Number](%5BHard%5D%2065.%20Valid%20Number.md)
 
 ## Array <a name="array"></a>
 ---
@@ -6604,6 +6605,29 @@ class Solution:
         return ans
 ```
 * [[Medium] 395. Longest Substring with At Least K Repeating Characters](%5BMedium%5D%20395.%20Longest%20Substring%20with%20At%20Least%20K%20Repeating%20Characters.md)
+
+### string match
+```python
+class Solution:
+    def isNumber(self, s: str) -> bool:
+        def is_integer(s):
+            return s.isdigit() or len(s) > 0 and s[0] in "+-" and s[1:].isdigit()
+
+        def is_decimal(s):
+            parts = s.split(".")
+            if len(parts) != 2: return False
+            if is_integer(parts[0]) and parts[1].isdigit(): return True
+            if parts[0] in ["","+","-"] and parts[1].isdigit(): return True
+            if is_integer(parts[0]) and not parts[1]: return True
+            return False
+
+        s = s.lower()
+        parts = s.split("e")
+        if len(parts) > 2: return False
+        if not is_integer(parts[0]) and not is_decimal(parts[0]): return False
+        return True if len(parts) == 1 else is_integer(parts[1])
+```
+* [[Hard] 65. Valid Number](%5BHard%5D%2065.%20Valid%20Number.md)
 
 ### Math
 ```python
