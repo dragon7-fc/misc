@@ -681,6 +681,8 @@ Happy Coding!!
 * [[Medium] 114. Flatten Binary Tree to Linked List](%5BMedium%5D%20114.%20Flatten%20Binary%20Tree%20to%20Linked%20List.md)
 * [[Hard] 65. Valid Number](%5BHard%5D%2065.%20Valid%20Number.md)
 * [[Hard] [Solution] 968. Binary Tree Cameras](%5BHard%5D%20%5BSolution%5D%20968.%20Binary%20Tree%20Cameras.md)
+* [[Medium] 1048. Longest String Chain](%5BMedium%5D%201048.%20Longest%20String%20Chain.md)
+* [[Medium] [Solution] 609. Find Duplicate File in System](%5BMedium%5D%20%5BSolution%5D%20609.%20Find%20Duplicate%20File%20in%20System.md)
 
 ## Array <a name="array"></a>
 ---
@@ -2163,6 +2165,27 @@ class Solution(object):
         return min(dp[n-1], dp[n-2])
 ```
 * [[Easy] [Solution] 746. Min Cost Climbing Stairs](%5BEasy%5D%20%5BSolution%5D%20746.%20Min%20Cost%20Climbing%20Stairs.md)
+
+### Think backward
+```python
+class Solution:
+    def longestStrChain(self, words: List[str]) -> int:
+
+        @functools.lru_cache(None)
+        def dfs(word):
+            count = 0
+            for i in range(len(word)):
+                cur = word[:i] + word[i+1:]  # Delete One at Once
+                if cur in s: 
+                    count = max(count, dfs(cur))
+            return count + 1
+
+        rst, s, history = 1, set(words), {}
+        for word in words:
+            rst = max(rst, dfs(word))
+        return rst
+```
+* [[Medium] 1048. Longest String Chain](%5BMedium%5D%201048.%20Longest%20String%20Chain.md)
 
 ### Count
 ```python
@@ -7689,6 +7712,25 @@ class Solution:
         return -1
 ```
 * [[Easy] [Solution] 387. First Unique Character in a String](%5BEasy%5D%20%5BSolution%5D%20387.%20First%20Unique%20Character%20in%20a%20String.md?_xsrf=2%7C5e3776f8%7C24c18c3d2c50a10817453c72e445205a%7C1587427356)
+
+### Key-value pair
+```python
+class Solution:
+    def findDuplicate(self, paths: List[str]) -> List[List[str]]:
+        d = collections.defaultdict(list)
+        for path in paths:
+            values = path.split(' ')
+            for i in range(1, len(values)):
+                name_cont = values[i].split('(')
+                name_cont[1] = name_cont[1].replace(')', '')
+                d[name_cont[1]].append(values[0] + '/' + name_cont[0])
+        res = []
+        for k in d.keys():
+            if len(d[k]) > 1:
+                res.append(d[k])
+        return res
+```
+* [[Medium] [Solution] 609. Find Duplicate File in System](%5BMedium%5D%20%5BSolution%5D%20609.%20Find%20Duplicate%20File%20in%20System.md)
 
 ### Set
 ```python
