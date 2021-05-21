@@ -683,6 +683,9 @@ Happy Coding!!
 * [[Hard] [Solution] 968. Binary Tree Cameras](%5BHard%5D%20%5BSolution%5D%20968.%20Binary%20Tree%20Cameras.md)
 * [[Medium] 1048. Longest String Chain](%5BMedium%5D%201048.%20Longest%20String%20Chain.md)
 * [[Medium] [Solution] 609. Find Duplicate File in System](%5BMedium%5D%20%5BSolution%5D%20609.%20Find%20Duplicate%20File%20in%20System.md)
+* [[Medium] 462. Minimum Moves to Equal Array Elements II](%5BMedium%5D%20462.%20Minimum%20Moves%20to%20Equal%20Array%20Elements%20II.md)
+* [[Medium] 102. Binary Tree Level Order Traversal](%5BMedium%5D%20102.%20Binary%20Tree%20Level%20Order%20Traversal.md)
+* [[Medium] [Solution] 890. Find and Replace Pattern](%5BMedium%5D%20%5BSolution%5D%20890.%20Find%20and%20Replace%20Pattern.md)
 
 ## Array <a name="array"></a>
 ---
@@ -11212,6 +11215,32 @@ class Solution:
         return min(self.minDepth(root.left), self.minDepth(root.right)) + 1
 ```
 * [[Easy] 111. Minimum Depth of Binary Tree](%5BEasy%5D%20111.%20Minimum%20Depth%20of%20Binary%20Tree.md)
+
+### Level order
+```python
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+class Solution:
+    def levelOrder(self, root: TreeNode) -> List[List[int]]:
+        q = [root] if root else None
+        ans = []
+        while q:
+            nq = []
+            cur = []
+            for node in q:
+                cur += [node.val]
+                for c in [node.left, node.right]:
+                    if c:
+                        nq += [c]
+            ans += [cur]
+            q = nq
+        return ans
+```
+* [[Medium] 102. Binary Tree Level Order Traversal](%5BMedium%5D%20102.%20Binary%20Tree%20Level%20Order%20Traversal.md)
 
 ### Level order
 ```python
