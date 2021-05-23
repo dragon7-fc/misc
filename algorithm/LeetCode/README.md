@@ -686,6 +686,8 @@ Happy Coding!!
 * [[Medium] 462. Minimum Moves to Equal Array Elements II](%5BMedium%5D%20462.%20Minimum%20Moves%20to%20Equal%20Array%20Elements%20II.md)
 * [[Medium] 102. Binary Tree Level Order Traversal](%5BMedium%5D%20102.%20Binary%20Tree%20Level%20Order%20Traversal.md)
 * [[Medium] [Solution] 890. Find and Replace Pattern](%5BMedium%5D%20%5BSolution%5D%20890.%20Find%20and%20Replace%20Pattern.md)
+* [[Hard] 51. N-Queens](%5BHard%5D%2051.%20N-Queens.md)
+* [[Hard] [Solution] 943. Find the Shortest Superstring](%5BHard%5D%20%5BSolution%5D%20943.%20Find%20the%20Shortest%20Superstring.md)
 
 ## Array <a name="array"></a>
 ---
@@ -3716,6 +3718,69 @@ class Solution:
         return dp(0, 0)
 ```
 * [[Medium] 1035. Uncrossed Lines](%5BMedium%5D%201035.%20Uncrossed%20Lines.md)
+
+### Brute Force
+```python
+class Solution(object):
+    def shortestSuperstring(self, A):
+        N = len(A)
+
+        # Populate overlaps
+        overlaps = [[0] * N for _ in xrange(N)]
+        for i, x in enumerate(A):
+            for j, y in enumerate(A):
+                if i != j:
+                    for ans in xrange(min(len(x), len(y)), -1, -1):
+                        if x.endswith(y[:ans]):
+                            overlaps[i][j] = ans
+                            break
+
+        # dp[mask][i] = most overlap with mask, ending with ith element
+        dp = [[0] * N for _ in xrange(1<<N)]
+        parent = [[None] * N for _ in xrange(1<<N)]
+        for mask in xrange(1, 1 << N):
+            for bit in xrange(N):
+                if (mask >> bit) & 1:
+                    # Let's try to find dp[mask][bit].  Previously, we had
+                    # a collection of items represented by pmask.
+                    pmask = mask ^ (1 << bit)
+                    if pmask == 0: continue
+                    for i in xrange(N):
+                        if (pmask >> i) & 1:
+                            # For each bit i in pmask, calculate the value
+                            # if we ended with word i, then added word 'bit'.
+                            value = dp[pmask][i] + overlaps[i][bit]
+                            if value > dp[mask][bit]:
+                                dp[mask][bit] = value
+                                parent[mask][bit] = i
+
+        # Answer will have length sum(len(A[i]) for i) - max(dp[-1])
+        # Reconstruct answer:
+
+        # Follow parents down backwards path that retains maximum overlap
+        perm = []
+        mask = (1<<N) - 1
+        i = max(xrange(N), key = dp[-1].__getitem__)
+        while i is not None:
+            perm.append(i)
+            mask, i = mask ^ (1<<i), parent[mask][i]
+
+        # Reverse path to get forwards direction; add all remaining words
+        perm = perm[::-1]
+        seen = [False] * N
+        for x in perm:
+            seen[x] = True
+        perm.extend([i for i in xrange(N) if not seen[i]])
+
+        # Reconstruct answer given perm = word indices in left to right order
+        ans = [A[perm[0]]]
+        for i in xrange(1, len(perm)):
+            overlap = overlaps[perm[i-1]][perm[i]]
+            ans.append(A[perm[i]][overlap:])
+
+        return "".join(ans)
+```
+* [[Hard] [Solution] 943. Find the Shortest Superstring](%5BHard%5D%20%5BSolution%5D%20943.%20Find%20the%20Shortest%20Superstring.md)
 
 ### DP + Binary Search
 ```python
@@ -13910,6 +13975,41 @@ class Solution:
         buildings = [0 for _ in range(n)]
         return dfs(buildings, 0)
 ```
+### Try all combination
+```python
+class Solution:
+    def solveNQueens(self, n: int) -> List[List[str]]:
+        queens = []
+        grid = [['.' for i1 in range(n)] for i2 in range(n)]
+        solution = []
+
+        def isValid(location):
+            row, col = location
+            for queen in queens:
+                x, y = queen
+                if abs(row - x) == abs(col - y):
+                    return False
+                if row == x or col == y:
+                    return False
+            return True
+
+        def solve(col):
+            if col >= n:
+                solution.append([''.join(row) for row in grid])
+                return
+
+            for r in range(n):
+                if isValid((r, col)):
+                    grid[r][col] = 'Q'
+                    queens.append((r, col))
+                    solve(col + 1)
+                    grid[r][col] = '.'
+                    queens.remove((r, col))
+
+        solve(0)
+        return solution
+```
+* [[Hard] 51. N-Queens](%5BHard%5D%2051.%20N-Queens.md)
 
 ### Spiral Backtracking
 ```python

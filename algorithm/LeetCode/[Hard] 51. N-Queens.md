@@ -28,6 +28,10 @@ Explanation: There exist two distinct solutions to the 4-queens puzzle as shown 
 # Submissions
 ---
 **Solution 1: (Backtracking)**
+
+* Time: O(N!)
+* Space: O(N^2)
+
 ```
 Runtime: 144 ms
 Memory Usage: 14 MB
@@ -52,7 +56,7 @@ class Solution:
         def solve(col):
             if col >= n:
                 solution.append([''.join(row) for row in grid])
-                return True
+                return
 
             for r in range(n):
                 if isValid((r, col)):
