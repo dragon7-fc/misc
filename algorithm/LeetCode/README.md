@@ -688,6 +688,12 @@ Happy Coding!!
 * [[Medium] [Solution] 890. Find and Replace Pattern](%5BMedium%5D%20%5BSolution%5D%20890.%20Find%20and%20Replace%20Pattern.md)
 * [[Hard] 51. N-Queens](%5BHard%5D%2051.%20N-Queens.md)
 * [[Hard] [Solution] 943. Find the Shortest Superstring](%5BHard%5D%20%5BSolution%5D%20943.%20Find%20the%20Shortest%20Superstring.md)
+* [[Easy] 709. To Lower Case](%5BEasy%5D%20709.%20To%20Lower%20Case.md)
+* [[Medium] 150. Evaluate Reverse Polish Notation](%5BMedium%5D%20150.%20Evaluate%20Reverse%20Polish%20Notation.md)
+* [[Medium] 1689. Partitioning Into Minimum Number Of Deci-Binary Numbers](%5BMedium%5D%201689.%20Partitioning%20Into%20Minimum%20Number%20Of%20Deci-Binary%20Numbers.md)
+* [[Medium] 318. Maximum Product of Word Lengths](%5BMedium%5D%20318.%20Maximum%20Product%20of%20Word%20Lengths.md)
+* [[Medium] 1695. Maximum Erasure Value](%5BMedium%5D%201695.%20Maximum%20Erasure%20Value.md)
+* [[Hard] 52. N-Queens II](%5BHard%5D%2052.%20N-Queens%20II.md)
 
 ## Array <a name="array"></a>
 ---
@@ -4910,6 +4916,14 @@ class Solution:
         return 0
 ```
 * [[Easy] [Solution] 976. Largest Perimeter Triangle](%5BEasy%5D%20%5BSolution%5D%20976.%20Largest%20Perimeter%20Triangle.md)
+
+### Maximum
+```python
+class Solution:
+    def minPartitions(self, n: str) -> int:
+        return int(max(n))
+```
+* [[Medium] 1689. Partitioning Into Minimum Number Of Deci-Binary Numbers](%5BMedium%5D%201689.%20Partitioning%20Into%20Minimum%20Number%20Of%20Deci-Binary%20Numbers.md)
 
 ### Area sum
 ```python
@@ -10467,6 +10481,20 @@ return ans
 
 ## Greedy <a name="greedy"></a>
 ---
+### character conversion
+```python
+class Solution:
+    def toLowerCase(self, s: str) -> str:
+        ans = ''
+        for c in s:
+            if c.isalpha() and ord(c) < ord('a'):
+                ans += chr(ord('a')+ord(c)-ord('A')) 
+            else:
+                ans += c
+        return ans
+```
+* [[Easy] 709. To Lower Case](%5BEasy%5D%20709.%20To%20Lower%20Case.md)
+
 ### Max Profit
 ```python
 class Solution:
@@ -13975,7 +14003,7 @@ class Solution:
         buildings = [0 for _ in range(n)]
         return dfs(buildings, 0)
 ```
-### Try all combination
+### Try all combination path
 ```python
 class Solution:
     def solveNQueens(self, n: int) -> List[List[str]]:
@@ -14010,6 +14038,40 @@ class Solution:
         return solution
 ```
 * [[Hard] 51. N-Queens](%5BHard%5D%2051.%20N-Queens.md)
+
+### Try all combination count
+```python
+class Solution:
+    def totalNQueens(self, n: int) -> int:
+        queens = []
+        solution = []
+        ans = 0
+
+        def isValid(location):
+            row, col = location
+            for queen in queens:
+                x, y = queen
+                if abs(row - x) == abs(col - y):
+                    return False
+                if row == x or col == y:
+                    return False
+            return True
+
+        def solve(col):
+            nonlocal ans
+            if col >= n:
+                return 1
+            rst = 0
+            for r in range(n):
+                if isValid((r, col)):
+                    queens.append((r, col))
+                    rst += solve(col + 1)
+                    queens.remove((r, col))
+            return rst
+
+        return solve(0)
+```
+* [[Hard] 52. N-Queens II](%5BHard%5D%2052.%20N-Queens%20II.md)
 
 ### Spiral Backtracking
 ```python
@@ -14174,6 +14236,25 @@ class Solution:
          return int(''.join(chr(ord('0') + ord('1') - ord(ch)) for ch in bin(num)[2:]),2)
 ```
 * [[Easy] 476. Number Complement](%5BEasy%5D%20476.%20Number%20Complement.md?_xsrf=2%7C5e3776f8%7C24c18c3d2c50a10817453c72e445205a%7C1587427356)
+
+### Ascii to hash value
+```python
+class Solution:
+    def maxProduct(self, words: List[str]) -> int:
+        if not words: return 0
+        N = len(words)
+        ans, hashword = 0, [0] * N 
+        for i in range(N):
+            for j in words[i]:
+                hashword[i] |= 1 << (ord(j) - ord('a'))
+        for i in range(N):
+            for j in range(i+1, N):
+                if not (hashword[i] & hashword[j]): 
+                    ans = max(ans, len(words[i]) * len(words[j]))
+
+        return ans
+```
+* [[Medium] 318. Maximum Product of Word Lengths](%5BMedium%5D%20318.%20Maximum%20Product%20of%20Word%20Lengths.md)
 
 ### division simulation
 ```python

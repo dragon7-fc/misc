@@ -38,3 +38,20 @@ class Solution:
         """
         return str.lower()
 ```
+
+**Solution 2: (Greedy)**
+```
+Runtime: 32 ms
+Memory Usage: 14.2 MB
+```
+```python
+class Solution:
+    def toLowerCase(self, s: str) -> str:
+        ans = ''
+        for c in s:
+            if c.isalpha() and ord(c) < ord('a'):
+                ans += chr(ord('a')+ord(c)-ord('A')) 
+            else:
+                ans += c
+        return ans
+```

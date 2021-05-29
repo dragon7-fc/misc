@@ -35,10 +35,9 @@ Memory Usage: 13.9 MB
 class Solution:
     def totalNQueens(self, n: int) -> int:
         queens = []
-        grid = [['.' for i1 in range(n)] for i2 in range(n)]
         solution = []
         ans = 0
-        
+
         def isValid(location):
             row, col = location
             for queen in queens:
@@ -56,13 +55,11 @@ class Solution:
             rst = 0
             for r in range(n):
                 if isValid((r, col)):
-                    grid[r][col] = 'Q'
                     queens.append((r, col))
                     rst += solve(col + 1)
-                    grid[r][col] = '.'
                     queens.remove((r, col))
             return rst
-        
+
         return solve(0)
 ```
 
