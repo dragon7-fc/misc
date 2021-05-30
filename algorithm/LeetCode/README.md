@@ -694,6 +694,7 @@ Happy Coding!!
 * [[Medium] 318. Maximum Product of Word Lengths](%5BMedium%5D%20318.%20Maximum%20Product%20of%20Word%20Lengths.md)
 * [[Medium] 1695. Maximum Erasure Value](%5BMedium%5D%201695.%20Maximum%20Erasure%20Value.md)
 * [[Hard] 52. N-Queens II](%5BHard%5D%2052.%20N-Queens%20II.md)
+* [[Hard] [Solution] 164. Maximum Gap](%5BHard%5D%20%5BSolution%5D%20164.%20Maximum%20Gap.md)
 
 ## Array <a name="array"></a>
 ---
@@ -14833,6 +14834,37 @@ class Solution:
         return mat
 ```
 * [[Medium] 1329. Sort the Matrix Diagonally](%5BMedium%5D%201329.%20Sort%20the%20Matrix%20Diagonally.md)
+
+### Bucket Sort
+```python
+class Solution:
+    def maximumGap(self, nums: List[int]) -> int:
+        ## RC ##
+        ## APPROACH : BUCKET SORT ##
+        ## LOGIC ##
+        ## 1. lets say we have number from 1 to 10 like, 1,1.1,1.2,2.4,3.5,3.7,4,....10 (not in the same order)
+        ## 2. we create n - 1 buckets, why n-1 ? (b1 -> [1-2] b2-> [2-3] b3->[3-4] ...so on 9 buckets)
+        ## 3. we can say size of each bucket will be (10 - 1) // 9 i.e 1 ==> (maximum - mimimum) // (length - 1)
+        ## 3. Instead of storing all the elements in the buckets, we store minvalue of that bucket and maximum value of that bucket
+        ## 4. Maximum Gap can be Case 1: gap between min and max in the bucket itself (or) Case 2: Gap between bucket1 max and bucket2 and so on..
+
+        ## TIME COMPLEXITY : O(N) ##
+        ## SPACE COMPLEXITY : O(N) ##
+
+        if len(nums) < 2 or min(nums) == max(nums):
+            return 0
+        minimum, maximum = min(nums), max(nums)
+        size = ( maximum - minimum )//(len(nums) - 1) or 1
+        buckets = [[None, None] for _ in range((maximum-minimum)//size + 1)]
+        for num in nums:
+            # getting the bucket number in which it falls into
+            bucket = buckets[(num - minimum)//size]
+            bucket[0] = num if bucket[0] is None else min(bucket[0], num)
+            bucket[1] = num if bucket[1] is None else max(bucket[1], num)
+        buckets = [bucket for bucket in buckets if bucket[0] is not None]
+        return max(buckets[i][0]-buckets[i-1][1] for i in range(1, len(buckets)))
+```
+* [[Hard] [Solution] 164. Maximum Gap](%5BHard%5D%20%5BSolution%5D%20164.%20Maximum%20Gap.md)
 
 ### value to correct index, bucket sort
 ```python
