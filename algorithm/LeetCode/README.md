@@ -1,4 +1,4 @@
-
+ xx
 # Must do questions for a beginner!!
 
 Start with the questions which are tagged easy. Keep a goal of solving 5 questions daily, if you are not able to solve 5 in a day, reduce it to 2-3 questions. In the same way, you can increase the count to 8-10 questions daily. Make sure you remember your approach and try to explore more approaches available for that question.
@@ -61,6 +61,7 @@ Happy Coding!!
 1. [202103 March LeetCoding Challenge](#202103)
 1. [202104 April LeetCoding Challenge](#202104)
 1. [202105 May LeetCoding Challenge](#202105)
+1. [202106 June LeetCoding Challenge](#202106)
 1. [Array](#array)
 1. [Dynamic Programming](#dp)
 1. [Math](#math)
@@ -695,6 +696,14 @@ Happy Coding!!
 * [[Medium] 1695. Maximum Erasure Value](%5BMedium%5D%201695.%20Maximum%20Erasure%20Value.md)
 * [[Hard] 52. N-Queens II](%5BHard%5D%2052.%20N-Queens%20II.md)
 * [[Hard] [Solution] 164. Maximum Gap](%5BHard%5D%20%5BSolution%5D%20164.%20Maximum%20Gap.md)
+* [[Medium] 1268. Search Suggestions System](%5BMedium%5D%201268.%20Search%20Suggestions%20System.md)
+
+## 202106 June LeetCoding Challenge <a name="202106"></a>
+* [[Medium] [Solution] 695. Max Area of Island](%5BMedium%5D%20%5BSolution%5D%20695.%20Max%20Area%20of%20Island.md)
+* [[Hard] [Solution] 97. Interleaving String](%5BHard%5D%20%5BSolution%5D%2097.%20Interleaving%20String.md)
+* [[Medium] 1465. Maximum Area of a Piece of Cake After Horizontal and Vertical Cuts](%5BMedium%5D%201465.%20Maximum%20Area%20of%20a%20Piece%20of%20Cake%20After%20Horizontal%20and%20Vertical%20Cuts.md)
+* [[Medium] 752. Open the Lock](%5BMedium%5D%20752.%20Open%20the%20Lock.md)
+* [[Hard] 1383. Maximum Performance of a Team](%5BHard%5D%201383.%20Maximum%20Performance%20of%20a%20Team.md)
 
 ## Array <a name="array"></a>
 ---
@@ -2910,6 +2919,69 @@ class Solution:
         return count
 ```
 * [[Medium] [Solution] 376. Wiggle Subsequence](%5BMedium%5D%20%5BSolution%5D%20376.%20Wiggle%20Subsequence.md)
+
+### Brute Force, Backtracking
+```python
+import functools
+class Solution:
+    def isInterleave(self, s1: str, s2: str, s3: str) -> bool:
+        M, N = len(s1), len(s2)
+
+        @functools.lru_cache(None)
+        def is_Interleave(i, j, k):
+            if i == M:
+                return s2[j:] == s3[k:]
+            if j == N:
+                return s1[i:] == s3[k:]
+            ans = False
+            if s3[k] == s1[i] and is_Interleave(i + 1, j, k + 1) \
+               or s3[k] == s2[j] and is_Interleave(i, j + 1, k + 1):
+                ans = True
+            return ans
+
+        return is_Interleave(0, 0, 0)
+    
+class Solution:
+    def isInterleave(self, s1: str, s2: str, s3: str) -> bool:
+        M, N = len(s1), len(s2)
+        if len(s3) != M + N:
+            return False
+        dp = [[False]*(N + 1) for _ in range(M + 1)]
+        for i in range(M + 1):
+            for j in range(N + 1):
+                if i == 0 and j == 0:
+                    dp[i][j] = True
+                elif i == 0:
+                    dp[i][j] = dp[i][j - 1] and s2[j - 1] == s3[i + j - 1]
+                elif j == 0:
+                    dp[i][j] = dp[i - 1][j] and s1[i - 1] == s3[i + j - 1]
+                else:
+                    dp[i][j] = dp[i - 1][j] and s1[i - 1] == s3[i + j - 1] \
+                    or dp[i][j - 1] and s2[j - 1] == s3[i + j - 1]
+
+        return dp[M][N]
+
+class Solution:
+    def isInterleave(self, s1: str, s2: str, s3: str) -> bool:
+        M, N = len(s1), len(s2)
+        if len(s3) != M + N:
+            return False
+        dp = [False]*(N + 1)
+        for i in range(M + 1):
+            for j in range(N + 1):
+                if i == 0 and j == 0:
+                    dp[j] = True
+                elif i == 0:
+                    dp[j] = dp[j - 1] and s2[j - 1] == s3[i + j - 1]
+                elif j == 0:
+                    dp[j] = dp[j] and s1[i - 1] == s3[i + j - 1]
+                else:
+                    dp[j] = dp[j] and s1[i - 1] == s3[i + j - 1] \
+                    or dp[j - 1] and s2[j - 1] == s3[i + j - 1]
+
+        return dp[N]
+```
+* [[Hard] [Solution] 97. Interleaving String](%5BHard%5D%20%5BSolution%5D%2097.%20Interleaving%20String.md)
 
 ### jump index
 ```python
@@ -8698,6 +8770,57 @@ class Solution:
 ```
 * [[Easy] [Solution] 100. Same Tree](%5BEasy%5D%20%5BSolution%5D%20100.%20Same%20Tree.md)
 
+### search max area
+```python
+class Solution:
+    def maxAreaOfIsland(self, grid):
+        """
+        :type grid: List[List[int]]
+        :rtype: int
+        """
+        seen = set()
+        def area(r, c):
+            if not (0 <= r < len(grid) and 0 <= c < len(grid[0])
+                   and (r, c) not in seen and grid[r][c]):
+                return 0
+            seen.add((r, c))
+            return (1 
+                    + area(r-1, c) 
+                    + area(r+1, c) 
+                    + area(r, c-1) 
+                    + area(r, c+1))
+
+        return max(area(r, c)
+                  for r in range(len(grid))
+                  for c in range(len(grid[0])))
+    
+class Solution:
+    def maxAreaOfIsland(self, grid):
+        """
+        :type grid: List[List[int]]
+        :rtype: int
+        """
+        seen = set()
+        ans = 0
+        for r0, row in enumerate(grid):
+            for c0, val in enumerate(row):
+                if val and (r0, c0) not in seen:
+                    shape = 0
+                    stack = [(r0, c0)]
+                    seen.add((r0, c0))
+                    while stack:
+                        r, c = stack.pop()
+                        shape += 1
+                        for nr, nc in [(r-1, c), (r+1, c), (r, c-1), (r, c+1)]:
+                            if (0 <= nr < len(grid) and 0 <= nc < len(grid[0]) 
+                                and grid[nr][nc] and (nr, nc) not in seen):
+                                stack.append((nr, nc))
+                                seen.add((nr, nc))
+                    ans = max(ans, shape)
+        return ans
+```
+* [[Medium] [Solution] 695. Max Area of Island](%5BMedium%5D%20%5BSolution%5D%20695.%20Max%20Area%20of%20Island.md)
+
 ### Search map, fix one axes and move forward the other
 ```python
 class Solution:
@@ -11309,6 +11432,36 @@ class Solution:
         return min(self.minDepth(root.left), self.minDepth(root.right)) + 1
 ```
 * [[Easy] 111. Minimum Depth of Binary Tree](%5BEasy%5D%20111.%20Minimum%20Depth%20of%20Binary%20Tree.md)
+
+### Level order
+```python
+class Solution:
+    def openLock(self, deadends: List[str], target: str) -> int:
+        def neighbors(code):
+            for i in range(4):
+                x = int(code[i])
+                for diff in (-1, 1):
+                    y = (x + diff + 10) % 10
+                    yield code[:i] + str(y) + code[i + 1:]
+
+        deadSet = set(deadends)
+        if "0000" in deadSet: return -1
+        q = deque(["0000"])
+        steps = 0
+        while q:
+            for _ in range(len(q)):
+                curr = q.popleft()
+                if curr == target:
+                    return steps
+                for nei in neighbors(curr):
+                    if nei in deadSet: continue
+                    deadSet.add(nei)  # Marked as visited
+                    q.append(nei)
+            steps += 1
+
+        return -1
+```
+* [[Medium] 752. Open the Lock](%5BMedium%5D%20752.%20Open%20the%20Lock.md)
 
 ### Level order
 ```python
@@ -14567,6 +14720,34 @@ class Solution:
 ```
 * [[Easy] 1029. Two City Scheduling](%5BEasy%5D%201029.%20Two%20City%20Scheduling.md)
 
+### Max horizontal length * max vertical length = max area
+```python
+class Solution:
+    def maxArea(self, h: int, w: int, horizontalCuts: List[int], verticalCuts: List[int]) -> int:
+        horizontalCuts.sort()
+        verticalCuts.sort()
+        dy, dx = max(horizontalCuts[0], h - horizontalCuts[-1]), max(verticalCuts[0], w - verticalCuts[-1])
+        for i in range(1, len(horizontalCuts)):
+            dy = max(dy, horizontalCuts[i] - horizontalCuts[i - 1])
+        for i in range(1, len(verticalCuts)):
+            dx = max(dx, verticalCuts[i] - verticalCuts[i - 1])
+        return dx * dy % (10**9 + 7)
+```
+* [[Medium] 1465. Maximum Area of a Piece of Cake After Horizontal and Vertical Cuts](%5BMedium%5D%201465.%20Maximum%20Area%20of%20a%20Piece%20of%20Cake%20After%20Horizontal%20and%20Vertical%20Cuts.md)
+
+### recursive filter
+```python
+class Solution:
+    def suggestedProducts(self, products: List[str], searchWord: str) -> List[List[str]]:
+        result = list() 
+        products.sort()
+        for i in range(1, len(searchWord)+1):
+            products = list(filter(lambda x: x.startswith(searchWord[:i]), products))
+            result.append(products[:3])
+        return result
+```
+* [[Medium] 1268. Search Suggestions System](%5BMedium%5D%201268.%20Search%20Suggestions%20System.md)
+
 ### Quick sort
 ```python
 class Solution:
@@ -16088,6 +16269,33 @@ class Solution:
         return heapq.nsmallest(K, points, key= lambda x: x[0]**2 + x[1]**2)
 ```
 * [[Medium] [Solution] 973. K Closest Points to Origin](%5BMedium%5D%20%5BSolution%5D%20973.%20K%20Closest%20Points%20to%20Origin.md)
+
+### Sort by efficiency, and greedy over max speed with heap
+```python
+class Solution:
+    def maxPerformance(self, n: int, speed: List[int], efficiency: List[int], k: int) -> int:
+        modulo = 10 ** 9 + 7
+
+        # build tuples of (efficiency, speed)
+        candidates = zip(efficiency, speed)
+        # sort the candidates by their efficiencies
+        candidates = sorted(candidates, key=lambda t:t[0], reverse=True)
+
+        speed_heap = []
+        speed_sum, perf = 0, 0
+        for curr_efficiency, curr_speed in candidates:
+            # maintain a heap for the fastest (k-1) speeds
+            if len(speed_heap) > k-1:
+                speed_sum -= heapq.heappop(speed_heap)
+            heapq.heappush(speed_heap, curr_speed)
+
+            # calcuslate the maximum performance with the current member as the least efficient one in the team
+            speed_sum += curr_speed
+            perf = max(perf, speed_sum * curr_efficiency)
+
+        return perf % modulo
+```
+* [[Hard] 1383. Maximum Performance of a Team](%5BHard%5D%201383.%20Maximum%20Performance%20of%20a%20Team.md)
 
 ### think backward
 ```python

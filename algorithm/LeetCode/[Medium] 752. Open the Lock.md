@@ -50,39 +50,33 @@ Output: -1
 ---
 **Solution 1: (BFS)**
 ```
-Runtime: 116 ms
-Memory Usage: 13.3 MB
+Runtime: 1048 ms
+Memory Usage: 15.4 MB
 ```
 ```python
 class Solution:
     def openLock(self, deadends: List[str], target: str) -> int:
-        start = '0000'
-        end = target
-        s1 = {start}
-        s2 = {end}
-        deadendsSet = set(deadends)
-        N = len(start)
-        step = 0
+        def neighbors(code):
+            for i in range(4):
+                x = int(code[i])
+                for diff in (-1, 1):
+                    y = (x + diff + 10) % 10
+                    yield code[:i] + str(y) + code[i + 1:]
 
-        if start in deadendsSet:
-            return -1
+        deadSet = set(deadends)
+        if "0000" in deadSet: return -1
+        q = deque(["0000"])
+        steps = 0
+        while q:
+            for _ in range(len(q)):
+                curr = q.popleft()
+                if curr == target:
+                    return steps
+                for nei in neighbors(curr):
+                    if nei in deadSet: continue
+                    deadSet.add(nei)  # Marked as visited
+                    q.append(nei)
+            steps += 1
 
-        while len(s1) > 0 and len(s2) > 0:
-            step +=1
-            if len(s1) > len(s2):
-                s1,s2 = s2,s1
-            s = set()
-            for num in s1:
-                for i in range(N):
-                    for delta in [-1,1]:
-                        ch = (ord(num[i]) - ord('0') + delta +10)%10
-                        exNum = num[:i] + str(ch) + num[i+1:]
-                        if exNum in s2:
-                            return step
-                        if exNum in deadendsSet:
-                            continue
-                        s.add(exNum)
-            s1 = s
-        
         return -1
 ```

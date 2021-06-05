@@ -1,4 +1,4 @@
-# misc
+f# misc
 
 A playground to note something.
 
@@ -441,233 +441,597 @@ A playground to note something.
             - ex. change to 10.244.0.0/24
             
                 `kubectl apply -f "https://cloud.weave.works/k8s/net?k8s-version=$(kubectl version | base64 | tr -d '\n')&env.IPALLOC_RANGE=10.244.0.0/16"`
-    - Miac
+    - Backing up an etcd cluster
+            
+        ```bash
+        ETCDCTL_API='3' etcdctl snapshot save --cacert=/etc/kubernetes/pki/etcd/ca.crt --cert=/etc/kubernetes/pki/etcd/server.crt --key=/etc/kubernetes/pki/etcd/server.key /PATH/TO/BACKUP.XX
+        ```
+    - Restore an etcd cluster
+        
+        ```bash
+        ETCDCTL_API=3 etcdctl snapshot restore /tmp/etcd-backup.db --data-dir /var/lib/etcd-backup
+            
+        vim /etc/kubernetes/manifests/etcd.yaml
+            
+        spec:
+          ...
+          volumes:
+          ...
+          - hostPath:
+              path: /var/lib/etcd-backup                # change
+              type: DirectoryOrCreate
+            name: etcd-data
+        ```
+    - upgrade (ex. 1.18.0 -> 1.19.0)
+        
+        ```bash
+        # On Master Node
+
+        kubectl drain controlplane --ignore-daemonsets
+        apt-get install kubeadm=1.19.0-00
+        kubeadm  upgrade plan
+        kubeadm  upgrade apply v1.19.0
+        apt-get install kubelet=1.19.0-00
+        systemctl daemon-reload
+        systemctl restart kubelet
+        kubectl uncordon controlplane
+        kubectl drain node01 --ignore-daemonsets
+
+
+        # On Worker Node
+
+        apt-get install kubeadm=1.19.0-00
+        kubeadm upgrade node
+        apt-get install kubelet=1.19.0-00
+        systemctl daemon-reload
+        systemctl restart kubelet     
+
+        # Back on Master Nodess
+
+        kubectl uncordon node01
+        ```
+    - add user (ex. add john)
+        
+        ```bash
+        # Create private key
+        #
+        # generate private key
+        openssl genrsa -out john.key 2048
+            
+        # generate public key
+        openssl req -new -key john.key -out john.csr
+            
+        # Create CertificateSigningRequest
+        #
+        # create csr
+        cat <<EOF | kubectl apply -f -
+        apiVersion: certificates.k8s.io/v1
+        kind: CertificateSigningRequest
+        metadata:
+          name: john
+        spec:
+          groups:
+          - system:authenticated
+          request: $(cat john.csr | base64 | tr -d "\n")
+          signerName: kubernetes.io/kube-apiserver-client
+          usages:
+          - client auth
+        EOF
+            
+        # Approve certificate signing request
+        #
+        # approve csr
+        kubectl certificate approve john
+            
+        # Create Role and RoleBinding
+        #
+        # create role
+        kubectl create role developer --resource=pods --verb=create,list,get,update,delete
+            
+        # create rolebinding
+        kubectl create rolebinding developer-role-binding --role=developer --user=john
+            
+        # check authority
+        kubectl auth can-i update pods --as=john --namespace=development
+            
+        # Add to kubeconfig
+        #
+        # add new credentials
+        kubectl config set-credentials john --client-key=john.key --client-certificate=john.csr --embed-certs=true
+            
+        # add the context
+        kubectl config set-context john --cluster=kubernetes --user=john
+            
+        # change the context to john
+        kubectl config use-context john
+        ```
+    - add service account (ex. add pvviewer)
+        
+        ```bash
+        kubectl create serviceaccount pvviewer
+        kubectl create clusterrole pvviewer-role --resource=persistentvolumes --verb=list
+        kubectl create clusterrolebinding pvviewer-role-binding --clusterrole=pvviewer-role --serviceaccount=default:pvviewer
+
+        vim XXX-pod.yaml
+            
+        kind: pod
+        ...
+        spec:
+          serviceAccountName: pvviewer
+        ```
+    - add service account
+        
+        ```bash
+        kubectl -n project-hamster create sa processor
+            
+        kubectl -n project-hamster create role processor \
+          --verb=create \
+          --resource=secret \
+          --resource=configmap
+              
+        kubectl -n project-hamster create rolebinding processor \
+          --role processor \
+          --serviceaccount project-hamster:processor
+              
+        kubectl -n project-hamster auth can-i create secret \
+          --as system:serviceaccount:project-hamster:processor
+            
+        kubectl -n project-hamster auth can-i create configmap \
+          --as system:serviceaccount:project-hamster:processor
+        ```
+    - check certificate
+        
+        - ex. echeck apiserver expiration: `kubeadm certs check-expiration | grep apiserver`
+        - ex. renew the apiserver server certificate: `kubeadm certs renew apiserver`
+    - check kubelet certificate directory
+        
+        - `/var/lib/kubelet/pki`: default of `kubelet --cert-dir`
+    - customized kubelet manifests directory
     
-        - Backing up an etcd cluster
-            
-            ```bash
-            ETCDCTL_API='3' etcdctl snapshot save --cacert=/etc/kubernetes/pki/etcd/ca.crt --cert=/etc/kubernetes/pki/etcd/server.crt --key=/etc/kubernetes/pki/etcd/server.key /PATH/TO/BACKUP.XX
-            ```
-        - Restore an etcd cluster
+        - `--pod-manifest-path`
+    - service cidr
+    
+        - parameter: `--service-cluster-ip-range`
         
-            ```bash
-            ETCDCTL_API=3 etcdctl snapshot restore /tmp/etcd-backup.db --data-dir /var/lib/etcd-backup
-            
-            vim /etc/kubernetes/manifests/etcd.yaml
-            
-            ...
-            spec:
-              ...
-              volumes:
-              ...
-              - hostPath:
-                  path: /var/lib/etcd-backup                # change
-                  type: DirectoryOrCreate
-                name: etcd-data
-              ...
-            ```
-        - upgrade (ex. 1.18.0 -> 1.19.0)
-        
-            ```bash
-            # On Master Node:-
-
-            kubectl drain controlplane --ignore-daemonsets
-            apt-get install kubeadm=1.19.0-00
-            kubeadm  upgrade plan
-            kubeadm  upgrade apply v1.19.0
-            apt-get install kubelet=1.19.0-00
-            systemctl daemon-reload
-            systemctl restart kubelet
-            kubectl uncordon controlplane
-            kubectl drain node01 --ignore-daemonsets
-
-
-            # On Worker Node:-
-
-            apt-get install kubeadm=1.19.0-00
-            kubeadm upgrade node
-            apt-get install kubelet=1.19.0-00
-            systemctl daemon-reload
-            systemctl restart kubelet     
-
-            # Back on Master Node:-
-
-            kubectl uncordon node01
-            ```
-        - add user (ex. add john)
-        
-            ```python
-            # Create private key
-            #
-            # generate private key
-            openssl genrsa -out john.key 2048
-            
-            # generate public key
-            openssl req -new -key john.key -out john.csr
-            
-            # Create CertificateSigningRequest
-            #
-            # create csr
-            cat <<EOF | kubectl apply -f -
-            apiVersion: certificates.k8s.io/v1
-            kind: CertificateSigningRequest
-            metadata:
-              name: john
-            spec:
-              groups:
-              - system:authenticated
-              request: $(cat john.csr | base64 | tr -d "\n")
-              signerName: kubernetes.io/kube-apiserver-client
-              usages:
-              - client auth
-            EOF
-            
-            # Approve certificate signing request
-            #
-            # approve csr
-            kubectl certificate approve john
-            
-            # Create Role and RoleBinding
-            #
-            # create role
-            kubectl create role developer --resource=pods --verb=create,list,get,update,delete
-            
-            # create rolebinding
-            kubectl create rolebinding developer-role-binding --role=developer --user=john
-            
-            # check authority
-            kubectl auth can-i update pods --as=john --namespace=development
-            
-            # Add to kubeconfig
-            #
-            # add new credentials
-            kubectl config set-credentials john --client-key=john.key --client-certificate=john.csr --embed-certs=true
-            
-            # add the context
-            kubectl config set-context john --cluster=kubernetes --user=john
-            
-            # change the context to john
-            kubectl config use-context john
-            ```
-        - add service account (ex. add pvviewer)
-        
-            ```bash
-            kubectl create serviceaccount pvviewer
-            kubectl create clusterrole pvviewer-role --resource=persistentvolumes --verb=list
-            kubectl create clusterrolebinding pvviewer-role-binding --clusterrole=pvviewer-role --serviceaccount=default:pvviewer
-
-            vim XXX-pod.yaml
-            
-            ...
-            kind: pod
-            ...
-            spec:
-              serviceAccountName: pvviewer
-            ...
-            ```
-        - add service account
-        
-            ```bash
-            kubectl -n project-hamster create sa processor
-            
-            kubectl -n project-hamster create role processor \
-              --verb=create \
-              --resource=secret \
-              --resource=configmap
-              
-            kubectl -n project-hamster create rolebinding processor \
-              --role processor \
-              --serviceaccount project-hamster:processor
-              
-            kubectl -n project-hamster auth can-i create secret \
-              --as system:serviceaccount:project-hamster:processor
-            
-            kubectl -n project-hamster auth can-i create configmap \
-              --as system:serviceaccount:project-hamster:processor
-            ```
-        - check certificate
-        
-            - ex. echeck apiserver expiration: `kubeadm certs check-expiration | grep apiserver`
-            - ex. renew the apiserver server certificate: `kubeadm certs renew apiserver`
-        - check kubelet certificate directory
-        
-            - `/var/lib/kubelet/pki`: default of `kubelet --cert-dir`
-        - customized kubelet manifests directory
-        
-            - `--pod-manifest-path`
-        - service cidr
-        
-            - parameter: `--service-cluster-ip-range`
-            
-                - `/etc/kubernetes/manifests/kube-apiserver.yaml`
-                - `/etc/kubernetes/manifests/kube-controller-manager.yaml`
-        - Inter-pod anti-affinity
-        
-            ```bash
-            apiVersion: apps/v1
-            kind: Deployment
+            - `/etc/kubernetes/manifests/kube-apiserver.yaml`
+            - `/etc/kubernetes/manifests/kube-controller-manager.yaml`
+    - Inter-pod anti-affinity
+    
+        ```bash
+        apiVersion: apps/v1
+        kind: Deployment
+        metadata:
+          creationTimestamp: null
+          labels:
+            id: very-important                  # change
+          name: deploy-important
+          namespace: project-tiger              # important
+        spec:
+          replicas: 3                           # change
+          selector:
+            matchLabels:
+              id: very-important                # change
+          strategy: {}
+          template:
             metadata:
               creationTimestamp: null
               labels:
-                id: very-important                  # change
-              name: deploy-important
-              namespace: project-tiger              # important
+                id: very-important              # change
             spec:
-              replicas: 3                           # change
-              selector:
-                matchLabels:
-                  id: very-important                # change
-              strategy: {}
-              template:
-                metadata:
-                  creationTimestamp: null
-                  labels:
-                    id: very-important              # change
-                spec:
-                  containers:
-                  - image: nginx:1.17.6-alpine
-                    name: container1                # change
-                    resources: {}
-                  - image: kubernetes/pause         # add
-                    name: container2                # add
-                  affinity:                                             # add
-                    podAntiAffinity:                                    # add
-                      requiredDuringSchedulingIgnoredDuringExecution:   # add
-                      - labelSelector:                                  # add
-                          matchExpressions:                             # add
-                          - key: id                                     # add
-                            operator: In                                # add
-                            values:                                     # add
-                            - very-important                            # add
-                        topologyKey: kubernetes.io/hostname             # add
-            ```
-        - Pod
-        
-            ```
-            ...
-            kind: Pod
-            ...
-            spec:
-              nodeName: foo-node # schedule pod to specific node
-              # node affinity
-              nodeSelector:
-                # <LABEL-NAME>: <LABEL-VALUE>
-                node-role.kubernetes.io/master: ""
-              # toleration
-              tolerations:
-              - effect: NoSchedule
-                key: node-role.kubernetes.io/master
-              schedulerName: my-shiny-scheduler     # customized scheduler
               containers:
-              - c1
-                # Expose Pod Information to Containers Through Environment Variables
-                env:
-                  - name: MY_NODE_NAME
-                    valueFrom:
-                      fieldRef:
-                        fieldPath: spec.nodeName
-              ...
+              - image: nginx:1.17.6-alpine
+                name: container1                # change
+                resources: {}
+              - image: kubernetes/pause         # add
+                name: container2                # add
+              affinity:                                             # add
+                podAntiAffinity:                                    # add
+                  requiredDuringSchedulingIgnoredDuringExecution:   # add
+                  - labelSelector:                                  # add
+                      matchExpressions:                             # add
+                      - key: id                                     # add
+                        operator: In                                # add
+                        values:                                     # add
+                        - very-important                            # add
+                    topologyKey: kubernetes.io/hostname             # add
+        ```
+    - Pod
+    
+        ```
+        kind: Pod
+        ...
+        spec:
+          nodeName: foo-node # schedule pod to specific node
+          # node affinity
+          nodeSelector:
+            # <LABEL-NAME>: <LABEL-VALUE>
+            node-role.kubernetes.io/master: ""
+          # toleration
+          tolerations:
+          - effect: NoSchedule
+            key: node-role.kubernetes.io/master
+          schedulerName: my-shiny-scheduler     # customized scheduler
+          containers:
+          - c1
+            # Expose Pod Information to Containers Through Environment Variables
+            env:
+              - name: MY_NODE_NAME
+                valueFrom:
+                  fieldRef:
+                    fieldPath: spec.nodeName
+        ```
+    - falco
+    
+        - Falco uses system calls to secure and monitor a system, by:
+
+            - Parsing the Linux system calls from the kernel at runtime
+            - Asserting the stream against a powerful rules engine
+            - Alerting when a rule is violated
+        - install falco on worker node
+            
+            ```bash
+            curl -s https://falco.org/repo/falcosecurity-3672BA8F.asc | apt-key add -
+            echo "deb https://download.falco.org/packages/deb stable main" | tee -a /etc/apt/sources.list.d/falcosecurity.list
+            apt-get update -y
+            apt-get -y install linux-headers-$(uname -r)
+            apt-get install -y falco=0.26.1
             ```
+        - Usage
+        
+            - service
+            
+                ```bash
+                systemctl start falco
+                
+                # view log
+                cat /var/log/syslog | grep falco
+                ```
+            - command line
+            
+                ```bash
+                systemctl stop falco && falco
+                
+                # view log
+                falco
+                ```
+        - Configuration
+        
+            ```bash
+            vim /etc/falco/falco.yaml
+            
+            syslog_output:
+              enabled: trues
+            ```
+        - Create logs in correct format (ex. chnge Package management process launched message formate to time,container-id,container-name,user-name)
+        
+            ```bash
+            cd /etc/falco
+            grep -r "Package management process launched" .
+            
+            vim falco_rules.yaml
+            s
+            # Container is supposed to be immutable. Package management should be done in building the image.
+            - rule: Launch Package Management Process in Container
+              desc: Package management process ran inside container
+              condition: >
+                spawned_process
+                and container
+                and user.name != "_apt"
+                and package_mgmt_procs
+                and not package_mgmt_ancestor_procs
+                and not user_known_package_manager_in_container
+              output: >
+                Package management process launched in container (user=%user.name user_loginuid=%user.loginuid
+    command=%proc.cmdline container_id=%container.id container_name=%container.name                                     ## remove
+                Package management process launched in container %evt.time,%container.id,%container.name,%user.name     ## add
+              priority: ERROR
+              tags: [process, mitre_persistence]
+            ```
+            
+            __NOTE__: move custimized settings to /etc/falco/falco_rules.local.yaml
+        - Change kube-apiserver service type from NodePort to ClusterIP
+        
+           ```bash
+           vim kubectl config use-context workload-prod
+           
+           - command:
+            - kube-apiserver
+            - --advertise-address=192.168.100.11
+            - --allow-privileged=true
+            - --authorization-mode=Node,RBAC
+            - --client-ca-file=/etc/kubernetes/pki/ca.crt
+            - --enable-admission-plugins=NodeRestriction
+            - --enable-bootstrap-token-auth=true
+            - --etcd-cafile=/etc/kubernetes/pki/etcd/ca.crt
+            - --etcd-certfile=/etc/kubernetes/pki/apiserver-etcd-client.crt
+            - --etcd-keyfile=/etc/kubernetes/pki/apiserver-etcd-client.key
+            - --etcd-servers=https://127.0.0.1:2379
+            - --kubelet-client-certificate=/etc/kubernetes/pki/apiserver-kubelet-client.crt
+            - --kubelet-client-key=/etc/kubernetes/pki/apiserver-kubelet-client.key
+            - --kubelet-preferred-address-types=InternalIP,ExternalIP,Hostname
+        #    - --kubernetes-service-node-port=31000   # delete or set to 0
+            - --proxy-client-cert-file=/etc/kubernetes/pki/front-proxy-client.crt
+            - --proxy-client-key-file=/etc/kubernetes/pki/front-proxy-client.key
+            
+           kubectl delete svc kubernetes
+           kubectl get svc
+           ```
+    - Pod Security Policies
+   
+        - Cluster-level resources. Controls under which security conditions a Pod has to run.
+       
+        - Enable Admission Plugin for PodSecurityPolicy
+       
+            ```bash
+            vim /etc/kubernetes/manifests/kube-apiserver.yaml 
+           
+            - --enable-admission-plugins=NodeRestriction,PodSecurityPolicy      # change
+            ```
+        - Create new PodSecurityPolicy
+       
+            ```bash
+            # Creating a PodSecurityPolicy named psp-mount which allows hostPath volumes only for directory /tmp
+            vim psp.yaml
+           
+            apiVersion: policy/v1beta1
+            kind: PodSecurityPolicy
+            metadata:
+              name: psp-mount
+            spec:
+              privileged: true
+              seLinux:
+                rule: RunAsAny
+              supplementalGroups:
+                rule: RunAsAny
+              runAsUser:
+                rule: RunAsAny
+              fsGroup:
+                rule: RunAsAny
+              volumes:
+              - '*'
+              allowedHostPaths:             # task requirement
+                - pathPrefix: "/tmp"        # task requirement
+           
+            k create -f psp.yaml
+           
+            # Creating a ClusterRole named psp-mount which allows to use the new PSP
+            k -n team-red create clusterrole psp-mount --verb=use \
+                --resource=podsecuritypolicies --resource-name=psp-mount
+           
+            # Creating a RoleBinding named psp-mount in Namespace team-red which binds the new ClusterRole to all ServiceAccounts in the Namespace team-red
+            k -n team-red create rolebinding psp-mount --clusterrole=psp-mount --group system:serviceaccounts
+           
+            # test with deployment
+            k -n team-red rollout restart deploy docker-log-hacker
+            k -n team-red describe deploy docker-log-hacker
+           ```
+    - kube-bench
+        
+        ```bash
+        kube-bench master
+        kube-bench node
+        ```
+    - Open Policy Agent
+       
+        - Alter the existing constraint and/or template to also blacklist images from very-bad-registry.com.
+           
+            ```bash
+            k get crd
+           
+            k get constraint
+           
+            k edit blacklistimages pod-trusted-images
+           
+            k edit constrainttemplates blacklistimages
+           
+            apiVersion: templates.gatekeeper.sh/v1beta1
+            kind: ConstraintTemplate
+            metadata:
+            ...
+            spec:
+              crd:
+                spec:
+                  names:
+                    kind: BlacklistImages
+              targets:
+              - rego: |
+                  package k8strustedimages
+
+                  images {
+                    image := input.review.object.spec.containers[_].image
+                    not startswith(image, "docker-fake.io/")
+                    not startswith(image, "google-gcr-fake.com/")
+                    not startswith(image, "very-bad-registry.com/") # ADD THIS LINE
+                  }
+
+                  violation[{"msg": msg}] {
+                    not images
+                    msg := "not trusted image!"
+                  }
+                target: admission.k8s.gatekeeper.sh
+               
+            # test
+            k run opa-test --image=very-bad-registry.com/image
+            ```
+    - Kubernetes Dashboard
+    
+        - Secure Kubernetes Dashboard
+       
+            ```bash
+            k -n kubernetes-dashboard edit deploy kubernetes-dashboard
+           
+            template:
+              spec:
+                containers:
+                - args:
+                  - --namespace=kubernetes-dashboard  
+                  - --authentication-mode=token        # change or delete, "token" is default
+                  - --auto-generate-certificates       # add
+                  #- --enable-skip-login=true          # delete or set to false
+                  #- --enable-insecure-login           # delete
+                  image: kubernetesui/dashboard:v2.0.3
+                  imagePullPolicy: Always
+                  name: kubernetes-dashboard
+              
+            k -n kubernetes-dashboard edit svc kubernetes-dashboard
+           
+            spec:
+              clusterIP: 10.107.176.19
+              externalTrafficPolicy: Cluster
+              ports:
+              - name: http
+                nodePort: 32513  # delete
+                port: 9090
+                protocol: TCP
+                targetPort: 9090
+              - name: https
+                nodePort: 32441  # delete
+                port: 443
+                protocol: TCP
+                targetPort: 8443
+              selector:
+                k8s-app: kubernetes-dashboard
+              sessionAffinity: None
+              type: ClusterIP          # change or delete
+            status:
+              loadBalancer: {}
+            ```
+    - AppArmor
+    
+        - AppArmor Profile
+       
+            ```bash
+            # Install the AppArmor profile on Node cluster1-worker1
+            scp /opt/course/9/profile cluster1-worker1:~/
+            ssh cluster1-worker1
+            apparmor_parser -q ./profile
+            apparmor_status
+           
+            # Add label security=apparmor to the Node
+            k label node cluster1-worker1 security=apparmor
+           
+            # create the Deployment which uses the profile
+            k create deploy apparmor --image=nginx:1.19.2 $do > 9_deploy.yaml
+           
+            vim 9_deploy.yaml
+           
+            template:
+              metadata:
+                creationTimestamp: null
+                labels:
+                  app: apparmor
+                annotations:                                                                 # add
+                  container.apparmor.security.beta.kubernetes.io/c1: localhost/very-secure   # add
+              spec:
+                nodeSelector:                    # add
+                  security: apparmor             # add
+                containers:
+                - image: nginx:1.19.2
+                  name: c1                       # change
+                  resources: {}
+           
+            k -f 9_deploy.yaml create
+           
+            # This looks alright, the Pod is running on cluster1-worker1 because of the nodeSelector. 
+            k get pod -owide | grep apparmor
+           
+            # The AppArmor profile simply denies all filesystem writes, but Nginx needs to write into some locations to run, hence the errors.
+            k logs apparmor-85c65645dc-w852p
+           
+            /docker-entrypoint.sh: No files found in /docker-entrypoint.d/, skipping configuration
+            /docker-entrypoint.sh: 13: /docker-entrypoint.sh: cannot create /dev/null: Permission denied
+            2020/09/26 18:14:11 [emerg] 1#1: mkdir() "/var/cache/nginx/client_temp" failed (13: Permission denied)
+            nginx: [emerg] mkdir() "/var/cache/nginx/client_temp" failed (13: Permission denied)
+           
+            ssh cluster1-worker1
+            docker ps -a | grep apparmor
+           
+            # the container is using our AppArmor profile.
+            docker inspect 41f014a9e7a8 | grep -i profile
+                    "AppArmorProfile": "very-secure",
+            ```
+    - ETCD:
+    
+        - ETCD in Kubernetes stores data under `/registry/{type}/{namespace}/{name}`
+        - Verifying that data is encrypted
+        
+            ```bash
+            ETCDCTL_API=3 etcdctl \
+            --cert /etc/kubernetes/pki/apiserver-etcd-client.crt \
+            --key /etc/kubernetes/pki/apiserver-etcd-client.key \
+            --cacert /etc/kubernetes/pki/etcd/ca.crt get /registry/secrets/team-green/database-access
+            
+            k8s
+
+
+            v1Secret
+
+            database-access
+            team-green"*$3e0acd78-709d-4f07-bdac-d5193d0f2aa32bB
+            0kubectl.kubernetes.io/last-applied-configuration{"apiVersion":"v1","data":{"pass":"Y29uZmlkZW50aWFs"},"kind":"Secret","metadata":{"annotations":{},"name":"database-access","namespace":"team-green"}}
+            z
+            kubectl-client-side-applyUpdatevFieldsV1:
+            {"f:data":{".":{},"f:pass":{}},"f:metadata":{"f:annotations":{".":{},"f:kubectl.kubernetes.io/last-applied-configuration":{}}},"f:type":{}}
+            pass
+                confidentialOpaque"
+                
+            echo Y29uZmlkZW50aWFs | base64 -d
+            ```
+    - Audit Log Policy
+    
+        - only one backup of the logs is stored
+        
+            ```bash
+            # /etc/kubernetes/manifests/kube-apiserver.yaml 
+            apiVersion: v1
+            kind: Pod
+            metadata:
+              annotations:
+                kubeadm.kubernetes.io/kube-apiserver.advertise-address.endpoint: 192.168.100.21:6443
+              creationTimestamp: null
+              labels:
+                component: kube-apiserver
+                tier: control-plane
+              name: kube-apiserver
+              namespace: kube-system
+            spec:
+              containers:
+              - command:
+                - kube-apiserver
+                - --audit-policy-file=/etc/kubernetes/audit/policy.yaml
+                - --audit-log-path=/etc/kubernetes/audit/logs/audit.log
+                - --audit-log-maxsize=5
+                - --audit-log-maxbackup=1                                    # CHANGE
+                - --advertise-address=192.168.100.21
+                - --allow-privileged=true
+            ...
+            ```
+        - Policy
+        
+            ```bash
+            # /etc/kubernetes/audit/policy.yaml
+            apiVersion: audit.k8s.io/v1
+            kind: Policy
+            rules:
+            ​
+            # log Secret resources audits, level Metadata
+            - level: Metadata
+              resources:
+              - group: ""
+                resources: ["secrets"]
+            ​
+            # log node related audits, level RequestResponse
+            - level: RequestResponse
+              userGroups: ["system:nodes"]
+            ​
+            # for everything else don't log anything
+            - level: None
+            ```
+    - trivy
+    
+        - ex. scan image (nginx:1.16.1-alpine) with vulnerabilities CVE-2020-10878 or CVE-2020-1967 
+        
+            `trivy nginx:1.16.1-alpine | grep -E 'CVE-2020-10878|CVE-2020-1967'`
 * RamDisk
 
     - create 100G ramdisk

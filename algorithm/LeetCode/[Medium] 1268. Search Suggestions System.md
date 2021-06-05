@@ -49,7 +49,7 @@ Output: [[],[],[],[],[],[],[]]
 
 # Submissions
 ---
-**Solution 1:**
+**Solution 1: (Sort)**
 ```
 Runtime: 100 ms
 Memory Usage: 15.3 MB
@@ -63,4 +63,81 @@ class Solution:
             products = list(filter(lambda x: x.startswith(searchWord[:i]), products))
             result.append(products[:3])
         return result
+```
+
+**Solution 2: (Sorting & Binary Search)**
+```
+Runtime: 156 ms
+Memory Usage: 17 MB
+```
+```python
+class Solution:
+    def suggestedProducts(self, products: List[str], searchWord: str) -> List[List[str]]:
+        n = len(products)
+        products.sort()  # Sort by increasing lexicographically order of products
+        ans = []
+        beginSearch = 0
+        prefix = ""
+        for c in searchWord:
+            prefix += c
+            beginSearch = insertIndex = bisect_left(products, prefix, beginSearch, n)
+            suggestProducts = []
+            for i in range(insertIndex, min(insertIndex+3, n)):
+                if products[i].startswith(prefix):
+                    suggestProducts.append(products[i])
+            ans.append(suggestProducts)
+        return ans
+```
+
+**Solution 3: (Trie)**
+```
+Runtime: 2652 ms
+Memory Usage: 22.4 MB
+```
+```python
+class TrieNode:
+    def __init__(self):
+        self.word = None
+        self.children = [None] * 26
+
+    def addWord(self, word):
+        curr = self
+        for c in word:
+            index = ord(c) - ord('a')
+            if curr.children[index] == None:
+                curr.children[index] = TrieNode()
+            curr = curr.children[index]
+        curr.word = word
+
+    def getWords(self, limit):
+        words = []
+
+        def dfs(curr):
+            if len(words) == limit: return
+            if curr.word != None:
+                words.append(curr.word)
+            for key in range(26):
+                if curr.children[key] != None:
+                    dfs(curr.children[key])
+
+        dfs(self)
+        return words
+    
+class Solution:
+    def suggestedProducts(self, products: List[str], searchWord: str) -> List[List[str]]:
+        root = TrieNode()
+        for product in products:
+            root.addWord(product)
+
+        ans = []
+        curr = root
+        for c in searchWord:
+            key = ord(c) - ord('a')
+            if curr != None and curr.children[key] != None:
+                curr = curr.children[key]
+                ans.append(curr.getWords(3))
+            else:
+                curr = None
+                ans.append([])
+        return ans
 ```
