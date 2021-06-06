@@ -441,27 +441,6 @@ A playground to note something.
             - ex. change to 10.244.0.0/24
             
                 `kubectl apply -f "https://cloud.weave.works/k8s/net?k8s-version=$(kubectl version | base64 | tr -d '\n')&env.IPALLOC_RANGE=10.244.0.0/16"`
-    - Backing up an etcd cluster
-            
-        ```bash
-        ETCDCTL_API='3' etcdctl snapshot save --cacert=/etc/kubernetes/pki/etcd/ca.crt --cert=/etc/kubernetes/pki/etcd/server.crt --key=/etc/kubernetes/pki/etcd/server.key /PATH/TO/BACKUP.XX
-        ```
-    - Restore an etcd cluster
-        
-        ```bash
-        ETCDCTL_API=3 etcdctl snapshot restore /tmp/etcd-backup.db --data-dir /var/lib/etcd-backup
-            
-        vim /etc/kubernetes/manifests/etcd.yaml
-            
-        spec:
-          ...
-          volumes:
-          ...
-          - hostPath:
-              path: /var/lib/etcd-backup                # change
-              type: DirectoryOrCreate
-            name: etcd-data
-        ```
     - upgrade (ex. 1.18.0 -> 1.19.0)
         
         ```bash
@@ -490,61 +469,69 @@ A playground to note something.
 
         kubectl uncordon node01
         ```
-    - add user (ex. add john)
+    - RBAC
+    
+        - combinations
         
-        ```bash
-        # Create private key
-        #
-        # generate private key
-        openssl genrsa -out john.key 2048
-            
-        # generate public key
-        openssl req -new -key john.key -out john.csr
-            
-        # Create CertificateSigningRequest
-        #
-        # create csr
-        cat <<EOF | kubectl apply -f -
-        apiVersion: certificates.k8s.io/v1
-        kind: CertificateSigningRequest
-        metadata:
-          name: john
-        spec:
-          groups:
-          - system:authenticated
-          request: $(cat john.csr | base64 | tr -d "\n")
-          signerName: kubernetes.io/kube-apiserver-client
-          usages:
-          - client auth
-        EOF
-            
-        # Approve certificate signing request
-        #
-        # approve csr
-        kubectl certificate approve john
-            
-        # Create Role and RoleBinding
-        #
-        # create role
-        kubectl create role developer --resource=pods --verb=create,list,get,update,delete
-            
-        # create rolebinding
-        kubectl create rolebinding developer-role-binding --role=developer --user=john
-            
-        # check authority
-        kubectl auth can-i update pods --as=john --namespace=development
-            
-        # Add to kubeconfig
-        #
-        # add new credentials
-        kubectl config set-credentials john --client-key=john.key --client-certificate=john.csr --embed-certs=true
-            
-        # add the context
-        kubectl config set-context john --cluster=kubernetes --user=john
-            
-        # change the context to john
-        kubectl config use-context john
-        ```
+            1. Role + RoleBinding (available in single Namespace, applied in single Namespace)
+            1. ClusterRole + ClusterRoleBinding (available cluster-wide, applied cluster-wide)
+            1. ClusterRole + RoleBinding (available cluster-wide, applied in single Namespace)
+            1. Role + ClusterRoleBinding (**NOT POSSIBLE**: available in single Namespace, applied cluster-wide)
+        - ex. add user, john
+
+            ```bash
+            # Create private key
+            #
+            # generate private key
+            openssl genrsa -out john.key 2048
+
+            # generate public key
+            openssl req -new -key john.key -out john.csr
+
+            # Create CertificateSigningRequest
+            #
+            # create csr
+            cat <<EOF | kubectl apply -f -
+            apiVersion: certificates.k8s.io/v1
+            kind: CertificateSigningRequest
+            metadata:
+              name: john
+            spec:
+              groups:
+              - system:authenticated
+              request: $(cat john.csr | base64 | tr -d "\n")
+              signerName: kubernetes.io/kube-apiserver-client
+              usages:
+              - client auth
+            EOF
+
+            # Approve certificate signing request
+            #
+            # approve csr
+            kubectl certificate approve john
+
+            # Create Role and RoleBinding
+            #
+            # create role
+            kubectl create role developer --resource=pods --verb=create,list,get,update,delete
+
+            # create rolebinding
+            kubectl create rolebinding developer-role-binding --role=developer --user=john
+
+            # check authority
+            kubectl auth can-i update pods --as=john --namespace=development
+
+            # Add to kubeconfig
+            #
+            # add new credentials
+            kubectl config set-credentials john --client-key=john.key --client-certificate=john.csr --embed-certs=true
+
+            # add the context
+            kubectl config set-context john --cluster=kubernetes --user=john
+
+            # change the context to john
+            kubectl config use-context john
+            ```
     - add service account (ex. add pvviewer)
         
         ```bash
@@ -896,6 +883,61 @@ A playground to note something.
             status:
               loadBalancer: {}
             ```
+    - Container Runtime Sandbox gVisor
+    
+        - arguments the kubelet has been configured with to use containerd
+        
+            ```bash
+            # /etc/default/kubelet
+            KUBELET_EXTRA_ARGS="--container-runtime remote --container-runtime-endpoint unix:///run/containerd/containerd.sock"
+            ```
+        - Create a RuntimeClass named gvisor with handler runsc.
+        
+            ```bash
+            # 10_rtc.yaml
+            apiVersion: node.k8s.io/v1
+            kind: RuntimeClass
+            metadata:
+              name: gvisor
+            handler: runsc
+            ```
+        - Create a Pod that uses the RuntimeClass. The Pod should be in Namespace team-purple, named gvisor-test and of image nginx:1.19.2. Make sure the Pod runs on cluster1-worker2.
+        
+            ```bash
+            # 10_pod.yaml
+            apiVersion: v1
+            kind: Pod
+            metadata:
+              creationTimestamp: null
+              labels:
+                run: gvisor-test
+              name: gvisor-test
+              namespace: team-purple
+            spec:
+              nodeName: cluster1-worker2 # add
+              runtimeClassName: gvisor   # add
+              containers:
+              - image: nginx:1.19.2
+                name: gvisor-test
+                resources: {}
+              dnsPolicy: ClusterFirst
+              restartPolicy: Always
+            status: {}
+            
+            ➜ k -n team-purple exec gvisor-test -- dmesg
+            [    0.000000] Starting gVisor...
+            [    0.417740] Checking naughty and nice process list...
+            [    0.623721] Waiting for children...
+            [    0.902192] Gathering forks...
+            [    1.258087] Committing treasure map to memory...
+            [    1.653149] Generating random numbers by fair dice roll...
+            [    1.918386] Creating cloned children...
+            [    2.137450] Digging up root...
+            [    2.369841] Forking spaghetti code...
+            [    2.840216] Rewriting operating system in Javascript...
+            [    2.956226] Creating bureaucratic processes...
+            [    3.329981] Ready!
+            ```
     - AppArmor
     
         - AppArmor Profile
@@ -952,6 +994,27 @@ A playground to note something.
             ```
     - ETCD:
     
+        - Backing up an etcd cluster
+            
+            ```bash
+            ETCDCTL_API='3' etcdctl snapshot save --cacert=/etc/kubernetes/pki/etcd/ca.crt --cert=/etc/kubernetes/pki/etcd/server.crt --key=/etc/kubernetes/pki/etcd/server.key /PATH/TO/BACKUP.XX
+            ```
+        - Restore an etcd cluster
+        
+            ```bash
+            ETCDCTL_API=3 etcdctl snapshot restore /tmp/etcd-backup.db --data-dir /var/lib/etcd-backup
+
+            vim /etc/kubernetes/manifests/etcd.yaml
+
+            spec:
+              ...
+              volumes:
+              ...
+              - hostPath:
+                  path: /var/lib/etcd-backup                # change
+                  type: DirectoryOrCreate
+                name: etcd-data
+            ```
         - ETCD in Kubernetes stores data under `/registry/{type}/{namespace}/{name}`
         - Verifying that data is encrypted
         

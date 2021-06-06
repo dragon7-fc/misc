@@ -704,6 +704,7 @@ Happy Coding!!
 * [[Medium] 1465. Maximum Area of a Piece of Cake After Horizontal and Vertical Cuts](%5BMedium%5D%201465.%20Maximum%20Area%20of%20a%20Piece%20of%20Cake%20After%20Horizontal%20and%20Vertical%20Cuts.md)
 * [[Medium] 752. Open the Lock](%5BMedium%5D%20752.%20Open%20the%20Lock.md)
 * [[Hard] 1383. Maximum Performance of a Team](%5BHard%5D%201383.%20Maximum%20Performance%20of%20a%20Team.md)
+* [[Hard] [Solution] 128. Longest Consecutive Sequence](%5BHard%5D%20%5BSolution%5D%20128.%20Longest%20Consecutive%20Sequence.md)
 
 ## Array <a name="array"></a>
 ---
@@ -8591,6 +8592,32 @@ class Solution:
         return max(d.values() or [0])
 ```
 * [[Medium] [Solution] 835. Image Overlap](%5BMedium%5D%20%5BSolution%5D%20835.%20Image%20Overlap.md)
+
+### HashSet and Intelligent Sequence Building
+```python
+class Solution:
+    def longestConsecutive(self, nums):
+        """
+        :type nums: List[int]
+        :rtype: int
+        """
+        longest_streak = 0
+        num_set = set(nums)
+
+        for num in num_set:
+            if num - 1 not in num_set:
+                current_num = num
+                current_streak = 1
+
+                while current_num + 1 in num_set:
+                    current_num += 1
+                    current_streak += 1
+
+                longest_streak = max(longest_streak, current_streak)
+
+        return longest_streak
+```
+* [[Hard] [Solution] 128. Longest Consecutive Sequence](%5BHard%5D%20%5BSolution%5D%20128.%20Longest%20Consecutive%20Sequence.md)
 
 ### Reverse location list
 ```python
