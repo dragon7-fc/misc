@@ -705,6 +705,7 @@ Happy Coding!!
 * [[Medium] 752. Open the Lock](%5BMedium%5D%20752.%20Open%20the%20Lock.md)
 * [[Hard] 1383. Maximum Performance of a Team](%5BHard%5D%201383.%20Maximum%20Performance%20of%20a%20Team.md)
 * [[Hard] [Solution] 128. Longest Consecutive Sequence](%5BHard%5D%20%5BSolution%5D%20128.%20Longest%20Consecutive%20Sequence.md)
+* [[Easy] [Solution] 746. Min Cost Climbing Stairs](%5BEasy%5D%20%5BSolution%5D%20746.%20Min%20Cost%20Climbing%20Stairs.md)
 
 ## Array <a name="array"></a>
 ---
@@ -2185,6 +2186,13 @@ class Solution(object):
             dp[i] = min(dp[i-1], dp[i-2]) + cost[i]
 
         return min(dp[n-1], dp[n-2])
+
+class Solution:
+    def minCostClimbingStairs(self, cost: List[int]) -> int:
+        f1 = f2 = 0
+        for x in reversed(cost):
+            f1, f2 = x + min(f1, f2), f1
+        return min(f1, f2)
 ```
 * [[Easy] [Solution] 746. Min Cost Climbing Stairs](%5BEasy%5D%20%5BSolution%5D%20746.%20Min%20Cost%20Climbing%20Stairs.md)
 

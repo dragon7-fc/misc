@@ -546,26 +546,51 @@ A playground to note something.
         spec:
           serviceAccountName: pvviewer
         ```
-    - add service account
+    - Service Account
+    
+        - add service account
+
+            ```bash
+            kubectl -n project-hamster create sa processor
+
+            kubectl -n project-hamster create role processor \
+              --verb=create \
+              --resource=secret \
+              --resource=configmap
+
+            kubectl -n project-hamster create rolebinding processor \
+              --role processor \
+              --serviceaccount project-hamster:processor
+
+            kubectl -n project-hamster auth can-i create secret \
+              --as system:serviceaccount:project-hamster:processor
+
+            kubectl -n project-hamster auth can-i create configmap \
+              --as system:serviceaccount:project-hamster:processor
+            ```
+        - We can see all necessary information to contact the apiserver manually
         
-        ```bash
-        kubectl -n project-hamster create sa processor
+            ```bash
+            / # curl https://kubernetes.default/api/v1/namespaces/restricted/secrets -H "Authorization: Bearer $(cat /run/secrets/kubernetes.io/serviceaccount/token)" -k
+            ...
+                {
+                  "metadata": {
+                    "name": "secret3",
+                    "namespace": "restricted",
+            ...
+                      }
+                    ]
+                  },
+                  "data": {
+                    "password": "cEVuRXRSYVRpT24tdEVzVGVSCg=="
+                  },
+                  "type": "Opaque"
+                }
+            ...
             
-        kubectl -n project-hamster create role processor \
-          --verb=create \
-          --resource=secret \
-          --resource=configmap
-              
-        kubectl -n project-hamster create rolebinding processor \
-          --role processor \
-          --serviceaccount project-hamster:processor
-              
-        kubectl -n project-hamster auth can-i create secret \
-          --as system:serviceaccount:project-hamster:processor
-            
-        kubectl -n project-hamster auth can-i create configmap \
-          --as system:serviceaccount:project-hamster:processor
-        ```
+            ➜ echo cEVuRXRSYVRpT24tdEVzVGVSCg== | base64 -d
+            pEnEtRaTiOn-tEsTeR
+            ```
     - check certificate
         
         - ex. echeck apiserver expiration: `kubeadm certs check-expiration | grep apiserver`
@@ -852,14 +877,15 @@ A playground to note something.
                 containers:
                 - args:
                   - --namespace=kubernetes-dashboard  
-                  - --authentication-mode=token        # change or delete, "token" is default
-                  - --auto-generate-certificates       # add
-                  #- --enable-skip-login=true          # delete or set to false
-                  #- --enable-insecure-login           # delete
+                  - --authentication-mode=token        # Enforce authentication using a token (with possibility to use RBAC)
+                  - --auto-generate-certificates       # Add the --auto-generate-certificates argument
+                  #- --enable-skip-login=true          # Deny users to "skip login"
+                  #- --enable-insecure-login           # Deny insecure access, enforce HTTPS (self signed certificates are ok for now)
                   image: kubernetesui/dashboard:v2.0.3
                   imagePullPolicy: Always
                   name: kubernetes-dashboard
-              
+            
+            # Allow only cluster internal access
             k -n kubernetes-dashboard edit svc kubernetes-dashboard
            
             spec:
@@ -946,7 +972,11 @@ A playground to note something.
             # Install the AppArmor profile on Node cluster1-worker1
             scp /opt/course/9/profile cluster1-worker1:~/
             ssh cluster1-worker1
+            
+            # Install the AppArmor profile on Node cluster1-worker1
             apparmor_parser -q ./profile
+            
+            # verify
             apparmor_status
            
             # Add label security=apparmor to the Node
@@ -1019,6 +1049,7 @@ A playground to note something.
         - Verifying that data is encrypted
         
             ```bash
+            # read secret out of etcd
             ETCDCTL_API=3 etcdctl \
             --cert /etc/kubernetes/pki/apiserver-etcd-client.crt \
             --key /etc/kubernetes/pki/apiserver-etcd-client.key \

@@ -139,3 +139,22 @@ class Solution:
         
         return dfs(N)
 ```
+
+**Solution 6: (DP Top-down)**
+```
+Runtime: 64 ms
+Memory Usage: 17 MB
+```
+```python
+class Solution:
+    def minCostClimbingStairs(self, cost: List[int]) -> int:
+        N = len(cost)
+        
+        @functools.lru_cache(None)
+        def dp(i):
+            if i <= 1:
+                return cost[i]
+            return cost[i] + min(dp(i-1), dp(i-2))
+        
+        return min(dp(N-1), dp(N-2))
+```
