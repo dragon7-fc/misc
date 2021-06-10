@@ -706,7 +706,8 @@ Happy Coding!!
 * [[Hard] 1383. Maximum Performance of a Team](%5BHard%5D%201383.%20Maximum%20Performance%20of%20a%20Team.md)
 * [[Hard] [Solution] 128. Longest Consecutive Sequence](%5BHard%5D%20%5BSolution%5D%20128.%20Longest%20Consecutive%20Sequence.md)
 * [[Easy] [Solution] 746. Min Cost Climbing Stairs](%5BEasy%5D%20%5BSolution%5D%20746.%20Min%20Cost%20Climbing%20Stairs.md)
-
+* [Medium] 105. Construct Binary Tree from Preorder and Inorder Traversa
+* [Medium] 1696. Jump Game VI.md
 ## Array <a name="array"></a>
 ---
 ### Locate and Analyze Problem Index
@@ -7132,6 +7133,31 @@ class Solution:
             return self.searchBST(root.right, val)
 ```
 * [[Easy] 700. Search in a Binary Search Tree](%5BEasy%5D%20700.%20Search%20in%20a%20Binary%20Search%20Tree.md)
+
+### DFS
+```python
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+
+class Solution:
+    def buildTree(self, preorder, inorder):
+        """
+        :type preorder: List[int]
+        :type inorder: List[int]
+        :rtype: TreeNode
+        """
+        if inorder:
+            ind = inorder.index(preorder.pop(0))
+            root = TreeNode(inorder[ind])
+            root.left = self.buildTree(preorder, inorder[0:ind])
+            root.right = self.buildTree(preorder, inorder[ind+1:])
+            return root
+```
+* [[Medium] 105. Construct Binary Tree from Preorder and Inorder Traversa
 
 ### Post-Order
 ```python
@@ -16102,6 +16128,19 @@ return dummy.next
 
 ## Heap <a name="heap"></a>
 ---
+### Greedy, backward sliding window
+```python
+class Solution:
+    def maxResult(self, nums: List[int], k: int) -> int:
+        pq = [] # max heap 
+        for i in reversed(range(len(nums))): 
+            while pq and pq[0][1] - i > k: heappop(pq)
+            ans = nums[i] - pq[0][0] if pq else nums[i]
+            heappush(pq, (-ans, i))
+        return ans
+```
+[Medium] 1696. Jump Game VI.md
+
 ### Greedy Max Heap
 ```python
 class Solution:

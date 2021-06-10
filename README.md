@@ -733,7 +733,7 @@ A playground to note something.
                 and not package_mgmt_ancestor_procs
                 and not user_known_package_manager_in_container
               output: >
-                Package management process launched in container (user=%user.name user_loginuid=%user.loginuid command=%proc.cmdline container_id=%container.id container_name=%container.name                                                               ## remove
+                Package management process launched in container (user=%user.name user_loginuid=%user.loginuid command=%proc.cmdline container_id=%container.id container_name=%container.name     ## remove
                 Package management process launched in container %evt.time,%container.id,%container.name,%user.name     ## add
               priority: ERROR
               tags: [process, mitre_persistence]
@@ -760,7 +760,7 @@ A playground to note something.
             - --kubelet-client-certificate=/etc/kubernetes/pki/apiserver-kubelet-client.crt
             - --kubelet-client-key=/etc/kubernetes/pki/apiserver-kubelet-client.key
             - --kubelet-preferred-address-types=InternalIP,ExternalIP,Hostname
-        #    - --kubernetes-service-node-port=31000   # delete or set to 0
+            - --kubernetes-service-node-port=31000   # delete or set to 0
             - --proxy-client-cert-file=/etc/kubernetes/pki/front-proxy-client.crt
             - --proxy-client-key-file=/etc/kubernetes/pki/front-proxy-client.key
             
