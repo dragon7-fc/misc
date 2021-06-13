@@ -708,6 +708,10 @@ Happy Coding!!
 * [[Easy] [Solution] 746. Min Cost Climbing Stairs](%5BEasy%5D%20%5BSolution%5D%20746.%20Min%20Cost%20Climbing%20Stairs.md)
 * [Medium] 105. Construct Binary Tree from Preorder and Inorder Traversa
 * [Medium] 1696. Jump Game VI.md
+* [Medium] [Solution] 729. My Calendar I.md
+* [Medium] 1690. Stone Game VII.md
+* [[Hard] [Solution] 871. Minimum Number of Refueling Stops](%5BHard%5D%20%5BSolution%5D%20871.%20Minimum%20Number%20of%20Refueling%20Stops.md)
+
 ## Array <a name="array"></a>
 ---
 ### Locate and Analyze Problem Index
@@ -2196,6 +2200,40 @@ class Solution:
         return min(f1, f2)
 ```
 * [[Easy] [Solution] 746. Min Cost Climbing Stairs](%5BEasy%5D%20%5BSolution%5D%20746.%20Min%20Cost%20Climbing%20Stairs.md)
+
+### value chain
+```python
+class Solution:
+    def stoneGameVII(self, stones: List[int]) -> int:
+        CSum = [0] + list(accumulate(stones))
+        
+        @lru_cache(2000)
+        def dp(i, j):
+            if i > j: return 0
+            sm = CSum[j + 1] - CSum[i]
+            return sm - min(stones[i] + dp(i+1, j), stones[j] + dp(i, j-1))
+        
+        return dp(0, len(stones) - 1)
+
+class Solution:
+    def stoneGameVII(self, stones: List[int]) -> int:
+        presum = [0] + stones[:]
+        for i in range(1, len(presum)):
+            presum[i] += presum[i-1]
+
+        def score(i, j):
+            j += 1
+            return presum[j] - presum[i]
+
+        n = len(stones)
+        dp = [[0 for _ in range(n)] for _ in range(n)]
+        for i in range(n-1, -1, -1):
+            for j in range(i+1, n):
+                dp[i][j] = max(score(i+1, j) - dp[i+1][j], score(i, j-1) - dp[i][j-1])
+
+        return dp[0][n-1]
+```
+* [Medium] 1690. Stone Game VII.md
 
 ### Think backward
 ```python
@@ -9962,6 +10000,36 @@ class Solution:
 ```
 * [[Easy] [Solution] 441. Arranging Coins](%5BEasy%5D%20%5BSolution%5D%20441.%20Arranging%20Coins.md)
 
+### search interval
+```python
+class MyCalendar:
+
+    def __init__(self):
+        self.booking = []
+
+    def book(self, start: int, end: int) -> bool:
+        left = 0
+        right = len(self.booking) - 1
+        while left <= right:
+            mid = (left + right) // 2
+            a, b = self.booking[mid]
+            if end > a >= start or b > start >= a:
+                return False
+            if end <= a:
+                right = mid - 1
+            elif b <= start:
+                left = mid + 1
+                
+        self.booking.insert(left, (start, end))
+        return True
+
+
+# Your MyCalendar object will be instantiated and called as such:
+# obj = MyCalendar()
+# param_1 = obj.book(start,end)
+```
+* [Medium] [Solution] 729. My Calendar I.md
+
 ### Inorder Simulation
 ```python
 # Definition for singly-linked list.
@@ -16547,7 +16615,7 @@ class Solution:
 ```
 * [[Hard] 1606. Find Servers That Handled Most Number of Requests](%5BHard%5D%201606.%20Find%20Servers%20That%20Handled%20Most%20Number%20of%20Requests.md)
 
-### Most recent min/max
+### Greedy with Max-Heap
 ```python
 class Solution:
     def minRefuelStops(self, target: int, startFuel: int, stations: List[List[int]]) -> int:

@@ -91,3 +91,22 @@ class Solution:
         
         return help(0, len(stones)-1)
 ```
+
+**Solution 3: (DP Top-Down)**
+```
+Runtime: 4888 ms
+Memory Usage: 21.6 MB
+```
+```python
+class Solution:
+    def stoneGameVII(self, stones: List[int]) -> int:
+        CSum = [0] + list(accumulate(stones))
+        
+        @lru_cache(2000)
+        def dp(i, j):
+            if i > j: return 0
+            sm = CSum[j + 1] - CSum[i]
+            return sm - min(stones[i] + dp(i+1, j), stones[j] + dp(i, j-1))
+        
+        return dp(0, len(stones) - 1)
+```

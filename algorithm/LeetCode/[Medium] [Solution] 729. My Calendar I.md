@@ -180,3 +180,36 @@ class MyCalendar:
 # obj = MyCalendar()
 # param_1 = obj.book(start,end)
 ```
+
+**Solution 3: (Binary Search)**
+```
+Runtime: 240 ms
+Memory Usage: 14.8 MB
+```
+```python
+class MyCalendar:
+
+    def __init__(self):
+        self.booking = []
+
+    def book(self, start: int, end: int) -> bool:
+        left = 0
+        right = len(self.booking) - 1
+        while left <= right:
+            mid = (left + right) // 2
+            a, b = self.booking[mid]
+            if end > a >= start or b > start >= a:
+                return False
+            if end <= a:
+                right = mid - 1
+            elif b <= start:
+                left = mid + 1
+                
+        self.booking.insert(left, (start, end))
+        return True
+
+
+# Your MyCalendar object will be instantiated and called as such:
+# obj = MyCalendar()
+# param_1 = obj.book(start,end)
+```
