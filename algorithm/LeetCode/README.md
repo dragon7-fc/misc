@@ -711,6 +711,7 @@ Happy Coding!!
 * [Medium] [Solution] 729. My Calendar I.md
 * [Medium] 1690. Stone Game VII.md
 * [[Hard] [Solution] 871. Minimum Number of Refueling Stops](%5BHard%5D%20%5BSolution%5D%20871.%20Minimum%20Number%20of%20Refueling%20Stops.md)
+* [Hard] 336. Palindrome Pairs
 
 ## Array <a name="array"></a>
 ---
@@ -8601,6 +8602,32 @@ class Solution:
         return lo - 1
 ```
 * [[Medium] [Solution] 718. Maximum Length of Repeated Subarray](%5BMedium%5D%20%5BSolution%5D%20718.%20Maximum%20Length%20of%20Repeated%20Subarray.md)
+
+### palindrome
+```python
+class Solution:
+    def palindromePairs(self, words: List[str]) -> List[List[int]]:
+        dicts = {}
+        for i, word in enumerate(words):
+            dicts[word[::-1]] = i
+        
+        def isPalindrome(s):
+            return s == s[::-1]
+        
+        res = set()
+        for i, word in enumerate(words):
+            for j in range(len(word) + 1):  # to cover the case of empty string 
+                left = word[:j]
+                right = word[j:]
+                # case 1: e.g. ["abcd","dcba"], ["lls","s"], ["sssll","lls"]
+                if isPalindrome(left) and (right in dicts) and (i!=dicts[right]):
+                    res.add((dicts[right], i))
+                # case 2: E.G. ["a", ""]
+                if isPalindrome(right) and (left in dicts) and (i!=dicts[left]):
+                    res.add((i, dicts[left]))
+        return res
+```
+[Hard] 336. Palindrome Pairs
 
 ### Substring Rolling Hash
 ```python
