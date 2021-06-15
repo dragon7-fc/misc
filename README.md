@@ -743,7 +743,7 @@ A playground to note something.
         - Change kube-apiserver service type from NodePort to ClusterIP
         
            ```bash
-           vim kubectl config use-context workload-prod
+           # /etc/kubernetes/manifests/kube-apiserver.yaml
            
            - command:
             - kube-apiserver
@@ -824,16 +824,16 @@ A playground to note something.
         ```
     - Open Policy Agent
        
-        - Alter the existing constraint and/or template to also blacklist images from very-bad-registry.com.
+        - Alter the existing constraint and/or template to also blacklist images from `very-bad-registry.com`.
            
             ```bash
-            k get crd
+            ➜ k get crd
            
-            k get constraint
+            ➜ k get constraint
            
-            k edit blacklistimages pod-trusted-images
+            ➜ k edit blacklistimages pod-trusted-images
            
-            k edit constrainttemplates blacklistimages
+            ➜ k edit constrainttemplates blacklistimages
            
             apiVersion: templates.gatekeeper.sh/v1beta1
             kind: ConstraintTemplate
@@ -862,14 +862,14 @@ A playground to note something.
                 target: admission.k8s.gatekeeper.sh
                
             # test
-            k run opa-test --image=very-bad-registry.com/image
+            ➜ k run opa-test --image=very-bad-registry.com/image
             ```
     - Kubernetes Dashboard
     
         - Secure Kubernetes Dashboard
        
             ```bash
-            k -n kubernetes-dashboard edit deploy kubernetes-dashboard
+            ➜ k -n kubernetes-dashboard edit deploy kubernetes-dashboard
            
             template:
               spec:
@@ -885,7 +885,7 @@ A playground to note something.
                   name: kubernetes-dashboard
             
             # Allow only cluster internal access
-            k -n kubernetes-dashboard edit svc kubernetes-dashboard
+            ➜ k -n kubernetes-dashboard edit svc kubernetes-dashboard
            
             spec:
               clusterIP: 10.107.176.19
@@ -926,9 +926,11 @@ A playground to note something.
               name: gvisor
             handler: runsc
             ```
-        - Create a Pod that uses the RuntimeClass. The Pod should be in Namespace team-purple, named gvisor-test and of image nginx:1.19.2. Make sure the Pod runs on cluster1-worker2.
+        - Create a Pod that uses the RuntimeClass. The Pod should be in Namespace `team-purple`, named `gvisor-test` and of image `nginx:1.19.2`. Make sure the Pod runs on `cluster1-worker2`.
         
             ```bash
+            ➜ k -n team-purple run gvisor-test --image=nginx:1.19.2 $do > 10_pod.yaml
+
             # 10_pod.yaml
             apiVersion: v1
             kind: Pod
@@ -968,23 +970,36 @@ A playground to note something.
         - AppArmor Profile
        
             ```bash
+            # /opt/course/9/profile 
+
+            #include <tunables/global>
+              
+            profile very-secure flags=(attach_disconnected) {
+              #include <abstractions/base>
+
+              file,
+
+              # Deny all file writes.
+              deny /** w,
+            }
+
             # Install the AppArmor profile on Node cluster1-worker1
-            scp /opt/course/9/profile cluster1-worker1:~/
-            ssh cluster1-worker1
+            ➜ scp /opt/course/9/profile cluster1-worker1:~/
+            ➜ ssh cluster1-worker1
             
             # Install the AppArmor profile on Node cluster1-worker1
-            apparmor_parser -q ./profile
+            ➜ apparmor_parser -q ./profile
             
             # verify
-            apparmor_status
+            ➜ apparmor_status
            
             # Add label security=apparmor to the Node
-            k label node cluster1-worker1 security=apparmor
+            ➜ k label node cluster1-worker1 security=apparmor
            
             # create the Deployment which uses the profile
-            k create deploy apparmor --image=nginx:1.19.2 $do > 9_deploy.yaml
+            ➜ k create deploy apparmor --image=nginx:1.19.2 $do > 9_deploy.yaml
            
-            vim 9_deploy.yaml
+            # 9_deploy.yaml
            
             template:
               metadata:
@@ -992,7 +1007,7 @@ A playground to note something.
                 labels:
                   app: apparmor
                 annotations:                                                                 # add
-                  container.apparmor.security.beta.kubernetes.io/c1: localhost/very-secure   # add
+                  container.apparmor.security.beta.kubernetes.io/c1: localhost/very-secure   # add (Single container named c1 with the AppArmor profile enabled)
               spec:
                 nodeSelector:                    # add
                   security: apparmor             # add
@@ -1001,24 +1016,24 @@ A playground to note something.
                   name: c1                       # change
                   resources: {}
            
-            k -f 9_deploy.yaml create
+            ➜ k -f 9_deploy.yaml create
            
             # This looks alright, the Pod is running on cluster1-worker1 because of the nodeSelector. 
-            k get pod -owide | grep apparmor
+            ➜ k get pod -owide | grep apparmor
            
             # The AppArmor profile simply denies all filesystem writes, but Nginx needs to write into some locations to run, hence the errors.
-            k logs apparmor-85c65645dc-w852p
+            ➜ k logs apparmor-85c65645dc-w852p
            
             /docker-entrypoint.sh: No files found in /docker-entrypoint.d/, skipping configuration
             /docker-entrypoint.sh: 13: /docker-entrypoint.sh: cannot create /dev/null: Permission denied
             2020/09/26 18:14:11 [emerg] 1#1: mkdir() "/var/cache/nginx/client_temp" failed (13: Permission denied)
             nginx: [emerg] mkdir() "/var/cache/nginx/client_temp" failed (13: Permission denied)
            
-            ssh cluster1-worker1
-            docker ps -a | grep apparmor
+            ➜ ssh cluster1-worker1
+            ➜ docker ps -a | grep apparmor
            
             # the container is using our AppArmor profile.
-            docker inspect 41f014a9e7a8 | grep -i profile
+            ➜ docker inspect 41f014a9e7a8 | grep -i profile
                     "AppArmorProfile": "very-secure",
             ```
     - ETCD:
@@ -1033,7 +1048,7 @@ A playground to note something.
             ```bash
             ETCDCTL_API=3 etcdctl snapshot restore /tmp/etcd-backup.db --data-dir /var/lib/etcd-backup
 
-            vim /etc/kubernetes/manifests/etcd.yaml
+            # /etc/kubernetes/manifests/etcd.yaml
 
             spec:
               ...
@@ -1044,7 +1059,6 @@ A playground to note something.
                   type: DirectoryOrCreate
                 name: etcd-data
             ```
-        - ETCD in Kubernetes stores data under `/registry/{type}/{namespace}/{name}`
         - Verifying that data is encrypted
         
             ```bash
@@ -1052,7 +1066,7 @@ A playground to note something.
             ETCDCTL_API=3 etcdctl \
             --cert /etc/kubernetes/pki/apiserver-etcd-client.crt \
             --key /etc/kubernetes/pki/apiserver-etcd-client.key \
-            --cacert /etc/kubernetes/pki/etcd/ca.crt get /registry/secrets/team-green/database-access
+            --cacert /etc/kubernetes/pki/etcd/ca.crt get /registry/secrets/team-green/database-access  # ETCD in Kubernetes stores data under /registry/{type}/{namespace}/{name}
             
             k8s
 
@@ -1076,6 +1090,7 @@ A playground to note something.
         
             ```bash
             # /etc/kubernetes/manifests/kube-apiserver.yaml 
+
             apiVersion: v1
             kind: Pod
             metadata:
@@ -1103,20 +1118,21 @@ A playground to note something.
         
             ```bash
             # /etc/kubernetes/audit/policy.yaml
+
             apiVersion: audit.k8s.io/v1
             kind: Policy
             rules:
-            ​
+            
             # log Secret resources audits, level Metadata
             - level: Metadata
               resources:
               - group: ""
                 resources: ["secrets"]
-            ​
+           
             # log node related audits, level RequestResponse
             - level: RequestResponse
               userGroups: ["system:nodes"]
-            ​
+            
             # for everything else don't log anything
             - level: None
             ```
