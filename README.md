@@ -477,60 +477,55 @@ A playground to note something.
             1. ClusterRole + ClusterRoleBinding (available cluster-wide, applied cluster-wide)
             1. ClusterRole + RoleBinding (available cluster-wide, applied in single Namespace)
             1. Role + ClusterRoleBinding (**NOT POSSIBLE**: available in single Namespace, applied cluster-wide)
-        - ex. add user, john
+        - ex. add user `60099@internal.users`
 
             ```bash
-            # Create private key
+            # 1. Create KEY
             #
-            # generate private key
-            openssl genrsa -out john.key 2048
+            ➜ openssl genrsa -out 60099.key 2048
 
-            # generate public key
-            openssl req -new -key john.key -out john.csr
-
-            # Create CertificateSigningRequest
+            # 2. Create CSR
             #
-            # create csr
-            cat <<EOF | kubectl apply -f -
+            ➜ openssl req -new -key 60099.key -out 60099.csr
+            # set Common Name = 60099@internal.users
+
+            # 3. Manual signing
+            #
+            ➜ find /etc/kubernetes/pki | grep ca
+            ➜ openssl x509 -req -in 60099.csr -CA /etc/kubernetes/pki/ca.crt -CAkey /etc/kubernetes/pki/ca.key -CAcreateserial -out 60099.crt -days 500
+
+            # 4. Signing via API
+            # Note: 
+            #   Convert CSR file content to base64: cat 60099.csr | base64 -w 0
+            #
+            # csr.yaml
+
             apiVersion: certificates.k8s.io/v1
             kind: CertificateSigningRequest
             metadata:
-              name: john
+              name: 60099@internal.users # ADD
             spec:
               groups:
               - system:authenticated
-              request: $(cat john.csr | base64 | tr -d "\n")
+              request: {{BASE_64_ENCODED_CSR}} # ADD
               signerName: kubernetes.io/kube-apiserver-client
               usages:
               - client auth
-            EOF
 
-            # Approve certificate signing request
+
+            # Create the resource, check its status and approve
+            ➜ k -f csr.yaml create
+            ➜ k certificate approve 60099@internal.users
+
+            # Now download the CRT
+            ➜ k get csr 60099@internal.users -ojsonpath="{.status.certificate}" | base64 -d > 60099.crt
+
+            # 5. Use it to connect to K8s API
             #
-            # approve csr
-            kubectl certificate approve john
-
-            # Create Role and RoleBinding
-            #
-            # create role
-            kubectl create role developer --resource=pods --verb=create,list,get,update,delete
-
-            # create rolebinding
-            kubectl create rolebinding developer-role-binding --role=developer --user=john
-
-            # check authority
-            kubectl auth can-i update pods --as=john --namespace=development
-
-            # Add to kubeconfig
-            #
-            # add new credentials
-            kubectl config set-credentials john --client-key=john.key --client-certificate=john.csr --embed-certs=true
-
-            # add the context
-            kubectl config set-context john --cluster=kubernetes --user=john
-
-            # change the context to john
-            kubectl config use-context john
+            ➜ k config set-credentials 60099@internal.users --client-key=60099.key --client-certificate=60099.crt
+            ➜ k config set-context 60099@internal.users --cluster=kubernetes --user=60099@internal.users
+            ➜ k config get-contexts
+            ➜ k config use-context 60099@internal.users
             ```
     - add service account (ex. add pvviewer)
         
@@ -539,7 +534,7 @@ A playground to note something.
         kubectl create clusterrole pvviewer-role --resource=persistentvolumes --verb=list
         kubectl create clusterrolebinding pvviewer-role-binding --clusterrole=pvviewer-role --serviceaccount=default:pvviewer
 
-        vim XXX-pod.yaml
+        # XXX-pod.yaml
             
         kind: pod
         ...
@@ -709,7 +704,7 @@ A playground to note something.
         - Configuration
         
             ```bash
-            vim /etc/falco/falco.yaml
+            # /etc/falco/falco.yaml
             
             syslog_output:
               enabled: trues
@@ -720,7 +715,7 @@ A playground to note something.
             cd /etc/falco
             grep -r "Package management process launched" .
             
-            vim falco_rules.yaml
+            # falco_rules.yaml
             s
             # Container is supposed to be immutable. Package management should be done in building the image.
             - rule: Launch Package Management Process in Container
@@ -764,8 +759,8 @@ A playground to note something.
             - --proxy-client-cert-file=/etc/kubernetes/pki/front-proxy-client.crt
             - --proxy-client-key-file=/etc/kubernetes/pki/front-proxy-client.key
             
-           kubectl delete svc kubernetes
-           kubectl get svc
+           ➜ kubectl delete svc kubernetes
+           ➜ kubectl get svc
            ```
     - Pod Security Policies
    
@@ -774,7 +769,7 @@ A playground to note something.
         - Enable Admission Plugin for PodSecurityPolicy
        
             ```bash
-            vim /etc/kubernetes/manifests/kube-apiserver.yaml 
+            # /etc/kubernetes/manifests/kube-apiserver.yaml 
            
             - --enable-admission-plugins=NodeRestriction,PodSecurityPolicy      # change
             ```
@@ -782,7 +777,7 @@ A playground to note something.
        
             ```bash
             # Creating a PodSecurityPolicy named psp-mount which allows hostPath volumes only for directory /tmp
-            vim psp.yaml
+            # psp.yaml
            
             apiVersion: policy/v1beta1
             kind: PodSecurityPolicy
@@ -803,18 +798,18 @@ A playground to note something.
               allowedHostPaths:             # task requirement
                 - pathPrefix: "/tmp"        # task requirement
            
-            k create -f psp.yaml
+            ➜ k create -f psp.yaml
            
             # Creating a ClusterRole named psp-mount which allows to use the new PSP
-            k -n team-red create clusterrole psp-mount --verb=use \
+            ➜ k -n team-red create clusterrole psp-mount --verb=use \
                 --resource=podsecuritypolicies --resource-name=psp-mount
            
             # Creating a RoleBinding named psp-mount in Namespace team-red which binds the new ClusterRole to all ServiceAccounts in the Namespace team-red
-            k -n team-red create rolebinding psp-mount --clusterrole=psp-mount --group system:serviceaccounts
+            ➜ k -n team-red create rolebinding psp-mount --clusterrole=psp-mount --group system:serviceaccounts
            
             # test with deployment
-            k -n team-red rollout restart deploy docker-log-hacker
-            k -n team-red describe deploy docker-log-hacker
+            ➜ k -n team-red rollout restart deploy docker-log-hacker
+            ➜ k -n team-red describe deploy docker-log-hacker
            ```
     - kube-bench
         
@@ -920,6 +915,7 @@ A playground to note something.
         
             ```bash
             # 10_rtc.yaml
+
             apiVersion: node.k8s.io/v1
             kind: RuntimeClass
             metadata:
@@ -932,6 +928,7 @@ A playground to note something.
             ➜ k -n team-purple run gvisor-test --image=nginx:1.19.2 $do > 10_pod.yaml
 
             # 10_pod.yaml
+
             apiVersion: v1
             kind: Pod
             metadata:
@@ -1041,12 +1038,12 @@ A playground to note something.
         - Backing up an etcd cluster
             
             ```bash
-            ETCDCTL_API='3' etcdctl snapshot save --cacert=/etc/kubernetes/pki/etcd/ca.crt --cert=/etc/kubernetes/pki/etcd/server.crt --key=/etc/kubernetes/pki/etcd/server.key /PATH/TO/BACKUP.XX
+            ➜ ETCDCTL_API='3' etcdctl snapshot save --cacert=/etc/kubernetes/pki/etcd/ca.crt --cert=/etc/kubernetes/pki/etcd/server.crt --key=/etc/kubernetes/pki/etcd/server.key /PATH/TO/BACKUP.XX
             ```
         - Restore an etcd cluster
         
             ```bash
-            ETCDCTL_API=3 etcdctl snapshot restore /tmp/etcd-backup.db --data-dir /var/lib/etcd-backup
+            ➜ ETCDCTL_API=3 etcdctl snapshot restore /tmp/etcd-backup.db --data-dir /var/lib/etcd-backup
 
             # /etc/kubernetes/manifests/etcd.yaml
 
@@ -1063,7 +1060,7 @@ A playground to note something.
         
             ```bash
             # read secret out of etcd
-            ETCDCTL_API=3 etcdctl \
+            ➜ ETCDCTL_API=3 etcdctl \
             --cert /etc/kubernetes/pki/apiserver-etcd-client.crt \
             --key /etc/kubernetes/pki/apiserver-etcd-client.key \
             --cacert /etc/kubernetes/pki/etcd/ca.crt get /registry/secrets/team-green/database-access  # ETCD in Kubernetes stores data under /registry/{type}/{namespace}/{name}
@@ -1082,7 +1079,7 @@ A playground to note something.
             pass
                 confidentialOpaque"
                 
-            echo Y29uZmlkZW50aWFs | base64 -d
+            ➜ echo Y29uZmlkZW50aWFs | base64 -d
             ```
     - Audit Log Policy
     

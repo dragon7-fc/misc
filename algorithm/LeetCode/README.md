@@ -713,6 +713,7 @@ Happy Coding!!
 * [Hard] 336. Palindrome Pairs
 * [Lock] [Easy] [Solution] 1710. Maximum Units on a Truck
 * [Medium] [Solution] 473. Matchsticks to Square.md
+* [[Medium] [Solution] 22. Generate Parentheses](%5BMedium%5D%20%5BSolution%5D%2022.%20Generate%20Parentheses.md)
 
 ## Array <a name="array"></a>
 ---
@@ -2203,7 +2204,7 @@ class Solution:
 ```
 * [[Easy] [Solution] 746. Min Cost Climbing Stairs](%5BEasy%5D%20%5BSolution%5D%20746.%20Min%20Cost%20Climbing%20Stairs.md)
 
-### bitmask possibilities to try
+### bitmask state as parameter
 ```python
 class Solution:
     def makesquare(self, matchsticks: List[int]) -> bool:
@@ -6613,7 +6614,7 @@ class Solution:
 ```
 * [[Medium] [Solution] 6. ZigZag Conversion](%5BMedium%5D%20%5BSolution%5D%206.%20ZigZag%20Conversion.md)
 
-### Generate Parentheses
+### Brute Force all combination
 ```python
 class Solution:
     def generateParenthesis(self, n):
@@ -6632,6 +6633,38 @@ class Solution:
                 backtrack(S+')', left, right+1)
 
         backtrack()
+        return ans
+
+class Solution:
+    def generateParenthesis(self, n: int) -> List[str]:
+        ans = []
+        def backtrack(S = [], left = 0, right = 0):
+            if len(S) == 2 * n:
+                ans.append("".join(S))
+                return
+            if left < n:
+                S.append("(")
+                backtrack(S, left+1, right)
+                S.pop()
+            if right < left:
+                S.append(")")
+                backtrack(S, left, right+1)
+                S.pop()
+        backtrack()
+        return ans
+
+class Solution:
+    def generateParenthesis(self, n):
+        """
+        :type n: int
+        :rtype: List[str]
+        """
+        if n == 0: return ['']
+        ans = []
+        for c in range(n):
+            for left in self.generateParenthesis(c):
+                for right in self.generateParenthesis(n-1-c):
+                    ans.append('({}){}'.format(left, right))
         return ans
 ```
 * [[Medium] [Solution] 22. Generate Parentheses](%5BMedium%5D%20%5BSolution%5D%2022.%20Generate%20Parentheses.md)
