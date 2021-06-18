@@ -714,6 +714,8 @@ Happy Coding!!
 * [Lock] [Easy] [Solution] 1710. Maximum Units on a Truck
 * [Medium] [Solution] 473. Matchsticks to Square.md
 * [[Medium] [Solution] 22. Generate Parentheses](%5BMedium%5D%20%5BSolution%5D%2022.%20Generate%20Parentheses.md)
+* [Medium] 795. Number of Subarrays with Bounded Maximum 
+* [[Medium] [Solution] 307. Range Sum Query - Mutable](%5BMedium%5D%20%5BSolution%5D%20307.%20Range%20Sum%20Query%20-%20Mutable.md)
 
 ## Array <a name="array"></a>
 ---
@@ -12718,6 +12720,26 @@ class Solution:
 ```
 * [[Easy] 392. Is Subsequence](%5BEasy%5D%20392.%20Is%20Subsequence.md)
 
+### Greedy add, parallel viewpoint
+```python
+class Solution:
+    def numSubarrayBoundedMax(self, nums: List[int], left: int, right: int) -> int:
+        start = 0
+        last = -1
+        count = 0
+        for i in range(len(nums)):
+            if nums[i] > right:
+                start = i + 1
+            else:
+                if nums[i] >= left:
+                    last = i
+                if last >= start:
+                    count += last - start + 1
+
+        return count
+```
+* [Medium] 795. Number of Subarrays with Bounded Maximum
+
 ### Greedy, Two Pointers
 ```python
 class Solution:
@@ -18586,7 +18608,7 @@ class Solution:
 
 ## Segment Tree <a name="st"></a>
 ---
-### Range Sum
+### Range Sum, array to tree simulation
 ```python
 class NumArray:
 
@@ -18595,7 +18617,7 @@ class NumArray:
         if self.N > 0:
             self.tree = [0] * 2*self.N
             self.buildTree(nums)
-
+    
     def buildTree(self, nums):
         j = 0
         for i in range(self.N, 2*self.N):
@@ -18604,8 +18626,8 @@ class NumArray:
         for i in range(self.N-1, 0, -1):
             self.tree[i] = self.tree[i*2] + self.tree[i*2 + 1]
 
-    def update(self, i: int, val: int) -> None:
-        pos = i + self.N
+    def update(self, index: int, val: int) -> None:
+        pos = index + self.N
         self.tree[pos] = val
         while pos > 0:
             left = pos
@@ -18618,30 +18640,29 @@ class NumArray:
             self.tree[pos // 2] = self.tree[left] + self.tree[right]
             pos //= 2
 
-    def sumRange(self, i: int, j: int) -> int:
+    def sumRange(self, left: int, right: int) -> int:
         # get leaf with value 'i'
-        i += self.N;
+        left += self.N;
         # get leaf with value 'j'
-        j += self.N;
+        right += self.N;
         rst = 0
-        while i <= j:
-            if (i % 2) == 1:
-                rst += self.tree[i]
-                i += 1
-            if (j % 2) == 0:
-                rst += self.tree[j]
-                j -= 1
-            i //= 2
-            j //= 2
-
+        while left <= right:
+            if (left % 2) == 1:
+                rst += self.tree[left]
+                left += 1
+            if (right % 2) == 0:
+                rst += self.tree[right]
+                right -= 1
+            left //= 2
+            right //= 2
+            
         return rst
-
 
 
 # Your NumArray object will be instantiated and called as such:
 # obj = NumArray(nums)
-# obj.update(i,val)
-# param_2 = obj.sumRange(i,j)
+# obj.update(index,val)
+# param_2 = obj.sumRange(left,right)
 ```
 * [[Medium] [Solution] 307. Range Sum Query - Mutable](%5BMedium%5D%20%5BSolution%5D%20307.%20Range%20Sum%20Query%20-%20Mutable.md)
 

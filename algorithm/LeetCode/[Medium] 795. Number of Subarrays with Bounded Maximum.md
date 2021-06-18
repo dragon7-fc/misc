@@ -21,25 +21,25 @@ Explanation: There are three subarrays that meet the requirements: [2], [2, 1], 
 
 # Submissions
 ---
-**Solution: (Two Pointers)**
+**Solution: (Greedy, Two Pointers)**
 ```
 Runtime: 384 ms
 Memory Usage: 15.2 MB
 ```
 ```python
 class Solution:
-    def numSubarrayBoundedMax(self, A: List[int], L: int, R: int) -> int:
+    def numSubarrayBoundedMax(self, nums: List[int], left: int, right: int) -> int:
         start = 0
         last = -1
         count = 0
-        for i in range(len(A)):
-          if A[i] > R:
-            start = i + 1
-          else:
-            if A[i] >= L:
-              last = i
-            if last >= start:
-              count += last - start + 1
+        for i in range(len(nums)):
+            if nums[i] > right:
+                start = i + 1
+            else:
+                if nums[i] >= left:
+                    last = i
+                if last >= start:
+                    count += last - start + 1
 
         return count
 ```

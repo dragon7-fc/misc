@@ -363,9 +363,9 @@ class NumArray:
             j += 1
         for i in range(self.N-1, 0, -1):
             self.tree[i] = self.tree[i*2] + self.tree[i*2 + 1]
-        
-    def update(self, i: int, val: int) -> None:
-        pos = i + self.N
+
+    def update(self, index: int, val: int) -> None:
+        pos = index + self.N
         self.tree[pos] = val
         while pos > 0:
             left = pos
@@ -378,28 +378,27 @@ class NumArray:
             self.tree[pos // 2] = self.tree[left] + self.tree[right]
             pos //= 2
 
-    def sumRange(self, i: int, j: int) -> int:
+    def sumRange(self, left: int, right: int) -> int:
         # get leaf with value 'i'
-        i += self.N;
+        left += self.N;
         # get leaf with value 'j'
-        j += self.N;
+        right += self.N;
         rst = 0
-        while i <= j:
-            if (i % 2) == 1:
-                rst += self.tree[i]
-                i += 1
-            if (j % 2) == 0:
-                rst += self.tree[j]
-                j -= 1
-            i //= 2
-            j //= 2
+        while left <= right:
+            if (left % 2) == 1:
+                rst += self.tree[left]
+                left += 1
+            if (right % 2) == 0:
+                rst += self.tree[right]
+                right -= 1
+            left //= 2
+            right //= 2
             
         return rst
 
 
-
 # Your NumArray object will be instantiated and called as such:
 # obj = NumArray(nums)
-# obj.update(i,val)
-# param_2 = obj.sumRange(i,j)
+# obj.update(index,val)
+# param_2 = obj.sumRange(left,right)
 ```

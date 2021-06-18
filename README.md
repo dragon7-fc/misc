@@ -588,7 +588,7 @@ A playground to note something.
             ```
     - check certificate
         
-        - ex. echeck apiserver expiration: `kubeadm certs check-expiration | grep apiserver`
+        - ex. check apiserver expiration: `kubeadm certs check-expiration | grep apiserver`
         - ex. renew the apiserver server certificate: `kubeadm certs renew apiserver`
     - check kubelet certificate directory
         
