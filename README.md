@@ -234,7 +234,7 @@ A playground to note something.
             ```bash
             sudo aptitude install cscope exuberant-ctags
             cd [LINUX]
-            make O=. ARCH=arm SUBARCH=aspeed COMPILED_SOURCE=1 cscope tags
+            make O=. ARCH=arm SUBARCH=aspeed cscope tags
             ```
     - ack-vim
 

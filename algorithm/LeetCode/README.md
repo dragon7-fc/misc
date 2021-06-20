@@ -716,6 +716,8 @@ Happy Coding!!
 * [[Medium] [Solution] 22. Generate Parentheses](%5BMedium%5D%20%5BSolution%5D%2022.%20Generate%20Parentheses.md)
 * [Medium] 795. Number of Subarrays with Bounded Maximum 
 * [[Medium] [Solution] 307. Range Sum Query - Mutable](%5BMedium%5D%20%5BSolution%5D%20307.%20Range%20Sum%20Query%20-%20Mutable.md)
+* [[Hard] [Solution] 629. K Inverse Pairs Array](%5BHard%5D%20%5BSolution%5D%20629.%20K%20Inverse%20Pairs%20Array.md)
+* 778. Swim in Rising Water
 
 ## Array <a name="array"></a>
 ---
@@ -16584,6 +16586,28 @@ class Solution:
         return heapq.nsmallest(K, points, key= lambda x: x[0]**2 + x[1]**2)
 ```
 * [[Medium] [Solution] 973. K Closest Points to Origin](%5BMedium%5D%20%5BSolution%5D%20973.%20K%20Closest%20Points%20to%20Origin.md)
+
+### Dijkstra's Algorithm
+```python
+class Solution:
+    def swimInWater(self, grid: List[List[int]]) -> int:
+        # not sure whether anyone else find this one easier than the cheapest flight
+        n = len(grid)
+        dirs = [(1,0),(0,1),(-1,0),(0,-1)]
+
+        q = [(grid[0][0], 0, 0)]
+        best = {}
+        while q:
+            elev, x0, y0 = heapq.heappop(q)
+            best[(x0, y0)] = elev
+            if (x0, y0) == (n-1, n-1): return elev
+            for dx, dy in dirs:
+                nx, ny = x0 + dx, y0 + dy
+                if n > nx >= 0 and n > ny >= 0 and max(elev, grid[nx][ny]) < best.get((nx, ny), float('inf')):
+                    heapq.heappush(q,(max(elev, grid[nx][ny]), nx, ny))
+                    best[(nx, ny)] = max(elev, grid[nx][ny])
+```
+* 778. Swim in Rising Water
 
 ### Sort by efficiency, and greedy over max speed with heap
 ```python
