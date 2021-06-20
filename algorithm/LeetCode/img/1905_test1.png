@@ -1,0 +1,11 @@
+--2021-06-20 13:34:03--  https://assets.leetcode.com/uploads/2021/06/10/test1.png
+Resolving assets.leetcode.com (assets.leetcode.com)... 104.21.38.205, 172.67.138.83, 2606:4700:3030::ac43:8a53, ...
+Connecting to assets.leetcode.com (assets.leetcode.com)|104.21.38.205|:443... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: 7452 (7.3K) [image/png]
+Saving to: ‘test1.png’
+
+     0K .......                                               100% 39.0M=0s
+
+2021-06-20 13:34:04 (39.0 MB/s) - ‘test1.png’ saved [7452/7452]
+
