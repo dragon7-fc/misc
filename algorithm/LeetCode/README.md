@@ -717,7 +717,8 @@ Happy Coding!!
 * [Medium] 795. Number of Subarrays with Bounded Maximum 
 * [[Medium] [Solution] 307. Range Sum Query - Mutable](%5BMedium%5D%20%5BSolution%5D%20307.%20Range%20Sum%20Query%20-%20Mutable.md)
 * [[Hard] [Solution] 629. K Inverse Pairs Array](%5BHard%5D%20%5BSolution%5D%20629.%20K%20Inverse%20Pairs%20Array.md)
-* 778. Swim in Rising Water
+* [Hard] 778. Swim in Rising Water
+* [Easy] [Solution] 118. Pascal's Triangle
 
 ## Array <a name="array"></a>
 ---
@@ -2093,6 +2094,32 @@ class Solution:
 
 ## Dynamic Programming <a name="dp"></a>
 ---
+### Prefix Sum
+```python
+class Solution:
+    def generate(self, numRows):
+        """
+        :type numRows: int
+        :rtype: List[List[int]]
+        """
+        triangle = []
+
+        for row_num in range(numRows):
+            # The first and last row elements are always 1.
+            row = [None for _ in range(row_num+1)]
+            row[0], row[-1] = 1, 1
+
+            # Each triangle element is equal to the sum of the elements
+            # above-and-to-the-left and above-and-to-the-right.
+            for j in range(1, len(row)-1):
+                row[j] = triangle[row_num-1][j-1] + triangle[row_num-1][j]
+
+            triangle.append(row)
+
+        return triangle
+```
+* [Easy] [Solution] 118. Pascal's Triangle
+
 ### Bottom-Up
 ```python
 class Solution:
@@ -16607,7 +16634,7 @@ class Solution:
                     heapq.heappush(q,(max(elev, grid[nx][ny]), nx, ny))
                     best[(nx, ny)] = max(elev, grid[nx][ny])
 ```
-* 778. Swim in Rising Water
+* [Hard] 778. Swim in Rising Water
 
 ### Sort by efficiency, and greedy over max speed with heap
 ```python

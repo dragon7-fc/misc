@@ -441,167 +441,6 @@ A playground to note something.
             - ex. change to 10.244.0.0/24
             
                 `kubectl apply -f "https://cloud.weave.works/k8s/net?k8s-version=$(kubectl version | base64 | tr -d '\n')&env.IPALLOC_RANGE=10.244.0.0/16"`
-    - upgrade (ex. 1.18.0 -> 1.19.0)
-        
-        ```bash
-        # On Master Node
-
-        kubectl drain controlplane --ignore-daemonsets
-        apt-get install kubeadm=1.19.0-00
-        kubeadm  upgrade plan
-        kubeadm  upgrade apply v1.19.0
-        apt-get install kubelet=1.19.0-00
-        systemctl daemon-reload
-        systemctl restart kubelet
-        kubectl uncordon controlplane
-        kubectl drain node01 --ignore-daemonsets
-
-
-        # On Worker Node
-
-        apt-get install kubeadm=1.19.0-00
-        kubeadm upgrade node
-        apt-get install kubelet=1.19.0-00
-        systemctl daemon-reload
-        systemctl restart kubelet     
-
-        # Back on Master Nodess
-
-        kubectl uncordon node01
-        ```
-    - RBAC
-    
-        - combinations
-        
-            1. Role + RoleBinding (available in single Namespace, applied in single Namespace)
-            1. ClusterRole + ClusterRoleBinding (available cluster-wide, applied cluster-wide)
-            1. ClusterRole + RoleBinding (available cluster-wide, applied in single Namespace)
-            1. Role + ClusterRoleBinding (**NOT POSSIBLE**: available in single Namespace, applied cluster-wide)
-        - ex. add user `60099@internal.users`
-
-            ```bash
-            # 1. Create KEY
-            #
-            ➜ openssl genrsa -out 60099.key 2048
-
-            # 2. Create CSR
-            #
-            ➜ openssl req -new -key 60099.key -out 60099.csr
-            # set Common Name = 60099@internal.users
-
-            # 3. Manual signing
-            #
-            ➜ find /etc/kubernetes/pki | grep ca
-            ➜ openssl x509 -req -in 60099.csr -CA /etc/kubernetes/pki/ca.crt -CAkey /etc/kubernetes/pki/ca.key -CAcreateserial -out 60099.crt -days 500
-
-            # 4. Signing via API
-            # Note: 
-            #   Convert CSR file content to base64: cat 60099.csr | base64 -w 0
-            #
-            # csr.yaml
-
-            apiVersion: certificates.k8s.io/v1
-            kind: CertificateSigningRequest
-            metadata:
-              name: 60099@internal.users # ADD
-            spec:
-              groups:
-              - system:authenticated
-              request: {{BASE_64_ENCODED_CSR}} # ADD
-              signerName: kubernetes.io/kube-apiserver-client
-              usages:
-              - client auth
-
-
-            # Create the resource, check its status and approve
-            ➜ k -f csr.yaml create
-            ➜ k certificate approve 60099@internal.users
-
-            # Now download the CRT
-            ➜ k get csr 60099@internal.users -ojsonpath="{.status.certificate}" | base64 -d > 60099.crt
-
-            # 5. Use it to connect to K8s API
-            #
-            ➜ k config set-credentials 60099@internal.users --client-key=60099.key --client-certificate=60099.crt
-            ➜ k config set-context 60099@internal.users --cluster=kubernetes --user=60099@internal.users
-            ➜ k config get-contexts
-            ➜ k config use-context 60099@internal.users
-            ```
-    - add service account (ex. add pvviewer)
-        
-        ```bash
-        kubectl create serviceaccount pvviewer
-        kubectl create clusterrole pvviewer-role --resource=persistentvolumes --verb=list
-        kubectl create clusterrolebinding pvviewer-role-binding --clusterrole=pvviewer-role --serviceaccount=default:pvviewer
-
-        # XXX-pod.yaml
-            
-        kind: pod
-        ...
-        spec:
-          serviceAccountName: pvviewer
-        ```
-    - Service Account
-    
-        - add service account
-
-            ```bash
-            kubectl -n project-hamster create sa processor
-
-            kubectl -n project-hamster create role processor \
-              --verb=create \
-              --resource=secret \
-              --resource=configmap
-
-            kubectl -n project-hamster create rolebinding processor \
-              --role processor \
-              --serviceaccount project-hamster:processor
-
-            kubectl -n project-hamster auth can-i create secret \
-              --as system:serviceaccount:project-hamster:processor
-
-            kubectl -n project-hamster auth can-i create configmap \
-              --as system:serviceaccount:project-hamster:processor
-            ```
-        - We can see all necessary information to contact the apiserver manually
-        
-            ```bash
-            / # curl https://kubernetes.default/api/v1/namespaces/restricted/secrets -H "Authorization: Bearer $(cat /run/secrets/kubernetes.io/serviceaccount/token)" -k
-            ...
-                {
-                  "metadata": {
-                    "name": "secret3",
-                    "namespace": "restricted",
-            ...
-                      }
-                    ]
-                  },
-                  "data": {
-                    "password": "cEVuRXRSYVRpT24tdEVzVGVSCg=="
-                  },
-                  "type": "Opaque"
-                }
-            ...
-            
-            ➜ echo cEVuRXRSYVRpT24tdEVzVGVSCg== | base64 -d
-            pEnEtRaTiOn-tEsTeR
-            ```
-    - check certificate
-        
-        - ex. check apiserver expiration: `kubeadm certs check-expiration | grep apiserver`
-        - ex. renew the apiserver server certificate: `kubeadm certs renew apiserver`
-    - check kubelet certificate directory
-        
-        - `/var/lib/kubelet/pki`: default of `kubelet --cert-dir`
-    - customized kubelet manifests directory
-    
-        - `--pod-manifest-path`
-    - service cidr
-    
-        - parameter: `--service-cluster-ip-range`
-        
-            - `/etc/kubernetes/manifests/kube-apiserver.yaml`
-            - `/etc/kubernetes/manifests/kube-controller-manager.yaml`
     - Inter-pod anti-affinity
     
         ```bash
@@ -667,75 +506,184 @@ A playground to note something.
                   fieldRef:
                     fieldPath: spec.nodeName
         ```
-    - falco
-    
-        - Falco uses system calls to secure and monitor a system, by:
+    - Cluster Setup
 
-            - Parsing the Linux system calls from the kernel at runtime
-            - Asserting the stream against a powerful rules engine
-            - Alerting when a rule is violated
-        - install falco on worker node
-            
-            ```bash
-            curl -s https://falco.org/repo/falcosecurity-3672BA8F.asc | apt-key add -
-            echo "deb https://download.falco.org/packages/deb stable main" | tee -a /etc/apt/sources.list.d/falcosecurity.list
-            apt-get update -y
-            apt-get -y install linux-headers-$(uname -r)
-            apt-get install -y falco=0.26.1
-            ```
-        - Usage
+        - Kubernetes Dashboard
         
-            - service
-            
+            - Secure Kubernetes Dashboard
+           
                 ```bash
-                systemctl start falco
+                ➜ k -n kubernetes-dashboard edit deploy kubernetes-dashboard
+               
+                template:
+                  spec:
+                    containers:
+                    - args:
+                      - --namespace=kubernetes-dashboard  
+                      - --authentication-mode=token        # Enforce authentication using a token (with possibility to use RBAC)
+                      - --auto-generate-certificates       # Add the --auto-generate-certificates argument
+                      #- --enable-skip-login=true          # Deny users to "skip login"
+                      #- --enable-insecure-login           # Deny insecure access, enforce HTTPS (self signed certificates are ok for now)
+                      image: kubernetesui/dashboard:v2.0.3
+                      imagePullPolicy: Always
+                      name: kubernetes-dashboard
                 
-                # view log
-                cat /var/log/syslog | grep falco
+                # Allow only cluster internal access
+                ➜ k -n kubernetes-dashboard edit svc kubernetes-dashboard
+               
+                spec:
+                  clusterIP: 10.107.176.19
+                  externalTrafficPolicy: Cluster
+                  ports:
+                  - name: http
+                    nodePort: 32513  # delete
+                    port: 9090
+                    protocol: TCP
+                    targetPort: 9090
+                  - name: https
+                    nodePort: 32441  # delete
+                    port: 443
+                    protocol: TCP
+                    targetPort: 8443
+                  selector:
+                    k8s-app: kubernetes-dashboard
+                  sessionAffinity: None
+                  type: ClusterIP          # change or delete
+                status:
+                  loadBalancer: {}
                 ```
-            - command line
-            
+        - CIS benchmark
+
+            - kube-bench
+                
                 ```bash
-                systemctl stop falco && falco
-                
-                # view log
-                falco
+                kube-bench master
+                kube-bench node
                 ```
-        - Configuration
+    - Cluster Hardening
+
+        - RBAC
         
-            ```bash
-            # /etc/falco/falco.yaml
+            - combinations
             
-            syslog_output:
-              enabled: trues
-            ```
-        - Create logs in correct format (ex. chnge Package management process launched message formate to time,container-id,container-name,user-name)
+                1. Role + RoleBinding (available in single Namespace, applied in single Namespace)
+                1. ClusterRole + ClusterRoleBinding (available cluster-wide, applied cluster-wide)
+                1. ClusterRole + RoleBinding (available cluster-wide, applied in single Namespace)
+                1. Role + ClusterRoleBinding (**NOT POSSIBLE**: available in single Namespace, applied cluster-wide)
+            - Users and CertificateSigningRequests
+
+                ```bash
+                #
+                # add user `60099@internal.users`
+                #
+                
+                # 1. Create KEY
+                #
+                ➜ openssl genrsa -out 60099.key 2048
+
+                # 2. Create CSR
+                #
+                ➜ openssl req -new -key 60099.key -out 60099.csr
+                # set Common Name = 60099@internal.users
+
+                # 3. Manual signing
+                #
+                ➜ find /etc/kubernetes/pki | grep ca
+                ➜ openssl x509 -req -in 60099.csr -CA /etc/kubernetes/pki/ca.crt -CAkey /etc/kubernetes/pki/ca.key -CAcreateserial -out 60099.crt -days 500
+
+                # 4. Signing via API
+                #
+                # csr.yaml
+
+                apiVersion: certificates.k8s.io/v1
+                kind: CertificateSigningRequest
+                metadata:
+                  name: 60099@internal.users # ADD
+                spec:
+                  groups:
+                  - system:authenticated
+                  request: {{BASE_64_ENCODED_CSR}} # ADD
+                  signerName: kubernetes.io/kube-apiserver-client
+                  usages:
+                  - client auth
+
+                # Note: 
+                #   BASE_64_ENCODED_CSR: cat 60099.csr | base64 -w 0
+
+                # Create the resource, check its status and approve
+                ➜ k -f csr.yaml create
+                ➜ k certificate approve 60099@internal.users
+
+                # Now download the CRT
+                ➜ k get csr 60099@internal.users -ojsonpath="{.status.certificate}" | base64 -d > 60099.crt
+
+                # 5. Use it to connect to K8s API
+                #
+                ➜ k config set-credentials 60099@internal.users --client-key=60099.key --client-certificate=60099.crt
+                ➜ k config set-context 60099@internal.users --cluster=kubernetes --user=60099@internal.users
+                ➜ k config get-contexts
+                ➜ k config use-context 60099@internal.users
+                ```
+        - Service Account
         
-            ```bash
-            cd /etc/falco
-            grep -r "Package management process launched" .
-            
-            # falco_rules.yaml
-            s
-            # Container is supposed to be immutable. Package management should be done in building the image.
-            - rule: Launch Package Management Process in Container
-              desc: Package management process ran inside container
-              condition: >
-                spawned_process
-                and container
-                and user.name != "_apt"
-                and package_mgmt_procs
-                and not package_mgmt_ancestor_procs
-                and not user_known_package_manager_in_container
-              output: >
-                Package management process launched in container (user=%user.name user_loginuid=%user.loginuid command=%proc.cmdline container_id=%container.id container_name=%container.name     ## remove
-                Package management process launched in container %evt.time,%container.id,%container.name,%user.name     ## add
-              priority: ERROR
-              tags: [process, mitre_persistence]
-            ```
-            
-            __NOTE__: move custimized settings to /etc/falco/falco_rules.local.yaml
-        - Change kube-apiserver service type from NodePort to ClusterIP
+            - add service account (sa -> role -> rolebinding)
+
+                ```bash
+                kubectl -n project-hamster create sa processor
+
+                kubectl -n project-hamster create role processor \
+                  --verb=create \
+                  --resource=secret \
+                  --resource=configmap
+
+                kubectl -n project-hamster create rolebinding processor \
+                  --role processor \
+                  --serviceaccount project-hamster:processor
+
+                kubectl -n project-hamster auth can-i create secret \
+                  --as system:serviceaccount:project-hamster:processor
+
+                kubectl -n project-hamster auth can-i create configmap \
+                  --as system:serviceaccount:project-hamster:processor
+                ```
+            - add service account (sa -> clusterrole -> clusterrolebinding)
+                
+                ```bash
+                kubectl create serviceaccount pvviewer
+                kubectl create clusterrole pvviewer-role --resource=persistentvolumes --verb=list
+                kubectl create clusterrolebinding pvviewer-role-binding --clusterrole=pvviewer-role --serviceaccount=default:pvviewer
+
+                # XXX-pod.yaml
+                    
+                kind: pod
+                ...
+                spec:
+                  serviceAccountName: pvviewer
+                ```
+               - We can see all necessary information to contact the apiserver manually
+               
+                   ```bash
+                   / # curl https://kubernetes.default/api/v1/namespaces/restricted/secrets -H "Authorization: Bearer $(cat /run/secrets/kubernetes.io/serviceaccount/token)" -k
+                   ...
+                       {
+                         "metadata": {
+                           "name": "secret3",
+                           "namespace": "restricted",
+                   ...
+                             }
+                           ]
+                         },
+                         "data": {
+                           "password": "cEVuRXRSYVRpT24tdEVzVGVSCg=="
+                         },
+                         "type": "Opaque"
+                       }
+                   ...
+                   
+                   ➜ echo cEVuRXRSYVRpT24tdEVzVGVSCg== | base64 -d
+                   pEnEtRaTiOn-tEsTeR
+                   ```
+        - Change kube-apiserver service type from `NodePort` to `ClusterIP`
         
            ```bash
            # /etc/kubernetes/manifests/kube-apiserver.yaml
@@ -762,325 +710,481 @@ A playground to note something.
            ➜ kubectl delete svc kubernetes
            ➜ kubectl get svc
            ```
-    - Pod Security Policies
-   
-        - Cluster-level resources. Controls under which security conditions a Pod has to run.
-       
-        - Enable Admission Plugin for PodSecurityPolicy
-       
-            ```bash
-            # /etc/kubernetes/manifests/kube-apiserver.yaml 
-           
-            - --enable-admission-plugins=NodeRestriction,PodSecurityPolicy      # change
-            ```
-        - Create new PodSecurityPolicy
-       
-            ```bash
-            # Creating a PodSecurityPolicy named psp-mount which allows hostPath volumes only for directory /tmp
-            # psp.yaml
-           
-            apiVersion: policy/v1beta1
-            kind: PodSecurityPolicy
-            metadata:
-              name: psp-mount
-            spec:
-              privileged: true
-              seLinux:
-                rule: RunAsAny
-              supplementalGroups:
-                rule: RunAsAny
-              runAsUser:
-                rule: RunAsAny
-              fsGroup:
-                rule: RunAsAny
-              volumes:
-              - '*'
-              allowedHostPaths:             # task requirement
-                - pathPrefix: "/tmp"        # task requirement
-           
-            ➜ k create -f psp.yaml
-           
-            # Creating a ClusterRole named psp-mount which allows to use the new PSP
-            ➜ k -n team-red create clusterrole psp-mount --verb=use \
-                --resource=podsecuritypolicies --resource-name=psp-mount
-           
-            # Creating a RoleBinding named psp-mount in Namespace team-red which binds the new ClusterRole to all ServiceAccounts in the Namespace team-red
-            ➜ k -n team-red create rolebinding psp-mount --clusterrole=psp-mount --group system:serviceaccounts
-           
-            # test with deployment
-            ➜ k -n team-red rollout restart deploy docker-log-hacker
-            ➜ k -n team-red describe deploy docker-log-hacker
-           ```
-    - kube-bench
-        
-        ```bash
-        kube-bench master
-        kube-bench node
-        ```
-    - Open Policy Agent
-       
-        - Alter the existing constraint and/or template to also blacklist images from `very-bad-registry.com`.
-           
-            ```bash
-            ➜ k get crd
-           
-            ➜ k get constraint
-           
-            ➜ k edit blacklistimages pod-trusted-images
-           
-            ➜ k edit constrainttemplates blacklistimages
-           
-            apiVersion: templates.gatekeeper.sh/v1beta1
-            kind: ConstraintTemplate
-            metadata:
-            ...
-            spec:
-              crd:
-                spec:
-                  names:
-                    kind: BlacklistImages
-              targets:
-              - rego: |
-                  package k8strustedimages
-
-                  images {
-                    image := input.review.object.spec.containers[_].image
-                    not startswith(image, "docker-fake.io/")
-                    not startswith(image, "google-gcr-fake.com/")
-                    not startswith(image, "very-bad-registry.com/") # ADD THIS LINE
-                  }
-
-                  violation[{"msg": msg}] {
-                    not images
-                    msg := "not trusted image!"
-                  }
-                target: admission.k8s.gatekeeper.sh
-               
-            # test
-            ➜ k run opa-test --image=very-bad-registry.com/image
-            ```
-    - Kubernetes Dashboard
-    
-        - Secure Kubernetes Dashboard
-       
-            ```bash
-            ➜ k -n kubernetes-dashboard edit deploy kubernetes-dashboard
-           
-            template:
-              spec:
-                containers:
-                - args:
-                  - --namespace=kubernetes-dashboard  
-                  - --authentication-mode=token        # Enforce authentication using a token (with possibility to use RBAC)
-                  - --auto-generate-certificates       # Add the --auto-generate-certificates argument
-                  #- --enable-skip-login=true          # Deny users to "skip login"
-                  #- --enable-insecure-login           # Deny insecure access, enforce HTTPS (self signed certificates are ok for now)
-                  image: kubernetesui/dashboard:v2.0.3
-                  imagePullPolicy: Always
-                  name: kubernetes-dashboard
+        - check certificate
             
-            # Allow only cluster internal access
-            ➜ k -n kubernetes-dashboard edit svc kubernetes-dashboard
-           
-            spec:
-              clusterIP: 10.107.176.19
-              externalTrafficPolicy: Cluster
-              ports:
-              - name: http
-                nodePort: 32513  # delete
-                port: 9090
-                protocol: TCP
-                targetPort: 9090
-              - name: https
-                nodePort: 32441  # delete
-                port: 443
-                protocol: TCP
-                targetPort: 8443
-              selector:
-                k8s-app: kubernetes-dashboard
-              sessionAffinity: None
-              type: ClusterIP          # change or delete
-            status:
-              loadBalancer: {}
-            ```
-    - Container Runtime Sandbox gVisor
-    
-        - arguments the kubelet has been configured with to use containerd
-        
-            ```bash
-            # /etc/default/kubelet
-            KUBELET_EXTRA_ARGS="--container-runtime remote --container-runtime-endpoint unix:///run/containerd/containerd.sock"
-            ```
-        - Create a RuntimeClass named gvisor with handler runsc.
-        
-            ```bash
-            # 10_rtc.yaml
-
-            apiVersion: node.k8s.io/v1
-            kind: RuntimeClass
-            metadata:
-              name: gvisor
-            handler: runsc
-            ```
-        - Create a Pod that uses the RuntimeClass. The Pod should be in Namespace `team-purple`, named `gvisor-test` and of image `nginx:1.19.2`. Make sure the Pod runs on `cluster1-worker2`.
-        
-            ```bash
-            ➜ k -n team-purple run gvisor-test --image=nginx:1.19.2 $do > 10_pod.yaml
-
-            # 10_pod.yaml
-
-            apiVersion: v1
-            kind: Pod
-            metadata:
-              creationTimestamp: null
-              labels:
-                run: gvisor-test
-              name: gvisor-test
-              namespace: team-purple
-            spec:
-              nodeName: cluster1-worker2 # add
-              runtimeClassName: gvisor   # add
-              containers:
-              - image: nginx:1.19.2
-                name: gvisor-test
-                resources: {}
-              dnsPolicy: ClusterFirst
-              restartPolicy: Always
-            status: {}
+            - ex. check apiserver expiration: `kubeadm certs check-expiration | grep apiserver`
+            - ex. renew the apiserver server certificate: `kubeadm certs renew apiserver`
+        - check kubelet certificate directory
             
-            ➜ k -n team-purple exec gvisor-test -- dmesg
-            [    0.000000] Starting gVisor...
-            [    0.417740] Checking naughty and nice process list...
-            [    0.623721] Waiting for children...
-            [    0.902192] Gathering forks...
-            [    1.258087] Committing treasure map to memory...
-            [    1.653149] Generating random numbers by fair dice roll...
-            [    1.918386] Creating cloned children...
-            [    2.137450] Digging up root...
-            [    2.369841] Forking spaghetti code...
-            [    2.840216] Rewriting operating system in Javascript...
-            [    2.956226] Creating bureaucratic processes...
-            [    3.329981] Ready!
-            ```
-    - AppArmor
-    
-        - AppArmor Profile
-       
-            ```bash
-            # /opt/course/9/profile 
-
-            #include <tunables/global>
-              
-            profile very-secure flags=(attach_disconnected) {
-              #include <abstractions/base>
-
-              file,
-
-              # Deny all file writes.
-              deny /** w,
-            }
-
-            # Install the AppArmor profile on Node cluster1-worker1
-            ➜ scp /opt/course/9/profile cluster1-worker1:~/
-            ➜ ssh cluster1-worker1
+            - `/var/lib/kubelet/pki`: default of `kubelet --cert-dir`
+        - customized kubelet manifests directory
+        
+            - `--pod-manifest-path`
+        - service cidr
+        
+            - parameter: `--service-cluster-ip-range`
             
-            # Install the AppArmor profile on Node cluster1-worker1
-            ➜ apparmor_parser -q ./profile
-            
-            # verify
-            ➜ apparmor_status
-           
-            # Add label security=apparmor to the Node
-            ➜ k label node cluster1-worker1 security=apparmor
-           
-            # create the Deployment which uses the profile
-            ➜ k create deploy apparmor --image=nginx:1.19.2 $do > 9_deploy.yaml
-           
-            # 9_deploy.yaml
-           
-            template:
-              metadata:
-                creationTimestamp: null
-                labels:
-                  app: apparmor
-                annotations:                                                                 # add
-                  container.apparmor.security.beta.kubernetes.io/c1: localhost/very-secure   # add (Single container named c1 with the AppArmor profile enabled)
-              spec:
-                nodeSelector:                    # add
-                  security: apparmor             # add
-                containers:
-                - image: nginx:1.19.2
-                  name: c1                       # change
-                  resources: {}
-           
-            ➜ k -f 9_deploy.yaml create
-           
-            # This looks alright, the Pod is running on cluster1-worker1 because of the nodeSelector. 
-            ➜ k get pod -owide | grep apparmor
-           
-            # The AppArmor profile simply denies all filesystem writes, but Nginx needs to write into some locations to run, hence the errors.
-            ➜ k logs apparmor-85c65645dc-w852p
-           
-            /docker-entrypoint.sh: No files found in /docker-entrypoint.d/, skipping configuration
-            /docker-entrypoint.sh: 13: /docker-entrypoint.sh: cannot create /dev/null: Permission denied
-            2020/09/26 18:14:11 [emerg] 1#1: mkdir() "/var/cache/nginx/client_temp" failed (13: Permission denied)
-            nginx: [emerg] mkdir() "/var/cache/nginx/client_temp" failed (13: Permission denied)
-           
-            ➜ ssh cluster1-worker1
-            ➜ docker ps -a | grep apparmor
-           
-            # the container is using our AppArmor profile.
-            ➜ docker inspect 41f014a9e7a8 | grep -i profile
-                    "AppArmorProfile": "very-secure",
-            ```
-    - ETCD:
-    
-        - Backing up an etcd cluster
+                - `/etc/kubernetes/manifests/kube-apiserver.yaml`
+                - `/etc/kubernetes/manifests/kube-controller-manager.yaml`
+        - upgrade (ex. 1.18.0 -> 1.19.0)
             
             ```bash
-            ➜ ETCDCTL_API='3' etcdctl snapshot save --cacert=/etc/kubernetes/pki/etcd/ca.crt --cert=/etc/kubernetes/pki/etcd/server.crt --key=/etc/kubernetes/pki/etcd/server.key /PATH/TO/BACKUP.XX
+            # On Master Node
+
+            kubectl drain controlplane --ignore-daemonsets
+            apt-get install kubeadm=1.19.0-00
+            kubeadm  upgrade plan
+            kubeadm  upgrade apply v1.19.0
+            apt-get install kubelet=1.19.0-00
+            systemctl daemon-reload
+            systemctl restart kubelet
+            kubectl uncordon controlplane
+            kubectl drain node01 --ignore-daemonsets
+
+
+            # On Worker Node
+
+            apt-get install kubeadm=1.19.0-00
+            kubeadm upgrade node
+            apt-get install kubelet=1.19.0-00
+            systemctl daemon-reload
+            systemctl restart kubelet     
+
+            # Back on Master Nodess
+
+            kubectl uncordon node01
             ```
-        - Restore an etcd cluster
+    - System Hardening
+
+        - AppArmor
         
-            ```bash
-            ➜ ETCDCTL_API=3 etcdctl snapshot restore /tmp/etcd-backup.db --data-dir /var/lib/etcd-backup
+            - AppArmor Profile
+           
+                ```bash
+                # /opt/course/9/profile 
 
-            # /etc/kubernetes/manifests/etcd.yaml
+                #include <tunables/global>
+                  
+                profile very-secure flags=(attach_disconnected) {
+                  #include <abstractions/base>
 
-            spec:
-              ...
-              volumes:
-              ...
-              - hostPath:
-                  path: /var/lib/etcd-backup                # change
-                  type: DirectoryOrCreate
-                name: etcd-data
-            ```
-        - Verifying that data is encrypted
-        
-            ```bash
-            # read secret out of etcd
-            ➜ ETCDCTL_API=3 etcdctl \
-            --cert /etc/kubernetes/pki/apiserver-etcd-client.crt \
-            --key /etc/kubernetes/pki/apiserver-etcd-client.key \
-            --cacert /etc/kubernetes/pki/etcd/ca.crt get /registry/secrets/team-green/database-access  # ETCD in Kubernetes stores data under /registry/{type}/{namespace}/{name}
-            
-            k8s
+                  file,
 
+                  # Deny all file writes.
+                  deny /** w,
+                }
 
-            v1Secret
-
-            database-access
-            team-green"*$3e0acd78-709d-4f07-bdac-d5193d0f2aa32bB
-            0kubectl.kubernetes.io/last-applied-configuration{"apiVersion":"v1","data":{"pass":"Y29uZmlkZW50aWFs"},"kind":"Secret","metadata":{"annotations":{},"name":"database-access","namespace":"team-green"}}
-            z
-            kubectl-client-side-applyUpdatevFieldsV1:
-            {"f:data":{".":{},"f:pass":{}},"f:metadata":{"f:annotations":{".":{},"f:kubectl.kubernetes.io/last-applied-configuration":{}}},"f:type":{}}
-            pass
-                confidentialOpaque"
+                # Install the AppArmor profile on Node cluster1-worker1
+                ➜ scp /opt/course/9/profile cluster1-worker1:~/
+                ➜ ssh cluster1-worker1
                 
-            ➜ echo Y29uZmlkZW50aWFs | base64 -d
-            ```
+                # Install the AppArmor profile on Node cluster1-worker1
+                ➜ apparmor_parser -q ./profile
+                
+                # verify
+                ➜ apparmor_status
+               
+                # Add label security=apparmor to the Node
+                ➜ k label node cluster1-worker1 security=apparmor
+               
+                # create the Deployment which uses the profile
+                ➜ k create deploy apparmor --image=nginx:1.19.2 $do > 9_deploy.yaml
+               
+                # 9_deploy.yaml
+               
+                template:
+                  metadata:
+                    creationTimestamp: null
+                    labels:
+                      app: apparmor
+                    annotations:                                                                 # add
+                      container.apparmor.security.beta.kubernetes.io/c1: localhost/very-secure   # add (Single container named c1 with the AppArmor profile very-secure enabled)
+                  spec:
+                    nodeSelector:                    # add
+                      security: apparmor             # add
+                    containers:
+                    - image: nginx:1.19.2
+                      name: c1                       # change
+                      resources: {}
+               
+                ➜ k -f 9_deploy.yaml create
+               
+                # This looks alright, the Pod is running on cluster1-worker1 because of the nodeSelector. 
+                ➜ k get pod -owide | grep apparmor
+               
+                # The AppArmor profile simply denies all filesystem writes, but Nginx needs to write into some locations to run, hence the errors.
+                ➜ k logs apparmor-85c65645dc-w852p
+               
+                /docker-entrypoint.sh: No files found in /docker-entrypoint.d/, skipping configuration
+                /docker-entrypoint.sh: 13: /docker-entrypoint.sh: cannot create /dev/null: Permission denied
+                2020/09/26 18:14:11 [emerg] 1#1: mkdir() "/var/cache/nginx/client_temp" failed (13: Permission denied)
+                nginx: [emerg] mkdir() "/var/cache/nginx/client_temp" failed (13: Permission denied)
+               
+                ➜ ssh cluster1-worker1
+                ➜ docker ps -a | grep apparmor
+               
+                # the container is using our AppArmor profile.
+                ➜ docker inspect 41f014a9e7a8 | grep -i profile
+                        "AppArmorProfile": "very-secure",
+                ```
+    - Monitoring, Logging and Runtime Security
+    
+        - falco
+    
+            - Falco uses system calls to secure and monitor a system, by:
+
+                - Parsing the Linux system calls from the kernel at runtime
+                - Asserting the stream against a powerful rules engine
+                - Alerting when a rule is violated
+            - install falco on worker node
+                
+                ```bash
+                curl -s https://falco.org/repo/falcosecurity-3672BA8F.asc | apt-key add -
+                echo "deb https://download.falco.org/packages/deb stable main" | tee -a /etc/apt/sources.list.d/falcosecurity.list
+                apt-get update -y
+                apt-get -y install linux-headers-$(uname -r)
+                apt-get install -y falco=0.26.1
+                ```
+            - Usage
+            
+                - service
+                
+                    ```bash
+                    systemctl start falco
+                    
+                    # view log
+                    cat /var/log/syslog | grep falco
+                    ```
+                - command line
+                
+                    ```bash
+                    systemctl stop falco && falco
+                    
+                    # view log
+                    falco
+                    ```
+            - Configuration
+            
+                ```bash
+                # /etc/falco/falco.yaml
+                
+                ...
+                # Where security notifications should go.
+                # Multiple outputs can be enabled.
+
+                syslog_output:
+                  enabled: trues
+                ...
+                ```
+            - Create logs in correct format (ex. chnge Package management process launched message formate to time,container-id,container-name,user-name)
+            
+                ```bash
+                cd /etc/falco
+                grep -r "Package management process launched" .
+                
+                # falco_rules.yaml
+                
+                # Container is supposed to be immutable. Package management should be done in building the image.
+                - rule: Launch Package Management Process in Container
+                  desc: Package management process ran inside container
+                  condition: >
+                    spawned_process
+                    and container
+                    and user.name != "_apt"
+                    and package_mgmt_procs
+                    and not package_mgmt_ancestor_procs
+                    and not user_known_package_manager_in_container
+                  output: >
+                    Package management process launched in container (user=%user.name user_loginuid=%user.loginuid command=%proc.cmdline container_id=%container.id container_name=%container.name     ## remove
+                    Package management process launched in container %evt.time,%container.id,%container.name,%user.name     ## add
+                  priority: ERROR
+                  tags: [process, mitre_persistence]
+
+                # test
+                #
+                falco | grep "Package management"
+
+                20:23:14.395725592: Error Package management process launched in container 20:23:14.395725592,fd6a98d42973,k8s_nginx_webapi-5fcb69b746-gtx8q_team-blue_d5e9178c-60fb-43e5-af89-3b8a579614ef_0,root
+                ```
+                
+                __NOTE__: move custimized settings to /etc/falco/falco_rules.local.yaml
+    - Microservice Vulnerabilities
+
+        - ETCD:
+        
+            - Backing up an etcd cluster
+                
+                ```bash
+                ➜ ETCDCTL_API='3' etcdctl snapshot save --cacert=/etc/kubernetes/pki/etcd/ca.crt --cert=/etc/kubernetes/pki/etcd/server.crt --key=/etc/kubernetes/pki/etcd/server.key /PATH/TO/BACKUP.XX
+                ```
+            - Restore an etcd cluster
+            
+                ```bash
+                ➜ ETCDCTL_API=3 etcdctl snapshot restore /tmp/etcd-backup.db --data-dir /var/lib/etcd-backup
+
+                # /etc/kubernetes/manifests/etcd.yaml
+
+                spec:
+                  ...
+                  volumes:
+                  ...
+                  - hostPath:
+                      path: /var/lib/etcd-backup                # change
+                      type: DirectoryOrCreate
+                    name: etcd-data
+                ```
+            - Verifying that data is encrypted
+            
+                ```bash
+                # read secret out of etcd
+                ➜ ETCDCTL_API=3 etcdctl \
+                --cert /etc/kubernetes/pki/apiserver-etcd-client.crt \
+                --key /etc/kubernetes/pki/apiserver-etcd-client.key \
+                --cacert /etc/kubernetes/pki/etcd/ca.crt get /registry/secrets/team-green/database-access  # ETCD in Kubernetes stores data under /registry/{type}/{namespace}/{name}
+                
+                k8s
+
+
+                v1Secret
+
+                database-access
+                team-green"*$3e0acd78-709d-4f07-bdac-d5193d0f2aa32bB
+                0kubectl.kubernetes.io/last-applied-configuration{"apiVersion":"v1","data":{"pass":"Y29uZmlkZW50aWFs"},"kind":"Secret","metadata":{"annotations":{},"name":"database-access","namespace":"team-green"}}
+                z
+                kubectl-client-side-applyUpdatevFieldsV1:
+                {"f:data":{".":{},"f:pass":{}},"f:metadata":{"f:annotations":{".":{},"f:kubectl.kubernetes.io/last-applied-configuration":{}}},"f:type":{}}
+                pass
+                    confidentialOpaque"
+                    
+                ➜ echo Y29uZmlkZW50aWFs | base64 -d
+                ```
+        - Container Runtime Sandbox gVisor
+        
+            - arguments the kubelet has been configured with to use containerd
+            
+                ```bash
+                # /etc/default/kubelet
+                KUBELET_EXTRA_ARGS="--container-runtime remote --container-runtime-endpoint unix:///run/containerd/containerd.sock"
+                ```
+            - Create a RuntimeClass named gvisor with handler runsc.
+            
+                ```bash
+                # 10_rtc.yaml
+
+                apiVersion: node.k8s.io/v1
+                kind: RuntimeClass
+                metadata:
+                  name: gvisor
+                handler: runsc
+                ```
+            - Create a Pod that uses the RuntimeClass. The Pod should be in Namespace `team-purple`, named `gvisor-test` and of image `nginx:1.19.2`. Make sure the Pod runs on `cluster1-worker2`.
+            
+                ```bash
+                ➜ k -n team-purple run gvisor-test --image=nginx:1.19.2 $do > 10_pod.yaml
+
+                # 10_pod.yaml
+
+                apiVersion: v1
+                kind: Pod
+                metadata:
+                  creationTimestamp: null
+                  labels:
+                    run: gvisor-test
+                  name: gvisor-test
+                  namespace: team-purple
+                spec:
+                  nodeName: cluster1-worker2 # add
+                  runtimeClassName: gvisor   # add
+                  containers:
+                  - image: nginx:1.19.2
+                    name: gvisor-test
+                    resources: {}
+                  dnsPolicy: ClusterFirst
+                  restartPolicy: Always
+                status: {}
+                
+                ➜ k -n team-purple exec gvisor-test -- dmesg
+                [    0.000000] Starting gVisor...
+                [    0.417740] Checking naughty and nice process list...
+                [    0.623721] Waiting for children...
+                [    0.902192] Gathering forks...
+                [    1.258087] Committing treasure map to memory...
+                [    1.653149] Generating random numbers by fair dice roll...
+                [    1.918386] Creating cloned children...
+                [    2.137450] Digging up root...
+                [    2.369841] Forking spaghetti code...
+                [    2.840216] Rewriting operating system in Javascript...
+                [    2.956226] Creating bureaucratic processes...
+                [    3.329981] Ready!
+                ```
+        - Open Policy Agent
+           
+            - Alter the existing constraint and/or template to also blacklist images from `very-bad-registry.com`.
+               
+                ```bash
+                ➜ k get crd
+               
+                ➜ k get constraint
+               
+                ➜ k edit blacklistimages pod-trusted-images
+               
+                ➜ k edit constrainttemplates blacklistimages
+               
+                apiVersion: templates.gatekeeper.sh/v1beta1
+                kind: ConstraintTemplate
+                metadata:
+                ...
+                spec:
+                  crd:
+                    spec:
+                      names:
+                        kind: BlacklistImages
+                  targets:
+                  - rego: |
+                      package k8strustedimages
+
+                      images {
+                        image := input.review.object.spec.containers[_].image
+                        not startswith(image, "docker-fake.io/")
+                        not startswith(image, "google-gcr-fake.com/")
+                        not startswith(image, "very-bad-registry.com/") # ADD THIS LINE
+                      }
+
+                      violation[{"msg": msg}] {
+                        not images
+                        msg := "not trusted image!"
+                      }
+                    target: admission.k8s.gatekeeper.sh
+                   
+                # test
+                ➜ k run opa-test --image=very-bad-registry.com/image
+
+                Error from server ([denied by pod-trusted-images] not trusted image!): admission webhook "validation.gatekeeper.sh" denied the request: [denied by pod-trusted-images] not trusted image!
+
+                ➜ k describe blacklistimages pod-trusted-images
+                ...
+                  Total Violations:  1
+                  Violations:
+                    Enforcement Action:  deny
+                    Kind:                Pod
+                    Message:             not trusted image!
+                    Name:                untrusted-68c4944d48-2hgt9
+                    Namespace:           default
+                Events:                  <none>
+                ```
+        - Pod Security Policies
+   
+            - Cluster-level resources. Controls under which security conditions a Pod has to run.
+           
+            - Enable Admission Plugin for PodSecurityPolicy
+           
+                ```bash
+                # /etc/kubernetes/manifests/kube-apiserver.yaml 
+               
+                - --enable-admission-plugins=NodeRestriction,PodSecurityPolicy      # change
+                ```
+            - Create new PodSecurityPolicy
+           
+                ```bash
+                # Creating a PodSecurityPolicy named psp-mount which allows hostPath volumes only for directory /tmp
+                # psp.yaml
+               
+                apiVersion: policy/v1beta1
+                kind: PodSecurityPolicy
+                metadata:
+                  name: psp-mount
+                spec:
+                  privileged: true
+                  seLinux:
+                    rule: RunAsAny
+                  supplementalGroups:
+                    rule: RunAsAny
+                  runAsUser:
+                    rule: RunAsAny
+                  fsGroup:
+                    rule: RunAsAny
+                  volumes:
+                  - '*'
+                  allowedHostPaths:             # task requirement
+                    - pathPrefix: "/tmp"        # task requirement
+               
+                ➜ k create -f psp.yaml
+               
+                # Creating a ClusterRole named psp-mount which allows to use the new PSP
+                ➜ k -n team-red create clusterrole psp-mount --verb=use \
+                    --resource=podsecuritypolicies --resource-name=psp-mount
+               
+                # Creating a RoleBinding named psp-mount in Namespace team-red which binds the new ClusterRole to all ServiceAccounts in the Namespace team-red
+                ➜ k -n team-red create rolebinding psp-mount --clusterrole=psp-mount --group system:serviceaccounts
+               
+                # test with deployment
+                ➜ k -n team-red rollout restart deploy docker-log-hacker
+                ➜ k -n team-red describe deploy docker-log-hacker
+
+                Name:                   docker-log-hacker
+                Namespace:              team-red
+                ...
+                Replicas:               1 desired | 0 updated | 0 total | 0 available | 2 unavailable
+                ...
+                Pod Template:
+                  Labels:       app=docker-log-hacker
+                  Annotations:  kubectl.kubernetes.io/restartedAt: 2020-09-28T11:08:18Z
+                  Containers:
+                   bash:
+                ...
+                  Volumes:
+                   dockerlogs:
+                    Type:          HostPath (bare host directory volume)
+                    Path:          /var/lib/docker
+                    HostPathType:  
+                Conditions:
+                  Type             Status  Reason
+                  ----             ------  ------
+                  Available        False   MinimumReplicasUnavailable
+                  ReplicaFailure   True    FailedCreate
+
+                ➜ k -n team-red get events --sort-by='{.metadata.creationTimestamp}'
+
+                docker-log-hacker-6bdfbf8546-" is forbidden: PodSecurityPolicy: unable to admit pod: [spec.volumes[0].hostPath.pathPrefix: Invalid value: "/var/lib/docker": is not allowed to be used]
+
+                ➜ k -n team-red edit deploy docker-log-hacker
+
+                # kubectl -n team-red edit deploy docker-log-hacker
+
+                apiVersion: apps/v1
+                kind: Deployment
+                metadata:
+                ...
+                spec:
+                ...
+                  template:
+                    metadata:
+                ...
+                    spec:
+                      containers:
+                      - command:
+                        - sh
+                        - -c
+                        - while true; do sleep 1d; done
+                        image: bash
+                ...
+                        volumeMounts:
+                        - mountPath: /dockerlogs
+                          name: dockerlogs
+                ...
+                      volumes:
+                      - hostPath:
+                          path: /tmp                         # change
+                          type: ""
+
+                ➜ k -n team-red get pod -l app=docker-log-hacker
+                NAME                                 READY   STATUS    RESTARTS   AGE
+                docker-log-hacker-5674dbccc9-5lc6q   1/1     Running   0          20s
+
+                ➜ k -n team-red describe pod -l app=docker-log-hacker
+                ...
+                Annotations:  kubernetes.io/psp: psp-mount
+                ```
     - Audit Log Policy
     
         - only one backup of the logs is stored
@@ -1133,11 +1237,195 @@ A playground to note something.
             # for everything else don't log anything
             - level: None
             ```
-    - trivy
-    
-        - ex. scan image (nginx:1.16.1-alpine) with vulnerabilities CVE-2020-10878 or CVE-2020-1967 
-        
-            `trivy nginx:1.16.1-alpine | grep -E 'CVE-2020-10878|CVE-2020-1967'`
+        - restart apiserver
+
+            ```bash
+            ➜ cd /etc/kubernetes/manifests/
+            ➜ mv kube-apiserver.yaml ..
+            ➜ truncate -s 0 /etc/kubernetes/audit/logs/audit.log
+            ➜ mv ../kube-apiserver.yaml mv ../kube-apiserver.yaml 
+            ```
+        - log
+
+           ```bash
+           # /etc/kubernetes/audit/logs/audit.log
+
+           {
+             "kind": "Event",
+             "apiVersion": "audit.k8s.io/v1",
+             "level": "RequestResponse",
+             "auditID": "c90e53ed-b0cf-4cc4-889a-f1204dd39267",
+             "stage": "ResponseComplete",
+             "requestURI": "...",
+             "verb": "list",
+             "user": {
+               "username": "system:node:cluster2-master1",
+               "groups": [
+                 "system:nodes",
+                 "system:authenticated"
+               ]
+             },
+             "sourceIPs": [
+               "192.168.100.21"
+             ],
+             "userAgent": "kubelet/v1.19.1 (linux/amd64) kubernetes/206bcad",
+             "objectRef": {
+               "resource": "configmaps",
+               "namespace": "kube-system",
+               "name": "kube-proxy",
+               "apiVersion": "v1"
+             },
+             "responseStatus": {
+               "metadata": {},
+               "code": 200
+             },
+             "responseObject": {
+               "kind": "ConfigMapList",
+               "apiVersion": "v1",
+               "metadata": {
+                 "selfLink": "/api/v1/namespaces/kube-system/configmaps",
+                 "resourceVersion": "83409"
+               },
+               "items": [
+                 {
+                   "metadata": {
+                     "name": "kube-proxy",
+                     "namespace": "kube-system",
+                     "selfLink": "/api/v1/namespaces/kube-system/configmaps/kube-proxy",
+                     "uid": "0f1c3950-430a-4543-83e4-3f9c87a478b8",
+                     "resourceVersion": "232",
+                     "creationTimestamp": "2020-09-26T20:59:50Z",
+                     "labels": {
+                       "app": "kube-proxy"
+                     },
+                     "annotations": {
+                       "kubeadm.kubernetes.io/component-config.hash": "..."
+                     },
+                     "managedFields": [
+                       {
+           ...
+                       }
+                     ]
+                   },
+           ...
+                 }
+               ]
+             },
+             "requestReceivedTimestamp": "2020-09-27T20:01:36.223781Z",
+             "stageTimestamp": "2020-09-27T20:01:36.225470Z",
+             "annotations": {
+               "authorization.k8s.io/decision": "allow",
+               "authorization.k8s.io/reason": ""
+             }
+           }
+
+           # shows Secret entries
+           ➜ cat audit.log | grep '"resource":"secrets"' | wc -l
+           
+           # confirms Secret entries are only of level Metadata
+           ➜ cat audit.log | grep '"resource":"secrets"' | grep -v '"level":"Metadata"' | wc -l
+           
+           # shows RequestResponse level entries
+           ➜ cat audit.log | grep -v '"level":"RequestResponse"' | wc -l
+           
+           # shows RequestResponse level entries are only for system:nodes
+           ➜ cat audit.log | grep '"level":"RequestResponse"' | grep -v "system:nodes" | wc -l
+           ```
+    - Supply Chain Security
+
+        - ImagePolicyWebhook / AdmissionController
+
+            -  allows a backend webhook to make admission decisions
+
+            ```bash
+            # Download existing files
+            #
+            ➜ git clone https://github.com/killer-sh/cks-challenge-series
+            ➜ cp -r cks-challenge-series/challenges/ImagePolicyWebhook /etc/kubernetes/admission
+            ➜ cd /etc/kubernetes/admission
+
+            # Create admission_config.yaml
+            #
+            # /etc/kubernetes/admission/admission_config.yaml
+
+            apiVersion: apiserver.config.k8s.io/v1
+            kind: AdmissionConfiguration
+            plugins:
+              - name: ImagePolicyWebhook
+                configuration:
+                  imagePolicy:
+                    kubeConfigFile: /etc/kubernetes/admission/kubeconf
+                    allowTTL: 50
+                    denyTTL: 50
+                    retryBackoff: 500
+                    defaultAllow: false # DENY ALL PODS IF SERVICE NOT AVAILABLE
+
+            # Register in Apiserver
+            #
+            ➜ cd /etc/kubernetes/manifests
+            # /etc/kubernetes/manifests/kube-apiserver.yaml
+
+            apiVersion: v1
+            kind: Pod
+            metadata:
+            ...
+              name: kube-apiserver
+              namespace: kube-system
+            spec:
+              containers:
+              - command:
+                - kube-apiserver
+                - --admission-control-config-file=/etc/kubernetes/admission/admission_config.yaml
+                - --enable-admission-plugins=NodeRestriction,ImagePolicyWebhook
+            ...
+                volumeMounts:
+                - mountPath: /etc/kubernetes/admission
+                  name: admission
+                  readOnly: true
+            ...
+              volumes:
+              - hostPath:
+                  path: /etc/kubernetes/admission
+                  type: DirectoryOrCreate
+                name: admission
+            ...
+
+
+            # /etc/kubernetes/admission/kubeconf
+
+            # clusters refers to the remote service.
+            clusters:
+            - name: name-of-remote-imagepolicy-service
+              cluster:
+                certificate-authority: /path/to/ca.pem    # CA for verifying the remote service.
+                server: https://images.example.com/policy # URL of remote service to query. Must use 'https'.
+            
+            # users refers to the API server's webhook configuration.
+            users:
+            - name: name-of-api-server
+              user:
+                client-certificate: /path/to/cert.pem # cert for the webhook admission controller to use
+                client-key: /path/to/key.pem          # key matching the cert
+
+            # Wait for Apiserver to come back by looking for a response
+            #
+            ➜ mv ./kube-apiserver.yaml ../
+            ➜ mv ../kube-apiserver.yaml ./
+            ➜ k -n kube-system get pod # just wait for a response
+
+            # test
+            #
+            ➜ k run test --image=nginx
+
+            Error from server (Forbidden): pods "test" is forbidden: Post "https://external-service:1234/check-image?timeout=30s": dial tcp: lookup external-service on 169.254.169.254:53: no such Hostname
+            ```
+        - Image Vulnerability Scanning
+
+            - trivy
+            
+                - ex. scan image (nginx:1.16.1-alpine) with vulnerabilities CVE-2020-10878 or CVE-2020-1967 
+                
+                    `trivy nginx:1.16.1-alpine | grep -E 'CVE-2020-10878|CVE-2020-1967'`
 * RamDisk
 
     - create 100G ramdisk
