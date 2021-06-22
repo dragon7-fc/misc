@@ -719,6 +719,7 @@ Happy Coding!!
 * [[Hard] [Solution] 629. K Inverse Pairs Array](%5BHard%5D%20%5BSolution%5D%20629.%20K%20Inverse%20Pairs%20Array.md)
 * [Hard] 778. Swim in Rising Water
 * [Easy] [Solution] 118. Pascal's Triangle
+* [[Medium] 792. Number of Matching Subsequences](%5BMedium%5D%20792.%20Number%20of%20Matching%20Subsequences.md)
 
 ## Array <a name="array"></a>
 ---
@@ -8780,27 +8781,20 @@ class Solution:
 ```
 * [[Hard] 1316. Distinct Echo Substrings](%5BHard%5D%201316.%20Distinct%20Echo%20Substrings.md)
 
-### Subsequence Rolling Hash
+### Brute Force
 ```python
 class Solution:
-    def numMatchingSubseq(self, S: str, words: List[str]) -> int:
-        word_dict = collections.defaultdict(list)
-        count = 0
-
+    def numMatchingSubseq(self, s: str, words: List[str]) -> int:
+        ans = 0
         for word in words:
-            word_dict[word[0]].append(word)            
-
-        for char in S:
-            words_expecting_char = word_dict[char]
-            word_dict[char] = []
-            for word in words_expecting_char:
-                if len(word) == 1:
-                    # Finished subsequence! 
-                    count += 1
-                else:
-                    word_dict[word[1]].append(word[1:])
-
-        return count
+            i = -1
+            for c in word:
+                i = s.find(c, i+1)
+                if i < 0:
+                    break
+            if i >= 0:
+                ans += 1
+        return ans
 ```
 * [[Medium] 792. Number of Matching Subsequences](%5BMedium%5D%20792.%20Number%20of%20Matching%20Subsequences.md)
 

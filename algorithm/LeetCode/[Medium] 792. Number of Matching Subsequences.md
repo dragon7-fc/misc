@@ -46,3 +46,23 @@ class Solution:
         
         return count
 ```
+
+**Solution 2: (Brute Force)**
+```
+Runtime: 292 ms
+Memory Usage: 15.6 MB
+```
+```python
+class Solution:
+    def numMatchingSubseq(self, s: str, words: List[str]) -> int:
+        ans = 0
+        for word in words:
+            i = -1
+            for c in word:
+                i = s.find(c, i+1)
+                if i < 0:
+                    break
+            if i >= 0:
+                ans += 1
+        return ans
+```

@@ -509,6 +509,10 @@ A playground to note something.
     - Cluster Setup
 
         - Kubernetes Dashboard
+
+            - install
+
+               `kubectl apply -f https://raw.githubusercontent.com/kubernetes/dashboard/v2.1.0/aio/deploy/recommended.yaml`
         
             - Secure Kubernetes Dashboard
            
@@ -554,7 +558,7 @@ A playground to note something.
                 ```
         - CIS benchmark
 
-            - kube-bench
+            - [kube-bench](https://github.com/aquasecurity/kube-bench)
                 
                 ```bash
                 kube-bench master
@@ -908,6 +912,8 @@ A playground to note something.
                 ```
                 
                 __NOTE__: move custimized settings to /etc/falco/falco_rules.local.yaml
+
+                __NOTE__: [Supported Fields for Conditions and Outputs](https://falco.org/docs/rules/supported-fields)
     - Microservice Vulnerabilities
 
         - ETCD:
@@ -1018,13 +1024,44 @@ A playground to note something.
                 [    3.329981] Ready!
                 ```
         - Open Policy Agent
+
+            - install
+
+               ```bash 
+               # /etc/kubernetes/manifests/kube-apiserver.yaml 
+               
+               - --enable-admission-plugins=NodeRestriction      # change
+               
+               ➜ kubectl create -f https://raw.githubusercontent.com/killer-sh/cks-course-environment/master/course-content/opa/gatekeeper.yaml
+
+               # test
+               ➜ k -n gatekeeper-system get pod,svc
+               NAME                                                 READY   STATUS    RESTARTS   AGE
+               pod/gatekeeper-audit-6ffc8f5544-ng89x                1/1     Running   0          14m
+               pod/gatekeeper-controller-manager-6f9c99b4d7-bbdwj   1/1     Running   0          14m
+
+               NAME                                 TYPE        CLUSTER-IP       EXTERNAL-IP   PORT(S)   AGE
+               service/gatekeeper-webhook-service   ClusterIP   10.109.101.207   <none>        443/TCP   14m
+               ```
            
             - Alter the existing constraint and/or template to also blacklist images from `very-bad-registry.com`.
                
                 ```bash
                 ➜ k get crd
+                NAME                                                 CREATED AT
+                blacklistimages.constraints.gatekeeper.sh            2020-09-14T19:29:31Z
+                configs.config.gatekeeper.sh                         2020-09-14T19:29:04Z
+                constraintpodstatuses.status.gatekeeper.sh           2020-09-14T19:29:05Z
+                constrainttemplatepodstatuses.status.gatekeeper.sh   2020-09-14T19:29:05Z
+                constrainttemplates.templates.gatekeeper.sh          2020-09-14T19:29:05Z
+                requiredlabels.constraints.gatekeeper.sh             2020-09-14T19:29:31Z
                
                 ➜ k get constraint
+                NAME                                                           AGE
+                blacklistimages.constraints.gatekeeper.sh/pod-trusted-images   10m
+                
+                NAME                                                                  AGE
+                requiredlabels.constraints.gatekeeper.sh/namespace-mandatory-labels   10m
                
                 ➜ k edit blacklistimages pod-trusted-images
                
@@ -1187,7 +1224,7 @@ A playground to note something.
                 ```
     - Audit Log Policy
     
-        - only one backup of the logs is stored
+        - ex. only one backup of the logs is stored
         
             ```bash
             # /etc/kubernetes/manifests/kube-apiserver.yaml 
@@ -1421,8 +1458,8 @@ A playground to note something.
             ```
         - Image Vulnerability Scanning
 
-            - trivy
-            
+            - [trivy](https://github.com/aquasecurity/trivy)
+
                 - ex. scan image (nginx:1.16.1-alpine) with vulnerabilities CVE-2020-10878 or CVE-2020-1967 
                 
                     `trivy nginx:1.16.1-alpine | grep -E 'CVE-2020-10878|CVE-2020-1967'`
