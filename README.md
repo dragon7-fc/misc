@@ -914,6 +914,149 @@ A playground to note something.
                 __NOTE__: move custimized settings to /etc/falco/falco_rules.local.yaml
 
                 __NOTE__: [Supported Fields for Conditions and Outputs](https://falco.org/docs/rules/supported-fields)
+        - Audit Log Policy
+        
+            ```bash
+            # enable audit log in kube-apiserver
+            #
+            # /etc/kubernetes/manifests/kube-apiserver.yaml 
+
+            apiVersion: v1
+            kind: Pod
+            metadata:
+              annotations:
+                kubeadm.kubernetes.io/kube-apiserver.advertise-address.endpoint: 192.168.100.21:6443
+              creationTimestamp: null
+              labels:
+                component: kube-apiserver
+                tier: control-plane
+              name: kube-apiserver
+              namespace: kube-system
+            spec:
+              containers:
+              - command:
+                - kube-apiserver
+                - --audit-policy-file=/etc/kubernetes/audit/policy.yaml  # add
+                - --audit-log-path=/etc/kubernetes/audit/logs/audit.log  # add
+                - --audit-log-maxsize=5                                  # add
+                - --audit-log-maxbackup=1                                # only one backup of the logs is stored
+
+                - --advertise-address=192.168.100.21
+                - --allow-privileged=true
+            ...
+
+            # create audit policy
+            #
+            # /etc/kubernetes/audit/policy.yaml
+
+            apiVersion: audit.k8s.io/v1
+            kind: Policy
+            rules:
+            
+            # log Secret resources audits, level Metadata
+            - level: Metadata
+              resources:
+              - group: ""
+                resources: ["secrets"]
+            
+            # log node related audits, level RequestResponse
+            - level: RequestResponse
+              userGroups: ["system:nodes"]
+            
+            # for everything else don't log anything
+            - level: None
+
+            # restart apiserver
+            #
+            ➜ cd /etc/kubernetes/manifests/
+            ➜ mv kube-apiserver.yaml ..
+            ➜ truncate -s 0 /etc/kubernetes/audit/logs/audit.log
+
+            # check log
+            #
+            # /etc/kubernetes/audit/logs/audit.log
+
+            {
+              "kind": "Event",
+              "apiVersion": "audit.k8s.io/v1",
+              "level": "RequestResponse",
+              "auditID": "c90e53ed-b0cf-4cc4-889a-f1204dd39267",
+              "stage": "ResponseComplete",
+              "requestURI": "...",
+              "verb": "list",
+              "user": {
+                "username": "system:node:cluster2-master1",
+                "groups": [
+                  "system:nodes",
+                  "system:authenticated"
+                ]
+              },
+              "sourceIPs": [
+                "192.168.100.21"
+              ],
+              "userAgent": "kubelet/v1.19.1 (linux/amd64) kubernetes/206bcad",
+              "objectRef": {
+                "resource": "configmaps",
+                "namespace": "kube-system",
+                "name": "kube-proxy",
+                "apiVersion": "v1"
+              },
+              "responseStatus": {
+                "metadata": {},
+                "code": 200
+              },
+              "responseObject": {
+                "kind": "ConfigMapList",
+                "apiVersion": "v1",
+                "metadata": {
+                  "selfLink": "/api/v1/namespaces/kube-system/configmaps",
+                  "resourceVersion": "83409"
+                },
+                "items": [
+                  {
+                    "metadata": {
+                      "name": "kube-proxy",
+                      "namespace": "kube-system",
+                      "selfLink": "/api/v1/namespaces/kube-system/configmaps/kube-proxy",
+                      "uid": "0f1c3950-430a-4543-83e4-3f9c87a478b8",
+                      "resourceVersion": "232",
+                      "creationTimestamp": "2020-09-26T20:59:50Z",
+                      "labels": {
+                        "app": "kube-proxy"
+                      },
+                      "annotations": {
+                        "kubeadm.kubernetes.io/component-config.hash": "..."
+                      },
+                      "managedFields": [
+                        {
+            ...
+                        }
+                      ]
+                    },
+            ...
+                  }
+                ]
+              },
+              "requestReceivedTimestamp": "2020-09-27T20:01:36.223781Z",
+              "stageTimestamp": "2020-09-27T20:01:36.225470Z",
+              "annotations": {
+                "authorization.k8s.io/decision": "allow",
+                "authorization.k8s.io/reason": ""
+              }
+            }
+
+            # shows Secret entries
+            ➜ cat audit.log | grep '"resource":"secrets"' | wc -l
+            
+            # confirms Secret entries are only of level Metadata
+            ➜ cat audit.log | grep '"resource":"secrets"' | grep -v '"level":"Metadata"' | wc -l
+            
+            # shows RequestResponse level entries
+            ➜ cat audit.log | grep -v '"level":"RequestResponse"' | wc -l
+            
+            # shows RequestResponse level entries are only for system:nodes
+            ➜ cat audit.log | grep '"level":"RequestResponse"' | grep -v "system:nodes" | wc -l
+            ```
     - Microservice Vulnerabilities
 
         - ETCD:
@@ -966,6 +1109,26 @@ A playground to note something.
                 ```
         - Container Runtime Sandbox gVisor
         
+            - check if containerd and runsc are installed and configured
+
+                ```bash
+                ➜ root@cluster1-worker2:~# runsc --version
+                runsc version release-20201130.0
+                spec: 1.0.1-dev
+                
+                ➜ root@cluster1-worker2:~# service containerd status
+                ● containerd.service - containerd container runtime
+                   Loaded: loaded (/lib/systemd/system/containerd.service; enabled; vendor preset: enabled)
+                   Active: active (running) since Thu 2020-09-03 15:58:22 UTC; 2min 36s ago
+                   ...
+                
+                ➜ root@cluster1-worker2:~# cat /etc/containerd/config.toml
+                disabled_plugins = ["restart"]
+                [plugins.linux]
+                  shim_debug = true
+                [plugins.cri.containerd.runtimes.runsc]
+                  runtime_type = "io.containerd.runsc.v1"
+                ```
             - arguments the kubelet has been configured with to use containerd
             
                 ```bash
@@ -1131,7 +1294,7 @@ A playground to note something.
                 metadata:
                   name: psp-mount
                 spec:
-                  privileged: true
+                  privileged: true  # allow privileged pods!
                   seLinux:
                     rule: RunAsAny
                   supplementalGroups:
@@ -1142,8 +1305,8 @@ A playground to note something.
                     rule: RunAsAny
                   volumes:
                   - '*'
-                  allowedHostPaths:             # task requirement
-                    - pathPrefix: "/tmp"        # task requirement
+                  allowedHostPaths:             # allows hostPath volumes only for directory /tmp
+                    - pathPrefix: "/tmp"        #
                
                 ➜ k create -f psp.yaml
                
@@ -1222,152 +1385,6 @@ A playground to note something.
                 ...
                 Annotations:  kubernetes.io/psp: psp-mount
                 ```
-    - Audit Log Policy
-    
-        - ex. only one backup of the logs is stored
-        
-            ```bash
-            # /etc/kubernetes/manifests/kube-apiserver.yaml 
-
-            apiVersion: v1
-            kind: Pod
-            metadata:
-              annotations:
-                kubeadm.kubernetes.io/kube-apiserver.advertise-address.endpoint: 192.168.100.21:6443
-              creationTimestamp: null
-              labels:
-                component: kube-apiserver
-                tier: control-plane
-              name: kube-apiserver
-              namespace: kube-system
-            spec:
-              containers:
-              - command:
-                - kube-apiserver
-                - --audit-policy-file=/etc/kubernetes/audit/policy.yaml
-                - --audit-log-path=/etc/kubernetes/audit/logs/audit.log
-                - --audit-log-maxsize=5
-                - --audit-log-maxbackup=1                                    # CHANGE
-                - --advertise-address=192.168.100.21
-                - --allow-privileged=true
-            ...
-            ```
-        - Policy
-        
-            ```bash
-            # /etc/kubernetes/audit/policy.yaml
-
-            apiVersion: audit.k8s.io/v1
-            kind: Policy
-            rules:
-            
-            # log Secret resources audits, level Metadata
-            - level: Metadata
-              resources:
-              - group: ""
-                resources: ["secrets"]
-           
-            # log node related audits, level RequestResponse
-            - level: RequestResponse
-              userGroups: ["system:nodes"]
-            
-            # for everything else don't log anything
-            - level: None
-            ```
-        - restart apiserver
-
-            ```bash
-            ➜ cd /etc/kubernetes/manifests/
-            ➜ mv kube-apiserver.yaml ..
-            ➜ truncate -s 0 /etc/kubernetes/audit/logs/audit.log
-            ➜ mv ../kube-apiserver.yaml mv ../kube-apiserver.yaml 
-            ```
-        - log
-
-           ```bash
-           # /etc/kubernetes/audit/logs/audit.log
-
-           {
-             "kind": "Event",
-             "apiVersion": "audit.k8s.io/v1",
-             "level": "RequestResponse",
-             "auditID": "c90e53ed-b0cf-4cc4-889a-f1204dd39267",
-             "stage": "ResponseComplete",
-             "requestURI": "...",
-             "verb": "list",
-             "user": {
-               "username": "system:node:cluster2-master1",
-               "groups": [
-                 "system:nodes",
-                 "system:authenticated"
-               ]
-             },
-             "sourceIPs": [
-               "192.168.100.21"
-             ],
-             "userAgent": "kubelet/v1.19.1 (linux/amd64) kubernetes/206bcad",
-             "objectRef": {
-               "resource": "configmaps",
-               "namespace": "kube-system",
-               "name": "kube-proxy",
-               "apiVersion": "v1"
-             },
-             "responseStatus": {
-               "metadata": {},
-               "code": 200
-             },
-             "responseObject": {
-               "kind": "ConfigMapList",
-               "apiVersion": "v1",
-               "metadata": {
-                 "selfLink": "/api/v1/namespaces/kube-system/configmaps",
-                 "resourceVersion": "83409"
-               },
-               "items": [
-                 {
-                   "metadata": {
-                     "name": "kube-proxy",
-                     "namespace": "kube-system",
-                     "selfLink": "/api/v1/namespaces/kube-system/configmaps/kube-proxy",
-                     "uid": "0f1c3950-430a-4543-83e4-3f9c87a478b8",
-                     "resourceVersion": "232",
-                     "creationTimestamp": "2020-09-26T20:59:50Z",
-                     "labels": {
-                       "app": "kube-proxy"
-                     },
-                     "annotations": {
-                       "kubeadm.kubernetes.io/component-config.hash": "..."
-                     },
-                     "managedFields": [
-                       {
-           ...
-                       }
-                     ]
-                   },
-           ...
-                 }
-               ]
-             },
-             "requestReceivedTimestamp": "2020-09-27T20:01:36.223781Z",
-             "stageTimestamp": "2020-09-27T20:01:36.225470Z",
-             "annotations": {
-               "authorization.k8s.io/decision": "allow",
-               "authorization.k8s.io/reason": ""
-             }
-           }
-
-           # shows Secret entries
-           ➜ cat audit.log | grep '"resource":"secrets"' | wc -l
-           
-           # confirms Secret entries are only of level Metadata
-           ➜ cat audit.log | grep '"resource":"secrets"' | grep -v '"level":"Metadata"' | wc -l
-           
-           # shows RequestResponse level entries
-           ➜ cat audit.log | grep -v '"level":"RequestResponse"' | wc -l
-           
-           # shows RequestResponse level entries are only for system:nodes
-           ➜ cat audit.log | grep '"level":"RequestResponse"' | grep -v "system:nodes" | wc -l
-           ```
     - Supply Chain Security
 
         - ImagePolicyWebhook / AdmissionController
@@ -1379,25 +1396,8 @@ A playground to note something.
             #
             ➜ git clone https://github.com/killer-sh/cks-challenge-series
             ➜ cp -r cks-challenge-series/challenges/ImagePolicyWebhook /etc/kubernetes/admission
-            ➜ cd /etc/kubernetes/admission
 
-            # Create admission_config.yaml
-            #
-            # /etc/kubernetes/admission/admission_config.yaml
-
-            apiVersion: apiserver.config.k8s.io/v1
-            kind: AdmissionConfiguration
-            plugins:
-              - name: ImagePolicyWebhook
-                configuration:
-                  imagePolicy:
-                    kubeConfigFile: /etc/kubernetes/admission/kubeconf
-                    allowTTL: 50
-                    denyTTL: 50
-                    retryBackoff: 500
-                    defaultAllow: false # DENY ALL PODS IF SERVICE NOT AVAILABLE
-
-            # Register in Apiserver
+            # Register in apiserver
             #
             ➜ cd /etc/kubernetes/manifests
             # /etc/kubernetes/manifests/kube-apiserver.yaml
@@ -1412,8 +1412,8 @@ A playground to note something.
               containers:
               - command:
                 - kube-apiserver
-                - --admission-control-config-file=/etc/kubernetes/admission/admission_config.yaml
-                - --enable-admission-plugins=NodeRestriction,ImagePolicyWebhook
+                - --admission-control-config-file=/etc/kubernetes/admission/admission_config.yaml    # add config file
+                - --enable-admission-plugins=NodeRestriction,ImagePolicyWebhook    # add ImagePolicyWebhook admission controller
             ...
                 volumeMounts:
                 - mountPath: /etc/kubernetes/admission
@@ -1427,6 +1427,23 @@ A playground to note something.
                 name: admission
             ...
 
+            # Create admission_config.yaml
+            #
+            ➜ cd /etc/kubernetes/admission
+
+            # /etc/kubernetes/admission/admission_config.yaml
+
+            apiVersion: apiserver.config.k8s.io/v1
+            kind: AdmissionConfiguration
+            plugins:
+              - name: ImagePolicyWebhook
+                configuration:
+                  imagePolicy:
+                    kubeConfigFile: /etc/kubernetes/admission/kubeconf
+                    allowTTL: 50
+                    denyTTL: 50
+                    retryBackoff: 500
+                    defaultAllow: false # DENY ALL PODS IF SERVICE NOT AVAILABLE
 
             # /etc/kubernetes/admission/kubeconf
 
@@ -1444,7 +1461,7 @@ A playground to note something.
                 client-certificate: /path/to/cert.pem # cert for the webhook admission controller to use
                 client-key: /path/to/key.pem          # key matching the cert
 
-            # Wait for Apiserver to come back by looking for a response
+            # Wait for apiserver to come back by looking for a response
             #
             ➜ mv ./kube-apiserver.yaml ../
             ➜ mv ../kube-apiserver.yaml ./

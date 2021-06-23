@@ -720,6 +720,7 @@ Happy Coding!!
 * [Hard] 778. Swim in Rising Water
 * [Easy] [Solution] 118. Pascal's Triangle
 * [[Medium] 792. Number of Matching Subsequences](%5BMedium%5D%20792.%20Number%20of%20Matching%20Subsequences.md)
+* [![Medium] [Solution] 92. Reverse Linked List II](!%5BMedium%5D%20%5BSolution%5D%2092.%20Reverse%20Linked%20List%20II.md)
 
 ## Array <a name="array"></a>
 ---
