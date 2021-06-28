@@ -721,6 +721,10 @@ Happy Coding!!
 * [Easy] [Solution] 118. Pascal's Triangle
 * [[Medium] 792. Number of Matching Subsequences](%5BMedium%5D%20792.%20Number%20of%20Matching%20Subsequences.md)
 * [![Medium] [Solution] 92. Reverse Linked List II](!%5BMedium%5D%20%5BSolution%5D%2092.%20Reverse%20Linked%20List%20II.md)
+* [Medium] [Solution] 576. Out of Boundary Paths.md
+* [[Medium] [Solution] 684. Redundant Connection](%5BMedium%5D%20%5BSolution%5D%20684.%20Redundant%20Connection.md)
+* [[Hard] 315. Count of Smaller Numbers After Self](%5BHard%5D%20315.%20Count%20of%20Smaller%20Numbers%20After%20Self.md)
+* [Hard] [Solution] 135. Candy.md
 
 ## Array <a name="array"></a>
 ---
@@ -2237,6 +2241,24 @@ class Solution:
 ```
 * [[Easy] [Solution] 746. Min Cost Climbing Stairs](%5BEasy%5D%20%5BSolution%5D%20746.%20Min%20Cost%20Climbing%20Stairs.md)
 
+### Count
+```python
+class Solution:
+    def findPaths(self, m: int, n: int, N: int, i: int, j: int) -> int:
+        MOD = 10**9 + 7
+        
+        @functools.lru_cache(None)
+        def dfs(r, c, target):
+            if r == m or c == n or r < 0 or c < 0:
+                return 1
+            if target == 0:
+                return 0
+            return ((dfs(r-1,c, target-1) + dfs(r+1, c, target-1))%MOD + (dfs(r, c-1, target-1) + dfs(r, c+1, target-1))%MOD) % MOD
+        
+        return dfs(i, j, N)
+```
+* [Medium] [Solution] 576. Out of Boundary Paths.md
+
 ### bitmask state as parameter
 ```python
 class Solution:
@@ -3076,6 +3098,53 @@ class Solution:
         return count
 ```
 * [[Medium] [Solution] 376. Wiggle Subsequence](%5BMedium%5D%20%5BSolution%5D%20376.%20Wiggle%20Subsequence.md)
+
+### Prefix Sum, left and right scan
+```python
+class Solution:
+    def candy(self, ratings: List[int]) -> int:
+        # Concept - Just do what the problem is saying, we can 
+        # fill our result array with one, now the first requirement
+        # is fulfilled and for 2nd requirement, there will be 2 cases
+        # 1 - Rating at i is greater than at i-1 --> Forward Pass
+        # 2 - Rating at i is greater than i + 1 --> Backward Pass
+        
+        
+        # Condition-1 Fulfilled as we gave 1 candy to everyone
+        candies = [1] * len(ratings)
+        
+        # Calculate the candies needed to fulfill left condition     
+        # We drop the 0th element as nothing is located left to it
+        for i in range(1, len(ratings)):
+            if ratings[i] > ratings[i-1]:
+                candies[i] = candies[i-1] + 1
+        
+        # Calculate the candies needed to fulfill right condition  
+        # We drop the last element as nothing is located right to it
+        for i in range(len(ratings)-2, -1, -1):
+            if ratings[i] > ratings[i+1]:
+                candies[i] = max(candies[i], candies[i+1] + 1)
+        
+        # Take the summation --> Minimum candies
+        return sum(candies)
+
+class Solution:
+    def candy(self, ratings: List[int]) -> int:
+        ans = down = up = 0
+        for i in range(len(ratings)):
+            if not i or ratings[i-1] < ratings[i]:
+                if down: down, up = 0, 1
+                up += 1
+                ans += up
+            elif ratings[i-1] == ratings[i]: 
+                down, up = 0, 1
+                ans += 1
+            else:
+                down += 1
+                ans += down if down < up else down+1
+        return ans
+```
+* [Hard] [Solution] 135. Candy.md
 
 ### Brute Force, Backtracking
 ```python
@@ -9545,7 +9614,7 @@ class Solution:
 ```
 * [[Medium] [Solution] 662. Maximum Width of Binary Tree](%5BMedium%5D%20%5BSolution%5D%20662.%20Maximum%20Width%20of%20Binary%20Tree.md)
 
-### Redundant Connection
+### step by step try dfs cycle
 ```python
 class Solution(object):
     def findRedundantConnection(self, edges):

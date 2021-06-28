@@ -760,77 +760,75 @@ A playground to note something.
             ```
     - System Hardening
 
-        - AppArmor
+        - AppArmor profile
         
-            - AppArmor Profile
+            ```bash
+            # /opt/course/9/profile 
+
+            #include <tunables/global>
+              
+            profile very-secure flags=(attach_disconnected) {
+              #include <abstractions/base>
+
+              file,
+
+              # Deny all file writes.
+              deny /** w,
+            }
+
+            # Install the AppArmor profile on Node cluster1-worker1
+            ➜ scp /opt/course/9/profile cluster1-worker1:~/
+            ➜ ssh cluster1-worker1
+            
+            # Install the AppArmor profile on Node cluster1-worker1
+            ➜ apparmor_parser -q ./profile
+            
+            # verify
+            ➜ apparmor_status
            
-                ```bash
-                # /opt/course/9/profile 
-
-                #include <tunables/global>
-                  
-                profile very-secure flags=(attach_disconnected) {
-                  #include <abstractions/base>
-
-                  file,
-
-                  # Deny all file writes.
-                  deny /** w,
-                }
-
-                # Install the AppArmor profile on Node cluster1-worker1
-                ➜ scp /opt/course/9/profile cluster1-worker1:~/
-                ➜ ssh cluster1-worker1
-                
-                # Install the AppArmor profile on Node cluster1-worker1
-                ➜ apparmor_parser -q ./profile
-                
-                # verify
-                ➜ apparmor_status
-               
-                # Add label security=apparmor to the Node
-                ➜ k label node cluster1-worker1 security=apparmor
-               
-                # create the Deployment which uses the profile
-                ➜ k create deploy apparmor --image=nginx:1.19.2 $do > 9_deploy.yaml
-               
-                # 9_deploy.yaml
-               
-                template:
-                  metadata:
-                    creationTimestamp: null
-                    labels:
-                      app: apparmor
-                    annotations:                                                                 # add
-                      container.apparmor.security.beta.kubernetes.io/c1: localhost/very-secure   # add (Single container named c1 with the AppArmor profile very-secure enabled)
-                  spec:
-                    nodeSelector:                    # add
-                      security: apparmor             # add
-                    containers:
-                    - image: nginx:1.19.2
-                      name: c1                       # change
-                      resources: {}
-               
-                ➜ k -f 9_deploy.yaml create
-               
-                # This looks alright, the Pod is running on cluster1-worker1 because of the nodeSelector. 
-                ➜ k get pod -owide | grep apparmor
-               
-                # The AppArmor profile simply denies all filesystem writes, but Nginx needs to write into some locations to run, hence the errors.
-                ➜ k logs apparmor-85c65645dc-w852p
-               
-                /docker-entrypoint.sh: No files found in /docker-entrypoint.d/, skipping configuration
-                /docker-entrypoint.sh: 13: /docker-entrypoint.sh: cannot create /dev/null: Permission denied
-                2020/09/26 18:14:11 [emerg] 1#1: mkdir() "/var/cache/nginx/client_temp" failed (13: Permission denied)
-                nginx: [emerg] mkdir() "/var/cache/nginx/client_temp" failed (13: Permission denied)
-               
-                ➜ ssh cluster1-worker1
-                ➜ docker ps -a | grep apparmor
-               
-                # the container is using our AppArmor profile.
-                ➜ docker inspect 41f014a9e7a8 | grep -i profile
-                        "AppArmorProfile": "very-secure",
-                ```
+            # Add label security=apparmor to the Node
+            ➜ k label node cluster1-worker1 security=apparmor
+           
+            # create the Deployment which uses the profile
+            ➜ k create deploy apparmor --image=nginx:1.19.2 $do > 9_deploy.yaml
+           
+            # 9_deploy.yaml
+           
+            template:
+              metadata:
+                creationTimestamp: null
+                labels:
+                  app: apparmor
+                annotations:                                                                 # add
+                  container.apparmor.security.beta.kubernetes.io/c1: localhost/very-secure   # add (Single container named c1 with the AppArmor profile very-secure enabled)
+              spec:
+                nodeSelector:                    # add
+                  security: apparmor             # add
+                containers:
+                - image: nginx:1.19.2
+                  name: c1                       # change
+                  resources: {}
+           
+            ➜ k -f 9_deploy.yaml create
+           
+            # This looks alright, the Pod is running on cluster1-worker1 because of the nodeSelector. 
+            ➜ k get pod -owide | grep apparmor
+           
+            # The AppArmor profile simply denies all filesystem writes, but Nginx needs to write into some locations to run, hence the errors.
+            ➜ k logs apparmor-85c65645dc-w852p
+           
+            /docker-entrypoint.sh: No files found in /docker-entrypoint.d/, skipping configuration
+            /docker-entrypoint.sh: 13: /docker-entrypoint.sh: cannot create /dev/null: Permission denied
+            2020/09/26 18:14:11 [emerg] 1#1: mkdir() "/var/cache/nginx/client_temp" failed (13: Permission denied)
+            nginx: [emerg] mkdir() "/var/cache/nginx/client_temp" failed (13: Permission denied)
+           
+            ➜ ssh cluster1-worker1
+            ➜ docker ps -a | grep apparmor
+           
+            # the container is using our AppArmor profile.
+            ➜ docker inspect 41f014a9e7a8 | grep -i profile
+                    "AppArmorProfile": "very-secure",
+            ```
     - Monitoring, Logging and Runtime Security
     
         - falco
@@ -1172,6 +1170,7 @@ A playground to note something.
                   restartPolicy: Always
                 status: {}
                 
+                ➜ k -f 10_pod.yaml create
                 ➜ k -n team-purple exec gvisor-test -- dmesg
                 [    0.000000] Starting gVisor...
                 [    0.417740] Checking naughty and nice process list...
