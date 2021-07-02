@@ -43,7 +43,6 @@ class Solution:
             else:
                 j -= 1
         return arr[i:j+1]
-            
 ```
 
 **Solution 2:**

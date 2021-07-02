@@ -61,6 +61,7 @@ Happy Coding!!
 1. [202104 April LeetCoding Challenge](#202104)
 1. [202105 May LeetCoding Challenge](#202105)
 1. [202106 June LeetCoding Challenge](#202106)
+1. [202107 July LeetCoding Challenge](#202107)
 1. [Array](#array)
 1. [Dynamic Programming](#dp)
 1. [Math](#math)
@@ -725,6 +726,13 @@ Happy Coding!!
 * [[Medium] [Solution] 684. Redundant Connection](%5BMedium%5D%20%5BSolution%5D%20684.%20Redundant%20Connection.md)
 * [[Hard] 315. Count of Smaller Numbers After Self](%5BHard%5D%20315.%20Count%20of%20Smaller%20Numbers%20After%20Self.md)
 * [Hard] [Solution] 135. Candy.md
+* [Easy] 1047. Remove All Adjacent Duplicates In String.md
+* [[Medium] 1004. Max Consecutive Ones III](%5BMedium%5D%201004.%20Max%20Consecutive%20Ones%20III.md)
+* [Medium] [Solution] 236. Lowest Common Ancestor of a Binary Tree.md
+
+## 202107 July LeetCoding Challenge <a name="202107"></a>
+* [Medium] 89. Gray Code.md
+* [Medium] 658. Find K Closest Elements.md
 
 ## Array <a name="array"></a>
 ---
@@ -7382,6 +7390,94 @@ class Solution:
 ```
 * [[Easy] 700. Search in a Binary Search Tree](%5BEasy%5D%20700.%20Search%20in%20a%20Binary%20Search%20Tree.md)
 
+### Postorder, parent pointer
+```python
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+
+class Solution:
+    
+    def __init__(self):
+        # Variable to store LCA node.
+        self.ans = None
+    
+    def lowestCommonAncestor(self, root: 'TreeNode', p: 'TreeNode', q: 'TreeNode') -> 'TreeNode':
+        def recurse_tree(current_node):
+            
+            # If reached the end of a branch, return False.
+            if not current_node:
+                return False
+
+            # Left Recursion
+            left = recurse_tree(current_node.left)
+
+            # Right Recursion
+            right = recurse_tree(current_node.right)
+
+            # If the current node is one of p or q
+            mid = current_node == p or current_node == q
+
+            # If any two of the three flags left, right or mid become True.
+            if mid + left + right >= 2:
+                self.ans = current_node
+
+            # Return True if either of the three bool values is True.
+            return mid or left or right
+
+        # Traverse the tree
+        recurse_tree(root)
+        return self.ans
+
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+
+class Solution:
+    
+    def lowestCommonAncestor(self, root: 'TreeNode', p: 'TreeNode', q: 'TreeNode') -> 'TreeNode':
+        
+        # Stack for tree traversal
+        stack = [root]
+
+        # Dictionary for parent pointers
+        parent = {root: None}
+
+        # Iterate until we find both the nodes p and q
+        while p not in parent or q not in parent:
+
+            node = stack.pop()
+
+            # While traversing the tree, keep saving the parent pointers.
+            if node.left:
+                parent[node.left] = node
+                stack.append(node.left)
+            if node.right:
+                parent[node.right] = node
+                stack.append(node.right)
+
+        # Ancestors set() for node p.
+        ancestors = set()
+
+        # Process all ancestors for node p using parent pointers.
+        while p:
+            ancestors.add(p)
+            p = parent[p]
+
+        # The first ancestor of q which appears in
+        # p's ancestor set() is their lowest common ancestor.
+        while q not in ancestors:
+            q = parent[q]
+        return q
+```
+* [Medium] [Solution] 236. Lowest Common Ancestor of a Binary Tree.md
+
 ### DFS
 ```python
 # Definition for a binary tree node.
@@ -12813,6 +12909,25 @@ class Solution:
 ```
 * [[Easy] 392. Is Subsequence](%5BEasy%5D%20392.%20Is%20Subsequence.md)
 
+### Greedy add
+```python
+class Solution:
+    def findClosestElements(self, arr: List[int], k: int, x: int) -> List[int]:
+        # left pointer and right pointer
+        i, j = 0, len(arr)-1
+        while j-i+1 != k:
+            # will stop once we have k elements
+            # else keep shifting pointers towards minimum difference
+            left_diff = abs(arr[i] - x)
+            right_diff = abs(arr[j] - x)
+            if left_diff > right_diff:
+                i += 1
+            else:
+                j -= 1
+        return arr[i:j+1]
+```
+* [Medium] 658. Find K Closest Elements.md
+
 ### Greedy add, parallel viewpoint
 ```python
 class Solution:
@@ -13321,6 +13436,21 @@ return ans
 
 ## Stack <a name="stack"></a>
 ---
+### Greedy add
+```python
+class Solution:
+    def removeDuplicates(self, S: str) -> str:
+        stack = []
+        for c in S:
+            if stack and stack[-1] == c:
+                stack.pop()
+            else:
+                stack.append(c)
+                
+        return ''.join(stack)
+```
+* [Easy] 1047. Remove All Adjacent Duplicates In String.md
+
 ### Mapping
 ```python
 class Solution:
@@ -15037,8 +15167,28 @@ class Solution:
             for l, r, k in queries
         ]
 ```
-* [[Medium] 1177. Can Make Palindrome from Substring](%5BMedium%5D%201177.%20Can%20Make%20Palindrome%20from%20Substring.md)
+* [[Medium] 1177. Can Make Palindrome from Substring](%5BMedium%5D%201177.%20Can%20Make%20Palindrome%20from%20Substring.md
 
+### expand from internal
+```python
+class Solution:
+    def grayCode(self, n: int) -> List[int]:
+        return [i ^ (i >> 1) for i in range(2**n)]
+
+class Solution:
+    def grayCode(self, n: int) -> List[int]:
+        if n == 0:
+            return [0]
+        
+        def recursion(n):
+            if n == 1:
+                return ['0','1']
+            else:
+                return ['0' + i for i in recursion(n - 1)] + ['1' + i for i in recursion(n - 1)[::-1]]
+            
+        return [int(i,2) for i in recursion(n)]
+```
+[Medium] 89. Gray Code.md
 ---
 **Template 1: (Negative binary, 2's complement representation)**
 ```python

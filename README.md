@@ -232,9 +232,16 @@ A playground to note something.
         - index kernel source for aspeed platform
     
             ```bash
-            sudo aptitude install cscope exuberant-ctags
+            sudo apt install cscope exuberant-ctags
             cd [LINUX]
-            make O=. ARCH=arm SUBARCH=aspeed cscope tags
+            # generate .config file
+            # -> cp /XXX/.config ./
+            #
+            # make kernel
+            # -> make -j N zImage  (N: thread)
+            #
+            # generate ctag and cscope symbol
+            make O=. ARCH=arm SUBARCH=aspeed COMPILED_SOURCE=1 cscope tags
             ```
     - ack-vim
 
