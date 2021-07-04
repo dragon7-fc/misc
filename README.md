@@ -1,4 +1,4 @@
-f# misc
+# misc
 
 A playground to note something.
 
@@ -3959,6 +3959,10 @@ Attribute: This is a part of an object. One or more attributes make up an object
         
         apt install libpixman-1-dev
         
+        # Download latest openbmc/qemu fork of QEMU application
+        wget https://jenkins.openbmc.org/job/latest-qemu-x86/lastSuccessfulBuild/artifact/qemu/build/qemu-system-arm
+        chmod u+x qemu-system-arm
+
         # Run romulus
         ./qemu-system-arm -m 256 -M romulus-bmc -nographic \
         -drive file=[/PATH/TO/BUILD]/tmp/deploy/images/romulus/flash-romulus,format=raw,if=mtd \

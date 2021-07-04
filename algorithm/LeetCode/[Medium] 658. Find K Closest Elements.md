@@ -189,3 +189,35 @@ class Solution:
 
         return closest
 ```
+
+Solution 5: (Binary Search, start pointer)
+```
+Runtime: 284 ms
+Memory Usage: 15.4 MB
+```
+```python
+class Solution:
+    def findClosestElements(self, arr: List[int], k: int, x: int) -> List[int]:
+        left = 0
+        right = len(arr) - k
+        ans = 0  # ans is the starting index of result array
+        while left <= right:
+            mid = left + (right - left) // 2
+            if mid+k == len(arr) or x - arr[mid] <= arr[mid+k] - x:
+                ans = mid
+                right = mid - 1
+            else:
+                left = mid + 1
+        return arr[ans:ans+k]
+```
+
+**Solution 6: (Sort)**
+```
+Runtime: 296 ms
+Memory Usage: 15.6 MB
+```
+```python
+class Solution:
+    def findClosestElements(self, arr: List[int], k: int, x: int) -> List[int]:
+        return sorted(sorted(arr,key=lambda i:abs(x-i))[:k])
+```

@@ -733,6 +733,8 @@ Happy Coding!!
 ## 202107 July LeetCoding Challenge <a name="202107"></a>
 * [Medium] 89. Gray Code.md
 * [Medium] 658. Find K Closest Elements.md
+* [[Hard] 363. Max Sum of Rectangle No Larger Than K](%5BHard%5D%20363.%20Max%20Sum%20of%20Rectangle%20No%20Larger%20Than%20K.md)
+* [Hard] 1220. Count Vowels Permutation.md
 
 ## Array <a name="array"></a>
 ---
@@ -3106,6 +3108,29 @@ class Solution:
         return count
 ```
 * [[Medium] [Solution] 376. Wiggle Subsequence](%5BMedium%5D%20%5BSolution%5D%20376.%20Wiggle%20Subsequence.md)
+
+### Count
+```python
+class Solution:
+    def countVowelPermutation(self, n: int) -> int:
+        MOD = 10**9 + 7
+        d = {
+            'a': ['e'],
+            'e': ['a', 'i'],
+            'i': ['a', 'e', 'o', 'u'],
+            'o': ['i', 'u'],
+            'u': ['a']
+        }
+        
+        @functools.lru_cache(None)
+        def dp(i, c):
+            if i == n-1:
+                return 1
+            return sum([dp(i+1, _) for _ in d[c]])
+            
+        return sum([dp(0, _) for _ in list(d.keys())]) % MOD
+```
+* [Hard] 1220. Count Vowels Permutation.md
 
 ### Prefix Sum, left and right scan
 ```python
