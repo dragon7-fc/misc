@@ -4284,6 +4284,7 @@ Objects such as lists and dictionaries are passed by object reference too, which
 * [Top 28 Cheat Sheets for Machine Learning, Data Science, Probability, SQL & Big Data](https://www.analyticsvidhya.com/blog/2017/02/top-28-cheat-sheets-for-machine-learning-data-science-probability-sql-big-data/)
 
 ## Interview
+* [The 30-minute guide to rocking your next coding interview](https://www.freecodecamp.org/news/coding-interviews-for-dummies-5e048933b82b/)
 * [LeetCode](https://leetcode.com/): The World's Leading Online Programming Learning Platform
 * [Grammarly](https://www.grammarly.com/): Free Writing Assistant
 * [Hemingway App](http://www.hemingwayapp.com/): Makes your writing bold and clear.

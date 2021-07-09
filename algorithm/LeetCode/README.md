@@ -735,6 +735,11 @@ Happy Coding!!
 * [Medium] 658. Find K Closest Elements.md
 * [[Hard] 363. Max Sum of Rectangle No Larger Than K](%5BHard%5D%20363.%20Max%20Sum%20of%20Rectangle%20No%20Larger%20Than%20K.md)
 * [Hard] 1220. Count Vowels Permutation.md
+* [[Easy] [Solution] 566. Reshape the Matrix](%5BEasy%5D%20%5BSolution%5D%20566.%20Reshape%20the%20Matrix.md)
+* [Medium] 1338. Reduce Array Size to The Half.md
+* [Medium] 378. Kth Smallest Element in a Sorted Matrix.md
+* [[Medium] [Solution] 718. Maximum Length of Repeated Subarray](%5BMedium%5D%20%5BSolution%5D%20718.%20Maximum%20Length%20of%20Repeated%20Subarray.md)
+* [[Medium] [Solution] 300. Longest Increasing Subsequence](%5BMedium%5D%20%5BSolution%5D%20300.%20Longest%20Increasing%20Subsequence.md)
 
 ## Array <a name="array"></a>
 ---
@@ -1012,19 +1017,20 @@ class Solution:
 ### Using division and modulus
 ```python
 class Solution:
-    def matrixReshape(self, nums: List[List[int]], r: int, c: int) -> List[List[int]]:
-        R = len(nums)
-        C = len(nums[0])
-        if R == 0 or r*c != R*C:
-            return nums
-        res = [[0 for _ in range(c)] for _ in range(r)]
-        count = 0
-        for i in range(R):
-            for j in range(C):
-                res[count//c][count%c] = nums[i][j]
-                count += 1
-
-        return res
+    def matrixReshape(self, mat: List[List[int]], r: int, c: int) -> List[List[int]]:
+        R , C = len(mat), len(mat[0])
+        if R*C != r*c: return mat
+        ans = []
+        i = 0
+        for ri in range(r):
+            for ci in range(c):
+                cur_r, cur_c = divmod(i, C)
+                if ci == 0:
+                    ans += [[mat[cur_r][cur_c]]]
+                else:
+                    ans[-1] += [mat[cur_r][cur_c]]
+                i += 1
+        return ans
 ```
 * [[Easy] [Solution] 566. Reshape the Matrix](%5BEasy%5D%20%5BSolution%5D%20566.%20Reshape%20the%20Matrix.md)
 
@@ -2724,6 +2730,17 @@ class Solution:
 
 ### Word Break
 ```python
+class Solution:
+    def wordBreak(self, s: str, wordDict: List[str]) -> bool:
+        N = len(s)
+        dp = [False] * N    
+        for i in range(N):
+            for w in wordDict:
+                w_size = len(w)
+                if w == s[i - w_size + 1:i + 1] and (dp[i - w_size] or i - w_size == -1):
+                    dp[i] = True
+        return dp[-1]
+
 import functools
 class Solution:
     def wordBreak(self, s: str, wordDict: List[str]) -> bool:
@@ -3337,49 +3354,6 @@ class Solution:
 ```python
 class Solution:
     def lengthOfLIS(self, nums: List[int]) -> int:
-        N = len(nums)
-        if N == 0: return 0
-        memo = [[-1]*N for _ in range(N+1)]
-        ans = 0
-
-        def dfs(previndex, curpos):
-            if curpos == N:
-                return 0
-            if memo[previndex + 1][curpos] >= 0:
-                return memo[previndex + 1][curpos]
-            taken = 0
-            if previndex < 0 or nums[curpos] > nums[previndex]:
-                taken = 1 + dfs(curpos, curpos + 1)
-            nottaken = dfs(previndex, curpos + 1)
-            memo[previndex + 1][curpos] = max(taken, nottaken)
-            return memo[previndex + 1][curpos]
-
-        return dfs(-1, 0)
-
-class Solution:
-    def lengthOfLIS(self, nums: List[int]) -> int:
-        N = len(nums)
-        if N == 0: return 0
-        ans = 0
-
-        @functools.lru_cache(None)
-        def dfs(idx):
-            rst = 0
-            for j in range(idx+1, N):
-                if nums[idx] < nums[j]:
-                    rst = max(rst, dfs(j))
-            rst += 1
-            return rst
-            
-        for i in range(N):
-            for j in range(i+1, N):
-                if nums[i] < nums[j]:
-                    ans = max(ans, dfs(j))
-        
-        return ans + 1 
-    
-class Solution:
-    def lengthOfLIS(self, nums: List[int]) -> int:
         if not nums:
             return 0
 
@@ -3400,29 +3374,6 @@ class Solution:
 
 ### Longest Common Subarray
 ```python
-class Solution:
-    def findLength(self, A: List[int], B: List[int]) -> int:
-        M, N = len(A), len(B)
-        ans = 0
-        mem = {}
-        
-        @functools.lru_cache(None)
-        def dfs(i, j):
-            nonlocal ans
-            if i == 0 or j == 0:
-                return 0
-            else:
-                rst = 0
-                if A[i-1] == B[j-1]:
-                    rst = 1 + dfs(i - 1, j - 1)
-                decrease_i = dfs(i - 1, j)
-                decrease_j = dfs(i, j - 1)
-                ans = max(ans, rst, decrease_i, decrease_j)
-                return rst
-
-        dfs(M, N)
-        return ans
-
 class Solution:
     def findLength(self, A: List[int], B: List[int]) -> int:
         memo = [[0] * (len(B) + 1) for _ in range(len(A) + 1)]
@@ -11159,6 +11110,23 @@ class Solution:
 ```
 * [[Easy] [Solution] 605. Can Place Flowers](%5BEasy%5D%20%5BSolution%5D%20605.%20Can%20Place%20Flowers.md)
 
+### frequency
+```python
+class Solution:
+    def minSetSize(self, arr: List[int]) -> int:
+        N = len(arr)
+        cnt = collections.Counter(arr)
+        ans = cur = 0
+        for _, c in cnt.most_common():
+            if cur < N//2:
+                cur += c
+                ans += 1
+            else:
+                break
+        return ans
+```
+* [Medium] 1338. Reduce Array Size to The Half.md
+
 ### Heap to record smallest
 ```python
 class Solution:
@@ -11559,7 +11527,7 @@ class Solution:
 ```
 * [[Medium] [Solution] 870. Advantage Shuffle](%5BMedium%5D%20%5BSolution%5D%20870.%20Advantage%20Shuffle.md)
 
-### Jump Game
+### Last index
 ```python
 class Solution:
     def canJump(self, nums: List[int]) -> bool:
@@ -16637,6 +16605,22 @@ return dummy.next
 
 ## Heap <a name="heap"></a>
 ---
+### Greedy add
+```
+import heapq
+class Solution:
+    def kthSmallest(self, matrix: List[List[int]], k: int) -> int:
+        res = []
+        for i in range(len(matrix)):
+            for j in range(len(matrix[i])):
+                if len(res) < k:
+                    heapq.heappush(res, -matrix[i][j]) 
+                else:
+                    heapq.heappushpop(res, -matrix[i][j])
+        return -(res[0])
+```
+* [Medium] 378. Kth Smallest Element in a Sorted Matrix.md
+
 ### Greedy, backward sliding window
 ```python
 class Solution:

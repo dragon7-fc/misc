@@ -144,22 +144,23 @@ public class Solution {
 ---
 **Solution: (Using division and modulus)**
 ```
-Runtime: 116 ms
+Runtime: 84 ms
 Memory Usage: 14.8 MB
 ```
 ```python
 class Solution:
-    def matrixReshape(self, nums: List[List[int]], r: int, c: int) -> List[List[int]]:
-        R = len(nums)
-        C = len(nums[0])
-        if R == 0 or r*c != R*C:
-            return nums
-        res = [[0 for _ in range(c)] for _ in range(r)]
-        count = 0
-        for i in range(R):
-            for j in range(C):
-                res[count//c][count%c] = nums[i][j]
-                count += 1
-            
-        return res
+    def matrixReshape(self, mat: List[List[int]], r: int, c: int) -> List[List[int]]:
+        R , C = len(mat), len(mat[0])
+        if R*C != r*c: return mat
+        ans = []
+        i = 0
+        for ri in range(r):
+            for ci in range(c):
+                cur_r, cur_c = divmod(i, C)
+                if ci == 0:
+                    ans += [[mat[cur_r][cur_c]]]
+                else:
+                    ans[-1] += [mat[cur_r][cur_c]]
+                i += 1
+        return ans
 ```

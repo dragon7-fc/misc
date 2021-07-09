@@ -50,19 +50,20 @@ Output: 5
 ---
 **Solution 1: (Greedy)**
 ```
-Runtime: 604 ms
-Memory Usage: 29.1 MB
+Runtime: 580 ms
+Memory Usage: 36.7 MB
 ```
 ```python
 class Solution:
     def minSetSize(self, arr: List[int]) -> int:
-        total_count = 0
-        
-        for index, count in enumerate(sorted(collections.Counter(arr).values(), reverse=True)):
-            total_count += count
-            
-            if total_count >= len(arr) // 2:
-                return index + 1
-        
-        return 0
+        N = len(arr)
+        cnt = collections.Counter(arr)
+        ans = cur = 0
+        for _, c in cnt.most_common():
+            if cur < N//2:
+                cur += c
+                ans += 1
+            else:
+                break
+        return ans
 ```
