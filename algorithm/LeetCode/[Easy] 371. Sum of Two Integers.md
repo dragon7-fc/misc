@@ -31,3 +31,14 @@ class Solution:
         """
         return sum([a, b])
 ```
+
+**Solution 2: (Math, log(a*b) = loga + logb)**
+```
+Runtime: 40 ms
+Memory Usage: 14.2 MB
+```
+```python
+class Solution:
+    def getSum(self, a: int, b: int) -> int:
+        return int(math.log2(pow(2,a)*pow(2,b)))
+```

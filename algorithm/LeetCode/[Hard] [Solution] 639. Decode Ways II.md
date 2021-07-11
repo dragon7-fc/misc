@@ -215,8 +215,8 @@ public class Solution {
 ---
 **Solution 1: (Dynamic Programming)**
 ```
-Runtime: 460 ms
-Memory Usage: 16.3 MB
+Runtime: 456 ms
+Memory Usage: 18.8 MB
 ```
 ```python
 class Solution:
@@ -243,13 +243,13 @@ class Solution:
                 elif s[i - 1] == '*':
                     dp[i + 1] = (dp[i + 1] + (2 if s[i] <= '6' else 1) * dp[i - 1]) % M
                        
-        return dp[len(s)]
+        return dp[len(s)] % M
 ```
 
 **Solution 2: (Constant Space Dynamic Programming)**
 ```
-Runtime: 408 ms
-Memory Usage: 14.7 MB
+Runtime: 364 ms
+Memory Usage: 15.1 MB
 ```
 ```python
 class Solution:

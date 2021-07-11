@@ -65,9 +65,9 @@ class Solution:
                 matrix[n - 1 - i][n - j - 1] = matrix[j][n - 1 -i]
                 matrix[j][n - 1 - i] = matrix[i][j]
                 matrix[i][j] = tmp
-````
+```
 
-**Solution 2: (Reverse on Diagonal and then Reverse Left to Right)**
+**Solution 2: (Transpose on Diagonal and then Reverse Left to Right)**
 ```
 Runtime: 36 ms
 Memory Usage: 14.1 MB

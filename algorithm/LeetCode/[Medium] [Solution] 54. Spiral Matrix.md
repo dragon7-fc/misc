@@ -147,6 +147,4 @@ class Solution:
                 di = (di + 1) % 4
                 r, c = r + dr[di], c + dc[di]
         return ans
-        
-                    
 ```

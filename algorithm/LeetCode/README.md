@@ -740,9 +740,36 @@ Happy Coding!!
 * [Medium] 378. Kth Smallest Element in a Sorted Matrix.md
 * [[Medium] [Solution] 718. Maximum Length of Repeated Subarray](%5BMedium%5D%20%5BSolution%5D%20718.%20Maximum%20Length%20of%20Repeated%20Subarray.md)
 * [[Medium] [Solution] 300. Longest Increasing Subsequence](%5BMedium%5D%20%5BSolution%5D%20300.%20Longest%20Increasing%20Subsequence.md)
+* [Hard] [Solution] 639. Decode Ways II.md
 
 ## Array <a name="array"></a>
 ---
+### Greedy
+```python
+class Solution:
+    def maxSubArray(self, nums):
+        """
+        :type nums: List[int]
+        :rtype: int
+        """
+        for i in range(1, len(nums)):
+            if nums[i-1] > 0:
+                nums[i] += nums[i-1]
+        return max(nums)
+
+class Solution:
+    def maxSubArray(self, nums: List[int]) -> int:
+        N = len(nums)
+        curr_sum = max_sum = nums[0]
+
+        for i in range(1, N):
+            curr_sum = max(nums[i], curr_sum + nums[i])
+            max_sum = max(max_sum, curr_sum)
+
+        return max_sum
+```
+* [[Easy] 53. Maximum Subarray](%5BEasy%5D%2053.%20Maximum%20Subarray.md)
+
 ### Locate and Analyze Problem Index
 ```python
 class Solution:
@@ -1618,7 +1645,7 @@ class Solution:
 ```
 * [[Medium] [Solution] 238. Product of Array Except Self](%5BMedium%5D%20%5BSolution%5D%20238.%20Product%20of%20Array%20Except%20Self.md)
 
-### O(1) Space, Efficient Solution
+### O(1) Space, Efficient Solution, symbol mask
 ```python
 class Solution:
     def setZeroes(self, matrix: List[List[int]]) -> None:
@@ -3125,6 +3152,62 @@ class Solution:
         return count
 ```
 * [[Medium] [Solution] 376. Wiggle Subsequence](%5BMedium%5D%20%5BSolution%5D%20376.%20Wiggle%20Subsequence.md)
+
+### 2 state
+```python
+class Solution:
+    def numDecodings(self, s: str) -> int:
+        M = 10**9 + 7  
+        dp = [None] * (len(s) + 1)
+        dp[0] = 1
+        dp[1] = 9 if s[0] == '*' else 0 if s[0] == '0' else 1;
+        for i in range(1, len(s)):
+            if s[i] == '*':
+                dp[i + 1] = 9 * dp[i]
+                if s[i - 1] == '1':
+                    dp[i + 1] = (dp[i + 1] + 9 * dp[i - 1]) % M
+                elif s[i - 1] == '2':
+                    dp[i + 1] = (dp[i + 1] + 6 * dp[i - 1]) % M
+                elif s[i - 1] == '*':
+                    dp[i + 1] = (dp[i + 1] + 15 * dp[i - 1]) % M
+            else:
+                dp[i + 1] = dp[i] if s[i] != '0' else 0
+                if s[i - 1] == '1':
+                    dp[i + 1] = (dp[i + 1] + dp[i - 1]) % M
+                elif s[i - 1] == '2' and s[i] <= '6':
+                    dp[i + 1] = (dp[i + 1] + dp[i - 1]) % M
+                elif s[i - 1] == '*':
+                    dp[i + 1] = (dp[i + 1] + (2 if s[i] <= '6' else 1) * dp[i - 1]) % M
+                       
+        return dp[len(s)] % M
+
+class Solution:
+    def numDecodings(self, s: str) -> int:
+        M = 10**9 + 7  
+        first, second = 1, 9 if s[0] == '*' else 0 if s[0] == '0' else 1
+        for i in range(1, len(s)):
+            temp = second
+            if s[i] == '*':
+                second = 9 * second
+                if s[i - 1] == '1':
+                    second = (second + 9 * first) % M
+                elif s[i - 1] == '2':
+                    second = (second + 6 * first) % M
+                elif s[i - 1] == '*':
+                    second = (second + 15 * first) % M
+            else:
+                second = second if s[i] != '0' else 0
+                if s[i - 1] == '1':
+                    second = (second + first) % M
+                elif s[i - 1] == '2' and s[i] <= '6':
+                    second = (second + first) % M
+                elif s[i - 1] == '*':
+                    second = (second + (2 if s[i] <= '6' else 1) * first) % M
+            first = temp
+            
+        return second
+```
+* [Hard] [Solution] 639. Decode Ways II.md
 
 ### Count
 ```python
@@ -9170,6 +9253,64 @@ class Solution:
 ```
 * [[Easy] [Solution] 100. Same Tree](%5BEasy%5D%20%5BSolution%5D%20100.%20Same%20Tree.md)
 
+### island
+```python
+class Solution:
+    def numIslands(self, grid: List[List[str]]) -> int:
+        if not grid or not grid[0]:
+            return 0
+        R, C = len(grid), len(grid[0])
+
+        def neighbours(r, c):
+            for nr, nc in [(r+1, c), (r-1, c), (r, c+1), (r, c-1)]:
+                if 0 <= nr < R and 0 <= nc < C:
+                    yield nr, nc
+
+        def dfs(r, c):
+            grid[r][c] = '0'
+            for nr, nc in neighbours(r, c):
+                if grid[nr][nc] == '1':
+                    dfs(nr, nc)
+
+        island = 0
+        for r in range(R):
+            for c in range(C):
+                if grid[r][c] == '1':
+                    island += 1
+                    dfs(r, c)
+
+        return island
+
+class Solution:
+    def numIslands(self, grid: List[List[str]]) -> int:
+        delta = [(1, 0), (0, 1), (-1, 0), (0, -1)]
+        def is_island(x, y):
+            if x >= len(grid) or x < 0:
+                return False
+            if y >= len(grid[0]) or y < 0 :
+                return False
+            if grid[x][y] == '0':
+                return False
+            return True
+        ans = 0
+        for i in range(len(grid)):
+            for j in range(len(grid[0])):
+                if grid[i][j] == '0':
+                    continue
+                else:
+                    queue = collections.deque([(i, j)])
+                    while queue:
+                        x, y = queue.popleft()
+                        for dx, dy in delta:
+                            new_x, new_y = x + dx, y + dy
+                            if is_island(new_x, new_y):
+                                queue.append((new_x, new_y))
+                                grid[new_x][new_y] = '0'
+                    ans += 1 
+        return ans
+```
+[Medium] 200. Number of Islands.md
+
 ### search max area
 ```python
 class Solution:
@@ -9810,6 +9951,7 @@ class Solution:
         graph = [[] for i in range(numCourses)]
         for course, pre_course in prerequisites:
             graph[pre_course].append(course)
+
         def dfs(course: int) -> bool:
             if seen[course] == -1:
                 return False
@@ -9821,6 +9963,7 @@ class Solution:
                     return False
             seen[course] = 1
             return True
+
         return all(dfs(course) for course in range(numCourses))
 ```
 * [[Medium] 207. Course Schedule](%5BMedium%5D%20207.%20Course%20Schedule.md)
@@ -10651,7 +10794,7 @@ class Solution:
 ```
 * [[Medium] 540. Single Element in a Sorted Array](%5BMedium%5D%20540.%20Single%20Element%20in%20a%20Sorted%20Array.md)
 
-### Rotated Sorted Array
+### pivort as first element
 ```python
 class Solution:
     def findMin(self, nums: List[int]) -> int:
@@ -11354,7 +11497,7 @@ class Solution:
 ```
 * [[Medium] 165. Compare Version Numbers](%5BMedium%5D%20165.%20Compare%20Version%20Numbers.md)
 
-### Non-overlapping Intervals
+### Greedy over sorted intervals
 ```python
 class Solution:
     def eraseOverlapIntervals(self, intervals: List[List[int]]) -> int:
@@ -12724,11 +12867,11 @@ q = collections.deque([...])
 seen[(...)] = True
 while q:
     el = q.popleft()
-    seen[el] = True
     ...
     ans ...
     for nei in el's neighbours:
         if not seen[nei]:
+            seen[el] = True
             q.append(nei)
 return ans
 ```
@@ -12756,11 +12899,11 @@ step = 0
 while q:
     for _ in range(len(q)):
         r, c = q.popleft()
-        seen.add((r, c))
         if ...:
             return step
         for nr, nc in (r, c)'s neighbours:
             if (nr, nc) not in seen:
+                seen.add((r, c))
                 q.append((nr, nc))
     step += 1
 return -1
@@ -12941,7 +13084,7 @@ class Solution:
 ```
 * [Medium] 795. Number of Subarrays with Bounded Maximum
 
-### Greedy, Two Pointers
+### Greedy, Two Pointers, iterate based on two pointer value
 ```python
 class Solution:
     def maxArea(self, height):
@@ -15397,7 +15540,7 @@ class Solution:
 ```
 * [[Medium] [Solution] 56. Merge Intervals](%5BMedium%5D%20%5BSolution%5D%2056.%20Merge%20Intervals.md)
 
-### Interval overlay
+### Greedy over start and end pointer
 ```python
 class Solution:
     def minMeetingRooms(self, intervals: List[List[int]]) -> int:
@@ -15431,6 +15574,35 @@ class Solution:
             start_pointer += 1   
 
         return used_rooms
+
+class Solution:
+    def minMeetingRooms(self, intervals: List[List[int]]) -> int:
+        # If there is no meeting to schedule then no room needs to be allocated.
+        if not intervals:
+            return 0
+
+        # The heap initialization
+        free_rooms = []
+
+        # Sort the meetings in increasing order of their start time.
+        intervals.sort(key= lambda x: x[0])
+
+        # Add the first meeting. We have to give a new room to the first meeting.
+        heapq.heappush(free_rooms, intervals[0][1])  # or heapq.heappush(free_rooms)
+
+        # For all the remaining meeting rooms
+        for i in intervals[1:]:
+
+            # If the room due to free up the earliest is free, assign that room to this meeting.
+            if free_rooms[0] <= i[0]:
+                heapq.heappop(free_rooms)
+
+            # If a new room is to be assigned, then also we add to the heap,
+            # If an old room is allocated, then also we have to add to the heap with updated end time.
+            heapq.heappush(free_rooms, i[1])
+
+        # The size of the heap tells us the minimum rooms required for all the meetings.
+        return len(free_rooms)
 ```
 * [[Lock] [Medium] [Solution] 253. Meeting Rooms II](%5BLock%5D%20%5BMedium%5D%20%5BSolution%5D%20253.%20Meeting%20Rooms%20II.md)
 
