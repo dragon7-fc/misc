@@ -741,6 +741,7 @@ Happy Coding!!
 * [[Medium] [Solution] 718. Maximum Length of Repeated Subarray](%5BMedium%5D%20%5BSolution%5D%20718.%20Maximum%20Length%20of%20Repeated%20Subarray.md)
 * [[Medium] [Solution] 300. Longest Increasing Subsequence](%5BMedium%5D%20%5BSolution%5D%20300.%20Longest%20Increasing%20Subsequence.md)
 * [Hard] [Solution] 639. Decode Ways II.md
+* [Hard] [Solution] 295. Find Median from Data Stream.md
 
 ## Array <a name="array"></a>
 ---
@@ -17008,6 +17009,36 @@ class Solution:
         return heapq.nsmallest(K, points, key= lambda x: x[0]**2 + x[1]**2)
 ```
 * [[Medium] [Solution] 973. K Closest Points to Origin](%5BMedium%5D%20%5BSolution%5D%20973.%20K%20Closest%20Points%20to%20Origin.md)
+
+### Two Heaps, Min and Max Heap
+```python
+class MedianFinder:
+
+    def __init__(self):
+        """
+        initialize your data structure here.
+        """
+        self.lo = []  // max heap
+        self.hi = []  // min heap
+
+    def addNum(self, num: int) -> None:
+        heapq.heappush(self.lo, -num)
+        heapq.heappush(self.hi, -self.lo[0])
+        heapq.heappop(self.lo)
+        if len(self.lo) < len(self.hi):
+            heapq.heappush(self.lo, -self.hi[0])
+            heapq.heappop(self.hi)
+
+    def findMedian(self) -> float:
+        return -self.lo[0] if len(self.lo) > len(self.hi) else (-self.lo[0] + self.hi[0]) * .5
+
+
+# Your MedianFinder object will be instantiated and called as such:
+# obj = MedianFinder()
+# obj.addNum(num)
+# param_2 = obj.findMedian()
+```
+* [Hard] [Solution] 295. Find Median from Data Stream.md
 
 ### Dijkstra's Algorithm
 ```python
