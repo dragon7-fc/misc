@@ -30,22 +30,73 @@ Output: true
 
 # Submissions
 ---
-**Solution 1:**
+**Solution 1: (Character Mapping with Dictionary)**
 ```
 Runtime: 32 ms
-Memory Usage: 12.8 MB
+Memory Usage: 14.3 MB
+```
+```python
+class Solution:
+    def isIsomorphic(self, s: str, t: str) -> bool:
+        
+        mapping_s_t = {}
+        mapping_t_s = {}
+        
+        for c1, c2 in zip(s, t):
+            
+            # Case 1: No mapping exists in either of the dictionaries
+            if (c1 not in mapping_s_t) and (c2 not in mapping_t_s):
+                mapping_s_t[c1] = c2
+                mapping_t_s[c2] = c1
+            
+            # Case 2: Ether mapping doesn't exist in one of the dictionaries or Mapping exists and
+            # it doesn't match in either of the dictionaries or both            
+            elif mapping_s_t.get(c1) != c2 or mapping_t_s.get(c2) != c1:
+                return False
+            
+        return True
+```
+
+**Solution 2: (First occurence transformation)**
+```
+Runtime: 72 ms
+Memory Usage: 16.6 MB
+```
+```python
+class Solution:
+    def transformString(self, s: str) -> str:
+        
+        index_mapping = {}
+        new_str = []
+        
+        for i, c in enumerate(s):
+            
+            if c not in index_mapping:
+                index_mapping[c] = i
+                
+            new_str.append(str(index_mapping[c]))
+        
+        return "".join(new_str)
+    
+    def isIsomorphic(self, s: str, t: str) -> bool:
+        return self.transformString(s) == self.transformString(t)
+```
+
+**Solution 3: (Hash Table)**
+```
+Runtime: 52 ms
+Memory Usage: 14.5 MB
 ```
 ```python
 class Solution:
     def isIsomorphic(self, s: str, t: str) -> bool:
         d = {}
-        for i in range(len(s)):
-            if not d.get(s[i], None):
-                if t[i] in d.values():
+        for p, q in zip(s, t):
+            if p not in d:
+                if q in d.values():
                     return False
-                d[s[i]] = t[i]
-            else:
-                if d[s[i]] != t[i]:
-                    return False
+                d[p] = q
+            elif d[p] != q:
+                return False
         return True
 ```

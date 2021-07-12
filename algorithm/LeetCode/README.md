@@ -742,6 +742,7 @@ Happy Coding!!
 * [[Medium] [Solution] 300. Longest Increasing Subsequence](%5BMedium%5D%20%5BSolution%5D%20300.%20Longest%20Increasing%20Subsequence.md)
 * [Hard] [Solution] 639. Decode Ways II.md
 * [Hard] [Solution] 295. Find Median from Data Stream.md
+* [Easy] 205. Isomorphic Strings.md
 
 ## Array <a name="array"></a>
 ---
@@ -8078,6 +8079,30 @@ class Solution:
 
 ## Hash Table <a name='ht'></a>
 ---
+### Character Mapping with Dictionary
+```python
+class Solution:
+    def isIsomorphic(self, s: str, t: str) -> bool:
+        
+        mapping_s_t = {}
+        mapping_t_s = {}
+        
+        for c1, c2 in zip(s, t):
+            
+            # Case 1: No mapping exists in either of the dictionaries
+            if (c1 not in mapping_s_t) and (c2 not in mapping_t_s):
+                mapping_s_t[c1] = c2
+                mapping_t_s[c2] = c1
+            
+            # Case 2: Ether mapping doesn't exist in one of the dictionaries or Mapping exists and
+            # it doesn't match in either of the dictionaries or both            
+            elif mapping_s_t.get(c1) != c2 or mapping_t_s.get(c2) != c1:
+                return False
+            
+        return True
+```
+* [Easy] 205. Isomorphic Strings.md
+
 ### Counter
 ```python
 class Solution:
@@ -8306,6 +8331,21 @@ class Solution:
         return -1
 ```
 * [[Easy] [Solution] 387. First Unique Character in a String](%5BEasy%5D%20%5BSolution%5D%20387.%20First%20Unique%20Character%20in%20a%20String.md?_xsrf=2%7C5e3776f8%7C24c18c3d2c50a10817453c72e445205a%7C1587427356)
+
+### Categorize by Count
+```python
+class Solution:
+    def groupAnagrams(self, strs: List[str]) -> List[List[str]]:
+        ans = collections.defaultdict(list)
+        for s in strs:
+            count = [0] * 26
+            for c in s:
+                count[ord(c) - ord('a')] += 1
+            ans[tuple(count)].append(s)
+            
+        return ans.values()
+```
+* [[Medium] [Solution] 49. Group Anagrams](%5BMedium%5D%20%5BSolution%5D%2049.%20Group%20Anagrams.md)
 
 ### Key-value pair
 ```python
@@ -13948,7 +13988,7 @@ class Solution:
 ```
 * [[Medium] 150. Evaluate Reverse Polish Notation](%5BMedium%5D%20150.%20Evaluate%20Reverse%20Polish%20Notation.md)
 
-### Buffer
+### 2 element Stack
 ```python
 class Solution(object):
     def decodeString(self, s):
@@ -16335,7 +16375,7 @@ class Solution:
 ```
 * [[Medium] [Solution] 19. Remove Nth Node From End of List](%5BMedium%5D%20%5BSolution%5D%2019.%20Remove%20Nth%20Node%20From%20End%20of%20List.md)
 
-### Merge with Divide And Conquer
+### Merge with Divide And Conquer, Merge Sort
 ```python
 # Definition for singly-linked list.
 # class ListNode:
@@ -16368,6 +16408,26 @@ class Solution:
             point.next=l2
         else:
             point.next=l1
+        return head.next
+
+# Definition for singly-linked list.
+# class ListNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.next = None
+
+class Solution:
+    def mergeKLists(self, lists: List[ListNode]) -> ListNode:
+        hq = [(l.val, idx) for idx, l in enumerate(lists) if l]
+        heapq.heapify(hq)
+        head = cur = ListNode(None)
+        while hq:
+            val, idx = heapq.heappop(hq)
+            cur.next = ListNode(val)
+            cur = cur.next
+            node = lists[idx] = lists[idx].next
+            if node:
+                heapq.heappush(hq, (node.val, idx))
         return head.next
 ```
 * [[Hard] [Solution] 23. Merge k Sorted Lists](%5BHard%5D%20%5BSolution%5D%2023.%20Merge%20k%20Sorted%20Lists.md)
@@ -17955,24 +18015,31 @@ class Solution:
 ```
 * [[Lock] [Medium] 1151. Minimum Swaps to Group All 1's Together](%5BLock%5D%20%5BMedium%5D%201151.%20Minimum%20Swaps%20to%20Group%20All%201's%20Together.md)
 
-### Hash Table as left index
+### Greedy slide left and right index
 ```python
-class Solution:
+class Solution(object):
     def lengthOfLongestSubstring(self, s):
         """
         :type s: str
         :rtype: int
         """
-        N = len(s)
-        ans = 0
-        d = {}
-        i = 0
-        for j in range(N):
-            if d.get(s[j], None):
-                i = max(d[s[j]], i)
-            ans = max(ans, j - i + 1)
-            d[s[j]] = j + 1
-        return ans
+        chars = [None] * 128
+
+        left = right = 0
+
+        res = 0
+        while right < len(s):
+            r = s[right]
+
+            index = chars[ord(r)]
+            if index != None and index >= left and index < right:
+                left = index + 1
+
+            res = max(res, right - left + 1)
+
+            chars[ord(r)] = right
+            right += 1
+        return res
 ```
 * [[Medium] [Solution] 3. Longest Substring Without Repeating Characters](%5BMedium%5D%20%5BSolution%5D%203.%20Longest%20Substring%20Without%20Repeating%20Characters.md)
 
@@ -18083,7 +18150,7 @@ class Solution:
 ```
 * [[Medium] 1423. Maximum Points You Can Obtain from Cards](%5BMedium%5D%201423.%20Maximum%20Points%20You%20Can%20Obtain%20from%20Cards.md)
 
-### Hash Table to keep sliding window
+### slide right and try best to shrink the window from left
 ```python
 class Solution:
     def minWindow(self, s: str, t: str) -> str:
@@ -18891,7 +18958,7 @@ class StreamChecker:
 * [[Hard] 1032. Stream of Characters](%5BHard%5D%201032.%20Stream%20of%20Characters.md)
 
 
-### DFS
+### DFS aloong trie
 ```python
 class Solution:
     def findWords(self, board: List[List[str]], words: List[str]) -> List[str]:

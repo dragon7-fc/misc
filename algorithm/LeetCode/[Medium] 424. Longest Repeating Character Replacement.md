@@ -37,7 +37,7 @@ The substring "BBBB" has the longest repeating letters, which is 4.
 
 # Submissions
 ---
-**Solution 1: (Two Pointers, Sliding Window)**
+**Solution 1: (Two Pointers, Sliding Window, max count in sliding window)**
 
 Maintain count of major chars in the sliding window
 
