@@ -27,22 +27,17 @@ Since "d" does not appear in S, it can be at any position in T. "dcba", "cdba", 
 ---
 **Solution 1: (String, Counter)**
 ```
-Runtime: 24 ms
-Memory Usage: 12.7 MB
+Runtime: 32 ms
+Memory Usage: 14.1 MB
 ```
 ```python
 class Solution:
-    def customSortString(self, S: str, T: str) -> str:
-        counter = collections.Counter(T)
-        output = []
-        
-        for s in S:
-            if s in counter:
-                output.extend(s * counter[s])
-                del counter[s]
-        
-        for c, freq in counter.items():
-            output.extend(c * freq)
-        
-        return ''.join(output)
+    def customSortString(self, order: str, str: str) -> str:
+        cnt, ans = Counter(str), ""
+        for c in order:
+            if c in cnt:
+                ans += c*cnt[c]
+                cnt.pop(c)
+                
+        return ans + "".join(c*cnt[c] for c in cnt) 
 ```

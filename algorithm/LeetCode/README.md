@@ -743,6 +743,10 @@ Happy Coding!!
 * [Hard] [Solution] 639. Decode Ways II.md
 * [Hard] [Solution] 295. Find Median from Data Stream.md
 * [Easy] 205. Isomorphic Strings.md
+* [[Medium] [Solution] 162. Find Peak Element](%5BMedium%5D%20%5BSolution%5D%20162.%20Find%20Peak%20Element.md)
+* [Medium] 791. Custom Sort String.md
+* [[Medium] [Solution] 611. Valid Triangle Number](%5BMedium%5D%20%5BSolution%5D%20611.%20Valid%20Triangle%20Number.md)
+* [Medium] 18. 4Sum.md
 
 ## Array <a name="array"></a>
 ---
@@ -1574,7 +1578,7 @@ class Solution:
 ```
 * [[Lock] [Medium] [Solution] 723. Candy Crush](%5BLock%5D%20%5BMedium%5D%20%5BSolution%5D%20723.%20Candy%20Crush.md)
 
-### Linear Scan
+### Linear Scan, remember last position
 ```python
 class Solution:
     def triangleNumber(self, nums: List[int]) -> int:
@@ -8332,6 +8336,20 @@ class Solution:
 ```
 * [[Easy] [Solution] 387. First Unique Character in a String](%5BEasy%5D%20%5BSolution%5D%20387.%20First%20Unique%20Character%20in%20a%20String.md?_xsrf=2%7C5e3776f8%7C24c18c3d2c50a10817453c72e445205a%7C1587427356)
 
+### Counter with order
+```python
+class Solution:
+    def customSortString(self, order: str, str: str) -> str:
+        cnt, ans = Counter(str), ""
+        for c in order:
+            if c in cnt:
+                ans += c*cnt[c]
+                cnt.pop(c)
+                
+        return ans + "".join(c*cnt[c] for c in cnt) 
+```
+* [Medium] 791. Custom Sort String.md
+
 ### Categorize by Count
 ```python
 class Solution:
@@ -10916,7 +10934,7 @@ class Solution:
 ```
 * [[Hard] 154. Find Minimum in Rotated Sorted Array II](%5BHard%5D%20154.%20Find%20Minimum%20in%20Rotated%20Sorted%20Array%20II.md)
 
-### Find local maximum
+### Binary search to edge condition
 ```python
 class Solution:
     def findPeakElement(self, nums: List[int]) -> int:
@@ -13085,6 +13103,39 @@ class Solution:
         return False
 ```
 * [[Easy] 392. Is Subsequence](%5BEasy%5D%20392.%20Is%20Subsequence.md)
+
+### Sorted candidate pointer
+```python
+class Solution:
+    def fourSum(self, nums: List[int], target: int) -> List[List[int]]:
+        if nums == None or len(nums) == 0:
+            return nums
+        N = len(nums)
+        nums.sort()
+        ans = []
+        for i in range(N-3):
+            for j in range(i+1, N-2):
+                t = target - nums[i] -  nums[j]
+                min_sum = nums[j+1] + nums[j+2]
+                max_sum = nums[-1] + nums[-2]
+                if t < min_sum or t > max_sum:
+                    continue
+                left = j+1
+                right = N-1
+                while left < right:
+                    cur = nums[left] + nums[right]
+                    if cur == t:
+                        ans += [[nums[i], nums[j], nums[left], nums[right]]]
+                        left += 1
+                        right -= 1
+                    elif cur < t:
+                        left += 1
+                    else:
+                        right -= 1
+        ans = set([tuple(x) for x in ans])
+        return ans
+```
+* [Medium] 18. 4Sum.md
 
 ### Greedy add
 ```python
