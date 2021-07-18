@@ -3812,13 +3812,16 @@ Attribute: This is a part of an object. One or more attributes make up an object
         
     - install powerline
     
-        `sudo -E pip install powerline-status`
+        ```bash
+        sudo apt-get install python3-pip -y
+        sudo -E pip3 install powerline-status
+        ```
         
     - configure powerline
     
         ```bash
         mkdir -p ~/.config/powerline/themes/shell
-        cp /usr/local/lib/python2.7/dist-packages/powerline/config_files/themes/shell/default.json ~/.config/powerline/themes/shell
+        cp /usr/local/lib/python3.8/dist-packages/powerline/config_files/themes/shell/default.json ~/.config/powerline/themes/shell
         
         nano ~/.config/powerline/themes/shell/default.json
         
@@ -3868,8 +3871,8 @@ Attribute: This is a part of an object. One or more attributes make up an object
     
         ##+++>
         export TERM=xterm-256color
-        if [[ -r /usr/local/lib/python2.7/dist-packages/powerline/bindings/zsh/powerline.zsh  ]]; then
-            source /usr/local/lib/python2.7/dist-packages/powerline/bindings/zsh/powerline.zsh
+        if [ -r /usr/local/lib/python3.8/dist-packages/powerline/bindings/zsh/powerline.zsh ]; then
+            source /usr/local/lib/python3.8/dist-packages/powerline/bindings/zsh/powerline.zsh
         fi
         ##+++<
         ```

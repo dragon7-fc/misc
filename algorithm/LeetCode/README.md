@@ -247,506 +247,507 @@ Happy Coding!!
 
 ## 202004 30-Day LeetCoding Challenge <a name="202004"></a>
 ---
-* [[Easy] [Solution] 136. Single Number](%5BEasy%5D%20%5BSolution%5D%20136.%20Single%20Number.md)
-* [[Easy] 202. Happy Number](%5BEasy%5D%20202.%20Happy%20Number.md)
-* [[Easy] 53. Maximum Subarray](%5BEasy%5D%2053.%20Maximum%20Subarray.md)
-* [[Easy] [Solution] 283. Move Zeroes](%5BEasy%5D%20%5BSolution%5D%20283.%20Move%20Zeroes.md)
-* [[Easy] [Solution] 122. Best Time to Buy and Sell Stock II](%5BEasy%5D%20%5BSolution%5D%20122.%20Best%20Time%20to%20Buy%20and%20Sell%20Stock%20II.md)
-* [[Medium] [Solution] 49. Group Anagrams](%5BMedium%5D%20%5BSolution%5D%2049.%20Group%20Anagrams.md)
-* [[Easy] [Solution] 876. Middle of the Linked List](%5BEasy%5D%20%5BSolution%5D%20876.%20Middle%20of%20the%20Linked%20List.md)
-* [[Easy] [Solution] 844. Backspace String Compare](%5BEasy%5D%20%5BSolution%5D%20844.%20Backspace%20String%20Compare.md)
-* [[Easy] 155. Min Stack](%5BEasy%5D%20155.%20Min%20Stack.md)
-* [[Easy] [Solution] 543. Diameter of Binary Tree](%5BEasy%5D%20%5BSolution%5D%20543.%20Diameter%20of%20Binary%20Tree.md)
-* [[Easy] 1046. Last Stone Weight](%5BEasy%5D%201046.%20Last%20Stone%20Weight.md)
-* [[Medium] [Solution] 525. Contiguous Array](%5BMedium%5D%20%5BSolution%5D%20525.%20Contiguous%20Array.md)
-* [[Medium] [Solution] 238. Product of Array Except Self](%5BMedium%5D%20%5BSolution%5D%20238.%20Product%20of%20Array%20Except%20Self.md)
-* [[Medium] [Solution] 678. Valid Parenthesis String](%5BMedium%5D%20%5BSolution%5D%20678.%20Valid%20Parenthesis%20String.md)
-* [[Medium] 200. Number of Islands](%5BMedium%5D%20200.%20Number%20of%20Islands.md)
-* [[Medium] 64. Minimum Path Sum](%5BMedium%5D%2064.%20Minimum%20Path%20Sum.md)
-* [[Medium] 33. Search in Rotated Sorted Array](%5BMedium%5D%2033.%20Search%20in%20Rotated%20Sorted%20Array.md)
-* [[Medium] 1008. Construct Binary Search Tree from Preorder Traversal](%5BMedium%5D%201008.%20Construct%20Binary%20Search%20Tree%20from%20Preorder%20Traversal.md)
-* [[202004] 30day. Leftmost Column with at Least a One](%5B202004%5D%2030day.%20Leftmost%20Column%20with%20at%20Least%20a%20One.md)
-* [[Medium] [Solution] 560. Subarray Sum Equals K](%5BMedium%5D%20%5BSolution%5D%20560.%20Subarray%20Sum%20Equals%20K.md)
-* [[Medium] 201. Bitwise AND of Numbers Range](%5BMedium%5D%20201.%20Bitwise%20AND%20of%20Numbers%20Range.md)
-* [[Medium] 146. LRU Cache](%5BMedium%5D%20146.%20LRU%20Cache.md)
-* [[Medium] [Solution] 55. Jump Game](%5BMedium%5D%20%5BSolution%5D%2055.%20Jump%20Game.md)
-* [[Medium] 1143. Longest Common Subsequence](%5BMedium%5D%201143.%20Longest%20Common%20Subsequence.md)
-* [[Medium] [Solution] 221. Maximal Square](%5BMedium%5D%20%5BSolution%5D%20221.%20Maximal%20Square.md)
-* [[202004] 30day. First Unique Number](%5B202004%5D%2030day.%20First%20Unique%20Number.md)
-* [[Hard] 124. Binary Tree Maximum Path Sum](%5BHard%5D%20124.%20Binary%20Tree%20Maximum%20Path%20Sum.md)
-* [[202004] 30day. Check If a String Is a Valid Sequence from Root to Leaves Path in a Binary Tree](%5B202004%5D%2030day.%20Check%20If%20a%20String%20Is%20a%20Valid%20Sequence%20from%20Root%20to%20Leaves%20Path%20in%20a%20Binary%20Tree.md)
+* [Easy] [Solution] 136. Single Number
+* [Easy] 202. Happy Number
+* [Easy] 53. Maximum Subarray
+* [Easy] [Solution] 283. Move Zeroes
+* [Easy] [Solution] 122. Best Time to Buy and Sell Stock II
+* [Medium] [Solution] 49. Group Anagrams
+* [Easy] [Solution] 876. Middle of the Linked List
+* [Easy] [Solution] 844. Backspace String Compare
+* [Easy] 155. Min Stack
+* [Easy] [Solution] 543. Diameter of Binary Tree
+* [Easy] 1046. Last Stone Weight
+* [Medium] [Solution] 525. Contiguous Array
+* [Medium] [Solution] 238. Product of Array Except Self
+* [Medium] [Solution] 678. Valid Parenthesis String
+* [Medium] 200. Number of Islands
+* [Medium] 64. Minimum Path Sum
+* [Medium] 33. Search in Rotated Sorted Array
+* [Medium] 1008. Construct Binary Search Tree from Preorder Traversal
+* [202004] 30day. Leftmost Column with at Least a One
+* [Medium] [Solution] 560. Subarray Sum Equals K
+* [Medium] 201. Bitwise AND of Numbers Range
+* [Medium] 146. LRU Cache
+* [Medium] [Solution] 55. Jump Game
+* [Medium] 1143. Longest Common Subsequence
+* [Medium] [Solution] 221. Maximal Square
+* [202004] 30day. First Unique Number
+* [Hard] 124. Binary Tree Maximum Path Sum
+* [202004] 30day. Check If a String Is a Valid Sequence from Root to Leaves Path in a Binary Tree
 
 ## 202005 May LeetCoding Challenge <a name="202005"></a>
 ---
-* [[Easy] [Solution] 278. First Bad Version](%5BEasy%5D%20%5BSolution%5D%20278.%20First%20Bad%20Version.md)
-* [[Easy] 771. Jewels and Stones](%5BEasy%5D%20771.%20Jewels%20and%20Stones.md)
-* [[Easy] 383. Ransom Note](%5BEasy%5D%20383.%20Ransom%20Note.md)
-* [[Easy] 476. Number Complement](%5BEasy%5D%20476.%20Number%20Complement.md?_xsrf=2%7C5e3776f8%7C24c18c3d2c50a10817453c72e445205a%7C1587427356)
-* [[Easy] [Solution] 387. First Unique Character in a String](%5BEasy%5D%20%5BSolution%5D%20387.%20First%20Unique%20Character%20in%20a%20String.md?_xsrf=2%7C5e3776f8%7C24c18c3d2c50a10817453c72e445205a%7C1587427356)
-* [[Easy] [Solution] 169. Majority Element](%5BEasy%5D%20%5BSolution%5D%20169.%20Majority%20Element.md)
-* [[Easy] [Solution] 993. Cousins in Binary Tree](%5BEasy%5D%20%5BSolution%5D%20993.%20Cousins%20in%20Binary%20Tree.md)
-* [[Easy] 1232. Check If It Is a Straight Line](%5BEasy%5D%201232.%20Check%20If%20It%20Is%20a%20Straight%20Line.md)
-* [[Easy] 367. Valid Perfect Square](%5BEasy%5D%20367.%20Valid%20Perfect%20Square.md)
-* [[Easy] 997. Find the Town Judge](%5BEasy%5D%20997.%20Find%20the%20Town%20Judge.md)
-* [[Easy] [Solution] 733. Flood Fill](%5BEasy%5D%20%5BSolution%5D%20733.%20Flood%20Fill.md)
-* [[Medium] 540. Single Element in a Sorted Array](%5BMedium%5D%20540.%20Single%20Element%20in%20a%20Sorted%20Array.md)
-* [[Medium] 402. Remove K Digits](%5BMedium%5D%20402.%20Remove%20K%20Digits.md)
-* [[Medium] [Solution] 208. Implement Trie (Prefix Tree)](%5BMedium%5D%20%5BSolution%5D%20208.%20Implement%20Trie%20(Prefix%20Tree).md)
-* [[Medium] [Solution] 918. Maximum Sum Circular Subarray](%5BMedium%5D%20%5BSolution%5D%20918.%20Maximum%20Sum%20Circular%20Subarray.md)
-* [[Medium] [Solution] 328. Odd Even Linked List](%5BMedium%5D%20%5BSolution%5D%20328.%20Odd%20Even%20Linked%20List.md)
-* [[Medium] 438. Find All Anagrams in a String](%5BMedium%5D%20438.%20Find%20All%20Anagrams%20in%20a%20String.md)
-* [[Medium] 567. Permutation in String](%5BMedium%5D%20567.%20Permutation%20in%20String.md)
-* [[Medium] [Solution] 901. Online Stock Span](%5BMedium%5D%20%5BSolution%5D%20901.%20Online%20Stock%20Span.md)
-* [[Medium] [Solution] 230. Kth Smallest Element in a BST](%5BMedium%5D%20%5BSolution%5D%20230.%20Kth%20Smallest%20Element%20in%20a%20BST.md)
-* [[Medium] 1277. Count Square Submatrices with All Ones](%5BMedium%5D%201277.%20Count%20Square%20Submatrices%20with%20All%20Ones.md)
-* [[Medium] 451. Sort Characters By Frequency](%5BMedium%5D%20451.%20Sort%20Characters%20By%20Frequency.md)
-* [[Medium] [Solution] 986. Interval List Intersections](%5BMedium%5D%20%5BSolution%5D%20986.%20Interval%20List%20Intersections.md)
-* [[Medium] 1008. Construct Binary Search Tree from Preorder Traversal](%5BMedium%5D%201008.%20Construct%20Binary%20Search%20Tree%20from%20Preorder%20Traversal.md)
-* [[Medium] 1035. Uncrossed Lines](%5BMedium%5D%201035.%20Uncrossed%20Lines.md)
-* [[Medium] [Solution] 525. Contiguous Array](%5BMedium%5D%20%5BSolution%5D%20525.%20Contiguous%20Array.md)
-* [[Medium] [Solution] 886. Possible Bipartition](%5BMedium%5D%20%5BSolution%5D%20886.%20Possible%20Bipartition.md)
-* [[Medium] 338. Counting Bits](%5BMedium%5D%20338.%20Counting%20Bits.md)
-* [[Medium] 207. Course Schedule](%5BMedium%5D%20207.%20Course%20Schedule.md)
-* [[Medium] [Solution] 973. K Closest Points to Origin](%5BMedium%5D%20%5BSolution%5D%20973.%20K%20Closest%20Points%20to%20Origin.md)
-* [[Hard] 72. Edit Distance](%5BHard%5D%2072.%20Edit%20Distance.md)
+* [Easy] [Solution] 278. First Bad Version
+* [Easy] 771. Jewels and Stones
+* [Easy] 383. Ransom Note
+* [Easy] 476. Number Complement
+* [Easy] [Solution] 387. First Unique Character in a String
+* [Easy] [Solution] 169. Majority Element
+* [Easy] [Solution] 993. Cousins in Binary Tree
+* [Easy] 1232. Check If It Is a Straight Line
+* [Easy] 367. Valid Perfect Square
+* [Easy] 997. Find the Town Judge
+* [Easy] [Solution] 733. Flood Fill
+* [Medium] 540. Single Element in a Sorted Array
+* [Medium] 402. Remove K Digits
+* [Medium] [Solution] 208. Implement Trie (Prefix Tree)
+* [Medium] [Solution] 918. Maximum Sum Circular Subarray
+* [Medium] [Solution] 328. Odd Even Linked List
+* [Medium] 438. Find All Anagrams in a String
+* [Medium] 567. Permutation in String
+* [Medium] [Solution] 901. Online Stock Span
+* [Medium] [Solution] 230. Kth Smallest Element in a BST
+* [Medium] 1277. Count Square Submatrices with All Ones
+* [Medium] 451. Sort Characters By Frequency
+* [Medium] [Solution] 986. Interval List Intersections
+* [Medium] 1008. Construct Binary Search Tree from Preorder Traversal
+* [Medium] 1035. Uncrossed Lines
+* [Medium] [Solution] 525. Contiguous Array
+* [Medium] [Solution] 886. Possible Bipartition
+* [Medium] 338. Counting Bits
+* [Medium] 207. Course Schedule
+* [Medium] [Solution] 973. K Closest Points to Origin
+* [Hard] 72. Edit Distance
 
 ## 202006 June LeetCoding Challenge <a name="202006"></a>
-* [[Easy] [Solution] 226. Invert Binary Tree](%5BEasy%5D%20%5BSolution%5D%20226.%20Invert%20Binary%20Tree.md)
-* [[Easy] [Solution] 237. Delete Node in a Linked List](%5BEasy%5D%20%5BSolution%5D%20237.%20Delete%20Node%20in%20a%20Linked%20List.md)
-* [[Easy] 1029. Two City Scheduling](%5BEasy%5D%201029.%20Two%20City%20Scheduling.md)
-* [[Easy] [Solution] 344. Reverse String](%5BEasy%5D%20%5BSolution%5D%20344.%20Reverse%20String.md)
-* [[Medium] 528. Random Pick with Weight](%5BMedium%5D%20528.%20Random%20Pick%20with%20Weight.md)
-* [[Medium] 406. Queue Reconstruction by Height](%5BMedium%5D%20406.%20Queue%20Reconstruction%20by%20Height.md)
-* [[Medium] 518. Coin Change 2](%5BMedium%5D%20518.%20Coin%20Change%202.md)
-* [[Easy] 231. Power of Two](%5BEasy%5D%20231.%20Power%20of%20Two.md)
-* [[Easy] 392. Is Subsequence](%5BEasy%5D%20392.%20Is%20Subsequence.md)
-* [[Easy] 35. Search Insert Position](%5BEasy%5D%2035.%20Search%20Insert%20Position.md)
-* [[Medium] 75. Sort Colors](%5BMedium%5D%2075.%20Sort%20Colors.md)
-* [[Medium] 380. Insert Delete GetRandom O(1)](%5BMedium%5D%20380.%20Insert%20Delete%20GetRandom%20O(1).md)
-* [[Medium] 368. Largest Divisible Subset](%5BMedium%5D%20368.%20Largest%20Divisible%20Subset.md)
-* [[Medium] 787. Cheapest Flights Within K Stops](%5BMedium%5D%20787.%20Cheapest%20Flights%20Within%20K%20Stops.md)
-* [[Easy] 700. Search in a Binary Search Tree](%5BEasy%5D%20700.%20Search%20in%20a%20Binary%20Search%20Tree.md)
-* [[Medium] 468. Validate IP Address](%5BMedium%5D%20468.%20Validate%20IP%20Address.md)
-* [[Medium] 130. Surrounded Regions](%5BMedium%5D%20130.%20Surrounded%20Regions.md)
-* [[Medium] 275. H-Index II](%5BMedium%5D%20275.%20H-Index%20II.md)
-* [[Hard] 1044. Longest Duplicate Substring](%5BHard%5D%201044.%20Longest%20Duplicate%20Substring.md)
-* [[Medium] 60. Permutation Sequence](%5BMedium%5D%2060.%20Permutation%20Sequence.md)
-* [[Hard] 174. Dungeon Game](%5BHard%5D%20174.%20Dungeon%20Game.md)
-* [[Medium] 137. Single Number II](%5BMedium%5D%20137.%20Single%20Number%20II.md)
-* [[Medium] 222. Count Complete Tree Nodes](%5BMedium%5D%20222.%20Count%20Complete%20Tree%20Nodes.md)
-* [[Medium] 96. Unique Binary Search Trees](%5BMedium%5D%2096.%20Unique%20Binary%20Search%20Trees.md)
-* [[Medium] [Solution] 287. Find the Duplicate Number](%5BMedium%5D%20%5BSolution%5D%20287.%20Find%20the%20Duplicate%20Number.md)
-* [[Medium] 129. Sum Root to Leaf Numbers](%5BMedium%5D%20129.%20Sum%20Root%20to%20Leaf%20Numbers.md)
-* [[Medium] 279. Perfect Squares](%5BMedium%5D%20279.%20Perfect%20Squares.md)
-* [[Medium] 332. Reconstruct Itinerary](%5BMedium%5D%20332.%20Reconstruct%20Itinerary.md)
-* [[Medium] 62. Unique Paths](%5BMedium%5D%2062.%20Unique%20Paths.md)
-* [[Hard] 212. Word Search II](%5BHard%5D%20212.%20Word%20Search%20II.md)
+* [Easy] [Solution] 226. Invert Binary Tree
+* [Easy] [Solution] 237. Delete Node in a Linked List
+* [Easy] 1029. Two City Scheduling
+* [Easy] [Solution] 344. Reverse String
+* [Medium] 528. Random Pick with Weight
+* [Medium] 406. Queue Reconstruction by Height
+* [Medium] 518. Coin Change 2
+* [Easy] 231. Power of Two
+* [Easy] 392. Is Subsequence
+* [Easy] 35. Search Insert Position
+* [Medium] 75. Sort Colors
+* [Medium] 380. Insert Delete GetRandom O(1)
+* [Medium] 368. Largest Divisible Subset
+* [Medium] 787. Cheapest Flights Within K Stops
+* [Easy] 700. Search in a Binary Search Tree
+* [Medium] 468. Validate IP Address
+* [Medium] 130. Surrounded Regions
+* [Medium] 275. H-Index II
+* [Hard] 1044. Longest Duplicate Substring
+* [Medium] 60. Permutation Sequence
+* [Hard] 174. Dungeon Game
+* [Medium] 137. Single Number II
+* [Medium] 222. Count Complete Tree Nodes
+* [Medium] 96. Unique Binary Search Trees
+* [Medium] [Solution] 287. Find the Duplicate Number
+* [Medium] 129. Sum Root to Leaf Numbers
+* [Medium] 279. Perfect Squares
+* [Medium] 332. Reconstruct Itinerary
+* [Medium] 62. Unique Paths
+* [Hard] 212. Word Search II
 
 ## 202007 July LeetCoding Challenge <a name="202007"></a>
-* [[Easy] [Solution] 441. Arranging Coins](%5BEasy%5D%20%5BSolution%5D%20441.%20Arranging%20Coins.md)
-* [[Easy] 107. Binary Tree Level Order Traversal II](%5BEasy%5D%20107.%20Binary%20Tree%20Level%20Order%20Traversal%20II.md)
-* [[Medium] [Solution] 957. Prison Cells After N Days](%5BEasy%5D%20107.%20Binary%20Tree%20Level%20Order%20Traversal%20II.md)
-* [[Medium] 264. Ugly Number II](%5BMedium%5D%20264.%20Ugly%20Number%20II.md)
-* [[Easy] 461. Hamming Distance](%5BEasy%5D%20461.%20Hamming%20Distance.md)
-* [[Easy] 463. Island Perimeter](%5BEasy%5D%20463.%20Island%20Perimeter.md)
-* [[Medium] 15. 3Sum](%5BMedium%5D%2015.%203Sum.md)
-* [[Medium] [Solution] 662. Maximum Width of Binary Tree](%5BMedium%5D%20%5BSolution%5D%20662.%20Maximum%20Width%20of%20Binary%20Tree.md)
-* [[Medium] 430. Flatten a Multilevel Doubly Linked List](%5BMedium%5D%20430.%20Flatten%20a%20Multilevel%20Doubly%20Linked%20List.md)
-* [[Medium] [Solution] 78. Subsets](%5BMedium%5D%20%5BSolution%5D%2078.%20Subsets.md)
-* [[Easy] 190. Reverse Bits](%5BEasy%5D%20190.%20Reverse%20Bits.md)
-* [[Easy] [Solution] 100. Same Tree](%5BEasy%5D%20%5BSolution%5D%20100.%20Same%20Tree.md)
-* [[Medium] 1344. Angle Between Hands of a Clock](%5BMedium%5D%201344.%20Angle%20Between%20Hands%20of%20a%20Clock.md)
-* [[Medium] 151. Reverse Words in a String](%5BMedium%5D%20151.%20Reverse%20Words%20in%20a%20String.md)
-* [[Medium] 50. Pow(x, n)](%5BMedium%5D%2050.%20Pow(x,%20n).md)
-* [[Medium] [Solution] 347. Top K Frequent Elements](%5BMedium%5D%20%5BSolution%5D%20347.%20Top%20K%20Frequent%20Elements.md)
-* [[Medium] [Solution] 210. Course Schedule II](%5BMedium%5D%20%5BSolution%5D%20210.%20Course%20Schedule%20II.md)
-* [[Easy] 67. Add Binary](%5BEasy%5D%2067.%20Add%20Binary.md)
-* [[Easy] 203. Remove Linked List Elements](%5BEasy%5D%20203.%20Remove%20Linked%20List%20Elements.md)
-* [[Medium] 79. Word Search](%5BMedium%5D%2079.%20Word%20Search.md)
-* [[Medium] 103. Binary Tree Zigzag Level Order Traversal](%5BMedium%5D%20103.%20Binary%20Tree%20Zigzag%20Level%20Order%20Traversal.md)
-* [[Medium] 260. Single Number III](%5BMedium%5D%20260.%20Single%20Number%20III.md)
-* [[Medium] 797. All Paths From Source to Target](%5BMedium%5D%20797.%20All%20Paths%20From%20Source%20to%20Target.md)
-* [[Hard] 154. Find Minimum in Rotated Sorted Array II](%5BHard%5D%20154.%20Find%20Minimum%20in%20Rotated%20Sorted%20Array%20II.md)
-* [[Easy] [Solution] 258. Add Digits](%5BEasy%5D%20%5BSolution%5D%20258.%20Add%20Digits.md)
-* [[Medium] 106. Construct Binary Tree from Inorder and Postorder Traversal](%5BMedium%5D%20106.%20Construct%20Binary%20Tree%20from%20Inorder%20and%20Postorder%20Traversal.md)
-* [[Medium] [Solution] 621. Task Scheduler](%5BMedium%5D%20%5BSolution%5D%20621.%20Task%20Scheduler.md)
-* [[Medium] 309. Best Time to Buy and Sell Stock with Cooldown](%5BMedium%5D%20309.%20Best%20Time%20to%20Buy%20and%20Sell%20Stock%20with%20Cooldown.md)
-* [[Easy] [Solution] 70. Climbing Stairs](%5BEasy%5D%20%5BSolution%5D%2070.%20Climbing%20Stairs.md)
+* [Easy] [Solution] 441. Arranging Coins
+* [Easy] 107. Binary Tree Level Order Traversal II
+* [Medium] [Solution] 957. Prison Cells After N Days
+* [Medium] 264. Ugly Number II
+* [Easy] 461. Hamming Distance
+* [Easy] 463. Island Perimeter
+* [Medium] 15. 3Sum
+* [Medium] [Solution] 662. Maximum Width of Binary Tree
+* [Medium] 430. Flatten a Multilevel Doubly Linked List
+* [Medium] [Solution] 78. Subsets
+* [Easy] 190. Reverse Bits
+* [Easy] [Solution] 100. Same Tree
+* [Medium] 1344. Angle Between Hands of a Clock
+* [Medium] 151. Reverse Words in a String
+* [Medium] 50. Pow(x, n)
+* [Medium] [Solution] 347. Top K Frequent Elements
+* [Medium] [Solution] 210. Course Schedule II
+* [Easy] 67. Add Binary
+* [Easy] 203. Remove Linked List Elements
+* [Medium] 79. Word Search
+* [Medium] 103. Binary Tree Zigzag Level Order Traversal
+* [Medium] 260. Single Number III
+* [Medium] 797. All Paths From Source to Target
+* [Hard] 154. Find Minimum in Rotated Sorted Array II
+* [Easy] [Solution] 258. Add Digits
+* [Medium] 106. Construct Binary Tree from Inorder and Postorder Traversal
+* [Medium] [Solution] 621. Task Scheduler
+* [Medium] 309. Best Time to Buy and Sell Stock with Cooldown
+* [Easy] [Solution] 70. Climbing Stairs
 
 ## 202008 August LeetCoding Challenge <a name="202008"></a>
-* [[Easy] [Solution] 520. Detect Capital](%5BEasy%5D%20%5BSolution%5D%20520.%20Detect%20Capital.md)
-* [[Easy] 705. Design HashSet](%5BEasy%5D%20705.%20Design%20HashSet.md)
-* [[Easy] [Solution] 125. Valid Palindrome](%5BEasy%5D%20%5BSolution%5D%20125.%20Valid%20Palindrome.md)
-* [[Easy] [Solution] 342. Power of Four](%5BEasy%5D%20%5BSolution%5D%20342.%20Power%20of%20Four.md)
-* [[Medium] [Solution] 211. Add and Search Word - Data structure design](%5BMedium%5D%20%5BSolution%5D%20211.%20Add%20and%20Search%20Word%20-%20Data%20structure%20design.md)
-* [[Medium] [Solution] 442. Find All Duplicates in an Array](%5BMedium%5D%20%5BSolution%5D%20442.%20Find%20All%20Duplicates%20in%20an%20Array.md)
-* [[Medium] [Solution] 987. Vertical Order Traversal of a Binary Tree](%5BMedium%5D%20%5BSolution%5D%20987.%20Vertical%20Order%20Traversal%20of%20a%20Binary%20Tree.md)
-* [[Lock] [Easy] [Solution] 270. Closest Binary Search Tree Value](%5BLock%5D%20%5BEasy%5D%20%5BSolution%5D%20270.%20Closest%20Binary%20Search%20Tree%20Value.md)
-* [[Medium] [Solution] 437. Path Sum III](%5BMedium%5D%20%5BSolution%5D%20437.%20Path%20Sum%20III.md)
-* [[Medium] [Solution] 994. Rotting Oranges](%5BMedium%5D%20%5BSolution%5D%20994.%20Rotting%20Oranges.md)
-* [[Easy] 171. Excel Sheet Column Number](%5BEasy%5D%20171.%20Excel%20Sheet%20Column%20Number.md)
-* [[Medium] 274. H-Index](%5BMedium%5D%20274.%20H-Index.md)
-* [[Easy] 119. Pascal's Triangle II](%5BEasy%5D%20119.%20Pascal's%20Triangle%20II.md)
-* [[Medium] 1286. Iterator for Combination](LeetCode/%5BMedium%5D%201286.%20Iterator%20for%20Combination.md)
-* [[Easy] [Solution] 409. Longest Palindrome](%5BEasy%5D%20%5BSolution%5D%20409.%20Longest%20Palindrome.md)
-* [[Lock] [Medium] [Solution] 484. Find Permutation](%5BLock%5D%20%5BMedium%5D%20%5BSolution%5D%20484.%20Find%20Permutation.md)
-* [[Medium] [Solution] 435. Non-overlapping Intervals](%5BMedium%5D%20%5BSolution%5D%20435.%20Non-overlapping%20Intervals.md)
-* [[Hard] [Solution] 123. Best Time to Buy and Sell Stock III](%5BHard%5D%20%5BSolution%5D%20123.%20Best%20Time%20to%20Buy%20and%20Sell%20Stock%20III.md)
-* [[Easy] [Solution] 1103. Distribute Candies to People](%5BEasy%5D%20%5BSolution%5D%201103.%20Distribute%20Candies%20to%20People.md)
-* [[Medium] [Solution] 967. Numbers With Same Consecutive Differences](%5BMedium%5D%20%5BSolution%5D%20967.%20Numbers%20With%20Same%20Consecutive%20Differences.md)
-* [[Easy] [Solution] 824. Goat Latin](%5BEasy%5D%20%5BSolution%5D%20824.%20Goat%20Latin.md)
-* [[Medium] 143. Reorder List](%5BMedium%5D%20143.%20Reorder%20List.md)
-* [[Easy] [Solution] 922. Sort Array By Parity](%5BEasy%5D%20%5BSolution%5D%20905.%20Sort%20Array%20By%20Parity.md)
-* [[Lock] [Medium] [Solution] 490. The Maze](%5BLock%5D%20%5BMedium%5D%20%5BSolution%5D%20490.%20The%20Maze.md)
-* [[Medium] 497. Random Point in Non-overlapping Rectangles](%5BMedium%5D%20497.%20Random%20Point%20in%20Non-overlapping%20Rectangles.md)
-* [[Hard] 1032. Stream of Characters](%5BHard%5D%201032.%20Stream%20of%20Characters.md)
-* [[Easy] 404. Sum of Left Leaves](%5BEasy%5D%20404.%20Sum%20of%20Left%20Leaves.md)
-* [[Medium] [Solution] 983. Minimum Cost For Tickets](%5BMedium%5D%20%5BSolution%5D%20983.%20Minimum%20Cost%20For%20Tickets.md)
-* [[Easy] [Solution] 412. Fizz Buzz](%5BEasy%5D%20%5BSolution%5D%20412.%20Fizz%20Buzz.md)
-* [[Medium] 436. Find Right Interval](%5BMedium%5D%20436.%20Find%20Right%20Interval.md)
-* [[Medium] [Solution] 470. Implement Rand10() Using Rand7()](%5BMedium%5D%20%5BSolution%5D%20470.%20Implement%20Rand10()%20Using%20Rand7().md)
-* [[Lock] [Hard] [Solution] 489. Robot Room Cleaner](%5BLock%5D%20%5BHard%5D%20%5BSolution%5D%20489.%20Robot%20Room%20Cleaner.md)
-* [[Medium] [Solution] 969. Pancake Sorting](%5BMedium%5D%20%5BSolution%5D%20969.%20Pancake%20Sorting.md)
-* [[Hard] [Solution] 952. Largest Component Size by Common Factor](%5BHard%5D%20%5BSolution%5D%20952.%20Largest%20Component%20Size%20by%20Common%20Factor.md)
-* [[Medium] * 450. Delete Node in a BST](%5BMedium%5D%20*%20450.%20Delete%20Node%20in%20a%20BST.md)
+* [Easy] [Solution] 520. Detect Capital
+* [Easy] 705. Design HashSet
+* [Easy] [Solution] 125. Valid Palindrome
+* [Easy] [Solution] 342. Power of Four
+* [Medium] [Solution] 211. Add and Search Word - Data structure design
+* [Medium] [Solution] 442. Find All Duplicates in an Array
+* [Medium] [Solution] 987. Vertical Order Traversal of a Binary Tree
+* [Lock] [Easy] [Solution] 270. Closest Binary Search Tree Value
+* [Medium] [Solution] 437. Path Sum III
+* [Medium] [Solution] 994. Rotting Oranges
+* [Easy] 171. Excel Sheet Column Number
+* [Medium] 274. H-Index
+* [Easy] 119. Pascal's Triangle II
+* [Medium] 1286. Iterator for Combination
+* [Easy] [Solution] 409. Longest Palindrome
+* [Lock] [Medium] [Solution] 484. Find Permutation
+* [Medium] [Solution] 435. Non-overlapping Intervals
+* [Hard] [Solution] 123. Best Time to Buy and Sell Stock III
+* [Easy] [Solution] 1103. Distribute Candies to People
+* [Medium] [Solution] 967. Numbers With Same Consecutive Differences
+* [Easy] [Solution] 824. Goat Latin
+* [Medium] 143. Reorder List
+* [Easy] [Solution] 922. Sort Array By Parity
+* [Lock] [Medium] [Solution] 490. The Maze
+* [Medium] 497. Random Point in Non-overlapping Rectangles
+* [Hard] 1032. Stream of Characters
+* [Easy] 404. Sum of Left Leaves
+* [Medium] [Solution] 983. Minimum Cost For Tickets
+* [Easy] [Solution] 412. Fizz Buzz
+* [Medium] 436. Find Right Interval
+* [Medium] [Solution] 470. Implement Rand10() Using Rand7()
+* [Lock] [Hard] [Solution] 489. Robot Room Cleaner
+* [Medium] [Solution] 969. Pancake Sorting
+* [Hard] [Solution] 952. Largest Component Size by Common Factor
+* [Medium] * 450. Delete Node in a BST
 
 ## 202009 September LeetCoding Challenge <a name="202009"></a>
-* [[Lock] [Easy] [Solution] 157. Read N Characters Given Read4](%5BLock%5D%20%5BEasy%5D%20%5BSolution%5D%20157.%20Read%20N%20Characters%20Given%20Read4.md)
-* [[Easy] [Solution] 949. Largest Time for Given Digits](%5BEasy%5D%20%5BSolution%5D%20949.%20Largest%20Time%20for%20Given%20Digits.md)
-* [[Medium] 220. Contains Duplicate III](%5BMedium%5D%20220.%20Contains%20Duplicate%20III.md)
-* [[Easy] 459. Repeated Substring Pattern](%5BEasy%5D%20459.%20Repeated%20Substring%20Pattern.md)
-* [[Medium] [Solution] 763. Partition Labels](%5BMedium%5D%20%5BSolution%5D%20763.%20Partition%20Labels.md)
-* [[Medium] 1305. All Elements in Two Binary Search Trees](%5BMedium%5D%201305.%20All%20Elements%20in%20Two%20Binary%20Search%20Trees.md)
-* [[Medium] [Solution] 835. Image Overlap](%5BMedium%5D%20%5BSolution%5D%20835.%20Image%20Overlap.md)
-* [[Easy] 290. Word Pattern](%5BEasy%5D%20290.%20Word%20Pattern.md)
-* [[Easy] 1022. Sum of Root To Leaf Binary Numbers](%5BEasy%5D%201022.%20Sum%20of%20Root%20To%20Leaf%20Binary%20Numbers.md)
-* [[Medium] 165. Compare Version Numbers](%5BMedium%5D%20165.%20Compare%20Version%20Numbers.md)
-* [[Easy] 299. Bulls and Cows](%5BEasy%5D%20299.%20Bulls%20and%20Cows.md)
-* [[Medium] 152. Maximum Product Subarray](%5BMedium%5D%20152.%20Maximum%20Product%20Subarray.md)
-* [[Medium] 216. Combination Sum III](%5BMedium%5D%20216.%20Combination%20Sum%20III.md)
-* [[Hard] 57. Insert Interval](%5BHard%5D%2057.%20Insert%20Interval.md)
-* [[Easy] 198. House Robber](%5BEasy%5D%20198.%20House%20Robber.md)
-* [[Easy] 58. Length of Last Word](%5BEasy%5D%2058.%20Length%20of%20Last%20Word.md)
-* [[Medium] 421. Maximum XOR of Two Numbers in an Array](%5BMedium%5D%20421.%20Maximum%20XOR%20of%20Two%20Numbers%20in%20an%20Array.md)
-* [[Medium] 1041. Robot Bounded In Circle](%5BMedium%5D%201041.%20Robot%20Bounded%20In%20Circle.md)
-* [[Easy] [Solution] 121. Best Time to Buy and Sell Stock](%5BEasy%5D%20%5BSolution%5D%20121.%20Best%20Time%20to%20Buy%20and%20Sell%20Stock.md)
-* [[Medium] 1291. Sequential Digits](%5BMedium%5D%201291.%20Sequential%20Digits.md)
-* [[Hard] [Solution] 980. Unique Paths III](%5BHard%5D%20%5BSolution%5D%20980.%20Unique%20Paths%20III.md)
-* [[Medium] 1094. Car Pooling](%5BMedium%5D%201094.%20Car%20Pooling.md)
-* [[Medium] 229. Majority Element II](%5BMedium%5D%20229.%20Majority%20Element%20II.md)
-* [[Medium] 134. Gas Station](LeetCode/%5BMedium%5D%20134.%20Gas%20Station.md)
-* [[Easy] 389. Find the Difference](%5BEasy%5D%20389.%20Find%20the%20Difference.md)
-* [[Medium] [Solution] 179. Largest Number](%5BMedium%5D%20%5BSolution%5D%20179.%20Largest%20Number.md)
-* [[Medium] [Solution] 495. Teemo Attacking](%5BMedium%5D%20%5BSolution%5D%20495.%20Teemo%20Attacking.md)
-* [[Medium] [Solution] 713. Subarray Product Less Than K](%5BMedium%5D%20%5BSolution%5D%20713.%20Subarray%20Product%20Less%20Than%20K.md)
-* [[Medium] 139. Word Break](%5BMedium%5D%20139.%20Word%20Break.md)
-* [[Medium] 399. Evaluate Division](%5BMedium%5D%20399.%20Evaluate%20Division.md)
-* [[Hard] 41. First Missing Positive](%5BHard%5D%2041.%20First%20Missing%20Positive.md)
+* [Lock] [Easy] [Solution] 157. Read N Characters Given Read4
+* [Easy] [Solution] 949. Largest Time for Given Digits
+* [Medium] 220. Contains Duplicate III
+* [Easy] 459. Repeated Substring Pattern
+* [Medium] [Solution] 763. Partition Labels
+* [Medium] 1305. All Elements in Two Binary Search Trees
+* [Medium] [Solution] 835. Image Overlap
+* [Easy] 290. Word Pattern
+* [Easy] 1022. Sum of Root To Leaf Binary Numbers
+* [Medium] 165. Compare Version Numbers
+* [Easy] 299. Bulls and Cows
+* [Medium] 152. Maximum Product Subarray
+* [Medium] 216. Combination Sum III
+* [Hard] 57. Insert Interval
+* [Easy] 198. House Robber
+* [Easy] 58. Length of Last Word
+* [Medium] 421. Maximum XOR of Two Numbers in an Array
+* [Medium] 1041. Robot Bounded In Circle
+* [Easy] [Solution] 121. Best Time to Buy and Sell Stock
+* [Medium] 1291. Sequential Digits
+* [Hard] [Solution] 980. Unique Paths III
+* [Medium] 1094. Car Pooling
+* [Medium] 229. Majority Element II
+* [Medium] 134. Gas Station
+* [Easy] 389. Find the Difference
+* [Medium] [Solution] 179. Largest Number
+* [Medium] [Solution] 495. Teemo Attacking
+* [Medium] [Solution] 713. Subarray Product Less Than K
+* [Medium] 139. Word Break
+* [Medium] 399. Evaluate Division
+* [Hard] 41. First Missing Positive
 
 ## 202010 October LeetCoding Challenge <a name="202010"></a>
-* [[Easy] [Solution] 933. Number of Recent Calls](%5BEasy%5D%20%5BSolution%5D%20933.%20Number%20of%20Recent%20Calls.md)
-* [[Medium] 39. Combination Sum](%5BMedium%5D%2039.%20Combination%20Sum.md)
-* [[Easy] 532. K-diff Pairs in an Array](%5BEasy%5D%20532.%20K-diff%20Pairs%20in%20an%20Array.md)
-* [[Medium] 1288. Remove Covered Intervals](%5BMedium%5D%201288.%20Remove%20Covered%20Intervals.md)
-* [[Easy] 1009. Complement of Base 10 Integer](%5BEasy%5D%201009.%20Complement%20of%20Base%2010%20Integer.md)
-* [[Medium] 701. Insert into a Binary Search Tree](%5BMedium%5D%20701.%20Insert%20into%20a%20Binary%20Search%20Tree.md)
-* [[Medium] 61. Rotate List](%5BMedium%5D%2061.%20Rotate%20List.md)
-* [[Easy] [Solution] 704. Binary Search](%5BEasy%5D%20%5BSolution%5D%20704.%20Binary%20Search.md)
-* [[Medium] 449. Serialize and Deserialize BST](%5BMedium%5D%20449.%20Serialize%20and%20Deserialize%20BST.md)
-* [[Medium] 452. Minimum Number of Arrows to Burst Balloons](%5BMedium%5D%20452.%20Minimum%20Number%20of%20Arrows%20to%20Burst%20Balloons.md)
-* [[Hard] 316. Remove Duplicate Letters](%5BHard%5D%20316.%20Remove%20Duplicate%20Letters.md)
-* [[Easy] [Solution] 859. Buddy Strings](%5BEasy%5D%20%5BSolution%5D%20859.%20Buddy%20Strings.md)
-* [[Medium] 148. Sort List](%5BMedium%5D%20148.%20Sort%20List.md)
-* [[Medium] 213. House Robber II](%5BMedium%5D%20213.%20House%20Robber%20II.md)
-* [[Easy] [Solution] 189. Rotate Array](%5BEasy%5D%20%5BSolution%5D%20189.%20Rotate%20Array.md)
-* [[Medium] 74. Search a 2D Matrix](%5BMedium%5D%2074.%20Search%20a%202D%20Matrix.md)
-* [[Medium] 187. Repeated DNA Sequences](%5BMedium%5D%20187.%20Repeated%20DNA%20Sequences.md)
-* [[Hard] 188. Best Time to Buy and Sell Stock IV](%5BHard%5D%20188.%20Best%20Time%20to%20Buy%20and%20Sell%20Stock%20IV.md)
-* [[Medium] 1007. Minimum Domino Rotations For Equal Row](%5BMedium%5D%201007.%20Minimum%20Domino%20Rotations%20For%20Equal%20Row.md)
-* [[Medium] 133. Clone Graph](%5BMedium%5D%20133.%20Clone%20Graph.md)
-* [[Medium] [Solution] 735. Asteroid Collision](%5BMedium%5D%20%5BSolution%5D%20735.%20Asteroid%20Collision.md)
-* [[Easy] 111. Minimum Depth of Binary Tree](%5BEasy%5D%20111.%20Minimum%20Depth%20of%20Binary%20Tree.md)
-* [[Medium] [Solution] 456. 132 Pattern](%5BMedium%5D%20%5BSolution%5D%20456.%20132%20Pattern.md)
-* [[Medium] [Solution] 948. Bag of Tokens](%5BMedium%5D%20%5BSolution%5D%20948.%20Bag%20of%20Tokens.md)
-* [[Hard] 1510. Stone Game IV](%5BHard%5D%201510.%20Stone%20Game%20IV.md)
-* [[Medium] [Solution] 799. Champagne Tower](%5BMedium%5D%20%5BSolution%5D%20799.%20Champagne%20Tower.md)
-* [[Medium] 142. Linked List Cycle II](%5BMedium%5D%20142.%20Linked%20List%20Cycle%20II.md)
-* [[Medium] 228. Summary Ranges](%5BMedium%5D%20228.%20Summary%20Ranges.md)
-* [[Easy] [Solution] 849. Maximize Distance to Closest Person](%5BEasy%5D%20%5BSolution%5D%20849.%20Maximize%20Distance%20to%20Closest%20Person.md)
-* [[Medium] [Solution] 673. Number of Longest Increasing Subsequence](%5BMedium%5D%20%5BSolution%5D%20673.%20Number%20of%20Longest%20Increasing%20Subsequence.md)
-* [[Hard] 99. Recover Binary Search Tree](%5BHard%5D%2099.%20Recover%20Binary%20Search%20Tree.md)
+* [Easy] [Solution] 933. Number of Recent Calls
+* [Medium] 39. Combination Sum
+* [Easy] 532. K-diff Pairs in an Array
+* [Medium] 1288. Remove Covered Intervals
+* [Easy] 1009. Complement of Base 10 Integer
+* [Medium] 701. Insert into a Binary Search Tree
+* [Medium] 61. Rotate List
+* [Easy] [Solution] 704. Binary Search
+* [Medium] 449. Serialize and Deserialize BST
+* [Medium] 452. Minimum Number of Arrows to Burst Balloons
+* [Hard] 316. Remove Duplicate Letters
+* [Easy] [Solution] 859. Buddy Strings
+* [Medium] 148. Sort List
+* [Medium] 213. House Robber II
+* [Easy] [Solution] 189. Rotate Array
+* [Medium] 74. Search a 2D Matrix
+* [Medium] 187. Repeated DNA Sequences
+* [Hard] 188. Best Time to Buy and Sell Stock IV
+* [Medium] 1007. Minimum Domino Rotations For Equal Row
+* [Medium] 133. Clone Graph
+* [Medium] [Solution] 735. Asteroid Collision
+* [Easy] 111. Minimum Depth of Binary Tree
+* [Medium] [Solution] 456. 132 Pattern
+* [Medium] [Solution] 948. Bag of Tokens
+* [Hard] 1510. Stone Game IV
+* [Medium] [Solution] 799. Champagne Tower
+* [Medium] 142. Linked List Cycle II
+* [Medium] 228. Summary Ranges
+* [Easy] [Solution] 849. Maximize Distance to Closest Person
+* [Medium] [Solution] 673. Number of Longest Increasing Subsequence
+* [Hard] 99. Recover Binary Search Tree
 
 ## 202011 November LeetCoding Challenge <a name="202011"></a>
-* [[Easy] 1290. Convert Binary Number in a Linked List to Integer](%5BEasy%5D%201290.%20Convert%20Binary%20Number%20in%20a%20Linked%20List%20to%20Integer.md)
-* [[Medium] 147. Insertion Sort List](%5BMedium%5D%20147.%20Insertion%20Sort%20List.md)
-* [[Easy] 1446. Consecutive Characters](%5BEasy%5D%201446.%20Consecutive%20Characters.md)
-* [[Medium] 310. Minimum Height Trees](%5BMedium%5D%20310.%20Minimum%20Height%20Trees.md)
-* [[Easy] 1217. Play with Chips](%5BEasy%5D%201217.%20Play%20with%20Chips.md)
-* [[Medium] 1283. Find the Smallest Divisor Given a Threshold](%5BMedium%5D%201283.%20Find%20the%20Smallest%20Divisor%20Given%20a%20Threshold.md)
-* [[Medium] 445. Add Two Numbers II](%5BMedium%5D%20445.%20Add%20Two%20Numbers%20II.md)
-* [[Easy] [Solution] 563. Binary Tree Tilt](%5BEasy%5D%20%5BSolution%5D%20563.%20Binary%20Tree%20Tilt.md)
-* [[Medium] 1026. Maximum Difference Between Node and Ancestor](%5BMedium%5D%201026.%20Maximum%20Difference%20Between%20Node%20and%20Ancestor.md)
-* [[Easy] [Solution] 832. Flipping an Image](%5BEasy%5D%20%5BSolution%5D%20832.%20Flipping%20an%20Image.md)
-* [[Medium] [Solution] 593. Valid Square](%5BMedium%5D%20%5BSolution%5D%20593.%20Valid%20Square.md)
-* [[Medium] 47. Permutations II](%5BMedium%5D%2047.%20Permutations%20II.md)
-* [[Medium] 116. Populating Next Right Pointers in Each Node](%5BMedium%5D%20116.%20Populating%20Next%20Right%20Pointers%20in%20Each%20Node.md)
-* [[Hard] 458. Poor Pigs](%5BHard%5D%20458.%20Poor%20Pigs.md)
-* [[Easy] [Solution] 938. Range Sum of BST](%5BEasy%5D%20%5BSolution%5D%20938.%20Range%20Sum%20of%20BST.md)
-* [[Medium] [Solution] 845. Longest Mountain in Array](%5BMedium%5D%20%5BSolution%5D%20845.%20Longest%20Mountain%20in%20Array.md)
-* [[Medium] 858. Mirror Reflection](%5BMedium%5D%20858.%20Mirror%20Reflection.md)
-* [[Medium] [Solution] 56. Merge Intervals](%5BMedium%5D%20%5BSolution%5D%2056.%20Merge%20Intervals.md)
+* [Easy] 1290. Convert Binary Number in a Linked List to Integer
+* [Medium] 147. Insertion Sort List
+* [Easy] 1446. Consecutive Characters
+* [Medium] 310. Minimum Height Trees
+* [Easy] 1217. Play with Chips
+* [Medium] 1283. Find the Smallest Divisor Given a Threshold
+* [Medium] 445. Add Two Numbers II
+* [Easy] [Solution] 563. Binary Tree Tilt
+* [Medium] 1026. Maximum Difference Between Node and Ancestor
+* [Easy] [Solution] 832. Flipping an Image
+* [Medium] [Solution] 593. Valid Square
+* [Medium] 47. Permutations II
+* [Medium] 116. Populating Next Right Pointers in Each Node
+* [Hard] 458. Poor Pigs
+* [Easy] [Solution] 938. Range Sum of BST
+* [Medium] [Solution] 845. Longest Mountain in Array
+* [Medium] 858. Mirror Reflection
+* [Medium] [Solution] 56. Merge Intervals
 * [![Medium] 394. Decode String](!%5BMedium%5D%20394.%20Decode%20String.md)
-* [[Medium] 81. Search in Rotated Sorted Array II](%5BMedium%5D%2081.%20Search%20in%20Rotated%20Sorted%20Array%20II.md)
-* [[Hard] [Solution] * 902. Numbers At Most N Given Digit Set](%5BHard%5D%20%5BSolution%5D%20*%20902.%20Numbers%20At%20Most%20N%20Given%20Digit%20Set.md)
-* [[Easy] [Solution] 804. Unique Morse Code Words](%5BEasy%5D%20%5BSolution%5D%20804.%20Unique%20Morse%20Code%20Words.md)
-* [[Medium] 337. House Robber III](%5BMedium%5D%20337.%20House%20Robber%20III.md)
-* [[Medium] 227. Basic Calculator II](%5BMedium%5D%20227.%20Basic%20Calculator%20II.md)
-* [[Medium] 1015. Smallest Integer Divisible by K](%5BMedium%5D%201015.%20Smallest%20Integer%20Divisible%20by%20K.md)
-* [[Medium] 395. Longest Substring with At Least K Repeating Characters](%5BMedium%5D%20395.%20Longest%20Substring%20with%20At%20Least%20K%20Repeating%20Characters.md)
-* [[Medium] 416. Partition Equal Subset Sum](%5BMedium%5D%20416.%20Partition%20Equal%20Subset%20Sum.md)
-* [[Hard] 239. Sliding Window Maximum](%5BHard%5D%20239.%20Sliding%20Window%20Maximum.md)
-* [[Medium] 1306. Jump Game III](%5BMedium%5D%201306.%20Jump%20Game%20III.md)
-* [[Hard] 218. The Skyline Problem](%5BHard%5D%20218.%20The%20Skyline%20Problem.md)
+* [Medium] 81. Search in Rotated Sorted Array II
+* [Hard] [Solution] * 902. Numbers At Most N Given Digit Set
+* [Easy] [Solution] 804. Unique Morse Code Words
+* [Medium] 337. House Robber III
+* [Medium] 227. Basic Calculator II
+* [Medium] 1015. Smallest Integer Divisible by K
+* [Medium] 395. Longest Substring with At Least K Repeating Characters
+* [Medium] 416. Partition Equal Subset Sum
+* [Hard] 239. Sliding Window Maximum
+* [Medium] 1306. Jump Game III
+* [Hard] 218. The Skyline Problem
 
 ## 202012 December LeetCoding Challenge <a name="202012"></a>
-* [[Easy] 104. Maximum Depth of Binary Tree](%5BEasy%5D%20104.%20Maximum%20Depth%20of%20Binary%20Tree.md)
-* [[Medium] 382. Linked List Random Node](%5BMedium%5D%20382.%20Linked%20List%20Random%20Node.md)
-* [[Easy] [Solution] 897. Increasing Order Search Tree](%5BEasy%5D%20%5BSolution%5D%20897.%20Increasing%20Order%20Search%20Tree.md)
-* [[Medium] 1492. The kth Factor of n](%5BMedium%5D%201492.%20The%20kth%20Factor%20of%20n.md)
-* [[Easy] [Solution] 605. Can Place Flowers](%5BEasy%5D%20%5BSolution%5D%20605.%20Can%20Place%20Flowers.md)
-* [[Medium] 117. Populating Next Right Pointers in Each Node II](%5BMedium%5D%20117.%20Populating%20Next%20Right%20Pointers%20in%20Each%20Node%20II.md)
-* [[Medium] 59. Spiral Matrix II](%5BMedium%5D%2059.%20Spiral%20Matrix%20II.md)
-* [[Easy] 1010. Pairs of Songs With Total Durations Divisible by 60](%5BEasy%5D%201010.%20Pairs%20of%20Songs%20With%20Total%20Durations%20Divisible%20by%2060.md)
-* [[Medium] [Solution] 173. Binary Search Tree Iterator](%5BMedium%5D%20%5BSolution%5D%20173.%20Binary%20Search%20Tree%20Iterator.md)
-* [[Easy] [Solution] 941. Valid Mountain Array](%5BEasy%5D%20%5BSolution%5D%20941.%20Valid%20Mountain%20Array.md)
-* [[Medium] 80. Remove Duplicates from Sorted Array II](%5BMedium%5D%2080.%20Remove%20Duplicates%20from%20Sorted%20Array%20II.md)
-* [[Medium] [Solution] 865. Smallest Subtree with all the Deepest Nodes](%5BMedium%5D%20%5BSolution%5D%20865.%20Smallest%20Subtree%20with%20all%20the%20Deepest%20Nodes.md)
-* [[Hard] 312. Burst Balloons](%5BHard%5D%20312.%20Burst%20Balloons.md)
-* [[Medium] 131. Palindrome Partitioning](%5BMedium%5D%20131.%20Palindrome%20Partitioning.md)
-* [[Easy] [Solution] 977. Squares of a Sorted Array](%5BEasy%5D%20%5BSolution%5D%20977.%20Squares%20of%20a%20Sorted%20Array.md)
-* [[Medium] 98. Validate Binary Search Tree](%5BMedium%5D%2098.%20Validate%20Binary%20Search%20Tree.md)
-* [[Medium] 454. 4Sum II](%5BMedium%5D%20454.%204Sum%20II.md)
-* [[Medium] 334. Increasing Triplet Subsequence](%5BMedium%5D%20334.%20Increasing%20Triplet%20Subsequence.md)
-* [[Hard] 1463. Cherry Pickup II](%5BHard%5D%201463.%20Cherry%20Pickup%20II.md)
-* [[Medium] [Solution] 880. Decoded String at Index](%5BMedium%5D%20%5BSolution%5D%20880.%20Decoded%20String%20at%20Index.md)
-* [[Medium] [Solution] 910. Smallest Range II](%5BMedium%5D%20%5BSolution%5D%20910.%20Smallest%20Range%20II.md)
-* [[Easy] 110. Balanced Binary Tree](%5BEasy%5D%20110.%20Balanced%20Binary%20Tree.md)
-* [[Medium] 556. Next Greater Element III](%5BMedium%5D%20556.%20Next%20Greater%20Element%20III.md)
-* [[Medium] 24. Swap Nodes in Pairs](%5BMedium%5D%2024.%20Swap%20Nodes%20in%20Pairs.md)
-* [[Medium] 498. Diagonal Traverse](%5BMedium%5D%20498.%20Diagonal%20Traverse.md)
-* [[Hard] 1345. Jump Game IV](%5BHard%5D%201345.%20Jump%20Game%20IV.md)
-* [[Medium] [Solution] 754. Reach a Number](%5BMedium%5D%20%5BSolution%5D%20754.%20Reach%20a%20Number.md)
-* [[Medium] 1457. Pseudo-Palindromic Paths in a Binary Tree](%5BMedium%5D%201457.%20Pseudo-Palindromic%20Paths%20in%20a%20Binary%20Tree.md)
-* [[Medium] [Solution] 289. Game of Life](%5BMedium%5D%20%5BSolution%5D%20289.%20Game%20of%20Life.md)
-* [[Hard] 84. Largest Rectangle in Histogram](%5BHard%5D%2084.%20Largest%20Rectangle%20in%20Histogram.md)
+* [Easy] 104. Maximum Depth of Binary Tree
+* [Medium] 382. Linked List Random Node
+* [Easy] [Solution] 897. Increasing Order Search Tree
+* [Medium] 1492. The kth Factor of n
+* [Easy] [Solution] 605. Can Place Flowers
+* [Medium] 117. Populating Next Right Pointers in Each Node II
+* [Medium] 59. Spiral Matrix II
+* [Easy] 1010. Pairs of Songs With Total Durations Divisible by 60
+* [Medium] [Solution] 173. Binary Search Tree Iterator
+* [Easy] [Solution] 941. Valid Mountain Array
+* [Medium] 80. Remove Duplicates from Sorted Array II
+* [Medium] [Solution] 865. Smallest Subtree with all the Deepest Nodes
+* [Hard] 312. Burst Balloons
+* [Medium] 131. Palindrome Partitioning
+* [Easy] [Solution] 977. Squares of a Sorted Array
+* [Medium] 98. Validate Binary Search Tree
+* [Medium] 454. 4Sum II
+* [Medium] 334. Increasing Triplet Subsequence
+* [Hard] 1463. Cherry Pickup II
+* [Medium] [Solution] 880. Decoded String at Index
+* [Medium] [Solution] 910. Smallest Range II
+* [Easy] 110. Balanced Binary Tree
+* [Medium] 556. Next Greater Element III
+* [Medium] 24. Swap Nodes in Pairs
+* [Medium] 498. Diagonal Traverse
+* [Hard] 1345. Jump Game IV
+* [Medium] [Solution] 754. Reach a Number
+* [Medium] 1457. Pseudo-Palindromic Paths in a Binary Tree
+* [Medium] [Solution] 289. Game of Life
+* [Hard] 84. Largest Rectangle in Histogram
 
 ## 202101 January LeetCoding Challenge <a name="202101"></a>
-* [[Easy] 1640. Check Array Formation Through Concatenation](%5BEasy%5D%201640.%20Check%20Array%20Formation%20Through%20Concatenation.md)
-* [[Medium] 1379. Find a Corresponding Node of a Binary Tree in a Clone of That Tree](%5BMedium%5D%201379.%20Find%20a%20Corresponding%20Node%20of%20a%20Binary%20Tree%20in%20a%20Clone%20of%20That%20Tree.md)
-* [[Medium] [Solution] 526. Beautiful Arrangement](%5BMedium%5D%20%5BSolution%5D%20526.%20Beautiful%20Arrangement.md)
-* [[Easy] 21. Merge Two Sorted Lists](%5BEasy%5D%2021.%20Merge%20Two%20Sorted%20Lists.md)
-* [[Medium] 82. Remove Duplicates from Sorted List II](%5BMedium%5D%2082.%20Remove%20Duplicates%20from%20Sorted%20List%20II.md)
-* [[Easy] 1539. Kth Missing Positive Number](%5BEasy%5D%201539.%20Kth%20Missing%20Positive%20Number.md)
-* [[Medium] [Solution] 3. Longest Substring Without Repeating Characters](%5BMedium%5D%20%5BSolution%5D%203.%20Longest%20Substring%20Without%20Repeating%20Characters.md)
-* [[Easy] 1662. Check If Two String Arrays are Equivalent](%5BEasy%5D%201662.%20Check%20If%20Two%20String%20Arrays%20are%20Equivalent.md)
-* [[Medium] [Solution] 127. Word Ladder](%5BMedium%5D%20%5BSolution%5D%20127.%20Word%20Ladder.md)
-* [[Hard] 1649. Create Sorted Array through Instructions](%5BHard%5D%201649.%20Create%20Sorted%20Array%20through%20Instructions.md)
-* [[Easy] 88. Merge Sorted Array](%5BEasy%5D%2088.%20Merge%20Sorted%20Array.md)
-* [[Medium] [Solution] 2. Add Two Numbers](%5BMedium%5D%20%5BSolution%5D%202.%20Add%20Two%20Numbers.md)
-* [[Medium] [Solution] 881. Boats to Save People](%5BMedium%5D%20%5BSolution%5D%20881.%20Boats%20to%20Save%20People.md)
-* [[Medium] 1658. Minimum Operations to Reduce X to Zero](%5BMedium%5D%201658.%20Minimum%20Operations%20to%20Reduce%20X%20to%20Zero.md)
-* [[Easy] 1646. Get Maximum in Generated Array](%5BEasy%5D%201646.%20Get%20Maximum%20in%20Generated%20Array.md)
-* [[Medium] 215. Kth Largest Element in an Array](%5BMedium%5D%20215.%20Kth%20Largest%20Element%20in%20an%20Array.md)
-* [[Medium] 1641. Count Sorted Vowel Strings](%5BMedium%5D%201641.%20Count%20Sorted%20Vowel%20Strings.md)
-* [[Medium] 1679. Max Number of K-Sum Pairs](%5BMedium%5D%201679.%20Max%20Number%20of%20K-Sum%20Pairs.md)
-* [[Medium] [Solution] 5. Longest Palindromic Substring](%5BMedium%5D%20%5BSolution%5D%205.%20Longest%20Palindromic%20Substring.md)
-* [[Easy] [Solution] 20. Valid Parentheses](%5BEasy%5D%20%5BSolution%5D%2020.%20Valid%20Parentheses.md)
-* [[Medium] 1673. Find the Most Competitive Subsequence](%5BMedium%5D%201673.%20Find%20the%20Most%20Competitive%20Subsequence.md)
-* [[Medium] 1657. Determine if Two Strings Are Close](%5BMedium%5D%201657.%20Determine%20if%20Two%20Strings%20Are%20Close.md)
-* [[Medium] 1329. Sort the Matrix Diagonally](%5BMedium%5D%201329.%20Sort%20the%20Matrix%20Diagonally.md)
-* [[Hard] [Solution] 23. Merge k Sorted Lists](%5BHard%5D%20%5BSolution%5D%2023.%20Merge%20k%20Sorted%20Lists.md)
-* [[Medium] 1437. Check If All 1's Are at Least Length K Places Away](%5BMedium%5D%201437.%20Check%20If%20All%201's%20Are%20at%20Least%20Length%20K%20Places%20Away.md)
-* [[Medium] 1631. Path With Minimum Effort](%5BMedium%5D%201631.%20Path%20With%20Minimum%20Effort.md)
-* [[Medium] 1680. Concatenation of Consecutive Binary Numbers](%5BMedium%5D%201680.%20Concatenation%20of%20Consecutive%20Binary%20Numbers.md)
-* [[Medium] 1663. Smallest String With A Given Numeric Value](%5BMedium%5D%201663.%20Smallest%20String%20With%20A%20Given%20Numeric%20Value.md)
-* [[Hard] 1675. Minimize Deviation in Array](%5BHard%5D%201675.%20Minimize%20Deviation%20in%20Array.md)
-* [[Medium] [Solution] 31. Next Permutation](%5BMedium%5D%20%5BSolution%5D%2031.%20Next%20Permutation.md)
+* [Easy] 1640. Check Array Formation Through Concatenation
+* [Medium] 1379. Find a Corresponding Node of a Binary Tree in a Clone of That Tree
+* [Medium] [Solution] 526. Beautiful Arrangement
+* [Easy] 21. Merge Two Sorted Lists
+* [Medium] 82. Remove Duplicates from Sorted List II
+* [Easy] 1539. Kth Missing Positive Number
+* [Medium] [Solution] 3. Longest Substring Without Repeating Characters
+* [Easy] 1662. Check If Two String Arrays are Equivalent
+* [Medium] [Solution] 127. Word Ladder
+* [Hard] 1649. Create Sorted Array through Instructions
+* [Easy] 88. Merge Sorted Array
+* [Medium] [Solution] 2. Add Two Numbers
+* [Medium] [Solution] 881. Boats to Save People
+* [Medium] 1658. Minimum Operations to Reduce X to Zero
+* [Easy] 1646. Get Maximum in Generated Array
+* [Medium] 215. Kth Largest Element in an Array
+* [Medium] 1641. Count Sorted Vowel Strings
+* [Medium] 1679. Max Number of K-Sum Pairs
+* [Medium] [Solution] 5. Longest Palindromic Substring
+* [Easy] [Solution] 20. Valid Parentheses
+* [Medium] 1673. Find the Most Competitive Subsequence
+* [Medium] 1657. Determine if Two Strings Are Close
+* [Medium] 1329. Sort the Matrix Diagonally
+* [Hard] [Solution] 23. Merge k Sorted Lists
+* [Medium] 1437. Check If All 1's Are at Least Length K Places Away
+* [Medium] 1631. Path With Minimum Effort
+* [Medium] 1680. Concatenation of Consecutive Binary Numbers
+* [Medium] 1663. Smallest String With A Given Numeric Value
+* [Hard] 1675. Minimize Deviation in Array
+* [Medium] [Solution] 31. Next Permutation
 
 ## 202102 Fabruary LeetCoding Challenge <a name="202102"></a>
-* [[Easy] [Solution] 191. Number of 1 Bits](%5BEasy%5D%20%5BSolution%5D%20191.%20Number%20of%201%20Bits.md)
-* [[Easy] [Solution] 669. Trim a Binary Search Tree](%5BEasy%5D%20%5BSolution%5D%20669.%20Trim%20a%20Binary%20Search%20Tree.md)
-* [[Easy] [Solution] 141. Linked List Cycle](%5BEasy%5D%20%5BSolution%5D%20141.%20Linked%20List%20Cycle.md)
-* [[Easy] [Solution] 594. Longest Harmonious Subsequence](%5BEasy%5D%20%5BSolution%5D%20594.%20Longest%20Harmonious%20Subsequence.md)
-* [[Medium] 71. Simplify Path](%5BMedium%5D%2071.%20Simplify%20Path.md)
-* [[Medium] [Solution] 199. Binary Tree Right Side View](%5BMedium%5D%20%5BSolution%5D%20199.%20Binary%20Tree%20Right%20Side%20View.md)
-* [[Easy] [Solution] 538. Convert BST to Greater Tree](%5BEasy%5D%20%5BSolution%5D%20538.%20Convert%20BST%20to%20Greater%20Tree.md)
-* [[Medium] 138. Copy List with Random Pointer](%5BMedium%5D%20138.%20Copy%20List%20with%20Random%20Pointer.md)
-* [[Easy] [Solution] 821. Shortest Distance to a Character](%5BEasy%5D%20%5BSolution%5D%20821.%20Shortest%20Distance%20to%20a%20Character.md)
-* [[Medium] 284. Peeking Iterator](%5BMedium%5D%20284.%20Peeking%20Iterator.md)
-* [[Easy] [Solution] 242. Valid Anagram](%5BEasy%5D%20%5BSolution%5D%20242.%20Valid%20Anagram.md)
-* [[Easy] 1342. Number of Steps to Reduce a Number to Zero](%5BEasy%5D%201342.%20Number%20of%20Steps%20to%20Reduce%20a%20Number%20to%20Zero.md)
-* [[Medium] 1091. Shortest Path in Binary Matrix](%5BMedium%5D%201091.%20Shortest%20Path%20in%20Binary%20Matrix.md)
-* [[Medium] 785. Is Graph Bipartite?](%5BMedium%5D%20785.%20Is%20Graph%20Bipartite?.md)
-* [[Easy] 1337. The K Weakest Rows in a Matrix](%5BEasy%5D%201337.%20The%20K%20Weakest%20Rows%20in%20a%20Matrix.md)
-* [[Easy] 784. Letter Case Permutation](%5BEasy%5D%20784.%20Letter%20Case%20Permutation.md)
-* [[Medium] [Solution] 11. Container With Most Water](%5BMedium%5D%20%5BSolution%5D%2011.%20Container%20With%20Most%20Water.md)
-* [[Medium] [Solution] 413. Arithmetic Slices](%5BMedium%5D%20%5BSolution%5D%20413.%20Arithmetic%20Slices.md)
-* [[Medium] 1249. Minimum Remove to Make Valid Parentheses](%5BMedium%5D%201249.%20Minimum%20Remove%20to%20Make%20Valid%20Parentheses.md)
-* [[Easy] 13. Roman to Integer](%5BEasy%5D%2013.%20Roman%20to%20Integer.md)
-* [[Medium] [Solution] 991. Broken Calculator](%5BMedium%5D%20%5BSolution%5D%20991.%20Broken%20Calculator.md)
-* [[Medium] [Solution] 524. Longest Word in Dictionary through Deleting](%5BMedium%5D%20%5BSolution%5D%20524.%20Longest%20Word%20in%20Dictionary%20through%20Deleting.md)
-* [[Medium] 240. Search a 2D Matrix II](%5BMedium%5D%20240.%20Search%20a%202D%20Matrix%20II.md)
-* [[Medium] [Solution] 856. Score of Parentheses](%5BMedium%5D%20%5BSolution%5D%20856.%20Score%20of%20Parentheses.md)
-* [[Easy] [Solution] 581. Shortest Unsorted Continuous Subarray](%5BEasy%5D%20%5BSolution%5D%20581.%20Shortest%20Unsorted%20Continuous%20Subarray.md)
-* [[Medium] [Solution] 946. Validate Stack Sequences](%5BMedium%5D%20%5BSolution%5D%20946.%20Validate%20Stack%20Sequences.md)
-* [[Medium] 29. Divide Two Integers](%5BMedium%5D%2029.%20Divide%20Two%20Integers.md)
+* [Easy] [Solution] 191. Number of 1 Bits
+* [Easy] [Solution] 669. Trim a Binary Search Tree
+* [Easy] [Solution] 141. Linked List Cycle
+* [Easy] [Solution] 594. Longest Harmonious Subsequence
+* [Medium] 71. Simplify Path
+* [Medium] [Solution] 199. Binary Tree Right Side View
+* [Easy] [Solution] 538. Convert BST to Greater Tree
+* [Medium] 138. Copy List with Random Pointer
+* [Easy] [Solution] 821. Shortest Distance to a Character
+* [Medium] 284. Peeking Iterator
+* [Easy] [Solution] 242. Valid Anagram
+* [Easy] 1342. Number of Steps to Reduce a Number to Zero
+* [Medium] 1091. Shortest Path in Binary Matrix
+* [Medium] 785. Is Graph Bipartite?
+* [Easy] 1337. The K Weakest Rows in a Matrix
+* [Easy] 784. Letter Case Permutation
+* [Medium] [Solution] 11. Container With Most Water
+* [Medium] [Solution] 413. Arithmetic Slices
+* [Medium] 1249. Minimum Remove to Make Valid Parentheses
+* [Easy] 13. Roman to Integer
+* [Medium] [Solution] 991. Broken Calculator
+* [Medium] [Solution] 524. Longest Word in Dictionary through Deleting
+* [Medium] 240. Search a 2D Matrix II
+* [Medium] [Solution] 856. Score of Parentheses
+* [Easy] [Solution] 581. Shortest Unsorted Continuous Subarray
+* [Medium] [Solution] 946. Validate Stack Sequences
+* [Medium] 29. Divide Two Integers
 
 ## 202103 March LeetCoding Challenge <a name="202103"></a>
-* [[Easy] [Solution] 575. Distribute Candies](%5BEasy%5D%20%5BSolution%5D%20575.%20Distribute%20Candies.md)
-* [[Easy] [Solution] 645. Set Mismatch](%5BEasy%5D%20%5BSolution%5D%20645.%20Set%20Mismatch.md)
-* [[Easy] [Solution] 268. Missing Number](%5BEasy%5D%20%5BSolution%5D%20268.%20Missing%20Number.md)
-* [[Easy] [Solution] 160. Intersection of Two Linked Lists](%5BEasy%5D%20%5BSolution%5D%20160.%20Intersection%20of%20Two%20Linked%20Lists.md)
-* [[Easy] [Solution] 637. Average of Levels in Binary Tree](%5BEasy%5D%20%5BSolution%5D%20637.%20Average%20of%20Levels%20in%20Binary%20Tree.md)
-* [[Medium] [Solution] 823. Binary Trees With Factors](%5BMedium%5D%20%5BSolution%5D%20823.%20Binary%20Trees%20With%20Factors.md)
-* [[Easy] 706. Design HashMap](/%5BEasy%5D%20706.%20Design%20HashMap.md)
-* [[Easy] 1332. Remove Palindromic Subsequences](%5BEasy%5D%201332.%20Remove%20Palindromic%20Subsequences.md)
-* [[Medium] [Solution] 623. Add One Row to Tree](%5BMedium%5D%20%5BSolution%5D%20623.%20Add%20One%20Row%20to%20Tree.md)
-* [[Medium] 12. Integer to Roman](%5BMedium%5D%2012.%20Integer%20to%20Roman.md)
-* [[Medium] [Solution] 322. Coin Change](%5BMedium%5D%20%5BSolution%5D%20322.%20Coin%20Change.md)
-* [[Medium] 1461. Check If a String Contains All Binary Codes of Size K](%5BMedium%5D%201461.%20Check%20If%20a%20String%20Contains%20All%20Binary%20Codes%20of%20Size%20K.md)
-* [[Medium] 1721. Swapping Nodes in a Linked List](%5BMedium%5D%201721.%20Swapping%20Nodes%20in%20a%20Linked%20List.md)
-* [[Medium] 535. Encode and Decode TinyURL](%5BMedium%5D%20535.%20Encode%20and%20Decode%20TinyURL.md)
-* [[Medium] [Solution] 714. Best Time to Buy and Sell Stock with Transaction Fee](%5BMedium%5D%20%5BSolution%5D%20714.%20Best%20Time%20to%20Buy%20and%20Sell%20Stock%20with%20Transaction%20Fee.md)
-* [[Medium] 478. Generate Random Point in a Circle](%5BMedium%5D%20478.%20Generate%20Random%20Point%20in%20a%20Circle.md)
-* [[Medium] [Solution] 376. Wiggle Subsequence](%5BMedium%5D%20%5BSolution%5D%20376.%20Wiggle%20Subsequence.md)
-* [[Medium] [Solution] 841. Keys and Rooms](%5BMedium%5D%20%5BSolution%5D%20841.%20Keys%20and%20Rooms.md)
-* [[Medium] 1396. Design Underground System](%5BMedium%5D%201396.%20Design%20Underground%20System.md)
-* [[Medium] [Solution] 869. Reordered Power of 2](%5BMedium%5D%20%5BSolution%5D%20869.%20Reordered%20Power%20of%202.md)
-* [[Medium] [Solution] 966. Vowel Spellchecker](%5BMedium%5D%20%5BSolution%5D%20966.%20Vowel%20Spellchecker.md)
-* [[Medium] [Solution] 923. 3Sum With Multiplicity](%5BMedium%5D%20%5BSolution%5D%20923.%203Sum%20With%20Multiplicity.md)
-* [[Medium] [Solution] 870. Advantage Shuffle](%5BMedium%5D%20%5BSolution%5D%20870.%20Advantage%20Shuffle.md)
-* [[Medium] 423. Reconstruct Original Digits from English](%5BMedium%5D%20423.%20Reconstruct%20Original%20Digits%20from%20English.md)
-* [[Lock] [Hard] 1136. Parallel Courses](%5BLock%5D%20%5BHard%5D%201136.%20Parallel%20Courses.md)
-* [[Medium] [Solution] 971. Flip Binary Tree To Match Preorder Traversal](%5BMedium%5D%20%5BSolution%5D%20971.%20Flip%20Binary%20Tree%20To%20Match%20Preorder%20Traversal.md)
-* [[Hard] 354. Russian Doll Envelopes](%5BHard%5D%20354.%20Russian%20Doll%20Envelopes.md)
-* [[Hard] [Solution] 936. Stamping The Sequence](%5BHard%5D%20%5BSolution%5D%20936.%20Stamping%20The%20Sequence.md)
+* [Easy] [Solution] 575. Distribute Candies
+* [Easy] [Solution] 645. Set Mismatch
+* [Easy] [Solution] 268. Missing Number
+* [Easy] [Solution] 160. Intersection of Two Linked Lists
+* [Easy] [Solution] 637. Average of Levels in Binary Tree
+* [Medium] [Solution] 823. Binary Trees With Factors
+* [Easy] 706. Design HashMap
+* [Easy] 1332. Remove Palindromic Subsequences
+* [Medium] [Solution] 623. Add One Row to Tree
+* [Medium] 12. Integer to Roman
+* [Medium] [Solution] 322. Coin Change
+* [Medium] 1461. Check If a String Contains All Binary Codes of Size K
+* [Medium] 1721. Swapping Nodes in a Linked List
+* [Medium] 535. Encode and Decode TinyURL
+* [Medium] [Solution] 714. Best Time to Buy and Sell Stock with Transaction Fee
+* [Medium] 478. Generate Random Point in a Circle
+* [Medium] [Solution] 376. Wiggle Subsequence
+* [Medium] [Solution] 841. Keys and Rooms
+* [Medium] 1396. Design Underground System
+* [Medium] [Solution] 869. Reordered Power of 2
+* [Medium] [Solution] 966. Vowel Spellchecker
+* [Medium] [Solution] 923. 3Sum With Multiplicity
+* [Medium] [Solution] 870. Advantage Shuffle
+* [Medium] 423. Reconstruct Original Digits from English
+* [Lock] [Hard] 1136. Parallel Courses
+* [Medium] [Solution] 971. Flip Binary Tree To Match Preorder Traversal
+* [Hard] 354. Russian Doll Envelopes
+* [Hard] [Solution] 936. Stamping The Sequence
 
 ## 202104 April LeetCoding Challenge <a name="202104"></a>
-* [[Lock] [Easy] 1133. Largest Unique Number](%5BLock%5D%20%5BEasy%5D%201133.%20Largest%20Unique%20Number.md)
-* [[Easy] 234. Palindrome Linked List](%5BEasy%5D%20234.%20Palindrome%20Linked%20List.md)
-* [[Medium] 474. Ones and Zeroes](%5BMedium%5D%20474.%20Ones%20and%20Zeroes.md)
-* [[Hard] [Solution] 32. Longest Valid Parentheses](%5BHard%5D%20%5BSolution%5D%2032.%20Longest%20Valid%20Parentheses.md)
-* [[Medium] 622. Design Circular Queue](%5BMedium%5D%20622.%20Design%20Circular%20Queue.md)
-* [[Medium] 775. Global and Local Inversions](%5BMedium%5D%20775.%20Global%20and%20Local%20Inversions.md)
-* [[Medium] 1551. Minimum Operations to Make Array Equal](%5BMedium%5D%201551.%20Minimum%20Operations%20to%20Make%20Array%20Equal.md)
-* [[Easy] 1704. Determine if String Halves Are Alike](%5BEasy%5D%201704.%20Determine%20if%20String%20Halves%20Are%20Alike.md)
-* [[Medium] [Solution] 17. Letter Combinations of a Phone Number](%5BMedium%5D%20%5BSolution%5D%2017.%20Letter%20Combinations%20of%20a%20Phone%20Number.md)
-* [[Easy] [Solution] 953. Verifying an Alien Dictionary](%5BEasy%5D%20%5BSolution%5D%20953.%20Verifying%20an%20Alien%20Dictionary.md)
-* [[Hard] 329. Longest Increasing Path in a Matrix](%5BHard%5D%20329.%20Longest%20Increasing%20Path%20in%20a%20Matrix.md?_xsrf=2%7Cb607cbb0%7C38c2ab78d0bba728bf04857e61acb0a7%7C1583367857)
-* [[Medium] 1302. Deepest Leaves Sum](%5BMedium%5D%201302.%20Deepest%20Leaves%20Sum.md)
-* [[Medium] [Solution] 667. Beautiful Arrangement II](%5BMedium%5D%20%5BSolution%5D%20667.%20Beautiful%20Arrangement%20II.md)
-* [[Medium] 341. Flatten Nested List Iterator](%5BMedium%5D%20341.%20Flatten%20Nested%20List%20Iterator.md)
-* [[Medium] [Solution] 86. Partition List](%5BMedium%5D%20%5BSolution%5D%2086.%20Partition%20List.md)
-* [[Lock] [Medium] 1151. Minimum Swaps to Group All 1's Together](%5BLock%5D%20%5BMedium%5D%201151.%20Minimum%20Swaps%20to%20Group%20All%201's%20Together.md)
-* [[Easy] [Solution] 509. Fibonacci Number](%5BEasy%5D%20%5BSolution%5D%20509.%20Fibonacci%20Number.md)
-* [[Medium] 1209. Remove All Adjacent Duplicates in String II](%5BMedium%5D%201209.%20Remove%20All%20Adjacent%20Duplicates%20in%20String%20II.md)
-* [[Hard] 1074. Number of Submatrices That Sum to Target](%5BHard%5D%201074.%20Number%20of%20Submatrices%20That%20Sum%20to%20Target.md)
-* [[Medium] [Solution] 19. Remove Nth Node From End of List](%5BMedium%5D%20%5BSolution%5D%2019.%20Remove%20Nth%20Node%20From%20End%20of%20List.md)
-* [[Medium] 377. Combination Sum IV](%5BMedium%5D%20377.%20Combination%20Sum%20IV.md)
-* [[Easy] 589. N-ary Tree Preorder Traversal](%5BEasy%5D%20589.%20N-ary%20Tree%20Preorder%20Traversal.md)
-* [[Medium] 120. Triangle](%5BMedium%5D%20120.%20Triangle.md)
-* [[Medium] 554. Brick Wall](%5BMedium%5D%20554.%20Brick%20Wall.md)
-* [[Easy] [Solution] 696. Count Binary Substrings](%5BEasy%5D%20%5BSolution%5D%20696.%20Count%20Binary%20Substrings.md)
-* [[Hard] 1192. Critical Connections in a Network](%5BHard%5D%201192.%20Critical%20Connections%20in%20a%20Network.md)
-* [[Medium] 48. Rotate Image](%5BMedium%5D%2048.%20Rotate%20Image.md)
-* [[Medium] 1642. Furthest Building You Can Reach](%5BMedium%5D%201642.%20Furthest%20Building%20You%20Can%20Reach.md)
-* [[Easy] 326. Power of Three](%5BEasy%5D%20326.%20Power%20of%20Three.md)
-* [[Medium] [Solution] 63. Unique Paths II](%5BMedium%5D%20%5BSolution%5D%2063.%20Unique%20Paths%20II.md)
-* [[Medium] [Solution] 34. Find First and Last Position of Element in Sorted Array](%5BMedium%5D%20%5BSolution%5D%2034.%20Find%20First%20and%20Last%20Position%20of%20Element%20in%20Sorted%20Array.md)
-* [[Easy] [Solution] 970. Powerful Integers](%5BEasy%5D%20%5BSolution%5D%20970.%20Powerful%20Integers.md)
+* [Lock] [Easy] 1133. Largest Unique Number
+* [Easy] 234. Palindrome Linked List
+* [Medium] 474. Ones and Zeroes
+* [Hard] [Solution] 32. Longest Valid Parentheses
+* [Medium] 622. Design Circular Queue
+* [Medium] 775. Global and Local Inversions
+* [Medium] 1551. Minimum Operations to Make Array Equal
+* [Easy] 1704. Determine if String Halves Are Alike
+* [Medium] [Solution] 17. Letter Combinations of a Phone Number
+* [Easy] [Solution] 953. Verifying an Alien Dictionary
+* [Hard] 329. Longest Increasing Path in a Matrix
+* [Medium] 1302. Deepest Leaves Sum
+* [Medium] [Solution] 667. Beautiful Arrangement II
+* [Medium] 341. Flatten Nested List Iterator
+* [Medium] [Solution] 86. Partition List
+* [Lock] [Medium] 1151. Minimum Swaps to Group All 1's Together
+* [Easy] [Solution] 509. Fibonacci Number
+* [Medium] 1209. Remove All Adjacent Duplicates in String II
+* [Hard] 1074. Number of Submatrices That Sum to Target
+* [Medium] [Solution] 19. Remove Nth Node From End of List
+* [Medium] 377. Combination Sum IV
+* [Easy] 589. N-ary Tree Preorder Traversal
+* [Medium] 120. Triangle
+* [Medium] 554. Brick Wall
+* [Easy] [Solution] 696. Count Binary Substrings
+* [Hard] 1192. Critical Connections in a Network
+* [Medium] 48. Rotate Image
+* [Medium] 1642. Furthest Building You Can Reach
+* [Easy] 326. Power of Three
+* [Medium] [Solution] 63. Unique Paths II
+* [Medium] [Solution] 34. Find First and Last Position of Element in Sorted Array
+* [Easy] [Solution] 970. Powerful Integers
 
 ## 202105 May LeetCoding Challenge <a name="202105"></a>
-* [[Hard] [Solution] 745. Prefix and Suffix Search](%5BHard%5D%20%5BSolution%5D%20745.%20Prefix%20and%20Suffix%20Search.md)
-* [[Hard] [Solution] 630. Course Schedule III](%5BHard%5D%20%5BSolution%5D%20630.%20Course%20Schedule%20III.md)
-* [[Easy] 1480. Running Sum of 1d Array](%5BEasy%5D%201480.%20Running%20Sum%20of%201d%20Array.md)
-* [[Easy] [Solution] 665. Non-decreasing Array](%5BEasy%5D%20%5BSolution%5D%20665.%20Non-decreasing%20Array.md)
-* [[Hard] 45. Jump Game II](%5BHard%5D%2045.%20Jump%20Game%20II.md)
-* [[Medium] [Solution] 109. Convert Sorted List to Binary Search Tree](%5BMedium%5D%20%5BSolution%5D%20109.%20Convert%20Sorted%20List%20to%20Binary%20Search%20Tree.md)
-* [[Medium] [Solution] 583. Delete Operation for Two Strings](%5BMedium%5D%20%5BSolution%5D%20583.%20Delete%20Operation%20for%20Two%20Strings.md)
-* [[Hard] [Solution] 906. Super Palindromes](%5BHard%5D%20%5BSolution%5D%20906.%20Super%20Palindromes.md)
-* [[Hard] 1354. Construct Target Array With Multiple Sums](%5BHard%5D%201354.%20Construct%20Target%20Array%20With%20Multiple%20Sums.md)
-* [[Easy] 204. Count Primes](%5BEasy%5D%20204.%20Count%20Primes.md)
-* [[Medium] 1423. Maximum Points You Can Obtain from Cards](%5BMedium%5D%201423.%20Maximum%20Points%20You%20Can%20Obtain%20from%20Cards.md)
-* [[Medium] [Solution] 304. Range Sum Query 2D - Immutable](%5BMedium%5D%20%5BSolution%5D%20304.%20Range%20Sum%20Query%202D%20-%20Immutable.md)
-* [[Medium] [Solution] 816. Ambiguous Coordinates](%5BMedium%5D%20%5BSolution%5D%20816.%20Ambiguous%20Coordinates.md)
-* [[Medium] 114. Flatten Binary Tree to Linked List](%5BMedium%5D%20114.%20Flatten%20Binary%20Tree%20to%20Linked%20List.md)
-* [[Hard] 65. Valid Number](%5BHard%5D%2065.%20Valid%20Number.md)
-* [[Hard] [Solution] 968. Binary Tree Cameras](%5BHard%5D%20%5BSolution%5D%20968.%20Binary%20Tree%20Cameras.md)
-* [[Medium] 1048. Longest String Chain](%5BMedium%5D%201048.%20Longest%20String%20Chain.md)
-* [[Medium] [Solution] 609. Find Duplicate File in System](%5BMedium%5D%20%5BSolution%5D%20609.%20Find%20Duplicate%20File%20in%20System.md)
-* [[Medium] 462. Minimum Moves to Equal Array Elements II](%5BMedium%5D%20462.%20Minimum%20Moves%20to%20Equal%20Array%20Elements%20II.md)
-* [[Medium] 102. Binary Tree Level Order Traversal](%5BMedium%5D%20102.%20Binary%20Tree%20Level%20Order%20Traversal.md)
-* [[Medium] [Solution] 890. Find and Replace Pattern](%5BMedium%5D%20%5BSolution%5D%20890.%20Find%20and%20Replace%20Pattern.md)
-* [[Hard] 51. N-Queens](%5BHard%5D%2051.%20N-Queens.md)
-* [[Hard] [Solution] 943. Find the Shortest Superstring](%5BHard%5D%20%5BSolution%5D%20943.%20Find%20the%20Shortest%20Superstring.md)
-* [[Easy] 709. To Lower Case](%5BEasy%5D%20709.%20To%20Lower%20Case.md)
-* [[Medium] 150. Evaluate Reverse Polish Notation](%5BMedium%5D%20150.%20Evaluate%20Reverse%20Polish%20Notation.md)
-* [[Medium] 1689. Partitioning Into Minimum Number Of Deci-Binary Numbers](%5BMedium%5D%201689.%20Partitioning%20Into%20Minimum%20Number%20Of%20Deci-Binary%20Numbers.md)
-* [[Medium] 318. Maximum Product of Word Lengths](%5BMedium%5D%20318.%20Maximum%20Product%20of%20Word%20Lengths.md)
-* [[Medium] 1695. Maximum Erasure Value](%5BMedium%5D%201695.%20Maximum%20Erasure%20Value.md)
-* [[Hard] 52. N-Queens II](%5BHard%5D%2052.%20N-Queens%20II.md)
-* [[Hard] [Solution] 164. Maximum Gap](%5BHard%5D%20%5BSolution%5D%20164.%20Maximum%20Gap.md)
-* [[Medium] 1268. Search Suggestions System](%5BMedium%5D%201268.%20Search%20Suggestions%20System.md)
+* [Hard] [Solution] 745. Prefix and Suffix Search
+* [Hard] [Solution] 630. Course Schedule III
+* [Easy] 1480. Running Sum of 1d Array
+* [Easy] [Solution] 665. Non-decreasing Array
+* [Hard] 45. Jump Game II
+* [Medium] [Solution] 109. Convert Sorted List to Binary Search Tree
+* [Medium] [Solution] 583. Delete Operation for Two Strings
+* [Hard] [Solution] 906. Super Palindromes
+* [Hard] 1354. Construct Target Array With Multiple Sums
+* [Easy] 204. Count Primes
+* [Medium] 1423. Maximum Points You Can Obtain from Cards
+* [Medium] [Solution] 304. Range Sum Query 2D - Immutable
+* [Medium] [Solution] 816. Ambiguous Coordinates
+* [Medium] 114. Flatten Binary Tree to Linked List
+* [Hard] 65. Valid Number
+* [Hard] [Solution] 968. Binary Tree Cameras
+* [Medium] 1048. Longest String Chain
+* [Medium] [Solution] 609. Find Duplicate File in System
+* [Medium] 462. Minimum Moves to Equal Array Elements II
+* [Medium] 102. Binary Tree Level Order Traversal
+* [Medium] [Solution] 890. Find and Replace Pattern
+* [Hard] 51. N-Queens
+* [Hard] [Solution] 943. Find the Shortest Superstring
+* [Easy] 709. To Lower Case
+* [Medium] 150. Evaluate Reverse Polish Notation
+* [Medium] 1689. Partitioning Into Minimum Number Of Deci-Binary Numbers
+* [Medium] 318. Maximum Product of Word Lengths
+* [Medium] 1695. Maximum Erasure Value
+* [Hard] 52. N-Queens II
+* [Hard] [Solution] 164. Maximum Gap
+* [Medium] 1268. Search Suggestions System
 
 ## 202106 June LeetCoding Challenge <a name="202106"></a>
-* [[Medium] [Solution] 695. Max Area of Island](%5BMedium%5D%20%5BSolution%5D%20695.%20Max%20Area%20of%20Island.md)
-* [[Hard] [Solution] 97. Interleaving String](%5BHard%5D%20%5BSolution%5D%2097.%20Interleaving%20String.md)
-* [[Medium] 1465. Maximum Area of a Piece of Cake After Horizontal and Vertical Cuts](%5BMedium%5D%201465.%20Maximum%20Area%20of%20a%20Piece%20of%20Cake%20After%20Horizontal%20and%20Vertical%20Cuts.md)
-* [[Medium] 752. Open the Lock](%5BMedium%5D%20752.%20Open%20the%20Lock.md)
-* [[Hard] 1383. Maximum Performance of a Team](%5BHard%5D%201383.%20Maximum%20Performance%20of%20a%20Team.md)
-* [[Hard] [Solution] 128. Longest Consecutive Sequence](%5BHard%5D%20%5BSolution%5D%20128.%20Longest%20Consecutive%20Sequence.md)
-* [[Easy] [Solution] 746. Min Cost Climbing Stairs](%5BEasy%5D%20%5BSolution%5D%20746.%20Min%20Cost%20Climbing%20Stairs.md)
+* [Medium] [Solution] 695. Max Area of Island
+* [Hard] [Solution] 97. Interleaving String
+* [Medium] 1465. Maximum Area of a Piece of Cake After Horizontal and Vertical Cuts
+* [Medium] 752. Open the Lock
+* [Hard] 1383. Maximum Performance of a Team
+* [Hard] [Solution] 128. Longest Consecutive Sequence
+* [Easy] [Solution] 746. Min Cost Climbing Stairs
 * [Medium] 105. Construct Binary Tree from Preorder and Inorder Traversa
 * [Medium] 1696. Jump Game VI.md
 * [Medium] [Solution] 729. My Calendar I.md
 * [Medium] 1690. Stone Game VII.md
-* [[Hard] [Solution] 871. Minimum Number of Refueling Stops](%5BHard%5D%20%5BSolution%5D%20871.%20Minimum%20Number%20of%20Refueling%20Stops.md)
+* [Hard] [Solution] 871. Minimum Number of Refueling Stops
 * [Hard] 336. Palindrome Pairs
 * [Lock] [Easy] [Solution] 1710. Maximum Units on a Truck
 * [Medium] [Solution] 473. Matchsticks to Square.md
-* [[Medium] [Solution] 22. Generate Parentheses](%5BMedium%5D%20%5BSolution%5D%2022.%20Generate%20Parentheses.md)
+* [Medium] [Solution] 22. Generate Parentheses
 * [Medium] 795. Number of Subarrays with Bounded Maximum 
-* [[Medium] [Solution] 307. Range Sum Query - Mutable](%5BMedium%5D%20%5BSolution%5D%20307.%20Range%20Sum%20Query%20-%20Mutable.md)
-* [[Hard] [Solution] 629. K Inverse Pairs Array](%5BHard%5D%20%5BSolution%5D%20629.%20K%20Inverse%20Pairs%20Array.md)
+* [Medium] [Solution] 307. Range Sum Query - Mutable
+* [Hard] [Solution] 629. K Inverse Pairs Array
 * [Hard] 778. Swim in Rising Water
 * [Easy] [Solution] 118. Pascal's Triangle
-* [[Medium] 792. Number of Matching Subsequences](%5BMedium%5D%20792.%20Number%20of%20Matching%20Subsequences.md)
+* [Medium] 792. Number of Matching Subsequences
 * [![Medium] [Solution] 92. Reverse Linked List II](!%5BMedium%5D%20%5BSolution%5D%2092.%20Reverse%20Linked%20List%20II.md)
 * [Medium] [Solution] 576. Out of Boundary Paths.md
-* [[Medium] [Solution] 684. Redundant Connection](%5BMedium%5D%20%5BSolution%5D%20684.%20Redundant%20Connection.md)
-* [[Hard] 315. Count of Smaller Numbers After Self](%5BHard%5D%20315.%20Count%20of%20Smaller%20Numbers%20After%20Self.md)
+* [Medium] [Solution] 684. Redundant Connection
+* [Hard] 315. Count of Smaller Numbers After Self
 * [Hard] [Solution] 135. Candy.md
 * [Easy] 1047. Remove All Adjacent Duplicates In String.md
-* [[Medium] 1004. Max Consecutive Ones III](%5BMedium%5D%201004.%20Max%20Consecutive%20Ones%20III.md)
+* [Medium] 1004. Max Consecutive Ones III
 * [Medium] [Solution] 236. Lowest Common Ancestor of a Binary Tree.md
 
 ## 202107 July LeetCoding Challenge <a name="202107"></a>
 * [Medium] 89. Gray Code.md
 * [Medium] 658. Find K Closest Elements.md
-* [[Hard] 363. Max Sum of Rectangle No Larger Than K](%5BHard%5D%20363.%20Max%20Sum%20of%20Rectangle%20No%20Larger%20Than%20K.md)
+* [Hard] 363. Max Sum of Rectangle No Larger Than K
 * [Hard] 1220. Count Vowels Permutation.md
-* [[Easy] [Solution] 566. Reshape the Matrix](%5BEasy%5D%20%5BSolution%5D%20566.%20Reshape%20the%20Matrix.md)
+* [Easy] [Solution] 566. Reshape the Matrix
 * [Medium] 1338. Reduce Array Size to The Half.md
 * [Medium] 378. Kth Smallest Element in a Sorted Matrix.md
-* [[Medium] [Solution] 718. Maximum Length of Repeated Subarray](%5BMedium%5D%20%5BSolution%5D%20718.%20Maximum%20Length%20of%20Repeated%20Subarray.md)
-* [[Medium] [Solution] 300. Longest Increasing Subsequence](%5BMedium%5D%20%5BSolution%5D%20300.%20Longest%20Increasing%20Subsequence.md)
+* [Medium] [Solution] 718. Maximum Length of Repeated Subarray
+* [Medium] [Solution] 300. Longest Increasing Subsequence
 * [Hard] [Solution] 639. Decode Ways II.md
 * [Hard] [Solution] 295. Find Median from Data Stream.md
 * [Easy] 205. Isomorphic Strings.md
-* [[Medium] [Solution] 162. Find Peak Element](%5BMedium%5D%20%5BSolution%5D%20162.%20Find%20Peak%20Element.md)
+* [Medium] [Solution] 162. Find Peak Element
 * [Medium] 791. Custom Sort String.md
-* [[Medium] [Solution] 611. Valid Triangle Number](%5BMedium%5D%20%5BSolution%5D%20611.%20Valid%20Triangle%20Number.md)
+* [Medium] [Solution] 611. Valid Triangle Number
 * [Medium] 18. 4Sum.md
+* [Hard] [Solution] 927. Three Equal Parts
 
 ## Array <a name="array"></a>
 ---
@@ -774,7 +775,7 @@ class Solution:
 
         return max_sum
 ```
-* [[Easy] 53. Maximum Subarray](%5BEasy%5D%2053.%20Maximum%20Subarray.md)
+* [Easy] 53. Maximum Subarray
 
 ### Locate and Analyze Problem Index
 ```python
@@ -790,7 +791,7 @@ class Solution:
         return (p is None or p == 0 or p == len(nums)-2 or
                 nums[p-1] <= nums[p+1] or nums[p] <= nums[p+2])
 ```
-* [[Easy] [Solution] 665. Non-decreasing Array](%5BEasy%5D%20%5BSolution%5D%20665.%20Non-decreasing%20Array.md)
+* [Easy] [Solution] 665. Non-decreasing Array
 
 ### Accumulate
 ```python
@@ -798,7 +799,7 @@ class Solution:
     def runningSum(self, nums: List[int]) -> List[int]:
         return itertools.accumulate(nums)
 ```
-* [[Easy] 1480. Running Sum of 1d Array](%5BEasy%5D%201480.%20Running%20Sum%20of%201d%20Array.md)
+* [Easy] 1480. Running Sum of 1d Array
 
 ### Simulate hash table
 ```python
@@ -835,7 +836,7 @@ class MyHashMap:
 # param_2 = obj.get(key)
 # obj.remove(key)
 ```
-* [[Easy] 706. Design HashMap](/%5BEasy%5D%20706.%20Design%20HashMap.md)
+* [Easy] 706. Design HashMap
 
 ### Mask as visited
 ```python
@@ -854,7 +855,7 @@ class Solution:
                 missing = i + 1
         return [dup, missing]
 ```
-* [[Easy] [Solution] 645. Set Mismatch](%5BEasy%5D%20%5BSolution%5D%20645.%20Set%20Mismatch.md)
+* [Easy] [Solution] 645. Set Mismatch
 
 ### Sort by value and index
 ```python
@@ -862,7 +863,7 @@ class Solution:
     def kWeakestRows(self, mat: List[List[int]], k: int) -> List[int]:
         return list(zip(*sorted((sum(row), i) for i, row in enumerate(mat))[:k]))[1]
 ```
-* [[Easy] 1337. The K Weakest Rows in a Matrix](%5BEasy%5D%201337.%20The%20K%20Weakest%20Rows%20in%20a%20Matrix.md)
+* [Easy] 1337. The K Weakest Rows in a Matrix
 
 ### Min Array, Two Pass
 ```python
@@ -881,7 +882,7 @@ class Solution:
 
         return ans
 ```
-* [[Easy] [Solution] 821. Shortest Distance to a Character](%5BEasy%5D%20%5BSolution%5D%20821.%20Shortest%20Distance%20to%20a%20Character.md)
+* [Easy] [Solution] 821. Shortest Distance to a Character
 
 ### Simulate
 ```python
@@ -894,7 +895,7 @@ class Solution:
             else: nums.append(nums[i//2])
         return max(nums)
 ```
-* [[Easy] 1646. Get Maximum in Generated Array](%5BEasy%5D%201646.%20Get%20Maximum%20in%20Generated%20Array.md)
+* [Easy] 1646. Get Maximum in Generated Array
 
 ### Greedy
 ```python
@@ -909,7 +910,7 @@ class Solution:
             k = nk
         return arr[-1]+k
 ```
-* [[Easy] 1539. Kth Missing Positive Number](%5BEasy%5D%201539.%20Kth%20Missing%20Positive%20Number.md)
+* [Easy] 1539. Kth Missing Positive Number
 
 ### Two while loop for Walk up and down
 ```python
@@ -932,7 +933,7 @@ class Solution:
 
         return i == N-1
 ```
-* [[Easy] [Solution] 941. Valid Mountain Array](%5BEasy%5D%20%5BSolution%5D%20941.%20Valid%20Mountain%20Array.md)
+* [Easy] [Solution] 941. Valid Mountain Array
 
 ### Counter
 ```python
@@ -948,7 +949,7 @@ class Solution:
                     ans += c[k] * c[60-k]
         return ans
 ```
-* [[Easy] 1010. Pairs of Songs With Total Durations Divisible by 60](%5BEasy%5D%201010.%20Pairs%20of%20Songs%20With%20Total%20Durations%20Divisible%20by%2060.md)
+* [Easy] 1010. Pairs of Songs With Total Durations Divisible by 60
 
 ### space transformation
 ```python
@@ -963,7 +964,7 @@ class Solution:
             code[i] = prefix[i + k] - prefix[i]
         return code
 ```
-* [[Easy] 1652. Defuse the Bomb](%5BEasy%5D%201652.%20Defuse%20the%20Bomb.md)
+* [Easy] 1652. Defuse the Bomb
 
 ### Groupby
 ```python
@@ -971,7 +972,7 @@ class Solution:
     def maxPower(self, s: str) -> int:
         return max(len(list(g)) for k, g in itertools.groupby(s))
 ```
-* [[Easy] 1446. Consecutive Characters](%5BEasy%5D%201446.%20Consecutive%20Characters.md)
+* [Easy] 1446. Consecutive Characters
 
 ### Preprocess array
 ```python
@@ -985,7 +986,7 @@ class Solution:
         ans = max(ans, len(seats)-ones[-1]-1) 
         return ans
 ```
-* [[Easy] [Solution] 849. Maximize Distance to Closest Person](%5BEasy%5D%20%5BSolution%5D%20849.%20Maximize%20Distance%20to%20Closest%20Person.md)
+* [Easy] [Solution] 849. Maximize Distance to Closest Person
 
 ### Direct
 ```python
@@ -1004,7 +1005,7 @@ class Solution:
     def flipAndInvertImage(self, A: List[List[int]]) -> List[List[int]]:
         return [[col^1 for col in row[::-1]] for row in A]
 ```
-* [[Easy] [Solution] 832. Flipping an Image](%5BEasy%5D%20%5BSolution%5D%20832.%20Flipping%20an%20Image.md)
+* [Easy] [Solution] 832. Flipping an Image
 
 ### Rotate array = 1 whole reverse + 2 partial reverse
 ```python
@@ -1025,7 +1026,7 @@ class Solution:
         self.reverse(nums, 0, k - 1)
         self.reverse(nums, k, n - 1)
 ```
-* [[Easy] [Solution] 189. Rotate Array](%5BEasy%5D%20%5BSolution%5D%20189.%20Rotate%20Array.md)
+* [Easy] [Solution] 189. Rotate Array
 
 ### Boyer-Moore Voting Algorithm
 ```python
@@ -1045,7 +1046,7 @@ class Solution:
 
         return candidate
 ```
-* [[Easy] [Solution] 169. Majority Element](%5BEasy%5D%20%5BSolution%5D%20169.%20Majority%20Element.md)
+* [Easy] [Solution] 169. Majority Element
 
 ### Using division and modulus
 ```python
@@ -1065,7 +1066,7 @@ class Solution:
                 i += 1
         return ans
 ```
-* [[Easy] [Solution] 566. Reshape the Matrix](%5BEasy%5D%20%5BSolution%5D%20566.%20Reshape%20the%20Matrix.md)
+* [Easy] [Solution] 566. Reshape the Matrix
 
 ### Locate and Analyze Problem Index
 ```python
@@ -1081,7 +1082,7 @@ class Solution:
         return (p is None or p == 0 or p == len(nums)-2 or
                 nums[p-1] <= nums[p+1] or nums[p] <= nums[p+2])
 ```
-* [[Easy] [Solution] 665. Non-decreasing Array](%5BEasy%5D%20%5BSolution%5D%20665.%20Non-decreasing%20Array.md)
+* [Easy] [Solution] 665. Non-decreasing Array
 
 ### Prefix Sum
 ```python
@@ -1095,7 +1096,7 @@ class Solution:
             leftsum += x
         return -1
 ```
-* [[Easy] [Solution] 724. Find Pivot Index](%5BEasy%5D%20%5BSolution%5D%20724.%20Find%20Pivot%20Index.md)
+* [Easy] [Solution] 724. Find Pivot Index
 
 ### Compare With Top-Left Neighbor
 ```python
@@ -1105,7 +1106,7 @@ class Solution:
                    for r, row in enumerate(matrix)
                    for c, val in enumerate(row))
 ```
-* [[Easy] [Solution] 766. Toeplitz Matrix](%5BEasy%5D%20%5BSolution%5D%20766.%20Toeplitz%20Matrix.md)
+* [Easy] [Solution] 766. Toeplitz Matrix
 
 ### Brute Force
 ```python
@@ -1128,7 +1129,7 @@ class Solution:
                     ans += 1
         return ans
 ```
-* [[Easy] [Solution] 840. Magic Squares In Grid](%5BEasy%5D%20%5BSolution%5D%20840.%20Magic%20Squares%20In%20Grid.md)
+* [Easy] [Solution] 840. Magic Squares In Grid
 
 ### Copy Directly
 ```python
@@ -1136,7 +1137,7 @@ class Solution:
     def transpose(self, A: List[List[int]]) -> List[List[int]]:
         return zip(*A)
 ```
-* [[Easy] [Solution] 867. Transpose Matrix](%5BEasy%5D%20%5BSolution%5D%20867.%20Transpose%20Matrix.md)
+* [Easy] [Solution] 867. Transpose Matrix
 
 ### Greatest Common Divisor
 ```python
@@ -1146,7 +1147,7 @@ class Solution:
         vals = collections.Counter(deck).values()
         return reduce(math.gcd, vals) >= 2
 ```
-* [[Easy] [Solution] 914. X of a Kind in a Deck of Cards](%5BEasy%5D%20%5BSolution%5D%20914.%20X%20of%20a%20Kind%20in%20a%20Deck%20of%20Cards.md)
+* [Easy] [Solution] 914. X of a Kind in a Deck of Cards
 
 ### One Pass (Simple Variant)
 ```python
@@ -1162,7 +1163,7 @@ class Solution:
 
         return increasing or decreasing
 ```
-* [[Easy] [Solution] 896. Monotonic Array](%5BEasy%5D%20%5BSolution%5D%20896.%20Monotonic%20Array.md)
+* [Easy] [Solution] 896. Monotonic Array
 
 ### Maintain Array Sum
 ```python
@@ -1179,7 +1180,7 @@ class Solution:
 
         return ans
 ```
-* [[Easy] [Solution] 985. Sum of Even Numbers After Queries](%5BEasy%5D%20%5BSolution%5D%20985.%20Sum%20of%20Even%20Numbers%20After%20Queries.md)
+* [Easy] [Solution] 985. Sum of Even Numbers After Queries
 
 ### Groupby
 ```python
@@ -1189,7 +1190,7 @@ class Solution:
         v = sum(k for col in zip(*grid) for k, _ in itertools.groupby(col))
         return 2*(h+v)
 ```
-* [[Easy] 463. Island Perimeter](%5BEasy%5D%20463.%20Island%20Perimeter.md)
+* [Easy] 463. Island Perimeter
 
 ### Design HashSet
 ```python
@@ -1221,7 +1222,7 @@ class MyHashSet:
 # obj.remove(key)
 # param_3 = obj.contains(key)
 ```
-* [[Easy] 705. Design HashSet](%5BEasy%5D%20705.%20Design%20HashSet.md)
+* [Easy] 705. Design HashSet
 
 ### Row XOR Column
 ```python
@@ -1233,7 +1234,7 @@ class Solution:
             col[c] ^= True
         return sum(ro ^ cl for ro in row for cl in col)
 ```
-* [[Easy] 1252. Cells with Odd Values in a Matrix](%5BEasy%5D%201252.%20Cells%20with%20Odd%20Values%20in%20a%20Matrix.md)
+* [Easy] 1252. Cells with Odd Values in a Matrix
 
 ### In-Degree/Out-Degree
 ```python
@@ -1250,7 +1251,7 @@ class Solution:
 
         return -1
 ```
-* [[Easy] 997. Find the Town Judge](%5BEasy%5D%20997.%20Find%20the%20Town%20Judge.md)
+* [Easy] 997. Find the Town Judge
 
 ### Generator
 ```python
@@ -1258,7 +1259,7 @@ class Solution:
     def shuffle(self, nums: List[int], n: int) -> List[int]:
         return sum(([nums[i], nums[i+n]] for i in range(n)), [])
 ```
-* [[Easy] 1470. Shuffle the Array](%5BEasy%5D%201470.%20Shuffle%20the%20Array.md)
+* [Easy] 1470. Shuffle the Array
 
 ### Rotate Groups of Four Cells
 ```python
@@ -1276,7 +1277,7 @@ class Solution:
                 matrix[j][n - 1 - i] = matrix[i][j]
                 matrix[i][j] = tmp
 ```
-* [[Medium] 48. Rotate Image](%5BMedium%5D%2048.%20Rotate%20Image.md)
+* [Medium] 48. Rotate Image
 
 ### Current and accumulate
 ```python
@@ -1296,7 +1297,7 @@ class Solution:
             steps += curr
         return answer
 ```
-* [[Medium] 1769. Minimum Number of Operations to Move All Balls to Each Box](%5BMedium%5D%201769.%20Minimum%20Number%20of%20Operations%20to%20Move%20All%20Balls%20to%20Each%20Box.md?_xsrf=2%7C7eed98f1%7Cbf410358aefd6ff8768bea00e809b278%7C1613311316)
+* [Medium] 1769. Minimum Number of Operations to Move All Balls to Each Box
 
 ### submatrix rearrangement, prefix sum
 ```python
@@ -1314,7 +1315,7 @@ class Solution:
         
         return ans
 ```
-* [[Medium] 1727. Largest Submatrix With Rearrangements](%5BMedium%5D%201727.%20Largest%20Submatrix%20With%20Rearrangements.md)
+* [Medium] 1727. Largest Submatrix With Rearrangements
 
 ### scan neighbor of each cell
 ```python
@@ -1362,7 +1363,7 @@ class Solution:
                 else:
                     board[row][col] = 0
 ```
-* [[Medium] [Solution] 289. Game of Life](%5BMedium%5D%20%5BSolution%5D%20289.%20Game%20of%20Life.md)
+* [Medium] [Solution] 289. Game of Life
 
 ### Diagonal Iteration and Reversal
 ```python
@@ -1408,7 +1409,7 @@ class Solution:
                 result.extend(intermediate)
         return result   
 ```
-* [[Medium] 498. Diagonal Traverse](%5BMedium%5D%20498.%20Diagonal%20Traverse.md)
+* [Medium] 498. Diagonal Traverse
 
 ### Vote
 ```python
@@ -1430,7 +1431,7 @@ class Solution:
                 ans = min(ans, minSwap)
         return -1 if ans == n else ans
 ```
-* [[Medium] 1007. Minimum Domino Rotations For Equal Row](%5BMedium%5D%201007.%20Minimum%20Domino%20Rotations%20For%20Equal%20Row.md)
+* [Medium] 1007. Minimum Domino Rotations For Equal Row
 
 ### Count from left and right side for each element
 ```python
@@ -1468,7 +1469,7 @@ class Solution:
                 dp.append( min(cnt_b,dp[-1]+1) )
         return dp[-1]
 ```
-* [[Medium] 1653. Minimum Deletions to Make String Balanced](%5BMedium%5D%201653.%20Minimum%20Deletions%20to%20Make%20String%20Balanced.md)
+* [Medium] 1653. Minimum Deletions to Make String Balanced
 
 ### The robot stays in the circle iff (looking at the final vector) it changes direction (ie. doesn't stay pointing north), or it moves 0.
 ```python
@@ -1491,7 +1492,7 @@ class Solution:
 
         return (x,y) == (0,0) or directions[curr_dir] != (0,1) 
 ```
-* [[Medium] 1041. Robot Bounded In Circle](%5BMedium%5D%201041.%20Robot%20Bounded%20In%20Circle.md)
+* [Medium] 1041. Robot Bounded In Circle
 
 ### Using Cumulative Sum and HashSet
 ```python
@@ -1514,7 +1515,7 @@ class Solution:
 
         return False
 ```
-* [[Lock] [Medium] [Solution] 548. Split Array with Equal Sum](%5BLock%5D%20%5BMedium%5D%20%5BSolution%5D%20548.%20Split%20Array%20with%20Equal%20Sum.md)
+* [Lock] [Medium] [Solution] 548. Split Array with Equal Sum
 
 ### Single Scan
 ```python
@@ -1529,7 +1530,7 @@ class Solution:
 
         return res
 ```
-* [[Lock] [Medium] [Solution] 624. Maximum Distance in Arrays](%5BLock%5D%20%5BMedium%5D%20%5BSolution%5D%20624.%20Maximum%20Distance%20in%20Arrays.md)
+* [Lock] [Medium] [Solution] 624. Maximum Distance in Arrays
 
 ### Mark Visited Elements in the Input Array itself
 ```python
@@ -1544,7 +1545,7 @@ class Solution:
                 nums[num-1] = -nums[num-1]
         return ans
 ```
-* [[Medium] [Solution] 442. Find All Duplicates in an Array](%5BMedium%5D%20%5BSolution%5D%20442.%20Find%20All%20Duplicates%20in%20an%20Array.md)
+* [Medium] [Solution] 442. Find All Duplicates in an Array
 
 ### Ad-Hoc
 ```python
@@ -1576,7 +1577,7 @@ class Solution:
 
         return self.candyCrush(board) if todo else board
 ```
-* [[Lock] [Medium] [Solution] 723. Candy Crush](%5BLock%5D%20%5BMedium%5D%20%5BSolution%5D%20723.%20Candy%20Crush.md)
+* [Lock] [Medium] [Solution] 723. Candy Crush
 
 ### Linear Scan, remember last position
 ```python
@@ -1593,7 +1594,7 @@ class Solution:
                     count += k - j - 1
         return count
 ```
-* [[Medium] [Solution] 611. Valid Triangle Number](%5BMedium%5D%20%5BSolution%5D%20611.%20Valid%20Triangle%20Number.md)
+* [Medium] [Solution] 611. Valid Triangle Number
 
 ### Mark Visited Element
 ```python
@@ -1612,7 +1613,7 @@ class Solution:
             ans = max(ans, count)
         return ans
 ```
-* [[Medium] [Solution] 565. Array Nesting](%5BMedium%5D%20%5BSolution%5D%20565.%20Array%20Nesting.md)
+* [Medium] [Solution] 565. Array Nesting
 
 ### Left/Right Prefix Sum
 ```python
@@ -1649,7 +1650,7 @@ class Solution:
         
         return answer
 ```
-* [[Medium] [Solution] 238. Product of Array Except Self](%5BMedium%5D%20%5BSolution%5D%20238.%20Product%20of%20Array%20Except%20Self.md)
+* [Medium] [Solution] 238. Product of Array Except Self
 
 ### O(1) Space, Efficient Solution, symbol mask
 ```python
@@ -1690,7 +1691,7 @@ class Solution:
             for i in range(R):
                 matrix[i][0] = 0
 ```
-* [[Medium] [Solution] 73. Set Matrix Zeroes](%5BMedium%5D%20%5BSolution%5D%2073.%20Set%20Matrix%20Zeroes.md)
+* [Medium] [Solution] 73. Set Matrix Zeroes
 
 ### Balanced Tree
 ```python
@@ -1731,7 +1732,7 @@ class MyCalendar:
 # obj = MyCalendar()
 # param_1 = obj.book(start,end)
 ```
-* [[Medium] [Solution] 729. My Calendar I](%5BMedium%5D%20%5BSolution%5D%20729.%20My%20Calendar%20I.md)
+* [Medium] [Solution] 729. My Calendar I
 
 ### Counting
 ```python
@@ -1752,7 +1753,7 @@ class Solution:
 
         return ans
 ```
-* [[Medium] [Solution] 825. Friends Of Appropriate Ages](%5BMedium%5D%20%5BSolution%5D%20825.%20Friends%20Of%20Appropriate%20Ages.md)
+* [Medium] [Solution] 825. Friends Of Appropriate Ages
 
 ### Store Exhausted Position and Quantity
 ```python
@@ -1781,7 +1782,7 @@ class RLEIterator:
 # obj = RLEIterator(A)
 # param_1 = obj.next(n)
 ```
-* [[Medium] [Solution] 900. RLE Iterator](%5BMedium%5D%20%5BSolution%5D%20900.%20RLE%20Iterator.md)
+* [Medium] [Solution] 900. RLE Iterator
 
 ### Next Array
 ```python
@@ -1805,7 +1806,7 @@ class Solution:
             if maxleft[i-1] <= minright[i]:
                 return i
 ```
-* [[Medium] [Solution] 915. Partition Array into Disjoint Intervals](%5BMedium%5D%20%5BSolution%5D%20915.%20Partition%20Array%20into%20Disjoint%20Intervals.md)
+* [Medium] [Solution] 915. Partition Array into Disjoint Intervals
 
 ### Kadane's (Min Variant)
 ```python
@@ -1833,7 +1834,7 @@ class Solution:
 
         return max(ans1, ans2, ans3)
 ```
-* [[Medium] [Solution] 918. Maximum Sum Circular Subarray](%5BMedium%5D%20%5BSolution%5D%20918.%20Maximum%20Sum%20Circular%20Subarray.md)
+* [Medium] [Solution] 918. Maximum Sum Circular Subarray
 
 ### Prefix Sums
 ```python
@@ -1846,7 +1847,7 @@ class Solution:
         return min(P[j] + len(S)-j-(P[-1]-P[j])
                    for j in range(len(P)))
 ```
-* [[Medium] [Solution] 926. Flip String to Monotone Increasing](%5BMedium%5D%20%5BSolution%5D%20926.%20Flip%20String%20to%20Monotone%20Increasing.md)
+* [Medium] [Solution] 926. Flip String to Monotone Increasing
 
 ### Maintain Duplicate Info
 ```python
@@ -1867,7 +1868,7 @@ class Solution:
 
         return ans
 ```
-* [[Medium] [Solution] 945. Minimum Increment to Make Array Unique](%5BMedium%5D%20%5BSolution%5D%20945.%20Minimum%20Increment%20to%20Make%20Array%20Unique.md)
+* [Medium] [Solution] 945. Minimum Increment to Make Array Unique
 
 ### Simulation
 ```python
@@ -1884,7 +1885,7 @@ class Solution:
 
         return ans
 ```
-* [[Medium] [Solution] 950. Reveal Cards In Increasing Order](%5BMedium%5D%20%5BSolution%5D%20950.%20Reveal%20Cards%20In%20Increasing%20Order.md)
+* [Medium] [Solution] 950. Reveal Cards In Increasing Order
 
 ### Sort
 ```python
@@ -1897,7 +1898,7 @@ class Solution:
             m = min(m, i)
         return ans
 ```
-* [[Medium] [Solution] 962. Maximum Width Ramp](%5BMedium%5D%20%5BSolution%5D%20962.%20Maximum%20Width%20Ramp.md)
+* [Medium] [Solution] 962. Maximum Width Ramp
 
 ### Sort
 ```python
@@ -1918,7 +1919,7 @@ class Solution:
                     ans.append(i+1)
         return ans
 ```
-* [[Medium] [Solution] 969. Pancake Sorting](%5BMedium%5D%20%5BSolution%5D%20969.%20Pancake%20Sorting.md)
+* [Medium] [Solution] 969. Pancake Sorting
 
 ### Prefix Sums and Counting
 ```python
@@ -1931,7 +1932,7 @@ class Solution:
         count = collections.Counter(P)
         return sum(v*(v-1)//2 for v in count.values())
 ```
-* [[Medium] [Solution] 974. Subarray Sums Divisible by K](%5BMedium%5D%20%5BSolution%5D%20974.%20Subarray%20Sums%20Divisible%20by%20K.md)
+* [Medium] [Solution] 974. Subarray Sums Divisible by K
 
 ### Prefix Sum Range
 ```python
@@ -1953,7 +1954,7 @@ class Solution:
             res[i] = res[i-1] + res[i]
         return res
 ```
-* [[Medium] 1109. Corporate Flight Bookings](%5BMedium%5D%201109.%20Corporate%20Flight%20Bookings.md)
+* [Medium] 1109. Corporate Flight Bookings
 
 ### Prefix XOR
 ```python
@@ -1970,7 +1971,7 @@ class Solution:
                     res += j - i - 1
         return res
 ```
-* [[Medium] 1442. Count Triplets That Can Form Two Arrays of Equal XOR](%5BMedium%5D%201442.%20Count%20Triplets%20That%20Can%20Form%20Two%20Arrays%20of%20Equal%20XOR.md)
+* [Medium] 1442. Count Triplets That Can Form Two Arrays of Equal XOR
 
 ### Expand Around Center
 ```python
@@ -1996,7 +1997,7 @@ class Solution:
 
         return s[start:end + 1]
 ```
-* [[Medium] [Solution] 5. Longest Palindromic Substring](%5BMedium%5D%20%5BSolution%5D%205.%20Longest%20Palindromic%20Substring.md)
+* [Medium] [Solution] 5. Longest Palindromic Substring
 
 ### Find Latest Group of Size M
 ```python
@@ -2015,7 +2016,7 @@ class Solution:
                 res = i + 1
         return res
 ```
-* [[Medium] 1562. Find Latest Group of Size M](%5BMedium%5D%201562.%20Find%20Latest%20Group%20of%20Size%20M.md)
+* [Medium] 1562. Find Latest Group of Size M
 
 ### Sorted List
 ```python
@@ -2030,7 +2031,7 @@ class Solution:
 
         return ans
 ```
-* [[Hard] 1649. Create Sorted Array through Instructions](%5BHard%5D%201649.%20Create%20Sorted%20Array%20through%20Instructions.md)
+* [Hard] 1649. Create Sorted Array through Instructions
 
 ### Ad-Hoc
 ```python
@@ -2065,7 +2066,7 @@ class Solution:
                 ans = i, j, k
         return ans
 ```
-* [[Hard] [Solution] 689. Maximum Sum of 3 Non-Overlapping Subarrays](%5BHard%5D%20%5BSolution%5D%20689.%20Maximum%20Sum%20of%203%20Non-Overlapping%20Subarrays.md)
+* [Hard] [Solution] 689. Maximum Sum of 3 Non-Overlapping Subarrays
 
 ### Sorted Count Pairs
 ```python
@@ -2084,7 +2085,7 @@ class Solution:
                 ans += 1
         return ans
 ```
-* [[Hard] [Solution] 768. Max Chunks To Make Sorted II](%5BHard%5D%20%5BSolution%5D%20768.%20Max%20Chunks%20To%20Make%20Sorted%20II.md)
+* [Hard] [Solution] 768. Max Chunks To Make Sorted II
 
 ### Reverse Subarray
 ```python
@@ -2098,7 +2099,7 @@ class Solution:
             min2, max2 = min(min2, max(a, b)), max(max2, min(a, b))
         return total + max(res, (max2 - min2) * 2)
 ```
-* [[Hard] 1330. Reverse Subarray To Maximize Array Value](%5BHard%5D%201330.%20Reverse%20Subarray%20To%20Maximize%20Array%20Value.md)
+* [Hard] 1330. Reverse Subarray To Maximize Array Value
 
 ### Interval Stabbing
 ```python
@@ -2123,7 +2124,7 @@ class Solution:
 
         return ans
 ```
-* [[Hard] [Solution] 798. Smallest Rotation with Highest Score](%5BHard%5D%20%5BSolution%5D%20798.%20Smallest%20Rotation%20with%20Highest%20Score.md)
+* [Hard] [Solution] 798. Smallest Rotation with Highest Score
 
 ### Append and Sort, Greedy
 ```python
@@ -2145,7 +2146,7 @@ class Solution:
 
         return ans
 ```
-* [[Hard] 57. Insert Interval](%5BHard%5D%2057.%20Insert%20Interval.md)
+* [Hard] 57. Insert Interval
 
 ## Dynamic Programming <a name="dp"></a>
 ---
@@ -2192,7 +2193,7 @@ class Solution:
 
         return cache[N]
 ```
-* [[Easy] [Solution] 509. Fibonacci Number](%5BEasy%5D%20%5BSolution%5D%20509.%20Fibonacci%20Number.md)
+* [Easy] [Solution] 509. Fibonacci Number
 
 ### Typical
 ```python
@@ -2241,7 +2242,7 @@ class Solution:
             prev_row = row
         return prev_row
 ```
-* [[Easy] 119. Pascal's Triangle II](%5BEasy%5D%20119.%20Pascal's%20Triangle%20II.md)
+* [Easy] 119. Pascal's Triangle II
 
 ### Fibonacci Number
 ```python
@@ -2261,7 +2262,7 @@ class Solution:
             second = third
         return second
 ```
-* [[Easy] [Solution] 70. Climbing Stairs](%5BEasy%5D%20%5BSolution%5D%2070.%20Climbing%20Stairs.md)
+* [Easy] [Solution] 70. Climbing Stairs
 
 ### 1D state
 ```python
@@ -2288,7 +2289,7 @@ class Solution:
             f1, f2 = x + min(f1, f2), f1
         return min(f1, f2)
 ```
-* [[Easy] [Solution] 746. Min Cost Climbing Stairs](%5BEasy%5D%20%5BSolution%5D%20746.%20Min%20Cost%20Climbing%20Stairs.md)
+* [Easy] [Solution] 746. Min Cost Climbing Stairs
 
 ### Count
 ```python
@@ -2434,7 +2435,7 @@ class Solution:
             rst = max(rst, dfs(word))
         return rst
 ```
-* [[Medium] 1048. Longest String Chain](%5BMedium%5D%201048.%20Longest%20String%20Chain.md)
+* [Medium] 1048. Longest String Chain
 
 ### Count
 ```python
@@ -2463,7 +2464,7 @@ class Solution(object):
             return count
         return dfs(m-1, n-1)
 ```
-* [[Medium] [Solution] 63. Unique Paths II](%5BMedium%5D%20%5BSolution%5D%2063.%20Unique%20Paths%20II.md)
+* [Medium] [Solution] 63. Unique Paths II
 
 ### 1-D array DP
 ```python
@@ -2484,7 +2485,7 @@ class Solution:
 
         return dp[0]
 ```
-* [[Medium] 120. Triangle](%5BMedium%5D%20120.%20Triangle.md)
+* [Medium] 120. Triangle
 
 ### all combination
 ```python
@@ -2512,7 +2513,7 @@ class Solution:
 
         return dfs(target)
 ```
-* [[Medium] 377. Combination Sum IV](%5BMedium%5D%20377.%20Combination%20Sum%20IV.md)
+* [Medium] 377. Combination Sum IV
 
 ### taken not-taken
 ```python
@@ -2543,7 +2544,7 @@ class Solution:
                     dp[i][j] = max(dp[i][j], 1 + dp[i - zeros][j - ones])
         return dp[-1][-1]
 ```
-* [[Medium] 474. Ones and Zeroes](%5BMedium%5D%20474.%20Ones%20and%20Zeroes.md)
+* [Medium] 474. Ones and Zeroes
 
 ### min ammount
 ```python
@@ -2578,7 +2579,7 @@ class Solution:
 
         return dp[-1] if dp[-1] != float('inf') else -1
 ```
-* [[Medium] [Solution] 322. Coin Change](%5BMedium%5D%20%5BSolution%5D%20322.%20Coin%20Change.md)
+* [Medium] [Solution] 322. Coin Change
 
 ### Try every sum for each number
 ```python
@@ -2623,7 +2624,7 @@ class Solution:
             else:
                 return False
 ```
-* [[Medium] 416. Partition Equal Subset Sum](%5BMedium%5D%20416.%20Partition%20Equal%20Subset%20Sum.md)
+* [Medium] 416. Partition Equal Subset Sum
 
 ### Full Binary Tree
 ```python
@@ -2725,7 +2726,7 @@ class Solution:
 
         return max(dp_rob[0], dp_not_rob[0])
 ```
-* [[Medium] 337. House Robber III](%5BMedium%5D%20337.%20House%20Robber%20III.md)
+* [Medium] 337. House Robber III
 
 ### Simulation, child = (current - 1) // 2
 ```python
@@ -2742,7 +2743,7 @@ class Solution:
 
         return min(1, A[query_row][query_glass])
 ```
-* [[Medium] [Solution] 799. Champagne Tower](%5BMedium%5D%20%5BSolution%5D%20799.%20Champagne%20Tower.md)
+* [Medium] [Solution] 799. Champagne Tower
 
 ### Sorted by age and DP through score
 ```python
@@ -2759,7 +2760,7 @@ class Solution:
 
         return max(dp)
 ```
-* [[Medium] 1626. Best Team With No Conflicts](%5BMedium%5D%201626.%20Best%20Team%20With%20No%20Conflicts.md)
+* [Medium] 1626. Best Team With No Conflicts
 
 ### Word Break
 ```python
@@ -2792,7 +2793,7 @@ class Solution:
 
         return dfs(0)
 ```
-* [[Medium] 139. Word Break](%5BMedium%5D%20139.%20Word%20Break.md)
+* [Medium] 139. Word Break
 
 ### Maximum Length of Subarray With Positive Product
 ```python
@@ -2806,7 +2807,7 @@ class Solution:
             ans = max(ans, pos)
         return ans
 ```
-* [[Medium] 1567. Maximum Length of Subarray With Positive Product](%5BMedium%5D%201567.%20Maximum%20Length%20of%20Subarray%20With%20Positive%20Product.md)
+* [Medium] 1567. Maximum Length of Subarray With Positive Product
 
 ### Campus Bikes
 ```python
@@ -2831,7 +2832,7 @@ class Solution:
 
         return dp(tuple(range(M)), 0)
 ```
-* [[Lock] [Medium] 1066. Campus Bikes II](%5BLock%5D%20%5BMedium%5D%201066.%20Campus%20Bikes%20II.md)
+* [Lock] [Medium] 1066. Campus Bikes II
 
 ### 2 state array
 ```python
@@ -2862,7 +2863,7 @@ class Solution:
 
         return ans   
 ```
-* [[Medium] 152. Maximum Product Subarray](%5BMedium%5D%20152.%20Maximum%20Product%20Subarray.md)
+* [Medium] 152. Maximum Product Subarray
 
 ### Longest Fibonacci Subsequence
 ```python
@@ -2903,7 +2904,7 @@ class Solution:
 
         return ans + 2 if ans >= 1 else 0
 ```
-* [[Medium] [Solution] 873. Length of Longest Fibonacci Subsequence](%5BMedium%5D%20%5BSolution%5D%20873.%20Length%20of%20Longest%20Fibonacci%20Subsequence.md)
+* [Medium] [Solution] 873. Length of Longest Fibonacci Subsequence
 
 ### Maximize one and minimize the other one
 ```python
@@ -2949,7 +2950,7 @@ class Solution:
         alex_score = dfs(0, len(piles) - 1)
         return alex_score > sum(piles) - alex_score 
 ```
-* [[Medium] [Solution] 877. Stone Game](%5BMedium%5D%20%5BSolution%5D%20877.%20Stone%20Game.md)
+* [Medium] [Solution] 877. Stone Game
 
 ### Bottom-up
 ```python
@@ -2972,7 +2973,7 @@ class Solution:
 
         return dp[0][0]
 ```
-* [[Medium] [Solution] 712. Minimum ASCII Delete Sum for Two Strings](%5BMedium%5D%20%5BSolution%5D%20712.%20Minimum%20ASCII%20Delete%20Sum%20for%20Two%20Strings.md)
+* [Medium] [Solution] 712. Minimum ASCII Delete Sum for Two Strings
 
 ### Unique Paths
 ```python
@@ -2997,7 +2998,7 @@ class Solution:
         if m == 1 or n == 1: return 1
         return self.uniquePaths(m - 1, n) + self.uniquePaths(m, n - 1)
 ```
-* [[Medium] 62. Unique Paths](%5BMedium%5D%2062.%20Unique%20Paths.md)
+* [Medium] 62. Unique Paths
 
 ### Perfect Squares
 ```python
@@ -3032,7 +3033,7 @@ class Solution:
 
         return dfs(n)
 ```
-* [[Medium] 279. Perfect Squares](%5BMedium%5D%20279.%20Perfect%20Squares.md)
+* [Medium] 279. Perfect Squares
 
 ### Prefix/Range sum
 ```python
@@ -3052,7 +3053,7 @@ class NumMatrix:
     def sumRegion(self, row1: int, col1: int, row2: int, col2: int) -> int:
         return self.dp[row2 + 1][col2 + 1] - self.dp[row1][col2 + 1] - self.dp[row2 + 1][col1] + self.dp[row1][col1]
 ```
-* [[Medium] [Solution] 304. Range Sum Query 2D - Immutable](%5BMedium%5D%20%5BSolution%5D%20304.%20Range%20Sum%20Query%202D%20-%20Immutable.md)
+* [Medium] [Solution] 304. Range Sum Query 2D - Immutable
 
 ### Floyd Warshall's shortest path
 ```python
@@ -3070,7 +3071,7 @@ class Solution:
         res = {sum(d <= distanceThreshold for d in dis[i]): i for i in range(n)}
         return res[min(res)]
 ```
-* [[Medium] 1334. Find the City With the Smallest Number of Neighbors at a Threshold Distance](%5BMedium%5D%201334.%20Find%20the%20City%20With%20the%20Smallest%20Number%20of%20Neighbors%20at%20a%20Threshold%20Distance.md)
+* [Medium] 1334. Find the City With the Smallest Number of Neighbors at a Threshold Distance
 
 ### Profit - 2 Option(Buy/Sell)
 ```python
@@ -3082,7 +3083,7 @@ class Solution:
             sell = max(sell, buy + prices[i] - fee)
         return sell
 ```
-* [[Medium] [Solution] 714. Best Time to Buy and Sell Stock with Transaction Fee](%5BMedium%5D%20%5BSolution%5D%20714.%20Best%20Time%20to%20Buy%20and%20Sell%20Stock%20with%20Transaction%20Fee.md)
+* [Medium] [Solution] 714. Best Time to Buy and Sell Stock with Transaction Fee
 
 ### Profit - 2 Option(Buy/Sell)
 ```python
@@ -3102,7 +3103,7 @@ class Solution:
 
         return cash[-1]
 ```
-* [[Medium] 309. Best Time to Buy and Sell Stock with Cooldown](%5BMedium%5D%20309.%20Best%20Time%20to%20Buy%20and%20Sell%20Stock%20with%20Cooldown.md)
+* [Medium] 309. Best Time to Buy and Sell Stock with Cooldown
 
 ### 2 Option (Up/Dow)
 ```python
@@ -3157,7 +3158,7 @@ class Solution:
 
         return count
 ```
-* [[Medium] [Solution] 376. Wiggle Subsequence](%5BMedium%5D%20%5BSolution%5D%20376.%20Wiggle%20Subsequence.md)
+* [Medium] [Solution] 376. Wiggle Subsequence
 
 ### 2 state
 ```python
@@ -3346,7 +3347,7 @@ class Solution:
 
         return dp[N]
 ```
-* [[Hard] [Solution] 97. Interleaving String](%5BHard%5D%20%5BSolution%5D%2097.%20Interleaving%20String.md)
+* [Hard] [Solution] 97. Interleaving String
 
 ### jump index
 ```python
@@ -3364,7 +3365,7 @@ class Solution:
 
         return dp(0)
 ```
-* [[Hard] 45. Jump Game II](%5BHard%5D%2045.%20Jump%20Game%20II.md)
+* [Hard] 45. Jump Game II
 
 ### One can win if he/she can force the other one onto a losing state
 ```python
@@ -3409,7 +3410,7 @@ class Solution:
 
         return alice_wins()
 ```
-* [[Hard] 1510. Stone Game IV](%5BHard%5D%201510.%20Stone%20Game%20IV.md)
+* [Hard] 1510. Stone Game IV
 
 ### Range Sum, Binary Search
 ```python
@@ -3437,7 +3438,7 @@ class Solution:
                 res = max(res, maxSumSubarray(arr))
         return res
 ```
-* [[Hard] 363. Max Sum of Rectangle No Larger Than K](%5BHard%5D%20363.%20Max%20Sum%20of%20Rectangle%20No%20Larger%20Than%20K.md)
+* [Hard] 363. Max Sum of Rectangle No Larger Than K
 
 ### Brute Force DP, Longest Increasing Subsequence
 ```python
@@ -3459,7 +3460,7 @@ class Solution:
             maxans = max(maxans, dp[i])
         return maxans
 ```
-* [[Medium] [Solution] 300. Longest Increasing Subsequence](%5BMedium%5D%20%5BSolution%5D%20300.%20Longest%20Increasing%20Subsequence.md)
+* [Medium] [Solution] 300. Longest Increasing Subsequence
 
 ### Longest Common Subarray
 ```python
@@ -3472,7 +3473,7 @@ class Solution:
                     memo[i+1][j+1] = memo[i][j]+1
         return max(max(row) for row in memo)
 ```
-* [[Medium] [Solution] 718. Maximum Length of Repeated Subarray](%5BMedium%5D%20%5BSolution%5D%20718.%20Maximum%20Length%20of%20Repeated%20Subarray.md)
+* [Medium] [Solution] 718. Maximum Length of Repeated Subarray
 
 ### Longest Common Subsequence
 ```python
@@ -3506,7 +3507,7 @@ class Solution:
 
         return dp[M][N]
 ```
-* [[Medium] 1143. Longest Common Subsequence](%5BMedium%5D%201143.%20Longest%20Common%20Subsequence.md)
+* [Medium] 1143. Longest Common Subsequence
 
 ### Longest Common Subsequence
 ```python
@@ -3526,7 +3527,7 @@ class Solution:
 
         return dp(M, N)
 ```
-* [[Medium] [Solution] 583. Delete Operation for Two Strings](%5BMedium%5D%20%5BSolution%5D%20583.%20Delete%20Operation%20for%20Two%20Strings.md)
+* [Medium] [Solution] 583. Delete Operation for Two Strings
 
 ### longest increasing number with count
 ```python
@@ -3549,7 +3550,7 @@ class Solution:
         longest = max(lengths)
         return sum(c for i, c in enumerate(counts) if lengths[i] == longest)
 ```
-* [[Medium] [Solution] 673. Number of Longest Increasing Subsequence](%5BMedium%5D%20%5BSolution%5D%20673.%20Number%20of%20Longest%20Increasing%20Subsequence.md)
+* [Medium] [Solution] 673. Number of Longest Increasing Subsequence
 
 ### Sum of Probability
 ```python
@@ -3591,7 +3592,7 @@ class Solution:
 
         return sum(map(sum, dp))
 ```
-* [[Medium] [Solution] 688. Knight Probability in Chessboard](%5BMedium%5D%20%5BSolution%5D%20688.%20Knight%20Probability%20in%20Chessboard.md)
+* [Medium] [Solution] 688. Knight Probability in Chessboard
 
 ### Greedy, Count on every level
 ```python
@@ -3627,7 +3628,7 @@ class Solution:
         dfs(N-1)
         return ans
 ```
-* [[Medium] [Solution] 413. Arithmetic Slices](%5BMedium%5D%20%5BSolution%5D%20413.%20Arithmetic%20Slices.md)
+* [Medium] [Solution] 413. Arithmetic Slices
 
 ### Maximal Square
 ```python
@@ -3673,7 +3674,7 @@ class Solution:
 
         return dp(R-1, C-1)[1]**2
 ```
-* [[Medium] [Solution] 221. Maximal Square](%5BMedium%5D%20%5BSolution%5D%20221.%20Maximal%20Square.md)
+* [Medium] [Solution] 221. Maximal Square
 
 ### Dynamic Programming with Binary Search, insertion sort
 ```python
@@ -3689,7 +3690,7 @@ class Solution:
                 length += 1
         return length
 ```
-* [[Medium] [Solution] 300. Longest Increasing Subsequence](%5BMedium%5D%20%5BSolution%5D%20300.%20Longest%20Increasing%20Subsequence.md)
+* [Medium] [Solution] 300. Longest Increasing Subsequence
 
 ### Using Recursion with memoization
 ```python
@@ -3720,7 +3721,7 @@ class Solution:
         memo = collections.defaultdict(int)
         return shopping(needs)
 ```
-* [[Medium] [Solution] 638. Shopping Offers](%5BMedium%5D%20%5BSolution%5D%20638.%20Shopping%20Offers.md)
+* [Medium] [Solution] 638. Shopping Offers
 
 ### Dynamic Programming on Subsets of Input
 ```python
@@ -3740,7 +3741,7 @@ class Solution:
 
         return search(0, target * k)
 ```
-* [[Medium] [Solution] 698. Partition to K Equal Sum Subsets](%5BMedium%5D%20%5BSolution%5D%20698.%20Partition%20to%20K%20Equal%20Sum%20Subsets.md)
+* [Medium] [Solution] 698. Partition to K Equal Sum Subsets
 
 ### Direction Buffer
 ```python
@@ -3775,7 +3776,7 @@ class Solution:
         
         return ans
 ```
-* [[Medium] [Solution] 764. Largest Plus Sign](%5BMedium%5D%20%5BSolution%5D%20764.%20Largest%20Plus%20Sign.md)
+* [Medium] [Solution] 764. Largest Plus Sign
 
 ### Counting Bits
 ```python
@@ -3801,7 +3802,7 @@ class Solution:
 
         return [dfs(i) for i in range(num+1)]
 ```
-* [[Medium] 338. Counting Bits](%5BMedium%5D%20338.%20Counting%20Bits.md)
+* [Medium] 338. Counting Bits
 
 ### Largest Divisible Subset
 ```python
@@ -3820,7 +3821,7 @@ class Solution:
                 result = dp[i]
         return result
 ```
-* [[Medium] 368. Largest Divisible Subset](%5BMedium%5D%20368.%20Largest%20Divisible%20Subset.md)
+* [Medium] 368. Largest Divisible Subset
 
 ### State Combination
 ```python
@@ -3837,7 +3838,7 @@ class Solution:
             C[i] = (B[i-1] + (A[i-2] if i >=2 else 0)) % MOD
         return A[-1]
 ```
-* [[Medium] 790. Domino and Tromino Tiling](%5BMedium%5D%20790.%20Domino%20and%20Tromino%20Tiling.md)
+* [Medium] 790. Domino and Tromino Tiling
 
 ### Swap / not swap
 ```python
@@ -3857,7 +3858,7 @@ class Solution:
 
         return min(n1, s1)
 ```
-* [[Medium] [Solution] 801. Minimum Swaps To Make Sequences Increasing](%5BMedium%5D%20%5BSolution%5D%20801.%20Minimum%20Swaps%20To%20Make%20Sequences%20Increasing.md)
+* [Medium] [Solution] 801. Minimum Swaps To Make Sequences Increasing
 
 ### Largest Sum of Averages
 ```python
@@ -3877,7 +3878,7 @@ class Solution:
 
         return dfs(K, 0)
 ```
-* [[Medium] [Solution] 813. Largest Sum of Averages](%5BMedium%5D%20%5BSolution%5D%20813.%20Largest%20Sum%20of%20Averages.md)
+* [Medium] [Solution] 813. Largest Sum of Averages
 
 ### Falling path
 ```python
@@ -3889,7 +3890,7 @@ class Solution:
                 A[-1][i] += min(row[max(0,i-1): min(len(row), i+2)])
         return min(A[0])
 ```
-* [[Medium] [Solution] 931. Minimum Falling Path Sum](%5BMedium%5D%20%5BSolution%5D%20931.%20Minimum%20Falling%20Path%20Sum.md)
+* [Medium] [Solution] 931. Minimum Falling Path Sum
 
 ### Knight move
 ```python
@@ -3909,7 +3910,7 @@ class Solution:
             dp = dp2
         return sum(dp) % MOD
 ```
-* [[Medium] [Solution] 935. Knight Dialer](%5BMedium%5D%20%5BSolution%5D%20935.%20Knight%20Dialer.md)
+* [Medium] [Solution] 935. Knight Dialer
 
 ### Minimum Cost For Tickets
 ```python
@@ -3933,7 +3934,7 @@ class Solution:
 
         return dp(0)
 ```
-* [[Medium] [Solution] 983. Minimum Cost For Tickets](%5BMedium%5D%20%5BSolution%5D%20983.%20Minimum%20Cost%20For%20Tickets.md)
+* [Medium] [Solution] 983. Minimum Cost For Tickets
 
 ### All possible sum
 ```python
@@ -3961,7 +3962,7 @@ class Solution:
 
         return dp(0, 0)
 ```
-* [[Medium] 1049. Last Stone Weight II](%5BMedium%5D%201049.%20Last%20Stone%20Weight%20II.md)
+* [Medium] 1049. Last Stone Weight II
 
 ### Range DP
 ```python
@@ -3998,7 +3999,7 @@ class Solution:
 
         return -1 if ans == float('inf') else ans
 ```
-* [[Medium] 1024. Video Stitching](%5BMedium%5D%201024.%20Video%20Stitching.md)
+* [Medium] 1024. Video Stitching
 
 ### Circle DP
 ```python
@@ -4035,7 +4036,7 @@ class Solution:
         #rob the first house, can't rob the last house
         return max(dfs(0, N-1), dfs(1, N))
 ```
-* [[Medium] 213. House Robber II](%5BMedium%5D%20213.%20House%20Robber%20II.md)
+* [Medium] 213. House Robber II
 
 ### Probability
 ```python
@@ -4051,7 +4052,7 @@ class Solution:
 
         return dp(N, target)
 ```
-* [[Medium] 1230. Toss Strange Coins](%5BMedium%5D%201230.%20Toss%20Strange%20Coins.md)
+* [Medium] 1230. Toss Strange Coins
 
 ### Count
 ```python
@@ -4064,7 +4065,7 @@ class Solution:
                     matrix[i][j] = min(matrix[i-1][j], matrix[i][j-1] ,matrix[i-1][j-1]) + 1
         return sum([sum(x) for x in matrix])
 ```
-* [[Medium] 1277. Count Square Submatrices with All Ones](%5BMedium%5D%201277.%20Count%20Square%20Submatrices%20with%20All%20Ones.md)
+* [Medium] 1277. Count Square Submatrices with All Ones
 
 ### Uncrossed Lines
 ```python
@@ -4095,7 +4096,7 @@ class Solution:
 
         return dp(0, 0)
 ```
-* [[Medium] 1035. Uncrossed Lines](%5BMedium%5D%201035.%20Uncrossed%20Lines.md)
+* [Medium] 1035. Uncrossed Lines
 
 ### Brute Force
 ```python
@@ -4158,7 +4159,7 @@ class Solution(object):
 
         return "".join(ans)
 ```
-* [[Hard] [Solution] 943. Find the Shortest Superstring](%5BHard%5D%20%5BSolution%5D%20943.%20Find%20the%20Shortest%20Superstring.md)
+* [Hard] [Solution] 943. Find the Shortest Superstring
 
 ### DP + Binary Search
 ```python
@@ -4190,7 +4191,7 @@ class Solution:
             dp, dp2 = dp2, [[0, 0]]
         return dp[-1][-1]
 ```
-* [[Hard] 1751. Maximum Number of Events That Can Be Attended II.md](%5BHard%5D%201751.%20Maximum%20Number%20of%20Events%20That%20Can%20Be%20Attended%20II.md)
+* [Hard] 1751. Maximum Number of Events That Can Be Attended II.md
 
 ### 2 Group DP with bitmask
 ```python
@@ -4235,7 +4236,7 @@ class Solution:
 
         return dp(0, 0)
 ```
-* [[Hard] [Solution] 10. Regular Expression Matching](%5BHard%5D%20%5BSolution%5D%2010.%20Regular%20Expression%20Matching.md)
+* [Hard] [Solution] 10. Regular Expression Matching
 
 ### Coin Change
 ```python
@@ -4279,7 +4280,7 @@ class Solution:
         
         return dp(0, 0)
 ```
-* [[Medium] 518. Coin Change 2](%5BMedium%5D%20518.%20Coin%20Change%202.md)
+* [Medium] 518. Coin Change 2
 
 ### factor dependency
 ```python
@@ -4314,7 +4315,7 @@ class Solution:
 
         return sum(dp(num) for num in s_arr) % N
 ```
-* [[Medium] [Solution] 823. Binary Trees With Factors](%5BMedium%5D%20%5BSolution%5D%20823.%20Binary%20Trees%20With%20Factors.md)
+* [Medium] [Solution] 823. Binary Trees With Factors
 
 ### Reamining amount
 ```python
@@ -4343,7 +4344,7 @@ class Solution:
 
         return min(f(query_row, query_glass),1)
 ````
-* [[Medium] [Solution] 799. Champagne Tower](%5BMedium%5D%20%5BSolution%5D%20799.%20Champagne%20Tower.md)
+* [Medium] [Solution] 799. Champagne Tower
 
 ### Row by row
 ```python
@@ -4393,7 +4394,7 @@ class Solution:
                     dp[row][col1][col2] = result
         return dp[0][0][n-1]
 ```
-* [[Hard] 1463. Cherry Pickup II](%5BHard%5D%201463.%20Cherry%20Pickup%20II.md)
+* [Hard] 1463. Cherry Pickup II
 
 ### DP Top Down with Preprocessing count
 ```python
@@ -4421,7 +4422,7 @@ class Solution:
 
         return dp(0, 0)
 ```
-* [[Hard] 1639. Number of Ways to Form a Target String Given a Dictionary](%5BHard%5D%201639.%20Number%20of%20Ways%20to%20Form%20a%20Target%20String%20Given%20a%20Dictionary.md)
+* [Hard] 1639. Number of Ways to Form a Target String Given a Dictionary
 
 ### Best Time to Buy and Sell Stock
 ```python
@@ -4440,7 +4441,7 @@ class Solution:
 
         return t2_profit
 ```
-* [[Hard] [Solution] 123. Best Time to Buy and Sell Stock III](%5BHard%5D%20%5BSolution%5D%20123.%20Best%20Time%20to%20Buy%20and%20Sell%20Stock%20III.md)
+* [Hard] [Solution] 123. Best Time to Buy and Sell Stock III
 
 ### Next Array Variation
 ```python
@@ -4464,7 +4465,7 @@ class Solution:
         i, j = min(windows, key = lambda x: x[1]-x[0])
         return S[i: j+1]
 ```
-* [[Lock] [Hard] [Solution] 727. Minimum Window Subsequence](%5BLock%5D%20%5BHard%5D%20%5BSolution%5D%20727.%20Minimum%20Window%20Subsequence.md)
+* [Lock] [Hard] [Solution] 727. Minimum Window Subsequence
 
 ### Using 1D Dynamic Programming
 ```python
@@ -4488,7 +4489,7 @@ class Solution:
         
         return dp[N]
 ```
-* [[Hard] [Solution] 97. Interleaving String](%5BHard%5D%20%5BSolution%5D%2097.%20Interleaving%20String.md)
+* [Hard] [Solution] 97. Interleaving String
 
 ### 1-D Dynamic Programmming
 ```python
@@ -4506,7 +4507,7 @@ class Solution:
 
         return ((dp[k] + MOD - (dp[k - 1] if k > 0 else 0)) % MOD)
 ```
-* [[Hard] [Solution] 629. K Inverse Pairs Array](%5BHard%5D%20%5BSolution%5D%20629.%20K%20Inverse%20Pairs%20Array.md)
+* [Hard] [Solution] 629. K Inverse Pairs Array
 
 ### Dynamic Programming + Counting
 ```python
@@ -4551,7 +4552,7 @@ class Solution:
 
         return dfs(0) + sum([len(digits) ** i for i in range(1, K)])
 ```
-* [[Hard] [Solution] * 902. Numbers At Most N Given Digit Set](%5BHard%5D%20%5BSolution%5D%20*%20902.%20Numbers%20At%20Most%20N%20Given%20Digit%20Set.md)
+* [Hard] [Solution] * 902. Numbers At Most N Given Digit Set
 
 ### Backtracking DFS
 ```python
@@ -4625,7 +4626,7 @@ class Solution:
 
         return dp(sr, sc, target)
 ```
-* [[Hard] [Solution] 980. Unique Paths III](%5BHard%5D%20%5BSolution%5D%20980.%20Unique%20Paths%20III.md)
+* [Hard] [Solution] 980. Unique Paths III
 
 ### Digit DP
 ```python
@@ -4644,7 +4645,7 @@ class Solution:
 
         return dp(0, True, False) - 
 ```
-* [[Hard] [Solution] * 902. Numbers At Most N Given Digit Set](%5BHard%5D%20%5BSolution%5D%20*%20902.%20Numbers%20At%20Most%20N%20Given%20Digit%20Set.md)
+* [Hard] [Solution] * 902. Numbers At Most N Given Digit Set
 
 ### How many ways to place P_i with relative rank j
 ```python
@@ -4669,7 +4670,7 @@ class Solution:
 
         return sum(dp(N, j) for j in range(N+1)) % MOD
 ```
-* [[Hard] [Solution] 903. Valid Permutations for DI Sequence](%5BHard%5D%20%5BSolution%5D%20903.%20Valid%20Permutations%20for%20DI%20Sequence.md)
+* [Hard] [Solution] 903. Valid Permutations for DI Sequence
 
 ### Ways
 ```python
@@ -4686,7 +4687,7 @@ class Solution:
 
         return dp(L, N)
 ```
-* [[Hard] [Solution] 920. Number of Music Playlists](%5BHard%5D%20%5BSolution%5D%20920.%20Number%20of%20Music%20Playlists.md)
+* [Hard] [Solution] 920. Number of Music Playlists
 
 ### Prefix + Suffix
 ```python
@@ -4711,7 +4712,7 @@ class Solution:
         ans = dfs(s)
         return ans
 ```
-* [[Hard] 140. Word Break II](%5BHard%5D%20140.%20Word%20Break%20II.md)
+* [Hard] 140. Word Break II
 
 ### n day * k transaction * 2 (buy|sell) state
 ```python
@@ -4749,7 +4750,7 @@ class Solution:
         res = max(dp[n-1][j][0] for j in range(k+1))
         return res
 ```
-* [[Hard] 188. Best Time to Buy and Sell Stock IV](%5BHard%5D%20188.%20Best%20Time%20to%20Buy%20and%20Sell%20Stock%20IV.md)
+* [Hard] 188. Best Time to Buy and Sell Stock IV
 
 ### KMP
 ```python
@@ -4801,7 +4802,7 @@ class Solution:
 
         return dfs(0) % (10**9 + 7)
 ```
-* [[Hard] 1397. Find All Good Strings](%5BHard%5D%201397.%20Find%20All%20Good%20Strings.md)
+* [Hard] 1397. Find All Good Strings
 
 ### 3D DP
 ```python
@@ -4817,7 +4818,7 @@ class Solution:
         if k > m: return 0
         return sum(dfs(1, i, 1) for i in range(1, m + 1)) % (10 ** 9 + 7)
 ```
-* [[Hard] 1420. Build Array Where You Can Find The Maximum Exactly K Comparisons](%5BHard%5D%201420.%20Build%20Array%20Where%20You%20Can%20Find%20The%20Maximum%20Exactly%20K%20Comparisons.md)
+* [Hard] 1420. Build Array Where You Can Find The Maximum Exactly K Comparisons
 
 ### Rectangle
 ```python
@@ -4838,7 +4839,7 @@ class Solution:
                 
         return dp(n, m)
 ```
-* [[Hard] 1240. Tiling a Rectangle with the Fewest Squares](%5BHard%5D%201240.%20Tiling%20a%20Rectangle%20with%20the%20Fewest%20Squares.md)
+* [Hard] 1240. Tiling a Rectangle with the Fewest Squares
 
 ### 2-Level DP
 ```python
@@ -4865,7 +4866,7 @@ class Solution:
         
         return part(0, k)
 ```
-* [[Hard] 1278. Palindrome Partitioning III](%5BHard%5D%201278.%20Palindrome%20Partitioning%20III.md)
+* [Hard] 1278. Palindrome Partitioning III
 
 ### Path DP
 ```python
@@ -4893,7 +4894,7 @@ class Solution:
 
         return dp(0, 0) % MOD
 ```
-* [[Hard] 1434. Number of Ways to Wear Different Hats to Each Other](%5BHard%5D%201434.%20Number%20of%20Ways%20to%20Wear%20Different%20Hats%20to%20Each%20Other.md)
+* [Hard] 1434. Number of Ways to Wear Different Hats to Each Other
 
 ### Sort DP Bottom-Up
 ```python
@@ -4904,7 +4905,7 @@ class Solution:
             h = sorted([i+j for i in row for j in h])[:k]
         return h[k-1]
 ```
-* [[Hard] 1439. Find the Kth Smallest Sum of a Matrix With Sorted Rows](%5BHard%5D%201439.%20Find%20the%20Kth%20Smallest%20Sum%20of%20a%20Matrix%20With%20Sorted%20Rows.md)
+* [Hard] 1439. Find the Kth Smallest Sum of a Matrix With Sorted Rows
 
 ### Prefix Sum
 ```python
@@ -4933,7 +4934,7 @@ class Solution:
 
         return dp(k - 1, 0, 0)
 ```
-* [[Hard] 1444. Number of Ways of Cutting a Pizza](%5BHard%5D%201444.%20Number%20of%20Ways%20of%20Cutting%20a%20Pizza.md)
+* [Hard] 1444. Number of Ways of Cutting a Pizza
 
 ### Dungeon Game
 ```python
@@ -4974,7 +4975,7 @@ class Solution:
         memory = {}
         return calculate(0, 0)
 ```
-* [[Hard] 174. Dungeon Game](%5BHard%5D%20174.%20Dungeon%20Game.md)
+* [Hard] 174. Dungeon Game
 
 ## Math <a name="math"></a>
 ---
@@ -4995,7 +4996,7 @@ class Solution:
                 prime[i*i: n: i] = [False] * len(prime[i*i: n: i])
         return sum(prime)
 ```
-* [[Easy] 204. Count Primes](%5BEasy%5D%20204.%20Count%20Primes.md)
+* [Easy] 204. Count Primes
 
 ### Logartihmic Bounds
 ```python
@@ -5023,7 +5024,7 @@ class Solution:
 
         return list(powerful_integers)
 ```
-* [[Easy] [Solution] 970. Powerful Integers](%5BEasy%5D%20%5BSolution%5D%20970.%20Powerful%20Integers.md)
+* [Easy] [Solution] 970. Powerful Integers
 
 ### Greedy
 ```python
@@ -5039,7 +5040,7 @@ class Solution:
             n = n/3
         return True if n == 1 else False
 ```
-* [[Easy] 326. Power of Three](%5BEasy%5D%20326.%20Power%20of%20Three.md)
+* [Easy] 326. Power of Three
 
 ### Simulation
 ```python
@@ -5055,7 +5056,7 @@ class Solution:
 
         return ans
 ```
-* [[Easy] 1342. Number of Steps to Reduce a Number to Zero](%5BEasy%5D%201342.%20Number%20of%20Steps%20to%20Reduce%20a%20Number%20to%20Zero.md)
+* [Easy] 1342. Number of Steps to Reduce a Number to Zero
 
 ### Conclude possible case
 ```python
@@ -5063,7 +5064,7 @@ class Solution:
     def check(self, nums: List[int]) -> bool:
         return sum(a > b for a, b in zip(nums, nums[1:] + nums[:1])) <= 1
 ```
-* [[Easy] 1752. Check if Array Is Sorted and Rotated](%5BEasy%5D%201752.%20Check%20if%20Array%20Is%20Sorted%20and%20Rotated.md)
+* [Easy] 1752. Check if Array Is Sorted and Rotated
 
 ### Count of even of odd
 ```pyth0on
@@ -5077,7 +5078,7 @@ class Solution:
                 odd += 1
         return min(odd, even)
 ```
-* [[Easy] 1217. Play with Chips](%5BEasy%5D%201217.%20Play%20with%20Chips.md)
+* [Easy] 1217. Play with Chips
 
 ### Base Conversion
 ```python
@@ -5090,7 +5091,7 @@ class Solution:
         base = ord('A') - 1
         return sum((ord(v)-base)*26**i for i,v in enumerate(s[::-1]))
 ```
-* [[Easy] 171. Excel Sheet Column Number](%5BEasy%5D%20171.%20Excel%20Sheet%20Column%20Number.md)
+* [Easy] 171. Excel Sheet Column Number
 
 ### Power of Four
 ```python
@@ -5099,7 +5100,7 @@ class Solution:
         temp = bin(num).split('1')
         return num > 0 and len(temp) == 2 and not len(temp[-1]) % 2
 ```
-* [[Easy] [Solution] 342. Power of Four](%5BEasy%5D%20%5BSolution%5D%20342.%20Power%20of%20Four.md)
+* [Easy] [Solution] 342. Power of Four
 
 ### Digital Root
 ```python
@@ -5115,7 +5116,7 @@ class Solution:
     def addDigits(self, num: int) -> int:
         return 1 + (num - 1) % 9 if num else 0
 ```
-* [[Easy] [Solution] 258. Add Digits](%5BEasy%5D%20%5BSolution%5D%20258.%20Add%20Digits.md)
+* [Easy] [Solution] 258. Add Digits
 
 ### Binary Search
 ```python
@@ -5131,7 +5132,7 @@ class Solution:
             else: hi = mid - 1
         return False
 ```
-* [[Easy] 367. Valid Perfect Square](%5BEasy%5D%20367.%20Valid%20Perfect%20Square.md)
+* [Easy] 367. Valid Perfect Square
 
 ### Increase number
 ```python
@@ -5139,7 +5140,7 @@ class Solution:
     def minMoves(self, nums: List[int]) -> int:
         return sum(nums)-len(nums)*min(nums)
 ```
-* [[Easy] 453. Minimum Moves to Equal Array Elements](%5BEasy%5D%20453.%20Minimum%20Moves%20to%20Equal%20Array%20Elements.md)
+* [Easy] 453. Minimum Moves to Equal Array Elements
 
 ### Hamming Distance
 ```python
@@ -5147,7 +5148,7 @@ class Solution:
     def hammingDistance(self, x: int, y: int) -> int:
         return bin(x^y).count("1")
 ```
-* [[Easy] 461. Hamming Distance](%5BEasy%5D%20461.%20Hamming%20Distance.md)
+* [Easy] 461. Hamming Distance
 
 ### Perfect Number
 ```python
@@ -5163,7 +5164,7 @@ class Solution:
                     sum_ += num / i
         return sum_ - num == num
 ```
-* [[Easy] [Solution] 507. Perfect Number](%5BEasy%5D%20%5BSolution%5D%20507.%20Perfect%20Number.md)
+* [Easy] [Solution] 507. Perfect Number
 
 ### Rectangle Overlap
 ```python
@@ -5174,7 +5175,7 @@ class Solution:
         return (intersect(rec1[0], rec1[2], rec2[0], rec2[2]) and # width > 0
                 intersect(rec1[1], rec1[3], rec2[1], rec2[3]))    # height > 0
 ```
-* [[Easy] [Solution] 836. Rectangle Overlap](%5BEasy%5D%20%5BSolution%5D%20836.%20Rectangle%20Overlap.md)
+* [Easy] [Solution] 836. Rectangle Overlap
 
 ### Binary Gap
 ```python
@@ -5189,7 +5190,7 @@ class Solution:
                 last = i
         return ans
 ```
-* [[Easy] [Solution] 868. Binary Gap](%5BEasy%5D%20%5BSolution%5D%20868.%20Binary%20Gap.md)
+* [Easy] [Solution] 868. Binary Gap
 
 ### Projection
 ```python
@@ -5200,7 +5201,7 @@ class Solution:
         ans += sum(v > 0 for row in grid for v in row)  # x-y plane
         return ans
 ```
-* [[Easy] [Solution] 883. Projection Area of 3D Shapes](%5BEasy%5D%20%5BSolution%5D%20883.%20Projection%20Area%20of%203D%20Shapes.md)
+* [Easy] [Solution] 883. Projection Area of 3D Shapes
 
 ### Square by Square
 ```python
@@ -5223,7 +5224,7 @@ class Solution:
 
         return ans
 ```
-* [[Easy] [Solution] 892. Surface Area of 3D Shapes](%5BEasy%5D%20%5BSolution%5D%20892.%20Surface%20Area%20of%203D%20Shapes.md)
+* [Easy] [Solution] 892. Surface Area of 3D Shapes
 
 ### GCD
 ```python
@@ -5233,7 +5234,7 @@ class Solution:
         vals = collections.Counter(deck).values()
         return reduce(math.gcd, vals) >= 2
 ```
-* [[Easy] [Solution] 914. X of a Kind in a Deck of Cards](%5BEasy%5D%20%5BSolution%5D%20914.%20X%20of%20a%20Kind%20in%20a%20Deck%20of%20Cards.md)
+* [Easy] [Solution] 914. X of a Kind in a Deck of Cards
 
 ### Smallest Range
 ```python
@@ -5241,7 +5242,7 @@ class Solution:
     def smallestRangeI(self, A: List[int], K: int) -> int:
         return max(0, max(A) - min(A) - 2*K)
 ```
-* [[Easy] [Solution] 908. Smallest Range I](%5BEasy%5D%20%5BSolution%5D%20908.%20Smallest%20Range%20I.md)
+* [Easy] [Solution] 908. Smallest Range I
 
 ### Ad-Hoc
 ```python
@@ -5259,7 +5260,7 @@ class Solution:
 
         return ans + [lo]
 ```
-* [[Easy] [Solution] 942. DI String Match](%5BEasy%5D%20%5BSolution%5D%20942.%20DI%20String%20Match.md)
+* [Easy] [Solution] 942. DI String Match
 
 ### Brute Force
 ```python
@@ -5275,7 +5276,7 @@ class Solution:
 
         return "{:02}:{:02}".format(*divmod(ans, 60)) if ans >= 0 else ""
 ```
-* [[Easy] [Solution] 949. Largest Time for Given Digits](%5BEasy%5D%20%5BSolution%5D%20949.%20Largest%20Time%20for%20Given%20Digits.md)
+* [Easy] [Solution] 949. Largest Time for Given Digits
 
 ### Largest Perimeter Triangle
 ```python
@@ -5287,7 +5288,7 @@ class Solution:
                 return A[i] + A[i+1] + A[i+2]
         return 0
 ```
-* [[Easy] [Solution] 976. Largest Perimeter Triangle](%5BEasy%5D%20%5BSolution%5D%20976.%20Largest%20Perimeter%20Triangle.md)
+* [Easy] [Solution] 976. Largest Perimeter Triangle
 
 ### Maximum
 ```python
@@ -5295,7 +5296,7 @@ class Solution:
     def minPartitions(self, n: str) -> int:
         return int(max(n))
 ```
-* [[Medium] 1689. Partitioning Into Minimum Number Of Deci-Binary Numbers](%5BMedium%5D%201689.%20Partitioning%20Into%20Minimum%20Number%20Of%20Deci-Binary%20Numbers.md)
+* [Medium] 1689. Partitioning Into Minimum Number Of Deci-Binary Numbers
 
 ### Area sum
 ```python
@@ -5312,7 +5313,7 @@ class Solution:
         else:
             return (1 + last-mid) * n//2 // 2
 ```
-* [[Medium] 1551. Minimum Operations to Make Array Equal](%5BMedium%5D%201551.%20Minimum%20Operations%20to%20Make%20Array%20Equal.md)
+* [Medium] 1551. Minimum Operations to Make Array Equal
 
 ### Hash Map
 ```python
@@ -5338,7 +5339,7 @@ class Solution:
             num -= q * m[0]
         return ans
 ```
-* [[Medium] 12. Integer to Roman](%5BMedium%5D%2012.%20Integer%20to%20Roman.md)
+* [Medium] 12. Integer to Roman
 
 ### Transform to select 2k points from n+k-1
 ```python
@@ -5346,7 +5347,7 @@ class Solution:
     def numberOfSets(self, n: int, k: int) -> int:
         return math.comb(n + k - 1, k * 2) % (10**9 + 7)
 ```
-* [[Medium] 1621. Number of Sets of K Non-Overlapping Line Segments](%5BMedium%5D%201621.%20Number%20of%20Sets%20of%20K%20Non-Overlapping%20Line%20Segments.md)
+* [Medium] 1621. Number of Sets of K Non-Overlapping Line Segments
 
 ### Factor
 ```python
@@ -5359,7 +5360,7 @@ class Solution:
                     return factor
         return -1
 ```
-* [[Medium] 1492. The kth Factor of n](%5BMedium%5D%201492.%20The%20kth%20Factor%20of%20n.md)
+* [Medium] 1492. The kth Factor of n
 
 ### Checking Loop
 ```python
@@ -5372,7 +5373,7 @@ class Solution:
                 return length_N
         return -1
 ```
-* [[Medium] 1015. Smallest Integer Divisible by K](%5BMedium%5D%201015.%20Smallest%20Integer%20Divisible%20by%20K.md)
+* [Medium] 1015. Smallest Integer Divisible by K
 
 ### GCD
 ```python
@@ -5381,7 +5382,7 @@ class Solution:
         g = math.gcd(p,q)
         return 2 if not p//g % 2 else q//g % 2
 ```
-* [[Medium] 858. Mirror Reflection](%5BMedium%5D%20858.%20Mirror%20Reflection.md)
+* [Medium] 858. Mirror Reflection
 
 ### Task Scheduler
 ```python
@@ -5400,7 +5401,7 @@ class Solution:
             ans += count == longest and 1 or 0
         return max(len(tasks), ans)
 ```
-* [[Medium] [Solution] 621. Task Scheduler](%5BMedium%5D%20%5BSolution%5D%20621.%20Task%20Scheduler.md)
+* [Medium] [Solution] 621. Task Scheduler
 
 ### Smallest Range
 ```python
@@ -5414,7 +5415,7 @@ class Solution:
             ans = min(ans, max(ma-K, a+K) - min(mi+K, b-K))
         return ans
 ```
-* [[Medium] [Solution] 910. Smallest Range II](%5BMedium%5D%20%5BSolution%5D%20910.%20Smallest%20Range%20II.md)
+* [Medium] [Solution] 910. Smallest Range II
 
 ### Greedy
 ```python
@@ -5428,7 +5429,7 @@ class Solution:
 
         return ans + X-Y
 ```
-* [[Medium] [Solution] 991. Broken Calculator](%5BMedium%5D%20%5BSolution%5D%20991.%20Broken%20Calculator.md)
+* [Medium] [Solution] 991. Broken Calculator
 
 ### Permutation Sequence
 ```python
@@ -5441,7 +5442,7 @@ class Solution:
             del nums[ind]
         return rst
 ```
-* [[Medium] 60. Permutation Sequence](%5BMedium%5D%2060.%20Permutation%20Sequence.md)
+* [Medium] 60. Permutation Sequence
 
 ### Single Number
 ```python
@@ -5449,7 +5450,7 @@ class Solution:
     def singleNumber(self, nums: List[int]) -> int:
         return int((3*sum(set(nums)) - sum(nums)) // 2)
 ```
-* [[Medium] 137. Single Number II](%5BMedium%5D%20137.%20Single%20Number%20II.md)
+* [Medium] 137. Single Number II
 
 ### Prime Factor
 ```python
@@ -5501,7 +5502,7 @@ class Solution:
                     heapq.heappush(q, x)
         return cur
 ```
-* [[Medium] 264. Ugly Number II](%5BMedium%5D%20264.%20Ugly%20Number%20II.md)
+* [Medium] 264. Ugly Number II
 
 ### Pow(x, n)
 ```python
@@ -5542,7 +5543,7 @@ class Solution:
 
         return ans
 ```
-* [[Medium] 50. Pow(x, n)](%5BMedium%5D%2050.%20Pow(x,%20n).md)
+* [Medium] 50. Pow(x, n)
 
 ### GCD
 ```python
@@ -5554,7 +5555,7 @@ class Solution:
             return  False
         return z % math.gcd(x, y) == 0
 ```
-* [[Medium] 365. Water and Jug Problem](%5BMedium%5D%20365.%20Water%20and%20Jug%20Problem.md)
+* [Medium] 365. Water and Jug Problem
 
 ### Hash Table Buffer
 ```python
@@ -5573,7 +5574,7 @@ class Solution:
             step2ans[step] = ans
         return ans
 ```
-* [[Medium] 372. Super Pow](%5BMedium%5D%20372.%20Super%20Pow.md)
+* [Medium] 372. Super Pow
 
 ### Digit
 ```python
@@ -5587,7 +5588,7 @@ class Solution:
         r, q = n % d, 10**(d-1) + n//d
         return str(q)[r-1] if r > 0 else str(q-1)[-1]
 ```
-* [[Medium] 400. Nth Digit](%5BMedium%5D%20400.%20Nth%20Digit.md)
+* [Medium] 400. Nth Digit
 
 ### Medium
 ```python
@@ -5597,7 +5598,7 @@ class Solution:
         mid = nums[len(nums)//2]       
         return sum(abs(n - mid) for n in nums)
 ```
-* [[Medium] 462. Minimum Moves to Equal Array Elements II](%5BMedium%5D%20462.%20Minimum%20Moves%20to%20Equal%20Array%20Elements%20II.md)
+* [Medium] 462. Minimum Moves to Equal Array Elements II
 
 ### Prefix Sum difference
 ```python
@@ -5615,7 +5616,7 @@ class Solution:
             record[a] = 1 
         return False
 ```
-* [[Medium] 523. Continuous Subarray Sum](%5BMedium%5D%20523.%20Continuous%20Subarray%20Sum.md)
+* [Medium] 523. Continuous Subarray Sum
 
 ### Complex Number
 ```python
@@ -5637,7 +5638,7 @@ class Solution:
             return str(nums[0])+'/'+str(nums[1])
         return str(nums[0]) + '/(' + '/'.join(list(map(str,nums[1:]))) + ')'
 ```
-* [[Medium] 553. Optimal Division](%5BMedium%5D%20553.%20Optimal%20Division.md)
+* [Medium] 553. Optimal Division
 
 ### Circle
 ```python
@@ -5659,7 +5660,7 @@ class Solution:
 # obj = Solution(radius, x_center, y_center)
 # param_1 = obj.randPoint()
 ```
-* [[Medium] 478. Generate Random Point in a Circle](%5BMedium%5D%20478.%20Generate%20Random%20Point%20in%20a%20Circle.md)
+* [Medium] 478. Generate Random Point in a Circle
 
 ### Factor
 ```python
@@ -5673,7 +5674,7 @@ class Solution:
                 res = [a, (num + 1) // a]
         return res
 ```
-* [[Medium] 1362. Closest Divisors](%5BMedium%5D%201362.%20Closest%20Divisors.md)
+* [Medium] 1362. Closest Divisors
 
 ### Construction
 ```python
@@ -5688,7 +5689,7 @@ class Solution(object):
 
         return ans
 ```
-* [[Medium] [Solution] 667. Beautiful Arrangement II](%5BMedium%5D%20%5BSolution%5D%20667.%20Beautiful%20Arrangement%20II.md)
+* [Medium] [Solution] 667. Beautiful Arrangement II
 
 ### Sort and map 4 points to plane
 ```python
@@ -5698,7 +5699,7 @@ class Solution:
         dist = lambda i, j: (p[i][0] - p[j][0])**2 + (p[i][1] - p[j][1])**2
         return dist(0, 1) != 0 and dist(0, 1) == dist(1, 3) == dist(3, 2) == dist(2, 0) and dist(0, 3) == dist(1, 2)
 ```
-* [[Medium] [Solution] 593. Valid Square](%5BMedium%5D%20%5BSolution%5D%20593.%20Valid%20Square.md)
+* [Medium] [Solution] 593. Valid Square
 
 ### Reach a Number
 ```python
@@ -5712,7 +5713,7 @@ class Solution:
             
         return step
 ```
-* [[Medium] [Solution] 754. Reach a Number](%5BMedium%5D%20%5BSolution%5D%20754.%20Reach%20a%20Number.md)
+* [Medium] [Solution] 754. Reach a Number
 
 ### Count
 ```python
@@ -5741,7 +5742,7 @@ class Solution:
                         del d[num]
         return count
 ```
-* [[Medium] 781. Rabbits in Forest](%5BMedium%5D%20781.%20Rabbits%20in%20Forest.md)
+* [Medium] 781. Rabbits in Forest
 
 ### Distance
 ```python
@@ -5752,7 +5753,7 @@ class Solution:
         for ghost in ghosts:
             t2 = min(t2, (abs(target[0]-ghost[0]) + abs(target[1] -ghost[1])))
 ```
-* [[Medium] 789. Escape The Ghosts](%5BMedium%5D%20789.%20Escape%20The%20Ghosts.md)
+* [Medium] 789. Escape The Ghosts
 
 ### Prime Palindrome
 ```python
@@ -5775,7 +5776,7 @@ class Solution:
             if 10**7 < N < 10**8:
                 N = 10**8
 ```
-* [[Medium] [Solution] 866. Prime Palindrome](%5BMedium%5D%20%5BSolution%5D%20866.%20Prime%20Palindrome.md)
+* [Medium] [Solution] 866. Prime Palindrome
 
 ### Counting, search from candidate answer
 ```python
@@ -5785,7 +5786,7 @@ class Solution:
         return any(count == collections.Counter(str(1 << b))
                    for b in range(31))
 ```
-* [[Medium] [Solution] 869. Reordered Power of 2](%5BMedium%5D%20%5BSolution%5D%20869.%20Reordered%20Power%20of%202.md)
+* [Medium] [Solution] 869. Reordered Power of 2
 
 ### Walk in a Spiral
 ```python
@@ -5814,7 +5815,7 @@ class Solution(object):
                         if len(ans) == R * C:
                             return ans
 ```
-* [[Medium] [Solution] 885. Spiral Matrix III](%5BMedium%5D%20%5BSolution%5D%20885.%20Spiral%20Matrix%20III.md)
+* [Medium] [Solution] 885. Spiral Matrix III
 
 ### Clumsy Factorial
 ```python
@@ -5842,7 +5843,7 @@ class Solution:
                     ans -= tmp
         return ans
 ```
-* [[Medium] 1006. Clumsy Factorial](%5BMedium%5D%201006.%20Clumsy%20Factorial.md)
+* [Medium] 1006. Clumsy Factorial
 
 ### Sliding Window
 ```python
@@ -5850,7 +5851,7 @@ class Solution:
     def hasAllCodes(self, s: str, k: int) -> bool:
         return len({s[i:i + k] for i in range(len(s) - k + 1)}) == 2 ** k
 ```
-* [[Medium] 1461. Check If a String Contains All Binary Codes of Size K](%5BMedium%5D%201461.%20Check%20If%20a%20String%20Contains%20All%20Binary%20Codes%20of%20Size%20K.md)
+* [Medium] 1461. Check If a String Contains All Binary Codes of Size K
 
 ### Clock Angle
 ```python
@@ -5871,7 +5872,7 @@ class Solution:
 
         return (angle)
 ```
-* [[Medium] 1344. Angle Between Hands of a Clock](%5BMedium%5D%201344.%20Angle%20Between%20Hands%20of%20a%20Clock.md)
+* [Medium] 1344. Angle Between Hands of a Clock
 
 ### shrink program space
 ```python
@@ -5912,7 +5913,7 @@ class Solution:
 
         return ans
 ```
-* [[Hard] [Solution] 906. Super Palindromes](%5BHard%5D%20%5BSolution%5D%20906.%20Super%20Palindromes.md)
+* [Hard] [Solution] 906. Super Palindromes
 
 ### Greedy with combination
 ```python
@@ -5934,7 +5935,7 @@ class Solution:
 
         return ans
 ```
-* [[Hard] 1643. Kth Smallest Instructions](%5BHard%5D%201643.%20Kth%20Smallest%20Instructions.md)
+* [Hard] 1643. Kth Smallest Instructions
 
 ### Moving Average
 ```python
@@ -5953,7 +5954,7 @@ class Solution:
 
         return res
 ```
-* [[Hard] 517. Super Washing Machines](%5BHard%5D%20517.%20Super%20Washing%20Machines.md)
+* [Hard] 517. Super Washing Machines
 
 ### Combination
 ```python
@@ -5961,7 +5962,7 @@ class Solution:
     def countOrders(self, n: int) -> int:
         return (math.factorial(n * 2) >> n) % (10**9 + 7)  # 2n!/2^n
 ```
-* [[Hard] 1359. Count All Valid Pickup and Delivery Options](%5BHard%5D%201359.%20Count%20All%20Valid%20Pickup%20and%20Delivery%20Options.md)
+* [Hard] 1359. Count All Valid Pickup and Delivery Options
 
 ### (rounds+1)\*\*x >= n
 ```python
@@ -5973,7 +5974,7 @@ class Solution:
 
         return pigs
 ```
-* [[Hard] 458. Poor Pigs](%5BHard%5D%20458.%20Poor%20Pigs.md)
+* [Hard] 458. Poor Pigs
 
 ### Sum of Subsequence Widths
 ```python
@@ -5992,7 +5993,7 @@ class Solution:
             ans = (ans + (pow2[i] - pow2[N-1-i]) * x) % MOD
         return ans
 ```
-* [[Hard] [Solution] 891. Sum of Subsequence Widths](%5BHard%5D%20%5BSolution%5D%20891.%20Sum%20of%20Subsequence%20Widths.md)
+* [Hard] [Solution] 891. Sum of Subsequence Widths
 
 ### Dynamic Programming with Binary Search
 ```python
@@ -6028,7 +6029,7 @@ class Solution(object):
 
         return dp(K, N)
 ```
-* [[Hard] [Solution] 887. Super Egg Drop](%5BHard%5D%20%5BSolution%5D%20887.%20Super%20Egg%20Drop.md)
+* [Hard] [Solution] 887. Super Egg Drop
 
 ### LCM
 ```python
@@ -6053,7 +6054,7 @@ class Solution:
 
         return lo % MOD
 ```
-* [[Hard] [Solution] 878. Nth Magical Number](%5BHard%5D%20%5BSolution%5D%20878.%20Nth%20Magical%20Number.md)
+* [Hard] [Solution] 878. Nth Magical Number
 
 ### Power
 ```python
@@ -6072,7 +6073,7 @@ class Solution:
             ans = (ans + (pow2[i] - pow2[N-1-i]) * x) % MOD
         return ans
 ```
-* [[Hard] [Solution] 891. Sum of Subsequence Widths](%5BHard%5D%20%5BSolution%5D%20891.%20Sum%20of%20Subsequence%20Widths.md)
+* [Hard] [Solution] 891. Sum of Subsequence Widths
 
 ### Equal Ones
 ```python
@@ -6113,7 +6114,7 @@ class Solution:
         j2 += z
         return [j1, j2+1]
 ```
-* [[Hard] [Solution] 927. Three Equal Parts](%5BHard%5D%20%5BSolution%5D%20927.%20Three%20Equal%20Parts.md)
+* [Hard] [Solution] 927. Three Equal Parts
 
 ### Gradient Descent
 ```python
@@ -6141,7 +6142,7 @@ class Solution:
             if zoom: chg /= 2
         return ans 
 ```
-* [[Hard] 1515. Best Position for a Service Centre](%5BHard%5D%201515.%20Best%20Position%20for%20a%20Service%20Centre.md)
+* [Hard] 1515. Best Position for a Service Centre
 
 ## String <a name="string"></a>
 ---
@@ -6218,7 +6219,7 @@ class Solution:
     def removePalindromeSub(self, s: str) -> int:
         return 2 - (s == s[::-1]) - (s == "")
 ```
-* [[Easy] 1332. Remove Palindromic Subsequences](%5BEasy%5D%201332.%20Remove%20Palindromic%20Subsequences.md)
+* [Easy] 1332. Remove Palindromic Subsequences
 
 ### Sort
 ```python
@@ -6226,7 +6227,7 @@ class Solution:
     def isAlienSorted(self, words: List[str], order: str) -> bool:
         return words == sorted(words, key= lambda word: [order.index(c) for c in word])
 ```
-* [[Easy] [Solution] 953. Verifying an Alien Dictionary](%5BEasy%5D%20%5BSolution%5D%20953.%20Verifying%20an%20Alien%20Dictionary.md)
+* [Easy] [Solution] 953. Verifying an Alien Dictionary
 
 ### product
 ```python
@@ -6234,7 +6235,7 @@ class Solution:
     def letterCasePermutation(self, S: str) -> List[str]:
         return set(map(''.join, itertools.product(*zip(S.lower(), S.upper()))))
 ```
-* [[Easy] 784. Letter Case Permutation](%5BEasy%5D%20784.%20Letter%20Case%20Permutation.md)
+* [Easy] 784. Letter Case Permutation
 
 ### string concatenate
 ```python
@@ -6242,7 +6243,7 @@ class Solution:
     def arrayStringsAreEqual(self, word1: List[str], word2: List[str]) -> bool:
         return ''.join(word1) == ''.join(word2)
 ```
-* [[Easy] 1662. Check If Two String Arrays are Equivalent](%5BEasy%5D%201662.%20Check%20If%20Two%20String%20Arrays%20are%20Equivalent.md)
+* [Easy] 1662. Check If Two String Arrays are Equivalent
 
 ### Enumerate Cases
 ```python
@@ -6264,7 +6265,7 @@ class Solution:
                 if len(pairs) >= 3: return False
             return len(pairs) == 2 and pairs[0] == pairs[1][::-1]
 ```
-* [[Easy] [Solution] 859. Buddy Strings](%5BEasy%5D%20%5BSolution%5D%20859.%20Buddy%20Strings.md)
+* [Easy] [Solution] 859. Buddy Strings
 
 ### split
 ```python
@@ -6272,7 +6273,7 @@ class Solution:
     def lengthOfLastWord(self, s: str) -> int:
         return len(s.strip().split(' ')[-1])
 ```
-* [[Easy] 58. Length of Last Word](%5BEasy%5D%2058.%20Length%20of%20Last%20Word.md)
+* [Easy] 58. Length of Last Word
 
 ### Read N Characters Given Read4
 ```python
@@ -6313,7 +6314,7 @@ class Solution:
 
         return copied_chars
 ```
-* [[Lock] [Easy] [Solution] 157. Read N Characters Given Read4](%5BLock%5D%20%5BEasy%5D%20%5BSolution%5D%20157.%20Read%20N%20Characters%20Given%20Read4.md)
+* [Lock] [Easy] [Solution] 157. Read N Characters Given Read4
 
 ### KMP
 ```python
@@ -6344,7 +6345,7 @@ class Solution:
 
         return False
 ```
-* [[Easy] [Solution] 796. Rotate String](%5BEasy%5D%20%5BSolution%5D%20796.%20Rotate%20String.md)
+* [Easy] [Solution] 796. Rotate String
 
 ### Goat Latin
 ```python
@@ -6358,7 +6359,7 @@ class Solution:
         return " ".join(convert(word) + 'a' * i
                         for i, word in enumerate(S.split(), 1))
 ```
-* [[Easy] [Solution] 824. Goat Latin](%5BEasy%5D%20%5BSolution%5D%20824.%20Goat%20Latin.md)
+* [Easy] [Solution] 824. Goat Latin
 
 ### Rolling Hash
 ```python
@@ -6393,7 +6394,7 @@ class Solution:
                 return True
         return False
 ```
-* [[Easy] [Solution] 796. Rotate String](%5BEasy%5D%20%5BSolution%5D%20796.%20Rotate%20String.md)
+* [Easy] [Solution] 796. Rotate String
 
 ### Read and Write Heads
 ```python
@@ -6411,7 +6412,7 @@ class Solution:
                 anchor = read + 1
         return write
 ```
-* [[Easy] [Solution] 443. String Compression](%5BEasy%5D%20%5BSolution%5D%20443.%20String%20Compression.md)
+* [Easy] [Solution] 443. String Compression
 
 ### Plus One
 ```python
@@ -6419,7 +6420,7 @@ class Solution:
     def plusOne(self, digits: List[int]) -> List[int]:
         return list(map(int, str(int(''.join(map(str, digits))) + 1)))
 ```
-* [[Easy] 66. Plus One](%5BEasy%5D%2066.%20Plus%20One.md)
+* [Easy] 66. Plus One
 
 ### Add Binary
 ```python
@@ -6429,7 +6430,7 @@ class Solution:
         num_b = int(b, 2)
         return bin(num_a+num_b)[2:]
 ```
-* [[Easy] 67. Add Binary](%5BEasy%5D%2067.%20Add%20Binary.md)
+* [Easy] 67. Add Binary
 
 ### Reverse Bits
 ```python
@@ -6437,7 +6438,7 @@ class Solution:
     def reverseBits(self, n):
         return int('{:032b}'.format(n)[::-1], 2)
 ```
-* [[Easy] 190. Reverse Bits](%5BEasy%5D%20190.%20Reverse%20Bits.md)
+* [Easy] 190. Reverse Bits
 
 ### Valid Palindrome
 ```python
@@ -6446,7 +6447,7 @@ class Solution:
         filter_str = [*filter(lambda c:c.isdigit() or c.isalpha(), s.lower())]  # list(filter(lambda c:c.isdigit() or c.isalpha(), s.lower()))
         return filter_str[::-1] == filter_str
 ```
-* [[Easy] [Solution] 125. Valid Palindrome](%5BEasy%5D%20%5BSolution%5D%20125.%20Valid%20Palindrome.md)
+* [Easy] [Solution] 125. Valid Palindrome
 
 ### Repeated Substring Pattern
 ```python
@@ -6454,7 +6455,7 @@ class Solution:
     def repeatedSubstringPattern(self, s: str) -> bool:
         return s in (s+s)[1:-1]
 ```
-* [[Easy] 459. Repeated Substring Pattern](%5BEasy%5D%20459.%20Repeated%20Substring%20Pattern.md)
+* [Easy] 459. Repeated Substring Pattern
 
 ### Reverse String
 ```python
@@ -6468,7 +6469,7 @@ class Solution:
             s[left], s[right] = s[right], s[left]
             left, right = left + 1, right - 1
 ```
-* [[Easy] [Solution] 344. Reverse String](%5BEasy%5D%20%5BSolution%5D%20344.%20Reverse%20String.md)
+* [Easy] [Solution] 344. Reverse String
 
 ### Two Pointers
 ```python
@@ -6490,7 +6491,7 @@ class Solution:
                     return False
         return True
 ```
-* [[Easy] [Solution] 680. Valid Palindrome II](%5BEasy%5D%20%5BSolution%5D%20680.%20Valid%20Palindrome%20II.md)
+* [Easy] [Solution] 680. Valid Palindrome II
 
 ### Ad-Hoc
 ```python
@@ -6501,7 +6502,7 @@ class Solution(object):
             if B in A * (q+i): return q+i
         return -1
 ```
-* [[Easy] [Solution] 686. Repeated String Match](%5BEasy%5D%20%5BSolution%5D%20686.%20Repeated%20String%20Match.md)
+* [Easy] [Solution] 686. Repeated String Match
 
 ### Linear Scan
 ```python
@@ -6517,7 +6518,7 @@ class Solution:
 
         return ans + min(prev, cur)
 ```
-* [[Easy] [Solution] 696. Count Binary Substrings](%5BEasy%5D%20%5BSolution%5D%20696.%20Count%20Binary%20Substrings.md)
+* [Easy] [Solution] 696. Count Binary Substrings
 
 ### Enumerate Cases
 ```python
@@ -6539,7 +6540,7 @@ class Solution:
                 if len(pairs) >= 3: return False
             return len(pairs) == 2 and pairs[0] == pairs[1][::-1]
 ```
-* [[Easy] [Solution] 859. Buddy Strings](%5BEasy%5D%20%5BSolution%5D%20859.%20Buddy%20Strings.md)
+* [Easy] [Solution] 859. Buddy Strings
 
 ### Stack of Letters
 ```python
@@ -6554,7 +6555,7 @@ class Solution:
                 ans.append(c)
         return "".join(ans)
 ```
-* [[Easy] [Solution] 917. Reverse Only Letters](%5BEasy%5D%20%5BSolution%5D%20917.%20Reverse%20Only%20Letters.md)
+* [Easy] [Solution] 917. Reverse Only Letters
 
 ### Custom Sort
 ```python
@@ -6566,7 +6567,7 @@ class Solution:
 
         return sorted(logs, key = f)
 ```
-* [[Easy] [Solution] 937. Reorder Data in Log Files](%5BEasy%5D%20%5BSolution%5D%20937.%20Reorder%20Data%20in%20Log%20Files.md)
+* [Easy] [Solution] 937. Reorder Data in Log Files
 
 ### Cartesian Product, Brute force all combination
 ```python
@@ -6586,7 +6587,7 @@ class Solution:
                 for i in range(1, len(S))
                 for cand in itertools.product(make(S[:i]), make(S[i:]))]
 ```
-* [[Medium] [Solution] 816. Ambiguous Coordinates](%5BMedium%5D%20%5BSolution%5D%20816.%20Ambiguous%20Coordinates.md)
+* [Medium] [Solution] 816. Ambiguous Coordinates
 
 ### Work Backwards
 ```python
@@ -6610,7 +6611,7 @@ class Solution:
             else:
                 size -= 1
 ```
-* [[Medium] [Solution] 880. Decoded String at Index](%5BMedium%5D%20%5BSolution%5D%20880.%20Decoded%20String%20at%20Index.md)
+* [Medium] [Solution] 880. Decoded String at Index
 
 ### GCD
 ```python
@@ -6621,7 +6622,7 @@ class Solution:
         if str1[:len(str2)] == str2: return self.gcdOfStrings(str1[len(str2):], str2)  # x - y (also need to check the prefix str match)
         return "" # original gcd alway has a solution (at least '1')
 ```
-* [[Easy] 1071. Greatest Common Divisor of Strings](%5BEasy%5D%201071.%20Greatest%20Common%20Divisor%20of%20Strings.md)
+* [Easy] 1071. Greatest Common Divisor of Strings
 
 ### Binary
 ```python
@@ -6629,7 +6630,7 @@ class Solution:
     def concatenatedBinary(self, n: int) -> int:
         return int(''.join(bin(i)[2 :] for i in range(1, n + 1)), 2) % (10 ** 9 + 7)
 ```
-* [[Medium] 1680. Concatenation of Consecutive Binary Numbers](%5BMedium%5D%201680.%20Concatenation%20of%20Consecutive%20Binary%20Numbers.md)
+* [Medium] 1680. Concatenation of Consecutive Binary Numbers
 
 ### same set and frequency
 ```python
@@ -6637,7 +6638,7 @@ class Solution:
     def closeStrings(self, word1: str, word2: str) -> bool:
         return set(word1) == set(word2) and Counter(Counter(word1).values()) == Counter(Counter(word2).values())
 ```
-* [[Medium] 1657. Determine if Two Strings Are Close](%5BMedium%5D%201657.%20Determine%20if%20Two%20Strings%20Are%20Close.md)
+* [Medium] 1657. Determine if Two Strings Are Close
 
 ### Simulation
 ```python
@@ -6652,7 +6653,7 @@ class Solution:
                     for digit in divmod(block, 10)):
                 return "{:02d}:{:02d}".format(*divmod(cur, 60))
 ```
-* [[Lock] [Medium] [Solution] 681. Next Closest Time](%5BLock%5D%20%5BMedium%5D%20%5BSolution%5D%20681.%20Next%20Closest%20Time.md)
+* [Lock] [Medium] [Solution] 681. Next Closest Time
 
 ### Binary search in string time range
 ```python
@@ -6680,7 +6681,7 @@ class LogSystem:
 # obj.put(id,timestamp)
 # param_2 = obj.retrieve(s,e,gra)
 ```
-* [[Lock] [Medium] [Solution] 635. Design Log Storage System](%5BLock%5D%20%5BMedium%5D%20%5BSolution%5D%20635.%20Design%20Log%20Storage%20System.md)
+* [Lock] [Medium] [Solution] 635. Design Log Storage System
 
 ### Split Concatenated Strings
 ```python
@@ -6712,7 +6713,7 @@ class Solution:
 
         return output
 ```
-* [[Lock] [Medium] [Solution] 555. Split Concatenated Strings](%5BLock%5D%20%5BMedium%5D%20%5BSolution%5D%20555.%20Split%20Concatenated%20Strings.md)
+* [Lock] [Medium] [Solution] 555. Split Concatenated Strings
 
 ### Brute Force
 ```python
@@ -6734,7 +6735,7 @@ class Solution:
             if incl: ans.append("</b>")
         return "".join(ans)
 ```
-* [[Lock] [Medium] [Solution] 616. Add Bold Tag in String](%5BLock%5D%20%5BMedium%5D%20%5BSolution%5D%20616.%20Add%20Bold%20Tag%20in%20String.md)
+* [Lock] [Medium] [Solution] 616. Add Bold Tag in String
 
 ### Reverse the Whole String and Then Reverse Each Word
 ```python
@@ -6768,7 +6769,7 @@ class Solution:
         # reverse each word
         self.reverse_each_word(s)
 ```
-* [[Lock] [Medium] [Solution] 186. Reverse Words in a String II](%5BLock%5D%20%5BMedium%5D%20%5BSolution%5D%20186.%20Reverse%20Words%20in%20a%20String%20II.md)
+* [Lock] [Medium] [Solution] 186. Reverse Words in a String II
 
 ### Visit by Row
 ```python
@@ -6787,7 +6788,7 @@ class Solution:
         ret = ''.join([c for r in rows for c in r])
         return ret
 ```
-* [[Medium] [Solution] 6. ZigZag Conversion](%5BMedium%5D%20%5BSolution%5D%206.%20ZigZag%20Conversion.md)
+* [Medium] [Solution] 6. ZigZag Conversion
 
 ### Brute Force all combination
 ```python
@@ -6842,7 +6843,7 @@ class Solution:
                     ans.append('({}){}'.format(left, right))
         return ans
 ```
-* [[Medium] [Solution] 22. Generate Parentheses](%5BMedium%5D%20%5BSolution%5D%2022.%20Generate%20Parentheses.md)
+* [Medium] [Solution] 22. Generate Parentheses
 
 ### Stack
 ```python
@@ -6859,7 +6860,7 @@ class Solution:
 
         return stack.pop()
 ```
-* [[Medium] [Solution] 856. Score of Parentheses](%5BMedium%5D%20%5BSolution%5D%20856.%20Score%20of%20Parentheses.md)
+* [Medium] [Solution] 856. Score of Parentheses
 
 ### Reverse Words
 ```python
@@ -6867,7 +6868,7 @@ class Solution:
     def reverseWords(self, s: str) -> str:
         return " ".join(s.split()[::-1])  #first split then reverse and then join to form new string
 ```
-* [[Medium] 151. Reverse Words in a String](%5BMedium%5D%20151.%20Reverse%20Words%20in%20a%20String.md)
+* [Medium] 151. Reverse Words in a String
 
 ### Stack, previous operator
 ```python
@@ -6896,7 +6897,7 @@ class Solution:
                 pre_op = c
         return sum(stack)
 ```
-* [[Medium] 227. Basic Calculator II](%5BMedium%5D%20227.%20Basic%20Calculator%20II.md)
+* [Medium] 227. Basic Calculator II
 
 ### Manacher's Algorithm
 ```python
@@ -6917,7 +6918,7 @@ class Solution:
 
         return sum((v+1)//2 for v in manachers(s))
 ```
-* [[Medium] [Solution] 647. Palindromic Substrings](%5BMedium%5D%20%5BSolution%5D%20647.%20Palindromic%20Substrings.md)
+* [Medium] [Solution] 647. Palindromic Substrings
 
 ### Next Greater Element
 ```python
@@ -6957,7 +6958,7 @@ class Solution:
         res = int("".join(nums))
         return  res if (res > n and res <= (2**31-1)) else -1
 ```
-* [[Medium] 556. Next Greater Element III](%5BMedium%5D%20556.%20Next%20Greater%20Element%20III.md)
+* [Medium] 556. Next Greater Element III
 
 ### Heap
 ```python
@@ -6978,7 +6979,7 @@ class Solution:
 
         return "".join(ans) + (pq[0][1] if pq else '')
 ```
-* [[Medium] [Solution] 767. Reorganize String](%5BMedium%5D%20%5BSolution%5D%20767.%20Reorganize%20String.md)
+* [Medium] [Solution] 767. Reorganize String
 
 ### Run Length Encoding
 ```python
@@ -6998,7 +6999,7 @@ class Solution:
 
         return ans
 ```
-* [[Medium] [Solution] 809. Expressive Words](%5BMedium%5D%20%5BSolution%5D%20809.%20Expressive%20Words.md)
+* [Medium] [Solution] 809. Expressive Words
 
 ### Cartesian Product
 ```python
@@ -7018,7 +7019,7 @@ class Solution:
                 for i in range(1, len(S))
                 for cand in itertools.product(make(S[:i]), make(S[i:]))]
 ```
-* [[Medium] [Solution] 816. Ambiguous Coordinates](%5BMedium%5D%20%5BSolution%5D%20816.%20Ambiguous%20Coordinates.md)
+* [Medium] [Solution] 816. Ambiguous Coordinates
 
 ### Counting
 ```python
@@ -7032,7 +7033,7 @@ class Solution:
 
         return len({count(word) for word in A})
 ```
-* [[Easy] [Solution] 893. Groups of Special-Equivalent Strings](%5BEasy%5D%20%5BSolution%5D%20893.%20Groups%20of%20Special-Equivalent%20Strings.md)
+* [Easy] [Solution] 893. Groups of Special-Equivalent Strings
 
 ### Prefix Sum
 ```python
@@ -7047,7 +7048,7 @@ class Solution:
 
         return "".join(ans)
 ```
-* [[Medium] [Solution] 848. Shifting Letters](%5BMedium%5D%20%5BSolution%5D%20848.%20Shifting%20Letters.md)
+* [Medium] [Solution] 848. Shifting Letters
 
 ### Hash Table
 ```python
@@ -7062,7 +7063,7 @@ class Solution:
 
         return filter(match, words)
 ```
-* [[Medium] [Solution] 890. Find and Replace Pattern](%5BMedium%5D%20%5BSolution%5D%20890.%20Find%20and%20Replace%20Pattern.md)
+* [Medium] [Solution] 890. Find and Replace Pattern
 
 ### HashMap, map candidate and answer to the same entry
 ```python
@@ -7096,7 +7097,7 @@ class Solution:
 
         return map(solve, queries)
 ```
-* [[Medium] [Solution] 966. Vowel Spellchecker](%5BMedium%5D%20%5BSolution%5D%20966.%20Vowel%20Spellchecker.md)
+* [Medium] [Solution] 966. Vowel Spellchecker
 
 ### break string, stack
 ```python
@@ -7114,7 +7115,7 @@ class Solution:
                 ans = max(ans, len(string))
         return ans
 ```
-* [[Medium] 395. Longest Substring with At Least K Repeating Characters](%5BMedium%5D%20395.%20Longest%20Substring%20with%20At%20Least%20K%20Repeating%20Characters.md)
+* [Medium] 395. Longest Substring with At Least K Repeating Characters
 
 ### string match
 ```python
@@ -7137,7 +7138,7 @@ class Solution:
         if not is_integer(parts[0]) and not is_decimal(parts[0]): return False
         return True if len(parts) == 1 else is_integer(parts[1])
 ```
-* [[Hard] 65. Valid Number](%5BHard%5D%2065.%20Valid%20Number.md)
+* [Hard] 65. Valid Number
 
 ### Math
 ```python
@@ -7147,7 +7148,7 @@ class Solution:
             return min(S[i:] + S[:i] for i in range(len(S)))
         return "".join(sorted(S))
 ```
-* [[Hard] [Solution] 899. Orderly Queue](%5BHard%5D%20%5BSolution%5D%20899.%20Orderly%20Queue.md)
+* [Hard] [Solution] 899. Orderly Queue
 
 ### Edit Distance
 ```python
@@ -7169,7 +7170,7 @@ class Solution:
 
         return dp(0, 0)
 ```
-* [[Hard] 72. Edit Distance](%5BHard%5D%2072.%20Edit%20Distance.md)
+* [Hard] 72. Edit Distance
 
 ## Tree <a name='tree'></a>
 ---
@@ -7198,7 +7199,7 @@ class Solution:
 
         return trim(root)
 ```
-* [[Easy] [Solution] 669. Trim a Binary Search Tree](%5BEasy%5D%20%5BSolution%5D%20669.%20Trim%20a%20Binary%20Search%20Tree.md)
+* [Easy] [Solution] 669. Trim a Binary Search Tree
 
 ### DFS
 ```python
@@ -7228,7 +7229,7 @@ class Solution:
         height(root)
         return self.isBalanced
 ```
-* [[Easy] 110. Balanced Binary Tree](%5BEasy%5D%20110.%20Balanced%20Binary%20Tree.md)
+* [Easy] 110. Balanced Binary Tree
 
 ### Traversal with Relinking
 ```python
@@ -7253,7 +7254,7 @@ class Solution:
         inorder(root)
         return ans.right
 ```
-* [[Easy] [Solution] 897. Increasing Order Search Tree](%5BEasy%5D%20%5BSolution%5D%20897.%20Increasing%20Order%20Search%20Tree.md)
+* [Easy] [Solution] 897. Increasing Order Search Tree
 
 ### DFS/BFS
 ```python
@@ -7292,7 +7293,7 @@ class Solution:
 
         return depth
 ```
-* [[Easy] 104. Maximum Depth of Binary Tree](%5BEasy%5D%20104.%20Maximum%20Depth%20of%20Binary%20Tree.md)
+* [Easy] 104. Maximum Depth of Binary Tree
 
 ### DFS, Yield
 ```python
@@ -7317,7 +7318,7 @@ class Solution:
 
         return sum(dfs(root, 0))
 ```
-* [[Easy] 1022. Sum of Root To Leaf Binary Numbers](%5BEasy%5D%201022.%20Sum%20of%20Root%20To%20Leaf%20Binary%20Numbers.md)
+* [Easy] 1022. Sum of Root To Leaf Binary Numbers
 
 ### DFS
 ```python
@@ -7338,7 +7339,7 @@ class Solution:
         root.right = left
         return root
 ```
-* [[Easy] [Solution] 226. Invert Binary Tree](%5BEasy%5D%20%5BSolution%5D%20226.%20Invert%20Binary%20Tree.md)
+* [Easy] [Solution] 226. Invert Binary Tree
 
 ### In-Order with extra pointer
 ```python
@@ -7365,7 +7366,7 @@ class Solution:
             self.convertBST(root.left)
         return root
 ```
-* [[Easy] [Solution] 538. Convert BST to Greater Tree](%5BEasy%5D%20%5BSolution%5D%20538.%20Convert%20BST%20to%20Greater%20Tree.md)
+* [Easy] [Solution] 538. Convert BST to Greater Tree
 
 ### Range Sum
 ```python
@@ -7391,7 +7392,7 @@ class Solution:
         dfs(root)
         return self.ans
 ```
-* [[Easy] [Solution] 938. Range Sum of BST](%5BEasy%5D%20%5BSolution%5D%20938.%20Range%20Sum%20of%20BST.md)
+* [Easy] [Solution] 938. Range Sum of BST
 
 ### DFS
 ```python
@@ -7409,7 +7410,7 @@ class Solution:
         y_parent, y_depth = parent[y]
         return True if x_parent != y_parent and x_depth == y_depth else False 
 ```
-* [[Easy] [Solution] 993. Cousins in Binary Tree](%5BEasy%5D%20%5BSolution%5D%20993.%20Cousins%20in%20Binary%20Tree.md)
+* [Easy] [Solution] 993. Cousins in Binary Tree
 
 ### BFS
 ```python
@@ -7430,7 +7431,7 @@ class Solution:
             level = [c for node in level if node for c in [node.left, node.right] if c]
         return ans[::-1]
 ```
-* [[Easy] 107. Binary Tree Level Order Traversal II](%5BEasy%5D%20107.%20Binary%20Tree%20Level%20Order%20Traversal%20II.md)
+* [Easy] 107. Binary Tree Level Order Traversal II
 
 ### DFS
 ```python
@@ -7453,7 +7454,7 @@ class Solution:
         elif root.val < val:
             return self.searchBST(root.right, val)
 ```
-* [[Easy] 700. Search in a Binary Search Tree](%5BEasy%5D%20700.%20Search%20in%20a%20Binary%20Search%20Tree.md)
+* [Easy] 700. Search in a Binary Search Tree
 
 ### Postorder, parent pointer
 ```python
@@ -7616,7 +7617,7 @@ class Solution:
                 node.right = stack[-1]
             node.left = None
 ```
-* [[Medium] 114. Flatten Binary Tree to Linked List](%5BMedium%5D%20114.%20Flatten%20Binary%20Tree%20to%20Linked%20List.md)
+* [Medium] 114. Flatten Binary Tree to Linked List
 
 ### Pre-order
 ```python
@@ -7653,7 +7654,7 @@ class Solution:
             self.flipped = [-1]
         return self.flipped
 ```
-* [[Medium] [Solution] 971. Flip Binary Tree To Match Preorder Traversal](%5BMedium%5D%20%5BSolution%5D%20971.%20Flip%20Binary%20Tree%20To%20Match%20Preorder%20Traversal.md)
+* [Medium] [Solution] 971. Flip Binary Tree To Match Preorder Traversal
 
 ### Pre-order
 ```python
@@ -7673,7 +7674,7 @@ class Solution:
 
         return dfs(root, float('-inf'), float('inf'))
 ```
-* [[Medium] 98. Validate Binary Search Tree](%5BMedium%5D%2098.%20Validate%20Binary%20Search%20Tree.md)
+* [Medium] 98. Validate Binary Search Tree
 
 ### Linked-List Walk through every level
 ```python
@@ -7704,7 +7705,7 @@ class Solution:
 
         return root
 ```
-* [[Medium] 117. Populating Next Right Pointers in Each Node II](%5BMedium%5D%20117.%20Populating%20Next%20Right%20Pointers%20in%20Each%20Node%20II.md)
+* [Medium] 117. Populating Next Right Pointers in Each Node II
 
 ### DFS, Queue
 ```python
@@ -7751,7 +7752,7 @@ class Codec:
         root = dfs(q)    
         return root
 ```
-* [[Medium] 449. Serialize and Deserialize BST](%5BMedium%5D%20449.%20Serialize%20and%20Deserialize%20BST.md)
+* [Medium] 449. Serialize and Deserialize BST
 
 ### DFS
 ```python
@@ -7772,7 +7773,7 @@ class Solution:
                 root.right = self.insertIntoBST(root.right, val)
             return root
 ```
-* [[Medium] 701. Insert into a Binary Search Tree](%5BMedium%5D%20701.%20Insert%20into%20a%20Binary%20Search%20Tree.md)
+* [Medium] 701. Insert into a Binary Search Tree
 
 ### All Elements in Two Binary Search Tree
 ```python
@@ -7803,7 +7804,7 @@ class Solution:
 
         return ans + (nums1[i:] if i < len(nums1) else nums2[j:])
 ```
-* [[Medium] 1305. All Elements in Two Binary Search Trees](%5BMedium%5D%201305.%20All%20Elements%20in%20Two%20Binary%20Search%20Trees.md)
+* [Medium] 1305. All Elements in Two Binary Search Trees
 
 ### Binary Tree Inorder Traversa
 ```python
@@ -7846,7 +7847,7 @@ class Solution:
             curr = curr.right
         return res
 ```
-* [[Medium] [Solution] 94. Binary Tree Inorder Traversal](%5BMedium%5D%20%5BSolution%5D%2094.%20Binary%20Tree%20Inorder%20Traversal.md)
+* [Medium] [Solution] 94. Binary Tree Inorder Traversal
 
 ### Kth Smallest
 ```python
@@ -7876,7 +7877,7 @@ class Solution:
         dfs(root, k)
         return seq[k-1]
 ```
-* [[Medium] [Solution] 230. Kth Smallest Element in a BST](%5BMedium%5D%20%5BSolution%5D%20230.%20Kth%20Smallest%20Element%20in%20a%20BST.md)
+* [Medium] [Solution] 230. Kth Smallest Element in a BST
 
 ### DFS
 ```python
@@ -7891,7 +7892,7 @@ class Solution:
     def countNodes(self, root: TreeNode) -> int:
         return 0 if not root else 1 + self.countNodes(root.left) + self.countNodes(root.right)
 ```
-* [[Medium] 222. Count Complete Tree Nodes](%5BMedium%5D%20222.%20Count%20Complete%20Tree%20Nodes.md)
+* [Medium] 222. Count Complete Tree Nodes
 
 ### DFS
 ```python
@@ -7914,7 +7915,7 @@ class Solution:
             root.right = self.bstFromPreorder(preorder[i:])
             return root
 ```
-* [[Medium] 1008. Construct Binary Search Tree from Preorder Traversal](%5BMedium%5D%201008.%20Construct%20Binary%20Search%20Tree%20from%20Preorder%20Traversal.md)
+* [Medium] 1008. Construct Binary Search Tree from Preorder Traversal
 
 ### Post-Order
 ```python
@@ -7944,7 +7945,7 @@ class Solution:
 
         return res-1
 ```
-* [[Medium] 1372. Longest ZigZag Path in a Binary Tree](%5BMedium%5D%201372.%20Longest%20ZigZag%20Path%20in%20a%20Binary%20Tree.md)
+* [Medium] 1372. Longest ZigZag Path in a Binary Tree
 
 ### Unique Binary Search Trees
 ```python
@@ -7975,7 +7976,7 @@ class Solution:
 
         return dfs(0, n) if n else []
 ```
-* [[Medium] 95. Unique Binary Search Trees II](%5BMedium%5D%2095.%20Unique%20Binary%20Search%20Trees%20II.md)
+* [Medium] 95. Unique Binary Search Trees II
 
 ### Unique Binary Search Trees
 ```python
@@ -8018,7 +8019,7 @@ class Solution:
             rst += self.numTrees(i) * self.numTrees(n - i - 1)
         return rst
 ```
-* [[Medium] 96. Unique Binary Search Trees](%5BMedium%5D%2096.%20Unique%20Binary%20Search%20Trees.md)
+* [Medium] 96. Unique Binary Search Trees
 
 ### Preorder
 ```python
@@ -8048,7 +8049,7 @@ class Solution:
         dfs(root, root.val)
         return ans
 ```
-* [[Medium] 129. Sum Root to Leaf Numbers](%5BMedium%5D%20129.%20Sum%20Root%20to%20Leaf%20Numbers.md)
+* [Medium] 129. Sum Root to Leaf Numbers
 
 ### DFS with pre node pointer
 ```python
@@ -8079,7 +8080,7 @@ class Solution:
         inorder(root)
         self.first.val, self.second.val = self.second.val, self.first.val
 ```
-* [[Hard] 99. Recover Binary Search Tree](%5BHard%5D%2099.%20Recover%20Binary%20Search%20Tree.md)
+* [Hard] 99. Recover Binary Search Tree
 
 ## Hash Table <a name='ht'></a>
 ---
@@ -8117,7 +8118,7 @@ class Solution:
                 return k
         return -1
 ```
-* [[Lock] [Easy] 1133. Largest Unique Number](%5BLock%5D%20%5BEasy%5D%201133.%20Largest%20Unique%20Number.md)
+* [Lock] [Easy] 1133. Largest Unique Number
 
 ### Count set size
 ```python
@@ -8125,7 +8126,7 @@ class Solution:
     def distributeCandies(self, candies: List[int]) -> int:
         return min(len(set(candies)), len(candies) // 2)
 ```
-* [[Easy] [Solution] 575. Distribute Candies](%5BEasy%5D%20%5BSolution%5D%20575.%20Distribute%20Candies.md)
+* [Easy] [Solution] 575. Distribute Candies
 
 ### Greedy, Hash Table
 ```python
@@ -8152,7 +8153,7 @@ class Solution:
                 result -= 2*roman_dict[s[i-1]]
         return result
 ```
-* [[Easy] 13. Roman to Integer](%5BEasy%5D%2013.%20Roman%20to%20Integer.md)
+* [Easy] 13. Roman to Integer
 
 ### Counter
 ```python
@@ -8165,7 +8166,7 @@ class Solution:
         """
         return collections.Counter(s) == collections.Counter(t)
 ```
-* [[Easy] [Solution] 242. Valid Anagram](%5BEasy%5D%20%5BSolution%5D%20242.%20Valid%20Anagram.md)
+* [Easy] [Solution] 242. Valid Anagram
 
 ### Counter
 ```python
@@ -8180,7 +8181,7 @@ class Solution:
                 max_seen = max(max_seen, seen_d[k] + seen_d[k + 1])
         return max_seen
 ```
-* [[Easy] [Solution] 594. Longest Harmonious Subsequence](%5BEasy%5D%20%5BSolution%5D%20594.%20Longest%20Harmonious%20Subsequence.md)
+* [Easy] [Solution] 594. Longest Harmonious Subsequence
 
 ### Hash Table
 ```python
@@ -8193,7 +8194,7 @@ class Solution:
             i += len(mp[x])
         return True
 ```
-* [[Easy] 1640. Check Array Formation Through Concatenation](%5BEasy%5D%201640.%20Check%20Array%20Formation%20Through%20Concatenation.md)
+* [Easy] 1640. Check Array Formation Through Concatenation
 
 ### Hash Set
 ```python
@@ -8212,7 +8213,7 @@ class Solution(object):
 
         return len(seen)
 ```
-* [[Easy] [Solution] 804. Unique Morse Code Words](%5BEasy%5D%20%5BSolution%5D%20804.%20Unique%20Morse%20Code%20Words.md)
+* [Easy] [Solution] 804. Unique Morse Code Words
 
 ### Candidate value hash
 ```python
@@ -8227,7 +8228,7 @@ class Solution:
             dic[num+k] = num
         return len(set(res))
 ```
-* [[Easy] 532. K-diff Pairs in an Array](%5BEasy%5D%20532.%20K-diff%20Pairs%20in%20an%20Array.md)
+* [Easy] 532. K-diff Pairs in an Array
 
 ### Two Counter
 ```python
@@ -8237,7 +8238,7 @@ class Solution:
         bull_count = len(["_" for letter_secret, letter_guess in zip(secret, guess) if letter_secret == letter_guess])
         return '{}A{}B'.format(bull_count, cow_count - bull_count)
 ```
-* [[Easy] 299. Bulls and Cows](%5BEasy%5D%20299.%20Bulls%20and%20Cows.md)
+* [Easy] 299. Bulls and Cows
 
 ### Word Pattern
 ```python
@@ -8256,7 +8257,7 @@ class Solution:
                     return False
         return True
 ```
-* [[Easy] 290. Word Pattern](%5BEasy%5D%20290.%20Word%20Pattern.md)
+* [Easy] 290. Word Pattern
 
 ### Fizz Buzz
 ```python
@@ -8287,7 +8288,7 @@ class Solution:
 
         return ans
 ```
-* [[Easy] [Solution] 412. Fizz Buzz](%5BEasy%5D%20%5BSolution%5D%20412.%20Fizz%20Buzz.md)
+* [Easy] [Solution] 412. Fizz Buzz
 
 ### Left and Right Index
 ```python
@@ -8307,7 +8308,7 @@ class Solution:
 
         return ans
 ```
-* [[Easy] [Solution] 697. Degree of an Array](%5BEasy%5D%20%5BSolution%5D%20697.%20Degree%20of%20an%20Array.md)
+* [Easy] [Solution] 697. Degree of an Array
 
 ### Counter
 ```python
@@ -8315,7 +8316,7 @@ class Solution:
     def canConstruct(self, ransomNote: str, magazine: str) -> bool:
         return len(collections.Counter(ransomNote) - collections.Counter(magazine)) == 0
 ```
-* [[Easy] 383. Ransom Note](%5BEasy%5D%20383.%20Ransom%20Note.md)
+* [Easy] 383. Ransom Note
 
 ### Counter
 ```python
@@ -8334,7 +8335,7 @@ class Solution:
                 return idx     
         return -1
 ```
-* [[Easy] [Solution] 387. First Unique Character in a String](%5BEasy%5D%20%5BSolution%5D%20387.%20First%20Unique%20Character%20in%20a%20String.md?_xsrf=2%7C5e3776f8%7C24c18c3d2c50a10817453c72e445205a%7C1587427356)
+* [Easy] [Solution] 387. First Unique Character in a String
 
 ### Counter with order
 ```python
@@ -8363,7 +8364,7 @@ class Solution:
             
         return ans.values()
 ```
-* [[Medium] [Solution] 49. Group Anagrams](%5BMedium%5D%20%5BSolution%5D%2049.%20Group%20Anagrams.md)
+* [Medium] [Solution] 49. Group Anagrams
 
 ### Key-value pair
 ```python
@@ -8382,7 +8383,7 @@ class Solution:
                 res.append(d[k])
         return res
 ```
-* [[Medium] [Solution] 609. Find Duplicate File in System](%5BMedium%5D%20%5BSolution%5D%20609.%20Find%20Duplicate%20File%20in%20System.md)
+* [Medium] [Solution] 609. Find Duplicate File in System
 
 ### Set
 ```python
@@ -8391,7 +8392,7 @@ class Solution:
         A, B = map(set, zip(*paths))
         return (B - A).pop()
 ```
-* [[Easy] 1436. Destination City](%5BEasy%5D%201436.%20Destination%20City.md)
+* [Easy] 1436. Destination City
 
 ### Set
 ```python
@@ -8401,7 +8402,7 @@ class Solution:
         b = s.lower()[len(s)//2:]
         return collections.Counter(c in 'aeiou' for c in a) == collections.Counter(c in 'aeiou' for c in b)
 ```
-* [[Easy] 1704. Determine if String Halves Are Alike](%5BEasy%5D%201704.%20Determine%20if%20String%20Halves%20Are%20Alike.md)
+* [Easy] 1704. Determine if String Halves Are Alike
 
 ### Counter
 ```python
@@ -8416,7 +8417,7 @@ class Solution:
                 counter[pos] += 1
         return R - counter.most_common(1)[0][1] if counter else R
 ```
-* [[Medium] 554. Brick Wall](%5BMedium%5D%20554.%20Brick%20Wall.md)
+* [Medium] 554. Brick Wall
 
 ### feature set Hash Table
 ```python
@@ -8433,7 +8434,7 @@ class Solution:
             result.append(name[2]*count)
         return ''.join(sorted(result))
 ```
-* [[Medium] 423. Reconstruct Original Digits from English](%5BMedium%5D%20423.%20Reconstruct%20Original%20Digits%20from%20English.md)
+* [Medium] 423. Reconstruct Original Digits from English
 
 ### 2 hash table
 ```python
@@ -8466,7 +8467,7 @@ class UndergroundSystem:
 # obj.checkOut(id,stationName,t)
 # param_3 = obj.getAverageTime(startStation,endStation)
 ```
-* [[Medium] 1396. Design Underground System](%5BMedium%5D%201396.%20Design%20Underground%20System.md)
+* [Medium] 1396. Design Underground System
 
 ### Hash table to counter
 ```python
@@ -8494,7 +8495,7 @@ class Codec:
 # codec = Codec()
 # codec.decode(codec.encode(url))
 ```
-* [[Medium] 535. Encode and Decode TinyURL](%5BMedium%5D%20535.%20Encode%20and%20Decode%20TinyURL.md)
+* [Medium] 535. Encode and Decode TinyURL
 
 ### Counter
 ```python
@@ -8512,7 +8513,7 @@ class Solution:
                 ans += mi
         return ans
 ```
-* [[Medium] 1679. Max Number of K-Sum Pairs](%5BMedium%5D%201679.%20Max%20Number%20of%20K-Sum%20Pairs.md)
+* [Medium] 1679. Max Number of K-Sum Pairs
 
 ### Frequency Table
 ```python
@@ -8527,7 +8528,7 @@ class Solution:
                 freq[key] = 1 + freq.get(key, 0)
         return 8*ans
 ```
-* [[Medium] 1726. Tuple with Same Product](%5BMedium%5D%201726.%20Tuple%20with%20Same%20Product.md)
+* [Medium] 1726. Tuple with Same Product
 
 ### Hash Table Counter
 ```python
@@ -8546,7 +8547,7 @@ class Solution:
                     total_sum += cache[key]
         return total_sum
 ```
-* [[Medium] 454. 4Sum II](%5BMedium%5D%20454.%204Sum%20II.md)
+* [Medium] 454. 4Sum II
 
 ### Hash Key = Pattern sequence
 ```python
@@ -8562,7 +8563,7 @@ class Solution:
                 table[pattern] = index
         return list(set(ret))
 ```
-* [[Medium] 187. Repeated DNA Sequences](%5BMedium%5D%20187.%20Repeated%20DNA%20Sequences.md)
+* [Medium] 187. Repeated DNA Sequences
 
 ### Prefix sum Hash Table index
 ```python
@@ -8579,7 +8580,7 @@ class Solution:
                 res = min(res, i - dp[(cur - need) % p])
         return res if res < n else -1
 ```
-* [[Medium] 1590. Make Sum Divisible by P](%5BMedium%5D%201590.%20Make%20Sum%20Divisible%20by%20P.md)
+* [Medium] 1590. Make Sum Divisible by P
 
 ### Top K Frequent Elements
 ```python
@@ -8655,7 +8656,7 @@ class Solution:
         # Return top k frequent elements
         return unique[n - k:]
 ```
-* [[Medium] [Solution] 347. Top K Frequent Elements](%5BMedium%5D%20%5BSolution%5D%20347.%20Top%20K%20Frequent%20Elements.md)
+* [Medium] [Solution] 347. Top K Frequent Elements
 
 ### Contiguous Array
 ```python
@@ -8671,7 +8672,7 @@ class Solution:
                 d[count] = i
         return ans
 ```
-* [[Medium] [Solution] 525. Contiguous Array](%5BMedium%5D%20%5BSolution%5D%20525.%20Contiguous%20Array.md)
+* [Medium] [Solution] 525. Contiguous Array
 
 ### Simulation, cache
 ```python
@@ -8694,7 +8695,7 @@ class Solution:
 
         return cells
 ```
-* [[Medium] [Solution] 957. Prison Cells After N Days](%5BEasy%5D%20107.%20Binary%20Tree%20Level%20Order%20Traversal%20II.md)
+* [Medium] [Solution] 957. Prison Cells After N Days
 
 ### 3Sum
 ```python
@@ -8738,7 +8739,7 @@ class Solution:
 
         return soln
 ```
-* [[Medium] 15. 3Sum](%5BMedium%5D%2015.%203Sum.md)
+* [Medium] 15. 3Sum
 
 ### OrderedDict
 ```python
@@ -8775,7 +8776,7 @@ class LRUCache:
 # param_1 = obj.get(key)
 # obj.put(key,value)
 ```
-* [[Medium] 146. LRU Cache](%5BMedium%5D%20146.%20LRU%20Cache.md)
+* [Medium] 146. LRU Cache
 
 ### Generalized Neighbors
 ```python
@@ -8801,7 +8802,7 @@ class MagicDictionary:
 # obj.buildDict(dict)
 # param_2 = obj.search(word)
 ```
-* [[Medium] [Solution] 676. Implement Magic Dictionary](%5BMedium%5D%20%5BSolution%5D%20676.%20Implement%20Magic%20Dictionary.md)
+* [Medium] [Solution] 676. Implement Magic Dictionary
 
 ### Random
 ```python
@@ -8856,7 +8857,7 @@ class RandomizedSet:
 # param_2 = obj.remove(val)
 # param_3 = obj.getRandom()
 ```
-* [[Medium] 380. Insert Delete GetRandom O(1)](%5BMedium%5D%20380.%20Insert%20Delete%20GetRandom%20O(1).md)
+* [Medium] 380. Insert Delete GetRandom O(1)
 
 ### Boyer-Moore Voting Algorithm
 ```python
@@ -8888,7 +8889,7 @@ if not nums:
 
         return result
 ```
-* [[Medium] 229. Majority Element II](%5BMedium%5D%20229.%20Majority%20Element%20II.md)
+* [Medium] 229. Majority Element II
 
 ### Vote
 ```python
@@ -8900,7 +8901,7 @@ class Solution:
                 count[v][i] -= 1
         return ''.join(sorted(votes[0], key=lambda v: count[v] + [v]))
 ```
-* [[Medium] 1366. Rank Teams by Votes](%5BMedium%5D%201366.%20Rank%20Teams%20by%20Votes.md)
+* [Medium] 1366. Rank Teams by Votes
 
 ### Happen again
 ```python
@@ -8917,7 +8918,7 @@ class Solution:
                 r = max(r, i - d[n])
         return r
 ```
-* [[Medium] 1371. Find the Longest Substring Containing Vowels in Even Counts](%5BMedium%5D%201371.%20Find%20the%20Longest%20Substring%20Containing%20Vowels%20in%20Even%20Counts.md)
+* [Medium] 1371. Find the Longest Substring Containing Vowels in Even Counts
 
 ### Prefix Sum
 ```python
@@ -8933,7 +8934,7 @@ class Solution:
 
         return cnt
 ```
-* [[Medium] [Solution] 560. Subarray Sum Equals K](%5BMedium%5D%20%5BSolution%5D%20560.%20Subarray%20Sum%20Equals%20K.md)
+* [Medium] [Solution] 560. Subarray Sum Equals K
 
 ### Binary Search with Rolling Hash
 ```python
@@ -8983,7 +8984,7 @@ class Solution:
 
         return left - 1
 ```
-* [[Lock] [Medium] [Solution] 1062. Longest Repeating Substring](%5BLock%5D%20%5BMedium%5D%20%5BSolution%5D%201062.%20Longest%20Repeating%20Substring.md)
+* [Lock] [Medium] [Solution] 1062. Longest Repeating Substring
 
 ### Binary Search with Rolling Hash
 ```python
@@ -9024,7 +9025,7 @@ class Solution:
                 hi = mi
         return lo - 1
 ```
-* [[Medium] [Solution] 718. Maximum Length of Repeated Subarray](%5BMedium%5D%20%5BSolution%5D%20718.%20Maximum%20Length%20of%20Repeated%20Subarray.md)
+* [Medium] [Solution] 718. Maximum Length of Repeated Subarray
 
 ### palindrome
 ```python
@@ -9063,7 +9064,7 @@ class Solution:
                     some_strings.add(text[i:j])
         return len(some_strings)
 ```
-* [[Hard] 1316. Distinct Echo Substrings](%5BHard%5D%201316.%20Distinct%20Echo%20Substrings.md)
+* [Hard] 1316. Distinct Echo Substrings
 
 ### Brute Force
 ```python
@@ -9080,7 +9081,7 @@ class Solution:
                 ans += 1
         return ans
 ```
-* [[Medium] 792. Number of Matching Subsequences](%5BMedium%5D%20792.%20Number%20of%20Matching%20Subsequences.md)
+* [Medium] 792. Number of Matching Subsequences
 
 ### Delta Hash Table Counter
 ```python
@@ -9106,7 +9107,7 @@ class Solution:
 
         return max(d.values() or [0])
 ```
-* [[Medium] [Solution] 835. Image Overlap](%5BMedium%5D%20%5BSolution%5D%20835.%20Image%20Overlap.md)
+* [Medium] [Solution] 835. Image Overlap
 
 ### HashSet and Intelligent Sequence Building
 ```python
@@ -9132,7 +9133,7 @@ class Solution:
 
         return longest_streak
 ```
-* [[Hard] [Solution] 128. Longest Consecutive Sequence](%5BHard%5D%20%5BSolution%5D%20128.%20Longest%20Consecutive%20Sequence.md)
+* [Hard] [Solution] 128. Longest Consecutive Sequence
 
 ### Reverse location list
 ```python
@@ -9157,7 +9158,7 @@ class Solution:
 
         return True
 ```
-* [[Hard] 1585. Check If String Is Transformable With Substring Sort Operations](%5BHard%5D%201585.%20Check%20If%20String%20Is%20Transformable%20With%20Substring%20Sort%20Operations.md)
+* [Hard] 1585. Check If String Is Transformable With Substring Sort Operations
 
 
 ## Depth-first Search <a name="dfs"></a>
@@ -9200,7 +9201,7 @@ class Solution:
             stack.extend([c for c in node.children[::-1] if c])
         return ans
 ```
-* [[Easy] 589. N-ary Tree Preorder Traversal](%5BEasy%5D%20589.%20N-ary%20Tree%20Preorder%20Traversal.md)
+* [Easy] 589. N-ary Tree Preorder Traversal
 
 ### Post-Order
 ```python
@@ -9226,7 +9227,7 @@ class Solution:
         dfs(root)
         return self.ans
 ```
-* [[Easy] [Solution] 563. Binary Tree Tilt](%5BEasy%5D%20%5BSolution%5D%20563.%20Binary%20Tree%20Tilt.md)
+* [Easy] [Solution] 563. Binary Tree Tilt
 
 ### Sum of Left Leaves
 ```python
@@ -9286,7 +9287,7 @@ class Solution:
 
         return process_subtree(root, False)
 ```
-* [[Easy] 404. Sum of Left Leaves](%5BEasy%5D%20404.%20Sum%20of%20Left%20Leaves.md)
+* [Easy] 404. Sum of Left Leaves
 
 ### DFS
 ```python
@@ -9310,7 +9311,7 @@ class Solution:
         return self.isSameTree(p.right, q.right) and \
                self.isSameTree(p.left, q.left)
 ```
-* [[Easy] [Solution] 100. Same Tree](%5BEasy%5D%20%5BSolution%5D%20100.%20Same%20Tree.md)
+* [Easy] [Solution] 100. Same Tree
 
 ### island
 ```python
@@ -9419,7 +9420,7 @@ class Solution:
                     ans = max(ans, shape)
         return ans
 ```
-* [[Medium] [Solution] 695. Max Area of Island](%5BMedium%5D%20%5BSolution%5D%20695.%20Max%20Area%20of%20Island.md)
+* [Medium] [Solution] 695. Max Area of Island
 
 ### Search map, fix one axes and move forward the other
 ```python
@@ -9444,7 +9445,7 @@ class Solution:
                 return True
         return search(matrix, 0, len(matrix[0]) - 1)
 ```
-* [[Medium] 240. Search a 2D Matrix II](%5BMedium%5D%20240.%20Search%20a%202D%20Matrix%20II.md)
+* [Medium] 240. Search a 2D Matrix II
 
 ### DFS + Greedy
 ```python
@@ -9470,7 +9471,7 @@ class Solution:
         ans += word2
         return ans
 ```
-* [[Medium] 1754. Largest Merge Of Two Strings](%5BMedium%5D%201754.%20Largest%20Merge%20Of%20Two%20Strings.md)
+* [Medium] 1754. Largest Merge Of Two Strings
 
 ### Flood Fill
 ```python
@@ -9490,7 +9491,7 @@ class Solution:
         dfs(sr, sc)
         return image
 ```
-* [[Easy] [Solution] 733. Flood Fill](%5BEasy%5D%20%5BSolution%5D%20733.%20Flood%20Fill.md)
+* [Easy] [Solution] 733. Flood Fill
 
 ### DFS
 ```python
@@ -9509,7 +9510,7 @@ class Solution:
             return cloned
         return self.getTargetCopy(original.left, cloned.left, target) or self.getTargetCopy(original.right, cloned.right, target)
 ```
-* [[Medium] 1379. Find a Corresponding Node of a Binary Tree in a Clone of That Tree](%5BMedium%5D%201379.%20Find%20a%20Corresponding%20Node%20of%20a%20Binary%20Tree%20in%20a%20Clone%20of%20That%20Tree.md)
+* [Medium] 1379. Find a Corresponding Node of a Binary Tree in a Clone of That Tree
 
 ### Count Preorder Traversal
 ```python
@@ -9568,7 +9569,7 @@ class Solution:
         preorder(root, 0)
         return count
 ```
-* [[Medium] 1457. Pseudo-Palindromic Paths in a Binary Tree](%5BMedium%5D%201457.%20Pseudo-Palindromic%20Paths%20in%20a%20Binary%20Tree.md)
+* [Medium] 1457. Pseudo-Palindromic Paths in a Binary Tree
 
 ### Return tupple
 ```python
@@ -9597,7 +9598,7 @@ class Solution:
 
         return dfs(root).node
 ```
-* [[Medium] [Solution] 865. Smallest Subtree with all the Deepest Nodes](%5BMedium%5D%20%5BSolution%5D%20865.%20Smallest%20Subtree%20with%20all%20the%20Deepest%20Nodes.md)
+* [Medium] [Solution] 865. Smallest Subtree with all the Deepest Nodes
 
 ### Spiral
 ```python
@@ -9621,7 +9622,7 @@ class Solution:
         dfs(0, 0, 0, 1)
         return ans
 ```
-* [[Medium] 59. Spiral Matrix II](%5BMedium%5D%2059.%20Spiral%20Matrix%20II.md)
+* [Medium] 59. Spiral Matrix II
 
 ### Maximum Minus Minimum, Postorder with current max and min as parameter and return as answer
 ```python
@@ -9650,7 +9651,7 @@ class Solution:
 
         return helper(root, root.val, root.val)
 ```
-* [[Medium] 1026. Maximum Difference Between Node and Ancestor](%5BMedium%5D%201026.%20Maximum%20Difference%20Between%20Node%20and%20Ancestor.md)
+* [Medium] 1026. Maximum Difference Between Node and Ancestor
 
 ### Seen node hash table
 ```python
@@ -9670,7 +9671,7 @@ class Solution:
 
         return dfs(node)
 ```
-* [[Medium] 133. Clone Graph](%5BMedium%5D%20133.%20Clone%20Graph.md)
+* [Medium] 133. Clone Graph
 
 ### First neighbor
 ```python
@@ -9701,7 +9702,7 @@ class Solution:
 
         return ans
 ```
-* [[Medium] 399. Evaluate Division](%5BMedium%5D%20399.%20Evaluate%20Division.md)
+* [Medium] 399. Evaluate Division
 
 ### Delete Node in a BST
 ```python
@@ -9738,7 +9739,7 @@ class Solution:
             root.right = self.deleteNode(root.right, key)
         return root
 ```
-* [[Medium] * 450. Delete Node in a BST](%5BMedium%5D%20*%20450.%20Delete%20Node%20in%20a%20BST.md)
+* [Medium] * 450. Delete Node in a BST
 
 ### The Maze
 ```python
@@ -9763,7 +9764,7 @@ class Solution:
 
         return dfs(start[0], start[1], set())
 ```
-* [[Lock] [Medium] [Solution] 490. The Maze](%5BLock%5D%20%5BMedium%5D%20%5BSolution%5D%20490.%20The%20Maze.md)
+* [Lock] [Medium] [Solution] 490. The Maze
 
 ### DFS, BFS
 ```python
@@ -9826,7 +9827,7 @@ class Solution:
 
         return queue
 ```
-* [[Medium] [Solution] 967. Numbers With Same Consecutive Differences](%5BMedium%5D%20%5BSolution%5D%20967.%20Numbers%20With%20Same%20Consecutive%20Differences.md)
+* [Medium] [Solution] 967. Numbers With Same Consecutive Differences
 
 ### Prefix Sum
 ```python
@@ -9859,7 +9860,7 @@ class Solution:
         dfs(root, 0)
         return cnt
 ```
-* [[Medium] [Solution] 437. Path Sum III](%5BMedium%5D%20%5BSolution%5D%20437.%20Path%20Sum%20III.md)
+* [Medium] [Solution] 437. Path Sum III
 
 ### Hash Table + Preorder
 ```python
@@ -9884,7 +9885,7 @@ class Solution:
         dfs(root)
         return self.ans
 ```
-* [[Medium] [Solution] 662. Maximum Width of Binary Tree](%5BMedium%5D%20%5BSolution%5D%20662.%20Maximum%20Width%20of%20Binary%20Tree.md)
+* [Medium] [Solution] 662. Maximum Width of Binary Tree
 
 ### step by step try dfs cycle
 ```python
@@ -9905,7 +9906,7 @@ class Solution(object):
             graph[u].add(v)
             graph[v].add(u)
 ```
-* [[Medium] [Solution] 684. Redundant Connection](%5BMedium%5D%20%5BSolution%5D%20684.%20Redundant%20Connection.md)
+* [Medium] [Solution] 684. Redundant Connection
 
 ### Stack
 ```python
@@ -9924,7 +9925,7 @@ class Solution:
                     stack.append(nei) # add the key to the todo list
         return all(seen) # Return true iff we've visited every room
 ```
-* [[Medium] [Solution] 841. Keys and Rooms](%5BMedium%5D%20%5BSolution%5D%20841.%20Keys%20and%20Rooms.md)
+* [Medium] [Solution] 841. Keys and Rooms
 
 ### Store Locations
 ```python
@@ -9957,7 +9958,7 @@ class Solution:
 
         return ans
 ```
-* [[Medium] [Solution] 987. Vertical Order Traversal of a Binary Tree](%5BMedium%5D%20%5BSolution%5D%20987.%20Vertical%20Order%20Traversal%20of%20a%20Binary%20Tree.md)
+* [Medium] [Solution] 987. Vertical Order Traversal of a Binary Tree
 
 ### DFS, BFS
 ```python
@@ -10000,7 +10001,7 @@ class Solution(object):
                     queue.append((nei, d+1))
                     done.add(nei)
 ```
-* [[Medium] [Solution] 934. Shortest Bridge](%5BMedium%5D%20%5BSolution%5D%20934.%20Shortest%20Bridge.md)
+* [Medium] [Solution] 934. Shortest Bridge
 
 ### Cycle
 ```python
@@ -10025,7 +10026,7 @@ class Solution:
 
         return all(dfs(course) for course in range(numCourses))
 ```
-* [[Medium] 207. Course Schedule](%5BMedium%5D%20207.%20Course%20Schedule.md)
+* [Medium] 207. Course Schedule
 
 ### Reconstruct Itinerary
 ```python
@@ -10060,7 +10061,7 @@ class Solution:
 
         return dfs('JFK', ['JFK'])
 ```
-* [[Medium] 332. Reconstruct Itinerary](%5BMedium%5D%20332.%20Reconstruct%20Itinerary.md)
+* [Medium] 332. Reconstruct Itinerary
 
 ### All Path
 ```python
@@ -10079,7 +10080,7 @@ class Solution:
         dfs(0, [0])
         return ans
 ```
-* [[Medium] 797. All Paths From Source to Target](%5BMedium%5D%20797.%20All%20Paths%20From%20Source%20to%20Target.md)
+* [Medium] 797. All Paths From Source to Target
 
 ### inorder to postorder
 ```python
@@ -10092,7 +10093,7 @@ class Solution:
             root.left = self.buildTree(inorder[:ind], postorder)
             return root
 ```
-* [[Medium] 106. Construct Binary Tree from Inorder and Postorder Traversal](%5BMedium%5D%20106.%20Construct%20Binary%20Tree%20from%20Inorder%20and%20Postorder%20Traversal.md)
+* [Medium] 106. Construct Binary Tree from Inorder and Postorder Traversal
 
 ### Connected Component
 ```python
@@ -10119,7 +10120,7 @@ class Solution:
         
         return num_connected_components - 1
 ```
-* [[Medium] 1319. Number of Operations to Make Network Connected](%5BMedium%5D%201319.%20Number%20of%20Operations%20to%20Make%20Network%20Connected.md)
+* [Medium] 1319. Number of Operations to Make Network Connected
 
 ### 2*DFS
 ```python
@@ -10145,7 +10146,7 @@ class Solution:
         dfs(root)  # find the biggest product.
         return self.res % MOD
 ```
-* [[Medium] 1343. Maximum Product of Splitted Binary Tree](%5BMedium%5D%201343.%20Maximum%20Product%20of%20Splitted%20Binary%20Tree.md)
+* [Medium] 1343. Maximum Product of Splitted Binary Tree
 
 ### Level DFS
 ```python
@@ -10175,7 +10176,7 @@ class Solution:
 
         return solve(bottom)
 ```
-* [[Medium] [Solution] 756. Pyramid Transition Matrix](%5BMedium%5D%20%5BSolution%5D%20756.%20Pyramid%20Transition%20Matrix.md)
+* [Medium] [Solution] 756. Pyramid Transition Matrix
 
 ### DFS to find equal and sort
 ```python
@@ -10211,7 +10212,7 @@ class Solution:
 
         return ''.join(S)
 ```
-* [[Medium] 1202. Smallest String With Swaps](%5BMedium%5D%201202.%20Smallest%20String%20With%20Swaps.md)
+* [Medium] 1202. Smallest String With Swaps
 
 ### Reverse graph
 ```python
@@ -10235,7 +10236,7 @@ class Solution:
         dfs(0, -1)
         return self.res
 ```
-* [[Medium] 1466. Reorder Routes to Make All Paths Lead to the City Zero](%5BMedium%5D%201466.%20Reorder%20Routes%20to%20Make%20All%20Paths%20Lead%20to%20the%20City%20Zero.md)
+* [Medium] 1466. Reorder Routes to Make All Paths Lead to the City Zero
 
 ### Counter, Post-Order
 ```python
@@ -10257,7 +10258,7 @@ class Solution:
         dfs(0, -1)
         return ans
 ````
-* [[Medium] 1519. Number of Nodes in the Sub-Tree With the Same Label](%5BMedium%5D%201519.%20Number%20of%20Nodes%20in%20the%20Sub-Tree%20With%20the%20Same%20Label.md)
+* [Medium] 1519. Number of Nodes in the Sub-Tree With the Same Label
 
 ### Counter, Post-Order
 ```python
@@ -10290,7 +10291,7 @@ class Solution:
         dfs(root)
         return ans
 ```
-* [[Medium] 1530. Number of Good Leaf Nodes Pairs](%5BMedium%5D%201530.%20Number%20of%20Good%20Leaf%20Nodes%20Pairs.md)
+* [Medium] 1530. Number of Good Leaf Nodes Pairs
 
 ### Tarjan's algorithm
 ```python
@@ -10319,7 +10320,7 @@ class Solution:
         dfs(0, -1, 0)
         return ans
 ```
-* [[Hard] 1192. Critical Connections in a Network](%5BHard%5D%201192.%20Critical%20Connections%20in%20a%20Network.md)
+* [Hard] 1192. Critical Connections in a Network
 
 **Template 1: (Postorder)**
 ```python
@@ -10413,7 +10414,7 @@ for i in range(N):
 return num_connected_components        
 ```
 
-* [[Medium] 1110. Delete Nodes And Return Forest](%5BMedium%5D%201110.%20Delete%20Nodes%20And%20Return%20Forest.md)
+* [Medium] 1110. Delete Nodes And Return Forest
 
 ## Binary Search <a name="bs"></a>
 ---
@@ -10432,7 +10433,7 @@ class Solution:
                 left = pivot + 1
         return -1
 ```
-* [[Easy] [Solution] 704. Binary Search](%5BEasy%5D%20%5BSolution%5D%20704.%20Binary%20Search.md)
+* [Easy] [Solution] 704. Binary Search
 
 ### Closest Binary Search Tree Value
 ```python
@@ -10450,7 +10451,7 @@ class Solution:
             root = root.left if target < root.val else root.right
         return closest
 ```
-* [[Lock] [Easy] [Solution] 270. Closest Binary Search Tree Value](%5BLock%5D%20%5BEasy%5D%20%5BSolution%5D%20270.%20Closest%20Binary%20Search%20Tree%20Value.md)
+* [Lock] [Easy] [Solution] 270. Closest Binary Search Tree Value
 
 ### Binary Search to leftmost - increase one side
 ```python
@@ -10470,7 +10471,7 @@ class Solution:
                 left = mid + 1
         return left
 ```
-* [[Easy] [Solution] 278. First Bad Version](%5BEasy%5D%20%5BSolution%5D%20278.%20First%20Bad%20Version.md)
+* [Easy] [Solution] 278. First Bad Version
 
 ### Insert Position
 ```python
@@ -10483,7 +10484,7 @@ class Solution:
         """
         return bisect.bisect_left(nums, target)
 ```
-* [[Easy] 35. Search Insert Position](%5BEasy%5D%2035.%20Search%20Insert%20Position.md)
+* [Easy] 35. Search Insert Position
 
 ### Arranging Coins
 ```python
@@ -10501,7 +10502,7 @@ class Solution:
                 left = k + 1
         return right
 ```
-* [[Easy] [Solution] 441. Arranging Coins](%5BEasy%5D%20%5BSolution%5D%20441.%20Arranging%20Coins.md)
+* [Easy] [Solution] 441. Arranging Coins
 
 ### search interval
 ```python
@@ -10589,7 +10590,7 @@ class Solution:
             return node
         return convert(0, size - 1)
 ```
-* [[Medium] [Solution] 109. Convert Sorted List to Binary Search Tree](%5BMedium%5D%20%5BSolution%5D%20109.%20Convert%20Sorted%20List%20to%20Binary%20Search%20Tree.md)
+* [Medium] [Solution] 109. Convert Sorted List to Binary Search Tree
 
 ### search boundary
 ```python
@@ -10606,7 +10607,7 @@ class Solution:
         if (end == 0 and nums[end] != target) or target != nums[end-1]: return [-1, -1]
         return [start, end-1]  # bisect_right returns the position after the last occurrence of our target. So we return end -1
 ```
-* [[Medium] [Solution] 34. Find First and Last Position of Element in Sorted Array](%5BMedium%5D%20%5BSolution%5D%2034.%20Find%20First%20and%20Last%20Position%20of%20Element%20in%20Sorted%20Array.md)
+* [Medium] [Solution] 34. Find First and Last Position of Element in Sorted Array
 
 ### Binary Search
 ```python
@@ -10621,7 +10622,7 @@ class Solution:
                 right = mid
         return left
 ```
-* [[Medium] 1760. Minimum Limit of Balls in a Bag](%5BMedium%5D%201760.%20Minimum%20Limit%20of%20Balls%20in%20a%20Bag.md)
+* [Medium] 1760. Minimum Limit of Balls in a Bag
 
 ### Binary Search without diplicate
 ```python
@@ -10664,7 +10665,7 @@ class Solution:
             
         return binary_search(0, len(nums)-1, target)
 ```
-* [[Medium] 33. Search in Rotated Sorted Array](%5BMedium%5D%2033.%20Search%20in%20Rotated%20Sorted%20Array.md)
+* [Medium] 33. Search in Rotated Sorted Array
 
 ### Binary Search with duplicate
 ```python
@@ -10748,7 +10749,7 @@ class Solution:
     
         return dfs(0, len(nums)-1)
 ```
-* [[Medium] 81. Search in Rotated Sorted Array II](%5BMedium%5D%2081.%20Search%20in%20Rotated%20Sorted%20Array%20II.md)
+* [Medium] 81. Search in Rotated Sorted Array II
 
 ### Fix upper bound and increase lower bound
 ```python
@@ -10770,7 +10771,7 @@ class Solution:
 
         return lo
 ```
-* [[Medium] 1283. Find the Smallest Divisor Given a Threshold](%5BMedium%5D%201283.%20Find%20the%20Smallest%20Divisor%20Given%20a%20Threshold.md)
+* [Medium] 1283. Find the Smallest Divisor Given a Threshold
 
 ### search row head then column
 ```python
@@ -10791,7 +10792,7 @@ class Solution:
         else:
             return False
 ```
-* [[Medium] 74. Search a 2D Matrix](%5BMedium%5D%2074.%20Search%20a%202D%20Matrix.md)
+* [Medium] 74. Search a 2D Matrix
 
 ### Greedy, Binary Search
 ```python
@@ -10814,7 +10815,7 @@ class Solution:
             j += 1
         return count
 ```
-* [[Lock] [Medium] 1055. Shortest Way to Form String](%5BLock%5D%20%5BMedium%5D%201055.%20Shortest%20Way%20to%20Form%20String.md)
+* [Lock] [Medium] 1055. Shortest Way to Form String
 
 ### Random
 ```python
@@ -10834,7 +10835,7 @@ class Solution:
 # obj = Solution(w)
 # param_1 = obj.pickIndex()
 ```
-* [[Medium] 528. Random Pick with Weight](%5BMedium%5D%20528.%20Random%20Pick%20with%20Weight.md)
+* [Medium] 528. Random Pick with Weight
 
 ### Binary Search to leftmost - increase one side
 ```python
@@ -10851,7 +10852,7 @@ class Solution:
                 e = m
         return nums[b]
 ```
-* [[Medium] 540. Single Element in a Sorted Array](%5BMedium%5D%20540.%20Single%20Element%20in%20a%20Sorted%20Array.md)
+* [Medium] 540. Single Element in a Sorted Array
 
 ### pivort as first element
 ```python
@@ -10892,7 +10893,7 @@ class Solution:
             else:
                 right = mid - 1
 ```
-* [[Medium] [Solution] 153. Find Minimum in Rotated Sorted Array](%5BMedium%5D%20%5BSolution%5D%20153.%20Find%20Minimum%20in%20Rotated%20Sorted%20Array.md)
+* [Medium] [Solution] 153. Find Minimum in Rotated Sorted Array
 
 ### Sort, Binary Search, insert
 ```python
@@ -10913,7 +10914,7 @@ class Solution:
         # extract the second dimension and run the LIS
         return lis([e[1] for e in envelopes])
 ```
-* [[Hard] 354. Russian Doll Envelopes](%5BHard%5D%20354.%20Russian%20Doll%20Envelopes.md)
+* [Hard] 354. Russian Doll Envelopes
 
 ### Rotated Sorted Array, dupliczated
 ```python
@@ -10932,7 +10933,7 @@ class Solution:
 
         return nums[left]
 ```
-* [[Hard] 154. Find Minimum in Rotated Sorted Array II](%5BHard%5D%20154.%20Find%20Minimum%20in%20Rotated%20Sorted%20Array%20II.md)
+* [Hard] 154. Find Minimum in Rotated Sorted Array II
 
 ### Binary search to edge condition
 ```python
@@ -10950,7 +10951,7 @@ class Solution:
 
         return l
 ```
-* [[Medium] [Solution] 162. Find Peak Element](%5BMedium%5D%20%5BSolution%5D%20162.%20Find%20Peak%20Element.md)
+* [Medium] [Solution] 162. Find Peak Element
 
 ### H-Index
 ```python
@@ -10969,7 +10970,7 @@ class Solution:
 
         return ans
 ```
-* [[Medium] 275. H-Index II](%5BMedium%5D%20275.%20H-Index%20II.md)
+* [Medium] 275. H-Index II
 
 ### Max to sum 
 ```python
@@ -10994,7 +10995,7 @@ class Solution:
                 hi = mi
         return lo
 ```
-* [[Medium] 1011. Capacity To Ship Packages Within D Days](%5BMedium%5D%201011.%20Capacity%20To%20Ship%20Packages%20Within%20D%20Days.md)
+* [Medium] 1011. Capacity To Ship Packages Within D Days
 
 ### 0 to max
 ```python
@@ -11026,7 +11027,7 @@ class Solution:
         # Return the minimum value among candidates
         return sorted(cand)[0]
 ```
-* [[Medium] 1300. Sum of Mutated Array Closest to Target](%5BMedium%5D%201300.%20Sum%20of%20Mutated%20Array%20Closest%20to%20Target.md)
+* [Medium] 1300. Sum of Mutated Array Closest to Target
 
 ### Range Sum Search
 ```python
@@ -11058,7 +11059,7 @@ class Solution:
 
         return max_square
 ```
-* [[Medium] 1292. Maximum Side Length of a Square with Sum Less than or Equal to Threshold](%5BMedium%5D%201292.%20Maximum%20Side%20Length%20of%20a%20Square%20with%20Sum%20Less%20than%20or%20Equal%20to%20Threshold.md)
+* [Medium] 1292. Maximum Side Length of a Square with Sum Less than or Equal to Threshold
 
 ### Time series search
 ```python
@@ -11081,7 +11082,7 @@ class Solution:
                 left = mid + 1
         return left
 ```
-* [[Medium] 1482. Minimum Number of Days to Make m Bouquets](%5BMedium%5D%201482.%20Minimum%20Number%20of%20Days%20to%20Make%20m%20Bouquets.md)
+* [Medium] 1482. Minimum Number of Days to Make m Bouquets
 
 ### 2D Binary Search
 ```python
@@ -11111,7 +11112,7 @@ class Solution:
         dfs(0, C-1)
         return leftmost_col
 ```
-* [[Medium] 30day. Leftmost Column with at Least a One](%5BMedium%5D%2030day.%20Leftmost%20Column%20with%20at%20Least%20a%20One.md)
+* [Medium] 30day. Leftmost Column with at Least a One
 
 ### Rabin-Karp Algorithm
 ```python
@@ -11146,7 +11147,7 @@ class Solution:
 
         return Found
 ```
-* [[Hard] 1044. Longest Duplicate Substring](%5BHard%5D%201044.%20Longest%20Duplicate%20Substring.md)
+* [Hard] 1044. Longest Duplicate Substring
 
 ### Binary Search + Sliding Window
 ```python
@@ -11173,7 +11174,7 @@ class Solution:
 
         return lo
 ```
-* [[Hard] [Solution] 719. Find K-th Smallest Pair Distance](%5BHard%5D%20%5BSolution%5D%20719.%20Find%20K-th%20Smallest%20Pair%20Distance.md)
+* [Hard] [Solution] 719. Find K-th Smallest Pair Distance
 
 ### Search index range
 ```python
@@ -11197,7 +11198,7 @@ class MajorityChecker:
 # obj = MajorityChecker(arr)
 # param_1 = obj.query(left,right,threshold)
 ```
-* [[Hard] 1157. Online Majority Element In Subarray](%5BHard%5D%201330.%20Reverse%20Subarray%20To%20Maximize%20Array%20Value.md)
+* [Hard] 1157. Online Majority Element In Subarray
 
 **Template 1**
 ```python
@@ -11231,9 +11232,9 @@ while lo <= hi:
 return ans
 ```
 
-* [[Hard] 1231. Divide Chocolate](%5BHard%5D%201231.%20Divide%20Chocolate.md)
-* [[Medium] 1201. Ugly Number III](%5BMedium%5D%201201.%20Ugly%20Number%20III.md)
-* [[Medium] [Solution] 875. Koko Eating Bananas](%5BMedium%5D%20%5BSolution%5D%20875.%20Koko%20Eating%20Bananas.md)
+* [Hard] 1231. Divide Chocolate
+* [Medium] 1201. Ugly Number III
+* [Medium] [Solution] 875. Koko Eating Bananas
 
 ## Greedy <a name="greedy"></a>
 ---
@@ -11249,7 +11250,7 @@ class Solution:
                 ans += c
         return ans
 ```
-* [[Easy] 709. To Lower Case](%5BEasy%5D%20709.%20To%20Lower%20Case.md)
+* [Easy] 709. To Lower Case
 
 ### Max Profit
 ```python
@@ -11264,7 +11265,7 @@ class Solution:
                 max_profit = prices[i]-min_price
         return max_profit
 ```
-* [[Easy] [Solution] 121. Best Time to Buy and Sell Stock](%5BEasy%5D%20%5BSolution%5D%20121.%20Best%20Time%20to%20Buy%20and%20Sell%20Stock.md)
+* [Easy] [Solution] 121. Best Time to Buy and Sell Stock
 
 ### Greedy
 ```python
@@ -11280,7 +11281,7 @@ class Solution:
         ans[(i-1)%num_people] += candies
         return ans
 ```
-* [[Easy] [Solution] 1103. Distribute Candies to People](%5BEasy%5D%20%5BSolution%5D%201103.%20Distribute%20Candies%20to%20People.md)
+* [Easy] [Solution] 1103. Distribute Candies to People
 
 ### Greedy
 ```python
@@ -11293,7 +11294,7 @@ class Solution:
                 ans += 1
         return ans
 ```
-* [[Easy] [Solution] 409. Longest Palindrome](%5BEasy%5D%20%5BSolution%5D%20409.%20Longest%20Palindrome.md)
+* [Easy] [Solution] 409. Longest Palindrome
 
 ### Append leftmost and rightmost element
 ```python
@@ -11310,7 +11311,7 @@ class Solution:
             index += 1
         return n <= 0
 ```
-* [[Easy] [Solution] 605. Can Place Flowers](%5BEasy%5D%20%5BSolution%5D%20605.%20Can%20Place%20Flowers.md)
+* [Easy] [Solution] 605. Can Place Flowers
 
 ### frequency
 ```python
@@ -11344,7 +11345,7 @@ class Solution:
                 return i
         return len(heights) - 1
 ```
-* [[Medium] 1642. Furthest Building You Can Reach](%5BMedium%5D%201642.%20Furthest%20Building%20You%20Can%20Reach.md)
+* [Medium] 1642. Furthest Building You Can Reach
 
 ### global != local inversion
 ```python
@@ -11355,7 +11356,7 @@ class Solution:
                 return False
         return True
 ```
-* [[Medium] 775. Global and Local Inversions](%5BMedium%5D%20775.%20Global%20and%20Local%20Inversions.md)
+* [Medium] 775. Global and Local Inversions
 
 ### construct string from base to remaining
 ```python
@@ -11375,7 +11376,7 @@ class Solution:
             i += 1
         return ans
 ```
-* [[Medium] 1663. Smallest String With A Given Numeric Value](%5BMedium%5D%201663.%20Smallest%20String%20With%20A%20Given%20Numeric%20Value.md)
+* [Medium] 1663. Smallest String With A Given Numeric Value
 
 ### One Pass + Count
 ```python
@@ -11401,7 +11402,7 @@ class Solution:
                 
         return True
 ```
-* [[Medium] 1437. Check If All 1's Are at Least Length K Places Away](%5BMedium%5D%201437.%20Check%20If%20All%201's%20Are%20at%20Least%20Length%20K%20Places%20Away.md)
+* [Medium] 1437. Check If All 1's Are at Least Length K Places Away
 
 ### Two Pointers, greedy from back
 ```python
@@ -11417,7 +11418,7 @@ class Solution:
             j -= 1
         return ans
 ```
-* [[Medium] [Solution] 881. Boats to Save People](%5BMedium%5D%20%5BSolution%5D%20881.%20Boats%20to%20Save%20People.md)
+* [Medium] [Solution] 881. Boats to Save People
 
 ### Focus on some patter
 ```python
@@ -11443,7 +11444,7 @@ class Solution:
 
         return ans
 ```
-* [[Medium] 1717. Maximum Score From Removing Substrings](%5BMedium%5D%201717.%20Maximum%20Score%20From%20Removing%20Substrings.md)
+* [Medium] 1717. Maximum Score From Removing Substrings
 
 ### Sort then greedy add rectangle area arithmetic sum
 ```python
@@ -11464,7 +11465,7 @@ class Solution:
                     return ans % 1_000_000_007
             k += 1
 ```
-* [[Medium] 1648. Sell Diminishing-Valued Colored Balls](%5BMedium%5D%201648.%20Sell%20Diminishing-Valued%20Colored%20Balls.md)
+* [Medium] 1648. Sell Diminishing-Valued Colored Balls
 
 ### Sort then lost min and gain max
 ```python
@@ -11485,7 +11486,7 @@ class Solution:
 
         return ans
 ```
-* [[Medium] [Solution] 948. Bag of Tokens](%5BMedium%5D%20%5BSolution%5D%20948.%20Bag%20of%20Tokens.md)
+* [Medium] [Solution] 948. Bag of Tokens
 
 ### Split Two Strings to Make Palindrome
 ```python
@@ -11503,7 +11504,7 @@ class Solution:
 
         return any(s == s[::-1] for s in (s1,s2,s3,s4))
 ```
-* [[Medium] 1616. Split Two Strings to Make Palindrome](%5BMedium%5D%201616.%20Split%20Two%20Strings%20to%20Make%20Palindrome.md)
+* [Medium] 1616. Split Two Strings to Make Palindrome
 
 ### Sort by end and filter by start
 ```python
@@ -11519,7 +11520,7 @@ class Solution:
                 ans += 1
         return ans
 ```
-* [[Medium] 452. Minimum Number of Arrows to Burst Balloons](%5BMedium%5D%20452.%20Minimum%20Number%20of%20Arrows%20to%20Burst%20Balloons.md)
+* [Medium] 452. Minimum Number of Arrows to Burst Balloons
 
 ### First match
 ```python
@@ -11539,7 +11540,7 @@ class Solution:
 
         return start_index
 ```
-* [[Medium] 134. Gas Station](LeetCode/%5BMedium%5D%20134.%20Gas%20Station.md)
+* [Medium] 134. Gas Station
 
 ### zip_longest
 ```python
@@ -11554,7 +11555,7 @@ class Solution:
                 return -1
         return 0
 ```
-* [[Medium] 165. Compare Version Numbers](%5BMedium%5D%20165.%20Compare%20Version%20Numbers.md)
+* [Medium] 165. Compare Version Numbers
 
 ### Greedy over sorted intervals
 ```python
@@ -11591,7 +11592,7 @@ class Solution:
 
         return count
 ```
-* [[Medium] [Solution] 435. Non-overlapping Intervals](%5BMedium%5D%20%5BSolution%5D%20435.%20Non-overlapping%20Intervals.md)
+* [Medium] [Solution] 435. Non-overlapping Intervals
 
 ### Greedy check expected position
 ```python
@@ -11608,7 +11609,7 @@ class Solution:
                 return True
         return False
 ```
-* [[Medium] 334. Increasing Triplet Subsequence](%5BMedium%5D%20334.%20Increasing%20Triplet%20Subsequence.md)
+* [Medium] 334. Increasing Triplet Subsequence
 
 ### 1-bit and 2-bit Characters
 ```python
@@ -11618,7 +11619,7 @@ class Solution:
         while bits and bits.pop(): parity ^= 1
         return parity == 0
 ```
-* [[Easy] [Solution] 717. 1-bit and 2-bit Characters](%5BEasy%5D%20%5BSolution%5D%20717.%201-bit%20and%202-bit%20Characters.md)
+* [Easy] [Solution] 717. 1-bit and 2-bit Characters
 
 ### Logical Deduction with Caching
 ```python
@@ -11645,7 +11646,7 @@ class Solution:
                 return False
         return True
 ```
-* [[Lock] [Medium] [Solution] 277. Find the Celebrity](%5BLock%5D%20%5BMedium%5D%20%5BSolution%5D%20277.%20Find%20the%20Celebrity.md)
+* [Lock] [Medium] [Solution] 277. Find the Celebrity
 
 ### Range Caching
 ```python
@@ -11665,7 +11666,7 @@ class Solution:
 
         return result
 ```
-* [[Lock] [Medium] [Solution] 370. Range Addition](%5BLock%5D%20%5BMedium%5D%20%5BSolution%5D%20370.%20Range%20Addition.md)
+* [Lock] [Medium] [Solution] 370. Range Addition
 
 ### Overlap interval Sum
 ```python
@@ -11680,7 +11681,7 @@ class Solution:
             total += min(timeSeries[i + 1] - timeSeries[i], duration)
         return total + duration
 ```
-* [[Medium] [Solution] 495. Teemo Attacking](%5BMedium%5D%20%5BSolution%5D%20495.%20Teemo%20Attacking.md)
+* [Medium] [Solution] 495. Teemo Attacking
 
 ### Profit
 ```python
@@ -11699,7 +11700,7 @@ class Solution:
 
         return Max
 ```
-* [[Medium] [Solution] 714. Best Time to Buy and Sell Stock with Transaction Fee](%5BMedium%5D%20%5BSolution%5D%20714.%20Best%20Time%20to%20Buy%20and%20Sell%20Stock%20with%20Transaction%20Fee.md)
+* [Medium] [Solution] 714. Best Time to Buy and Sell Stock with Transaction Fee
 
 ### Hash table, Sort and remaining
 ```python
@@ -11727,7 +11728,7 @@ class Solution:
         return [assigned[b].pop() if assigned[b] else remaining.pop()
                 for b in B]
 ```
-* [[Medium] [Solution] 870. Advantage Shuffle](%5BMedium%5D%20%5BSolution%5D%20870.%20Advantage%20Shuffle.md)
+* [Medium] [Solution] 870. Advantage Shuffle
 
 ### Last index
 ```python
@@ -11739,7 +11740,7 @@ class Solution:
                 last_pos = i
         return last_pos == 0
 ```
-* [[Medium] [Solution] 55. Jump Game](%5BMedium%5D%20%5BSolution%5D%2055.%20Jump%20Game.md)
+* [Medium] [Solution] 55. Jump Game
 
 ### Maximum Swap
 ```python
@@ -11754,7 +11755,7 @@ class Solution:
                     return int("".join(map(str, A)))
         return num
 ```
-* [[Medium] [Solution] 670. Maximum Swap](%5BMedium%5D%20%5BSolution%5D%20670.%20Maximum%20Swap.md)
+* [Medium] [Solution] 670. Maximum Swap
 
 ### Doubled Pairs
 ```python
@@ -11769,7 +11770,7 @@ class Solution:
 
         return True
 ```
-* [[Medium] [Solution] 954. Array of Doubled Pairs](%5BMedium%5D%20%5BSolution%5D%20954.%20Array%20of%20Doubled%20Pairs.md)
+* [Medium] [Solution] 954. Array of Doubled Pairs
 
 ### Valid Parenthesis
 ```python
@@ -11784,7 +11785,7 @@ class Solution:
 
         return lo == 0
 ```
-* [[Medium] [Solution] 678. Valid Parenthesis String](%5BMedium%5D%20%5BSolution%5D%20678.%20Valid%20Parenthesis%20String.md)
+* [Medium] [Solution] 678. Valid Parenthesis String
 
 ### Post-Order
 ```python
@@ -11813,7 +11814,7 @@ class Solution:
         dfs(root)
         return self.ans
 ```
-* [[Hard] [Solution] 968. Binary Tree Cameras](%5BHard%5D%20%5BSolution%5D%20968.%20Binary%20Tree%20Cameras.md)
+* [Hard] [Solution] 968. Binary Tree Cameras
 
 ### Prefix Sum
 ```python
@@ -11827,7 +11828,7 @@ class Solution:
             
         return res
 ```
-* [[Hard] 1402. Reducing Dishes](%5BHard%5D%201402.%20Reducing%20Dishes.md)
+* [Hard] 1402. Reducing Dishes
 
 ### Prefix Sum
 ```python
@@ -11846,7 +11847,7 @@ class Solution:
             prefix[curr] = i
         return -1 if ans == math.inf else ans
 ```
-* [[Medium] 1477. Find Two Non-overlapping Sub-arrays Each With Target Sum](%5BMedium%5D%201477.%20Find%20Two%20Non-overlapping%20Sub-arrays%20Each%20With%20Target%20Sum.md)
+* [Medium] 1477. Find Two Non-overlapping Sub-arrays Each With Target Sum
 
 ### Substring Range Overlay
 ```python
@@ -11878,7 +11879,7 @@ class Solution:
                 last = e
         return res
 ```
-* [[Medium] 1520. Maximum Number of Non-Overlapping Substrings](%5BMedium%5D%201520.%20Maximum%20Number%20of%20Non-Overlapping%20Substrings.md)
+* [Medium] 1520. Maximum Number of Non-Overlapping Substrings
 
 ### Odd sum subarray
 ```python
@@ -11892,7 +11893,7 @@ class Solution:
             count[cur] += 1
         return res % (10**9 + 7)
 ```
-* [[Medium] 1524. Number of Sub-arrays With Odd Sum](%5BMedium%5D%201524.%20Number%20of%20Sub-arrays%20With%20Odd%20Sum.md)
+* [Medium] 1524. Number of Sub-arrays With Odd Sum
 
 ### Minimum Swaps
 ```python
@@ -11927,7 +11928,7 @@ class Solution:
 
         return ans
 ```
-* [[Medium] 1536. Minimum Swaps to Arrange a Binary Grid](%5BMedium%5D%201536.%20Minimum%20Swaps%20to%20Arrange%20a%20Binary%20Grid.md)
+* [Medium] 1536. Minimum Swaps to Arrange a Binary Grid
 
 ### Greedy, Work Backwards
 ```python
@@ -11970,7 +11971,7 @@ class Solution:
 
         return res[::-1]
 ```
-* [[Hard] [Solution] 936. Stamping The Sequence](%5BHard%5D%20%5BSolution%5D%20936.%20Stamping%20The%20Sequence.md)
+* [Hard] [Solution] 936. Stamping The Sequence
 
 ### Greedy add with count and visited
 ```python
@@ -11991,7 +11992,7 @@ class Solution:
 
         return ans[1:]
 ```
-* [[Hard] 316. Remove Duplicate Letters](%5BHard%5D%20316.%20Remove%20Duplicate%20Letters.md)
+* [Hard] 316. Remove Duplicate Letters
 
 ### Minimum Number of Increments
 ```python
@@ -12003,7 +12004,7 @@ class Solution:
             pre = a
         return res
 ```
-* [[Hard] 1526. Minimum Number of Increments on Subarrays to Form a Target Array](%5BHard%5D%201526.%20Minimum%20Number%20of%20Increments%20on%20Subarrays%20to%20Form%20a%20Target%20Array.md)
+* [Hard] 1526. Minimum Number of Increments on Subarrays to Form a Target Array
 
 **Template 1:**
 ```python
@@ -12016,10 +12017,10 @@ for i in ragen(len(A)):
 return ans
 ```
 
-* [[Medium] [Solution] 767. Reorganize String](%5BMedium%5D%20%5BSolution%5D%20767.%20Reorganize%20String.md)
-* [[Medium] [Solution] 738. Monotone Increasing Digits](%5BMedium%5D%20%5BSolution%5D%20738.%20Monotone%20Increasing%20Digits.md)
-* [[Easy] [Solution] 874. Walking Robot Simulation](%5BEasy%5D%20%5BSolution%5D%20874.%20Walking%20Robot%20Simulation.md)
-* [[Medium] * 1111. Maximum Nesting Depth of Two Valid Parentheses Strings](%5BMedium%5D%20*%201111.%20Maximum%20Nesting%20Depth%20of%20Two%20Valid%20Parentheses%20Strings.md)
+* [Medium] [Solution] 767. Reorganize String
+* [Medium] [Solution] 738. Monotone Increasing Digits
+* [Easy] [Solution] 874. Walking Robot Simulation
+* [Medium] * 1111. Maximum Nesting Depth of Two Valid Parentheses Strings
 
 ## Breadth-first Search <a name="bfs"></a>
 ---
@@ -12034,7 +12035,7 @@ class Solution:
             level = [c for node in level if node for c in [node.left, node.right] if c]
         return ans
 ```
-* [[Easy] [Solution] 637. Average of Levels in Binary Tree](%5BEasy%5D%20%5BSolution%5D%20637.%20Average%20of%20Levels%20in%20Binary%20Tree.md)
+* [Easy] [Solution] 637. Average of Levels in Binary Tree
 
 ### Minimum Depth
 ```python
@@ -12080,7 +12081,7 @@ class Solution:
             return self.minDepth(root.left) + 1
         return min(self.minDepth(root.left), self.minDepth(root.right)) + 1
 ```
-* [[Easy] 111. Minimum Depth of Binary Tree](%5BEasy%5D%20111.%20Minimum%20Depth%20of%20Binary%20Tree.md)
+* [Easy] 111. Minimum Depth of Binary Tree
 
 ### Level order
 ```python
@@ -12110,7 +12111,7 @@ class Solution:
 
         return -1
 ```
-* [[Medium] 752. Open the Lock](%5BMedium%5D%20752.%20Open%20the%20Lock.md)
+* [Medium] 752. Open the Lock
 
 ### Level order
 ```python
@@ -12136,7 +12137,7 @@ class Solution:
             q = nq
         return ans
 ```
-* [[Medium] 102. Binary Tree Level Order Traversal](%5BMedium%5D%20102.%20Binary%20Tree%20Level%20Order%20Traversal.md)
+* [Medium] 102. Binary Tree Level Order Traversal
 
 ### Level order
 ```python
@@ -12154,7 +12155,7 @@ class Solution:
             pre, l = l, [child for p in l for child in [p.left, p.right] if child]
         return sum(node.val for node in pre)
 ```
-* [[Medium] 1302. Deepest Leaves Sum](%5BMedium%5D%201302.%20Deepest%20Leaves%20Sum.md)
+* [Medium] 1302. Deepest Leaves Sum
 
 ### BFS
 ```python
@@ -12188,7 +12189,7 @@ class Solution:
 
         return root
 ```
-* [[Medium] [Solution] 623. Add One Row to Tree](%5BMedium%5D%20%5BSolution%5D%20623.%20Add%20One%20Row%20to%20Tree.md)
+* [Medium] [Solution] 623. Add One Row to Tree
 
 ### Search grid
 ```python
@@ -12218,7 +12219,7 @@ class Solution:
                     q.append((nr, nc, step+1))
         return -1
 ```
-* [[Medium] 1091. Shortest Path in Binary Matrix](%5BMedium%5D%201091.%20Shortest%20Path%20in%20Binary%20Matrix.md)
+* [Medium] 1091. Shortest Path in Binary Matrix
 
 ### BFS
 ```python
@@ -12238,7 +12239,7 @@ class Solution:
             level = [c for node in level for c in [node.left, node.right] if c]
         return ans
 ```
-* [[Medium] [Solution] 199. Binary Tree Right Side View](%5BMedium%5D%20%5BSolution%5D%20199.%20Binary%20Tree%20Right%20Side%20View.md)
+* [Medium] [Solution] 199. Binary Tree Right Side View
 
 ### Jump to index
 ```python
@@ -12276,7 +12277,7 @@ class Solution:
 
         return False
 ```
-* [[Medium] 1306. Jump Game III](%5BMedium%5D%201306.%20Jump%20Game%20III.md)
+* [Medium] 1306. Jump Game III
 
 ### Jump to home
 ```python
@@ -12300,7 +12301,7 @@ class Solution:
 
         return jumps[x] if jumps[x] < math.inf else -1
 ```
-* [[Medium] 1654. Minimum Jumps to Reach Home](%5BMedium%5D%201654.%20Minimum%20Jumps%20to%20Reach%20Home.md)
+* [Medium] 1654. Minimum Jumps to Reach Home
 
 ### Level-order
 ```python
@@ -12329,7 +12330,7 @@ class Solution:
 
         return root
 ```
-* [[Medium] 116. Populating Next Right Pointers in Each Node](%5BMedium%5D%20116.%20Populating%20Next%20Right%20Pointers%20in%20Each%20Node.md)
+* [Medium] 116. Populating Next Right Pointers in Each Node
 
 ### Topological Sorting, BFS from leaf to centroid
 ```python
@@ -12371,7 +12372,7 @@ class Solution:
         # The remaining nodes are the centroids of the graph
         return leaves
 ```
-* [[Medium] 310. Minimum Height Trees](%5BMedium%5D%20310.%20Minimum%20Height%20Trees.md)
+* [Medium] 310. Minimum Height Trees
 
 ### BFS with seen
 ```python
@@ -12410,7 +12411,7 @@ class Solution:
         dfs(s)
         return min(rec)
 ```
-* [[Medium] 1625. Lexicographically Smallest String After Applying Operations](%5BMedium%5D%201625.%20Lexicographically%20Smallest%20String%20After%20Applying%20Operations.md)
+* [Medium] 1625. Lexicographically Smallest String After Applying Operations
 
 ### Bidirectional BFS
 ```python
@@ -12478,7 +12479,7 @@ class Solution:
 
         return 0
 ```
-* [[Medium] [Solution] 127. Word Ladder](%5BMedium%5D%20%5BSolution%5D%20127.%20Word%20Ladder.md)
+* [Medium] [Solution] 127. Word Ladder
 
 ### BFS
 ```python
@@ -12510,7 +12511,7 @@ class Solution:
             return -1
         return d
 ```
-* [[Medium] [Solution] 994. Rotting Oranges](%5BMedium%5D%20%5BSolution%5D%20994.%20Rotting%20Oranges.md)
+* [Medium] [Solution] 994. Rotting Oranges
 
 ### Level order
 ```python
@@ -12530,7 +12531,7 @@ class Solution:
             level = [c for node in level for c in node.children if c]
         return ans
 ```
-* [[Medium] 429. N-ary Tree Level Order Traversal](%5BMedium%5D%20429.%20N-ary%20Tree%20Level%20Order%20Traversal.md)
+* [Medium] 429. N-ary Tree Level Order Traversal
 
 ### Level order
 ```python
@@ -12555,7 +12556,7 @@ class Solution:
 
         return ans
 ```
-* [[Medium] 103. Binary Tree Zigzag Level Order Traversal](%5BMedium%5D%20103.%20Binary%20Tree%20Zigzag%20Level%20Order%20Traversal.md)
+* [Medium] 103. Binary Tree Zigzag Level Order Traversal
 
 ### Surrounded Regions
 ```python
@@ -12591,7 +12592,7 @@ class Solution:
                 if board[i][j] == "*":
                     board[i][j] = "O"
 ```
-* [[Medium] 130. Surrounded Regions](%5BMedium%5D%20130.%20Surrounded%20Regions.md)
+* [Medium] 130. Surrounded Regions
 
 ### Bipartite, Hash Table as visited group
 ```python
@@ -12617,7 +12618,7 @@ class Solution:
 
         return True
 ```
-* [[Medium] 785. Is Graph Bipartite?](%5BMedium%5D%20785.%20Is%20Graph%20Bipartite?.md)
+* [Medium] 785. Is Graph Bipartite?
 
 ### Bipartite
 ```python
@@ -12647,7 +12648,7 @@ class Solution:
                     return False
         return True
 ```
-* [[Medium] [Solution] 886. Possible Bipartition](%5BMedium%5D%20%5BSolution%5D%20886.%20Possible%20Bipartition.md)
+* [Medium] [Solution] 886. Possible Bipartition
 
 ### Matrix
 ```python
@@ -12684,7 +12685,7 @@ class Solution:
 
         return board
 ```
-* [[Medium] 529. Minesweeper](%5BMedium%5D%20529.%20Minesweeper.md)
+* [Medium] 529. Minesweeper
 
 ### 2 Direction
 ```python
@@ -12712,7 +12713,7 @@ class Solution:
                         queue.append((nei, nei_color, depth+1))
         return ans`
 ```
-* [[Medium] * 1129. Shortest Path with Alternating Colors](%5BMedium%5D%20*%201129.%20Shortest%20Path%20with%20Alternating%20Colors.md)
+* [Medium] * 1129. Shortest Path with Alternating Colors
 
 ### Topological Sort
 ```python
@@ -12821,7 +12822,7 @@ class Solution:
 
         return topological_sorted_order if len(topological_sorted_order) == numCourses else []
 ```
-* [[Medium] [Solution] 210. Course Schedule II](%5BMedium%5D%20%5BSolution%5D%20210.%20Course%20Schedule%20II.md)
+* [Medium] [Solution] 210. Course Schedule II
 
 ### Topological Sort
 ```python
@@ -12846,7 +12847,7 @@ class Solution:
 
         return -1
 ```
-* [[Lock] [Hard] 1136. Parallel Courses](%5BLock%5D%20%5BHard%5D%201136.%20Parallel%20Courses.md)
+* [Lock] [Hard] 1136. Parallel Courses
 
 ### Minimum Genetic Mutation
 ```python
@@ -12866,7 +12867,7 @@ class Solution:
                             bank.remove(temp)
         return -1
 ```
-* [[Medium] 433. Minimum Genetic Mutation](%5BMedium%5D%20433.%20Minimum%20Genetic%20Mutation.md)
+* [Medium] 433. Minimum Genetic Mutation
 
 ### BFS with visited
 ```python
@@ -12917,7 +12918,7 @@ class Solution:
 
         return -1
 ```
-* [[Hard] 1345. Jump Game IV](%5BHard%5D%201345.%20Jump%20Game%20IV.md)
+* [Hard] 1345. Jump Game IV
 
 **Template 1:**
 ```python
@@ -13013,7 +13014,7 @@ class Solution:
             i -= 1
             p2 -= 1
 ```
-* [[Easy] 88. Merge Sorted Array](%5BEasy%5D%2088.%20Merge%20Sorted%20Array.md)
+* [Easy] 88. Merge Sorted Array
 
 ### Two Pointers
 ```python
@@ -13044,7 +13045,7 @@ class Solution:
 
         return ans
 ```
-* [[Easy] [Solution] 977. Squares of a Sorted Array](%5BEasy%5D%20%5BSolution%5D%20977.%20Squares%20of%20a%20Sorted%20Array.md)
+* [Easy] [Solution] 977. Squares of a Sorted Array
 
 ### Sort Array By Parity
 ```python
@@ -13062,7 +13063,7 @@ class Solution:
                 break
         return A
 ```
-* [[Easy] [Solution] 922. Sort Array By Parity](%5BEasy%5D%20%5BSolution%5D%20905.%20Sort%20Array%20By%20Parity.md)
+* [Easy] [Solution] 922. Sort Array By Parity
 
 ### Cycle, slow/fast start from head
 ```python
@@ -13086,7 +13087,7 @@ class Solution:
 
         return False
 ```
-* [[Easy] [Solution] 141. Linked List Cycle](%5BEasy%5D%20%5BSolution%5D%20141.%20Linked%20List%20Cycle.md)
+* [Easy] [Solution] 141. Linked List Cycle
 
 ### Is Subsequence
 ```python
@@ -13102,7 +13103,7 @@ class Solution:
                 return True
         return False
 ```
-* [[Easy] 392. Is Subsequence](%5BEasy%5D%20392.%20Is%20Subsequence.md)
+* [Easy] 392. Is Subsequence
 
 ### Sorted candidate pointer
 ```python
@@ -13192,7 +13193,7 @@ class Solution:
             else: left+=1
         return res
 ```
-* [[Medium] [Solution] 11. Container With Most Water](%5BMedium%5D%20%5BSolution%5D%2011.%20Container%20With%20Most%20Water.md)
+* [Medium] [Solution] 11. Container With Most Water
 
 ### first decreasing element from right
 ```python
@@ -13218,7 +13219,7 @@ class Solution:
         # reverse nums[i+1],...
         nums[i+1:] = nums[i+1:][::-1]
 ```
-* [[Medium] [Solution] 31. Next Permutation](%5BMedium%5D%20%5BSolution%5D%2031.%20Next%20Permutation.md)
+* [Medium] [Solution] 31. Next Permutation
 
 ### Greedy Increase and assign
 ```python
@@ -13233,7 +13234,7 @@ class Solution:
             nums[i] = nums[j]   
         return i+1
 ```
-* [[Medium] 80. Remove Duplicates from Sorted Array II](%5BMedium%5D%2080.%20Remove%20Duplicates%20from%20Sorted%20Array%20II.md)
+* [Medium] 80. Remove Duplicates from Sorted Array II
 
 ### Greedy increase then rebase
 ```python
@@ -13256,7 +13257,7 @@ class Solution:
 
         return ans
 ```
-* [[Medium] 228. Summary Ranges](%5BMedium%5D%20228.%20Summary%20Ranges.md)
+* [Medium] 228. Summary Ranges
 
 ### Shortest Subarray to be Removed to Make Array Sorted
 ```python
@@ -13280,7 +13281,7 @@ class Solution:
                 j += 1
         return ans
 ```
-* [[Medium] 1574. Shortest Subarray to be Removed to Make Array Sorted](%5BMedium%5D%201574.%20Shortest%20Subarray%20to%20be%20Removed%20to%20Make%20Array%20Sorted.md)
+* [Medium] 1574. Shortest Subarray to be Removed to Make Array Sorted
 
 ### Contains Duplicate
 ```python
@@ -13304,7 +13305,7 @@ class Solution:
 
         return False
 ```
-* [[Medium] 220. Contains Duplicate III](%5BMedium%5D%20220.%20Contains%20Duplicate%20III.md)
+* [Medium] 220. Contains Duplicate III
 
 ### Cycle entrance
 ```python
@@ -13330,7 +13331,7 @@ class Solution:
 
         return hare
 ```
-* [[Medium] [Solution] 287. Find the Duplicate Number](%5BMedium%5D%20%5BSolution%5D%20287.%20Find%20the%20Duplicate%20Number.md)
+* [Medium] [Solution] 287. Find the Duplicate Number
 
 ### Sliding window, Two Pointers, iterate right pointer
 ```python
@@ -13347,7 +13348,7 @@ class Solution:
             ans += right - left + 1
         return ans             
 ```
-* [[Medium] [Solution] 713. Subarray Product Less Than K](%5BMedium%5D%20%5BSolution%5D%20713.%20Subarray%20Product%20Less%20Than%20K.md)
+* [Medium] [Solution] 713. Subarray Product Less Than K
 
 ### Greedy, Two Pointers, iterate left pointer
 ```python
@@ -13364,7 +13365,7 @@ class Solution:
             
         return ans
 ```
-* [[Medium] [Solution] 763. Partition Labels](%5BMedium%5D%20%5BSolution%5D%20763.%20Partition%20Labels.md)
+* [Medium] [Solution] 763. Partition Labels
 
 ### Two Pointers, iterate left and right pointer
 ```python
@@ -13384,7 +13385,7 @@ class Solution:
 
         return "".join(ans)
 ```
-* [[Medium] [Solution] 838. Push Dominoes](%5BMedium%5D%20%5BSolution%5D%20838.%20Push%20Dominoes.md)
+* [Medium] [Solution] 838. Push Dominoes
 
 ### Two Pointers, iterate left and right pointer with yield
 ```python
@@ -13402,7 +13403,7 @@ class Solution:
 
         return all(x == y for x, y in itertools.zip_longest(F(S), F(T)))
 ```
-* [[Easy] [Solution] 844. Backspace String Compare](%5BEasy%5D%20%5BSolution%5D%20844.%20Backspace%20String%20Compare.md)
+* [Easy] [Solution] 844. Backspace String Compare
 
 ### Three pointer
 ```python
@@ -13440,7 +13441,7 @@ class Solution:
 
         return ans % MOD
 ```
-* [[Medium] [Solution] 923. 3Sum With Multiplicity](%5BMedium%5D%20%5BSolution%5D%20923.%203Sum%20With%20Multiplicity.md)
+* [Medium] [Solution] 923. 3Sum With Multiplicity
 
 ### Group into Blocks
 ```python
@@ -13454,7 +13455,7 @@ class Solution:
         return all(k1 == k2 and v1 <= v2
                    for (k1,v1), (k2,v2) in zip(g1, g2))
 ```
-* [[Easy] [Solution] 925. Long Pressed Name](%5BEasy%5D%20%5BSolution%5D%20925.%20Long%20Pressed%20Name.md)
+* [Easy] [Solution] 925. Long Pressed Name
 
 ### Three pointer
 ```python
@@ -13484,7 +13485,7 @@ class Solution:
 
         return ans
 ```
-* [[Medium] [Solution] 930. Binary Subarrays With Sum](%5BMedium%5D%20%5BSolution%5D%20930.%20Binary%20Subarrays%20With%20Sum.md)
+* [Medium] [Solution] 930. Binary Subarrays With Sum
 
 ### Two Pointers, Counter
 ```python
@@ -13502,7 +13503,7 @@ class Solution:
             ans = max(ans, j - i + 1)
         return ans
 ```
-* [[Medium] [Solution] 904. Fruit Into Baskets](%5BMedium%5D%20%5BSolution%5D%20904.%20Fruit%20Into%20Baskets.md)
+* [Medium] [Solution] 904. Fruit Into Baskets
 
 ### Interval intersection
 ```python
@@ -13519,7 +13520,7 @@ class Solution:
                 i += 1
         return res
 ```
-* [[Medium] [Solution] 986. Interval List Intersections](%5BMedium%5D%20%5BSolution%5D%20986.%20Interval%20List%20Intersections.md)
+* [Medium] [Solution] 986. Interval List Intersections
 
 ### Sort Colors
 ```python
@@ -13549,7 +13550,7 @@ class Solution:
             left += 1
             right += 1
 ```
-* [[Medium] 75. Sort Colors](%5BMedium%5D%2075.%20Sort%20Colors.md)
+* [Medium] 75. Sort Colors
 
 ### Four pointers
 ```python
@@ -13563,7 +13564,7 @@ class Solution:
             arr[k+1:]
         )])
 ```
-* [[Medium] 1248. Count Number of Nice Subarrays](%5BMedium%5D%201248.%20Count%20Number%20of%20Nice%20Subarrays.md)
+* [Medium] 1248. Count Number of Nice Subarrays
 
 ### Number of Subsequences
 ```python
@@ -13581,7 +13582,7 @@ class Solution:
                 l += 1
         return res % mod
 ```
-* [[Medium] 1498. Number of Subsequences That Satisfy the Given Sum Condition](%5BMedium%5D%201498.%20Number%20of%20Subsequences%20That%20Satisfy%20the%20Given%20Sum%20Condition.md)
+* [Medium] 1498. Number of Subsequences That Satisfy the Given Sum Condition
 
 ### Maximum Score of 2 increasing path
 ```python
@@ -13603,7 +13604,7 @@ class Solution:
                 a, b = 0, 0
         return (res + max(a, b)) % mod
 ```
-* [[Hard] 1537. Get the Maximum Score](%5BHard%5D%201537.%20Get%20the%20Maximum%20Score.md)
+* [Hard] 1537. Get the Maximum Score
 
 **Template 1: (Linked list)**
 ```python
@@ -13716,7 +13717,7 @@ class Solution:
         # The stack won't be empty for cases like ((()
         return not stack
 ```
-* [[Easy] [Solution] 20. Valid Parentheses](%5BEasy%5D%20%5BSolution%5D%2020.%20Valid%20Parentheses.md)
+* [Easy] [Solution] 20. Valid Parentheses
 
 ### PreOrder
 ```python
@@ -13806,7 +13807,7 @@ class Solution:
         # The stack won't be empty for cases like ((()
         return not stack
 ```
-* [[Easy] [Solution] 20. Valid Parentheses](%5BEasy%5D%20%5BSolution%5D%2020.%20Valid%20Parentheses.md)
+* [Easy] [Solution] 20. Valid Parentheses
 
 ### 2 element stack: key and count
 ```python
@@ -13822,7 +13823,7 @@ class Solution:
                 stack.append([c, 1])
         return ''.join(c * k for c, k in stack)
 ```
-* [[Medium] 1209. Remove All Adjacent Duplicates in String II](%5BMedium%5D%201209.%20Remove%20All%20Adjacent%20Duplicates%20in%20String%20II.md)
+* [Medium] 1209. Remove All Adjacent Duplicates in String II
 
 ### Greedy
 ```python
@@ -13838,7 +13839,7 @@ class Solution:
 
         return j == len(popped)
 ```
-* [[Medium] [Solution] 946. Validate Stack Sequences](%5BMedium%5D%20%5BSolution%5D%20946.%20Validate%20Stack%20Sequences.md)
+* [Medium] [Solution] 946. Validate Stack Sequences
 
 ### index-element stack
 ```python
@@ -13863,7 +13864,7 @@ class Solution:
 
         return ''.join(s)
 ```
-* [[Medium] 1249. Minimum Remove to Make Valid Parentheses](%5BMedium%5D%201249.%20Minimum%20Remove%20to%20Make%20Valid%20Parentheses.md)
+* [Medium] 1249. Minimum Remove to Make Valid Parentheses
 
 ### path
 ```python
@@ -13882,7 +13883,7 @@ class Solution:
 
         return "/"+"/".join(stack)
 ```
-* [[Medium] 71. Simplify Path](%5BMedium%5D%2071.%20Simplify%20Path.md)
+* [Medium] 71. Simplify Path
 
 ### Controlled Recursion
 ```python
@@ -13931,7 +13932,7 @@ class BSTIterator:
 # param_1 = obj.next()
 # param_2 = obj.hasNext()
 ```
-* [[Medium] [Solution] 173. Binary Search Tree Iterator](%5BMedium%5D%20%5BSolution%5D%20173.%20Binary%20Search%20Tree%20Iterator.md)
+* [Medium] [Solution] 173. Binary Search Tree Iterator
 
 ### Monotonic Stack
 ```python
@@ -13946,7 +13947,7 @@ class Solution:
                 stk.append(n)
         return stk 
 ```
-* [[Medium] 1673. Find the Most Competitive Subsequence](%5BMedium%5D%201673.%20Find%20the%20Most%20Competitive%20Subsequence.md)
+* [Medium] 1673. Find the Most Competitive Subsequence
 
 ### Fix one direction and use decreasing stack to filter element in the other side
 ```python
@@ -13970,7 +13971,7 @@ class Solution:
 
         return False
 ```
-* [[Medium] [Solution] 456. 132 Pattern](%5BMedium%5D%20%5BSolution%5D%20456.%20132%20Pattern.md)
+* [Medium] [Solution] 456. 132 Pattern
 
 ### Keep append and pop smaller with different direction
 ```python
@@ -13989,7 +13990,7 @@ class Solution:
                 ans.append(new)
         return ans
 ```
-* [[Medium] [Solution] 735. Asteroid Collision](%5BMedium%5D%20%5BSolution%5D%20735.%20Asteroid%20Collision.md)
+* [Medium] [Solution] 735. Asteroid Collision
 
 ### Find Permutation
 ```python
@@ -14014,7 +14015,7 @@ class Solution:
             
         return res
 ```
-* [[Lock] [Medium] [Solution] 484. Find Permutation](%5BLock%5D%20%5BMedium%5D%20%5BSolution%5D%20484.%20Find%20Permutation.md)
+* [Lock] [Medium] [Solution] 484. Find Permutation
 
 ### Stack, Hash Table
 ```python
@@ -14037,7 +14038,7 @@ class Solution:
         
         return stack.pop()
 ```
-* [[Medium] 150. Evaluate Reverse Polish Notation](%5BMedium%5D%20150.%20Evaluate%20Reverse%20Polish%20Notation.md)
+* [Medium] 150. Evaluate Reverse Polish Notation
 
 ### 2 element Stack
 ```python
@@ -14087,7 +14088,7 @@ class Solution:
 
         return False
 ```
-* [[Medium] [Solution] 456. 132 Pattern](%5BMedium%5D%20%5BSolution%5D%20456.%20132%20Pattern.md)
+* [Medium] [Solution] 456. 132 Pattern
 
 ### Weighted stack
 ```python
@@ -14108,7 +14109,7 @@ class StockSpanner:
 # obj = StockSpanner()
 # param_1 = obj.next(price)
 ```
-* [[Medium] [Solution] 901. Online Stock Span](%5BMedium%5D%20%5BSolution%5D%20901.%20Online%20Stock%20Span.md)
+* [Medium] [Solution] 901. Online Stock Span
 
 ### Maintain Stack of Minimums
 ```python
@@ -14131,7 +14132,7 @@ class Solution:
             ans += dot
         return ans % MOD
 ```
-* [[Medium] [Solution] 907. Sum of Subarray Minimums](%5BMedium%5D%20%5BSolution%5D%20907.%20Sum%20of%20Subarray%20Minimums.md)
+* [Medium] [Solution] 907. Sum of Subarray Minimums
 
 ### Decreasing stack
 ```python
@@ -14151,7 +14152,7 @@ class Solution:
         ans = "".join(result)
         return ans.lstrip("0") or "0"
 ```
-* [[Medium] 402. Remove K Digits](%5BMedium%5D%20402.%20Remove%20K%20Digits.md)
+* [Medium] 402. Remove K Digits
 
 ### Greedy, Stack simulation
 ```python
@@ -14167,7 +14168,7 @@ class Solution:
 
         return j == len(popped)
 ```
-* [[Medium] [Solution] 946. Validate Stack Sequences](%5BMedium%5D%20%5BSolution%5D%20946.%20Validate%20Stack%20Sequences.md)
+* [Medium] [Solution] 946. Validate Stack Sequences
 
 ### Heap
 ```python
@@ -14182,7 +14183,7 @@ class Solution:
             cost += heapq.heappop(heap) * heap[0]
         return cost
 ```
-* [[Medium] 1130. Minimum Cost Tree From Leaf Values](%5BMedium%5D%201130.%20Minimum%20Cost%20Tree%20From%20Leaf%20Values.md)
+* [Medium] 1130. Minimum Cost Tree From Leaf Values
 
 ### Increment stack
 ```python
@@ -14219,7 +14220,7 @@ class CustomStack:
 # param_2 = obj.pop()
 # obj.increment(k,val)
 ```
-* [[Medium] 1381. Design a Stack With Increment Operation](%5BMedium%5D%201381.%20Design%20a%20Stack%20With%20Increment%20Operation.md)
+* [Medium] 1381. Design a Stack With Increment Operation
 
 ### index stack
 ```python
@@ -14239,7 +14240,7 @@ class Solution:
 
         return maxans
 ```
-* [[Hard] [Solution] 32. Longest Valid Parentheses](%5BHard%5D%20%5BSolution%5D%2032.%20Longest%20Valid%20Parentheses.md)
+* [Hard] [Solution] 32. Longest Valid Parentheses
 
 ### Two Stack, operator stack + operation stack
 ```python
@@ -14288,7 +14289,7 @@ class Solution:
             stN.append(dictO[stO.pop(-1)](stN.pop(-1), stN.pop(-1)))
         return stN.pop()
 ```
-* [[Lock] [Hard] 772. Basic Calculator III](%5BLock%5D%20%5BHard%5D%20772.%20Basic%20Calculator%20III.md)
+* [Lock] [Hard] 772. Basic Calculator III
 
 ### stack maintain first and second hightest value index
 ```python
@@ -14301,7 +14302,7 @@ class Solution:
             stack.append(i)
         return max_area
 ```
-* [[Hard] 84. Largest Rectangle in Histogram](%5BHard%5D%2084.%20Largest%20Rectangle%20in%20Histogram.md)
+* [Hard] 84. Largest Rectangle in Histogram
 
 ### Index Stack
 ```python
@@ -14321,7 +14322,7 @@ class Solution:
 
         return maxans
 ```
-* [[Hard] [Solution] 32. Longest Valid Parentheses](%5BHard%5D%20%5BSolution%5D%2032.%20Longest%20Valid%20Parentheses.md)
+* [Hard] [Solution] 32. Longest Valid Parentheses
 
 ### Next Greater Element
 ```python
@@ -14338,7 +14339,7 @@ class Solution:
 
         return res
 ```
-* [[Medium] [Solution] 503. Next Greater Element II](%5BMedium%5D%20%5BSolution%5D%20503.%20Next%20Greater%20Element%20II.md)
+* [Medium] [Solution] 503. Next Greater Element II
 
 **Template 1:**
 ```python
@@ -14354,7 +14355,7 @@ for ...:
 return ans
 ```
 
-* [[Medium] [Solution] 636. Exclusive Time of Functions](%5BMedium%5D%20%5BSolution%5D%20636.%20Exclusive%20Time%20of%20Functions.md)
+* [Medium] [Solution] 636. Exclusive Time of Functions
 
 ## Backtracking <a name="backtracking"></a>
 ---
@@ -14405,7 +14406,7 @@ class NestedIterator:
 # i, v = NestedIterator(nestedList), []
 # while i.hasNext(): v.append(i.next())
 ```
-* [[Medium] 341. Flatten Nested List Iterator](%5BMedium%5D%20341.%20Flatten%20Nested%20List%20Iterator.md)
+* [Medium] 341. Flatten Nested List Iterator
 
 ### count
 ```python
@@ -14422,7 +14423,7 @@ class Solution:
 
         return dp(n, 0)
 ```
-* [[Medium] 1641. Count Sorted Vowel Strings](%5BMedium%5D%201641.%20Count%20Sorted%20Vowel%20Strings.md)
+* [Medium] 1641. Count Sorted Vowel Strings
 
 ### more smaller current more larger result
 ```python
@@ -14480,7 +14481,7 @@ class Solution:
         dfs(arr, i, vi)
         return arr
 ```
-* [[Medium] 1718. Construct the Lexicographically Largest Valid Sequence](%5BMedium%5D%201718.%20Construct%20the%20Lexicographically%20Largest%20Valid%20Sequence.md)
+* [Medium] 1718. Construct the Lexicographically Largest Valid Sequence
 
 ### Backtracking
 ```python
@@ -14499,7 +14500,7 @@ class Solution:
 
         return res
 ```
-* [[Medium] 131. Palindrome Partitioning](%5BMedium%5D%20131.%20Palindrome%20Partitioning.md)
+* [Medium] 131. Palindrome Partitioning
 
 ### Backtracking with Groups of Numbers
 ```python
@@ -14528,7 +14529,7 @@ class Solution:
 
         return results
 ```
-* [[Medium] 47. Permutations II](%5BMedium%5D%2047.%20Permutations%20II.md)
+* [Medium] 47. Permutations II
 
 ### Android Unlock Patterns
 ```python
@@ -14575,7 +14576,7 @@ class Solution:
 
         return backtrack([])
 ```
-* [[Lock] [Medium] [Solution] 351. Android Unlock Patterns](%5BLock%5D%20%5BMedium%5D%20%5BSolution%5D%20351.%20Android%20Unlock%20Patterns.md)
+* [Lock] [Medium] [Solution] 351. Android Unlock Patterns
 
 ### Backtracking, path
 ```python
@@ -14597,7 +14598,7 @@ class Solution:
         dfs(target, 0, [], res)
         return res
 ```
-* [[Medium] 39. Combination Sum](%5BMedium%5D%2039.%20Combination%20Sum.md)
+* [Medium] 39. Combination Sum
 
 ### Backtracking, next_start wtih path
 ```python
@@ -14624,7 +14625,7 @@ class Solution:
 
         return results
 ```
-* [[Medium] 216. Combination Sum III](%5BMedium%5D%20216.%20Combination%20Sum%20III.md)
+* [Medium] 216. Combination Sum III
 
 ### Combination, Hash Table
 ```python
@@ -14663,7 +14664,7 @@ class Solution:
             backtrack("", digits)
         return output
 ```
-* [[Medium] [Solution] 17. Letter Combinations of a Phone Number](%5BMedium%5D%20%5BSolution%5D%2017.%20Letter%20Combinations%20of%20a%20Phone%20Number.md)
+* [Medium] [Solution] 17. Letter Combinations of a Phone Number
 
 ### Combination
 ```python
@@ -14730,7 +14731,7 @@ class CombinationIterator:
 # param_1 = obj.next()
 # param_2 = obj.hasNext()
 ```
-* [[Medium] 1286. Iterator for Combination](LeetCode/%5BMedium%5D%201286.%20Iterator%20for%20Combination.md)
+* [Medium] 1286. Iterator for Combination
 
 ### Permutation
 ```python
@@ -14752,7 +14753,7 @@ class Solution:
 
         return ans
 ```
-* [[Medium] 46. Permutations](%5BMedium%5D%2046.%20Permutations.md)
+* [Medium] 46. Permutations
 
 ### Subset
 ```python
@@ -14780,7 +14781,7 @@ class Solution:
             backtrack()
         return output
 ```
-* [[Medium] [Solution] 78. Subsets](%5BMedium%5D%20%5BSolution%5D%2078.%20Subsets.md)
+* [Medium] [Solution] 78. Subsets
 
 ### Ccount
 ```python
@@ -14801,7 +14802,7 @@ class Solution:
         
         return count
 ```
-* [[Medium] [Solution] 526. Beautiful Arrangement](%5BMedium%5D%20%5BSolution%5D%20526.%20Beautiful%20Arrangement.md)
+* [Medium] [Solution] 526. Beautiful Arrangement
 
 ### Partition
 ```python
@@ -14830,7 +14831,7 @@ class Solution:
 
         return self.res
 ```
-* [[Medium] [Solution] 842. Split Array into Fibonacci Sequence](%5BMedium%5D%20%5BSolution%5D%20842.%20Split%20Array%20into%20Fibonacci%20Sequence.md)
+* [Medium] [Solution] 842. Split Array into Fibonacci Sequence
 
 ### Word Search
 ```python
@@ -14869,7 +14870,7 @@ class Solution:
                             continue
         return ans
 ```
-* [[Medium] 79. Word Search](%5BMedium%5D%2079.%20Word%20Search.md)
+* [Medium] 79. Word Search
 
 ### Taken not-taken to balnce
 ```python
@@ -14927,7 +14928,7 @@ class Solution:
         solve(0)
         return solution
 ```
-* [[Hard] 51. N-Queens](%5BHard%5D%2051.%20N-Queens.md)
+* [Hard] 51. N-Queens
 
 ### Try all combination count
 ```python
@@ -14961,7 +14962,7 @@ class Solution:
 
         return solve(0)
 ```
-* [[Hard] 52. N-Queens II](%5BHard%5D%2052.%20N-Queens%20II.md)
+* [Hard] 52. N-Queens II
 
 ### Spiral Backtracking
 ```python
@@ -15030,7 +15031,7 @@ class Solution:
         visited = set()
         backtrack()
 ```
-* [[Lock] [Hard] [Solution] 489. Robot Room Cleaner](%5BLock%5D%20%5BHard%5D%20%5BSolution%5D%20489.%20Robot%20Room%20Cleaner.md)
+* [Lock] [Hard] [Solution] 489. Robot Room Cleaner
 
 ### Sort before backtracking
 ```python
@@ -15058,7 +15059,7 @@ class Solution:
 
         return func(left, quantity, 0)
 ```
-* [[Hard] 1655. Distribute Repeating Integers](%5BHard%5D%201655.%20Distribute%20Repeating%20Integers.md)
+* [Hard] 1655. Distribute Repeating Integers
 
 **Template 1:**
 ```python
@@ -15101,7 +15102,7 @@ class Solution:
     def bitwiseComplement(self, N: int) -> int:
         return 2 ** (len(bin(N))-2)-1 - N
 ```
-* [[Easy] 1009. Complement of Base 10 Integer](%5BEasy%5D%201009.%20Complement%20of%20Base%2010%20Integer.md)
+* [Easy] 1009. Complement of Base 10 Integer
 
 ### Power of Two
 ```python
@@ -15117,7 +15118,7 @@ class Solution:
 
         return True
 ```
-* [[Easy] 231. Power of Two](%5BEasy%5D%20231.%20Power%20of%20Two.md)
+* [Easy] 231. Power of Two
 
 ### Number Complement
 ```python
@@ -15125,7 +15126,7 @@ class Solution:
     def findComplement(self, num: int) -> int:
          return int(''.join(chr(ord('0') + ord('1') - ord(ch)) for ch in bin(num)[2:]),2)
 ```
-* [[Easy] 476. Number Complement](%5BEasy%5D%20476.%20Number%20Complement.md?_xsrf=2%7C5e3776f8%7C24c18c3d2c50a10817453c72e445205a%7C1587427356)
+* [Easy] 476. Number Complement
 
 ### Ascii to hash value
 ```python
@@ -15144,7 +15145,7 @@ class Solution:
 
         return ans
 ```
-* [[Medium] 318. Maximum Product of Word Lengths](%5BMedium%5D%20318.%20Maximum%20Product%20of%20Word%20Lengths.md)
+* [Medium] 318. Maximum Product of Word Lengths
 
 ### division simulation
 ```python
@@ -15167,7 +15168,7 @@ class Solution:
 
         return min(2**31 -1, max(-quotient if is_negative else quotient, -2**31))
 ```
-* [[Medium] 29. Divide Two Integers](%5BMedium%5D%2029.%20Divide%20Two%20Integers.md)
+* [Medium] 29. Divide Two Integers
 
 ### Common Prefix
 ```python
@@ -15181,7 +15182,7 @@ class Solution:
             
         return n << k
 ```
-* [[Medium] 201. Bitwise AND of Numbers Range](%5BMedium%5D%20201.%20Bitwise%20AND%20of%20Numbers%20Range.md)
+* [Medium] 201. Bitwise AND of Numbers Range
 
 ### Bitmap
 ```python
@@ -15203,7 +15204,7 @@ class Solution:
 
         return output
 ```
-* [[Medium] [Solution] 78. Subsets](%5BMedium%5D%20%5BSolution%5D%2078.%20Subsets.md)
+* [Medium] [Solution] 78. Subsets
 
 ### Next highest 1 bit: n & (n-1))
 ```python
@@ -15220,7 +15221,7 @@ class Solution(object):
 
         return ans
 ```
-* [[Easy] [Solution] 191. Number of 1 Bits](%5BEasy%5D%20%5BSolution%5D%20191.%20Number%20of%201%20Bits.md)
+* [Easy] [Solution] 191. Number of 1 Bits
 
 ### a xor a = 0, a xor 0 = a
 ```python
@@ -15231,7 +15232,7 @@ class Solution:
         for c in t: ans ^= ord(c)
         return chr(ans)
 ```
-* [[Easy] 389. Find the Difference](%5BEasy%5D%20389.%20Find%20the%20Difference.md)
+* [Easy] 389. Find the Difference
 
 ### a xor a = 0, a xor 0 = a
 ```python
@@ -15242,7 +15243,7 @@ class Solution:
             missing ^= i ^ num
         return missing
 ```
-* [[Easy] [Solution] 268. Missing Number](%5BEasy%5D%20%5BSolution%5D%20268.%20Missing%20Number.md)
+* [Easy] [Solution] 268. Missing Number
 
 ### a xor b xor c = b xor c xor a
 ```python
@@ -15273,7 +15274,7 @@ class Solution:
         second = first^x
         return [first, second]
 ```
-* [[Medium] 260. Single Number III](%5BMedium%5D%20260.%20Single%20Number%20III.md)
+* [Medium] 260. Single Number III
 
 ### Bitmask
 ```python
@@ -15315,7 +15316,7 @@ class Solution:
             n_bytes -= 1
         return n_bytes == 0
 ```
-* [[Medium] [Solution] 393. UTF-8 Validation](%5BMedium%5D%20%5BSolution%5D%20393.%20UTF-8%20Validation.md)
+* [Medium] [Solution] 393. UTF-8 Validation
 
 ### Direct
 ```python
@@ -15325,7 +15326,7 @@ class Solution:
         return sum(bin(x).count('1') in primes
                    for x in range(L, R+1))
 ```
-* [[Easy] [Solution] 762. Prime Number of Set Bits in Binary Representation](%5BEasy%5D%20%5BSolution%5D%20762.%20Prime%20Number%20of%20Set%20Bits%20in%20Binary%20Representation.md)
+* [Easy] [Solution] 762. Prime Number of Set Bits in Binary Representation
 
 ### Frontier Set, DP Bottom-Up
 ```python
@@ -15338,7 +15339,7 @@ class Solution:
             ans |= cur
         return len(ans)
 ```
-* [[Medium] [Solution] 898. Bitwise ORs of Subarrays](%5BMedium%5D%20%5BSolution%5D%20898.%20Bitwise%20ORs%20of%20Subarrays.md)
+* [Medium] [Solution] 898. Bitwise ORs of Subarrays
 
 ### Math
 ```python
@@ -15367,7 +15368,7 @@ class Solution:
 
         return max((max1 - min1), (max2 - min2),(max3 - min3),(max4 - min4))
 ```
-* [[Medium] 1131. Maximum of Absolute Value Expression](%5BMedium%5D%201131.%20Maximum%20of%20Absolute%20Value%20Expression.md)
+* [Medium] 1131. Maximum of Absolute Value Expression
 
 ### g(n) = "1" + f(n)
 ```python
@@ -15375,7 +15376,7 @@ class Solution:
     def encode(self, num: int) -> str:
         return bin(num + 1)[3:]
 ```
-* [[Medium] 1256. Encode Number](%5BMedium%5D%201256.%20Encode%20Number.md)
+* [Medium] 1256. Encode Number
 
 ### Prefix Sum, Left-right range
 ```python
@@ -15467,7 +15468,7 @@ class Solution:
                 lo += 1
         return S
 ```
-* [[Lock] [Easy] [Solution] 1099. Two Sum Less Than K](%5BLock%5D%20%5BEasy%5D%20%5BSolution%5D%201099.%20Two%20Sum%20Less%20Than%20K.md)
+* [Lock] [Easy] [Solution] 1099. Two Sum Less Than K
 
 ### Shortest Unsorted Continuous Subarray
 ```python
@@ -15483,7 +15484,7 @@ class Solution:
 
         return 0 if start > end else end - start + 1
 ```
-* [[Easy] [Solution] 581. Shortest Unsorted Continuous Subarray](%5BEasy%5D%20%5BSolution%5D%20581.%20Shortest%20Unsorted%20Continuous%20Subarray.md)
+* [Easy] [Solution] 581. Shortest Unsorted Continuous Subarray
 
 ### Two City Scheduling
 ```python
@@ -15491,7 +15492,7 @@ class Solution:
     def twoCitySchedCost(self, costs: List[List[int]]) -> int:
         return sum([x[0] if i < len(costs)//2 else x[1] for i, x in enumerate(sorted(costs,key=lambda x: x[0]-x[1]))])
 ```
-* [[Easy] 1029. Two City Scheduling](%5BEasy%5D%201029.%20Two%20City%20Scheduling.md)
+* [Easy] 1029. Two City Scheduling
 
 ### Max horizontal length * max vertical length = max area
 ```python
@@ -15506,7 +15507,7 @@ class Solution:
             dx = max(dx, verticalCuts[i] - verticalCuts[i - 1])
         return dx * dy % (10**9 + 7)
 ```
-* [[Medium] 1465. Maximum Area of a Piece of Cake After Horizontal and Vertical Cuts](%5BMedium%5D%201465.%20Maximum%20Area%20of%20a%20Piece%20of%20Cake%20After%20Horizontal%20and%20Vertical%20Cuts.md)
+* [Medium] 1465. Maximum Area of a Piece of Cake After Horizontal and Vertical Cuts
 
 ### recursive filter
 ```python
@@ -15519,7 +15520,7 @@ class Solution:
             result.append(products[:3])
         return result
 ```
-* [[Medium] 1268. Search Suggestions System](%5BMedium%5D%201268.%20Search%20Suggestions%20System.md)
+* [Medium] 1268. Search Suggestions System
 
 ### Quick sort
 ```python
@@ -15541,7 +15542,7 @@ class Solution:
         else:
             return self.findKthLargest(nums[b+1:], k)
 ```
-* [[Medium] 215. Kth Largest Element in an Array](%5BMedium%5D%20215.%20Kth%20Largest%20Element%20in%20an%20Array.md)
+* [Medium] 215. Kth Largest Element in an Array
 
 ### Covered Interval
 ```python
@@ -15553,7 +15554,7 @@ class Solution:
             right = max(right, j)
         return res
 ```
-* [[Medium] 1288. Remove Covered Intervals](%5BMedium%5D%201288.%20Remove%20Covered%20Intervals.md)
+* [Medium] 1288. Remove Covered Intervals
 
 ### Bucket Sort
 ```python
@@ -15589,7 +15590,7 @@ class Solution:
 
         return True
 ```
-* [[Medium] 1094. Car Pooling](%5BMedium%5D%201094.%20Car%20Pooling.md)
+* [Medium] 1094. Car Pooling
 
 ### Sort by start, search by end interval
 ```python
@@ -15605,7 +15606,7 @@ class Solution:
 
         return list(map(lambda x: d[x[0]], intervals))
 ```
-* [[Medium] 436. Find Right Interval](%5BMedium%5D%20436.%20Find%20Right%20Interval.md)
+* [Medium] 436. Find Right Interval
 
 ### Sort interval
 ```python
@@ -15630,7 +15631,7 @@ class Solution:
 
         return merged
 ```
-* [[Medium] [Solution] 56. Merge Intervals](%5BMedium%5D%20%5BSolution%5D%2056.%20Merge%20Intervals.md)
+* [Medium] [Solution] 56. Merge Intervals
 
 ### Greedy over start and end pointer
 ```python
@@ -15696,7 +15697,7 @@ class Solution:
         # The size of the heap tells us the minimum rooms required for all the meetings.
         return len(free_rooms)
 ```
-* [[Lock] [Medium] [Solution] 253. Meeting Rooms II](%5BLock%5D%20%5BMedium%5D%20%5BSolution%5D%20253.%20Meeting%20Rooms%20II.md)
+* [Lock] [Medium] [Solution] 253. Meeting Rooms II
 
 ### Sorting via Custom Comparator
 ```python
@@ -15709,7 +15710,7 @@ class Solution:
         largest_num = ''.join(sorted(map(str, nums), key=LargerNumKey))
         return '0' if largest_num[0] == '0' else largest_num
 ```
-* [[Medium] [Solution] 179. Largest Number](%5BMedium%5D%20%5BSolution%5D%20179.%20Largest%20Number.md)
+* [Medium] [Solution] 179. Largest Number
 
 ### Heap with string iterator
 ```python
@@ -15725,7 +15726,7 @@ class Solution:
                 return word
         return ""
 ```
-* [[Medium] [Solution] 524. Longest Word in Dictionary through Deleting](%5BMedium%5D%20%5BSolution%5D%20524.%20Longest%20Word%20in%20Dictionary%20through%20Deleting.md)
+* [Medium] [Solution] 524. Longest Word in Dictionary through Deleting
 
 ### H-Index
 ```python
@@ -15739,7 +15740,7 @@ class Solution:
                 return i
         return len(citations)
 ```
-* [[Medium] 274. H-Index](%5BMedium%5D%20274.%20H-Index.md)
+* [Medium] 274. H-Index
 
 ### Partition
 ```python
@@ -15754,7 +15755,7 @@ class Solution:
 
         return nums
 ```
-* [[Medium] 324. Wiggle Sort II](%5BMedium%5D%20324.%20Wiggle%20Sort%20II.md)
+* [Medium] 324. Wiggle Sort II
 
 ### insertion sort
 ```python
@@ -15767,7 +15768,7 @@ class Solution:
 
         return ans
 ```
-* [[Medium] 406. Queue Reconstruction by Height](%5BMedium%5D%20406.%20Queue%20Reconstruction%20by%20Height.md)
+* [Medium] 406. Queue Reconstruction by Height
 
 ### Count
 ```python
@@ -15780,7 +15781,7 @@ class Solution:
 
         return ''.join(ans)
 ```
-* [[Medium] 451. Sort Characters By Frequency](%5BMedium%5D%20451.%20Sort%20Characters%20By%20Frequency.md)
+* [Medium] 451. Sort Characters By Frequency
 
 ### Hash Table with pointer
 ```python
@@ -15798,7 +15799,7 @@ class Solution:
                     
         return ans
 ```
-* [[Medium] 1054. Distant Barcodes](%5BMedium%5D%201054.%20Distant%20Barcodes.md)
+* [Medium] 1054. Distant Barcodes
 
 ### Hash Table buffer
 ```python
@@ -15816,7 +15817,7 @@ class Solution:
                 mat[r][c] = d[r - c].pop()
         return mat
 ```
-* [[Medium] 1329. Sort the Matrix Diagonally](%5BMedium%5D%201329.%20Sort%20the%20Matrix%20Diagonally.md)
+* [Medium] 1329. Sort the Matrix Diagonally
 
 ### Bucket Sort
 ```python
@@ -15847,7 +15848,7 @@ class Solution:
         buckets = [bucket for bucket in buckets if bucket[0] is not None]
         return max(buckets[i][0]-buckets[i-1][1] for i in range(1, len(buckets)))
 ```
-* [[Hard] [Solution] 164. Maximum Gap](%5BHard%5D%20%5BSolution%5D%20164.%20Maximum%20Gap.md)
+* [Hard] [Solution] 164. Maximum Gap
 
 ### value to correct index, bucket sort
 ```python
@@ -15870,7 +15871,7 @@ class Solution:
                 return i + 1
         return N + 1
 ```
-* [[Hard] 41. First Missing Positive](%5BHard%5D%2041.%20First%20Missing%20Positive.md)
+* [Hard] 41. First Missing Positive
 
 ### DP Bottom-Up, Greedy, Binary Search
 ```python
@@ -15884,7 +15885,7 @@ class Solution:
                 dp.append([e, dp[i][1] + p])
         return dp[-1][1]
 ```
-* [[Hard] 1235. Maximum Profit in Job Scheduling](%5BHard%5D%201235.%20Maximum%20Profit%20in%20Job%20Scheduling.md)
+* [Hard] 1235. Maximum Profit in Job Scheduling
 
 ## Linked List <a name="ll"></a>
 ---
@@ -15924,7 +15925,7 @@ class Solution:
 
         return True
 ```
-* [[Easy] 234. Palindrome Linked List](%5BEasy%5D%20234.%20Palindrome%20Linked%20List.md)
+* [Easy] 234. Palindrome Linked List
 
 ### interaction
 ```python
@@ -15949,7 +15950,7 @@ class Solution(object):
             pb = headA if not pb else pb.next
         return pa
 ```
-* [[Easy] [Solution] 160. Intersection of Two Linked Lists](%5BEasy%5D%20%5BSolution%5D%20160.%20Intersection%20of%20Two%20Linked%20Lists.md)
+* [Easy] [Solution] 160. Intersection of Two Linked Lists
 
 ### Linked List
 ```python
@@ -15983,7 +15984,7 @@ class Solution:
             current.next = l1 or l2
         return head
 ```
-* [[Easy] 21. Merge Two Sorted Lists](%5BEasy%5D%2021.%20Merge%20Two%20Sorted%20Lists.md)
+* [Easy] 21. Merge Two Sorted Lists
 
 ### Binary Representation
 ```python
@@ -16001,7 +16002,7 @@ class Solution:
             head = head.next
         return ans
 ```
-* [[Easy] 1290. Convert Binary Number in a Linked List to Integer](%5BEasy%5D%201290.%20Convert%20Binary%20Number%20in%20a%20Linked%20List%20to%20Integer.md)
+* [Easy] 1290. Convert Binary Number in a Linked List to Integer
 
 ### Delete Node
 ```python
@@ -16020,7 +16021,7 @@ class Solution:
         node.val = node.next.val
         node.next = node.next.next
 ```
-* [[Easy] [Solution] 237. Delete Node in a Linked List](%5BEasy%5D%20%5BSolution%5D%20237.%20Delete%20Node%20in%20a%20Linked%20List.md)
+* [Easy] [Solution] 237. Delete Node in a Linked List
 
 ###  Remove Linked List Elements
 ```python
@@ -16043,7 +16044,7 @@ class Solution:
             
         return tmp.next
 ```
-* [[Easy] 203. Remove Linked List Elements](%5BEasy%5D%20203.%20Remove%20Linked%20List%20Elements.md)
+* [Easy] 203. Remove Linked List Elements
 
 ### Two pointer, runner and walker
 ```python
@@ -16064,7 +16065,7 @@ class Solution:
         walker.val, first.val = first.val, walker.val
         return head
 ```
-* [[Medium] 1721. Swapping Nodes in a Linked List](%5BMedium%5D%201721.%20Swapping%20Nodes%20in%20a%20Linked%20List.md)
+* [Medium] 1721. Swapping Nodes in a Linked List
 
 ### Linked List, Greedy
 ```python
@@ -16127,7 +16128,7 @@ class PeekingIterator:
 #     val = iter.peek()   # Get the next element but not advance the iterator.
 #     iter.next()         # Should return the same value as [val].
 ```
-* [[Medium] 284. Peeking Iterator](%5BMedium%5D%20284.%20Peeking%20Iterator.md)
+* [Medium] 284. Peeking Iterator
 
 ### Greedy, stack
 ```python
@@ -16161,7 +16162,7 @@ class Solution:
 
         return s[0] if s else None
 ```
-* [[Medium] 82. Remove Duplicates from Sorted List II](%5BMedium%5D%2082.%20Remove%20Duplicates%20from%20Sorted%20List%20II.md)
+* [Medium] 82. Remove Duplicates from Sorted List II
 
 ### Number to string stack
 ```pyghon
@@ -16190,7 +16191,7 @@ class Solution:
             s.pop(0)
         return dummy.next 
 ```
-* [[Medium] 445. Add Two Numbers II](%5BMedium%5D%20445.%20Add%20Two%20Numbers%20II.md)
+* [Medium] 445. Add Two Numbers II
 
 ### cycle entrance
 ```python
@@ -16214,7 +16215,7 @@ class Solution:
 
         return start
 ```
-* [[Medium] 142. Linked List Cycle II](%5BMedium%5D%20142.%20Linked%20List%20Cycle%20II.md)
+* [Medium] 142. Linked List Cycle II
 
 ### Rotate List
 ```python
@@ -16241,7 +16242,7 @@ class Solution:
         dummy.next = None
         return nh
 ```
-* [[Medium] 61. Rotate List](%5BMedium%5D%2061.%20Rotate%20List.md)
+* [Medium] 61. Rotate List
 
 ### Reorder List
 ```python
@@ -16279,7 +16280,7 @@ class Solution:
             first.next, first = second, first.next
             second.next, second = first, second.next
 ```
-* [[Medium] 143. Reorder List](%5BMedium%5D%20143.%20Reorder%20List.md)
+* [Medium] 143. Reorder List
 
 ### 2 Step Unit
 ```python
@@ -16303,7 +16304,7 @@ class Solution:
 
         return head
 ```
-* [[Medium] [Solution] 328. Odd Even Linked List](%5BMedium%5D%20%5BSolution%5D%20328.%20Odd%20Even%20Linked%20List.md)
+* [Medium] [Solution] 328. Odd Even Linked List
 
 ### Elementary Math, Three Pointers
 ```python
@@ -16333,7 +16334,7 @@ class Solution:
             l2 = l2.next if l2 else None
         return dummy_head.next
 ```
-* [[Medium] [Solution] 2. Add Two Numbers](%5BMedium%5D%20%5BSolution%5D%202.%20Add%20Two%20Numbers.md)
+* [Medium] [Solution] 2. Add Two Numbers
 
 ### Insertion srot, Linked List
 ```python
@@ -16364,7 +16365,7 @@ class Solution:
                 tmp.next = cur
         return dummy.next
 ```
-* [[Medium] 147. Insertion Sort List](%5BMedium%5D%20147.%20Insertion%20Sort%20List.md)
+* [Medium] 147. Insertion Sort List
 
 ### Merge sort, Linked List
 ```python
@@ -16398,7 +16399,7 @@ class Solution:
         second = self.sortList(slow)
         return merge(first, second)
 ```
-* [[Medium] 148. Sort List](%5BMedium%5D%20148.%20Sort%20List.md)
+* [Medium] 148. Sort List
 
 ### Two Pointers
 ```python
@@ -16424,7 +16425,7 @@ class Solution:
         second.next = second.next.next
         return dummy.next
 ```
-* [[Medium] [Solution] 19. Remove Nth Node From End of List](%5BMedium%5D%20%5BSolution%5D%2019.%20Remove%20Nth%20Node%20From%20End%20of%20List.md)
+* [Medium] [Solution] 19. Remove Nth Node From End of List
 
 ### Merge with Divide And Conquer, Merge Sort
 ```python
@@ -16481,7 +16482,7 @@ class Solution:
                 heapq.heappush(hq, (node.val, idx))
         return head.next
 ```
-* [[Hard] [Solution] 23. Merge k Sorted Lists](%5BHard%5D%20%5BSolution%5D%2023.%20Merge%20k%20Sorted%20Lists.md)
+* [Hard] [Solution] 23. Merge k Sorted Lists
 
 ### Post-Order
 ```python
@@ -16501,7 +16502,7 @@ class Solution:
         sec.next = first
         return sec
 ```
-* [[Medium] 24. Swap Nodes in Pairs](%5BMedium%5D%2024.%20Swap%20Nodes%20in%20Pairs.md)
+* [Medium] 24. Swap Nodes in Pairs
 
 ### Two Pointers
 ```python
@@ -16543,7 +16544,7 @@ class Solution:
 
         return before_head.next
 ```
-* [[Medium] [Solution] 86. Partition List](%5BMedium%5D%20%5BSolution%5D%2086.%20Partition%20List.md)
+* [Medium] [Solution] 86. Partition List
 
 ### Iterative
 ```python
@@ -16639,7 +16640,7 @@ class Solution:
             return node
         return convert(0, size - 1)
 ```
-* [[Medium] [Solution] 109. Convert Sorted List to Binary Search Tree](%5BMedium%5D%20%5BSolution%5D%20109.%20Convert%20Sorted%20List%20to%20Binary%20Search%20Tree.md)
+* [Medium] [Solution] 109. Convert Sorted List to Binary Search Tree
 
 ### Hash Table pointer
 ```python
@@ -16672,7 +16673,7 @@ class Solution:
 
         return copy_dict[head]
 ```
-* [[Medium] 138. Copy List with Random Pointer](%5BMedium%5D%20138.%20Copy%20List%20with%20Random%20Pointer.md)
+* [Medium] 138. Copy List with Random Pointer
 
 ### Split Input List
 ```python
@@ -16707,7 +16708,7 @@ class Solution:
 
         return ans
 ```
-* [[Medium] [Solution] 725. Split Linked List in Parts](%5BMedium%5D%20%5BSolution%5D%20725.%20Split%20Linked%20List%20in%20Parts.md)
+* [Medium] [Solution] 725. Split Linked List in Parts
 
 ### Grouping
 ```python
@@ -16730,7 +16731,7 @@ class Solution:
 
         return ans
 ```
-* [[Medium] [Solution] 817. Linked List Components](%5BMedium%5D%20%5BSolution%5D%20817.%20Linked%20List%20Components.md)
+* [Medium] [Solution] 817. Linked List Components
 
 ### Stack
 ```python
@@ -16762,7 +16763,7 @@ class Solution:
 
         return res
 ```
-* [[Medium] 1019. Next Greater Node In Linked List](%5BMedium%5D%201019.%20Next%20Greater%20Node%20In%20Linked%20List.md)
+* [Medium] 1019. Next Greater Node In Linked List
 
 ### Prefix Sum
 ```python
@@ -16804,7 +16805,7 @@ class Solution:
         
         return dummy.next
 ```
-* [[Medium] 1171. Remove Zero Sum Consecutive Nodes from Linked List](%5BMedium%5D%201171.%20Remove%20Zero%20Sum%20Consecutive%20Nodes%20from%20Linked%20List.md)
+* [Medium] 1171. Remove Zero Sum Consecutive Nodes from Linked List
 
 ### Iterative, Recursive
 ```python
@@ -16875,7 +16876,7 @@ class Solution:
 
         return head
 ```
-* [[Medium] 430. Flatten a Multilevel Doubly Linked List](%5BMedium%5D%20430.%20Flatten%20a%20Multilevel%20Doubly%20Linked%20List.md)
+* [Medium] 430. Flatten a Multilevel Doubly Linked List
 
 **Template 1:**
 ```python
@@ -16938,7 +16939,7 @@ class Solution:
         if AScore == BScore : return 0
         return 1 if AScore > BScore else  -1
 ```
-* [[Medium] 1686. Stone Game VI](%5BMedium%5D%201686.%20Stone%20Game%20VI.md)
+* [Medium] 1686. Stone Game VI
 
 ### Greedy push to/pop from Heap with max profit
 ```python
@@ -16955,7 +16956,7 @@ class Solution:
                 return i
         return len(heights) - 1
 ```
-* [[Medium] 1642. Furthest Building You Can Reach](%5BMedium%5D%201642.%20Furthest%20Building%20You%20Can%20Reach.md)
+* [Medium] 1642. Furthest Building You Can Reach
 
 ### Count
 ```python
@@ -16969,7 +16970,7 @@ class Solution:
         count = collections.Counter(nums)   
         return heapq.nlargest(k, count.keys(), key=count.get) 
 ```
-* [[Medium] [Solution] 347. Top K Frequent Elements](%5BMedium%5D%20%5BSolution%5D%20347.%20Top%20K%20Frequent%20Elements.md)
+* [Medium] [Solution] 347. Top K Frequent Elements
 
 ### Consecutive Subsequences
 ```python
@@ -16989,7 +16990,7 @@ class Solution:
                 
         return True
 ```
-* [[Medium] [Solution] 659. Split Array into Consecutive Subsequences](%5BMedium%5D%20%5BSolution%5D%20659.%20Split%20Array%20into%20Consecutive%20Subsequences.md)
+* [Medium] [Solution] 659. Split Array into Consecutive Subsequences
 
 ### Frequency
 ```python
@@ -17000,7 +17001,7 @@ class Solution:
         heapq.heapify(heap)
         return [heapq.heappop(heap)[1] for _ in range(k)]
 ```
-* [[Medium] [Solution] 692. Top K Frequent Words](%5BMedium%5D%20%5BSolution%5D%20692.%20Top%20K%20Frequent%20Words.md)
+* [Medium] [Solution] 692. Top K Frequent Words
 
 ### Dijkstra's Algorithm
 ```python
@@ -17023,7 +17024,7 @@ class Solution:
                         dist[nr][nc] = newDist
                         heappush(minHeap, (dist[nr][nc], nr, nc))
 ```
-* [[Medium] 1631. Path With Minimum Effort](%5BMedium%5D%201631.%20Path%20With%20Minimum%20Effort.md)
+* [Medium] 1631. Path With Minimum Effort
 
 ### Dijkstra's Algorithm
 ```python
@@ -17046,7 +17047,7 @@ class Solution:
 
         return max(dist.values()) if len(dist) == N else -1
 ```
-* [[Medium] [Solution] 743. Network Delay Time](%5BMedium%5D%20%5BSolution%5D%20743.%20Network%20Delay%20Time.md)
+* [Medium] [Solution] 743. Network Delay Time
 
 ### Dijkstra's Algorithm
 ```python
@@ -17065,7 +17066,7 @@ class Solution:
                 heapq.heappush(q, [price + np, nd, hop + 1])
         return -1
 ```
-* [[Medium] 787. Cheapest Flights Within K Stops](%5BMedium%5D%20787.%20Cheapest%20Flights%20Within%20K%20Stops.md)
+* [Medium] 787. Cheapest Flights Within K Stops
 
 ### Minimum Spanning Tree
 ```python
@@ -17090,7 +17091,7 @@ class Solution:
             if cnt >= N: break        
         return ans
 ```
-* [[Medium] 1584. Min Cost to Connect All Points](%5BMedium%5D%201584.%20Min%20Cost%20to%20Connect%20All%20Points.md)
+* [Medium] 1584. Min Cost to Connect All Points
 
 ### Greedy with Heap
 ```python
@@ -17111,7 +17112,7 @@ class Solution:
 
         return "".join(ans) + (pq[0][1] if pq else '')
 ```
-* [[Medium] [Solution] 767. Reorganize String](%5BMedium%5D%20%5BSolution%5D%20767.%20Reorganize%20String.md)
+* [Medium] [Solution] 767. Reorganize String
 
 ### nsmallest
 ```python
@@ -17119,7 +17120,7 @@ class Solution:
     def kClosest(self, points: List[List[int]], K: int) -> List[List[int]]:
         return heapq.nsmallest(K, points, key= lambda x: x[0]**2 + x[1]**2)
 ```
-* [[Medium] [Solution] 973. K Closest Points to Origin](%5BMedium%5D%20%5BSolution%5D%20973.%20K%20Closest%20Points%20to%20Origin.md)
+* [Medium] [Solution] 973. K Closest Points to Origin
 
 ### Two Heaps, Min and Max Heap
 ```python
@@ -17198,7 +17199,7 @@ class Solution:
 
         return perf % modulo
 ```
-* [[Hard] 1383. Maximum Performance of a Team](%5BHard%5D%201383.%20Maximum%20Performance%20of%20a%20Team.md)
+* [Hard] 1383. Maximum Performance of a Team
 
 ### think backward
 ```python
@@ -17218,7 +17219,7 @@ class Solution:
             heapq.heappush(target, -num)
         return True  
 ```
-* [[Hard] 1354. Construct Target Array With Multiple Sums](%5BHard%5D%201354.%20Construct%20Target%20Array%20With%20Multiple%20Sums.md)
+* [Hard] 1354. Construct Target Array With Multiple Sums
 
 ### Greedy with max heap
 ```python
@@ -17233,7 +17234,7 @@ class Solution:
                 time += nt
         return len(heap)
 ```
-* [[Hard] [Solution] 630. Course Schedule III](%5BHard%5D%20%5BSolution%5D%20630.%20Course%20Schedule%20III.md)
+* [Hard] [Solution] 630. Course Schedule III
 
 ### Unify and solve by one method
 ```python
@@ -17250,7 +17251,7 @@ class Solution:
             ans = min(ans, ma - mi)
         return ans
 ```
-* [[Hard] 1675. Minimize Deviation in Array](%5BHard%5D%201675.%20Minimize%20Deviation%20in%20Array.md)
+* [Hard] 1675. Minimize Deviation in Array
 
 ### Sort and step-by-step count from smallest/highest
 ```python
@@ -17275,7 +17276,7 @@ class Solution:
 
         return float(ans)
 ```
-* [[Hard] [Solution] 857. Minimum Cost to Hire K Workers](%5BHard%5D%20%5BSolution%5D%20857.%20Minimum%20Cost%20to%20Hire%20K%20Workers.md)
+* [Hard] [Solution] 857. Minimum Cost to Hire K Workers
 
 ### Max Heap Frequency
 ```python
@@ -17309,7 +17310,7 @@ class Solution:
                 heappush(max_heap, (first, char1))
         return ''.join(s)
 ```
-* [[Medium] 1405. Longest Happy String](LeetCode/%5BMedium%5D%201405.%20Longest%20Happy%20String.md)
+* [Medium] 1405. Longest Happy String
 
 ### Nearest Future Location Heap
 ```python
@@ -17343,7 +17344,7 @@ class Solution:
                 ret.append(-1)
         return ret
 ```
-* [[Medium] 1488. Avoid Flood in The City](%5BMedium%5D%201488.%20Avoid%20Flood%20in%20The%20City.md)
+* [Medium] 1488. Avoid Flood in The City
 
 ### 3 Heap, busy -> available -> busy heap
 ```python
@@ -17374,7 +17375,7 @@ class Solution:
         maxreqs = max(requests_handled)
         return [i for i, handled in enumerate(requests_handled) if handled == maxreqs]
 ```
-* [[Hard] 1606. Find Servers That Handled Most Number of Requests](%5BHard%5D%201606.%20Find%20Servers%20That%20Handled%20Most%20Number%20of%20Requests.md)
+* [Hard] 1606. Find Servers That Handled Most Number of Requests
 
 ### Greedy with Max-Heap
 ```python
@@ -17396,7 +17397,7 @@ class Solution:
 
         return ans
 ```
-* [[Hard] [Solution] 871. Minimum Number of Refueling Stops](%5BHard%5D%20%5BSolution%5D%20871.%20Minimum%20Number%20of%20Refueling%20Stops.md)
+* [Hard] [Solution] 871. Minimum Number of Refueling Stops
 
 ### Points of Interest + Dijkstra
 ```python
@@ -17458,7 +17459,7 @@ class Solution:
 
         return -1
 ```
-* [[Hard] [Solution] 864. Shortest Path to Get All Keys](%5BHard%5D%20%5BSolution%5D%20864.%20Shortest%20Path%20to%20Get%20All%20Keys.md)
+* [Hard] [Solution] 864. Shortest Path to Get All Keys
 
 ### Scan X axis, and heapify Y axis
 ```python
@@ -17506,7 +17507,7 @@ class Solution:
 
         return skyline
 ```
-* [[Hard] 218. The Skyline Problem](%5BHard%5D%20218.%20The%20Skyline%20Problem.md)
+* [Hard] 218. The Skyline Problem
 
 ### Minimum Time
 ```python
@@ -17521,7 +17522,7 @@ class Solution:
 
         return heapq.heappop(pq)
 ```
-* [[Hard] 1199. Minimum Time to Build Blocks](%5BHard%5D%201199.%20Minimum%20Time%20to%20Build%20Blocks.md)
+* [Hard] 1199. Minimum Time to Build Blocks
 
 ### A*
 ```python
@@ -17553,7 +17554,7 @@ class Solution:
             sr, sc = tr, tc
         return ans
 ```
-* [[Hard] [Solution] 675. Cut Off Trees for Golf Event](%5BHard%5D%20%5BSolution%5D%20675.%20Cut%20Off%20Trees%20for%20Golf%20Event.md)
+* [Hard] [Solution] 675. Cut Off Trees for Golf Event
 
 **Template 1:**
 ```python
@@ -17615,7 +17616,7 @@ class Solution(object):
             if not dsu.union(*edge):
                 return edge
 ```
-* [[Medium] [Solution] 684. Redundant Connection](%5BMedium%5D%20%5BSolution%5D%20684.%20Redundant%20Connection.md)
+* [Medium] [Solution] 684. Redundant Connection
 
 ### Region
 ```python
@@ -17657,7 +17658,7 @@ class Solution:
         return sum(dsu.find(x) == x for x in range(4*N*N))
 Solution 1: (DFS, Graph)
 ```
-* [[Medium] [Solution] 959. Regions Cut By Slashes](%5BMedium%5D%20%5BSolution%5D%20959.%20Regions%20Cut%20By%20Slashes.md)
+* [Medium] [Solution] 959. Regions Cut By Slashes
 
 ### Eqaulity
 ```python
@@ -17686,7 +17687,7 @@ class Solution:
                     return False
         return True
 ```
-* [[Medium] [Solution] 990. Satisfiability of Equality Equations](%5BMedium%5D%20%5BSolution%5D%20990.%20Satisfiability%20of%20Equality%20Equations.md)
+* [Medium] [Solution] 990. Satisfiability of Equality Equations
 
 ### Reverse Time and Union-Find
 ```python
@@ -17764,7 +17765,7 @@ class Solution:
                 ans.append(max(0, dsu.top() - pre_roof - 1))
         return ans[::-1]
 ```
-* [[Hard] [Solution] 803. Bricks Falling When Hit](%5BHard%5D%20%5BSolution%5D%20803.%20Bricks%20Falling%20When%20Hit.md)
+* [Hard] [Solution] 803. Bricks Falling When Hit
 
 ### Coloring
 ```python
@@ -17806,7 +17807,7 @@ class Solution:
         return ans[1]
 ```
 
-* [[Hard] [Solution] 924. Minimize Malware Spread](%5BHard%5D%20%5BSolution%5D%20924.%20Minimize%20Malware%20Spread.md)
+* [Hard] [Solution] 924. Minimize Malware Spread
 
 ### Count common factor
 ```python
@@ -17853,7 +17854,7 @@ class Solution:
         count = collections.Counter(dsu.find(prime_to_index[facs[0]]) for facs in B)
         return max(count.values())
 ```
-* [[Hard] [Solution] 952. Largest Component Size by Common Factor](%5BHard%5D%20%5BSolution%5D%20952.%20Largest%20Component%20Size%20by%20Common%20Factor.md)
+* [Hard] [Solution] 952. Largest Component Size by Common Factor
 
 ### Remove Max Number of Edges to Keep Graph Fully Traversable
 ```python
@@ -17904,7 +17905,7 @@ class Solution:
 
         return res if e1 == e2 == n - 1 else -1
 ```
-* [[Hard] 1579. Remove Max Number of Edges to Keep Graph Fully Traversable](%5BHard%5D%201579.%20Remove%20Max%20Number%20of%20Edges%20to%20Keep%20Graph%20Fully%20Traversable.md)
+* [Hard] 1579. Remove Max Number of Edges to Keep Graph Fully Traversable
 
 **Template 1:**
 ```python
@@ -17988,7 +17989,7 @@ class Solution:
                 size = max(size, hi - lo)
         return -1 if size < 0 else len(nums) - size
 ```
-* [[Medium] 1658. Minimum Operations to Reduce X to Zero](%5BMedium%5D%201658.%20Minimum%20Operations%20to%20Reduce%20X%20to%20Zero.md)
+* [Medium] 1658. Minimum Operations to Reduce X to Zero
 
 ### Sliding window with cumulative sum
 ```python
@@ -18010,7 +18011,7 @@ class Solution:
             
         return ans
 ```
-* [[Medium] 1695. Maximum Erasure Value](%5BMedium%5D%201695.%20Maximum%20Erasure%20Value.md)
+* [Medium] 1695. Maximum Erasure Value
 
 ### Mono queue
 ```python
@@ -18034,7 +18035,7 @@ class Solution:
             
         return best[-1]
 ```
-* [[Medium] 1696. Jump Game VI](%5BMedium%5D%201696.%20Jump%20Game%20VI.md)
+* [Medium] 1696. Jump Game VI
 
 ### Sliding over candidate
 ```python
@@ -18050,7 +18051,7 @@ class Solution:
                     ans.append(int(digits[i:i + win_len]))
         return ans
 ```
-* [[Medium] 1291. Sequential Digits](%5BMedium%5D%201291.%20Sequential%20Digits.md)
+* [Medium] 1291. Sequential Digits
 
 ### Group All 1's Together
 ```python
@@ -18064,7 +18065,7 @@ class Solution:
             ans = min(ans, c)
         return ans
 ```
-* [[Lock] [Medium] 1151. Minimum Swaps to Group All 1's Together](%5BLock%5D%20%5BMedium%5D%201151.%20Minimum%20Swaps%20to%20Group%20All%201's%20Together.md)
+* [Lock] [Medium] 1151. Minimum Swaps to Group All 1's Together
 
 ### Greedy slide left and right index
 ```python
@@ -18092,7 +18093,7 @@ class Solution(object):
             right += 1
         return res
 ```
-* [[Medium] [Solution] 3. Longest Substring Without Repeating Characters](%5BMedium%5D%20%5BSolution%5D%203.%20Longest%20Substring%20Without%20Repeating%20Characters.md)
+* [Medium] [Solution] 3. Longest Substring Without Repeating Characters
 
 ### Counter
 ```python
@@ -18123,7 +18124,7 @@ class Solution:
 
         return result
 ```
-* [[Medium] 438. Find All Anagrams in a String](%5BMedium%5D%20438.%20Find%20All%20Anagrams%20in%20a%20String.md)
+* [Medium] 438. Find All Anagrams in a String
 
 ### Counter
 ```python
@@ -18142,7 +18143,7 @@ class Solution:
 
         return False
 ```
-* [[Medium] 567. Permutation in String](%5BMedium%5D%20567.%20Permutation%20in%20String.md)
+* [Medium] 567. Permutation in String
 
 ### Greedy Left index pointer
 ```python
@@ -18161,7 +18162,7 @@ class Solution:
                 anchor = i
         return ans
 ```
-* [[Medium] [Solution] 978. Longest Turbulent Subarray](%5BMedium%5D%20%5BSolution%5D%20978.%20Longest%20Turbulent%20Subarray.md)
+* [Medium] [Solution] 978. Longest Turbulent Subarray
 
 ### Greedy append
 ```python
@@ -18182,7 +18183,7 @@ class Solution:
 
         return ans
 ```
-* [[Medium] 1004. Max Consecutive Ones III](%5BMedium%5D%201004.%20Max%20Consecutive%20Ones%20III.md)
+* [Medium] 1004. Max Consecutive Ones III
 
 ### Sliding over left, right end
 ```python
@@ -18199,7 +18200,7 @@ class Solution:
             i += 1
         return s - min_
 ```
-* [[Medium] 1423. Maximum Points You Can Obtain from Cards](%5BMedium%5D%201423.%20Maximum%20Points%20You%20Can%20Obtain%20from%20Cards.md)
+* [Medium] 1423. Maximum Points You Can Obtain from Cards
 
 ### slide right and try best to shrink the window from left
 ```python
@@ -18257,7 +18258,7 @@ class Solution:
             r += 1    
         return "" if ans[0] == float("inf") else s[ans[1] : ans[2] + 1]
 ```
-* [[Hard] [Solution] 76. Minimum Window Substring](%5BHard%5D%20%5BSolution%5D%2076.%20Minimum%20Window%20Substring.md)
+* [Hard] [Solution] 76. Minimum Window Substring
 
 ### 2 Sliding window
 ```python
@@ -18300,7 +18301,7 @@ class Solution:
 
         return ans
 ```
-* [[Hard] [Solution] 992. Subarrays with K Different Integers](%5BHard%5D%20%5BSolution%5D%20992.%20Subarrays%20with%20K%20Different%20Integers.md)
+* [Hard] [Solution] 992. Subarrays with K Different Integers
 
 ### Greedy + Events
 ```python
@@ -18323,7 +18324,7 @@ class Solution:
 
         return ans
 ```
-* [[Hard] [Solution] 995. Minimum Number of K Consecutive Bit Flips](%5BHard%5D%20%5BSolution%5D%20995.%20Minimum%20Number%20of%20K%20Consecutive%20Bit%20Flips.md)
+* [Hard] [Solution] 995. Minimum Number of K Consecutive Bit Flips
 
 ### Horizontal 1D Prefix Sum
 ```python
@@ -18358,7 +18359,7 @@ class Solution:
 
         return count
 ```
-* [[Hard] 1074. Number of Submatrices That Sum to Target](%5BHard%5D%201074.%20Number%20of%20Submatrices%20That%20Sum%20to%20Target.md)
+* [Hard] 1074. Number of Submatrices That Sum to Target
 
 ### inverse sliding window
 ```python
@@ -18374,7 +18375,7 @@ class Solution:
             res += i
         return res
 ```
-* [[Medium] 1358. Number of Substrings Containing All Three Characters](%5BMedium%5D%201358.%20Number%20of%20Substrings%20Containing%20All%20Three%20Characters.md)
+* [Medium] 1358. Number of Substrings Containing All Three Characters
 
 ### Min Max Queue
 ```python
@@ -18403,7 +18404,7 @@ class Solution:
                 
         return ans
 ```
-* [[Medium] 1438. Longest Continuous Subarray With Absolute Diff Less Than or Equal to Limit](%5BMedium%5D%201438.%20Longest%20Continuous%20Subarray%20With%20Absolute%20Diff%20Less%20Than%20or%20Equal%20to%20Limit.md)
+* [Medium] 1438. Longest Continuous Subarray With Absolute Diff Less Than or Equal to Limit
 
 ### Longest Subarray of 1's
 ```python
@@ -18418,7 +18419,7 @@ class Solution:
             ans = max(ans, hi - lo)
         return ans 
 ```
-* [[Medium] 1493. Longest Subarray of 1's After Deleting One Element](%5BMedium%5D%201493.%20Longest%20Subarray%20of%201's%20After%20Deleting%20One%20Element.md)
+* [Medium] 1493. Longest Subarray of 1's After Deleting One Element
 
 **Template 1:**
 ```python
@@ -18470,7 +18471,7 @@ class Solution:
 
         return nums
 ```
-* [[Medium] 912. Sort an Array](%5BMedium%5D%20912.%20Sort%20an%20Array.md)
+* [Medium] 912. Sort an Array
 
 ### Quick Sort, Preorder
 ```python
@@ -18496,7 +18497,7 @@ class Solution:
             
         return quickSort(nums, 0, len(nums)-1)
 ```
-* [[Medium] 912. Sort an Array](%5BMedium%5D%20912.%20Sort%20an%20Array.md)
+* [Medium] 912. Sort an Array
 
 ### Iterate over response
 ```python
@@ -18516,7 +18517,7 @@ class Solution:
                         rst.append(tmp)
         return rst
 ```
-* [[Medium] 241. Different Ways to Add Parentheses](%5BMedium%5D%20241.%20Different%20Ways%20to%20Add%20Parentheses.md)
+* [Medium] 241. Different Ways to Add Parentheses
 
 ### DP - Top-down
 ```python
@@ -18555,7 +18556,7 @@ class Solution:
 
         return dp[0][n-1]
 ```
-* [[Hard] 312. Burst Balloons](%5BHard%5D%20312.%20Burst%20Balloons.md)
+* [Hard] 312. Burst Balloons
 
 ### Backtracking
 ```python
@@ -18606,7 +18607,7 @@ class Solution:
         recurse(0, 0, 0, 0, [])    
         return answers
 ```
-* [[Hard] [Solution] 282. Expression Add Operators](%5BHard%5D%20%5BSolution%5D%20282.%20Expression%20Add%20Operators.md)
+* [Hard] [Solution] 282. Expression Add Operators
 
 ### Binay Search Tree
 ```python
@@ -18622,7 +18623,7 @@ class Solution:
             root.right = self.bstFromPreorder(preorder[i:])
             return root
 ```
-* [[Medium] 1008. Construct Binary Search Tree from Preorder Traversal](%5BMedium%5D%201008.%20Construct%20Binary%20Search%20Tree%20from%20Preorder%20Traversal.md)
+* [Medium] 1008. Construct Binary Search Tree from Preorder Traversal
 
 ### Modified merge sort
 ```python
@@ -18658,7 +18659,7 @@ class Solution:
 
         return mergesort_and_count(0, len(nums) - 1)
 ```
-* [[Hard] [Solution] 493. Reverse Pairs](%5BHard%5D%20%5BSolution%5D%20493.%20Reverse%20Pairs.md)
+* [Hard] [Solution] 493. Reverse Pairs
 
 ### Prefix Sum with merge sort
 ```python
@@ -18690,7 +18691,7 @@ class Solution:
 
         return mergesort(0, N)
 ```
-* [[Hard] 327. Count of Range Sum](%5BHard%5D%20327.%20Count%20of%20Range%20Sum.md)
+* [Hard] 327. Count of Range Sum
 
 ## Trie <a name="trie"></a>
 ---
@@ -18718,7 +18719,7 @@ class Solution:
 
         return ans
 ```
-* [[Easy] [Solution] 720. Longest Word in Dictionary](%5BEasy%5D%20%5BSolution%5D%20720.%20Longest%20Word%20in%20Dictionary.md)
+* [Easy] [Solution] 720. Longest Word in Dictionary
 
 ### Implementation
 ```python
@@ -18771,7 +18772,7 @@ class Trie:
 # param_2 = obj.search(word)
 # param_3 = obj.startsWith(prefix)
 ```
-* [[Medium] [Solution] 208. Implement Trie (Prefix Tree)](%5BMedium%5D%20%5BSolution%5D%20208.%20Implement%20Trie%20(Prefix%20Tree).md)
+* [Medium] [Solution] 208. Implement Trie (Prefix Tree)
 
 ### Add and Search Word
 ```python
@@ -18824,7 +18825,7 @@ class WordDictionary:
 # obj.addWord(word)
 # param_2 = obj.search(word)
 ```
-* [[Medium] [Solution] 211. Add and Search Word - Data structure design](%5BMedium%5D%20%5BSolution%5D%20211.%20Add%20and%20Search%20Word%20-%20Data%20structure%20design.md)
+* [Medium] [Solution] 211. Add and Search Word - Data structure design
 
 ### Node
 ```python
@@ -18867,7 +18868,7 @@ class MapSum:
 # obj.insert(key,val)
 # param_2 = obj.sum(prefix)
 ```
-* [[Medium] [Solution] 677. Map Sum Pairs](%5BMedium%5D%20%5BSolution%5D%20677.%20Map%20Sum%20Pairs.md)
+* [Medium] [Solution] 677. Map Sum Pairs
 
 ### python typical
 ```python
@@ -18890,7 +18891,7 @@ class Solution:
 
         return " ".join(map(replace, sentence.split()))
 ```
-* [[Medium] [Solution] 648. Replace Words](%5BMedium%5D%20%5BSolution%5D%20648.%20Replace%20Words.md)
+* [Medium] [Solution] 648. Replace Words
 
 ### Bit
 ```python
@@ -18937,7 +18938,7 @@ class Solution:
 
         return max_xor
 ```
-* [[Medium] 421. Maximum XOR of Two Numbers in an Array](%5BMedium%5D%20421.%20Maximum%20XOR%20of%20Two%20Numbers%20in%20an%20Array.md)
+* [Medium] 421. Maximum XOR of Two Numbers in an Array
 
 ### Trie of Suffix Wrapped Words
 ```python
@@ -18971,7 +18972,7 @@ class WordFilter:
 # obj = WordFilter(words)
 # param_1 = obj.f(prefix,suffix)
 ```
-* [[Hard] [Solution] 745. Prefix and Suffix Search](%5BHard%5D%20%5BSolution%5D%20745.%20Prefix%20and%20Suffix%20Search.md)
+* [Hard] [Solution] 745. Prefix and Suffix Search
 
 ### Stream of Characters
 ```python
@@ -19006,7 +19007,7 @@ class StreamChecker:
 # obj = StreamChecker(words)
 # param_1 = obj.query(letter)
 ```
-* [[Hard] 1032. Stream of Characters](%5BHard%5D%201032.%20Stream%20of%20Characters.md)
+* [Hard] 1032. Stream of Characters
 
 
 ### DFS aloong trie
@@ -19045,7 +19046,7 @@ class Solution:
 
         return ans
 ```
-* [[Hard] 212. Word Search II](%5BHard%5D%20212.%20Word%20Search%20II.md)
+* [Hard] 212. Word Search II
 
 ### Trie of Suffix Wrapped Words
 ```python
@@ -19079,7 +19080,7 @@ class WordFilter:
 # obj = WordFilter(words)
 # param_1 = obj.f(prefix,suffix)
 ```
-* [[Hard] [Solution] 745. Prefix and Suffix Search](%5BHard%5D%20%5BSolution%5D%20745.%20Prefix%20and%20Suffix%20Search.md)
+* [Hard] [Solution] 745. Prefix and Suffix Search
 
 **Template 1:**
 ```python
@@ -19141,7 +19142,7 @@ class Solution:
         arrow_length(root)
         return self.ans
 ```
-* [[Easy] [Solution] 687. Longest Univalue Path](%5BEasy%5D%20%5BSolution%5D%20687.%20Longest%20Univalue%20Path.md)
+* [Easy] [Solution] 687. Longest Univalue Path
 
 ### Search by Constructing Subset Sums
 ```python
@@ -19170,7 +19171,7 @@ class Solution:
 
         return search([0] * k)
 ```
-* [[Medium] [Solution] 698. Partition to K Equal Sum Subsets](%5BMedium%5D%20%5BSolution%5D%20698.%20Partition%20to%20K%20Equal%20Sum%20Subsets.md)
+* [Medium] [Solution] 698. Partition to K Equal Sum Subsets
 
 ### DP Top-down, Tree
 ```python
@@ -19199,7 +19200,7 @@ class Solution:
 
         return Solution.memo[N]
 ```
-* [[Medium] [Solution] 894. All Possible Full Binary Trees](%5BMedium%5D%20%5BSolution%5D%20894.%20All%20Possible%20Full%20Binary%20Trees.md)
+* [Medium] [Solution] 894. All Possible Full Binary Trees
 
 ## Segment Tree <a name="st"></a>
 ---
@@ -19259,7 +19260,7 @@ class NumArray:
 # obj.update(index,val)
 # param_2 = obj.sumRange(left,right)
 ```
-* [[Medium] [Solution] 307. Range Sum Query - Mutable](%5BMedium%5D%20%5BSolution%5D%20307.%20Range%20Sum%20Query%20-%20Mutable.md)
+* [Medium] [Solution] 307. Range Sum Query - Mutable
 
 ### Maintain Sorted Disjoint Intervals
 ```python
@@ -19308,7 +19309,7 @@ class RangeModule:
 # param_2 = obj.queryRange(left,right)
 # obj.removeRange(left,right)
 ```
-* [[Hard] [Solution] 715. Range Module](%5BHard%5D%20%5BSolution%5D%20715.%20Range%20Module.md)
+* [Hard] [Solution] 715. Range Module
 
 ### Boundary Count
 ```python
@@ -19333,7 +19334,7 @@ class MyCalendarThree:
 # obj = MyCalendarThree()
 # param_1 = obj.book(start,end)
 ```
-* [[Hard] [Solution] 732. My Calendar III](%5BHard%5D%20%5BSolution%5D%20732.%20My%20Calendar%20III.md)
+* [Hard] [Solution] 732. My Calendar III
 
 ### Segment Tree with Lazy Propagation
 ```python
@@ -19419,7 +19420,7 @@ class Solution:
 
         return ans
 ```
-* [[Hard] [Solution] 699. Falling Squares](%5BHard%5D%20%5BSolution%5D%20699.%20Falling%20Squares.md)
+* [Hard] [Solution] 699. Falling Squares
 
 ### Segment Tree
 ```python
@@ -19486,7 +19487,7 @@ class Solution:
 
         return ans % (10**9 + 7)
 ```
-* [[Hard] [Solution] 850. Rectangle Area II](%5BHard%5D%20%5BSolution%5D%20850.%20Rectangle%20Area%20II.md)
+* [Hard] [Solution] 850. Rectangle Area II
 
 ### Binary Search, Insertion Sort
 ```python
@@ -19502,7 +19503,7 @@ class Solution:
             sortedNums.insert(index, nums[i])
         return ans
 ```
-* [[Hard] 315. Count of Smaller Numbers After Self](%5BHard%5D%20315.%20Count%20of%20Smaller%20Numbers%20After%20Self.md)
+* [Hard] 315. Count of Smaller Numbers After Self
 
 ## Ordered Map <a name="om"></a>
 ---
@@ -19552,7 +19553,7 @@ class ExamRoom:
 # param_1 = obj.seat()
 # obj.leave(p)
 ```
-* [[Medium] [Solution] 855. Exam Room](%5BMedium%5D%20%5BSolution%5D%20855.%20Exam%20Room.md)
+* [Medium] [Solution] 855. Exam Room
 
 ### Maintain Sorted Intervals
 ```python
@@ -19591,7 +19592,7 @@ class SummaryRanges:
 # obj.addNum(val)
 # param_2 = obj.getIntervals()
 ```
-* [[Hard] 352. Data Stream as Disjoint Intervals](%5BHard%5D%20352.%20Data%20Stream%20as%20Disjoint%20Intervals.md)
+* [Hard] 352. Data Stream as Disjoint Intervals
 
 ### Monotonic Stack
 ```python
@@ -19625,7 +19626,7 @@ class Solution:
 
         return sum(odd)
 ```
-* [[Hard] [Solution] 975. Odd Even Jump](%5BHard%5D%20%5BSolution%5D%20975.%20Odd%20Even%20Jump.md)
+* [Hard] [Solution] 975. Odd Even Jump
 
 ## Queue <a name="queue"></a>
 ---
@@ -19642,7 +19643,7 @@ class RecentCounter:
             self.q.popleft()
         return len(self.q)
 ```
-* [[Easy] [Solution] 933. Number of Recent Calls](%5BEasy%5D%20%5BSolution%5D%20933.%20Number%20of%20Recent%20Calls.md)
+* [Easy] [Solution] 933. Number of Recent Calls
 
 ### head, tail pointer, size and filled
 ```python
@@ -19722,7 +19723,7 @@ class MyCircularQueue:
 # param_5 = obj.isEmpty()
 # param_6 = obj.isFull()
 ```
-* [[Medium] 622. Design Circular Queue](%5BMedium%5D%20622.%20Design%20Circular%20Queue.md)
+* [Medium] 622. Design Circular Queue
 
 ### Sliding Window
 ```python
@@ -19748,7 +19749,7 @@ class Solution:
 
         return ans if ans < N+1 else -1
 ```
-* [[Hard] [Solution] 862. Shortest Subarray with Sum at Least K](%5BHard%5D%20%5BSolution%5D%20862.%20Shortest%20Subarray%20with%20Sum%20at%20Least%20K.md)
+* [Hard] [Solution] 862. Shortest Subarray with Sum at Least K
 
 ### Decreasing deque index
 ```python
@@ -19767,7 +19768,7 @@ class Solution:
 
         return ans[k-1:]
 ```
-* [[Hard] 239. Sliding Window Maximum](%5BHard%5D%20239.%20Sliding%20Window%20Maximum.md)
+* [Hard] 239. Sliding Window Maximum
 
 ## Minimax <a name="minimax"></a>
 ---
@@ -19777,7 +19778,7 @@ class Solution:
     def canWinNim(self, n: int) -> bool:
         return (n % 4 != 0)
 ```
-* [[Easy] [Solution] 292. Nim Game](%5BEasy%5D%20%5BSolution%5D%20292.%20Nim%20Game.md)
+* [Easy] [Solution] 292. Nim Game
 
 ### Winner/Looser
 ```python
@@ -19794,7 +19795,7 @@ class Solution:
 
         return dfs(0, len(nums)-1) >= 0
 ```
-* [[Medium] [Solution] 486. Predict the Winner](%5BMedium%5D%20%5BSolution%5D%20486.%20Predict%20the%20Winner.md)
+* [Medium] [Solution] 486. Predict the Winner
 
 ### Minimax cost
 ```python
@@ -19813,7 +19814,7 @@ class Solution:
 
         return dfs(1, n)
 ```
-* [[Medium] 375. Guess Number Higher or Lower II](%5BMedium%5D%20375.%20Guess%20Number%20Higher%20or%20Lower%20II.md)
+* [Medium] 375. Guess Number Higher or Lower II
 
 ### Minimax with Heuristic
 ```python
@@ -19854,7 +19855,7 @@ class Solution:
 
         return ansguess
 ```
-* [[Hard] [Solution] 843. Guess the Word](%5BHard%5D%20%5BSolution%5D%20843.%20Guess%20the%20Word.md)
+* [Hard] [Solution] 843. Guess the Word
 
 ### Minimax / Percolate from Resolved States
 ```python
@@ -19915,7 +19916,7 @@ class Solution:
 
         return color[1, 2, 1]
 ```
-* [[Hard] [Solution] 913. Cat and Mouse](%5BHard%5D%20%5BSolution%5D%20913.%20Cat%20and%20Mouse.md)
+* [Hard] [Solution] 913. Cat and Mouse
 
 **Template 1:**
 ```python
@@ -19951,7 +19952,7 @@ class Solution:
             res += v * c
         return res % (10**9 + 7)
 ```
-* [[Medium] 1589. Maximum Sum Obtained of Any Permutation](%5BMedium%5D%201589.%20Maximum%20Sum%20Obtained%20of%20Any%20Permutation.md)
+* [Medium] 1589. Maximum Sum Obtained of Any Permutation
 
 ### Greedy
 ```python
@@ -19963,7 +19964,7 @@ class Solution:
             right = max(right, j)
         return res
 ```
-* [[Medium] 1288. Remove Covered Intervals](%5BMedium%5D%201288.%20Remove%20Covered%20Intervals.md)
+* [Medium] 1288. Remove Covered Intervals
 
 ### Line Sweep
 ```python
@@ -20004,7 +20005,7 @@ class Solution:
 
         return ans % (10**9 + 7)
 ```
-* [[Hard] [Solution] 850. Rectangle Area II](%5BHard%5D%20%5BSolution%5D%20850.%20Rectangle%20Area%20II.md)
+* [Hard] [Solution] 850. Rectangle Area II
 
 ## Random <a name="random"></a>
 ---
@@ -20041,7 +20042,7 @@ class Solution:
             scope += 1
         return chosen_value
 ```
-* [[Medium] 382. Linked List Random Node](%5BMedium%5D%20382.%20Linked%20List%20Random%20Node.md)
+* [Medium] 382. Linked List Random Node
 
 ### Rejection Sampling, Utilizing out-of-range samples
 ```python
@@ -20070,7 +20071,7 @@ class Solution:
             if idx <= 20:
                 return 1 + (idx - 1) % 10
 ```
-* [[Medium] [Solution] 470. Implement Rand10() Using Rand7()](%5BMedium%5D%20%5BSolution%5D%20470.%20Implement%20Rand10()%20Using%20Rand7().md)
+* [Medium] [Solution] 470. Implement Rand10() Using Rand7()
 
 ### Fisher-Yates Algorithm
 ```python
@@ -20102,7 +20103,7 @@ class Solution:
 # param_1 = obj.reset()
 # param_2 = obj.shuffle()
 ```
-* [[Medium] [Solution] 384. Shuffle an Array](%5BMedium%5D%20%5BSolution%5D%20384.%20Shuffle%20an%20Array.md)
+* [Medium] [Solution] 384. Shuffle an Array
 
 ### 2D area, Prefix Sum, Binary Search
 ```python
@@ -20142,7 +20143,7 @@ class Solution:
 # obj = Solution(rects)
 # param_1 = obj.pick()
 ```
-* [[Medium] 497. Random Point in Non-overlapping Rectangles](%5BMedium%5D%20497.%20Random%20Point%20in%20Non-overlapping%20Rectangles.md)
+* [Medium] 497. Random Point in Non-overlapping Rectangles
 
 ### Reservoir Sampling
 ```python
@@ -20163,7 +20164,7 @@ class Solution:
 # obj = Solution(nums)
 # param_1 = obj.pick(target)
 ```
-* [[Medium] 398. Random Pick Index](%5BMedium%5D%20398.%20Random%20Pick%20Index.md)
+* [Medium] 398. Random Pick Index
 
 ### Blacklist range
 ```python
@@ -20190,7 +20191,7 @@ class Solution:
 # obj = Solution(N, blacklist)
 # param_1 = obj.pick()
 ```
-* [[Hard] 710. Random Pick with Blacklist](%5BHard%5D%20710.%20Random%20Pick%20with%20Blacklist.md)
+* [Hard] 710. Random Pick with Blacklist
 
 ## Topological Sort <a name="ts"></a>
 ---
@@ -20219,7 +20220,7 @@ class Solution:
         
         return res
 ```
-* [[Hard] 329. Longest Increasing Path in a Matrix](%5BHard%5D%20329.%20Longest%20Increasing%20Path%20in%20a%20Matrix.md?_xsrf=2%7Cb607cbb0%7C38c2ab78d0bba728bf04857e61acb0a7%7C1583367857)
+* [Hard] 329. Longest Increasing Path in a Matrix
 
 ### 2 Level Topological Sort
 ```python
@@ -20289,7 +20290,7 @@ class Solution:
             result += inner_order
         return result
 ```
-* [[Hard] 1203. Sort Items by Groups Respecting Dependencies](%5BHard%5D%201203.%20Sort%20Items%20by%20Groups%20Respecting%20Dependencies.md)
+* [Hard] 1203. Sort Items by Groups Respecting Dependencies
 
 ## Brainteaser <a name="brainteaser"></a>
 ---
@@ -20299,7 +20300,7 @@ class Solution:
     def bulbSwitch(self, n: int) -> int:
         return int(n**.5)
 ```
-* [[Medium] 319. Bulb Switcher](%5BMedium%5D%20319.%20Bulb%20Switcher.md)
+* [Medium] 319. Bulb Switcher
 
 ### Probability
 ```python
@@ -20307,7 +20308,7 @@ class Solution:
     def nthPersonGetsNthSeat(self, n: int) -> float:
         return 1 if n == 1 else 0.5
 ```
-* [[Medium] 1227. Airplane Seat Assignment Probability](%5BMedium%5D%201227.%20Airplane%20Seat%20Assignment%20Probability.md)
+* [Medium] 1227. Airplane Seat Assignment Probability
 
 ### Last Moment
 ```python
@@ -20315,7 +20316,7 @@ class Solution:
     def getLastMoment(self, n: int, left: List[int], right: List[int]) -> int:
         return max(max(left or [0]), n - min(right or [n]), 0)
 ```
-* [[Medium] 1503. Last Moment Before All Ants Fall Out of a Plank](%5BMedium%5D%201503.%20Last%20Moment%20Before%20All%20Ants%20Fall%20Out%20of%20a%20Plank.md)
+* [Medium] 1503. Last Moment Before All Ants Fall Out of a Plank
 
 ## Geometry <a name="geometry"></a>
 ---
@@ -20340,7 +20341,7 @@ class Solution:
 
         return ans
 ```
-* [[Easy] [Solution] 892. Surface Area of 3D Shapes](%5BEasy%5D%20%5BSolution%5D%20892.%20Surface%20Area%20of%203D%20Shapes.md)
+* [Easy] [Solution] 892. Surface Area of 3D Shapes
 
 ### Straight line
 ```python
@@ -20349,7 +20350,7 @@ class Solution:
         (u, v), (p, q) = coordinates[: 2]
         return all((x - u) * (y - q) == (x - p) * (y - v) for x, y in coordinates)
 ```
-* [[Easy] 1232. Check If It Is a Straight Line](%5BEasy%5D%201232.%20Check%20If%20It%20Is%20a%20Straight%20Line.md)
+* [Easy] 1232. Check If It Is a Straight Line
 
 ### Iterate Centers
 ```python
@@ -20369,7 +20370,7 @@ class Solution:
 
         return ans if ans < float("inf") else 0
 ```
-* [[Medium] [Solution] 963. Minimum Area Rectangle II](%5BMedium%5D%20%5BSolution%5D%20963.%20Minimum%20Area%20Rectangle%20II.md)
+* [Medium] [Solution] 963. Minimum Area Rectangle II
 
 ### Overlap
 ```python
@@ -20391,7 +20392,7 @@ class Solution:
             return True
         return False 
 ```
-* [[Medium] 1401. Circle and Rectangle Overlapping](%5BMedium%5D%201401.%20Circle%20and%20Rectangle%20Overlapping.md)
+* [Medium] 1401. Circle and Rectangle Overlapping
 
 ### Monotone Chain
 ```python
@@ -20424,7 +20425,7 @@ class Solution:
 
         return stack
 ```
-* [[Hard] [Solution] 587. Erect the Fence](%5BHard%5D%20%5BSolution%5D%20587.%20Erect%20the%20Fence.md)
+* [Hard] [Solution] 587. Erect the Fence
 
 ## Regular Expression <a name="re"></a>
 ---
@@ -20434,7 +20435,7 @@ class Solution:
     def detectCapitalUse(self, word: str) -> bool:
         return re.fullmatch(r"[A-Z]*|.[a-z]*", word)
 ```
-* [[Easy] [Solution] 520. Detect Capital](%5BEasy%5D%20%5BSolution%5D%20520.%20Detect%20Capital.md)
+* [Easy] [Solution] 520. Detect Capital
 
 ### Using regex for spliting
 ```python
@@ -20466,7 +20467,7 @@ class Solution:
         else:
             return 'x={}'.format(rhs // lhs)
 ```
-* [[Medium] [Solution] 640. Solve the Equation](%5BMedium%5D%20%5BSolution%5D%20640.%20Solve%20the%20Equation.md)
+* [Medium] [Solution] 640. Solve the Equation
 
 ### match
 ```python
@@ -20480,7 +20481,7 @@ class Solution:
             return 'IPv6'
         return 'Neither'
 ```
-* [[Medium] 468. Validate IP Address](%5BMedium%5D%20468.%20Validate%20IP%20Address.md)
+* [Medium] 468. Validate IP Address
 
 ### Decode
 ```python
@@ -20501,4 +20502,4 @@ class Solution:
         return "".join(name + (str(stack[-1][name]) if stack[-1][name] > 1 else '')
                        for name in sorted(stack[-1]))
 ```
-* [[Hard] [Solution] 726. Number of Atoms](%5BHard%5D%20%5BSolution%5D%20726.%20Number%20of%20Atoms.md)
+* [Hard] [Solution] 726. Number of Atoms
