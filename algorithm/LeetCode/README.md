@@ -748,6 +748,7 @@ Happy Coding!!
 * [Medium] [Solution] 611. Valid Triangle Number
 * [Medium] 18. 4Sum.md
 * [Hard] [Solution] 927. Three Equal Parts
+* [Hard] 25. Reverse Nodes in k-Group
 
 ## Array <a name="array"></a>
 ---
@@ -16426,6 +16427,38 @@ class Solution:
         return dummy.next
 ```
 * [Medium] [Solution] 19. Remove Nth Node From End of List
+
+### Group reverse
+```python
+# Definition for singly-linked list.
+# class ListNode:
+#     def __init__(self, val=0, next=None):
+#         self.val = val
+#         self.next = next
+class Solution:
+    def reverseKGroup(self, head: ListNode, k: int) -> ListNode:
+        dummy = prev = start = end = ListNode(-1)
+        dummy.next = head
+        cur = head
+        cnt = k
+        while end:
+            end = end.next
+            cnt -= 1
+            if cnt == -1:
+                while cur != end:
+                    nxt = cur.next
+                    cur.next = prev
+                    prev = cur
+                    cur = nxt
+                cnt = k-1
+                start.next.next = end
+                start_nxt = start.next
+                start.next = prev
+                start = start_nxt
+        
+        return dummy.next
+```
+* [Hard] 25. Reverse Nodes in k-Group
 
 ### Merge with Divide And Conquer, Merge Sort
 ```python
