@@ -235,7 +235,6 @@ Happy Coding!!
 
 ## Top Google Questions <a name="top_go"></a>
 ---
-1, 253, 295, 528, 695, 394, 692, 843, 721, 149, 85, 1048, 329, 315, 465, 1423, 489, 1146, 359, 729, 1153, 593, 715, 346, 304, 57, 410, 1277, 727, 130, 853, 652, 1610, 1110, 690, 1654, 1231, 562, 995, 1499, 1219, 792, 951, 809, 354, 418, 1376, 308, 1406, 1776
 
 ## Top Amazon Questions <a name="top_az"></a>
 ---
@@ -749,6 +748,10 @@ Happy Coding!!
 * [Medium] 18. 4Sum.md
 * [Hard] [Solution] 927. Three Equal Parts
 * [Hard] 25. Reverse Nodes in k-Group
+* [Medium] [Solution] 236. Lowest Common Ancestor of a Binary Tree.md
+* [Medium] [Solution] 384. Shuffle an Array
+* [Medium] [Solution] 838. Push Dominoes
+* [Medium] [Solution] 915. Partition Array into Disjoint Intervals
 
 ## Array <a name="array"></a>
 ---
