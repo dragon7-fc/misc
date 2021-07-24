@@ -73,28 +73,42 @@ class Solution(object):
 
 # Submissions
 ---
-**Solution:**
+**Solution 1: (Recursion)**
 ```
-Runtime: 24 ms
-Memory Usage: 12.7 MB
+Runtime: 32 ms
+Memory Usage: 14.2 MB
 ```
 ```python
 # Definition for a binary tree node.
 # class TreeNode:
-#     def __init__(self, x):
-#         self.val = x
-#         self.left = None
-#         self.right = None
-
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
 class Solution:
     def pruneTree(self, root: TreeNode) -> TreeNode:
-        def containsOne(node):
-            if not node: return False
-            a1 = containsOne(node.left)
-            a2 = containsOne(node.right)
-            if not a1: node.left = None
-            if not a2: node.right = None
-            return node.val == 1 or a1 or a2
+        
+        def contains_one(node: TreeNode) -> bool:
+            if not node: 
+                return False
+            
+            # Check if any node in the left subtree contains a 1.
+            left_contains_one = contains_one(node.left)
+            
+            # Check if any node in the right subtree contains a 1.
+            right_contains_one = contains_one(node.right)
+            
+            # If the left subtree does not contain a 1, prune the subtree.
+            if not left_contains_one: 
+                node.left = None
+                
+            # If the right subtree does not contain a 1, prune the subtree.
+            if not right_contains_one: 
+                node.right = None
+            
+            # Return True if the current node or its left or right subtree contains a 1.
+            return node.val or left_contains_one or right_contains_one
 
-        return root if containsOne(root) else None
+        # Return the pruned tree if the tree contains a 1, otherwise return None.
+        return root if contains_one(root) else None
 ```

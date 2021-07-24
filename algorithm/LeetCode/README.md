@@ -752,6 +752,8 @@ Happy Coding!!
 * [Medium] [Solution] 384. Shuffle an Array
 * [Medium] [Solution] 838. Push Dominoes
 * [Medium] [Solution] 915. Partition Array into Disjoint Intervals
+* [Medium] 814. Binary Tree Pruning
+* [Hard] 126. Word Ladder II
 
 ## Array <a name="array"></a>
 ---
@@ -7460,6 +7462,43 @@ class Solution:
 ```
 * [Easy] 700. Search in a Binary Search Tree
 
+### Postorder
+```python
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+class Solution:
+    def pruneTree(self, root: TreeNode) -> TreeNode:
+        
+        def contains_one(node: TreeNode) -> bool:
+            if not node: 
+                return False
+            
+            # Check if any node in the left subtree contains a 1.
+            left_contains_one = contains_one(node.left)
+            
+            # Check if any node in the right subtree contains a 1.
+            right_contains_one = contains_one(node.right)
+            
+            # If the left subtree does not contain a 1, prune the subtree.
+            if not left_contains_one: 
+                node.left = None
+                
+            # If the right subtree does not contain a 1, prune the subtree.
+            if not right_contains_one: 
+                node.right = None
+            
+            # Return True if the current node or its left or right subtree contains a 1.
+            return node.val or left_contains_one or right_contains_one
+
+        # Return the pruned tree if the tree contains a 1, otherwise return None.
+        return root if contains_one(root) else None
+```
+* [Medium] 814. Binary Tree Pruning
+
 ### Postorder, parent pointer
 ```python
 # Definition for a binary tree node.
@@ -12718,6 +12757,46 @@ class Solution:
         return ans`
 ```
 * [Medium] * 1129. Shortest Path with Alternating Colors
+
+### BFS, level-order with decreasing candidate set
+```python
+    def findLadders(self, beginWord: str, endWord: str, wordList: List[str]) -> List[List[str]]:
+        wordSet = set(wordList)
+        if endWord not in wordSet:
+            return []
+        if beginWord == endWord:
+            return [beginWord]
+
+        g = collections.defaultdict(list)
+        N = len(beginWord)
+        wordList.append(beginWord)
+        for w in wordList:
+            for i in range(N):
+                wildcast = w[:i] + '*' + w[i+1:]
+                g[wildcast].append(w)
+                
+        path_dict = collections.defaultdict(list)
+        path_dict[beginWord] = [[beginWord]]
+        level = {beginWord}
+        while level:
+            next_level = set()
+            new_path_dict = collections.defaultdict(list)
+            for cur in level:
+                wordSet.discard(cur)
+                for i in range(N):
+                    wildcast = cur[:i] + '*' + cur[i+1:]
+                    for nei in g[wildcast]:
+                        if nei in wordSet:
+                            next_level.add(nei)
+                            for pre_path in path_dict[cur]:
+                                new_path_dict[nei].append(pre_path+[nei])
+            if endWord in new_path_dict:
+                return new_path_dict[endWord]
+            level = next_level
+            path_dict = new_path_dict
+        return []
+```
+* [Hard] 126. Word Ladder II
 
 ### Topological Sort
 ```python
