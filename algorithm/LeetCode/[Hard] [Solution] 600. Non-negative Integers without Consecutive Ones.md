@@ -47,7 +47,7 @@ public class Solution {
 
 **Complexity Analysis**
 
-* Time complexity : $O(32*n)$. We test the 32 consecutive positions of every number from $0$ to $n$. Here, $n$ refers to given number.
+* Time complexity : $O(32\*n)$. We test the 32 consecutive positions of every number from $0$ to $n$. Here, $n$ refers to given number.
 
 * Space complexity : $O(1)$. Constant space is used.
 

@@ -754,6 +754,7 @@ Happy Coding!!
 * [Medium] [Solution] 915. Partition Array into Disjoint Intervals
 * [Medium] 814. Binary Tree Pruning
 * [Hard] 126. Word Ladder II
+* [Hard] [Solution] 600. Non-negative Integers without Consecutive Ones.md
 
 ## Array <a name="array"></a>
 ---
@@ -3165,6 +3166,49 @@ class Solution:
         return count
 ```
 * [Medium] [Solution] 376. Wiggle Subsequence
+
+### Digital DP
+```python
+class Solution:
+    def findIntegers(self, num: int) -> int:
+        num = bin(num+1)[2:]
+        n = len(num)
+        fibo = [1, 2]
+        for _ in range(n-1):
+            fibo.append(fibo[-1] + fibo[-2])
+        res = 0
+        for i in range(n):
+            v = num[i:i+2]
+            if v == '11':
+                res += fibo[n-i]
+                break
+            elif v == '10':
+                res += fibo[n-i-1]
+            elif v == '1':
+                res += 1
+        return res
+
+class Solution:
+    def findIntegers(self, num: int) -> int:
+        
+        @lru_cache(None)
+        def dfs(num, prev):
+            if not num or num == "0":
+                return 1
+            a = str(int(num))
+            if a != num:
+                # "000xxx" -> "xxx"
+                return dfs(a, 0)
+            if not prev:
+                # fist num can take 1 or 0
+                return dfs(num[1:], 1) + dfs("1" * (len(num)-1), 0)
+            else:
+                # fist num can take only 0 since previous num is 1
+                return dfs("1" * (len(num) - 1), 0)
+            
+        return dfs(bin(num)[2:], 0)
+```
+* [Hard] [Solution] 600. Non-negative Integers without Consecutive Ones.md
 
 ### 2 state
 ```python
