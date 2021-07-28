@@ -755,6 +755,9 @@ Happy Coding!!
 * [Medium] 814. Binary Tree Pruning
 * [Hard] 126. Word Ladder II
 * [Hard] [Solution] 600. Non-negative Integers without Consecutive Ones.md
+* [Easy] 108. Convert Sorted Array to Binary Search Tree.md
+* [Medium] 16. 3Sum Closest.md
+* [Medium] 932. Beautiful Array.md
 
 ## Array <a name="array"></a>
 ---
@@ -833,6 +836,7 @@ class MyHashMap:
     def remove(self, key: int) -> None:
         """
         Removes the mapping of the specified value key if this map contains a mapping for the key
+        """
         """
         self.buckets[key] = -1
 
@@ -5340,6 +5344,19 @@ class Solution:
 ```
 * [Easy] [Solution] 976. Largest Perimeter Triangle
 
+### Odd and even
+```python
+class Solution:
+    def beautifulArray(self, N: int) -> List[int]:
+        def dfs(lst):
+            if len(lst) <= 2:
+                return lst
+            return dfs(lst[::2]) + dfs(lst[1::2])
+        
+        return dfs([_ for _ in range(1,N+1)])
+```
+* [Medium] 932. Beautiful Array.md
+
 ### Maximum
 ```python
 class Solution:
@@ -7224,6 +7241,28 @@ class Solution:
 
 ## Tree <a name='tree'></a>
 ---
+### DFS
+```python
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+
+class Solution:
+    def sortedArrayToBST(self, nums: List[int]) -> TreeNode:
+        if len(nums) == 0:
+            return None
+        if len(nums) == 1:
+            return TreeNode(nums[0])
+        node = TreeNode(nums[len(nums)//2])
+        node.left = self.sortedArrayToBST(nums[:len(nums)//2])
+        node.right = self.sortedArrayToBST(nums[len(nums)//2 + 1:])
+        return node
+```
+* [Easy] 108. Convert Sorted Array to Binary Search Tree.md
+
 ### DFS
 ```python
 # Definition for a binary tree node.
@@ -13231,6 +13270,28 @@ class Solution:
         return False
 ```
 * [Easy] 392. Is Subsequence
+
+### fix one and slide over the other two
+```python
+class Solution:
+    def threeSumClosest(self, nums: List[int], target: int) -> int:
+        diff = float('inf')
+        nums.sort()
+        for i in range(len(nums)):
+            lo, hi = i + 1, len(nums) - 1
+            while (lo < hi):
+                sum = nums[i] + nums[lo] + nums[hi]
+                if abs(target - sum) < abs(diff):
+                    diff = target - sum
+                if sum < target:
+                    lo += 1
+                else:
+                    hi -= 1
+            if diff == 0:
+                break
+        return target - diff
+```
+* [Medium] 16. 3Sum Closest.md
 
 ### Sorted candidate pointer
 ```python
@@ -20606,13 +20667,6 @@ class Solution:
             return x.replace('x', '1')
 
         lr = equation.split('=')
-        lhs = 0
-        rhs = 0
-        for x in re.split(r"(?=\+)|(?=-)", lr[0]):
-            if x.find('x') >= 0:
-                lhs += int(coeff(x))
-            else:
-                rhs -= int(x) if x != '' else 0
         for x in re.split(r"(?=\+)|(?=-)", lr[1]):
             if x.find('x') >= 0:
                 lhs -= int(coeff(x))
