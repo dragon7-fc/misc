@@ -758,6 +758,10 @@ Happy Coding!!
 * [Easy] 108. Convert Sorted Array to Binary Search Tree.md
 * [Medium] 16. 3Sum Closest.md
 * [Medium] 932. Beautiful Array.md
+* [Medium] [Solution] 542. 01 Matrix
+* [Medium] [Solution] 677. Map Sum Pairs
+* [Hard] [Solution] 42. Trapping Rain Water
+* [Hard] [Solution] 827. Making A Large Island
 
 ## Array <a name="array"></a>
 ---
@@ -10419,6 +10423,43 @@ class Solution:
 ```
 * [Medium] 1530. Number of Good Leaf Nodes Pairs
 
+### Color neighbor component
+```python
+class Solution:
+    def largestIsland(self, grid: List[List[int]]) -> int:
+        N = len(grid)
+
+        def neighbors(r, c):
+            for nr, nc in ((r-1, c), (r+1, c), (r, c-1), (r, c+1)):
+                if 0 <= nr < N and 0 <= nc < N:
+                    yield nr, nc
+
+        def dfs(r, c, index):
+            ans = 1
+            grid[r][c] = index
+            for nr, nc in neighbors(r, c):
+                if grid[nr][nc] == 1:
+                    ans += dfs(nr, nc, index)
+            return ans
+
+        area = {}
+        index = 2
+        for r in range(N):
+            for c in range(N):
+                if grid[r][c] == 1:
+                    area[index] = dfs(r, c, index)
+                    index += 1
+
+        ans = max(area.values() or [0])
+        for r in range(N):
+            for c in range(N):
+                if grid[r][c] == 0:
+                    seen = {grid[nr][nc] for nr, nc in neighbors(r, c) if grid[nr][nc] > 1}
+                    ans = max(ans, 1 + sum(area[i] for i in seen))
+        return ans
+```
+* [Hard] [Solution] 827. Making A Large Island
+
 ### Tarjan's algorithm
 ```python
 class Solution:
@@ -12209,6 +12250,37 @@ class Solution:
 ```
 * [Easy] 111. Minimum Depth of Binary Tree
 
+### expand from answer 
+```python
+class Solution:
+    def updateMatrix(self, matrix: List[List[int]]) -> List[List[int]]:
+        R, C = len(matrix), len(matrix[0])
+        ans = [[float("inf") if matrix[r][c] == 1 else 0 for c in range(C)] for r in range(R)]
+        
+        def neighbours(r, c):
+            directions = ((r-1, c),(r+1, c),(r, c+1),(r, c-1))
+            for nr, nc in directions:
+                if 0 <= nr < R and 0 <= nc < C:
+                    yield nr, nc
+        
+        queue = collections.deque([])
+        
+        for r in range(R):
+            for c in range(C):          
+                if matrix[r][c] == 0:
+                    queue.append((r, c))
+                    
+        while queue:
+            r, c = queue.popleft()
+            for nr, nc in neighbours(r, c):
+                if ans[nr][nc] > ans[r][c] + 1:
+                    ans[nr][nc] = ans[r][c] + 1
+                    queue.append((nr, nc))
+ 
+        return ans
+```
+* [Medium] [Solution] 542. 01 Matrix
+
 ### Level order
 ```python
 class Solution:
@@ -13771,6 +13843,30 @@ class Solution:
         return res % mod
 ```
 * [Medium] 1498. Number of Subsequences That Satisfy the Given Sum Condition
+
+### left right and current pointer
+```python
+class Solution:
+    def trap(self, height: List[int]) -> int:
+        left, right = 0, len(height) - 1;
+        ans = 0
+        left_max, right_max = 0, 0
+        while left < right: 
+            if height[left] < height[right]:
+                if height[left] >= left_max:
+                    left_max = height[left]
+                else:
+                    ans += (left_max - height[left])
+                left += 1
+            else:
+                if height[right] >= right_max:
+                    right_max = height[right]
+                else:
+                    ans += (right_max - height[right])
+                right -= 1
+        return ans
+```
+* [Hard] [Solution] 42. Trapping Rain Water
 
 ### Maximum Score of 2 increasing path
 ```python
