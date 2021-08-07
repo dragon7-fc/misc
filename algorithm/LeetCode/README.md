@@ -46,22 +46,6 @@ Happy Coding!!
 1. [Top Google Questions](#top_go)
 1. [Top Amazon Questions](#top_az)
 1. [Nvidia](#nvidia)
-1. [20204 30-Day LeetCoding Challenge](#202004)
-1. [202005 May LeetCoding Challenge](#202005)
-1. [202006 June LeetCoding Challenge](#202006)
-1. [202007 July LeetCoding Challenge](#202007)
-1. [202008 August LeetCoding Challenge](#202008)
-1. [202009 September LeetCoding Challenge](#202009)
-1. [202010 October LeetCoding Challenge](#202010)
-1. [202011 November LeetCoding Challenge](#202011)
-1. [202012 December LeetCoding Challenge](#202012)
-1. [202101 January LeetCoding Challenge](#202101)
-1. [202102 Fabruary LeetCoding Challenge](#202102)
-1. [202103 March LeetCoding Challenge](#202103)
-1. [202104 April LeetCoding Challenge](#202104)
-1. [202105 May LeetCoding Challenge](#202105)
-1. [202106 June LeetCoding Challenge](#202106)
-1. [202107 July LeetCoding Challenge](#202107)
 1. [Array](#array)
 1. [Dynamic Programming](#dp)
 1. [Math](#math)
@@ -243,525 +227,6 @@ Happy Coding!!
 ## Nvidia <a name="nvidia"></a>
 ---
 274, 380, 295, 33, 443, 74, 75, 48, 22, 238, 70, 200
-
-## 202004 30-Day LeetCoding Challenge <a name="202004"></a>
----
-* [Easy] [Solution] 136. Single Number
-* [Easy] 202. Happy Number
-* [Easy] 53. Maximum Subarray
-* [Easy] [Solution] 283. Move Zeroes
-* [Easy] [Solution] 122. Best Time to Buy and Sell Stock II
-* [Medium] [Solution] 49. Group Anagrams
-* [Easy] [Solution] 876. Middle of the Linked List
-* [Easy] [Solution] 844. Backspace String Compare
-* [Easy] 155. Min Stack
-* [Easy] [Solution] 543. Diameter of Binary Tree
-* [Easy] 1046. Last Stone Weight
-* [Medium] [Solution] 525. Contiguous Array
-* [Medium] [Solution] 238. Product of Array Except Self
-* [Medium] [Solution] 678. Valid Parenthesis String
-* [Medium] 200. Number of Islands
-* [Medium] 64. Minimum Path Sum
-* [Medium] 33. Search in Rotated Sorted Array
-* [Medium] 1008. Construct Binary Search Tree from Preorder Traversal
-* [202004] 30day. Leftmost Column with at Least a One
-* [Medium] [Solution] 560. Subarray Sum Equals K
-* [Medium] 201. Bitwise AND of Numbers Range
-* [Medium] 146. LRU Cache
-* [Medium] [Solution] 55. Jump Game
-* [Medium] 1143. Longest Common Subsequence
-* [Medium] [Solution] 221. Maximal Square
-* [202004] 30day. First Unique Number
-* [Hard] 124. Binary Tree Maximum Path Sum
-* [202004] 30day. Check If a String Is a Valid Sequence from Root to Leaves Path in a Binary Tree
-
-## 202005 May LeetCoding Challenge <a name="202005"></a>
----
-* [Easy] [Solution] 278. First Bad Version
-* [Easy] 771. Jewels and Stones
-* [Easy] 383. Ransom Note
-* [Easy] 476. Number Complement
-* [Easy] [Solution] 387. First Unique Character in a String
-* [Easy] [Solution] 169. Majority Element
-* [Easy] [Solution] 993. Cousins in Binary Tree
-* [Easy] 1232. Check If It Is a Straight Line
-* [Easy] 367. Valid Perfect Square
-* [Easy] 997. Find the Town Judge
-* [Easy] [Solution] 733. Flood Fill
-* [Medium] 540. Single Element in a Sorted Array
-* [Medium] 402. Remove K Digits
-* [Medium] [Solution] 208. Implement Trie (Prefix Tree)
-* [Medium] [Solution] 918. Maximum Sum Circular Subarray
-* [Medium] [Solution] 328. Odd Even Linked List
-* [Medium] 438. Find All Anagrams in a String
-* [Medium] 567. Permutation in String
-* [Medium] [Solution] 901. Online Stock Span
-* [Medium] [Solution] 230. Kth Smallest Element in a BST
-* [Medium] 1277. Count Square Submatrices with All Ones
-* [Medium] 451. Sort Characters By Frequency
-* [Medium] [Solution] 986. Interval List Intersections
-* [Medium] 1008. Construct Binary Search Tree from Preorder Traversal
-* [Medium] 1035. Uncrossed Lines
-* [Medium] [Solution] 525. Contiguous Array
-* [Medium] [Solution] 886. Possible Bipartition
-* [Medium] 338. Counting Bits
-* [Medium] 207. Course Schedule
-* [Medium] [Solution] 973. K Closest Points to Origin
-* [Hard] 72. Edit Distance
-
-## 202006 June LeetCoding Challenge <a name="202006"></a>
-* [Easy] [Solution] 226. Invert Binary Tree
-* [Easy] [Solution] 237. Delete Node in a Linked List
-* [Easy] 1029. Two City Scheduling
-* [Easy] [Solution] 344. Reverse String
-* [Medium] 528. Random Pick with Weight
-* [Medium] 406. Queue Reconstruction by Height
-* [Medium] 518. Coin Change 2
-* [Easy] 231. Power of Two
-* [Easy] 392. Is Subsequence
-* [Easy] 35. Search Insert Position
-* [Medium] 75. Sort Colors
-* [Medium] 380. Insert Delete GetRandom O(1)
-* [Medium] 368. Largest Divisible Subset
-* [Medium] 787. Cheapest Flights Within K Stops
-* [Easy] 700. Search in a Binary Search Tree
-* [Medium] 468. Validate IP Address
-* [Medium] 130. Surrounded Regions
-* [Medium] 275. H-Index II
-* [Hard] 1044. Longest Duplicate Substring
-* [Medium] 60. Permutation Sequence
-* [Hard] 174. Dungeon Game
-* [Medium] 137. Single Number II
-* [Medium] 222. Count Complete Tree Nodes
-* [Medium] 96. Unique Binary Search Trees
-* [Medium] [Solution] 287. Find the Duplicate Number
-* [Medium] 129. Sum Root to Leaf Numbers
-* [Medium] 279. Perfect Squares
-* [Medium] 332. Reconstruct Itinerary
-* [Medium] 62. Unique Paths
-* [Hard] 212. Word Search II
-
-## 202007 July LeetCoding Challenge <a name="202007"></a>
-* [Easy] [Solution] 441. Arranging Coins
-* [Easy] 107. Binary Tree Level Order Traversal II
-* [Medium] [Solution] 957. Prison Cells After N Days
-* [Medium] 264. Ugly Number II
-* [Easy] 461. Hamming Distance
-* [Easy] 463. Island Perimeter
-* [Medium] 15. 3Sum
-* [Medium] [Solution] 662. Maximum Width of Binary Tree
-* [Medium] 430. Flatten a Multilevel Doubly Linked List
-* [Medium] [Solution] 78. Subsets
-* [Easy] 190. Reverse Bits
-* [Easy] [Solution] 100. Same Tree
-* [Medium] 1344. Angle Between Hands of a Clock
-* [Medium] 151. Reverse Words in a String
-* [Medium] 50. Pow(x, n)
-* [Medium] [Solution] 347. Top K Frequent Elements
-* [Medium] [Solution] 210. Course Schedule II
-* [Easy] 67. Add Binary
-* [Easy] 203. Remove Linked List Elements
-* [Medium] 79. Word Search
-* [Medium] 103. Binary Tree Zigzag Level Order Traversal
-* [Medium] 260. Single Number III
-* [Medium] 797. All Paths From Source to Target
-* [Hard] 154. Find Minimum in Rotated Sorted Array II
-* [Easy] [Solution] 258. Add Digits
-* [Medium] 106. Construct Binary Tree from Inorder and Postorder Traversal
-* [Medium] [Solution] 621. Task Scheduler
-* [Medium] 309. Best Time to Buy and Sell Stock with Cooldown
-* [Easy] [Solution] 70. Climbing Stairs
-
-## 202008 August LeetCoding Challenge <a name="202008"></a>
-* [Easy] [Solution] 520. Detect Capital
-* [Easy] 705. Design HashSet
-* [Easy] [Solution] 125. Valid Palindrome
-* [Easy] [Solution] 342. Power of Four
-* [Medium] [Solution] 211. Add and Search Word - Data structure design
-* [Medium] [Solution] 442. Find All Duplicates in an Array
-* [Medium] [Solution] 987. Vertical Order Traversal of a Binary Tree
-* [Lock] [Easy] [Solution] 270. Closest Binary Search Tree Value
-* [Medium] [Solution] 437. Path Sum III
-* [Medium] [Solution] 994. Rotting Oranges
-* [Easy] 171. Excel Sheet Column Number
-* [Medium] 274. H-Index
-* [Easy] 119. Pascal's Triangle II
-* [Medium] 1286. Iterator for Combination
-* [Easy] [Solution] 409. Longest Palindrome
-* [Lock] [Medium] [Solution] 484. Find Permutation
-* [Medium] [Solution] 435. Non-overlapping Intervals
-* [Hard] [Solution] 123. Best Time to Buy and Sell Stock III
-* [Easy] [Solution] 1103. Distribute Candies to People
-* [Medium] [Solution] 967. Numbers With Same Consecutive Differences
-* [Easy] [Solution] 824. Goat Latin
-* [Medium] 143. Reorder List
-* [Easy] [Solution] 922. Sort Array By Parity
-* [Lock] [Medium] [Solution] 490. The Maze
-* [Medium] 497. Random Point in Non-overlapping Rectangles
-* [Hard] 1032. Stream of Characters
-* [Easy] 404. Sum of Left Leaves
-* [Medium] [Solution] 983. Minimum Cost For Tickets
-* [Easy] [Solution] 412. Fizz Buzz
-* [Medium] 436. Find Right Interval
-* [Medium] [Solution] 470. Implement Rand10() Using Rand7()
-* [Lock] [Hard] [Solution] 489. Robot Room Cleaner
-* [Medium] [Solution] 969. Pancake Sorting
-* [Hard] [Solution] 952. Largest Component Size by Common Factor
-* [Medium] * 450. Delete Node in a BST
-
-## 202009 September LeetCoding Challenge <a name="202009"></a>
-* [Lock] [Easy] [Solution] 157. Read N Characters Given Read4
-* [Easy] [Solution] 949. Largest Time for Given Digits
-* [Medium] 220. Contains Duplicate III
-* [Easy] 459. Repeated Substring Pattern
-* [Medium] [Solution] 763. Partition Labels
-* [Medium] 1305. All Elements in Two Binary Search Trees
-* [Medium] [Solution] 835. Image Overlap
-* [Easy] 290. Word Pattern
-* [Easy] 1022. Sum of Root To Leaf Binary Numbers
-* [Medium] 165. Compare Version Numbers
-* [Easy] 299. Bulls and Cows
-* [Medium] 152. Maximum Product Subarray
-* [Medium] 216. Combination Sum III
-* [Hard] 57. Insert Interval
-* [Easy] 198. House Robber
-* [Easy] 58. Length of Last Word
-* [Medium] 421. Maximum XOR of Two Numbers in an Array
-* [Medium] 1041. Robot Bounded In Circle
-* [Easy] [Solution] 121. Best Time to Buy and Sell Stock
-* [Medium] 1291. Sequential Digits
-* [Hard] [Solution] 980. Unique Paths III
-* [Medium] 1094. Car Pooling
-* [Medium] 229. Majority Element II
-* [Medium] 134. Gas Station
-* [Easy] 389. Find the Difference
-* [Medium] [Solution] 179. Largest Number
-* [Medium] [Solution] 495. Teemo Attacking
-* [Medium] [Solution] 713. Subarray Product Less Than K
-* [Medium] 139. Word Break
-* [Medium] 399. Evaluate Division
-* [Hard] 41. First Missing Positive
-
-## 202010 October LeetCoding Challenge <a name="202010"></a>
-* [Easy] [Solution] 933. Number of Recent Calls
-* [Medium] 39. Combination Sum
-* [Easy] 532. K-diff Pairs in an Array
-* [Medium] 1288. Remove Covered Intervals
-* [Easy] 1009. Complement of Base 10 Integer
-* [Medium] 701. Insert into a Binary Search Tree
-* [Medium] 61. Rotate List
-* [Easy] [Solution] 704. Binary Search
-* [Medium] 449. Serialize and Deserialize BST
-* [Medium] 452. Minimum Number of Arrows to Burst Balloons
-* [Hard] 316. Remove Duplicate Letters
-* [Easy] [Solution] 859. Buddy Strings
-* [Medium] 148. Sort List
-* [Medium] 213. House Robber II
-* [Easy] [Solution] 189. Rotate Array
-* [Medium] 74. Search a 2D Matrix
-* [Medium] 187. Repeated DNA Sequences
-* [Hard] 188. Best Time to Buy and Sell Stock IV
-* [Medium] 1007. Minimum Domino Rotations For Equal Row
-* [Medium] 133. Clone Graph
-* [Medium] [Solution] 735. Asteroid Collision
-* [Easy] 111. Minimum Depth of Binary Tree
-* [Medium] [Solution] 456. 132 Pattern
-* [Medium] [Solution] 948. Bag of Tokens
-* [Hard] 1510. Stone Game IV
-* [Medium] [Solution] 799. Champagne Tower
-* [Medium] 142. Linked List Cycle II
-* [Medium] 228. Summary Ranges
-* [Easy] [Solution] 849. Maximize Distance to Closest Person
-* [Medium] [Solution] 673. Number of Longest Increasing Subsequence
-* [Hard] 99. Recover Binary Search Tree
-
-## 202011 November LeetCoding Challenge <a name="202011"></a>
-* [Easy] 1290. Convert Binary Number in a Linked List to Integer
-* [Medium] 147. Insertion Sort List
-* [Easy] 1446. Consecutive Characters
-* [Medium] 310. Minimum Height Trees
-* [Easy] 1217. Play with Chips
-* [Medium] 1283. Find the Smallest Divisor Given a Threshold
-* [Medium] 445. Add Two Numbers II
-* [Easy] [Solution] 563. Binary Tree Tilt
-* [Medium] 1026. Maximum Difference Between Node and Ancestor
-* [Easy] [Solution] 832. Flipping an Image
-* [Medium] [Solution] 593. Valid Square
-* [Medium] 47. Permutations II
-* [Medium] 116. Populating Next Right Pointers in Each Node
-* [Hard] 458. Poor Pigs
-* [Easy] [Solution] 938. Range Sum of BST
-* [Medium] [Solution] 845. Longest Mountain in Array
-* [Medium] 858. Mirror Reflection
-* [Medium] [Solution] 56. Merge Intervals
-* [![Medium] 394. Decode String](!%5BMedium%5D%20394.%20Decode%20String.md)
-* [Medium] 81. Search in Rotated Sorted Array II
-* [Hard] [Solution] * 902. Numbers At Most N Given Digit Set
-* [Easy] [Solution] 804. Unique Morse Code Words
-* [Medium] 337. House Robber III
-* [Medium] 227. Basic Calculator II
-* [Medium] 1015. Smallest Integer Divisible by K
-* [Medium] 395. Longest Substring with At Least K Repeating Characters
-* [Medium] 416. Partition Equal Subset Sum
-* [Hard] 239. Sliding Window Maximum
-* [Medium] 1306. Jump Game III
-* [Hard] 218. The Skyline Problem
-
-## 202012 December LeetCoding Challenge <a name="202012"></a>
-* [Easy] 104. Maximum Depth of Binary Tree
-* [Medium] 382. Linked List Random Node
-* [Easy] [Solution] 897. Increasing Order Search Tree
-* [Medium] 1492. The kth Factor of n
-* [Easy] [Solution] 605. Can Place Flowers
-* [Medium] 117. Populating Next Right Pointers in Each Node II
-* [Medium] 59. Spiral Matrix II
-* [Easy] 1010. Pairs of Songs With Total Durations Divisible by 60
-* [Medium] [Solution] 173. Binary Search Tree Iterator
-* [Easy] [Solution] 941. Valid Mountain Array
-* [Medium] 80. Remove Duplicates from Sorted Array II
-* [Medium] [Solution] 865. Smallest Subtree with all the Deepest Nodes
-* [Hard] 312. Burst Balloons
-* [Medium] 131. Palindrome Partitioning
-* [Easy] [Solution] 977. Squares of a Sorted Array
-* [Medium] 98. Validate Binary Search Tree
-* [Medium] 454. 4Sum II
-* [Medium] 334. Increasing Triplet Subsequence
-* [Hard] 1463. Cherry Pickup II
-* [Medium] [Solution] 880. Decoded String at Index
-* [Medium] [Solution] 910. Smallest Range II
-* [Easy] 110. Balanced Binary Tree
-* [Medium] 556. Next Greater Element III
-* [Medium] 24. Swap Nodes in Pairs
-* [Medium] 498. Diagonal Traverse
-* [Hard] 1345. Jump Game IV
-* [Medium] [Solution] 754. Reach a Number
-* [Medium] 1457. Pseudo-Palindromic Paths in a Binary Tree
-* [Medium] [Solution] 289. Game of Life
-* [Hard] 84. Largest Rectangle in Histogram
-
-## 202101 January LeetCoding Challenge <a name="202101"></a>
-* [Easy] 1640. Check Array Formation Through Concatenation
-* [Medium] 1379. Find a Corresponding Node of a Binary Tree in a Clone of That Tree
-* [Medium] [Solution] 526. Beautiful Arrangement
-* [Easy] 21. Merge Two Sorted Lists
-* [Medium] 82. Remove Duplicates from Sorted List II
-* [Easy] 1539. Kth Missing Positive Number
-* [Medium] [Solution] 3. Longest Substring Without Repeating Characters
-* [Easy] 1662. Check If Two String Arrays are Equivalent
-* [Medium] [Solution] 127. Word Ladder
-* [Hard] 1649. Create Sorted Array through Instructions
-* [Easy] 88. Merge Sorted Array
-* [Medium] [Solution] 2. Add Two Numbers
-* [Medium] [Solution] 881. Boats to Save People
-* [Medium] 1658. Minimum Operations to Reduce X to Zero
-* [Easy] 1646. Get Maximum in Generated Array
-* [Medium] 215. Kth Largest Element in an Array
-* [Medium] 1641. Count Sorted Vowel Strings
-* [Medium] 1679. Max Number of K-Sum Pairs
-* [Medium] [Solution] 5. Longest Palindromic Substring
-* [Easy] [Solution] 20. Valid Parentheses
-* [Medium] 1673. Find the Most Competitive Subsequence
-* [Medium] 1657. Determine if Two Strings Are Close
-* [Medium] 1329. Sort the Matrix Diagonally
-* [Hard] [Solution] 23. Merge k Sorted Lists
-* [Medium] 1437. Check If All 1's Are at Least Length K Places Away
-* [Medium] 1631. Path With Minimum Effort
-* [Medium] 1680. Concatenation of Consecutive Binary Numbers
-* [Medium] 1663. Smallest String With A Given Numeric Value
-* [Hard] 1675. Minimize Deviation in Array
-* [Medium] [Solution] 31. Next Permutation
-
-## 202102 Fabruary LeetCoding Challenge <a name="202102"></a>
-* [Easy] [Solution] 191. Number of 1 Bits
-* [Easy] [Solution] 669. Trim a Binary Search Tree
-* [Easy] [Solution] 141. Linked List Cycle
-* [Easy] [Solution] 594. Longest Harmonious Subsequence
-* [Medium] 71. Simplify Path
-* [Medium] [Solution] 199. Binary Tree Right Side View
-* [Easy] [Solution] 538. Convert BST to Greater Tree
-* [Medium] 138. Copy List with Random Pointer
-* [Easy] [Solution] 821. Shortest Distance to a Character
-* [Medium] 284. Peeking Iterator
-* [Easy] [Solution] 242. Valid Anagram
-* [Easy] 1342. Number of Steps to Reduce a Number to Zero
-* [Medium] 1091. Shortest Path in Binary Matrix
-* [Medium] 785. Is Graph Bipartite?
-* [Easy] 1337. The K Weakest Rows in a Matrix
-* [Easy] 784. Letter Case Permutation
-* [Medium] [Solution] 11. Container With Most Water
-* [Medium] [Solution] 413. Arithmetic Slices
-* [Medium] 1249. Minimum Remove to Make Valid Parentheses
-* [Easy] 13. Roman to Integer
-* [Medium] [Solution] 991. Broken Calculator
-* [Medium] [Solution] 524. Longest Word in Dictionary through Deleting
-* [Medium] 240. Search a 2D Matrix II
-* [Medium] [Solution] 856. Score of Parentheses
-* [Easy] [Solution] 581. Shortest Unsorted Continuous Subarray
-* [Medium] [Solution] 946. Validate Stack Sequences
-* [Medium] 29. Divide Two Integers
-
-## 202103 March LeetCoding Challenge <a name="202103"></a>
-* [Easy] [Solution] 575. Distribute Candies
-* [Easy] [Solution] 645. Set Mismatch
-* [Easy] [Solution] 268. Missing Number
-* [Easy] [Solution] 160. Intersection of Two Linked Lists
-* [Easy] [Solution] 637. Average of Levels in Binary Tree
-* [Medium] [Solution] 823. Binary Trees With Factors
-* [Easy] 706. Design HashMap
-* [Easy] 1332. Remove Palindromic Subsequences
-* [Medium] [Solution] 623. Add One Row to Tree
-* [Medium] 12. Integer to Roman
-* [Medium] [Solution] 322. Coin Change
-* [Medium] 1461. Check If a String Contains All Binary Codes of Size K
-* [Medium] 1721. Swapping Nodes in a Linked List
-* [Medium] 535. Encode and Decode TinyURL
-* [Medium] [Solution] 714. Best Time to Buy and Sell Stock with Transaction Fee
-* [Medium] 478. Generate Random Point in a Circle
-* [Medium] [Solution] 376. Wiggle Subsequence
-* [Medium] [Solution] 841. Keys and Rooms
-* [Medium] 1396. Design Underground System
-* [Medium] [Solution] 869. Reordered Power of 2
-* [Medium] [Solution] 966. Vowel Spellchecker
-* [Medium] [Solution] 923. 3Sum With Multiplicity
-* [Medium] [Solution] 870. Advantage Shuffle
-* [Medium] 423. Reconstruct Original Digits from English
-* [Lock] [Hard] 1136. Parallel Courses
-* [Medium] [Solution] 971. Flip Binary Tree To Match Preorder Traversal
-* [Hard] 354. Russian Doll Envelopes
-* [Hard] [Solution] 936. Stamping The Sequence
-
-## 202104 April LeetCoding Challenge <a name="202104"></a>
-* [Lock] [Easy] 1133. Largest Unique Number
-* [Easy] 234. Palindrome Linked List
-* [Medium] 474. Ones and Zeroes
-* [Hard] [Solution] 32. Longest Valid Parentheses
-* [Medium] 622. Design Circular Queue
-* [Medium] 775. Global and Local Inversions
-* [Medium] 1551. Minimum Operations to Make Array Equal
-* [Easy] 1704. Determine if String Halves Are Alike
-* [Medium] [Solution] 17. Letter Combinations of a Phone Number
-* [Easy] [Solution] 953. Verifying an Alien Dictionary
-* [Hard] 329. Longest Increasing Path in a Matrix
-* [Medium] 1302. Deepest Leaves Sum
-* [Medium] [Solution] 667. Beautiful Arrangement II
-* [Medium] 341. Flatten Nested List Iterator
-* [Medium] [Solution] 86. Partition List
-* [Lock] [Medium] 1151. Minimum Swaps to Group All 1's Together
-* [Easy] [Solution] 509. Fibonacci Number
-* [Medium] 1209. Remove All Adjacent Duplicates in String II
-* [Hard] 1074. Number of Submatrices That Sum to Target
-* [Medium] [Solution] 19. Remove Nth Node From End of List
-* [Medium] 377. Combination Sum IV
-* [Easy] 589. N-ary Tree Preorder Traversal
-* [Medium] 120. Triangle
-* [Medium] 554. Brick Wall
-* [Easy] [Solution] 696. Count Binary Substrings
-* [Hard] 1192. Critical Connections in a Network
-* [Medium] 48. Rotate Image
-* [Medium] 1642. Furthest Building You Can Reach
-* [Easy] 326. Power of Three
-* [Medium] [Solution] 63. Unique Paths II
-* [Medium] [Solution] 34. Find First and Last Position of Element in Sorted Array
-* [Easy] [Solution] 970. Powerful Integers
-
-## 202105 May LeetCoding Challenge <a name="202105"></a>
-* [Hard] [Solution] 745. Prefix and Suffix Search
-* [Hard] [Solution] 630. Course Schedule III
-* [Easy] 1480. Running Sum of 1d Array
-* [Easy] [Solution] 665. Non-decreasing Array
-* [Hard] 45. Jump Game II
-* [Medium] [Solution] 109. Convert Sorted List to Binary Search Tree
-* [Medium] [Solution] 583. Delete Operation for Two Strings
-* [Hard] [Solution] 906. Super Palindromes
-* [Hard] 1354. Construct Target Array With Multiple Sums
-* [Easy] 204. Count Primes
-* [Medium] 1423. Maximum Points You Can Obtain from Cards
-* [Medium] [Solution] 304. Range Sum Query 2D - Immutable
-* [Medium] [Solution] 816. Ambiguous Coordinates
-* [Medium] 114. Flatten Binary Tree to Linked List
-* [Hard] 65. Valid Number
-* [Hard] [Solution] 968. Binary Tree Cameras
-* [Medium] 1048. Longest String Chain
-* [Medium] [Solution] 609. Find Duplicate File in System
-* [Medium] 462. Minimum Moves to Equal Array Elements II
-* [Medium] 102. Binary Tree Level Order Traversal
-* [Medium] [Solution] 890. Find and Replace Pattern
-* [Hard] 51. N-Queens
-* [Hard] [Solution] 943. Find the Shortest Superstring
-* [Easy] 709. To Lower Case
-* [Medium] 150. Evaluate Reverse Polish Notation
-* [Medium] 1689. Partitioning Into Minimum Number Of Deci-Binary Numbers
-* [Medium] 318. Maximum Product of Word Lengths
-* [Medium] 1695. Maximum Erasure Value
-* [Hard] 52. N-Queens II
-* [Hard] [Solution] 164. Maximum Gap
-* [Medium] 1268. Search Suggestions System
-
-## 202106 June LeetCoding Challenge <a name="202106"></a>
-* [Medium] [Solution] 695. Max Area of Island
-* [Hard] [Solution] 97. Interleaving String
-* [Medium] 1465. Maximum Area of a Piece of Cake After Horizontal and Vertical Cuts
-* [Medium] 752. Open the Lock
-* [Hard] 1383. Maximum Performance of a Team
-* [Hard] [Solution] 128. Longest Consecutive Sequence
-* [Easy] [Solution] 746. Min Cost Climbing Stairs
-* [Medium] 105. Construct Binary Tree from Preorder and Inorder Traversa
-* [Medium] 1696. Jump Game VI.md
-* [Medium] [Solution] 729. My Calendar I.md
-* [Medium] 1690. Stone Game VII.md
-* [Hard] [Solution] 871. Minimum Number of Refueling Stops
-* [Hard] 336. Palindrome Pairs
-* [Lock] [Easy] [Solution] 1710. Maximum Units on a Truck
-* [Medium] [Solution] 473. Matchsticks to Square.md
-* [Medium] [Solution] 22. Generate Parentheses
-* [Medium] 795. Number of Subarrays with Bounded Maximum 
-* [Medium] [Solution] 307. Range Sum Query - Mutable
-* [Hard] [Solution] 629. K Inverse Pairs Array
-* [Hard] 778. Swim in Rising Water
-* [Easy] [Solution] 118. Pascal's Triangle
-* [Medium] 792. Number of Matching Subsequences
-* [![Medium] [Solution] 92. Reverse Linked List II](!%5BMedium%5D%20%5BSolution%5D%2092.%20Reverse%20Linked%20List%20II.md)
-* [Medium] [Solution] 576. Out of Boundary Paths.md
-* [Medium] [Solution] 684. Redundant Connection
-* [Hard] 315. Count of Smaller Numbers After Self
-* [Hard] [Solution] 135. Candy.md
-* [Easy] 1047. Remove All Adjacent Duplicates In String.md
-* [Medium] 1004. Max Consecutive Ones III
-* [Medium] [Solution] 236. Lowest Common Ancestor of a Binary Tree.md
-
-## 202107 July LeetCoding Challenge <a name="202107"></a>
-* [Medium] 89. Gray Code.md
-* [Medium] 658. Find K Closest Elements.md
-* [Hard] 363. Max Sum of Rectangle No Larger Than K
-* [Hard] 1220. Count Vowels Permutation.md
-* [Easy] [Solution] 566. Reshape the Matrix
-* [Medium] 1338. Reduce Array Size to The Half.md
-* [Medium] 378. Kth Smallest Element in a Sorted Matrix.md
-* [Medium] [Solution] 718. Maximum Length of Repeated Subarray
-* [Medium] [Solution] 300. Longest Increasing Subsequence
-* [Hard] [Solution] 639. Decode Ways II.md
-* [Hard] [Solution] 295. Find Median from Data Stream.md
-* [Easy] 205. Isomorphic Strings.md
-* [Medium] [Solution] 162. Find Peak Element
-* [Medium] 791. Custom Sort String.md
-* [Medium] [Solution] 611. Valid Triangle Number
-* [Medium] 18. 4Sum.md
-* [Hard] [Solution] 927. Three Equal Parts
-* [Hard] 25. Reverse Nodes in k-Group
-* [Medium] [Solution] 236. Lowest Common Ancestor of a Binary Tree.md
-* [Medium] [Solution] 384. Shuffle an Array
-* [Medium] [Solution] 838. Push Dominoes
-* [Medium] [Solution] 915. Partition Array into Disjoint Intervals
-* [Medium] 814. Binary Tree Pruning
-* [Hard] 126. Word Ladder II
-* [Hard] [Solution] 600. Non-negative Integers without Consecutive Ones.md
-* [Easy] 108. Convert Sorted Array to Binary Search Tree.md
-* [Medium] 16. 3Sum Closest.md
-* [Medium] 932. Beautiful Array.md
-* [Medium] [Solution] 542. 01 Matrix
-* [Medium] [Solution] 677. Map Sum Pairs
-* [Hard] [Solution] 42. Trapping Rain Water
-* [Hard] [Solution] 827. Making A Large Island
 
 ## Array <a name="array"></a>
 ---
@@ -2921,7 +2386,7 @@ class Solution:
 ```
 * [Medium] [Solution] 873. Length of Longest Fibonacci Subsequence
 
-### Maximize one and minimize the other one
+### Only Top-Down DP
 ```python
 from functools import lru_cache
 class Solution:
@@ -2939,31 +2404,6 @@ class Solution:
                 return min(-piles[i] + dp(i+1,j), -piles[j] + dp(i,j-1))
 
         return dp(0, N - 1) > 0
-
-import functools
-class Solution:
-    def stoneGame(self, piles: List[int]) -> bool:
-        @functools.lru_cache(None)
-        def dfs(i, j):
-            if i == j:
-                return piles[i]
-            a = piles[i] - dfs(i+1, j)
-            b = piles[j] - dfs(i, j-1)
-            return max(a, b)
-
-        return dfs(0, len(piles)-1) >= 0    
-    
-class Solution:
-    def stoneGame(self, piles: List[int]) -> bool:
-
-        @functools.lru_cache(None)
-        def dfs(i, j):
-            if i + 1 == j:
-                return max(piles[i], piles[j])
-            return max(piles[i] + min(dfs(i + 2, j), dfs(i + 1, j - 1)), piles[j] + min(dfs(i, j - 2), dfs(i + 1, j - 1)))
-
-        alex_score = dfs(0, len(piles) - 1)
-        return alex_score > sum(piles) - alex_score 
 ```
 * [Medium] [Solution] 877. Stone Game
 
@@ -3174,6 +2614,32 @@ class Solution:
         return count
 ```
 * [Medium] [Solution] 376. Wiggle Subsequence
+
+### Only Top-Down
+```python
+class Solution:
+    def minCut(self, s: str) -> int:
+        n = len(s)
+        
+        @lru_cache(None)
+        def isPalindrome(l, r):  # l, r inclusive
+            if l >= r: return True
+            if s[l] != s[r]: return False
+            return isPalindrome(l+1, r-1)
+        
+        @lru_cache(None)
+        def dp(i):  # s[i..n-1]
+            if i == n:
+                return 0
+            ans = math.inf
+            for j in range(i, n):
+                if (isPalindrome(i, j)):
+                    ans = min(ans, dp(j+1) + 1)
+            return ans
+        
+        return dp(0) - 1
+```
+[Hard] 132. Palindrome Partitioning II
 
 ### Digital DP
 ```python
@@ -7243,7 +6709,7 @@ class Solution:
 ```
 * [Hard] 72. Edit Distance
 
-## Tree <a name='tree'></a>
+## Tree <a name="tree"></a>
 ---
 ### DFS
 ```python
@@ -7548,6 +7014,40 @@ class Solution:
             return self.searchBST(root.right, val)
 ```
 * [Easy] 700. Search in a Binary Search Tree
+
+### DFS
+```python
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+
+class Solution:
+    def pathSum(self, root: TreeNode, sum: int) -> List[List[int]]:
+        if root == None:
+            return []
+        
+        ans = []
+        def dfs(node, path_sum, path):
+            nonlocal ans
+            if not node:
+                return False
+            if node.val == path_sum and not node.left and not node.right:
+                ans += [path]
+                return
+            else:
+                if node.left:
+                    dfs(node.left, path_sum-node.val, path + [node.left.val])
+                if node.right:
+                    dfs(node.right, path_sum-node.val, path + [node.right.val])
+            return
+        
+        dfs(root, sum, [root.val])
+        return ans
+```
+* [Medium] 113. Path Sum II
 
 ### Postorder
 ```python
@@ -8214,6 +7714,19 @@ class Solution:
 
 ## Hash Table <a name='ht'></a>
 ---
+### Step-by-step build Hash Table
+```python
+class Solution:
+    def twoSum(self, nums: List[int], target: int) -> List[int]:
+        sum_dict = {}
+        for i in range(len(nums)):
+            if target-nums[i] in sum_dict:
+                return [i, sum_dict[target-nums[i]]]
+            else:
+                sum_dict[nums[i]] = i
+```
+* [Easy] [Solution] 1. Two Sum.md
+
 ### Character Mapping with Dictionary
 ```python
 class Solution:
@@ -15066,6 +14579,20 @@ class Solution:
         return output
 ```
 * [Medium] [Solution] 78. Subsets
+
+### Recursion
+```python
+class Solution:
+    def subsetsWithDup(self, nums: List[int]) -> List[List[int]]:
+        nums.sort()
+        output = [[]]
+        
+        for num in nums:
+            output += [curr + [num] for curr in output]
+        
+        return set(tuple(el) for el in output)
+```
+* [Medium] 90. Subsets II
 
 ### Ccount
 ```python

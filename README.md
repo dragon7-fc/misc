@@ -3791,6 +3791,48 @@ Attribute: This is a part of an object. One or more attributes make up an object
         | install | `conda install XXX`  | `pip install XXX`   |
         | remove  | `condata remove XXX` | `pip remove XXX`    |
 
+* wsl
+
+    - Install Ubuntu on Windows Subsystem for Linux (WSL)
+
+        - Enable WSL on Windows 10
+            
+            - Open PowerShell as Administrator
+
+                ```sh
+                # enable WSL 1
+                dism.exe /online /enable-feature /featurename:Microsoft-Windows-Subsystem-Linux /all /norestart
+                
+                # enable WSL 2
+                dism.exe /online /enable-feature /featurename:VirtualMachinePlatform /all /norestart
+                ```
+            - Restart your computer
+            - download and install the WSL 2 Linux kernel 
+
+                - [x86_64](https://wslstorestorage.blob.core.windows.net/wslblob/wsl_update_x64.msi) for Intel and AMD devices
+                - [arm64](https://wslstorestorage.blob.core.windows.net/wslblob/wsl_update_arm64.msi) for Snapdragon and other ARM devices
+            - Open PowerShell as Administrator
+
+                ```sh
+                # set WSL 2 as the default WSL environment
+                wsl.exe --set-default-version 2
+                ```
+        - Install Ubuntu
+            
+            - Download Ubuntu for WSL from the Microsoft Store
+        - Run Ubuntu
+    - Changing `ls` highlight colors in Windows Terminal with WSL
+        
+        ```bash
+        dircolors --print-database > ~/.dir_colors
+        
+        # ~/.dir_colors
+
+        - OTHER_WRITABLE 34;42 # dir that is other-writable (o+w) and not sticky
+        + OTHER_WRITABLE 34;40 # dir that is other-writable (o+w) and not sticky
+        
+        test -r ~/.dir_colors && eval "$(dircolors -b ~/.dir_colors)" || eval "$(dircolors -b)"
+        ```
 * zsh
 
     - install zsh
@@ -3823,27 +3865,30 @@ Attribute: This is a part of an object. One or more attributes make up an object
         mkdir -p ~/.config/powerline/themes/shell
         cp /usr/local/lib/python3.8/dist-packages/powerline/config_files/themes/shell/default.json ~/.config/powerline/themes/shell
         
-        nano ~/.config/powerline/themes/shell/default.json
+        # ~/.config/powerline/themes/shell/default.json
         
-        ##--->
-                        {
-                                "function": "powerline.segments.common.net.hostname",
-                                "priority": 10
-                        },
-                        {
-                                "function": "powerline.segments.common.env.user",
-                                "priority": 30
-                        },
-        ##---<
-        ##+++>
-                        {
-                                "function": "powerline.segments.common.time.date",
-                                "args": {
-                                    "format": "%H:%M:%S"
-                                },
-                                "priority": 10
-                        }
-        ##+++<
+        @@ -23,6 +23,10 @@
+                                {
+                                        "function": "powerline.segments.shell.jobnum",
+                                        "priority": 20
+        +                       },
+        +                       {
+        +                               "function": "powerline.segments.common.vcs.branch",
+        +                               "priority": 40
+                                }
+                        ],
+                        "right": [
+        @@ -33,10 +37,6 @@
+                                {
+                                        "function": "powerline.segments.common.vcs.stash",
+                                        "priority": 50
+        -                       },
+        -                       {
+        -                               "function": "powerline.segments.common.vcs.branch",
+        -                               "priority": 40
+                                }
+                        ]
+                }
         ```
     - install plugins
 
@@ -3859,22 +3904,16 @@ Attribute: This is a part of an object. One or more attributes make up an object
     - configure .zshrc
     
         ```bash
-        ##+++>
-        # ZSH_THEME="robbyrussell"
-        ZSH_THEME="agnoster"
-        ##+++<
+        - ZSH_THEME="robbyrussell"
+        + ZSH_THEME="agnoster"
         
-        ##+++>
-        # plugins=(git)
-        plugins=(git zsh-completions zsh-autosuggestions zsh-syntax-highlighting)
-        ##+++<
+        - plugins=(git)
+        + plugins=(git zsh-completions zsh-autosuggestions zsh-syntax-highlighting)
     
-        ##+++>
-        export TERM=xterm-256color
-        if [ -r /usr/local/lib/python3.8/dist-packages/powerline/bindings/zsh/powerline.zsh ]; then
-            source /usr/local/lib/python3.8/dist-packages/powerline/bindings/zsh/powerline.zsh
-        fi
-        ##+++<
+        + export TERM=xterm-256color
+        + if [ -r /usr/local/lib/python3.8/dist-packages/powerline/bindings/zsh/powerline.zsh ]; then
+        +     source /usr/local/lib/python3.8/dist-packages/powerline/bindings/zsh/powerline.zsh
+        + fi
         ```
     - finish
     
