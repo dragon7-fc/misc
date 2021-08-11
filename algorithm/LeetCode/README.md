@@ -1316,7 +1316,7 @@ class Solution:
 ```
 * [Medium] [Solution] 918. Maximum Sum Circular Subarray
 
-### Prefix Sums
+### Prefix Sums, count min wrong position
 ```python
 class Solution:
     def minFlipsMonoIncr(self, S: str) -> int:
@@ -4503,6 +4503,28 @@ class Solution:
 
 ## Math <a name="math"></a>
 ---
+### Hash Table
+```python
+class Solution:
+    def addStrings(self, num1: str, num2: str) -> str:
+        d = {str(i) + str(j): str(i + j) for i in range(10) for j in range(10)}
+        carry = 0
+        maxlen = max(len(num1), len(num2))
+        n1, n2 = num1.zfill(maxlen), num2.zfill(maxlen)
+        result = ''
+        for i, j in zip(n1[::-1], n2[::-1]):
+            s = d[i + j] 
+            if carry: 
+                s = ('1' if len(s) == 2 else '') + d['1' + s[-1]] 
+            result = s[-1] + result  
+            if len(s) == 2: carry = True
+            else: carry = False
+        if carry: 
+            result = '1' + result 
+        return result
+```
+* [Easy] 415. Add Strings
+
 ### brute force
 ```python
 class Solution:
@@ -11437,7 +11459,7 @@ class Solution:
 ```
 * [Medium] [Solution] 670. Maximum Swap
 
-### Doubled Pairs
+### Sort and count
 ```python
 class Solution:
     def canReorderDoubled(self, A: List[int]) -> bool:
