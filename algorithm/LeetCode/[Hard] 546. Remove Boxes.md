@@ -35,8 +35,8 @@ But there are a few important facts that are not clearly mentioned in other post
 4. If we don't remove box "i", then k becomes "k+1". In order to use this "k+1", we have to find another box that has the same color as these "k+1" boxes. If there is no such box, then there is no point keeping box "i". If there is such box, then we remove all boxes along the way until this box of same color, so that this box can join "k+1" and makes a pattern in #1
 
 ```
-Runtime: 124 ms
-Memory Usage: 14.8 MB
+Runtime: 1484 ms
+Memory Usage: 33.9 MB
 ```
 ```python
 class Solution:
