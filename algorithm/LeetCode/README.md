@@ -741,6 +741,35 @@ class Solution:
 ```
 * [Easy] 1470. Shuffle the Array
 
+### Hash Table
+```python
+class Solution:
+    def isValidSudoku(self, board: List[List[str]]) -> bool:
+        # init data
+        rows = [{} for _ in range(9)]
+        columns = [{} for _ in range(9)]
+        boxes = [{} for _ in range(9)]
+
+        # validate a board
+        for i in range(9):
+            for j in range(9):
+                num = board[i][j]
+                if num != '.':
+                    num = int(num)
+                    box_index = (i // 3 ) * 3 + j // 3
+                    
+                    # keep the current cell value
+                    rows[i][num] = rows[i].get(num, 0) + 1
+                    columns[j][num] = columns[j].get(num, 0) + 1
+                    boxes[box_index][num] = boxes[box_index].get(num, 0) + 1
+                    
+                    # check if this value has been already seen before
+                    if rows[i][num] > 1 or columns[j][num] > 1 or boxes[box_index][num] > 1:
+                        return False
+        return True
+```
+* [Medium] 36. Valid Sudoku
+
 ### Rotate Groups of Four Cells
 ```python
 class Solution:
@@ -1632,6 +1661,36 @@ class Solution:
 ---
 ### Prefix Sum
 ```python
+class NumArray:
+
+    def __init__(self, nums):
+        """
+        :type nums: List[int]
+        """
+        n = len(nums)
+        self.sum = [0] * (n+1)
+        for i in range(n):
+            self.sum[i+1] = self.sum[i] + nums[i]
+        
+
+    def sumRange(self, i, j):
+        """
+        :type i: int
+        :type j: int
+        :rtype: int
+        """
+        return self.sum[j+1] - self.sum[i]
+        
+
+
+# Your NumArray object will be instantiated and called as such:
+# obj = NumArray(nums)
+# param_1 = obj.sumRange(i,j)
+```
+* [Easy] 303. Range Sum Query - Immutable.md
+
+### Prefix Sum
+```python
 class Solution:
     def generate(self, numRows):
         """
@@ -1770,6 +1829,31 @@ class Solution:
         return min(f1, f2)
 ```
 * [Easy] [Solution] 746. Min Cost Climbing Stairs
+
+### Count
+```python
+class Solution:
+    def numDecodings(self, s: str) -> int:
+        if not s or s[0] == '0':
+            return 0
+        n = len(s)
+        
+        dp = [0] * (n + 1)
+        if s[n-1] != '0':
+            dp[n-1] = 1
+        dp[n] = 1 # dp[n] is auxiliary
+        
+        for i in range(n-2, -1, -1):
+            one = s[i]
+            two = s[i: i+2]
+            if '1' <= one <= '9':
+                dp[i] = dp[i+1]
+            if '10' <= two <= '26':
+                dp[i] += dp[i+2]
+                
+        return dp[0]
+```
+* [Medium] 91. Decode Ways.md
 
 ### Count
 ```python
@@ -9000,6 +9084,53 @@ class Solution:
 ```
 * [Easy] [Solution] 100. Same Tree
 
+### 2 DFS
+```python
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+
+class Solution:
+    def maxProduct(self, root: TreeNode) -> int:
+        MOD = 10**9 + 7
+        self.res = total = 0
+
+        def dfs(node):
+            if not node: return 0
+            left, right = dfs(node.left), dfs(node.right)
+            self.res = max(self.res, left * (total - left), right * (total - right))
+            return left + right + node.val
+
+        total = dfs(root)
+        dfs(root)
+        return self.res % MOD
+```
+* [Medium] 1339. Maximum Product of Splitted Binary Tree
+
+### DFS
+```python
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+class Solution:
+    def goodNodes(self, root: TreeNode) -> int:
+        
+        def dfs(node: TreeNode, v: int) -> int:
+            if node is None:
+                return 0
+            mx = max(node.val, v)
+            return (node.val >= v) + dfs(node.left, mx) + dfs(node.right, mx)
+        
+        return dfs(root, root.val)
+
+```
+* [Medium] 1448. Count Good Nodes in Binary Tree.md
+
 ### island
 ```python
 class Solution:
@@ -14749,6 +14880,70 @@ class Solution:
         buildings = [0 for _ in range(n)]
         return dfs(buildings, 0)
 ```
+
+### Try all solution
+```python
+class Solution:
+    def solveSudoku(self, board: List[List[str]]) -> None:
+        """
+        Do not return anything, modify board in-place instead.
+        """
+        # get a list of (row, col) of empty cells
+        def get_vacant_positions(board):
+            res = []
+            for i in range(9):
+                for j in range(9):
+                    if board[i][j] == '.':
+                        res.append((i, j))
+            return res
+        
+        # get valid candidates that can be filled at (row, col)
+        def get_candidates(board, row, col):
+            res = set()
+            for i in range(1, 10):
+                res.add(str(i))
+              
+            # check row and col
+            for i in range(9):
+                if board[row][i] in res:
+                    res.remove(board[row][i])
+                if board[i][col] in res:
+                    res.remove(board[i][col])
+            
+            # check box
+            sr = (row // 3) * 3
+            sc = (col // 3) * 3
+            for i in range(sr, sr+3):
+                for j in range(sc, sc+3):
+                    if board[i][j] in res:
+                        res.remove(board[i][j])
+            
+            return list(res)
+        
+        # fill using backtracking
+        def solve(board, pos):
+            if len(pos) == 0: # no more vacant positions to fill
+                return True
+            
+            r, c = pos[0]
+            candidates = get_candidates(board, r, c)
+            
+            if len(candidates) == 0: # no candidates, reject this path, backtrack
+                return False
+            
+            for num in candidates:
+                board[r][c] = num
+                if solve(board, pos[1:]):
+                    return True
+                board[r][c] = '.'
+            
+            return False
+
+        positions = get_vacant_positions(board)
+        solve(board, positions)
+```
+* [Hard] 37. Sudoku Solver
+
 ### Try all combination path
 ```python
 class Solution:

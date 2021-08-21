@@ -57,7 +57,7 @@ Explanation: Same as Example 1, except with the 5 in the top left corner being
 
 # Submissions
 ---
-**Solution 1:**
+**Solution 1: (Array, Hash Table)**
 ```
 Runtime: 100 ms
 Memory Usage: 12.9 MB

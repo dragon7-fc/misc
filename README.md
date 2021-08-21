@@ -4107,6 +4107,7 @@ Attribute: This is a part of an object. One or more attributes make up an object
     - [Regexp Syntax Summary](http://www.greenend.org.uk/rjk/tech/regexp.html)
     - [Regex cheatsheet](https://remram44.github.io/regex-cheatsheet/regex.html)
     - [grep (english) Cheat Sheet by TME520](https://www.cheatography.com/tme520/cheat-sheets/grep-english/)
+    - [Ripgrep Searching CheatSheet](https://jdhao.github.io/2020/02/16/ripgrep_cheat_sheet/)
     - [Sed - An Introduction and Tutorial by Bruce Barnett](http://www.grymoire.com/Unix/Sed.html)
     - [AWK Cheat Sheet](https://www.shortcutfoo.com/app/dojos/awk/cheatsheet)
     - [awk (english) Cheat Sheet by TME520](https://www.cheatography.com/tme520/cheat-sheets/awk-english/)
@@ -4225,6 +4226,9 @@ Objects such as lists and dictionaries are passed by object reference too, which
 
     - [Cheat Sheets for AI, Neural Networks, Machine Learning, Deep Learning & Big Data](https://becominghuman.ai/cheat-sheets-for-ai-neural-networks-machine-learning-deep-learning-big-data-678c51b4b463)
 
+* Assembly
+
+    - [OSDev](https://wiki.osdev.org/Expanded_Main_Page)
 * C/C++
 
     - [The GNU C Reference Manual - GNU.org](https://www.gnu.org/software/gnu-c-manual/gnu-c-manual.html)
