@@ -53,7 +53,7 @@ $n^2 = 1 + 3 + 5 + ... + (2 \cdot n-1) = \sum_{i=1}^{n} (2 \cdot i - 1)$
 
 To look at the proof of this statement, look at the L.H.S. of the above statement.
 
-$\begin{aligned} &1 + 3 + 5 + \ldots + (2 \cdot n-1) \\ = \; &(2 \cdot 1-1) + (2 \cdot 2-1) + (2 \cdot 3-1) + \ldots + (2 \cdot n-1) \\ = \; &2 \cdot (1+2+3+....+n) - (\underbrace{1+1+ \ldots +1}_{n\text{ times}}) \\ = \; &2 \cdot \frac{n\;(n+1)}{2} - n \\ = \; &n\;(n+1) - n \\ = \; &n^2 + n - n \\ = \; &n^2 \end{aligned}$
+$\begin{aligned} &1 + 3 + 5 + \ldots + (2 \cdot n-1) \\ = \; &(2 \cdot 1-1) + (2 \cdot 2-1) + (2 \cdot 3-1) + \ldots + (2 \cdot n-1) \\ = \; &2 \cdot (1+2+3+....+n) - (\underbrace{1+1+ \ldots +1} {n\text{ times}}) \\ = \; &2 \cdot \frac{n\;(n+1)}{2} - n \\ = \; &n\;(n+1) - n \\ = \; &n^2 + n - n \\ = \; &n^2 \end{aligned}$
 
 This completes the proof of the above statement.
 
@@ -192,7 +192,7 @@ public class Solution {
 
 # Submissions
 ---
-**Solution 1:**
+**Solution 1: (Greedy)**
 ```
 Runtime: 260 ms
 Memory Usage: 12.9 MB
@@ -204,5 +204,26 @@ class Solution:
             b = (c - a**2)**.5
             if b == int(b):
                 return True
+        return False
+```
+
+**Solution 2: (Binary Search)**
+```
+Runtime: 316 ms
+Memory Usage: 14.1 MB
+```
+```python
+class Solution:
+    def judgeSquareSum(self, c: int) -> bool:
+        left, right = 0, int(sqrt(c))
+        while left <= right:
+            cur = left**2 + right**2
+            if cur == c:
+                return True
+            elif cur > c:
+                right -= 1
+            else:
+                left += 1
+            
         return False
 ```

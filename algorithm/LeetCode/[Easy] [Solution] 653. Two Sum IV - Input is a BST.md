@@ -163,7 +163,7 @@ public class Solution {
 
 # Submissions
 ---
-**Solution 1:**
+**Solution 1: (BFS)**
 ```
 Runtime: 68 ms
 Memory Usage: 14.8 MB
@@ -191,4 +191,35 @@ class Solution:
                 next_level += [c for c in [node.left, node.right] if c]
             level = next_level
         return False
+```
+
+**Solution 2: (DFS)**
+```
+Runtime: 76 ms
+Memory Usage: 18.2 MB
+```
+```python
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+class Solution:
+    def findTarget(self, root: Optional[TreeNode], k: int) -> bool:
+        s = set()
+        
+        def dfs(node):
+            if not node:
+                return False
+            if k-node.val in s:
+                return True
+            s.add(node.val)
+            if dfs(node.left):
+                return True
+            if dfs(node.right):
+                return True
+            return False
+        
+        return dfs(root)
 ```

@@ -5291,7 +5291,7 @@ class Solution:
         B = [int(x) for x in b.replace('i','').split('+')]
         return '{}+{}i'.format((A[0]*B[0] - A[1]*B[1]), (A[0]*B[1] + A[1]*B[0]))
 ```
-*[[Medium] 537. Complex Number Multiplication](%5BMedium%5D%20537.%20Complex%20Number%20Multiplication.md)
+* [Medium] 537. Complex Number Multiplication
 
 ### Division
 ```python
@@ -10274,6 +10274,24 @@ return num_connected_components
 ## Binary Search <a name="bs"></a>
 ---
 ### Binary Search
+```
+class Solution:
+    def judgeSquareSum(self, c: int) -> bool:
+        left, right = 0, int(sqrt(c))
+        while left <= right:
+            cur = left**2 + right**2
+            if cur == c:
+                return True
+            elif cur > c:
+                right -= 1
+            else:
+                left += 1
+            
+        return False
+```
+* [Easy] [Solution] 633. Sum of Square Numbers
+
+### Binary Search
 ```python
 class Solution:
     def search(self, nums: List[int], target: int) -> int:
@@ -11168,6 +11186,23 @@ class Solution:
 ```
 * [Easy] [Solution] 605. Can Place Flowers
 
+### Count
+```python
+class Solution:
+    def isValidSerialization(self, preorder: str) -> bool:
+        nodes = preorder.split(",")
+        nul_nodes = 1
+        for node in nodes:
+            if node == "#":
+                nul_nodes -=1
+            else:
+                nul_nodes += 1
+                if nul_nodes == 1:
+                    return False
+        return nul_nodes == 0
+```
+* [Medium] 331. Verify Preorder Serialization of a Binary Tree
+
 ### frequency
 ```python
 class Solution:
@@ -11785,6 +11820,23 @@ class Solution:
 ```
 * [Medium] 1536. Minimum Swaps to Arrange a Binary Grid
 
+### Greedy range
+```python
+class Solution:
+    def minPatches(self, nums: List[int], n: int) -> int:
+        covered, res, i= 0, 0, 0
+        while covered < n:
+            num = nums[i] if i<len(nums) else math.inf
+            if num > covered + 1:
+                covered = covered*2+1
+                res += 1
+            else:
+                covered += num
+                i += 1
+        return res
+```
+* 330. Patching Array
+
 ### Greedy, Work Backwards
 ```python
 class Solution:
@@ -11879,6 +11931,33 @@ return ans
 
 ## Breadth-first Search <a name="bfs"></a>
 ---
+### Level-Order, Set
+```python
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+
+class Solution:
+    def findTarget(self, root: TreeNode, k: int) -> bool:
+        s = set()
+        
+        level = root and [root]
+        while level:
+            next_level = []
+            for node in level:
+                if (k - node.val) in s:
+                    return True
+                else:
+                    s.add(node.val)
+                next_level += [c for c in [node.left, node.right] if c]
+            level = next_level
+        return False
+```
+* [Easy] [Solution] 653. Two Sum IV - Input is a BST
+
 ### Level-Order
 ```python
 class Solution:
@@ -15544,6 +15623,50 @@ class Solution:
 ```
 * [Easy] 1029. Two City Scheduling
 
+### Count
+```python
+class Solution:
+    def findLUSlength(self, strs: List[str]) -> int:
+        # Checks if string `a` is a subsequence of `b`
+        def subseq(a, b):
+            if len(a) >= len(b):
+                return False
+            i, j = 0, 0
+            while i < len(a) and j < len(b):
+                if a[i] == b[j]:
+                    i += 1
+                j += 1
+            return i == len(a)
+        
+        count = collections.Counter(strs)
+        # Exlude all strings that occure in `strs` more than once
+        exclude = [s for s, c in count.items() if c > 1]
+        
+        # Rest of the strings go to `check` array
+        check = [s for s, c in count.items() if c == 1]
+        # Sort by length from longest to shortest
+        check.sort(key = lambda x: len(x), reverse = True)
+        
+        # If there are no items in exclude than longest strings is the answer
+        if not exclude:
+            return len(check[0])
+        
+        # Otherwise we need to check remaining strings one by one
+        for s in check:
+            # Check if string is subsequece of one of excluded
+            for e in exclude:
+                if subseq(s, e):
+                    # If subsequence than mark current string as also exluded and go to next one
+                    exclude.append(s)
+                    break
+                else:
+                    # If not a subsequence than it's length is the answer
+                    return len(s)
+        
+        return -1
+```
+* [Medium] 522. Longest Uncommon Subsequence II
+
 ### Max horizontal length * max vertical length = max area
 ```python
 class Solution:
@@ -15923,7 +16046,7 @@ class Solution:
 ```
 * [Hard] 41. First Missing Positive
 
-### DP Bottom-Up, Greedy, Binary Search
+### DP Bottom-Up, Binary Search, Insertion Sort
 ```python
 class Solution:
     def jobScheduling(self, startTime: List[int], endTime: List[int], profit: List[int]) -> int:

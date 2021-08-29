@@ -7,6 +7,9 @@ Plug 'xuyuanp/nerdtree-git-plugin'
 " Nerdcommenter plugin
 Plug 'scrooloose/nerdcommenter'
 
+" ALE lint plugin
+Plug 'w0rp/ale'
+
 " Vim-Airline plugin
 Plug 'vim-airline/vim-airline'
 
@@ -39,6 +42,8 @@ Plug 'rbgrouleff/bclose.vim'
 Plug 'majutsushi/tagbar'
 Plug 'will133/vim-dirdiff'
 Plug 'joe-skb7/cscope-maps'
+Plug 'chun-yang/auto-pairs'
+Plug 'mileszs/ack.vim'
 
 call plug#end()
 
@@ -97,8 +102,10 @@ set expandtab smarttab
 set mouse=a
 
 " The NERD tree settings
-nmap <F3> :NERDTreeToggle<CR>
+nmap <F3> :NERDTreeFocus<CR>
 
 " Tagbar settings
 nmap <F8> :TagbarToggle<CR>
 
+" Fix Not Working Backspace in Vi/Vim Mac
+set backspace=indent,eol,start

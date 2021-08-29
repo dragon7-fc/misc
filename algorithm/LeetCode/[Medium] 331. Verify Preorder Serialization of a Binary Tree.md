@@ -37,7 +37,7 @@ Output: false
 
 # Submissions
 ---
-**Solution 1:**
+**Solution 1: (Greedy)**
 ```
 Runtime: 52 ms
 Memory Usage: 12.9 MB
@@ -55,4 +55,29 @@ class Solution:
                 if nul_nodes == 1:
                     return False
         return nul_nodes == 0
+```
+
+**Solution 2: (Stack)**
+
+Similar to Problem 297: Serialize and Deserialize Binary Tree, but here we do not really need to reconstruct our tree, and using stack is enough. The trick is to add elements one by one and when we see `num, #, #`, we replace it with `#`. If we get just one `#` in the end, return `True`, else: `False`. Let us look at the example `9,3,4,#,#,1,#,#,2,#,6,#,#`. Let us go through steps:
+
+* We add elements until we have `9, 3, 4, #, #`. It means now that `4` is leaf, so let us remove it: we have `9, 3, #`.
+* Add elements, so we have `9, 3, #, 1, #, #`, We have leaf `1`, remove it: `9, 3, #, #`. Now, we have `3` as leaf as well: remove it: `9, #`.
+* Add elements `9, #, 2, #, 6, #, #` -> `9, #, 2, #, #` -> `9, #, #` -> `#`.
+
+```
+Runtime: 77 ms
+Memory Usage: 14.3 MB
+```
+```python
+class Solution:
+    def isValidSerialization(self, preorder: str) -> bool:
+        stack = []
+        for elem in preorder.split(","):
+            stack.append(elem)
+            while len(stack) > 2 and stack[-2:] == ["#"]*2 and stack[-3] != "#":
+                stack.pop(-3)
+                stack.pop(-2)
+            
+        return stack == ["#"]
 ```
