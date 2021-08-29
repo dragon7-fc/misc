@@ -42,7 +42,6 @@ Plug 'rbgrouleff/bclose.vim'
 Plug 'majutsushi/tagbar'
 Plug 'will133/vim-dirdiff'
 Plug 'joe-skb7/cscope-maps'
-Plug 'chun-yang/auto-pairs'
 Plug 'mileszs/ack.vim'
 
 call plug#end()
