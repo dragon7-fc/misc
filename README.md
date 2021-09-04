@@ -224,6 +224,26 @@ A playground to note something.
     - [Learn Vimscript the Hard Way](http://learnvimscriptthehardway.stevelosh.com/)
     - [Vundle, the plug-in manager for Vim](https://github.com/VundleVim/Vundle.vim)
     - [Use vim with ctags](https://kulkarniamit.github.io/whatwhyhow/howto/use-vim-ctags.html)
+        - ex. `ctags --recurse=yes --exclude=.git --exclude=BUILD --exclude=.svn --exclude=vendor/* --exclude=node_modules/* --exclude=db/* --exclude=log/*`
+    - [Using Cscope on large projects (example: the Linux kernel)](http://cscope.sourceforge.net/large_projects.html)
+        - ex.
+            ```bash
+            # Generate cscope.files with a list of files to be scanned.
+            LNX=/home/jru/linux-2.4.18
+            cd / 	
+            find  $LNX                                                                \
+            -path "$LNX/arch/*" ! -path "$LNX/arch/i386*" -prune -o               \
+            -path "$LNX/include/asm-*" ! -path "$LNX/include/asm-i386*" -prune -o \
+            -path "$LNX/tmp*" -prune -o                                           \
+            -path "$LNX/Documentation*" -prune -o                                 \
+            -path "$LNX/scripts*" -prune -o                                       \
+            -path "$LNX/drivers*" -prune -o                                       \
+            -name "*.[chxsS]" -print >/home/jru/cscope/cscope.files
+
+            # Generate the Cscope database
+            cd /home/jru/cscope     # the directory with 'cscope.files'
+            cscope -b -q -k
+            ```
     - file revision compare
     
         `vimdiff <( git show [REVISION_1]:[XXX_FI|LE] ) <( git show [REVISION_2]:[XXX_FI|LE] )`
@@ -380,7 +400,7 @@ A playground to note something.
 
     - [Git Cheat Sheets](https://services.github.com/on-demand/resources/cheatsheets/)
     - [Git Cheatsheet](https://blog.programster.org/git-cheatsheet)
-    - Clone 100 repositories of 1 page of one GitHub organization
+    - Clone 100 repositories of first 1 page of one GitHub organization
     
         `GHUSER=[CHANGEME]; curl "https://api.github.com/orgs/$GHUSER/repos?page=1&per_page=100" | grep -w clone_url | grep -o '[^"]\+://.\+.git' | xargs -L1 git clone`
 

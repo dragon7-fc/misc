@@ -50,9 +50,9 @@ $\vec{pq}$x$\vec{qr}$ > 0
 
 $\begin{vmatrix} (q_x-p_x) & (q_y-p_y) \\ (r_x-q_x) & (r_y-q_y) \end{vmatrix} > 0$
 
-$(q_x - p_x)*(r_y - q_y) - (q_y - p_y)*(r_x - q_x) > 0$
+$(q_x - p_x) * (r_y - q_y) - (q_y - p_y) * (r_x - q_x) > 0$
 
-$(q_y - p_y)*(r_x - q_x) - (r_y - q_y)*(q_x - p_x) < 0$
+$(q_y - p_y) * (r_x - q_x) - (r_y - q_y) * (q_x - p_x) < 0$
 
 The above result is being calculated by the `orientation()` function.
 
@@ -151,7 +151,7 @@ public class Solution {
 
 **Complexity Analysis**
 
-* Time complexity : $O(m*n)$. For every point on the hull we examine all the other points to determine the next point. Here `n` is number of input points and `m` is number of output or hull points ($m \leq n$).
+* Time complexity : $O(m * n)$. For every point on the hull we examine all the other points to determine the next point. Here `n` is number of input points and `m` is number of output or hull points ($m \leq n$).
 
 * Space complexity : $O(m)$. List $hull$ grows upto size $m$.
 
@@ -433,38 +433,86 @@ class Solution:
         return list(frontier)
 ```
 
-**Solution 3: (Monotone Chain)**
+**Solution 3: (Graham scan)**
 ```
-Runtime: 308 ms
-Memory Usage: 13.3 MB
+Runtime: 224 ms
+Memory Usage: 15.6 MB
 ```
 ```python
 class Solution:
-    def outerTrees(self, points: List[List[int]]) -> List[List[int]]:
-        if len(points) <= 3:
-            return points
-        
-        def is_turn_left(p1, p2, p3):
-            return cross_product(direction(p1, p2), direction(p1, p3)) > 0
+    def outerTrees(self, trees: List[List[int]]) -> List[List[int]]:
+        def cross(p1, p2, p3):
+            return (p2[0]-p1[0])*(p3[1]-p1[1])-(p2[1]-p1[1])*(p3[0]-p1[0])
 
-        def direction(x, y):
-            return [y[0] - x[0], y[1] - x[1]]
+        start = min(trees)
+        trees.pop(trees.index(start))
+        trees.sort(key=lambda p: (atan2(p[1]-start[1], p[0]-start[0]), -p[1], p[0]))
 
-        def cross_product(x, y):
-            return x[0] * y[1] - x[1] * y[0]
+        ans = [start]
+        for p in trees:
+            ans.append(p)
+            while len(ans) > 2 and cross(*ans[-3:]) < 0:
+                ans.pop(-2)
+        return ans
+```
+
+**Solution 4: (convex hull)**
+```
+Runtime: 154 ms
+Memory Usage: 23 MB
+```
+```c++
+class Solution {
+public:
+    vector<vector<int>> outerTrees(vector<vector<int>>& trees) {
+        vector<vector<int>> points;
         
-        points.sort()
-        stack = [points[0], points[1]]
+        sort(trees.begin(), trees.end(), [](auto& a, auto& b) {
+            if (a[0] == b[0]) {
+                return a[1] > b[1];
+            } else {
+                return a[0] < b[0];
+            }
+        });
         
-        for p in points[2:]:
-            while len(stack) >= 2 and is_turn_left(stack[-2], stack[-1], p):
-                stack.pop()
-            stack.append(p)   
-        for p in reversed(points[:-1]):
-            while len(stack) >= 2 and is_turn_left(stack[-2], stack[-1], p):
-                stack.pop()
-            stack.append(p)
-        stack.pop()
+        int n = trees.size();
         
-        return stack
+        for (int i = 0; i < n; ++i) {
+            while (points.size() >= 2 
+                   && orientation(points[points.size() - 2], points[points.size() - 1], trees[i]) > 0) {
+                points.pop_back();
+            }
+            
+            points.push_back(trees[i]);
+        }
+        
+        points.pop_back();
+        for (int i = n - 1; i >= 0; --i) {
+            while (points.size() >= 2 
+                   && orientation(points[points.size() - 2], points[points.size() - 1], trees[i]) > 0) {
+                points.pop_back();
+            }
+            
+            points.push_back(trees[i]);
+        }
+        
+        sort(points.begin(), points.end());
+        
+        vector<vector<int>> ans;
+        
+        for (auto& p : points) {
+            if (ans.size() > 0 && p == ans.back()) {
+                continue;
+            }
+            
+            ans.push_back(p);
+        }
+        
+        return ans;
+    }
+    
+    int orientation(vector<int>& p, vector<int>& q, vector<int>& r) {
+        return (r[1] - p[1]) * (q[0] - p[0]) - (q[1] - p[1]) * (r[0] - p[0]);
+    }
+};
 ```

@@ -230,6 +230,18 @@ Happy Coding!!
 
 ## Array <a name="array"></a>
 ---
+### Single Pass
+```python
+class Solution:
+    def maxCount(self, m: int, n: int, ops: List[List[int]]) -> int:
+        for op in ops:
+            m = min(m, op[0])
+            n = min(n, op[1])
+        return m*n
+```
+* [Easy] [Solution] 598. Range Addition II
+
+
 ### Greedy
 ```python
 class Solution:
@@ -7705,7 +7717,7 @@ class Solution:
 ```
 * [Medium] 1372. Longest ZigZag Path in a Binary Tree
 
-### Unique Binary Search Trees
+### Recurse nested results, divide and conquer
 ```python
 # Definition for a binary tree node.
 # class TreeNode:
@@ -7808,6 +7820,36 @@ class Solution:
         return ans
 ```
 * [Medium] 129. Sum Root to Leaf Numbers
+
+### Subtree Sum and Count
+```python
+class Solution:
+    def sumOfDistancesInTree(self, N: int, edges: List[List[int]]) -> List[int]:
+        graph = collections.defaultdict(set)
+        for u, v in edges:
+            graph[u].add(v)
+            graph[v].add(u)
+
+        count = [1] * N
+        ans = [0] * N
+        def dfs(node = 0, parent = None):
+            for child in graph[node]:
+                if child != parent:
+                    dfs(child, node)
+                    count[node] += count[child]
+                    ans[node] += ans[child] + count[child]
+
+        def dfs2(node = 0, parent = None):
+            for child in graph[node]:
+                if child != parent:
+                    ans[child] = ans[node] - count[child] + N - count[child]
+                    dfs2(child, node)
+
+        dfs()
+        dfs2()
+        return ans
+```
+* [Hard] [Solution] 834. Sum of Distances in Tree.md
 
 ### DFS with pre node pointer
 ```python
@@ -20628,36 +20670,23 @@ class Solution:
 ```
 * [Medium] 1401. Circle and Rectangle Overlapping
 
-### Monotone Chain
+### Graham scan
 ```python
 class Solution:
-    def outerTrees(self, points: List[List[int]]) -> List[List[int]]:
-        if len(points) <= 3:
-            return points
+    def outerTrees(self, trees: List[List[int]]) -> List[List[int]]:
+        def cross(p1, p2, p3):
+            return (p2[0]-p1[0])*(p3[1]-p1[1])-(p2[1]-p1[1])*(p3[0]-p1[0])
 
-        def is_turn_left(p1, p2, p3):
-            return cross_product(direction(p1, p2), direction(p1, p3)) > 0
+        start = min(trees)
+        trees.pop(trees.index(start))
+        trees.sort(key=lambda p: (atan2(p[1]-start[1], p[0]-start[0]), -p[1], p[0]))
 
-        def direction(x, y):
-            return [y[0] - x[0], y[1] - x[1]]
-
-        def cross_product(x, y):
-            return x[0] * y[1] - x[1] * y[0]
-
-        points.sort()
-        stack = [points[0], points[1]]
-
-        for p in points[2:]:
-            while len(stack) >= 2 and is_turn_left(stack[-2], stack[-1], p):
-                stack.pop()
-            stack.append(p)   
-        for p in reversed(points[:-1]):
-            while len(stack) >= 2 and is_turn_left(stack[-2], stack[-1], p):
-                stack.pop()
-            stack.append(p)
-        stack.pop()
-
-        return stack
+        ans = [start]
+        for p in trees:
+            ans.append(p)
+            while len(ans) > 2 and cross(*ans[-3:]) < 0:
+                ans.pop(-2)
+        return ans
 ```
 * [Hard] [Solution] 587. Erect the Fence
 

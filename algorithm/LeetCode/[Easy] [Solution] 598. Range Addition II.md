@@ -67,9 +67,9 @@ public class Solution {
 
 **Complexity Analysis**
 
-* Time complexity : $O(x*m*n)$. Array is updated $x$ times, where $x$ represents number of times operation is preformed i.e. $ops.lengt$.
+* Time complexity : $O(x * m * n)$. Array is updated $x$ times, where $x$ represents number of times operation is preformed i.e. $ops.lengt$.
 
-* Space complexity : $O(m*n)$. Array of size $m*n$ is used.
+* Space complexity : $O(m * n)$. Array of size ${m * n}$ is used.
 
 ## Approach #2 Single Pass [Accepted]
 **Algorithm**
@@ -104,7 +104,7 @@ public class Solution {
 
 # Submissions
 ---
-**Solution 1:**
+**Solution 1: (Single Pass)**
 ```
 Runtime: 72 ms
 Memory Usage: 14.8 MB
