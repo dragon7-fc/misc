@@ -100,6 +100,9 @@ set expandtab smarttab
 
 set mouse=a
 
+" autotag settings
+let g:autotagStartMethod='fork'
+
 " The NERD tree settings
 nmap <F3> :NERDTreeFocus<CR>
 
