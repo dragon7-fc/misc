@@ -65,3 +65,75 @@ class Solution:
         head.next = None
         return p
 ```
+
+**Solution 3: (Iterative, Linked List)**
+```
+Runtime: 8 ms
+Memory Usage: 8.2 MB
+```
+```c++
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode() : val(0), next(nullptr) {}
+ *     ListNode(int x) : val(x), next(nullptr) {}
+ *     ListNode(int x, ListNode *next) : val(x), next(next) {}
+ * };
+ */
+class Solution {
+public:
+    ListNode* reverseList(ListNode* head) {
+        ListNode *curr = head,*prev = NULL,*next_node;
+        while(curr!=NULL){
+            next_node = curr->next;
+            curr->next = prev;
+            prev = curr;
+            curr = next_node;
+        }
+        return prev;
+    }
+};
+```
+**Solution 4: (Recursive, Linked List)**
+```
+Runtime: 8 ms
+Memory Usage: 8.8 MB
+```
+```c++
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode() : val(0), next(nullptr) {}
+ *     ListNode(int x) : val(x), next(nullptr) {}
+ *     ListNode(int x, ListNode *next) : val(x), next(next) {}
+ * };
+ */
+class Solution {
+public:
+    ListNode* new_head = NULL;
+    
+    ListNode* reverse(ListNode* curr){
+        if(curr==NULL)
+            return curr;
+        ListNode* node = reverse(curr->next);
+        if(node==NULL){
+            new_head = now;
+        }
+        else{
+            node->next = now;
+        }
+        now->next = NULL;
+        return now;
+    }
+
+    
+    ListNode* reverseList(ListNode* head) {
+        reverse(head);
+        return new_head;
+    }
+};
+```

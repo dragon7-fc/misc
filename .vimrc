@@ -43,6 +43,7 @@ Plug 'majutsushi/tagbar'
 Plug 'will133/vim-dirdiff'
 Plug 'joe-skb7/cscope-maps'
 Plug 'mileszs/ack.vim'
+Plug 'ekalinin/Dockerfile.vim'
 
 call plug#end()
 

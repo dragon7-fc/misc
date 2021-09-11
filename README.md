@@ -94,6 +94,7 @@ A playground to note something.
 
     - [Docker Cheat Sheet](https://github.com/wsargent/docker-cheat-sheet)
 
+    - [HOW TO INSTALL DOCKER AND RUN DOCKER CONTAINERS ON WINDOWS SERVER 2019](https://blog.foldersecurityviewer.com/how-to-install-docker-and-run-docker-containers-on-windows-server-2019/)
     - How do I change the Docker image installation directory?
     
         - Stop docker: `service docker stop`. Verify no docker process is running `ps faux`

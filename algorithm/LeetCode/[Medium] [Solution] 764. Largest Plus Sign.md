@@ -179,7 +179,7 @@ class Solution:
                 if count < dp[r][c]: dp[r][c] = count
             
             count = 0
-            for r in range(N-1, -1, -1):  from bottom to up
+            for r in range(N-1, -1, -1):  # from bottom to up
                 count = 0 if (r, c) in banned else count+1
                 if count < dp[r][c]: dp[r][c] = count
                 if dp[r][c] > ans: ans = dp[r][c]  # update an

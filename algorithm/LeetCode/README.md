@@ -2711,6 +2711,25 @@ class Solution:
 ```
 * [Medium] [Solution] 376. Wiggle Subsequence
 
+### Common Increasing Subsequence
+```python
+class Solution:
+    def numberOfArithmeticSlices(self, A: List[int]) -> int:
+        dp = [collections.defaultdict(int) for _ in A]
+        ans = 0
+        for i, n in enumerate(A[1:],1):
+            for j in range(i):
+                diff = A[i] - A[j]
+                if diff in dp[j]:
+                    ans += dp[j][diff]
+                    dp[i][diff] += dp[j][diff] + 1
+                else:
+                    dp[i][diff] += 1
+                        
+        return ans
+```
+* [Hard] 446. Arithmetic Slices II - Subsequence
+
 ### Only Top-Down
 ```python
 class Solution:
@@ -3411,7 +3430,7 @@ class Solution:
                 if count < dp[r][c]: dp[r][c] = count
             
             count = 0
-            for r in range(N-1, -1, -1):  from bottom to up
+            for r in range(N-1, -1, -1):  # from bottom to up
                 count = 0 if (r, c) in banned else count+1
                 if count < dp[r][c]: dp[r][c] = count
                 if dp[r][c] > ans: ans = dp[r][c]  # update an
@@ -7884,6 +7903,20 @@ class Solution:
 
 ## Hash Table <a name='ht'></a>
 ---
+### Hash Table 
+```python
+class Solution:
+    def slowestKey(self, releaseTimes: List[int], keysPressed: str) -> str:
+        ans, time = 'z', Counter()
+        for i, char in enumerate(keysPressed):
+            time[char] = max(time[char], releaseTimes[i] - (releaseTimes[i - 1] if i > 0 else 0))
+            if time[char] > time[ans] or time[char] == time[ans] and ans < char:
+                ans = char
+                
+        return ans
+```
+[Easy] 1629. Slowest Key
+
 ### Step-by-step build Hash Table
 ```python
 class Solution:
@@ -14315,6 +14348,74 @@ class CustomStack:
 ```
 * [Medium] 1381. Design a Stack With Increment Operation
 
+### Stack and No String Reversal
+```python
+class Solution:
+    def calculate(self, s: str) -> int:        
+
+        stack = []
+        operand = 0
+        res = 0 # For the on-going result
+        sign = 1 # 1 means positive, -1 means negative  
+
+        for ch in s:
+            if ch.isdigit():
+
+                # Forming operand, since it could be more than one digit
+                operand = (operand * 10) + int(ch)
+
+            elif ch == '+':
+
+                # Evaluate the expression to the left,
+                # with result, sign, operand
+                res += sign * operand
+
+                # Save the recently encountered '+' sign
+                sign = 1
+
+                # Reset operand
+                operand = 0
+
+            elif ch == '-':
+
+                res += sign * operand
+                sign = -1
+                operand = 0
+
+            elif ch == '(':
+
+                # Push the result and sign on to the stack, for later
+                # We push the result first, then sign
+                stack.append(res)
+                stack.append(sign)
+
+                # Reset operand and result, as if new evaluation begins for the new sub-expression
+                sign = 1
+                res = 0
+
+            elif ch == ')':
+
+                # Evaluate the expression to the left
+                # with result, sign and operand
+                res += sign * operand
+
+                # ')' marks end of expression within a set of parenthesis
+                # Its result is multiplied with sign on top of stack
+                # as stack.pop() is the sign before the parenthesis
+                res *= stack.pop() # stack pop 1, sign
+
+                # Then add to the next operand on the top.
+                # as stack.pop() is the result calculated before this parenthesis
+                # (operand on stack) + (sign on stack * (result from parenthesis))
+                res += stack.pop() # stack pop 2, operand
+
+                # Reset the operand
+                operand = 0
+
+        return res + sign * operand
+```
+* [Hard] [Solution] 224. Basic Calculator
+
 ### index stack
 ```python
 class Solution:
@@ -16104,6 +16205,49 @@ class Solution:
 
 ## Linked List <a name="ll"></a>
 ---
+### Iterative and Recursive
+```python
+# Definition for singly-linked list.
+# class ListNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.next = None
+
+class Solution:
+    def reverseList(self, head):
+        """
+        :type head: ListNode
+        :rtype: ListNode
+        """
+        prev = None
+        while head:
+            nxt = head.next
+            head.next = prev
+            prev = head
+            head = nxt
+        return prev
+
+# Definition for singly-linked list.
+# class ListNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.next = None
+
+class Solution:
+    def reverseList(self, head):
+        """
+        :type head: ListNode
+        :rtype: ListNode
+        """
+        if not head or not head.next:
+            return head
+        p = self.reverseList(head.next)
+        head.next.next = head
+        head.next = None
+        return p
+```
+* [Easy] 206. Reverse Linked List
+
 ### fast and slow pointer
 ```python
 # Definition for singly-linked list.

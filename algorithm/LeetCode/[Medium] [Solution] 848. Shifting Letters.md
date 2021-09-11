@@ -64,7 +64,7 @@ class Solution(object):
 
 # Submissions
 ---
-**Solution: (Prefix Sum)**
+**Solution 1: (Prefix Sum)**
 ```
 Runtime: 188 ms
 Memory Usage: 15.7 MB
@@ -80,4 +80,23 @@ class Solution:
             X = (X - shifts[i]) % 26
 
         return "".join(ans)
+```
+
+**Solution 2: (Prefix Sum)**
+```
+Runtime: 146 ms
+Memory Usage: 67.9 MB
+```
+```c++
+class Solution {
+public:
+    string shiftingLetters(string s, vector<int>& shifts) {
+        int shiftTimes = 0;
+        for (int i = s.size() - 1; i >= 0; --i) {
+            shiftTimes = (shiftTimes + shifts[i]) % 26;
+            s[i] = (s[i] - 'a' + shiftTimes) % 26 + 'a';
+        }
+        return s;
+    }
+};
 ```
