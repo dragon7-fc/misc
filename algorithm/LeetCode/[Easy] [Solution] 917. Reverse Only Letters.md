@@ -88,7 +88,7 @@ class Solution(object):
 
 # Submissions
 ---
-**Solution: (Stack of Letters)**
+**Solution 1: (Stack of Letters)**
 ```
 Runtime: 28 ms
 Memory Usage: 12.6 MB
@@ -104,4 +104,49 @@ class Solution:
             else:
                 ans.append(c)
         return "".join(ans)
+```
+
+**Solution 2: (Two Pointers)**
+```
+Runtime: 3 ms
+Memory Usage: 5.9 MB
+```
+```c++
+class Solution {
+public:
+    string reverseOnlyLetters(string s) {
+        int l = 0, r = s.size() - 1;
+        while (l < r) {
+            while (l < r && !isalpha(s[l])) ++l; // Skip non-alpha characters
+            while (l < r && !isalpha(s[r])) --r; // Skip non-alpha characters
+            swap(s[l++], s[r--]);
+        }
+        return s;
+    }
+};
+```
+
+**Solution 3: (Stack of Letters)**
+```
+Runtime: 0 ms
+Memory Usage: 6.2 MB
+```
+```c++
+class Solution {
+public:
+    string reverseOnlyLetters(string s) {
+        stack<char> letterStack;
+        for (char c : s) 
+            if (isalpha(c))
+                letterStack.push(c);
+            
+        for (char &c : s) {
+            if (isalpha(c)) {
+                c = letterStack.top();
+                letterStack.pop();
+            }
+        }
+        return s;
+    }
+};
 ```

@@ -3608,7 +3608,7 @@ Attribute: This is a part of an object. One or more attributes make up an object
     - [How to use the Linux mtr (My Traceroute) command](https://vitux.com/how-to-use-the-linux-mtr-command/)
 * nc
 
-    - [NetcatCheatSheet](https://www.sans.org/security-resources/sec560/netcat_cheat_sheet_v1.pdf)
+    - [A netcat cheatsheet](https://minhhh.github.io/posts/a-netcat-cheatsheet)
 * fail2ban
 
     - setup
@@ -4250,6 +4250,7 @@ Objects such as lists and dictionaries are passed by object reference too, which
 * Assembly
 
     - [OSDev](https://wiki.osdev.org/Expanded_Main_Page)
+    - [x86 and amd64 instruction reference](https://www.felixcloutier.com/x86/index.html)
 * C/C++
 
     - [The GNU C Reference Manual - GNU.org](https://www.gnu.org/software/gnu-c-manual/gnu-c-manual.html)
