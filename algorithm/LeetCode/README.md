@@ -7944,6 +7944,19 @@ class Solution:
 
 ## Hash Table <a name='ht'></a>
 ---
+### Counter
+```python
+class Solution:
+    def intersect(self, nums1, nums2):
+        """
+        :type nums1: List[int]
+        :type nums2: List[int]
+        :rtype: List[int]
+        """
+        return list((collections.Counter(nums1) & collections.Counter(nums2)).elements())
+```
+* [Easy] 350. Intersection of Two Arrays II
+
 ### Hash Table 
 ```python
 class Solution:

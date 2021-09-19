@@ -42,3 +42,29 @@ class Solution:
         """
         return list((collections.Counter(nums1) & collections.Counter(nums2)).elements())
 ```
+
+**Solution 2: (Hash Table)**
+```
+Runtime: 4 ms
+Memory Usage: 10.4 MB
+```
+```c++
+class Solution {
+public:
+    vector<int> intersect(vector<int>& nums1, vector<int>& nums2) {
+        unordered_map<int, int> freq;
+        vector<int> res;
+        
+        for (auto num : nums1) freq[num]++;
+        
+        for (auto num : nums2) {
+            if (freq[num]) {
+                res.push_back(num);
+                freq[num]--;
+            }
+        }
+        
+        return res;
+    }
+};
+```
