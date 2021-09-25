@@ -1739,6 +1739,16 @@ class Solution:
 
 ## Dynamic Programming <a name="dp"></a>
 ---
+### DP
+```python
+class Solution:
+    def tribonacci(self, n: int) -> int:
+        a, b, c = 0, 1, 1
+        for _ in range(n): a, b, c = b, c, a+b+c
+        return a
+```
+* [Easy] 1137. N-th Tribonacci Number
+
 ### Prefix Sum
 ```python
 class NumArray:
@@ -11286,6 +11296,14 @@ return ans
 
 ## Greedy <a name="greedy"></a>
 ---
+### groupby
+```python
+class Solution:
+    def findMaxConsecutiveOnes(self, nums: List[int]) -> int:
+        return max([len(list(grp)) if k == 1 else 0 for k, grp in itertools.groupby(nums)])
+```
+* [Easy] 485. Max Consecutive Ones
+
 ### character conversion
 ```python
 class Solution:
@@ -11360,6 +11378,17 @@ class Solution:
         return n <= 0
 ```
 * [Easy] [Solution] 605. Can Place Flowers
+
+###  Greedy
+```python
+class Solution:
+    def breakPalindrome(self, palindrome: str) -> str:
+        for i in range(len(palindrome) // 2):
+            if palindrome[i] != 'a':
+                return palindrome[:i] + 'a' + palindrome[i + 1:]
+        return palindrome[:-1] + 'b' if palindrome[:-1] else ''
+```
+* [Medium] 1328. Break a Palindrome.md
 
 ### Count
 ```python
@@ -12854,6 +12883,34 @@ class Solution:
         return ans`
 ```
 * [Medium] * 1129. Shortest Path with Alternating Colors
+
+### Level-order shortest path
+```python
+class Solution:
+    def shortestPath(self, grid: List[List[int]], k: int) -> int:
+        m, n = len(grid), len(grid[0])
+        q = collections.deque([[0, 0, 0]])    # row, col, num of obstables met so far
+        visited = {(0, 0): 0}                 # row, col   =>   num of obstables met so far
+        steps = 0
+        
+        while q:
+            size = len(q)
+            for _ in range(size):
+                r, c, obs = q.popleft()
+                if obs > k: continue
+                if r == m - 1 and c == n - 1: 
+                    return steps
+                for r2, c2 in [[r+1, c], [r-1, c], [r, c+1], [r, c-1]]:
+                    if 0 <= r2 < m and 0 <= c2 < n:
+                        next_obs = obs + 1 if grid[r2][c2] == 1 else obs
+                        if next_obs < visited.get((r2, c2), float('inf')):
+                            visited[(r2, c2)] = next_obs
+                            q.append([r2, c2, next_obs])
+            steps += 1
+        
+        return -1
+```
+* [Hard] 1293. Shortest Path in a Grid with Obstacles Elimination
 
 ### BFS, level-order with decreasing candidate set
 ```python
@@ -14653,6 +14710,24 @@ return ans
 
 ## Backtracking <a name="backtracking"></a>
 ---
+### Try all combination, 2^N
+```python
+class Solution:
+    def maxLength(self, arr: List[str]) -> int:
+        def maxLenRec(used, index):
+            if index == len(arr):
+                return 0
+            maxLen = maxLenRec(used, index + 1)  # leave it
+            s = arr[index]
+            valid, currUsed = len(set(s)) == len(s), set(s)
+            if valid and len(used & currUsed) == 0:  # take it if possible
+                maxLen = max(maxLen, len(s) + maxLenRec(used | currUsed, index + 1))
+            return maxLen
+
+        return maxLenRec(set(), 0)
+```
+* [Medium] 1239. Maximum Length of a Concatenated String with Unique Characters.md
+
 ### DFS
 ```python
 # """

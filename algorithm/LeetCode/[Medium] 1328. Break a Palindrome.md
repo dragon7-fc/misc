@@ -46,3 +46,29 @@ class Solution:
                 return palindrome[:i] + 'a' + palindrome[i + 1:]
         return palindrome[:-1] + 'b' if palindrome[:-1] else ''
 ```
+
+**Solution 2: (Greedy)**
+```
+Runtime: 0 ms
+Memory Usage: 6.3 MB
+```
+```c++
+class Solution {
+public:
+    string breakPalindrome(string palindrome) {
+        string res;
+        if (palindrome.size() == 1)
+            return res;
+        for (size_t i = 0; i < palindrome.size() / 2; i++)
+        {
+            if(palindrome[i] != 'a')
+            {
+                palindrome[i] = 'a';
+                return palindrome;                
+            }
+        }
+        palindrome[palindrome.size() - 1] = 'b';
+        return palindrome;     
+    }
+};
+```

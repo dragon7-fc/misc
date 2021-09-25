@@ -46,3 +46,29 @@ class Solution:
     def findMaxConsecutiveOnes(self, nums: List[int]) -> int:
         return max([len(list(grp)) if k == 1 else 0 for k, grp in itertools.groupby(nums)])
 ```
+
+**Solution 2: (Greedy)**
+```
+Runtime: 32 ms
+Memory Usage: 36.2 MB
+```
+```c++
+class Solution {
+public:
+    int findMaxConsecutiveOnes(vector<int>& nums) {
+        int total = 0;
+        int res = 0;
+        
+        for(auto n : nums) {
+            if(n) {
+                total++;
+                res = max(res, total);
+            } else {
+                total = 0;
+            }
+        }
+        
+        return res;
+    }
+};
+```
