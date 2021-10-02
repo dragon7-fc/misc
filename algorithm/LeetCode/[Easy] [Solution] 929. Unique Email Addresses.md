@@ -68,7 +68,7 @@ class Solution(object):
 
 # Submissions
 ---
-**Solution: (Canonical Form)**
+**Solution 1: (Canonical Form)**
 ```
 Runtime: 40 ms
 Memory Usage: 12.7 MB
@@ -83,4 +83,31 @@ class Solution:
                 local = local[:local.index('+')]
             seen.add(local.replace('.','') + '@' + domain)
         return len(seen)
+```
+
+**Solution 2: (Set)**
+```
+Runtime: 24 ms
+Memory Usage: 14.1 MB
+```
+```c++
+class Solution {
+public:
+    int numUniqueEmails(vector<string>& emails) {
+        unordered_set<string> unique_emails;
+        for(auto & email:emails)
+        {
+            int pos = email.find('@');
+            string domain = email.substr(pos);
+            string local_name=email.substr(0,pos);
+            if((pos=local_name.find('+'))!=string::npos)
+               local_name.erase(pos);
+            pos=-1;
+            while((pos=local_name.find('.',pos+1))!=string::npos)
+               local_name.erase(pos,1);
+            unique_emails.insert(local_name+domain);
+        }
+        return unique_emails.size();
+    }
+};
 ```

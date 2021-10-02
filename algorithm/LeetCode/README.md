@@ -6029,6 +6029,21 @@ class Solution:
         # no match was found
         return -1
 ```
+
+### Canonical Form
+```python
+class Solution:
+    def numUniqueEmails(self, emails: List[str]) -> int:
+        seen = set()
+        for email in emails:
+            local, domain = email.split('@')
+            if '+' in local:
+                local = local[:local.index('+')]
+            seen.add(local.replace('.','') + '@' + domain)
+        return len(seen)
+```
+* [Easy] [Solution] 929. Unique Email Addresses
+
 ### Math
 ```python
 class Solution:
@@ -13307,23 +13322,19 @@ class Solution:
 ```
 * [Easy] [Solution] 977. Squares of a Sorted Array
 
-### Sort Array By Parity
+### Scan one and increment the other
 ```python
 class Solution:
-    def sortArrayByParity(self, A: List[int]) -> List[int]:
-        i, j = 0, len(A) - 1
-        while True:
-            while i < j and not A[i] & 1: i += 1
-            while i < j and A[j] & 1: j -= 1
-            if i < j:
+    def sortArrayByParityII(self, A: List[int]) -> List[int]:
+        j = 1
+        for i in range(0, len(A), 2):
+            if A[i] % 2:
+                while A[j] % 2:
+                    j += 2
                 A[i], A[j] = A[j], A[i]
-                i += 1
-                j -= 1
-            else:
-                break
         return A
 ```
-* [Easy] [Solution] 922. Sort Array By Parity
+* [Easy] [Solution] 922. Sort Array By Parity II
 
 ### Cycle, slow/fast start from head
 ```python
@@ -19806,7 +19817,7 @@ class Solution:
 ```
 * [Easy] [Solution] 687. Longest Univalue Path
 
-### Search by Constructing Subset Sums
+### Search by Constructing Subset Sums, backtrack by group
 ```python
 class Solution:
     def canPartitionKSubsets(self, nums: List[int], k: int) -> bool:
@@ -19825,7 +19836,7 @@ class Solution:
             nums.append(v)
             return False
 
-        nums.sort()
+        nums.sort()  # place largest element first
         if nums[-1] > target: return False
         while nums and nums[-1] == target:
             nums.pop()
