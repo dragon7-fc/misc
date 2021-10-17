@@ -345,6 +345,12 @@ A playground to note something.
     
         __NOTE__: link local address: fe80::/10
     - [File locking in Linux](https://gavv.github.io/articles/file-locks/#command-line-tools)
+    - Driver
+
+        - [Kernel module - ArchWiki](https://www.google.com/search?q=driver+module+archwiki&rlz=1C5CHFA_enTW963TW963&biw=1680&bih=779&sxsrf=AOaemvK0Wv7SGUsvw57an7tevUolhouHvw%3A1634262166563&ei=ltxoYdjaIYa7wAPn9I2QBw&ved=0ahUKEwjY_aD_pMvzAhWGHXAKHWd6A3IQ4dUDCA4&uact=5&oq=driver+module+archwiki&gs_lcp=Cgdnd3Mtd2l6EAMyBwgjELADECdKBAhBGAFQ9htY9htgzh5oAXAAeACAAVaIAVaSAQExmAEAoAEByAEBwAEB&sclient=gws-wiz)
+        - Device Tree
+            
+            - [A TUTORIAL ON THE DEVICE TREE](http://junyelee.blogspot.com/2015/07/a-tutorial-on-device-tree.html)
 - i2c-tools
 
     |                    | command                                         |
