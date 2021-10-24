@@ -272,14 +272,26 @@ A playground to note something.
         ```
 * U-Boot
 
-    - TFTP flash
+    - [U-Boot](https://www.linux4sam.org/bin/view/Linux4SAM/U-Boot)
 
-        `setenv ipaddr [HOST_IP]; setenv serverip [SERVER_IP]; protect off all; erase all; tftpboot [FLASH_MEM_ADDR] [SERVER_IP]:[ROM_FILE]`
+    - example
+    
+        - tftp flash
 
-        __NOTE__: [FLASH_MEM_ADDR]
+            `setenv ipaddr [HOST_IP]; setenv serverip [SERVER_IP]; protect off all; erase all; tftpboot [FLASH_MEM_ADDR] [SERVER_IP]:[ROM_FILE]`
+
+            __NOTE__: [FLASH_MEM_ADDR]
         
-            AST2500: 20000000
+                AST2500: 20000000
+        - read spi
 
+            ```
+            setenv ipaddr [HOST_IP]
+            setenv serverip [SERVER_IP]
+            sf probe 0  # select spi 0
+            sf read [FREE_MEM_ADDR] [OFFSET_IN_SPI] [SPI_SIZE_TO_READ]  # read spi content to [FREE_MEM_ADDR]
+            tftp [FREE_MEM_ADDR] [FILE_NAME] [SPI_SIZE]  # upload [FREE_MEM_ADDR] content to tftp server as [FILE_NAME]
+            ```
 * linux
 
     - [UNIX Toolbox](http://cb.vu/unixtoolbox.pdf)
