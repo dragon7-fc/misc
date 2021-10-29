@@ -278,19 +278,29 @@ A playground to note something.
     
         - tftp flash
 
-            `setenv ipaddr [HOST_IP]; setenv serverip [SERVER_IP]; protect off all; erase all; tftpboot [FLASH_MEM_ADDR] [SERVER_IP]:[ROM_FILE]`
+            `setenv ipaddr [HOST_IP]; setenv serverip [SERVER_IP]; protect off all; erase all; tftpboot [FLASH_MEM_ADDR] [ROM_FILE]`
 
             __NOTE__: [FLASH_MEM_ADDR]
         
                 AST2500: 20000000
+        - tftp flash 2
+            ```
+            setenv ipaddr [HOST_IP]
+            setenv serverip [SERVER_IP]
+            sf probe 0  # select spi 0
+            sf erase 0 4000000  # erase 64M spi
+            mw.b 82000000 ff 4000000  # clear 64M memory at 0x82000000
+            tftpboot 82000000 [FILE_NAME]  # download [FILE_NAME] from tftp server to memory 0x82000000
+            sf write 82000000 0 4000000  # write memory 0x82000000 64M to spi
+            ```
         - read spi
 
             ```
             setenv ipaddr [HOST_IP]
             setenv serverip [SERVER_IP]
             sf probe 0  # select spi 0
-            sf read [FREE_MEM_ADDR] [OFFSET_IN_SPI] [SPI_SIZE_TO_READ]  # read spi content to [FREE_MEM_ADDR]
-            tftp [FREE_MEM_ADDR] [FILE_NAME] [SPI_SIZE]  # upload [FREE_MEM_ADDR] content to tftp server as [FILE_NAME]
+            sf read 82000000 0 4000000  # read 64M spi content to memory 0x82000000
+            tftp 82000000 [FILE_NAME] 4000000  # upload 64M memory 0x82000000 content to tftp server as [FILE_NAME]
             ```
 * linux
 
