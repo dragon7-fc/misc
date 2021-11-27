@@ -4320,6 +4320,8 @@ Objects such as lists and dictionaries are passed by object reference too, which
     - [HTML Element Reference](https://www.w3schools.com/tags/default.asp)
     - [Online Interactive HTML Cheat Sheet](https://htmlcheatsheet.com/)
     - The __difference__ between span and div is that a __span__ element is in-line and usually used for a small chunk of HTML inside a line (such as inside a paragraph) whereas a __div__ (division) element is block-line (which is basically equivalent to having a line-break before and after it) and used to group larger chunks of code.
+    - [Using HTTP Methods for RESTful Services](https://www.restapitutorial.com/lessons/httpmethods.html)
+    * [Hypertext Transfer Protocol (HTTP) Status Code Registry](http://www.iana.org/assignments/http-status-codes/http-status-codes.xhtml)
 
 * CSS
 
