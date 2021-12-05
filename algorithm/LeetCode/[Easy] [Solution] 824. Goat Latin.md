@@ -89,3 +89,49 @@ class Solution:
         return " ".join(convert(word) + 'a' * i
                         for i, word in enumerate(S.split(), 1))
 ```
+
+**Solution 2: (String)**
+```
+Runtime: 0 ms
+Memory Usage: 5.8 MB
+```
+```c
+char res[3000];
+int isvow (char c){
+    return (c == 'a'|| c == 'e' || c == 'o' || c == 'i' || c == 'u' ||
+            c == 'A' || c == 'E' || c == 'I' || c == 'O' || c == 'U');
+}
+
+char * toGoatLatin(char * sentence){
+    int cnt = 0;
+    char *tok;
+    tok = strtok(sentence, " ");
+    memset (res, 0, 3000*sizeof(char));
+    while (tok){
+        cnt++;
+        if (isvow(tok[0])){
+            strcat (res, tok);
+            strcat (res, "ma");
+            for (int i = 0; i < cnt; i++){
+                strcat (res, "a");
+            }
+
+        }
+        else {
+            strcat (res, tok+1);
+            strncat (res, tok, 1);
+            strcat (res, "ma");
+            for (int i = 0; i < cnt; i++){
+                strcat (res, "a");
+            }
+        }
+        
+        tok = strtok(NULL, " ");
+        if (tok != NULL){
+            strcat (res," ");
+        }
+    }
+
+    return res;
+}
+```

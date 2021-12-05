@@ -147,3 +147,43 @@ class Solution:
                     pointer.val = stack.pop()
                     pointer = pointer.next
 ```
+
+**Solution 4: (Recursion)**
+```
+Runtime: 4 ms
+Memory Usage: 7.3 MB
+```
+```c
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     struct ListNode *next;
+ * };
+ */
+
+
+struct ListNode* reverseKGroup(struct ListNode* head, int k){
+    struct ListNode *cur = head, *prev, *nxt;
+    int cnt = k;
+    while (cnt > 0 && cur) {
+        cur = cur->next;
+        cnt -= 1;
+    }
+    if (cnt > 0) {
+        return head;
+    }
+    prev = head;
+    cur = head->next;
+    cnt = k - 1;
+    while (cnt > 0) {
+        nxt = cur->next;
+        cur->next = prev;
+        prev = cur;
+        cur = nxt;
+        cnt -= 1;
+    }
+    head->next = reverseKGroup(cur, k);
+    return prev;
+}
+```

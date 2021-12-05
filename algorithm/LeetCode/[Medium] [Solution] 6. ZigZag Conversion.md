@@ -144,3 +144,38 @@ class Solution:
         ret = ''.join([c for r in rows for c in r])
         return ret
 ```
+
+**Solution 2: (Strin, find index)**
+```
+Runtime: 0 ms
+Memory Usage: 6.5 MB
+```
+```c
+char * convert(char * s, int numRows){
+    char *new_s = (char *)calloc((strlen(s) + 1), sizeof(char));
+	if (numRows == 1) {
+		strcpy(new_s, s);
+		return new_s;
+	}
+
+	int last_new = 0;
+	for (int i = 0; i < numRows; i++) {
+		int j = i;
+		int direction = ( i != numRows - 1) ? 0 : 1;
+		while (j < strlen(s)) {
+			new_s[last_new] = s[j];
+			last_new++;
+			if (direction == 0) {
+				j += (numRows - i - 1) * 2;
+			}
+			else {
+				j += i * 2;
+			}
+			if (i != 0 && i != numRows - 1) {
+				direction = 1 - direction;
+			}
+		}
+	}
+	return new_s;
+}
+```

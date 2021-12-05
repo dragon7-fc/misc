@@ -52,3 +52,40 @@ class Solution:
             left += 1
             right += 1
 ```
+
+**Solution 2: (Two Pointers)**
+```
+Runtime: 0 ms
+Memory Usage: 6.2 MB
+```
+```c
+
+
+void sortColors(int* nums, int numsSize){
+    int i = 0, j = 0;
+    int tmp;
+    while (j < numsSize) {
+        if (nums[j] != 0) {
+            j += 1;
+            continue;
+        }
+        tmp = nums[j];
+        nums[j] = nums[i];
+        nums[i] = tmp;
+        i += 1;
+        j += 1;
+    }
+    j = i;
+    while (j < numsSize) {
+        if (nums[j] != 1) {
+            j += 1;
+            continue;
+        }
+        tmp = nums[j];
+        nums[j] = nums[i];
+        nums[i] = tmp;
+        i += 1;
+        j += 1;
+    }
+}
+```

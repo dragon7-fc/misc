@@ -46,3 +46,40 @@ class Solution:
             current.next = l1 or l2
         return head
 ```
+
+**Solution 2: (Linked List)**
+```
+Runtime: 4 ms
+Memory Usage: 6.1 MB
+```
+```c
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     struct ListNode *next;
+ * };
+ */
+
+
+struct ListNode* mergeTwoLists(struct ListNode* list1, struct ListNode* list2){
+    struct ListNode *dummy, *prev;
+    prev = dummy = malloc(sizeof(struct ListNode));
+    dummy->next = NULL;
+    while (list1 && list2) {
+        if (list1->val <= list2->val) {
+            prev->next = list1;     
+            list1 = list1->next;
+        } else {
+            prev->next = list2;
+            list2 = list2->next;
+        }
+        prev = prev->next;
+    }
+    if (list1)
+        prev->next = list1;
+    else if (list2)
+        prev->next = list2;
+    return dummy->next;
+}
+```

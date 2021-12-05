@@ -302,3 +302,26 @@ class Solution:
         self.reverse(nums, 0, k - 1)
         self.reverse(nums, k, n - 1)
 ```
+
+**Solution 4; (Using Reverse)**
+```
+Runtime: 108 ms
+Memory Usage: 22.1 MB
+```
+```c
+
+void reverse(int* nums, int i, int j){
+    while (i < j) {
+        int tmp = nums[i];
+        nums[i] = nums[j];
+        nums[j] = tmp;
+        i += 1;
+        j -= 1;
+    }
+}
+void rotate(int* nums, int numsSize, int k){
+    reverse(nums, 0, numsSize - 1);
+    reverse(nums, 0, k%numsSize - 1);
+    reverse(nums, k%numsSize, numsSize - 1);
+}
+```

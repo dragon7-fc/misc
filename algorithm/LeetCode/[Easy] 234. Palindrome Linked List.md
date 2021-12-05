@@ -60,3 +60,43 @@ class Solution:
             
         return True
 ```
+
+**Solution 2: (Two Pointers)**
+```
+Runtime: 120 ms
+Memory Usage: 41.5 MB
+```
+```c
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     struct ListNode *next;
+ * };
+ */
+
+
+bool isPalindrome(struct ListNode* head){
+    if (!head || !head->next)
+        return true;
+    struct ListNode *slow, *fast, *prev, *tmp;
+    slow = fast = head;
+    prev = NULL;
+    while (fast && fast->next) {
+        fast = fast->next->next;
+        tmp = slow->next;
+        slow->next = prev;
+        prev = slow;
+        slow = tmp;
+    }
+    if (fast && !fast->next)
+        slow = slow->next;
+    while (prev && slow) {
+        if (prev->val != slow->val)
+            return false;
+        prev = prev->next;
+        slow = slow->next;
+    }
+    return true;
+}
+```

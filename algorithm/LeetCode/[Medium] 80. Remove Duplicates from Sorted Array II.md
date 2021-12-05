@@ -59,3 +59,32 @@ class Solution:
             nums[i] = nums[j]   
         return i+1
 ```
+
+**Solution 2: (Two Pointers)**
+```
+Runtime: 8 ms
+Memory Usage: 6.4 MB
+```
+```c
+int removeDuplicates(int* nums, int numsSize){
+    int i = 0, left = 0, right = 0;
+    int ans = 0;
+    while (left < numsSize) {
+        while (right < numsSize && nums[right] == nums[left]) {
+            right += 1;
+        }
+        if (right-left == 1) {
+            nums[i] = nums[left];
+            i += 1;
+            ans += 1;
+        } else {
+            nums[i] = nums[left];
+            nums[i+1] = nums[left];
+            i += 2;
+            ans += 2;
+        }
+        left = right;
+    }
+    return ans;
+}
+```

@@ -120,6 +120,7 @@ public:
         if(curr==NULL)
             return curr;
         ListNode* node = reverse(curr->next);
+        ListNode* now = new ListNode(curr->val);
         if(node==NULL){
             new_head = now;
         }
@@ -136,4 +137,67 @@ public:
         return new_head;
     }
 };
+```
+
+**Solution 5: (Iterativa, Linked List)**
+```
+Runtime: 6 ms
+Memory Usage: 6.3 MB
+```
+```c
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     struct ListNode *next;
+ * };
+ */
+
+
+struct ListNode* reverseList(struct ListNode* head){
+    struct ListNode *prev, *nxt;
+    prev = NULL;
+    while (head) {
+        nxt = head->next;
+        head->next = prev;
+        prev = head;
+        head = nxt;
+    }
+    return prev;
+}
+```
+
+**Solution 6: (Recursive, Linked List)**
+```
+Runtime: 0 ms
+Memory Usage: 6.8 MB
+```
+```c
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     struct ListNode *next;
+ * };
+ */
+
+struct ListNode *new_head;
+
+struct ListNode* reverse(struct ListNode* node){
+    if (!node)
+        return node;
+    struct ListNode* reverse_node = reverse(node->next);
+    if (!reverse_node)
+        new_head = node;
+    else
+        reverse_node->next = node;
+    node->next = NULL;
+    return node;
+}
+
+struct ListNode* reverseList(struct ListNode* head){
+    new_head = NULL;
+    reverse(head);
+    return new_head;
+}
 ```

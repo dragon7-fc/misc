@@ -87,3 +87,42 @@ class Solution:
         
         return head
 ```
+
+**Solution 2: (Linked List)**
+```
+Runtime: 4 ms
+Memory Usage: 6.8 MB
+```
+```c
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     struct ListNode *next;
+ * };
+ */
+
+
+struct ListNode* oddEvenList(struct ListNode* head){
+    struct ListNode *even_head, *odd;
+    struct ListNode *prev, *cur, *nxt;
+    int cnt;
+    if (!head || !head->next || !head->next->next)
+        return head;
+    prev = head;
+    cur = prev->next;
+    even_head = cur;
+    cnt = 2;
+    while (cur) {
+        prev->next = cur->next;
+        if (cnt%2) {
+            odd = cur;
+        }
+        prev = cur;
+        cur = cur->next;
+        cnt += 1;
+    }
+    odd->next = even_head;
+    return head;
+}
+```

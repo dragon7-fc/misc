@@ -80,3 +80,36 @@ class Solution:
             
         return head
 ```
+
+**Solution 2: (Linked List)*
+```
+Runtime: 0 ms
+Memory Usage: 6.4 MB
+```
+```c
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     struct ListNode *next;
+ * };
+ */
+
+
+struct ListNode* deleteDuplicates(struct ListNode* head){
+    struct ListNode *dummy, *base;
+    dummy = malloc(sizeof(struct ListNode));
+    dummy->next = head;
+    while (head) {
+        base = head;
+        while (head) {
+            if (head->val != base->val)
+                break;
+            head = head->next;
+        }
+        base->next = head;
+        base = base->next;
+    }
+    return dummy->next;
+}
+```

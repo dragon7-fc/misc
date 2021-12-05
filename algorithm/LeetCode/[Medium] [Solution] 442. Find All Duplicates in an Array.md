@@ -266,3 +266,27 @@ class Solution:
                 nums[num-1] = -nums[num-1]
         return ans
 ```
+
+**Solution 3: (Array, Mark Visited Elements in the Input Array itself)**
+```
+Runtime: 92 ms
+Memory Usage: 17.4 MB
+```
+```c
+/**
+ * Note: The returned array must be malloced, assume caller calls free().
+ */
+int* findDuplicates(int* nums, int numsSize, int* returnSize){
+    int *ans = (int *)malloc(sizeof(int)*numsSize);
+    int k = 0;
+    for (int i = 0; i < numsSize; i ++) {
+        if (nums[abs(nums[i])-1] < 0) {
+            ans[k] = abs(nums[i]);
+            k += 1;
+        }
+        nums[abs(nums[i])-1] = -nums[abs(nums[i])-1];
+    }
+    *returnSize = k;
+    return ans;
+}
+```

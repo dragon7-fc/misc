@@ -120,3 +120,22 @@ class Solution:
             
         return slope == 2
 ```
+
+**Solution 3: (Array)**
+```
+Runtime: 20 ms
+Memory Usage: 7.1 MB
+```
+```c
+bool validMountainArray(int* arr, int arrSize){
+    int i = 0;
+    while (i + 1 < arrSize && arr[i] < arr[i+1])
+        i += 1;
+    if (i == 0 || i == arrSize-1)
+        return false;
+    while (i+1 < arrSize && arr[i] > arr[i+1])
+        i += 1;
+    
+    return i == arrSize-1;
+}
+```

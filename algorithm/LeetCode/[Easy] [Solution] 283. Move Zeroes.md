@@ -144,3 +144,24 @@ class Solution:
                 left += 1
             right += 1
 ```
+
+**Solution 2: (Two Pointers)**
+```
+Runtime: 68 ms
+Memory Usage: 15.3 MB
+```
+```c
+void moveZeroes(int* nums, int numsSize){
+    int left = 0, right = 0;
+    int tmp;
+    while (right < numsSize) {
+        if (nums[right] != 0) {
+            tmp = nums[left];
+            nums[left] = nums[right];
+            nums[right] = tmp;
+            left += 1;
+        }
+        right += 1;
+    }
+}
+```

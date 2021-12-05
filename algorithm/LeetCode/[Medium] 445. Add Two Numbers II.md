@@ -46,3 +46,53 @@ class Solution:
             s.pop(0)
         return dummy.next 
 ```
+
+**Solution 1: (Linked List)**
+```
+Runtime: 12 ms
+Memory Usage: 7.9 MB
+```
+```c
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     struct ListNode *next;
+ * };
+ */
+
+struct ListNode* reverse(struct ListNode *node) {
+    struct ListNode *prev = NULL, *cur = node, *nxt;
+    while (cur) {
+        nxt = cur->next;
+        cur->next = prev;
+        prev = cur;
+        cur = nxt;
+    }
+    return prev;
+}
+
+struct ListNode* addTwoNumbers(struct ListNode* l1, struct ListNode* l2){
+    struct ListNode *prev = NULL, *cur;
+    int sum = 0, carry = 0;
+    l1 = reverse(l1);
+    l2 = reverse(l2);
+    while (l1 || l2 || carry) {
+        sum = carry;
+        if (l1) {
+            sum += l1->val;
+            l1 = l1->next;
+        }
+        if (l2) {
+            sum += l2->val;
+            l2 = l2->next;
+        }
+        cur = malloc(sizeof(struct ListNode));
+        cur->val = sum % 10;
+        cur->next = prev;
+        prev = cur;
+        carry = sum >= 10 ? 1 : 0;
+    }
+    return prev;
+}
+```

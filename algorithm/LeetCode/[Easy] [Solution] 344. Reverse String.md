@@ -158,3 +158,22 @@ class Solution:
             s[left], s[right] = s[right], s[left]
             left, right = left + 1, right - 1
 ```
+
+**Solution 2: (Two Pointers)**
+```
+Runtime: 36 ms
+Memory Usage: 12.4 MB
+```
+```c
+void reverseString(char* s, int sSize){
+    int left = 0, right = sSize-1;
+    char tmp;
+    while (left < right) {
+        tmp = s[left];
+        s[left] = s[right];
+        s[right] = tmp;
+        left += 1;
+        right -= 1;
+    }
+}
+```

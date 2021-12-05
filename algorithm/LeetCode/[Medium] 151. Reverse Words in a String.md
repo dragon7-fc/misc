@@ -65,3 +65,47 @@ public:
     }
 };
 ```
+
+**Solution 3: (String)**
+```
+Runtime: 4 ms
+Memory Usage: 6.6 MB
+```
+```c
+void reverse(char *_s, int _i, int _j) {
+    char tmp;
+    while (_i < _j) {
+        tmp = _s[_i];
+        _s[_i] = _s[_j];
+        _s[_j] = tmp;
+        _i += 1;
+        _j -= 1;
+    }
+}
+
+char * reverseWords(char * s){
+    int N = strlen(s);
+    char *ans = calloc(strlen(s) + 1, sizeof(char));
+    char *token = strtok(s, " ");
+    int i = 0, j = 0;
+    char tmp;
+    while (token) {
+        memcpy(&ans[i], token, strlen(token));
+        i += strlen(token);
+        ans[i] = ' ';
+        i += 1;
+        token = strtok(NULL, " ");
+    }
+    ans[i-1] = 0;
+    reverse(ans, 0, i-2);
+    i = 0, j = 0;
+    while (j < strlen(ans)) {
+        while (j < strlen(ans) && ans[j] != ' ')
+            j += 1;
+        reverse(ans, i, j-1);
+        i = j + 1;
+        j = j + 1;
+    }
+    return ans;
+}
+```

@@ -152,3 +152,48 @@ class Solution:
 
         return max(dp_rob[0], dp_not_rob[0])
 ```
+
+**Solution 4: (Recursion)**
+```
+Runtime: 8 ms
+Memory Usage: 8.4 MB
+```
+```c
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     struct TreeNode *left;
+ *     struct TreeNode *right;
+ * };
+ */
+
+typedef struct {
+    int robMoney;
+    int notRobMoney;
+} Money;
+
+Money robMoney(struct TreeNode* root) {
+    if (root == NULL) {
+        Money money = {0};
+        return money;
+    }
+
+    Money moneyFromLeft = robMoney(root->left);
+    Money moneyFromRight = robMoney(root->right);
+    Money money;
+    money.robMoney = root->val + moneyFromLeft.notRobMoney + moneyFromRight.notRobMoney;
+    money.notRobMoney = (moneyFromLeft.robMoney > moneyFromLeft.notRobMoney ?
+    moneyFromLeft.robMoney : moneyFromLeft.notRobMoney)
+    +
+    (moneyFromRight.robMoney > moneyFromRight.notRobMoney ?
+    moneyFromRight.robMoney : moneyFromRight.notRobMoney);
+    
+    return money;
+}
+
+int rob(struct TreeNode* root){
+    Money money = robMoney(root);
+    return money.robMoney > money.notRobMoney ? money.robMoney : money.notRobMoney;
+}
+```

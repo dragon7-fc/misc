@@ -120,3 +120,43 @@ class Solution:
             l2 = l2.next if l2 else None
         return dummy_head.next
 ```
+
+**Solution 1: (Elementary Math, Linked List)**
+```
+Runtime: 12 ms
+Memory Usage: 8 MB
+```
+```c
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     struct ListNode *next;
+ * };
+ */
+
+
+struct ListNode* addTwoNumbers(struct ListNode* l1, struct ListNode* l2){
+    struct ListNode *prev, *cur, *dummy;
+    int sum = 0, carry = 0;
+    prev = dummy = malloc(sizeof(struct ListNode));
+    while (l1 || l2 || carry) {
+        sum = carry;
+        if (l1){
+            sum += l1->val;
+            l1 = l1->next;
+        }
+        if (l2) {
+            sum += l2->val;
+            l2 = l2->next;
+        }
+        cur = malloc(sizeof(struct ListNode));
+        cur->val = sum % 10;
+        prev->next = cur;
+        prev = prev->next;
+        carry = sum >= 10 ? 1 : 0;
+    }
+    prev->next = NULL;
+    return dummy->next;
+}
+```

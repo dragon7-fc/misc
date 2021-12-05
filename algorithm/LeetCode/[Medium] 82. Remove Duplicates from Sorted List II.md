@@ -91,3 +91,41 @@ class Solution:
                 
         return s[0] if s else None
 ```
+
+**Solution 3: (Linked List)**
+```
+Runtime: 4 ms
+Memory Usage: 6.3 MB
+```
+```c
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     struct ListNode *next;
+ * };
+ */
+
+
+struct ListNode* deleteDuplicates(struct ListNode* head){
+    struct ListNode *dummy, *begin, *base, *prev;
+    dummy = malloc(sizeof(struct ListNode));
+    prev = begin = dummy;
+    dummy->next = head;
+    while (head) {
+        base = prev = head;
+        head = head->next;
+        while (head) {
+            if (head->val != prev->val)
+                break;
+            prev = head;
+            head = head->next;
+        }
+        if (base == prev)
+            begin = prev;
+        else;
+            begin->next = head;
+    }
+    return dummy->next;
+}
+```

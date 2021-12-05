@@ -115,3 +115,28 @@ class Solution:
                 anchor = read + 1
         return write
 ```
+
+**Solution 2: (String, sliding window)**
+```
+Runtime: 8 ms
+Memory Usage: 6.4 MB
+```
+```c
+int compress(char* chars, int charsSize){
+    int i = 0, b = 0;
+    char tmp[5] = {0};
+    for (int j = 0; j < charsSize; j ++) {
+        if (j == charsSize-1 || chars[j+1] != chars[j]) {
+            chars[i] = chars[b];
+            i += 1;
+            if (j > b) {
+                sprintf(tmp, "%d", j-b+1);
+                memcpy(&chars[i], tmp, strlen(tmp));
+                i += strlen(tmp);
+            }
+            b = j+1;
+        }
+    }
+    return i;
+}
+```

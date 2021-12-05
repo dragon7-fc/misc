@@ -58,3 +58,29 @@ class Solution:
         
         return max(max(res1), max(res2))
 ```
+
+**Solution 3: (DP Dottom-Up)**
+```
+Runtime: 4 ms
+Memory Usage: 6.5 MB
+```
+```c
+
+#define max(_a, _b) ((_a) > (_b) ? (_a) : (_b))
+#define min(_a, _b) ((_a) < (_b) ? (_a) : (_b))
+
+int maxProduct(int* nums, int numsSize){
+    int dp_max = nums[0];
+    int dp_min = nums[0];
+    int tmp_dp_max;
+    int ans = nums[0];
+    for (int i = 1; i < numsSize; i ++) {
+        tmp_dp_max = max(max(nums[i], dp_max*nums[i]), dp_min*nums[i]);
+        dp_min = min(min(nums[i], dp_max*nums[i]), dp_min*nums[i]);
+        dp_max = tmp_dp_max;
+        if (ans < dp_max)
+            ans = dp_max;
+    }
+    return ans;
+}
+```

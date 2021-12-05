@@ -304,3 +304,32 @@ class Solution:
             
         return res
 ```
+
+**Solution 2: (String)**
+```
+Runtime: 0 ms
+Memory Usage: 5.8 MB
+```
+```c
+
+
+char * longestCommonPrefix(char ** strs, int strsSize){
+    char *ans;
+    bool not_match = false;
+    int i, j;
+    for (i = 0; i < strlen(strs[0]); i ++) {
+        for (j = 1; j < strsSize; j ++) {
+            if (strs[j][i] != strs[0][i]) {
+                not_match = true;
+                break;
+            }
+        }
+        if (not_match)
+            break;
+    }
+    ans = malloc(sizeof(char)*(i+1));
+    memcpy(ans, strs[0], i);
+    ans[i] = '\0';
+    return ans;
+}
+```

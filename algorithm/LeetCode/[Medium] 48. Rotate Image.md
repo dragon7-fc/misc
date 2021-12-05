@@ -93,3 +93,23 @@ class Solution:
             for j in range(n // 2):
                 matrix[i][j], matrix[i][-j - 1] = matrix[i][-j - 1], matrix[i][j]
 ```
+
+**Solution 3: (Rotate Groups of Four Cells)**
+```
+Runtime: 4 ms
+Memory Usage: 6.5 MB
+```
+```c
+void rotate(int** matrix, int matrixSize, int* matrixColSize){
+    int tmp;
+    for (int i = 0; i < matrixSize/2 + matrixSize%2; i ++) {
+        for (int j = 0; j < *matrixColSize/2; j ++) {
+            tmp = matrix[*matrixColSize - 1 - j][i];
+            matrix[matrixSize - 1 - j][i] = matrix[matrixSize - 1 - i][*matrixColSize - 1 -j];
+            matrix[matrixSize - 1 - i][*matrixColSize - 1 - j] = matrix[j][matrixSize - 1 -i];
+            matrix[j][matrixSize - 1 - i] = matrix[i][j];
+            matrix[i][j] = tmp;
+        }
+    }
+}
+```

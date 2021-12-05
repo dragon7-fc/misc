@@ -71,3 +71,37 @@ class Solution:
             
         return start
 ```
+
+**Solution 2: (Linked List)**
+```
+Runtime: 4 ms
+Memory Usage: 7.1 MB
+```
+```c
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     struct ListNode *next;
+ * };
+ */
+struct ListNode *detectCycle(struct ListNode *head) {
+    struct ListNode *slow, *fast;
+    slow = fast = head;
+    while (fast && fast->next) {
+        fast = fast->next->next;
+        slow = slow->next;
+        if (fast == slow)
+            break;
+    }
+    if (!fast || !fast->next) {
+        return NULL;
+    }
+    fast = head;
+    while (fast != slow) {
+        slow = slow->next;
+        fast = fast->next;
+    }
+    return slow;
+}
+```

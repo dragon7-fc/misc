@@ -81,3 +81,22 @@ class Solution:
         node.next = node.next.next
         
 ```
+
+**Solution 2: (Linked List)**
+```
+Runtime: 5 ms
+Memory Usage: 6.5 MB
+```
+```c
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     struct ListNode *next;
+ * };
+ */
+void deleteNode(struct ListNode* node) {
+    node->val = node->next->val;
+    node->next = node->next->next;
+}
+```

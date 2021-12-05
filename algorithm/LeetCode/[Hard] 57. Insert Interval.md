@@ -45,3 +45,83 @@ class Solution:
 
         return ans
 ```
+
+**Solution 2: (Greedy)**
+```
+Runtime: 16 ms
+Memory Usage: 8.4 MB
+```
+```c
+
+/**
+ * Return an array of arrays of size *returnSize.
+ * The sizes of the arrays are returned as *returnColumnSizes array.
+ * Note: Both returned array and *columnSizes array must be malloced, assume caller calls free().
+ */
+int** insert(int** intervals, int intervalsSize, int* intervalsColSize, int* newInterval, int newIntervalSize, int* returnSize, int** returnColumnSizes){
+    *returnSize = 0;
+    int left = newInterval[0];
+    int right = newInterval[1];
+    bool placed = false;
+    int* tmp;
+    // One unit larger than the original intervals (since one interval could be added)
+    int** result = malloc(sizeof(int*) * (intervalsSize + 1));
+    *returnColumnSizes = malloc(sizeof(int*) * (intervalsSize + 1));
+    // Iterate through all available intervals
+    for (int i = 0; i < intervalsSize; i++)
+    {
+        int* interval = intervals[i];
+        // Check right boundary, if no overlap, add it to the left
+        if (interval[0] > right)
+        {
+
+            // Check if new interval is been placed or not
+            if (!placed)
+            {
+                // Need mallocate since we want to return this temp value
+                tmp = malloc(sizeof(int) * 2);
+                // Add the new interval to the result first
+                tmp[0] = left; tmp[1] = right;
+                // Update return column size array with the (left, right)
+                (*returnColumnSizes)[*returnSize] = 2;
+                result[(*returnSize)++] = tmp;
+                placed = true;
+            }
+            // If the new interval is been added, copy the interval to the result
+            tmp = malloc(sizeof(int) * 2);
+            memcpy(tmp, interval, sizeof(int) * 2);
+            // Update return column size array with the (left, right)
+            (*returnColumnSizes)[*returnSize] = 2;
+            result[(*returnSize)++] = tmp;
+        }
+        // Check for left boundary
+        else if (interval[1] < left)
+        {
+            // Copy the original interval, insert the interval latter
+            tmp = malloc(sizeof(int) * 2);
+            memcpy(tmp, interval, sizeof(int) * 2);
+            // Update return column size array with the (left, right)
+            (*returnColumnSizes)[*returnSize] = 2;
+            result[(*returnSize)++] = tmp;
+        }
+        // When overlap
+        else
+        {
+            // Update the combined boundaries
+            left = fmin(left, interval[0]);
+            right = fmax(right, interval[1]);
+        }
+    }
+    // If the new interval should be added to the end
+    if (!placed)
+    {
+        // Copy the original interval, insert the interval latter
+        tmp = malloc(sizeof(int) * 2);
+        tmp[0] = left; tmp[1] = right;
+        // Update return column size array with the (left, right)
+        (*returnColumnSizes)[*returnSize] = 2;
+        result[(*returnSize)++] = tmp;
+    }
+    return result;
+ }
+```

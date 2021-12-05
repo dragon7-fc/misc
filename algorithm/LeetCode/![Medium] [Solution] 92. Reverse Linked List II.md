@@ -313,3 +313,52 @@ class Solution:
         tail.next = cur
         return head
 ```
+
+**Solution 3: (Iterative, Linked List)**
+```
+Runtime: 0 ms
+Memory Usage: 6 MB
+```
+```c
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     struct ListNode *next;
+ * };
+ */
+
+
+struct ListNode* reverseBetween(struct ListNode* head, int left, int right){
+    if (left == right)
+        return head;
+    struct ListNode *start, *end, *prev, *cur, *nxt;
+    int i = 1;
+    prev = NULL;
+    cur = head;
+    while (cur && i < left) {
+        prev = cur;
+        cur = cur->next;
+        i += 1;
+    }
+    start = prev;
+    end = cur;
+    prev = cur;
+    cur = cur->next;
+    i += 1;
+    while (cur && i <= right) {
+        nxt = cur->next;
+        cur->next = prev;
+        prev = cur;
+        cur = nxt;
+        i += 1;
+    }
+    if (start)
+        start->next = prev;
+    else
+        head = prev;
+    end->next = cur;
+
+    return head;
+}
+```

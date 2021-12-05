@@ -109,3 +109,28 @@ class Solution:
             else: left+=1
         return res
 ```
+
+**Solution 2: (Two Pointers)**
+```
+Runtime: 76 ms
+Memory Usage: 11.7 MB
+```
+```c
+#define min(_a, _b) ((_a) <= (_b) ? (_a) : (_b))
+int maxArea(int* height, int heightSize){
+    int left = 0, right = heightSize-1;
+    int ans = 0, h = 0;
+    while (left < right) {
+        h = min(height[left], height[right]);
+        if (ans < h*(right-left)) {
+            ans = h*(right-left);
+        }
+        if (h == height[left]) {
+            left += 1;
+        } else {
+            right -= 1;
+        }
+    }
+    return ans;
+}
+```

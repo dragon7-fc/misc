@@ -71,3 +71,30 @@ class Solution:
         sec.next = first
         return sec
 ```
+
+**Solution 3: (Recursive, Linked List)**
+```
+Runtime: 0 ms
+Memory Usage: 5.8 MB
+```
+```c
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     struct ListNode *next;
+ * };
+ */
+
+struct ListNode* swapPairs(struct ListNode* head){
+    if (!head || !head->next)
+        return head;
+    struct ListNode *reverse_node, *prev, *cur;
+    reverse_node = swapPairs(head->next->next);
+    prev = head;
+    cur = prev->next;
+    cur->next = prev;
+    prev->next = reverse_node;
+    return cur;
+}
+```
