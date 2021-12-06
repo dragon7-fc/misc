@@ -193,3 +193,51 @@ public:
     }
 };
 ```
+
+**Solution 3: (Linked List)**
+```
+Runtime: 4 ms
+Memory Usage: 6.6 MB
+```
+```c
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     struct ListNode *next;
+ * };
+ */
+
+
+/**
+ * Note: The returned array must be malloced, assume caller calls free().
+ */
+struct ListNode** splitListToParts(struct ListNode* head, int k, int* returnSize){
+    struct ListNode *prev, *cur;
+    struct ListNode **ans = malloc(sizeof(struct ListNode *)*k);
+    int N = 0, DIV, MOD;
+    cur = head;
+    while (cur) {
+        N += 1;
+        cur = cur->next;
+    }
+    prev = NULL;
+    cur = head;
+    DIV = N/k, MOD = N%k;
+    for (int i = 0; i < k; i ++) {
+        ans[i] = cur;
+        for (int j = 0; j < DIV && cur; j ++) {
+            prev = cur;
+            cur = cur->next;
+        }
+        if (i < MOD && cur) {
+            prev = cur;
+            cur = cur->next;
+        }
+        if (prev)
+            prev->next = NULL;
+    }
+    *returnSize = k;
+    return ans;
+}
+```

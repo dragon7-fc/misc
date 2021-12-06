@@ -133,3 +133,36 @@ class Solution:
         second.next = second.next.next
         return dummy.next
 ```
+
+**Solution 2: (Two Pointers)**
+```
+Runtime: 0 ms
+Memory Usage: 5.9 MB
+```
+```c
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     struct ListNode *next;
+ * };
+ */
+
+
+struct ListNode* removeNthFromEnd(struct ListNode* head, int n){
+    struct ListNode *dummy, *first, *second;
+    dummy = malloc(sizeof(struct ListNode));
+    dummy->next = head;
+    first = second = dummy;
+    while (n >= 0) {
+        first = first->next;
+        n -= 1;
+    }
+    while (first) {
+        first = first->next;
+        second = second->next;
+    }
+    second->next = second->next->next;
+    return dummy->next;
+}
+```

@@ -61,3 +61,42 @@ class Solution:
                 tmp.next = cur
         return dummy.next
 ```
+
+**Solution 2: (Linked List)**
+```
+Runtime: 8 ms
+Memory Usage: 6.9 MB
+```
+```c
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     struct ListNode *next;
+ * };
+ */
+
+
+struct ListNode* insertionSortList(struct ListNode* head){
+    struct ListNode *dummy, *prev, *cur, *tmp;
+    dummy = malloc(sizeof(struct ListNode));
+    dummy->next = head;
+    prev = dummy;
+    while (prev->next && prev->next->next) {
+        if (prev->next->val <= prev->next->next->val) {
+            prev = prev->next;
+        } else {
+            cur = prev->next->next;
+            prev->next->next = cur->next;
+
+            // insert node
+            tmp = dummy;
+            while (tmp->next->val <= cur->val)
+                tmp = tmp->next;
+            cur->next = tmp->next;
+            tmp->next = cur;
+        }
+    }
+    return dummy->next;
+}
+```
