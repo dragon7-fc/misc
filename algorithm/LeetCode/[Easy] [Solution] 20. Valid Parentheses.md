@@ -243,3 +243,32 @@ class Solution:
         # The stack won't be empty for cases like ((()
         return not stack
 ```
+
+**Solution 2: (Stack)**
+```
+Runtime: 0 ms
+Memory Usage: 5.6 MB
+```
+```c
+bool isValid(char * s){
+    char *stack = malloc(strlen(s)*sizeof(char));
+    int cnt = 0, i = 0;
+    while (i < strlen(s)) {
+        if (s[i] == '(')
+            stack[cnt++] = ')';
+        else if (s[i] == '[')
+            stack[cnt++] = ']';
+        else if (s[i] == '{')
+            stack[cnt++] = '}';
+        else {
+            if (cnt > 0) {
+                if (s[i] != stack[--cnt])
+                    return false;
+            } else
+                return false;
+        }
+        i += 1;
+    }
+    return cnt == 0;
+}
+```

@@ -68,3 +68,29 @@ class Solution:
         count = collections.Counter(P)
         return sum(v*(v-1)//2 for v in count.values())
 ```
+
+**Solution 2: (Prefix Sums and Counting)**
+```
+Runtime: 40 ms
+Memory Usage: 8.8 MB
+```
+```c
+
+
+int subarraysDivByK(int* nums, int numsSize, int k){
+    int *cnt = calloc(1, k*sizeof(int));
+    cnt[0] = 1;
+    int cur = 0, ans = 0;
+    for (int i = 0; i < numsSize; i ++) {
+        cur = (cur + nums[i])%k;
+        if (cur < 0)
+            cur += k;
+        cnt[cur] += 1;
+    }
+    for (int i = 0; i < k; i++) {
+        if (cnt[i])
+            ans += cnt[i]*(cnt[i]-1) / 2;
+    }
+    return ans;
+}
+```

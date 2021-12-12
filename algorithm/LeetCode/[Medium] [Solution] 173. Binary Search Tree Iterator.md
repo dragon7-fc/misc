@@ -331,3 +331,65 @@ class BSTIterator:
 # param_1 = obj.next()
 # param_2 = obj.hasNext()
 ```
+
+**Solution 3: (Controlled Recursion)**
+```
+Runtime: 60 ms
+Memory Usage: 24.2 MB
+```
+```c
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     struct TreeNode *left;
+ *     struct TreeNode *right;
+ * };
+ */
+
+
+
+typedef struct {
+    struct TreeNode *stack[100000];
+    int top;
+} BSTIterator;
+
+void _leftmost_inorder(struct TreeNode *node, BSTIterator *iter) {
+    while (node) {
+        iter->stack[++iter->top] = node;
+        node = node->left;
+    }
+}
+
+BSTIterator* bSTIteratorCreate(struct TreeNode* root) {
+    BSTIterator *bstIterator = malloc(sizeof(BSTIterator));
+    bstIterator->top = -1;
+    _leftmost_inorder(root, bstIterator);
+    return bstIterator;
+}
+
+int bSTIteratorNext(BSTIterator* obj) {
+    struct TreeNode *node = obj->stack[obj->top--];
+    if (node->right)
+        _leftmost_inorder(node->right, obj);
+    return node->val;
+}
+
+bool bSTIteratorHasNext(BSTIterator* obj) {
+    return obj->top != -1;
+}
+
+void bSTIteratorFree(BSTIterator* obj) {
+    free(obj);
+}
+
+/**
+ * Your BSTIterator struct will be instantiated and called as such:
+ * BSTIterator* obj = bSTIteratorCreate(root);
+ * int param_1 = bSTIteratorNext(obj);
+ 
+ * bool param_2 = bSTIteratorHasNext(obj);
+ 
+ * bSTIteratorFree(obj);
+*/
+```

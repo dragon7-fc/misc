@@ -105,3 +105,29 @@ class Solution:
             stack.append(i)
         return ans
 ```
+
+**Solution 2: (Stack)**
+```
+Runtime: 524 ms
+Memory Usage: 53.3 MB
+```
+```c
+/**
+ * Note: The returned array must be malloced, assume caller calls free().
+ */
+int* dailyTemperatures(int* temperatures, int temperaturesSize, int* returnSize){
+    int *ans = calloc(1, temperaturesSize*sizeof(int));
+    int *stack = malloc(temperaturesSize*sizeof(int));
+    int sz = 0;
+    for (int i = temperaturesSize-1; i >= 0; i --) {
+        while (sz > 0 && temperatures[i] >= temperatures[stack[sz-1]])
+            sz -= 1;
+        ans[i] = (sz > 0 ? stack[sz-1] - i: 0);
+        stack[sz] = i;
+        sz += 1;
+    }
+    free(stack);
+    *returnSize = temperaturesSize;
+    return ans;
+}
+```

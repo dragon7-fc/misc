@@ -161,3 +161,30 @@ class Solution:
             
         return res
 ```
+
+**Solution 1: (Stack)**
+```
+Runtime: 161 ms
+Memory Usage: 16.5 MB
+```
+```c
+
+
+/**
+ * Note: The returned array must be malloced, assume caller calls free().
+ */
+int* nextGreaterElements(int* nums, int numsSize, int* returnSize){
+    int *ans = malloc(numsSize*sizeof(int));
+    int *stack = malloc(numsSize*sizeof(int));
+    int sz = 0;
+    for (int i = 2*numsSize - 1; i >= 0; i --){
+        while ((sz > 0) && (nums[stack[sz-1]] <= nums[i%numsSize]))
+            sz -= 1;
+        ans[i%numsSize] = (sz == 0 ? -1 : nums[stack[sz-1]]);
+        stack[sz] = i%numsSize;
+        sz += 1;
+    }
+    *returnSize = numsSize;
+    return ans;
+}
+```

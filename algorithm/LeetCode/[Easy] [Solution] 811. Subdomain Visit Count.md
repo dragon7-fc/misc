@@ -85,3 +85,83 @@ class Solution:
 
         return ["{} {}".format(ct, dom) for dom, ct in ans.items()]
 ```
+
+**Solution 2: (uthash)**
+```
+Runtime: 4 ms
+Memory Usage: 12.7 MB
+```
+```c
+#define STRLENTH 110
+
+typedef struct{
+    char domain[STRLENTH];
+    int count;
+    UT_hash_handle hh;
+}my_hash;
+
+void add_domain(my_hash **webs,char name[STRLENTH],int num)
+{
+    my_hash *s;
+    HASH_FIND_STR(*webs,name,s);
+    if (s!=NULL)
+    {
+        s->count+=num;
+    }
+    else
+    {
+        s=malloc(sizeof(my_hash));
+        s->count=num;
+        strcpy(s->domain,name);
+        HASH_ADD_STR(*webs,domain,s);
+    }
+} 
+
+/**
+ * Note: The returned array must be malloced, assume caller calls free().
+ */
+char ** subdomainVisits(char ** cpdomains, int cpdomainsSize, int* returnSize){
+    my_hash *webs=NULL;
+    my_hash *s,*tmp;
+    int i,j,l,c,d,num;
+    char cut[STRLENTH]="";
+    char **result;
+    for (i=0;i<cpdomainsSize;i++)
+    {
+        l=strlen(cpdomains[i]);
+        c=0;
+        j=0;
+        while (cpdomains[i][j]!='\0')
+        {
+            if ((cpdomains[i][j]==' ')&&(c==0))
+            {
+                c=j;
+                memcpy(cut,cpdomains[i],c);
+                num=atoi(cut);
+                d=j+1;
+                memcpy(cut,cpdomains[i]+d,l-d+1);
+                add_domain(&webs,cut,num);
+            }
+            if (cpdomains[i][j]=='.')
+            {
+                d=j+1;
+                memcpy(cut,cpdomains[i]+d,l-d+1);
+                add_domain(&webs,cut,num);
+            }
+            j++;
+        }
+    }
+    result=(char**)malloc(sizeof(char*)*cpdomainsSize*3);
+    for (i=0;i<cpdomainsSize*3;i++)
+        result[i]=(char*)malloc(sizeof(char)*STRLENTH);  
+    i=0;
+    HASH_ITER(hh,webs,s,tmp)
+    {
+        sprintf(cut,"%d %s",s->count,s->domain);
+        strcpy(result[i],cut);
+        i++;
+    }
+    *returnSize=i;
+    return result;
+}
+```

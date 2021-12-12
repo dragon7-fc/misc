@@ -247,3 +247,26 @@ public:
     }
 };
 ```
+
+**Solution 3: (Sliding Window)**
+```
+Runtime: 16 ms
+Memory Usage: 6 MB
+```
+```c
+
+
+int lengthOfLongestSubstring(char * s){
+    int window[128] = {0};
+    int left = 0, right = 0, index, ans = 0;
+    while (right < strlen(s)) {
+        index = window[s[right]]-1;
+        if (index >= left && index < right)
+            left = index + 1;
+        ans = (ans < right-left+1 ? right-left+1 : ans);
+        window[s[right]] = right+1;
+        right += 1;
+    }
+    return ans;
+}
+```

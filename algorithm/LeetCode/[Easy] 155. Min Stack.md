@@ -78,3 +78,69 @@ class MinStack(object):
 # param_3 = obj.top()
 # param_4 = obj.getMin()
 ```
+
+**Solution 2: (Stack)**
+```
+Runtime: 32 ms
+Memory Usage: 13.6 MB
+```
+```c
+
+
+
+typedef struct {
+    int *data;
+    int *min;
+    int top;
+} MinStack;
+
+
+MinStack* minStackCreate() {
+    MinStack *minStack = malloc(sizeof(MinStack));
+    minStack->data = malloc(30000);
+    minStack->min = malloc(30000);
+    minStack->top = 0;
+    return minStack;
+}
+
+void minStackPush(MinStack* obj, int val) {
+    obj->data[obj->top] = val;
+    if (obj->top == 0 || val < obj->min[obj->top-1])
+        obj->min[obj->top] = val;
+    else
+        obj->min[obj->top] = obj->min[obj->top-1];
+    obj->top += 1;
+}
+
+void minStackPop(MinStack* obj) {
+   obj->top -= 1;
+}
+
+int minStackTop(MinStack* obj) {
+    return obj->data[obj->top-1];
+}
+
+int minStackGetMin(MinStack* obj) {
+    return obj->min[obj->top-1];
+}
+
+void minStackFree(MinStack* obj) {
+    free(obj->data);
+    free(obj->min);
+    free(obj);
+}
+
+/**
+ * Your MinStack struct will be instantiated and called as such:
+ * MinStack* obj = minStackCreate();
+ * minStackPush(obj, val);
+ 
+ * minStackPop(obj);
+ 
+ * int param_3 = minStackTop(obj);
+ 
+ * int param_4 = minStackGetMin(obj);
+ 
+ * minStackFree(obj);
+*/
+```

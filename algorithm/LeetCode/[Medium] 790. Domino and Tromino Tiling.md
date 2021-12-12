@@ -66,7 +66,7 @@ class Solution:
         return dp[N-1][0] % MOD 
 ```
 
-**Solution 1: (DP Bottom-Up)**
+**Solution 2: (DP Bottom-Up)**
 
 Tiles can end at column `i` with one of the three ending states:
 
@@ -104,4 +104,25 @@ class Solution:
             B[i] = (C[i-1] + (A[i-2] if i >=2 else 0)) % MOD
             C[i] = (B[i-1] + (A[i-2] if i >=2 else 0)) % MOD
         return A[-1]
+```
+
+**Solution 3: (DP Bottom-Up)**
+```
+Runtime: 0 ms
+Memory Usage: 5.7 MB
+```
+```c
+
+
+int numTilings(int n){
+    if(n <= 1) return 1;
+    int modulo = 1e9 + 7;
+    long dp[n + 1];
+    dp[0] = 1;
+    dp[1] = 1;
+    dp[2] = 2;
+    for(int i = 3; i <= n; i++)
+        dp[i] = (dp[i - 1] * 2 + dp[i - 3]) % modulo;
+    return dp[n];
+}
 ```

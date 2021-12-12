@@ -98,3 +98,40 @@ class Solution:
 
         return sum(stack)
 ```
+
+**Solution 2: (Stack)**
+```
+Runtime: 4 ms
+Memory Usage: 6.4 MB
+```
+```c
+
+
+int calPoints(char ** ops, int opsSize){
+    int* stack = (int*) malloc(sizeof(int) * opsSize);
+    if (!stack) {
+        exit(1);
+    }
+    int sp = -1, tmp = 0, sum = 0, i = 0;
+    for (i = 0; i < opsSize; i++) {
+        if (**(ops+i) == 'C') {
+            if (sp > -1) {
+                sum -= stack[sp];
+                sp--;
+            }
+            continue;
+        } else if (**(ops+i) == 'D') {
+            tmp = 2*stack[sp];
+            stack[++sp] = tmp;
+        } else if (**(ops+i) == '+') {
+            tmp = stack[sp] + stack[sp - 1];
+            stack[++sp] = tmp;
+        } else {
+            stack[++sp] = atoi(*(ops+i));
+        }
+        sum += stack[sp];
+    }
+    free(stack);
+    return sum;
+}
+```

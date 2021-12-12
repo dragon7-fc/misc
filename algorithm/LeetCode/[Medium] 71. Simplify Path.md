@@ -70,3 +70,40 @@ class Solution:
                 
         return "/"+"/".join(stack)
 ```
+
+**Solution 2: (Stack)**
+```
+Runtime: 4 ms
+Memory Usage: 8.9 MB
+```
+```c
+
+
+char * simplifyPath(char * path){
+    int size = 0, save[1024];
+    char* token = strtok(path,"/");
+    char **temp = (char**)malloc(sizeof(char*) * 1024);
+    char *result = (char*)malloc(sizeof(char) * 1024);
+    while(token != NULL){
+        temp[size] = (char*)malloc(sizeof(char) * strlen(token) + 1);
+        strcpy(temp[size], token);
+        size++;
+        token = strtok(NULL, "/");
+    }
+    int idx = 0;
+    for(int i = 0; i < size; i++){
+        if (idx < 0) idx = 0;
+        if (idx >= 0) save[idx] = i;
+        if(temp[i][0] == '.' && temp[i][1] == '.' && temp[i][2] == '\0') idx--;
+        else if(temp[i][0] == '.' && temp[i][1] == '\0');
+        else idx++;
+    }
+    result[0] = '\0';
+    for(int i = 0; i < idx; i++){
+        strcat(result, "/");
+        strcat(result, temp[save[i]]);
+    }
+    if(result[0] == '\0') strcat(result, "/");
+    return result;
+}
+```

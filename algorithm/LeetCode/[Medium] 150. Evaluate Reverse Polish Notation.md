@@ -64,3 +64,34 @@ class Solution:
         
         return stack.pop()
 ```
+
+**Solution 22 (Stack)**
+```
+Runtime: 8 ms
+Memory Usage: 7.5 MB
+```
+```c
+
+
+int evalRPN(char ** tokens, int tokensSize){
+    int stack[10000];
+    int size = 0;
+    for (int i = 0; i < tokensSize; i ++) {
+        if (strcmp(tokens[i], "+") && strcmp(tokens[i], "-") && strcmp(tokens[i], "*") && strcmp(tokens[i], "/")) {
+            stack[size] = atoi(tokens[i]);
+            size += 1;
+        } else {
+            if (strcmp(tokens[i], "+") == 0)
+                stack[size-2] += stack[size-1];
+            else if (strcmp(tokens[i], "-") == 0)
+                stack[size-2] -= stack[size-1];
+            else if (strcmp(tokens[i], "*") == 0)
+                stack[size-2] *= stack[size-1];
+            else
+                stack[size-2] /= stack[size-1];
+            size -= 1;
+        }
+    }
+    return stack[0];
+}
+```

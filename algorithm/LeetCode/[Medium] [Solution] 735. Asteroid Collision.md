@@ -107,3 +107,40 @@ class Solution:
                 ans.append(new)
         return ans
 ```
+
+**Solution 2: (Stack)**
+```
+Runtime: 8 ms
+Memory Usage: 8.2 MB
+```
+```c
+
+
+/**
+ * Note: The returned array must be malloced, assume caller calls free().
+ */
+int* asteroidCollision(int* asteroids, int asteroidsSize, int* returnSize){
+    int *stack = calloc(1, 1001*sizeof(int));
+    int top = 0;
+    
+    for(int i = 0; i < asteroidsSize; i++)
+    {
+        int num = asteroids[i];
+        if(top == 0 || !(num < 0 && stack[top - 1] > 0))
+            stack[top++] = num;
+        else
+        {
+            while(top > 0 && (stack[top - 1] > 0 && num < 0) && abs(stack[top - 1]) < abs(num))    
+                stack[--top] = 0;              
+            
+            if(top == 0 || stack[top - 1] < 0)
+                stack[top++] = num;
+            else if(top > 0 && stack[top - 1] == abs(num))
+                stack[--top] = 0;
+        }
+    }
+    
+    *returnSize = top;
+    return stack;
+}
+```

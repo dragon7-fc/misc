@@ -67,3 +67,43 @@ class Solution:
         
         return res
 ```
+**Solution 2: (Stack, Linked List)**
+```
+Runtime: 258 ms
+Memory Usage: 32 MB
+```
+```c
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     struct ListNode *next;
+ * };
+ */
+
+
+/**
+ * Note: The returned array must be malloced, assume caller calls free().
+ */
+int* nextLargerNodes(struct ListNode* head, int* returnSize){
+    int *ans;
+    int stack[10000];
+    int i = 0, top;
+    while (head) {
+        stack[i] = head->val;
+        head = head->next;
+        i += 1;
+    }
+    top = i;
+    ans = malloc(i*sizeof(int));
+    for (int j = i-1; j >= 0; j--) {
+        while (top != i && stack[j] >= stack[top])
+            top += 1;
+        ans[j] = (top == i ? 0 : stack[top]);
+        top -= 1;
+        stack[top] = stack[j];
+    }
+    *returnSize = i;
+    return ans;
+}
+```

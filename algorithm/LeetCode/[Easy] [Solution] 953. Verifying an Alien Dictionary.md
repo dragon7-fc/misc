@@ -92,3 +92,41 @@ class Solution:
     def isAlienSorted(self, words: List[str], order: str) -> bool:
         return words == sorted(words, key= lambda word: [order.index(c) for c in word])
 ```
+
+**Solution 2: (Hash Table)**
+```
+Runtime: 0 ms
+Memory Usage: 6.2 MB
+```
+```c
+#define MIN(l1,l2) ((l1 < l2) ? l1 : l2)
+#define IDX(c)     (((int)c) - (int)'a')
+
+bool isAlienSorted(char ** words, int wordsSize, char * order){
+    int i = 0, j = 0;
+    int ord[26];
+    int l1 = 0, l2 = 0, l_min = 0;
+    
+    for (i = 0; i < 26; i++) {
+        ord[IDX(order[i])] = i;
+    }
+    
+    for (i = 0; i < wordsSize - 1; i++) {
+        l1 = strlen(words[i]);
+        l2 = strlen(words[i+1]);
+        l_min = MIN(l1,l2);
+        for (j = 0; j < l_min; j++) {
+            if (ord[IDX(words[i][j])] > ord[IDX(words[i+1][j])]) {
+                return false;
+            } else if  (ord[IDX(words[i][j])] < ord[IDX(words[i+1][j])]) {
+                break;
+            }
+        }
+        if ((j == l_min) && (l1 > l2)) {
+            return false;
+        }
+    }
+    
+    return true;
+}
+```

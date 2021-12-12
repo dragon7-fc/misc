@@ -91,3 +91,50 @@ class Solution:
             
         return ans
 ```
+
+**Solution 3: (DP Bottom-Up)**
+```
+Runtime: 20 ms
+Memory Usage: 7.6 MB
+```
+```c
+int maximalRectangle(char** matrix, int matrixSize, int* matrixColSize){
+    if(matrixSize == 0 || *matrixColSize == 0)
+        return 0;
+    int height[*matrixColSize], left[*matrixColSize], right[*matrixColSize], result = 0;
+    for(int i = 0; i < *matrixColSize; i++)
+    {
+        height[i] = 0;
+        left[i] = 0;
+        right[i] = *matrixColSize;
+    }
+    
+    for(int i = 0; i< matrixSize; i++)
+    {
+        int curL = 0, curR = *matrixColSize;
+        for(int j = 0; j < *matrixColSize; j++)
+            if(matrix[i][j] == '1')
+            {
+                height[j]++;
+                left[j] = left[j] > curL ? left[j] : curL;
+            }
+            else
+            {
+                height[j] = 0;
+                left[j] = 0;
+                curL = j + 1;
+            }
+        for(int j = *matrixColSize - 1; j >= 0; j--)
+            if(matrix[i][j] == '1')
+                right[j] = right[j] < curR ? right[j] : curR;
+            else
+            {
+                right[j] = *matrixColSize;
+                curR = j;
+            }
+        for(int j = 0; j < *matrixColSize; j++)
+            result = result > (right[j] - left[j]) * height[j] ? result : (right[j] - left[j]) * height[j];
+    }        
+    return result;  
+}
+```

@@ -22,7 +22,7 @@ Note:
 
 # Sobmissions
 ---
-**Solution 1: (Hash Table, Linked List)**
+**Solution 1: (Hash Table, Linked List, address as key)**
 ```
 Runtime: 44 ms
 Memory Usage: 16.3 MB
@@ -111,4 +111,65 @@ public:
         return newHead;
     }
 };
+```
+
+**Solution3: (Linked List)**
+```
+Runtime: 15 ms
+Memory Usage: 8.4 MB
+```
+```c
+/**
+ * Definition for a Node.
+ * struct Node {
+ *     int val;
+ *     struct Node *next;
+ *     struct Node *random;
+ * };
+ */
+
+struct Node *newNode(){
+    struct Node *new = (struct Node *)malloc(sizeof(struct Node));
+    new->next=NULL;
+    new->random=NULL;
+    
+    return new;
+}
+
+struct Node* copyRandomList(struct Node* head) {
+    if(!head) return NULL;
+    
+    struct Node *aux;
+    struct Node *curr = head;
+    struct Node *copy;
+    
+    //copy each node
+    while(curr){
+        aux = newNode();
+        aux->val = curr->val;
+        aux->next = curr->next;
+        curr->next = aux;
+        curr = aux->next;
+    }
+
+    curr = head;
+    copy = head->next;
+    
+    //set random pointer
+    while(curr){
+        curr->next->random = (curr->random == NULL ? NULL : curr->random->next);
+        curr = curr->next->next;
+    }
+    
+    curr = head;
+    
+    //fix next pointer
+    while(curr->next){
+        aux = curr->next;
+        curr->next = curr->next->next;
+        curr = aux;
+    }
+    
+    return copy;
+}
 ```

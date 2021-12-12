@@ -167,3 +167,266 @@ public:
  * int param_2 = obj->pop();
  */
 ```
+
+**Solution 3: (Hash Table, Priority Queue)**
+```
+Runtime: 244 ms
+Memory Usage: 64.1 MB
+```
+```c
+#define MAP_SIZE 10001
+
+typedef struct mapNode
+{
+	int key;
+	int val;
+	struct mapNode *next;
+} mapNode;
+
+typedef struct hashMap
+{
+	int size;
+	struct mapNode **list;
+} hashMap;
+
+hashMap *createMap(int size)
+{
+	struct hashMap *map = malloc(sizeof(hashMap));
+	map->size = size;
+	map->list = malloc(sizeof(mapNode *) * size);
+
+	for (int i = 0; i < size; i++)
+		map->list[i] = NULL;
+
+	return map;
+}
+
+int hashCode(hashMap *map, int key)
+{
+	if (key < 0)
+		return -(key % map->size);
+
+	return key % map->size;
+}
+
+void put(hashMap *map, int key, int val)
+{
+	int pos = hashCode(map, key);
+	mapNode *list = map->list[pos];
+	mapNode *newNode = malloc(sizeof(mapNode));
+	mapNode *temp = list;
+
+	while (temp)
+	{
+		if (temp->key == key)
+		{
+			temp->val = val;
+			return;
+		}
+
+		temp = temp->next;
+	}
+
+	newNode->key = key;
+	newNode->val = val;
+	newNode->next = list;
+	map->list[pos] = newNode;
+}
+
+int get(hashMap *map, int key)
+{
+	int pos = hashCode(map, key);
+	mapNode *list = map->list[pos];
+	mapNode *temp = list;
+
+	while (temp)
+	{
+		if (temp->key == key)
+			return temp->val;
+
+		temp = temp->next;
+	}
+
+	return 0;
+}
+
+void freeMap(hashMap *map)
+{
+	for (int i = 0; i < map->size; i++)
+		free(map->list[i]);
+
+	free(map->list);
+	free(map);
+}
+
+typedef int(*compare)(const void *element1, const void *element2);
+
+typedef struct PQ
+{
+	int capacity;
+	int n;
+	void **array;
+	compare cmp;
+} PQ;
+
+static const int initialSize = 16;
+
+static void swap(PQ *pq, int index1, int index2)
+{
+	void *tmp = pq->array[index1];
+	pq->array[index1] = pq->array[index2];
+	pq->array[index2] = tmp;
+}
+
+static void rise(PQ *pq, int k) 
+{
+	while (k > 1 && pq->cmp(pq->array[k / 2], pq->array[k]) < 0)
+	{
+		swap(pq, k, k / 2);
+		k = k / 2;
+	}
+}
+
+static void fall(PQ *pq, int k) 
+{
+	while (2 * k <= pq->n) 
+	{
+		int child = 2 * k;
+		if (child < pq->n && pq->cmp(pq->array[child], pq->array[child + 1]) < 0) 
+			child++;
+
+		if (pq->cmp(pq->array[k], pq->array[child]) < 0) 
+			swap(pq, k, child);
+
+		k = child;
+	}
+}
+
+static void **arrayResize(void **array, int newlength) 
+{
+	return realloc(array, newlength * sizeof(void *));
+}
+
+PQ *pqInit(int(*compare)(const void *element1, const void *element2)) 
+{
+	PQ *pq = malloc(sizeof(PQ));
+	pq->array = NULL;
+	pq->capacity = 0;
+	pq->n = 0;
+	pq->cmp = compare;
+
+	return pq;
+}
+
+void pqInsert(PQ *pq, void *el)
+{
+
+	if (pq->capacity == 0) 
+	{
+		pq->capacity = initialSize;
+		pq->array = arrayResize(pq->array, pq->capacity + 1);
+	}
+	else if (pq->n == pq->capacity)
+	{
+		pq->capacity *= 2;
+		pq->array = arrayResize(pq->array, pq->capacity + 1);
+	}
+
+	pq->array[++pq->n] = el;
+	rise(pq, pq->n);
+}
+
+void *pqPop(PQ *pq) 
+{
+	if (pq->capacity > initialSize && pq->n < pq->capacity / 4)
+	{
+		pq->capacity /= 2;
+		pq->array = arrayResize(pq->array, pq->capacity + 1);
+	}
+
+	void *el = pq->array[1];
+	swap(pq, 1, pq->n--);
+	pq->array[pq->n + 1] = NULL; 
+	fall(pq, 1);
+
+	return el;
+}
+
+void pqFree(PQ *pq) 
+{
+	free(pq->array);
+	free(pq);
+}
+
+typedef struct 
+{
+	int val;
+	int idx;
+	int cnt;
+} pqNode;
+
+pqNode *addPQNode(int x, int idx, int cnt)
+{
+	pqNode *n = calloc(1, sizeof(pqNode));
+	n->val = x;
+	n->idx = idx;
+	n->cnt = cnt;
+
+	return n;
+}
+
+int comp(const void *a, const void *b) 
+{
+	const pqNode *node1 = a;
+	const pqNode *node2 = b;
+	if (node2->cnt == node1->cnt)
+		return node1->idx - node2->idx;
+
+	return node1->cnt - node2->cnt;
+}
+
+
+typedef struct {
+    PQ *pq;
+	hashMap *map;
+	int index;
+} FreqStack;
+
+
+FreqStack* freqStackCreate() {
+    FreqStack *obj = calloc(1, sizeof(FreqStack));
+	obj->index = 1;
+	obj->pq = pqInit(comp);
+	obj->map = createMap(MAP_SIZE);
+
+	return obj;
+}
+
+void freqStackPush(FreqStack* obj, int val) {
+    put(obj->map, val, get(obj->map, val) + 1);
+	pqInsert(obj->pq, addPQNode(val, obj->index++, get(obj->map, val)));
+}
+
+int freqStackPop(FreqStack* obj) {
+    pqNode *top = pqPop(obj->pq);
+	put(obj->map, top->val, get(obj->map, top->val) - 1);
+
+	return top->val;
+}
+
+void freqStackFree(FreqStack* obj) {
+    freeMap(obj->map);
+	pqFree(obj->pq);
+	free(obj);
+}
+
+/**
+ * Your FreqStack struct will be instantiated and called as such:
+ * FreqStack* obj = freqStackCreate();
+ * freqStackPush(obj, val);
+ 
+ * int param_2 = freqStackPop(obj);
+ 
+ * freqStackFree(obj);
+*/
+```

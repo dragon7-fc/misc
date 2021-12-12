@@ -194,3 +194,46 @@ class Solution:
 
         return lo % MOD
 ```
+
+**Solution 3: (Binary Search)**
+```
+Runtime: 0 ms
+Memory Usage: 5.4 MB
+```
+```c
+uint64_t max(uint64_t a, uint64_t b, uint64_t c)
+{
+    return a > b ? (c > a ? c : a) : (c > b ? c : b);
+}
+
+int gcd(int a, int b)
+{
+     return b == 0 ? a : gcd(b, a % b);
+}
+
+int nthMagicalNumber(int n, int a, int b){
+    uint64_t upper = (a > b) ? (uint64_t)n * b : (uint64_t)n * a;
+    uint64_t lower = 2;
+    uint64_t lcm = a * b / gcd(a, b);
+
+    uint64_t mid = (upper + lower) / 2;
+    while (upper > lower)
+    {
+        int k = mid / a + mid / b - mid / lcm;
+        if (k > n)
+        {
+            upper = mid;
+            mid = (upper + lower) / 2;
+        }
+        if (k < n)
+        {
+            lower = mid;
+            mid = (upper + lower + 1) / 2;
+        }
+        if (k == n)
+            break;
+    }
+
+    return max(mid - mid % a, mid - mid % b, mid - mid % lcm) % 1000000007;
+}
+```

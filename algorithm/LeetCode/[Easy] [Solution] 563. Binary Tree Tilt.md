@@ -115,3 +115,34 @@ class Solution:
         dfs(root)
         return self.ans
 ```
+
+**Solution 2: (DFS)**
+```
+Runtime: 21 ms
+Memory Usage: 10 MB
+```
+```c
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     struct TreeNode *left;
+ *     struct TreeNode *right;
+ * };
+ */
+int dfs(struct TreeNode* node, int *rst) {
+    if (!node) {
+        return 0;
+    }
+    int left = dfs(node->left, rst);
+    int right = dfs(node->right, rst);
+    *rst += abs(left-right);
+    return node->val + left + right; 
+}
+
+int findTilt(struct TreeNode* root){
+    int ans = 0;
+    dfs(root, &ans);
+    return ans;
+}
+```

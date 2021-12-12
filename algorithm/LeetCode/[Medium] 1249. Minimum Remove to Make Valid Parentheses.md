@@ -72,3 +72,98 @@ class Solution:
         return ''.join(s)
         
 ```
+
+**Solution 2: (Stack)**
+```
+Runtime: 12 ms
+Memory Usage: 8 MB
+```
+```c
+
+#define STACK_SIZE_MAX 100000
+char * minRemoveToMakeValid(char * s){
+    int stack[STACK_SIZE_MAX];
+    int stackSize = 0;
+    
+    for (int i = 0; s[i] != '\0'; i++)
+    {
+        if (s[i] == '(')
+        {
+            // printf("Pt 1: s[%d] = %c, stackSize = %d\n", i, s[i], stackSize);
+            stack[stackSize++] = i;
+        }
+        else if (s[i] == ')')
+        {
+            if (stackSize == 0 || s[stack[stackSize-1]] != '(')
+            {
+                // printf("Pt 2: s[%d] = %c, stackSize = %d\n", i, s[i], stackSize);
+                stack[stackSize++] = i;
+            }
+            else // stackSize != 0 && stack[stackSize-1] == '('
+            {
+                // printf("Pt 3: s[%d] = %c, stackSize = %d\n", i, s[i], stackSize);
+                stackSize--;
+            }
+        }
+    }
+    
+    char* ans = malloc(sizeof(char) * (strlen(s) - stackSize + 1));
+    for (int i = 0; i < stackSize; i++)
+    {
+        // printf("s[%d] = %c\n", stack[i], s[stack[i]]);
+        s[stack[i]] = '-';
+    }
+    
+    int j = 0; // write pointer
+    for (int i = 0; s[i] != '\0'; i++)
+    {
+        if (s[i] != '-')
+        {
+            ans[j++] = s[i];
+        }
+    }
+    ans[j] = '\0';
+    
+    return ans;
+}
+```
+
+**Solution 3: (Two Pointers)**
+```
+Runtime: 19 ms
+Memory Usage: 7.1 MB
+```
+```c
+#define DELETE 'X'
+char * minRemoveToMakeValid(char * s){
+    int i, j;
+    int level = 0;
+    for(i=0;s[i];++i) {
+        if (s[i] == '(') {
+            ++level;
+        } else if (s[i] == ')') {
+            (level == 0) ?  s[i] = DELETE : --level;
+        }
+    }
+    level = 0;
+    for(i=i-1;i>=0;--i) {
+        if (s[i] == ')') {
+            --level;
+        } else if (s[i] == '(') {
+            (level == 0) ?  s[i] = DELETE : ++level;
+        }
+    }
+    for(i=j=0;s[i];++i) {
+        if(s[i]==DELETE) {
+            continue;
+        }
+        if (i!=j) {
+            s[j]=s[i];
+        }
+        ++j;
+    }
+    s[j] = 0;
+    
+    return s;
+}
+```

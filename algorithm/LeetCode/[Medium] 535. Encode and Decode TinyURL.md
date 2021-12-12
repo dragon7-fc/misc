@@ -78,3 +78,41 @@ class Codec:
 # codec = Codec()
 # codec.decode(codec.encode(url))
 ```
+
+**Solution 3: (Hash Table)**
+```
+Runtime: 3 ms
+Memory Usage: 6 MB
+```
+```c
+void strcopy(char* src, char* dest){
+    int i;
+    for(i=0;src[i];i++){
+        dest[i]=src[i];
+    }
+    dest[i]=src[i];
+}
+char lUrl[10000];
+char base62[65]= "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+
+/** Encodes a URL to a shortened URL. */
+char* encode(char* longUrl) {
+    int i;
+    char* s = (char*)malloc(sizeof(char)*10);
+    for(i=0;i<=7;i++){
+        s[i]=base62[longUrl[i]%62];
+    }
+    s[i]='\0';
+    strcopy(longUrl,lUrl);
+    return s;
+}
+
+/** Decodes a shortened URL to its original URL. */
+char* decode(char* shortUrl) {
+    return lUrl;
+}
+
+// Your functions will be called as such:
+// char* s = encode(s);
+// decode(s);
+```

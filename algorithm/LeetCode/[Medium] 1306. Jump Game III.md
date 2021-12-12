@@ -88,7 +88,7 @@ class Solution:
         return False
 ```
 
-**Solution 1: (BFS, Graph)**
+**Solution 3: (BFS, Graph)**
 ```
 Runtime: 244 ms
 Memory Usage: 19.2 MB
@@ -110,4 +110,31 @@ class Solution:
                     q.append(x)
 
         return False
+```
+
+**Solution 4: (Depth-First Search)**
+```
+Runtime: 36 ms
+Memory Usage: 18.8 MB
+```
+```c
+
+bool dfs(int *arr, int arrSize, bool* seen, int i) {
+    if (!seen[i]) {
+        if (arr[i] == 0)
+            return true;
+        seen[i] = true;
+        int ni[] = {i+arr[i], i-arr[i]};
+        for (int j = 0; j < sizeof(ni)/sizeof(int); j ++)
+            if (ni[j] >= 0 && ni[j] < arrSize)
+                if (dfs(arr, arrSize, seen, ni[j]))
+                    return true;
+    }
+    return false;
+}
+
+bool canReach(int* arr, int arrSize, int start){
+    bool *visited = calloc(1, arrSize*sizeof(bool));
+    return dfs(arr, arrSize, visited, start);
+}
 ```
