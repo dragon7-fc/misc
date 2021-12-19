@@ -279,3 +279,31 @@ class Solution:
 
         return dp(0, True, False) - 1
 ```
+
+**Solution 5: (DP Bottom-Up)**
+```
+Runtime: 0 ms
+Memory Usage: 6 MB
+```
+```c
+
+
+int atMostNGivenDigitSet(char ** digits, int digitsSize, int n){
+    char S[11] = {0};
+    sprintf(S, "%d", n);
+    int K = strlen(S);
+    int* dp = calloc(1, (K+1)*sizeof(int));
+    dp[K] = 1;
+    for (int i = K-1; i >= 0; i--) {
+        for (int j = 0; j < digitsSize; j ++) {
+            if (digits[j][0] < S[i])
+                dp[i] += pow(digitsSize, K-i-1);
+            if (digits[j][0] == S[i])
+                dp[i] += dp[i+1];
+        }
+    }
+    for (int i = 1; i < K; i ++)
+        dp[0] += pow(digitsSize, i);
+    return dp[0];
+}
+```

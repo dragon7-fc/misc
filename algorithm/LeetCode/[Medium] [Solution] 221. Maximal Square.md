@@ -311,3 +311,29 @@ class Solution:
         
         return dp(0,0)[1]**2
 ```
+
+**Solution 6: (DP Bottom-Up)**
+```
+Runtime: 16 ms
+Memory Usage: 8.2 MB
+```
+```c
+
+#define min(a, b)  (a < b ? a : b)
+#define max(a, b)  (a > b ? a : b)
+int maximalSquare(char** matrix, int matrixSize, int* matrixColSize){
+    int max_len = 0;
+    int **dp = malloc((matrixSize+1)*sizeof(int *));
+    for (int i = 0; i < (matrixSize+1); i ++)
+        dp[i] = calloc(1, ((*matrixColSize)+1)*sizeof(int));
+    for (int i = 0; i < matrixSize; i ++) {
+        for (int j = 0; j < *matrixColSize; j ++) {
+            if (matrix[i][j] == '1') {
+                dp[i+1][j+1] = min(min(dp[i][j], dp[i][j+1]), dp[i+1][j]) + 1;
+                max_len = max(max_len, dp[i+1][j+1]);
+            }
+        }
+    }
+    return max_len*max_len;
+}
+```

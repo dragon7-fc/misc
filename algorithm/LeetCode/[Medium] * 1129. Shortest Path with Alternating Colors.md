@@ -78,3 +78,105 @@ class Solution:
                         queue.append((nei, nei_color, depth+1))
         return ans
 ```
+
+**Solution 2: (BFS)**
+```
+Runtime: 16 ms
+Memory Usage: 11.5 MB
+```
+```c
+
+
+/**
+ * Note: The returned array must be malloced, assume caller calls free().
+ */
+int* shortestAlternatingPaths(int n, int** redEdges, int redEdgesSize, int* redEdgesColSize, int** blueEdges, int blueEdgesSize, int* blueEdgesColSize, int* returnSize){
+    int i, step, size;
+    int *answer;
+    int **red_table, **blue_table;
+	bool visited[n][2];
+	int queue[800][2], current[2];
+	int front = 0, rear = 0;
+
+    answer = (int*)malloc(sizeof(int)*n);
+    for(i=0; i<n; i++)
+        answer[i] = -1;
+
+	//Construct the two color visited table
+	for(i=0; i<n; i++) {
+		visited[i][0] = false;
+		visited[i][1] = false;
+	}
+
+	//===============================================
+	//Set up the red and blue table
+    red_table = (int**)malloc(sizeof(int*)*n);
+    for(i=0; i<n; i++) {
+        red_table[i] = (int*)malloc(sizeof(int)*n);
+        memset(red_table[i], 0x0, sizeof(int)*n);
+    }
+
+    blue_table = (int**)malloc(sizeof(int*)*n);
+    for(i=0; i<n; i++) {
+        blue_table[i] = (int*)malloc(sizeof(int)*n);
+        memset(blue_table[i], 0x0, sizeof(int)*n);
+    }
+
+    for(i=0; i<redEdgesSize; i++)
+        red_table[redEdges[i][0]][redEdges[i][1]] = 1;
+
+    for(i=0; i<blueEdgesSize; i++)
+        blue_table[blueEdges[i][0]][blueEdges[i][1]] = 1;
+	//===============================================
+
+	step = 0;
+	// Index 2 record the next one should find on red or blue edges
+	// 0: means next to find in red
+	// 1: means next to find in blue
+	queue[0][0] = 0;
+	queue[0][1] = 0;
+	front++;
+	queue[1][0] = 0;
+	queue[1][1] = 1;
+	front++;
+	while(front != rear)
+	{
+		size = front - rear;
+		while(size-- > 0)
+		{
+			current[0] = queue[rear][0];
+			current[1] = queue[rear][1];
+			rear++;
+
+			if(visited[current[0]][current[1]])
+				continue;
+			visited[current[0]][current[1]] = true;
+
+			if(answer[current[0]] == -1)
+				answer[current[0]] = step;
+
+			if(current[1] == 0) {
+				for(i=0; i<n; i++) {
+					if(red_table[current[0]][i] != 0) {
+						queue[front][0] = i;
+						queue[front][1] = 1;
+						front++;
+					}
+				}
+			} else {
+				for(i=0; i<n; i++) {
+					if(blue_table[current[0]][i] != 0) {
+						queue[front][0] = i;
+						queue[front][1] = 0;
+						front++;
+					}
+				}
+			}
+		}
+		step++;
+	}
+
+    *returnSize = n;
+    return answer;
+}
+```

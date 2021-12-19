@@ -107,3 +107,28 @@ class Solution:
         
         return len(seen)== len(rooms)
 ```
+
+**Solution 2: (DFS)**
+```
+Runtime: 8 ms
+Memory Usage: 6.5 MB
+```
+```c
+void dfs(int i, bool* seen, int **rooms, int *roomsColSize) {
+    seen[i] = true;
+    for (int j = 0; j < roomsColSize[i]; j ++) {
+        if (!seen[rooms[i][j]])
+            dfs(rooms[i][j], seen, rooms, roomsColSize); 
+    }
+}
+
+bool canVisitAllRooms(int** rooms, int roomsSize, int* roomsColSize){
+    bool *seen = calloc(1, roomsSize*sizeof(bool));
+    dfs(0, seen, rooms, roomsColSize);
+    for (int i = 0; i < roomsSize; i ++) {
+        if (!seen[i])
+            return false;
+    }
+    return true;
+}
+```

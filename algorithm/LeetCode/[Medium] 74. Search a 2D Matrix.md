@@ -123,3 +123,42 @@ class Solution:
         else:
             return False
 ```
+
+**Solution 4: (Binary Search)**
+```
+Runtime: 0 ms
+Memory Usage: 6.5 MB
+```
+```c
+bool searchMatrix(int** matrix, int matrixSize, int* matrixColSize, int target){
+    if (matrixSize == 0 || matrixColSize[0] == 0)
+        return false;
+    int i = 0, j = matrixSize - 1;
+    int middle;
+    while (i < j){
+        middle = (i + j) / 2 + 1;
+        if (matrix[middle][0] == target)
+            return true;
+        else if (matrix[middle][0] < target)
+            i = middle;
+        else
+            j = middle - 1;
+    }
+    if (matrix[j][0] == target)
+        return true;
+    if (target < matrix[j][0])
+        return false;
+    int row = j;
+    i = 0, j = matrixColSize[row] - 1;
+    while (i <= j){
+        middle = (i + j) / 2;
+        if (matrix[row][middle] == target)
+            return true;
+        else if (matrix[row][middle] < target)
+            i = middle + 1;
+        else
+            j = middle - 1;
+    }
+    return false;
+}
+```

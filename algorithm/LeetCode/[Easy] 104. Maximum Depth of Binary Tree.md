@@ -102,3 +102,29 @@ class Solution:
             
         return depth
 ```
+
+**Solution 4: (DFS)**
+```
+Runtime: 4 ms
+Memory Usage: 8 MB
+```
+```c
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     struct TreeNode *left;
+ *     struct TreeNode *right;
+ * };
+ */
+
+
+int maxDepth(struct TreeNode* root){
+    if (!root)
+        return 0;
+    int left, right;
+    left = maxDepth(root->left);
+    right = maxDepth(root->right);
+    return 1 + (left > right ? left : right);
+}
+```

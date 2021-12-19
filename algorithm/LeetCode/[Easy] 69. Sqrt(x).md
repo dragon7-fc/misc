@@ -56,3 +56,26 @@ class Solution:
                 return mid
         return right
 ```
+
+**Solution 3: (Binary Search)**
+```
+Runtime: 0 ms
+Memory Usage: 5.7 MB
+```
+```c
+int mySqrt(int x){
+    if (x <= 1)
+        return x;
+    long left = 0, right = x, mid;
+    while (left <= right) {
+        mid = (left+right)/2;
+        if (mid*mid == x)
+            return mid;
+        else if (mid*mid > x)
+            right = mid-1;
+        else
+            left = mid+1;
+    }
+    return right;
+}
+```

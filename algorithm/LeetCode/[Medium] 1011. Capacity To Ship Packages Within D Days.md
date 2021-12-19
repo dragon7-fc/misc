@@ -79,3 +79,38 @@ class Solution:
                 hi = mi
         return lo
 ```
+
+**Solution 2: (Binary Search)**
+```
+Runtime: 40 ms
+Memory Usage: 8.8 MB
+```
+```c
+bool possible(int k, int *weights, int weightsSize, int days) {
+    int cur = k, acc = 1;
+    for (int i = 0; i < weightsSize; i ++) {
+        cur -= weights[i];
+        if (cur < 0) {
+            cur = k-weights[i];
+            acc += 1;
+        }
+    }
+    return acc <= days;
+}
+
+int shipWithinDays(int* weights, int weightsSize, int days){
+    int left = 0, right = 0, mid, k;
+    for (int i = 0; i < weightsSize; i ++) {
+        left = weights[i] > left ? weights[i] : left;
+        right += weights[i];
+    }
+    while (left < right) {
+        mid = left + (right-left)/2;
+        if (possible(mid, weights, weightsSize, days))
+            right = mid;
+        else
+            left = mid+1;
+    }
+    return left;
+}
+```

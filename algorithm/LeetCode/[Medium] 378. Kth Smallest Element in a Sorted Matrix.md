@@ -87,33 +87,3 @@ class Solution:
         return ans
 ```
 
-**Solution 4: (BFS, Dijkstra's Algorithm)**
-```
-Runtime: 280 ms
-Memory Usage: 22 MB
-```
-```python
-class Solution:
-    def kthSmallest(self, matrix: List[List[int]], k: int) -> int:
-        m, n = len(matrix), len(matrix[0])  # For gerneral, matrix doesn't need to be a square
-
-        def countLessOrEqual(x):
-            cnt = 0
-            c = n - 1  # start with the rightmost column
-            for r in range(m):
-                while c >= 0 and matrix[r][c] > x: c -= 1  # decrease column until matrix[r][c] <= x
-                cnt += (c + 1)
-            return cnt
-
-        left, right = matrix[0][0], matrix[-1][-1]
-        ans = -1
-        while left <= right:
-            mid = (left + right) // 2
-            if countLessOrEqual(mid) >= k:
-                ans = mid
-                right = mid - 1
-            else:
-                left = mid + 1
-
-        return ans
-```

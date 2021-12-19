@@ -76,3 +76,60 @@ class Solution:
         else:
             return self.findKthLargest(nums[b+1:], k)
 ```
+
+**Solution 4: (Sort)**
+```
+Runtime: 57 ms
+Memory Usage: 6.4 MB
+```
+```c
+int helper_sort(int* nums, int left, int right)
+{
+    int pivot  = nums[left];
+    int temp,start=left;
+    
+    while(left<right)
+    {
+        while((left<right) && (nums[right] >= pivot))
+            right--;
+        while((left<right) && (nums[left] <= pivot))
+            left++;
+        if(left<right)
+        {
+            temp = nums[left];
+            nums[left] = nums[right];
+            nums[right] = temp;
+        }
+    }
+    
+    nums[start] = nums[right];
+    nums[right] = pivot;
+    
+    return right;
+}
+
+int findKthLargest(int* nums, int numsSize, int k){
+    int i,left=0,right=numsSize-1;
+    int pos;
+    
+    if((nums==NULL) || (numsSize==0) || (k==0))
+        return -1;
+    
+    k = numsSize - k;
+    while(left<right)
+    {
+        pos = helper_sort(nums,left,right);
+        if(pos < k)
+        {
+            left = pos + 1;
+        }
+        else if (pos > k)
+        {
+            right = pos - 1;
+        }
+        else
+            break;
+    }
+    return nums[k];
+}
+```

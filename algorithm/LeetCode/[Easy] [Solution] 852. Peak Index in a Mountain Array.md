@@ -91,3 +91,47 @@ class Solution:
                 hi = mi
         return lo
 ```
+
+**Solution 2: (Binary Search)**
+```
+Runtime: 15 ms
+Memory Usage: 6.5 MB
+```
+```c
+
+
+int peakIndexInMountainArray(int* arr, int arrSize){
+    int left = 0, right = arrSize-1, mid;
+    while (left < right) {
+        mid = (left+right)/2;
+        if (arr[mid] < arr[mid+1])
+            left = mid+1;
+        else
+            right = mid;
+    }
+    return right;
+}
+```
+
+**Solution 3: (Binary Search)**
+```
+Runtime: 11 ms
+Memory Usage: 6.5 MB
+```
+```c
+
+
+int peakIndexInMountainArray(int* arr, int arrSize){
+    int low = 1, high = arrSize-2;
+    while (low <= high) {
+        int mid = low + (high - low) / 2;
+        if (arr[mid - 1] < arr[mid] && arr[mid] > arr[mid + 1])
+            return mid;
+        else if(arr[mid - 1] < arr[mid] && arr[mid] < arr[mid + 1])
+            low = mid + 1;
+        else
+            high = mid - 1;
+    }
+    return -1;
+}
+```

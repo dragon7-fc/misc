@@ -215,7 +215,7 @@ class Solution:
 
 # Submissions
 ---
-**Solution 1: (Prefix Sum)**
+**Solution 1: (Prefix Sum, Hash Table)**
 ```
 Runtime: 40 ms
 Memory Usage: 14.9 MB
@@ -266,7 +266,7 @@ class Solution:
         return count
 ```
 
-**Solution 2: (Prefix Sum)**
+**Solution 2: (Prefix Sum, Hash Table)**
 ```
 Runtime: 48 ms
 Memory Usage: 13.8 MB
@@ -326,4 +326,42 @@ class Solution:
         if root == None:
             return 0
         return dfs(root, sum) + self.pathSum(root.left, sum) + self.pathSum(root.right, sum)
+```
+
+**Solution 4: (DFS, preorder)**
+```
+Runtime: 24 ms
+Memory Usage: 25.7 MB
+```
+```c
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     struct TreeNode *left;
+ *     struct TreeNode *right;
+ * };
+ */
+void dfs(struct TreeNode* node, int target, int *nums, int level, int *total) {
+    if (!node)
+        return;
+    int *new_nums = malloc(level*sizeof(int));
+    for (int i = 0; i < level - 1; i ++) {
+        new_nums[i] = nums[i] + node->val;
+    }
+    new_nums[level-1] = node->val;
+    for (int i = 0; i < level; i ++) {
+        if (new_nums[i] == target)
+            *total += 1;
+    }
+    dfs(node->left, target, new_nums, level+1, total);
+    dfs(node->right, target, new_nums, level+1, total);
+    free(new_nums);
+}
+
+int pathSum(struct TreeNode* root, int targetSum){
+    int ans = 0;
+    dfs(root, targetSum, NULL, 1, &ans);
+    return ans;
+}
 ```

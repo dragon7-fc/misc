@@ -81,3 +81,34 @@ class Solution:
         depth(root)
         return self.ans - 1
 ```
+
+**Solution 2: (DFS)**
+```
+Runtime: 4 ms
+Memory Usage: 7.9 MB
+```
+```c
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     struct TreeNode *left;
+ *     struct TreeNode *right;
+ * };
+ */
+int dfs(struct TreeNode *node, int *rst) {
+    if (!node)
+        return 0;
+    int left, right;
+    left = dfs(node->left, rst);
+    right = dfs(node->right, rst);
+    *rst = (*rst < left+right ? left+right : *rst);
+    return 1 + (left > right ? left : right);
+}
+
+int diameterOfBinaryTree(struct TreeNode* root){
+    int ans = 0;
+    dfs(root, &ans);
+    return ans;
+}
+```

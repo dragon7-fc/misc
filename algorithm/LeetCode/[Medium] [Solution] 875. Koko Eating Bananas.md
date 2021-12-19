@@ -97,3 +97,31 @@ class Solution:
                 hi = mi
         return lo
 ```
+
+**Solution 2: (Binary Search)**
+```
+Runtime: 36 ms
+Memory Usage: 7.1 MB
+```
+```c
+// Can Koko eat all bananas in H hours with eating speed K?
+bool possible(int *piles, int pilesSize, int H, int K) {
+    int time = 0;
+    for (int i = 0; i < pilesSize; i ++)
+        time += (piles[i] - 1) / K + 1;
+    return time <= H;
+}
+
+int minEatingSpeed(int* piles, int pilesSize, int h){
+    int lo = 1, hi = pow(10, 9);
+    while (lo < hi) {
+        int mi = lo + (hi - lo) / 2;
+        if (!possible(piles, pilesSize, h, mi))
+            lo = mi + 1;
+        else
+            hi = mi;
+    }
+
+    return lo;
+}
+```

@@ -92,3 +92,30 @@ public:
     }
 };
 ```
+
+**Solution 3: (DFS, Pre-order)**
+```
+Runtime: 8 ms
+Memory Usage: 8.6 MB
+```
+```c
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     struct TreeNode *left;
+ *     struct TreeNode *right;
+ * };
+ */
+bool *dfs(struct TreeNode *node, long low, long high) {
+    if (!node)
+        return true;
+    if (node->val >= high || node->val <= low)
+        return false;
+    return dfs(node->left, low, node->val) && dfs(node->right, node->val, high);
+}
+
+bool isValidBST(struct TreeNode* root){
+    return dfs(root, LLONG_MIN, LLONG_MAX);
+}
+```

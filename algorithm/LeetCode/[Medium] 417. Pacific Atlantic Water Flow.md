@@ -126,3 +126,67 @@ class Solution:
                     re.append([i,j])
         return re
 ```
+
+**Solution 3: (DFS)**
+```
+Runtime: 59 ms
+Memory Usage: 11.9 MB
+```
+```c
+void dfs(int** matrix, int matrixRowSize, int *matrixColSizes,int** map,int row,int col,int value,int** ret,int* returnSize){
+    if(map[row][col]==value){
+        return;
+    }
+    int direction[4][2]={{1,0},{-1,0},{0,1},{0,-1}};
+    if(map[row][col]==0){
+        map[row][col]=value;
+    }else{
+        map[row][col]=value;
+        ret[(*returnSize)++]=(int*)calloc(2,sizeof(int));
+        ret[(*returnSize)-1][0]=row;
+        ret[(*returnSize)-1][1]=col;
+    }
+    for(int i=0;i<4;i++){
+        int tmp_row=row+direction[i][0];
+        int tmp_col=col+direction[i][1];
+        if(tmp_row>-1&&tmp_row<matrixRowSize&&tmp_col>-1
+           &&tmp_col<matrixColSizes[tmp_row]&&matrix[row][col]<=matrix[tmp_row][tmp_col]){
+            dfs(matrix,matrixRowSize,matrixColSizes,map,tmp_row,tmp_col,value,ret,returnSize);
+        }
+    }
+}
+
+/**
+ * Return an array of arrays of size *returnSize.
+ * The sizes of the arrays are returned as *returnColumnSizes array.
+ * Note: Both returned array and *columnSizes array must be malloced, assume caller calls free().
+ */
+int** pacificAtlantic(int** heights, int heightsSize, int* heightsColSize, int* returnSize, int** returnColumnSizes){
+    int** map=(int**)malloc(heightsSize*sizeof(int*));
+    *returnSize=0;
+    if(heightsSize==0){
+        return NULL;
+    }
+    returnColumnSizes[0]=(int*)malloc(heightsSize*heightsColSize[0]*sizeof(int));
+    int** ret=(int**)malloc(heightsSize*heightsColSize[0]*sizeof(int*));
+    for(int i=0;i<heightsSize;i++){
+        map[i]=(int*)calloc(heightsColSize[i],sizeof(int));
+    }
+    for(int i=0;i<heightsColSize[0];i++){
+        dfs(heights,heightsSize,heightsColSize,map,0,i,1,ret,returnSize);
+    }
+    for(int i=0;i<heightsSize;i++){
+        dfs(heights,heightsSize,heightsColSize,map,i,0,1,ret,returnSize);
+    }
+    for(int i=0;i<heightsColSize[0];i++){
+        dfs(heights,heightsSize,heightsColSize,map,heightsSize-1,i,-1,ret,returnSize);
+    }
+    for(int i=0;i<heightsSize;i++){
+        dfs(heights,heightsSize,heightsColSize,map,i,heightsColSize[0]-1,-1,ret,returnSize);
+    }
+    for(int i=0;i<*returnSize;i++){
+        returnColumnSizes[0][i]=2;
+    }
+    return ret;
+}
+```

@@ -414,3 +414,36 @@ class Solution:
             q = parent[q]
         return q
 ```
+
+**Solution 3: (DFS)**
+```
+Runtime: 16 ms
+Memory Usage: 19.3 MB
+```
+```c
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     struct TreeNode *left;
+ *     struct TreeNode *right;
+ * };
+ */
+int *dfs(struct TreeNode *node, struct TreeNode *p, struct TreeNode *q, struct TreeNode **rst) {
+    if (!node)
+        return 0;
+    int left, right, mid;
+    left = dfs(node->left, p, q, rst);
+    right = dfs(node->right, p, q, rst);
+    mid = ((node == p) || (node == q));
+    if (mid + left + right >= 2)
+        *rst = node;
+    return (mid || left || right);
+}
+
+struct TreeNode* lowestCommonAncestor(struct TreeNode* root, struct TreeNode* p, struct TreeNode* q) {
+    struct TreeNode* ans;
+    dfs(root, p, q, &ans);
+    return ans;
+}
+```

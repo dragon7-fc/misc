@@ -106,5 +106,35 @@ class Solution:
 
         dfs(root)
         return self.ans
-            
+```
+
+**Solution 2: (DFS)**
+```
+Runtime: 9 ms
+Memory Usage: 6.8 MB
+```
+```c
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     struct TreeNode *left;
+ *     struct TreeNode *right;
+ * };
+ */
+int dfs(struct TreeNode *node, int *rst) {
+    if (!node)
+        return 0;
+    int left, right;
+    left = dfs(node->left, rst);
+    right = dfs(node->right, rst);
+    *rst += abs(left) + abs(right);
+    return node->val + left + right -1;
+}
+
+int distributeCoins(struct TreeNode* root){
+    int ans = 0;
+    dfs(root, &ans);
+    return ans;
+}
 ```

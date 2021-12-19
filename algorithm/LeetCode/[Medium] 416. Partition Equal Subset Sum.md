@@ -84,3 +84,30 @@ class Solution:
             
         return dfs(0, target)
 ```
+
+**Solution 3: (DP Bottom-UP)**
+```
+Runtime: 40 ms
+Memory Usage: 6.1 MB
+```
+```c
+
+
+bool canPartition(int* nums, int numsSize){
+    int sum = 0;
+    for (int i = 0; i < numsSize; i ++) {
+        sum += nums[i];
+    }
+    if (sum%2)
+        return false;
+    sum >>= 1;
+    bool *dp = calloc(1, (sum+1)*sizeof(bool));
+    dp[0] = true;
+    for (int i = 0; i < numsSize; i ++) {
+        for (int s = sum; s >= nums[i]; s--) {
+            dp[s] = dp[s] || dp[s-nums[i]];
+        }
+    }
+    return dp[sum];
+}
+```

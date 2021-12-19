@@ -81,3 +81,34 @@ class Solution:
             
         return sorted(range(lo, hi+1), key=transform)[k-1]
 ```
+
+**Solution 2: (simulation, qsort)**
+```
+Runtime: 19 ms
+Memory Usage: 7.6 MB
+```
+```c
+struct am{int number, val;};
+
+int cmp(const void *x, const void *y){
+    return ((struct am*)x)->val - ((struct am*)y)->val;
+}
+
+int getKth(int lo, int hi, int k){
+    struct am *result = (struct am*)malloc(sizeof(struct am)*((hi-lo)+1));
+    int count = 0;
+    for(int i = lo;i<=hi;i++){
+        int value = i;
+        int power = 0;
+        while(value!=1){
+            value = value%2==0 ? value/2 : value*3+1;
+            power++;
+        }
+        result[count].val = power;
+        result[count].number = i;
+        count++;
+    }
+    qsort(result, count, sizeof(const struct am), cmp);
+    return result[k-1].number;
+}
+```

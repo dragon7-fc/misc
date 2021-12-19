@@ -172,3 +172,123 @@ public:
     }
 };
 ```
+
+**Solution 3: (DFS)**
+```
+Runtime: 0 ms
+Memory Usage: 12.9 MB
+```
+```c
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     struct TreeNode *left;
+ *     struct TreeNode *right;
+ * };
+ */
+typedef struct
+{
+    int val;
+    int row;
+    int col;
+} Entry_t;
+
+Entry_t** addNode(struct TreeNode* node, int row, int col, Entry_t** table, int* tableSize)
+{
+    table = realloc(table, (++(*tableSize)) * sizeof(Entry_t*));
+    table[(*tableSize)-1] = malloc(sizeof(Entry_t));
+    table[(*tableSize)-1]->val = node->val;
+    table[(*tableSize)-1]->row = row;
+    table[(*tableSize)-1]->col = col;
+    
+    // printf("%d, %d, %d\n", *tableSize, table[(*tableSize)-1]->val, table[(*tableSize)-1]->height);
+    
+    // printf("table = %d\n", table);
+    return table;
+}
+
+Entry_t** getVerticalTraversal(struct TreeNode* root, int row, int col, Entry_t** table, int* tableSize)
+{
+    if (root == NULL) return table;
+    table = addNode(root, row, col, table, tableSize);
+    table = getVerticalTraversal(root->left, row+1, col-1, table, tableSize);
+    table = getVerticalTraversal(root->right, row+1, col+1, table, tableSize);
+    
+    // printf("table = %d\n", table);
+    return table;
+}
+
+int cmp(const void* a, const void* b)
+{
+    /*
+    a, b -> Entry_t*, hence a, b are Entry_t**
+    */
+    const Entry_t* e1 = *(const Entry_t**)a;
+    const Entry_t* e2 = *(const Entry_t**)b;
+    
+    if (e1->col == e2->col)
+    {
+        if (e1->row == e2->row)
+        {
+            return e1->val - e2->val;
+        }
+        return e1->row - e2->row;
+    }
+    
+    return e1->col - e2->col;
+}
+
+/**
+ * Return an array of arrays of size *returnSize.
+ * The sizes of the arrays are returned as *returnColumnSizes array.
+ * Note: Both returned array and *columnSizes array must be malloced, assume caller calls free().
+ */
+int** verticalTraversal(struct TreeNode* root, int* returnSize, int** returnColumnSizes){
+    /*
+    table -> [Entry_t*, Entry_t*, ...]
+    
+    Input: root = [3,9,20,null,null,15,7]
+    Output: [[9],[3,15],[20],[7]]
+    */
+    Entry_t** table = NULL;
+    int tableSize = 0;
+    
+    table = getVerticalTraversal(root, 0, 0, table, &tableSize);
+       
+    qsort(table, tableSize, sizeof(Entry_t*), cmp);
+    
+    // printf("tableSize = %d\n", tableSize);
+    // for (int i = 0; i < tableSize; i++)
+    // {
+    //     printf("%d, %d\n", table[i]->val, table[i]->height);
+    // }
+       
+    int** ans = NULL;
+    *returnSize = 0;
+    *returnColumnSizes = NULL;
+    
+    for (int i = 0; i < tableSize; i++)
+    {
+        if (i == 0 || table[i]->col != table[i-1]->col)
+        {
+            (*returnSize)++;
+            ans = realloc(ans, (*returnSize) * sizeof(int*));
+            *returnColumnSizes = realloc(*returnColumnSizes, (*returnSize) * sizeof(int));
+            (*returnColumnSizes)[(*returnSize)-1] = 1;
+            ans[(*returnSize)-1] = malloc(sizeof(int));
+            ans[(*returnSize)-1][0] = table[i]->val;
+            // printf("Here in 1\n");
+        }
+        else
+        {
+            (*returnColumnSizes)[(*returnSize)-1]++;
+            ans[(*returnSize)-1] = realloc(ans[(*returnSize)-1], (*returnColumnSizes)[(*returnSize)-1] * sizeof(int));
+            ans[(*returnSize)-1][(*returnColumnSizes)[(*returnSize)-1]-1] = table[i]->val;
+            // printf("Here in 2\n");
+        }
+    }
+    
+    return ans;
+}
+```

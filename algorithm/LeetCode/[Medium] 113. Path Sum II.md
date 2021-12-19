@@ -61,3 +61,57 @@ class Solution:
         dfs(root, sum, [root.val])
         return ans
 ```
+
+**Solution 2: (DFS)**
+```
+Runtime: 8 ms
+Memory Usage: 10.2 MB
+```
+```c
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     struct TreeNode *left;
+ *     struct TreeNode *right;
+ * };
+ */
+
+void help(struct TreeNode *root, int sum, int ***res, int *buff, int i, int *rSize, int **cSizes)
+{
+	if (root == NULL)
+		return;
+
+	if (sum - root->val == 0 && !root->left && !root->right)
+	{
+		*cSizes = realloc(*cSizes, sizeof(int) * (*rSize + 1));
+		(*cSizes)[*rSize] = i + 1;
+		*res = realloc(*res, sizeof(int *) * (*rSize + 1));
+		(*res)[*rSize] = malloc(sizeof(int) * (i + 1));
+		memcpy((*res)[*rSize], buff, sizeof(int) * (i + 1));
+		(*res)[*rSize][i] = root->val;
+		(*rSize)++;
+		return;
+	}
+
+	buff[i] = root->val;
+	help(root->left, sum - root->val, res, buff, i + 1, rSize, cSizes);
+	help(root->right, sum - root->val, res, buff, i + 1, rSize, cSizes);
+}
+
+/**
+ * Return an array of arrays of size *returnSize.
+ * The sizes of the arrays are returned as *returnColumnSizes array.
+ * Note: Both returned array and *columnSizes array must be malloced, assume caller calls free().
+ */
+int** pathSum(struct TreeNode* root, int targetSum, int* returnSize, int** returnColumnSizes){
+    *returnSize = 0;
+	int **res = NULL;
+	*returnColumnSizes = NULL;
+	int *buff = calloc(1001, sizeof(int));
+
+	help(root, targetSum, &res, buff, 0, returnSize, returnColumnSizes);
+
+	return res;
+}
+```

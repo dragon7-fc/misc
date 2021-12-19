@@ -91,3 +91,37 @@ class Solution:
 
         return min(2**31 - 1, max(-quotient if is_negative else quotient, -2**31))
 ```
+
+**Solution 3: (Math, With bitwise operators)**
+```
+Runtime: 0 ms
+Memory Usage: 5.4 MB
+```
+```c
+
+#define min(a, b) ((a) < (b) ? (a) : (b))
+#define max(a, b) ((a) > (b) ? (a) : (b))
+int divide(int dividend, int divisor){
+    bool is_negative = (dividend < 0) != (divisor < 0);
+    long ldivisor = divisor;
+    ldivisor = ldivisor < 0 ? -ldivisor : ldivisor;
+    long ldividend = dividend;
+    ldividend = ldividend < 0 ? -ldividend : ldividend;
+
+    long quotient = 0, current_quotient;
+    long the_sum = ldivisor;
+
+    while (the_sum <= ldividend) {
+        current_quotient = 1;
+        while ((the_sum << 1) <= ldividend) {
+            the_sum <<= 1;
+            current_quotient <<= 1;
+        }
+        ldividend -= the_sum;
+        the_sum = ldivisor;
+        quotient += current_quotient;
+    }
+
+    return min(pow(2,31) - 1, max(is_negative ? -quotient : quotient, -pow(2,31)));
+}
+```

@@ -98,3 +98,38 @@ public:
     }
 };
 ```
+
+**Solution 4: (Math, DFS)**
+```
+Runtime: 5 ms
+Memory Usage: 5.6 MB
+```
+```c
+double myPow(double x, int n){
+    // divide and conquer
+    long N = n;
+    if (N == 0)
+    {
+        return 1.0;
+    }
+    if (N == 1)
+    {
+        return x;
+    }
+    if (N < 0)
+    {
+        N = -N;
+        x = 1 / x;
+    }
+    
+    if (N % 2 == 0)
+    {
+        double power = myPow(x, N / 2);
+        return power * power;
+    }
+    else
+    {
+        return myPow(x, N / 2) * myPow(x, N - N / 2);
+    }
+}
+```

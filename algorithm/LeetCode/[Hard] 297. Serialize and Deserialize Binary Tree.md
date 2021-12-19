@@ -139,3 +139,86 @@ class Codec:
 # codec = Codec()
 # codec.deserialize(codec.serialize(root))
 ```
+
+**Solution 3: (DFS)**
+```
+Runtime: 28 ms
+Memory Usage: 27.4 MB
+```
+```c
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     struct TreeNode *left;
+ *     struct TreeNode *right;
+ * };
+ */
+void preorder(struct TreeNode* root, char *arr, int *index) {
+    int len;
+    if(root == NULL) {
+
+        arr[(*index)++] = '#';
+        return;
+    }
+    len = sprintf(arr+*index, "%d", root->val);
+    arr[(*index)+len]='*';//end of marker
+    (*index) = (*index)+len+1;
+    preorder(root->left,arr,index);
+    preorder(root->right,arr,index);
+}
+
+/** Encodes a tree to a single string. */
+char* serialize(struct TreeNode* root) {
+    int count=0;
+    int size=0;
+    char *arr;
+    if(root == NULL)
+    return NULL;
+
+    arr = (char *)malloc(sizeof(char)*100000);
+    preorder(root,arr,&size);
+    return arr;
+}
+
+//create node
+struct TreeNode *node(int val) {
+    struct TreeNode *temp;
+    temp = (struct TreeNode *)malloc(sizeof(struct TreeNode));
+    temp->val = val;
+    temp->left = temp->right = NULL;
+    return temp;
+}
+//helper function for deserialze
+struct TreeNode *helper(char *data, int *len) {
+
+    struct TreeNode *root;
+    if(data[(*len)] == '#') {
+        (*len)++;
+        return NULL;
+    }
+
+    root = node(atoi(data+(*len)));
+    while(data[*len]!='*')
+        (*len)++;
+    (*len)++;
+    root->left = helper(data,len);
+    root->right = helper(data,len);
+
+    return root;
+}
+
+/** Decodes your encoded data to tree. */
+struct TreeNode* deserialize(char* data) {
+    int len=0;
+
+    if(data == NULL)
+        return NULL;
+
+    return helper(data,&len);
+}
+
+// Your functions will be called as such:
+// char* data = serialize(root);
+// deserialize(data);
+```

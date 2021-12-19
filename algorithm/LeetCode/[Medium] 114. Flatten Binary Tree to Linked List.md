@@ -86,3 +86,69 @@ class Solution:
                 node.right = stack[-1]
             node.left = None
 ```
+
+**Solution 3: (DFS, right-left traversal)**
+```
+Runtime: 6 ms
+Memory Usage: 6.9 MB
+```
+```c
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     struct TreeNode *left;
+ *     struct TreeNode *right;
+ * };
+ */
+
+void dfs(struct TreeNode *node, struct TreeNode **prev) {
+    if (!node)
+        return;
+    dfs(node->right, prev);
+    dfs(node->left, prev);
+    node->right = *prev;
+    node->left = NULL;
+    *prev = node;
+}
+
+void flatten(struct TreeNode* root){
+    struct TreeNode *prev = NULL;
+    dfs(root, &prev);
+    return root;
+}
+```
+
+**Solution 4: (DFS, preorder)**
+```
+Runtime: 4 ms
+Memory Usage: 6.9 MB
+```
+```c
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     struct TreeNode *left;
+ *     struct TreeNode *right;
+ * };
+ */
+
+void dfs(struct TreeNode *node, struct TreeNode **prev) {
+    if (!node)
+        return;
+    struct TreeNode *right = node->right;
+    if (*prev)
+        (*prev)->right = node;
+    *prev = node;
+    dfs(node->left, prev);
+    dfs(right, prev);
+    node->left = NULL;
+}
+
+void flatten(struct TreeNode* root){
+    struct TreeNode *prev = NULL;
+    dfs(root, &prev);
+    return root;
+}
+```

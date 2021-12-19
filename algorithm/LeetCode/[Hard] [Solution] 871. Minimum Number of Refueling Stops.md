@@ -169,3 +169,27 @@ class Solution:
 
         return ans
 ```
+
+**Solution 3: (DP Bottom-Up)**
+```
+Runtime: 75 ms
+Memory Usage: 7.5 MB
+```
+```c
+#define max(a, b) (a > b ? a : b)
+int minRefuelStops(int target, int startFuel, int** stations, int stationsSize, int* stationsColSize){
+    long *dp = calloc(1, (stationsSize+1)*sizeof(long));
+    dp[0] = startFuel;
+    for (int i = 0; i < stationsSize; i ++) {
+        for (int j = i; j >= 0; j --) {
+            if (dp[j] >= stations[i][0]) {
+                dp[j+1] = max(dp[j+1], dp[j]+stations[i][1]);
+            }
+        }
+    }
+    for (int i = 0; i < stationsSize+1; i ++)
+        if (dp[i] >= target)
+            return i;
+    return -1;
+}
+```

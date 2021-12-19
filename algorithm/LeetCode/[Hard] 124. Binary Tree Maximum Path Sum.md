@@ -94,3 +94,35 @@ class Solution:
     
         return helper(root).max_path_sum
 ```
+
+**Solution 3: (DFS)**
+```
+Runtime: 16 ms
+Memory Usage: 13.6 MB
+```
+```c
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     struct TreeNode *left;
+ *     struct TreeNode *right;
+ * };
+ */
+int dfs(struct TreeNode* node, int *rst) {
+    if (!node)
+        return 0;
+    int left, right, res;
+    left = dfs(node->left, rst);
+    right = dfs(node->right, rst);
+    res = node->val + (left > right ? left : right);
+    *rst = (*rst < node->val+left+right ? node->val+left+right : *rst);
+    return res > 0 ? res : 0;
+}
+
+int maxPathSum(struct TreeNode* root){
+    int ans = INT_MIN;
+    dfs(root, &ans);
+    return ans;
+}
+```

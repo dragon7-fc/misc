@@ -48,3 +48,89 @@ class KthLargest:
 # obj = KthLargest(k, nums)
 # param_1 = obj.add(val)
 ```
+
+**Solution 2: (Heap)**
+```
+Runtime: 36 ms
+Memory Usage: 14.5 MB
+```
+```c
+typedef struct {
+    int *nums;
+    int k;
+    int size;
+} KthLargest;
+int cmp(const int*a,const int*b){
+    return *b-*a;
+}
+void swap(int *a,int* b){
+    int mi=*a;
+    *a=*b;
+    *b=mi;
+}
+void MinHeapFixDown(int i,int* nums, int numsSize){
+    int j=2*i+1;
+    while(j<numsSize){
+        if(j+1<numsSize&&nums[j+1]<nums[j])
+            j++;
+        if(nums[i]>nums[j])
+            swap(&(nums[i]),&(nums[j]));
+        else
+            break;
+        i=j;
+        j=2*i+1;
+    }
+}
+void CreateMinHeap(int* nums, int numsSize){
+    for(int i=numsSize/2-1;i>=0;i--){
+        MinHeapFixDown(i,nums,numsSize);
+    }
+}
+KthLargest* kthLargestCreate(int k, int* nums, int numsSize) {
+    KthLargest* obj=(KthLargest*)malloc(sizeof(KthLargest));
+    obj->nums=(int*)malloc(k*sizeof(int));
+    qsort(nums,numsSize,sizeof(int),cmp);
+    for(int i=0;i<k&&i<numsSize;i++){
+        obj->nums[i]=nums[i];
+    }
+    obj->k=k;
+    if(k>numsSize)
+        k=numsSize;
+    obj->size=k;
+    CreateMinHeap( obj->nums,k);
+    return obj;
+}
+
+int kthLargestAdd(KthLargest* obj, int val) {
+    if(obj->size<obj->k){
+        obj->nums[obj->size]=val;
+        int i=obj->size;
+        int j=(i-1)/2;
+        for(;j>=0&&obj->nums[j]>obj->nums[i];i=j,j=(i-1)/2){
+            swap(&(obj->nums[i]),&(obj->nums[j]));
+        }
+        obj->size++;
+        return obj->nums[0];
+    }
+    if(val<=obj->nums[0])
+        return obj->nums[0];
+    else{
+        obj->nums[0]=val;
+        MinHeapFixDown(0,obj->nums,obj->k);
+        return obj->nums[0];
+    }
+}
+void kthLargestFree(KthLargest* obj) {
+    free(obj->nums);
+    free(obj);
+}
+
+
+/**
+ * Your KthLargest struct will be instantiated and called as such:
+ * KthLargest* obj = kthLargestCreate(k, nums, numsSize);
+ * int param_1 = kthLargestAdd(obj, val);
+ 
+ * kthLargestFree(obj);
+*/
+```

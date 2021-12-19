@@ -204,3 +204,31 @@ public:
     }
 };
 ```
+
+**Solution 4: (DFS)**
+```
+Runtime: 4 ms
+Memory Usage: 7 MB
+```
+```c
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     struct TreeNode *left;
+ *     struct TreeNode *right;
+ * };
+ */
+bool dfs(struct TreeNode *left, struct TreeNode *right) {
+    if (!left && !right) {
+        return true;
+    } else if (!left || !right) {
+        return false;
+    }
+    return (left->val == right->val) && dfs(left->left, right->right) && dfs(left->right, right->left);
+}
+
+bool isSymmetric(struct TreeNode* root){
+    return dfs(root->left, root->right);
+}
+```

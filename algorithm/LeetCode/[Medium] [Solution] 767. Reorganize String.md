@@ -146,3 +146,49 @@ class Solution:
 
         return "".join(ans) + (pq[0][1] if pq else '')
 ```
+
+**Solution 2: (Greedy)**
+```
+Runtime: 4 ms
+Memory Usage: 5.5 MB
+```
+```c
+char find_max(int hist[26] , char c){
+    int max = 0;
+    char out = '\0' ;
+    for(int i=0 ; i < 26 ; i++){
+        if(i+'a' != c && hist[i] > max){
+            max = hist[i];
+            out = i + 'a';
+        }
+    }
+    return out;
+}
+
+char * reorganizeString(char * s){
+    int hist[26] = {0};
+    if(strlen(s) == 0)
+        return s;
+    for(int i=0 ; i < strlen(s) ; i++){
+        hist[s[i] - 'a']++;
+    }
+    char biggest = find_max(hist , '\0');
+    char last;
+    int index = 0;
+    char* out = (char*)malloc(sizeof(char)*(strlen(s)+1));
+    while(biggest != '\0'){
+        out[index++] = biggest;
+        last = biggest;
+        hist[last - 'a']--;
+        biggest = find_max(hist,last);
+    }
+    if(index != strlen(s)){
+        free(out);
+        return "";
+    }
+    out[index] = '\0';
+	strcpy(s, out);
+	free(out);
+    return s;
+}
+```

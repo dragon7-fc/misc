@@ -132,3 +132,78 @@ class Codec:
 # ans = deser.deserialize(tree)
 # return ans
 ```
+
+**Solution 3: (DFS)**
+```
+Runtime: 59 ms
+Memory Usage: 28.7 MB
+```
+```c
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     struct TreeNode *left;
+ *     struct TreeNode *right;
+ * };
+ */
+void ser(struct TreeNode* root, char* cser){
+    if(!root){
+        strcat(cser, "-1/");
+        return;
+    }
+    char tmp[6];
+    sprintf(tmp, "%d/", root->val);
+    strcat(cser, tmp);
+    ser(root->left, cser);
+    ser(root->right, cser);
+    return;
+    
+}
+
+void deser(struct TreeNode* root, int *v, int len, int *pos, int dir){
+    if(*pos >= len || v[*pos] == -1){
+        root = NULL;
+        (*pos)++;
+        return;
+    }
+    if(dir == 1)
+        root = root->right = (struct TreeNode*)malloc(sizeof(struct TreeNode));
+    if(dir == -1)
+        root = root->left  = (struct TreeNode*)malloc(sizeof(struct TreeNode));
+    root->val = v[(*pos)++];   
+    root->right = NULL;
+    root->left = NULL;
+    deser(root, v, len, pos, -1);
+    deser(root, v, len, pos, 1);
+    return;
+}
+
+/** Encodes a tree to a single string. */
+char* serialize(struct TreeNode* root) {
+    char *cser = (char*)calloc(sizeof(char), 100000);
+    ser(root, cser);
+    return cser;
+}
+
+/** Decodes your encoded data to tree. */
+struct TreeNode* deserialize(char* data) {
+    struct TreeNode *new, *head = (struct TreeNode*)malloc(sizeof(struct TreeNode));
+    new = head;
+    char t[2]="/", *token;
+    int v[100000], i=0, pos=0;
+    token = strtok(data, t);
+    
+    while(token!=NULL){
+        v[i++] = atoi(token);
+        token = strtok(NULL, t);
+    }
+    if(i == 1) return NULL;
+    deser(head, v, i,&pos, 0);
+    return new;
+}
+
+// Your functions will be called as such:
+// char* data = serialize(root);
+// deserialize(data);
+```

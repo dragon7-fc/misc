@@ -196,3 +196,33 @@ class Solution:
     def kClosest(self, points: List[List[int]], K: int) -> List[List[int]]:
         return heapq.nsmallest(K, points, key= lambda x: x[0]**2 + x[1]**2)
 ```
+
+**Solutiopn 4: (qsort)**
+```
+Runtime: 448 ms
+Memory Usage: 34 MB
+```
+```c
+int cmpFunc(const int** a, const int** b)
+{
+    return ((a[0][0]-b[0][0])*(a[0][0]+b[0][0]))+((a[0][1]-b[0][1])*(a[0][1]+b[0][1]));
+}
+
+/**
+ * Return an array of arrays of size *returnSize.
+ * The sizes of the arrays are returned as *returnColumnSizes array.
+ * Note: Both returned array and *columnSizes array must be malloced, assume caller calls free().
+ */
+int** kClosest(int** points, int pointsSize, int* pointsColSize, int k, int* returnSize, int** returnColumnSizes){
+    int** ans = malloc(sizeof(int*)*k);
+    *returnColumnSizes = malloc(sizeof(int)*k);
+    *returnSize = k;
+    for (int i = 0; i < k; i++)
+    {
+        returnColumnSizes[0][i] = 2;
+    }
+    
+    qsort(points, pointsSize, sizeof(int*), cmpFunc);
+    return points;
+}
+```

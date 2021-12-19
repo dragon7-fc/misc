@@ -88,3 +88,44 @@ public:
     }
 };
 ```
+
+**Solution 3: (DFS)**
+```
+Runtime: 16 ms
+Memory Usage: 11.6 MB
+```
+```c
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     struct TreeNode *left;
+ *     struct TreeNode *right;
+ * };
+ */
+struct TreeNode* dfs(int *preorder, int *p_index, int size, int *inorder, int left, int right) {
+    if (left > right)
+        return NULL;
+    struct TreeNode *node = malloc(sizeof(struct TreeNode));;
+    node->val = preorder[*p_index];
+    *p_index += 1;
+    if (left == right){
+        node->left = NULL;
+        node->right = NULL;
+        return node;
+    }
+    for (int i = left; i <= right; i ++) {
+        if (inorder[i] == node->val) {
+            node->left = dfs(preorder, p_index, size, inorder, left, i-1);
+            node->right = dfs(preorder, p_index, size, inorder, i+1, right);
+            break;
+        }
+    }
+    return node;
+}
+
+struct TreeNode* buildTree(int* preorder, int preorderSize, int* inorder, int inorderSize){
+    int p_index = 0;
+    return dfs(preorder, &p_index, preorderSize, inorder, 0, inorderSize-1);
+}
+```

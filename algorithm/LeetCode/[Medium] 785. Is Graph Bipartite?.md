@@ -134,3 +134,36 @@ class Solution:
 
         return True
 ```
+
+**Solution 4: (DFS)**
+```
+Runtime: 24 ms
+Memory Usage: 7.1 MB
+```
+```c
+bool dfs(int u, int c, int *cs, int**g, int gSize, int *gColSize) {
+    int v;
+    cs[u] = c;
+    for (int i = 0; i < gColSize[u]; i ++) {
+        v = g[u][i];
+        if (cs[v] == c)
+            return false;
+        else if (cs[v] == 0) {
+            if (!dfs(v, -c, cs, g, gSize, gColSize))
+                return false;
+        }
+    }
+    return true;
+}
+
+bool isBipartite(int** graph, int graphSize, int* graphColSize){
+    int *colors = calloc(1, graphSize*sizeof(int));
+    for (int i = 0; i < graphSize; i ++) {
+        if (colors[i] == 0) {
+            if (!dfs(i, 1, colors, graph, graphSize, graphColSize))
+                return false;
+        }
+    }
+    return true;
+}
+```

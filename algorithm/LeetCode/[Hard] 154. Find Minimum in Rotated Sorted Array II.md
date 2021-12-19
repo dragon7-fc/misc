@@ -73,3 +73,26 @@ public:
     }
 };
 ```
+
+**Solution 3: (Binary Search)**
+```
+Runtime: 4 ms
+Memory Usage: 6 MB
+```
+```c
+
+
+int findMin(int* nums, int numsSize){
+    int left = 0, right = numsSize-1, mid;
+    while (left < right) {
+        mid = left + (right-left)/2;
+        if (nums[mid] > nums[right])
+            left = mid+1;
+        else if (nums[mid] < nums[right])
+            right = mid;
+        else
+            right -= 1;
+    }
+    return nums[left];
+}
+```

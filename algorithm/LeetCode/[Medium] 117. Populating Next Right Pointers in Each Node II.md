@@ -107,3 +107,54 @@ class Solution:
                
         return root
 ```
+
+**Solution 3: (BFS)**
+```
+Runtime: 13 ms
+Memory Usage: 7.9 MB
+```
+```c
+/**
+ * Definition for a Node.
+ * struct Node {
+ *     int val;
+ *     struct Node *left;
+ *     struct Node *right;
+ *     struct Node *next;
+ * };
+ */
+
+struct Node* connect(struct Node* root) {    
+    if(root == NULL)
+        return NULL;
+
+    struct Node *first = root, *cur, *pre;
+    while(first)
+    {
+        cur = first;
+        pre = first = NULL;
+        while(cur)
+        {
+            if(cur->left)
+            {
+                if(pre) pre->next = cur->left;
+                else first = cur->left;
+
+                pre = cur->left;
+            }
+
+            if(cur->right)
+            {
+                if(pre) pre->next = cur->right;
+                else first = cur->right;
+
+                pre = cur->right;
+            }
+
+            cur = cur->next;
+        }
+    }
+
+    return root;
+}
+```

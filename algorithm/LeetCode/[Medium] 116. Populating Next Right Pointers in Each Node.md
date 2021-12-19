@@ -180,3 +180,34 @@ public:
     }
 };
 ```
+
+**Solution 5: (DFS)**
+```
+Runtime: 19 ms
+Memory Usage: 9 MB
+```
+```c
+/**
+ * Definition for a Node.
+ * struct Node {
+ *     int val;
+ *     struct Node *left;
+ *     struct Node *right;
+ *     struct Node *next;
+ * };
+ */
+void dfs(struct Node* node) {
+    if (!node || !node->left && !node->right)
+        return;
+    node->left->next = node->right;
+    if (node->next)
+        node->right->next = node->next->left;
+    dfs(node->left);
+    dfs(node->right);
+}
+
+struct Node* connect(struct Node* root) {
+	dfs(root);
+    return root;
+}
+```

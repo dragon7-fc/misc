@@ -66,3 +66,51 @@ class Solution:
                 heapq.heappush(q, [price + np, nd, hop + 1])
         return -1
 ```
+
+**Solution 2: (DFS)**
+```
+Runtime: 108 ms
+Memory Usage: 7.7 MB
+```
+```c
+int helper(int n, int** flights, int flightsSize, int* flightsColSize, int src, int dst, int K,int** map){
+    int min_ret=50000;
+    if(map[K][src]!=0){
+        return map[K][src];
+    }
+    if(src==dst){
+        return 0;
+    }
+    if(K==0){
+        for(int i=0;i<flightsSize;i++){
+            if(flights[i][0]==src&&flights[i][1]==dst){
+                return flights[i][2];
+            }
+        }
+        return min_ret;
+    }
+    
+    for(int i=0;i<flightsSize;i++){
+        if(flights[i][0]==src){
+            if(map[K-1][flights[i][1]]==0){
+                map[K-1][flights[i][1]]=helper(n,flights,flightsSize,flightsColSize, flights[i][1], dst, K-1,map);
+            }
+            int tmp=flights[i][2]+map[K-1][flights[i][1]];
+            if(min_ret>tmp){
+                min_ret=tmp;
+                
+            }
+        }
+    }
+    return min_ret;
+}
+
+int findCheapestPrice(int n, int** flights, int flightsSize, int* flightsColSize, int src, int dst, int k){
+    int** map=(int**)malloc((k+1)*sizeof(int*));
+    for(int i=0;i<k+1;i++){
+        map[i]=(int*)calloc(n+1,sizeof(int));
+    }
+    int ret=helper(n, flights, flightsSize,flightsColSize, src, dst, k,map);
+    return ret>=50000?-1:ret;
+}
+```

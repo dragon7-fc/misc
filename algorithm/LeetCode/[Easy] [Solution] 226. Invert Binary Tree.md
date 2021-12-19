@@ -24,7 +24,7 @@ Output:
 
 This problem was inspired by this original tweet by Max Howell:
 
->Google: 90% of our engineers use the software you wrote (Homebrew), but you can’t invert a binary tree on a whiteboard so f*** off.
+>Google: 90% of our engineers use the software you wrote (Homebrew), but you can’t invert a binary tree on a whiteboard so off.
 
 # Solution
 ---
@@ -136,4 +136,32 @@ class Solution:
             if current.left:
                 q.append(current.left)
         return root
+```
+
+**Solution 3: (DFS)**
+```
+Runtime: 0 ms
+Memory Usage: 5.8 MB
+```
+```c
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     struct TreeNode *left;
+ *     struct TreeNode *right;
+ * };
+ */
+
+
+struct TreeNode* invertTree(struct TreeNode* root){
+    if (!root)
+        return NULL;
+    struct TreeNode *left, *right;
+    left = invertTree(root->left);
+    right = invertTree(root->right);
+    root->left = right;
+    root->right = left;
+    return root;
+}
 ```
