@@ -42,3 +42,32 @@ class Solution:
         
         return True
 ```
+
+**Solution 2: (Math)**
+```
+Runtime: 0 ms
+Memory Usage: 5.8 MB
+```
+```c
+bool isPowerOfTwo(int n){
+    if (n <= 0)
+        return false;
+    while (n >= 2) {
+        if (n%2)
+            return false;
+        n >>= 1;
+    }
+    return n == 1 ? true : false;
+}
+```
+
+**Solution 3: (Math)**
+```
+Runtime: 0 ms
+Memory Usage: 5.7 MB
+```
+```c
+bool isPowerOfTwo(int n){
+    return n && !(n & (long)n - 1);
+}
+```

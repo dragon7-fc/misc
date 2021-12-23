@@ -121,7 +121,7 @@ class Solution:
         return dummy_head.next
 ```
 
-**Solution 1: (Elementary Math, Linked List)**
+**Solution 2: (Elementary Math, Linked List)**
 ```
 Runtime: 12 ms
 Memory Usage: 8 MB

@@ -30,7 +30,7 @@ The input is two lists: the subroutines called and their arguments. `Solution`'s
 
 # Submissions
 ---
-**Solution 1: (Random)**
+**Solution 1: (Random, Binary Search)**
 
 * Sum all left weights for each index.
 * Then generate a random value between 0 and len(w) to see in which section it falls.
@@ -56,4 +56,83 @@ class Solution:
 # Your Solution object will be instantiated and called as such:
 # obj = Solution(w)
 # param_1 = obj.pickIndex()
+```
+
+**Solution 2: (Binary Search)**
+```
+Runtime: 116 ms
+Memory Usage: 28.4 MB
+```
+```c
+
+
+
+typedef struct {
+    int* w;
+    int size;
+    int* counts;
+    int total;
+} Solution;
+
+
+Solution* solutionCreate(int* w, int wSize) {
+    int i;
+    Solution* obj = NULL;
+    
+    obj = (Solution*)malloc(sizeof(Solution));
+    obj->w = w;
+    obj->size = wSize;
+    obj->counts = (int*)calloc(wSize,sizeof(int));
+    obj->counts[0] = w[0];
+    for(i=1;i<wSize;i++)
+    {
+        obj->counts[i] = obj->counts[i-1] + w[i];
+    }
+    obj->total = obj->counts[i-1];
+    
+    return obj;
+}
+
+int search(int* arr, int size, int target)
+{
+    int left = 0, right = size - 1, mid;
+    
+    while(left<right)
+    {
+        mid = left + (right-left)/2;
+        if(arr[mid] == target)
+        {
+            return mid+1;
+        }
+        else if(arr[mid] < target)
+        {
+            left = mid + 1;
+        }
+        else
+        {
+            right = mid;
+        }
+    }
+    
+    return left;
+}
+
+int solutionPickIndex(Solution* obj) {
+    int pos = rand()%obj->total;
+    
+    return search(obj->counts,obj->size,pos);
+}
+
+void solutionFree(Solution* obj) {
+    free(obj->counts);
+    free(obj);
+}
+
+/**
+ * Your Solution struct will be instantiated and called as such:
+ * Solution* obj = solutionCreate(w, wSize);
+ * int param_1 = solutionPickIndex(obj);
+ 
+ * solutionFree(obj);
+*/
 ```

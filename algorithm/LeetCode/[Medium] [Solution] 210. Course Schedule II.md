@@ -396,3 +396,69 @@ public:
     }
 };
 ```
+
+**Solution 4: (DFS)**
+```
+Runtime: 36 ms
+Memory Usage: 76.9 MB
+```
+```c
+
+bool arrange(int ** courses, int courseNum, int ** graph, int * index, int cur, int * num, int ** visited, int * source){
+    if ((*visited)[cur] == 1)
+        return true;
+    if (source[cur] == -1)
+        return false;
+    if (index[cur] == 0){
+        (*courses)[*num] = cur;
+        *num  = *num + 1;
+        (*visited)[cur] = 1;
+        return true;;
+    }
+    source[cur] = -1;
+    bool result = true;;
+    for (int i  = 0; i < index[cur]; i++){
+        result = arrange(courses, courseNum, graph, index, graph[cur][i], num, visited, source);
+        if (!result)
+            return false;
+    }
+    (*courses)[*num] = cur;
+    *num = *num + 1;
+    (*visited)[cur] = 1;
+    return true;
+}
+
+/**
+ * Note: The returned array must be malloced, assume caller calls free().
+ */
+int* findOrder(int numCourses, int** prerequisites, int prerequisitesSize, int* prerequisitesColSize, int* returnSize){
+    * returnSize = numCourses;
+    int ** graph = malloc(sizeof(int *) * numCourses);
+    for (int i = 0; i < numCourses; i++){
+        graph[i] = malloc(sizeof(int) * numCourses);
+        for (int j = 0; j < numCourses; j++){
+            graph[i][j] = -1;
+        }
+    }
+    int * index = calloc(1, sizeof(int) * numCourses);
+    for (int i = 0; i < prerequisitesSize; i++){
+        int cur = prerequisites[i][0];
+        graph[cur][index[cur]] = prerequisites[i][1];
+        index[cur]++;
+    }
+    int * visited = calloc(1, sizeof(int) * numCourses);
+    int * source = calloc(1, sizeof(int) * numCourses);
+    int * result = malloc(sizeof(int) * numCourses);
+    int num = 0;
+    for (int i = 0; i < numCourses; i++){
+        if (visited[i] == 1)
+            continue;
+        if (!arrange(&result, numCourses, graph, index, i, &num, &visited, source)){
+            * returnSize = 0;
+            return NULL;
+        }
+    }
+    return result;
+    
+}
+```

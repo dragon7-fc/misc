@@ -93,3 +93,52 @@ class Solution:
             first.next, first = second, first.next
             second.next, second = first, second.next
 ```
+
+**Solution 3: (Linked List, Reverse the Second Part of the List and Merge Two Sorted Lists)**
+```
+Runtime: 12 ms
+Memory Usage: 9.1 MB
+```
+```c
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     struct ListNode *next;
+ * };
+ */
+
+
+void reorderList(struct ListNode* head){
+    struct ListNode *fast, *slow, *prev, *nxt, *dummy;
+    dummy = malloc(sizeof(struct ListNode));
+    dummy->next = slow = fast = head;
+    while (fast && fast->next) {
+        prev = slow;
+        slow = slow->next;
+        fast = fast->next->next;
+    }
+    if (fast && !fast->next) {
+        prev = slow;
+        slow = slow->next;
+    }
+    prev->next = NULL;
+    prev = NULL;
+    while (slow) {
+        nxt = slow->next;
+        slow->next = prev;
+        prev = slow;
+        slow = nxt;
+    }
+    slow = prev;
+    while (slow) {
+        nxt = head->next;
+        prev = slow->next;
+        head->next = slow;
+        slow->next = nxt;
+        slow = prev;
+        head = nxt;
+    }
+    return dummy->next;
+}
+```

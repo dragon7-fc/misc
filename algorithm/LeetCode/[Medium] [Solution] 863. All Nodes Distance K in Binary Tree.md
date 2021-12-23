@@ -178,3 +178,102 @@ class Solution:
             K -= 1
         return level if K == 0 else []
 ```
+
+**Solution 2: (BFS)**
+```
+Runtime: 8 ms
+Memory Usage: 12.6 MB
+```
+```c
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     struct TreeNode *left;
+ *     struct TreeNode *right;
+ * };
+ */
+
+void helper_DeepSearch(struct TreeNode* root, struct TreeNode* target, int K, int* returnSize, int** result)
+{
+    if((root==NULL) || (K<0))
+        return;
+    
+    if(K==0)
+    {
+        (*result) = (int*)realloc(*result,(*returnSize+1)*sizeof(int));
+        (*result)[(*returnSize)++] = root->val;
+    }
+    else
+    {
+        helper_DeepSearch(root->left,target,K-1,returnSize,result);
+        helper_DeepSearch(root->right,target,K-1,returnSize,result);
+    }
+}
+
+int helper(struct TreeNode* root, struct TreeNode* target, int K, int* returnSize, int** result)
+{
+    int left, right;
+    
+    if(root==NULL)
+        return 0;
+    
+    if(root==target)
+    {
+        helper_DeepSearch(root->left,target,K-1,returnSize,result);
+        helper_DeepSearch(root->right,target,K-1,returnSize,result);
+        return 1;
+    }
+    
+    left = helper(root->left,target,K,returnSize,result);
+    if(left > 0)
+    {
+        if(left==K)
+        {
+            (*result) = (int*)realloc(*result,(*returnSize+1)*sizeof(int));
+            (*result)[(*returnSize)++] = root->val;
+        }
+        helper_DeepSearch(root->right,target,K-left-1,returnSize,result);
+        return left + 1;
+    }
+    
+    right = helper(root->right,target,K,returnSize,result);
+    if(right > 0)
+    {
+        if(right==K)
+        {
+            (*result) = (int*)realloc(*result,(*returnSize+1)*sizeof(int));
+            (*result)[(*returnSize)++] = root->val;
+        }
+        helper_DeepSearch(root->left,target,K-right-1,returnSize,result);
+        return right + 1;
+    }
+    
+    return 0;
+}
+
+/**
+ * Note: The returned array must be malloced, assume caller calls free().
+ */
+int* distanceK(struct TreeNode* root, struct TreeNode* target, int k, int* returnSize) {
+    int* result = NULL;
+    
+    if((root==NULL) || (target==NULL))
+    {
+        *returnSize = 0;
+        return NULL;
+    }
+    
+    if(k==0)
+    {
+        *returnSize = 1;
+        result = (int*)malloc(1*sizeof(int));
+        result[0] = target->val;
+        return result;
+    }
+    
+    helper(root,target,k,returnSize,&result);
+    
+    return result;
+}
+```

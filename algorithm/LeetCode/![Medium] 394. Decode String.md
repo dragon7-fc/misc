@@ -132,3 +132,86 @@ class Solution:
             
         return stack[-1][0]
 ```
+
+**Solution 2: (DFS)**
+```
+Runtime: 0 ms
+Memory Usage: 10 MB
+```
+```c
+int stringToInt(char c1, char c2, char c3) {
+
+    int num = (c3 - 48);
+
+    num += ((c2 - 48) * 10);
+
+    num += ((c1 - 48) * 100);
+
+    return num;
+}
+
+char * decodeString(char * s){
+    char *string = (char *) malloc(10000 * sizeof(char));
+
+    if (s[0] == '\0')
+        return "\0";
+    else if (s[0] >= 'a' && s[0] <= 'z') {
+        string[0] = s[0];
+        string[1] = '\0';
+
+        strcat(string, decodeString(s + 1));
+
+        return string;
+    }
+    else if (s[0] >= '1' && s[0] <= '9') {    
+        int count = 1, pos = 2, aux = 0;
+        char c1 = '0', c2 = '0', c3 = s[0];
+    
+        if (s[1] != '[') {
+            c3 = s[1];
+            c2 = s[0];
+
+            pos++;
+
+            if (s[2] != '[') {
+                c3 = s[2];
+                c2 = s[1];
+                c1 = s[0];
+
+                pos++;
+            }
+        }
+    
+        int k = stringToInt(c1, c2, c3);
+    
+        while (count != 0) {
+            if (s[pos] == '[')
+                count++;
+            else if (s[pos] == ']')
+                count--;
+
+            if (count != 0)
+                string[aux++] = s[pos++];
+        }
+
+        string[aux] = '\0';
+
+        strcpy(string, decodeString(string));
+    
+        char tmp[10000];
+
+        tmp[0] = '\0';
+
+        strcpy(tmp, string);
+
+        for (int i = 0; i < (k - 1); i++)
+            strcat(string, tmp);
+
+        strcat(string, decodeString(s + pos + 1));
+    
+        return string;
+    }
+
+    return string;
+}
+```

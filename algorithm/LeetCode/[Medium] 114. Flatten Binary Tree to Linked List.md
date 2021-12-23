@@ -152,3 +152,35 @@ void flatten(struct TreeNode* root){
     return root;
 }
 ```
+
+**Solution 5: (DFS, right-left traversal)**
+```
+Runtime: 4 ms
+Memory Usage: 6.8 MB
+```
+```c
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     struct TreeNode *left;
+ *     struct TreeNode *right;
+ * };
+ */
+
+void dfs(struct TreeNode *node, struct TreeNode **prev) {
+    if (!node)
+        return;
+    dfs(node->right, prev);
+    dfs(node->left, prev);
+    node->right = *prev;
+    node->left = NULL;
+    *prev = node;
+}
+
+void flatten(struct TreeNode* root){
+    struct TreeNode *prev = NULL;
+    dfs(root, &prev);
+    return root;
+}
+```

@@ -150,7 +150,7 @@ Memory Usage: 5.9 MB
 
 
 struct ListNode* removeNthFromEnd(struct ListNode* head, int n){
-    struct ListNode *dummy, *first, *second;
+    struct ListNode *dummy, *first, *second, *tmp;
     dummy = malloc(sizeof(struct ListNode));
     dummy->next = head;
     first = second = dummy;
@@ -162,7 +162,9 @@ struct ListNode* removeNthFromEnd(struct ListNode* head, int n){
         first = first->next;
         second = second->next;
     }
-    second->next = second->next->next;
+    tmp = second->next->next;
+    free(second->next);
+    second->next = tmp;
     return dummy->next;
 }
 ```

@@ -75,7 +75,7 @@ class Solution:
 **Solution 3: (Recursive, Linked List)**
 ```
 Runtime: 0 ms
-Memory Usage: 5.8 MB
+Memory Usage: 6.1 MB
 ```
 ```c
 /**
@@ -89,12 +89,11 @@ Memory Usage: 5.8 MB
 struct ListNode* swapPairs(struct ListNode* head){
     if (!head || !head->next)
         return head;
-    struct ListNode *reverse_node, *prev, *cur;
-    reverse_node = swapPairs(head->next->next);
-    prev = head;
-    cur = prev->next;
-    cur->next = prev;
-    prev->next = reverse_node;
-    return cur;
+    struct ListNode *first, *second;
+    first = head;
+    second = head->next;
+    first->next = swapPairs(second->next);
+    second->next = first;
+    return second;
 }
 ```

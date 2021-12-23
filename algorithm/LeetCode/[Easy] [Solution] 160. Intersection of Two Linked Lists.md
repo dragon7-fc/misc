@@ -74,3 +74,28 @@ class Solution(object):
             pb = headA if not pb else pb.next
         return pa
 ```
+
+**Solution 2: (Linked List)**
+```
+Runtime: 32 ms
+Memory Usage: 13.9 MB
+```
+```c
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     struct ListNode *next;
+ * };
+ */
+struct ListNode *getIntersectionNode(struct ListNode *headA, struct ListNode *headB) {
+    if (!headA || !headB)
+        return NULL;
+    struct ListNode *pa = headA, *pb = headB;
+    while (pa != pb) {
+        pa = (!pa) ? headB : pa->next;
+        pb = (!pb) ? headA : pb->next;
+    }
+    return pa;
+}
+```

@@ -52,3 +52,52 @@ class Solution:
         second = self.sortList(slow)
         return merge(first, second)
 ```
+
+**Solution 2: (Linked List, Merge Sort)**
+```
+Runtime: 40 ms
+Memory Usage: 14.2 MB
+```
+```c
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     struct ListNode *next;
+ * };
+ */
+struct ListNode *mergeList(struct ListNode *l1, struct ListNode *l2)
+{
+    if(l1 == NULL) return l2;
+    if(l2 == NULL) return l1;
+
+    if(l1->val <= l2->val)
+    {
+        l1->next = mergeList(l1->next, l2);
+        return l1;
+    }
+    else
+    {
+        l2->next = mergeList(l1, l2->next);
+        return l2;
+    }
+}
+
+struct ListNode* sortList(struct ListNode* head){
+    if(head == NULL)
+        return NULL;
+    if(head->next == NULL)
+        return head;
+    struct ListNode *fast, *slow, *pre;
+    fast = slow = head;
+    while(fast && fast->next)
+    {
+        pre = slow;
+        fast = fast->next->next;
+        slow = slow->next;
+    }
+
+    pre->next = NULL;
+    return mergeList(sortList(head), sortList(slow));
+}
+```
