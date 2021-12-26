@@ -69,8 +69,8 @@ class Solution:
 ```
 **Solution 2: (Stack, Linked List)**
 ```
-Runtime: 258 ms
-Memory Usage: 32 MB
+Runtime: 193 ms
+Memory Usage: 34.2 MB
 ```
 ```c
 /**
@@ -86,24 +86,30 @@ Memory Usage: 32 MB
  * Note: The returned array must be malloced, assume caller calls free().
  */
 int* nextLargerNodes(struct ListNode* head, int* returnSize){
-    int *ans;
-    int stack[10000];
-    int i = 0, top;
-    while (head) {
-        stack[i] = head->val;
-        head = head->next;
+    int top = -1, i = 0, *ans;
+    struct ListNode **stack, *cur = head;
+    stack = malloc(10000*sizeof(struct ListNode *));
+    while (cur) {
+        while (top >= 0 && cur->val > stack[top]->val)
+            stack[top--]->val = cur->val;
+        stack[++top] = cur;
+        cur = cur->next;
         i += 1;
     }
-    top = i;
-    ans = malloc(i*sizeof(int));
-    for (int j = i-1; j >= 0; j--) {
-        while (top != i && stack[j] >= stack[top])
-            top += 1;
-        ans[j] = (top == i ? 0 : stack[top]);
-        top -= 1;
-        stack[top] = stack[j];
-    }
     *returnSize = i;
+    ans = malloc(i*sizeof(int));
+    if (top >= 0) {
+        for (int i = 0; i <= top; i ++){
+            stack[i]->val = 0;
+        }
+    }
+    cur = head;
+    i = 0;
+    while (cur) {
+        ans[i] = cur->val;
+        cur = cur->next;
+        i += 1;
+    }
     return ans;
 }
 ```

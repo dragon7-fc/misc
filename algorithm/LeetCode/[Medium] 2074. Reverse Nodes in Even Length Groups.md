@@ -95,3 +95,53 @@ class Solution:
             d += 1
         return head
 ```
+
+**Solution 2: (Linked-List)**
+```
+Runtime: 412 ms
+Memory Usage: 79.8 MB
+```
+```c
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     struct ListNode *next;
+ * };
+ */
+
+
+struct ListNode* reverseEvenLengthGroups(struct ListNode* head){
+    struct ListNode *prev = head, *cur, *rev, *nxt;
+    int d = 2, n, i;
+    while (prev->next) {
+        cur = prev;
+        n = 0;
+        i = 0;
+        for (i = 0; i < d; i ++) {
+            if (!cur->next)
+                break;
+            n += 1;
+            cur = cur->next;
+        }
+        if (n&1) {
+            prev = cur;
+        } else {
+            rev = NULL;
+            cur = prev->next;
+            for (i = 0; i < n; i ++) {
+                nxt = cur->next;
+                cur->next = rev;
+                rev = cur;
+                cur = nxt;
+            }
+            prev->next->next = cur;
+            nxt = prev->next;
+            prev->next = rev;
+            prev = nxt;
+        }
+        d += 1;
+    }
+    return head;
+}
+```

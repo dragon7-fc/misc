@@ -219,3 +219,53 @@ public:
     }
 };
 ```
+
+**Solution 3: (Sorting)**
+```
+Runtime: 16 ms
+Memory Usage: 7.8 MB
+```
+```c
+int cmp(void* a,void* b){
+    if(((int**)a)[0][0]==((int**)b)[0][0]){
+        return ((int**)a)[0][1]-((int**)b)[0][1];
+    }
+    return ((int**)a)[0][0]-((int**)b)[0][0];
+}
+
+/**
+ * Return an array of arrays of size *returnSize.
+ * The sizes of the arrays are returned as *returnColumnSizes array.
+ * Note: Both returned array and *columnSizes array must be malloced, assume caller calls free().
+ */
+int** merge(int** intervals, int intervalsSize, int* intervalsColSize, int* returnSize, int** returnColumnSizes){
+    *returnSize=0;
+    if(intervalsSize==0){
+        return NULL;
+    }
+    qsort(intervals,intervalsSize,sizeof(intervals[0]),cmp);
+    int** ret=(int**)malloc(intervalsSize*sizeof(int*));
+    int* tmp=NULL;
+    int flag=0;
+    for(int i=0;i<intervalsSize;i++){
+        if(flag==0){
+            tmp=intervals[i];
+            flag=1;
+            continue;
+        }
+        if(tmp[0]<=intervals[i][0]&&tmp[1]>=intervals[i][0]){
+            tmp[1]=tmp[1]>intervals[i][1]?tmp[1]:intervals[i][1];
+        }else{
+            ret[(*returnSize)++]=tmp;
+            flag=0;
+            i--;
+        }
+    }
+    ret[(*returnSize)++]=tmp;
+    returnColumnSizes[0]=(int*)malloc((*returnSize)*sizeof(int));
+    for(int i=0;i<(*returnSize);i++){
+        returnColumnSizes[0][i]=2;
+    }
+    return ret;
+}
+```

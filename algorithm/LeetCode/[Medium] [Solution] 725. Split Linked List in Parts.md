@@ -241,3 +241,46 @@ struct ListNode** splitListToParts(struct ListNode* head, int k, int* returnSize
     return ans;
 }
 ```
+
+**Solution 4: (Linked List)**
+```
+Runtime: 4 ms
+Memory Usage: 6.8 MB
+```
+```c
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     struct ListNode *next;
+ * };
+ */
+
+
+/**
+ * Note: The returned array must be malloced, assume caller calls free().
+ */
+struct ListNode** splitListToParts(struct ListNode* head, int k, int* returnSize){
+    int counter=0;
+    struct ListNode* ptr;
+    struct ListNode** ret_array; 
+    int count_array[k];
+    int i, j;
+    ptr = head;
+    while (ptr!=NULL) { counter++; ptr = ptr->next; }
+    ret_array = calloc(1, k * sizeof(struct ListNode*));
+    *returnSize = k;
+    for (i=0; i<k; i++) count_array[i]=counter/k;
+    for (i=0; i<(counter % k); i++) count_array[i]++;
+    for (i=0; i<k; i++) {
+        ret_array[i]=head;
+        ptr=head;
+        for (j=1; j<count_array[i]; j++) ptr = ptr->next;
+        if (ptr!=NULL) {
+            head=ptr->next;
+            ptr->next=NULL;
+        }
+    }
+    return ret_array;
+}
+```

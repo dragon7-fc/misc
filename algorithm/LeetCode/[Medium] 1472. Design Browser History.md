@@ -75,3 +75,64 @@ class BrowserHistory:
 # param_2 = obj.back(steps)
 # param_3 = obj.forward(steps)
 ```
+
+**Solution 2: (Array)**
+```
+Runtime: 120 ms
+Memory Usage: 33.3 MB
+```
+```c
+
+typedef struct {
+    int cur;
+    int size;
+    char **url;
+} BrowserHistory;
+
+
+BrowserHistory* browserHistoryCreate(char * homepage) {
+    BrowserHistory *rst = calloc(1, sizeof(BrowserHistory));
+    rst->url = malloc(101*sizeof(char *));
+    for (int i = 0; i < 101; i ++)
+        rst->url[i] = calloc(1, 21*sizeof(char));
+    rst->cur = 0;
+    rst->size = 1;
+    strcpy(rst->url[rst->cur], homepage);
+    return rst;
+}
+
+void browserHistoryVisit(BrowserHistory* obj, char * url) {
+    obj->cur += 1;
+    obj->size = obj->cur + 1;
+    strcpy(obj->url[obj->cur], url);
+}
+
+char * browserHistoryBack(BrowserHistory* obj, int steps) {
+    obj->cur = obj->cur - steps <= 0 ? 0 : obj->cur - steps;
+    return obj->url[obj->cur];
+}
+
+char * browserHistoryForward(BrowserHistory* obj, int steps) {
+    obj->cur = obj->cur + steps >= obj->size - 1 ? obj->size - 1 : obj->cur + steps;
+    return obj->url[obj->cur];
+}
+
+void browserHistoryFree(BrowserHistory* obj) {
+    for (int i = 0; i < 101; i++)
+        free(obj->url[i]);
+    free(obj->url);
+    free(obj);
+}
+
+/**
+ * Your BrowserHistory struct will be instantiated and called as such:
+ * BrowserHistory* obj = browserHistoryCreate(homepage);
+ * browserHistoryVisit(obj, url);
+ 
+ * char * param_2 = browserHistoryBack(obj, steps);
+ 
+ * char * param_3 = browserHistoryForward(obj, steps);
+ 
+ * browserHistoryFree(obj);
+*/
+```

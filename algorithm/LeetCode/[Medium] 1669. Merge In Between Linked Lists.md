@@ -63,3 +63,41 @@ class Solution:
         end.next = None
         return list1
 ```
+
+**Solution 2: (Linked List)**
+```
+Runtime: 116 ms
+Memory Usage: 32.9 MB
+```
+```c
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     struct ListNode *next;
+ * };
+ */
+
+
+struct ListNode* mergeInBetween(struct ListNode* list1, int a, int b, struct ListNode* list2){
+    struct ListNode *cur = list1, *start, *end;
+    int i = 0;
+    while (i <= b) {
+        if (i == a - 1)
+            start = cur;
+        if (i == b) {
+            end = cur->next;
+            break;
+        }
+        cur = cur->next;
+        i += 1;
+    }
+    start->next = list2;
+    cur = list2;
+    while (cur->next) {
+        cur = cur->next;
+    }
+    cur->next = end;
+    return list1;
+}
+```

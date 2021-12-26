@@ -138,3 +138,57 @@ public:
     }
 };
 ```
+
+**Solution 3: (Linked List)**
+```
+Runtime: 128 ms
+Memory Usage: 44.7 MB
+```
+```c
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     struct ListNode *next;
+ * };
+ */
+
+#define min(a, b) (a < b ? a : b)
+/**
+ * Note: The returned array must be malloced, assume caller calls free().
+ */
+int* nodesBetweenCriticalPoints(struct ListNode* head, int* returnSize){
+    int *result = (int*)malloc(sizeof(int) * 2);
+    result[0] = result[1] = -1;
+    *returnSize = 2;
+    
+    struct ListNode *tail = head;
+    struct ListNode *ptr = head->next;
+    struct ListNode *front = head->next->next;
+    
+    int min_dist = 100000;
+    
+    int first_critical_point = 0;
+    int last_critical_point = 0;
+    
+    int index = 1;
+    
+    while(front){
+        index++;  
+		
+        if( (ptr->val > tail->val ) && ( ptr->val > front->val ) || (ptr->val <tail->val) && (ptr->val < front->val) ){ 
+            if(first_critical_point==0){first_critical_point = last_critical_point = index;}
+            else{
+                min_dist = (index - last_critical_point < min_dist) ? index - last_critical_point : min_dist;
+                last_critical_point = index;
+            }
+        }   
+        tail = ptr;
+        ptr = front;
+        front = front->next;   
+    }
+    result[0] = (min_dist  == 100000) ?  -1  :  min_dist ;
+    result[1] = (last_critical_point == first_critical_point) ? -1 : last_critical_point-first_critical_point ;
+    return result;
+}
+```

@@ -194,3 +194,98 @@ void myCircularQueueFree(MyCircularQueue* obj) {
 */
 ```
 
+**Solution 3: (Array)**
+```
+Runtime: 24 ms
+Memory Usage: 12.9 MB
+```
+```c
+
+
+
+typedef struct {
+    int size;
+    int filled;
+    int *q;
+    int head;
+    int tail;
+} MyCircularQueue;
+
+bool myCircularQueueIsEmpty(MyCircularQueue* obj);
+bool myCircularQueueIsFull(MyCircularQueue* obj);
+
+MyCircularQueue* myCircularQueueCreate(int k) {
+    MyCircularQueue *rst = calloc(1, sizeof(MyCircularQueue));
+    rst->q = calloc(1, k*sizeof(int));
+    rst->size = k;
+    rst->head = -1;
+    rst->tail = -1;
+    return rst;
+}
+
+bool myCircularQueueEnQueue(MyCircularQueue* obj, int value) {
+    if (myCircularQueueIsFull(obj))
+        return false;
+    if (obj->head == -1 && obj->tail == -1) {
+        obj->head = 0;
+        obj->tail = 0;
+    } else {
+        obj->tail = (obj->tail+1) % obj->size;
+    }
+    obj->q[obj->tail] = value;
+    obj->filled += 1;
+    return true;
+}
+
+bool myCircularQueueDeQueue(MyCircularQueue* obj) {
+    if (myCircularQueueIsEmpty(obj))
+        return false;
+    if (obj->head == obj->tail) {
+        obj->head = -1;
+        obj->tail = -1;
+    } else {
+        obj->head = (obj->head + 1) % obj->size;
+    }
+    obj->filled -= 1;
+    return true;
+}
+
+int myCircularQueueFront(MyCircularQueue* obj) {
+   return myCircularQueueIsEmpty(obj) ? -1 : obj->q[obj->head];
+}
+
+int myCircularQueueRear(MyCircularQueue* obj) {
+    return myCircularQueueIsEmpty(obj) ? -1 : obj->q[obj->tail];
+}
+
+bool myCircularQueueIsEmpty(MyCircularQueue* obj) {
+   return obj->filled == 0;
+}
+
+bool myCircularQueueIsFull(MyCircularQueue* obj) {
+    return obj->filled == obj->size;
+}
+
+void myCircularQueueFree(MyCircularQueue* obj) {
+    free(obj->q);
+    free(obj);
+}
+
+/**
+ * Your MyCircularQueue struct will be instantiated and called as such:
+ * MyCircularQueue* obj = myCircularQueueCreate(k);
+ * bool param_1 = myCircularQueueEnQueue(obj, value);
+ 
+ * bool param_2 = myCircularQueueDeQueue(obj);
+ 
+ * int param_3 = myCircularQueueFront(obj);
+ 
+ * int param_4 = myCircularQueueRear(obj);
+ 
+ * bool param_5 = myCircularQueueIsEmpty(obj);
+ 
+ * bool param_6 = myCircularQueueIsFull(obj);
+ 
+ * myCircularQueueFree(obj);
+*/
+```

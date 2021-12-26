@@ -144,7 +144,7 @@ class MyCircularDeque:
 # param_8 = obj.isFull()
 ```
 
-**Solution 2: (Linked list)**
+**Solution 2: (Linked list, pre build dummy circular list)**
 ```
 Runtime: 84 ms
 Memory Usage: 14 MB
@@ -268,4 +268,160 @@ class MyCircularDeque:
 # param_6 = obj.getRear()
 # param_7 = obj.isEmpty()
 # param_8 = obj.isFull()
+```
+
+**Solution 3: (Linked List)**
+```
+Runtime: 50 ms
+Memory Usage: 12.6 MB
+```
+```c
+
+struct CircularListNode {
+    int val;
+    struct CircularListNode *next;
+    struct CircularListNode *prev;
+};
+
+typedef struct {
+    int cap;
+    int n;
+    struct CircularListNode *front;
+    struct CircularListNode *last;
+} MyCircularDeque;
+
+MyCircularDeque* myCircularDequeCreate(int k) {
+    MyCircularDeque *rst = calloc(1, sizeof(MyCircularDeque));
+    rst->cap = k;
+    return rst;
+}
+
+bool myCircularDequeInsertFront(MyCircularDeque* obj, int value) {
+    if (obj->n == obj->cap)
+        return false;
+    struct CircularListNode *node;
+    node = malloc(sizeof(struct CircularListNode));
+    node->val = value;
+    if (obj->n == 0) {
+        node->next = node;
+        node->prev = node;
+        obj->front = node;
+        obj->last = node;
+        obj->n = 1;
+        return true;
+    }
+    obj->front->next->prev = node;
+    node->next = obj->front->next;
+    node->prev = obj->front;
+    obj->front->next = node;
+    obj->front = node;
+    obj->n += 1;
+    return true;
+}
+
+bool myCircularDequeInsertLast(MyCircularDeque* obj, int value) {
+    if (obj->n == obj->cap)
+        return false;
+    struct CircularListNode *node;
+    node = malloc(sizeof(struct CircularListNode));
+    node->val = value;
+    if (obj->n == 0) {
+        node->next = node;
+        node->prev = node;
+        obj->front = node;
+        obj->last = node;
+        obj->n = 1;
+        return true;
+    }
+    obj->last->prev->next = node;
+    node->prev = obj->last->prev;
+    node->next = obj->last;
+    obj->last->prev = node;
+    obj->last = node;
+    obj->n += 1;
+    return true;
+}
+
+bool myCircularDequeDeleteFront(MyCircularDeque* obj) {
+    if (obj->n == 0)
+        return false;
+    obj->front->prev->next = obj->front->next;
+    obj->front->next->prev = obj->front->prev;
+    struct CircularListNode *tmp = obj->front;
+    obj->front = obj->front->prev;
+    free(tmp);
+    obj->n -= 1;
+    return true;
+}
+
+bool myCircularDequeDeleteLast(MyCircularDeque* obj) {
+    if (obj->n == 0)
+        return false;
+    if (obj->n == 1) {
+        free(obj->front);
+        obj->front = NULL;
+        obj->last = NULL;
+        obj->n = 0;
+        return true;
+    }
+    obj->last->prev->next = obj->last->next;
+    obj->last->next->prev = obj->last->prev;
+    struct CircularListNode *tmp = obj->last;
+    obj->last = obj->last->next;
+    free(tmp);
+    obj->n -= 1;
+    return true;
+}
+
+int myCircularDequeGetFront(MyCircularDeque* obj) {
+    if (obj->n == 0)
+        return -1;
+    return obj->front->val;
+}
+
+int myCircularDequeGetRear(MyCircularDeque* obj) {
+    if (obj->n == 0)
+        return -1;
+    return obj->last->val;
+}
+
+bool myCircularDequeIsEmpty(MyCircularDeque* obj) {
+    return obj->n == 0;
+}
+
+bool myCircularDequeIsFull(MyCircularDeque* obj) {
+    return obj->n == obj->cap;
+}
+
+void myCircularDequeFree(MyCircularDeque* obj) {
+    while (obj->front != obj->last) {
+        struct ListNode *tmp = obj->front;
+        obj->front = obj->front->prev;
+        free(tmp);
+    }
+    free(obj->front);
+    free(obj);
+}
+
+/**
+ * Your MyCircularDeque struct will be instantiated and called as such:
+ * MyCircularDeque* obj = myCircularDequeCreate(k);
+ * bool param_1 = myCircularDequeInsertFront(obj, value);
+ 
+ * bool param_2 = myCircularDequeInsertLast(obj, value);
+ 
+ * bool param_3 = myCircularDequeDeleteFront(obj);
+ 
+ * bool param_4 = myCircularDequeDeleteLast(obj);
+ 
+ * int param_5 = myCircularDequeGetFront(obj);
+ 
+ * int param_6 = myCircularDequeGetRear(obj);
+ 
+ * bool param_7 = myCircularDequeIsEmpty(obj);
+ 
+ * bool param_8 = myCircularDequeIsFull(obj);
+ 
+ * myCircularDequeFree(obj);
+*/
 ```

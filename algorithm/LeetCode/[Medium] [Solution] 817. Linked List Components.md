@@ -94,3 +94,50 @@ class Solution:
 
         return ans
 ```
+
+**Solution 2; (Linked List)**
+```
+Runtime: 16 ms
+Memory Usage: 9.4 MB
+```
+```c
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     struct ListNode *next;
+ * };
+ */
+
+
+int numComponents(struct ListNode* head, int* nums, int numsSize){
+    int n = 0, ans = 0, i = 0;
+    bool flag = false;
+    struct ListNode* ptr = head;
+
+    while(ptr) {
+        ptr = ptr -> next;
+        n++;
+    }
+
+    bool *set = calloc (1, sizeof(bool) * n);
+
+    for(i = 0; i < numsSize; i++) {
+        set[nums[i]] = 1;
+    }
+
+    ptr = head;
+    while(ptr) {
+        bool exists = (set[ptr -> val]) ? true : false;
+        if(!exists)
+            flag = false;
+        else if(exists && flag == false) {
+            flag = true;
+            ans++;
+        }
+        ptr = ptr -> next;
+    }
+
+    return ans;
+}
+```

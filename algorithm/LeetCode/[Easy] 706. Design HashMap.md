@@ -68,3 +68,168 @@ class MyHashMap:
 # param_2 = obj.get(key)
 # obj.remove(key)
 ```
+
+**Solution 2: (Array)**
+```
+Runtime: 144 ms
+Memory Usage: 188 MB
+```
+```c
+
+
+
+typedef struct {
+    int el[1000001];
+} MyHashMap;
+
+
+MyHashMap* myHashMapCreate() {
+    MyHashMap *rst = malloc(sizeof(MyHashMap));
+    for (int i = 0; i < 1000001; i ++) {
+        rst->el[i] = -1;
+    }
+    return rst;
+}
+
+void myHashMapPut(MyHashMap* obj, int key, int value) {
+    obj->el[key] = value;
+}
+
+int myHashMapGet(MyHashMap* obj, int key) {
+    return obj->el[key];
+}
+
+void myHashMapRemove(MyHashMap* obj, int key) {
+    obj->el[key] = -1;
+}
+
+void myHashMapFree(MyHashMap* obj) {
+    free(obj);
+}
+
+/**
+ * Your MyHashMap struct will be instantiated and called as such:
+ * MyHashMap* obj = myHashMapCreate();
+ * myHashMapPut(obj, key, value);
+ 
+ * int param_2 = myHashMapGet(obj, key);
+ 
+ * myHashMapRemove(obj, key);
+ 
+ * myHashMapFree(obj);
+*/
+```
+
+**Solution 3: (Linked List)**
+```
+Runtime: 172 ms
+Memory Usage: 51.3 MB
+```
+```c
+
+#define CAPACITY 2048
+
+typedef struct bucket {
+    struct bucket *next; // for collision resolve
+    uint32_t val;
+} bucket;
+
+typedef struct {
+    bucket root[CAPACITY];
+} MyHashMap;
+
+
+MyHashMap* myHashMapCreate() {
+    MyHashMap *hash_map = (MyHashMap *)malloc(sizeof(MyHashMap));
+    bucket *root = hash_map->root;
+    for (int i = 0; i < CAPACITY; i++)
+    {
+        root[i].next = NULL;
+        root[i].val = 0xffffffff;
+    }
+    return hash_map;
+}
+
+int hash_function(int key)
+{
+    return key % CAPACITY;
+}
+
+void myHashMapPut(MyHashMap* obj, int key, int value) {
+    // basically insert into a linked-list as a head
+    bucket *current = obj->root + hash_function(key);
+    bucket *prev = NULL;
+    int index = key / CAPACITY;
+    int i = 0;
+    for (; i < index; i++)
+    {
+        prev = current;
+        current = current->next;
+        if (current == NULL)
+        {
+            current = (bucket *)malloc(sizeof(bucket));
+            current->next = NULL;
+            current->val = 0xffffffff;
+            prev->next = current;
+        }
+    }
+    current->val = value;
+}
+
+int myHashMapGet(MyHashMap* obj, int key) {
+    // find an item and return the copy of the value
+    int index = key / CAPACITY;
+    bucket *current = obj->root + hash_function(key);
+    for (int i = 0; i < index && current != NULL; i++)
+    {
+        current = current->next;
+    }
+    if (current)
+    {
+        return current->val;
+    }
+    
+    return -1;
+}
+
+void myHashMapRemove(MyHashMap* obj, int key) {
+    int index = key / CAPACITY;
+    bucket *current = obj->root + hash_function(key);
+    for (int i = 0; i < index && current != NULL; i++)
+    {
+        current = current->next;
+    }
+    if (current)
+    {
+        current->val = 0xffffffff;
+    }
+}
+
+void myHashMapFree(MyHashMap* obj) {
+    for (int i = 0; i < CAPACITY; i++)
+    {
+        bucket *item = (obj->root + i)->next;
+        bucket *next = NULL;
+        while (item)
+        {
+            next = item->next;
+            free(item);
+            item = next;
+        }
+    }
+    free(obj);
+}
+
+
+/**
+ * Your MyHashMap struct will be instantiated and called as such:
+ * MyHashMap* obj = myHashMapCreate();
+ * myHashMapPut(obj, key, value);
+ 
+ * int param_2 = myHashMapGet(obj, key);
+ 
+ * myHashMapRemove(obj, key);
+ 
+ * myHashMapFree(obj);
+*/
+```

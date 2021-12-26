@@ -125,3 +125,121 @@ class MyLinkedList:
 # obj.addAtIndex(index,val)
 # obj.deleteAtIndex(index)
 ```
+
+**Solution 2: (Linked List)**
+```
+Runtime: 44 ms
+Memory Usage: 13.7 MB
+```
+```c
+
+typedef struct {
+    int n;
+    struct ListNode *node;
+} MyLinkedList;
+
+
+MyLinkedList* myLinkedListCreate() {
+    MyLinkedList *rst = calloc(1, sizeof(MyLinkedList));
+    return rst;
+}
+
+int myLinkedListGet(MyLinkedList* obj, int index) {
+    struct ListNode *node = obj->node;
+    if (index >= obj->n)
+        return -1;
+    while (index) {
+        index -= 1;
+        node = node->next;
+    }
+    return node->val;
+}
+
+void myLinkedListAddAtHead(MyLinkedList* obj, int val) {
+    struct ListNode *node = calloc(1, sizeof(struct ListNode));
+    node->val = val;
+    if (!obj->node) {
+        obj->node = node;
+    } else {
+        node->next = obj->node;
+        obj->node = node;
+    }
+    obj->n += 1;
+}
+
+void myLinkedListAddAtTail(MyLinkedList* obj, int val) {
+    struct ListNode *prev = NULL, *cur = obj->node, *node = calloc(1, sizeof(struct ListNode));
+    node->val = val;
+    while (cur) {
+        prev = cur;
+        cur = cur->next;
+    }
+    if (prev)
+        prev->next = node;
+    else
+        obj->node = node;
+    obj->n += 1;
+}
+
+void myLinkedListAddAtIndex(MyLinkedList* obj, int index, int val) {
+    if (index > obj->n) {
+        return;
+    }
+    struct ListNode *prev = NULL, *cur = obj->node, *node = calloc(1, sizeof(struct ListNode));
+    node->val = val;
+    while (index) {
+        prev = cur;
+        cur = cur->next;
+        index -= 1;
+    }
+    node->next = cur;
+    if (prev)
+        prev->next = node;
+    else
+        obj->node = node;
+    obj->n += 1;
+}
+
+void myLinkedListDeleteAtIndex(MyLinkedList* obj, int index) {
+    struct ListNode *prev = NULL, *cur = obj->node;
+    if (index >= obj->n)
+        return;
+    while (index) {
+        prev = cur;
+        cur = cur->next;
+        index -= 1;
+    }
+    if (prev)
+        prev->next = cur->next;
+    else
+        obj->node = cur->next;
+    free(cur);
+    obj->n -= 1;
+}
+
+void myLinkedListFree(MyLinkedList* obj) {
+    struct ListNode *cur = obj->node, *next;
+    while (cur) {
+        next = cur->next;
+        free(cur);
+        cur = next;
+    }
+    free(obj);
+}
+
+/**
+ * Your MyLinkedList struct will be instantiated and called as such:
+ * MyLinkedList* obj = myLinkedListCreate();
+ * int param_1 = myLinkedListGet(obj, index);
+ 
+ * myLinkedListAddAtHead(obj, val);
+ 
+ * myLinkedListAddAtTail(obj, val);
+ 
+ * myLinkedListAddAtIndex(obj, index, val);
+ 
+ * myLinkedListDeleteAtIndex(obj, index);
+ 
+ * myLinkedListFree(obj);
+*/
+```
