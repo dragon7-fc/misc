@@ -273,14 +273,16 @@ Memory Usage: 14 MB
 ```python
 class Solution:
     def findLength(self, A: List[int], B: List[int]) -> int:
+
         P, MOD = 113, 10**9 + 7
         Pinv = pow(P, MOD-2, MOD)
+
         def check(guess):
+
             def rolling(A, length):
                 if length == 0:
                     yield 0, 0
                     return
-
                 h, power = 0, 1
                 for i, x in enumerate(A):
                     h = (h + x * power) % MOD

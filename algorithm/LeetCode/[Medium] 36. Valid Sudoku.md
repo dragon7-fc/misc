@@ -88,3 +88,26 @@ class Solution:
                         return False         
         return True
 ```
+
+**Solution 2: (Array)**
+```
+Runtime: 4 ms
+Memory Usage: 5.8 MB
+```
+```c
+
+
+bool isValidSudoku(char** board, int boardSize, int* boardColSize){
+    int r, c, value, check[3][9][10] = {0};
+    for(r=0;r<9;r++)
+        for(c=0;c<9;c++){
+            value = board[r][c] - '0';
+            if(value != -2){
+                if(check[0][r][value]++ >0) return false;
+                if(check[1][c][value]++ >0) return false;
+                if(check[2][(r/3)*3 + c/3][value]++ >0) return false;
+        }
+    }
+    return true;
+}
+```

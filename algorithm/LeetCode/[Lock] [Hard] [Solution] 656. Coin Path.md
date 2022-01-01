@@ -219,7 +219,6 @@ class Solution:
         else:
             return [];
         return ans
-        return ans
 ```
 
 **Solution 2; (DP Bottom-Up)**

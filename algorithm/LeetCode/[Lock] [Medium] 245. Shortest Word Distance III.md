@@ -1,8 +1,8 @@
 245. Shortest Word Distance III
 
-Given a list of words and two words word1 and word2, return the shortest distance between these two words in the list.
+Given a list of `words` and two words `word1` and `word2`, return the shortest distance between these two words in the list.
 
-word1 and word2 may be the same and they represent two individual words in the list.
+`word1` and `word2` may be the same and they represent two individual words in the list.
 
 **Example:**
 ```
@@ -16,7 +16,7 @@ Output: 3
 
 **Note:**
 
-* You may assume word1 and word2 are both in the list.
+* You may assume `word1` and `word2` are both in the list.
 
 # Submissions
 ---

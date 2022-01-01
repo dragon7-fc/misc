@@ -59,3 +59,35 @@ class Solution:
                 break
         return target - diff
 ```
+
+**Solution 3: (qsort, Two Pointers)**
+```
+Runtime: 4 ms
+Memory Usage: 5.8 MB
+```
+```c
+int cmp(int *a, int *b) {
+    return *a - *b;
+}
+
+int threeSumClosest(int* nums, int numsSize, int target){
+    int diff = INT_MAX, j, k, t;
+    qsort(nums, numsSize, sizeof(int), cmp);
+    for (int i = 0; i < numsSize; i ++) {
+        j = i+1;
+        k = numsSize-1;
+        while (j < k) {
+            t = nums[i] + nums[j] + nums[k];
+            if (abs(target -t) < abs(diff))
+                diff = target - t;
+            if (t < target)
+                j += 1;
+            else
+                k -= 1;
+        }
+        if (diff == 0)
+            break;
+    }
+    return target - diff;
+}
+```

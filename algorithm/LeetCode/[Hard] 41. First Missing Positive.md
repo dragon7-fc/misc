@@ -163,3 +163,33 @@ public:
     }
 };
 ```
+
+**Solution 6: (value as index)**
+```
+Runtime: 116 ms
+Memory Usage: 30.2 MB
+```
+```c
+
+
+int firstMissingPositive(int* nums, int numsSize){
+    int i = 0, j, tmp;
+    while (i < numsSize) {
+        if (nums[i] <= 0 || nums[i] > numsSize) {
+            i += 1;
+            continue;
+        }
+        j = nums[i];
+        if (nums[j-1] != nums[i]) {
+            tmp = nums[j-1];
+            nums[j-1] = nums[i];
+            nums[i] = tmp;
+        } else
+            i += 1;
+    }
+    for (i = 0; i < numsSize; i ++)
+        if (i+1 != nums[i])
+            return i+1;
+    return numsSize+1;
+}
+```

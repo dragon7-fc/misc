@@ -32,3 +32,22 @@ class Solution:
     def findComplement(self, num: int) -> int:
          return int(''.join(chr(ord('0') + ord('1') - ord(ch)) for ch in bin(num)[2:]),2)
 ```
+
+**Solution 2: (Bit Manipulation)**
+```
+Runtime: 0 ms
+Memory Usage: 5.4 MB
+```
+```c
+
+
+int findComplement(int num){
+    int temp = num, c = 0;
+    while(temp>0)
+    {
+        c = (c<<1)|1;
+        temp >>= 1;
+    }  
+    return num ^ c;
+}
+```

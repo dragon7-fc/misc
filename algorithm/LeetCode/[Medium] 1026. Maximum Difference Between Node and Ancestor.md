@@ -156,3 +156,43 @@ class Solution:
         dfs(root)
         return ans
 ```
+
+**Solution 5: (DFS)**
+```
+Runtime: 3 ms
+Memory Usage: 7.6 MB
+```
+```c
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     struct TreeNode *left;
+ *     struct TreeNode *right;
+ * };
+ */
+int helper(struct TreeNode* root, int max, int min)
+{
+    int left, right;
+    
+    if(root == NULL)
+        return max - min;
+    
+    if(root->val > max)
+        max = root->val;
+    if(root->val < min)
+        min = root->val;
+    
+    left = helper(root->left,max,min);
+    right = helper(root->right,max,min);
+    
+    if(left < right)
+        return right;
+    else
+        return left;
+}
+
+int maxAncestorDiff(struct TreeNode* root){
+    return helper(root,root->val,root->val);
+}
+```

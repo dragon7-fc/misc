@@ -56,6 +56,7 @@ Memory Usage: 15.4 MB
 ```python
 class Solution:
     def openLock(self, deadends: List[str], target: str) -> int:
+
         def neighbors(code):
             for i in range(4):
                 x = int(code[i])

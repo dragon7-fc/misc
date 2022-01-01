@@ -99,3 +99,48 @@ class Solution:
                             
         return [s for b in dp[-1] for s in b]
 ```
+
+**Solution 4: (DFS)**
+```
+Runtime: 12 ms
+Memory Usage: 8.8 MB
+```
+```c
+
+
+/**
+ * Return an array of arrays of size *returnSize.
+ * The sizes of the arrays are returned as *returnColumnSizes array.
+ * Note: Both returned array and *columnSizes array must be malloced, assume caller calls free().
+ */
+void subSUm(int* candidates, int candidatesSize, int target, int** columnSizes, int* returnSize, int index, int **sumArr, int curpos, int * sumbuff){
+    
+    if(target < 0){
+         return;      
+    }
+    else if(0 == target){
+        sumArr[*returnSize] = (int *)malloc(curpos*sizeof(int));
+        memcpy(sumArr[*returnSize], sumbuff, curpos*sizeof(int));
+        (*columnSizes)[*returnSize] = curpos;
+        (*returnSize) = (*returnSize) + 1;
+        return;
+    }
+    for(int i = index; i < candidatesSize; i++){
+        int subtarget = target - candidates[i];
+        sumbuff[curpos] = candidates[i];
+        subSUm(candidates, candidatesSize, subtarget, columnSizes, returnSize, i, sumArr, curpos+1, sumbuff);
+    }
+    
+}
+
+int** combinationSum(int* candidates, int candidatesSize, int target, int* returnSize, int** returnColumnSizes){
+    int **sumArr = (int **)malloc(512*sizeof(int *));
+    int *sumbuff = (int *)malloc(512*sizeof(int));
+    *returnColumnSizes = (int *)malloc(512*sizeof(int));
+    
+    *returnSize = 0;
+    subSUm(candidates, candidatesSize, target, returnColumnSizes, returnSize, 0, sumArr, 0, sumbuff);
+    
+    return sumArr;
+}
+```

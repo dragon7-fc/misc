@@ -113,24 +113,23 @@ class Solution:
 **Solution 2: (Two Pointers)**
 ```
 Runtime: 76 ms
-Memory Usage: 11.7 MB
+Memory Usage: 11.9 MB
 ```
 ```c
-#define min(_a, _b) ((_a) <= (_b) ? (_a) : (_b))
+
+#define min(a, b) (a <= b ? a : b)
+#define max(a, b) (a >= b ? a : b)
+
 int maxArea(int* height, int heightSize){
-    int left = 0, right = heightSize-1;
-    int ans = 0, h = 0;
+    int left = 0, right = heightSize-1, res = 0, area;
     while (left < right) {
-        h = min(height[left], height[right]);
-        if (ans < h*(right-left)) {
-            ans = h*(right-left);
-        }
-        if (h == height[left]) {
-            left += 1;
-        } else {
+        area = (right-left) * min(height[right], height[left]);
+        res = max(res, area);
+        if (height[right] < height[left])
             right -= 1;
-        }
+        else
+            left +=1;
     }
-    return ans;
-}
+    return res;
+} 
 ```

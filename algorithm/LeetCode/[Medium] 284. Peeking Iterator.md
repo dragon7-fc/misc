@@ -81,3 +81,52 @@ class PeekingIterator:
 #     val = iter.peek()   # Get the next element but not advance the iterator.
 #     iter.next()         # Should return the same value as [val].
 ```
+
+**Solution 2: (Linked List)**
+```
+Runtime: 0 ms
+Memory Usage: 6.4 MB
+```
+```c
+/*
+ *	struct Iterator {
+ *		// Returns true if the iteration has more elements.
+ *		bool (*hasNext)();
+ *
+ * 		// Returns the next element in the iteration.
+ *		int (*next)();
+ *	};
+ */
+
+typedef struct PeekingIterator {
+    struct Iterator *it;
+    int c, hp;
+} piter;
+
+struct PeekingIterator* Constructor(struct Iterator* iter) {
+    piter *pi = calloc(1, sizeof *pi);
+    pi->it = iter;
+    return pi;
+}
+
+int peek(struct PeekingIterator* obj) {
+    return obj->hp ? obj->c : (obj->hp = 1, obj->c = obj->it->next());
+}
+
+int next(struct PeekingIterator* obj) {
+    return obj->hp ? obj->hp = 0, obj->c : (obj->c = obj->it->next());
+}
+
+bool hasNext(struct PeekingIterator* obj) {
+    return obj->hp || obj->it->hasNext();
+}
+
+/**
+ * Your PeekingIterator struct will be instantiated and called as such:
+ * PeekingIterator* obj = peekingIteratorCreate(arr, arrSize);
+ * int param_1 = peek(obj);
+ * int param_2 = next(obj);
+ * bool param_3 = hasNext(obj);
+ * peekingIteratorFree(obj);
+*/
+```

@@ -81,3 +81,30 @@ class Solution:
         """
         return bisect.bisect_left(nums, target)
 ```
+
+**Solution 4: (Binary Search)**
+```
+Runtime: 4 ms
+Memory Usage: 6.2 MB
+```
+```c
+
+
+int searchInsert(int* nums, int numsSize, int target){
+    int low,high,mid;
+	low=0;
+	high=numsSize-1;
+	while(low<=high)
+	{
+		mid=(low+high)/2;
+		if(target==nums[mid])
+			return mid;
+		else if (target<nums[mid])
+			high = mid-1;
+		else
+			low=mid+1;
+	}
+
+	return low;
+}
+```

@@ -166,6 +166,7 @@ Memory Usage: 13.7 MB
 ```python
 class Solution:
     def smallestDistancePair(self, nums: List[int], k: int) -> int:
+
         def possible(guess):
             #Is there k or more pairs with distance <= guess?
             count = left = 0

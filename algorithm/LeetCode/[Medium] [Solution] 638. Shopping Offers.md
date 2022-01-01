@@ -146,6 +146,7 @@ Memory Usage: 12.8 MB
 ```python
 class Solution:
     def shoppingOffers(self, price: List[int], special: List[List[int]], needs: List[int]) -> int:
+
         def shopping(needs):
             if memo[tuple(needs)]:
                 return memo[tuple(needs)]
