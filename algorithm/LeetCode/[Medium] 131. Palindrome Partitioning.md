@@ -35,3 +35,76 @@ class Solution:
         
         return res
 ```
+
+**Solution 2: (DFS)**
+```
+Runtime: 493 ms
+Memory Usage: 85.6 MB
+```
+```c
+bool palindrome (char* s, int head, int end){
+    for (int i = head ; head < end ; head++){
+        if (s[head] != s[end]){
+            return false;
+        }
+        end--;
+    }
+    return true;
+}
+
+void inputlist (char* s, int head, int end, char** list,int count, int* LONG){
+    int listnow = 0;
+    for (int i = head ; i <= end ; i++){
+        list[count][listnow] = s[i];
+        listnow++;
+    }
+    list[count][listnow] = '\0';
+    LONG[count] = listnow;
+}
+
+void inputans (char* s, char** list,int count, int* LONG, char*** ans, int* returnSize, int** returnColumnSizes, int now, int len) {
+    if (now == len){
+        ans[*returnSize] = malloc(sizeof(char*)*count);
+        for (int k = 0 ; k < count ; k++){
+            ans[*returnSize][k] = malloc(sizeof(char)*(LONG[k]+1));
+            for (int i = 0 ; i < LONG[k] ; i++){
+                ans[*returnSize][k][i] = list[k][i];
+            }
+             ans[*returnSize][k][LONG[k]] = '\0';
+        }
+        (*returnColumnSizes)[*returnSize] = count;
+        *returnSize += 1;
+        return;
+    }
+    for (int i = now ; i < len ; i++){
+        if (s[now] == s[i] && palindrome(s,now,i)){
+            inputlist ( s, now, i, list, count, LONG);
+            inputans ( s, list, count+1, LONG, ans, returnSize, returnColumnSizes, i+1, len);
+        }
+    }
+}
+
+/**
+ * Return an array of arrays of size *returnSize.
+ * The sizes of the arrays are returned as *returnColumnSizes array.
+ * Note: Both returned array and *columnSizes array must be malloced, assume caller calls free().
+ */
+char *** partition(char * s, int* returnSize, int** returnColumnSizes){
+    int len = strlen(s);
+    int LONG[16] = {0};
+    char*** ans = malloc(sizeof(char**)*40000);
+    *returnSize = 0;
+    (*returnColumnSizes) = malloc(sizeof(int)*40000);
+    char** list = malloc(sizeof(char*)*16);
+    for(int i = 0 ; i < 16 ; i++){
+        list[i] = malloc(sizeof(char)*17);
+    }
+    for (int i = 0 ; i < len ; i++){
+        if (s[0] == s[i] && palindrome(s,0,i)){
+            inputlist ( s, 0, i, list, 0, LONG);
+            inputans ( s, list, 1, LONG, ans, returnSize, returnColumnSizes, i+1, len);
+        }
+    }
+    return ans;
+}
+```

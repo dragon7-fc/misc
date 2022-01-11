@@ -203,10 +203,15 @@ Runtime: 448 ms
 Memory Usage: 34 MB
 ```
 ```c
-int cmpFunc(const int** a, const int** b)
+int cmpFunc(void *a, void *b)
 {
-    return ((a[0][0]-b[0][0])*(a[0][0]+b[0][0]))+((a[0][1]-b[0][1])*(a[0][1]+b[0][1]));
+    return ((*(int **)a)[0]-(*(int **)b)[0])*((*(int **)a)[0]+(*(int **)b)[0]) + ((*(int **)a)[1]-(*(int **)b)[1])*((*(int **)a)[1]+(*(int **)b)[1]);
 }
+
+// int cmpFunc(const int** a, const int** b)
+// {
+//     return ((a[0][0]-b[0][0])*(a[0][0]+b[0][0]))+((a[0][1]-b[0][1])*(a[0][1]+b[0][1]));
+// }
 
 /**
  * Return an array of arrays of size *returnSize.

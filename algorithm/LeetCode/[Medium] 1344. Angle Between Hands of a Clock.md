@@ -88,3 +88,23 @@ public:
     }
 };
 ```
+
+**Solution 3: (Math)**
+```
+Runtime: 7 ms
+Memory Usage: 5.5 MB
+```
+```c
+
+#define min(a, b) (a < b ? a : b)
+double angleClock(int hour, int minutes){
+    int oneMinAngle = 6;
+    int oneHourAngle = 30;
+
+    double minutesAngle = oneMinAngle * minutes;
+    double hourAngle = (hour % 12 + minutes / 60.0) * oneHourAngle;
+
+    double diff = fabs(hourAngle - minutesAngle);
+    return min(diff, 360 - diff);
+}
+```

@@ -119,3 +119,28 @@ class Solution:
                 return False
         return True
 ```
+
+**Solution 4: (Bucket Sort)**
+```
+Runtime: 22 ms
+Memory Usage: 6.4 MB
+```
+```c
+
+bool carPooling(int** trips, int tripsSize, int* tripsColSize, int capacity){
+    int temp[1001] = {0};
+    int count = 0;
+    for(int i = 0; i < tripsSize; i++)
+    {
+        temp[trips[i][1]] += trips[i][0];
+        temp[trips[i][2]] -= trips[i][0];
+    }
+    for(int i = 0; i <= 1000; i++)
+    {
+        count += temp[i];
+        if(count > capacity)
+            return false;
+    }
+    return true;
+}
+```

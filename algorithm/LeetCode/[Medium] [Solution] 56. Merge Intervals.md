@@ -227,11 +227,19 @@ Memory Usage: 7.8 MB
 ```
 ```c
 int cmp(void* a,void* b){
-    if(((int**)a)[0][0]==((int**)b)[0][0]){
-        return ((int**)a)[0][1]-((int**)b)[0][1];
+    if((*(int**)a)[0]==(*(int**)b)[0]){
+        return (*(int**)a)[1]-(*(int**)b)[1];
     }
-    return ((int**)a)[0][0]-((int**)b)[0][0];
+    return (*(int**)a)[0]-(*(int**)b)[0];
 }
+
+// int cmp(void* a,void* b){
+//     if(((int**)a)[0][0]==((int**)b)[0][0]){
+//         return ((int**)a)[0][1]-((int**)b)[0][1];
+//     }
+//     return ((int**)a)[0][0]-((int**)b)[0][0];
+// }
+
 
 /**
  * Return an array of arrays of size *returnSize.
@@ -253,7 +261,7 @@ int** merge(int** intervals, int intervalsSize, int* intervalsColSize, int* retu
             flag=1;
             continue;
         }
-        if(tmp[0]<=intervals[i][0]&&tmp[1]>=intervals[i][0]){
+        if(tmp[1]>=intervals[i][0]){
             tmp[1]=tmp[1]>intervals[i][1]?tmp[1]:intervals[i][1];
         }else{
             ret[(*returnSize)++]=tmp;

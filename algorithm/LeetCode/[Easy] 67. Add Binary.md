@@ -54,3 +54,55 @@ public:
     }
 };
 ```
+
+**Solution 3: (Bit Manipulation)**
+```
+Runtime: 58 ms
+Memory Usage: 14.2 MB
+```
+```python
+class Solution:
+    def addBinary(self, a: str, b: str) -> str:
+        x, y = int(a, 2), int(b, 2)
+        while y:
+            x, y = x ^ y, (x & y) << 1
+        return bin(x)[2:]
+```
+
+**Solution 4: (Math)**
+```
+Runtime: 0 ms
+Memory Usage: 5.7 MB
+```
+```c
+
+
+char * addBinary(char * a, char * b){
+    int i, j, k, c = 0;
+    char *res;
+    
+    i = strlen(a);
+    j = strlen(b);
+    k = i > j ? i : j;
+    k += 2;
+
+    res = malloc(k * sizeof(char));
+    
+    i--;
+    j--;
+    res[--k] = '\0';
+    
+    while (--k >= 0) {
+        c += i >= 0 ? a[i--] - '0': 0;
+        c += j >= 0 ? b[j--] - '0': 0;
+        
+        res[k] = c % 2 + '0';
+        c /= 2;
+    }
+    
+    if (res[0] == '0')
+       memmove(res, res + 1, strlen(res) * sizeof(char));
+    
+    return res;
+}
+```

@@ -73,3 +73,26 @@ class Solution:
 
         return -1
 ```
+
+**Solution 2: (Count)**
+```
+Runtime: 148 ms
+Memory Usage: 16.4 MB
+```
+```c
+
+
+int findJudge(int n, int** trust, int trustSize, int* trustColSize){
+    int count[1000] = {0};
+    for (int i = 0; i < trustSize; i ++) {
+        count[trust[i][0]-1] -= 1;
+        count[trust[i][1]-1] += 1;
+    }
+    for (int i = 0; i < n; i ++) {
+        if (count[i] == n-1) {
+            return i+1;
+        }
+    }
+    return -1;
+}
+```

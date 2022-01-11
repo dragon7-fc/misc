@@ -109,3 +109,32 @@ char * reverseWords(char * s){
     return ans;
 }
 ```
+
+**Solution 4: (String)**
+```
+Runtime: 0 ms
+Memory Usage: 6.2 MB
+```
+```c
+
+char * reverseWords(char * s){
+    int i, j, n = strlen(s), top = -1;
+    char *ans = malloc((n+1)*sizeof(char));
+    i = n-1;
+    while (i >= 0) {
+        while (i >= 0 && s[i] == ' ')
+            i -= 1;
+        if (i < 0)
+            break;
+        j = i;
+        while (j >= 0 && s[j] != ' ')
+            j -= 1;
+        memcpy(&ans[top+1], &s[j+1], (i-j)*sizeof(char));
+        top += i-j;
+        i = j;
+        ans[++top] = ' ';
+    }
+    ans[top] = 0;
+    return ans;
+}
+```

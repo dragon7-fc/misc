@@ -55,3 +55,26 @@ class Solution:
             j -= 1
         return ans
 ```
+
+**Solution 2: (Sort)**
+```
+Runtime: 413 ms
+Memory Usage: 17.5 MB
+```
+```c
+int cmp(void *a, void *b) {
+    return *(int *)a - *(int *)b;
+}
+#define max(a, b) (a > b ? a : b) 
+
+int minPairSum(int* nums, int numsSize){
+    int i = 0, j = numsSize-1, ans = 0;
+    qsort(nums, numsSize, sizeof(int), cmp);
+    while (i < j) {
+        ans = max(ans, nums[i] + nums[j]);
+        i += 1;
+        j -= 1;
+    }
+    return ans;
+}
+```
