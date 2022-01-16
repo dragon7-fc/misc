@@ -4285,6 +4285,7 @@ Objects such as lists and dictionaries are passed by object reference too, which
     - [Function Index (The GNU C Library)](https://www.gnu.org/software/libc/manual/html_node/Function-Index.html)
     - [Linux System Call Table](https://thevivekpandey.github.io/posts/2017-09-25-linux-system-calls.html)
     - [Cprogramming.com: Learn C and C++ Programming](https://www.cprogramming.com/)
+    - [LearnCpp](https://www.learncpp.com/)
     - [C++ reference](https://en.cppreference.com/w/)
     - [cplusplus.com - The C++ Resources Network](http://www.cplusplus.com/)
     - [C Reference Cheat Sheet by Ashlyn Black](https://www.cheatography.com/ashlyn-black/cheat-sheets/c-reference/)

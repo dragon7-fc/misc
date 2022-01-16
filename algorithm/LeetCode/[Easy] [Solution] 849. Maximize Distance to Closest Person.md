@@ -212,10 +212,36 @@ Memory Usage: 15 MB
 class Solution:
     def maxDistToClosest(self, seats: List[int]) -> int:
         ones = [i for i, v in enumerate(seats) if v]
-        ans = 0
-        ans = max(ans, ones[0])
+        ans = max(0, ones[0])
         for i, j in zip(ones[:], ones[1:]):
             ans = max(ans, (j-i) // 2)
         ans = max(ans, len(seats)-ones[-1]-1) 
         return ans
+```
+
+**Solution 5: (Greedy)**
+```
+Runtime: 16 ms
+Memory Usage: 17.1 MB
+```
+```c++
+class Solution {
+public:
+    int maxDistToClosest(vector<int>& seats) {
+        int prev = -1;
+        int n = seats.size();
+        int max_distance = 0;
+        for(int i = 0;i < n;i++){
+            if(seats[i] == 1){
+                if(prev == -1)
+                    max_distance = max(i, max_distance);
+                else
+                    max_distance = max((i - prev) / 2, max_distance);
+                prev = i;
+            }
+        }
+        max_distance = max(n - prev - 1, max_distance);
+        return max_distance;
+    }
+};
 ```

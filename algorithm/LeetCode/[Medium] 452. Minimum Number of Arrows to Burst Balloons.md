@@ -59,3 +59,62 @@ class Solution:
         
         return ans
 ```
+
+**Solution 3: (Greedy)**
+```
+Runtime: 2162 ms
+Memory Usage: 59 MB
+```
+```python
+class Solution:
+    def findMinArrowShots(self, points: List[List[int]]) -> int:
+        if not points:
+            return 0
+        
+        # sort by x_end
+        points.sort(key = lambda x : x[1])
+        
+        arrows = 1
+        first_end = points[0][1]
+        for x_start, x_end in points:
+            # if the current balloon starts after the end of another one,
+            # one needs one more arrow
+            if first_end < x_start:
+                arrows += 1
+                first_end = x_end
+        
+        return arrows
+```
+
+**Solution 4: (Greedy)**
+```
+Runtime: 464 ms
+Memory Usage: 102.4 MB
+```
+```c++
+class Solution {
+public:
+    int findMinArrowShots(vector<vector<int>>& points) {
+        if (points.size() == 0) return 0;
+
+        // sort by x_end
+        sort(begin(points), end(points), [](const vector<int> &o1, const vector<int> &o2) {
+            return (o1[1] < o2[1]);
+        });
+
+        int arrows = 1;
+        int xStart, xEnd, firstEnd = points[0][1];
+        for (auto p : points) {
+            xStart = p[0];
+            xEnd = p[1];
+            // if the current balloon starts after the end of another one,
+            // one needs one more arrow
+            if (firstEnd < xStart) {
+                arrows++;
+                firstEnd = xEnd;
+            }
+        }
+        return arrows;
+    }
+};
+```

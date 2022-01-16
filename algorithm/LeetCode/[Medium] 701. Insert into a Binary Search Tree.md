@@ -89,3 +89,61 @@ class Solution:
                 root.right = self.insertIntoBST(root.right, val)
             return root
 ```
+
+**Solution 3: (DFS, Recursive)**
+```
+Runtime: 171 ms
+Memory Usage: 57 MB
+```
+```c++
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+class Solution {
+public:
+    TreeNode* insertIntoBST(TreeNode* root, int val) {
+        if(!root) return new TreeNode(val);
+        if(root->val > val) root->left = insertIntoBST(root->left, val);
+        else root->right = insertIntoBST(root->right, val);
+        return root;
+    }
+};
+```
+
+**Solution 4: (DFS, Recursive)**
+```
+Runtime: 117 ms
+Memory Usage: 22.7 MB
+```
+```c
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     struct TreeNode *left;
+ *     struct TreeNode *right;
+ * };
+ */
+
+
+struct TreeNode* insertIntoBST(struct TreeNode* root, int val){
+    if (!root) {
+        struct TreeNode* node = calloc(1, sizeof(struct TreeNode));
+        node->val = val;
+        return node;
+    }
+    if (root->val > val) 
+        root->left = insertIntoBST(root->left, val);
+    else
+        root->right = insertIntoBST(root->right, val);
+    return root;
+}
+```
