@@ -1741,7 +1741,7 @@ A playground to note something.
             # <export> <host1>(<options>) <hostN>(<options>)...
             # no_root_squash: map users root client acount to the server root account
             ##+++>
-            [/PATH/TO/NFSROOT] [NFS_SERVER_IP|*](rw,no_root_squash)
+            [/PATH/TO/NFSROOT] [NFS_SERVER_IP|*](rw,no_root_squash,sync,no_subtree_check)
             ##+++<
 
             sudo exportfs -a

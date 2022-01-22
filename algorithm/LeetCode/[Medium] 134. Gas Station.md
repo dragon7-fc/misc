@@ -101,3 +101,58 @@ class Solution:
             
         return start_index
 ```
+
+**Solution 3: (One pass)**
+```
+Runtime: 611 ms
+Memory Usage: 18.8 MB
+```
+```python
+class Solution:
+    def canCompleteCircuit(self, gas: List[int], cost: List[int]) -> int:
+        n = len(gas)
+        
+        total_tank, curr_tank = 0, 0
+        starting_station = 0
+        for i in range(n):
+            total_tank += gas[i] - cost[i]
+            curr_tank += gas[i] - cost[i]
+            # If one couldn't get here,
+            if curr_tank < 0:
+                # Pick up the next station as the starting one.
+                starting_station = i + 1
+                # Start with an empty tank.
+                curr_tank = 0
+        
+        return starting_station if total_tank >= 0 else -1
+```
+
+**Solution 4: (One pass)**
+```
+Runtime: 56 ms
+Memory Usage: 49.9 MB
+```
+```c++
+class Solution {
+public:
+    int canCompleteCircuit(vector<int>& gas, vector<int>& cost) {
+        int n = gas.size();
+
+        int total_tank = 0;
+        int curr_tank = 0;
+        int starting_station = 0;
+        for (int i = 0; i < n; ++i) {
+          total_tank += gas[i] - cost[i];
+          curr_tank += gas[i] - cost[i];
+          // If one couldn't get here,
+          if (curr_tank < 0) {
+            // Pick up the next station as the starting one.
+            starting_station = i + 1;
+            // Start with an empty tank.
+            curr_tank = 0;
+          }
+        }
+        return total_tank >= 0 ? starting_station : -1;
+    }
+};
+```

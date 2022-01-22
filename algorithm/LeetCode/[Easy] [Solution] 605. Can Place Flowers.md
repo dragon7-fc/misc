@@ -106,7 +106,7 @@ class Solution:
 ```
 
 
-**Solution 2: (Greedy)**
+**Solution 2: (Greedy, Mask)**
 ```
 Runtime: 188 ms
 Memory Usage: 12.8 MB
