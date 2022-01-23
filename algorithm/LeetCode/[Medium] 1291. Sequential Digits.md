@@ -22,40 +22,45 @@ Output: [1234,2345,3456,4567,5678,6789,12345]
 
 # Submissions
 ---
-**Solution 1: (Sliding window)**
+**Solution 1: (Sliding Window)**
 ```
-Runtime: 24 ms
-Memory Usage: 12.7 MB
+Runtime: 35 ms
+Memory Usage: 14.3 MB
 ```
 ```python
 class Solution:
     def sequentialDigits(self, low: int, high: int) -> List[int]:
-        len_low = len(str(low))
-        len_high = len(str(high))
-        digits = '123456789'
-        ans = []
-        for win_len in range(len_low, len_high + 1):
-            for i in range(10-win_len):
-                if low <= int(digits[i:i + win_len]) <= high:
-                    ans.append(int(digits[i:i + win_len]))
-        return ans
+        sample = "123456789"
+        n = 10
+        nums = []
+
+        for length in range(len(str(low)), len(str(high)) + 1):
+            for start in range(n - length):
+                num = int(sample[start: start + length])
+                if num >= low and num <= high:
+                    nums.append(num)
+        
+        return nums
 ```
 
-**Solution 2: (Queue)**
+**Solution 2: (Precomputation)**
 ```
-Runtime: 20 ms
-Memory Usage: 13.7 MB
+Runtime: 59 ms
+Memory Usage: 14.3 MB
 ```
 ```python
+class Seqs:
+    def __init__(self):
+        sample = "123456789"
+        n = 10
+        self.nums = nums = []
+
+        for length in range(2, n):
+            for start in range(n - length):
+                nums.append(int(sample[start: start + length]))
+
 class Solution:
+    s = Seqs()
     def sequentialDigits(self, low: int, high: int) -> List[int]:
-        len_low = len(str(low))
-        len_high = len(str(high))
-        digits = '123456789'
-        ans = []
-        for win_len in range(len_low, len_high + 1):
-            for i in range(10-win_len):
-                if low <= int(digits[i:i + win_len]) <= high:
-                    ans.append(int(digits[i:i + win_len]))
-        return ans
+        return [x for x in self.s.nums if x >= low and x <= high]
 ```
