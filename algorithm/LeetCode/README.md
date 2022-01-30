@@ -11297,7 +11297,7 @@ class MajorityChecker:
 ```
 * [Hard] 1157. Online Majority Element In Subarray
 
-**Template 1**
+**Template 1:**
 ```python
 def is_XXX(...):
     ...

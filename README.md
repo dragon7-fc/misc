@@ -1560,6 +1560,7 @@ A playground to note something.
     visudo
 
     ##+++>
+    # add to file end
     XXX      ALL=(ALL) NOPASSWD:ALL
     ##+++<
     ```
@@ -4152,15 +4153,18 @@ Attribute: This is a part of an object. One or more attributes make up an object
 
 * Regular Expression
 
+    - [Globs](https://mywiki.wooledge.org/glob)
     - [Regexr — Learn Regular Expressions](http://regexr.com/)
     - [Regexp Syntax Summary](http://www.greenend.org.uk/rjk/tech/regexp.html)
     - [Regex cheatsheet](https://remram44.github.io/regex-cheatsheet/regex.html)
     - [grep (english) Cheat Sheet by TME520](https://www.cheatography.com/tme520/cheat-sheets/grep-english/)
-    - [Ripgrep Searching CheatSheet](https://jdhao.github.io/2020/02/16/ripgrep_cheat_sheet/)
     - [Sed - An Introduction and Tutorial by Bruce Barnett](http://www.grymoire.com/Unix/Sed.html)
     - [AWK Cheat Sheet](https://www.shortcutfoo.com/app/dojos/awk/cheatsheet)
     - [awk (english) Cheat Sheet by TME520](https://www.cheatography.com/tme520/cheat-sheets/awk-english/)
     - [ag - The Silver Searcher, a better UNIX search tool](https://blog.dnsimple.com/2017/07/ag-a-better-unix-search-tool/)
+    - [Ripgrep Searching CheatSheet](https://jdhao.github.io/2020/02/16/ripgrep_cheat_sheet/)
+    - [GNU BRE/ERE cheatsheet and differences between grep, sed and awk](https://learnbyexample.github.io/gnu-bre-ere-cheatsheet/)
+    - [Feature comparison of ack, ag, git-grep, GNU grep and ripgrep](https://beyondgrep.com/feature-comparison/)
     
     |                                       | command  |
     |---------------------------------------|----------|
