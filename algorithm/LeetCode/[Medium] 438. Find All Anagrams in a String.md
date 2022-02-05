@@ -111,3 +111,59 @@ int* findAnagrams(char * s, char * p, int* returnSize){
     return ret;
 }
 ```
+
+**Solution 3: (Sliding Window)**
+```
+Runtime: 12 ms
+Memory Usage: 8.7 MB
+```
+```c++
+class Solution {
+public:
+    vector<int> findAnagrams(string s, string p) {
+        int n = s.length();
+        int l = p.length();
+        vector<int> ans;
+        vector<int> vp(26, 0);
+        vector<int> vs(26, 0);
+        for (char c : p) ++vp[c - 'a'];    // fixed
+        for (int i = 0; i < n; ++i) {
+            if (i >= l) --vs[s[i - l] - 'a'];        
+            ++vs[s[i] - 'a'];
+            if (i >= l - 1 && vs == vp) ans.push_back(i + 1 - l);
+        }
+        return ans;
+    }
+};
+```
+
+**Solution 4: (Sliding Window, Counter)**
+```
+Runtime: 77 ms
+Memory Usage: 12.7 MB
+```
+```c++
+class Solution {
+public:
+    vector<int> findAnagrams(string s, string p) {
+        int M = s.size(), N = p.size();
+        unordered_map<char, int> t, cnt;
+        vector<int> ans;
+        for (int i = 0; i < N; i ++) {
+            t[p[i]] += 1;
+        }
+        for (int i = 0; i < M; i ++) {
+            cnt[s[i]] += 1;
+            if (cnt == t)
+                ans.push_back(i-N+1);
+            if (i >= N-1)
+                if (cnt[s[i-N+1]] > 1)
+                    cnt[s[i-N+1]] -= 1;
+                else
+                    cnt.erase(s[i-N+1]);
+            
+        }
+        return ans;
+    }
+};
+```

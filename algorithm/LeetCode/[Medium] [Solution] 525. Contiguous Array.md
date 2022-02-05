@@ -155,3 +155,27 @@ class Solution:
                 d[count] = i
         return ans
 ```
+
+**Solution 2: (Using HashMap)**
+```
+Runtime: 254 ms
+Memory Usage: 83.9 MB
+```
+```c++
+class Solution {
+public:
+    int findMaxLength(vector<int>& nums) {
+        int max_len = 0;
+        unordered_map<int, int> sum_pos;
+        sum_pos[0] = -1;
+        for(int i = 0, sum = 0; i < nums.size(); ++i) {
+            sum += 2*nums[i] - 1;
+            if(auto it = sum_pos.find(sum); it != sum_pos.end())
+                max_len = max(max_len, i - it->second);
+            else
+                sum_pos[sum] = i;
+        }
+        return max_len;
+    }
+};
+```
