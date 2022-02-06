@@ -88,3 +88,26 @@ int removeDuplicates(int* nums, int numsSize){
     return ans;
 }
 ```
+
+**Solution 3: (Greedy)**
+```
+Runtime: 7 ms
+Memory Usage: 10.9 MB
+```
+```c++
+class Solution {
+public:
+    int removeDuplicates(vector<int>& nums) {
+        int n = nums.size();
+        if (n < 3)
+            return n;
+        int i = 1;
+        for (int j = 2; j < n; j ++) {
+            if (nums[i-1] != nums[j] || nums[i] != nums[j])
+                i += 1;
+            nums[i] = nums[j];
+        }
+        return i+1;
+    }
+};
+```

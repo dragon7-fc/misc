@@ -4343,6 +4343,7 @@ Objects such as lists and dictionaries are passed by object reference too, which
 
 * Lua
 
+    - [Lua Tutorial - Tutorialspoint](https://www.tutorialspoint.com/lua/index.htm)
     - [Lua Scripting 5.1 Cheat Sheet by SrGMC](https://www.cheatography.com/srgmc/cheat-sheets/lua-scripting-5-1/)
 
 * SQL
@@ -4350,6 +4351,12 @@ Objects such as lists and dictionaries are passed by object reference too, which
     - [SQL Cheat Sheet](http://www.sql-tutorial.net/sql-cheat-sheet.pdf)
     - [Welcome to the SQL Tutorial](https://mode.com/sql-tutorial/)
     - [SQLite vs MySQL vs PostgreSQL: A Comparison Of Relational Database Management Systems](https://www.digitalocean.com/community/tutorials/sqlite-vs-mysql-vs-postgresql-a-comparison-of-relational-database-management-systems)
+
+* Redis
+
+    - [Redis Tutorial - Tutorialspoint](https://www.tutorialspoint.com/redis/index.htm)
+    - [Learn Redis Tutorial - javatpoint](https://www.javatpoint.com/redis-tutorial)
+    - [Documentation - Redis](https://redis.io/documentation)
 
 * Markdown
 
