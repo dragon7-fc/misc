@@ -45,3 +45,30 @@ class Solution:
         for c in t: ans ^= ord(c)
         return chr(ans)
 ```
+
+**Solution 3: (Hash Table)**
+```
+Runtime: 4 ms
+Memory Usage: 6.7 MB
+```
+```c++
+class Solution {
+public:
+    char findTheDifference(string s, string t) {
+        int n = s.length();
+        vector<int>S(26,0);
+        vector<int>T(26,0);
+        for(char a : s)
+            S[a - 'a']++;
+        for(char a : t)
+            T[a - 'a']++;
+        int i = 0;
+        for(i = 0; i < 26; i++)
+        {
+            if(S[i] != T[i])
+                break;
+        }
+        return ('a' + i);
+    }
+};
+```
