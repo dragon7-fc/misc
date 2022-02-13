@@ -134,6 +134,30 @@ class Solution:
             if len(digits) == 1:
                 return digits[0]
             return dfs(str(sum(digits)))
-        
+        Runtime: 0 ms
+Memory Usage: 5.8 MB
         return dfs(num)
+```
+
+**Solution 3: (DFS)**
+```
+Runtime: 0 ms
+Memory Usage: 5.8 MB
+```
+```c++
+class Solution {
+public:
+    int addDigits(int num) {
+        int sum=0;
+        while(num)
+        {
+            sum+=(num%10);
+            num/=10;
+        }
+        if(sum<10)
+            return sum;
+        else
+            return addDigits(sum);
+    }
+};
 ```

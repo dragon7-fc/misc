@@ -95,7 +95,7 @@ public class Solution {
 }
 ```
 
-***Complexity Analysis***
+**Complexity Analysis**
 * Time complexity : $O(n^2)$. We need to consider every subarray possible.
 
 * Space complexity : $O(1)$. Constant space is used.
@@ -182,4 +182,29 @@ int subarraySum(int* nums, int numsSize, int k){
     }
     return count;
 }
+```
+
+**Solution 3: (Using hashmap)**
+```
+Runtime: 75 ms
+Memory Usage: 35.9 MB
+```
+```c++
+class Solution {
+public:
+    int subarraySum(vector<int>& nums, int k) {
+        unordered_map<int,int> mp;
+        int sum=0,ans=0;
+        mp[sum] = 1;
+        for(auto it:nums){
+            sum += it;
+            int find = sum - k;
+            if(mp.find(find) != mp.end()){
+                ans += mp[find];
+            }
+            mp[sum]++;
+        }
+        return ans;
+    }
+};
 ```

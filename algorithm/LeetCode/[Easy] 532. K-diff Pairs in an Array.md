@@ -69,3 +69,54 @@ class Solution:
             dic[num+k] = num
         return len(set(res))
 ```
+
+**Solution 3: (Counter)**
+```
+Runtime: 76 ms
+Memory Usage: 15.6 MB
+```
+```python
+class Solution:
+    def findPairs(self, nums: List[int], k: int) -> int:
+        cnt=0
+        c=Counter(nums)
+        
+        if k==0:
+            for key,v in c.items():
+                if v>1:
+                    cnt+=1
+        else:
+            for key,v in c.items():
+                if key+k in c:
+                    cnt+=1
+        return cnt
+```
+
+**Solution 4: (Counter)**
+```
+Runtime: 25 ms
+Memory Usage: 13.3 MB
+```
+```c++
+class Solution {
+public:
+    int findPairs(vector<int>& nums, int k) {
+        std::unordered_map<int,int> cnt;
+        for(int num: nums)
+            cnt[num]++;
+        int ans = 0;
+        for (auto el: cnt)
+        {
+            if(k==0)
+            {    
+                if (el.second > 1)
+                ans++ ;
+            }
+            else if (cnt.find(el.first+k) != cnt.end())
+                ans++ ;
+        }
+        
+        return ans;
+    }
+};
+```

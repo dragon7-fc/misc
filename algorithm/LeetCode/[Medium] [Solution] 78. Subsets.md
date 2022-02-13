@@ -196,7 +196,7 @@ class Solution:
 
 # Submissions
 ---
-**Solution 1: (Recursion)**
+**Solution 1: (Cascading)**
 ```
 Runtime: 28 ms
 Memory Usage: 12.8 MB
@@ -294,6 +294,65 @@ public:
             op.push_back(dum);
         }
         return op;
+    }
+};
+```
+
+**Solution 5: (Backtracking)**
+```
+Runtime: 4 ms
+Memory Usage: 10.8 MB
+```
+```c++
+class Solution {
+public:
+    vector<vector<int>> subsets(vector<int>& nums) {
+        vector<vector<int>> res;
+        vector<int> curr_vec;
+        bt(nums, 0, curr_vec, res);
+        return res;
+    }
+    
+    void bt(vector<int> &nums, int i, vector<int>& curr_vec, vector<vector<int>> &res){
+        
+        if(i == nums.size()){
+            res.push_back(curr_vec);
+            return;
+        }
+        
+        bt(nums, i + 1, curr_vec, res); // don't include curr element
+        
+        curr_vec.push_back(nums[i]);
+        bt(nums, i + 1, curr_vec, res); // include curr element
+        curr_vec.pop_back();
+        
+    }
+};
+```
+
+**Solution 6: (Cascading)**
+```
+Runtime: 0 ms
+Memory Usage: 7.1 MB
+```
+```c++
+class Solution {
+public:
+    vector<vector<int>> subsets(vector<int>& nums) {
+        vector<vector<int>> res;
+		res.push_back(vector<int>());
+        for (int i = 0; i < nums.size(); ++i) {
+		    // Number of the existing combinations.
+            int k = res.size();
+			// Generate new combinations 
+			// by adding the next element to existing ones.
+            for (int j = 0; j < k; ++j) {
+                vector<int> temp = res[j];
+                temp.push_back(nums[i]);
+                res.push_back(temp);
+            }
+        }
+        return res;
     }
 };
 ```
