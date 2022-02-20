@@ -26,6 +26,38 @@ Illustration of graph
 
 # Submissions
 ---
+**Solution: (Reverse Edges)**
+```
+Runtime: 1252 ms
+Memory Usage: 25.1 MB
+```
+```python
+class Solution:
+    def eventualSafeNodes(self, graph: List[List[int]]) -> List[int]:
+        N = len(graph)
+        safe = [False] * N
+
+        graph = list(map(set, graph))
+        rgraph = [set() for _ in range(N)]
+        q = collections.deque()
+
+        for i, js in enumerate(graph):
+            if not js:
+                q.append(i)
+            for j in js:
+                rgraph[j].add(i)
+
+        while q:
+            j = q.popleft()
+            safe[j] = True
+            for i in rgraph[j]:
+                graph[i].remove(j)
+                if len(graph[i]) == 0:
+                    q.append(i)
+
+        return [i for i, v in enumerate(safe) if v]
+```
+
 **Solution 1: (DFS, Graph)**
 ```
 Runtime: 704 ms
@@ -59,4 +91,57 @@ class Solution:
                 ans.append(i)
             
         return ans
+```
+
+**Solution 2: (BFS, reverse edge)**
+```
+Runtime: 345 ms
+Memory Usage: 65.4 MB
+```
+```c++
+class Solution {
+public:
+    vector<int> eventualSafeNodes(vector<vector<int>>& graph) {
+        int n=graph.size();
+        vector<int>out(n,0);
+        set<int>s;
+        queue<int>q;
+        vector<int>res;
+        vector<vector<int>>mg(n);
+        for(int i=0;i<n;i++)
+        {
+            for(auto j:graph[i])
+            {
+                out[i]++;
+                mg[j].push_back(i);
+            }
+        }
+        for(int i=0;i<n;i++)
+        {
+            if(out[i]==0)
+            {
+                q.push(i);
+            }
+        }
+        while(!q.empty())
+        {
+            int t=q.front();
+            s.insert(t);
+            q.pop();
+            for(auto j:mg[t])
+            {
+                out[j]--;
+                if(out[j]==0)
+                {
+                    q.push(j);
+                }
+            }
+        }
+        for(auto i:s)
+        {
+            res.push_back(i);
+        }
+        return res;
+    }
+};
 ```

@@ -89,3 +89,32 @@ public:
     }  
 };
 ```
+
+**Solution 4: (BFS)**
+```
+Runtime: 61 ms
+Memory Usage: 16.7 MB
+```
+```c++
+class Solution {
+public:
+    vector<vector<int>> allPathsSourceTarget(vector<vector<int>>& graph) {
+        vector<vector<int>> allPaths;
+        
+        queue<vector<int>> q;
+        q.push({0});
+        while(!q.empty()){
+            vector<int> currPath = q.front();
+            q.pop();
+            int lastNode = currPath.back();
+            if(lastNode==graph.size()-1) allPaths.push_back(currPath);
+            for(auto u:graph[lastNode]){
+                currPath.push_back(u);
+                q.push(currPath);
+                currPath.pop_back();
+            }
+        }
+        return allPaths;
+    }
+};
+```

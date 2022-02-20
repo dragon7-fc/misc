@@ -132,3 +132,31 @@ bool canVisitAllRooms(int** rooms, int roomsSize, int* roomsColSize){
     return true;
 }
 ```
+
+**Solution 3: (DFS)**
+```
+Runtime: 12 ms
+Memory Usage: 10.3 MB
+```
+```c++
+class Solution {
+public:
+    bool canVisitAllRooms(vector<vector<int>>& rooms) {
+        vector<bool> seen (rooms.size(), false);
+        seen[0] = true;
+        stack<int> stk;
+        stk.push(0);
+        while (!stk.empty()) {
+            int node = stk.top();
+            stk.pop();
+            for (auto nei: rooms[node]) {
+                if (!seen[nei]) {
+                    seen[nei] = true;
+                    stk.push(nei);
+                }
+            }
+        }
+        return all_of(seen.begin(), seen.end(), [](bool x) {return x == true;});
+    }
+};
+```

@@ -277,3 +277,135 @@ int* distanceK(struct TreeNode* root, struct TreeNode* target, int k, int* retur
     return result;
 }
 ```
+
+**Solution 3: (DFS)**
+```
+Runtime: 11 ms
+Memory Usage: 13.6 MB
+```
+```c++
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+    unordered_map<int, vector<int>> graph;
+    unordered_set<int> visit;
+    vector<int> ans;
+public:
+    vector<int> distanceK(TreeNode* root, TreeNode* target, int k) {
+        traverse(root);
+        dfs(target->val, k);
+        return ans;
+    }
+    void traverse(TreeNode* root){//converting bst into an undirected graph
+        if(root==NULL)
+            return;
+        if(root->left){
+            graph[root->val].push_back(root->left->val);
+            graph[root->left->val].push_back(root->val);
+            traverse(root->left);
+        }
+        if(root->right){
+            graph[root->val].push_back(root->right->val);
+            graph[root->right->val].push_back(root->val);
+            traverse(root->right);
+        }       
+    }
+    void dfs(int target, int k){//checking all the nodes at a distance k from the target node and putting them in ans vector
+        if(visit.find(target)!=visit.end())
+            return;        
+        visit.insert(target);        
+        if(k==0)
+            ans.push_back(target);      
+        for(auto it:graph[target])
+            dfs(it, k-1);
+    }
+};
+```
+
+**Solution 4: (BFS)**
+```
+Runtime: 23 ms
+Memory Usage: 13.4 MB
+```
+```c++
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+    unordered_map<int, vector<int>> adj;
+    void recur(TreeNode* root)
+    {
+        if(!root)
+            return;
+        
+        
+        if(root->left!=NULL)
+        {
+            adj[root->val].push_back(root->left->val);
+            adj[root->left->val].push_back(root->val);
+        }
+        
+        if(root-> right!=NULL)
+        {
+            adj[root->val].push_back(root->right->val);
+            adj[root->right->val].push_back(root->val);
+        }
+        
+        recur(root->left);
+        recur(root->right);
+        
+    }
+public:
+    vector<int> distanceK(TreeNode* root, TreeNode* target, int k) {
+        recur(root);
+        
+        queue<int> q;
+        q.push(target->val);
+        int level=0;
+        unordered_set<int> visited;
+        visited.insert(target->val);
+        
+        while(!q.empty())
+        {
+            int a = q.size();
+            
+            vector<int> temp;
+            while(a--)
+            {
+                int x = q.front();
+                q.pop();
+                temp.push_back(x);
+                
+                for(int i=0;i<adj[x].size();i++)
+                {
+                    if(visited.find(adj[x][i])==visited.end())
+                    {
+                        q.push(adj[x][i]);
+                        visited.insert(adj[x][i]);
+                    }
+                }
+            }
+            
+            if(level==k)
+                return temp;
+            
+            level++;
+        }
+        
+        return {};
+    }
+};
+```
