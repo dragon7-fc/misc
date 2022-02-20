@@ -30,7 +30,7 @@ Explanation: Remove all the digits from the number and it is left with nothing w
 
 # Submissions
 ---
-**Solution: (Greedy, Stack)**
+**Solution 1: (Greedy, Stack)**
 ```
 Runtime: 32 ms
 Memory Usage: 12.9 MB
@@ -51,4 +51,36 @@ class Solution:
             result = result[:-k]
         ans = "".join(result)
         return ans.lstrip("0") or "0"
+```
+
+**Solution 2: (Greedy, Stack)**
+```
+Runtime: 0 ms
+Memory Usage: 7.1 MB
+```
+```c++
+class Solution {
+public:
+    string removeKdigits(string num, int k) {
+        if (num.size() == k)
+            return "0";
+        string ans;
+        for (auto c: num) {
+            while (k > 0 && !ans.empty() && ans.back() > c) {
+                ans.pop_back();
+                k -= 1;
+            }
+            ans.push_back(c);
+        }
+        while (k > 0 && !ans.empty()) {
+            ans.pop_back();
+            k -= 1;
+        }
+        int i;
+        for(i = 0; i < ans.size(); i++)//remove leading zeroes
+            if(ans[i]!='0') break;
+        ans= ans.substr(i); 
+        return ans == "" ? "0": ans;  //empty string=> 0
+    }
+};
 ```

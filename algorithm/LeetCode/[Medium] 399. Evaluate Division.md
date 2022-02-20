@@ -128,3 +128,46 @@ class Solution:
                     
         return ans
 ```
+
+**Solution 4: (DFS)**
+```
+Runtime: 8 ms
+Memory Usage: 8.4 MB
+```
+```c++
+class Solution {
+private:
+    double dfs(std::string start, std::string end, std::unordered_set<std::string> &vis, std::unordered_map<std::string, std::vector<std::pair<std::string, double>>>& adj){
+        if((adj.find(start) == adj.end()) or (adj.find(end) == adj.end())) return -1.0;
+        if(start == end) return 1.0;
+        vis.insert(start);
+        for(auto it : adj[start]){
+            if(vis.find(it.first) == vis.end()){
+                auto res = dfs(it.first, end, vis, adj);
+                if(res != -1.0){
+                    return it.second *res;
+                }
+            }
+        }
+        return -1.0;
+    }
+public:
+    vector<double> calcEquation(vector<vector<string>>& equations, vector<double>& values, vector<vector<string>>& queries) {
+        std::unordered_map<std::string, std::vector<std::pair<std::string, double>>> adj;
+        for(int i = 0; i < equations.size(); i++){
+            auto eq = equations[i];
+            adj[eq[0]].push_back({eq[1], values[i]});
+            adj[eq[1]].push_back({eq[0], 1/values[i]});
+        }
+        std::vector<double> ans;
+        for(int i = 0; i < queries.size(); i++){
+            auto q = queries[i];
+            std::unordered_set<string> vis;
+            auto res = dfs(q[0], q[1], vis, adj );
+            ans.push_back(res);
+        }
+        
+        return ans;
+    }
+};
+```

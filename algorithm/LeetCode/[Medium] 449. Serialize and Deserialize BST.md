@@ -207,3 +207,102 @@ struct TreeNode* deserialize(char* data) {
 // char* data = serialize(root);
 // deserialize(data);
 ```
+
+**Solution 4: (BFS)**
+```
+Runtime: 24 ms
+Memory Usage: 25.3 MB
+```
+```c++
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Codec {
+public:
+
+    // Encodes a tree to a single string.
+    string serialize(TreeNode* root) {
+        string s="";
+        
+        if(!root)
+            return s;
+        queue<TreeNode *>q;
+        q.push(root);
+        while(!q.empty())
+        {
+            TreeNode *curr=q.front();
+            q.pop();
+            
+            if(curr==NULL)
+                s.append("#,");
+            else
+                s.append(to_string(curr->val)+',');
+            if(curr)
+            {
+                q.push(curr->left);
+                q.push(curr->right);
+            }
+        }
+        return s;
+    }
+
+    // Decodes your encoded data to tree.
+    TreeNode* deserialize(string data) {
+        if(data.size()==0)
+            return NULL;
+        
+        stringstream s(data);
+        string str;
+        getline(s,str,',');
+        TreeNode *root=new TreeNode(stoi(str));
+        queue<TreeNode *>q;
+        q.push(root);
+        
+        while(!q.empty())
+        {
+            TreeNode *curr=q.front();
+            q.pop();
+            
+            getline(s,str,',');
+            if(str=="#")
+            {
+                curr->left=NULL;
+            }
+            else
+            {
+                TreeNode *lnode=new TreeNode(stoi(str));
+                curr->left=lnode;
+                q.push(curr->left);
+            }
+            
+             getline(s,str,',');
+            if(str=="#")
+            {
+                curr->right=NULL;
+            }
+            else
+            {
+                TreeNode *rnode=new TreeNode(stoi(str));
+                curr->right=rnode;
+                q.push(curr->right);
+            }
+            
+            
+        }
+        return root;
+    }
+};
+
+// Your Codec object will be instantiated and called as such:
+// Codec* ser = new Codec();
+// Codec* deser = new Codec();
+// string tree = ser->serialize(root);
+// TreeNode* ans = deser->deserialize(tree);
+// return ans;
+```

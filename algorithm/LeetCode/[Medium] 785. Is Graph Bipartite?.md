@@ -167,3 +167,91 @@ bool isBipartite(int** graph, int graphSize, int* graphColSize){
     return true;
 }
 ```
+
+**Solution 5: (DFS)**
+```
+Runtime: 28 ms
+Memory Usage: 13.3 MB
+```
+```c++
+class Solution {
+public:
+    bool dfs(int v, int c, vector<int>& color, vector<vector<int>>& graph) {
+        color[v] = c;
+        for (auto &nv: graph[v]) {
+            if (color[nv] == -1) {
+                if (!dfs(nv, c^1, color, graph))
+                    return false; 
+            } else if (color[nv] == color[v])
+                return false;
+        }
+        return true;
+    }
+    bool isBipartite(vector<vector<int>>& graph) {
+        int n = graph.size();
+        vector<int> color(n, -1);
+        for (int i = 0; i < n; i ++) {
+            if (color[i] == -1) {
+                if(!dfs(i, 0, color, graph))
+                    return false;
+            }
+        }
+        for (auto c: color)
+            cout << c << ", ";
+        return all_of(color.begin(), color.end(), [](int c) {return c != -1;});
+    }
+};
+```
+
+**Solution 6: (BFS)**
+```
+Runtime: 43 ms
+Memory Usage: 13.6 MB
+```
+```c++
+class Solution {
+public:
+    bool isBipartite(vector<vector<int>>& graph) {
+        int n=graph.size();
+    
+        queue<pair<int,pair<int,int>>> q;
+        vector<int> vis(n,-1);
+
+        for(int i=0;i<n;i++)
+        {
+            if(vis[i]==-1)
+            {
+                q.push({i,{0,-1}});
+                vis[i]=0;
+
+                while(!q.empty())
+                {
+                    int size = q.size();
+
+                    while(size--)
+                    {
+                        pair<int,pair<int,int>> front = q.front();
+                        q.pop();
+
+                        for(int i=0;i<graph[front.first].size();i++)
+                        {
+                            if(vis[graph[front.first][i]]==-1)
+                            {
+                                q.push({graph[front.first][i],{front.second.first + 1, front.first}});
+                                vis[graph[front.first][i]] = front.second.first + 1;
+                            }
+                            else
+                            {
+                                if((vis[graph[front.first][i]] != (front.second.first + 1)) && vis[front.second.second] != vis[graph[front.first][i]]) return false;
+                            }
+                        }
+                    }
+
+                }
+            }
+        }
+
+        return true;
+    }
+};
+```

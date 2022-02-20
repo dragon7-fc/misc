@@ -219,3 +219,41 @@ class Solution:
             if not dsu.union(*edge):
                 return edge
 ```
+
+**Solution 3: (Union-Find)**
+```
+Runtime: 15 ms
+Memory Usage: 9.1 MB
+```
+```c++
+class DSU {
+public:
+    DSU (int n) {
+        for (int i = 0 ; i<n; i++) {
+            p[i] = i;
+        }
+    }
+    void Union(int x, int y) {
+        p[find(x)] = find(y); 
+    }
+    int find(int i) {
+        if (p[i] != i) p[i] = find(p[i]);
+        return p[i];
+    }
+private:
+    unordered_map<int, int> p;
+};
+
+class Solution {
+public:
+    vector<int> findRedundantConnection(vector<vector<int>>& edges) {
+        int n = edges.size();
+        DSU dsu(n);
+        for (const auto& e:edges) {
+            if (dsu.find(e[0]) == dsu.find(e[1])) return e;
+            dsu.Union(e[0], e[1]);
+        }
+        return {};
+    }
+};
+```

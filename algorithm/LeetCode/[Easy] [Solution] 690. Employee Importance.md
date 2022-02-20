@@ -113,3 +113,79 @@ class Solution:
                 q.append(sublist)
         return ans
 ```
+
+**Solution 3: (BFS)**
+```
+Runtime: 32 ms
+Memory Usage: 14.5 MB
+```
+```c++
+/*
+// Definition for Employee.
+class Employee {
+public:
+    int id;
+    int importance;
+    vector<int> subordinates;
+};
+*/
+
+class Solution {
+public:
+    int getImportance(vector<Employee*> employees, int id) {
+        unordered_map<int, pair<int,vector<int>>> g;
+        for (auto &e: employees) {
+            g[e->id].first = e->importance;
+            g[e->id].second = e->subordinates;
+        }
+        int ans = 0;
+        queue<int> q;
+        q.push(id);
+        while(!q.empty()) {
+            int id = q.front();
+            q.pop();
+            ans += g[id].first;
+            for (auto &nid: g[id].second)
+                q.push(nid);
+        }
+        return ans;
+    }
+};
+```
+
+**Solution 4: (DFS)**
+```
+Runtime: 32 ms
+Memory Usage: 14.3 MB
+```
+```c++
+/*
+// Definition for Employee.
+class Employee {
+public:
+    int id;
+    int importance;
+    vector<int> subordinates;
+};
+*/
+
+class Solution {
+    unordered_map<int, pair<int, vector<int>>> g;
+public:
+    int getImportance(vector<Employee*> employees, int id) {
+        for (auto &e: employees) {
+            g[e->id].first = e->importance;
+            g[e->id].second = e->subordinates;
+        }
+        int ans = dfs(id);
+        return ans;
+    }
+    
+    int dfs(int id) {
+        int rst = g[id].first;
+        for (auto &nid: g[id].second)
+            rst += dfs(nid);
+        return rst;
+    }
+};
+```

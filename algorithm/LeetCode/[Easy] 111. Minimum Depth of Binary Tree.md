@@ -102,3 +102,36 @@ class Solution:
             return self.minDepth(root.left) + 1
         return min(self.minDepth(root.left), self.minDepth(root.right)) + 1
 ```
+
+**Solution 4: (DFS)**
+```
+Runtime: 224 ms
+Memory Usage: 144.9 MB
+```
+```c++
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+class Solution {
+public:
+    int minDepth(TreeNode* root) {
+        if (!root)
+            return 0;
+        if (!root->left && !root->right)
+            return 1;
+        if (!root->left)
+            return 1 + minDepth(root->right);
+        if (!root->right)
+            return 1 + minDepth(root->left);
+        return 1 + min(minDepth(root->left), minDepth(root->right));
+    }
+};
+```

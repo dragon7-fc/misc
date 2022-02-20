@@ -190,3 +190,136 @@ int** pacificAtlantic(int** heights, int heightsSize, int* heightsColSize, int* 
     return ret;
 }
 ```
+
+**Solution 4: (DFS)**
+```
+Runtime: 69 ms
+Memory Usage: 17.4 MB
+```
+```c++
+class Solution {
+public:
+    vector<vector<int>> pacificAtlantic(vector<vector<int>>& heights) {
+        vector<vector<int>>ans;
+        int m = heights.size();
+        int n = heights[0].size();
+        
+        vector<vector<bool>> pacific(m, vector<bool>(n));
+        vector<vector<bool>> atlantic(m, vector<bool>(n));
+        
+        for (int i = 0; i < m; i++) {
+            
+            dfs(heights, pacific, i, 0);
+            dfs(heights, atlantic, i, n-1);
+
+        }
+        
+        for (int j = 0; j < n; j++) {
+            
+            dfs(heights, pacific, 0, j);
+            dfs(heights, atlantic, m-1, j);
+        }
+
+        
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                
+                if (pacific[i][j] && atlantic[i][j]) // agar uss particular point se dono oceans mai jaa paa rahe hai
+                    ans.push_back({i,j});           // toh answer push kardo
+            }
+        }
+        return ans;
+    }
+    
+    void dfs(vector<vector<int>>& h, vector<vector<bool>>& vis, int i, int j) {
+        
+        int m = h.size();
+        int n = h[0].size();
+
+        vis[i][j] = true;
+        //up
+        if (i-1 >= 0 && vis[i-1][j] != true && h[i-1][j] >= h[i][j])
+            dfs(h, vis, i-1, j);
+        //down
+        if (i+1 < m && vis[i+1][j] != true && h[i+1][j] >= h[i][j])
+            dfs(h, vis, i+1, j);
+        //left
+        if (j-1 >= 0 && vis[i][j-1] != true && h[i][j-1] >= h[i][j])
+            dfs(h, vis, i, j-1);
+        //right
+        if (j+1 < n && vis[i][j+1] != true && h[i][j+1] >= h[i][j])
+            dfs(h, vis, i, j+1);
+    }
+};
+```
+
+**Solution 5: (BFS)**
+```
+Runtime: 44 ms
+Memory Usage: 20 MB
+```
+```c++
+class Solution {
+public:
+    int m,n;
+    vector<int>dir={0,1,0,-1,0};
+    queue<pair<int,int>> pac;
+    queue<pair<int,int>> atl;
+    
+    bool isValid(int x, int y){
+        return x>=0 && x<m && y>=0 && y<n;
+    }
+    
+    // andar se bahar ki taraf jaa rahe hai
+    void bfs(queue<pair<int,int>> &q, vector<vector<int>> &vis, vector<vector<int>>& matrix)
+    {
+        while(!q.empty())
+        {
+            int x=q.front().first;
+            int y=q.front().second;
+            vis[x][y]=1;
+            q.pop();
+            for(int k=0;k<4;k++)
+            {
+                int xx = x+dir[k];
+                int yy = y+dir[k+1];
+                if(isValid(xx,yy) && matrix[x][y] <= matrix[xx][yy] && vis[xx][yy]==0) // greater equal 
+                {
+                    q.push({xx,yy});
+                }
+            }
+        }
+    }
+    vector<vector<int>> pacificAtlantic(vector<vector<int>>& heights) {
+        vector<vector<int>> ans;
+        m=heights.size();
+        n=heights[0].size();
+ 
+        vector<vector<int>> visp(m, vector<int>(n,0));
+        vector<vector<int>> visq(m, vector<int>(n,0));
+        // push boundaries of pacific ocean
+        for(int i=m-1;i>=0;i--)
+            pac.push({i,0});
+        for(int i=n-1;i>=0;i--)
+            pac.push({0,i});
+        
+        // push boundaries of atlantic ocean
+        for(int i=m-1;i>=0;i--)
+            atl.push({i,n-1});
+        for(int i=n-1;i>=0;i--)
+            atl.push({m-1,i});
+        
+        bfs(pac, visp, heights);
+        bfs(atl, visq, heights);
+        
+        for(int i=0;i<m;i++){
+            for(int j=0;j<n;j++){
+                
+                if(visp[i][j]==1 && visq[i][j]==1)
+                    ans.push_back({i,j});
+            }
+        }
+        return ans;
+    }
+};
+```

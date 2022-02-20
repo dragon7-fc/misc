@@ -70,14 +70,14 @@ Memory Usage: 12.4 MB
 class Solution {
 public:
     vector<vector<int>> zigzagLevelOrder(TreeNode* root) {
-        if (!root) return {};
-        queue<TreeNode*> q;
+if (!root) return {};
+        std::queue<TreeNode*> q;
         q.push(root);
         int level = 0;
-        vector<vector<int>> res;
+        std::vector<vector<int>> res;
         while(!q.empty()){
             int sz = q.size(); 
-            vector<int> curr(sz);
+            std::vector<int> curr(sz);
             for(int i = 0; i < sz; i++){
                 TreeNode* temp = q.front();
                 q.pop();

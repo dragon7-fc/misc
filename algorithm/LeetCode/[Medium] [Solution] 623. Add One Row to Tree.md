@@ -340,3 +340,113 @@ class Solution:
             
         return root
 ```
+
+**Solution 2: (BFS)**
+```
+Runtime: 35 ms
+Memory Usage: 25.2 MB
+```
+```c++
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+class Solution {
+public:
+    TreeNode* addOneRow(TreeNode* root, int val, int depth) {
+        TreeNode *cur, *tmp;
+        if (depth == 1) {
+            tmp = new TreeNode(val);
+            tmp->left = root;
+            root = tmp;
+        } else {
+            queue<TreeNode*> q;
+            q.push(root);
+            int d = 1;
+            TreeNode *cur, *tmp;
+            while (!q.empty()) {
+                int sz = q.size();
+                for (int i = 0; i < sz; i ++) {
+                    cur = q.front();
+                    q.pop();
+                    if (d == depth-1) {
+                        tmp = new TreeNode(val);
+                        tmp->left = cur->left;
+                        cur->left = tmp;
+                        tmp = new TreeNode(val);
+                        tmp->right = cur->right;
+                        cur->right = tmp;
+                    } else {
+                        if (cur->left)
+                            q.push(cur->left);
+                        if (cur->right)
+                            q.push(cur->right);
+                    }
+                }
+                if (d == depth-1)
+                    break;
+                d += 1;
+            }
+        }
+        return root;
+    }
+};
+```
+
+**Solution 3: (DFS)**
+```
+Runtime: 16 ms
+Memory Usage: 24.9 MB
+```
+```c++
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+class Solution {
+public:
+    void dfs(TreeNode* root, int val, int depth, int lvl)
+    {
+        if(!root)
+            return;
+        if(lvl==depth-1)
+        {
+            TreeNode* leftTree = root->left;
+            TreeNode* rightTree = root->right;
+            TreeNode* addNodeLeft = new TreeNode(val);
+            TreeNode* addNodeRight = new TreeNode(val);
+            root->left = addNodeLeft;
+            addNodeLeft->left = leftTree;
+            root->right =  addNodeRight;
+            addNodeRight->right = rightTree;
+            return;
+        }
+        dfs(root->left,val,depth,lvl+1);
+        dfs(root->right,val,depth,lvl+1);
+    }
+    TreeNode* addOneRow(TreeNode* root, int val, int depth) {
+        if(depth==1)
+        {
+            TreeNode* newNode = new TreeNode(val);
+            newNode->left = root;
+            return newNode;
+        }
+        dfs(root,val,depth,1);
+        return root;
+    }
+};
+```

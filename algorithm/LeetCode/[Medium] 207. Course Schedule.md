@@ -80,3 +80,36 @@ class Solution:
 
         return not sum(indegrees)
 ```
+**Solution 3: (BFS, Graph)**
+```
+Runtime: 30 ms
+Memory Usage: 14 MB
+```
+```c++
+class Solution {
+public:
+    bool canFinish(int numCourses, vector<vector<int>>& prerequisites) {
+        std::unordered_map<int, std::vector<int>>g;
+        std::vector<int> indegree(numCourses, 0);
+        for (auto &v: prerequisites) {
+            g[v[1]].push_back(v[0]);
+            indegree[v[0]] += 1;
+        }
+        std::queue<int> q;
+        for (int i = 0; i < numCourses; i ++) {
+            if (indegree[i] == 0)
+                q.push(i);
+        }
+        while (!q.empty()) {
+            int u = q.front();
+            q.pop();
+            for (auto v: g[u]) {
+                indegree[v] -= 1;
+                if (indegree[v] == 0)
+                    q.push(v);
+            }
+        }
+        return std::all_of(indegree.begin(), indegree.end(), [](int x){return x == 0;});
+    }
+};
+```

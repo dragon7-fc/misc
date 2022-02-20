@@ -136,3 +136,46 @@ class Solution:
         lookup(root)
         return ans
 ```
+
+**Solution 2: (DFS, Hash Table)**
+```
+Runtime: 73 ms
+Memory Usage: 56.5 MB
+```
+```c++
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+class Solution {
+public:
+    vector<TreeNode*> findDuplicateSubtrees(TreeNode* root) {
+        if(!root) return {};
+        else{
+            std::unordered_map<std::string,int>map;
+            std::vector<TreeNode*>result;
+            post_ordered_traversal(root,map,result);
+            return result;
+        }
+    }
+    std::string post_ordered_traversal(TreeNode*root,std::unordered_map<std::string,int>&map,std::vector<TreeNode*>&result){
+        if(!root) return "/";
+        else{
+            std::string ret = "";
+            ret += post_ordered_traversal(root->left,map,result);
+            ret += post_ordered_traversal(root->right,map,result);
+            ret += std::to_string(root->val) + "#";
+            map[ret]++;
+            if(map[ret]==2) result.push_back(root);
+            return ret;
+        }
+    }
+};
+```

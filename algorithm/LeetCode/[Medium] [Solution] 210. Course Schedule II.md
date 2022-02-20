@@ -462,3 +462,40 @@ int* findOrder(int numCourses, int** prerequisites, int prerequisitesSize, int* 
     
 }
 ```
+
+**Solution 5: (BFS)**
+```
+Runtime: 28 ms
+Memory Usage: 14.1 MB
+```
+```c++
+class Solution {
+public:
+    vector<int> findOrder(int numCourses, vector<vector<int>>& prerequisites) {
+        std::unordered_map<int, std::vector<int>> g;
+        std::vector<int> indegree(numCourses, 0), ans;
+        std::queue<int> q;
+        for (auto &vec: prerequisites) {
+            g[vec[1]].push_back(vec[0]);
+            indegree[vec[0]] += 1;
+        }
+        for (int i = 0; i < numCourses; i ++) {
+            if (indegree[i] == 0)
+                q.push(i);
+        }
+        while (!q.empty()) {
+            int u = q.front();
+            q.pop();
+            ans.push_back(u);
+            for (auto v: g[u]) {
+                indegree[v] -= 1;
+                if (indegree[v] == 0)
+                    q.push(v);
+            }
+        }
+        if (ans.size() != numCourses)
+            return std::vector<int>();
+        return ans;
+    }
+};
+```

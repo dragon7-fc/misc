@@ -66,3 +66,63 @@ class Solution:
             return  False
         return z % math.gcd(x, y) == 0
 ```
+
+**Solution 3: (Math)**
+```
+Runtime: 0 ms
+Memory Usage: 5.9 MB
+```
+```c++
+class Solution {
+public:
+    bool canMeasureWater(int jug1Capacity, int jug2Capacity, int targetCapacity) {
+        if (targetCapacity == 0)
+            return true;
+        if (jug1Capacity+jug2Capacity < targetCapacity)
+            return false;
+        return targetCapacity % std::gcd(jug1Capacity, jug2Capacity) == 0;
+    }
+};
+```
+
+**Solution 4: (BFS)**
+```
+Runtime: 644 ms
+Memory Usage: 151.4 MB
+```
+```c++
+class Solution {
+public:
+    bool canMeasureWater(int jug1Capacity, int jug2Capacity, int targetCapacity) {
+        unordered_set<int> seenCapacity;
+        
+        queue<int> fillValues;
+        fillValues.push(0);
+        
+        // Pour water from one jug into another till the other jug is completely full, 
+        // or the first jug itself is empty, hence our need for our 'capacities' array
+        vector<int> capacities = {jug1Capacity, jug2Capacity, -jug1Capacity, -jug2Capacity};
+        while (!fillValues.empty()){
+            int n = fillValues.size();
+            
+            for (int i = 0; i < n; i++){
+                int capacity = fillValues.front(); fillValues.pop();
+                                
+                if (capacity >= 0 && capacity < jug1Capacity + jug2Capacity) {
+                    for (int &nextCapacity: capacities){
+                        int newCapacity = capacity + nextCapacity;
+                        if (newCapacity == targetCapacity) return true;
+                        
+                        if (seenCapacity.find(newCapacity) == seenCapacity.end()){
+                            seenCapacity.insert(newCapacity);
+                            fillValues.push(newCapacity);
+                        }
+                    }
+                }
+            }
+        }
+        
+        return false;
+    }
+};
+```

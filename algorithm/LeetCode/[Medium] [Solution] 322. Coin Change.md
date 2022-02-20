@@ -257,3 +257,35 @@ class Solution:
                 dp[x] = min(dp[x], dp[x - coin] + 1)
         return dp[amount] if dp[amount] != float('inf') else -1 
 ```
+
+**Solution 5: (Dynamic programming - Bottom up)**
+```
+Runtime: 148 ms
+Memory Usage: 14.3 MB
+```
+```c++
+class Solution {
+public:
+    int coinChange(vector<int>& coins, int amount) {
+        // we initialise with amount+1 beecause max we will need is "amount" steps(if max coin value=1)
+        std::vector<int> dp(amount+1, amount+1);
+
+        dp[0]=0;
+        // we will do a bottom up dp to calulate for each target the min. no. of steps 
+        // and build it up till the target amount
+        for( int i=1; i<=amount; i++){
+
+            //loop thorugh the coins collection, and if teh current target(i) >= current_coin, then
+            // store the minimum of dp[i](min. steps to get i till now) and (dp[i-val] +1) { +1, is for the inclusion of 
+            // current coin 'val' }
+            for( auto val: coins){
+                if( val <= i)
+                    dp[i]= min( dp[i], dp[i-val]+1);
+            }
+        }
+
+        // if dp[amount] hasnt been changed that means we cant get the current target with our coins collection
+        return (dp[amount] == (amount+1)) ? -1: dp[amount];
+    }
+};
+```

@@ -157,3 +157,115 @@ struct Node *cloneGraph(struct Node *s) {
     return head;  
 }
 ```
+
+**Solution 5: (DFS, Hash Table)**
+```
+Runtime: 12 ms
+Memory Usage: 8.9 MB
+```
+```c++
+/*
+// Definition for a Node.
+class Node {
+public:
+    int val;
+    vector<Node*> neighbors;
+    Node() {
+        val = 0;
+        neighbors = vector<Node*>();
+    }
+    Node(int _val) {
+        val = _val;
+        neighbors = vector<Node*>();
+    }
+    Node(int _val, vector<Node*> _neighbors) {
+        val = _val;
+        neighbors = _neighbors;
+    }
+};
+*/
+
+class Solution {
+public:
+    Node* cloneGraph(Node* node) {
+        if (node == NULL) {
+            return NULL;
+        }
+        unordered_map<Node*, Node*> saved;
+        Node* ans = new Node(node->val);
+        saved[node] = ans;
+        for (int i = 0; i < node->neighbors.size(); ++i) {
+            dfs(ans, node->neighbors[i], saved);
+        }
+        return ans;
+    }
+    
+    void dfs(Node* parent, Node* node, unordered_map<Node*, Node*>& saved) {
+        if (saved.find(node) == saved.end()) {
+            Node* temp = new Node(node->val);
+            parent->neighbors.push_back(temp);
+            saved[node] = temp;
+            for (int i = 0; i < node->neighbors.size(); ++i) {
+                dfs(temp, node->neighbors[i], saved);
+            }
+         } else {
+            parent->neighbors.push_back(saved[node]);
+        }
+    }
+};
+```
+
+**Solution 6: (BFS, Hash Table)**
+```
+Runtime: 15 ms
+Memory Usage: 8.4 MB
+```
+```c++
+/*
+// Definition for a Node.
+class Node {
+public:
+    int val;
+    vector<Node*> neighbors;
+    Node() {
+        val = 0;
+        neighbors = vector<Node*>();
+    }
+    Node(int _val) {
+        val = _val;
+        neighbors = vector<Node*>();
+    }
+    Node(int _val, vector<Node*> _neighbors) {
+        val = _val;
+        neighbors = _neighbors;
+    }
+};
+*/
+
+class Solution {
+public:
+    Node* cloneGraph(Node* node) {
+        if (!node) {
+            return nullptr;
+        }
+        unordered_map<Node*, Node*> seen;
+        queue<Node*> q;
+        q.push(node);
+        seen[node] = new Node(node->val);
+        while (q.size() > 0) {
+            Node* cur = q.front();
+            q.pop();
+            for (auto& node : cur->neighbors) {
+                // if the node has not been seen before, add it to the map and BFS queue
+                if (seen.find(node) == seen.end()) {
+                    seen[node] = new Node(node->val);
+                    q.push(node);
+                }
+                // construct neighbors
+                seen[cur]->neighbors.push_back(seen[node]);
+            }
+        }
+        return seen[node];
+    }
+};
+```

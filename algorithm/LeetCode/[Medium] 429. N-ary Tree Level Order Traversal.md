@@ -51,3 +51,57 @@ class Solution:
             level = [c for node in level for c in node.children if c]
         return ans
 ```
+
+**Solution 2: (BFS)**
+```
+Runtime: 24 ms
+Memory Usage: 11.7 MB
+```
+```c++
+/*
+// Definition for a Node.
+class Node {
+public:
+    int val;
+    vector<Node*> children;
+
+    Node() {}
+
+    Node(int _val) {
+        val = _val;
+    }
+
+    Node(int _val, vector<Node*> _children) {
+        val = _val;
+        children = _children;
+    }
+};
+*/
+
+class Solution {
+public:
+    vector<vector<int>> levelOrder(Node* root) {
+        if (!root) return {};
+        queue<Node*> q;
+        vector<vector<int>> ans;
+        Node *cur;
+        vector<int> level;
+        q.push(root);
+        while (!q.empty()) {
+            int sz = q.size();
+            level.erase(level.begin(), level.end());
+            for (int i = 0; i < sz; i ++) {
+                cur = q.front();
+                q.pop();
+                level.push_back(cur->val);
+                for (auto &c: cur->children){
+                    if (c)
+                        q.push(c);
+                }
+            }
+            ans.push_back(level);
+        }
+        return ans;
+    }
+};
+```

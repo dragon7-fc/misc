@@ -134,16 +134,46 @@ class Solution(object):
 
 # Submissions
 ---
-**Solution: (Bit Manipulation)**
+**Solution 2: (Bit Manipulation)**
 ```
-Runtime: 84 ms
-Memory Usage: 15.1 MB
+Runtime: 140 ms
+Memory Usage: 16.7 MB
 ```
 ```python
 class Solution:
     def singleNumber(self, nums: List[int]) -> int:
-        a = 0
-        for i in nums:
-            a ^= i
-        return a
+        return functools.reduce(lambda total, el: total ^ el, nums)
+```
+
+**Solution 2: (Bit Manipulation)**
+```
+Runtime: 12 ms
+Memory Usage: 17 MB
+```
+```c++
+class Solution {
+public:
+    int singleNumber(vector<int>& nums) {
+        return std::accumulate (nums.begin(), nums.end(), 0, std::bit_xor<int>());
+    }
+};
+```
+
+**Solution 3: (Bit Manipulation)**
+```
+Runtime: 17 ms
+Memory Usage: 17 MB
+```
+```c++
+class Solution {
+public:
+    int singleNumber(vector<int>& nums) {
+        int xorOfAllElements = 0;
+        
+        for(int num: nums)
+            xorOfAllElements ^= num;
+        
+        return xorOfAllElements; //At the end this xor will be containing our answer.
+    }
+};
 ```

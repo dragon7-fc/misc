@@ -153,3 +153,47 @@ class Solution:
                 else:
                     board[r][c] = 'X'        
 ```
+
+**Solution 4: (DFS)**
+```
+Runtime: 23 ms
+Memory Usage: 9.9 MB
+```
+```c++
+class Solution {
+public:
+    void DFS(vector<vector<char>>& board,int r,int c)
+    {
+        if(r<0 || r>=board.size() || c<0 || c>=board[0].size() || board[r][c]=='#' || board[r][c]=='X')
+            return ;
+        board[r][c]='#';
+        DFS(board,r+1,c);
+        DFS(board,r-1,c);
+        DFS(board,r,c+1);
+        DFS(board,r,c-1);
+    }
+    void solve(vector<vector<char>>& board) {
+        for(int i=0;i<board.size();i++)
+        {
+            for(int j=0;j<board[0].size();j++)
+            {
+                if((i==0 || j==0 || j==board[0].size()-1 || i==board.size()-1) && (board[i][j]=='O'))
+                {
+                    DFS(board,i,j);
+                }
+            }
+        }
+        
+        for(int i=0;i<board.size();i++)
+        {
+            for(int j=0;j<board[0].size();j++)
+            {
+               if(board[i][j]=='O')
+                   board[i][j]='X';
+               if(board[i][j]=='#')
+                   board[i][j]='O';
+            }
+        }
+    }
+};
+```

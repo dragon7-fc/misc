@@ -112,3 +112,42 @@ public:
     }
 };
 ```
+
+**Solution 5: (BFS)**
+```
+Runtime: 205 ms
+Memory Usage: 51.2 MB
+```
+```c++
+class Solution {
+public:
+    int numSquares(int n) {
+        std::queue <int> q;
+        if (n <= 1) return 1;
+        int steps = 0; // to keep track of the steps we take in subtraction
+        q.push(n);  // initial push for the while condition
+        while(!q.empty())
+        {   
+            int s = q.size(); // to make sure we only do 1 layer at a time.
+            for(int k=0; k<s; k++) // for each layer of element, we shall compute
+            {
+                int i = 0;
+                int top = q.front(); // taking each element in a layer
+                for(int j=1; j*j <= top; j++)
+                {   
+                    if (top - j*j < 0)
+                        break; // no need to go further, as j*j will be larger only.
+                    q.push(top -j*j);
+                    if (top - j*j == 0)
+                        return steps+1;
+                }
+                q.pop(); // done with the element's further computation, so remove it
+
+            }
+            steps++;
+            
+        }
+        return steps;
+    }
+};
+```

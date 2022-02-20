@@ -186,3 +186,87 @@ class Solution:
                     ans = max(ans, shape)
         return ans
 ```
+
+**Solution 4: (DFS)**
+```
+Runtime: 38 ms
+Memory Usage: 23.3 MB
+```
+```c++
+class Solution {
+public:
+    int maxAreaOfIsland(vector<vector<int>>& grid) {
+        int ans = 0;
+        for (int r = 0; r < grid.size(); r++) {
+            for (int c = 0; c < grid[0].size(); c++) {
+                if (grid[r][c] == 1) {
+                    ans = max(ans, dfs(r, c, grid));
+                }
+            }
+        }
+        return ans;
+    }
+    int dfs(int r, int c, vector<vector<int>> &grid) {
+        if (r < 0 || r >= grid.size() || c < 0 || c >= grid[0].size() || grid[r][c] == 0)
+            return 0;
+        grid[r][c] = 0;
+        int rst = 1;
+        rst += dfs(r+1, c, grid);
+        rst += dfs(r-1, c, grid);
+        rst += dfs(r, c+1, grid);
+        rst += dfs(r, c-1, grid);
+        return rst;
+    }
+};
+```
+
+**Solution 5: (BFS)**
+```
+Runtime: 33 ms
+Memory Usage: 26.8 MB
+```
+```c++
+class Solution {
+public:
+    int dir[5]= {0, 1, 0, -1, 0};
+    bool valid(int x,int y,vector<vector<int>>& grid){
+        int n = grid.size();
+        int m = grid[0].size();
+        if(x>=0 && y>=0 && x<n && y<m && grid[x][y]==1)return true;
+        return false;
+    }
+    int maxAreaOfIsland(vector<vector<int>>& grid) {
+        int n = grid.size();
+       int m = grid[0].size();
+        int maxm = INT_MIN;
+        for(int i = 0;i<n;i++){
+            for(int j = 0;j<m;j++){
+                int c=0;
+                if(grid[i][j]){
+                    queue<pair<int,int>>q;
+                    grid[i][j]=0;
+                    q.push({i,j});
+                    while(!q.empty()){
+                        auto src = q.front();
+                        
+                        q.pop();
+                        c++;
+                        for(int i = 0;i<4;i++){
+                        int dx = dir[i]+src.first;
+                        int dy = dir[i+1]+src.second;
+                            if(valid(dx,dy,grid)){
+                                
+                                q.push({dx,dy});
+                                grid[dx][dy]=0;
+                            }
+                        }
+                    }
+                  
+                }
+                  maxm = max(maxm,c);
+            }
+        }
+        return maxm;
+    }
+};
+```

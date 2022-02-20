@@ -114,3 +114,98 @@ int findCheapestPrice(int n, int** flights, int flightsSize, int* flightsColSize
     return ret>=50000?-1:ret;
 }
 ```
+
+**Solution 3: (BFS)**
+```
+Runtime: 34 ms
+Memory Usage: 13.9 MB
+```
+```c++
+class Solution {
+public:
+    int findCheapestPrice(int n, vector<vector<int>>& flights, int src, int dst, int k) {
+        // adjacent list
+        vector<unordered_map<int, int>> adj(n); // src: to->weight
+        for(auto& f: flights)
+            adj[f[0]][f[1]] = f[2];
+
+        vector<int> dist(n, INT_MAX);
+        
+        queue<vector<int>> q;
+        q.push({src, 0});
+        
+        k++;
+        while(k--){
+            int q_size = q.size();
+            while(q_size--){
+                auto x = q.front(); q.pop();
+                int cur_idx = x[0];
+                int cur_dist = x[1];
+                
+                for(auto p: adj[cur_idx]){
+                    int new_dist = p.second + cur_dist;
+                    if(new_dist < dist[p.first]){
+                        q.push({p.first, new_dist});
+                        dist[p.first] = new_dist;
+                    }
+                }
+            }
+        }
+        
+        return (dist[dst] == INT_MAX) ? -1 : dist[dst];
+    }
+};
+```
+
+**Solution 4: (BFS, Dijkstra's algorithm)**
+```
+Runtime: 39 ms
+Memory Usage: 14.4 MB
+```
+```c++
+class Solution {
+public:
+    int findCheapestPrice(int n, vector<vector<int>>& flights, int src, int dst, int k) {
+        // Create Graph
+        map<int, vector<pair<int, int>>> graph;
+        
+        for (vector<int> flight : flights) {
+            int u = flight[0];
+            int v = flight[1];
+            int p = flight[2];
+            
+            if (graph.find(u) == graph.end()) graph[u] = vector<pair<int, int>>();
+            
+            graph[u].push_back({v, p});
+        }
+        
+        // { cost, node, stops }
+        priority_queue< tuple<int, int, int>, vector<tuple<int, int, int>>, greater<tuple<int, int, int>> > pq;
+        vector<int> discovery(n + 1, INT_MAX); // To Avoid TLE
+        
+        pq.push({0, src, 0});
+        
+        while (!pq.empty()) {
+            auto top = pq.top();
+            pq.pop();
+            
+            auto [cost, curr, stops] = top;
+            
+            if(stops > discovery[curr]) continue;  // To Avoid TLE
+		    discovery[curr] = stops;
+            
+            if (curr == dst) return cost;
+            
+            if (stops > k) continue;
+            
+            for (auto it : graph[curr]) {
+                auto [n, c] = it;
+                
+                pq.push({cost + c, n, stops + 1});
+            }
+        }
+        
+        return -1;
+    }
+};
+```

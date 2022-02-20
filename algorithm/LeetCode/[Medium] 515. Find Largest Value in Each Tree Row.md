@@ -39,3 +39,47 @@ class Solution:
             level = [c for node in level for c in [node.left, node.right] if c]
         return ans
 ```
+
+**Solution 2: (BFS)**
+```
+Runtime: 12 ms
+Memory Usage: 22 MB
+```
+```c++
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+class Solution {
+public:
+    vector<int> largestValues(TreeNode* root) {
+        if (!root) return vector<int>();
+        vector<int> ans;
+        queue<TreeNode*> q;
+        TreeNode* node;
+        q.push(root);
+        while (!q.empty()) {
+            int sz = q.size();
+            int cur = INT_MIN;
+            for (int i = 0; i < sz; i ++) {
+                node = q.front();
+                q.pop();
+                cur = max(cur, node->val);
+                if (node->left)
+                    q.push(node->left);
+                if (node->right)
+                    q.push(node->right);
+            }
+            ans.push_back(cur);
+        }
+        return ans;
+    }
+};
+```

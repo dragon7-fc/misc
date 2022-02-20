@@ -144,3 +144,34 @@ int** combinationSum(int* candidates, int candidatesSize, int target, int* retur
     return sumArr;
 }
 ```
+
+**Solution 5: (Backtracking)**
+```
+Runtime: 12 ms
+Memory Usage: 10.7 MB
+```
+```c++
+class Solution {
+public:
+    void bt(vector<int>& cand, int r, int i, vector<int>& p, vector<vector<int>>& rst) {
+        if (r <= 0) {
+            if (r == 0)
+                rst.push_back(p);
+            return;
+        }
+        if (i < cand.size()) {
+            p.push_back(cand[i]);
+            bt(cand, r-cand[i], i, p, rst);
+            p.pop_back();
+            bt(cand, r, i+1, p, rst);
+        }
+    }
+    
+    vector<vector<int>> combinationSum(vector<int>& candidates, int target) {
+        vector<vector<int>> ans;
+        vector<int> path;
+        bt(candidates, target, 0, path, ans);
+        return ans;
+    }
+};
+```

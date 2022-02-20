@@ -128,7 +128,7 @@ class Solution(object):
 
 # Submissions
 ---
-**Solution 1:**
+**Solution 1: (Math):**
 ```
 Runtime: 28 ms
 Memory Usage: 12.8 MB
@@ -141,4 +141,21 @@ class Solution:
         if m == 1: return [2, 3, 4][n-1]
         if m == 2: return [2, 4, 7][n-1]
         return [2, 4, 8][n-1]
+```
+
+**Solution 2: (Math)**
+```
+Runtime: 2 ms
+Memory Usage: 5.9 MB
+```
+```c++
+class Solution {
+public:
+    int flipLights(int n, int presses) {
+        if(n == 0) return 1;
+        if(n == 1) return vector<int>{1,2}[min(presses,1)];
+        if(n == 2) return vector<int>{1,3,4}[min(presses,2)];
+        return vector<int>{1,4,7,8}[min(presses,3)];
+    }
+};
 ```

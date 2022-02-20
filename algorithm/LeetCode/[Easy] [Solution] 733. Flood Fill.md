@@ -154,3 +154,35 @@ int** floodFill(int** image, int imageSize, int* imageColSize, int sr, int sc, i
     return image;
 }
 ```
+
+**Solution 4: (DFS)**
+```
+Runtime: 8 ms
+Memory Usage: 14 MB
+```
+```c++
+class Solution {
+public:
+    void dfs(vector<vector<int>>& image, int sr,int sc, int newColor, int rows, int cols, int source){
+        if(sr<0 || sr>=rows || sc<0 || sc>=cols) return ;//checking boundary cases.
+        else if(image[sr][sc]!=source) return;//we can only change the cell val if the source val and adjacent cell's val is same 
+        image[sr][sc]=newColor; //other wise replace the adjacent cell with newColor
+        //call dfs 4 directionally recursively
+        dfs(image,sr-1,sc,newColor,rows,cols,source);//up
+        dfs(image,sr+1,sc,newColor,rows,cols,source);//down
+        dfs(image,sr,sc-1,newColor,rows,cols,source);//left
+        dfs(image,sr,sc+1,newColor,rows,cols,source);//right  
+    }
+
+    vector<vector<int>> floodFill(vector<vector<int>>& image, int sr, int sc, int newColor) {
+        //if newcolor and the image[sr][sc]'s val is same, then no need to do anythings,just return the image matrix
+        if(newColor==image[sr][sc]) return image;
+        int rows=image.size();
+        int cols=image[0].size();
+        int source= image[sr][sc];
+        
+        dfs(image,sr,sc,newColor, rows, cols, source);
+        return image;
+    }
+};
+```

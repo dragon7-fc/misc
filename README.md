@@ -1779,7 +1779,7 @@ A playground to note something.
         - mount
             ```
             sudo apt install nfs-common
-            mount -t nfs -o tcp,nolock [NFS_SERVER_IP]:[/PATH/TO/NFSROOT] [/PATH/TO/MOUNT]
+            mount -t nfs -o tcp,nolock,sync [NFS_SERVER_IP]:[/PATH/TO/NFSROOT] [/PATH/TO/MOUNT]
             ```
         - mount on power on
         
