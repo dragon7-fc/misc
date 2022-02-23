@@ -95,3 +95,47 @@ int evalRPN(char ** tokens, int tokensSize){
     return stack[0];
 }
 ```
+
+**Solution 3: (Stack)**
+```
+Runtime: 15 ms
+Memory Usage: 12 MB
+```
+```c++
+class Solution {
+public:
+    int evalRPN(vector<string>& tokens) {
+        stack<int> st;
+        for(auto it: tokens){
+            if(it == "+" || it == "-" || it == "*" || it == "/"){
+                int a = st.top();
+                st.pop();
+                int b = st.top();
+                st.pop();
+                if(it == "+"){
+                    int temp = b+a;
+                    st.push(temp);
+                }
+                else if(it == "-"){
+                    int temp = b-a;
+                    st.push(temp);
+                }
+                else if(it == "*"){
+                    int temp = b*a;
+                    st.push(temp);
+                }
+                else if(it == "/"){
+                    int temp = b/a;
+                    st.push(temp);
+                }
+            }else{
+                stringstream convert(it);
+                int x = 0;
+                convert >> x;
+                st.push(x);
+            }
+        }
+        return st.top();
+    }
+};
+```

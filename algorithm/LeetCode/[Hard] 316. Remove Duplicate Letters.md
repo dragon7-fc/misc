@@ -18,7 +18,7 @@ Output: "acdb"
 
 # Submissions
 ---
-**Solution 1: (Greedy)**
+**Solution 1: (Greedy, Stack)**
 ```
 Runtime: 4 ms
 Memory Usage: 7.1 MB
@@ -50,7 +50,7 @@ public:
 };
 ```
 
-**Solution 2: (Greedy, Greedy add with count and visited)**
+**Solution 2: (Greedy, Greedy add with count and visited, Stack)**
 ```
 Runtime: 32 ms
 Memory Usage: 14.2 MB

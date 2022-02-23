@@ -128,3 +128,65 @@ class CBTInserter:
 # param_1 = obj.insert(v)
 # param_2 = obj.get_root()
 ```
+
+**Solution 1: (BFS)**
+```
+Runtime: 144 ms
+Memory Usage: 64.4 MB
+```
+```c++
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+class CBTInserter {
+    TreeNode* node;
+public:
+    CBTInserter(TreeNode* root) {
+        node = root;
+    }
+    
+    int insert(int val) {
+        TreeNode* root = node;
+        queue<TreeNode*>q;
+        if(!root->left and !root->right){
+            root->left = new TreeNode(val);
+            return root->val;
+        }
+        q.push(root);
+        while(!q.empty()){
+            auto temp = q.front();
+            q.pop();
+            if(temp->left)q.push(temp->left);
+            if(temp->right)q.push(temp->right);
+            if(!temp->left){
+                temp->left = new TreeNode(val);
+                return temp->val;
+            }
+            if(!temp->right){
+                temp->right = new TreeNode(val);
+                return temp->val;
+            }
+        }
+        return -1;
+    }
+    
+    TreeNode* get_root() {
+        return node;
+    }
+};
+
+/**
+ * Your CBTInserter object will be instantiated and called as such:
+ * CBTInserter* obj = new CBTInserter(root);
+ * int param_1 = obj->insert(val);
+ * TreeNode* param_2 = obj->get_root();
+ */
+```

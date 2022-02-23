@@ -393,3 +393,58 @@ void bSTIteratorFree(BSTIterator* obj) {
  * bSTIteratorFree(obj);
 */
 ```
+
+**Solution 4: (Tree)**
+```
+Runtime: 42 ms
+Memory Usage: 24.3 MB
+```
+```c++
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+class BSTIterator {
+    vector<int> v;
+    int i=-1; //The pointer should be initialized to a non-existent number smaller than any element in the BST.
+    int n;
+    void inorder(TreeNode* root, vector<int> &v)
+    {
+        if(!root)
+            return;
+        inorder(root->left,v);
+        v.push_back(root->val);
+        inorder(root->right,v);
+    }
+public:
+    BSTIterator(TreeNode* root) {
+        inorder(root,v);
+        n=v.size();
+    }
+    
+    int next() {
+        i++;  //Moves the pointer to the right, then returns the number at the pointer.
+        return v[i];
+    }
+    
+    bool hasNext() {
+        if(i+1<n) //if there exits even next element
+            return 1;
+        return 0;
+    }
+};
+
+/**
+ * Your BSTIterator object will be instantiated and called as such:
+ * BSTIterator* obj = new BSTIterator(root);
+ * int param_1 = obj->next();
+ * bool param_2 = obj->hasNext();
+ */
+```

@@ -92,7 +92,7 @@ class Solution:
         return  nodes[-1][1] == len(nodes)     
 ```
 
-**Solution 1:**
+**Solution 1: (BFS)**
 ```
 Runtime: 32 ms
 Memory Usage: 12.7 MB
@@ -114,4 +114,51 @@ class Solution:
                 break
             queue.extend([node.left, node.right])
         return not any(queue)
+```
+
+**Solution 2: (BFS)**
+```
+Runtime: 8 ms
+Memory Usage: 10.4 MB
+```
+```c++
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+class Solution {
+public:
+    bool isCompleteTree(TreeNode* root) {
+        if(!root) return true;
+        bool flag=true;
+        queue<TreeNode*>q;
+        q.push(root);
+        while(!q.empty())
+        {
+            auto curr= q.front();
+            q.pop();
+            if(curr==NULL)
+            {
+                flag=false;
+            }
+            else
+            {
+                if(flag==false)
+                {
+                    return false;
+                }
+                q.push(curr->left);
+                q.push(curr->right);
+            }
+        }
+        return true;
+    }
+};
 ```

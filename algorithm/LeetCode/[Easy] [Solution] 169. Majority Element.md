@@ -324,3 +324,23 @@ class Solution:
 
         return candidate
 ```
+
+**Solution 5: (Boyer-Moore Voting Algorithm)**
+```
+Runtime: 12 ms
+Memory Usage: 19.6 MB
+```
+```c++
+class Solution {
+public:
+    int majorityElement(vector<int>& nums) {
+        int count = 0, candidate;
+        for (auto num: nums) {
+            if (count == 0)
+                candidate = num;
+            count += (num == candidate? 1 : -1);
+        }
+        return candidate;
+    }
+};
+```

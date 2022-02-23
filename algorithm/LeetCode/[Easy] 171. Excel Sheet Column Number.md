@@ -95,3 +95,22 @@ class Solution:
         base = ord('A') - 1
         return sum((ord(v)-base)*26**i for i,v in enumerate(s[::-1]))
 ```
+
+**Solution 2: (Math)**
+```
+Runtime: 4 ms
+Memory Usage: 5.9 MB
+```
+```c++
+class Solution {
+public:
+    int titleToNumber(string columnTitle) {
+        int ans = 0;
+        for (auto &c: columnTitle) {
+            ans *= 26;
+            ans += (c-'A')+1;
+        }
+        return ans;
+    }
+};
+```

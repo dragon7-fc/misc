@@ -74,7 +74,7 @@ class Solution(object):
 
 # Submissions
 ---
-**Solution 1: (DFS)**
+**Solution 1: (DFS, Hash Table)**
 ```
 Runtime: 28 ms
 Memory Usage: 12.7 MB
@@ -102,7 +102,7 @@ class Solution:
         return True if x_parent != y_parent and x_depth == y_depth else False 
 ```
 
-**Solution 2: (BFS)**
+**Solution 2: (BFS, Hash Table)**
 ```
 Runtime: 24 ms
 Memory Usage: 12.7 MB
@@ -137,4 +137,57 @@ class Solution:
             if x in nodes or y in nodes:
                 return False
             q.extend(level)
+```
+
+**Solution 3: (BFS)**
+```
+Runtime: 4 ms
+Memory Usage: 11 MB
+```
+```c++
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+class Solution {
+    bool level_order(TreeNode* root,int x,int y)
+    {
+        queue<TreeNode*>q;
+        q.push(root);
+        while(!q.empty())
+        {
+            int s=q.size();
+            int flag=0;                          
+            for(int i=0;i<s;i++)
+            {
+                if(q.front()->val==x || q.front()->val==y)
+                    flag++;
+                
+                if(flag==2)
+                    return true;
+                TreeNode* temp=q.front();
+                q.pop();
+                if((temp->left && temp->right))
+                    if((temp->left->val==x && temp->right->val==y) || (temp->left->val==y && temp->right->val==x))
+					    return false;
+                if(temp->left)
+                q.push(temp->left);
+                if(temp->right)
+                    q.push(temp->right);                 
+            }
+        }
+        return false;
+    }
+public:
+    bool isCousins(TreeNode* root, int x, int y) {
+        return level_order(root,x,y);
+    }
+};
 ```

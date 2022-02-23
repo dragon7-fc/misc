@@ -107,3 +107,27 @@ char * simplifyPath(char * path){
     return result;
 }
 ```
+
+**Solution 3: (Stack)**
+```
+Runtime: 7 ms
+Memory Usage: 9.4 MB
+```
+```c++
+class Solution {
+public:
+    string simplifyPath(string path) {
+        vector<string> stk; 
+        istringstream iss(path); 
+        string buf; 
+        while (getline(iss, buf, '/')) 
+            if (buf == "..") {
+                if (stk.size()) stk.pop_back(); 
+            } else if (buf.size() && buf != ".") 
+                stk.push_back(buf); 
+        string ans; 
+        for (auto& x : stk) ans += "/" + x; 
+        return ans.size() ? ans : "/"; 
+    }
+};
+```

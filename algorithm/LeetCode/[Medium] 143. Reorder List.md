@@ -142,3 +142,85 @@ void reorderList(struct ListNode* head){
     return dummy->next;
 }
 ```
+
+**Solution 4: (Linked List)**
+```
+Runtime: 46 ms
+Memory Usage: 18.8 MB
+```
+```c++
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode() : val(0), next(nullptr) {}
+ *     ListNode(int x) : val(x), next(nullptr) {}
+ *     ListNode(int x, ListNode *next) : val(x), next(next) {}
+ * };
+ */
+class Solution {
+public:
+    void reorderList(ListNode* head) {
+        vector<ListNode*> nodes;
+        ListNode *cur = head;
+        while (cur) {
+            nodes.push_back(cur);
+            cur = cur->next;
+        }
+        int n = nodes.size();
+        int middle = n/2;
+        for (int i = 0; i < middle; i ++) {
+            nodes[i]->next = nodes[n-1-i];
+            nodes[n-1-i]->next = nodes[i+1];
+        }
+        nodes[middle]->next = nullptr;
+    }
+};
+```
+
+**Solution 5: (Linked List, Reverse the Second Part of the List and Merge Two Sorted Lists)**
+```
+Runtime: 68 ms
+Memory Usage: 17.7 MB
+```
+```c++
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode() : val(0), next(nullptr) {}
+ *     ListNode(int x) : val(x), next(nullptr) {}
+ *     ListNode(int x, ListNode *next) : val(x), next(next) {}
+ * };
+ */
+class Solution {
+public:
+    void reorderList(ListNode* head) {
+        if (!head)
+            return;
+        ListNode *slow = head, *fast = head;
+        while (fast && fast->next) {
+            slow = slow->next;
+            fast = fast->next->next;
+        }
+        ListNode *prev = nullptr, *curr = slow, *tmp;
+        while (curr) {
+            tmp = curr->next;
+            curr->next = prev;
+            prev = curr;
+            curr = tmp;
+        }
+        ListNode *first = head, *second = prev, *first_tmp, *second_tmp;
+        while (second->next) {
+            first_tmp = first->next;
+            first->next = second;
+            first = first_tmp;
+            second_tmp = second->next;
+            second->next = first;
+            second = second_tmp;
+        }
+    }
+};
+```

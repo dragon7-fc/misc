@@ -262,3 +262,100 @@ class Solution:
                            
         return region_count
 ```
+
+**Solution 3: (Union-Find)**
+```
+Runtime: 8 ms
+Memory Usage: 11 MB
+```
+```c++
+class Solution {
+public:
+    struct disjoint_set {
+		vector<int> parent;
+		void make_set(int n) {
+			for(int i = 0; i <= 4 * n * n + 1; i++) 
+				parent.push_back(i);
+		}
+		int find_parent(int v) {
+			if(parent[v] == v) return v;
+			return parent[v] = find_parent(parent[v]);
+		}
+		void union_set(int u, int v) {
+			u = find_parent(u);
+			v = find_parent(v);
+			parent[u] = v;
+		}
+	};
+    int regionsBySlashes(vector<string>& grid) {
+        int n = grid.size(), ans = 0;
+		disjoint_set dsu; dsu.make_set(n);
+		for(int i = 0; i < n; i++) {
+			for(int j = 0; j < n; j++) {
+				int x = (i * n + j) * 4;
+				if(grid[i][j] == '/') {
+					dsu.union_set(x + 1, x + 2);
+					dsu.union_set(x + 3, x + 4);
+				}
+				else if(grid[i][j] == '\\') {
+					dsu.union_set(x + 1, x + 4);
+					dsu.union_set(x + 2, x + 3);
+				}
+				else {
+					dsu.union_set(x + 1, x + 2);
+					dsu.union_set(x + 3, x + 4);
+					dsu.union_set(x + 1, x + 4);
+				}
+				if(j + 1 < n) dsu.union_set(x + 4, x + 6);
+				if(i + 1 < n) dsu.union_set(x + 3, ((i + 1) * n + j) * 4 + 1);
+			}
+		}
+		for(int i = 1; i <= 4 * n * n; i++)
+			if(dsu.parent[i] == i) ans++;
+		return ans;
+    }
+};
+```
+
+**Solution 4: (DFS)**
+```
+Runtime: 22 ms
+Memory Usage: 11.6 MB
+```
+```c++
+class Solution {
+public:
+    void build(vector<vector<int>>& graph, vector<string>& grid, int n) {
+		for(int i = 0; i < n * 3 + 2; i++) 
+			graph[0][i] = 1, graph[i][0] = 1, graph[i][n * 3 + 1] = 1, graph[n * 3 + 1][i] = 1;
+		for(int i = 0; i < n; i++) {
+			for(int j = 0; j < n; j++) {
+				int y = (j + 1) * 3, x = (i + 1) * 3;
+				if(grid[i][j] == '/') 
+					graph[x - 2][y] = 1, graph[x - 1][y - 1] = 1, graph[x][y - 2] = 1;    
+				else if(grid[i][j] == '\\') 
+					graph[x - 2][y - 2] = 1, graph[x - 1][y - 1] = 1, graph[x][y] = 1;
+			}
+		}
+	}
+	void dfs(int x, int y, vector<vector<int>>& graph) {
+		if(graph[x][y] != 0)
+			return;
+		graph[x][y] = 1;
+		dfs(x + 1, y, graph); dfs(x - 1, y, graph); dfs(x, y - 1, graph); dfs(x, y + 1, graph);
+	}
+    int regionsBySlashes(vector<string>& grid) {
+        int n = grid.size();
+		vector<vector<int>> graph(n * 3 + 2, vector<int>(n * 3 + 2));
+		build(graph, grid, n);
+		int ans = 0;
+		for(int i = 1; i <= n * 3; i++) {
+			for(int j = 1; j <= n * 3; j++) {
+				if(graph[i][j] == 0) 
+					ans++, dfs(i, j, graph);
+			}
+		}
+		return ans;
+    }
+};
+```

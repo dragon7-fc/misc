@@ -114,3 +114,100 @@ class Solution:
                     return False
         return True
 ```
+
+**Solution 2: (DFS)**
+```
+Runtime: 248 ms
+Memory Usage: 71.7 MB
+```
+```c++
+class Solution {
+    bool isBipartite(int node,vector<vector<int>>&adj,vector<int>&color){
+        queue<int>q;
+        q.push(node);
+        color[node]=1;
+        
+        while(!q.empty()){
+            int x=q.front();
+            q.pop();
+            
+            for(auto it:adj[x]){
+                if(color[it]==-1){
+                    
+                    color[it]=1-color[x];
+                    q.push(it);
+                    
+                }
+                else if(color[it]==color[x]) return false;
+            }
+        }
+        
+        return true;
+    }
+public:
+    bool possibleBipartition(int n, vector<vector<int>>& dislikes) {
+        vector<vector<int>> adj(n+1);
+        vector<int>color(n+1,-1);
+        
+        for(auto it:dislikes){
+            int u=it[0];
+            int v=it[1];
+            
+            adj[u].push_back(v);
+            adj[v].push_back(u);
+        }
+            
+        for(int i=1;i<=n;i++){
+            if(color[i]==-1){
+                if(!isBipartite(i,adj,color)) return false;
+            }
+        }
+        
+        return true;
+    }
+};
+```
+
+**Solution 3: (BFS)**
+```
+Runtime: 288 ms
+Memory Usage: 64.6 MB
+```
+```c++
+class Solution {
+    bool bfs(int node, vector<int> &color, vector<vector<int>>& adj){
+        queue<int> q;
+        q.push(node);
+        color[node]=1;
+        while(!q.empty()){
+            int n=q.front();
+            q.pop();
+            for(auto& x:adj[n]){
+                if(color[x]==-1){
+                    color[x]=1-color[n];
+                    q.push(x);
+                }
+                else if(color[x]==color[n])
+                    return false;
+            }
+        }
+        return true;
+    }
+public:
+    bool possibleBipartition(int n, vector<vector<int>>& dislikes) {
+        vector<vector<int>> adj(n+1);
+        for(int i=0;i<dislikes.size();i++){
+            adj[dislikes[i][0]].push_back(dislikes[i][1]);
+            adj[dislikes[i][1]].push_back(dislikes[i][0]);
+        }
+        vector<int> color(n+1,-1);
+        for(int i=1;i<=n;i++){
+            if(color[i]==-1){
+                if(!bfs(i, color, adj))
+                    return false;
+            }
+        }
+        return true;
+    }
+};
+```
