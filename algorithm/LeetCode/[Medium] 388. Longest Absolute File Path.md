@@ -64,27 +64,73 @@ class Solution:
 
 **Solution 2: (Stack)**
 ```
-Runtime: 4 ms
-Memory Usage: 6.5 MB
+Runtime: 2 ms
+Memory Usage: 6.4 MB
 ```
 ```c++
 class Solution {
 public:
     int lengthLongestPath(string input) {
-        int next(0), sub(0), res(0);
+        int depth(0), res(0);
         stack<pair<string, int>> pile;
         string str="";
-        for(int i=0;i<input.size();i++){
-            bool isfile=0;
-            while(input[i]=='\n') next++, i++;
-            while(input[i]=='\t') sub++, i++;
-            while(i<input.size() && input[i]!='\n' && input[i]!='\t') str.push_back(input[i]), isfile|=(input[i]=='.'), i++ ;
-            int rem = pile.size()-sub;
-            while(rem--) pile.pop();
-            pile.push({str, (pile.empty()?0:pile.top().second)+str.size()+1});
-            if(isfile) res=max(res, pile.top().second);
-            sub=0;
-            str="";
+        for (int i=0; i < input.size(); i++) {
+            bool isfile = 0;
+            while (input[i] == '\n') {
+                i += 1;
+            }
+            while (input[i] == '\t') {
+                depth += 1;
+                i += 1;
+            }
+            while (i < input.size() && input[i] != '\n' && input[i] != '\t') {
+                str.push_back(input[i]);
+                isfile |= (input[i]=='.');
+                i += 1 ;
+            }
+            int rem = pile.size() - depth;
+            while (rem--) pile.pop();
+            pile.push({str, (pile.empty()? 0 : pile.top().second) + str.size() + 1});
+            if (isfile) res = max(res, pile.top().second);
+            depth = 0;
+            str.erase();
+        }
+        return max(0, res-1);
+    }
+};
+```
+
+**Solution 3: (Stack)**
+```
+Runtime: 0 ms
+Memory Usage: 6.6 MB
+```
+```c++
+class Solution {
+public:
+    int lengthLongestPath(string input) {
+        int depth(0), res(0);
+        stack<pair<string, int>> pile;
+        stringstream ss(input);
+        string line, cur;
+        while (getline(ss, line, '\n')) {
+            bool isfile = 0;
+            int i = 0;
+            while (line[i] == '\t') {
+                depth += 1;
+                i += 1;
+            }
+            while (i < line.size() && line[i] != '\n' && line[i] != '\t') {
+                cur.push_back(line[i]);
+                isfile |= (line[i]=='.');
+                i += 1 ;
+            }
+            int rem = pile.size() - depth;
+            while (rem--) pile.pop();
+            pile.push({cur, (pile.empty()? 0 : pile.top().second) + cur.size() + 1});
+            if (isfile) res = max(res, pile.top().second);
+            depth = 0;
+            cur.erase();
         }
         return max(0, res-1);
     }

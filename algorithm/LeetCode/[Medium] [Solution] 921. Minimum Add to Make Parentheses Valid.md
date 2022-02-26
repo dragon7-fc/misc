@@ -87,6 +87,27 @@ class Solution:
             # It is guaranteed bal >= -1
             if bal == -1:
                 ans += 1  # invalid ')'
-                bal += 1  # invalid '('
+                bal += 1  # bal = 0, reset bal
         return ans + bal
+```
+
+**Solution 1: (Stack)**
+```
+Runtime: 6 ms
+Memory Usage: 6.3 MB
+```
+```c++
+class Solution {
+public:
+    int minAddToMakeValid(string s) {
+        stack<char> stk;
+        for (auto c: s) {
+            if (!stk.empty() && stk.top() == '(' && c == ')')
+                stk.pop();
+            else
+                stk.push(c);
+        }
+        return stk.size();
+    }
+};
 ```

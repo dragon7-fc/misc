@@ -68,3 +68,23 @@ class Solution:
             if ma == i: ans += 1
         return ans
 ```
+
+**Solution 1: (Brute Force)**
+```
+Runtime: 0 ms
+Memory Usage: 7.2 MB
+```
+```c++
+class Solution {
+public:
+    int maxChunksToSorted(vector<int>& arr) {
+        int ans = 0, ma = 0;
+        for (int i = 0; i< arr.size(); i ++) {
+            ma = max(ma, arr[i]);
+            if (ma == i)
+                ans += 1;
+        }
+        return ans;
+    }
+};
+```

@@ -133,7 +133,7 @@ class Solution:
         return stack[-1][0]
 ```
 
-**Solution 2: (DFS)**
+**Solution 5: (DFS)**
 ```
 Runtime: 0 ms
 Memory Usage: 10 MB
@@ -214,4 +214,40 @@ char * decodeString(char * s){
 
     return string;
 }
+```
+
+**Solution 6: (Stack)**
+```
+Runtime: 3 ms
+Memory Usage: 6.7 MB
+```
+```c++
+class Solution {
+public:
+    string decodeString(string s) {
+        stack<pair<int, string>> stk;
+        stk.push({-1, ""});
+        int n = 0;
+        for (auto c: s) {
+            if (isdigit(c)) {
+                n *= 10;
+                n += c-'0';
+            } else if (c == '[') {
+                stk.push({n, ""});
+                n = 0;
+            } else if (c == ']') {
+                auto [mul, str] = stk.top();
+                stk.pop();
+                string cur;
+                while (mul--) {
+                    cur += str;
+                }
+                stk.top().second += cur;
+            } else {
+                stk.top().second.push_back(c);
+            }
+        }
+        return stk.top().second;
+    }
+};
 ```

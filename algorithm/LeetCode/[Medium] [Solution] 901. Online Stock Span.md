@@ -77,7 +77,7 @@ class StockSpanner(object):
 
 # Submissions
 ---
-**Solution 1: (Stack)**
+**Solution: (Stack)**
 ```
 Runtime: 444 ms
 Memory Usage: 17.3 MB
@@ -99,4 +99,34 @@ class StockSpanner:
 # Your StockSpanner object will be instantiated and called as such:
 # obj = StockSpanner()
 # param_1 = obj.next(price)
+```
+
+**Solution 1: (Stack)**
+```
+Runtime: 273 ms
+Memory Usage: 84.3 MB
+```
+```c++
+class StockSpanner {
+    stack<pair<int,int>> stk;
+public:
+    StockSpanner() {
+    }
+    
+    int next(int price) {
+        int weight = 1;
+        while (!stk.empty() && stk.top().first <= price) {
+            weight += stk.top().second;
+            stk.pop();
+        }
+        stk.push({price, weight});
+        return weight;
+    }
+};
+
+/**
+ * Your StockSpanner object will be instantiated and called as such:
+ * StockSpanner* obj = new StockSpanner();
+ * int param_1 = obj->next(price);
+ */
 ```

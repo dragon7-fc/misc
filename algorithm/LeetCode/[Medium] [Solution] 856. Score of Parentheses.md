@@ -168,3 +168,28 @@ class Solution:
 
         return stack.pop()
 ```
+
+**Solution 1: (Stack)**
+```
+Runtime: 5 ms
+Memory Usage: 6.2 MB
+```
+```c++
+class Solution {
+public:
+    int scoreOfParentheses(string s) {
+        stack<int> stk;
+        stk.push(0);
+        int v;
+        for (auto c: s) {
+            if (c == '(')
+                stk.push(0);
+            else {
+                v = stk.top(); stk.pop();
+                stk.top() += max(2*v, 1);
+            }
+        }
+        return stk.top();
+    }
+};
+```

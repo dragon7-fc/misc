@@ -59,6 +59,40 @@ First, find the length of the decoded string. After, we'll work backwards, keepi
 
 If we see a digit `S[i]`, it means the size of the decoded string after parsing `S[0], S[1], ..., S[i-1]` will be `size / Integer(S[i]`). Otherwise, it will be `size - 1`.
 
+**C++**
+
+```c++
+class Solution {
+public:
+    string decodeAtIndex(string S, int K) {
+        long size = 0;
+        int N = S.size();
+
+        // Find size = length of decoded string
+        for (int i = 0; i < N; ++i) {
+            if (isdigit(S[i]))
+                size *= S[i] - '0';
+            else
+                size++;
+        }
+
+        for (int i = N-1; i >=0; --i) {
+            K %= size;
+            if (K == 0 && isalpha(S[i]))
+                return (string) "" + S[i];
+
+            if (isdigit(S[i]))
+                size /= S[i] - '0';
+            else
+                size--;
+        }
+        return "";
+    }
+};
+```
+
+**Python**
+
 ```python
 class Solution(object):
     def decodeAtIndex(self, S, K):
@@ -89,7 +123,7 @@ class Solution(object):
 
 # Submissions
 ---
-**Solution 1: (Work Backwards)**
+**Solution: (Work Backwards)**
 ```
 Runtime: 28 ms
 Memory Usage: 12.8 MB
@@ -114,4 +148,39 @@ class Solution:
                 size /= int(c)
             else:
                 size -= 1
+```
+
+**Solution: (Work Backwards)**
+```
+Runtime: 0 ms
+Memory Usage: 5.9 MB
+```
+```c++
+class Solution {
+public:
+    string decodeAtIndex(string s, int k) {
+        long size = 0;
+        int N = s.size();
+
+        // Find size = length of decoded string
+        for (int i = 0; i < N; ++i) {
+            if (isdigit(s[i]))
+                size *= s[i] - '0';
+            else
+                size++;
+        }
+
+        for (int i = N-1; i >=0; --i) {
+            k %= size;
+            if (k == 0 && isalpha(s[i]))
+                return (string) "" + s[i];
+
+            if (isdigit(s[i]))
+                size /= s[i] - '0';
+            else
+                size--;
+        }
+        return "";
+    }
+};
 ```

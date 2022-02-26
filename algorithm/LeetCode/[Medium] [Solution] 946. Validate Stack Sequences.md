@@ -66,7 +66,7 @@ class Solution(object):
 
 # Submissions
 ---
-**Solution 1: (Greedy, Stack simulation)**
+**Solution: (Greedy, Stack simulation)**
 ```
 Runtime: 72 ms
 Memory Usage: 12.8 MB
@@ -83,4 +83,28 @@ class Solution:
                 j += 1
 
         return j == len(popped)
+```
+
+**Solution 1: (Greedy, Stack simulation)**
+```
+Runtime: 7 ms
+Memory Usage: 15.4 MB
+```
+```c++
+class Solution {
+public:
+    bool validateStackSequences(vector<int>& pushed, vector<int>& popped) {
+        int j = 0;
+        stack<int> stk;
+        for (auto x: pushed) {
+            stk.push(x);
+            while (!stk.empty() and j < popped.size() and stk.top() == popped[j]) {
+                stk.pop();
+                j += 1;
+            }
+        }
+
+        return j == popped.size();
+    }
+};
 ```

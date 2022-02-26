@@ -130,3 +130,56 @@ class Solution:
 
         return ans
 ```
+
+**Solution 1: (Binary Search Candidates, Insertion Sort)**
+
+* Time: Nlog(N)
+* Space: O(N)
+
+```
+Runtime: 81 ms
+Memory Usage: 29.6 MB
+```
+```c++
+class Solution {
+public:
+    int maxWidthRamp(vector<int>& nums) {
+        int out{0}, sz(size(nums));
+        vector v{sz-1};
+        for (int i{sz-2}; i >= 0; i--)
+            if (nums[i] <= nums[v.back()])
+                out = max(out, *lower_bound(begin(v), end(v), i, [&](const auto & i, const auto & j){ return nums[i] < nums[j]; }) -i);
+            else
+                v.push_back(i);
+        return out;
+    }
+};
+```
+
+**Solution 2: (Stack)**
+
+* Time: O(N) 
+* Space: O(N)
+
+```
+Runtime: 57 ms
+Memory Usage: 29.5 MB
+```
+```c++
+class Solution {
+public:
+    int maxWidthRamp(vector<int>& nums) {
+        int out{0}, sz(size(nums));
+        stack<int> s({sz-1});
+        for (int i{sz-2}; i >= 0; i--)
+            if (nums[s.top()] < nums[i]) s.push(i);
+
+        for (int i{0}; i < sz; )
+            if (!empty(s) and nums[i] <= nums[s.top()])
+                out = max(out, s.top()-i), s.pop();
+            else
+                ++i;
+        return out;
+    }
+};
+```

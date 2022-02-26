@@ -131,3 +131,26 @@ int* dailyTemperatures(int* temperatures, int temperaturesSize, int* returnSize)
     return ans;
 }
 ```
+
+**Solution 3: (Stack)**
+```
+Runtime: 152 ms
+Memory Usage: 85.1 MB
+```
+```c++
+class Solution {
+public:
+    vector<int> dailyTemperatures(vector<int>& temperatures) {
+        stack<pair<int, int>> stk;
+        vector<int> ans(temperatures.size());
+        for (int i = temperatures.size()-1; i >= 0; i--) {
+            while (!stk.empty() && stk.top().second <= temperatures[i])
+                stk.pop();
+            if (!stk.empty())
+                ans[i] = stk.top().first - i;
+            stk.push({i, temperatures[i]});
+        }
+        return ans;
+    }
+};
+```

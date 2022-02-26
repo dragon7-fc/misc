@@ -272,3 +272,35 @@ int* exclusiveTime(int n, char ** logs, int logsSize, int* returnSize){
     return duration;
 }
 ```
+
+**Solution 3: (Stack)**
+```
+Runtime: 34 ms
+Memory Usage: 13.2 MB
+```
+```c++
+class Solution {
+public:
+    vector<int> exclusiveTime(int n, vector<string>& logs) {
+        vector<int> res(n, 0);
+        stack<pair<int, int>> s;
+        for (string log : logs) {
+            int c1 = log.find(':'), c2 = log.find(':', c1 + 1);
+            int pid = stoi(log.substr(0, c1));
+            string state = log.substr(c1 + 1, c2 - c1 - 1);
+            int t = stoi(log.substr(c2 + 1, log.size()));
+            if (state == "start") {
+                s.emplace(pid, t);
+            } else {
+                auto [pid, tp] = s.top(); s.pop();
+                res[pid] += t - tp + 1;
+                if (!s.empty()) {
+					//  remove non exclusive time of previous process
+                    res[s.top().first] -= t - tp + 1;
+                }
+            }
+        }
+        return res;
+    }
+};
+```

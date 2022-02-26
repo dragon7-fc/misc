@@ -117,7 +117,7 @@ class Solution(object):
 
 # Submissions
 ---
-**Solution 1: (Breadth First Search)**
+**Solution 1: (Breadth First Search, Brute Force)**
 ```
 Runtime: 148 ms
 Memory Usage: 17.9 MB
@@ -167,4 +167,82 @@ class Solution:
                                 repeat = True
 
         return min(dist[2**N - 1])
+```
+
+**Solution 3: (Breadth First Search, Brute Force)**
+```
+Runtime: 96 ms
+Memory Usage: 16.9 MB
+```
+```c++
+class Solution {
+public:
+    struct Node {
+       int value = INT_MAX;
+    };
+    int shortestPathLength(vector<vector<int>>& graph) {
+        int N = graph.size(), d, cover2;
+        queue<pair<int,int>> q;
+        for (int x = 0; x < N; x ++)
+            q.push({1<<x, x});
+        unordered_map<int,unordered_map<int,Node>> dist;
+        for (int x = 0; x < N; x ++)
+            dist[x][1<<x].value = 0;
+        while (!q.empty()) {
+            auto [cover, head] = q.front();
+            q.pop();
+            d = dist[head][cover].value;
+            if (cover == pow(2, N) -1)
+                return d;
+            for (auto child: graph[head]) {
+                cover2 = cover | (1 << child);
+                if (d+1 < dist[child][cover2].value) {
+                    dist[child][cover2].value = d+1;
+                    q.push({cover2, child});
+                }
+                    
+            }
+        }
+        return 0;
+    }
+};
+```
+
+**Solution 4: (Breadth First Search, Brute Force)**
+```
+Runtime: 187 ms
+Memory Usage: 17.5 MB
+```
+```c++
+class Solution {
+public:
+    struct Node {
+        int value = INT_MAX;
+    };
+    int shortestPathLength(vector<vector<int>>& graph) {
+        int N = graph.size(), d, cover2;
+        queue<pair<int,int>> q;
+        for (int x = 0; x < N; x ++)
+            q.push({1<<x, x});
+        map<pair<int,int>,Node> dist;
+        for (int x = 0; x < N; x ++)
+            dist[{x, 1<<x}].value = 0;
+        while (!q.empty()) {
+            auto [cover, head] = q.front();
+            q.pop();
+            d = dist[{head, cover}].value;
+            if (cover == pow(2, N) -1)
+                return d;
+            for (auto child: graph[head]) {
+                cover2 = cover | (1 << child);
+                if (d+1 < dist[{child, cover2}].value) {
+                    dist[{child, cover2}].value = d+1;
+                    q.push({cover2, child});
+                }
+                    
+            }
+        }
+        return 0;
+    }
+};
 ```

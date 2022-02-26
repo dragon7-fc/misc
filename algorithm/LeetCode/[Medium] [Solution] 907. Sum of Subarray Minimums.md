@@ -129,7 +129,7 @@ class Solution(object):
 
 # Submissions
 ---
-**Solution (Stack)**
+**Solution: (Stack)**
 ```
 Runtime: 508 ms
 Memory Usage: 18 MB
@@ -153,4 +153,34 @@ class Solution:
             dot += y * count  # last result
             ans += dot
         return ans % MOD
+```
+
+**Solution 1: (Stack)**
+```
+Runtime: 101 ms
+Memory Usage: 40 MB
+```
+```c++
+class Solution {
+public:
+    int sumSubarrayMins(vector<int>& arr) {
+        int MOD = 1e9 + 7;
+        stack<pair<int,int>> stk;
+        int dot = 0, count;
+        long long ans = 0;
+        for (int j = 0; j < arr.size(); j ++) {
+            count = 1;
+            while (!stk.empty() && stk.top().first >= arr[j]) {
+                auto [x, c] = stk.top();
+                stk.pop();
+                count += c;
+                dot -= x*c;
+            }
+            stk.push({arr[j], count});
+            dot += arr[j]*count;
+            ans += dot;
+        }
+        return (int)(ans % MOD);
+    }
+};
 ```

@@ -93,5 +93,78 @@ class Solution:
             elif v1 < v2:
                 return -1
         return 0
-            
+```
+
+**Solution 3: (Greedy)**
+```
+Runtime: 0 ms
+Memory Usage: 6.4 MB
+```
+‵``c++
+class Solution {
+public:
+    int compareVersion(string version1, string version2) {
+        vector<int> v1, v2;
+        stringstream ss(version1);
+        string str;
+        while (getline(ss, str, '.')) {
+            v1.push_back(stoi(str));
+        }
+        ss = stringstream(version2);
+        str.erase();
+        while (getline(ss, str, '.')) {
+            v2.push_back(stoi(str));
+        }
+        int n1, n2;
+        for (int i = 0; i < max(v1.size(), v2.size()); i++) {
+            n1 = (i < v1.size() ? v1[i] : 0);
+            n2 = (i < v2.size() ? v2[i] : 0);
+            if (n1 < n2)
+                return -1;
+            else if (n1 > n2)
+                return 1;
+        }
+        return 0;
+    }
+};
+```
+
+**Solution 4: (Greedy)**
+```
+Runtime: 2 ms
+Memory Usage: 6.2 MB
+```
+```c++
+class Solution {
+public:
+    int compareVersion(string version1, string version2) {
+        int i = 0, j = 0, n1 = version1.size(), n2 = version2.size(), num1 = 0, num2 = 0; 
+        while(i<n1 || j<n2)
+        {
+            while(i<n1 && version1[i]!='.')
+            {
+                num1 = num1*10+(version1[i]-'0');
+                i++;
+            }
+            while(j<n2 && version2[j]!='.')
+            {
+                num2 = num2*10+(version2[j]-'0');
+                j++;
+            }
+            if(num1>num2)
+            {
+                return 1;
+            }
+            if(num1 < num2) 
+            {
+                return -1;
+            }
+            i++;
+            j++;
+            num1 = 0;
+            num2 = 0;
+        }
+        return 0; 
+    }
+};
 ```

@@ -76,7 +76,7 @@ public class Solution {
 
 # Submissions
 ---
-**Solution 1:**
+**Solution 1: (DFS)**
 ```
 Runtime: 188 ms
 Memory Usage: 13.1 MB
@@ -103,4 +103,41 @@ class Solution:
             return node
         
         return dfs(nums) 
+```
+
+**Solution 2: (DFS)**
+```
+Runtime: 76 ms
+Memory Usage: 42.8 MB
+```
+```c++
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+class Solution {
+public:
+    TreeNode* constructMaximumBinaryTree(vector<int>& nums) {
+        return dfs(nums, 0, nums.size()-1);
+    }
+    
+    TreeNode* dfs(vector<int>& nums, int left, int right) {
+        if (left > right)
+            return nullptr;
+        if (left == right)
+            return new TreeNode(nums[left]);
+        int mx_indx = max_element(nums.begin() + left, nums.begin() + right + 1) - nums.begin();
+        TreeNode* node = new TreeNode(nums[mx_indx]);
+        node->left = dfs(nums, left, mx_indx-1);
+        node->right = dfs(nums, mx_indx+1, right);
+        return node;
+    }
+};
 ```

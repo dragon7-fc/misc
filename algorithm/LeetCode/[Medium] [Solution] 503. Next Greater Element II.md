@@ -162,7 +162,7 @@ class Solution:
         return res
 ```
 
-**Solution 1: (Stack)**
+**Solution 2: (Stack)**
 ```
 Runtime: 161 ms
 Memory Usage: 16.5 MB
@@ -187,4 +187,27 @@ int* nextGreaterElements(int* nums, int numsSize, int* returnSize){
     *returnSize = numsSize;
     return ans;
 }
+```
+
+**Solution 3: (Stack)**
+```
+Runtime: 32 ms
+Memory Usage: 24 MB
+```
+```c++
+class Solution {
+public:
+    vector<int> nextGreaterElements(vector<int>& nums) {
+        vector<int> res(nums.size());
+        stack<int> stk;
+        for (int i = 2*nums.size(); i >= 0; i --) {
+             while (!stk.empty() && nums[stk.top()] <= nums[i % nums.size()]) {
+                stk.pop();
+            }
+            res[i % nums.size()] = stk.empty() ? -1 : nums[stk.top()];
+            stk.push(i % nums.size());
+        }
+        return res;
+    }
+};
 ```

@@ -285,3 +285,34 @@ class Solution:
                 
         return 0 if right - left < 0 else right - left + 1
 ```
+
+**Solution 3: (Stack)**
+```
+Runtime: 44 ms
+Memory Usage: 27.8 MB
+```
+```c++
+class Solution {
+public:
+    int findUnsortedSubarray(vector<int>& nums) {
+        stack<int> stk;
+        int l = nums.size(), r = 0;
+        for (int i = 0; i < nums.size(); i++) {
+            while (!stk.empty() && nums[stk.top()] > nums[i]) {
+                l = min(l, stk.top());
+                stk.pop();
+            }
+            stk.push(i);
+        }
+        stk = stack<int>();
+        for (int i = nums.size() - 1; i >= 0; i--) {
+            while (!stk.empty() && nums[stk.top()] < nums[i]) {
+                r = max(r, stk.top());
+                stk.pop();
+            }
+            stk.push(i);
+        }
+        return r - l > 0 ? r - l + 1 : 0;
+    }
+};
+```

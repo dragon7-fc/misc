@@ -144,3 +144,35 @@ int* asteroidCollision(int* asteroids, int asteroidsSize, int* returnSize){
     return stack;
 }
 ```
+
+**Solution 3: (Stack)**
+```
+Runtime: 18 ms
+Memory Usage: 17.4 MB
+```
+```c++
+class Solution {
+public:
+    vector<int> asteroidCollision(vector<int>& asteroids) {
+        vector<int> ans;
+        bool flag;
+        for (auto size: asteroids) {
+            flag = false;
+            while (!ans.empty() && ans.back() > 0 && size < 0) {
+                if (ans.back() >= -size) {
+                    if (ans.back() == -size)
+                        ans.pop_back();
+                    flag = true;
+                    break;
+                } else {
+                    ans.pop_back();
+                }
+            }
+            
+            if (!flag)
+                ans.push_back(size);
+        }
+        return ans;
+    }
+};
+```

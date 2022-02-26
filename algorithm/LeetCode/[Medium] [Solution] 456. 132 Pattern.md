@@ -296,7 +296,7 @@ public class Solution {
 
 # Submissions
 ---
-**Solution 1: (Stack)**
+**Solution 1: (Prefix sum, Stack)**
 ```
 Runtime: 156 ms
 Memory Usage: 14.2 MB
@@ -321,4 +321,34 @@ class Solution:
                 stack.append(nums[j])
         
         return False
+```
+
+**Solution 2; (Prefix sum, Stack)**
+```
+Runtime: 65 ms
+Memory Usage: 38.8 MB
+```
+```c++
+class Solution {
+public:
+    bool find132pattern(vector<int>& nums) {
+        int N = nums.size();
+        stack<int> stk;
+        vector<int> pre(N, 0);
+        pre[0] = nums[0];
+        for (int i = 1; i < N; i ++) {
+            pre[i] = min(pre[i-1], nums[i]);
+        }
+        for (int i = N-1; i >= 0; i--) {
+            if (nums[i] > pre[i]) {
+                while (!stk.empty() && stk.top() <= pre[i])
+                    stk.pop();
+                if (!stk.empty() && stk.top() < nums[i])
+                    return true;
+                stk.push(nums[i]);
+            }
+        }
+        return false;
+    }
+};
 ```

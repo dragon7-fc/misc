@@ -47,7 +47,7 @@ class Solution:
         return dummy.next 
 ```
 
-**Solution 1: (Linked List)**
+**Solution 2: (Linked List)**
 ```
 Runtime: 12 ms
 Memory Usage: 7.9 MB
@@ -95,4 +95,66 @@ struct ListNode* addTwoNumbers(struct ListNode* l1, struct ListNode* l2){
     }
     return prev;
 }
+```
+
+**Solution 3: (Linked List, Stack)**
+```
+Runtime: 61 ms
+Memory Usage: 74.6 MB
+```
+```
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode() : val(0), next(nullptr) {}
+ *     ListNode(int x) : val(x), next(nullptr) {}
+ *     ListNode(int x, ListNode *next) : val(x), next(next) {}
+ * };
+ */
+class Solution {
+public:
+    ListNode* addTwoNumbers(ListNode* l1, ListNode* l2) {
+        stack<int> s1, s2, tmp;
+        ListNode *cur = l1, *prev;
+        while (cur) {
+            s1.push(cur->val);
+            cur = cur->next;
+        }
+        cur = l2;
+        while (cur) {
+            s2.push(cur->val);
+            cur = cur->next;
+        }
+        int d1, d2, carry = 0;
+        cur = l1;
+        while (!s1.empty() || !s2.empty() || carry) {
+            d1 = 0;
+            if (!s1.empty()) {
+                d1 = s1.top();
+                s1.pop();
+            }
+            d2 = 0;
+            if (!s2.empty()) {
+                d2 = s2.top();
+                s2.pop();
+            }
+            tmp.push((d1+d2+carry) % 10);
+            carry = (d1+d2+carry) / 10;
+        }
+        cur = l1;
+        while (!tmp.empty()) {
+            if (!cur) {
+                cur = new ListNode();
+                prev->next = cur;
+            }
+            cur->val = tmp.top();
+            tmp.pop();
+            prev = cur;
+            cur = cur->next;
+        }
+        return l1;
+    }
+};
 ```

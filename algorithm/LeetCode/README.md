@@ -11297,7 +11297,7 @@ class MajorityChecker:
 ```
 * [Hard] 1157. Online Majority Element In Subarray
 
-**Template 1:**
+**Template 1: (Binary Search)**
 ```python
 def is_XXX(...):
     ...
@@ -11312,7 +11312,7 @@ while lo < hi:
 return lo
 ```
 
-**Template 2:**
+**Template 2: (Binary Search)**
 ```python
 def is_XXX(...):
     ...
@@ -12156,7 +12156,7 @@ class Solution:
 ```
 * [Hard] 1526. Minimum Number of Increments on Subarrays to Form a Target Array
 
-**Template 1:**
+**Template 1: (Greedy)**
 ```python
 ans = []
 A.sort()
@@ -13196,7 +13196,7 @@ class Solution:
 ```
 * [Hard] 1345. Jump Game IV
 
-**Template 1:**
+**Template 1: (Breadth-first Search)**
 ```python
 seen = [False ...]
 q = collections.deque([...])
@@ -13212,7 +13212,7 @@ while q:
 return ans
 ```
 
-**Template 2:**
+**Template 2: (Breadth-first Search)**
 ```python
 q = collections.deque([..., 1])
 grid[...] = 1
@@ -13227,7 +13227,7 @@ while q:
 return -1
 ```
 
-**Template 3:**
+**Template 3: (Breadth-first Search)**
 ```python
 q = collections.deque([..., 1])
 seen = ((...))
@@ -13245,7 +13245,7 @@ while q:
 return -1
 ```
 
-**Template 4:**
+**Template 4: (Breadth-first Search)**
 ```python
 N = ...
 g = collections.defaultdict(list)
@@ -14727,7 +14727,7 @@ class Solution:
 ```
 * [Medium] [Solution] 503. Next Greater Element II
 
-**Template 1:**
+**Template 1: (Stack)**
 ```python
 stack = []
 ans = 0
@@ -15543,7 +15543,7 @@ class Solution:
 ```
 * [Hard] 1655. Distribute Repeating Integers
 
-**Template 1:**
+**Template 1: (Backtracking)**
 ```python
 ans = []
 def backtrack(index, path):
@@ -15559,7 +15559,7 @@ backtrack(0, [])
 return ans
 ```
 
-**Template 2:**
+**Template 2: (Backtracking)**
 ```python
 ans = []
 seen = [False]*N
@@ -17479,7 +17479,7 @@ class Solution:
 ```
 * [Medium] 430. Flatten a Multilevel Doubly Linked List
 
-**Template 1:**
+**Template 1: (Linked List)**
 ```python
 dummy = listNode(-1)
 dummy.next = head
@@ -18201,7 +18201,7 @@ class Solution:
 ```
 * [Hard] [Solution] 675. Cut Off Trees for Golf Event
 
-**Template 1:**
+**Template 1: (Heap)**
 ```python
 ans = ...
 hq = [(...)]
@@ -18214,7 +18214,7 @@ while hq:
 return ans
 ```
 
-**Template 2:**
+**Template 2: (Heap)**
 ```python
 sortedXXX = sorted(...)
 hq = []
@@ -18581,7 +18581,7 @@ class Solution:
 ```
 * [Hard] 1579. Remove Max Number of Edges to Keep Graph Fully Traversable
 
-**Template 1:**
+**Template 1: (Union Find)**
 ```python
 class DSU(object):
     def __init__(self):
@@ -18613,7 +18613,7 @@ class Solution:
                 return True
 ```
 
-**Template 2:**
+**Template 2: (Union Find)**
 ```python
 class DSU:
     def __init__(self, N):
@@ -19095,7 +19095,7 @@ class Solution:
 ```
 * [Medium] 1493. Longest Subarray of 1's After Deleting One Element
 
-**Template 1:**
+**Template 1: (Sliding Window)**
 ```python
 i = 0
 for j in range(N):
@@ -19756,7 +19756,7 @@ class WordFilter:
 ```
 * [Hard] [Solution] 745. Prefix and Suffix Search
 
-**Template 1:**
+**Template 1: (Trie)**
 ```python
 Trie = lambda: collections.defaultdict(Trie)
 trie = Trie()
@@ -19777,7 +19777,7 @@ for XXX in XXXs:
 return ans
 ```
 
-**Template 2:**
+**Template 2: (Trie)**
 ```python
 trie = {}
 for XXX in XXXs:
@@ -20592,7 +20592,7 @@ class Solution:
 ```
 * [Hard] [Solution] 913. Cat and Mouse
 
-**Template 1:**
+**Template 1: (Minimax)**
 ```python
 import functools
 @functools.lru_cache(None)
