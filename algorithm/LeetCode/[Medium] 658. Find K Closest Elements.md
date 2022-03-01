@@ -141,7 +141,7 @@ class Solution:
 Runtime: 24 ms
 Memory Usage: 31.8 MB
 ```
-```python
+```c++
 class Solution {
 public:
     vector<int> findClosestElements(vector<int>& arr, int k, int x) {
@@ -220,4 +220,53 @@ Memory Usage: 15.6 MB
 class Solution:
     def findClosestElements(self, arr: List[int], k: int, x: int) -> List[int]:
         return sorted(sorted(arr,key=lambda i:abs(x-i))[:k])
+```
+
+**Solution 7: (Heap)**
+```
+Runtime: 117 ms
+Memory Usage: 37.2 MB
+```
+```c++
+class Solution {
+public:
+    vector<int> findClosestElements(vector<int>& arr, int k, int x) {
+        priority_queue<pair<int,int>> q;
+        int n = arr.size();
+        vector<int> res;
+        for (int i = 0; i < n; i++) {
+            q.push({-1*(abs(arr[i]-x)),-i});
+        }
+        for (int i = 0; i < k; i++) {
+            res.push_back(arr[abs(q.top().second)]);
+            q.pop();
+        }
+        sort(res.begin(),res.end());
+        return res;
+    }
+};
+```
+
+**Solution 8: (Two Pointers)**
+```
+Runtime: 56 ms
+Memory Usage: 31.7 MB
+```
+```c++
+class Solution {
+public:
+    vector<int> findClosestElements(vector<int>& arr, int k, int x) {
+        int i = 0, j = arr.size() - 1;
+        while ((j - i) >= k) {
+            if (abs(arr[i] - x) > abs(arr[j] - x))
+                i++;
+            else
+                j--;
+        }
+        vector<int> v;    
+        for (int p = i; p <= j; p++)
+            v.push_back(arr[p]);
+         return v;
+    }
+};
 ```

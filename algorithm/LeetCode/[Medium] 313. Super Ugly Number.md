@@ -78,3 +78,31 @@ class Solution:
                     used.add(num*p)
         return num
 ```
+
+**Solution 3: (DP)**
+```
+Runtime: 1916 ms
+Memory Usage: 18.6 MB
+```
+```c++
+class Solution {
+public:
+    int nthSuperUglyNumber(int n, vector<int>& primes) {
+        vector<int> uglyNumbers({1});
+        int N_p = primes.size(), nextVal;
+        vector<int> prime_index(N_p);
+        while (uglyNumbers.size() < n) {
+            //If a value lesser than latest was already added, try finding next least value.
+            for (int i = 0; i < N_p; i++)
+                while (uglyNumbers[prime_index[i]]*primes[i] <= uglyNumbers.back())
+                    prime_index[i] += 1;
+
+            int nextVal = INT_MAX;
+            for (int i = 0; i < N_p; i ++)
+                nextVal = min(nextVal, uglyNumbers[prime_index[i]]*primes[i]);
+            uglyNumbers.push_back(nextVal);
+        }                     
+        return uglyNumbers.back();
+    }
+};
+```

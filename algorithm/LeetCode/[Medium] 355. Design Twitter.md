@@ -238,3 +238,105 @@ void twitterFree(Twitter* obj) {
  * twitterFree(obj);
 */
 ```
+
+**Solution 3: (Hash Table)**
+```
+Runtime: 0 ms
+Memory Usage: 7.3 MB
+```
+```c++
+class Twitter {
+    vector<pair<int, int>> tweet;
+    map<int, map<int, bool>> feed;
+public:
+    Twitter() {
+        
+    }
+    
+    void postTweet(int userId, int tweetId) {
+        tweet.push_back({tweetId, userId});
+    }
+    
+    vector<int> getNewsFeed(int userId) {
+        vector<int> ret;
+        
+        for (int i = tweet.size() - 1; i >= 0 && ret.size() < 10; --i)
+            if (feed[userId][tweet[i].second] || tweet[i].second == userId)
+                ret.push_back(tweet[i].first);
+        
+        return ret;
+    }
+    
+    void follow(int followerId, int followeeId) {
+        feed[followerId][followeeId] = true;
+    }
+    
+    void unfollow(int followerId, int followeeId) {
+        feed[followerId][followeeId] = false;
+    }
+};
+
+/**
+ * Your Twitter object will be instantiated and called as such:
+ * Twitter* obj = new Twitter();
+ * obj->postTweet(userId,tweetId);
+ * vector<int> param_2 = obj->getNewsFeed(userId);
+ * obj->follow(followerId,followeeId);
+ * obj->unfollow(followerId,followeeId);
+ */
+```
+
+**Solution 4: (Heap)**
+```
+Runtime: 0 ms
+Memory Usage: 7.2 MB
+```
+```c++
+class Twitter {
+    unordered_map<int, unordered_set<int>> friends;
+    int timeStamp;
+    priority_queue<array<int,3>>timeline;
+public:
+    Twitter() {
+        friends.clear();
+        timeStamp = 0;
+        timeline = priority_queue<array<int,3>>();
+    }
+    
+    void postTweet(int userId, int tweetId) {
+        timeline.push({timeStamp++, tweetId, userId});
+    }
+    
+    vector<int> getNewsFeed(int userId) {
+        vector<int>res;
+        priority_queue<array<int,3>> userTimeline(timeline);
+        int n = 0;
+        while(!userTimeline.empty() and n < 10) {
+            array<int,3> topfeed = userTimeline.top();
+            if(topfeed[2] == userId || friends[userId].find(topfeed[2])!=friends[userId].end()){
+                res.push_back(topfeed[1]);
+                n++;
+            }
+            userTimeline.pop(); 
+        }
+        return res;
+    }
+    
+    void follow(int followerId, int followeeId) {
+        friends[followerId].insert(followeeId);
+    }
+    
+    void unfollow(int followerId, int followeeId) {
+        friends[followerId].erase(followeeId);
+    }
+};
+
+/**
+ * Your Twitter object will be instantiated and called as such:
+ * Twitter* obj = new Twitter();
+ * obj->postTweet(userId,tweetId);
+ * vector<int> param_2 = obj->getNewsFeed(userId);
+ * obj->follow(followerId,followeeId);
+ * obj->unfollow(followerId,followeeId);
+ */
+```

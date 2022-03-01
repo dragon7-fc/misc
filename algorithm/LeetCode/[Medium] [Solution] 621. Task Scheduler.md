@@ -216,15 +216,15 @@ class Solution:
 
 **Solution 3: (Calculating Idle slots)**
 ```
-Runtime: 208 ms
-Memory Usage: 34.6 MB
+Runtime: 76 ms
+Memory Usage: 34.5 MB
 ```
 ```c++
 class Solution {
 public:
     int leastInterval(vector<char>& tasks, int n) {
         if(n==0) return (int)tasks.size();
-        map<char,int> freq; 
+        unordered_map<char,int> freq; 
         int max_freq = 0,inc=0;
         for(int x : tasks) {freq[x]++; max_freq = max(max_freq, freq[x]);}
         int idle_time = (max_freq-1)*(n+1)+1;
@@ -235,4 +235,77 @@ public:
         return max(ans, (int)tasks.size());
     }
 };
+```
+
+**Solution 4: (Heap, one-by-one)**
+```
+Runtime: 150 ms
+Memory Usage: 34.6 MB
+```
+```c++
+class Solution {
+public:
+    int leastInterval(vector<char>& tasks, int n) {
+        unordered_map<char, int> cnt;
+        for (auto task: tasks)
+            cnt[task] += 1;
+        priority_queue<tuple<int, int, char>> pq;
+        for (auto [a, c]: cnt)
+            pq.push({-1, c, a});
+        int ans = -1;
+        while (!pq.empty()) {
+            auto [t, c, a] = pq.top();
+            pq.pop();
+            c -= 1;
+            if (c) {
+                if (t == -1)
+                    t = ans;
+                else
+                    ans = min(ans, t);
+                pq.push({t-n-1, c, a});
+            } else
+                ans = min(ans, t);
+            ans -= 1;
+        }
+        return -(ans+1);
+    }
+};
+```
+
+**Solution 5: (Heap, level)**
+```
+Runtime: 116 ms
+Memory Usage: 43.9 MB
+```
+```c++
+    class Solution {
+    public:
+        int leastInterval(vector<char>& tasks, int n) {
+            unordered_map<char, int> d;
+            for (auto task: tasks)
+                d[task] += 1;
+            priority_queue<int> pq;
+            for (auto [a, c]: d)
+                pq.push(c);
+            n += 1;
+            int sz, cnt, ans = 0;
+            while (!pq.empty()) {
+                vector<int> v;
+                cnt = 0;
+                for (int i = 0; i < n; i ++) {
+                    if (!pq.empty()) {
+                        int c = pq.top();
+                        pq.pop();
+                        cnt += 1;
+                        if (c > 1)
+                            v.push_back(c-1);
+                    }
+                }
+                for (auto el: v)
+                    pq.push(el);
+                ans += (!pq.empty() ? n : cnt);
+            }
+            return ans;
+        }
+    };
 ```

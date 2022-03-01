@@ -147,7 +147,7 @@ class Solution:
         return "".join(ans) + (pq[0][1] if pq else '')
 ```
 
-**Solution 2: (Greedy)**
+**Solution 1: (Greedy)**
 ```
 Runtime: 4 ms
 Memory Usage: 5.5 MB
@@ -191,4 +191,39 @@ char * reorganizeString(char * s){
 	free(out);
     return s;
 }
+```
+
+**Solution 2: (Heap, push prev)**
+```
+Runtime: 6 ms
+Memory Usage: 6.3 MB
+```
+```c++
+class Solution {
+public:
+    string reorganizeString(string s) {
+        int count[26]={0};
+        // freq array
+        for(auto i: s) count[i-'a']++;
+        
+        priority_queue<pair<int,char>>pq;
+        // storing max freq char first 
+        for(int i=0;i<26;i++){
+           if(count[i]) pq.push({count[i],i+'a'});
+        }
+        // storing values alternatively
+        string str;
+        pair<int,char> prev({-1,' '});
+        while(!pq.empty()){
+            pair<int,char> p=pq.top();
+            pq.pop();
+            str+=p.second;
+            p.first--;
+            if(prev.first>0) pq.push(prev);
+            prev=p;
+        }
+        // if size of both string r equal means we get our ans
+        return (str.size()==s.size())?str:"";                                                
+    }
+};
 ```

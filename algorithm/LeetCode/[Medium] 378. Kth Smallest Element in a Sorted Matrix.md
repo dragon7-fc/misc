@@ -87,3 +87,28 @@ class Solution:
         return ans
 ```
 
+**Solution 4: (Heap)**
+```
+Runtime: 61 ms
+Memory Usage: 14.1 MB
+```
+```c++
+class Solution {
+public:
+    int kthSmallest(vector<vector<int>>& matrix, int k) {
+        priority_queue<int> pq;
+        for (int i = 0; i < matrix.size(); i ++) {
+            for (int j = 0; j < matrix[0].size(); j ++) {
+                if (pq.size() < k)
+                    pq.push(matrix[i][j]);
+                else if (pq.top() > matrix[i][j]) {
+                    pq.push(matrix[i][j]);
+                    pq.pop();
+                } else
+                    break;
+            }
+        }
+        return pq.top();
+    }
+};
+```

@@ -198,3 +198,70 @@ public:
     }
 };
 ```
+
+**Solution 4: (Heap sort)**
+```
+Memory Usage: 30336000
+```
+```c++
+class Solution {
+public:
+    vector<int> inplaceHeapSort(vector<int> arr, int n)
+    {
+        for(int i=0;i<n;i++)
+        {
+            int childIndex = i;
+            int parentIndex = (i-1)/2;
+            while(parentIndex>=0)
+            {
+                if(arr[parentIndex]>arr[childIndex])
+                {
+                    swap(arr[parentIndex],arr[childIndex]);
+                }
+                else
+                {
+                    break;
+                }
+                childIndex = parentIndex;
+                parentIndex = (childIndex-1)/2;
+            }
+        }
+        vector<int> ans;
+        int lastIndex = n-1;
+        for(int i=0;i<n;i++)
+        {
+            swap(arr[lastIndex],arr[0]);
+            ans.push_back(arr[lastIndex]);
+            int parentIndex = 0;
+            int lChild = 2*parentIndex + 1;
+            int rChild = 2*parentIndex + 2;
+            lastIndex--;
+            while(lChild<lastIndex+1)
+            {
+
+                int minIndex = parentIndex;
+                if(arr[minIndex]>arr[lChild])
+                {
+                    minIndex = lChild;
+                }
+                if(rChild<lastIndex + 1 and arr[minIndex]>arr[rChild])
+                {
+                    minIndex = rChild;
+                }
+                if(minIndex==parentIndex)
+                {
+                    break;
+                }
+                swap(arr[parentIndex],arr[minIndex]);
+                parentIndex = minIndex;
+                lChild = 2*parentIndex + 1;
+                rChild = 2*parentIndex + 2;
+            }
+        }
+        return ans;
+    }
+    vector<int> sortArray(vector<int>& nums) {
+        return inplaceHeapSort(nums,nums.size());
+    }
+};
+```

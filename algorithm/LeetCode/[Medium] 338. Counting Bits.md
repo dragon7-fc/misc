@@ -57,3 +57,37 @@ class Solution:
             
         return [dfs(i) for i in range(num+1)]
 ```
+
+**Solution 3: (DP Bottom-Up)**
+```
+Runtime: 4 ms
+Memory Usage: 7.9 MB
+```
+```c++
+class Solution {
+public:
+    vector<int> countBits(int n) {
+        vector<int> ans(n+1);
+        for (int i = 1; i < n+1; i ++)
+            ans[i] = ans[i>>1] + (i&1);
+        return ans;
+    }
+};
+```
+
+**Solution 4: (__builtin_popcount)**
+```
+Runtime: 7 ms
+Memory Usage: 7.7 MB
+```
+```c++
+class Solution {
+public:
+    vector<int> countBits(int n) {
+        vector<int> ans(n+1);
+        for (int i = 0; i < n+1; i ++)
+            ans[i] = __builtin_popcount(i);
+        return ans;
+    }
+};
+```

@@ -83,3 +83,54 @@ class Solution:
             
         return res
 ```
+
+**Solution 3: (Sort)**
+```
+Runtime: 16 ms
+Memory Usage: 8.5 MB
+```
+```c++
+class Solution {
+public:
+    string frequencySort(string s) {
+        unordered_map<char, int> m;
+        for (auto c: s) 
+            m[c] += 1;
+        vector<pair<char,int>>v;
+        for(auto el : m)
+            v.push_back(el);
+        sort(v.begin(), v.end(), [](pair<char,int>& pa, pair<char,int>& pb){ return pa.second > pb.second;});
+        string ans = "";
+        for (auto el : v)
+            for(int j=0; j<el.second; j++) ans += el.first;
+        return ans;
+    }
+};
+```
+
+**Solution 4: (Heap)**
+```
+Runtime: 12 ms
+Memory Usage: 8.5 MB
+```
+```c++
+class Solution {
+public:
+    string frequencySort(string s) {
+        unordered_map<char, int> m;
+        for (auto c: s) 
+            m[c] += 1;
+        priority_queue<pair<int,char>> pq;
+        for (auto [a, cnt]: m)
+            pq.push({cnt, a});
+        string ans = "";
+        while (!pq.empty()) {
+            auto [cnt, a] = pq.top();
+            pq.pop();
+            while (cnt-- > 0)
+                ans.push_back(a);
+        }
+        return ans;
+    }
+};
+```

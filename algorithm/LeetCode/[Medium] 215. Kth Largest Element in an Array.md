@@ -133,3 +133,48 @@ int findKthLargest(int* nums, int numsSize, int k){
     return nums[k];
 }
 ```
+
+**Solution 5: (Heap, min heap)**
+```
+Runtime: 4 ms
+Memory Usage: 10.1 MB
+```
+```c++
+class Solution {
+public:
+    int findKthLargest(vector<int>& nums, int k) {
+        priority_queue<int, vector<int>, greater<int>> q;
+        int n = nums.size();
+        for(auto num: nums)
+        {
+            q.push(num);
+            if(q.size() > k)
+                q.pop();
+        }
+        return q.top();
+    }
+};
+```
+
+**Solution 6: (Heap, max heap)**
+```
+Runtime: 10 ms
+Memory Usage: 10.3 MB
+```
+```c++
+class Solution {
+public:
+    int findKthLargest(vector<int>& nums, int k) {
+        priority_queue<int> q;
+        
+        for (int i = 0; i < nums.size(); i++) {
+            q.push(nums[i]);
+            if (q.size() > (nums.size()+1-k)) {
+                q.pop();
+            }
+        }
+        
+        return q.top();
+    }
+};
+```

@@ -273,7 +273,243 @@ class Solution:
         return True
 ```
 
-**Solution 3: (Heap)**
+**Solution: (Greedy using Heap)**
+```
+Runtime: 106 ms
+Memory Usage: 54.6 MB
+```
+```c++
+class Solution {
+public:
+    struct Compare {
+        bool operator()(array<int, 2> subsequence1, array<int, 2> subsequence2) {
+            if (subsequence1[1] == subsequence2[1]) {
+                return (subsequence1[1] - subsequence1[0]) > (subsequence2[1] - subsequence2[0]);
+            }
+            return subsequence1[1] > subsequence2[1];
+        }
+    };
+    
+    bool isPossible(vector<int>& nums) {
+        priority_queue<array<int, 2>, vector<array<int, 2>>, Compare> subsequences;
+
+        for (int num : nums) {
+            //Condition 1 - remove non qualifying subsequences
+            while (!subsequences.empty() && subsequences.top()[1] + 1 < num) {
+                array<int, 2> currentSubsequence = subsequences.top();
+                subsequences.pop();
+                int subsequenceLength = currentSubsequence[1] - currentSubsequence[0] + 1;
+                if (subsequenceLength < 3) {
+                    return false;
+                }
+            }
+            //Condition 2 - create a new subsequence
+            if (subsequences.empty() || subsequences.top()[1] == num) {
+                subsequences.push({num, num});
+            } else {
+                //Condition 3 - add num to an existing subsequence
+                array<int, 2> currentSubsequence = subsequences.top();
+                subsequences.pop();
+                subsequences.push({currentSubsequence[0], num});
+            }
+        }
+
+        //If any subsequence is of length less than 3 return false
+        while (!subsequences.empty()) {
+            array<int, 2> currentSubsequence = subsequences.top();
+            subsequences.pop();
+            int subsequenceLength = currentSubsequence[1] - currentSubsequence[0] + 1;
+            if (subsequenceLength < 3) {
+                return false;
+            }
+        }
+        return true;
+    }
+};
+```
+
+**Solution: (Greedy using Maps)**
+```
+Runtime: 103 ms
+Memory Usage: 58.4 MB
+```
+```c++
+class Solution {
+public:
+    
+    bool isPossible(vector<int>& nums) {
+        unordered_map<int, int> subsequences;
+        unordered_map<int, int> frequency;
+        for (int num : nums) {
+            frequency[num]++;
+        }
+        for (int num : nums) {
+            //num already part of a valid subsequence.
+            if (frequency[num] == 0) {
+                continue;
+            }
+            //If a valid subsequence exists with last element = num - 1.
+            if (subsequences[num - 1] > 0) {
+                subsequences[num - 1]--;
+                subsequences[num]++;
+            } else if (frequency[num + 1] > 0 && frequency[num + 2] > 0) {
+                // If we want to start a new subsequence, check if num + 1 and num + 2 exists
+                // Update the list of subsequences with the newly created subsequence
+                subsequences[num + 2]++;
+                frequency[num + 1]--;
+                frequency[num + 2]--;
+            } else {
+                // No valid subsequence is possible with num
+                return false;
+            }
+            frequency[num]--;
+        }
+        return true;
+    }
+};
+```
+
+**Solution: (Dynamic Programming)**
+```
+Runtime: 86 ms
+Memory Usage: 55.2 MB
+```
+```c++
+class Solution {
+private:
+    bool isSegmentValid(vector<int> &nums, int start, int end) {
+        int noOfUniqueNumbers = nums[end] - nums[start] + 1;
+
+        // Count frequency of each number in the current segment.
+        vector<int> frequency(noOfUniqueNumbers);
+        
+        for (int i = start; i <= end; i++) {
+            frequency[nums[i] - nums[start]]++;
+        }
+        // lengthOneSubsequences[i] holds count of subsequences of length 1 ending with index i
+        vector<int> lengthOneSubsequences(noOfUniqueNumbers);
+
+        // lengthTwoSubsequences[i] holds count of subsequences of length 2 ending with index i
+        vector<int> lengthTwoSubsequences(noOfUniqueNumbers);
+
+        // totalNoOfSubsequences[i] holds count of all subsequences ending with index i
+        vector<int> totalNoOfSubsequences(noOfUniqueNumbers);
+
+        lengthOneSubsequences[0] = totalNoOfSubsequences[0] = frequency[0];
+
+        for (int i = 1; i < noOfUniqueNumbers; i++) {
+
+            // If the frequency[i] is less than total number of subsequences ending with i - 1,
+            // we do not have enough subsequences where we can put i.
+            if (frequency[i] < lengthOneSubsequences[i - 1] + lengthTwoSubsequences[i - 1]) {
+                return false;
+            }
+            
+            //Total number of subsequences of length 2 can be obtained by adding i 
+            //to subsequences of length 1 ending with i - 1.
+            lengthTwoSubsequences[i] = lengthOneSubsequences[i - 1];
+            
+            // For the remaining i valued numbers we can either add them to an existing subsequence
+            // or create a new one. We first try to add them to the existing subsequences ending 
+            // with i - 1. If there are not enough of such subsequences, we start a new subsequence.
+            // The existing subsequences ending with i - 1 is denoted by totalNoOfSubsequences[i - 1];
+            lengthOneSubsequences[i] = max(0, frequency[i] - totalNoOfSubsequences[i - 1]);
+            totalNoOfSubsequences[i] = frequency[i];
+        }
+
+        // If there is no remaining subsequence of length one or two, we can return true. 
+        // Otherwise, return false.
+        return lengthOneSubsequences[noOfUniqueNumbers - 1] == 0 && 
+               lengthTwoSubsequences[noOfUniqueNumbers - 1] == 0;
+    }
+    
+public:
+    bool isPossible(vector<int>& nums) {
+        int n = nums.size();
+        int start = 0;
+
+        for (int i = 1; i < n; i++) {
+            // Check possibility of a valid segment starting at index start and ending at index i - 1.
+            if (nums[i] - nums[i - 1] > 1) {
+                if (!isSegmentValid(nums, start, i - 1)) {
+                    return false;
+                }
+                // Update the starting index of the next segment.
+                start = i;
+            }
+        }
+        // Check for the last segment
+        return isSegmentValid(nums, start, n - 1);
+    }
+};
+```
+
+**Solution: (Optimal Space)**
+```
+Runtime: 97 ms
+Memory Usage: 54.5 MB
+```
+```c++
+class Solution {
+private:
+    bool isSegmentValid(vector<int> &nums, int start, int end) {
+        int frequency = 0;
+
+        //lengthOneSubsequences holds count of subsequences of length 1.
+        int lengthOneSubsequences = 0;
+
+        //lengthTwoSubsequences holds count of subsequences of length 2.
+        int lengthTwoSubsequences = 0;
+
+        //totalNoOfSubsequences holds count of all subsequences.
+        int totalNoOfSubsequences = 0;
+
+        for (int i = start; i <= end; i++) {
+            if (i > start && nums[i] == nums[i - 1]) {
+                frequency++;
+            } else if (frequency < lengthOneSubsequences + lengthTwoSubsequences) {
+                // If the frequency[i] is less than total number of subsequences ending with i - 1,
+                // we do not have enough subsequences where we can put i.
+                return false;
+            } else {
+                // Total number of subsequences of length 2 can be obtained by
+                // adding i to subsequences of length 1 ending with i - 1.
+                lengthTwoSubsequences = lengthOneSubsequences;
+                lengthOneSubsequences = max(0, frequency - totalNoOfSubsequences);
+                totalNoOfSubsequences = frequency;
+                frequency = 1;
+            }
+        }
+        // For the last element in the segment.
+        lengthTwoSubsequences = lengthOneSubsequences;
+        lengthOneSubsequences = max(0, frequency - totalNoOfSubsequences);
+        // If there is no remaining subsequence of length one or two, we can return true. 
+        // Otherwise, return false.
+        return lengthOneSubsequences == 0 && lengthTwoSubsequences == 0;
+    }
+    
+public:
+    bool isPossible(vector<int>& nums) {
+        int n = nums.size();
+        int start = 0;
+
+        for (int i = 1; i < n; i++) {
+            //Check possibility of a valid segment starting at index start and ending at index i - 1.
+            if (nums[i] - nums[i - 1] > 1) {
+                if (!isSegmentValid(nums, start, i - 1)) {
+                    return false;
+                }
+                //Update the starting index of the next segment.
+                start = i;
+            }
+        }
+        //Check for the last segment
+        return isSegmentValid(nums, start, n - 1);
+    }
+};
+```
+
+**Solution 1: (Heap)**
 ```
 Runtime: 664 ms
 Memory Usage: 14 MB
