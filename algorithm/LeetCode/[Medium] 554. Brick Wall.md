@@ -126,3 +126,29 @@ int leastBricks(int** wall, int wallSize, int* wallColSize){
     return wallSize-maxCount;
 }
 ```
+
+**Solution 3: (Counter)**
+```
+Runtime: 48 ms
+Memory Usage: 23.4 MB
+```
+```c++
+class Solution {
+public:
+    int leastBricks(vector<vector<int>>& wall) {
+        unordered_map<int,int> cnt;
+        int cur;
+        for (auto v: wall) {
+            cur = 0;
+            for (int i = 0; i < v.size()-1; i++) {
+                cur += v[i];
+                cnt[cur] += 1;
+            }
+        }
+        int mx = 0;
+        for (auto[p, c]: cnt)
+            mx = max(mx, c);
+        return wall.size() - mx;
+    }
+};
+```

@@ -162,3 +162,58 @@ class Solution:
                 res.append(d[k])
         return res
 ```
+
+**Solution 2: (Hash Table)**
+```
+Runtime: 120 ms
+Memory Usage: 53.1 MB
+```
+```c++
+class Solution {
+public:
+    vector<vector<string>> findDuplicate(vector<string>& paths) {
+        vector<string> database;
+		string fileNameAndContent;
+		vector<vector<string>> res;
+		unordered_map<string,vector<string>> myMap;
+		for(auto p : paths)
+		{
+			stringstream ss(p); //root/a 1.txt(abcd) 2.txt(efgh)
+			string rootPath;
+			ss>>rootPath;   // root/a
+			while(ss>>fileNameAndContent) // 1.txt(abcd), 2.txt(efgh)
+			{
+				database.push_back(rootPath+"/"+fileNameAndContent); // root/a/1.txt(abcd),root/a/2.txt(efgh)
+			}
+		}
+
+		for(int i= 0 ; i < database.size() ; i++)
+		{
+			string path, content;
+			int j = 0;
+			// path : root/a/1.txt
+			while(j < database[i].size() && database[i][j] != '(')
+			{
+				path+=database[i][j];
+				j++;
+			}
+			j++;
+			//content : abcd
+			while(j < database[i].size() && database[i][j] != ')')
+			{
+				content+=database[i][j];
+				j++;
+			}                
+			myMap[content].push_back(path); // map[abcd].push_back(root/a/1.txt)
+		}
+
+		for(auto itr : myMap)
+		{
+			if(itr.second.size()>1)     // for duplicate files, more than 1 file should be there
+				res.push_back(itr.second);
+		}
+
+		return res;
+    }
+};
+```
