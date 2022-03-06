@@ -135,3 +135,69 @@ class Solution:
 
         return max_xor
 ```
+
+**Solution 4: (Trie)**
+```
+Runtime: 583 ms
+Memory Usage: 65.3 MB
+```
+```c++
+class TrieNode{
+private:
+    TrieNode* bits[2] = {NULL};   
+public:
+    bool contains(int key){
+        return bits[key]!=NULL;
+    }
+    TrieNode* get(int key){
+        return bits[key];
+    }
+    void put(int key){
+        bits[key] = new TrieNode;
+    }  
+};
+
+class Trie{
+private:    
+    TrieNode* root;   
+public:
+    Trie(){
+        root = new TrieNode;
+    }
+    void insert(int num){
+        auto cur = root;
+        for(int i = 31; i >= 0; i--){
+            int bit = (num>>i) & 1;
+            if(!cur->contains(bit)){
+                cur->put(bit);
+            }
+            cur = cur->get(bit);
+        }
+    }
+    int getMax(int num){
+        int maxNum = 0;
+        auto node = root;
+        for(int i = 31 ; i >= 0; i--){
+            int bit = (num>>i) & 1;
+            if(node->contains(!bit)){
+                maxNum = maxNum | (1<<i);
+                node = node->get(!bit);
+            }else{
+                node = node->get(bit);
+            }
+        }
+        return maxNum;
+    }
+};
+
+class Solution {
+public:
+    int findMaximumXOR(vector<int>& nums) {
+        int ans = 0;
+        Trie trie;
+        for(auto &n : nums) trie.insert(n);
+        for(auto &n : nums) ans = max(ans, trie.getMax(n));
+        return ans;
+    }
+};
+```

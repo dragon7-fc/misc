@@ -23,7 +23,7 @@ return [2], since 2 happens twice, however -5 only occur once.
 
 # Submissions
 ---
-**Solution 1:**
+**Solution 1: (Hash Table):**
 ```
 Runtime: 48 ms
 Memory Usage: 16.1 MB
@@ -56,4 +56,47 @@ class Solution:
             if counter[k] == most_freq:
                 ans += [k]
         return ans
+```
+
+**Solution 2: (Hash Table):**
+```
+Runtime: 24 ms
+Memory Usage: 24.5 MB
+```
+```c++
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+class Solution {
+public:
+    unordered_map<int,int> mp;
+    int helper(TreeNode *root){
+        if(!root){
+            return 0;
+        }
+        int l=helper(root->left);
+        int r=helper(root->right);
+        mp[l+r+root->val]++;
+        return l+r+root->val;
+    }
+    vector<int> findFrequentTreeSum(TreeNode* root) {
+        helper(root);
+        int mx=INT_MIN;
+        for(auto &it: mp) mx=max(mx,it.second);
+        vector<int> ans;
+        for(auto &it: mp){
+            if(it.second==mx)
+                ans.push_back(it.first);
+        }
+        return ans;
+    }
+};
 ```

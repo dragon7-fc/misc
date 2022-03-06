@@ -290,3 +290,46 @@ int* findDuplicates(int* nums, int numsSize, int* returnSize){
     return ans;
 }
 ```
+
+**Solution 4: (Set)**
+```
+Runtime: 123 ms
+Memory Usage: 44.7 MB
+```
+```c++
+class Solution {
+public:
+    vector<int> findDuplicates(vector<int>& nums) {
+        unordered_set<int> s;
+        vector<int> ans;
+        for (auto num: nums) {
+            if (!s.count(num))
+                s.insert(num);
+            else
+                ans.push_back(num);
+        }
+        return ans;
+    }
+};
+```
+
+**Solution 5: (Counter)**
+```
+Runtime: 40 ms
+Memory Usage: 46.3 MB
+```
+```c++
+class Solution {
+public:
+    vector<int> findDuplicates(vector<int>& nums) {
+        vector<int> v;
+        vector<int> h(100001,0);
+        for(int i=0;i<nums.size();i++)
+        {
+            h[nums[i]]++;
+            if(h[nums[i]]==2) v.push_back(nums[i]);
+        }
+        return v;
+    }
+};
+```

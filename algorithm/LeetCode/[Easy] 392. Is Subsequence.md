@@ -48,3 +48,25 @@ class Solution:
                 return True
         return False
 ```
+
+**Solution 2: (Two Pointers)**
+```
+Rntime: 0 ms
+Memory Usage: 6.4 MB
+```
+```c++
+class Solution {
+public:
+    bool isSubsequence(string s, string t) {
+        int i = 0, j = 0;
+        while(j < t.size() and i < s.size()) {
+            if(s[i] == t[j])
+                i++, j++;
+            else 
+                j++;
+        }
+        
+        return i == s.size();
+    }
+};
+```

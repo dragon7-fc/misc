@@ -18,6 +18,8 @@ The two boomerangs are [[1,0],[0,0],[2,0]] and [[1,0],[2,0],[0,0]]
 
 # Submissions
 ---
+
+**Solution 1: (Hash Table)**
 ```
 Runtime: 1180 ms
 Memory Usage: 12.9 MB
@@ -47,4 +49,38 @@ class Solution:
                 if v>1:
                     res+= v*(v-1)
         return res
+```
+
+**Solution 2: (Hash Table, Brute Force)**
+```
+Runtime: 598 ms
+Memory Usage: 85 MB
+```
+```c++
+class Solution {
+public:
+    int numberOfBoomerangs(vector<vector<int>>& points) {
+        unordered_map<int, int> distances;
+        
+        int boomerangCount = 0;
+        for(int i = 0; i < points.size(); i++){
+            for(int j = 0; j < points.size(); j++){
+                if(i == j) continue;
+                
+                int num_one  = pow(points[i][0] - points[j][0], 2);
+                int num_two  = pow(points[i][1] - points[j][1], 2);
+                int distance = num_one + num_two;
+                
+                distances[distance]++;
+            }
+            
+            for(auto iter = distances.begin(); iter != distances.end(); iter++)
+                boomerangCount += iter->second * (iter->second - 1);
+            
+            distances.clear();
+        }
+        
+        return boomerangCount;
+    }
+};
 ```

@@ -157,3 +157,114 @@ class Solution:
 
         return dfs(len(nums) - 1)
 ```
+
+**Solution 4: (DP Bottom-Up)**
+```
+Runtime: 12 ms
+Memory Usage: 13.9 MB
+```
+```c++
+class Solution {
+    unordered_map<int,int> cnt;
+public:
+    int deleteAndEarn(vector<int>& nums) {
+        vector<int> freq(10001, 0);
+		vector<int> dp(10001, 0);
+
+		for (auto num : nums) freq[num]++;
+		dp[1] = freq[1];
+
+		for (int i=2; i<10001; i++)
+            dp[i] = max(dp[i-2]+i*freq[i], dp[i-1]);
+
+		return dp[10000];
+    }
+};
+```
+
+**Solution 5: (DP Bottom-Up)**
+
+for numbers from [1 - 10000], each has a total sum sums[i]; if you earn sums[i], you cannot earn sums[i-1] and sums[i+1]
+kind of like house robbing. you cannot rob 2 connected houses.
+
+```
+Runtime: 7 ms
+Memory Usage: 11.5 MB
+```
+```c++
+class Solution {
+    unordered_map<int,int> cnt;
+public:
+    int deleteAndEarn(vector<int>& nums) {
+        int n = 10001;
+        vector<int> values(n, 0);
+        for (int num : nums)
+            values[num] += num;
+
+        int pick = 0, leave = 0;
+        for (int i = 0; i < n; i++) {
+            int pickit = leave + values[i];
+            int leaveit = max(pick, leave);
+            pick = pickit;
+            leave = leaveit;
+        }
+        return max(pick, leave);
+    }
+};
+```
+
+**Solution 6: (DP Bottom-Up)**
+```
+Runtime: 40 ms
+Memory Usage: 11 MB
+```
+```c++
+class Solution {
+    unordered_map<int,int> cnt;
+public:
+    int deleteAndEarn(vector<int>& nums) {
+        // a map to hold the frequency of a number (how often that frequency occurs)
+        // the key being the number and the value being the frequency of that number
+		map<int, int> freq; 
+        
+        // used to know when to end our loop, we don't need to check numbers past our max value                           
+		// since they won't exist. A lot of solutions use arrays/vectors of size 10001, which                             
+		// could potentially be unoptimal. If our max number is only 5, then we won't need to                            
+		// calculate values for 6, 7... or 10000 for that matter. Although, if we did always loop 10001 times, it would still be 
+		// considered O(1) loop time since it is constant and never changing.
+		int maxNum = 0;
+        
+        // Populate our frequency map and find the largest number in the vector (array)
+        for (int& num : nums)
+        {
+            freq[num]++;
+            maxNum = max(maxNum, num);
+        }
+        
+        // initialize a vector of our maximum number + 1, since we want to index up to the maximum number. If the max number is 10
+		// we will want to have a vector of size 11 so we will have index 10. If we were to just use maxNum (10) as the size
+		// then our array will go from 0 to 9, and in our loop we will miss a step. 
+		vector<int> dp(maxNum + 1, 0); 
+        
+        // index 0 will always be 0 since our numbers only go from 1 to 10000
+		dp[0] = 0; 
+        
+        // index 1 simply represents the frequency of 1, since 1 (the index) * (frequency of one) will always just 
+		// be that frequency amount
+		dp[1] = freq[1]; 
+        
+        // loop starting from 2 to the maximum number we found. 
+        // for example: if the nums array is [3, 4, 2], with i = 2 (our first loop), we will look for whichever
+        // is higher, freq[2] * 2 + dp[i-2] (basically 2 * how many times 2 occurs + the last value we took which         
+		// is dp[i-2]) OR just the the previous value of dp[i-1] (which means we didn't take the index we're currently on). 
+		// This problem is very similar to House Robber on leetcode, which is probably simpler to understand than this one.
+        for (int i = 2; i <= maxNum; i++)
+        {            
+            dp[i] = max(freq[i] * i + dp[i-2], dp[i-1]);
+        }
+        
+		// return the index of maxNum which will now contain the max points we could receive
+        return dp[maxNum]; 
+    }
+};
+```

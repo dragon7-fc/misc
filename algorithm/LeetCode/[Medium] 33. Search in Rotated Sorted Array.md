@@ -100,3 +100,29 @@ int search(int* nums, int numsSize, int target){
     return -1;
 }
 ```
+
+**Solution 4: (Binary Search)**
+```
+Runtime: 3 ms
+Memory Usage: 11.1 MB
+```
+```c++
+class Solution {
+public:
+    int search(vector<int>& nums, int target) {
+        int left = 0 , right = nums.size() -1, mid;
+        while (left <= right) {
+            mid = (left + right) / 2;
+            if (nums[mid] == target)
+                return mid;
+            else if (nums[left] <= target && target < nums[mid] 
+                    || target < nums[mid] && nums[mid] < nums[left] 
+                    || nums[mid] < nums[left] && nums[left] <= target)
+                right = mid - 1;
+            else
+                left = mid + 1;
+        }
+        return -1;
+    }
+};
+```

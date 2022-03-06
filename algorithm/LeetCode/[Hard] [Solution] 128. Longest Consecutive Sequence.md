@@ -165,7 +165,7 @@ class Solution:
         return longest_streak
 ```
 
-**Solution 2: (Union Find)**
+**Solution 1: (Union Find)**
 ```
 Runtime: 76 ms
 Memory Usage: 14.9 MB
@@ -210,7 +210,7 @@ class Solution:
         return max(size)
 ```
 
-**Solution 3: (DP)**
+**Solution 2: (DP)**
 ```
 Runtime: 60 ms
 Memory Usage: 13.8 MB
@@ -231,4 +231,29 @@ class Solution:
             else:
                 dp[i] = 1
         return max(dp)
+```
+
+**Solution 3: (Set)**
+```
+Runtime: 119 ms
+Memory Usage: 30.9 MB
+```
+```c++
+class Solution {
+public:
+    int longestConsecutive(vector<int>& nums) {
+        unordered_set<int> s;
+        for(int i = 0; i< nums.size(); i++) {
+            s.insert(nums[i]);
+        }
+	    int longest = 0;
+	    for(int num : s) {
+            if (s.count(num - 1)) continue;//t.c is O(N) bcoz just for one element while loop is running so t.c O(N)+O(N)
+            int j = 1;
+            while (s.count(num + j)) j++; 
+                longest = max(longest, j);
+        }
+        return longest;
+    }
+};
 ```

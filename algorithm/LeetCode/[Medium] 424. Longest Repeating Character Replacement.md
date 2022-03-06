@@ -72,3 +72,31 @@ class Solution:
             
         return max_len
 ```
+
+**Solution 2: (Two Pointers, Sliding Window, max count in sliding window)**
+```
+Runtime: 32 ms
+Memory Usage: 6.9 MB
+```
+```c++
+class Solution {
+public:
+    int characterReplacement(string s, int k) {
+        int n = s.size();
+        unordered_map<char,int>m;
+        int i = 0,j = 0,mx = 0,c = 0;
+        while(j<n){
+            m[s[j]]++;
+            mx = max(mx,m[s[j]]);
+
+            while(j-i+1-mx>k){
+                m[s[i]]--;
+                i++;
+            }
+            c = max(c,j-i+1);
+            j++;
+        }
+        return c;
+    }
+};
+```

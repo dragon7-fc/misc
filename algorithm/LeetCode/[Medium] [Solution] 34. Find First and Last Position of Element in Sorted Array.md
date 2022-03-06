@@ -247,3 +247,23 @@ int* searchRange(int* nums, int numsSize, int target, int* returnSize){
     return ret;
 }
 ```
+
+**Solution 3: (Binary Search)**
+```
+Runtime: 13 ms
+Memory Usage: 13.6 MB
+```
+```c++
+class Solution {
+public:
+    vector<int> searchRange(vector<int>& nums, int target) {
+        if(!binary_search(nums.begin(),nums.end(),target))  return {-1,-1};
+        
+        int start = lower_bound(nums.begin(),nums.end(),target) - nums.begin();
+
+        int end = upper_bound(nums.begin(),nums.end(),target) - nums.begin();
+
+        return {start , end-1};
+    }
+};
+```

@@ -65,3 +65,57 @@ class Solution:
         
         return -1
 ```
+
+**Solution 2: (Counter, String, Sort)**
+
+1. First, we keep the frequencies of all strings in a map. That's because we know that a string that has a duplicate can never be the longest uncommon subsequence.
+1. Sort the string by length - from longest to shortest.
+1. We iterate through the strings. If this word has a duplicate, continue.
+  If not, we call the function checkSubsUptoI, which checks if the current string is a subsequence of any of the previous strings. 
+  If it's not - this will be our LUS, return its size.
+  Otherwise continue iterating.
+  If we got to the end with no result - return -1.
+
+```
+Runtime: 3 ms
+Memory Usage: 8.4 MB
+```
+```c++
+class Solution {
+public:
+    int findLUSlength(vector<string>& strs) {
+        unordered_map<string, int> freq;
+        for (auto str : strs) freq[str]++;
+        
+        sort(strs.begin(), strs.end(), compare);
+        
+        for (int i = 0; i < strs.size(); i++) {
+            if (freq[strs[i]] > 1) continue;
+            if (!checkSubsUptoI(strs, strs[i], i-1)) return strs[i].size();
+        }
+        return -1;
+    }
+    
+    static bool compare(string& a, string& b) {
+        return a.size() > b.size();
+    }
+    
+    bool isSubsequence(string s, string t) {
+        int s_i = 0, t_i = 0;
+        
+        while (s_i < s.size() && t_i < t.size()) {
+            if (s[s_i] == t[t_i]) s_i++; 
+            t_i++;
+        }
+        
+        return s_i == s.size();
+    }
+    
+    bool checkSubsUptoI(vector<string>& strs, string sub, int idx) {
+        for (int i = 0; i <= idx; i++) {
+            if (isSubsequence(sub, strs[i])) return true;
+        }
+        return false;
+    }
+};
+```

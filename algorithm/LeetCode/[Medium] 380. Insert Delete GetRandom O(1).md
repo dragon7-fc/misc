@@ -142,3 +142,50 @@ class RandomizedSet:
 # param_2 = obj.remove(val)
 # param_3 = obj.getRandom()
 ```
+
+**Solution 3: (Hash Table, Array)**
+```
+Runtime: 204 ms
+Memory Usage: 97.1 MB
+```
+```c++
+class RandomizedSet {
+    unordered_map<int, int> mp;
+    vector<int> nums;
+public:
+    RandomizedSet() {
+        
+    }
+    
+    bool insert(int val) {
+        if(mp.find(val) != mp.end())
+            return false;
+        mp[val] = nums.size();               // insert value and its index (in vector) to map
+        nums.push_back(val);                // insert value into vector
+        return true;
+    }
+    
+    bool remove(int val) {
+        if(mp.find(val) == mp.end())
+            return false;
+        int lastElem = nums.back();                        // get the last element of vector
+        mp[lastElem] = mp[val];                            // last element will be copied to index where "val" exist so update map
+        nums[mp[val]] = lastElem;                          // copy last element at index of  "val"
+        nums.pop_back();                                   // remove the last element of vector
+        mp.erase(val);                                     // erase val from map
+        return true;
+    }
+    
+    int getRandom() {
+        return nums[rand() % nums.size()];  
+    }
+};
+
+/**
+ * Your RandomizedSet object will be instantiated and called as such:
+ * RandomizedSet* obj = new RandomizedSet();
+ * bool param_1 = obj->insert(val);
+ * bool param_2 = obj->remove(val);
+ * int param_3 = obj->getRandom();
+ */
+```

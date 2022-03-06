@@ -40,3 +40,36 @@ class Solution:
         bull_count = len(["_" for letter_secret, letter_guess in zip(secret, guess) if letter_secret == letter_guess])
         return '{}A{}B'.format(bull_count, cow_count - bull_count)
 ```
+
+**Solution 2: (Hash Table)**
+```
+Runtime: 9 ms
+Memory Usage: 6.6 MB
+```
+```c++
+class Solution {
+public:
+    string getHint(string secret, string guess) {
+        int a = 0, b = 0;
+        unordered_map<char,int> mp;
+        for(int i = 0; i < secret.size(); i++) {
+            if(secret[i] == guess[i]) {
+                a++;
+            } else {
+                mp[secret[i]]++;
+            }
+        }
+        
+        for(int i = 0; i< secret.size(); i++) {
+            if(secret[i] != guess[i]) {
+                if(mp.find(guess[i]) != mp.end() && mp[guess[i]] > 0) {
+                   b++;
+                    mp[guess[i]]--;
+                }
+            }
+        }
+        string ans = to_string(a) + "A"+ to_string(b) + "B";
+        return ans;
+    }
+};
+```

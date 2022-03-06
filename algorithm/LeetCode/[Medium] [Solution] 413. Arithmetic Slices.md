@@ -281,3 +281,32 @@ class Solution:
         dfs(N-1)
         return ans
 ```
+
+**Solution 3: (DP Bottom-Up)**
+```
+Runtime: 3 ms
+Memory Usage: 7.2 MB
+```
+```
+class Solution {
+public:
+    int numberOfArithmeticSlices(vector<int>& nums) {
+        int N = nums.size();
+        if (N < 3)
+            return 0;
+        int cur, cnt = 0, ans = 0;
+        int diff = nums[1]-nums[0];
+        for (int i = 2; i < N; i ++) {
+            cur = nums[i] - nums[i-1];
+            if (cur != diff) {
+                cnt = 0;
+                diff = cur;
+                continue;
+            }
+            cnt += 1;
+            ans += cnt;
+        }
+        return ans;
+    }
+};
+```

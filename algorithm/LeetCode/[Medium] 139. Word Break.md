@@ -70,6 +70,38 @@ class Solution:
             return rst
         
         return dfs(0)
-        
+```
 
+**Solution 3: (DP Top-Down)**
+```
+Runtime: 8 ms
+Memory Usage: 9.3 MB
+```
+```c++
+class Solution {
+public:
+    int dp[302];
+    unordered_map<string, int> mp;
+    bool solve(string s, int n, int idx){
+        if(idx == n) return true;
+        if(dp[idx] != -1) return dp[idx];
+        string osf = "";
+        for(int i = idx; i < s.length(); i++){
+            osf += s[i];
+            if(mp.count(osf) > 0){// check for the substring that is in map or not
+                if(solve(s,n, i+1)) return dp[idx] = true;
+            }
+        }
+        return dp[idx] = false;
+    }
+    
+    bool wordBreak(string s, vector<string>& wordDict) {
+        int n = s.length();
+        memset(dp, -1, sizeof(dp));
+        for(auto word : wordDict){ // store word in map
+            mp[word]++;
+        }
+        return solve(s,n,0);
+    }
+};
 ```

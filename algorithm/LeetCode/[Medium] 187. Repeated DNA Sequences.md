@@ -31,3 +31,30 @@ class Solution:
                 table[pattern] = index
         return list(set(ret))
 ```
+
+**Solution 2: (Hash Table)**
+```
+Runtime: 106 ms
+Memory Usage: 23.3 MB
+```
+```c++
+class Solution {
+public:
+    vector<string> findRepeatedDnaSequences(string s) {
+        int N = s.size();
+        if (N < 10)
+            return {};
+        vector<string> ans;
+        string pattern;
+        unordered_map<string, int> cnt;
+        for (int i = 0; i <= N-10; i ++) {
+            pattern = s.substr(i, 10);
+            cnt[pattern] += 1;
+        }
+        for (auto [p, c]: cnt)
+            if (c > 1)
+                ans.push_back(p);
+        return ans;
+    }
+};
+```

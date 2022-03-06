@@ -18,7 +18,7 @@ Output: [[4, 6], [4, 7], [4, 6, 7], [4, 6, 7, 7], [6, 7], [6, 7, 7], [7,7], [4,7
 
 # Submissions
 ---
-**Solution 1:**
+**Solution 1: (Backtracking)**
 ```
 Runtime: 244 ms
 Memory Usage: 25.6 MB
@@ -57,4 +57,36 @@ class Solution:
             dfs(root)
             
         return [list(seq) for seq in res]
+```
+
+**Solution 2: (Backtracking)**
+```
+Runtime: 97 ms
+Memory Usage: 22 MB
+```
+```c++
+class Solution {
+public:
+    int n;
+    vector<vector<int>> findSubsequences(vector<int>& nums) {
+        n = nums.size();
+        vector<int> curr;
+        set<vector<int>> s;
+        solve(nums, 0, curr, s, INT_MIN);
+        return vector<vector<int>>(s.begin(), s.end());
+    }
+    
+    void solve(vector<int>&nums, int i, vector<int>&curr, set<vector<int>>&s, int prev){
+        if(i==nums.size()) return;
+        
+        for(int j=i; j<n; j++){
+            if(nums[j] >= prev){
+                curr.push_back(nums[j]);
+                if(curr.size() >= 2) s.insert(curr);
+                solve(nums, j+1, curr, s, nums[j]);
+                curr.pop_back();
+            }
+        }     
+    }
+};
 ```
