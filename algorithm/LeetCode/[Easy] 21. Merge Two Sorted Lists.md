@@ -83,3 +83,44 @@ struct ListNode* mergeTwoLists(struct ListNode* list1, struct ListNode* list2){
     return dummy->next;
 }
 ```
+
+**Solution 3: (Linked List)**
+```
+Runtime: 11 ms
+Memory Usage: 14.9 MB
+```
+```c++
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode() : val(0), next(nullptr) {}
+ *     ListNode(int x) : val(x), next(nullptr) {}
+ *     ListNode(int x, ListNode *next) : val(x), next(next) {}
+ * };
+ */
+class Solution {
+public:
+    ListNode* mergeTwoLists(ListNode* list1, ListNode* list2) {
+        ListNode *dummy = new ListNode(), *prev;
+        prev = dummy;
+        while (list1 && list2) {
+            if (list1->val <= list2->val) {
+                prev->next = list1;
+                list1 = list1->next;
+            } else {
+                prev->next = list2;
+                list2 = list2->next;
+            }
+            prev = prev->next;
+        }
+        if (list1)
+            prev->next = list1;
+        else
+            prev->next = list2;
+        
+        return dummy->next;
+    }
+};
+```

@@ -88,3 +88,44 @@ class Solution:
         dummy.next = None
         return nh
 ```
+
+**Solution 3: (Linked List)**
+```
+Runtime: 6 ms
+Memory Usage: 11.7 MB
+```
+```c++
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode() : val(0), next(nullptr) {}
+ *     ListNode(int x) : val(x), next(nullptr) {}
+ *     ListNode(int x, ListNode *next) : val(x), next(next) {}
+ * };
+ */
+class Solution {
+public:
+    ListNode* rotateRight(ListNode* head, int k) {
+        ListNode *dummy = new ListNode(), *nh;
+        int n = 0, r;
+        dummy->next = head;
+        while (dummy->next) {
+            dummy = dummy->next;
+            n += 1;
+        }
+        if (!n)
+            return nullptr;
+        r = n - k%n;
+        dummy->next = head;
+        while (r) {
+            dummy = dummy->next;
+            r -= 1;
+        }
+        nh = dummy->next;
+        dummy->next = nullptr;
+        return nh;
+    }
+};
+```

@@ -130,3 +130,66 @@ class Solution:
                    for i, word in enumerate(words)
                    if len(nodes[i]) == 0)
 ```
+
+**Solution 3: (Trie, Suffix)**
+```
+Runtime: 124 ms
+Memory Usage: 43.6 MB
+```
+```c++
+struct Node{
+    map<char,Node*> next;
+    bool isleaf;
+    Node(){
+        next.clear();
+        isleaf=false;
+    }
+};
+
+bool comp(string a,string b){
+    return a.length()>b.length();
+}
+
+class Solution {
+    int ans;
+    void insert(Node* root,string s){
+        Node* temp=root;
+        int i=s.length()-1;
+        ans+=s.length()+1;
+        for(;i>=0;i--){
+            if(temp->next.find(s[i])==temp->next.end())
+                temp->next[s[i]]=new Node();
+            temp=temp->next[s[i]];
+        }
+        temp->isleaf=true;
+    }
+    
+    bool check(Node* root,string s){
+        int i=s.length()-1;
+        Node* temp=root;
+        for(;i>=0;i--){
+            if(temp->next.find(s[i])==temp->next.end())
+                return 0;
+            temp=temp->next[s[i]];
+        }
+        return 1;
+    }
+    
+public:
+    int minimumLengthEncoding(vector<string>& words) {
+        // sort in decreasing order of length
+        sort(words.begin(),words.end(),comp);        
+        Node* root=new Node();
+        ans=0;
+        insert(root,words[0]);
+        int i,n=words.size();
+		
+        for(i=1;i<n;i++){
+			// if this string does not occur as suffix of any of the previously inserted strings then insert it
+            if(!check(root,words[i]))
+                insert(root,words[i]);
+        }
+        return ans;
+    }
+};
+```

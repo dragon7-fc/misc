@@ -128,4 +128,40 @@ struct ListNode* deleteDuplicates(struct ListNode* head){
     }
     return dummy->next;
 }
+````
+
+**Solution 3: (Linked List, Two Pointers)**
+```
+Runtime: 8 ms
+Memory Usage: 11.1 MB
+```
+```c++
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode() : val(0), next(nullptr) {}
+ *     ListNode(int x) : val(x), next(nullptr) {}
+ *     ListNode(int x, ListNode *next) : val(x), next(next) {}
+ * };
+ */
+class Solution {
+public:
+    ListNode* deleteDuplicates(ListNode* head) {
+        ListNode *dummy, *prev;
+        dummy = new ListNode(0, head);
+        prev = dummy;
+        while (head) {
+            if (head->next && head->val == head->next->val) {
+                while (head->next && head->val == head->next->val)
+                    head = head->next;
+                prev->next = head->next;
+            } else
+                prev = prev->next;
+            head = head->next;
+        }
+        return dummy->next;
+    }
+};
 ```

@@ -149,7 +149,7 @@ class Solution:
         return False
 ```
 
-**Solution 1: (Two Pointers)**
+**Solution 2: (Two Pointers)**
 ```
 Runtime: 8 ms
 Memory Usage: 8.1 MB
@@ -173,4 +173,34 @@ bool hasCycle(struct ListNode *head) {
     }
     return false;
 }
+```
+
+**Solution 3: (Two Pointers)**
+```
+Runtime: 11 ms
+Memory Usage: 8.1 MB
+```
+```c++
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode(int x) : val(x), next(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    bool hasCycle(ListNode *head) {
+        struct ListNode *slow, *fast;
+        fast = slow = head;
+        while (fast && fast->next) {
+            fast = fast->next->next;
+            slow = slow->next;
+            if (fast == slow)
+                return true;
+        }
+        return false;
+    }
+};
 ```

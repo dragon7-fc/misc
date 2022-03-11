@@ -90,3 +90,43 @@ class Solution:
 # param_1 = obj.flip()
 # obj.reset()
 ```
+
+**Solution 2: (Hash Table)**
+```
+Runtime: 15 ms
+Memory Usage: 19 MB
+```
+```c++
+class Solution {
+public:
+    int rows, cols;
+    unordered_set<int> flipped;
+    Solution(int m, int n) {
+        rows = m, cols = n;
+    }
+    
+    vector<int> flip() {
+        int random = rand() % (rows*cols);
+        
+        while (flipped.count(random)) {
+            random++;
+            random %= (rows*cols);
+        }
+        
+        flipped.insert(random);
+        return {random / cols, random % cols};
+
+    }
+    
+    void reset() {
+        flipped.clear();
+    }
+};
+
+/**
+ * Your Solution object will be instantiated and called as such:
+ * Solution* obj = new Solution(m, n);
+ * vector<int> param_1 = obj->flip();
+ * obj->reset();
+ */
+```

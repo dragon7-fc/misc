@@ -107,3 +107,82 @@ class Solution:
 
         return filter(match, words)
 ```
+
+**Solution 1: (2 Hash Table)**
+```
+Runtime: 8 ms
+Memory Usage: 8.5 MB
+```
+```c++
+class Solution {
+public:
+    vector<string> findAndReplacePattern(vector<string>& words, string pattern) {
+        vector<string> ans;
+        for(int i=0;i<words.size();i++){
+            int f = 1;
+            map<char,int> m1,m2;
+            for(int j=0;j<words[i].size();j++){
+                if(m1.find(pattern[j])!=m1.end() && m1[pattern[j]]!=words[i][j]){
+                    f = 0;
+                    break;
+                }
+                else if(m2.find(words[i][j])!=m2.end() && m2[words[i][j]]!=pattern[j]){
+                    f = 0;
+                    break;
+                }
+                else{
+                    m1[pattern[j]] = words[i][j];
+                    m2[words[i][j]] = pattern[j];
+                }
+            }
+            if(f){
+                ans.push_back(words[i]);
+            }
+        }
+        return ans;
+    }
+};
+```
+
+**Solution 2: (Hash Table, Set)**
+```
+Runtime: 5 ms
+Memory Usage: 8.3 MB
+```
+```c++
+class Solution {
+public:
+    vector<string> findAndReplacePattern(vector<string>& words, string pattern) {
+        int n = pattern.size();
+        unordered_map<char, char> m;
+        unordered_set<char> s;
+        vector<string> ans;
+        bool flag;
+        for (auto &word: words) {
+            m.clear();
+            flag = true;
+            for (int i = 0; i < n; i ++) {
+                if (!m.count(pattern[i])) {
+                    m[pattern[i]] = word[i];
+                } else if (m[pattern[i]] != word[i]) {
+                    flag = false;
+                    break;
+                }
+            }
+            if (flag) {
+                auto get_all_key = [&]() {
+                    s.clear();
+                    for (auto &[k, v]: m)
+                        s.insert(v);
+                };
+                get_all_key();
+                if (s.size() != m.size())
+                    flag = false;
+            }
+            if (flag)
+                ans.push_back(word);
+        }
+        return ans;
+    }
+};
+```

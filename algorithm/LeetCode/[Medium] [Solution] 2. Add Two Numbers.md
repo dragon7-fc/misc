@@ -160,3 +160,47 @@ struct ListNode* addTwoNumbers(struct ListNode* l1, struct ListNode* l2){
     return dummy->next;
 }
 ```
+
+**Solution 3: (Elementary Math, Linked List)**
+```
+Runtime: 60 ms
+Memory Usage: 71.4 MB
+```
+```c++
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode() : val(0), next(nullptr) {}
+ *     ListNode(int x) : val(x), next(nullptr) {}
+ *     ListNode(int x, ListNode *next) : val(x), next(next) {}
+ * };
+ */
+class Solution {
+public:
+    ListNode* addTwoNumbers(ListNode* l1, ListNode* l2) {
+        struct ListNode *prev, *cur, *dummy;
+        int sum = 0, carry = 0;
+        prev = dummy = new ListNode();
+        while (l1 || l2 || carry) {
+            sum = carry;
+            if (l1){
+                sum += l1->val;
+                l1 = l1->next;
+            }
+            if (l2) {
+                sum += l2->val;
+                l2 = l2->next;
+            }
+            cur = new ListNode();
+            cur->val = sum % 10;
+            prev->next = cur;
+            prev = prev->next;
+            carry = sum >= 10 ? 1 : 0;
+        }
+        prev->next = nullptr;
+        return dummy->next;
+    }
+};
+```

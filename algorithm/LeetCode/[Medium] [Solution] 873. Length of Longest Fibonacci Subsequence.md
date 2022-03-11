@@ -234,3 +234,66 @@ class Solution:
         
         return ans + 2 if ans >= 1 else 0
 ```
+
+**Solution 6: (Binary Search)**
+```
+Runtime: 1561 ms
+Memory Usage: 10 MB
+```
+```c++
+class Solution {
+public:
+    int lenLongestFibSubseq(vector<int>& arr) {
+        int answer = 0, lim = arr.size();
+    
+        for(int i = 0; i < lim; i++)
+          for(int j = i+1; j < arr.size(); j++){
+            int k = 0, n1 = arr[i], n2 = arr[j];
+            while(binary_search(arr.begin()+j+1, arr.end(), n1 + n2)){
+              k++;
+              n2 = n1 + n2;
+              n1 = n2 - n1;
+            }
+            if(k) answer = max(answer, k + 2);
+            lim = min<int>(lim, arr.size() - answer);
+          }
+
+        return answer;
+    }
+};
+```
+
+**Solution 7: (DP Bottom-Up)**
+```
+Runtime: 469 ms
+Memory Usage: 16.5 MB
+```
+```c++
+class Solution {
+public:
+    int lenLongestFibSubseq(vector<int>& arr) {
+        int i,j,n=arr.size(),ans=0;
+        int dp[n+1][n+1];
+        unordered_map<int,int> v2ind;
+    
+        for(i=0;i<n;i++)
+            v2ind[arr[i]]=i;
+        
+        for(i=0;i<n;i++)
+            for(j=0;j<i;j++){
+                dp[i][j]=2;  // minimum possible length of Fibonacci sequence that ends with a[j], a[i]
+                if(arr[i]-arr[j]<arr[j]){
+                    auto it=v2ind.find(arr[i]-arr[j]);
+                    if(it!=v2ind.end()){
+                        dp[i][j]=max(dp[i][j],1+dp[j][it->second]);
+                        ans=max(ans,dp[i][j]);
+                    }
+                }
+            }
+        
+        if(ans<3)
+            return 0;
+        return ans;
+    }
+};
+```

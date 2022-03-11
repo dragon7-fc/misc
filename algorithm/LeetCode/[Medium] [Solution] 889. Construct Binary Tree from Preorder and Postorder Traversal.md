@@ -90,7 +90,7 @@ class Solution(object):
 
 # Submissions
 ---
-**Solution:**
+**Solution: (Recursion)**
 ```
 Runtime: 52 ms
 Memory Usage: 12.8 MB
@@ -113,4 +113,50 @@ class Solution:
         root.left = self.constructFromPrePost(pre[1:L+1], post[:L])
         root.right = self.constructFromPrePost(pre[L+1:], post[L:-1])
         return root
+```
+
+**Solution 1: (Hash Table, DFS)**
+```
+Runtime: 8 ms
+Memory Usage: 25.7 MB
+```
+```c++
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+class Solution {
+public:
+    TreeNode* constructFromPrePost(vector<int>& preorder, vector<int>& postorder) {
+        int n = preorder.size();
+        
+        unordered_map<int,int> mp;
+        for(int i=0;i<n;i++) mp[postorder[i]] = i;
+        
+        return solve(preorder,0,n-1,postorder,0,n-1,mp);
+    }
+    
+    TreeNode* solve(vector<int> &preorder,int pre_start,int pre_end,vector<int> &postorder,int post_start,int post_end,unordered_map<int,int> &mp){
+        if(pre_start > pre_end or post_start > post_end) return NULL;
+        
+        int root_val = preorder[pre_start];
+        TreeNode* root = new TreeNode(root_val);
+        
+        if(pre_start+1 <= pre_end){
+            int pos = mp[preorder[pre_start+1]];
+            int num_left = pos - post_start + 1;
+            root->left = solve(preorder,pre_start+1,pre_start+num_left,postorder,post_start,pos,mp);
+            root->right = solve(preorder,pre_start+1+num_left,pre_end,postorder,pos+1,post_end-1,mp);
+        }
+        
+        return root;
+    }
+};
 ```

@@ -67,7 +67,7 @@ class Solution(object):
 
 # Submissions
 ---
-**Solution 1:**
+**Solution 1: (Hash Table)**
 ```
 Runtime: 52 ms
 Memory Usage: 12.8 MB
@@ -164,4 +164,40 @@ char ** subdomainVisits(char ** cpdomains, int cpdomainsSize, int* returnSize){
     *returnSize=i;
     return result;
 }
+```
+
+**Solution 3: (Hash Table)**
+```
+Runtime: 12 ms
+Memory Usage: 11.6 MB
+```
+```c++
+class Solution {
+public:
+    vector<string> subdomainVisits(vector<string>& cpdomains) {
+        unordered_map<string, int> umap;
+        int n = cpdomains.size();
+
+        for(int i=0; i<n; i++) {
+            size_t found = cpdomains[i].find(' ');
+           if(found != string::npos) {
+               int rep = stoi(cpdomains[i].substr(0, found));
+               string s = cpdomains[i].substr(found+1);
+               for(int j = s.size()-1; j>=0; j--) {
+                   if(s[j] == '.') {
+                       umap[s.substr(j+1)]+=rep;
+                   }
+                   if(j == 0) {
+                       umap[s.substr(j)]+=rep;
+                   }
+               }
+           }
+        }
+        vector<string> result;
+        for(auto kv : umap) {
+            result.push_back(to_string(kv.second) + ' ' + kv.first);
+        }
+        return result;
+    }
+};
 ```

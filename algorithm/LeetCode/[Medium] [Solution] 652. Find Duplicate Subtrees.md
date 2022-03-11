@@ -106,7 +106,7 @@ class Solution(object):
 
 # Submissions
 ---
-**Solution:**
+**Solution: (Unique Identifier)**
 ```
 Runtime: 56 ms
 Memory Usage: 16.5 MB
@@ -121,7 +121,7 @@ Memory Usage: 16.5 MB
 
 class Solution:
     def findDuplicateSubtrees(self, root: TreeNode) -> List[TreeNode]:
-        trees = collections.defaultdict()
+        rees = collections.defaultdict()
         trees.default_factory = trees.__len__
         count = collections.Counter()
         ans = []
@@ -137,7 +137,40 @@ class Solution:
         return ans
 ```
 
-**Solution 2: (DFS, Hash Table)**
+**Solution 1: (DFS, Hash Table, post-order)**
+```
+Runtime: 73 ms
+Memory Usage: 30.6 MB
+```
+```python
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+class Solution:    
+    def findDuplicateSubtrees(self, root: Optional[TreeNode]) -> List[Optional[TreeNode]]:
+        result = []
+        paths = defaultdict(int)
+
+        def get_path(node):
+            if not node:
+                return "None"
+            else:
+                path = str(node.val)
+            path += '.' + get_path(node.left)
+            path += '.' + get_path(node.right)
+            paths[path] += 1
+            if paths[path] == 2:
+                result.append(node)
+            return path
+
+        get_path(root)
+        return result
+```
+
+**Solution 2: (DFS, Hash Table, post-order)**
 ```
 Runtime: 73 ms
 Memory Usage: 56.5 MB

@@ -169,3 +169,70 @@ class Solution:
         
         return " ".join(words)
 ```
+
+**Solution 4: (trie)**
+```
+Runtime: 70 ms
+Memory Usage: 49.6 MB
+```
+```c++
+class Solution {
+public:
+    struct Node{
+        Node* arr[26];
+        string str;
+        Node(){
+            for(int i=0;i<26;i++){
+                arr[i]=NULL;
+            }
+            str="";
+                
+        }
+    };
+    void insert(string word,Node* root){
+        Node* curr=root;
+        for(int i=0;i<word.size();i++){
+            if(curr->arr[word[i]-'a']==NULL){
+                curr->arr[word[i]-'a']=new Node();
+            }
+            curr=curr->arr[word[i]-'a'];
+        }
+        curr->str=word;
+    }
+    string find(string word,Node* root)
+    {
+        Node* curr=root;
+        for(int i=0;i<word.size();i++){
+            if(curr->arr[word[i]-'a']==NULL){
+                return word;
+            }
+            curr=curr->arr[word[i]-'a'];
+            if(curr->str!=""){
+                return curr->str;
+            }
+        }
+        return word;
+    }
+    string replaceWords(vector<string>& dictionary, string sentence) {
+        Node* root=new Node();
+        for(auto it:dictionary){
+            insert(it,root);
+        }
+        string word="",ans="";
+        for(int i=0;i<sentence.size();i++){
+            if(sentence[i]==' '){
+                if(word.size()>0){
+                    ans+=find(word,root);word="";
+                    ans+=" ";
+                }
+            }else{
+                word+=sentence[i];
+            }
+        }
+        if(word.size()>0){
+             ans+=find(word,root);
+        }
+        return ans;
+    }
+};
+```

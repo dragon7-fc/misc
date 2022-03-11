@@ -66,3 +66,28 @@ class Solution:
                 ans += 1
         return ans
 ```
+
+**Solution 3: (Brute Force)**
+```
+Runtime: 218 ms
+Memory Usage: 29.7 MB
+```
+```c++
+class Solution {
+public:
+    int numMatchingSubseq(string s, vector<string>& words) {
+        int ans=0;
+        for(int i=0; i<words.size(); i++) {
+            int wsize = words[i].size(); 
+            int pos=0, j=0; 
+            for(; j<wsize; j++) {
+                auto ix = s.find(words[i][j], pos);
+                if(ix == string::npos) break;
+                pos=ix+1;
+            }
+            if(j==wsize) ans++;
+        }
+        return ans;
+    }
+};
+```

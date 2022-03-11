@@ -159,3 +159,43 @@ class MagicDictionary:
 # obj.buildDict(dict)
 # param_2 = obj.search(word)
 ```
+
+**Solution 2: (Set)**
+```
+Runtime: 573 ms
+Memory Usage: 39.7 MB
+```
+```c++
+class MagicDictionary {
+public:
+    unordered_set<string> st;
+    MagicDictionary() {
+        
+    }
+    
+    void buildDict(vector<string> dictionary) {
+        for(auto &w: dictionary) st.insert(w);
+    }
+    
+    bool search(string searchWord) {
+        for(int i = 0;i<searchWord.length();i++)
+        {
+            string curr = searchWord;
+            for(auto c = 'a';c<='z';c++)
+            {
+                curr[i] = c;
+                if(curr == searchWord) continue;
+                if(st.count(curr)) return true;
+            }
+        }
+        return false;
+    }
+};
+
+/**
+ * Your MagicDictionary object will be instantiated and called as such:
+ * MagicDictionary* obj = new MagicDictionary();
+ * obj->buildDict(dictionary);
+ * bool param_2 = obj->search(searchWord);
+ */
+```

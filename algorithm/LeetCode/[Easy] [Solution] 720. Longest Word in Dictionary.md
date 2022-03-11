@@ -136,7 +136,7 @@ class Solution:
         return ""
 ```
 
-**Solution 2: (Trie + Depth-First Search)**
+**Solution 1: (Trie + Depth-First Search)**
 ```
 Runtime: 120 ms
 Memory Usage: 13.4 MB
@@ -163,5 +163,85 @@ class Solution:
                 stack.extend([cur[letter] for letter in cur if letter != END])
 
         return ans
-            
+```
+
+**Solution 2: (Sort, Set)**
+```
+Runtime: 90 ms
+Memory Usage: 18.7 MB
+```
+```c++
+class Solution {
+public:
+    string longestWord(vector<string>& words) {
+        sort(words.begin(), words.end());
+        unordered_set<string> prefix;
+        string res;
+        for (string w : words) {
+            if (w.size() == 1 || prefix.count(w.substr(0, w.size() - 1))) {
+                res = w.size() > res.size() ? w : res;
+                prefix.insert(w);
+            }
+        }
+        return res;
+    }
+};
+```
+
+**Solution 3: (Trie)**
+```
+Runtime: 48 ms
+Memory Usage: 35.4 MB
+```
+```c++
+class Trie {
+public:
+    vector<Trie*> children;
+    string isEnd;                     //instead of storing bool, storing the whole string at the end
+
+    Trie() {
+        isEnd = "";
+        children = vector<Trie*>(26, nullptr);
+    }
+    
+};
+
+class Solution {
+public:
+    string longestWord(vector<string>& words) {
+        if (words.size() == 0) {
+            return "";
+        }
+        Trie* root = new Trie();
+        for(int i = 0; i < words.size(); i++) {
+            insert(root, words[i]);
+        }
+        string res = "";
+        dfs(root, res);
+        return res;
+    }
+    
+    void insert(Trie* root, string s) {
+        if (s.size() == 0) return;
+        Trie* curr = root;
+        for(int i = 0; i < s.size(); i++) {
+            if(!(curr->children[s[i] - 'a'])) {
+                curr->children[s[i] - 'a'] = new Trie();
+            }
+            curr = curr->children[s[i] - 'a'];
+        }
+        curr->isEnd = s;
+    }
+    void dfs(Trie* root, string& res) {
+        if(!root) return;
+        for(Trie* curr : root->children) {
+            if(curr && curr->isEnd != "") {
+                if(curr->isEnd.length() > res.length()) {
+                    res = curr->isEnd;
+                } 
+                dfs(curr, res);
+            }
+        }
+    }
+};
 ```

@@ -218,3 +218,110 @@ class MapSum:
 # obj.insert(key,val)
 # param_2 = obj.sum(prefix)
 ```
+
+**Solution 4: (Hash Table, String)**
+```
+Runtime: 0 ms
+Memory Usage: 7.8 MB
+```
+```c++
+class MapSum {
+    unordered_map<string,int>mp;
+public:
+    MapSum() {
+        
+    }
+    
+    void insert(string key, int val) {
+        mp[key]=val;
+    }
+    
+    int sum(string prefix) {
+        int ans=0;
+        for(auto x:mp){
+            size_t found = x.first.find(prefix);
+           if (found != string::npos && found==0) //if found is 0 then add the value in the sum 
+           {
+               ans+=x.second;
+           }
+        }
+
+        return ans;
+    }
+};
+
+/**
+ * Your MapSum object will be instantiated and called as such:
+ * MapSum* obj = new MapSum();
+ * obj->insert(key,val);
+ * int param_2 = obj->sum(prefix);
+ */
+```
+
+**Solution 5: (trie)**
+```
+Runtime: 0 ms
+Memory Usage: 8.5 MB
+```
+```c++
+class MapSum {
+    struct TrieNode{
+        unordered_map<char, TrieNode*> edges;
+        int val;
+        bool isEnd;
+        
+        TrieNode(){
+            edges = {};
+            val = 0;
+            isEnd = false;
+        }
+    };
+    
+    TrieNode* root;
+public:
+    MapSum() {
+        root = new TrieNode();
+    }
+    
+    void insert(string key, int val) {
+        TrieNode* cur = root;
+        for(char c: key){
+            if(cur->edges.find(c) == cur->edges.end())
+                cur->edges[c] = new TrieNode();
+            cur = cur->edges[c];
+        }
+        cur->val = val;
+        cur->isEnd = true;
+    }
+    
+    int sum(string prefix) {
+        TrieNode* cur = root;
+        for(char c: prefix){
+            if(cur->edges.find(c) == cur->edges.end())
+                return 0;
+            cur = cur->edges[c];
+        }
+        int sum = 0;
+        queue<TrieNode*> queue;
+        queue.push(cur);
+        while(!queue.empty()){
+            int n = queue.size();
+            for(int i = 0; i < n; i++){
+                cur = queue.front();
+                queue.pop();
+                sum += cur ->val;
+                for(auto x: cur->edges)
+                    queue.push(x.second);
+            }
+        }
+        return sum;
+    }
+};
+
+/**
+ * Your MapSum object will be instantiated and called as such:
+ * MapSum* obj = new MapSum();
+ * obj->insert(key,val);
+ * int param_2 = obj->sum(prefix);
+ */
+```

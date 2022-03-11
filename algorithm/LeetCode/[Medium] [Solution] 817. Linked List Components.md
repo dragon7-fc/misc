@@ -141,3 +141,42 @@ int numComponents(struct ListNode* head, int* nums, int numsSize){
     return ans;
 }
 ```
+
+**Solution 3: (Hash Table, Linked List)**
+```
+Runtime: 57 ms
+Memory Usage: 23.6 MB
+```
+```c++
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode() : val(0), next(nullptr) {}
+ *     ListNode(int x) : val(x), next(nullptr) {}
+ *     ListNode(int x, ListNode *next) : val(x), next(next) {}
+ * };
+ */
+class Solution {
+public:
+    int numComponents(ListNode* head, vector<int>& nums) {
+        unordered_map<int,int> m;
+        for(int x : nums)m[x]++;
+        int count = 0;
+        ListNode* node = head;
+        while(node!=NULL){
+            int done = 0;
+            while(node!=NULL && m[node->val]>0){
+                node=node->next;
+                done = 1;
+            }
+            if(done)count++;
+            while(node!=NULL && m[node->val]==0){
+                node=node->next;
+            }
+        }
+        return count;
+    }
+};
+```
