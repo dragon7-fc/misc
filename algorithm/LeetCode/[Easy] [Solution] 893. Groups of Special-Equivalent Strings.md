@@ -88,3 +88,80 @@ class Solution:
 
         return len({count(word) for word in A})
 ```
+
+**Solution 1: (Counter)**
+```
+Runtime: 17 ms
+Memory Usage: 14.2 MB
+```
+```c++
+class Solution {
+public:
+    int numSpecialEquivGroups(vector<string>& words) {
+        int n=words.size();
+        
+        // set is for grouping the strings.
+        // The first element of pair is odd frequency
+        // The second element of pair is even frequency
+        set<pair<vector<int>,vector<int>>>dict;
+        
+        // odd vector stores the frequency at the odd positions of all the strings 
+        vector<vector<int>>odd(n,vector<int>(26,0));
+        
+        // even vector stores the frequency at the even positions of all the strings 
+        vector<vector<int>>even(n,vector<int>(26,0));
+        for(int i=0;i<words.size();i++) {
+            // calculate the frequency
+            filler(words[i],odd[i],even[i]);
+            
+            // group the string 
+            dict.insert({odd[i],even[i]});
+        }
+        
+        // finally set size will the group size
+        return dict.size();
+    }
+     // This function stores the character frequency of the odd and even positions of a string
+    void filler(string &str,vector<int>&odd,vector<int>&even) {
+        for(int i=0;i<str.length();i++) {
+            if(i%2==0) {
+                even[str[i]-'a']++;
+            }
+            else {
+                odd[str[i]-'a']++;
+            }
+        }
+    }
+};
+```
+
+**Solution 2: (Set, String)**
+```
+Runtime: 8 ms
+Memory Usage: 8.6 MB
+```
+```c++
+class Solution {
+public:
+    int numSpecialEquivGroups(vector<string>& words) {
+        unordered_map<string,int>mp;
+        for(int i=0;i<words.size();i++){
+            string even="";
+            string odd="";
+            for(int j=0;j<words[i].size();j+=2)
+            {
+                even+=words[i][j];
+            }
+            for(int j=1;j<words[i].size();j+=2)
+            {
+                odd+=words[i][j];
+            }
+            sort(even.begin(),even.end());
+            sort(odd.begin(),odd.end());
+            mp[even+odd]++;//map size will return the ans;
+            
+        }
+        return mp.size();
+    }
+};
+```

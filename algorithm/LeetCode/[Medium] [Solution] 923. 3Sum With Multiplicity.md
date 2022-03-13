@@ -289,3 +289,35 @@ class Solution:
 
         return ans % MOD
 ```
+
+**Solution 1: (Hash Table, scan key-value)**
+```
+Runtime: 17 ms
+Memory Usage: 10.6 MB
+```
+```c++
+class Solution {
+    const int MOD = 1e9 + 7;
+public:
+    int threeSumMulti(vector<int>& arr, int target) {
+        unordered_map<int, uint64_t> cnt;
+        for (int x : arr) cnt[x]++;
+        uint64_t res = 0;
+        for (auto [k1, v1] : cnt)
+        {
+            for (auto [k2, v2] : cnt)
+            {
+                int k3 = target - k1 - k2;
+                if (!cnt.count(k3)) continue;
+                if (k1 == k2 && k2 == k3 && v1 >= 3)
+                    res += (v1 * (v1 - 1) * (v1 - 2)) / 6;
+                else if (k1 == k2 && k2 != k3 && v1 >= 2)
+                    res += (v1 * (v1 - 1)) / 2 * cnt[k3];
+                else if (k1 < k2 && k2 < k3)
+                    res += v1 * v2 * cnt[k3];
+            }
+        }
+        return res % MOD;
+    }
+};
+```

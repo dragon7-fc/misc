@@ -104,7 +104,7 @@ class TopVotedCandidate(object):
 
 # Submissions
 ---
-**Solution:**
+**Solution: (Precomputed Answer + Binary Search)**
 ```
 Runtime: 676 ms
 Memory Usage: 17.4 MB
@@ -136,4 +136,37 @@ class TopVotedCandidate:
 # Your TopVotedCandidate object will be instantiated and called as such:
 # obj = TopVotedCandidate(persons, times)
 # param_1 = obj.q(t)
+```
+
+**Solution 1: (Binary Search)**
+```
+Runtime: 441 ms
+Memory Usage: 103.7 MB
+```
+```c++
+class TopVotedCandidate {
+    vector<int> times, lead; 
+public:
+    TopVotedCandidate(vector<int>& persons, vector<int>& times) {
+        unordered_map<int, int> freq; 
+        int pp = 0;
+        this->times = times;
+        for (auto& p : persons) {
+            ++freq[p]; 
+            if (freq[p] >= freq[pp]) pp = p; 
+            lead.push_back(pp);
+        }
+    }
+    
+    int q(int t) {
+        int k = upper_bound(times.begin(), times.end(), t) - times.begin();
+        return lead[k-1]; 
+    }
+};
+
+/**
+ * Your TopVotedCandidate object will be instantiated and called as such:
+ * TopVotedCandidate* obj = new TopVotedCandidate(persons, times);
+ * int param_1 = obj->q(t);
+ */
 ```

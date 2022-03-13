@@ -95,3 +95,25 @@ int smallestRepunitDivByK(int k){
     }
 }
 ```
+
+**Solution 4: (Math)**
+```
+Runtime: 0 ms
+Memory Usage: 5.9 MB
+```
+```c++
+class Solution {
+public:
+    int smallestRepunitDivByK(int k) {
+        if (k%2 == 0 || k%5 == 0)
+            return -1;
+        int n = 0, i = 0;
+        while (1) {
+            n = (n*10 + 1) % k;
+            i += 1;
+            if (n == 0)
+                return i;
+        }
+    }
+};
+```

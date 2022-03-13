@@ -194,7 +194,12 @@ A playground to note something.
     - clipboard share
 
         Un-check: `XLaunch -> Extra settings -> Clipboard -> Primary Selection`
+    - Windows Defender Firewall
 
+        - enable `VcSrv windows xserver`
+    - `$DISPLAY` environment variable
+
+        `export DISPLAY="$(/sbin/ip route | awk '/default/ { print $3 }'):0"`
 * VSCode
 
     - __Mac__:
@@ -223,7 +228,7 @@ A playground to note something.
     - [Use Vim like an IDE](https://vim.fandom.com/wiki/Use_Vim_like_an_IDE)
     - [Vim Awesome](https://vimawesome.com/)'
     - [Learn Vimscript the Hard Way](http://learnvimscriptthehardway.stevelosh.com/)
-    - [Vundle, the plug-in manager for Vim](https://github.com/VundleVim/Vundle.vim)
+    - [vim-plug](https://github.com/junegunn/vim-plug)
     - [Use vim with ctags](https://kulkarniamit.github.io/whatwhyhow/howto/use-vim-ctags.html)
         - ex. `ctags --recurse=yes --exclude=.git --exclude=BUILD --exclude=.svn --exclude=vendor/* --exclude=node_modules/* --exclude=db/* --exclude=log/*`
     - [Using Cscope on large projects (example: the Linux kernel)](http://cscope.sourceforge.net/large_projects.html)
@@ -3871,6 +3876,33 @@ Attribute: This is a part of an object. One or more attributes make up an object
             
             - Download Ubuntu for WSL from the Microsoft Store
         - Run Ubuntu
+        - Install Docker
+
+            ```bash
+            sudo apt update
+            sudo apt install docker.io -y
+            
+            # Check Docker installation.
+            docker --version
+
+            sudo visudo
+            # Add the following line to the bottom
+            # Docker daemon specification
+            + $USER ALL=(ALL) NOPASSWD: /usr/bin/dockerd
+
+            vim ~/.zshrc
+            + # Start Docker daemon automatically when logging in if not running.
+            + RUNNING=`ps aux | grep dockerd | grep -v grep`
+            + if [ -z "$RUNNING" ]; then
+            +     sudo dockerd > /dev/null 2>&1 &
+            +     disown
+            + fi
+
+            sudo usermod -aG docker $USER
+
+            # Validate Docker installation
+            docker run hello-world
+            ```
     - Changing `ls` highlight colors in Windows Terminal with WSL
         
         ```bash

@@ -154,7 +154,7 @@ public:
 };
 ```
 
-**Solution 3: (Set)**
+**Solution 3: (Counter)**
 ```
 Runtime: 172 ms
 Memory Usage: 102.4 MB

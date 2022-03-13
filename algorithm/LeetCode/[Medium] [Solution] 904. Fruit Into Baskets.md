@@ -210,3 +210,29 @@ class Solution:
             ans = max(ans, j - i + 1)
         return ans
 ```
+
+**Solution 3: (Hash Table)**
+```
+Runtime: 152 ms
+Memory Usage: 61.4 MB
+```
+```c++
+class Solution {
+public:
+    int totalFruit(vector<int>& fruits) {
+        unordered_map<int, int> cur;
+        int i = 0, ans = 0;
+        for (int j = 0; j < fruits.size(); j ++) {
+            cur[fruits[j]] += 1;
+            while (cur.size() > 2) {
+                cur[fruits[i]] -= 1;
+                if (cur[fruits[i]] == 0)
+                    cur.erase(fruits[i]);
+                i += 1;
+            }
+            ans = max(ans, j-i+1);
+        }
+        return ans;
+    }
+};
+```

@@ -86,3 +86,32 @@ class Solution:
 
         return True
 ```
+
+**Solution 1: (Greedy, Counter)**
+```
+Runtime: 186 ms
+Memory Usage: 58.1 MB
+```
+```c++
+class Solution {
+public:
+    bool canReorderDoubled(vector<int>& arr) {
+        map<int,int> cnt;
+        for (auto a: arr) {
+            cnt[a] += 1;
+        }
+        sort(arr.begin(), arr.end(), [](int &a, int &b){
+            return abs(a) < abs(b);
+        });
+        for (int i = 0; i < arr.size(); i ++) {
+            if (cnt[arr[i]] == 0)
+                continue;
+            if (cnt[2*arr[i]] == 0)
+                return false;
+            cnt[arr[i]] -= 1;
+            cnt[2*arr[i]] -= 1;
+        }
+        return true;
+    }
+};
+```

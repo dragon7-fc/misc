@@ -114,3 +114,36 @@ class Solution:
                 
         return list(powerful_integers)
 ```
+
+**Solution 3: (Brute Force, Set)**
+```
+Runtime: 0 ms
+Memory Usage: 6.6 MB
+```
+```c++
+class Solution {
+public:
+    vector<int> powerfulIntegers(int x, int y, int bound) {
+        vector<int> result;
+        double m, n;
+        int i=0, j=0;
+        set<int> mySet;
+        for(i=0; i<20; i++)     //2 is lowest number and powe(2,20) just barely exceeds the bound limit 1000000
+        {
+            for(j=0; j<20; j++)
+            {
+                m = pow(x, i);
+                n = pow(y, j);
+                if(m+n <= bound)
+                    mySet.insert(m+n);
+                else
+                    break;
+            }
+        }
+        
+        for(auto it = mySet.begin(); it!=mySet.end(); it++)
+            result.push_back(*it);
+        return result;
+    }
+};
+```

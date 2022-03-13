@@ -129,3 +129,59 @@ class Solution:
 
         return map(solve, queries)
 ```
+
+**Solution i: (Hash Table)**
+```
+Runtime: 68 ms
+Memory Usage: 37 MB
+```
+```c++
+class Solution {
+public:
+    vector<string> spellchecker(vector<string>& wordlist, vector<string>& queries) {
+        auto devowel = [](string &word){
+            string s;
+            for (auto c: word) {
+                if (c == 'a' || c == 'e' || c == 'i' || c == 'o' || c == 'u')
+                    s += '*';
+                else
+                    s += c;
+            }
+            return s;
+        };
+        unordered_set<string> words_perfect;
+        for (auto &word: wordlist)
+            words_perfect.insert(word);
+        unordered_map<string, string> words_cap;
+        unordered_map<string, string> words_vow;
+
+        for (auto &word: wordlist) {
+            string wordlow;
+            for (auto c: word)
+                wordlow += tolower(c);
+            if (!words_cap.count(wordlow))
+                words_cap[wordlow] = word;
+            if (!words_vow.count(devowel(wordlow)))
+                words_vow[devowel(wordlow)] = word;
+        }
+        auto solve = [&](string &query) {
+            if (words_perfect.count(query))
+                return query;
+            string queryL;
+            for (auto c: query)
+                queryL += tolower(c);
+            if (words_cap.count(queryL))
+                return words_cap[queryL];
+
+            string queryLV = devowel(queryL);
+            if (words_vow.count(queryLV))
+                return words_vow[queryLV];
+            return string();
+        };
+        vector<string> ans;
+        for (auto &query: queries)
+            ans.push_back(solve(query));
+        return ans;
+    }
+};
+```

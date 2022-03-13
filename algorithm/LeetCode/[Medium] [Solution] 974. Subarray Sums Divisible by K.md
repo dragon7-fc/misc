@@ -94,3 +94,56 @@ int subarraysDivByK(int* nums, int numsSize, int k){
     return ans;
 }
 ```
+
+**Solution 3: (Prefix Sums and Counting)**
+```
+Runtime: 71 ms
+Memory Usage: 32.9 MB
+```
+```c++
+class Solution {
+public:
+    int subarraysDivByK(vector<int>& nums, int k) {
+        int N = nums.size();
+        vector<int> pre(N+1);
+        int cur = 0;
+        for (int i = 0; i < N; i ++) {
+            cur = (cur + nums[i])%k;
+            if (cur < 0)
+                cur += k;
+            pre[i+1] = cur;
+        }
+        unordered_map<int,int> cnt;
+        for (int i = 0; i < pre.size(); i ++)
+            cnt[pre[i]] += 1;
+        int ans = 0;
+        for (auto &[k, v]: cnt)
+            ans += v*(v-1)/2;
+        return ans;
+    }
+};
+```
+```
+Runtime: 40 ms
+Memory Usage: 8.8 MB
+```
+```c
+
+
+int subarraysDivByK(int* nums, int numsSize, int k){
+    int *cnt = calloc(1, k*sizeof(int));
+    cnt[0] = 1;
+    int cur = 0, ans = 0;
+    for (int i = 0; i < numsSize; i ++) {
+        cur = (cur + nums[i])%k;
+        if (cur < 0)
+            cur += k;
+        cnt[cur] += 1;
+    }
+    for (int i = 0; i < k; i++) {
+        if (cnt[i])
+            ans += cnt[i]*(cnt[i]-1) / 2;
+    }
+    return ans;
+}
+```

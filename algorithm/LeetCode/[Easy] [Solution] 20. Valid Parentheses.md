@@ -272,3 +272,33 @@ bool isValid(char * s){
     return cnt == 0;
 }
 ```
+
+**Solution 3: (Stack)**
+```
+Runtime: 0 ms
+Memory Usage: 6.4 MB
+```
+```c++
+class Solution {
+public:
+    bool isValid(string s) {
+        stack<char> st;
+        for(char c: s){
+            if(c == '(' || c == '{' || c == '[')
+                st.push(c);
+            else{
+                if(st.empty())
+                    return false;
+                if(c == ')' && st.top() != '(')
+                    return false;
+                if(c == '}' && st.top() != '{')
+                    return false;
+                if(c == ']' && st.top() != '[')
+                    return false;
+                st.pop();
+            }
+        }
+        return st.empty();
+    }
+};
+```
