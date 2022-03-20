@@ -46,3 +46,43 @@ class Solution:
         
         return ans
 ```
+
+**Solution 2: (Bit Manipulation)**
+```
+Runtime: 40 ms
+Memory Usage: 15.6 MB
+```
+```c++
+class Solution {
+public:
+    int maxProduct(vector<string>& words) {
+        int n = words.size();
+         
+        vector<int> state(n);
+         
+        auto getState = [](string &s){
+            int state = 0;
+
+            for(char ch: s){
+                state |=  1 << (ch - 'a');
+            }
+            return state;
+        };
+        
+        for(int i=0; i<n; i++){
+            state[i] = getState(words[i]);
+        }
+        int ans = 0;
+        
+        for(int i=0; i<n; i++){
+            for(int j = i+1; j<n ; j++){
+                if( (state[i] & state[j]) == 0)  {
+                    ans = max(ans, (int)words[i].size() * (int)words[j].size());
+                }
+            }
+        }
+        
+        return ans;
+    }
+};
+```

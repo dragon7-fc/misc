@@ -270,3 +270,27 @@ int lengthOfLongestSubstring(char * s){
     return ans;
 }
 ```
+
+**Solution 4: (Sliding Window)**
+```
+Runtime: 24 ms
+Memory Usage: 10.8 MB
+```
+```c++
+class Solution {
+public:
+    int lengthOfLongestSubstring(string s) {
+        unordered_set<char> st;
+        int i = 0, ans = 0;
+        for (int j = 0; j < s.size(); j ++) {
+            while (st.count(s[j])) {
+                st.erase(s[i]);
+                i += 1;
+            }
+            st.insert(s[j]);
+            ans = max(ans, j-i+1);
+        }
+        return ans;
+    }
+};
+```

@@ -430,3 +430,43 @@ void freqStackFree(FreqStack* obj) {
  * freqStackFree(obj);
 */
 ```
+
+**Solution 4: (Stack of Stacks)**
+```
+Runtime: 217 ms
+Memory Usage: 86.5 MB
+```
+```c++
+class FreqStack {
+    unordered_map<int, int> freq;
+    unordered_map<int, stack<int>> group;
+    int maxfreq = 0;
+public:
+    FreqStack() {
+        
+    }
+    
+    void push(int val) {
+        int f = freq[val] + 1;
+        freq[val] = f;
+        maxfreq = max(maxfreq, f);
+        group[f].push(val);
+    }
+    
+    int pop() {
+        int x = group[maxfreq].top();
+        group[maxfreq].pop();
+        freq[x] -= 1;
+        if (group[maxfreq].empty())
+            maxfreq -= 1;
+        return x;
+    }
+};
+
+/**
+ * Your FreqStack object will be instantiated and called as such:
+ * FreqStack* obj = new FreqStack();
+ * obj->push(val);
+ * int param_2 = obj->pop();
+ */
+```

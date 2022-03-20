@@ -138,3 +138,61 @@ char * reverseWords(char * s){
     return ans;
 }
 ```
+
+**Solution 5: (String)**
+```
+Runtime: 4 ms
+Memory Usage: 7.2 MB
+```
+```c++
+class Solution {
+public:
+    string reverseWords(string s) {
+        reverse(s.begin(), s.end());
+        istringstream iss(s);
+        string str;
+        string ans;
+        while (getline(iss, str, ' ')) {
+            if (str.size() != 0) {
+                reverse(str.begin(), str.end());
+                ans += str + " ";
+            }
+        }
+        ans.pop_back();
+        return ans;
+    }
+};
+```
+
+**Solution 6: (String, Stack)**
+```
+Runtime: 3 ms
+Memory Usage: 7.6 MB
+```
+```c++
+class Solution {
+public:
+    string reverseWords(string s) {
+        string ans;
+		if(s.size()==0)
+			return s;
+		stack<string>st;
+		for(int i=0;i<s.size();i++){
+			string word;
+			if(s[i]==' ')
+				continue;
+			while(s[i]!=' ' && i<s.size()){
+					word+=s[i];  i++;
+			}
+            st.push(word);
+		}
+
+		while(!st.empty()){
+				ans+=st.top(); st.pop();
+			if(!st.empty())
+				ans+=" ";
+		}
+		return ans;
+    }
+};
+```

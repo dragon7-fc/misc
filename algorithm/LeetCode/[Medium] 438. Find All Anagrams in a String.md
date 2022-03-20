@@ -156,12 +156,12 @@ public:
             cnt[s[i]] += 1;
             if (cnt == t)
                 ans.push_back(i-N+1);
-            if (i >= N-1)
+            if (i >= N-1) {
                 if (cnt[s[i-N+1]] > 1)
                     cnt[s[i-N+1]] -= 1;
                 else
                     cnt.erase(s[i-N+1]);
-            
+            }
         }
         return ans;
     }

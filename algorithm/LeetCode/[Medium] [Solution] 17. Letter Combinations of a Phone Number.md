@@ -196,33 +196,33 @@ public:
     
     vector<string> letterCombinations(string digits) {
         if(digits.empty())
-    {
-        return {};
+        {
+            return {};
+        }
+        
+        vector<string> result;
+        string substring = "";
+        
+        backTrack(digits,result,0,substring);
+        return result;
     }
-    
-    vector<string> result;
-    string substring = "";
-    
-    backTrack(digits,result,0,substring);
-    return result;
-}
 
-void backTrack(string& digits,vector<string> &result,int pos,string &substring)
-{
-    if(pos == digits.size())
+    void backTrack(string& digits,vector<string> &result,int pos,string &substring)
     {
-        result.push_back(substring);
-
-        return;
+        if(pos == digits.size())
+        {
+            result.push_back(substring);
+    
+            return;
+        }
+        
+         for(char c : lettermap[digits[pos]])
+         {
+             substring.push_back(c);
+             backTrack(digits,result,pos+1,substring);
+             substring.pop_back();
+         }  
+        
     }
-    
-     for(char c : lettermap[digits[pos]])
-     {
-         substring.push_back(c);
-         backTrack(digits,result,pos+1,substring);
-         substring.pop_back();
-     }  
-    
-}
 };
 ```

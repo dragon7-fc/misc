@@ -120,7 +120,7 @@ public:
                 depth += 1;
                 i += 1;
             }
-            while (i < line.size() && line[i] != '\n' && line[i] != '\t') {
+            while (i < line.size()) {
                 cur.push_back(line[i]);
                 isfile |= (line[i]=='.');
                 i += 1 ;

@@ -67,3 +67,33 @@ class Solution:
             store.append(get(store[i-1]))
         return store[n-1]
 ```
+
+**Solution 2: (String)**
+```
+Runtime: 14 ms
+Memory Usage: 6.5 MB
+```
+```c++
+class Solution {
+    string countAndSayHelper(const string& str) {
+        string res;
+        for (int i = 0; i < str.size(); ++i) {
+            int count = 1;
+            while (i < str.size() -1 && str[i] == str[i+1]) {
+                count++;
+                i++;
+            }
+            res += to_string(count) + str[i];
+        }
+        return res;
+    }
+public:
+    string countAndSay(int n) {
+        string res {"1"};
+        for (int i = 2; i <= n; ++i) {
+            res = countAndSayHelper(res);
+        }
+        return res;
+    }
+};
+```

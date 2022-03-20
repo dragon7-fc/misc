@@ -18,7 +18,7 @@ Output: "acdb"
 
 # Submissions
 ---
-**Solution 1: (Greedy, Stack)**
+**Solution 1: (Greedy, Stack, Monotonic stack)**
 ```
 Runtime: 4 ms
 Memory Usage: 7.1 MB

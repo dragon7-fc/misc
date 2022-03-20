@@ -71,3 +71,46 @@ class Solution:
         
         return ans
 ```
+
+**Solution 2: (Backtracking)**
+```
+Runtime: 4 ms
+Memory Usage: 6.2 MB
+```
+```c++
+class Solution {
+    bool ans=false;
+
+    void fun(vector<long long int> &arr, string &num, long long int i)
+    {
+        if(i==num.length())
+        {
+            if(arr.size()>2)
+                ans=true;
+            return;
+        }
+        for(int j=i;j<num.length();j++) 
+        { // First/Each number can be of length 1-17 so we call recursion after considering all cases of first number
+            string s=num.substr(i,j-i+1);
+            if(s.length()>17) //Max length of string is 35 and there should be minimum 3 numbers right? Think of the largest number in the sequence..
+                break;        //99999999999999999+0+99999999999999999, right? So we don't need to consider values greater than length 17. 
+            if(s.length()>=2 && s[0]=='0') 
+                break; // Condition to avoid leading zeros
+            long long int val=stoll(s);
+            if(arr.size()<2 || (arr.back()+arr[arr.size()-2]==val)) // we store the number only if the array has less than 2 numbers or the value we have got
+            {                                                       // is equal to the sum of preceding two numbers.
+                arr.push_back(val);
+                fun(arr,num,j+1);
+                arr.pop_back();
+            }
+        }
+    }
+    
+public:
+    bool isAdditiveNumber(string num) {
+        vector<long long int> arr; // stores the additive sequence
+        fun(arr,num,0);
+        return ans;
+    }
+};
+```

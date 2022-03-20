@@ -311,3 +311,79 @@ class Solution:
 
         return s[start:end + 1]
 ```
+
+**Solution 6: (DP Bottom-Up)**
+```
+Runtime: 1040 ms
+Memory Usage: 387.1 MB
+```
+```c++
+class Solution {
+public:
+    string longestPalindrome(string s) {
+        int n = s.length();
+        vector<vector<int>> dp(n, vector<int>(n, 0));
+        
+        for(int i=n-1; i>=0; i--){
+            for(int j=i; j<n; j++){
+                if( i==j)
+                    dp[i][j] = 1;
+                
+                else if(s[i] == s[j]){
+                    if(i == j-1)
+                        dp[i][j] = 2;
+                    else
+                        dp[i][j] = dp[i+1][j-1] ? 2 + dp[i+1][j-1] : 0;
+                }
+            }
+        }
+        
+        
+        int mx = 0, st=0, ed=0;
+        for(int i=0; i<n; i++){
+            for(int j=i; j<n; j++){
+                if(mx <dp[i][j]){
+                    mx = dp[i][j];
+                    st = i;
+                    ed = j;
+                }
+            }
+        }
+        
+        return s.substr(st, ed-st+1);
+    }
+};
+```
+
+**Solution 7: (Expand Around Center)**
+```
+Runtime: 20 ms
+Memory Usage: 7.1 MB
+```
+```c++
+class Solution {
+public:
+    string longestPalindrome(string s) {
+        int n = s.length(), mx = 1, st=0;
+        
+        for(int i=0; i<n; i++){
+            int low = i, high = i;
+            
+            while(low >=0 && s[low] == s[i]) low--;
+            while(high <n && s[high] == s[i]) high++;
+            
+            while(low>=0 && high <n && s[low] == s[high]){
+                low--;
+                high++;
+            }
+            
+            if(mx < (high - low -1)){
+                st = low + 1;
+                mx = high - low -1;
+            }
+        }
+        
+        return s.substr(st, mx);
+    }
+};
+```

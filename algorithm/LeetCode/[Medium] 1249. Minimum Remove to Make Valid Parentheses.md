@@ -167,3 +167,41 @@ char * minRemoveToMakeValid(char * s){
     return s;
 }
 ```
+
+**Solution 4: (Stack)**
+```
+Runtime: 28 ms
+Memory Usage: 11.9 MB
+```
+```c++
+class Solution {
+public:
+    string minRemoveToMakeValid(string s) {
+        int n = s.size();
+        vector<bool> take(n, false);
+        stack<int> stk;
+        int j;
+        for (int i = 0; i < n; i ++) {
+            if (s[i] != '(' && s[i] != ')')
+                take[i] = true;
+            else {
+                if (s[i] == '(') {
+                    stk.push(i);
+                } else if (s[i] == ')') {
+                    if (!stk.empty()) {
+                        j = stk.top();
+                        stk.pop();
+                        take[j] = true;
+                        take[i] = true;
+                    }
+                }
+            }
+        }
+        string ans;
+        for (int i = 0; i < n; i ++)
+            if (take[i])
+                ans += s[i];
+        return ans;
+    }
+};
+```

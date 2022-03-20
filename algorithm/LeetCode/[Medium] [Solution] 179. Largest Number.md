@@ -71,3 +71,25 @@ class Solution:
         largest_num = ''.join(sorted(map(str, nums), key=LargerNumKey))
         return '0' if largest_num[0] == '0' else largest_num
 ```
+
+**Solution 2: (String)**
+```
+Runtime: 12 ms
+Memory Usage: 11.2 MB
+```
+```c++
+class Solution {
+public:
+    string largestNumber(vector<int>& nums) {
+        sort(nums.begin(), nums.end(), [](int a, int b){
+            string s1 = to_string(a), s2 = to_string(b);
+            return s1+s2 > s2+s1;
+        });
+        string ans;
+        for (auto num: nums) {
+            ans += to_string(num);
+        }
+        return ans[0] == '0' ? "0" : ans;
+    }
+};
+```

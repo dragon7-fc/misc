@@ -53,90 +53,7 @@ Explanation: The number "-91283472332" is out of the range of a 32-bit signed in
 
 ## Submissions 
 ---
-**Solution 1: (String, Math)**
-```
-Runtime: 32 ms
-Memory Usage: 12.7 MB
-```
-```python
-class Solution:
-    def myAtoi(self, str: str) -> int:
-        str = str.strip()
-        N = len(str)
-        sign = 1
-        res = 0
-        
-        for i in range(N):
-            c = str[i]
-            if i == 0:
-                if c == '-':
-                    sign = -1
-                elif c == '+':
-                    sign = 1
-                elif c.isdigit():
-                    res = res * 10 + ord(c) - ord('0')
-                else:
-                    break
-            else:
-                if c.isdigit():
-                    res = res * 10 + ord(c) - ord('0')
-                else:
-                    break
-        
-        res = sign * res
-        if res > 2**31 - 1:
-            res = 2**31 - 1
-        if res < -2**31:
-            res = -2**31
-        return res
-```
-
-**Solution 2: (String, Math)**
-```
-Runtime: 4 ms
-Memory Usage: 5.6 MB
-```
-```c
-int myAtoi(char * s){
-    int i = 0, digit = 0, ans = 0;
-    bool pos = true;
-    while (s[i] != '\0') {
-        if (s[i] == ' ') {
-            i += 1;
-            continue;
-        }
-        break;
-    }
-    if (s[i] != '\0') {
-        if (s[i] == '-') {
-            pos = false;
-            i += 1;
-        } else if (s[i] == '+') {
-            i += 1;
-        }
-    }
-    while (isdigit(s[i])) {
-        digit = s[i] - '0';
-        if (ans == 0) {
-            ans = digit;
-            if (!pos)
-                ans = -ans;
-        } else {
-            if (!pos)
-                digit = -digit;
-            if (ans > INT_MAX/10 || (ans == INT_MAX/10 && digit > 7))
-                return INT_MAX;
-            if (ans < INT_MIN/10 || (ans == INT_MIN/10 && digit < -8))
-                return INT_MIN;
-            ans = ans*10 + digit;
-        }
-        i += 1;
-    }
-    return ans;
-}
-```
-
-**Solution 3: (Follow the Rules)**
+**Solution: (Follow the Rules)**
 ```
 Runtime: 59 ms
 Memory Usage: 14.4 MB
@@ -183,7 +100,7 @@ class Solution:
         return sign * result
 ```
 
-**Solution 4: (Follow the Rules)**
+**Solution: (Follow the Rules)**
 ```
 Runtime: 4 ms
 Memory Usage: 7 MB
@@ -234,7 +151,7 @@ public:
 };
 ```
 
-**Solution 5: (Deterministic Finite Automaton (DFA))**
+**Solution: (Deterministic Finite Automaton (DFA))**
 ```
 Runtime: 48 ms
 Memory Usage: 14.4 MB
@@ -332,7 +249,7 @@ class Solution:
         return q.get_integer()
 ```
 
-**Solution 6: (Deterministic Finite Automaton (DFA))**
+**Solution: (Deterministic Finite Automaton (DFA))**
 ```
 Runtime: 4 ms
 Memory Usage: 7.1 MB
@@ -446,4 +363,87 @@ public:
         return Q.getInteger();
     }
 };
+```
+
+**Solution 1: (String, Math)**
+```
+Runtime: 32 ms
+Memory Usage: 12.7 MB
+```
+```python
+class Solution:
+    def myAtoi(self, str: str) -> int:
+        str = str.strip()
+        N = len(str)
+        sign = 1
+        res = 0
+        
+        for i in range(N):
+            c = str[i]
+            if i == 0:
+                if c == '-':
+                    sign = -1
+                elif c == '+':
+                    sign = 1
+                elif c.isdigit():
+                    res = res * 10 + ord(c) - ord('0')
+                else:
+                    break
+            else:
+                if c.isdigit():
+                    res = res * 10 + ord(c) - ord('0')
+                else:
+                    break
+        
+        res = sign * res
+        if res > 2**31 - 1:
+            res = 2**31 - 1
+        if res < -2**31:
+            res = -2**31
+        return res
+```
+
+**Solution 2: (String, Math)**
+```
+Runtime: 4 ms
+Memory Usage: 5.6 MB
+```
+```c
+int myAtoi(char * s){
+    int i = 0, digit = 0, ans = 0;
+    bool pos = true;
+    while (s[i] != '\0') {
+        if (s[i] == ' ') {
+            i += 1;
+            continue;
+        }
+        break;
+    }
+    if (s[i] != '\0') {
+        if (s[i] == '-') {
+            pos = false;
+            i += 1;
+        } else if (s[i] == '+') {
+            i += 1;
+        }
+    }
+    while (isdigit(s[i])) {
+        digit = s[i] - '0';
+        if (ans == 0) {
+            ans = digit;
+            if (!pos)
+                ans = -ans;
+        } else {
+            if (!pos)
+                digit = -digit;
+            if (ans > INT_MAX/10 || (ans == INT_MAX/10 && digit > 7))
+                return INT_MAX;
+            if (ans < INT_MIN/10 || (ans == INT_MIN/10 && digit < -8))
+                return INT_MIN;
+            ans = ans*10 + digit;
+        }
+        i += 1;
+    }
+    return ans;
+}
 ```

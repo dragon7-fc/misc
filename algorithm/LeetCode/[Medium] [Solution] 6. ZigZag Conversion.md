@@ -123,7 +123,64 @@ class Solution {
 
 # Submissions
 ---
-**Solution 1: (Visit by Row)**
+**Solution: (Sort by Row)**
+```
+Runtime: 28 ms
+Memory Usage: 10.6 MB
+```
+```c++
+class Solution {
+public:
+    string convert(string s, int numRows) {
+        
+        if (numRows == 1) return s;
+
+        vector<string> rows(min(numRows, int(s.size())));
+        int curRow = 0;
+        bool goingDown = false;
+
+        for (char c : s) {
+            rows[curRow] += c;
+            if (curRow == 0 || curRow == numRows - 1) goingDown = !goingDown;
+            curRow += goingDown ? 1 : -1;
+        }
+
+        string ret;
+        for (string row : rows) ret += row;
+        return ret;
+    }
+};
+```
+
+**Solution: (Visit by Row)**
+```
+Runtime: 15 ms
+Memory Usage: 8.1 MB
+```
+```c++
+class Solution {
+public:
+    string convert(string s, int numRows) {
+        
+        if (numRows == 1) return s;
+
+        string ret;
+        int n = s.size();
+        int cycleLen = 2 * numRows - 2;
+
+        for (int i = 0; i < numRows; i++) {
+            for (int j = 0; j + i < n; j += cycleLen) {
+                ret += s[j + i];
+                if (i != 0 && i != numRows - 1 && j + cycleLen - i < n)
+                    ret += s[j + cycleLen - i];
+            }
+        }
+        return ret;
+    }
+};
+```
+
+**Solution 1: (Sort by Row)**
 ```
 Runtime: 64 ms
 Memory Usage: 12.7 MB
