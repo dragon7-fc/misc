@@ -275,6 +275,29 @@ A playground to note something.
         export LC_CTYPE=en_US.UTF-8
         export LC_ALL=en_US.UTF-8
         ```
+    - compile vim to support clipboard on CentOS
+
+        ```bash
+        sudo yum install yum-utils
+        sudo yum-builddep vim-X11
+        sudo yum install libX11 libX11-devel libXtst libXtst-devel \
+                          perl-ExtUtils-Embed xclip xsel
+        git clone https://github.com/vim/vim.git --depth 1
+        cd vim
+        make distclean
+        ./configure --with-features=huge \
+                    --with-x \
+                    --enable-cscope \
+                    --enable-gui \
+                    --enable-luainterp=yes \
+                    --enable-multibyte \
+                    --enable-perlinterp=yes \
+                    --enable-pythoninterp=yes \
+                    --enable-python3interp=yes \
+                    --enable-rubyinterp=yes \
+                    --prefix=/usr/local
+        sudo make install
+        ```
 * U-Boot
 
     - [U-Boot](https://www.linux4sam.org/bin/view/Linux4SAM/U-Boot)
@@ -1687,6 +1710,9 @@ A playground to note something.
             ## only reload config
             # sudo smbcontrol smbd reload-config
             ```
+
+            __NOTE__: disable SELinux
+            __NOTE__: windows clear cifs cache: `net use * /d`
         - list all smb connections
         
             - `sudo smbstatus`
@@ -3914,6 +3940,11 @@ Attribute: This is a part of an object. One or more attributes make up an object
         + OTHER_WRITABLE 34;40 # dir that is other-writable (o+w) and not sticky
         
         test -r ~/.dir_colors && eval "$(dircolors -b ~/.dir_colors)" || eval "$(dircolors -b)"
+        ```
+    - Install vim (support clipboard)
+
+        ```bash
+        apt install vim-gtk
         ```
 * zsh
 

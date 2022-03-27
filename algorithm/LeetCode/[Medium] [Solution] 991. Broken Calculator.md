@@ -97,3 +97,25 @@ class Solution:
 
         return ans + X-Y
 ```
+
+**Solution 1: (Work Backwards, Greedy)**
+```
+Runtime: 0 ms
+Memory Usage: 5.9 MB
+```
+```c++
+class Solution {
+public:
+    int brokenCalc(int startValue, int target) {
+        int ans = 0;
+        while (target > startValue) {
+            ans += 1;
+            if (target%2)
+                target += 1;
+            else
+                target /= 2;
+        }
+        return ans + startValue - target;
+    }
+};
+```

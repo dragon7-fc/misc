@@ -76,3 +76,42 @@ class Solution:
     def letterCasePermutation(self, S: str) -> List[str]:
         return set(map(''.join, itertools.product(*zip(S.lower(), S.upper()))))
 ```
+
+**Solution 4: (Backtracking)**
+```
+Runtime: 8 ms
+Memory Usage: 12.4 MB
+```
+```c++
+class Solution {
+    vector<string> ans;
+public:
+    vector<string> letterCasePermutation(string s) {
+        int n = s.size();
+        getCombo(0, n, s);
+        return ans;
+    }
+    
+    void getCombo(int index, int &n, string &s) {
+        if (index == n) {
+            ans.push_back(s);
+            return;
+        }
+        
+        if (s[index] >= 'a' && s[index] <= 'z') {
+            getCombo(index+1, n, s);
+            s[index] -= 32;
+            getCombo(index+1, n, s);
+            s[index] += 32;
+            return;
+        } else if (s[index] >= 'A' && s[index] <= 'Z') {
+            getCombo(index+1, n, s);
+            s[index] += 32;
+            getCombo(index+1, n, s);
+            s[index] -= 32;
+            return;
+        } else
+            getCombo(index+1, n, s);
+    }
+};
+```

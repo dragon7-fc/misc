@@ -19,7 +19,7 @@ Output: 3
 
 # Submissions
 ---
-**Solution 1: (Counter, String, Sort)**
+**Solution 1: (Counter, String, Sort, Brute Force)**
 ```
 Runtime: 32 ms
 Memory Usage: 12.7 MB
@@ -66,7 +66,7 @@ class Solution:
         return -1
 ```
 
-**Solution 2: (Counter, String, Sort)**
+**Solution 2: (Counter, String, Sort, Brute Force)**
 
 1. First, we keep the frequencies of all strings in a map. That's because we know that a string that has a duplicate can never be the longest uncommon subsequence.
 1. Sort the string by length - from longest to shortest.

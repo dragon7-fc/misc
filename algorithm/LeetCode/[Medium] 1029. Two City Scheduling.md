@@ -27,7 +27,7 @@ The total minimum cost is 10 + 30 + 50 + 20 = 110 to have half the people interv
 
 # Submissions
 ---
-**Solution 1: (Sort)**
+**Solution 1: (Sort, group difference)**
 ```
 Runtime: 40 ms
 Memory Usage: 12.7 MB
@@ -36,4 +36,29 @@ Memory Usage: 12.7 MB
 class Solution:
     def twoCitySchedCost(self, costs: List[List[int]]) -> int:
         return sum([x[0] if i < len(costs)//2 else x[1] for i, x in enumerate(sorted(costs,key=lambda x: x[0]-x[1]))])
+```
+
+**Solution 2: (Sort, group difference)**
+```
+Runtime: 8 ms
+Memory Usage: 7.8 MB
+```
+```c++
+class Solution {
+public:
+    int twoCitySchedCost(vector<vector<int>>& costs) {
+        sort(costs.begin(), costs.end(), [](vector<int>& a, vector<int>& b){
+            return a[0]-a[1] < b[0]-b[1];
+        });
+        int ans = 0;
+        int N = costs.size();
+        for (int i = 0; i < N; i++) {
+            if (i < N/2)
+                ans += costs[i][0];
+            else
+                ans += costs[i][1];
+        }    
+        return ans;
+    }
+};
 ```

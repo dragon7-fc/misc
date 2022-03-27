@@ -238,3 +238,36 @@ class Solution:
                 return word
         return ""
 ```
+
+**Solution 3: (Greedy)**
+```
+Runtime: 81 ms
+Memory Usage: 17.6 MB
+```
+```c++
+class Solution {
+public:
+    string findLongestWord(string s, vector<string>& dictionary) {
+        auto isSubsequence = [](string &x, string &y) {
+            int j = 0;
+            for (int i = 0; i < y.size(); i ++) {
+                if (x[j] == y[i])
+                    j += 1;
+                if (j == x.size())
+                    break;
+            }
+            return j == x.size();
+        };
+             
+        string max_str;
+        for (auto word: dictionary) {
+            if (isSubsequence(word, s))
+                if ((word.size() > max_str.size())
+                    || (word.size() == max_str.size() && word < max_str))
+                    max_str = word;
+        }
+                    
+        return max_str;
+    }
+};
+```

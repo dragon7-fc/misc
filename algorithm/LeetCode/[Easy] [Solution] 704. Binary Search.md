@@ -104,7 +104,28 @@ class Solution:
         return -1
 ```
 
-**Solution 2: (Binary Search)**
+**Solution: (Binary Search)**
+```
+\Runtime: 32 ms
+Memory Usage: 27.6 MB
+```
+```c++
+class Solution {
+public:
+    int search(vector<int>& nums, int target) {
+        int pivot, left = 0, right = nums.size() - 1;
+        while (left <= right) {
+          pivot = left + (right - left) / 2;
+          if (nums[pivot] == target) return pivot;
+          if (target < nums[pivot]) right = pivot - 1;
+          else left = pivot + 1;
+        }
+        return -1;
+    }
+};
+```
+
+**Solution 1: (Binary Search)**
 ```
 Runtime: 43 ms
 Memory Usage: 7.3 MB

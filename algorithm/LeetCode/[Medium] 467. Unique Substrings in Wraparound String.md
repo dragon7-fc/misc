@@ -89,3 +89,44 @@ class Solution:
             res[j] = max(res[j], n)
         return sum(res.values())
 ```
+
+**Solution 4: (DP Bottom-Up)**
+```
+Runtime: 4 ms
+Memory Usage: 7.2 MB
+```
+```c++
+class Solution {
+public:
+    int findSubstringInWraproundString(string p) {
+        vector<int> dp(26, 0);
+    
+        int i, count = 1;
+
+        for(i=0; i < p.size(); i++)
+        {
+
+            if( i> 0 && (p[i-1]-p[i] == 25 || p[i]-p[i-1] == 1))
+            {
+
+                count++;
+            }
+            else{
+
+                count = 1;
+            }
+
+            dp[p[i] - 'a'] = max(count, dp[p[i] - 'a']);
+        }
+
+        int ans = 0;
+
+        for(int it : dp )
+        {
+            ans += it;
+        }
+
+        return ans;
+    }
+};
+```

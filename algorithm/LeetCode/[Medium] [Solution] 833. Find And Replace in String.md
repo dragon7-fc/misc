@@ -79,3 +79,44 @@ class Solution:
 
         return "".join(S)
 ```
+
+**Solution: (String)**
+```
+Runtime: 13 ms
+Memory Usage: 10.3 MB
+```
+```c++
+class Solution {
+public:
+    string findReplaceString(string s, vector<int>& indices, vector<string>& sources, vector<string>& targets) {
+        int m[s.length()];
+        memset(m,0,sizeof(m));
+        int k = sources.size();
+        string ans = "";
+        for(int i=0;i<k;i++){
+            int x = indices[i];
+            int f = 1;
+            for(int j=0;j<sources[i].size();j++){
+                if(x>=s.size() || s[x]!=sources[i][j]){
+                    f = 0;
+                    break;
+                }
+                x++;
+            }
+            if(f==1){
+                 m[indices[i]] = i + 1;
+            }
+        }
+        for(int i=0;i<s.size();i++){
+            if(m[i]!=0){
+                ans += targets[m[i]-1];
+                i += sources[m[i]-1].size() - 1;
+            }
+            else{
+                ans += s[i];
+            }
+        }
+        return ans;
+    }
+};
+```

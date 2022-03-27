@@ -113,3 +113,59 @@ class Solution:
             if B in A * (q+i): return q+i
         return -1
 ```
+
+**Solution 1: (String)**
+```
+Runtime: 168 ms
+Memory Usage: 6.6 MB
+```
+```c++
+class Solution {
+public:
+    int repeatedStringMatch(string a, string b) {
+        int len1 = a.length(), len2 = b.length();
+        for(int i=0;i<len1;i++){
+            if( b[0] == a[i] ){
+                int bIndex = 0, aIndex = i, repeats = 0;
+                bool isMatch = true;
+                while( bIndex < len2 ){
+                    if( b[bIndex] != a[aIndex] ){
+                        isMatch = false;
+                        break;
+                    }
+                    aIndex +=1, bIndex += 1;
+                    if( aIndex >= len1 && bIndex < len2 ) repeats+=1, aIndex = 0;
+                }
+                if( isMatch ) return repeats+1;
+            }
+        }
+        return -1;
+    }
+};
+```
+
+**Solution 2: (String)**
+```
+Runtime: 22 ms
+Memory Usage: 6.9 MB
+```
+```c++
+class Solution {
+public:
+    int repeatedStringMatch(string a, string b) {
+        string temp = a;
+        int count = 1;
+        while(a.length()<b.length())
+        {
+           a += temp;
+           count++;
+        }
+        if(a.find(b)!=-1)
+           return count;
+        a += temp;
+        if(a.find(b)!=-1)
+           return count+1;
+        return -1;
+    }
+};
+```

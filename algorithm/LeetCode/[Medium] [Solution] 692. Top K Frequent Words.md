@@ -272,3 +272,62 @@ public:
     }
 };
 ```
+
+**Solution 4: (Heap)**
+```
+Runtime: 15 ms
+Memory Usage: 13.3 MB
+```
+```c++
+class Solution {
+    static bool comp(pair<int,string> p1,pair<int,string> p2)
+    {
+        if(p1.first==p2.first)
+        {
+            return p1.second<p2.second;
+        }
+        return p1.first>p2.first;
+    }
+public:
+    vector<string> topKFrequent(vector<string>& words, int k) {
+        int n=words.size();
+        // creating an unordered map to store string and its frequency
+        unordered_map<string,int> m;
+        for(int i=0;i<n;i++)
+        {
+            m[words[i]]++;
+        }
+        // creating a max heap
+        priority_queue <pair<int,string>> pq;
+        // traversing through map and pushing the pair<int,string> into heap
+        // this heap will automatically sort the string in descending order
+        // of their frequency
+        for(auto x:m)
+        {
+            string s=x.first;
+            int b=x.second;
+            pq.push(make_pair(b,s));
+        }
+        // creating a vector of <int,string>
+        vector<pair<int,string>> v;
+        // pushing all the elements from heap into the vector
+        while(!pq.empty())
+        {
+            pair<int,string> p1=pq.top();
+            pq.pop();
+            v.push_back(make_pair(p1.first,p1.second));
+        }
+        // now we will sort the elements of vector according to frequency of string
+        // and if frequency of two strings are same then we will sort them lexographically
+        // comp is the static function declared upwards and peforms the sorting task as specified
+        sort(v.begin(),v.end(),comp);
+        vector<string> ans;
+        // now we create the ans vector and push the top k elements
+        for(int i=0;i<k;i++)
+        {
+            ans.push_back(v[i].second);
+        }
+        return ans;
+    }
+};
+```

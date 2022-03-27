@@ -85,7 +85,7 @@ class Solution:
         return "{:02}:{:02}".format(*divmod(ans, 60)) if ans >= 0 else ""
 ```
 
-**Solution 2: (Permutation via Backtracking)**
+**Solution 1: (Permutation via Backtracking)**
 ```
 Runtime: 44 ms
 Memory Usage: 14 MB
@@ -125,4 +125,36 @@ class Solution:
             return ""
         else:
             return "{:02d}:{:02d}".format(max_time // 60, max_time % 60)
+```
+
+**Solution 2: (Brute Force0**
+```
+Runtime: 4 ms
+Memory Usage: 9.6 MB
+```
+```c++
+class Solution {
+public:
+    string largestTimeFromDigits(vector<int>& arr) {
+        string result;
+        for(int i=0;i<=3;++i){
+           for(int j=0;j<=3;++j){
+                for(int k=0;k<=3;++k){
+                    if(i==j or j==k or k==i)
+                        continue;
+                    string hh = to_string(arr[i]) + to_string(arr[j]);
+                    string mm = to_string(arr[k]) + to_string(arr[6-i-j-k]);
+                    
+                    string temp = hh + ":" + mm;
+                    
+                    if(hh < "24" and mm < "60" and temp > result){
+                        result = temp;
+                    }
+                }
+            } 
+        }
+        
+        return result;
+    }
+};
 ```

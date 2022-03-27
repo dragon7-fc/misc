@@ -63,3 +63,28 @@ bool checkRecord(char * s){
 		}
 }
 ```
+
+**Solution 3: (String)**
+```
+Runtime: 0 ms
+Memory Usage: 6.2 MB
+```
+```c++
+class Solution {
+public:
+    bool checkRecord(string s) {
+        int pos = s.find("LLL");
+        if(pos != std::string::npos){
+            return false;
+        }
+        
+        pos = s.find("A", 0);
+        if(pos != std::string::npos){
+            if(s.find("A", pos+1) != std::string::npos){
+                return false;
+            }
+        }
+        return true;
+    }
+};
+```

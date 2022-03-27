@@ -197,3 +197,94 @@ class Solution:
         else:
             return 'x={}'.format(rhs // lhs)
 ```
+
+**Solution 2: (String)**
+```
+Runtime: 3 ms
+Memory Usage: 6.2 MB
+```
+```c++
+class Solution {
+public:
+    string solveEquation(string equation) {
+        stringstream ss(equation);
+        string s;
+        int var_x_left=0;
+        int constant_left=0;
+        int var_x_right=0;
+        int constant_right=0;
+        getline(ss,s,'=');
+        calculate(s,var_x_left,constant_left);
+        getline(ss,s,'=');
+        calculate(s,var_x_right,constant_right);
+        if(var_x_left==var_x_right && (constant_left!=0 || constant_right!=0) && constant_left!=constant_right)
+            return "No solution";
+        if(var_x_left==var_x_right) 
+            return "Infinite solutions";
+        var_x_left-=var_x_right;
+        constant_right-=constant_left;
+        int val=constant_right/var_x_left;
+        return "x="+to_string(val);
+    }
+    
+    void calculate(string s,int &x,int &y){
+        string word;
+        int i=0;
+        bool flag=true;
+        if(s[0]=='-'){
+            flag=false;
+            i++;
+        }
+
+        while(i<s.length()){
+            word="";
+            while(i<s.length() && s[i]!='-' && s[i]!='+' && s[i]!='x' )
+                word+=s[i++];
+
+
+            if(i==s.length() || s[i]=='-' || s[i]=='+'){
+                if(flag){
+
+                    y+=stoi(word);
+                }
+                else
+                y-=stoi(word);
+            }
+           else if(s[i]=='x'){
+                if(flag){
+                    if(word!="")
+                    x+=stoi(word);
+                    else
+                        x+=1;
+                }
+                else{
+                    if(word!="")
+                    x-=stoi(word);
+                    else 
+                        x-=1;
+                }
+            }
+
+            if(i!=s.length()){
+                if(s[i]=='x' && i+1!=s.length()){
+                    if(s[i+1]=='-')
+                        flag=false;
+                    else
+                        flag=true;
+                    i+=2;
+                }
+                 else if(s[i]=='-')
+                {
+                    flag=false;
+                    i++;
+                }
+                else 
+                {
+                    flag=true;
+                    i++;
+                }
+            } 
+        }
+    }
+};
+```

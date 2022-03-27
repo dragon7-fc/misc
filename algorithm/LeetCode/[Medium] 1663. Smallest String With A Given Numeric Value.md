@@ -72,3 +72,25 @@ class Solution:
             
         return "".join([chr(i) for i in arr])
 ```
+
+**Solution 3: (Greedy)**
+```
+Runtime: 38 ms
+Memory Usage: 21.2 MB
+```
+```c++
+class Solution {
+public:
+    string getSmallestString(int n, int k) {
+        k -= n;
+        string ans(n, 'a');
+        int i = n-1;
+        while (k > 0) {
+            ans[i] += min(k, 25);
+            k -= min(k, 25);
+            i -= 1;
+        }
+        return ans;
+    }
+};
+```

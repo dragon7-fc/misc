@@ -30,3 +30,35 @@ class Solution:
             
         return min_diff
 ```
+
+**Solution 2: (String, Sort)**
+```
+Runtime: 24 ms
+Memory Usage: 13.7 MB
+```
+```c++
+class Solution {
+public:
+    int findMinDifference(vector<string>& timePoints) {
+        vector<int>dp;
+        for(auto x:timePoints)
+        {
+            string hr = x.substr(0,2);
+            string str = x.substr(3);
+            int hrx = stoi(hr);
+            int xy = stoi(str);
+            xy = xy + hrx*60;
+            dp.push_back(xy);
+        }
+        sort(dp.begin(), dp.end());
+        int answer = INT_MAX;
+        for(int i=0; i < dp.size()-1; i++)
+        {
+           answer = min(answer, abs(dp[i] - dp[i+1]));
+          
+        }
+        answer = min(answer, dp[0]+24*60-dp.back());
+        return answer;
+    }
+};
+```

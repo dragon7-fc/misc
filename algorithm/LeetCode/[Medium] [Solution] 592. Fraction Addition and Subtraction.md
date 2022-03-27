@@ -225,3 +225,98 @@ class Solution:
                 prev_den //= g
         return '{}/{}'.format(prev_num, prev_den)
 ```
+
+**Solution 2: (String)**
+```
+Runtime: 0 ms
+Memory Usage: 6.1 MB
+```
+```c++
+class Solution {
+public:
+    string fractionAddition(string expression) {
+        int numerator = 0;
+        int denominator = 1;
+        int numeratorNew, denominatorNew;
+        int tempNumerator, tempDenominator;
+        
+        int i=0;
+        bool isAddition = true;
+        
+        while(i < expression.size()){
+            if(expression[i] == '-'){
+                isAddition = false;
+                i++;
+            }
+            else if(expression[i] == '+'){
+                isAddition = true;
+                i++;
+            }
+            
+            numeratorNew = 0;
+            while(i<expression.size() && expression[i] != '/'){
+                numeratorNew = numeratorNew * 10 + expression[i] - '0';
+                i++;
+            }
+            i++;
+            denominatorNew = 0;
+            while(i<expression.size() && (expression[i] >= '0' && expression[i] <= '9')){
+                denominatorNew = denominatorNew * 10 + expression[i] - '0';
+                i++;
+            }
+            
+            if(!isAddition)
+                tempNumerator = numerator*denominatorNew - denominator*numeratorNew;
+            else
+                tempNumerator = numerator*denominatorNew + denominator*numeratorNew;
+            
+            tempDenominator = denominator*denominatorNew;
+            
+            numerator = tempNumerator;
+            denominator = tempDenominator;        
+        }
+        
+        if(numerator == 0)
+            return "0/1";
+        
+        
+        bool isNegative;
+        int numeratorAbs;
+        bool flag;
+        
+        if(numerator < 0){
+            isNegative = true;
+            numeratorAbs = -1 * numerator;
+        }
+        else{
+            isNegative = false;
+            numeratorAbs = numerator;
+        }
+        
+        if(numeratorAbs == denominator){
+            if(isNegative)
+                return "-1/1";
+            else
+                return "1/1";
+        } 
+        
+        while(1){
+            flag = false;
+            for(int i=2; i<=min(numeratorAbs, denominator); i++){
+                if(numeratorAbs % i == 0 && denominator % i == 0){
+                    flag = true;
+                    numeratorAbs = numeratorAbs / i;
+                    denominator = denominator / i;
+                    break;
+                }
+            }
+            if(!flag)
+                break;
+        }
+        if(isNegative)
+            return "-" + to_string(numeratorAbs)+"/"+to_string(denominator);
+        else
+            return to_string(numeratorAbs)+"/"+to_string(denominator);  
+    }
+};
+```

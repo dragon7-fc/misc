@@ -71,3 +71,31 @@ class Solution:
         B = [int(x) for x in b.replace('i','').split('+')]
         return '{}+{}i'.format((A[0]*B[0] - A[1]*B[1]), (A[0]*B[1] + A[1]*B[0]))
 ```
+
+**Solution 2: (Math, String)**
+```
+Runtime: 0 ms
+Memory Usage: 6.1 MB
+```
+```c++
+class Solution {
+public:
+    string complexNumberMultiply(string num1, string num2) {
+        int idx=num1.find('+');
+        int idy=num2.find('+');
+        int idxi=num1.find('i');
+        int idyi=num2.find('i');
+
+        int ar=stoi(num1.substr(0,idx));
+        int br=stoi(num2.substr(0,idy));
+
+        int ai=stoi(num1.substr(idx+1,idxi-idx-1));
+        int bi=stoi(num2.substr(idy+1,idyi-idy-1));
+
+        string real=to_string(ar*br-(ai*bi));
+        string img=to_string(ar*bi+ai*br);
+
+        return real+"+"+img+"i";
+    }
+};
+```

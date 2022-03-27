@@ -85,7 +85,7 @@ def predictPartyVictory(self, senate):
 
 # Submissions
 ---
-**Solution:**
+**Solution: (Simulation)**
 ```
 Runtime: 72 ms
 Memory Usage: 13 MB
@@ -111,4 +111,39 @@ class Solution:
                 queue.append(x)
 
         return "Radiant" if people[1] else "Dire"
+```
+
+**Solution 1; (Queue)**
+```
+Runtime: 15 ms
+Memory Usage: 8.1 MB
+```
+```c++
+class Solution {
+public:
+    string predictPartyVictory(string senate) {
+        queue<int> r;
+        queue<int> d;
+        for(int i = 0;i<senate.length();i++)
+        {
+            if(senate[i] == 'R') r.push(i);
+            else d.push(i);
+        }
+        while(!r.empty() && !d.empty())
+        {
+            int x = r.front();
+            r.pop();
+            int y = d.front();
+            d.pop();
+            if(x<y)
+            {
+                r.push(1e4 + x);
+            }
+            else{
+                d.push(1e4 + y);
+            }
+        }
+        return ((d.empty()) ? ( "Radiant") : ( "Dire"));
+    }
+};
 ```
