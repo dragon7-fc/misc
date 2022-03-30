@@ -45,7 +45,7 @@ class Solution:
         return arr[i:j+1]
 ```
 
-**Solution 2:**
+**Solution 2: (Binary Search)**
 
 **Disclaimer** - *Although the solution is same others on leetcode, I am trying to explain it in a way that helped me understand it better. *
 

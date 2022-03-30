@@ -62,3 +62,57 @@ class Solution:
         
         return list(map(lambda x: d[x[0]], intervals))
 ```
+
+**Solution 2: (Sort, Binary Search)**
+```
+Runtime: 105 ms
+Memory Usage: 25.6 MB
+```
+```c++
+class Solution {
+public:
+    vector<int> findRightInterval(vector<vector<int>>& intervals) {
+        int n = intervals.size();
+        if(n==1){
+            return {-1};
+        }
+        vector<int> ans;
+        vector<pair<int,int>> arr;
+        // creating array to store index and start point 
+        for(int i = 0;i<n;i++){
+            arr.push_back({intervals[i][0],i});
+        }
+        // sorting the array to apply binary search 
+        sort(arr.begin(),arr.end());
+        for(int i =0;i<n;i++){
+            int s = 0;
+            int e = n-1;
+            pair<int,int> pp={-1,-1};
+            //defining an intial value for ans that needs to be pushed 
+            while(s<=e){
+                int m = (s+e)/2;//finding the mid 
+                if(arr[m].first==intervals[i][1]){
+                    ans.push_back(arr[m].second);
+                    break;
+                }
+                else if(arr[m].first<intervals[i][1]){
+                    s = m+1;
+                }
+                else{
+                    e = m-1;
+                    pp = arr[m];//just greater than end point 
+                }
+            }
+            if(ans.size()-1!=i){//if the element is already pushed 
+                if(pp.first<=intervals[i][1]){// if all the the end point are smaller then the start 
+                    ans.push_back(-1);
+                }
+                else{
+                    ans.push_back(pp.second);
+                }
+            }
+        }
+        return ans;
+    }
+};
+```

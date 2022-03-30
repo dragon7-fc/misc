@@ -94,8 +94,8 @@ class Solution:
 
 **Solution 4: (Counter)**
 ```
-Runtime: 25 ms
-Memory Usage: 13.3 MB
+Runtime: 36 ms
+Memory Usage: 13.2 MB
 ```
 ```c++
 class Solution {
@@ -110,9 +110,9 @@ public:
             if(k==0)
             {    
                 if (el.second > 1)
-                ans++ ;
+                    ans++ ;
             }
-            else if (cnt.find(el.first+k) != cnt.end())
+            else if (cnt.count(el.first+k))
                 ans++ ;
         }
         

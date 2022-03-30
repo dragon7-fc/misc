@@ -136,3 +136,37 @@ void solutionFree(Solution* obj) {
  * solutionFree(obj);
 */
 ```
+
+**Solution 3: (Random, Binary Search)**
+```
+Runtime: 68 ms
+Memory Usage: 40.1 MB
+```
+```c++
+class Solution {
+    int sum = 0,n;
+    vector<int>pre;
+public:
+    Solution(vector<int>& w) {
+        n = w.size();
+        for(auto x:w) sum+=x;
+        pre.resize(n);
+        pre[0] = w[0];
+        for(int i=1;i<n;i++){
+            pre[i] = (pre[i-1]+w[i]);
+        }
+    }
+    
+    int pickIndex() {
+        int x = (rand()%sum)+1;
+        int idx = lower_bound(pre.begin(),pre.end(),x)-pre.begin();
+        return idx;
+    }
+};
+
+/**
+ * Your Solution object will be instantiated and called as such:
+ * Solution* obj = new Solution(w);
+ * int param_1 = obj->pickIndex();
+ */
+```

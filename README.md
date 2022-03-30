@@ -1712,6 +1712,7 @@ A playground to note something.
             ```
 
             __NOTE__: disable SELinux
+
             __NOTE__: windows clear cifs cache: `net use * /d`
         - list all smb connections
         

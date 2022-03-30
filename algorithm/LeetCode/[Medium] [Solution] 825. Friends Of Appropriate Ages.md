@@ -103,3 +103,29 @@ class Solution:
 
         return ans
 ```
+
+**Solution 1: (Counting)**
+```
+Runtime: 74 ms
+Memory Usage: 37.3 MB
+```
+```c++
+class Solution {
+public:
+    int numFriendRequests(vector<int>& ages) {
+        int n=ages.size(), ages_count[121]={0};
+        for(int i=0;i<n;++i) ages_count[ages[i]]++;
+        
+        int friend_request=0;
+        for(int i=1;i<=120;i++){
+            for(int j=1;j<=120;++j){
+                if(i<=0.5*double(j)+7 ||  i>j || (i>100 && j<100)) continue;
+                if(i==j) friend_request+=(ages_count[i]-1)*(ages_count[i]);
+                else friend_request+=(ages_count[i])*(ages_count[j]);
+            }
+        }
+        
+        return friend_request;
+    }
+};
+```
