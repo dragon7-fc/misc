@@ -96,3 +96,28 @@ class Solution:
                     return False
         return True
 ```
+
+**Solution 2: (Two Pointers)**
+```
+Runtime: 62 ms
+Memory Usage: 19.6 MB
+```
+```c++
+class Solution {
+public:
+    bool validPalindrome(string s) {
+        for (int i = 0, j = s.size()-1; i < s.size(); i++, j--) {
+            if (s[i] != s[j]) {
+                if (isPalindrome(s, i, j-1)) return true;
+                return isPalindrome(s, i+1, j);
+            }
+        }
+        return true;
+    }
+    
+    bool isPalindrome(string& s, int l, int r) {
+        for (; l < r && s[l] == s[r]; l++, r--);
+        return l >= r;
+    }
+};
+```

@@ -159,7 +159,7 @@ class Solution:
             left, right = left + 1, right - 1
 ```
 
-**Solution 2: (Two Pointers)**
+**Solution 1: (Two Pointers)**
 ```
 Runtime: 36 ms
 Memory Usage: 12.4 MB
@@ -176,4 +176,41 @@ void reverseString(char* s, int sSize){
         right -= 1;
     }
 }
+```
+
+**Solution 2: (Two Pointers)**
+```
+Runtime: 24 ms
+Memory Usage: 23.2 MB
+```
+```c++
+class Solution {
+public:
+    void reverseString(vector<char>& s) {
+        int i = 0, j = s.size()-1;
+        char tmp;
+        while (i < j) {
+            tmp = s[i];
+            s[i] = s[j];
+            s[j] = tmp;
+            i += 1;
+            j -= 1;
+        }
+    }
+};
+```
+
+**Solution 3: (Two Pointers)**
+```
+Runtime: 24 ms
+Memory Usage: 23.3 MB
+```
+```c++
+class Solution {
+public:
+    void reverseString(vector<char>& s) {
+        int i = 0, j = s.size() - 1;
+	    while (i < j) swap(s[i++], s[j--]);
+    }
+};
 ```
