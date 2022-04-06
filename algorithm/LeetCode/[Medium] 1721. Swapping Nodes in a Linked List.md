@@ -69,3 +69,45 @@ class Solution:
         walker.val, first.val = first.val, walker.val
         return head
 ```
+
+**Solution 2: (Linked List, Two Pointers)**
+```
+Runtime: 604 ms
+Memory Usage: 180.2 MB
+```
+```c++
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode() : val(0), next(nullptr) {}
+ *     ListNode(int x) : val(x), next(nullptr) {}
+ *     ListNode(int x, ListNode *next) : val(x), next(next) {}
+ * };
+ */
+class Solution {
+public:
+    ListNode* swapNodes(ListNode* head, int k) {
+        ListNode *dummy = new ListNode(), *slow , *fast;
+        dummy->next = head;
+        fast = slow = dummy;
+        int r = k;
+        while (r) {
+            fast = fast ->next;
+            r -= 1;
+        }
+        while (fast) {
+            fast = fast->next;
+            slow = slow->next;
+        }
+        fast = dummy;
+        while (k) {
+            fast = fast->next;
+            k -= 1;
+        }
+        swap(fast->val, slow->val);
+        return head;
+    }
+};
+```
