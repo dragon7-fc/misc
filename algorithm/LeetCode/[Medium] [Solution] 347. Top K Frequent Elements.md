@@ -621,33 +621,28 @@ class Solution:
         return [el for el, c in count.most_common(k)]
 ```
 
-**Solution 2: (Counter)**
-
-Count Each element Frequecy In O ( 1 ) Time
-Then use Of a Set We can Track Learg K element [ Can Use PQ ]
-End Return those element
-
+**Solution 2: (Heap)**
 ```
-Runtime: 28 ms
-Memory Usage: 14.4 MB
+Runtime: 19 ms
+Memory Usage: 13.7 MB
 ```
 ```c++
 class Solution {
 public:
     vector<int> topKFrequent(vector<int>& nums, int k) {
+        unordered_map<int, int> cnt;
+        for (auto num: nums)
+            cnt[num] += 1;
+        priority_queue<pair<int,int>> pq;
+        for (auto [el, c]: cnt)
+            pq.push({c, el});
         vector<int> ans;
-        unordered_map<int,int>ar;
-        for(int no:nums)ar[no]++;
-        set<pair<int,int>>st;
-        int i = 0;
-        for(auto it:ar){
-            i++;
-            st.insert({it.second,it.first});
-            if(i>k&&(*st.begin()).first<=it.second)st.erase(*st.begin());
+        while (k) {
+            auto [c, cur] = pq.top();
+            pq.pop();
+            ans.push_back(cur);
+            k -= 1;
         }
-        for(auto it:st)
-            ans.push_back(it.second);
-        reverse(begin(ans),end(ans));
         return ans;
     }
 };

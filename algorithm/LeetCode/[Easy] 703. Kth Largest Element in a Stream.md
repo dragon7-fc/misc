@@ -134,3 +134,36 @@ void kthLargestFree(KthLargest* obj) {
  * kthLargestFree(obj);
 */
 ```
+
+**Solution 3: (Heap)**
+```
+Runtime: 56 ms
+Memory Usage: 19.8 MB
+```
+```c++
+class KthLargest {
+    priority_queue<int> pq;
+    int k;
+public:
+    KthLargest(int k, vector<int>& nums) {
+        for (auto num: nums) {
+            pq.push(-num);
+            if (pq.size() > k)
+                pq.pop();
+        }
+        this->k = k;
+    }
+    
+    int add(int val) {
+        pq.push(-val);
+        if(pq.size() > k) pq.pop();
+        return -pq.top();
+    }
+};
+
+/**
+ * Your KthLargest object will be instantiated and called as such:
+ * KthLargest* obj = new KthLargest(k, nums);
+ * int param_1 = obj->add(val);
+ */
+```
