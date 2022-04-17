@@ -25,7 +25,7 @@ Note that an empty tree is represented by `NULL`, therefore you would see the ex
 
 # Submissions
 ---
-**Solution 1: (BFS)**
+**Solution 1: (DFS)**
 ```
 Runtime: 76 ms
 Memory Usage: 14.7 MB
@@ -49,4 +49,36 @@ class Solution:
             return self.searchBST(root.left, val)
         elif root.val < val:
             return self.searchBST(root.right, val)
+```
+
+**Solution 2: (DFS)**
+```
+Runtime: 46 ms
+Memory Usage: 34.8 MB
+```
+```c++
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+class Solution {
+public:
+    TreeNode* searchBST(TreeNode* root, int val) {
+        if (!root)
+            return nullptr;
+        if (root->val == val)
+            return root;
+        else if (root->val > val)
+            return searchBST(root->left, val);
+        else
+            return searchBST(root->right, val);
+    }
+};
 ```

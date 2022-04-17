@@ -15,6 +15,73 @@ Output:
 
 # Submissions
 ---
+**Solution: (Traverse Layer by Layer in Spiral Form)**
+```
+Runtime: 0 ms
+Memory Usage: 6.4 MB
+```
+```c++
+class Solution {
+public:
+    vector<vector<int>> generateMatrix(int n) {
+        vector<vector<int>> result (n, vector<int>(n));
+        int cnt = 1;
+        for (int layer = 0; layer < (n + 1) / 2; layer++) {
+            // direction 1 - traverse from left to right
+            for (int ptr = layer; ptr < n - layer; ptr++) {
+                result[layer][ptr] = cnt++;
+            }
+            // direction 2 - traverse from top to bottom
+            for (int ptr = layer + 1; ptr < n - layer; ptr++) {
+                result[ptr][n - layer - 1] = cnt++;
+            }
+            // direction 3 - traverse from right to left
+            for (int ptr = n - layer - 2; ptr >= layer; ptr--) {
+                result[n - layer - 1][ptr] = cnt++;
+            }
+            // direction 4 - traverse from bottom to top
+            for (int ptr = n - layer - 2; ptr > layer; ptr--) {
+                result[ptr][layer] = cnt++;
+            }
+        }
+
+        return result;
+    }
+};
+```
+
+**Solution: (Optimized spiral traversal)**
+```
+Runtime: 4 ms
+Memory Usage: 6.6 MB
+```
+```c++
+class Solution {
+    int floorMod(int x, int y) {
+        return ((x % y) + y) % y;
+    }
+public:
+    vector<vector<int>> generateMatrix(int n) {
+        vector<vector<int>> result (n, vector<int>(n));
+        int cnt = 1;
+        int dir[4][2] = {{0, 1}, {1, 0}, {0, -1}, {-1, 0}};
+       int d = 0;
+        int row = 0;
+        int col = 0;
+        while (cnt <= n * n) {
+            result[row][col] = cnt++;
+            int r = floorMod(row + dir[d][0], n);
+            int c = floorMod(col + dir[d][1], n);
+            // change direction if next cell is non zero
+            if (result[r][c] != 0) d = (d + 1) % 4;
+            row += dir[d][0];
+            col += dir[d][1];
+        }
+        return result;
+    }
+};
+```
+
 **Solution 1: (Math)**
 ```
 Runtime: 40 ms
@@ -63,4 +130,39 @@ class Solution:
             
         dfs(0, 0, 0, 1)
         return ans
+```
+
+**Solution 3: (Brute Force)**
+```
+Runtime: 4 ms
+Memory Usage: 6.5 MB
+```
+```c++
+class Solution {
+public:
+    vector<vector<int>> generateMatrix(int n) {
+        vector<vector<int>> ans(n, vector<int>(n));
+        int diff[4][2] = {
+            {0, 1},
+            {1, 0},
+            {0, -1},
+            {-1, 0}
+        };
+        int dir = 0, i = 0, j = 0;
+        for (int cur = 1; cur <= n*n; cur ++) {
+            ans[i][j] = cur;
+            int ni, nj;
+            ni = i + diff[dir][0];
+            nj = j + diff[dir][1];
+            if (ni >= n || ni < 0 || nj >= n || nj < 0 || ans[ni][nj]) {
+                dir = (dir+1)%4;
+                ni = i + diff[dir][0];
+                nj = j + diff[dir][1];
+            }
+            i = ni;
+            j = nj;
+        }
+        return ans;
+    }
+};
 ```

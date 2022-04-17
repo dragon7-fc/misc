@@ -131,3 +131,42 @@ class Solution:
         inorder(root)
         return ans.right
 ```
+
+**Solution 1: (DFS)**
+```
+Runtime: 3 ms
+Memory Usage: 7.6 MB
+```
+```c++
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+class Solution {
+    void dfs(TreeNode* node, TreeNode* &p, TreeNode* &ans) {
+        if (!node)
+            return;
+        dfs(node->left, p, ans);
+        if (!ans)
+            ans = node;
+        if (p)
+            p->right = node;
+        node->left = nullptr;
+        p = node;
+        dfs(node->right, p, ans);
+    }
+public:
+    TreeNode* increasingBST(TreeNode* root) {
+        TreeNode *parent = nullptr, *ans = nullptr;
+        dfs(root, parent, ans);
+        return ans;
+    }
+};
+```
