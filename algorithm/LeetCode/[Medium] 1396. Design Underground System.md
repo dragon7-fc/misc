@@ -72,14 +72,14 @@ class UndergroundSystem:
     def checkOut(self, id: int, stationName: str, t: int) -> None:
         prevstation, prevt = self.check[id]
         time = t-prevt
-        if (prevstation,stationName) in self.time:
-            totaltime,stationN = self.time[(prevstation,stationName)]
-            self.time[(prevstation,stationName)] = (totaltime+time,stationN+1)
+        if (prevstation, stationName) in self.time:
+            totaltime, stationN = self.time[(prevstation, stationName)]
+            self.time[(prevstation,stationName)] = (totaltime+time, stationN+1)
         else:
             self.time[(prevstation,stationName)] = (time,1)
             
     def getAverageTime(self, startStation: str, endStation: str) -> float:
-        totaltime,stationN = self.time[(startStation,endStation)]
+        totaltime, stationN = self.time[(startStation,endStation)]
         return totaltime/stationN
 
 
@@ -88,4 +88,43 @@ class UndergroundSystem:
 # obj.checkIn(id,stationName,t)
 # obj.checkOut(id,stationName,t)
 # param_3 = obj.getAverageTime(startStation,endStation)
+```
+
+**Solution 2: (Hash Table)**
+```
+Runtime: 297 ms
+Memory Usage: 57.5 MB
+```
+```c++
+class UndergroundSystem {
+    unordered_map<int,pair<string,int>> customer;
+	//customer is storing customer id as key and stationname and time as value
+    map<pair<string, string>, pair<double, int>> total;
+	//total is storing startstation and endstation as key and totaltime and count as value
+public:
+    UndergroundSystem() {
+        customer.clear();
+        total.clear();
+    }
+    
+    void checkIn(int id, string stationName, int t) {
+        customer[id]={stationName, t};
+    }
+    
+    void checkOut(int id, string stationName, int t) {
+        total[{customer[id].first, stationName}] = {total[{customer[id].first, stationName}].first + (t-customer[id].second), total[{customer[id].first, stationName}].second+1};
+    }
+    
+    double getAverageTime(string startStation, string endStation) {
+        return total[{startStation,endStation}].first/total[{startStation,endStation}].second;
+    }
+};
+
+/**
+ * Your UndergroundSystem object will be instantiated and called as such:
+ * UndergroundSystem* obj = new UndergroundSystem();
+ * obj->checkIn(id,stationName,t);
+ * obj->checkOut(id,stationName,t);
+ * double param_3 = obj->getAverageTime(startStation,endStation);
+ */
 ```

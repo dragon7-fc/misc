@@ -8,6 +8,41 @@ Design the `encode` and `decode` methods for the TinyURL service. There is no re
 
 # Submissions
 ---
+**Solution4: (Hash Table)**
+```
+Runtime: 8 ms
+Memory Usage: 7.3 MB
+```
+```c++
+class Solution {
+    string pre = "http://tinyurl.com/" ;
+    unordered_map<int,string> mp ;
+    int ind = 1 ;
+public:
+    
+    // Encodes a URL to a shortened URL.
+    string encode(string longUrl) {
+        mp[ind] = longUrl ;
+        
+        string ans = pre ;
+        string suf = to_string(ind) ;
+        ind++ ;
+        ans = ans + suf ;
+        return ans ;
+    }
+
+    // Decodes a shortened URL to its original URL.
+    string decode(string shortUrl) {
+        string suf = shortUrl.substr(19) ;
+        return mp[stoi(suf)] ;
+    }
+};
+
+// Your Solution object will be instantiated and called as such:
+// Solution solution;
+// solution.decode(solution.encode(url));
+```
+
 **Solution 1: (Math, Base64, Hash Table)**
 ```
 Runtime: 20 ms
@@ -117,33 +152,30 @@ char* decode(char* shortUrl) {
 // decode(s);
 ```
 
-**Solution4: (Hash Table)**
+**Solution 4: (Hash Table)**
 ```
-Runtime: 8 ms
-Memory Usage: 7.3 MB
+Runtime: 4 ms
+Memory Usage: 7.2 MB
 ```
 ```c++
 class Solution {
-    string pre = "http://tinyurl.com/" ;
-    unordered_map<int,string> mp ;
-    int ind = 1 ;
+    unordered_map<string, string> mp;
+    int cnt = 0;
 public:
-    
     // Encodes a URL to a shortened URL.
     string encode(string longUrl) {
-        mp[ind] = longUrl ;
-        
-        string ans = pre ;
-        string suf = to_string(ind) ;
-        ind++ ;
-        ans = ans + suf ;
-        return ans ;
+        mp[longUrl] = to_string(cnt);
+        cnt += 1;
+        return mp[longUrl];
     }
 
     // Decodes a shortened URL to its original URL.
     string decode(string shortUrl) {
-        string suf = shortUrl.substr(19) ;
-        return mp[stoi(suf)] ;
+        for (auto [el_long, el_short]: mp) {
+            if (shortUrl == el_short)
+                return el_long;
+        }
+        return "";
     }
 };
 

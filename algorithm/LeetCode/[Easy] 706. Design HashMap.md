@@ -233,3 +233,38 @@ void myHashMapFree(MyHashMap* obj) {
  * myHashMapFree(obj);
 */
 ```
+
+**Solution 4: (Array)**
+```
+Runtime: 209 ms
+Memory Usage: 208.2 MB
+```
+```c++
+class MyHashMap {
+    vector<int> arr = vector(1000001, -1);
+public:
+    MyHashMap() {
+
+    }
+    
+    void put(int key, int value) {
+        arr[key] = value;
+    }
+    
+    int get(int key) {
+        return arr[key];
+    }
+    
+    void remove(int key) {
+        arr[key] = -1;
+    }
+};
+
+/**
+ * Your MyHashMap object will be instantiated and called as such:
+ * MyHashMap* obj = new MyHashMap();
+ * obj->put(key,value);
+ * int param_2 = obj->get(key);
+ * obj->remove(key);
+ */
+```

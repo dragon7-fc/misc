@@ -101,7 +101,6 @@ Memory Usage: 53.6 MB
  * };
  */
 class Solution {
-public:
     TreeNode *first, *second, *prev;
     void traverse(TreeNode* root)
     {
@@ -111,12 +110,13 @@ public:
         
         if (first == nullptr && prev->val > root->val)
             first = prev;
-        if (first != nullptr && prev->val>root->val)
+        if (first != nullptr && prev->val > root->val)
             second = root;
         prev = root;
         traverse(root->right);
         
     }
+public:
     void recoverTree(TreeNode* root) {
         first = nullptr;
         second = nullptr;
