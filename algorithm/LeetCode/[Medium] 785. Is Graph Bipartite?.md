@@ -196,8 +196,6 @@ public:
                     return false;
             }
         }
-        for (auto c: color)
-            cout << c << ", ";
         return all_of(color.begin(), color.end(), [](int c) {return c != -1;});
     }
 };

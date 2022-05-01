@@ -147,3 +147,71 @@ class Solution:
 
         return all(x == y for x, y in itertools.zip_longest(F(S), F(T)))
 ```
+
+**Solution 1: (Stack)**
+```
+Runtime: 5 ms
+Memory Usage: 6.6 MB
+```
+```c++
+class Solution {
+    string processString(string s) {
+        stack<char> stk;
+        for(char c : s) {
+            if(c == '#') {
+                if(!stk.empty())stk.pop();
+            } else {
+                stk.push(c);
+            }
+        }
+        string processed = "";
+        while(!stk.empty()) {
+            processed += stk.top();
+            stk.pop();
+        }
+        return processed;
+    }
+public:
+    bool backspaceCompare(string s, string t) {
+        string sFinal = processString(s);
+        string tFinal = processString(t);
+        return sFinal == tFinal;
+    }
+};
+```
+
+**Solution 2: (Two Pointers)**
+```
+Runtime: 9 ms
+Memory Usage: 6.3 MB
+```
+```c++
+class Solution {
+public:
+    bool backspaceCompare(string s, string t) {
+        int i = s.size() - 1, j = t.size() - 1;
+        int skipS = 0, skipT = 0;
+
+        while (i >= 0 || j >= 0) { // While there may be chars in build(S) or build (T)
+            while (i >= 0) { // Find position of next possible char in build(S)
+                if (s[i] == '#') {skipS++; i--;}
+                else if (skipS > 0) {skipS--; i--;}
+                else break;
+            }
+            while (j >= 0) { // Find position of next possible char in build(T)
+                if (t[j] == '#') {skipT++; j--;}
+                else if (skipT > 0) {skipT--; j--;}
+                else break;
+            }
+            // If two actual characters are different
+            if (i >= 0 && j >= 0 && s[i] != t[j])
+                return false;
+            // If expecting to compare char vs nothing
+            if ((i >= 0) != (j >= 0))
+                return false;
+            i--; j--;
+        }
+        return true;
+    }
+};
+```

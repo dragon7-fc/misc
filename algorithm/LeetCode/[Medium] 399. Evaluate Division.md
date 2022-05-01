@@ -131,42 +131,45 @@ class Solution:
 
 **Solution 4: (DFS)**
 ```
-Runtime: 8 ms
-Memory Usage: 8.4 MB
+Runtime: 3 ms
+Memory Usage: 8.5 MB
 ```
 ```c++
 class Solution {
-private:
-    double dfs(std::string start, std::string end, std::unordered_set<std::string> &vis, std::unordered_map<std::string, std::vector<std::pair<std::string, double>>>& adj){
-        if((adj.find(start) == adj.end()) or (adj.find(end) == adj.end())) return -1.0;
-        if(start == end) return 1.0;
-        vis.insert(start);
-        for(auto it : adj[start]){
-            if(vis.find(it.first) == vis.end()){
-                auto res = dfs(it.first, end, vis, adj);
-                if(res != -1.0){
-                    return it.second *res;
-                }
+    bool dfs(string s, string t, unordered_map<string, vector<pair<string, double>>> &g, unordered_set<string> &seen, double cur, double &rst)
+    {
+        seen.insert(s);
+        if (s == t) {
+            rst = cur;
+            return true;
+        }
+        for (auto [nt, nv]: g[s]) {
+            if (!seen.count(nt)) {
+                if (dfs(nt, t, g, seen, cur*nv, rst))
+                    return true;
             }
         }
-        return -1.0;
+        return false;
     }
 public:
     vector<double> calcEquation(vector<vector<string>>& equations, vector<double>& values, vector<vector<string>>& queries) {
-        std::unordered_map<std::string, std::vector<std::pair<std::string, double>>> adj;
-        for(int i = 0; i < equations.size(); i++){
-            auto eq = equations[i];
-            adj[eq[0]].push_back({eq[1], values[i]});
-            adj[eq[1]].push_back({eq[0], 1/values[i]});
+        unordered_map<string, vector<pair<string, double>>> g;
+        for (int i = 0; i < equations.size(); i ++) {
+            vector<string> v = equations[i];
+            g[v[0]].push_back({v[1], values[i]});
+            g[v[1]].push_back({v[0], 1/values[i]});
+            g[v[0]].push_back({v[0], 1});
+            g[v[1]].push_back({v[1], 1});
         }
-        std::vector<double> ans;
-        for(int i = 0; i < queries.size(); i++){
-            auto q = queries[i];
-            std::unordered_set<string> vis;
-            auto res = dfs(q[0], q[1], vis, adj );
-            ans.push_back(res);
+        int N = queries.size();
+        vector<double> ans(N, -1);
+        unordered_set<string> seen;
+        for (int i = 0; i < N; i ++) {
+            if (g.count(queries[i][0]) && g.count(queries[i][1])) {
+                seen.clear();
+                dfs(queries[i][0], queries[i][1], g, seen, 1, ans[i]);
+            }
         }
-        
         return ans;
     }
 };
