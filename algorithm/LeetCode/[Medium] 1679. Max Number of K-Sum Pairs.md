@@ -79,3 +79,57 @@ class Solution:
                 ans += mi
         return ans
 ```
+
+**Solution 3: (Sort, Two Pointers)**
+```
+Runtime: 153 ms
+Memory Usage: 58.1 MB
+```
+```c++
+class Solution {
+public:
+    int maxOperations(vector<int>& nums, int k) {
+        sort(nums.begin(), nums.end());
+        int i = 0, j = nums.size()-1;
+        int ans = 0;
+        while (i < j) {
+            if (nums[i] + nums[j] == k) {
+                i += 1;
+                j -= 1;
+                ans += 1;
+            } else if (nums[i] + nums[j] < k) {
+                i += 1;
+            } else {
+                j -= 1;
+            }
+        }
+        return ans;
+    }
+};
+```
+
+**Solution 4: (Counter)**
+```
+Runtime: 311 ms
+Memory Usage: 67.6 MB
+```
+```c++
+class Solution {
+public:
+    int maxOperations(vector<int>& nums, int k) {
+        unordered_map<int,int> freq;
+        for(int e: nums) freq[e]++;
+        int ans = 0;
+        for(auto& [num, c]: freq){
+            if(2*num == k) ans += c / 2, c -= c/2*2; 
+            else if(c > 0 && freq.count(k-num) && freq[k-num] > 0) {                
+                int pair_cnt = min(c, freq[k-num]);
+                ans += pair_cnt;
+                c -= pair_cnt;
+                freq[k-num] -= pair_cnt;                
+            }            
+        }
+        return ans;
+    }
+};
+```
