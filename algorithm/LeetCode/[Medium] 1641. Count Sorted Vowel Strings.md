@@ -89,3 +89,44 @@ class Solution:
             
         return bt(0, 0)
 ```
+
+**Solution 4: (DP Bottom-Up)**
+```
+Runtime: 0 ms
+Memory Usage: 6.1 MB
+```
+```c++
+class Solution {
+public:
+    int countVowelStrings(int n) {
+        vector<vector<int>> ways(5, vector<int>(n+1, 0));
+        ways[0][1] = 5;
+        ways[1][1] = 4;
+        ways[2][1] = 3;
+        ways[3][1] = 2;
+        ways[4][1] = 1;
+        for(int i = 2; i <= n; i++){
+            ways[4][i] = 1;
+            ways[3][i] = ways[3][i-1] + ways[4][i-1];
+            ways[2][i] = ways[2][i-1] + ways[3][i-1] + ways[4][i-1];
+            ways[1][i] = ways[1][i-1] + ways[2][i-1] + ways[3][i-1] + ways[4][i-1];
+            ways[0][i] = ways[0][i-1] + ways[1][i-1] + ways[2][i-1] + ways[3][i-1] + ways[4][i-1];
+        }
+        return ways[0][n];
+    }
+};
+```
+
+**Solution 5: (Math, Combinations with repetition)**
+```
+Runtime: 0 ms
+Memory Usage: 5.9 MB
+```
+```c++
+class Solution {
+public:
+    int countVowelStrings(int n) {
+        return (n + 4) * (n + 3) * (n + 2) * (n + 1) / 24;
+    }
+};
+```

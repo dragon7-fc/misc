@@ -47,3 +47,33 @@ class Solution:
 
         return results
 ```
+
+**Solution 2: (Backtracking)**
+```
+Runtime: 3 ms
+Memory Usage: 6.4 MB
+```
+```c++
+class Solution {
+    vector<vector<int>> ans;
+    void bt(int m, vector<int> &p, int k, int n) {
+        if (k == 0 && n == 0) {
+            ans.push_back(p);
+            return;
+        }
+        if (k <= 0 || n <= 0)
+            return;
+        for (int nm = m+1; nm <= 9; nm ++){
+            p.push_back(nm);
+            bt(nm, p, k-1, n-nm);
+            p.pop_back();
+        }
+    }
+public:
+    vector<vector<int>> combinationSum3(int k, int n) {
+        vector<int> p;
+        bt(0, p, k, n);
+        return ans;
+    }
+};
+```

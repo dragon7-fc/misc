@@ -187,42 +187,34 @@ class Solution:
 **Solution 4: (Backtracking)**
 ```
 Runtime: 0 ms
-Memory Usage: 6.5 MB
+Memory Usage: 6.8 MB
 ```
 ```c++
 class Solution {
-public:
-    unordered_map<char,string> lettermap ={{'2',"abc"},{'3',"def"},{'4',"ghi"},{'5',"jkl"},{'6',"mno"},{'7',"pqrs"},{'8',"tuv"},{'9',"wxyz"}};
-    
-    vector<string> letterCombinations(string digits) {
-        if(digits.empty())
-        {
-            return {};
-        }
-        
-        vector<string> result;
-        string substring = "";
-        
-        backTrack(digits,result,0,substring);
-        return result;
-    }
-
-    void backTrack(string& digits,vector<string> &result,int pos,string &substring)
-    {
-        if(pos == digits.size())
-        {
-            result.push_back(substring);
-    
+    unordered_map<char, string>m = {
+        {'2', "abc"},
+        {'3', "def"},
+        {'4', "ghi"},
+        {'5', "jkl"},
+        {'6', "mno"},
+        {'7', "pqrs"},
+        {'8', "tuv"},
+        {'9', "wxyz"}
+    };
+    vector<string> ans;
+    void bt(string s, string p) {
+        if (s == "" && p != "") {
+            ans.push_back(p);
             return;
         }
-        
-         for(char c : lettermap[digits[pos]])
-         {
-             substring.push_back(c);
-             backTrack(digits,result,pos+1,substring);
-             substring.pop_back();
-         }  
-        
+        for (char nc: m[s[0]]) {
+            bt(s.substr(1), p+nc);
+        }
+    }
+public:
+    vector<string> letterCombinations(string digits) {
+        bt(digits, "");
+        return ans;
     }
 };
 ```

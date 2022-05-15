@@ -61,7 +61,7 @@ class Solution:
         return res
 ```
 
-**Solution 3: (DFS)**
+**Solution 3: (Sort, DFS)**
 ```
 Runtime: 56 ms
 Memory Usage: 13 MB
@@ -85,4 +85,33 @@ class Solution:
 
         dfs(nums,[])
         return res
+```
+
+**Solution 4: (DFS)**
+```
+Runtime: 11 ms
+Memory Usage: 9.1 MB
+```
+```c++
+class Solution {
+public:
+    void recursion(vector<int> num, int i, int j, vector<vector<int> > &res) {
+        if (i == j-1) {
+            res.push_back(num);
+            return;
+        }
+        for (int k = i; k < j; k++) {
+            if (i != k && num[i] == num[k]) continue;
+            swap(num[i], num[k]);
+            recursion(num, i+1, j, res);
+        }
+    }
+    
+    vector<vector<int>> permuteUnique(vector<int>& nums) {
+        sort(nums.begin(), nums.end());
+        vector<vector<int> >res;
+        recursion(nums, 0, nums.size(), res);
+        return res;
+    }
+};
 ```
