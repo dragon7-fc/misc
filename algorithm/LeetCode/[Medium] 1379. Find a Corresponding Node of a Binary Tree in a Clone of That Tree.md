@@ -144,3 +144,32 @@ class Solution:
             return cloned
         return self.getTargetCopy(original.left, cloned.left, target) or self.getTargetCopy(original.right, cloned.right, target)
 ```
+
+**Solution 4: (DFS)**
+```
+Runtime: 589 ms
+Memory Usage: 164 MB
+```
+```c++
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+
+class Solution {
+public:
+    TreeNode* getTargetCopy(TreeNode* original, TreeNode* cloned, TreeNode* target) {
+        if (!original)
+            return nullptr;
+        if (original == target) {
+            return cloned;
+        }
+        return max(getTargetCopy(original->left, cloned->left, target), getTargetCopy(original->right, cloned->right, target));
+    }
+};
+```

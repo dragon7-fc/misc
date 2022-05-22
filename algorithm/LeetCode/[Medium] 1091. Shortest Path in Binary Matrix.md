@@ -72,3 +72,38 @@ class Solution:
                     q.append((nr, nc, step+1))
         return -1
 ```
+
+**Solution 2: (BFS)**
+```
+Runtime: 81 ms
+Memory Usage: 20.2 MB
+```
+```c++
+class Solution {
+    int dr[8] = {0, 1, 1, 1, 0, -1, -1, -1};
+    int dc[8] = {1, 1, 0, -1, -1, -1, 0, 1};
+public:
+    int shortestPathBinaryMatrix(vector<vector<int>>& grid) {
+        int N = grid.size();
+        queue<tuple<int,int,int>> q;
+        if (grid[0][0] == 0)
+            q.push({0,0,1});
+        int nr, nc;
+        while (!q.empty()) {
+            auto [r, c, p] = q.front();
+            q.pop();
+            if (r == N-1 && c == N-1)
+                return p;
+            for (int i = 0; i < 8; i ++) {
+                nr = r + dr[i];
+                nc = c + dc[i];
+                if (0 <= nr && nr < N && 0 <= nc && nc < N && grid[nr][nc] == 0) {
+                    grid[nr][nc] = 1;
+                    q.push({nr, nc, p+1});
+                }
+            }
+        }
+        return -1;
+    }
+};
+```

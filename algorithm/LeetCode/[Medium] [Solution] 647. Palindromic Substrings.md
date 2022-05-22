@@ -149,7 +149,32 @@ class Solution:
         return ans
 ```
 
-**Solution 3: (DP Bottom-Up)**
+**Solution 1: (Expand Around Center)**
+```
+Runtime: 7 ms
+Memory Usage: 6.3 MB
+```
+```c++
+class Solution {
+public:
+    int countSubstrings(string s) {
+        int beg, end, n = s.size(), res = 0;
+        for(int i = 0; i < n; i++) {
+            // odd length palindromic substrings
+            beg = i, end = i;
+            while(beg >= 0 && end < n && s[beg--] == s[end++]) res++;
+            
+            // even length palindromic substrings
+            beg = i - 1, end = i;
+            while(beg >= 0 && end < n && s[beg--] == s[end++]) res++;
+        }
+        
+        return res;
+    }
+};
+```
+
+**Solution 2: (DP Bottom-Up)**
 
 Start from the smallest palindrome.  
 It is either:

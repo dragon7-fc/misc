@@ -289,3 +289,27 @@ public:
     }
 };
 ```
+
+**Solution 5: (Heap)**
+```
+Runtime: 972 ms
+Memory Usage: 14.9 MB
+```
+```python
+class Solution:
+    def coinChange(self, coins: List[int], amount: int) -> int:
+        if not coins:
+            return -1
+        seen = set()
+        heap = [(0,amount)]
+        while heap:
+            depth, curr = heapq.heappop(heap)
+            if curr == 0:
+                return depth
+            for coin in coins:
+                currentAmount = curr - coin
+                if currentAmount >= 0 and currentAmount not in seen:
+                    seen.add(currentAmount)
+                    heapq.heappush(heap, (depth+1, currentAmount))
+        return -1
+```

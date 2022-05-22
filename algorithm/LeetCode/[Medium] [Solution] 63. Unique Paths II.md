@@ -235,3 +235,33 @@ class Solution(object):
             return count
         return dfs(m-1, n-1)
 ```
+
+**Solution 4: (DP Bottom-Up)**
+```
+Runtime: 4 ms
+Memory Usage: 7.9 MB
+```
+```c++
+class Solution {
+public:
+    int uniquePathsWithObstacles(vector<vector<int>>& obstacleGrid) {
+        int R = obstacleGrid.size(), C = obstacleGrid[0].size();
+        vector<vector<int>> dp(R, vector<int>(C));
+        for (int r = 0; r < R; r ++) {
+            for (int c = 0; c < C; c ++) {
+                if (obstacleGrid[r][c] == 0) {
+                    if (r == 0 && c == 0)
+                        dp[r][c] = 1;
+                    else if (r == 0)
+                        dp[r][c] = dp[r][c-1];
+                    else if (c == 0)
+                        dp[r][c] = dp[r-1][c];
+                    else
+                        dp[r][c] = dp[r-1][c] + dp[r][c-1];
+                }
+            }
+        }
+        return dp[R-1][C-1];
+    }
+};
+```
