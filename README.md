@@ -405,6 +405,8 @@ A playground to note something.
         - Device Tree
             
             - [A TUTORIAL ON THE DEVICE TREE](http://junyelee.blogspot.com/2015/07/a-tutorial-on-device-tree.html)
+
+            - [Device Tree and Boot Flow](http://shukra.cedt.iisc.ernet.in/edwiki/Device_Tree_and_Boot_Flow)
 - i2c-tools
 
     |                    | command                                         |
@@ -4351,6 +4353,11 @@ Objects such as lists and dictionaries are passed by object reference too, which
 
     - [OSDev](https://wiki.osdev.org/Expanded_Main_Page)
     - [x86 and amd64 instruction reference](https://www.felixcloutier.com/x86/index.html)
+    - 8086
+
+        - [Complete 8086 instruction set](https://jbwyatt.com/253/emu/8086_instruction_set.html#IDIV)
+        - [Ralf Brown's Interrupt List](https://www.ctyme.com/rbrown.htm)
+        - [DOS INT 21h - DOS Function Codes](http://spike.scu.edu.au/~barry/interrupts.html)
 * C/C++
 
     - [The GNU C Reference Manual - GNU.org](https://www.gnu.org/software/gnu-c-manual/gnu-c-manual.html)

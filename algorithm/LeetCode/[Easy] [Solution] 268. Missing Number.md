@@ -204,3 +204,20 @@ class Solution:
             missing ^= i ^ num
         return missing
 ```
+
+**Solution 4: (Bit Manipulation)**
+```
+Runtime: 19 ms
+Memory Usage: 17.8 MB
+```
+```c++
+class Solution {
+public:
+    int missingNumber(vector<int>& nums) {
+        int missing = nums.size();
+        for (int i = 0; i < nums.size(); i ++)
+            missing ^= i^nums[i];
+        return missing;
+    }
+};
+```

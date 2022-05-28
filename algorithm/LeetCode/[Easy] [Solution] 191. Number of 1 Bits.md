@@ -135,3 +135,17 @@ class Solution:
     def hammingWeight(self, n: int) -> int:
         return sum([(n>>i)%2 for i in range(32)])
 ```
+
+**Solution 3: (bitset)**
+```
+Runtime: 3 ms
+Memory Usage: 6 MB
+```
+```c++
+class Solution {
+public:
+    int hammingWeight(uint32_t n) {
+        return bitset<32>(n).count(); 
+    }
+};
+```

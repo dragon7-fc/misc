@@ -392,3 +392,71 @@ class Solution:
 
         return maxlength
 ```
+
+**Solution 6: (Using Stack)**
+```
+Runtime: 8 ms
+Memory Usage: 7.6 MB
+```
+```c++
+class Solution {
+public:
+    int longestValidParentheses(string s) {
+        int maxans = 0;
+        stack<int> stk({-1});
+        for (int i = 0; i < s.size(); i ++) {
+            if (s[i] == '(')
+                stk.push(i);
+            else {
+                stk.pop();
+                if (stk.empty())
+                    stk.push(i);
+                else
+                    maxans = max(maxans, i-stk.top());
+            }
+        }
+        return maxans;
+    }
+};
+```
+**Solution 7: (Without extra space)**
+```
+Runtime: 10 ms
+Memory Usage: 6.8 MB
+```
+```c++
+class Solution {
+public:
+    int longestValidParentheses(string s) {
+        int left=0,right=0,maxlen=0;
+        for(int i=0;i<s.size();i++){
+            if(s[i]=='(')
+                left++;
+            if(s[i]==')')
+                right++;
+            if(left==right)
+                maxlen=max(maxlen,2*left);
+		//when we traverse from left to right ,if right becomes more than left then we enter into invalid state
+            else if(right>=left){
+                left=0;
+                right=0;
+            }
+        }
+        left=0,right=0;
+        for(int i=s.size()-1;i>=0;i--){
+            if(s[i]=='(')
+                left++;
+            if(s[i]==')')
+                right++;
+            if(left==right)
+                maxlen=max(maxlen,2*right);
+		//when we traverse from right to left ,if left becomes more than right we enter into inavild state
+            else if(left>=right){
+                left=0;
+                right=0;
+            }
+        }
+        return maxlen;
+    }
+};
+```
