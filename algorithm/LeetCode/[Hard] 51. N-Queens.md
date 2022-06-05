@@ -72,67 +72,60 @@ class Solution:
 
 **Solution 2: (Backtracking)**
 ```
-Runtime: 8 ms
-Memory Usage: 7.5 MB
+Runtime: 3 ms
+Memory Usage: 7.3 MB
 ```
 ```c++
 class Solution {
-public:
-    bool isvalid(vector<string> &curr,int row,int col,int n)
+    bool isvalid(vector<string> &cur, int row, int col,int n)
     {
-         for(int i=row-1;i>=0;i--)
+         for(int r = row-1; r >= 0; r--)
          {
-             if(curr[i][col]=='Q')
+             if(cur[r][col]=='Q')
                  return false;
          }
          //diagonal right
-        int i=row-1,j=col+1;
-        while(i>=0 && j<n){
-            if(curr[i][j]=='Q')
+        int r = row - 1, c = col + 1;
+        while(r >= 0 && c < n){
+            if(cur[r][c]=='Q')
                 return false;
-            i-=1;j+=1;
+            r -= 1; c+=1;
         }
         //diagonal left
-        i=row-1,j=col-1;
-        while(i>=0 && j>=0){
-            if(curr[i][j]=='Q')
+        r = row - 1, c = col - 1;
+        while(r >= 0 && c >= 0){
+            if(cur[r][c]=='Q')
                 return false;
-            i-=1;j-=1;
+            r -= 1; c -= 1;
         }
         //cell is valid to place the queen 
         return true;
         
     }
-    bool placequeen(vector<vector<string>> &ans,vector<string> &curr,int i,int n)
+    bool placequeen(vector<vector<string>> &ans, vector<string> &cur, int r, int n)
     {
-        if(i==n)//if successfully traversed all rows
+        if(r == n)//if successfully traversed all rows
         {
-            ans.push_back(curr);
+            ans.push_back(cur);
             return false;
         }
         //placing queens for ith row and jth column
-        for(int j=0;j<n;j++)
+        for(int c = 0; c < n; c ++)
         {
-            if(isvalid(curr,i,j,n))
+            if(isvalid(cur, r, c, n))
             {
-                curr[i][j]='Q';
-                if(!placequeen(ans,curr,i+1,n))
-                    curr[i][j]='.';
+                cur[r][c]='Q';
+                if(!placequeen(ans, cur, r+1,n))
+                    cur[r][c]='.';
             }
         }
         return false;
     }
+public:
     vector<vector<string>> solveNQueens(int n) {
-        vector<vector<string> >ans;
-        string temp="";
-        for(int i=0;i<n;i++)
-            temp+='.';
-        vector<string> v;
-        for(int i=0;i<n;i++)
-        {
-            v.push_back(temp);
-        }
-        bool val=placequeen(ans,v,0,n);
+        vector<vector<string>> ans;
+        vector<string> cur(n, string(n, '.'));
+        bool val=placequeen(ans, cur, 0, n);
         return ans;
     }
 };

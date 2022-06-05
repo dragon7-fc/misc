@@ -70,7 +70,16 @@ Memory Usage: 6.1 MB
 ```
 ```c++
 class Solution {
-public:
+    bool is_not_under_attack(vector<string>& board,int row,int col){
+        for(int i=0;i!=row;i++)
+            if(board[i][col] == 'Q') return false;
+        for(int i=row-1, j=col-1; i>=0 && j>=0; i--,j--)
+            if(board[i][j] == 'Q') return false;
+        for(int i=row-1,j=col+1;i>=0 and j < board.size();--i,++j)
+            if(board[i][j] == 'Q') return false;
+        
+        return true;
+    }
     int backtrack(vector<string>& board, int row){
         if(row == board.size()) return 1;
         int getSolution(0);
@@ -83,18 +92,7 @@ public:
         }
         return getSolution;
     }
-    
-    bool is_not_under_attack(vector<string>& board,int row,int col){
-        for(int i=0;i!=row;i++)
-            if(board[i][col] == 'Q') return false;
-        for(int i=row-1, j=col-1; i>=0 && j>=0; i--,j--)
-            if(board[i][j] == 'Q') return false;
-        for(int i=row-1,j=col+1;i>=0 and j < board.size();--i,++j)
-            if(board[i][j] == 'Q') return false;
-        
-        return true;
-    }
-    
+public:
     int totalNQueens(int n) {
         vector<string> board(n, string(n,'.'));
         return backtrack(board, 0);

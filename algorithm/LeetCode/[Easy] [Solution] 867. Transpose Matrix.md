@@ -73,7 +73,7 @@ class Solution:
         return AT
 ```
 
-**Solution 2: ()**
+**Solution 2: (Array)**
 ```
 Runtime: 72 ms
 Memory Usage: 13.4 MB
@@ -82,4 +82,23 @@ Memory Usage: 13.4 MB
 class Solution:
     def transpose(self, A: List[List[int]]) -> List[List[int]]:
         return zip(*A)
+```
+
+**Solution 3: (Copy Directly)**
+```
+Runtime: 10 ms
+Memory Usage: 10.7 MB
+```
+```c++
+class Solution {
+public:
+    vector<vector<int>> transpose(vector<vector<int>>& matrix) {
+        int R = matrix.size(), C = matrix[0].size();
+        vector<vector<int>> ans(C, vector<int>(R));
+        for (int c = 0; c < C; c ++)
+            for (int r = 0; r < R; r ++)
+                ans[c][r] = matrix[r][c];
+        return ans;
+    }
+};
 ```

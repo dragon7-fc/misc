@@ -57,3 +57,27 @@ class Solution:
     def hasAllCodes(self, s: str, k: int) -> bool:
         return len({s[i:i + k] for i in range(len(s) - k + 1)}) == 2 ** k
 ```
+
+**Solution 1: (Sliding Window, Set)**
+```
+Runtime: 648 ms
+Memory Usage: 71.6 MB
+```
+```c++
+class Solution {
+public:
+    bool hasAllCodes(string s, int k) {
+        //Edge case
+        if(k > s.size()) return false;
+
+        unordered_set<string> res_set;
+
+        //Insertion into the set
+        for(int i =0;i<= s.size()-k;i++)
+            res_set.insert(s.substr(i,k));
+
+        //Comparing res with 2^k
+        return res_set.size() == pow(2,k);
+    }
+};
+```
