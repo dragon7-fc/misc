@@ -99,3 +99,32 @@ struct ListNode *getIntersectionNode(struct ListNode *headA, struct ListNode *he
     return pa;
 }
 ```
+
+**Solution 3: (Linked List)**
+```
+Runtime: 53 ms
+Memory Usage: 14.6 MB
+```
+```c++
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode(int x) : val(x), next(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    ListNode *getIntersectionNode(ListNode *headA, ListNode *headB) {
+        if (!headA || !headB)
+            return nullptr;
+        struct ListNode *pa = headA, *pb = headB;
+        while (pa != pb) {
+            pa = (!pa) ? headB : pa->next;
+            pb = (!pb) ? headA : pb->next;
+        }
+        return pa;
+    }
+};
+```
