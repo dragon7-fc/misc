@@ -53,3 +53,29 @@ class Solution:
             
         return ans
 ```
+
+**Solution 2: (Sliding Window)**
+```
+Runtime: 488 ms
+Memory Usage: 127 MB
+```
+```c++
+class Solution {
+public:
+    int maximumUniqueSubarray(vector<int>& nums) {
+        unordered_set<int> st;
+        int i = 0, cur = 0, ans = 0;
+        for (int j = 0; j < nums.size(); j ++) {
+            while (st.count(nums[j])) {
+                cur -= nums[i];
+                st.erase(nums[i]);
+                i += 1;
+            }
+            cur += nums[j];
+            st.insert(nums[j]);
+            ans = max(ans, cur);
+        }
+        return ans;
+    }
+};
+```
