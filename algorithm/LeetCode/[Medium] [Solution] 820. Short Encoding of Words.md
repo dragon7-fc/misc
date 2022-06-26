@@ -193,3 +193,21 @@ public:
     }
 };
 ```
+
+**Solution 4: (sort and find)**
+```
+Runtime: 556 ms
+Memory Usage: 14.5 MB
+```
+```c++
+class Solution {
+public:
+    int minimumLengthEncoding(vector<string>& words) {
+        string ans;
+        sort(words.begin(),words.end(),[](string &a,string &b){return a.size() > b.size();});
+        for(string &s:words)
+            if(ans.find(s + "#") == string::npos) ans += s + "#";
+        return ans.size();
+    }
+};
+```

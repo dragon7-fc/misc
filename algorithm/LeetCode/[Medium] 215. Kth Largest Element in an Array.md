@@ -178,3 +178,18 @@ public:
     }
 };
 ```
+
+**Solution 7: (Sort)**
+```
+Runtime: 9 ms
+Memory Usage: 9.9 MB
+```
+```c++
+class Solution {
+public:
+    int findKthLargest(vector<int>& nums, int k) {
+        sort(nums.begin(), nums.end());
+        return nums[nums.size()-k];
+    }
+};
+```

@@ -3747,6 +3747,9 @@ Attribute: This is a part of an object. One or more attributes make up an object
       | x@X:-> scp message.sig y@Y:/home/y |  |
       |  | y@Y:-> gpg --verify message.sig |
       |  | y@Y:-> gpg --output message --decrypt message.sig |
+* sshpass
+
+    - [Automate SSH Login with Password to Servers using sshpass](https://techviewleo.com/automate-ssh-login-with-password/)
 * openssl
 
     - [Cheat Sheet - OpenSSL](https://megamorf.gitlab.io/cheat-sheets/openssl/)

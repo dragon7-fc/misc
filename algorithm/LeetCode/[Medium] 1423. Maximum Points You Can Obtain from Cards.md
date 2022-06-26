@@ -146,3 +146,37 @@ class Solution:
             i += 1
         return s - min_
 ```
+
+**Solution 6: (Sliding Window)**
+```
+Runtime: 76 ms
+Memory Usage: 42.3 MB
+```
+```c++
+class Solution {
+public:
+    int maxScore(vector<int>& cardPoints, int k) {
+        int sum = accumulate(cardPoints.begin(), cardPoints.end(), 0);
+        
+        int ans = 0;
+        int n = cardPoints.size();
+        int windowSize = n - k;
+        int L = 0;
+        int R = 0;
+        int windowSum = 0;
+        
+        while(R < n) {
+            int right = cardPoints[R++];
+            windowSum += right;
+            while(R - L > windowSize) {
+                int left = cardPoints[L++];
+                windowSum -= left;
+            }
+            if(R-L == windowSize) {
+                ans = max(ans, (int)(sum - windowSum));
+            }
+        }
+        return ans;
+    }
+};
+```

@@ -335,40 +335,31 @@ class Solution:
         return len(h)
 ```
 
-**Solution 3: (Priority Queue)**
+**Solution 3: (Priority Queue, greedy push then pick max)**
 ```
-Runtime: 1068 ms
-Memory Usage: 56.5 MB
+Runtime: 468 ms
+Memory Usage: 56.3 MB
 ```
 ```c++
 class Solution {
 public:
-    struct comparator{
-      bool operator()(const vector<int>& v1, const vector<int>& v2) {
-          return v1[1] < v2[1];
-      } 
-    };
     int scheduleCourse(vector<vector<int>>& courses) {
-        sort(courses.begin(), courses.end(), comparator());
-        
-        // Priority Queue by default sorted in ascending order
-        priority_queue<int> q;
-        
-        int sum = 0;
-        for (auto& c : courses){
-            int t = c[0]; //Course time
-            int d = c[1]; //Max day before which course has to be completed
-            
-            q.push(t);
-            sum += t;
-            
-            if (sum > d){
-                sum -= q.top(); //This can be some other long course
-                q.pop();
+        sort(courses.begin(), courses.end(), [](vector<int> &c1, vector<int> &c2){
+            return c1[1] < c2[1];
+        });
+        priority_queue<int> pq;
+        int cur = 0, duration, lastDay;
+        for (auto &c: courses) {
+            duration = c[0];
+            lastDay = c[1];
+            pq.push(duration);
+            cur += duration;
+            if (cur > lastDay) {
+                cur -= pq.top();
+                pq.pop();
             }
-
         }
-        return q.size();
+        return pq.size();
     }
 };
 ```
