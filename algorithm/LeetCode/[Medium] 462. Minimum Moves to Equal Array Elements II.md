@@ -20,7 +20,7 @@ Only two moves are needed (remember each move increments or decrements one eleme
 
 # Submissions
 ---
-**Solution 1: (Math)**
+**Solution 1: (Math, find median)**
 ```
 Runtime: 88 ms
 Memory Usage: 14.1 MB
@@ -31,4 +31,24 @@ class Solution:
         nums.sort()
         mid = nums[len(nums)//2]       
         return sum(abs(n - mid) for n in nums)
+```
+
+**Solution 2: (Math, find median)**
+```
+Runtime: 12 ms
+Memory Usage: 10.9 MB
+```
+```c++
+class Solution {
+public:
+    int minMoves2(vector<int>& nums) {
+        int n = nums.size(), steps = 0;
+        sort(nums.begin(), nums.end());
+        int median = nums[n/2]; // Finding median
+        for(int i=0; i<n; i++){
+            steps += abs(nums[i] - median); //Adding absolute difference
+        }
+        return steps;
+    }
+};
 ```

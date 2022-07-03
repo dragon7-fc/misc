@@ -43,3 +43,17 @@ class Solution:
     def minPartitions(self, n: str) -> int:
         return int(max(n))
 ```
+
+**Solution 2: (Math)**
+```
+Runtime: 34 ms
+Memory Usage: 13.6 MB
+```
+```c++
+class Solution {
+public:
+    int minPartitions(string n) {
+        return *max_element(n.begin(), n.end()) - '0';
+    }
+};
+```

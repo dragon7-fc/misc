@@ -33,3 +33,28 @@ class Solution:
 
         return ans
 ```
+
+**Solution 2: (Greedy)**
+```
+Runtime: 245 ms
+Memory Usage: 11.9 MB
+```
+```c++
+class Solution {
+public:
+    vector<vector<int>> reconstructQueue(vector<vector<int>>& people) {
+        sort(people.begin(), people.end(), [](vector<int> &p1, vector<int> &p2){
+            if (p1[0] != p2[0]) {
+                return p1[0] > p2[0];
+            } else {
+                return p1[1] <= p2[1];
+            }
+        });
+        vector<vector<int>> ans;
+        for (auto &p: people) {
+            ans.insert(ans.begin()+p[1], p);
+        }
+        return ans;
+    }
+};
+```
