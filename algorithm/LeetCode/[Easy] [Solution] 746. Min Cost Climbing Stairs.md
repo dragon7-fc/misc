@@ -158,3 +158,22 @@ class Solution:
         
         return min(dp(N-1), dp(N-2))
 ```
+
+**Solution 7: (DP Top-down)**
+```
+Runtime: 12 ms
+Memory Usage: 14.1 MB
+```
+```c++
+class Solution {
+public:
+    int minCostClimbingStairs(vector<int>& cost) {
+        vector<int> dp(cost);
+        dp.push_back(0);
+        for (int i = 2; i < dp.size(); i ++) {
+            dp[i] += min(dp[i-1], dp[i-2]);
+        }
+        return *(dp.end()-1);
+    }
+};
+```

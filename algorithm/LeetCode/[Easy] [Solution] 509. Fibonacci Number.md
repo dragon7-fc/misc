@@ -393,3 +393,27 @@ class Solution:
         golden_ratio = (1 + 5 ** 0.5) / 2
         return int((golden_ratio ** N + 1) / 5 ** 0.5)
 ```
+
+**Solution 7: (DP Bottom-Up)**
+```
+Runtime: 0 ms
+Memory Usage: 6 MB
+```
+```c++
+class Solution {
+public:
+    int fib(int n) {
+        if (n < 2)
+            return n;
+        else {
+            int a = 0, b = 1, c;
+            for (int i = 2; i <= n; i ++) {
+                c = a+b;
+                a = b;
+                b = c;
+            }
+            return c;
+        }
+    }
+};
+```

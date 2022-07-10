@@ -79,3 +79,34 @@ class Solution:
             heappush(pq, (-ans, i))
         return ans
 ```
+
+**Solution 3: (DP, Heap)**
+```
+Runtime: 295 ms
+Memory Usage: 93.8 MB
+```
+```c++
+class Solution {
+public:
+    int maxResult(vector<int>& nums, int k) {
+        priority_queue<pair<int,int>> q;
+        int n = nums.size();
+        vector<int> dp(n);
+        for (int i = 0; i < n; i++) {
+            if (q.empty()){
+               dp[i]=nums[i]; 
+            } else{
+                while (!q.empty() && q.top().second < (i-k)){
+                    q.pop();
+                }
+                
+                dp[i] = nums[i] + q.top().first;
+            }
+            
+            q.push({dp[i], i});
+        }
+        
+        return dp[n-1];
+    }
+};
+```

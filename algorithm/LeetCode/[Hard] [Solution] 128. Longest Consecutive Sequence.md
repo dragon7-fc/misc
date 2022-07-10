@@ -251,7 +251,7 @@ public:
             if (s.count(num - 1)) continue;//t.c is O(N) bcoz just for one element while loop is running so t.c O(N)+O(N)
             int j = 1;
             while (s.count(num + j)) j++; 
-                longest = max(longest, j);
+            longest = max(longest, j);
         }
         return longest;
     }
