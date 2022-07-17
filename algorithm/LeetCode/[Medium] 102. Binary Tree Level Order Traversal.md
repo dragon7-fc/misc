@@ -51,8 +51,8 @@ class Solution:
 
 **Solution 2: (Level-Order)**
 ```
-Runtime: 10 ms
-Memory Usage: 12.6 MB
+Runtime: 7 ms
+Memory Usage: 12.5 MB
 ```
 ```c++
 /**
@@ -69,32 +69,29 @@ Memory Usage: 12.6 MB
 class Solution {
 public:
     vector<vector<int>> levelOrder(TreeNode* root) {
-        vector<vector<int>> v;
-        TreeNode* temp;
-        if(root==NULL){
-            return v;
-        }
+        vector<vector<int>> ans;
         queue<TreeNode*> q;
+        if (!root)
+            return ans;
         q.push(root);
-        while(!q.empty()){
-
-            vector<int> a;
-            int s=q.size();
-            for(int i=0;i<s;i++){
-                 temp=q.front();
-                 q.pop();
-                 a.push_back(temp->val);
-                if(temp->left){
-                    q.push(temp->left);
-                }
-                if(temp->right){
-                    q.push(temp->right);
-                }
+        int sz;
+        TreeNode* node;
+        vector<int> level;
+        while (!q.empty()) {
+            sz = q.size();
+            level.clear();
+            for (int i = 0; i < sz; i ++) {
+                node = q.front();
+                level.push_back(node->val);
+                q.pop();
+                if (node->left)
+                    q.push(node->left);
+                if (node->right)
+                    q.push(node->right);
             }
-            v.push_back(a);
-
+            ans.push_back(level);
         }
-        return v;
+        return ans;
     }
 };
 ```
