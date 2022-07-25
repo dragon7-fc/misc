@@ -131,3 +131,46 @@ class Solution:
 
         return before_head.next
 ```
+
+**Solution 2: (Queue)**
+```
+Runtime: 10 ms
+Memory Usage: 10.5 MB
+```
+```c++
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode() : val(0), next(nullptr) {}
+ *     ListNode(int x) : val(x), next(nullptr) {}
+ *     ListNode(int x, ListNode *next) : val(x), next(next) {}
+ * };
+ */
+class Solution {
+public:
+    ListNode* partition(ListNode* head, int x) {
+        queue<ListNode*> q;
+        ListNode *cur = head, *prev, *dummy = new ListNode(0);
+        dummy->next = cur;
+        prev = dummy;
+        while (cur) {
+            if (cur->val >= x) {
+                q.push(cur);
+                prev->next = cur->next;
+            } else
+                prev = cur;
+            cur = cur->next;
+        }
+        while (!q.empty()) {
+            cur = q.front();
+            q.pop();
+            prev->next = cur;
+            prev = prev->next;
+        }
+        prev->next = nullptr;
+        return dummy->next;
+    }
+};
+```

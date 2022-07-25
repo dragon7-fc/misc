@@ -91,3 +91,35 @@ public:
     }
 };
 ```
+
+**Solution 4: (Brute Force)**
+```
+Runtime: 202 ms
+Memory Usage: 31.5 MB
+```
+```c++
+class Solution {
+    bool hasMatches(string &curr, string &s) {
+        int pos = 1;
+        int i = s.find(curr[0]);
+        if (i == -1)
+            return false;
+        while (pos < curr.length()) {
+            i = s.find(curr[pos], i + 1);
+            if (i == -1)
+                return false;
+            pos++;
+        }
+        return true;
+    }
+public:
+    int numMatchingSubseq(string s, vector<string>& words) {
+        int count = 0;
+        for (string str : words)
+            if (hasMatches(str, s))
+                count++;
+        
+        return count;
+    }
+};
+```

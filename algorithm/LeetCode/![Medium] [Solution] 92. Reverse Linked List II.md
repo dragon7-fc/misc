@@ -362,3 +362,50 @@ struct ListNode* reverseBetween(struct ListNode* head, int left, int right){
     return head;
 }
 ```
+**Solution 4: (Iterative, Linked List)**
+```
+Runtime: 2 ms
+Memory Usage: 7.5 MB
+```
+```c++
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode() : val(0), next(nullptr) {}
+ *     ListNode(int x) : val(x), next(nullptr) {}
+ *     ListNode(int x, ListNode *next) : val(x), next(next) {}
+ * };
+ */
+class Solution {
+public:
+    ListNode* reverseBetween(ListNode* head, int left, int right) {
+        ListNode *pre = nullptr, *cur = head, *start, *end, *tmp;
+        int i = 1;
+        while (i < left) {
+            pre = cur;
+            cur = cur->next;
+            i += 1;
+        }
+        start = pre;
+        end = cur;
+        pre = cur;
+        cur = cur->next;
+        i += 1;
+        while (i <= right) {
+            tmp = cur->next;
+            cur->next = pre;
+            pre = cur;
+            cur = tmp;
+            i += 1;
+        }
+        if (start)
+            start->next = pre;
+        else
+            head = pre;
+        end->next = cur;
+        return head;
+    }
+};
+```

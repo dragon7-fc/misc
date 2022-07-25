@@ -124,3 +124,31 @@ class Solution:
             
         return False
 ```
+
+**Solution 5: (Binary Search)**
+```
+Runtime: 196 ms
+Memory Usage: 14.8 MB
+```
+```c++
+class Solution {
+public:
+    bool searchMatrix(vector<vector<int>>& matrix, int target) {
+        int m = matrix.size();
+        int n = matrix[0].size();
+        
+        int i = m - 1;
+        int j = 0;
+        
+        while (i>=0 && j<n){
+            
+            if (matrix[i][j] == target) return true;
+            
+            else if (matrix[i][j] < target) j++;
+            
+            else i--;
+        }
+        return false;
+    }
+};
+```
