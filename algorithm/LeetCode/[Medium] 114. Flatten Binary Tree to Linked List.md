@@ -228,3 +228,39 @@ public:
     }
 };
 ```
+
+**Solution 7: (Preorder)**
+```
+Runtime: 12 ms
+Memory Usage: 12.7 MB
+```
+```c++
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+class Solution {
+    TreeNode* pre;
+public:
+    void flatten(TreeNode* root) {
+        if (!root)
+            return;
+        TreeNode *left = root->left, *right = root->right;
+        if (pre) {
+            pre->left = nullptr;
+            pre->right = root;
+            pre = pre->right;
+        } else
+            pre = root;
+        flatten(left);
+        flatten(right);
+    }
+};
+```

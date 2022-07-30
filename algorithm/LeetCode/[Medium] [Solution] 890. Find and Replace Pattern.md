@@ -108,79 +108,32 @@ class Solution:
         return filter(match, words)
 ```
 
-**Solution 1: (2 Hash Table)**
+**Solution 1: (Hash Table)**
 ```
-Runtime: 8 ms
-Memory Usage: 8.5 MB
-```
-```c++
-class Solution {
-public:
-    vector<string> findAndReplacePattern(vector<string>& words, string pattern) {
-        vector<string> ans;
-        for(int i=0;i<words.size();i++){
-            int f = 1;
-            map<char,int> m1,m2;
-            for(int j=0;j<words[i].size();j++){
-                if(m1.find(pattern[j])!=m1.end() && m1[pattern[j]]!=words[i][j]){
-                    f = 0;
-                    break;
-                }
-                else if(m2.find(words[i][j])!=m2.end() && m2[words[i][j]]!=pattern[j]){
-                    f = 0;
-                    break;
-                }
-                else{
-                    m1[pattern[j]] = words[i][j];
-                    m2[words[i][j]] = pattern[j];
-                }
-            }
-            if(f){
-                ans.push_back(words[i]);
-            }
-        }
-        return ans;
-    }
-};
-```
-
-**Solution 2: (Hash Table, Set)**
-```
-Runtime: 5 ms
+Runtime: 3 ms
 Memory Usage: 8.3 MB
 ```
 ```c++
 class Solution {
 public:
     vector<string> findAndReplacePattern(vector<string>& words, string pattern) {
-        int n = pattern.size();
         unordered_map<char, char> m;
-        unordered_set<char> s;
+        unordered_set<char> seen;
         vector<string> ans;
-        bool flag;
-        for (auto &word: words) {
+        for (auto word: words) {
             m.clear();
-            flag = true;
-            for (int i = 0; i < n; i ++) {
-                if (!m.count(pattern[i])) {
-                    m[pattern[i]] = word[i];
-                } else if (m[pattern[i]] != word[i]) {
-                    flag = false;
+            seen.clear();
+            for (int i = 0; i < pattern.size(); i ++) {
+                if (!m.count(pattern[i]) && seen.count(word[i]) || 
+                    m.count(pattern[i]) && m[pattern[i]] != word[i])
                     break;
+                else if (!m.count(pattern[i])) {
+                    m[pattern[i]] = word[i];
+                    seen.insert(word[i]);
                 }
+                if (i == pattern.size()-1)
+                    ans.push_back(word);
             }
-            if (flag) {
-                auto get_all_key = [&]() {
-                    s.clear();
-                    for (auto &[k, v]: m)
-                        s.insert(v);
-                };
-                get_all_key();
-                if (s.size() != m.size())
-                    flag = false;
-            }
-            if (flag)
-                ans.push_back(word);
         }
         return ans;
     }
