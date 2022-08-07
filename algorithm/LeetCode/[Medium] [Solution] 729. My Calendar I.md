@@ -213,3 +213,57 @@ class MyCalendar:
 # obj = MyCalendar()
 # param_1 = obj.book(start,end)
 ```
+
+**Solution 4: (Sorted Map)**
+```
+Runtime: 191 ms
+Memory Usage: 14.7 MB
+```
+```python
+class MyCalendar:
+
+    def __init__(self):
+        self.a = []
+
+    def book(self, start: int, end: int) -> bool:
+        index = bisect.bisect_right(self.a, (start, end))
+        if index >= 1 and start < self.a[index - 1][1]:
+            return False
+        if index < len(self.a) and end > self.a[index][0]:
+            return False
+        self.a.insert(index, (start, end))
+        return True
+
+
+# Your MyCalendar object will be instantiated and called as such:
+# obj = MyCalendar()
+# param_1 = obj.book(start,end)
+```
+
+**Solution 5: (Sorted Map)**
+```
+Runtime: 182 ms
+Memory Usage: 38.7 MB
+```
+```c++
+class MyCalendar {
+    map<int, int> events;
+public:
+    MyCalendar() {
+        
+    }
+    
+    bool book(int start, int end) {
+        auto next = events.upper_bound (start );
+        if( next != events.end() && (*next).second < end ) return false;
+        events.insert( {end,start} );
+        return true;
+    }
+};
+
+/**
+ * Your MyCalendar object will be instantiated and called as such:
+ * MyCalendar* obj = new MyCalendar();
+ * bool param_1 = obj->book(start,end);
+ */
+```

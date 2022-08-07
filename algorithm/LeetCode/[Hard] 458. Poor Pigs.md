@@ -74,3 +74,17 @@ class Solution:
         T = minutesToTest//minutesToDie
         return math.ceil(math.log(buckets, T+1))
 ```
+
+**Solution 3: (Math)**
+```
+Runtime: 0 ms
+Memory Usage: 6.1 MB
+```
+```c++
+class Solution {
+public:
+    int poorPigs(int buckets, int minutesToDie, int minutesToTest) {
+        return ceil(log(buckets) / log(minutesToTest / minutesToDie + 1));
+    }
+};
+```

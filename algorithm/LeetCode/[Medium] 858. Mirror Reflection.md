@@ -95,3 +95,29 @@ class Solution:
         g = math.gcd(p,q)
         return 2 if not p//g % 2 else q//g % 2
 ```
+
+**Solution 2: (Math)**
+```
+Runtime: 0 ms
+Memory Usage: 5.9 MB
+```
+```c++
+class Solution {
+public:
+    int mirrorReflection(int p, int q) {
+        //Divide p,q by 2 until at least one odd.
+        while((p%2==0) && (q%2==0)){
+            p/=2;
+            q/=2;
+        }
+        //both p qnd q can't be even
+        if((p%2)==0 && (q%2)!=0){
+            return 2;//when p is even and q is odd
+        } 
+        if((p%2)!=0 && (q%2)!=0){
+            return 1;// when p is odd and q is odd
+        } 
+        return 0;// when p is odd and q is even
+    }
+};
+```
