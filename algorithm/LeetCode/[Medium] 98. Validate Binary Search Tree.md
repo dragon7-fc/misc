@@ -57,7 +57,7 @@ class Solution:
         return dfs(root, float('-inf'), float('inf'))
 ```
 
-**Solution 2: (DFS)**
+**Solution 2: (DFS, pre-order)**
 ```
 Runtime: 24 ms
 Memory Usage: 21.5 MB
@@ -93,7 +93,7 @@ public:
 };
 ```
 
-**Solution 3: (DFS, Pre-order)**
+**Solution 3: (DFS, pre-order)**
 ```
 Runtime: 8 ms
 Memory Usage: 8.6 MB

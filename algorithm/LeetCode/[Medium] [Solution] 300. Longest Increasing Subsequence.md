@@ -362,3 +362,27 @@ class Solution:
                 length += 1
         return length
 ```
+
+**Solution 7: (DP, Bottom-Up)**
+```
+Runtime: 686 ms
+Memory Usage: 10.6 MB
+```
+```c++
+class Solution {
+public:
+    int lengthOfLIS(vector<int>& nums) {
+        int N = nums.size();
+        vector<int> dp(N, 1);
+        int ans = 1;
+        for (int j = 1; j < N; j ++) {
+            for (int i = 0; i < j; i ++) {
+                if (nums[i] < nums[j])
+                    dp[j] = max(dp[j], dp[i]+1);
+            }
+            ans = max(ans, dp[j]);
+        }
+        return ans;
+    }
+};
+```

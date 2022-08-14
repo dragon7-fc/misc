@@ -133,12 +133,12 @@ public:
         int mod = 1e9 + 7;
         map<int, long long> mp;
         
-        for(int i=0; i<arr.size(); i++){
-            mp[arr[i]] = 1;
-            for(int j=0; j<i; j++){
-                if(arr[i] % arr[j] == 0){
-                    mp[arr[i]] += (long long)(mp[arr[j]] * mp[arr[i] / arr[j]]) % mod;
-                    mp[arr[i]] %= mod;
+        for(int j = 0; j < arr.size(); j++){
+            mp[arr[j]] = 1;
+            for(int i = 0; i < j; i++){
+                if(arr[j] % arr[i] == 0){
+                    mp[arr[j]] += (long long)(mp[arr[i]] * mp[arr[j] / arr[i]]) % mod;
+                    mp[arr[j]] %= mod;
                 }
             }
         }

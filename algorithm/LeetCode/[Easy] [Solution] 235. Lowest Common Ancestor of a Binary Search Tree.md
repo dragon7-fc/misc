@@ -219,3 +219,35 @@ class Solution:
                 # We have found the split point, i.e. the LCA node.
                 return node
 ```
+
+**Solution 1: (DFS, post-order)**
+```
+Runtime: 32 ms
+Memory Usage: 23.4 MB
+```
+```c++
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+
+class Solution {
+public:
+    TreeNode* lowestCommonAncestor(TreeNode* root, TreeNode* p, TreeNode* q) {
+        if (!root)
+            return nullptr;
+        TreeNode *left = lowestCommonAncestor(root->left, p, q);
+        TreeNode *right = lowestCommonAncestor(root->right, p, q);
+        if (root == p || root == q || left && right)
+            return root;
+        else if (left || right)
+            return left ? left : right;
+        return nullptr;
+    }
+};
+```
