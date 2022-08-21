@@ -85,3 +85,25 @@ class Solution:
                 return idx     
         return -1
 ```
+
+**Solution 2: (Counter)**
+```
+Runtime: 96 ms
+Memory Usage: 10.7 MB
+```
+```c++
+class Solution {
+public:
+    int firstUniqChar(string s) {
+        unordered_map<char, int> cnt;
+        for (char c: s)
+            cnt[c] += 1;
+        for (int i = 0; i < s.size(); i ++)
+        {
+            if (cnt[s[i]] == 1)
+                return i;
+        }
+        return -1;
+    }
+};
+```

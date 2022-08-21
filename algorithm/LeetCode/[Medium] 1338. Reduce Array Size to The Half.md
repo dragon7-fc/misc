@@ -48,7 +48,7 @@ Output: 5
 
 # Submissions
 ---
-**Solution 1: (Greedy)**
+**Solution 1: (Greedy, Sort)**
 ```
 Runtime: 580 ms
 Memory Usage: 36.7 MB
@@ -66,4 +66,30 @@ class Solution:
             else:
                 break
         return ans
+```
+
+**Solution 2: (Heap)**
+```
+Runtime: 258 ms
+Memory Usage: 78.4 MB
+```
+```c++
+class Solution {
+public:
+    int minSetSize(vector<int>& arr) {
+        unordered_map<int,int>h;
+        for(int i = 0; i < arr.size(); i++) h[arr[i]]++;
+        priority_queue<int> pq;
+        for(auto it: h) pq.push(it.second);
+        int ans = 0, minus = 0;
+        while(!pq.empty())
+        {
+            ans++;
+            minus += pq.top();
+            pq.pop();
+            if(minus >= (arr.size()/2)) break;
+        }
+        return ans;
+    }
+};
 ```

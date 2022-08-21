@@ -89,3 +89,27 @@ class Solution(object):
         return len(seen)
         
 ```
+
+**Solution 1: (Set)**
+```
+Runtime: 10 ms
+Memory Usage: 8.3 MB
+```
+```c++
+class Solution {
+public:
+    int uniqueMorseRepresentations(vector<string>& words) {
+        unordered_set<string> st;
+        string m[] = {".-","-...","-.-.","-..",".","..-.","--.","....","..",".---","-.-",".-..","--","-.","---",".--.","--.-",".-.","...","-","..-","...-",".--","-..-","-.--","--.."};
+        string cur;
+        for (auto word: words) {
+            cur.clear();
+            for (auto c: word) {
+                cur += m[c-'a'];
+            }
+            st.insert(cur);
+        }
+        return st.size();
+    }
+};
+```
