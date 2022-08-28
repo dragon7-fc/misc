@@ -50,3 +50,17 @@ class Solution:
             n = n/3
         return True if n == 1 else False
 ```
+
+**Solution 2: (Math)**
+```
+Runtime: 32 ms
+Memory Usage: 6 MB
+```
+```c++
+class Solution {
+public:
+    bool isPowerOfThree(int n) {
+        return fmod((log10(n) / log10(3)), 1) == 0;
+    }
+};
+```

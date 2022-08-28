@@ -116,3 +116,33 @@ class Solution:
         return any(count == collections.Counter(str(1 << b))
                    for b in range(31))
 ```
+
+**Solution 1: (Sort self and candidate then compare match)**
+```
+Runtime: 5 ms
+Memory Usage: 6.5 MB
+```
+```c++
+class Solution {
+public:
+    bool reorderedPowerOf2(int n) {
+        string s = to_string(n);
+        sort(s.begin(),s.end());
+		
+        vector<string> power;
+        for(int i=0;i<=30;i++){
+            int p = pow(2,i);
+            power.push_back(to_string(p));
+        }
+        
+        for(int i=0;i<=30;i++){
+            sort(power[i].begin(),power[i].end());
+        }
+        
+        for(int i=0;i<=30;i++){
+            if(power[i] == s ) return true;
+        }
+        return false;
+    }
+};
+```

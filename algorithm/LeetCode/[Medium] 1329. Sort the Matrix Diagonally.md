@@ -63,3 +63,34 @@ class Solution:
                 mat[r][c] = d[r - c].pop()
         return mat
 ```
+
+**Solution 2: (Hash Table)**
+```
+Runtime: 25 ms
+Memory Usage: 9.5 MB
+```
+```c++
+class Solution {
+public:
+    vector<vector<int>> diagonalSort(vector<vector<int>>& mat) {
+        int R = mat.size(), C = mat[0].size();
+        unordered_map<int, vector<int>> d;
+        for (int r = 0; r < R; r++) {
+            for (int c = 0; c < C; c++) {
+                d[r-c].push_back(mat[r][c]);
+            }
+        }
+        for (auto &[k, v]: d) {
+            sort(v.begin(), v.end(), greater<int>());
+        }
+        vector<vector<int>> ans(R, vector<int>(C));
+        for (int r = 0; r < R; r ++) {
+            for (int c = 0; c < C; c++) {
+                ans[r][c] = d[r-c].back();
+                d[r-c].pop_back();
+            }
+        }
+        return ans;
+    }
+};
+```
