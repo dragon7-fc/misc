@@ -113,3 +113,27 @@ void rotate(int** matrix, int matrixSize, int* matrixColSize){
     }
 }
 ```
+
+**Solution 4: (Rotate Groups of Four Cells)**
+```
+Runtime: 0 ms
+Memory Usage: 7.1 MB
+```
+```c++
+class Solution {
+public:
+    void rotate(vector<vector<int>>& matrix) {
+        int n = matrix.size();
+        int tmp;
+        for (int r = 0; r < n/2; r++) {
+            for (int c = 0; c < (n+1)/2; c++) {
+                tmp = matrix[r][c];
+                matrix[r][c] = matrix[n-1-c][r];
+                matrix[n-1-c][r] = matrix[n-1-r][n-1-c];
+                matrix[n-1-r][n-1-c] = matrix[c][n-1-r];
+                matrix[c][n-1-r] = tmp;
+            }
+        }
+    }
+};
+```

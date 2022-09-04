@@ -201,3 +201,48 @@ class Solution:
             level = [c for node in level if node for c in [node.left, node.right] if c]
         return ans
 ```
+
+**Solution 2: (Level-Order)**
+```
+Runtime: 26 ms
+Memory Usage: 22.4 MB
+```
+```c++
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+class Solution {
+public:
+    vector<double> averageOfLevels(TreeNode* root) {
+        queue<TreeNode*> q;
+        vector<double> ans;
+        q.push(root);
+        TreeNode* node;
+        int sz;
+        double cur;
+        while (!q.empty()) {
+            sz = q.size();
+            cur = 0;
+            for (int i = 0; i < sz; i ++) {
+                node = q.front();
+                q.pop();
+                cur += node->val;
+                if (node->left)
+                    q.push(node->left);
+                if (node->right)
+                    q.push(node->right);
+            }
+            ans.push_back(cur/sz);
+        }
+        return ans;
+    }
+};
+```

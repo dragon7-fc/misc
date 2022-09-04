@@ -65,3 +65,34 @@ class Solution:
         
         return dfs(root, root.val)
 ```
+
+**Solution 2: (DFS, PreOrder)**
+```
+Runtime: 245 ms
+Memory Usage: 86.4 MB
+```
+```c++
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+class Solution {
+    int dfs(TreeNode* node, int cur) {
+        if (!node)
+            return 0;
+        cur = max(node->val, cur);
+        return (node->val >= cur ? 1 : 0) + dfs(node->left, cur) + dfs(node->right, cur);
+    }
+public:
+    int goodNodes(TreeNode* root) {
+        return dfs(root, INT_MIN);
+    }
+};
+```

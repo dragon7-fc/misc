@@ -275,3 +275,41 @@ public:
     }
 };
 ```
+
+**Solution 7: (BFS)**
+```
+Runtime: 3 ms
+Memory Usage: 7.1 MB
+```
+```c++
+class Solution {
+public:
+    vector<int> numsSameConsecDiff(int n, int k) {
+        vector<int> ans;
+        vector<int> q;
+        int cur, cn, sz;
+        for (int i = 1; i <= 9; i ++) {
+            q.push_back(i);
+            cn = 1;
+            while(!q.empty() && cn < n) {
+                sz = q.size();
+                for (int j = 0; j < sz; j ++) {
+                    cur = q.at(0);
+                    q.erase(q.begin());
+                    if (cur%10 + k < 10)
+                        q.push_back(cur*10 + (cur%10+k));
+                    if (k == 0)
+                        break;
+                    if (cur%10 - k >= 0)
+                        q.push_back(cur*10 + (cur%10-k));
+                }
+                cn += 1;
+            }
+            for (int j = 0; j < q.size(); j ++)
+                ans.push_back(q.at(j));
+            q.clear();
+        }
+        return ans;
+    }
+};
+```

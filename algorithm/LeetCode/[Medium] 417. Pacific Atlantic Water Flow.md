@@ -198,6 +198,25 @@ Memory Usage: 17.4 MB
 ```
 ```c++
 class Solution {
+    void dfs(vector<vector<int>>& h, vector<vector<bool>>& vis, int i, int j) {
+        
+        int m = h.size();
+        int n = h[0].size();
+
+        vis[i][j] = true;
+        //up
+        if (i-1 >= 0 && vis[i-1][j] != true && h[i-1][j] >= h[i][j])
+            dfs(h, vis, i-1, j);
+        //down
+        if (i+1 < m && vis[i+1][j] != true && h[i+1][j] >= h[i][j])
+            dfs(h, vis, i+1, j);
+        //left
+        if (j-1 >= 0 && vis[i][j-1] != true && h[i][j-1] >= h[i][j])
+            dfs(h, vis, i, j-1);
+        //right
+        if (j+1 < n && vis[i][j+1] != true && h[i][j+1] >= h[i][j])
+            dfs(h, vis, i, j+1);
+    }
 public:
     vector<vector<int>> pacificAtlantic(vector<vector<int>>& heights) {
         vector<vector<int>>ans;
@@ -230,26 +249,6 @@ public:
         }
         return ans;
     }
-    
-    void dfs(vector<vector<int>>& h, vector<vector<bool>>& vis, int i, int j) {
-        
-        int m = h.size();
-        int n = h[0].size();
-
-        vis[i][j] = true;
-        //up
-        if (i-1 >= 0 && vis[i-1][j] != true && h[i-1][j] >= h[i][j])
-            dfs(h, vis, i-1, j);
-        //down
-        if (i+1 < m && vis[i+1][j] != true && h[i+1][j] >= h[i][j])
-            dfs(h, vis, i+1, j);
-        //left
-        if (j-1 >= 0 && vis[i][j-1] != true && h[i][j-1] >= h[i][j])
-            dfs(h, vis, i, j-1);
-        //right
-        if (j+1 < n && vis[i][j+1] != true && h[i][j+1] >= h[i][j])
-            dfs(h, vis, i, j+1);
-    }
 };
 ```
 
@@ -260,7 +259,6 @@ Memory Usage: 20 MB
 ```
 ```c++
 class Solution {
-public:
     int m,n;
     vector<int>dir={0,1,0,-1,0};
     queue<pair<int,int>> pac;
@@ -290,6 +288,7 @@ public:
             }
         }
     }
+public:
     vector<vector<int>> pacificAtlantic(vector<vector<int>>& heights) {
         vector<vector<int>> ans;
         m=heights.size();
