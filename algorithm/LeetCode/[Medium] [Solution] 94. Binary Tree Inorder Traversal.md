@@ -244,7 +244,39 @@ class Solution:
         return res
 ```
 
-**Solution 3: (Stack)**
+**Solution 3: (DFS)**
+```
+Runtime: 0 ms
+Memory Usage: 9.6 MB
+```
+```c++
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+class Solution {
+public:
+    vector<int> inorderTraversal(TreeNode* root) {
+        if (!root)
+            return {};
+        vector<int> left, right;
+        left = inorderTraversal(root->left);
+        left.push_back(root->val);
+        right = inorderTraversal(root->right);
+        left.insert(left.end(), right.begin(), right.end());
+        return left;
+    }
+};
+```
+
+**Solution 4: (Stack)**
 ```
 Runtime: 0 ms
 Memory Usage: 8.4 MB
@@ -266,8 +298,7 @@ public:
     vector<int> inorderTraversal(TreeNode* root) {
         stack<TreeNode*> s;
         vector<int> ans;
-        while(root or !s.empty()) {
-            
+        while(root || !s.empty()) {
             if(root) {
                 s.push(root);
                 root=root->left;

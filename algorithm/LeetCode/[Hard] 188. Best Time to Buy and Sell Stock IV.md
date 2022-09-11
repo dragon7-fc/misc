@@ -197,3 +197,60 @@ class Solution:
 
         return max_profit_from()
 ```
+
+**Solution 5: (DP Bottom-Up)**
+```
+Runtime: 11 ms
+Memory Usage: 10.8 MB
+```
+```c++
+class Solution {
+public:
+    int maxProfit(int k, vector<int>& prices) {
+        int N = prices.size();
+		vector<vector<int>> ahead(2,vector<int>(k+1,0)),curr(2,vector<int>(k+1,0));
+		for(int ind=N-1;ind>=0;ind--){
+			for(int buy=0;buy<=1;buy++){
+				for(int trans=0;trans<k;trans++){
+					long profit = 0;
+					if(buy==0) profit = max(-prices[ind] + ahead[1][trans] ,ahead[0][trans]);
+					else profit = max(prices[ind] + ahead[0][trans+1] ,ahead[1][trans]);
+					curr[buy][trans] = profit;
+				}
+			}
+			ahead = curr;
+		}
+		return ahead[0][0];
+    }
+};
+```
+
+**Solution 6: (DP Top-Down)**
+```
+Runtime: 27 ms
+Memory Usage: 13.2 MB
+```
+```c++
+class Solution {
+    int func(int i,int buy,int cap,vector<int>& prices,vector<vector<vector<int>>>& dp){
+        int n=prices.size();
+        if(cap==0) return 0; // if we dont have any Tx left just return 0;
+        if(i==n) return 0;  // index reached end of the array.
+        if(dp[i][buy][cap]!=-1) return dp[i][buy][cap]; 
+        
+        int profit=0;     //      pick                                 notpick
+        if(buy){      //( we are buying the stock)   or     (we are not buying the stock)
+            profit=max(-prices[i]+func(i+1,0,cap,prices,dp),0+func(i+1,1,cap,prices,dp)); 
+        }else {      //we are selling(hence we can buy again) ,or   will not sell this turn.                              
+            profit=max(prices[i]+func(i+1,1,cap-1,prices,dp),0+func(i+1,0,cap,prices,dp));
+        }
+        return dp[i][buy][cap]=profit;
+    }
+public:
+    int maxProfit(int k, vector<int>& prices) {
+        int n=prices.size();
+        vector<vector<vector<int>>> dp(n,vector<vector<int>>(2,vector<int>(k+1,-1)));
+        return func(0,1,k,prices,dp); //(index==0, buy==1(initially we can buy) , k (number of Tx), prices, Memorized space));
+    }
+};
+```
