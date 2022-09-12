@@ -102,3 +102,38 @@ class Solution:
 
         return ans
 ```
+
+**Solution 1: (Greedy, Sort, Two Pointers)**
+```
+Runtime: 12 ms
+Memory Usage: 10.6 MB
+```
+```c++
+class Solution {
+public:
+    int bagOfTokensScore(vector<int>& tokens, int power) {
+        int left = 0, right = tokens.size()-1;
+        int ans = 0, score = 0;
+        bool flag;
+        sort(tokens.begin(), tokens.end());
+        while (left <= right) {
+            flag = false;
+            while (left <= right && tokens[left] <= power) {
+                power -= tokens[left];
+                score += 1;
+                left += 1;
+                flag = true;
+            }
+            if (!flag)
+                break;
+            ans = max(ans, score);
+            if (left <= right && score) {
+                power += tokens[right];
+                score -= 1;
+                right -= 1;
+            }
+        }
+        return ans;
+    }
+};
+```‵
