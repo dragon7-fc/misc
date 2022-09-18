@@ -82,3 +82,104 @@ class Solution:
         
         return dp[0][-1]
 ```
+
+**Solution 3: (DP Top-Down)**
+```
+Runtime: 777 ms
+Memory Usage: 119.3 MB
+```
+```
+class Solution {
+    int m, n;
+    int dfs(vector<int>& nums, vector<int>& mult, vector<vector<int>>& dp, int i, int j) {
+        // i : pointer at nums
+        // j : pointer at mult
+        // if we have performed all operations, then return 0
+        if (j == m) return 0;
+        // memoizated before - return the value here
+        if (dp[i][j] != INT_MIN) return dp[i][j];
+        // we can either choose an integer in `nums` the start or the end of the array
+        // so we try both case and take the maximum value
+        // then memoize it
+        return dp[i][j] = max(
+            // pick from the start
+            mult[j] * nums[i] + dfs(nums, mult, dp, i + 1, j + 1),
+            // pick fromt the end
+            mult[j] * nums[n - 1 - j + i] + dfs(nums, mult, dp, i, j + 1)
+        ); 
+    }
+public:
+    int maximumScore(vector<int>& nums, vector<int>& multipliers) {
+        n = (int) nums.size(), m = (int) multipliers.size();
+		// init values that couldn't be reached. -1 will cause TLE. -2 would pass but it's not supposed to pass.
+        vector<vector<int>> dp(m, vector<int>(m, INT_MIN));
+        // or u can return dp[0][0] after running dfs
+        return dfs(nums, multipliers, dp, 0, 0);
+    }
+};
+```
+
+**Solution 4: (DP Bottom-Up)**
+```
+Runtime: 389 ms
+Memory Usage: 50.6 MB
+```
+```c++
+class Solution {
+public:
+    int maximumScore(vector<int>& nums, vector<int>& multipliers) {
+        int n = (int) nums.size(), m = (int) multipliers.size();
+        vector<int> dp(m + 1);
+        // let's think backwards
+        for (int i = 0; i < m; i++) {
+            // at round m, we  pick the m-th multiplier
+            // at round m - 1, we pick the (m - 1)-th multiplier
+            // at round m - 2, we pick the (m - 2)-th multiplier
+            // and so on ... 
+            int mult = multipliers[m - 1 - i];
+            // how many elements we need to process? 
+            // at round m, there are m elements
+            // at round m - 1, there are m - 1 elements
+            // at round m - 2, there are m - 2 elements
+            // and so on ...
+            for (int j = 0; j < m - i; j++) {
+                // so we take the max of
+                dp[j] = max(
+                    // the start
+                    mult * nums[j] + dp[j + 1], 
+                    // the end
+                    mult * nums[j + (n - (m - i))] + dp[j]
+                );
+            }
+        }
+        return dp[0];
+    }
+};
+```
+
+**Solution 5: (DP Bottom-Up)**
+```
+Runtime: 365 ms
+Memory Usage: 119.8 MB
+```
+```c++
+class Solution {
+public:
+    int maximumScore(vector<int>& nums, vector<int>& multipliers) {
+        // For Right Pointer
+        int n = nums.size();
+        // Number of Operations
+        int m = multipliers.size();
+        vector<vector<int>> dp(m+1, vector<int>(m+1));
+        
+        for (int op = m - 1; op >= 0; op--) {
+            for (int left = op; left >= 0; left--) {
+                dp[op][left] = max(multipliers[op] * nums[left] + dp[op + 1][left + 1],
+                                   multipliers[op] * nums[n - 1 - (op - left)] + dp[op + 1][left]);
+            }
+        }
+        
+        return dp[0][0];
+    }
+};
+```
