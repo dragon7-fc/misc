@@ -93,3 +93,33 @@ class Solution:
             
         return ans
 ```
+
+**Solution 1: (Maintain Array Sum)**
+```
+Runtime: 104 ms
+Memory Usage: 45.3 MB
+```
+```c++
+class Solution {
+public:
+    vector<int> sumEvenAfterQueries(vector<int>& nums, vector<vector<int>>& queries) {
+        int N = nums.size(), cur = 0, val, index;
+        vector<int> ans(N);
+        for (int num: nums) {
+            if (num%2 == 0)
+                cur += num;
+        }
+        for (int i = 0; i < queries.size(); i ++) {
+            val = queries[i][0];
+            index = queries[i][1];
+            if (nums[index]%2 == 0)
+                cur -= nums[index];
+            nums[index] += val;
+            if (nums[index]%2 == 0)
+                cur += nums[index];
+            ans[i] = cur;
+        }
+        return ans;
+    }
+};
+```

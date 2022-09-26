@@ -310,3 +310,28 @@ class Solution:
                 hi = mi
         return lo - 1
 ```
+
+**Solution 6: (DP Bottom-Up)**
+```
+Runtime: 393 ms
+Memory Usage: 109.2 MB
+```
+```c++
+class Solution {
+public:
+    int findLength(vector<int>& nums1, vector<int>& nums2) {
+        int m = nums1.size(), n = nums2.size(), ans = 0;
+        vector<vector<int>> dp(m+1, vector<int>(n+1));
+        for (int i = 0; i < m; i ++) {
+            for (int j = 0; j < n; j ++) {
+                if (nums1[i] == nums2[j]) {
+                    dp[i+1][j+1] = dp[i][j] + 1;
+                    if (ans < dp[i+1][j+1])
+                        ans = dp[i+1][j+1];
+                }
+            }
+        }
+        return ans;
+    }
+};
+```
