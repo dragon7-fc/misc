@@ -249,24 +249,22 @@ public:
 
 **Solution 8: (Two Pointers)**
 ```
-Runtime: 56 ms
-Memory Usage: 31.7 MB
+Runtime: 90 ms
+Memory Usage: 31 MB
 ```
 ```c++
 class Solution {
 public:
     vector<int> findClosestElements(vector<int>& arr, int k, int x) {
-        int i = 0, j = arr.size() - 1;
-        while ((j - i) >= k) {
-            if (abs(arr[i] - x) > abs(arr[j] - x))
-                i++;
-            else
-                j--;
+        int left = 0, right = arr.size()-1;
+        while (right - left >= k) {
+            if (abs(arr[left] -x) > abs(arr[right] - x)) {
+                left += 1;
+            } else {
+                right -= 1;
+            }
         }
-        vector<int> v;    
-        for (int p = i; p <= j; p++)
-            v.push_back(arr[p]);
-         return v;
+        return vector(arr.begin()+left, arr.begin()+right+1);
     }
 };
 ```

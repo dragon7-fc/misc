@@ -3774,6 +3774,7 @@ Attribute: This is a part of an object. One or more attributes make up an object
 * QEMU
 
     - [QEMU Cheat Sheet](https://gist.github.com/bradfa/3721697)
+    - [Welcome to QEMU’s documentation!](https://www.qemu.org/docs/master/index.html)
 * Raspbian
 
     - configuration
@@ -4346,9 +4347,13 @@ Objects such as lists and dictionaries are passed by object reference too, which
         - [Flask SQLAlchemy](http://flask-sqlalchemy.pocoo.org/2.3/) - a Flask library for using SQLAlchemy with Flask
         - [Flask: The Cheat Sheet](http://flask-cheat-sheet.herokuapp.com/)
  
-     - Jinja
+    - Jinja
      
         - [Jinja Cheat Sheet](https://lzone.de/cheat-sheet/Jinja)
+
+    - Robot Framework
+
+        - [Robot Framework cheat sheet and quick reference](https://robocorp.com/docs/languages-and-frameworks/robot-framework/cheat-sheet)
 
     - [Cheat Sheets for AI, Neural Networks, Machine Learning, Deep Learning & Big Data](https://becominghuman.ai/cheat-sheets-for-ai-neural-networks-machine-learning-deep-learning-big-data-678c51b4b463)
 

@@ -106,5 +106,30 @@ class Solution:
             return sum([dp(n-1, t-i) for i in range(1, f+1)])
         
         return dp(d, target) % MOD
-        
+```
+
+**solution 3: (DP Bottom-Up)**
+```
+Runtime: 17 ms
+Memory: 6.1 MB
+```
+```c++
+class Solution {
+public:
+    int numRollsToTarget(int n, int k, int target) {
+        int R = 1e9 + 7;
+        int dp[n+1][target+1], t;
+        memset(dp, 0, sizeof(dp));
+        dp[0][0] = 1;
+        for(int i=1; i<=n; i++){
+            t = i*k;
+            for(int j=0; j<=min(t,target); j++){
+                for(int f=1; f<=min(k,j); f++){
+                    dp[i][j] = (dp[i][j] + dp[i-1][j-f]) % R;
+                }
+            }
+        }
+        return dp[n][target];
+    }
+};
 ```

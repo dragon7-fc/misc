@@ -216,3 +216,41 @@ public:
     }
 };
 ```
+
+**Solution 2: (Calculate Force, DP Bottom-Up)**
+```
+Runtime: 108 ms
+Memory Usage: 17.6 MB
+```
+```c++
+class Solution {
+public:
+    string pushDominoes(string dominoes) {
+        int N = dominoes.size();
+        vector<int> forces(N);
+
+        // Populate forces going from left to right
+        int force = 0;
+        for (int i = 0; i < N; ++i) {
+            if (dominoes[i] == 'R') force = N;
+            else if (dominoes[i] == 'L') force = 0;
+            else force = max(force - 1, 0);
+            forces[i] += force;
+        }
+
+        // Populate forces going from right to left
+        force = 0;
+        for (int i = N-1; i >= 0; --i) {
+            if (dominoes[i] == 'L') force = N;
+            else if (dominoes[i] == 'R') force = 0;
+            else force = max(force - 1, 0);
+            forces[i] -= force;
+        }
+
+        string ans(N, ' ');
+        for (int i = 0; i < N; i ++)
+            ans[i] = forces[i] > 0 ? 'R' : forces[i] < 0 ? 'L' : '.';
+        return ans;
+    }
+};
+```
