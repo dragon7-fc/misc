@@ -79,3 +79,46 @@ class Solution:
                 if cost[prev] < cost[i]: prev = i
         return ans
 ```
+
+**Solution 3: (Greedy)**
+```
+Runtime: 253 ms
+Memory: 95.5 MB
+```
+```c++
+class Solution {
+public:
+    int minCost(string colors, vector<int>& neededTime) {
+        int n = neededTime.size();
+        int ans = 0, prev = 0;
+        for (int i = 1; i < n; i ++) {
+            if (colors[i] != colors[prev]) {
+                prev = i;
+            } else {
+                ans += min(neededTime[prev], neededTime[i]);
+                prev = neededTime[prev] < neededTime[i]? i : prev;
+            }
+        }
+        return ans;
+    }
+};
+```
+
+**Solution 4: (DP Bottom-Up)**
+```
+Runtime: 1339 ms
+Memory: 25 MB
+```
+```python
+class Solution:
+    def minCost(self, colors: str, neededTime: List[int]) -> int:
+        n = len(colors)
+        dp = [0]*n
+        for i in range(1,n):
+            dp[i] = dp[i-1]
+            if colors[i] == colors[i-1]:
+                neededTime[i], neededTime[i-1] = max(neededTime[i], neededTime[i-1]), min(neededTime[i], neededTime[i-1])
+                dp[i] += neededTime[i-1]
+        
+        return dp[-1]
+```
