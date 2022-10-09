@@ -91,3 +91,34 @@ int threeSumClosest(int* nums, int numsSize, int target){
     return target - diff;
 }
 ```
+
+**Solution 3: (Sort, Two Pointers)**
+```
+Runtime: 652 ms
+Memory: 16.4 MB
+```
+```c++
+class Solution {
+public:
+    int threeSumClosest(vector<int>& nums, int target) {
+        sort(nums.begin(),nums.end());
+        int res = nums[0]+nums[1]+nums[2];
+        int n = nums.size();
+        int curr = INT_MAX;
+        for(int i =0;i<n;i++){
+            int j = i+1, k = n-1;
+            while(k>j){
+                curr = nums[i] + nums[j] + nums[k];
+                if (abs(curr-target) < abs(res-target))
+                    res = curr;
+                if (curr < target)
+                    j++;
+                else
+                    k--;
+            }
+        }
+        
+        return res;
+    }
+};
+```

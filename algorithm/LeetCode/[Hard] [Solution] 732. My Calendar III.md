@@ -125,3 +125,36 @@ class MyCalendarThree:
 # obj = MyCalendarThree()
 # param_1 = obj.book(start,end)
 ```
+
+**Solution 3: (ordered map)**
+```
+Runtime: 244 ms
+Memory: 6.4 MB
+```
+```c++
+class MyCalendarThree {
+    map<int,int>mp;
+public:
+    MyCalendarThree() {
+        
+    }
+    
+    int book(int start, int end) {
+        mp[start]++;
+        mp[end]--;
+        int sum=0; int ans=0;
+        for(auto it : mp)
+        {
+            sum+=it.second;
+            ans=max(ans,sum);
+        }
+        return ans;
+    }
+};
+
+/**
+ * Your MyCalendarThree object will be instantiated and called as such:
+ * MyCalendarThree* obj = new MyCalendarThree();
+ * int param_1 = obj->book(start,end);
+ */
+```
