@@ -68,7 +68,10 @@ public:
             }
         }
         palindrome[palindrome.size() - 1] = 'b';
-        return palindrome;     
+        // == *(palindrome.end()-1) = 'b';
+        // == palindrome[palindrome.end()-1-palindrome.begin()] = 'b';
+        // == palindrome.back() = 'b';
+        return palindrome;
     }
 };
 ```

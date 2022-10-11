@@ -42,3 +42,23 @@ class Solution:
                 return True
         return False
 ```
+
+**Solution 2: (Greedy)**
+```
+Runtime: 98 ms
+Memory: 61.6 MB
+```
+```c++
+class Solution {
+public:
+    bool increasingTriplet(vector<int>& nums) {
+        long long a = 1e10, b = 1e10;
+        for (int num : nums) {
+            if (num > b) return true;
+            if (num > a) b = min((long long) num, b);
+            a = min((long long) num, a);
+        }
+        return false;
+    }
+};
+```
