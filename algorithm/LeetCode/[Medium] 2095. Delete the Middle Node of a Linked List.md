@@ -79,3 +79,38 @@ struct ListNode* deleteMiddle(struct ListNode* head){
     return head;
 }
 ```
+
+**Solution 2; (Linked-List)**
+```
+Runtime: 2133 ms
+Memory: 294.8 MB
+```
+```c++
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode() : val(0), next(nullptr) {}
+ *     ListNode(int x) : val(x), next(nullptr) {}
+ *     ListNode(int x, ListNode *next) : val(x), next(next) {}
+ * };
+ */
+class Solution {
+public:
+    ListNode* deleteMiddle(ListNode* head) {
+        ListNode *fast, *slow, *prev, *dummy;
+        dummy = new ListNode();
+        // dummy = (struct ListNode *) malloc(sizeof(struct ListNode));
+        prev = dummy;
+        dummy->next = fast = slow = head;
+        while (fast && fast->next) {
+            fast = fast->next->next;
+            prev = slow;
+            slow = slow->next;
+        }
+        prev->next = slow->next;
+        return dummy->next;
+    }
+};
+```
