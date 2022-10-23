@@ -331,3 +331,69 @@ public:
     }
 };
 ```
+
+**Solution 5: (Sort)**
+```
+Runtime: 22 ms
+Memory: 12.6 MB
+```
+```c++
+class Solution {
+public:
+    vector<string> topKFrequent(vector<string>& words, int k) {
+        unordered_map<string, int> cnt;
+        for (string &word: words) {
+            cnt[word] += 1;
+        }
+        vector<string> keys;
+        for (auto &[key, val]: cnt) {
+            keys.push_back(key);
+        }
+        sort(keys.begin(), keys.end(), [&](string &w1, string &w2){
+            if (cnt[w1] != cnt[w2]) {
+                return cnt[w1] > cnt[w2];
+            } else {
+                return w1 < w2;
+            }
+        });
+        return vector(keys.begin(), keys.begin()+k);
+    }
+};
+```
+
+**Solution 5: (Heap)**
+```
+Runtime: 34 ms
+Memory: 12.9 MB
+```
+```c++
+struct Compare {
+    bool operator() (pair<int, string> a, pair<int, string> b) {
+        if(a.first == b.first)
+            return a.second > b.second;
+        else
+            return a.first < b.first;
+    }
+};
+
+class Solution {
+public:
+    vector<string> topKFrequent(vector<string>& words, int k) {
+        unordered_map<string, int> m;
+        for(int i=0; i<words.size(); i++)
+            m[words[i]]++;
+        
+        priority_queue<pair<int, string>, vector<pair<int, string>>, Compare> q;
+        for(auto p : m)
+            q.push({p.second, p.first});
+        
+        vector<string> ans;
+        while(k--) {
+            ans.push_back(q.top().second);
+            q.pop();
+        }
+        
+        return ans;
+    }
+};
+```

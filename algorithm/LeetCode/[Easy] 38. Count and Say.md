@@ -97,3 +97,42 @@ public:
     }
 };
 ```
+
+**Solution 3: (String)**
+```
+Runtime: 10 ms
+Memory: 6.2 MB
+```
+```c++
+class Solution {
+public:
+    string countAndSay(int n) {
+        string ans="1", cur;
+        char pre = ' ';
+        int cnt = 0;
+        while (n > 1) {
+            cur = ans;
+            ans.clear();
+            for (int i = 0; i < cur.size(); i ++) {
+                if (cur[i] == pre)
+                    cnt += 1;
+                else {
+                    if (cnt) {
+                        ans += to_string(cnt);
+                        ans += pre;
+                    }
+                    pre = cur[i];
+                    cnt = 1;
+                }
+            }
+            if (cnt) {
+                ans += to_string(cnt);
+                ans += pre;
+                cnt = 0;
+            }
+            n -= 1;
+        }
+        return ans;
+    }
+};
+```

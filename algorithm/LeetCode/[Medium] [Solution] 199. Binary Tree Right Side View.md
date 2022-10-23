@@ -135,7 +135,7 @@ class Solution:
         ans = []
         level = root and [root]
         while level:
-            ans.append([node for node in level][-1].val)
+            ans.append(level[-1].val)
             level = [c for node in level for c in [node.left, node.right] if c]
         return ans
             

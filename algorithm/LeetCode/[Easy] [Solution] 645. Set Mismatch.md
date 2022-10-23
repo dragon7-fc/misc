@@ -283,3 +283,22 @@ class Solution:
                 missing = i + 1
         return [dup, missing]
 ```
+
+**Solution 2: (Math)**
+```
+Runtime: 169 ms
+Memory: 29.5 MB
+```
+```c++
+class Solution {
+public:
+    vector<int> findErrorNums(vector<int>& nums) {
+        int n = nums.size();
+        int a = accumulate(nums.begin(), nums.end(), 0);
+        unordered_set<int> st(nums.begin(), nums.end());
+        int b = accumulate(st.begin(), st.end(), 0);
+		int s = n*(n+1)/2;
+        return {a-b, s-b};
+    }
+};
+```
