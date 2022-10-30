@@ -83,7 +83,7 @@ class Solution:
         q = [2,3,5]
         heapq.heapify(q)
         cur = 1
-        for i in range(2, n+1):
+        for _ in range(2, n+1):
             cur = heapq.heappop(q)
             for x in [2*cur, 3*cur, 5*cur]:
                 if x not in Set:

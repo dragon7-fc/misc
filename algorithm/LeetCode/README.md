@@ -1856,7 +1856,7 @@ class Solution:
 
         return dfs(0)
 ```
-[[Easy] 198. House Robber](%5BEasy%5D%20198.%20House%20Robber.md)
+[Easy] 198. House Robber
 
 ### Pascal's Triangle
 ```python
@@ -3973,7 +3973,7 @@ class Solution:
 
         return dfs(0, 0)
 ```
-* [[[Hard] 1595. Minimum Cost to Connect Two Groups of Points](%5BHard%5D%201595.%20Minimum%20Cost%20to%20Connect%20Two%20Groups%20of%20Points.md)
+* [Hard] 1595. Minimum Cost to Connect Two Groups of Points
 
 ### Character match
 ```python
@@ -7492,7 +7492,7 @@ class Solution:
             root.right = self.buildTree(preorder, inorder[ind+1:])
             return root
 ```
-* [[Medium] 105. Construct Binary Tree from Preorder and Inorder Traversa
+* [Medium] 105. Construct Binary Tree from Preorder and Inorder Traversal
 
 ### Post-Order
 ```python
@@ -14382,7 +14382,7 @@ class Solution(object):
                 stack[-1][0] += st*k
         return stack[0][0]
 ```
-* [![Medium] 394. Decode String](!%5BMedium%5D%20394.%20Decode%20String.md)
+* ![Medium] 394. Decode String
 
 ### Preprocessing, stack maintain variance from right
 ```python
@@ -15878,7 +15878,7 @@ class Solution:
             for l, r, k in queries
         ]
 ```
-* [[Medium] 1177. Can Make Palindrome from Substring](%5BMedium%5D%201177.%20Can%20Make%20Palindrome%20from%20Substring.md
+* [Medium] 1177. Can Make Palindrome from Substring
 
 ### expand from internal
 ```python
@@ -17183,7 +17183,7 @@ class Solution:
         tail.next = cur
         return head
 ```
-* [![Medium] [Solution] 92. Reverse Linked List II](!%5BMedium%5D%20%5BSolution%5D%2092.%20Reverse%20Linked%20List%20II.md)
+* ![Medium] [Solution] 92. Reverse Linked List II
 
 ### Inorder Simulation
 ```python
