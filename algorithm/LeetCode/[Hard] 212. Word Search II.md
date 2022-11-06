@@ -70,10 +70,10 @@ class Solution:
         return ans
 ```
 
-**Solution 1: (Trie, DFS)**
+**Solution 2: (Trie, DFS)**
 ```
-Runtime: 332 ms
-Memory Usage: 28.9 MB
+Runtime: 3772 ms
+Memory: 16.3 MB
 ```
 ```python
 class Solution:
@@ -95,6 +95,9 @@ class Solution:
                 del node['#']
             for nr, nc in neighbours(r, c):
                 if board[nr][nc] != '' and board[nr][nc] in node:
+                    if len(node[board[nr][nc]]) == 0:
+                        del node[board[nr][nc]]
+                        continue
                     dfs(nr, nc, node, path + board[nr][nc])
             board[r][c] = letter
      

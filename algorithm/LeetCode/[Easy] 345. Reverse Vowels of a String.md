@@ -40,3 +40,24 @@ class Solution:
             i,j = i+1, j-1
         return ''.join(s)
 ```
+
+**Solution 2: (Two Pointers)**
+```
+Runtime: 17 ms
+Memory: 8.2 MB
+```
+```c++
+class Solution {
+public:
+    string reverseVowels(string s) {
+        set<char> vwls = {'a','e','i','o','u','A','E','I','O','U'};
+        for (int l = 0, r = s.size()-1; l < r; )
+        {
+            while (l < r && !vwls.count(s[l])) ++l;
+            while (l < r && !vwls.count(s[r])) --r;
+            swap(s[l++], s[r--]);
+        }
+        return s;
+    }
+};
+```

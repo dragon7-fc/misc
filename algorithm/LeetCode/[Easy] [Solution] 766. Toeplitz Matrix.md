@@ -108,3 +108,22 @@ class Solution:
                    for r, row in enumerate(matrix)
                    for c, val in enumerate(row))
 ```
+
+**Solution 2: (Brute Force)**
+```
+Runtime: 33 ms
+Memory: 17.5 MB
+```
+```python
+class Solution {
+public:
+    bool isToeplitzMatrix(vector<vector<int>>& matrix) {
+        // compare each row to the next row shifted by 1 
+        for (int i = 0; i < matrix.size(); i++)
+            for (int j = 0; j < matrix[0].size(); j++)
+                if (i > 0 && j > 0 && matrix[i-1][j-1] != matrix[i][j])
+                    return false;
+        return true;
+    }
+};
+```

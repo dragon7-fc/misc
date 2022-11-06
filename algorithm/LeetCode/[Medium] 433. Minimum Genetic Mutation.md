@@ -60,7 +60,7 @@ class Solution:
         bank, queue = set(bank) ,[[start,0]]
         if end not in bank: return -1
         while queue:
-            current_word, steps = queue. pop(0)
+            current_word, steps = queue.pop(0)
             if current_word == end: return steps
             for i in range(len(current_word)):
                 for letter in ["A","C","G","T"]:

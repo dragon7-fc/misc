@@ -820,7 +820,7 @@ class Solution:
                 r, c = r + dr[di], c + dc[di]
         return ans
 ```
-* [Medium] [Solution] 54. Spiral Matrix.md
+* [Medium] [Solution] 54. Spiral Matrix
 
 ### Hash Table
 ```python
@@ -1778,7 +1778,7 @@ class NumArray:
 # obj = NumArray(nums)
 # param_1 = obj.sumRange(i,j)
 ```
-* [Easy] 303. Range Sum Query - Immutable.md
+* [Easy] 303. Range Sum Query - Immutable
 
 ### Prefix Sum
 ```python
@@ -1944,7 +1944,7 @@ class Solution:
                 
         return dp[0]
 ```
-* [Medium] 91. Decode Ways.md
+* [Medium] 91. Decode Ways
 
 ### Count
 ```python
@@ -1962,7 +1962,7 @@ class Solution:
         
         return dfs(i, j, N)
 ```
-* [Medium] [Solution] 576. Out of Boundary Paths.md
+* [Medium] [Solution] 576. Out of Boundary Paths
 
 ### bitmask state as parameter
 ```python
@@ -2035,7 +2035,7 @@ class Solution:
         # recurse with the initial mask with all matchsticks available.
         return recurse((1 << L) - 1, 0)
 ```
-* [Medium] [Solution] 473. Matchsticks to Square.md
+* [Medium] [Solution] 473. Matchsticks to Square
 
 ### value chain
 ```python
@@ -2069,7 +2069,7 @@ class Solution:
 
         return dp[0][n-1]
 ```
-* [Medium] 1690. Stone Game VII.md
+* [Medium] 1690. Stone Game VII
 
 ### Think backward
 ```python
@@ -2807,7 +2807,7 @@ class Solution:
                     
         return dp[-1][-1]
 ```
-[Hard] 115. Distinct Subsequences.md
+[Hard] 115. Distinct Subsequences
 
 ### Common Increasing Subsequence
 ```python
@@ -2917,7 +2917,7 @@ class Solution:
             
         return dfs(bin(num)[2:], 0)
 ```
-* [Hard] [Solution] 600. Non-negative Integers without Consecutive Ones.md
+* [Hard] [Solution] 600. Non-negative Integers without Consecutive Ones
 
 ### 2 state
 ```python
@@ -2973,7 +2973,7 @@ class Solution:
             
         return second
 ```
-* [Hard] [Solution] 639. Decode Ways II.md
+* [Hard] [Solution] 639. Decode Ways II
 
 ### Count
 ```python
@@ -2996,7 +2996,7 @@ class Solution:
             
         return sum([dp(0, _) for _ in list(d.keys())]) % MOD
 ```
-* [Hard] 1220. Count Vowels Permutation.md
+* [Hard] 1220. Count Vowels Permutation
 
 ### Prefix Sum, left and right scan
 ```python
@@ -3043,7 +3043,7 @@ class Solution:
                 ans += down if down < up else down+1
         return ans
 ```
-* [Hard] [Solution] 135. Candy.md
+* [Hard] [Solution] 135. Candy
 
 ### Brute Force, Backtracking
 ```python
@@ -3950,7 +3950,7 @@ class Solution:
             dp, dp2 = dp2, [[0, 0]]
         return dp[-1][-1]
 ```
-* [Hard] 1751. Maximum Number of Events That Can Be Attended II.md
+* [Hard] 1751. Maximum Number of Events That Can Be Attended II
 
 ### 2 Group DP with bitmask
 ```python
@@ -5082,7 +5082,7 @@ class Solution:
         
         return dfs([_ for _ in range(1,N+1)])
 ```
-* [Medium] 932. Beautiful Array.md
+* [Medium] 932. Beautiful Array
 
 ### Maximum
 ```python
@@ -5689,7 +5689,7 @@ class Solution:
         coldiff=n - coldiff if coldiff%2 != 0 or (n%2 == 0 and (n - coldiff) < coldiff) else coldiff
         return (rowdiff+coldiff) // 2
 ```
-* [Hard] 782. Transform to Chessboard.md
+* [Hard] 782. Transform to Chessboard
 
 ### shrink program space
 ```python
@@ -7026,7 +7026,7 @@ class Solution:
         node.right = self.sortedArrayToBST(nums[len(nums)//2 + 1:])
         return node
 ```
-* [Easy] 108. Convert Sorted Array to Binary Search Tree.md
+* [Easy] 108. Convert Sorted Array to Binary Search Tree
 
 ### DFS
 ```python
@@ -7467,7 +7467,7 @@ class Solution:
             q = parent[q]
         return q
 ```
-* [Medium] [Solution] 236. Lowest Common Ancestor of a Binary Tree.md
+* [Medium] [Solution] 236. Lowest Common Ancestor of a Binary Tree
 
 ### DFS
 ```python
@@ -8004,7 +8004,7 @@ class Solution:
         dfs2()
         return ans
 ```
-* [Hard] [Solution] 834. Sum of Distances in Tree.md
+* [Hard] [Solution] 834. Sum of Distances in Tree
 
 ### DFS with pre node pointer
 ```python
@@ -8077,7 +8077,7 @@ class Solution:
             else:
                 sum_dict[nums[i]] = i
 ```
-* [Easy] [Solution] 1. Two Sum.md
+* [Easy] [Solution] 1. Two Sum
 
 ### Character Mapping with Dictionary
 ```python
@@ -8101,7 +8101,7 @@ class Solution:
             
         return True
 ```
-* [Easy] 205. Isomorphic Strings.md
+* [Easy] 205. Isomorphic Strings
 
 ### Counter
 ```python
@@ -8344,7 +8344,7 @@ class Solution:
                 
         return ans + "".join(c*cnt[c] for c in cnt) 
 ```
-* [Medium] 791. Custom Sort String.md
+* [Medium] 791. Custom Sort String
 
 ### Categorize by Count
 ```python
@@ -9353,7 +9353,7 @@ class Solution:
         return dfs(root, root.val)
 
 ```
-* [Medium] 1448. Count Good Nodes in Binary Tree.md
+* [Medium] 1448. Count Good Nodes in Binary Tree
 
 ### island
 ```python
@@ -9411,7 +9411,7 @@ class Solution:
                     ans += 1 
         return ans
 ```
-[Medium] 200. Number of Islands.md
+[Medium] 200. Number of Islands
 
 ### search max area
 ```python
@@ -10629,7 +10629,7 @@ class MyCalendar:
 # obj = MyCalendar()
 # param_1 = obj.book(start,end)
 ```
-* [Medium] [Solution] 729. My Calendar I.md
+* [Medium] [Solution] 729. My Calendar I
 
 ### Inorder Simulation
 ```python
@@ -11427,7 +11427,7 @@ class Solution:
                 return palindrome[:i] + 'a' + palindrome[i + 1:]
         return palindrome[:-1] + 'b' if palindrome[:-1] else ''
 ```
-* [Medium] 1328. Break a Palindrome.md
+* [Medium] 1328. Break a Palindrome
 
 ### Count
 ```python
@@ -11461,7 +11461,7 @@ class Solution:
                 break
         return ans
 ```
-* [Medium] 1338. Reduce Array Size to The Half.md
+* [Medium] 1338. Reduce Array Size to The Half
 
 ### Heap to record smallest
 ```python
@@ -13397,7 +13397,7 @@ class Solution:
                 break
         return target - diff
 ```
-* [Medium] 16. 3Sum Closest.md
+* [Medium] 16. 3Sum Closest
 
 ### Sorted candidate pointer
 ```python
@@ -13430,7 +13430,7 @@ class Solution:
         ans = set([tuple(x) for x in ans])
         return ans
 ```
-* [Medium] 18. 4Sum.md
+* [Medium] 18. 4Sum
 
 ### Greedy add
 ```python
@@ -13449,7 +13449,7 @@ class Solution:
                 j -= 1
         return arr[i:j+1]
 ```
-* [Medium] 658. Find K Closest Elements.md
+* [Medium] 658. Find K Closest Elements
 
 ### Greedy add, parallel viewpoint
 ```python
@@ -13996,7 +13996,7 @@ class Solution:
                 
         return ''.join(stack)
 ```
-* [Easy] 1047. Remove All Adjacent Duplicates In String.md
+* [Easy] 1047. Remove All Adjacent Duplicates In String
 
 ### Mapping
 ```python
@@ -14761,7 +14761,7 @@ class Solution:
 
         return maxLenRec(set(), 0)
 ```
-* [Medium] 1239. Maximum Length of a Concatenated String with Unique Characters.md
+* [Medium] 1239. Maximum Length of a Concatenated String with Unique Characters
 
 ### DFS
 ```python
@@ -15899,7 +15899,7 @@ class Solution:
             
         return [int(i,2) for i in recursion(n)]
 ```
-[Medium] 89. Gray Code.md
+[Medium] 89. Gray Code
 ---
 **Template 1: (Negative binary, 2's complement representation)**
 ```python
@@ -17505,7 +17505,7 @@ class Solution:
                     heapq.heappushpop(res, -matrix[i][j])
         return -(res[0])
 ```
-* [Medium] 378. Kth Smallest Element in a Sorted Matrix.md
+* [Medium] 378. Kth Smallest Element in a Sorted Matrix
 
 ### Greedy, backward sliding window
 ```python
@@ -17518,7 +17518,7 @@ class Solution:
             heappush(pq, (-ans, i))
         return ans
 ```
-[Medium] 1696. Jump Game VI.md
+[Medium] 1696. Jump Game VI
 
 ### Greedy Max Heap
 ```python
@@ -17751,7 +17751,7 @@ class MedianFinder:
 # obj.addNum(num)
 # param_2 = obj.findMedian()
 ```
-* [Hard] [Solution] 295. Find Median from Data Stream.md
+* [Hard] [Solution] 295. Find Median from Data Stream
 
 ### Dijkstra's Algorithm
 ```python
@@ -18361,7 +18361,7 @@ class Solution:
                 rank[i] = rank[j + n] = matrix[i][j] = rank2[find(i)] + 1
         return matrix
 ```
-* [Hard] 1632. Rank Transform of a Matrix.md
+* [Hard] 1632. Rank Transform of a Matrix
 
 ### Reverse Time and Union-Find
 ```python
