@@ -337,182 +337,24 @@ public class Solution {
 
 # Submissions
 ---
-**Solution 1: (Jarvis Algorithm)**
+**Solution1: (Convex Hull)**
 ```
-Runtime: 1320 ms
-Memory Usage: 13.3 MB
-```
-```python
-class Solution:
-    def outerTrees(self, points: List[List[int]]) -> List[List[int]]:
-        
-        def orientation(p, q, r):
-            return (q[1] - p[1]) * (r[0] - q[0]) - (q[0] - p[0]) * (r[1] - q[1])
-
-        def inBetween(p, i, q):
-            a = i[0] >= p[0] and i[0] <= q[0] or i[0] <= p[0] and i[0] >= q[0]
-            b = i[1] >= p[1] and i[1] <= q[1] or i[1] <= p[1] and i[1] >= q[1]
-            return a and b
-        
-        hull = set()
-        if len(points) < 4:
-            return points
-        left_most = 0
-        for i in range(len(points)):
-            if points[i][0] < points[left_most][0]:
-                left_most = i
-        p = left_most
-        while True:
-            q = (p + 1) % len(points)
-            for i in range(len(points)):
-                if orientation(points[p], points[i], points[q]) < 0:
-                    q = i
-            for i in range(len(points)):
-                if i != p and i != q and orientation(points[p], points[i], points[q]) == 0 and inBetween(points[p], points[i], points[q]):
-                    hull.add(tuple(points[i]))
-            hull.add(tuple(points[q]))
-            p = q
-            if p == left_most:
-                break
-
-        return list(hull)
-```
-
-**Solution 2: (Graham Scan)**
-```
-Runtime: 380 ms
-Memory Usage: 13.5 MB
-```
-```python
-class Solution:
-    def outerTrees(self, points: List[List[int]]) -> List[List[int]]:
-        if len(points) <= 3:
-            return points
-        
-        def graham_scan(ref, keep_turn):
-            stack = [ref, points[0]]
-            for p in points[1:]:
-                while len(stack) >= 2 and keep_turn(stack[-2], stack[-1], p):
-                    stack.pop()
-                stack.append(p)
-            return stack
-
-        def reference_point():
-            ref = min(points)
-            points.pop(points.index(ref))
-            return ref
-
-        def sort_by_slopes(ref, order):
-            points.sort(key=lambda p: (order * slope(ref, p), -p[1]))
-
-        def slope(ref, p):
-            if ref[0] == p[0]:
-                return float('inf')
-            else:
-                return (p[1] - ref[1]) / (p[0] - ref[0])
-
-        def is_turn_right(p1, p2, p3):
-            return cross_product(direction(p1, p2), direction(p1, p3)) < 0
-
-        def is_turn_left(p1, p2, p3):
-            return cross_product(direction(p1, p2), direction(p1, p3)) > 0
-
-        def direction(x, y):
-            return [y[0] - x[0], y[1] - x[1]]
-
-        def cross_product(x, y):
-            return x[0] * y[1] - x[1] * y[0]
-
-        points = [tuple(p) for p in points]
-        ref = reference_point()
-        sort_by_slopes(ref, 1)
-        frontier = set(graham_scan(ref, is_turn_right))
-        sort_by_slopes(ref, -1)
-        frontier |= set(graham_scan(ref, is_turn_left))
-        
-        return list(frontier)
-```
-
-**Solution 3: (Graham scan)**
-```
-Runtime: 224 ms
-Memory Usage: 15.6 MB
+Runtime: 230 ms
+Memory: 14.6 MB
 ```
 ```python
 class Solution:
     def outerTrees(self, trees: List[List[int]]) -> List[List[int]]:
-        def cross(p1, p2, p3):
-            return (p2[0]-p1[0])*(p3[1]-p1[1])-(p2[1]-p1[1])*(p3[0]-p1[0])
-
-        start = min(trees)
-        trees.pop(trees.index(start))
-        trees.sort(key=lambda p: (atan2(p[1]-start[1], p[0]-start[0]), -p[1], p[0]))
-
-        ans = [start]
-        for p in trees:
-            ans.append(p)
-            while len(ans) > 2 and cross(*ans[-3:]) < 0:
-                ans.pop(-2)
-        return ans
-```
-
-**Solution 4: (convex hull)**
-```
-Runtime: 154 ms
-Memory Usage: 23 MB
-```
-```c++
-class Solution {
-public:
-    vector<vector<int>> outerTrees(vector<vector<int>>& trees) {
-        vector<vector<int>> points;
-        
-        sort(trees.begin(), trees.end(), [](auto& a, auto& b) {
-            if (a[0] == b[0]) {
-                return a[1] > b[1];
-            } else {
-                return a[0] < b[0];
-            }
-        });
-        
-        int n = trees.size();
-        
-        for (int i = 0; i < n; ++i) {
-            while (points.size() >= 2 
-                   && orientation(points[points.size() - 2], points[points.size() - 1], trees[i]) > 0) {
-                points.pop_back();
-            }
-            
-            points.push_back(trees[i]);
-        }
-        
-        points.pop_back();
-        for (int i = n - 1; i >= 0; --i) {
-            while (points.size() >= 2 
-                   && orientation(points[points.size() - 2], points[points.size() - 1], trees[i]) > 0) {
-                points.pop_back();
-            }
-            
-            points.push_back(trees[i]);
-        }
-        
-        sort(points.begin(), points.end());
-        
-        vector<vector<int>> ans;
-        
-        for (auto& p : points) {
-            if (ans.size() > 0 && p == ans.back()) {
-                continue;
-            }
-            
-            ans.push_back(p);
-        }
-        
-        return ans;
-    }
-    
-    int orientation(vector<int>& p, vector<int>& q, vector<int>& r) {
-        return (r[1] - p[1]) * (q[0] - p[0]) - (q[1] - p[1]) * (r[0] - p[0]);
-    }
-};
+        def compare_slopes(p1, p2, p3):
+            x1, y1 = p1
+            x2, y2 = p2
+            x3, y3 = p3
+            return (y3-y2)*(x2-x1) - (y2-y1)*(x3-x2) 
+        upper, lower  = [], []
+        for point in sorted(trees):
+            while len(lower) >= 2 and compare_slopes(lower[-2], lower[-1], point) < 0: lower.pop()
+            while len(upper) >= 2 and compare_slopes(upper[-2], upper[-1], point) > 0: upper.pop()
+            lower.append(tuple(point))
+            upper.append(tuple(point))   
+        return list(set(lower + upper))
 ```

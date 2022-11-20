@@ -168,7 +168,7 @@ class Solution:
                 ans -= 1
         return ans
 ```
-**Solution 1: (DFS)**
+**Solution: (DFS)**
 ```
 Runtime: 1636 ms
 Memory Usage: 14.3 MB
@@ -231,4 +231,35 @@ class Solution:
             dsu.union(x, y + 10000)
 
         return N - len({dsu.find(x) for x, y in stones})
+```
+
+**Solution 1: (DFS)**
+```
+Runtime: 384 ms
+Memory: 17.4 MB
+```
+```python
+class Solution:
+    def removeStones(self, stones: List[List[int]]) -> int:
+        N = len(stones)
+        seen = set()
+        xs = collections.defaultdict(list)
+        ys = collections.defaultdict(list)
+        for x, y in stones:
+            xs[x] += [(x, y)]
+            ys[y] += [(x, y)]
+
+        def dfs(x, y):
+            seen.add((x, y))
+            for nx, ny in xs[x] + ys[y]:
+                if (nx, ny) not in seen:
+                    dfs(nx, ny)
+        
+        comp = 0
+        for x, y in stones:
+            if (x, y) not in seen:
+                comp += 1
+                dfs(x, y)
+
+        return N - comp
 ```

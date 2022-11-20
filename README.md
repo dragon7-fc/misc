@@ -1783,6 +1783,9 @@ A playground to note something.
             [/PATH/TO/NFSROOT] [NFS_SERVER_IP|*](rw,no_root_squash,sync,no_subtree_check)
             ##+++<
 
+            sudo mkdir [/PATH/TO/NFSROOT]
+            sudo chmod 777 [/PATH/TO/NFSROOT]
+            sudo chown nobody:nogroup -R [/PATH/TO/NFSROOT]
             sudo exportfs -a
             sudo service nfs-kernel-server restart
             ```
