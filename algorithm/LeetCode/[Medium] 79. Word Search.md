@@ -130,3 +130,42 @@ public:
     }
 };
 ```
+
+**Solution 4: (Trie)**
+```
+Runtime: 1101 ms
+Memory: 14.1 MB
+```
+```
+board_cnt = collections.Counter(c for r in board for c in r)
+        word_cnt = collections.Counter(word)
+        if any(word_cnt[k] > board_cnt[k] for k in word_cnt):
+            return False
+        R, C = len(board), len(board[0])
+        trie = {}
+        t = trie
+        for c in word:
+            t = t.setdefault(c, {})
+        t["#"] = True
+        seen = set()
+
+        def dfs(r, c, t):
+            t = t[board[r][c]]
+            if '#' in t:
+                return True
+            seen.add((r, c))
+            for nr, nc in [(r+1, c), (r-1, c), (r, c+1), (r, c-1)]:
+                if 0 <= nr < R and 0 <= nc < C:
+                    if board[nr][nc] in t and not (nr, nc) in seen:
+                        if dfs(nr, nc, t):
+                            return True
+            seen.remove((r, c))
+            return False
+
+        for r in range(R):
+            for c in range(C):
+                if board[r][c] in trie:
+                    if dfs(r, c, trie):
+                        return True
+        return False
+```

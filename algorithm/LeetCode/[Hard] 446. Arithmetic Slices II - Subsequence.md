@@ -318,3 +318,21 @@ class Solution:
                         
         return ans
 ```
+
+**Solution 2: (DP Bottom-Up)**
+```
+Runtime: 1041 ms
+Memory: 52.5 MB
+```
+```python
+class Solution:
+    def numberOfArithmeticSlices(self, nums: List[int]) -> int:
+        total, n = 0, len(nums)
+        dp = [Counter() for _ in nums]
+        for j in range(n):
+            for i in range(j):
+                dp[j][nums[j] - nums[i]] += (dp[i][nums[j] - nums[i]] + 1)      
+            total += sum(dp[j].values())
+          
+        return total - (n-1)*n//2   # total - sequence length 2 number
+```
