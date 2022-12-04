@@ -35,47 +35,41 @@ randomSet.getRandom();
 
 # Submissions
 ---
-**Solution1: (Set)**
+**Solution 1: (Hash Table, Array)**
 ```
-Runtime: 352 ms
-Memory Usage: 17.9 MB
+Runtime: 1020 ms
+Memory: 60 MB
 ```
 ```python
 class RandomizedSet:
 
     def __init__(self):
-        """
-        Initialize your data structure here.
-        """
-        self.s = set()
-        
+        self.indices = {}
+        self.a = []
+
 
     def insert(self, val: int) -> bool:
-        """
-        Inserts a value to the set. Returns true if the set did not already contain the specified element.
-        """
-        if val not in self.s:
-            self.s.add(val)
-            return True
-        else:
+        if val in self.indices:
             return False
+        self.a += [val]
+        self.indices[val] = len(self.a)-1
+        return True
+
 
     def remove(self, val: int) -> bool:
-        """
-        Removes a value from the set. Returns true if the set contained the specified element.
-        """
-        if val in self.s:
-            self.s.remove(val)
-            return True
-        else:
+        if val not in self.indices:
             return False
+        i = self.indices[val]
+        self.indices[self.a[-1]] = i
+        self.a[i] = self.a[-1]
+        self.indices.pop(val)
+        self.a.pop()
         
+        return True
 
     def getRandom(self) -> int:
-        """
-        Get a random element from the set.
-        """
-        return random.choice(list(self.s))
+        return self.a[random.randrange(len(self.a))]
+
 
 
 # Your RandomizedSet object will be instantiated and called as such:
@@ -86,64 +80,6 @@ class RandomizedSet:
 ```
 
 **Solution 2: (Hash Table, Array)**
-```
-Runtime: 120 ms
-Memory Usage: 18.3 MB
-```
-```python
-class RandomizedSet:
-
-    def __init__(self):
-        """
-        Initialize your data structure here.
-        """
-        self.dic = {}
-        self.list = []
-        
-
-    def insert(self, val: int) -> bool:
-        """
-        Inserts a value to the set. Returns true if the set did not already contain the specified element.
-        """
-        if val in self.dic:
-            return False
-        self.list.append(val)
-        self.dic[val] = len(self.list) - 1
-        return True
-        
-
-    def remove(self, val: int) -> bool:
-        """
-        Removes a value from the set. Returns true if the set contained the specified element.
-        """
-        if val not in self.dic:
-            return False
-        if self.dic[val] == len(self.list) - 1:
-            del self.dic[val]
-        else:
-            idx = self.dic[val] 
-            self.list[idx] = self.list[-1]
-            self.dic[self.list[idx]] = idx
-            del self.dic[val]
-        self.list.pop()
-        return True
-        
-
-    def getRandom(self) -> int:
-        """
-        Get a random element from the set.
-        """
-        return self.list[random.randint(0, len(self.list) - 1)]
-
-
-# Your RandomizedSet object will be instantiated and called as such:
-# obj = RandomizedSet()
-# param_1 = obj.insert(val)
-# param_2 = obj.remove(val)
-# param_3 = obj.getRandom()
-```
-
-**Solution 3: (Hash Table, Array)**
 ```
 Runtime: 204 ms
 Memory Usage: 97.1 MB

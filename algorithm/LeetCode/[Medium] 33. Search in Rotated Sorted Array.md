@@ -140,13 +140,15 @@ class Solution:
             mid = (left+right) >> 1
             if nums[mid] == target:
                 return mid
-            elif nums[mid] >= nums[left]:
-                if nums[left] <= target < nums[mid]:
+            elif nums[mid] >= nums[left]:   
+                # left part sorted
+                if nums[left] <= target < nums[mid]:  # target in sorted left part
                     right = mid - 1
                 else:
                     left = mid + 1
             else:
-                if nums[mid] < target <= nums[right]:
+                # right part sort
+                if nums[mid] < target <= nums[right]:  # target in sorted right part
                     left = mid+1
                 else:
                     right = mid-1

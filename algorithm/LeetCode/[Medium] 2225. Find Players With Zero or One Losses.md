@@ -90,3 +90,55 @@ public:
     }
 };
 ```
+
+**Solution 3: (iHash Map, indegree)**
+```
+Runtime: 2210 ms
+Memory: 69 MB
+```
+```python
+class Solution:
+    def findWinners(self, matches: List[List[int]]) -> List[List[int]]:
+        losses_count = {}
+        
+        for winner, loser in matches:
+            losses_count[winner] = losses_count.get(winner, 0)
+            losses_count[loser] = losses_count.get(loser, 0) + 1
+        
+        zero_lose, one_lose = [], []
+        for player, count in losses_count.items():
+            if count == 0:
+                zero_lose.append(player)
+            if count == 1:
+                one_lose.append(player)
+        
+        return [sorted(zero_lose), sorted(one_lose)]
+```
+
+**Solution 4: (Counting with Array)**
+```
+Runtime: 6775 ms
+Memory: 69.6 MB
+```
+```c++
+class Solution:
+    def findWinners(self, matches: List[List[int]]) -> List[List[int]]:
+        losses_count = [-1] * 100001
+
+        for winner, loser in matches:
+            if losses_count[winner] == -1:
+                losses_count[winner] = 0
+            if losses_count[loser] == -1:
+                losses_count[loser] = 1
+            else:
+                losses_count[loser] += 1
+            
+        answer = [[], []]
+        for i in range(100001):
+            if losses_count[i] == 0:
+                answer[0].append(i)
+            elif losses_count[i] == 1:
+                answer[1].append(i)
+                
+        return answer
+```
