@@ -113,3 +113,35 @@ class Solution:
         treemax(root, total)
         return self.rst % (10**9 + 7)
 ```
+
+**Solution 3: (Set)**
+```
+Runtime: 816 ms
+Memory: 77.6 MB
+```
+```python
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+class Solution:
+    def maxProduct(self, root: Optional[TreeNode]) -> int:
+        s = set()
+
+        def dfs(node):
+            if not node:
+                return 0
+            left = dfs(node.left)
+            right = dfs(node.right)
+            cur = node.val + left + right
+            s.add(cur)
+            return cur
+        
+        total = dfs(root)
+        ans = 0
+        for v in s:
+            ans = max(ans, (total-v)*v)
+        return ans%(10**9 + 7)
+```
