@@ -97,3 +97,23 @@ class Solution:
         
         return min(dfs(R-1, c) for c in range(C))
 ```
+
+**Solution 2: (DP Bottom-Up)**
+```
+Runtime: 159 ms
+Memory: 14.8 MB
+```
+```python
+class Solution:
+    def minFallingPathSum(self, matrix: List[List[int]]) -> int:
+        R, C = len(matrix), len(matrix[0])
+        if R == 1:
+            return min(matrix[0])
+        ans = float('inf')
+        for r in range(1, R):
+            for c in range(C):
+                matrix[r][c] += min([matrix[r-1][pc] for pc in [(c-1), (c), (c+1)] if 0 <= pc < C])
+                if r == R-1:
+                    ans = min(ans, matrix[r][c])
+        return ans
+```

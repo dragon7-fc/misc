@@ -114,7 +114,7 @@ class Solution:
         return self.rst % (10**9 + 7)
 ```
 
-**Solution 3: (Set)**
+**Solution 3: (One Pass with Hash Set)**
 ```
 Runtime: 816 ms
 Memory: 77.6 MB

@@ -139,3 +139,45 @@ void myQueueFree(MyQueue* obj) {
  * myQueueFree(obj);
 */
 ```
+
+**Solution 3: (Two Stacks) Push - O(1) per operation, Pop - Amortized O(1) per operation)**
+```
+Runtime: 33 ms
+Memory: 13.9 MB
+```
+```python
+class MyQueue:
+
+    def __init__(self):
+        self.stk = []
+        self.tmp = []
+        
+
+    def push(self, x: int) -> None:
+        self.tmp += [x]
+
+    def pop(self) -> int:
+        if self.stk:
+            return self.stk.pop()
+        else:
+            while self.tmp:
+                self.stk += [self.tmp.pop()]
+            return self.stk.pop()
+
+    def peek(self) -> int:
+        if self.stk:
+            return self.stk[-1]
+        else:
+            return self.tmp[0]
+
+    def empty(self) -> bool:
+        return not self.stk and not self.tmp
+
+
+# Your MyQueue object will be instantiated and called as such:
+# obj = MyQueue()
+# obj.push(x)
+# param_2 = obj.pop()
+# param_3 = obj.peek()
+# param_4 = obj.empty()
+```

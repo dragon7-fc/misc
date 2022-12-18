@@ -89,3 +89,23 @@ int rob(int* nums, int numsSize){
     return dp2;
 }
 ```
+
+**Solution 4: (DP Bottom-Up)**
+```
+Runtime: 29 ms
+Memory: 13.9 MB
+```
+```python
+class Solution:
+    def rob(self, nums: List[int]) -> int:
+        N = len(nums)
+        if N <= 1:
+            return nums[0]
+        two = 0
+        one = nums[0]
+        for i in range(1, N):
+            cur = max(nums[i] + two, one)
+            two = one
+            one = cur
+        return cur
+```

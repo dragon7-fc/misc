@@ -355,3 +355,22 @@ class Solution:
             second = third
         return second
 ```
+
+**Solution 3: (DP Bottom-Up)**
+```
+Runtime: 36 ms
+Memory: 13.9 MB
+```
+```python
+class Solution:
+    def climbStairs(self, n: int) -> int:
+        if n <= 3:
+            return n
+        one = 3
+        two = 2
+        for _ in range(4, n+1):
+            cur = one + two
+            two = one
+            one = cur
+        return cur
+```
