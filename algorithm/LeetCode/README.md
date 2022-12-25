@@ -11297,7 +11297,7 @@ class MajorityChecker:
 ```
 * [Hard] 1157. Online Majority Element In Subarray
 
-**Template 1: (Binary Search)**
+**Template 1: (Binary Search, lower bound)**
 ```python
 def is_XXX(...):
     ...
@@ -11312,7 +11312,22 @@ while lo < hi:
 return lo
 ```
 
-**Template 2: (Binary Search)**
+**Template 2: (Binary Search, upper bound)**
+```python
+def is_XXX(...):
+    ...
+    
+lo, hi = 1, max(piles)
+while lo < hi:
+    mi = lo + (hi - lo) // 2
+    if is_XXX(...):
+        lo = mi + 1
+    else:
+        hi = mi
+return lo - 1
+```
+
+**Template 3: (Binary Search)**
 ```python
 def is_XXX(...):
     ...
