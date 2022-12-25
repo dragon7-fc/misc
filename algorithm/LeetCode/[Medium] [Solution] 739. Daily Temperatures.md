@@ -181,3 +181,22 @@ class Solution:
 
         return answer
 ```
+
+**Solution 5: (Stack)**
+```
+Runtime: 3665 ms
+Memory: 28.7 MB
+```
+```python
+class Solution:
+    def dailyTemperatures(self, temperatures: List[int]) -> List[int]:
+        N = len(temperatures)
+        stk = []
+        ans = [0]*N
+        for j in range(N):
+            while stk and temperatures[stk[-1]] < temperatures[j]:
+                i = stk.pop()
+                ans[i] = j-i
+            stk += [j]
+        return ans
+```

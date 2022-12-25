@@ -102,3 +102,25 @@ class Solution:
         
         return dp(0, 1)
 ```
+
+**Solution 4: (DP Bottom-Up)**
+```
+Runtime: 22 ms
+Memory: 14.2 MB
+```
+```python
+class Solution:
+    def maxProfit(self, prices: List[int]) -> int:
+        N = len(prices)
+        if N == 1:
+            return 0
+        buy = [0]*N
+        sell = [0]*N
+        buy[0] = -prices[0]
+        buy[1] = max(-prices[0], -prices[1])
+        sell[1] = max(0, prices[1] - prices[0])
+        for i in range(2, N):
+            sell[i] = max(sell[i-1], buy[i-1] + prices[i])
+            buy[i] = max(buy[i-1], sell[i-2] - prices[i])
+        return sell[-1]
+```
