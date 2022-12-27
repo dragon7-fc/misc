@@ -76,3 +76,22 @@ public:
     }
 };
 ```
+
+**Solution 1: (Greedy)**
+```
+Runtime: 935 ms
+Memory: 22.2 MB
+```
+```python
+class Solution:
+    def maximumBags(self, capacity: List[int], rocks: List[int], additionalRocks: int) -> int:
+        ans = 0
+        cur = additionalRocks
+        for m in sorted([c-r for c, r in zip(capacity, rocks)]):
+            cur -= m
+            if cur < 0:
+                break
+            ans += 1
+
+        return ans
+```
