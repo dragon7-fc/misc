@@ -65,3 +65,24 @@ void printLinkedListInReverse(struct ImmutableListNode* head) {
     head->printValue(head);
 }
 ```
+
+**Solution 2: (DFS, post-order)**
+```
+Runtime: 30 ms
+Memory: 15 MB
+```
+```python
+# """
+# This is the ImmutableListNode's API interface.
+# You should not implement it, or speculate about its implementation.
+# """
+# class ImmutableListNode:
+#     def printValue(self) -> None: # print the value of this node.
+#     def getNext(self) -> 'ImmutableListNode': # return the next node.
+
+class Solution:
+    def printLinkedListInReverse(self, head: 'ImmutableListNode') -> None:
+        if head:
+            self.printLinkedListInReverse(head.getNext())
+            head.printValue()
+```

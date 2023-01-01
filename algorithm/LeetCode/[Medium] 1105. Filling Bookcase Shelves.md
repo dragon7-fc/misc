@@ -79,3 +79,24 @@ class Solution:
 
         return shelf_height(0, shelf_width, 0)
 ```
+
+**Solution 3: (DP Top-Down)**
+```
+Runtime: 60 ms
+Memory: 15.6 MB
+```
+```
+class Solution:
+    def minHeightShelves(self, books: List[List[int]], shelfWidth: int) -> int:
+        N = len(books)
+        
+        @functools.lru_cache(None)
+        def dp(i, w, h):
+            if i == N:
+                return h
+            if w < books[i][0]:
+                return h + dp(i+1, shelfWidth-books[i][0], books[i][1])
+            return min(dp(i+1, w-books[i][0], max(h, books[i][1])), h + dp(i+1, shelfWidth-books[i][0], books[i][1]))
+            
+        return dp(0, shelfWidth, 0)
+```

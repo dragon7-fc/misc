@@ -308,3 +308,41 @@ class Solution:
                         path.remove((nr, nc))
         return ans
 ```
+
+**Solution 5: (Backtracking)**
+```
+Runtime: 54 ms
+Memory: 14 MB
+```
+```python
+class Solution:
+    def uniquePathsIII(self, grid: List[List[int]]) -> int:
+        R, C = len(grid), len(grid[0])
+        start = end = (0, 0)
+        todo = 0
+        for i in range(R):
+            for j in range(C):
+                if grid[i][j] == 1:
+                    start = (i, j)
+                elif grid[i][j] == 2:
+                    end = (i, j)
+                if grid[i][j] != -1:
+                    todo += 1
+
+        def bt(r, c, cur):
+            cur -= 1
+            if r == end[0] and c == end[1]:
+                if cur == 0:
+                    return 1
+                return 0
+            grid[r][c] = -1
+            rst = 0
+            for nr, nc in [(r+1, c), (r-1, c), (r, c+1), (r, c-1)]:
+                if 0 <= nr < R and 0 <= nc < C:
+                    if grid[nr][nc] != -1:
+                        rst += bt(nr, nc, cur)
+            grid[r][c] = 0
+            return rst
+
+        return bt(start[0], start[1], todo)
+```

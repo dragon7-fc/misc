@@ -127,3 +127,73 @@ class Solution:
         return leftmost_col
 
 ```
+
+**Solution 3: (Binary Search Each Row, Time: O(NLogM), Space: O(1))**
+```
+Runtime: 113 ms
+Memory: 14.3 MB
+```
+```python
+# """
+# This is BinaryMatrix's API interface.
+# You should not implement it, or speculate about its implementation
+# """
+#class BinaryMatrix(object):
+#    def get(self, row: int, col: int) -> int:
+#    def dimensions(self) -> list[]:
+
+class Solution:
+    def leftMostColumnWithOne(self, binaryMatrix: 'BinaryMatrix') -> int:
+        rows, cols = binaryMatrix.dimensions()
+        smallest_index = cols
+        for row in range(rows):
+            # Binary Search for the first 1 in the row.
+            lo = 0
+            hi = cols - 1
+            while lo < hi:
+                mid = (lo + hi) // 2
+                if binaryMatrix.get(row, mid) == 0:
+                    lo = mid + 1
+                else:
+                    hi = mid
+            # If the last element in the search space is a 1, then this row
+            # contained a 1.
+            if binaryMatrix.get(row, lo) == 1:
+                smallest_index = min(smallest_index, lo)
+        # If smallest_index is still set to cols, then there were no 1's in 
+        # the grid. 
+        return -1 if smallest_index == cols else smallest_index
+```
+
+**Solution 4: (Start at Top Right, Move Only Left and Down, Time: O(N+M), Space: O(1))**
+```
+Runtime: 112 ms
+Memory: 14.3 MB
+```
+```python
+# """
+# This is BinaryMatrix's API interface.
+# You should not implement it, or speculate about its implementation
+# """
+#class BinaryMatrix(object):
+#    def get(self, row: int, col: int) -> int:
+#    def dimensions(self) -> list[]:
+
+class Solution:
+    def leftMostColumnWithOne(self, binaryMatrix: 'BinaryMatrix') -> int:
+        rows, cols = binaryMatrix.dimensions()
+        
+        # Set pointers to the top-right corner.
+        current_row = 0
+        current_col = cols - 1
+        
+        # Repeat the search until it goes off the grid.
+        while current_row < rows and current_col >= 0:
+            if binaryMatrix.get(current_row, current_col) == 0:
+                current_row += 1
+            else:
+                current_col -= 1
+        
+        # If we never left the last column, it must have been all 0's.
+        return current_col + 1 if current_col != cols - 1 else -1
+```

@@ -118,3 +118,51 @@ public:
     }
 };
 ```
+
+**Solution 5: (Backtracking, Time: O(2^N * N), Space: O(2^N * N))**
+```
+Runtime: 111 ms
+Memory: 15.7 MB
+```
+```python
+class Solution:
+    def allPathsSourceTarget(self, graph: List[List[int]]) -> List[List[int]]:
+        N = len(graph)
+        ans = []
+
+        def bt(u, path):
+            nonlocal ans
+            if u == N-1:
+                ans += [path[:]]
+                return
+            for v in graph[u]:
+                path += [v]
+                bt(v, path)
+                path.pop()
+
+        bt(0, [0])
+        return ans
+```
+
+**Solution 6: (DP Top-Down, Time: O(2^N * N), Space: O(2^N * N))**
+```
+Runtime: 111 ms
+Memory: 17.3 MB
+```
+```python
+class Solution:
+    def allPathsSourceTarget(self, graph: List[List[int]]) -> List[List[int]]:
+        N = len(graph)
+
+        @functools.lru_cache(None)
+        def dp(u):
+            if u == N-1:
+                return [[u]]
+            rst = []
+            for v in graph[u]:
+                for path in dp(v):
+                    rst += [[u] + path]
+            return rst
+
+        return dp(0)
+```

@@ -95,7 +95,7 @@ class Solution:
         return True
 ```
 
-**Solution 3: (Hash Table)**
+> **Solution 3: (Hash Table)**
 ```
 Runtime: 16 ms
 Memory Usage: 12.8 MB

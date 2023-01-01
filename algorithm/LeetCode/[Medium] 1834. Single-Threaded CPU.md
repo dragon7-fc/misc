@@ -53,32 +53,67 @@ Explanation: The events go as follows:
 ---
 **Solution 1: (Heap)**
 ```
-Runtime: 1928 ms
-Memory Usage: 62.3 MB
+Runtime: 2060 ms
+Memory: 63.6 MB
 ```
 ```python
 class Solution:
     def getOrder(self, tasks: List[List[int]]) -> List[int]:
-        curr_time, cpu_time, ind = 0, 0, 0
-        h, ans = [], []
-
-        # Sort the tasks by their start times. Include the index to be able to retrieve it later.
-        st_prc_ind = sorted([(start, process, i) for i, (start, process) in enumerate(tasks)])
-
-        # Until there are items in the heap or unprocessed tasks in the input, we iterate.
-        while h or ind < len(tasks): 
-           # If the heap is empty, or there are tasks whose start time is before the current cpu time, add them to the heap.
-            while ind < len(tasks) and cpu_time >= st_prc_ind[ind][0] or not h:
-                start, process, i = st_prc_ind[ind]
-                heapq.heappush(h, (process, i, start))
-                ind += 1
-
-            # After all possible tasks are added to the heap, we pick the one with the smallest process time and add its index to the output list.
-            # And update the cpu time based on this new task.
-            process_time, i, start_time = heapq.heappop(h)                
-            ans.append(i)
-            curr_time = max(cpu_time, start_time)
-            cpu_time = curr_time + process_time
-        return (ans)
+        # Sort based on min task processing time or min task index.
+        next_task: List[Tuple[int, int]] = []
+        tasks_processing_order: List[int] = []
+        
+        # Store task enqueue time, processing time, index.
+        sorted_tasks = [(enqueue, process, idx) for idx, (enqueue, process) in enumerate(tasks)]
+        sorted_tasks.sort()
+        
+        curr_time = 0
+        task_index = 0
+        
+        # Stop when no tasks are left in array and heap.
+        while task_index < len(tasks) or next_task:
+            if not next_task and curr_time < sorted_tasks[task_index][0]:
+                # When the heap is empty, try updating curr_time to next task's enqueue time. 
+                curr_time = sorted_tasks[task_index][0]
             
+            # Push all the tasks whose enqueueTime <= currtTime into the heap.
+            while task_index < len(sorted_tasks) and curr_time >= sorted_tasks[task_index][0]:
+                _, process_time, original_index = sorted_tasks[task_index]
+                heapq.heappush(next_task, (process_time, original_index))
+                task_index += 1
+            
+            process_time, index = heapq.heappop(next_task)
+            
+            # Complete this task and increment curr_time.
+            curr_time += process_time
+            tasks_processing_order.append(index)
+        
+        return tasks_processing_order
+```
+
+**Solution 2: (Heap, Greedy)**
+```
+Runtime: 2377 ms
+Memory: 61.7 MB
+```
+```python
+class Solution:
+    def getOrder(self, tasks: List[List[int]]) -> List[int]:
+        N = len(tasks)
+        sorted_task = sorted([[t, p, i] for i, [t, p] in enumerate(tasks)])
+        j = 1
+        hq = [[sorted_task[0][1], sorted_task[0][2], sorted_task[0][0]]]
+        cur = 0
+        ans = []
+        while hq:
+            process, i, t = heapq.heappop(hq)
+            ans += [i]
+            cur = max(cur, t)
+            cur += process
+            if not hq and j < N:
+                cur = max(cur, sorted_task[j][0])
+            while j < N and sorted_task[j][0] <= cur:
+                heapq.heappush(hq, [sorted_task[j][1], sorted_task[j][2], sorted_task[j][0]])
+                j += 1
+        return ans
 ```
