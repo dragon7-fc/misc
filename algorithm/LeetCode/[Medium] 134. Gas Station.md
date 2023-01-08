@@ -49,7 +49,7 @@ Therefore, you can't travel around the circuit once no matter where you start.
 
 # Submissions
 ---
-**Solution 1: (DFS|)**
+**Solution 1: (DFS)**
 ```python
 Runtime: 8440 ms
 Memory Usage: 26.7 MB
@@ -155,4 +155,48 @@ public:
         return total_tank >= 0 ? starting_station : -1;
     }
 };
+```
+
+**Solution 5: (Sliding Window)**
+```
+Runtime: 774 ms
+emory: 19.3 MB
+```
+```python
+class Solution:
+    def canCompleteCircuit(self, gas: List[int], cost: List[int]) -> int:
+        N = len(gas)
+        i = j = 0
+        cur = cnt = 0
+        while i < N:
+            cur = cur + gas[j] - cost[j]
+            j = (j+1)%N
+            cnt += 1
+            while i < N and cur < 0:
+                cur = cur - gas[i] + cost[i]
+                cnt -= 1
+                i += 1
+            if cnt == N:
+                break
+        return i if i < N else -1
+```
+
+**Solution 6: (One pass)**
+```
+Runtime: 744 ms
+Memory: 19.2 MB
+```
+```python
+class Solution:
+    def canCompleteCircuit(self, gas: List[int], cost: List[int]) -> int:
+        N = len(gas)
+        total = cur = 0
+        ans = 0
+        for i in range(N):
+            total += gas[i] - cost[i]
+            cur += gas[i] - cost[i]
+            if cur < 0:
+                ans = i+1
+                cur = 0
+        return ans if total >= 0 else -1
 ```

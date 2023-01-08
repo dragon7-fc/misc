@@ -35,7 +35,7 @@ Explanation:
 
 # Submissions
 ---
-**Solution 1: (Math, GCD)**
+**Solution 1: (Math, Hash Table)**
 ```
 Runtime: 56 ms
 Memory Usage: 13.9 MB
@@ -74,4 +74,26 @@ class Solution:
             best = max(best, 1 + max_other_points_on_line + duplicates) # 1 stands for this point
                 
         return best
+```
+
+**Solution 2: (Math, Hash Table)**
+```
+Runtime: 114 ms
+Memory: 14.1 MB
+```
+```python
+class Solution:
+    def maxPoints(self, points: List[List[int]]) -> int:
+        n = len(points)
+        if n == 1:
+            return 1
+        result = 2
+        for i in range(n):
+            cnt = collections.defaultdict(int)
+            for j in range(n):
+                if j != i:
+                    cnt[math.atan2(points[j][1] - points[i][1],
+                                   points[j][0] - points[i][0])] += 1
+            result = max(result, max(cnt.values()) + 1)
+        return result
 ```

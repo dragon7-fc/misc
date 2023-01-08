@@ -50,3 +50,33 @@ class Solution:
                     ans += child.val if evenGrandParent else 0
         return ans
 ```
+
+**Solution 2: (DFS, post-order)**
+```
+Runtime: 255 ms
+Memory: 18 MB
+```
+```python
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+class Solution:
+    def sumEvenGrandparent(self, root: TreeNode) -> int:
+        ans = 0
+        
+        def dfs(node):
+            nonlocal ans
+            if not node:
+                return [0, 0]
+            left_one, left_two = dfs(node.left)
+            right_one, right_two = dfs(node.right)
+            if node.val%2 == 0:
+                ans += left_two + right_two
+            return [node.val, left_one + right_one]
+        
+        dfs(root)
+        return ans
+```

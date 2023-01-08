@@ -118,3 +118,21 @@ public:
     }
 };
 ```
+
+**Solution 5: (Greedy)**
+```
+Runtime: 1447 ms
+Memory: 59.6 MB
+```
+```python
+class Solution:
+    def findMinArrowShots(self, points: List[List[int]]) -> int:
+        last = float('inf')
+        ans = 0
+        for start, end in sorted(points, key=lambda x: x[1]):
+            if start <= last <= end:
+                continue
+            last = end
+            ans += 1
+        return ans
+```

@@ -71,3 +71,21 @@ class Solution:
 
         return totalDamage - min(armor, maxDamage) + 1
 ```
+
+**Solution 2: (Greeddy)**
+```
+Runtime: 611 ms
+Memory: 28.3 MB
+```
+```python
+class Solution:
+    def minimumHealth(self, damage: List[int], armor: int) -> int:
+        cur = 0;
+        total = 0;
+
+        for d in damage:
+            total += d
+            cur = max(cur, d)
+
+        return total - min(armor, cur) + 1
+```
