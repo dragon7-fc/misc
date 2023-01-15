@@ -90,7 +90,7 @@ class Solution:
 ```
 
 **Solution 2: (DFS)**
-``
+```
 Runtime: 768 ms
 Memory Usage: 167.6 MB
 ```
@@ -121,4 +121,34 @@ public:
     return res;
     }
 };
+```
+
+**Solution 3: (DFS, postorder)**
+```
+Runtime: 2085 ms
+Memory: 193 MB
+```
+```python
+class Solution:
+    def countSubTrees(self, n: int, edges: List[List[int]], labels: str) -> List[int]:
+        g = collections.defaultdict(list)
+        for a, b in edges:
+            g[a] += [b]
+            g[b] += [a]
+        ans = [0]*n
+
+        def dfs(u, p):
+            nonlocal ans
+            rst = [0]*26
+            rst[ord(labels[u])-ord('a')] += 1
+            for v in g[u]:
+                if v != p:
+                    cur = dfs(v, u)
+                    for i in range(26):
+                        rst[i] += cur[i]
+            ans[u] = rst[ord(labels[u])-ord('a')]
+            return rst
+
+        dfs(0, -1)
+        return ans
 ```

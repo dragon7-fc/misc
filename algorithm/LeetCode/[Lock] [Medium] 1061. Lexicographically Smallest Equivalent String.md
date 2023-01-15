@@ -51,58 +51,59 @@ Explanation: We group the equivalent characters in s1 and s2 as [a,o,e,r,s,c], [
 ---
 **Solution 1: (Union Find)**
 ```
-Runtime: 67 ms
-Memory Usage: 14.4 MB
+Runtime: 45 ms
+Memory: 14 MB
 ```
 ```python
-class UnionFind:
-    def __init__(self, size):
-        self.root = [i for i in range(size)]
-        # Use a rank array to record the height of each vertex, i.e., the "rank" of each vertex.
-        # The initial "rank" of each vertex is 1, because each of them is
-        # a standalone vertex with no connection to other vertices.
-        self.rank = [1] * size
-        
-    # The find function here is the same as that in the disjoint set with path compression.
-    def find(self, x):
-        if x == self.root[x]:
-            return x
-        self.root[x] = self.find(self.root[x])
-        return self.root[x]
-
-    # The union function with union by rank
-    def union(self, x, y):
-        rootX = self.find(x)
-        rootY = self.find(y)
-        if rootX != rootY:
-            if self.rank[rootX] > self.rank[rootY]:
-                self.root[rootY] = rootX
-            elif self.rank[rootX] < self.rank[rootY]:
-                self.root[rootX] = rootY
-            else:
-                self.root[rootY] = rootX
-                self.rank[rootX] += 1
-            
-    def connected(self, x, y):
-        return self.find(x) == self.find(y)
-
 class Solution:
     def smallestEquivalentString(self, s1: str, s2: str, baseStr: str) -> str:
-        uf = UnionFind(26)
-        for i in range(len(s1)):
-            uf.union(ord(s1[i])-ord('a'), ord(s2[i])-ord('a'))
-        
-        res = ""
-        
-        indexes = defaultdict(list)
-        for i in range(len(uf.root)):
-            if not indexes[uf.root[i]]:    
-                indexes[uf.root[i]].append(i)
+        parent = [i for i in range(26)]
             
-        for base in baseStr:
-            root = uf.find(ord(base)-ord('a'))
-            t = indexes[root]
-            res += chr(t[0] + ord('a'))
-            
-        return res
+        def union(x, y):
+            px, py = find(x), find(y)
+            if px < py:
+                parent[py] = px
+            else:
+                parent[px] = py
+        
+        def find(x):
+            if parent[x] == x:
+                return x
+            return find(parent[x])
+
+        for a, b in zip(s1, s2):
+            union(ord(a) - ord('a'), ord(b) - ord('a'))
+        return ''.join([chr(find(ord(c) - ord('a')) + ord('a')) for c in baseStr])
+```
+
+**Solution2: (DFS)**
+```
+Runtime: 35 ms
+Memory: 14.2 MB
+```
+```python
+class Solution:
+    def smallestEquivalentString(self, s1: str, s2: str, baseStr: str) -> str:
+        g = collections.defaultdict(list)
+        for c1, c2 in zip(list(s1), list(s2)):
+            g[c1] += [c2]
+            g[c2] += [c1]
+        d = {}
+
+        def dfs(c, p):
+            p.add(c)
+            for nc in g[c]:
+                if not nc in p:
+                    dfs(nc, p)
+            return p
+
+        for c in g:
+            if not c in d:
+                group = dfs(c, set())
+                d.update({x: group for x in group})
+        ans = ''
+        for c in baseStr:
+            ans += min(d[c]) if c in d else c
+
+        return ans
 ```

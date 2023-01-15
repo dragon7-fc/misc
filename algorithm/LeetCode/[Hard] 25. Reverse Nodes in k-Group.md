@@ -187,3 +187,40 @@ struct ListNode* reverseKGroup(struct ListNode* head, int k){
     return prev;
 }
 ```
+
+**Solution 5: (DFS)**
+```
+Runtime: 59 ms
+Memory: 15.2 MB
+```
+```python
+# Definition for singly-linked list.
+# class ListNode:
+#     def __init__(self, val=0, next=None):
+#         self.val = val
+#         self.next = next
+class Solution:
+    def reverseKGroup(self, head: Optional[ListNode], k: int) -> Optional[ListNode]:
+        
+        def dfs(node, r):
+            cur = node
+            while cur and r > 0:
+                cur = cur.next
+                r -= 1
+            if r == 0:
+                pre = None
+                cur = node
+                r = k
+                while r > 0:
+                    nxt = cur.next
+                    cur.next = pre
+                    pre = cur
+                    cur = nxt
+                    r -= 1
+                node.next = dfs(cur, k)
+                return pre
+            else:
+                return node  
+            
+        return dfs(head, k)
+```

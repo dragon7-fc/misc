@@ -384,3 +384,36 @@ public:
     }
 };
 ```
+
+**Solution 5: (BFS)**
+```
+Runtime: 55 ms
+Memory: 13.9 MB
+```
+```python
+class Solution:
+    def orangesRotting(self, grid: List[List[int]]) -> int:
+        R, C = len(grid), len(grid[0])
+        q = collections.deque()
+        fresh = set()
+        for i in range(R):
+            for j in range(C):
+                if grid[i][j] == 1:
+                    fresh.add((i, j))
+                elif grid[i][j] == 2:
+                    q += [[i, j]]
+        ans = 0
+        while q:
+            sz = len(q)
+            for _ in range(sz):
+                r, c = q.popleft()
+                for nr, nc in [[r+1, c],[r-1, c],[r, c+1],[r, c-1]]:
+                    if (nr,nc) in fresh:
+                        fresh.remove((nr, nc))
+                        q += [[nr, nc]]
+            if not q:
+                break
+            ans += 1
+            
+        return ans if not fresh else -1
+```

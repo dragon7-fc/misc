@@ -169,3 +169,51 @@ class Solution:
         left_boundary.extend(right_boundary)
         return left_boundary
 ```
+
+**Solution 3: (DFS)**
+```
+Runtime: 48 ms
+Memory: 16.4 MB
+```
+```python
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+class Solution:
+    def boundaryOfBinaryTree(self, root: Optional[TreeNode]) -> List[int]:
+        ans = [root.val]
+        
+        def dfs(node, is_left):
+            if not node or (not node.left and not node.right):
+                return []
+            rst = [node.val]
+            if is_left:
+                if node.left:
+                    rst += dfs(node.left, is_left)
+                else:
+                    rst += dfs(node.right, is_left)
+                return rst
+            else:
+                if node.right:
+                    rst = dfs(node.right, is_left) + rst
+                else:
+                    rst = dfs(node.left, is_left) + rst
+                return rst
+            
+        def dfs2(node):
+            if not node:
+                return []
+            if not node.left and not node.right:
+                return [node.val]
+            return dfs2(node.left) + dfs2(node.right)
+        
+        
+        ans += dfs(root.left, True)
+        if root.left or root.right:
+            ans += dfs2(root)
+        ans += dfs(root.right, False)
+        return ans
+```

@@ -78,6 +78,19 @@ class Solution:
 
         ans = divide(nums, 0, len(nums)-1)
         return ans
-                
-            
+```
+
+**Solution 4: (DP)**
+```
+Runtime: 813 ms
+Memory: 28.4 MB
+```
+```python
+class Solution:
+    def maxSubArray(self, nums: List[int]) -> int:
+        pre = ans = float('-inf')
+        for num in nums:
+            pre = max(pre+num, num)
+            ans = max(ans, pre)
+        return ans
 ```

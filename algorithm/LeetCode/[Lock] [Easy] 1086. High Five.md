@@ -56,3 +56,17 @@ class Solution:
 
         return [[i,sum(sorted(scores_dict[i])[::-1][:5])//5] for i in scores_dict.keys()]
 ```
+
+**Solution 3: (Sort)**
+```
+Runtime: 74 ms
+Memory: 14.1 MB
+```
+```python
+class Solution:
+    def highFive(self, items: List[List[int]]) -> List[List[int]]:
+        cnt = collections.defaultdict(list)
+        for i, s in items:
+            cnt[i] += [s]
+        return sorted([[k, sum(sorted(vs)[-5:])//5] for k, vs in cnt.items()])
+```

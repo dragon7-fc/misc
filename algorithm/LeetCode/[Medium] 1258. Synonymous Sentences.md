@@ -55,3 +55,32 @@ class Solution:
                             bfs.append(newsent)
         return sorted(list(ans))
 ```
+
+**Solution2: (DFS)**
+```
+Runtime: 40 ms
+Memory: 14 MB
+```
+```python
+class Solution:
+    def generateSentences(self, synonyms: List[List[str]], text: str) -> List[str]:
+        graph = collections.defaultdict(set)
+        for a, b in synonyms:
+            graph[a].add(b)
+            graph[b].add(a)
+        def dfs(start, visited):
+            if start not in visited:
+                visited.add(start)
+                for nei in graph[start]:
+                    dfs(nei, visited)
+            return visited
+        components = {}
+        for n in graph:
+            if n not in components:
+                component = sorted(dfs(n, set()))
+                components.update({x: component for x in component})
+        ans = [[]]
+        for word in text.split():
+            ans = [s + [w] for s in ans for w in components.get(word, [word])]
+        return [' '.join(s) for s in ans]
+```
