@@ -91,3 +91,35 @@ class Solution:
         return min(P[j] + len(S)-j-(P[-1]-P[j])
                    for j in range(len(P)))
 ```
+
+**Solution 1: (DP)**
+```
+Runtime: 250 ms
+Memory: 15 MB
+```
+```python
+class Solution:
+    def minFlipsMonoIncr(self, s: str) -> int:
+        dp0 = dp1 = 0
+        for c in s:
+            dp0 += 0 if c == '0' else 1
+            dp1 = min(dp1 + (1 if c == '0' else 0), dp0)
+        return dp1
+```
+
+**Solution 2: (DP)**
+```
+Runtime: 139 ms
+Memory: 14.9 MB
+```
+```python
+class Solution:
+    def minFlipsMonoIncr(self, s: str) -> int:
+        zero = one = 0
+        for c in s:
+            if c == '0':
+                zero = min(one, zero+1)
+            else:
+                one += 1
+        return zero
+```

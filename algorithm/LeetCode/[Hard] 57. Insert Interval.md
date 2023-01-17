@@ -125,3 +125,50 @@ int** insert(int** intervals, int intervalsSize, int* intervalsColSize, int* new
     return result;
  }
 ```
+
+**Solution 3: (Binary Search)**
+```
+Runtime: 91 ms
+Memory: 17.3 MB
+```
+```python
+class Solution:
+    def insert(self, intervals: List[List[int]], newInterval: List[int]) -> List[List[int]]:
+        N = len(intervals)
+        i = j = bisect.bisect_left(intervals, newInterval)
+        if N == 0 or i == 0 and intervals[i][0] > newInterval[1] or i == N and intervals[i-1][1] < newInterval[0] or 0 < i < N and intervals[i-1][1] < newInterval[0] and intervals[i][0] > newInterval[1]:
+            intervals.insert(i, newInterval)
+            return intervals
+        left = newInterval[0]
+        while i-1 >= 0 and left <= intervals[i-1][1]:
+            i -= 1
+        left = min(left, intervals[i][0])
+        right = newInterval[1]
+        while j < N and right >= intervals[j][0]:
+            j += 1
+        right = max(right, intervals[j-1][1])
+        intervals[i:j] = [[left, right]]
+        return intervals
+```
+
+**Solution 4: (Binary Search, Greedy)**
+```
+Runtime: 83 ms
+Memory: 17.3 MB
+```
+```python
+class Solution:
+    def insert(self, intervals: List[List[int]], newInterval: List[int]) -> List[List[int]]:
+        bisect.insort_left(intervals, newInterval)
+        ans = [intervals[0]]
+        for s, e in intervals[1:]:
+            cur = ans[-1]
+            if cur[1] >= s:
+                ans.pop()
+                cur[1] = max(e, cur[1])
+                ans += [cur]
+            else:
+                ans += [[s, e]]
+
+        return ans
+```
