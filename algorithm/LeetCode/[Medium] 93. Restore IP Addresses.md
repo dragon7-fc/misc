@@ -10,7 +10,7 @@ Output: ["255.255.11.135", "255.255.111.35"]
 
 # Submissions
 ---
-**Solution 1: (Backtracking)**
+> **Solution 1: (Backtracking)**
 ```
 Runtime: 32 ms
 Memory Usage: 12.7 MB
@@ -75,4 +75,34 @@ public:
         return ans;
     }
 };
+```
+
+**Solution 3: (Backtracking)**
+```
+Runtime: 39 ms
+Memory: 13.8 MB
+```
+```python
+class Solution:
+    def restoreIpAddresses(self, s: str) -> List[str]:
+        N = len(s)
+        ans = []
+
+        def bt(i, p):
+            nonlocal ans
+            if len(p) > 4:
+                return
+            if i == N:
+                if len(p) == 4:
+                    ans += ['.'.join(p)]
+                return
+            if s[i] == '0':
+                bt(i+1, p+["0"])
+            else:
+                for j in range(i+1, min(i+4 ,N+1)):
+                    if 0 <= int(s[i:j]) <= 255:
+                        bt(j, p+[s[i:j]])
+
+        bt(0, [])
+        return ans
 ```

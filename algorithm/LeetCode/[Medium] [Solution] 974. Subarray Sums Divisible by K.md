@@ -123,27 +123,21 @@ public:
     }
 };
 ```
-```
-Runtime: 40 ms
-Memory Usage: 8.8 MB
-```
-```c
 
-
-int subarraysDivByK(int* nums, int numsSize, int k){
-    int *cnt = calloc(1, k*sizeof(int));
-    cnt[0] = 1;
-    int cur = 0, ans = 0;
-    for (int i = 0; i < numsSize; i ++) {
-        cur = (cur + nums[i])%k;
-        if (cur < 0)
-            cur += k;
-        cnt[cur] += 1;
-    }
-    for (int i = 0; i < k; i++) {
-        if (cnt[i])
-            ans += cnt[i]*(cnt[i]-1) / 2;
-    }
-    return ans;
-}
+**Solution 4: (Hash Table)**
+```
+Runtime: 313 ms
+Memory: 18.9 MB
+```
+```python
+class Solution:
+    def subarraysDivByK(self, nums: List[int], k: int) -> int:
+        pre = collections.defaultdict(int)
+        pre[0] = 1
+        cur = ans = 0
+        for num in nums:
+            _, cur = divmod(cur + num, k)
+            ans += pre[cur]
+            pre[cur] += 1
+        return ans
 ```

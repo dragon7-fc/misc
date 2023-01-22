@@ -186,3 +186,68 @@ char *** partition(char * s, int* returnSize, int** returnColumnSizes){
     return ans;
 }
 ```
+
+**Solution 3: (Backtracking)**
+```
+Runtime: 850 ms
+Memory: 31.1 MB
+```
+```python
+class Solution:
+    def partition(self, s: str) -> List[List[str]]:
+        ans = []
+
+        def bt(cur, p):
+            nonlocal ans
+            if not cur:
+                ans += [p]
+                return
+            for i in range(1, len(cur)+1):
+                if cur[:i] == cur[:i][::-1]:
+                    bt(cur[i:], p+[cur[:i]])
+
+        bt(s, [])
+        return ans
+```
+
+**Solution 5: (Backtracking)**
+```
+Runtime: 840 ms
+Memory: 30.3 MB
+```
+```python
+class Solution:
+    def partition(self, s: str) -> List[List[str]]:
+        N = len(s)
+        ans = []
+
+        def bt(i, p):
+            nonlocal ans
+            if i == N:
+                ans += [p]
+                return
+            for ni in range(i+1, N+1):
+                if s[i:ni] == s[i:ni][::-1]:
+                    bt(ni, p+[s[i:ni]])
+
+        bt(0, [])
+        return ans
+```
+
+**Solution 6: (DP Top-Down)**
+```
+Runtime: 664 ms
+Memory: 41.2 MB
+```
+```python
+class Solution:
+    @cache  # the memory trick can save some time
+    def partition(self, s: str) -> List[List[str]]:
+        if not s: return [[]]
+        ans = []
+        for i in range(1, len(s) + 1):
+            if s[:i] == s[:i][::-1]:  # prefix is a palindrome
+                for suf in self.partition(s[i:]):  # process suffix recursively
+                    ans.append([s[:i]] + suf)
+        return ans
+```
