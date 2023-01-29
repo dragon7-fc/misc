@@ -167,3 +167,101 @@ public:
     }
 };
 ```
+
+**Solution 3: (Breadth-first search, Time: O(N^2), Space: O(N^2))**
+```
+Runtime: 130 ms
+Memory: 13.8 MB
+```
+```python
+class Solution:
+    def snakesAndLadders(self, board: List[List[int]]) -> int:
+        n = len(board)
+        cells = [None] * (n**2 + 1)
+        label = 1
+        columns = list(range(0, n))
+        for row in range(n - 1, -1, -1):
+            for column in columns:
+                cells[label] = (row, column)
+                label += 1
+            columns.reverse()
+        dist = [-1] * (n * n + 1)
+        q = deque([1])
+        dist[1] = 0
+        while q:
+            curr = q.popleft()
+            for next in range(curr + 1, min(curr + 6, n**2) + 1):
+                row, column = cells[next]
+                destination = (board[row][column] if board[row][column] != -1
+                               else next)
+                if dist[destination] == -1:
+                    dist[destination] = dist[curr] + 1
+                    q.append(destination)
+        return dist[n * n]
+```
+
+**Solution 4: (Dijkstra's algorithm, Time: O(N^2 * log(N)), Space: O(N^2))**
+```
+Runtime: 349 ms
+Memory: 14 MB
+```
+```python
+class Solution:
+    def snakesAndLadders(self, board: List[List[int]]) -> int:
+        n = len(board)
+        cells = [None] * (n**2 + 1)
+        label = 1
+        columns = list(range(0, n))
+        for row in range(n - 1, -1, -1):
+            for column in columns:
+                cells[label] = (row, column)
+                label += 1
+            columns.reverse()
+        dist = [-1] * (n * n + 1)
+        dist[1] = 0
+        q = [(0, 1)]
+        while q:
+            d, curr = heapq.heappop(q)
+            if d != dist[curr]:
+                continue
+            for next in range(curr + 1, min(curr + 6, n**2) + 1):
+                row, column = cells[next]
+                destination = (board[row][column] if board[row][column] != -1
+                               else next)
+                if dist[destination] == -1 or dist[curr] + 1 < dist[destination]:
+                    dist[destination] = dist[curr] + 1
+                    heapq.heappush(q, (dist[destination], destination))
+        return dist[n * n]
+```
+
+**Solution 5: (BFS)**
+```
+Runtime: 144 ms
+Memory: 13.9 MB
+```
+```python
+class Solution:
+    def snakesAndLadders(self, board: List[List[int]]) -> int:
+        N = len(board)
+        q = collections.deque([1])
+        board[N-1][0] = -2
+        ans = 0
+        while q:
+            sz = len(q)
+            for _ in range(sz):
+                cur = q.popleft()
+                if cur == N**2:
+                    return ans
+                for ncur in range(cur+1, min(cur+7, N**2+1)):
+                    nr, nc = divmod(ncur-1, N)
+                    nr = N-1-nr
+                    if (N-1-nr)%2:
+                        nc = N-1-nc
+                    if board[nr][nc] > 0:
+                        ncur = board[nr][nc]
+                    if board[nr][nc] != -2:
+                        q += [ncur]
+                        board[nr][nc] = -2
+            ans += 1
+        return -1
+```

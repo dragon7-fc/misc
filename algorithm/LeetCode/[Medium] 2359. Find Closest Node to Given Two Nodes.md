@@ -117,3 +117,31 @@ public:
     }
 };
 ```
+
+**Solution 3: (BFS, 2 direction BFS simultaneously)**
+```
+Runtime: 1004 ms
+Memory: 28.8 MB
+```
+```python
+class Solution:
+    def closestMeetingNode(self, edges: List[int], node1: int, node2: int) -> int:
+        N = len(edges)
+        color = [0]*N
+        q = collections.deque([(node1, 0), (node2, 1)])
+        ans = float('inf')
+        while q:
+            sz = len(q)
+            for _ in range(sz):
+                cur, c = q.popleft()
+                color[cur] |= (1<<c)
+                if color[cur] == 3:
+                    ans = min(ans, cur)
+                    continue
+                ncur = edges[cur]
+                if ncur != -1 and color[ncur] & (1<<c) == 0:
+                    q += [(ncur, c)]
+            if ans != float('inf'):
+                break
+        return ans if ans != float('inf') else -1
+```

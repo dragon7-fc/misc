@@ -259,3 +259,58 @@ public:
  * obj->put(key,value);
  */
 ```
+
+**Solution 4: (OrderedDict, Hash Table)**
+```
+Runtime: 806 ms
+Memory: 79 MB
+```
+```python
+class Node:
+    def __init__(self, key, val, freq):
+        self.key = key
+        self.val = val
+        self.freq = freq
+
+class LFUCache:
+
+    def __init__(self, capacity: int):
+        self.node = {}
+        self.freq = collections.defaultdict(collections.OrderedDict)
+        self.cap = capacity
+        self.min_freq = 0
+
+    def get(self, key: int) -> int:
+        if not key in self.node:
+            return -1
+        cur = self.node[key]
+        del self.freq[cur.freq][key]
+        if not self.freq[cur.freq]:
+            del self.freq[cur.freq]
+        cur.freq += 1
+        self.freq[cur.freq][key] = cur
+        if not self.freq[self.min_freq]:
+            self.min_freq += 1
+        return cur.val
+
+    def put(self, key: int, value: int) -> None:
+        if not self.cap:
+            return
+        if key in self.node:
+            self.node[key].val = value
+            self.get(key)
+        else:
+            if len(self.node) == self.cap:
+                k, n = self.freq[self.min_freq].popitem(last=False)
+                del self.node[k]
+            new_node = Node(key, value, 1)
+            self.node[key] = new_node
+            self.freq[1][key] = new_node
+            self.min_freq = 1
+        
+
+# Your LFUCache object will be instantiated and called as such:
+# obj = LFUCache(capacity)
+# param_1 = obj.get(key)
+# obj.put(key,value)
+```

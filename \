@@ -206,7 +206,7 @@ public:
 };
 ```
 
-**Solution 5: (Dijkstra Time: O(N + E*K*log(E*K)), Space: O(N + E*K))**
+**Solution 5: (Dijkstra)**
 ```
 Runtime: 318 ms
 Memory: 15.5 MB
@@ -229,30 +229,4 @@ class Solution:
             for nu, np in g[u]:
                 heapq.heappush(hq, (p+np, s+1, nu))
         return -1
-```
-
-**Solution 6: (BFS Time: O(N + E*K), Space: O(N + E*K))**
-```
-Runtime: 108 ms
-Memory: 15.2 MB
-```
-```python
-class Solution:
-    def findCheapestPrice(self, n: int, flights: List[List[int]], src: int, dst: int, k: int) -> int:
-        g = collections.defaultdict(list)
-        for f, t, p in flights:
-            g[f] += [(t, p)]
-        q = collections.deque([(src, 0)])
-        dist = [float('inf')]*n
-        while k >= 0 and q:
-            sz = len(q)
-            for _ in range(sz):
-                u, p = q.popleft()
-                for nu, np in g[u]:
-                    if p+np >= dist[nu]:
-                        continue
-                    dist[nu] = p+np
-                    q += [(nu, dist[nu])]
-            k -= 1
-        return dist[dst] if dist[dst] != float('inf') else -1
 ```

@@ -81,3 +81,34 @@ class SummaryRanges:
 # obj.addNum(val)
 # param_2 = obj.getIntervals()
 ```
+
+**Solution 2: (Binary Search)**
+```
+Runtime: 166 ms
+Memory: 19 MB
+```
+```python
+class SummaryRanges:
+
+    def __init__(self):
+        self.arr = []
+        
+
+    def addNum(self, value: int) -> None:
+        i = bisect.bisect_right(self.arr, [value, value])
+        self.arr.insert(i, [value, value])
+        if i < len(self.arr)-1 and self.arr[i][1] >= self.arr[i+1][0]-1:
+            self.arr[i:i+2] = [[self.arr[i][0], self.arr[i+1][1]]]
+        if i and self.arr[i-1][1]+1 >= self.arr[i][0]:
+            self.arr[i-1:i+1] = [[self.arr[i-1][0], max(self.arr[i-1][1], self.arr[i][1])]]
+
+
+    def getIntervals(self) -> List[List[int]]:
+        return self.arr
+
+
+# Your SummaryRanges object will be instantiated and called as such:
+# obj = SummaryRanges()
+# obj.addNum(value)
+# param_2 = obj.getIntervals()
+```

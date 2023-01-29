@@ -23,7 +23,7 @@ Explanation: "catsdogcats" can be concatenated by "cats", "dog" and "cats";
 
 # Submissions
 ---
-**Solution 1: (Set, DFS)**
+> **Solution 1: (Set, DFS, Time: O(M^3 * N), Space: O(N * M))**
 ```
 Runtime: 344 ms
 Memory Usage: 29.2 MB
