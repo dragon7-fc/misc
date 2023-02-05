@@ -130,3 +130,23 @@ bool isAlienSorted(char ** words, int wordsSize, char * order){
     return true;
 }
 ```
+
+**Solution 3: (Hash Table)**
+```
+Runtime: 10 ms
+Memory: 9.5 MB
+```
+```c++
+class Solution {
+public:
+    bool isAlienSorted(vector<string>& words, string order) {
+        int mapping[26];
+        for (int i = 0; i < 26; i++)
+            mapping[order[i] - 'a'] = i;
+        for (string &w : words)
+            for (char &c : w)
+                c = mapping[c - 'a'];
+        return is_sorted(words.begin(), words.end());
+    }
+};
+```

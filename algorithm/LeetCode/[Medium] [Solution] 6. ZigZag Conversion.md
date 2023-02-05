@@ -236,3 +236,102 @@ char * convert(char * s, int numRows){
 	return new_s;
 }
 ```
+
+**Solution 3: (Simulate Zig-Zag Movement)**
+```
+Runtime: 59 ms
+Memory: 33.8 MB
+```
+```c++
+public:
+    string convert(string s, int numRows) {
+        if (numRows == 1) {
+            return s;
+        }
+        
+        int n = int(s.size());
+        int sections = ceil(n / (2 * numRows - 2.0));
+        int numCols = sections * (numRows - 1);
+        
+        vector<vector<char>> matrix(numRows, vector<char>(numCols, ' '));
+        
+        int currRow = 0, currCol = 0;
+        int currStringIndex = 0;
+        
+        // Iterate in zig-zag pattern on matrix and fill it with string characters.
+        while (currStringIndex < n) {
+            // Move down.
+            while (currRow < numRows && currStringIndex < n) {
+                matrix[currRow][currCol] = s[currStringIndex];
+                currRow++;
+                currStringIndex++;
+            }
+            
+            currRow -= 2;
+            currCol++;
+            
+            // Move up (with moving right also).
+            while (currRow > 0 && currCol < numCols && currStringIndex < n) {
+                matrix[currRow][currCol] = s[currStringIndex];
+                currRow--;
+                currCol++;
+                currStringIndex++;
+            }
+        }
+        
+        string answer;
+        for (auto& row: matrix) {
+            for (auto& character: row) {
+                if (character != ' ') {
+                    answer += character;
+                }
+            }
+        }
+        
+        return answer;
+    }
+};
+```
+
+**Solution 4: (String Traversal)**
+```
+Runtime: 11 ms
+Memory: 8.4 MB
+```
+```c++
+class Solution {
+public:
+    string convert(string s, int numRows) {
+        if (numRows == 1) {
+            return s;
+        }
+
+        string answer;
+        int n = s.size();
+        int charsInSection = 2 * (numRows - 1);
+
+        for (int currRow = 0; currRow < numRows; ++currRow) {
+            int index = currRow;
+
+            while (index < n) {
+                answer += s[index];
+
+                // If currRow is not the first or last row
+                // then we have to add one more character of current section.
+                if (currRow != 0 && currRow != numRows - 1) {
+                    int charsInBetween = charsInSection - 2 * currRow;
+                    int secondIndex = index + charsInBetween;
+                    
+                    if (secondIndex < n) {
+                        answer += s[secondIndex];
+                    }
+                }
+                // Jump to same row's first character of next section.
+                index += charsInSection;
+            }
+        }
+
+        return answer;
+    }
+};
+```

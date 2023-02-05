@@ -45,42 +45,49 @@ class Solution:
 
         return False
 ```
-**Solution 1: (Sliding Window, Hash Table)**
+**Solution 2: (Sliding Window)**
 ```
-Runtime: 23 ms
-Memory Usage: 8.6 MB
+Runtime: 10 ms
+Memory: 7.3 MB
 ```
 ```c++
 class Solution {
 public:
     bool checkInclusion(string s1, string s2) {
-        map<char, int> m1, m2;
-        int n1 = s1.size(), n2 = s2.size();
-        if(n1>n2){
-            return 0;
+        vector<int> cur(26), goal(26);
+        for(char c : s1) goal[c - 'a']++;
+        for(int i = 0; i < s2.size(); i++) {
+            cur[s2[i] - 'a']++;
+            if(i >= s1.size()) cur[s2[i - s1.size()] - 'a']--;
+            if(goal == cur) return true;
         }
-        for(int i=0; i<n1; i++){
-            m1[s1[i]]++;
-            m2[s2[i]]++;
-        }
-        int i=0, j=n1;
-        while(j<n2){
-            if(m1==m2){
-                return 1;
-            }
-            else{
-                m2[s2[i]]--;
-                if(m2[s2[i]] == 0){
-                    m2.erase(s2[i]);
+        return false;
+    }
+};
+```
+
+**Solution 3: (Sliding Window, Hash Table)**
+```
+Runtime: 17 ms
+Memory: 8.1 MB
+```
+```c++
+class Solution {
+public:
+    bool checkInclusion(string s1, string s2) {
+        unordered_map<char, int> cur(26), goal(26);
+        for(char c : s1) goal[c]++;
+        for(int i = 0; i < s2.size(); i++) {
+            cur[s2[i]] ++;
+            if(i >= s1.size()) {
+                cur[s2[i - s1.size()]] --;
+                if (cur[s2[i - s1.size()]] == 0) {
+                    cur.erase(s2[i - s1.size()]);
                 }
-                i++;
-                m2[s2[j++]]++;
-            }            
+            }
+            if(goal == cur) return true;
         }
-        if(m1==m2){
-            return 1;
-        }
-        return 0;
+        return false;
     }
 };
 ```

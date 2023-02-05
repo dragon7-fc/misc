@@ -40,20 +40,19 @@ Explanation: It is best to choose the first 3 players.
 ---
 **Solution 1: (DP, Bottom-Up DP, Sorted by age and DP through score)**
 ```
-Runtime: 2184 ms
-Memory Usage: 14.4 MB
+Runtime: 2103 ms
+Memory: 14.2 MB
 ```
 ```python
 class Solution:
     def bestTeamScore(self, scores: List[int], ages: List[int]) -> int:
         z = sorted(zip(ages, scores))
-        n = len(z)
-        dp = [0] * n
-        for i in range(n):
-            dp[i] = z[i][1]
-            for j in range(i):
-                if z[j][1] <= z[i][1]:
-                    dp[i] = max(dp[i], dp[j] + z[i][1])
-
+        N = len(z)
+        dp = [0]*N
+        for j in range(N):
+            dp[j] = z[j][1]
+            for i in range(j):
+                if z[i][1] <= z[j][1]:
+                    dp[j] = max(dp[j], dp[i]+z[j][1])
         return max(dp)
 ```
