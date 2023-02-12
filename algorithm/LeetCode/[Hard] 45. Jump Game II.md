@@ -91,3 +91,65 @@ class Solution:
             
         return dp(0)
 ```
+
+**Solution 4: (Two Pointers)**
+```
+$untime: 16 ms
+Memory: 16.6 MB
+```
+```c++
+class Solution {
+public:
+    int jump(vector<int>& nums) {
+        int N = nums.size();
+        if (N == 1) {
+            return 0;
+        }
+        int i = 0, j, last = nums[0], nlast, ans = 0;
+        while (i < N) {
+            ans += 1;
+            if (last >= N-1) {
+                break;
+            }
+            nlast = last+1;
+            for (j = i+1; j <= last; j ++) {
+                nlast = max(nlast, min(N-1, j+nums[j]));
+            }
+            i = last;
+            last = nlast;
+        }
+        return ans;
+    }
+};
+```
+
+**Solution 5: (Greedy)**
+```
+Runtime: 16 ms
+Memory: 16.6 MB
+```
+```c++
+class Solution {
+public:
+    int jump(vector<int>& nums) {
+        // The starting range of the first jump is [0, 0]
+        int answer = 0, n = int(nums.size());
+
+        int curEnd = 0, curFar = 0;
+        
+        for (int i = 0; i < n - 1; ++i) {
+            // Update the farthest reachable index of this jump.
+            curFar = max(curFar, i + nums[i]);
+
+            // If we finish the starting range of this jump,
+            // Move on to the starting range of the next jump.
+            if (i == curEnd) {
+                answer++;
+                curEnd = curFar;
+            }
+        }
+        
+        return answer;
+    }
+};
+```

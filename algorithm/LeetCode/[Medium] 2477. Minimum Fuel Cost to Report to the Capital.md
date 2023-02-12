@@ -65,7 +65,7 @@ Explanation: No representatives need to travel to the capital city.
 
 # Submissions
 ---
-**Solution 1: (DFS)**
+**Solution 1: (DFS, postorder)**
 ```
 Runtime: 3017 ms
 Memory: 161.1 MB
@@ -126,4 +126,129 @@ class Solution:
                     q.append(nxt)
                 
         return res
+```
+
+**Solution 3: (DFS, postorder)**
+```
+Runtime: 600 ms
+Memory: 191.6 MB
+```
+```c++
+class Solution {
+public:
+    long long dfs(int u, int pre, long long &rst, int seats, vector<vector<int>> &g) {
+        double people = 1;
+        for (int v: g[u]) {
+            if (v != pre) {
+                people += dfs(v, u, rst, seats, g);
+            }
+        }
+        if (u) {
+            rst += ceil(people/seats);
+        }
+        return people;
+    }
+    long long minimumFuelCost(vector<vector<int>>& roads, int seats) {
+        int N = roads.size()+1;
+        vector<vector<int>> g(N);
+        long long ans = 0;
+        for (int i = 0; i < N-1; i ++) {
+            g[roads[i][0]].push_back(roads[i][1]);
+            g[roads[i][1]].push_back(roads[i][0]);
+        }
+        dfs(0, -1,  ans, seats, g);
+        return ans;
+    }
+};
+```
+
+**Solution 4: (DFS, postorder)**
+```
+Runtime: 570 ms
+Memory: 191.4 MB
+```
+```c++
+class Solution {
+public:
+    long long fuel;
+
+    long long dfs(int node, int parent, vector<vector<int>>& adj, int& seats) {
+        // The node itself has one representative.
+        int representatives = 1;
+        for (auto& child : adj[node]) {
+            if (child != parent) {
+                // Add count of representatives in each child subtree to the parent subtree.
+                representatives += dfs(child, node, adj, seats);
+            }
+        }
+
+        if (node != 0) {
+            // Count the fuel it takes to move to the parent node.
+            // Root node does not have any parent so we ignore it.
+            fuel += ceil((double)representatives / seats);
+        }
+        return representatives;
+    }
+    long long minimumFuelCost(vector<vector<int>>& roads, int seats) {
+        int n = roads.size() + 1;
+        vector<vector<int>> adj(n);
+        for (auto& road : roads) {
+            adj[road[0]].push_back(road[1]);
+            adj[road[1]].push_back(road[0]);
+        }
+        dfs(0, -1, adj, seats);
+        return fuel;
+    }
+};
+```
+
+**Solution 5: (BFS)**
+```
+Runtime: 623 ms
+Memory: 165.6 MB
+```
+```c++
+class Solution {
+public:
+    long long bfs(int n, vector<vector<int>>& adj, vector<int>& degree, int& seats) {
+        queue<int> q;
+        for (int i = 1; i < n; i++) {
+            if (degree[i] == 1) {
+                q.push(i);
+            }
+        }
+
+        vector<int> representatives(n, 1);
+        long long fuel = 0;
+
+        while (!q.empty()) {
+            int node = q.front();
+            q.pop();
+
+            fuel += ceil((double)representatives[node] / seats);
+            for (auto& neighbor : adj[node]) {
+                degree[neighbor]--;
+                representatives[neighbor] += representatives[node];
+                if (degree[neighbor] == 1 && neighbor != 0) {
+                    q.push(neighbor);
+                }
+            }
+        }
+        return fuel;
+    }
+    long long minimumFuelCost(vector<vector<int>>& roads, int seats) {
+        int n = roads.size() + 1;
+        vector<vector<int>> adj(n);
+        vector<int> degree(n);
+
+        for (auto& road : roads) {
+            adj[road[0]].push_back(road[1]);
+            adj[road[1]].push_back(road[0]);
+            degree[road[0]]++;
+            degree[road[1]]++;
+        }
+
+        return bfs(n, adj, degree, seats);
+    }
+};
 ```
