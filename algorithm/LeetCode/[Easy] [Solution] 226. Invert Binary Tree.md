@@ -165,3 +165,134 @@ struct TreeNode* invertTree(struct TreeNode* root){
     return root;
 }
 ```
+
+**Solution 4: (Stack)**
+```
+Runtime: 8 ms
+Memory: 9.9 MB
+```
+```c++
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+class Solution {
+public:
+    TreeNode* invertTree(TreeNode* root) {
+        stack<TreeNode*> stk;
+        if (root) stk.push(root);
+        while(!stk.empty()){
+            TreeNode* node = stk.top();
+            stk.pop();
+            swap(node->left, node->right);
+            if (node->left) stk.push(node->left);
+            if (node->right) stk.push(node->right);
+        }  
+        return root; 
+    }
+};
+```
+
+**Solution 5: (Queue)**
+```
+Runtime: 4 ms
+Memory: 9.8 MB
+```
+```c++
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+class Solution {
+public:
+    TreeNode* invertTree(TreeNode* root) {
+        queue<TreeNode*> q;
+        if (root) q.push(root);
+        while(!q.empty()){
+            TreeNode* node = q.front();
+            q.pop();
+            swap(node->left, node->right);
+            if (node->left) q.push(node->left);
+            if (node->right) q.push(node->right);
+        }  
+        return root; 
+    }
+};
+```
+
+**Solution 6: (DFS)**
+```
+Runtime: 4 ms
+Memory: 9.8 MB
+```
+```c++
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+class Solution {
+public:
+    TreeNode* invertTree(TreeNode* root) {
+        if (!root) {
+            return NULL;
+        }
+        TreeNode *left = invertTree(root->left);
+        TreeNode *right = invertTree(root->right);
+        root->right = left;
+        root->left = right;
+        return root;
+    }
+};
+```
+
+**Solution 7: (DFS)**
+```
+Runtime: 7 ms
+Memory: 9.7 MB
+```
+```c++
+]/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+class Solution {
+public:
+    TreeNode* invertTree(TreeNode* root) {
+        if (!root) {
+            return NULL;
+        }
+        swap(root->left, root->right);
+        invertTree(root->left);
+        invertTree(root->right);
+        return root;
+    }
+};
+```

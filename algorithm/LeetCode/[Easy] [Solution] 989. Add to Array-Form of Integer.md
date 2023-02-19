@@ -86,3 +86,26 @@ class Solution:
     def addToArrayForm(self, A: List[int], K: int) -> List[int]:
         return list(str(int(''.join(map(str, A)))+K))
 ```
+
+**Solution 1: (Greedy)**
+```
+Runtime: 33 ms
+Memory: 27.3 MB
+```
+```c++
+class Solution {
+public:
+    vector<int> addToArrayForm(vector<int>& num, int k) {
+        for (int i = num.size() - 1; i >= 0 && k > 0; --i) {
+            num[i] += k;
+            k = num[i] / 10;
+            num[i] %= 10;
+        }
+        while (k > 0) {
+            num.insert(num.begin(), k % 10);
+            k /= 10;
+        }
+        return num;
+    }
+};
+```
