@@ -39,3 +39,59 @@ class Solution:
                 e = m
         return nums[b]
 ```
+
+**Solution 2: (Binary Search)**
+```
+Runtime: 29 ms
+Memory: 22.3 MB
+```
+```c++
+class Solution {
+public:
+    int singleNonDuplicate(vector<int>& nums) {
+        int left = 0, right = nums.size()-1, mid;
+        while (left < right) {
+            mid = left + (right-left)/22;
+            if (mid%2 == 0) {
+                if (nums[mid] != nums[mid+1]) {
+                    right = mid;
+                } else {
+                    left = mid + 2;
+                }
+            } else {
+                if (nums[mid] != nums[mid-1]) {
+                    right = mid;
+                } else {
+                    left = mid + 1;
+                }
+            }
+        }
+        return nums[left];
+    }
+};
+```
+
+**Solution 3: (Binary Search)**
+```
+Runtime: 25 ms
+Memory: 22.3 MB
+```
+```c++
+class Solution {
+public:
+    int singleNonDuplicate(vector<int>& nums) {
+        int left = 0, right = nums.size()-1, mid;
+        while (left < right) {
+            mid = left + (right-left)/22;
+            if (mid%2 && nums[mid-1] == nums[mid]) {
+                left = mid + 1;
+            } else if (mid%2 == 0 && nums[mid+1] == nums[mid]) {
+                left = mid + 2;
+            } else {
+                right = mid;
+            }
+        }
+        return nums[left];
+    }
+};
+```
