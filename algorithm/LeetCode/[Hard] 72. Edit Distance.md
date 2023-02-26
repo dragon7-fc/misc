@@ -81,7 +81,7 @@ class Solution:
         return dp[M][N]
 ```
 
-**Solution 1: (DP Top-Down)**
+**Solution 3: (DP Top-Down)**
 ```
 Runtime: 92 ms
 Memory Usage: 15.6 MB
@@ -129,4 +129,36 @@ class Solution:
                                     dp[i + 1][j],
                                     dp[i + 1][j + 1] ) + 1
         return dp[0][0]
+```
+
+**Solution 5: (DP Bottom-Up)**
+```
+Runtime: 12 ms
+Memory: 8.9 MB
+```
+```c++
+class Solution {
+public:
+    int minDistance(string word1, string word2) {
+        int M = word1.size(), N = word2.size();
+        if (M == 0 && N == 0) return 0;
+        vector<vector<int>> dp(M+1, vector<int>(N+1));
+        for (int i = 0; i < M; i ++) {
+            dp[i+1][0] = i+1;
+        }
+        for (int j = 0; j < N; j ++) {
+            dp[0][j+1] = j+1;
+        }
+        for (int i = 0; i < M; i++) {
+            for (int j = 0; j < N; j ++) {
+                if (word1[i] == word2[j]) {
+                    dp[i+1][j+1] = dp[i][j];
+                } else {
+                    dp[i+1][j+1] = min({dp[i+1][j], dp[i][j+1], dp[i][j]}) + 1;
+                }
+            }
+        }
+        return dp[M][N];
+    }
+};
 ```

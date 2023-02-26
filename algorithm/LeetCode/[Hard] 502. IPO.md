@@ -27,7 +27,7 @@ Explanation: Since your initial capital is 0, you can only start the project ind
 
 # Submissions
 ---
-**Solution 1: (Heap, Sort)**
+**Solution 1: (Greedy, Heap, Sort)**
 ```
 Runtime: 224 ms
 Memory Usage: 20.9 MB
@@ -45,4 +45,36 @@ class Solution:
                 currProfit += -heapq.heappop(heap)
         
         return currProfit
+```
+
+**Solution 2: (Greedy, Heap, Sort)**
+```
+Runtime: 233 ms
+Memory: 82 MB
+```
+```c++
+class Solution {
+public:
+    int findMaximizedCapital(int k, int w, vector<int>& profits, vector<int>& capital) {
+        int n = profits.size();
+        vector<pair<int, int>> projects;
+        for (int i = 0; i < n; i++) {
+            projects.emplace_back(capital[i], profits[i]);
+        }
+        sort(projects.begin(), projects.end());
+        priority_queue<int> q;
+        int ptr = 0;
+        for (int i = 0; i < k; i++) {
+            while (ptr < n && projects[ptr].first <= w) {
+                q.push(projects[ptr++].second);
+            }
+            if (q.empty()) {
+                break;
+            }
+            w += q.top();
+            q.pop();
+        }
+        return w;
+    }
+};
 ```
