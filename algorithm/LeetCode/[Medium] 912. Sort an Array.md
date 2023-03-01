@@ -94,18 +94,13 @@ class Solution:
         return quickSort(nums, 0, len(nums)-1)
 ```
 
-**Solution 2: (Merge Sort)**
+> **Solution 3: (Merge Sort)**
 ```
 Runtime: 196 ms
 Memory Usage: 90.1 MB
 ```
 ```c++
 class Solution {
-public:
-    vector<int> sortArray(vector<int>& nums) {
-        mergeSort(nums);
-        return nums;
-    }
     void mergeSortTwoVec(vector<int>& subVec1, vector<int>& subVec2, vector<int>& vec) {
         int i = 0;
         int j = 0;
@@ -118,12 +113,10 @@ public:
                 j++;
             }
         }
-
         while (i < subVec1.size()) {
             vec.push_back(subVec1[i]);
             i++;
         }
-
         while (j < subVec2.size()) {
             vec.push_back(subVec2[j]);
             j++;
@@ -151,28 +144,21 @@ public:
         vec.clear();
         mergeSortTwoVec(sub1, sub2, vec);
     }
+public:
+    vector<int> sortArray(vector<int>& nums) {
+        mergeSort(nums);
+        return nums;
+    }
 };
 ```
 
-**Solution 3: (Quick Sort)**
+**Solution 4: (Quick Sort)**
 ```
 Runtime: 32 ms
 Memory Usage: 15.9 MB
 ```
 ```c++
 class Solution {
-public:
-    vector<int> sortArray(vector<int>& nums) {
-        int n=nums.size(), low=0, high=n-1;
-        quickSort(nums, low, high);
-        return nums;
-    }
-    void swap(int &a, int &b)
-    {
-        int t=a;
-        a = b;
-        b = t;
-    }
     int partition(vector<int>& nums, int low, int high)
     {
         int i=low-1, pivot=nums[high];
@@ -196,16 +182,21 @@ public:
             quickSort(nums, pivot+1, high);
         }
     }
+public:
+    vector<int> sortArray(vector<int>& nums) {
+        int n=nums.size(), low=0, high=n-1;
+        quickSort(nums, low, high);
+        return nums;
+    }
 };
 ```
 
-**Solution 4: (Heap sort)**
+**Solution 5: (Heap sort)**
 ```
 Memory Usage: 30336000
 ```
 ```c++
 class Solution {
-public:
     vector<int> inplaceHeapSort(vector<int> arr, int n)
     {
         for(int i=0;i<n;i++)
@@ -260,6 +251,7 @@ public:
         }
         return ans;
     }
+public:
     vector<int> sortArray(vector<int>& nums) {
         return inplaceHeapSort(nums,nums.size());
     }

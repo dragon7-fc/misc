@@ -172,8 +172,8 @@ class Solution:
 
 **Solution 2: (DFS, Hash Table, post-order)**
 ```
-Runtime: 73 ms
-Memory Usage: 56.5 MB
+Runtime: 28 ms
+Memory: 49.6 MB
 ```
 ```c++
 /**
@@ -188,27 +188,26 @@ Memory Usage: 56.5 MB
  * };
  */
 class Solution {
+    string dfs(TreeNode* node, unordered_map<string, int>& cnt, vector<TreeNode*>& ans) {
+        if (!node) {
+            return ",";
+        }
+        string rst;
+        rst += dfs(node->left, cnt, ans);
+        rst += dfs(node->right, cnt, ans);
+        rst += to_string(node->val) + ",";
+        cnt[rst] += 1;
+        if (cnt[rst] == 2) {
+            ans.push_back(node);
+        }
+        return rst;
+    }
 public:
     vector<TreeNode*> findDuplicateSubtrees(TreeNode* root) {
-        if(!root) return {};
-        else{
-            std::unordered_map<std::string,int>map;
-            std::vector<TreeNode*>result;
-            post_ordered_traversal(root,map,result);
-            return result;
-        }
-    }
-    std::string post_ordered_traversal(TreeNode*root,std::unordered_map<std::string,int>&map,std::vector<TreeNode*>&result){
-        if(!root) return "/";
-        else{
-            std::string ret = "";
-            ret += post_ordered_traversal(root->left,map,result);
-            ret += post_ordered_traversal(root->right,map,result);
-            ret += std::to_string(root->val) + "#";
-            map[ret]++;
-            if(map[ret]==2) result.push_back(root);
-            return ret;
-        }
+        unordered_map<string, int> cnt;
+        vector<TreeNode*> ans;
+        dfs(root, cnt, ans);
+        return ans;
     }
 };
 ```
