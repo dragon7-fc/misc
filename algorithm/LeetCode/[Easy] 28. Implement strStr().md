@@ -62,3 +62,74 @@ int strStr(char * haystack, char * needle){
     return -1;
 }
 ```
+
+**Solution 3: (String)**
+```
+Runtime: 0 ms
+Memory: 6.3 MB
+```
+```c++
+class Solution {
+public:
+    int strStr(string haystack, string needle) {
+        return haystack.find(needle);
+    }
+};
+```
+
+**Solution 4: (KMP)**
+```
+Runtime: 0 ms
+Memory: 6.3 MB
+```
+```c++
+class Solution {
+    vector<int> constructLsp(string pattern) {
+        vector<int> lps(pattern.length() , 0);
+        if(pattern == "") return lps;
+        for (int i = 1 , prevPtr = 0; i < pattern.length();) {
+            if(pattern[i] == pattern[prevPtr]) {
+                lps[i] = prevPtr + 1;     
+                prevPtr++;
+                i++;
+            }
+            else {
+                if (prevPtr == 0) {
+                    lps[i] = 0;
+                    i++;
+                }
+                else {
+                    prevPtr = lps[prevPtr - 1];
+                }
+            }
+        }
+        return lps;
+    }
+
+    int kmp(string str , string pattern , vector<int>& lps) {
+        int i = 0 , j = 0;
+        while (i < str.length()) {
+            if(str[i] == pattern[j]) {
+                i++;
+                j++;
+            }
+            else {
+                if (j == 0){
+                    i++;
+                }
+                else {
+                    j = lps[j - 1];
+                }
+            }
+            
+            if(j == pattern.length()) return i - pattern.length();
+        }
+        return -1;
+    }
+public:
+    int strStr(string haystack, string needle) {
+        vector<int> lps = constructLsp(needle);
+        return kmp(haystack , needle , lps);
+    }
+};
+```

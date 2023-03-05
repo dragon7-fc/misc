@@ -141,36 +141,36 @@ int compress(char* chars, int charsSize){
 }
 ```
 
-**Solution 3: (String)**
+**Solution 3: (sliding window)**
 ```
-Runtime: 6 ms
-Memory Usage: 8.9 MB
+Runtime: 5 ms
+Memory: 9.1 MB
 ```
 ```c++
 class Solution {
 public:
     int compress(vector<char>& chars) {
-        int n = chars.size();
-        int i = 0;
-        int index = 0;
-        
-        while(i < n){
-            int j = i + 1;
-            
-            while(j<n && chars[i]==chars[j])
-                j++;
-            
-            chars[index++] = chars[i];
-            int count = j - i;
-            
-            if(count > 1){
-                string str = to_string(count);
-                for(char ch : str)
-                    chars[index++] = ch;
+        int N = chars.size();
+        int i = 0, j = 0, k, cnt;
+        string length;
+        while (j < N) {
+            k = j + 1;
+            while (k < N && chars[k] == chars[j]) {
+                k += 1;
             }
-            i = j;
+            chars[i] = chars[j];
+            i += 1;
+            cnt = k-j;
+            if (cnt > 1) {
+                length = to_string(cnt);
+                for (char& c: length) {
+                    chars[i] = c;
+                    i += 1;
+                }
+            }
+            j = k;
         }
-        return index;
+        return i;
     }
 };
 ```
