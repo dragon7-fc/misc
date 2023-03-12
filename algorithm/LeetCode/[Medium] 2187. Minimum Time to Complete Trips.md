@@ -70,13 +70,44 @@ public:
         auto f = [&](long long x){
             long long sum = 0;
             for(int t: time) sum += x / t;
-                return sum >= totalTrips;
-            };
+            return sum >= totalTrips;
+        };
         long long lo = 1, hi = (long long)totalTrips * *min_element(time.begin(), time.end());
         while (lo < hi) {
             long long mid = lo + (hi - lo) / 2;
             if (!f(mid)) lo = mid + 1;
             else hi = mid;
+        }
+        return lo;
+    }
+};
+```
+
+**Solution 3: (Binary Search)**
+```
+Runtime: 360 ms
+Memory: 94.5 MB
+```
+```c++
+class Solution {
+    long long trip(long long c, vector<int>& time) {
+        long long rst = 0;
+        for (int t: time) {
+            rst += c/t;
+        }
+        return rst;
+    }
+public:
+    long long minimumTime(vector<int>& time, int totalTrips) {
+        int N = time.size();
+        long long lo = 1, hi = (long long)totalTrips * (*max_element(time.begin(), time.end())), mid;
+        while (lo < hi) {
+            mid = lo + (hi-lo) / 2;
+            if (trip(mid, time) < totalTrips) {
+                lo = mid + 1;
+            } else {
+                hi = mid;
+            }
         }
         return lo;
     }

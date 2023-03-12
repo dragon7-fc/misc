@@ -312,8 +312,59 @@ struct ListNode* mergeKLists(struct ListNode** lists, int listsSize){
 
 **Solution 4: (Merge with Divide And Conquer)**
 ```
-Runtime: 30 ms
-Memory Usage: 13.2 MB
+Runtime: 20 ms
+Memory: 13.3 MB
+```
+```c++
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode() : val(0), next(nullptr) {}
+ *     ListNode(int x) : val(x), next(nullptr) {}
+ *     ListNode(int x, ListNode *next) : val(x), next(next) {}
+ * };
+ */
+class Solution {
+    ListNode* merge2Lists(ListNode* l1, ListNode* l2) {
+        ListNode *dummy, *cur;
+        dummy = cur = new ListNode(0);
+        while (l1 && l2) {
+            if (l1->val <= l2->val) {
+                cur->next = l1;
+                l1 = l1->next;
+            } else {
+                cur->next = l2;
+                l2 = l2->next;
+            }
+            cur = cur->next;
+        }
+        if (l1)
+            cur->next = l1;
+        else
+            cur->next = l2;
+        return dummy->next;
+    }
+
+public:
+    ListNode* mergeKLists(vector<ListNode*>& lists) {
+        int amount = lists.size(), interval = 1;
+        while (interval < amount) {
+            for (int i = 0; i < amount-interval; i += interval*2) {
+                lists[i] = merge2Lists(lists[i], lists[i+interval]);
+            }
+            interval *= 2;
+        }
+        return amount > 0 ? lists[0] : nullptr;
+    }
+};
+```
+
+**Solution 5: (Merge with Divide And Conquer)**
+```
+Runtime: 26 ms
+Memory: 13.4 MB
 ```
 ```c++
 /**
@@ -329,35 +380,30 @@ Memory Usage: 13.2 MB
 class Solution {
 public:
     ListNode* mergeKLists(vector<ListNode*>& lists) {
-        int amount = lists.size(), interval = 1;
-        while (interval < amount) {
-            for (int i = 0; i < amount-interval; i += interval*2) {
-                lists[i] = merge2Lists(lists[i], lists[i+interval]);
+        int N = lists.size();
+        ListNode *dummy, *cur, *a, *b;
+        for (int k = 1; k < N; k *= 2) {
+            for (int i = 0; i < N-k; i += k*2) {
+                dummy = cur = new ListNode(0);
+                a = lists[i], b = lists[i+k];
+                while (a && b) {
+                    if (a->val <= b->val) {
+                        cur->next = a;
+                        a = a->next;
+                    } else {
+                        cur->next = b;
+                        b = b->next;
+                    }
+                    cur = cur->next;
+                }
+                if (a)
+                    cur->next = a;
+                else
+                    cur->next = b;
+                lists[i] = dummy->next;
             }
-            interval *= 2;
         }
-        return amount > 0 ? lists[0] : nullptr;
-    }
-    
-    ListNode* merge2Lists(ListNode* l1, ListNode* l2) {
-        ListNode *head, *point;
-        head = point = new ListNode(0);
-        while (l1 && l2) {
-            if (l1->val <= l2->val) {
-                point->next = l1;
-                l1 = l1->next;
-            } else {
-                point->next = l2;
-                l2 = l1;
-                l1 = point->next->next;
-            }
-            point = point->next;
-        }
-        if (!l1)
-            point->next=l2;
-        else
-            point->next=l1;
-        return head->next;
+        return N > 0 ? lists[0] : nullptr;
     }
 };
 ```

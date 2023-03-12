@@ -371,3 +371,122 @@ class Solution:
             return node
         return convert(0, size - 1)
 ```
+
+## Approach 2: Recursion + Conversion to Array
+```
+Runtime: 28 ms
+Memory: 28.8 MB
+```
+```c++
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode() : val(0), next(nullptr) {}
+ *     ListNode(int x) : val(x), next(nullptr) {}
+ *     ListNode(int x, ListNode *next) : val(x), next(next) {}
+ * };
+ */
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+class Solution {
+    TreeNode* dfs(int left, int right, vector<ListNode*>& v) {
+        if (left > right) {
+            return nullptr;
+        }
+        else if (left == right) {
+            return new TreeNode(v[left]->val);
+        }
+        int mid = (left+right)/2;
+        TreeNode* node = new TreeNode(v[mid]->val);
+        node->left = dfs(left, mid-1, v);
+        node->right = dfs(mid+1, right, v);
+        return node;
+    }
+public:
+    TreeNode* sortedListToBST(ListNode* head) {
+        vector<ListNode*> v;
+        while (head) {
+            v.push_back(head);
+            head = head->next;
+        }
+        return dfs(0, v.size()-1, v);
+    }
+};
+```
+
+**Solution 3: Divide and Conquer, O(1) space**
+```
+Runtime: 23 ms
+Memory: 28.3 MB
+```
+```c++
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode() : val(0), next(nullptr) {}
+ *     ListNode(int x) : val(x), next(nullptr) {}
+ *     ListNode(int x, ListNode *next) : val(x), next(next) {}
+ * };
+ */
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+class Solution {
+    pair<ListNode*, ListNode*> findMidNode(ListNode* head)
+    {
+        ListNode* pre = nullptr;
+        ListNode* slow = head;
+        ListNode* fast = head;
+        while(fast && fast->next)
+        {
+            pre = slow;
+            slow = slow->next;
+            fast = fast->next->next;
+        }
+        
+        return make_pair(pre, slow);
+    }
+public:
+    TreeNode* sortedListToBST(ListNode* head) {
+        if(!head)
+            return nullptr;
+        pair<ListNode*, ListNode*> myPair = findMidNode(head);
+        if(!myPair.second)
+            return nullptr;
+        TreeNode* root = new TreeNode(myPair.second->val);
+        ListNode* right = myPair.second->next;
+        if(!myPair.first)
+        {
+            root->left = nullptr;
+        }
+        else
+        {
+            myPair.first->next = nullptr;
+            root->left = sortedListToBST(head);
+        }
+        root->right = sortedListToBST(right);
+        return root;
+    }
+};
+```

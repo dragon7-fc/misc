@@ -196,3 +196,44 @@ void solutionFree(Solution* obj) {
  * solutionFree(obj);
 */
 ```
+**Solution 5: (Reservoir Sampling)**
+```
+Runtime: 28 ms
+Memory: 16.6 MB
+```
+```c++
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode() : val(0), next(nullptr) {}
+ *     ListNode(int x) : val(x), next(nullptr) {}
+ *     ListNode(int x, ListNode *next) : val(x), next(next) {}
+ * };
+ */
+class Solution {
+    ListNode *head = NULL;
+public:
+    Solution(ListNode* head) {
+        this->head = head;
+    }
+    
+    int getRandom() {
+        int ans = 0, cnt = 1;
+        ListNode *p = this->head;
+        while (p) {
+            if (rand() % cnt == 0) ans = p->val; // replace ans with i-th node.val with probability 1/i
+            cnt ++;
+            p = p->next;
+        }
+        return ans;
+    }
+};
+
+/**
+ * Your Solution object will be instantiated and called as such:
+ * Solution* obj = new Solution(head);
+ * int param_1 = obj->getRandom();
+ */
+```

@@ -164,3 +164,33 @@ public:
     }
 };
 ```
+
+**Solution 4: (Binary Search)**
+```
+Runtime: 54 ms
+Memory: 18.8 MB
+```
+```c++
+class Solution {
+    int check(int k, vector<int>& piles) {
+        int rst = 0;
+        for (int p: piles) {
+            rst += p/k + (p%k != 0); // rst += ceil((double)p / k);
+        }
+        return rst;
+    }
+public:
+    int minEatingSpeed(vector<int>& piles, int h) {
+        int lo = 1, hi = *max_element(piles.begin(), piles.end()), mid;
+        while (lo < hi) {
+            mid = lo + (hi - lo) / 2;
+            if (check(mid, piles) > h) {
+                lo = mid + 1;
+            } else {
+                hi = mid;
+            }
+        }
+        return lo;
+    }
+};
+```
