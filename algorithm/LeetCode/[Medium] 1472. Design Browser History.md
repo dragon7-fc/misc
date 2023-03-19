@@ -136,3 +136,44 @@ void browserHistoryFree(BrowserHistory* obj) {
  * browserHistoryFree(obj);
 */
 ```
+
+**Solution 3: (Array)**
+```
+Runtime: 137 ms
+Memory: 57.8 MB
+```
+```c++
+class BrowserHistory {
+    string history[500];
+    int cur, head;
+public:
+    BrowserHistory(string homepage) {
+        cur = head = 0;
+        history[head] = homepage;
+    }
+    
+    void visit(string url) {
+        cur += 1;
+        head = cur;
+        history[head] = url;
+    }
+    
+    string back(int steps) {
+        cur = cur-steps < 0? 0: cur-steps;
+        return history[cur];
+    }
+    
+    string forward(int steps) {
+        cur = cur+steps > head? head: cur+steps;
+        return history[cur];
+    }
+};
+
+/**
+ * Your BrowserHistory object will be instantiated and called as such:
+ * BrowserHistory* obj = new BrowserHistory(homepage);
+ * obj->visit(url);
+ * string param_2 = obj->back(steps);
+ * string param_3 = obj->forward(steps);
+ */
+```

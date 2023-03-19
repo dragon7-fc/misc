@@ -323,3 +323,76 @@ public:
  * bool param_2 = obj->search(word);
  */
 ```
+
+**Solution 3: (Trie)**
+```
+Runtime: 818 ms
+Memory: 558.5 MB
+```
+```c++
+class WordDictionary {
+    struct TrieNode {
+        TrieNode *child[26];
+        bool isEnd;
+        TrieNode() {
+            for (int i = 0; i < 26; i ++) {
+                child[i] = nullptr;
+            }
+            isEnd = false;
+        }
+    };
+    TrieNode *trie;
+    bool dfs(int i, string &word, TrieNode *t) {
+        if (i == word.size()) {
+            if (t->isEnd) {
+                return true;
+            }
+            return false;
+        }
+        TrieNode *nt;
+        if (word[i] == '.') {
+            for (int j = 0; j < 26; j ++) {
+                nt = t->child[j];
+                if (nt) {
+                    if (dfs(i+1, word, nt)) {
+                        return true;
+                    }
+                }
+            }
+            return false;
+        }
+        nt = t->child[word[i]-'a'];
+        if (!nt) {
+            return false;
+        }
+        return dfs(i+1, word, nt);
+    }
+public:
+    WordDictionary() {
+        trie = new TrieNode();
+    }
+    
+    void addWord(string word) {
+        TrieNode *t = trie;
+        for (char c: word) {
+            if (!t->child[c-'a']) {
+                t->child[c-'a'] = new TrieNode();
+            }
+            t = t->child[c-'a'];
+        }
+        t->isEnd = true;
+    }
+    
+    bool search(string word) {
+        TrieNode *t = trie;
+        return dfs(0, word, t);
+    }
+};
+
+/**
+ * Your WordDictionary object will be instantiated and called as such:
+ * WordDictionary* obj = new WordDictionary();
+ * obj->addWord(word);
+ * bool param_2 = obj->search(word);
+ */
+```

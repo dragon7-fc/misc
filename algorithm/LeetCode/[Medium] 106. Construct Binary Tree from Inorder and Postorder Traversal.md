@@ -47,8 +47,8 @@ class Solution:
 
 **Solution 2: (DFS)**
 ```
-Runtime: 56 ms
-Memory Usage: 220.9 MB
+Runtime: 11 ms
+Memory: 26 MB
 ```
 ```c++
 /**
@@ -63,24 +63,27 @@ Memory Usage: 220.9 MB
  * };
  */
 class Solution {
-public:
-    TreeNode* create(vector<int> inor, vector<int> post, int is, int ie, int ps, int pe){
-        if(ps>pe)
-            return NULL;
-        TreeNode* node=new TreeNode(post[pe]);
-        int k=0;
-        for (int i = is; i <= ie; i++){
-            if (inor[i] == post[pe]){
-                k = i;
+    TreeNode* dfs(int left, int right, int &pi, vector<int>& inorder, vector<int>& postorder) {
+        if (left > right) {
+            return nullptr;
+        }
+        int mid;
+        for (int i = right; i >= 0; i --) {
+            if (inorder[i] == postorder[pi]) {
+                mid = i;
                 break;
             }
         }
-        node->left=create(inor, post, is, k-1, ps, ps+k-is-1);
-        node->right=create(inor, post, k+1, ie, pe-ie+k, pe-1);
+        TreeNode* node = new TreeNode(inorder[mid]);
+        pi -= 1;
+        node->right = dfs(mid+1, right, pi, inorder, postorder);
+        node->left = dfs(left, mid-1, pi, inorder, postorder);
         return node;
     }
+public:
     TreeNode* buildTree(vector<int>& inorder, vector<int>& postorder) {
-        return create(inorder, postorder, 0, inorder.size()-1, 0, postorder.size()-1);
+        int pi = postorder.size()-1;
+        return dfs(0, postorder.size()-1, pi, inorder, postorder);
     }
 };
 ```

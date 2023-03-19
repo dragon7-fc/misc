@@ -232,3 +232,80 @@ bool isSymmetric(struct TreeNode* root){
     return dfs(root->left, root->right);
 }
 ```
+
+**Solution 5: (DFS)**
+```
+Runtime: 3 ms
+Memory: 16.3 MB
+```
+```c++
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+class Solution {
+    bool dfs(TreeNode* left, TreeNode* right) {
+        if (!left && !right) {
+            return true;
+        } else if (!left || !right) {
+            return false;
+        }
+        return left->val == right->val && dfs(left->left, right->right) && dfs(left->right, right->left);
+    }
+public:
+    bool isSymmetric(TreeNode* root) {
+        return dfs(root->left, root->right); 
+    }
+};
+```
+
+**Solution 6: (BFS)**
+```
+Runtime: 0 ms
+Memory: 16.4 MB
+```
+```c++
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+class Solution {
+public:
+    bool isSymmetric(TreeNode* root) {
+        queue<pair<TreeNode*, TreeNode*>> q;
+        TreeNode *left, *right;
+        q.push({root->left, root->right});
+        while (!q.empty()) {
+            left = q.front().first;
+            right = q.front().second;
+            q.pop();
+            if (!left && !right) {
+                continue;
+            }
+            if (!left || !right) {
+                return false;
+            }
+            if (left->val != right->val) {
+                return false;
+            }
+            q.push({left->left, right->right});
+            q.push({left->right, right->left});
+        }
+        return true;
+    }
+};
+```

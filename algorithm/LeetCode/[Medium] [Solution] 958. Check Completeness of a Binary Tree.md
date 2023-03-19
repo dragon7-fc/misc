@@ -118,8 +118,8 @@ class Solution:
 
 **Solution 2: (BFS)**
 ```
-Runtime: 8 ms
-Memory Usage: 10.4 MB
+Runtime: 3 ms
+Memory: 10.3 MB
 ```
 ```c++
 /**
@@ -136,26 +136,21 @@ Memory Usage: 10.4 MB
 class Solution {
 public:
     bool isCompleteTree(TreeNode* root) {
-        if(!root) return true;
-        bool flag=true;
-        queue<TreeNode*>q;
+        queue<TreeNode*> q;
+        bool has_null = false;
+        TreeNode *cur;
         q.push(root);
-        while(!q.empty())
-        {
-            auto curr= q.front();
+        while (!q.empty()) {
+            cur = q.front();
             q.pop();
-            if(curr==NULL)
-            {
-                flag=false;
-            }
-            else
-            {
-                if(flag==false)
-                {
+            if (!cur) {
+                has_null = true;
+            } else {
+                if (has_null) {
                     return false;
                 }
-                q.push(curr->left);
-                q.push(curr->right);
+                q.push(cur->left);
+                q.push(cur->right);
             }
         }
         return true;

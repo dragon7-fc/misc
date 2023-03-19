@@ -284,55 +284,56 @@ class Trie:
 
 **Solution 2: (Hash Table)**
 ```
-Runtime: 47 ms
-Memory Usage: 45 MB
+Runtime: 55 ms
+Memory: 45.2 MB
 ```
 ```c++
 class Trie {
-private:
-    struct TrieNode{
+    struct TrieNode {
         struct TrieNode *child[26];
         bool isEnd;
-        
-        TrieNode(){
+        TrieNode() {
             isEnd = false;
-            for(int i=0; i<26; i++) child[i]=NULL;
+            for (int i = 0; i < 26; i ++) {
+                child[i] = nullptr;
+            }
         }
     };
-    TrieNode* root;
-    
+    TrieNode *trie;
 public:
     Trie() {
-        root = new TrieNode();
+        trie = new TrieNode();
     }
     
     void insert(string word) {
-        TrieNode* curr=root;
-        for(int i=0; i<word.length(); i++){
-            int index=word[i]-'a';
-            if(curr->child[index]==NULL) 
-                curr->child[index] = new TrieNode();
-            curr=curr->child[index];
+        TrieNode *t = trie;
+        for (char &c: word) {
+            if (!t->child[c - 'a']) {
+                t->child[c - 'a'] = new TrieNode();
+            }
+            t = t->child[c - 'a'];
         }
-        curr->isEnd = true;
+        t->isEnd = true;
     }
     
     bool search(string word) {
-        TrieNode *curr= root;
-        for(int i=0; i<word.length(); i++){
-            int index=word[i]-'a';
-            if(curr->child[index]==NULL) return false;
-            curr=curr->child[index];
+        TrieNode *t = trie;
+        for (char &c: word) {
+            if (!t->child[c - 'a']) {
+                return false;   
+            }
+            t = t->child[c - 'a'];
         }
-        return curr->isEnd;
-    }
+        return t->isEnd;
+     }
     
     bool startsWith(string prefix) {
-        TrieNode *curr = root;
-        for(int i=0; i<prefix.length(); i++){
-            int index=prefix[i]-'a';
-            if(curr->child[index]==NULL) return false;
-            curr=curr->child[index];
+        TrieNode *t = trie;
+        for (char &c: prefix) {
+            if (!t->child[c - 'a']) {
+                return false;
+            }
+            t = t->child[c - 'a'];
         }
         return true;
     }
