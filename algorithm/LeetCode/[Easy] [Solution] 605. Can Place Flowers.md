@@ -129,3 +129,29 @@ class Solution:
             index += 1
         return n <= 0
 ```
+
+**Solution 3: (Greedy, Mask)**
+```
+Runtime: 12 ms
+Memory: 20.2 MB
+```
+```c++
+class Solution {
+public:
+    bool canPlaceFlowers(vector<int>& flowerbed, int n) {
+        if (n == 0) {
+            return true;
+        }
+        for (int i = 0; i < flowerbed.size(); i ++) {
+            if (!flowerbed[i] && (i == 0 || !flowerbed[i-1]) && (i == flowerbed.size()-1 || !flowerbed[i+1])) {
+                flowerbed[i] = 1;
+                n -= 1;
+                if (!n) {
+                    break;
+                }
+            }
+        }
+        return n == 0;
+    }
+};
+```

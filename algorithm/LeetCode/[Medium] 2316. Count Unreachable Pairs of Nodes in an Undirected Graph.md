@@ -81,34 +81,78 @@ class Solution:
 
 **Solution 2: (DFS)**
 ```
-Runtime: 772 ms
-Memory Usage: 215.2 MB
+Runtime: 561 ms
+Memory: 184.2 MB
 ```
 ```c++
 class Solution {
-    typedef long long ll;
-    void dfs(int node, unordered_map<int,vector<int>>& m, ll& cnt, vector<int>& vis){
-        vis[node] = 1;
+    void dfs(int v, long long &cnt, vector<bool>& seen, vector<vector<int>>& g) {
+        seen[v] = true;
         cnt++;
-        for(auto& i: m[node]){
-            if(vis[i]==0) dfs(i,m,cnt,vis);   
+        for (auto &nv: g[v]){
+            if (!seen[nv]) {
+                dfs(nv, cnt, seen, g);
+            }   
         }
     }
 public:
     long long countPairs(int n, vector<vector<int>>& edges) {
-        unordered_map<int,vector<int>> m; // making adjacency list
-        for(int i=0;i<edges.size();i++){
-            m[edges[i][0]].push_back(edges[i][1]);
-            m[edges[i][1]].push_back(edges[i][0]);
+        vector<vector<int>> g(n); 
+        for (int i = 0; i < edges.size(); i++){
+            g[edges[i][0]].push_back(edges[i][1]);
+            g[edges[i][1]].push_back(edges[i][0]);
         }
-        ll ans = ((ll)n*(n-1))/2;
-        vector<int> vis(n,0);
-        for(int i=0;i<n;i++){
-            if(vis[i]==0){ // as node is not visited, we find the no. of nodes in current component.
-                ll cnt = 0;
-                dfs(i,m,cnt,vis);
+        long long ans = ((long long)n*(n-1))/2;
+        vector<bool> seen(n);
+        for (int v = 0; v < n; v++) {
+            if (!seen[v]) {
+                long long cnt = 0;
+                dfs(v, cnt, seen, g);
                 ans -= (cnt*(cnt-1))/2;
             }
+        }
+        return ans;
+    }
+};
+```
+
+**Solution 3: (DFS)**
+```
+Runtime: 559 ms
+Memory: 187.3 MB
+```
+```c++
+class Solution {
+    void dfs(int v, long long &cnt, vector<bool>& seen, vector<vector<int>>& g) {
+        seen[v] = true;
+        cnt++;
+        for (auto &nv: g[v]){
+            if (!seen[nv]) {
+                dfs(nv, cnt, seen, g);
+            }   
+        }
+    }
+public:
+    long long countPairs(int n, vector<vector<int>>& edges) {
+        vector<vector<int>> g(n); 
+        for (int i = 0; i < edges.size(); i++){
+            g[edges[i][0]].push_back(edges[i][1]);
+            g[edges[i][1]].push_back(edges[i][0]);
+        }
+        vector<bool> seen(n);
+        vector<long long> comp;
+        long long cnt;
+        for (int v = 0; v < n; v++) {
+            if (!seen[v]) {
+                cnt = 0;
+                dfs(v, cnt, seen, g);
+                comp.push_back(cnt);
+            }
+        }
+        long long ans = 0, pre = comp[0];
+        for (int i = 1; i < comp.size(); i++) {
+            ans += pre*comp[i];
+            pre += comp[i];
         }
         return ans;
     }

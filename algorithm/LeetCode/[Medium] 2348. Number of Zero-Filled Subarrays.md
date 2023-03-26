@@ -78,3 +78,26 @@ public:
     }
 };
 ```
+
+**Solution 3: (Greedy)**
+```
+Runtime: 155 ms
+Memory: 107.6 MB
+```
+```c++
+class Solution {
+public:
+    long long zeroFilledSubarray(vector<int>& nums) {
+        long long ans = 0, cur = 0;
+        for (int &num: nums) {
+            if (num == 0) {
+                cur += 1;
+                ans += cur;
+            } else {
+                cur = 0;
+            }
+        }
+        return ans;
+    }
+};
+```

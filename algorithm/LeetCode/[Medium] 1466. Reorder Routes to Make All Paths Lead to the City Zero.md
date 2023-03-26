@@ -80,44 +80,35 @@ class Solution:
 
 **Solution 2: (DFS)**
 ```
-Runtime: 428 ms
-Memory Usage: 113.9 MB
+Runtime: 553 ms
+Memory: 126.3 MB
 ```
 ```c++
 class Solution {
-public:
-    int minReorder(int n, vector<vector<int>>& connections) {
-        // build undirected graph
-        vector<vector<int>> graph(n);
-        for(auto& conn : connections) {
-            graph[conn[0]].push_back(conn[1]);
-            graph[conn[1]].push_back(conn[0]);
+    void dfs(int u, int v, int &rst, vector<bool> &seen, set<pair<int, int>> &st, vector<vector<int>> &g) {
+        seen[v] = true;
+        if (st.count({u, v})) {
+            rst += 1;
         }
-        
-        // set
-        set<vector<int>> conn_set(connections.begin(), connections.end());
-        
-        // dfs
-        int ans = 0;
-        vector<bool> visited(n);
-        dfs(graph, conn_set, visited, 0, ans);
-        
-        return ans;
-    }
-    
-    void dfs(vector<vector<int>>& graph, set<vector<int>>& conn_set, vector<bool>& visited, int cur, int& ans) {
-        if(visited[cur]) return;
-        
-        visited[cur] = true;
-
-        for(int next : graph[cur]) {          
-            if(!visited[next]) {
-                if(conn_set.count({cur, next})) {
-                    ans += 1;
-                }
-                dfs(graph, conn_set, visited, next, ans);
+        for (int &nv: g[v]) {
+            if (!seen[nv]) {
+                dfs(v, nv, rst, seen, st, g);
             }
         }
+    }
+public:
+    int minReorder(int n, vector<vector<int>>& connections) {
+        vector<vector<int>> g(n);
+        set<pair<int, int>> st;
+        for (int i = 0; i < connections.size(); i ++) {
+            g[connections[i][0]].push_back(connections[i][1]);
+            g[connections[i][1]].push_back(connections[i][0]);
+            st.insert({connections[i][0], connections[i][1]});
+        }
+        vector<bool> seen(n);
+        int ans = 0;
+        dfs(-1, 0, ans, seen, st, g);
+        return ans;
     }
 };
 ```

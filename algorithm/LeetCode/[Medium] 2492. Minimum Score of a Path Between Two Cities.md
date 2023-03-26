@@ -70,3 +70,34 @@ class Solution:
         dfs(1)
         return ans
 ```
+
+**Solution 2: (DFS)**
+```
+Runtime: 501 ms
+Memory: 147.1 MB
+```
+```c++
+class Solution {
+    void dfs(int v, int &ans, unordered_set<int> &seen, unordered_map<int, vector<pair<int, int>>> &g) {
+        seen.insert(v);
+        for (auto &[nv, d]: g[v]) {
+            ans = min(ans, d);
+            if (!seen.count(nv)) {
+                dfs(nv, ans, seen, g);
+            }
+        }
+    }
+public:
+    int minScore(int n, vector<vector<int>>& roads) {
+        unordered_map<int, vector<pair<int, int>>> g;
+        for (int i = 0; i < roads.size(); i ++) {
+            g[roads[i][0]].push_back({roads[i][1], roads[i][2]});
+            g[roads[i][1]].push_back({roads[i][0], roads[i][2]});
+        }
+        unordered_set<int> seen;
+        int ans = INT_MAX;
+        dfs(1, ans, seen, g);
+        return ans;
+    }
+};
+```

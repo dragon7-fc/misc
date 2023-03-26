@@ -162,3 +162,41 @@ class Solution:
         
         return disconected
 ```
+
+**Solution 4: (DFS)**
+```
+Runtime: 133 ms
+Memory: 51.6 MB
+```
+```c++
+class Solution {
+    void dfs(int v, vector<bool> &seen, vector<vector<int>> &g) {
+        seen[v] = true;
+        for (int &nv: g[v]) {
+            if (!seen[nv]) {
+                dfs(nv, seen, g);
+            }
+        }
+    }
+public:
+    int makeConnected(int n, vector<vector<int>>& connections) {
+        if (connections.size() < n-1) {
+            return -1;
+        }
+        vector<vector<int>> g(n);
+        for (int i = 0; i < connections.size(); i ++) {
+            g[connections[i][0]].push_back(connections[i][1]);
+            g[connections[i][1]].push_back(connections[i][0]);
+        }
+        vector<bool> seen(n);
+        int ans = 0;
+        for (int i = 0; i < n; i ++) {
+            if (!seen[i]) {
+                dfs(i, seen, g);
+                ans += 1;
+            }
+        }
+        return ans - 1;
+    }
+};
+```
