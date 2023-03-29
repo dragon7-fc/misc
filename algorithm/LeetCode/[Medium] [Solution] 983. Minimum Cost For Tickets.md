@@ -181,3 +181,78 @@ class Solution:
         
         return dp(0)
 ```
+
+**Solution 3: (DP Bottom-Up)**
+```
+Runtime: 3 ms
+Memory: 10.2 MB
+```
+```c++
+class Solution {
+public:
+    int mincostTickets(vector<int>& days, vector<int>& costs) {
+        unordered_set<int> st(days.begin(), days.end());
+        vector<int> dp(366);
+        for (int i = days[0]; i <= days.back(); i ++) {
+            if (st.count(i)) {
+                dp[i] = min(min(dp[i-1]+costs[0], dp[max(0, i-7)]+costs[1]), dp[max(0, i-30)]+costs[2]);
+            } else {
+                dp[i] = dp[i-1];
+            }
+        }
+        return dp[days.back()];
+    }
+};
+```
+
+**Solution 4: (DP Bottom-Up)**
+```
+Runtime: 4 ms
+Memory: 9.6 MB
+```
+```c++
+class Solution {
+public:
+    int mincostTickets(vector<int>& days, vector<int>& costs) {
+        int n = days.size();
+        vector<int> dp(n + 1, INT_MAX);
+        dp[0] = 0;
+        for (int i = 1; i <= n; i++) {
+            dp[i] = dp[i - 1] + costs[0]; // 1-day pass for current day
+            
+            int j = i - 1;
+            while (j >= 0 && days[i - 1] - days[j] < 7) j--;
+            dp[i] = min(dp[i], dp[j + 1] + costs[1]); // 7-day pass for current day
+            
+            j = i - 1;
+            while (j >= 0 && days[i - 1] - days[j] < 30) j--;
+            dp[i] = min(dp[i], dp[j + 1] + costs[2]); // 30-day pass for current day
+        }
+        
+        return dp[n];
+    }
+};
+```
+
+**Solution 5: (DP Bottom-Up)**
+```
+Runtime: 2 ms
+Memory: 9.6 MB
+```
+```c++
+class Solution {
+public:
+    int mincostTickets(vector<int>& days, vector<int>& costs) {
+        queue<pair<int, int>> last7, last30;
+        int cost = 0;
+        for (auto d : days) {
+            while (!last7.empty() && last7.front().first + 7 <= d) last7.pop();
+            while (!last30.empty() && last30.front().first + 30 <= d) last30.pop();
+            last7.push({ d, cost + costs[1] });
+            last30.push({ d, cost + costs[2] });
+            cost = min({ cost + costs[0], last7.front().second, last30.front().second });
+        }
+        return cost;
+    }
+};
+```
