@@ -1,0 +1,77 @@
+2610. Convert an Array Into a 2D Array With Conditions
+
+You are given an integer array `nums`. You need to create a 2D array from `nums` satisfying the following conditions:
+
+* The 2D array should contain **only** the elements of the array `nums`.
+* Each row in the 2D array contains **distinct** integers.
+* The number of rows in the 2D array should be **minimal**.
+
+Return the resulting array. If there are multiple answers, return any of them.
+
+**Note** that the 2D array can have a different number of elements on each row.
+
+ 
+
+**Example 1:**
+```
+Input: nums = [1,3,4,1,2,3,1]
+Output: [[1,3,4,2],[1,3],[1]]
+Explanation: We can create a 2D array that contains the following rows:
+- 1,3,4,2
+- 1,3
+- 1
+All elements of nums were used, and each row of the 2D array contains distinct integers, so it is a valid answer.
+It can be shown that we cannot have less than 3 rows in a valid array.
+```
+
+**Example 2:**
+```
+Input: nums = [1,2,3,4]
+Output: [[4,3,2,1]]
+Explanation: All elements of the array are distinct, so we can keep all of them in the first row of the 2D array.
+```
+
+**Constraints:**
+
+* `1 <= nums.length <= 200`
+* `1 <= nums[i] <= nums.length`
+
+# Submissions
+---
+**Solution 1: (Counter)**
+```
+Runtime: 49 ms
+Memory: 13.8 MB
+```
+```python
+class Solution:
+    def findMatrix(self, nums: List[int]) -> List[List[int]]:
+        cnt = collections.Counter(nums)
+        ans = [[] for _ in range(max(cnt.values()))]
+        for k, v in cnt.items():
+            for i in range(v):
+                ans[i] += [k]
+        return ans
+```
+
+**Solution 2: (Counter)**
+```
+Runtime: 23 ms
+Memory: 29.5 MB
+```
+```c++
+class Solution {
+public:
+    vector<vector<int>> findMatrix(vector<int>& nums) {
+        int n = nums.size();
+        vector<int> count(n + 10);
+        vector<vector<int>> res;
+        for (int a : nums) {
+            if (res.size() <= count[a])
+                res.push_back({});
+            res[count[a]++].push_back(a);
+        }
+        return res;
+    }
+};
+```
