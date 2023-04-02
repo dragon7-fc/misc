@@ -110,5 +110,103 @@ class Solution:
                             dp[i][j][k] = True
                             break
         return dp[0][0][-1]
+```
 
+**Solution 3: (DP Top-Down)**
+```
+Runtime: 66 ms
+Memory: 7.9 MB
+```
+```c++
+class Solution {
+public:
+    bool isScramble(string s1, string s2) {
+        int n = (int) s1.size();
+        bool vis[n][n][n][n];
+        bool dp[n][n][n][n];
+        memset(vis, false, sizeof(vis));
+        memset(dp, false, sizeof(dp));
+
+        // we are always calling the function such that, the substring we are checking on both the
+        // substrings are of same length, i.e. (r1 - l1 + 1 == r2 - l2 + 1)
+
+        // helper takes in two substrings of both string
+        // and returns whether they are scamble of each other
+        function<bool(int, int, int, int)> helper = [&] (int l1, int r1, int l2, int r2) {
+            if (vis[l1][r1][l2][r2]) {
+                return dp[l1][r1][l2][r2];
+            }
+            vis[l1][r1][l2][r2] = true;
+            bool isSame = true;
+            for (int i = l1, j = l2; i <= r1 && j <= r2; i++, j++) {
+                if (s1[i] != s2[j]) {
+                    isSame = false;
+                    break;
+                }
+            }
+            
+            // is already same, simply return true
+            if (isSame) {
+                dp[l1][r1][l2][r2] = true;
+                return true;
+            }
+
+            bool res = false;
+            for (int i = l1; i < r1; i++) {
+                // opt1: prefix1 matches to prefix2 and suffix1 matches to suffix2
+                res |= (helper(l1, i, l2, l2 + (i - l1)) && helper(i + 1, r1, l2 + (i - l1) + 1, r2));
+
+                // opt2: prefix1 matches to suffix2 and prefix2 matches to suffix1
+                res |= (helper(l1, i, r2 - (i - l1), r2) && helper(i + 1, r1, l2, r2 - (i - l1) - 1));
+            }
+            dp[l1][r1][l2][r2] = res;
+            return res;
+        };
+
+        return helper(0, n - 1, 0, n - 1);
+    }
+};
+```
+
+**Solution 4: (DP Bottom-Up)**
+```
+Runtime: 56 ms
+Memory: 10.4 MB
+```
+```c++
+class Solution {
+public:
+    bool isScramble(string s1, string s2) {
+        if (s1 == s2) {
+            return true;
+        }
+        string s1_cpy = s1, s2_cpy = s2;
+        sort(s1_cpy.begin(), s1_cpy.end());
+        sort(s2_cpy.begin(), s2_cpy.end());
+        if (s1_cpy != s2_cpy) {
+            return false;
+        }
+        int n = s1.size();
+        vector<vector<vector<bool>>> dp(n, vector<vector<bool>>(n, vector<bool>(n+1)));
+        for (int i = 0; i < n; i ++) {
+            for (int j = 0; j < n; j ++) {
+                dp[i][j][1] = (s1[i] == s2[j]);
+            }
+        }
+        for (int length = 2; length < n+1; length ++) {
+            for (int i = 0; i < n-length+1; i ++) {
+                for (int j = 0; j < n-length+1; j ++) {
+                    for (int k = 1; k < length; k ++) {
+                        if ((dp[i][j][k] && dp[i+k][j+k][length-k]) || (dp[i][j+length-k][k] && dp[i+k][j][length-k])) {
+                            dp[i][j][length] = true;
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+        
+        return dp[0][0][n];
+    }
+};
 ```

@@ -72,3 +72,36 @@ public:
     }
 };
 ```
+
+**Solution 3: (Binary Search)**
+```
+Runtime: 244 ms
+Memory: 97 MB
+```
+```c++
+class Solution {
+public:
+    vector<int> successfulPairs(vector<int>& spells, vector<int>& potions, long long success) {
+        int N = spells.size(), M = potions.size(), spell, left, right, mid;
+        long long product;
+        vector<int> ans(N);
+        sort(potions.begin(), potions.end());
+        for (int i = 0; i < N; i++) {
+            spell = spells[i];
+            left = 0;
+            right = M - 1;
+            while (left <= right) {
+                mid = left + (right - left) / 2;
+                product = (long long)spell * (long long)potions[mid];
+                if (product >= success) {
+                    right = mid - 1;
+                } else {
+                    left = mid + 1;
+                }
+            }
+            ans[i] = M - left;
+        }
+        return ans;
+    }
+};
+```
