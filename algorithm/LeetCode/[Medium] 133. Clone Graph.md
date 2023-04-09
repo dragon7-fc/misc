@@ -269,3 +269,50 @@ public:
     }
 };
 ```
+
+**Solution 7: (DFS, Hash Table)**
+```
+Runtime: 5 ms
+Memory: 9 MB
+```
+```c++
+/*
+// Definition for a Node.
+class Node {
+public:
+    int val;
+    vector<Node*> neighbors;
+    Node() {
+        val = 0;
+        neighbors = vector<Node*>();
+    }
+    Node(int _val) {
+        val = _val;
+        neighbors = vector<Node*>();
+    }
+    Node(int _val, vector<Node*> _neighbors) {
+        val = _val;
+        neighbors = _neighbors;
+    }
+};
+*/
+
+class Solution {
+    unordered_map<Node*, Node*> m;
+public:
+    Node* cloneGraph(Node* node) {
+        if (!node) {
+            return nullptr;
+        } else if (m[node]) {
+            return m[node];
+        }
+        Node *cur = new Node(node->val), *ncur;
+        m[node] = cur;
+        for (Node* nei: node->neighbors) {
+            ncur = cloneGraph(nei);
+            cur->neighbors.push_back(ncur);
+        }
+        return cur;
+    }
+};
+```

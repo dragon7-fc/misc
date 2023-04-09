@@ -46,7 +46,7 @@ Output: 2
 
 # Submissions
 ---
-**Solution 1:**
+**Solution 1: (DFS)**
 ```
 Runtime: 144 ms
 Memory Usage: 13 MB
@@ -83,4 +83,46 @@ class Solution:
                     res += 1
 
         return res
+```
+
+**Solution 2: (DFS)**
+```
+Runtime: 11 ms
+Memory: 9.5 MB
+```
+```c++
+class Solution {
+    int d[5] = {0, 1, 0, -1, 0};
+    void dfs(int r, int c, bool& is_contour, vector<vector<int>>& grid) {
+        grid[r][c] = 1;
+        if (r == 0 || r == grid.size()-1 || c == 0 || c == grid[0].size()-1) {
+            is_contour = true;
+        }
+        int nr, nc;
+        for (int i = 0; i < 4; i ++) {
+            nr = r + d[i];
+            nc = c + d[i+1];
+            if (0 <= nr && nr < grid.size() && 0 <= nc && nc < grid[0].size() && grid[nr][nc] == 0) {
+                dfs(nr, nc, is_contour, grid);
+            }
+        }
+    }
+public:
+    int closedIsland(vector<vector<int>>& grid) {
+        int ans = 0;
+        bool is_contour;
+        for (int r = 0; r < grid.size(); r ++) {
+            for (int c = 0; c < grid[0].size(); c++) {
+                if (grid[r][c] == 0) {
+                    is_contour = false;
+                    dfs(r, c, is_contour, grid);
+                    if (!is_contour) {
+                        ans += 1;
+                    }
+                }
+            }
+        }
+        return ans;
+    }
+};
 ```

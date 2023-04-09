@@ -54,8 +54,8 @@ class Solution:
 
 **Solution 2: (Prefix Sum Average)**
 ```
-Runtime: 390 ms
-Memory: 71.2 MB
+Runtime: 134 ms
+Memory: 71.4 MB
 ```
 ```c++
 class Solution {
@@ -64,9 +64,45 @@ public:
         long sum = 0, res = 0;
         for (int i = 0; i < nums.size(); ++i) {
             sum += nums[i];
-            res = max(res, (sum + i) / (i + 1));
+            res = max(res, (long) ceil(sum*1.0 / (i + 1)));
         }
         return res;
+    }
+};
+```
+
+**Solution 3: (Binary Search)**
+```
+Runtime: 139 ms
+Memory: 71.3 MB
+```
+```c++
+class Solution {
+    bool check(vector<int> &nums, int k) {
+        long long have = 0;
+        for (int num: nums) {
+            if (num <= k) {
+                have += k-num;
+            } else {
+                if (have < num-k)
+                    return false; 
+                else
+                    have -= (num-k);
+            }
+        }
+        return true;
+    }
+public:
+    int minimizeArrayValue(vector<int>& nums) {
+        int left = 0, right = *max_element(nums.begin(), nums.end()), mid;
+        while (left<right) { 
+            mid = left + (right-left)/2;
+            if (check(nums, mid))
+                right = mid;
+            else
+                left = mid + 1;
+        }
+        return left;
     }
 };
 ```
