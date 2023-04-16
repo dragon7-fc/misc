@@ -113,3 +113,97 @@ public:
     }
 };
 ```
+
+**Solution 4: (DP Top-Down)**
+```
+Runtime: 87 ms
+Memory: 73 MB
+```
+```c++
+class Solution {
+    int dfs(int i, int j, string &s, vector<vector<int>> &dp) {
+        if (i == j) {
+            dp[i][i] = 1;
+        } else if (i+1 == j) {
+            if (s[i] == s[j]) {
+                dp[i][j] = 2;
+            } else {
+                dp[i][j] = 1;
+            }
+        }
+        if (dp[i][j]) {
+            return dp[i][j];
+        }
+        int rst;
+        if (s[i] == s[j]) {
+            rst = 2 + dfs(i+1, j-1, s, dp);
+        } else {
+            rst = max(dfs(i+1, j, s, dp), dfs(i, j-1, s, dp));
+        }
+        dp[i][j] = rst;
+        return rst;
+    }
+public:
+    int longestPalindromeSubseq(string s) {
+        int n = s.size(), ans = 1;
+        vector<vector<int>> dp(n, vector<int>(n));
+        return dfs(0, n-1, s, dp);
+    }
+};
+```
+
+**Solution 5: (DP Bottom-Up)**
+```
+Runtime: 144 ms
+Memory: 73 MB
+```
+```c++
+class Solution {
+public:
+    int longestPalindromeSubseq(string s) {
+        int n = s.size(), ans = 1;
+        vector<vector<int>> dp(n, vector<int>(n));
+        for (int i = 0; i < n; i ++) {
+            dp[i][i] = 1;
+        }
+        for (int i = n-2; i >= 0; i --) {
+            for (int j = i+1; j < n; j ++) {
+                if (s[i] == s[j]) {
+                    dp[i][j] = 2 + dp[i+1][j-1];
+                } else {
+                    dp[i][j] = max(dp[i][j-1], dp[i+1][j]);
+                }
+            }
+        }
+        return dp[0][n-1];
+    }
+};
+```
+
+**Solution 6: (DP Bottom-Up 1-D)**
+```
+Runtime: 98 ms
+Memory: 72.3 MB
+```
+```c++
+class Solution {
+public:
+    int longestPalindromeSubseq(string s) {
+        int n = s.length();
+        vector<int> dp(n, 0);
+        for (int i = n - 1; i >= 0; i--) {
+            vector<int> newdp(n, 0);
+            newdp[i] = 1;
+            for (int j = i + 1; j < n; j++) {
+                if (s[i] == s[j]) {
+                    newdp[j] = 2 + dp[j-1];
+                } else {
+                    newdp[j] = max(dp[j], newdp[j-1]);
+                }
+            }
+            dp = newdp;
+        }
+        return dp[n-1];
+    }
+};
+```

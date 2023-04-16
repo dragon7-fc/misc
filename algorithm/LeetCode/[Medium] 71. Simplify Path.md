@@ -131,3 +131,38 @@ public:
     }
 };
 ```
+
+**Solution 4: (String)**
+```
+Runtime: 11 ms
+Memory: 9.5 MB
+```
+```c++
+class Solution {
+public:
+    string simplifyPath(string path) {
+        int N = path.size(), i = 1;
+        vector<string> stk;
+        while (i < N) {
+            string cur;
+            while (i < N && path[i] != '/') {
+                cur += path[i];
+                i += 1;
+            }
+            if (cur == "..") {
+                if (!stk.empty()) {
+                    stk.pop_back();
+                }
+            } else if (cur != "" && cur != ".") {
+                stk.push_back(cur);
+            }
+            i += 1;
+        }
+        string ans;
+        for (int i = 0; i < stk.size(); i ++) {
+            ans += "/" + stk[i];
+        }
+        return ans != "" ? ans : "/";
+    }
+};
+```
