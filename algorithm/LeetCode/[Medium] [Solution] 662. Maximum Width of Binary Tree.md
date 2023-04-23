@@ -254,7 +254,6 @@ public:
                     q.push({n->right, 2*right+1});
                 }
             }
-            //cout << right << " " << left << "\n";
             ans = max(ans, (int)(right - left + 1));
         }
         

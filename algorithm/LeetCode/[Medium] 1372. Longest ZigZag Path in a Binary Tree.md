@@ -76,3 +76,39 @@ class Solution:
         
         return res-1
 ```
+
+**Solution 2: (Pre-Order)**
+```
+Runtime: 177 ms
+Memory: 94.1 MB
+```
+```c++
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+class Solution {
+    void dfs(TreeNode* node, int left, int right, int &ans) {
+        ans = max(ans, max(left, right));
+        if (node->left) {
+            dfs(node->left, right+1, 0, ans);
+        }
+        if (node->right) {
+            dfs(node->right, 0, left+1, ans);
+        }
+    }
+public:
+    int longestZigZag(TreeNode* root) {
+        int ans = 0;
+        dfs(root, 0, 0, ans);
+        return ans;
+    }
+};
+```
