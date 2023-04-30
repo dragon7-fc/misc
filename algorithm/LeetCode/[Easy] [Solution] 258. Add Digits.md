@@ -161,3 +161,26 @@ public:
     }
 };
 ```
+
+**Solution 3: (Math)**
+```
+Runtime: 0 ms
+Memory: 5.9 MB
+```
+```c++
+class Solution {
+public:
+    int addDigits(int num) {
+        int cur;
+        while (num >= 10) {
+            cur = 0;
+            while (num > 0) {
+                cur += num%10;
+                num /= 10;
+            }
+            num = cur;
+        }
+        return num;
+    }
+};
+```

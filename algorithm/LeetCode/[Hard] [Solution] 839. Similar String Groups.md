@@ -181,3 +181,51 @@ class Solution:
                 res += 1
         return res
 ```
+
+**Solution 3: (DFS)**
+```
+Runtime: 57 ms
+Memory: 10.6 MB
+```
+```c++
+class Solution {
+    void dfs(int i, vector<string> &strs, vector<bool> &seen, vector<vector<bool>> &g) {
+        seen[i] = true;
+        for (int j = 0; j < strs.size(); j ++) {
+            if (g[i][j] && !seen[j]) {
+                dfs(j, strs, seen, g);
+            }
+        }
+    }
+public:
+    int numSimilarGroups(vector<string>& strs) {
+        int m = strs.size(), n = strs[0].size();
+        vector<vector<bool>> g(m, vector<bool>(m));
+        int diff;
+        for (int i = 0; i < m; i ++) {
+            for (int j = i+1; j < m; j ++) {
+                diff = 0;
+                for (int k = 0; k < n; k ++) {
+                    diff += (strs[i][k] != strs[j][k] ? 1 : 0);
+                    if (diff > 2) {
+                        break;
+                    }
+                }
+                if (diff <= 2) {
+                    g[i][j] = true;
+                    g[j][i] = true;
+                }
+            }
+        }
+        vector<bool> seen(m);
+        int ans = 0;
+        for (int i = 0; i < m; i ++) {
+            if (!seen[i]) {
+                dfs(i, strs, seen, g);
+                ans += 1;
+            }
+        }
+        return ans;
+    }
+};
+```

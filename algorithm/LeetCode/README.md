@@ -18596,7 +18596,7 @@ class Solution:
 ```
 * [Hard] 1579. Remove Max Number of Edges to Keep Graph Fully Traversable
 
-**Template 1: (Union Find)**
+**Template 1: (Union Find with rank)**
 ```python
 class DSU(object):
     def __init__(self):

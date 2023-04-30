@@ -29,7 +29,7 @@ for 1th bulb : 1
 8th : 1 0 0 1 0 0 0 0  
 9th : 1 0 0 1 0 0 0 0 1  
 
-Meaning the I-th bulb that is on only on when its on **I\*\*2** turn, for example if you want 2 bulb on then you will have to go to 4th round, 3 bulb on -> 9th round.
+Meaning the I-th bulb that is on only on when its on __I**2__ turn, for example if you want 2 bulb on then you will have to go to 4th round, 3 bulb on -> 9th round.
 so for (n-th round) you can get at most floor(square_root(n)) bulb.
 
 ```
@@ -40,4 +40,24 @@ Memory Usage: 12.4 MB
 class Solution:
     def bulbSwitch(self, n: int) -> int:
         return int(n**.5)
+```
+
+**Solution 2: (Brainteaser)**
+
+bulb is on at end
+-> the number of this bulb must have odd factors
+-> only square number has odd fctors
+-> find the number of square number less than n
+
+```
+Runtime: 3 ms
+Memory: 6.1 MB
+```
+```c++
+class Solution {
+public:
+    int bulbSwitch(int n) {
+        return sqrt(n);
+    }
+};
 ```
