@@ -115,35 +115,36 @@ class Solution:
 
 **Solution 1; (Queue)**
 ```
-Runtime: 15 ms
-Memory Usage: 8.1 MB
+Runtime: 8 ms
+Memory: 8 MB
 ```
 ```c++
 class Solution {
 public:
     string predictPartyVictory(string senate) {
-        queue<int> r;
-        queue<int> d;
-        for(int i = 0;i<senate.length();i++)
-        {
-            if(senate[i] == 'R') r.push(i);
-            else d.push(i);
-        }
-        while(!r.empty() && !d.empty())
-        {
-            int x = r.front();
-            r.pop();
-            int y = d.front();
-            d.pop();
-            if(x<y)
-            {
-                r.push(1e4 + x);
+        queue<int> rad, dir;
+        int n = senate.length();
+        // Add all senators to respect queue with index
+        for (int i = 0; i < n; i++){
+            if (senate[i] == 'R'){
+                rad.push(i);
             }
-            else{
-                d.push(1e4 + y);
+            else {
+                dir.push(i);
             }
         }
-        return ((d.empty()) ? ( "Radiant") : ( "Dire"));
+        // Use increasing n to keep track of position
+        while (!rad.empty() && !dir.empty()){
+            // Only "winner" stays in their queue
+            if (rad.front() < dir.front()){
+                rad.push(n++);
+            }
+            else {
+                dir.push(n++);
+            }
+            rad.pop(), dir.pop();
+        }
+        return (rad.empty()) ? ("Dire") : ("Radiant");
     }
 };
 ```

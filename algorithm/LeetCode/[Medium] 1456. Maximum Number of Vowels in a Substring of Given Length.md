@@ -50,7 +50,7 @@ Output: 1
 
 # Submissions
 ---
-**Solution 1(Sliding Window)**
+**Solution 1: (Sliding Window)**
 ```
 Runtime: 204 ms
 Memory Usage: 14.6 MB
@@ -67,4 +67,30 @@ class Solution:
                 cnt -= 1
             ans  = max(cnt, ans)
         return ans  
+```
+
+**Solution 2: (Sliding Window)**
+```
+Runtime: 19 ms
+Memory: 10 MB
+```
+```c++
+class Solution {
+public:
+    int maxVowels(string s, int k) {
+        int cnt = 0, ans = 0;
+        for (int i = 0; i < s.size(); i ++) {
+            if (s[i] == 'a' || s[i] == 'e' || s[i] == 'i' || s[i] == 'o'  || s[i] == 'u') {
+                cnt += 1;
+            }
+            if (i >= k) {
+                if (s[i-k] == 'a' || s[i-k] == 'e' || s[i-k] == 'i' || s[i-k] == 'o'  || s[i-k] == 'u') {
+                    cnt -= 1;
+                }
+            }
+            ans = max(ans, cnt);
+        }
+        return ans;
+    }
+};
 ```
