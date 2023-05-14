@@ -180,3 +180,34 @@ public:
     }
 };
 ```
+
+**Solution 3: (DFS)**
+```
+Runtime: 0 ms
+Memory: 6.9 MB
+```
+```c++
+class Solution {
+    int d[4] = {0, 1, 0, -1};
+    void dfs(int r, int c, int dd, vector<int> &ans, vector<vector<int>> &matrix) {
+        ans.push_back(matrix[r][c]);
+        matrix[r][c] = INT_MAX;
+        int nr = r + d[dd], nc = c + d[(dd+1)%4];
+        if (!(0 <= nr) || !(nr < matrix.size()) || !(0 <= nc) || !(nc < matrix[0].size()) || matrix[nr][nc] == INT_MAX) {
+            dd = (dd+1) % 4;
+            nr = r + d[dd];
+            nc = c + d[(dd+1)%4];
+            if (!(0 <= nr) || !(nr < matrix.size()) || !(0 <= nc) || !(nc < matrix[0].size()) || matrix[nr][nc] == INT_MAX) {
+            return;
+            }
+        }
+        dfs(nr, nc, dd, ans, matrix);
+    }
+public:
+    vector<int> spiralOrder(vector<vector<int>>& matrix) {
+        vector<int> ans;
+        dfs(0, 0, 0, ans, matrix);
+        return ans;
+    }
+};
+```

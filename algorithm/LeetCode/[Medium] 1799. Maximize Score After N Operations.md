@@ -72,3 +72,27 @@ class Solution:
             return res
         return dfs(1, 0)
 ```
+
+**Solution 2: (DP Top-Down, Bitmask DP)**
+```
+Runtime: 248 ms
+Memory: 8.2 MB
+```
+```c++
+class Solution {
+    int dp[8][16384] = {};
+public:
+    int maxScore(vector<int>& nums, int i = 1, int mask = 0) {
+        if (i > nums.size() / 2)
+            return 0;
+        if (!dp[i][mask])
+            for (int j = 0; j < nums.size(); ++j)
+                for (auto k = j + 1; k < nums.size(); ++k) {
+                    int new_mask = (1 << j) + (1 << k);
+                    if ((mask & new_mask) == 0)
+                        dp[i][mask] = max(dp[i][mask], i * gcd(nums[j], nums[k]) + maxScore(nums, i + 1, mask + new_mask));
+                }
+        return dp[i][mask];
+    }
+};
+```

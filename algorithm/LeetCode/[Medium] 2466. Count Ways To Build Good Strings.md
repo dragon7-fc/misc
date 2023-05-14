@@ -72,3 +72,32 @@ class Solution:
         
         return sum(dfs(k) for k in range(low,high+1)) % mod
 ```
+
+**Solution 3: (DP Bottom-Up)**
+```
+Runtime: 10 ms
+Memory: 6.4 MB
+```
+```
+class Solution {
+public:
+    int countGoodStrings(int low, int high, int zero, int one) {
+        int dp[high+1];
+        memset(dp, 0, sizeof(dp));
+        int ans = 0, MOD = 1e9+7;
+        dp[0] = 1;
+        for (int i = 1; i <= high; i ++) {
+            if (i >= zero) {
+                dp[i] = (dp[i] + dp[i-zero]) % MOD;
+            }
+            if (i >= one) {
+                dp[i] = (dp[i] + dp[i-one]) % MOD;
+            }
+            if (low <= i && i <= high) {
+                ans = (ans + dp[i]) % MOD;
+            }
+        }
+        return ans;
+    }
+};
+```
