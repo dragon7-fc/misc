@@ -100,8 +100,8 @@ struct ListNode* swapPairs(struct ListNode* head){
 
 **Solution 4: (Recursive, Linked List)**
 ```
-Runtime: 3 ms
-Memory Usage: 7.5 MB
+Runtime: 6 ms
+Memory: 7.6 MB
 ```
 ```c++
 /**
@@ -117,14 +117,56 @@ Memory Usage: 7.5 MB
 class Solution {
 public:
     ListNode* swapPairs(ListNode* head) {
-        if (head && head->next) {
-            ListNode *tmp;
-            tmp = head->next;
-            head->next = swapPairs(head->next->next);
-            tmp->next = head;
-            return tmp;
+        if (!head || !head->next) {
+            return head;
         }
-        return head;
+        ListNode *cur = head->next;
+        head->next = swapPairs(cur->next);
+        cur->next = head;
+        return cur;
+    }
+};
+```
+
+**Solution 5: (Linked List)**
+```
+Runtime: 0 ms
+Memory: 7.4 MB
+```
+```c++
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode() : val(0), next(nullptr) {}
+ *     ListNode(int x) : val(x), next(nullptr) {}
+ *     ListNode(int x, ListNode *next) : val(x), next(next) {}
+ * };
+ */
+class Solution {
+public:
+    ListNode* swapPairs(ListNode* head) {
+        if (!head || !head->next) {
+            return head;
+        }
+        ListNode* newHead = head->next;
+        ListNode* prev = nullptr;
+        ListNode* curr = head;
+        while (curr && curr->next) {
+            ListNode* next = curr->next;
+            curr->next = next->next;
+            next->next = curr;
+            
+            if (prev) {
+                prev->next = next;
+            }
+            
+            prev = curr;
+            curr = curr->next;
+        }
+        
+        return newHead;
     }
 };
 ```

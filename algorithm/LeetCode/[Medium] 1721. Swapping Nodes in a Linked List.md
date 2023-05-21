@@ -72,8 +72,8 @@ class Solution:
 
 **Solution 2: (Linked List, Two Pointers)**
 ```
-Runtime: 604 ms
-Memory Usage: 180.2 MB
+Runtime: 755 ms
+Memory: 180.1 MB
 ```
 ```c++
 /**
@@ -89,24 +89,16 @@ Memory Usage: 180.2 MB
 class Solution {
 public:
     ListNode* swapNodes(ListNode* head, int k) {
-        ListNode *dummy = new ListNode(), *slow , *fast;
-        dummy->next = head;
-        fast = slow = dummy;
-        int r = k;
-        while (r) {
-            fast = fast ->next;
-            r -= 1;
+        ListNode *fast = head, *slow = head, *cur;
+        for (int i = 1; i < k; i ++) {
+            fast = fast->next;
         }
-        while (fast) {
+        cur = fast;
+        while (fast->next) {
             fast = fast->next;
             slow = slow->next;
         }
-        fast = dummy;
-        while (k) {
-            fast = fast->next;
-            k -= 1;
-        }
-        swap(fast->val, slow->val);
+        swap(cur->val, slow->val);
         return head;
     }
 };

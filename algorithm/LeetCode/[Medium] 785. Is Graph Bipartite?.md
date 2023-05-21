@@ -203,52 +203,36 @@ public:
 
 **Solution 6: (BFS)**
 ```
-Runtime: 43 ms
-Memory Usage: 13.6 MB
+Runtime: 30 ms
+Memory: 13.6 MB
 ```
 ```c++
 class Solution {
 public:
     bool isBipartite(vector<vector<int>>& graph) {
-        int n=graph.size();
-    
-        queue<pair<int,pair<int,int>>> q;
-        vector<int> vis(n,-1);
-
-        for(int i=0;i<n;i++)
-        {
-            if(vis[i]==-1)
-            {
-                q.push({i,{0,-1}});
-                vis[i]=0;
-
-                while(!q.empty())
-                {
-                    int size = q.size();
-
-                    while(size--)
-                    {
-                        pair<int,pair<int,int>> front = q.front();
-                        q.pop();
-
-                        for(int i=0;i<graph[front.first].size();i++)
-                        {
-                            if(vis[graph[front.first][i]]==-1)
-                            {
-                                q.push({graph[front.first][i],{front.second.first + 1, front.first}});
-                                vis[graph[front.first][i]] = front.second.first + 1;
-                            }
-                            else
-                            {
-                                if((vis[graph[front.first][i]] != (front.second.first + 1)) && vis[front.second.second] != vis[graph[front.first][i]]) return false;
-                            }
+        int n = graph.size(), u;
+        int color[n];
+        memset(color, 0xff, sizeof(color));
+        for (int i = 0; i < n; i ++) {
+            if (color[i] == -1) {
+                queue<int> q;
+                q.push(i);
+                color[i] = 0;
+                while (!q.empty()) {
+                    u = q.front();
+                    q.pop();
+                    for (auto v: graph[u]) {
+                        if (color[v] == color[u]) {
+                            return false;
+                        } else if (color[v] == -1) {
+                            color[v] = color[u]^1;
+                            q.push(v);
                         }
                     }
-
                 }
             }
         }
-
+        
         return true;
     }
 };

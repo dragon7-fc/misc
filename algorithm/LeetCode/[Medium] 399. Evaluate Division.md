@@ -129,46 +129,48 @@ class Solution:
         return ans
 ```
 
-**Solution 4: (DFS)**
+**Solution 4: (Backtracking)**
 ```
-Runtime: 3 ms
-Memory Usage: 8.5 MB
+Runtime: 0 ms
+Memory: 8.1 MB
 ```
 ```c++
 class Solution {
-    bool dfs(string s, string t, unordered_map<string, vector<pair<string, double>>> &g, unordered_set<string> &seen, double cur, double &rst)
-    {
-        seen.insert(s);
+    bool bt(string s, string &t, double cur, double &rst, unordered_map<string, unordered_map<string, double>> &g,  unordered_set<string> &seen) {
         if (s == t) {
             rst = cur;
             return true;
         }
-        for (auto [nt, nv]: g[s]) {
-            if (!seen.count(nt)) {
-                if (dfs(nt, t, g, seen, cur*nv, rst))
-                    return true;
+        seen.insert(s);
+        double ncur;
+        for (auto &[ns, nv]: g[s]) {
+            if (!seen.count(ns) && bt(ns, t, cur*nv, rst, g, seen)) {
+                return true;
             }
         }
+        seen.erase(s);
         return false;
     }
 public:
     vector<double> calcEquation(vector<vector<string>>& equations, vector<double>& values, vector<vector<string>>& queries) {
-        unordered_map<string, vector<pair<string, double>>> g;
+        unordered_map<string, unordered_map<string, double>> g;
         for (int i = 0; i < equations.size(); i ++) {
-            vector<string> v = equations[i];
-            g[v[0]].push_back({v[1], values[i]});
-            g[v[1]].push_back({v[0], 1/values[i]});
-            g[v[0]].push_back({v[0], 1});
-            g[v[1]].push_back({v[1], 1});
+            g[equations[i][0]][equations[i][0]] = 1;
+            g[equations[i][1]][equations[i][1]] = 1;
+            g[equations[i][0]][equations[i][1]] = values[i];
+            g[equations[i][1]][equations[i][0]] = 1/values[i];
         }
-        int N = queries.size();
-        vector<double> ans(N, -1);
+        vector<double> ans;
         unordered_set<string> seen;
-        for (int i = 0; i < N; i ++) {
-            if (g.count(queries[i][0]) && g.count(queries[i][1])) {
-                seen.clear();
-                dfs(queries[i][0], queries[i][1], g, seen, 1, ans[i]);
+        double cur, rst;
+        for (int i = 0; i < queries.size(); i ++) {
+            cur = 1;
+            if (!g.count(queries[i][0]) || !g.count(queries[i][1]) || !bt(queries[i][0], queries[i][1], cur, rst, g, seen)) {
+                ans.push_back(-1);
+            } else {
+                ans.push_back(rst);
             }
+            seen.clear();
         }
         return ans;
     }

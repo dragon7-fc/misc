@@ -81,3 +81,42 @@ class Solution:
             prev = prev.next
         return ans
 ```
+
+**Solution 2: (Linked List)**
+```
+Runtime: 284 ms
+Memory: 116.4 MB
+```
+```c++
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode() : val(0), next(nullptr) {}
+ *     ListNode(int x) : val(x), next(nullptr) {}
+ *     ListNode(int x, ListNode *next) : val(x), next(next) {}
+ * };
+ */
+class Solution {
+public:
+    int pairSum(ListNode* head) {
+        ListNode *fast, *slow, *pre = nullptr, *cur;
+        int ans = 0;
+        fast = slow = head;
+        while (fast && fast->next) {
+            fast = fast->next->next;
+            cur = slow->next;
+            slow->next = pre;
+            pre = slow;
+            slow = cur;
+        }
+        while (slow) {
+            ans = max(ans, pre->val + slow->val);
+            pre = pre->next;
+            slow = slow->next;
+        }
+        return ans;
+    }
+};
+```

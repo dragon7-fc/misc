@@ -238,66 +238,87 @@ int shortestBridge(int** grid, int gridSize, int* gridColSize){
 
 **Solution 3: (DFS, BFS)**
 ```
-Runtime: 174 ms
-Memory Usage: 25.1 MB
+Runtime: 43 ms
+Memory: 20.2 MB
 ```
 ```c++
 class Solution {
-public:
-    vector<int> dir = {-1,0,1,0,-1};
-    void dfs(queue<pair<pair<int, int>, int>>& q, vector<vector<int>>& grid, int i, int j, vector<vector<bool>>& vis){
-        if(i < 0 || j < 0 || i >= grid.size() || j >= grid[0].size() || grid[i][j] == 0 || vis[i][j] == true)
-        return;
-        vis[i][j] = true;
-        q.push({{i,j},0});
-        grid[i][j] = 0;
-        dfs(q, grid,i + 1,j,vis);
-        dfs(q, grid,i,j + 1,vis);
-        dfs(q, grid,i - 1,j,vis);
-        dfs(q, grid,i,j - 1,vis);
-    }
-    
-    int shortestBridge(vector<vector<int>>& grid) {
-        int n = grid.size();
-        int m = grid[0].size();
-        vector<vector<bool>> vis(n, vector<bool> (m, false));
-        bool flag = false;
-        queue<pair<pair<int, int>, int>> q;
-        for(int i = 0; i < n; i++){
-            for(int j = 0; j < m; j++){
-                if(grid[i][j] == 1){
-                    dfs(q, grid,i,j,vis);
-                    flag = true;
-                }
-                if(flag == true) break;
-            }
-            if(flag == true) break;
+    void dfs(int r, int c, queue<tuple<int,int>> &q, vector<vector<int>> &grid) {
+        q.push({r, c});
+        grid[r][c] = -1;
+        if (r+1 < grid.size() && grid[r+1][c] == 1) {
+            dfs(r+1, c, q, grid);
         }
-        
-        int ans = INT_MAX;
-        while(!q.empty()){
-            int size = q.size();
-            while(size--){
-                auto top = q.front();
+        if (r-1 >= 0 && grid[r-1][c] == 1) {
+            dfs(r-1, c, q, grid);
+        }
+        if (c+1 < grid.size() && grid[r][c+1] == 1) {
+            dfs(r, c+1, q, grid);
+        }
+        if (c-1 >= 0 && grid[r][c-1] == 1) {
+            dfs(r, c-1, q, grid);
+        }
+    }
+public:
+    int shortestBridge(vector<vector<int>>& grid) {
+        queue<tuple<int,int>> q;
+        int sz, cr, cc, ans = 0;
+        bool flag = false;
+        for (int r = 0; r < grid.size(); r ++) {
+            for (int c = 0; c < grid.size(); c++) {
+                if (grid[r][c] == 1) {
+                    dfs(r, c, q, grid);
+                    flag = true;
+                    break;
+                }
+            }
+            if (flag) {
+                break;
+            }
+        }
+        while (!q.empty()) {
+            sz = q.size();
+            while (sz) {
+                auto [cr, cc] = q.front();
                 q.pop();
-                for(int i = 0; i < 4; i++){
-                    int r = top.first.first + dir[i];
-                    int c = top.first.second + dir[i + 1];
-                    if(r >= 0 && c >=0 && r < n && c < m){
-                        if(vis[r][c] == false && grid[r][c] == 1){
-                            ans = min(ans, top.second);
-                        }else{
-                            if(!vis[r][c] && grid[r][c] == 0){
-                                int val = top.second + 1;
-                                vis[r][c] = true;
-                                q.push({{r,c}, val});
-                            }
-                        }
+                if (cr+1 < grid.size()) {
+                    if (grid[cr+1][cc] == 1) {
+                        return ans;
+                    } else if (grid[cr+1][cc] == 0) {
+                        q.push({cr+1, cc});
+                        grid[cr+1][cc] = -1;
+                    }
+                    
+                }
+                if (cr-1 >= 0) {
+                    if (grid[cr-1][cc] == 1) {
+                        return ans;
+                    } else if (grid[cr-1][cc] == 0) {
+                        q.push({cr-1, cc});
+                        grid[cr-1][cc] = -1;
                     }
                 }
+                if (cc+1 < grid.size()) {
+                    if (grid[cr][cc+1] == 1) {
+                        return ans;
+                    } else if (grid[cr][cc+1] == 0) {
+                        q.push({cr, cc+1});
+                        grid[cr][cc+1] = -1;
+                    }
+                }
+                if (cc-1 >= 0) {
+                    if (grid[cr][cc-1] == 1) {
+                        return ans;
+                    } else if (grid[cr][cc-1] == 0) {
+                        q.push({cr, cc-1});
+                        grid[cr][cc-1] = -1;
+                    }
+                }
+                sz -= 1;
             }
+            ans += 1;
         }
-        return ans;
+        return -1;
     }
 };
 ```
