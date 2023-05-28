@@ -62,3 +62,40 @@ class Solution:
                 res = max(res, total * b)
         return res
 ```
+
+**Solution 2: (Sort, Heap, Greedy)**
+```
+Runtime: 272 ms
+Memory: 91.9 MB
+```
+```c++
+class Solution {
+public:
+    long long maxScore(vector<int>& nums1, vector<int>& nums2, int k) {
+        vector<pair<int, int>> vec;
+        for (int i = 0; i < nums1.size(); i ++) {
+            vec.push_back({nums1[i], nums2[i]});
+        }
+        sort(vec.begin(), vec.end(), [](pair<int, int> &pa, pair<int, int> &pb){
+            if (pa.second == pb.second) {
+                return pa.first > pb.first;
+            }
+            return pa.second > pb.second;
+        });
+        priority_queue<int, vector<int>, greater<int>> pq;
+        long long ans = 0, cur = 0;
+        for (auto &[a, b]: vec) {
+            pq.push(a);
+            cur += a;
+            if (pq.size() > k) {
+                cur -= pq.top();
+                pq.pop();
+            }
+            if (pq.size() == k) {
+                ans = max(ans, cur*b);
+            }
+        }
+        return ans;
+    }
+};
+```

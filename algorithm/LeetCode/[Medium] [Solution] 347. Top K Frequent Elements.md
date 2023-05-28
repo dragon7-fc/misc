@@ -647,3 +647,30 @@ public:
     }
 };
 ```
+
+**Solution 3: (Sort)**
+```
+Runtime: 19 ms
+Memory: 13.6 MB
+```
+```c++
+class Solution {
+public:
+    vector<int> topKFrequent(vector<int>& nums, int k) {
+        unordered_map<int, int> freq;
+        for (int i = 0; i < nums.size(); i ++) {
+            freq[nums[i]] += 1;
+        }
+        vector<int> ks, ans;
+        for (auto &[pk, pv]: freq) {
+            ks.push_back(pk);
+        }
+        sort(ks.begin(), ks.end(), [&](int a, int b){return freq[a] > freq[b];});
+        for (int i = 0; i < k; i ++) {
+            ans.push_back(ks[i]);
+        }
+
+        return ans;
+    }
+};
+```
