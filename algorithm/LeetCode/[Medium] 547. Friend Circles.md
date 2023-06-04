@@ -94,3 +94,51 @@ class Solution:
         
         return len(set([dsu.find(i) for i in range(N)]))
 ```
+
+**Solution 3: (Union-Find)**
+```
+Runtime: 28 ms
+Memory: 13.7 MB
+```
+```c++
+class DSU {
+    vector<int> par;
+public:
+    DSU(int n) {
+        for (int i = 0; i < n; i ++) {
+            par.push_back(i);
+        }
+    }
+    int find(int x) {
+        if (x != par[x]) {
+            par[x] = find(par[x]);
+        }
+        return par[x];
+    }
+    void joint(int x, int y) {
+        int xr = find(x);
+        int yr = find(y);
+        par[xr] = yr;
+    }
+};
+
+class Solution {
+public:
+    int findCircleNum(vector<vector<int>>& isConnected) {
+        int n = isConnected.size();
+        DSU dsu(n);
+        for (int i = 0; i < n; i ++) {
+            for (int j = 0; j < n; j ++) {
+                if (isConnected[i][j]) {
+                    dsu.joint(i, j);
+                }
+            }
+        }
+        unordered_set<int> st;
+        for (int i = 0; i < n; i ++) {
+            st.insert(dsu.find(i));
+        }
+        return st.size();
+    }
+};
+```

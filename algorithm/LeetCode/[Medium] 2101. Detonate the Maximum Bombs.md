@@ -84,3 +84,38 @@ class Solution:
             ans = max(ans, dfs(i, visited))
         return ans
 ```
+
+**Solution 2: (BFS)**
+```
+Runtime: 120 ms
+Memory: 28.1 MB
+```
+```c++
+class Solution {
+public:
+    int maximumDetonation(vector<vector<int>>& bombs) {
+        int res = 0, sz = bombs.size();
+        vector<vector<int>> al(bombs.size());
+        for (int i = 0; i < sz; ++i) {
+            long long x = bombs[i][0], y = bombs[i][1], r2 = (long long)bombs[i][2] * bombs[i][2];
+            for (int j = 0; j < bombs.size(); ++j)
+                if ((x - bombs[j][0]) * (x - bombs[j][0]) + (y - bombs[j][1]) * (y - bombs[j][1]) <= r2)
+                    al[i].push_back(j);
+        }
+        for (int i = 0; i < sz && res < sz; ++i) {
+            vector<int> q{i};
+            unordered_set<int> detonated{i};
+            while (!q.empty()) {
+                vector<int> q1;
+                for (int j : q)
+                    for (int k : al[j])
+                        if (detonated.insert(k).second)
+                            q1.push_back(k);
+                swap(q, q1);
+            }
+            res = max((int)detonated.size(), res);
+        }
+        return res;
+    }
+};
+```

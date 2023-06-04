@@ -100,3 +100,31 @@ class Solution:
             return max([dfs(j) for j in children[i]] or [0]) + informTime[i]
         return dfs(headID)
 ```
+
+**Solution 2: (DFS)**
+```
+Runtime: 318 ms
+Memory: 122.2 MB
+```
+```c++
+class Solution {
+    int dfs(int cur, vector<int> &time, vector<vector<int>> &g) {
+        int rst = time[cur], nrst = 0;
+        for (auto &ncur: g[cur]) {
+            nrst = max(nrst, dfs(ncur, time, g));
+        }
+        return rst + nrst;
+    }
+public:
+    int numOfMinutes(int n, int headID, vector<int>& manager, vector<int>& informTime) {
+        vector<vector<int>> g(n);
+        for (int i = 0; i < n; i ++) {
+            if (manager[i] != -1) {
+                g[manager[i]].push_back(i);
+            }
+        }
+
+        return dfs(headID, informTime, g);
+    }
+};
+```

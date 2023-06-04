@@ -4080,7 +4080,7 @@ Attribute: This is a part of an object. One or more attributes make up an object
 * Yocto
 
     - [Yocto Project Reference Manual](https://www.yoctoproject.org/docs/3.1/ref-manual/ref-manual.html#var-FILES)
-    - [Yocto Project Cheatsheet](https://github.com/LetoThe2nd/yoctoproject-cheatsheet)
+    - [Yocto Project Cheatsheet](https://github.com/shantanoo-desai/yoctoproject-cheatsheet)
     - [Quick start guide to kas - best tool for setting up the Yocto projects](https://blog.3mdeb.com/2019/2019-02-07-kas/)
     - Build and Run
     

@@ -92,31 +92,37 @@ class UndergroundSystem:
 
 **Solution 2: (Hash Table)**
 ```
-Runtime: 297 ms
-Memory Usage: 57.5 MB
+Runtime: 178 ms
+Memory: 58.9 MB
 ```
 ```c++
 class UndergroundSystem {
-    unordered_map<int,pair<string,int>> customer;
-	//customer is storing customer id as key and stationname and time as value
-    map<pair<string, string>, pair<double, int>> total;
-	//total is storing startstation and endstation as key and totaltime and count as value
+    // id -> {station name,time}
+    unordered_map<int,pair<string,int>>checkInStation; 
+
+    // Route -> {total time,count}
+    unordered_map<string,pair<int,int>> checkOutStation;
 public:
     UndergroundSystem() {
-        customer.clear();
-        total.clear();
+        
     }
     
     void checkIn(int id, string stationName, int t) {
-        customer[id]={stationName, t};
+        checkInStation[id] = {stationName,t};
     }
     
     void checkOut(int id, string stationName, int t) {
-        total[{customer[id].first, stationName}] = {total[{customer[id].first, stationName}].first + (t-customer[id].second), total[{customer[id].first, stationName}].second+1};
+        auto cIn = checkInStation[id];
+        checkInStation.erase(id);
+        string route = cIn.first + "_" + stationName;
+        checkOutStation[route].first += t - cIn.second;
+        checkOutStation[route].second += 1; 
     }
     
     double getAverageTime(string startStation, string endStation) {
-        return total[{startStation,endStation}].first/total[{startStation,endStation}].second;
+        string route  = startStation + "_" + endStation;
+        auto time = checkOutStation[route];
+        return (double)time.first/time.second;
     }
 };
 
