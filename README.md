@@ -4384,6 +4384,7 @@ Objects such as lists and dictionaries are passed by object reference too, which
     - [Google C++ Style Guideline](https://google.github.io/styleguide/cppguide.html)
     - [GCC Command-Line Options](http://tigcc.ticalc.org/doc/comopts.html)
     - [Make Refcard](https://web.archive.org/web/20171218110823/http://www.schacherer.de/frank/technology/tools/make.html)
+    - [Linker Script Notes](https://www.jehtech.com/linker_files.html)
     - [GNU GDB Debugger Command Cheat Sheet](http://www.yolinux.com/TUTORIALS/GDB-Commands.html)
     - [Static, Shared Dynamic and Loadable Linux Libraries](http://www.yolinux.com/TUTORIALS/LibraryArchives-StaticAndDynamic.html)
     - [Multi-Threaded Programming III : Pthread](https://www.bogotobogo.com/cplusplus/multithreading_pthread.php)
