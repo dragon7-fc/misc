@@ -56,3 +56,28 @@ class Solution:
             
         return count
 ```
+
+**Solution 2: (Bit Manipulation)**
+```
+Runtime: 0 ms
+Memory: 5.9 MB
+```
+```c++
+class Solution {
+public:
+    int minFlips(int a, int b, int c) {
+        int cur, t, ans = 0;
+        while (a || b || c) {
+            if ((c&1) == 0) {
+                ans += ((a&1) + (b&1));
+            } else {
+                ans += (((a&1) | (b&1)) == 0);
+            }
+            a >>= 1;
+            b >>= 1;
+            c >>= 1;
+        }
+        return ans;
+    }
+};
+```

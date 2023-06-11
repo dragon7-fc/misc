@@ -113,7 +113,7 @@ class Solution(object):
 # Submissions
 ---
 
-**Solution:**
+**Solution 1: (Binary Search)**
 ```
 Runtime: 112 ms
 Memory Usage: 12.8 MB
@@ -123,4 +123,26 @@ class Solution:
     def nextGreatestLetter(self, letters: List[str], target: str) -> str:
         index = bisect.bisect(letters, target)
         return letters[index % len(letters)]
+```
+
+**Solution 2: (Binary Search)**
+```
+Runtime: 26 ms
+Memory: 15.9 MB
+```
+```c++
+class Solution {
+public:
+    char nextGreatestLetter(vector<char>& letters, char target) {
+        int lo = 0, hi = letters.size()-1, mid;
+        while (lo < hi) {
+            mid = lo + (hi-lo)/2;
+            if (letters[mid] <= target) {
+                lo = mid+1;
+            } else {
+                hi = mid;
+            }
+        }
+        return letters[lo] > target ? letters[lo] : letters[0];    }
+};
 ```

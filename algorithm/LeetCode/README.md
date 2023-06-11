@@ -11305,7 +11305,7 @@ def is_XXX(...):
 lo, hi = 1, max(piles)
 while lo < hi:
     mi = lo + (hi - lo) // 2
-    if is_XXX(...):
+    if not is_XXX(...):  ## false
         lo = mi + 1
     else:
         hi = mi
@@ -11319,12 +11319,12 @@ def is_XXX(...):
     
 lo, hi = 1, max(piles)
 while lo < hi:
-    mi = lo + (hi - lo) // 2
-    if is_XXX(...):
-        lo = mi + 1
+    mi = hi - (hi-lo) // 2  ## mi = lo + (hi - lo + 1) // 2
+    if not is_XXX(...):  ## false
+        hi = mi - 1
     else:
-        hi = mi
-return lo - 1
+        lo = mi
+return lo
 ```
 
 **Template 3: (Binary Search)**
