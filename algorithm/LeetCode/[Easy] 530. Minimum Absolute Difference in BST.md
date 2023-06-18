@@ -23,7 +23,7 @@ The minimum absolute difference is 1, which is the difference between 2 and 1 (o
 
 # Submissions
 ---
-**Solution 1:**
+**Solution 1: (DFS)**
 ```
 Runtime: 56 ms
 Memory Usage: 14.8 MB
@@ -49,4 +49,45 @@ class Solution:
             
         dfs(root)
         return min([v[i] - v[i-1] for i in range(1, len(v))])
+```
+
+**Solution 2: (DFS)**
+```
+Runtime: 23 ms
+Memory: 25.3 MB
+```
+```c++
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+class Solution {
+    TreeNode* pre = nullptr;
+    void dfs(TreeNode *cur, int &ans) {
+        if (cur->left) {
+            dfs(cur->left, ans);
+        }
+        if (pre) {
+            ans = min(ans, cur->val - pre->val);
+        }
+        pre = cur;
+        if (cur->right) {
+            dfs(cur->right, ans);
+        }
+
+    }
+public:
+    int getMinimumDifference(TreeNode* root) {
+        int ans = INT_MAX;
+        dfs(root, ans);
+        return ans;
+    }
+};
 ```

@@ -300,12 +300,10 @@ A playground to note something.
         ```
 * U-Boot
 
+    - [U-Boot overview](https://wiki.st.com/stm32mpu/index.php?title=U-Boot_overview&oldid=66680)
     - [U-Boot](https://www.linux4sam.org/bin/view/Linux4SAM/U-Boot)
-
     - [How system boot-up - Tizen Wiki](https://wiki.tizen.org/images/b/bd/Lecture-1.pdf)
-
     - [U-Boot Images](https://xilinx-wiki.atlassian.net/wiki/spaces/A/pages/18842374/U-Boot+Images)
-
     - example
     
         - tftp flash
@@ -461,7 +459,6 @@ A playground to note something.
             git push origin master
             ```
 
-    - [Git Cheat Sheets](https://services.github.com/on-demand/resources/cheatsheets/)
     - [Git Cheatsheet](https://blog.programster.org/git-cheatsheet)
     - Clone 100 repositories of first 1 page of one GitHub organization
     
