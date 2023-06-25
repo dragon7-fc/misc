@@ -4359,13 +4359,17 @@ Objects such as lists and dictionaries are passed by object reference too, which
 
 * Assembly
 
-    - [OSDev](https://wiki.osdev.org/Expanded_Main_Page)
-    - [x86 and amd64 instruction reference](https://www.felixcloutier.com/x86/index.html)
-    - 8086
+    - x86
+        - [OSDev](https://wiki.osdev.org/Expanded_Main_Page)
+        - [x86 and amd64 instruction reference](https://www.felixcloutier.com/x86/index.html)
+        - 8086
 
-        - [Complete 8086 instruction set](https://jbwyatt.com/253/emu/8086_instruction_set.html#IDIV)
-        - [Ralf Brown's Interrupt List](https://www.ctyme.com/rbrown.htm)
-        - [DOS INT 21h - DOS Function Codes](http://spike.scu.edu.au/~barry/interrupts.html)
+            - [Complete 8086 instruction set](https://jbwyatt.com/253/emu/8086_instruction_set.html#IDIV)
+            - [Ralf Brown's Interrupt List](https://www.ctyme.com/rbrown.htm)
+            - [DOS INT 21h - DOS Function Codes](http://spike.scu.edu.au/~barry/interrupts.html)
+    - ARM
+        - [Exception vectors and the exception base address](https://developer.arm.com/documentation/ddi0406/cb/System-Level-Architecture/The-System-Level-Programmers--Model/Exception-handling/Exception-vectors-and-the-exception-base-address)
+        - [Assembly Basics Cheatsheet - Azeria Labs](https://azeria-labs.com/assembly-basics-cheatsheet/)
 * C/C++
 
     - [The GNU C Reference Manual - GNU.org](https://www.gnu.org/software/gnu-c-manual/gnu-c-manual.html)

@@ -73,20 +73,28 @@ class Solution:
 
 **Solution 2: (Sliding Window)**
 ```
-Runtime: 200 ms
-Memory Usage: 129.6 MB
+Runtime: 229 ms
+Memory: 129.8 MB
 ```
 ```c++
 class Solution {
 public:
     vector<int> getAverages(vector<int>& nums, int k) {
-        long N = nums.size(), len = 2 * k + 1, sum = 0; // `len` is the length of the window
-        vector<int> ans(N, -1);
-        if (N < len) return ans; // If the array is too short to cover a window, return all -1s
-        for (int i = 0; i < N; ++i) {
-            sum += nums[i]; // push A[i] into the window
-            if (i - len >= 0) sum -= nums[i - len]; // pop A[i-len], if any, out of window
-            if (i >= len - 1) ans[i - k] = sum / len; // the center of this window is at `i-k`
+        if (k == 0) {
+            return nums;
+        }
+        int n = nums.size();
+        long long cur = 0;
+        vector<int> ans(n, -1);
+        if (n < (2*k + 1)) {
+            return ans;
+        }
+        for (int i = 0; i < n; i ++) {
+            cur += nums[i];
+            if (i >= 2*k) {
+                ans[i-k] = cur / (2*k + 1);
+                cur -= nums[i-2*k];
+            }
         }
         return ans;
     }

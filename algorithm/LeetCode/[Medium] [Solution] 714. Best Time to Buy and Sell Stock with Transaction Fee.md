@@ -164,3 +164,24 @@ class Solution:
 
         return Max
 ```
+
+**Solution 6: (DP Bottom-Up)**
+```
+Runtime: 116 ms
+Memory: 59.7 MB
+```
+```c++
+class Solution {
+public:
+    int maxProfit(vector<int>& prices, int fee) {
+        int n = prices.size();
+        vector<int> buy(n), sell(n);
+        buy[0] = -prices[0];
+        for (int i = 1; i < n; i ++) {
+            buy[i] = max(sell[i-1] - prices[i], buy[i-1]);
+            sell[i] = max(buy[i-1] + prices[i] - fee, sell[i-1]);
+        }
+        return sell.back();
+    }
+};
+```

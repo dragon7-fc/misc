@@ -84,26 +84,23 @@ class Solution:
 
 **Solution 2: (DP Bottom-Up)**
 ```
-Runtime: 236 ms
-Memory Usage: 272.4 MB
+Runtime: 316 ms
+Memory: 141.5 MB
 ```
 ```c++
 class Solution {
 public:
     int longestArithSeqLength(vector<int>& nums) {
-        int n = nums.size();
-        vector<vector<int>> dp(n, vector<int>(2000,0));//dp[index][diff] equals to the length of arithmetic sequence at index with difference diff.
-        int ans = 2;
-        for(int j = 1; j < n; j++)
-        {
-            for(int i = 0; i < j; i++)
-            {
-                int d = nums[j] - nums[i] + 1000;//to make cd always positive
-                dp[j][d] = max(2, dp[i][d] + 1);//since min length of an ap wll always be 2 
-                ans = max(ans, dp[j][d]);//storing the max of all length
+        int n = nums.size(), ans = 0, diff;
+        vector<vector<int>> dp(n, vector<int>(1001));
+        for (int j = 1; j < n; j ++) {
+            for (int i = 0; i < j; i ++) {
+                diff = nums[j] - nums[i];
+                dp[j][diff + 500] = dp[i][diff + 500] + 1;
+                ans = max(ans, dp[j][diff + 500]);
             }
         }
-        return ans;
+        return ans + 1;
     }
 };
 ```
