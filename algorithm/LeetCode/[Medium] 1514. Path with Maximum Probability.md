@@ -118,3 +118,41 @@ public:
     }
 };
 ```
+
+**Solution 3: (Dijkstra's)**
+```
+Runtime: 244 ms
+Memory: 71.4 MB
+```
+```c++
+class Solution {
+public:
+    double maxProbability(int n, vector<vector<int>>& edges, vector<double>& succProb, int start, int end) {
+        unordered_map<int, vector<pair<int, double>>> m;
+        for (int i = 0; i < edges.size(); i ++) {
+            m[edges[i][0]].push_back({edges[i][1], succProb[i]});
+            m[edges[i][1]].push_back({edges[i][0], succProb[i]});
+        }
+        priority_queue<pair<double, int>> pq;
+        vector<double> ps(n);
+        pq.push({1, start});
+        double ans = 0;
+        while (!pq.empty()) {
+            auto [p, u] = pq.top();
+            pq.pop();
+            ps[u] = p;
+            if (u == end) {
+                ans = p;
+                break;
+            }
+            for (int i = 0; i < m[u].size(); i ++) {
+                auto [v, np] = m[u][i];
+                if (p*np > ps[v]) {
+                    pq.push({p*np, v});
+                }
+            }
+        }
+        return ans;
+    }
+};
+```

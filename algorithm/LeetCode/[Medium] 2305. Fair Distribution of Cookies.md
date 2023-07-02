@@ -64,3 +64,66 @@ class Solution:
         rec(0)
         return ans
 ```
+
+**SOlution 2: (Backtracking, multi-knapsack problem, NP-complete)**
+```
+Runtime: 2316 ms
+Memory: 7 MB
+```
+```c++
+class Solution {
+    void bt(int i, vector<int> &cookies, vector<int> &g, int k, int &ans){
+        if (i == cookies.size()){
+            int mx = INT_MIN;
+            for(int j = 0; j < k; j++){
+                mx = max(mx, g[j]);
+            }
+            ans = min(ans, mx);
+            return;
+        }
+        for (int j = 0; j < k; j++){
+            g[j] += cookies[i];
+            bt(i+1, cookies, g, k, ans);
+            g[j] -= cookies[i];
+        }
+    }
+public:
+    int distributeCookies(vector<int>& cookies, int k) {
+        int n = cookies.size(), ans = INT_MAX;
+        vector<int> g(k);
+        bt(0, cookies, g, k, ans);
+        return ans;
+    }
+};
+```
+
+**Solution 3: (DP Top-Down, DFS with Mask)**
+```
+Runtime: 7 ms
+Memory: 6.8 MB
+```
+```c++
+class Solution {
+    int dp[7][255] = {};
+    int mask_sum(vector<int>& cookies, int mask) {
+        int sum = 0;
+        for (int j = 0; j < cookies.size(); ++j)
+            sum += (mask & (1 << j)) ? cookies[j] : 0;
+        return sum;    
+    }
+public:
+    int distributeCookies(vector<int>& cookies, int k, int i = 0, int mask = 0) {
+        int lim = (1 << cookies.size()) - 1;
+        if (i == k - 1)
+            return mask_sum(cookies, lim - mask);
+        if (dp[i][mask] == 0) {
+            dp[i][mask] = INT_MAX;
+            for (int mask_i = 1; mask_i < lim; ++mask_i)
+                if ((mask_i & mask) == 0 && __builtin_popcount(lim - mask_i - mask) >= k - i - 1)
+                    dp[i][mask] = min(dp[i][mask], 
+                        max(distributeCookies(cookies, k, i + 1, mask + mask_i), mask_sum(cookies, mask_i)));
+        }
+        return dp[i][mask];
+    }
+};
+```

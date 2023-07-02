@@ -107,3 +107,47 @@ public:
     }
 };
 ```
+
+**Solution 3: (Heap)**
+```
+Runtime: 276 ms
+Memory: 75.8 MB
+```
+```c++
+class Solution {
+public:
+    long long totalCost(vector<int>& costs, int k, int candidates) {
+        int n = costs.size(), i, left, right;
+        long long ans = 0;
+        priority_queue<pair<int, int>, vector<pair<int, int>>, greater<pair<int, int>>> pq;
+        for (i = 0; i < candidates; i ++) {
+            if (i < n-1-i) {
+                pq.push({costs[i], i});
+                pq.push({costs[n-1-i], n-1-i});
+            } else if (i == n-1-i) {
+                pq.push({costs[i], i});
+                break;
+            } else {
+                break;
+            }
+        }
+        left = candidates, right = n - 1 - candidates;
+        while (k) {
+            auto [c, i] = pq.top();
+            pq.pop();
+            ans += c;
+            if (left <= right) {
+                if (i < left) {
+                    pq.push({costs[left], left});
+                    left += 1;
+                } else {
+                    pq.push({costs[right], right});
+                    right -= 1;
+                }
+            }
+            k -= 1;
+        }
+        return ans;
+    }
+};
+```
