@@ -65,7 +65,7 @@ class Solution:
         return res
 ```
 
-**Solution 2 :(Sliding Window, Counter)**
+**Solution 2: (Sliding Window, Counter)**
 ```
 Runtime: 44 ms
 Memory Usage: 10.1 MB
@@ -84,6 +84,34 @@ public:
                 count[answerKey[i - res]]--;
         }
         return res;
+    }
+};
+```
+
+**Solution 3: (Sliding Window)**
+```
+Runtime: 31 ms
+Memory: 10.2 MB
+```
+```c++
+class Solution {
+public:
+    int maxConsecutiveAnswers(string answerKey, int k) {
+        int i_t = 0, i_f = 0, cnt_t = 0, cnt_f = 0, ans = 0;
+        for (int j = 0; j < answerKey.size(); j ++) {
+            answerKey[j] == 'T'? cnt_t += 1: cnt_f += 1;
+            while (cnt_t > k) {
+                cnt_t = answerKey[i_t] == 'T' ? cnt_t - 1: cnt_t;
+                i_t += 1;
+            }
+            while (cnt_f > k) {
+                cnt_f = answerKey[i_f] == 'F' ? cnt_f - 1: cnt_f;
+                i_f += 1;
+            }
+            ans = max(ans, j-i_t+1);
+            ans = max(ans, j-i_f+1);
+        }
+        return ans;
     }
 };
 ```

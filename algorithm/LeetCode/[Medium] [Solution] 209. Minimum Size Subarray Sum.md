@@ -153,7 +153,7 @@ int minSubArrayLen(int s, vector<int>& nums)
 
 * Time complexity: $O(n\log(n))$.
 For each element in the vector, find the subarray starting from that index, and having sum greater than $s$ using binary search. Hence, the time required is $O(n)$ for iteration over the vector and $O(\log(n))$ for finding the subarray for each index using binary search.
-Therefore, total time complexity = $O(n*\log(n))$
+Therefore, total time complexity = $O(n\*\log(n))$
 * Space complexity: $O(n)$. Additional $O(n)$ space for $\text{sums}$ vector
 
 ## Approach #4 Using 2 pointers [Accepted]
@@ -245,4 +245,27 @@ class Solution:
                 left += 1
                 
         return ans if ans != float('inf') else 0
+```
+
+**Solution 3: (Two Pointers, O(N^2))**
+```
+Runtime: 45 ms
+Memory: 28.2 MB
+```
+```c++
+class Solution {
+public:
+    int minSubArrayLen(int target, vector<int>& nums) {
+        int i = 0, cur = 0, ans = INT_MAX;
+        for (int j = 0; j < nums.size(); j ++) {
+            cur += nums[j];
+            while (cur >= target) {
+                ans = min(ans, j-i+1);
+                cur -= nums[i];
+                i += 1;
+            }
+        }
+        return ans == INT_MAX? 0: ans;
+    }
+};
 ```
