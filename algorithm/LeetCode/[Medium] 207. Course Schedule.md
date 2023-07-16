@@ -113,3 +113,45 @@ public:
     }
 };
 ```
+
+**Solution 4: (DFS)**
+```
+Runtime: 21 ms
+Memory: 13.8 MB
+```
+```c++
+class Solution {
+    bool dfs(int v, vector<vector<int>> &m, vector<int> &seen) {
+        if (seen[v] == -1) {
+            return false;
+        }
+        if (seen[v] == 1) {
+            return true;
+        }
+        seen[v] = -1;
+        for (auto &nv: m[v]) {
+            if (!dfs(nv, m, seen)) {
+                return false;
+            }
+        }
+        seen[v] = 1;
+        return true;
+    }
+public:
+    bool canFinish(int numCourses, vector<vector<int>>& prerequisites) {
+        vector<vector<int>> m(numCourses);
+        for (int i = 0; i < prerequisites.size(); i ++) {
+            m[prerequisites[i][1]].push_back(prerequisites[i][0]);
+        }
+        vector<int> seen(numCourses);
+        for (int i = 0; i < numCourses; i ++) {
+            if (!seen[i]) {
+                if (!dfs(i, m, seen)) {
+                    return false;
+                }
+            }
+        }
+        return all_of(seen.begin(), seen.end(), [](int v){return v == 1;});
+    }
+};
+```

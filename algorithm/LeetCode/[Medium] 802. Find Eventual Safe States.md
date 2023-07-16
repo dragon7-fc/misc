@@ -93,55 +93,99 @@ class Solution:
         return ans
 ```
 
-**Solution 2: (BFS, reverse edge)**
+**Solution 2: (BFS, topological sort)**
 ```
-Runtime: 345 ms
-Memory Usage: 65.4 MB
+Runtime: 259 ms
+Memory: 68.1 MB
 ```
 ```c++
 class Solution {
 public:
     vector<int> eventualSafeNodes(vector<vector<int>>& graph) {
-        int n=graph.size();
-        vector<int>out(n,0);
-        set<int>s;
-        queue<int>q;
-        vector<int>res;
-        vector<vector<int>>mg(n);
-        for(int i=0;i<n;i++)
-        {
-            for(auto j:graph[i])
-            {
-                out[i]++;
-                mg[j].push_back(i);
+        unordered_map<int, vector<int>> m;
+        int n = graph.size();
+        vector<int> out(n);
+        queue<int> q;
+        for (int i = 0; i < graph.size(); i ++) {
+            for (int j = 0; j < graph[i].size(); j ++) {
+                out[i] += 1;
+                m[graph[i][j]].push_back(i);
             }
-        }
-        for(int i=0;i<n;i++)
-        {
-            if(out[i]==0)
-            {
+            if (out[i] == 0) {
                 q.push(i);
             }
         }
-        while(!q.empty())
-        {
-            int t=q.front();
-            s.insert(t);
+        vector<bool> safe(n);
+        int cur, ncur;
+        while (!q.empty()) {
+            cur = q.front();
             q.pop();
-            for(auto j:mg[t])
-            {
-                out[j]--;
-                if(out[j]==0)
-                {
-                    q.push(j);
+            safe[cur] = true;
+            for (auto ncur: m[cur]) {
+                out[ncur] -= 1;
+                if (out[ncur] == 0) {
+                    q.push(ncur);
                 }
             }
         }
-        for(auto i:s)
-        {
-            res.push_back(i);
+        vector<int> ans;
+        for (int i = 0; i < safe.size(); i ++) {
+            if (safe[i]) {
+                ans.push_back(i);
+            }
         }
-        return res;
+        return ans;
+    }
+};
+```
+
+**Solution 3: (DFS, check cycle)**
+```
+Runtime: 163 ms
+Memory: 47.1 MB
+```
+```c++
+class Solution {
+    bool dfs(int node, std::vector<bool>& visited, std::vector<std::vector<int>>& graph, std::vector<int>& unsafe) {
+        bool isSafe = true;
+        for (int neighbor : graph[node]) {
+            if (visited[neighbor] || unsafe[neighbor] == 2) {
+                isSafe = false;
+                break;
+            }
+            if (unsafe[neighbor] == 1) {
+                continue;
+            }
+            visited[neighbor] = true;
+            if (!dfs(neighbor, visited, graph, unsafe)) {
+                isSafe = false;
+            }
+            visited[neighbor] = false;
+        }
+        unsafe[node] = isSafe ? 1 : 2;
+        return isSafe;
+    }
+public:
+    vector<int> eventualSafeNodes(vector<vector<int>>& graph) {
+        int n = graph.size();
+        std::vector<bool> visited(n, false);
+        std::vector<int> unsafe(n, 0);
+
+        for (int i = 0; i < n; i++) {
+            if (unsafe[i] == 0) {
+                visited[i] = true;
+                dfs(i, visited, graph, unsafe);
+                visited[i] = false;
+            }
+        }
+
+        std::vector<int> result;
+        for (int i = 0; i < unsafe.size(); i++) {
+            if (unsafe[i] == 1) {
+                result.push_back(i);
+            }
+        }
+        return result;
     }
 };
 ```

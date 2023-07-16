@@ -135,3 +135,52 @@ public:
     }
 };
 ```
+
+**Solution 5: (BFS)**
+```
+Runtime: 288 ms
+Memory: 144.6 MB
+```
+```c++
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+class Solution {
+public:
+    int minDepth(TreeNode* root) {
+        if (!root) {
+            return 0;
+        }
+        queue<TreeNode*> q;
+        q.push(root);
+        int ans = 1, sz;
+        TreeNode *cur;
+        while (!q.empty()) {
+            sz = q.size();
+            for (int i = 0; i < sz; i ++) {
+                cur = q.front();
+                q.pop();
+                if (!cur->left && !cur->right) {
+                    return ans;
+                }
+                if (cur->left) {
+                    q.push(cur->left);
+                }
+                if (cur->right) {
+                    q.push(cur->right);
+                }
+            }
+            ans += 1;
+        }
+        return ans;
+    }
+};
+```
