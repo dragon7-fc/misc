@@ -411,7 +411,7 @@ class Solution:
         return N - count;
 ```
 
-**Solution 1: (Greedy)**
+**Solution 3: (Greedy)**
 ```
 Runtime: 72 ms
 Memory Usage: 16 MB
@@ -456,4 +456,28 @@ class Solution:
                 prev_end = end
                 
         return count
+```
+
+**Solution 5: (Sort, Greedy)**
+```
+Runtime: 414 ms
+Memory: 89.7 MB
+```
+```c++
+class Solution {
+public:
+    int eraseOverlapIntervals(vector<vector<int>>& intervals) {
+        sort(intervals.begin(), intervals.end(), [](vector<int> &a, vector<int> &b){return a[1] < b[1];});
+        int pre_end = intervals[0][1];
+        int ans = 0;
+        for (int i = 1; i < intervals.size(); i ++) {
+            if (pre_end > intervals[i][0]) {
+                ans += 1;
+            } else {
+                pre_end = intervals[i][1];
+            }
+        }
+        return ans;
+    }
+};
 ```

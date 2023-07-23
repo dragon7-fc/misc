@@ -166,3 +166,40 @@ class Solution:
         longest = max(lengths)
         return sum(c for i, c in enumerate(counts) if lengths[i] == longest)
 ```
+
+**Solution 2: (DP Bottom-Up)**
+```
+Runtime: 197 ms
+Memory: 13.1 MB
+```
+```c++
+class Solution {
+public:
+    int findNumberOfLIS(vector<int>& nums) {
+        int n = nums.size();
+        vector<int> dp(n, 1);
+        vector<int> cnt(n, 1);
+        int mx = INT_MIN;
+        for (int j = 0; j < nums.size(); j ++) {
+            for (int i = 0; i < j; i ++) {
+                if (nums[i] < nums[j]) {
+                    if (dp[i] >= dp[j]) {
+                        dp[j] = dp[i] + 1;
+                        cnt[j] = cnt[i];
+                    } else if (dp[j] == dp[i]+1) {
+                        cnt[j] += cnt[i];
+                    }
+                }
+            }
+            mx = max(mx, dp[j]);
+        }
+        int ans = 0;
+        for (int i = 0; i < n; i ++) {
+            if (dp[i] == mx) {
+                ans += cnt[i];
+            }
+        }
+        return ans;
+    }
+};
+```

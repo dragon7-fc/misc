@@ -99,10 +99,10 @@ struct ListNode* addTwoNumbers(struct ListNode* l1, struct ListNode* l2){
 
 **Solution 3: (Linked List, Stack)**
 ```
-Runtime: 61 ms
-Memory Usage: 74.6 MB
+Runtime: 27 ms
+Memory: 73.7 MB
 ```
-```
+```c++
 /**
  * Definition for singly-linked list.
  * struct ListNode {
@@ -116,45 +116,34 @@ Memory Usage: 74.6 MB
 class Solution {
 public:
     ListNode* addTwoNumbers(ListNode* l1, ListNode* l2) {
-        stack<int> s1, s2, tmp;
-        ListNode *cur = l1, *prev;
-        while (cur) {
-            s1.push(cur->val);
-            cur = cur->next;
+        stack<int> stk1, stk2;
+        while (l1) {
+            stk1.push(l1->val);
+            l1 = l1->next;
         }
-        cur = l2;
-        while (cur) {
-            s2.push(cur->val);
-            cur = cur->next;
+        while (l2) {
+            stk2.push(l2->val);
+            l2 = l2->next;
         }
-        int d1, d2, carry = 0;
-        cur = l1;
-        while (!s1.empty() || !s2.empty() || carry) {
-            d1 = 0;
-            if (!s1.empty()) {
-                d1 = s1.top();
-                s1.pop();
+        int num1, num2, carry = 0;
+        ListNode *cur = nullptr, *pre;
+        while (!stk1.empty() || !stk2.empty() || carry) {
+            num1 = 0;
+            if (!stk1.empty()) {
+                num1 = stk1.top();
+                stk1.pop();
             }
-            d2 = 0;
-            if (!s2.empty()) {
-                d2 = s2.top();
-                s2.pop();
+            num2 = 0;
+            if (!stk2.empty())  {
+                num2 = stk2.top();
+                stk2.pop();
             }
-            tmp.push((d1+d2+carry) % 10);
-            carry = (d1+d2+carry) / 10;
+            pre = new ListNode((num1 + num2 + carry)%10);
+            carry = (num1 + num2 + carry)/10;
+            pre->next = cur;
+            cur = pre;          
         }
-        cur = l1;
-        while (!tmp.empty()) {
-            if (!cur) {
-                cur = new ListNode();
-                prev->next = cur;
-            }
-            cur->val = tmp.top();
-            tmp.pop();
-            prev = cur;
-            cur = cur->next;
-        }
-        return l1;
+        return cur;
     }
 };
 ```

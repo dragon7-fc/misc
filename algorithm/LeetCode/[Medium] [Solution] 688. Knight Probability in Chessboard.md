@@ -184,3 +184,54 @@ class Solution:
  
         return dfs(K, r, c)
 ```
+
+**Solution 3: (DP Bottom-Up, BFS)**
+```
+Runtime: 52 ms
+Memory: 16.1 MB
+```
+```c++
+class Solution {
+public:
+    double knightProbability(int n, int k, int row, int column) {
+        int sz, r, c, nr, nc;
+        double ans = 0;
+        int dr[8] = {1, 1, 2, 2, -1, -1, -2, -2};
+        int dc[8] = {2, -2, 1, -1, 2, -2,  1, -1};
+        vector<vector<double>> dp(n, vector<double>(n));
+        dp[row][column] = 1;
+        queue<pair<int, int>> q;
+        q.push({row, column});
+        while (k) {
+            vector<vector<double>> dp2(n, vector<double>(n));
+            sz = q.size();
+            vector<vector<bool>> seen(n, vector<bool>(n));
+            for (int i = 0; i < sz; i ++) {
+                auto [r, c] = q.front();
+                q.pop();
+                if (seen[r][c]) {
+                    continue;
+                }
+                seen[r][c] = true;
+                for (int d = 0; d < 8; d ++) {
+                    nr = r + dr[d];
+                    nc = c + dc[d];
+                    if (0 <= nr && nr < n && 0 <= nc && nc < n) {
+                        dp2[nr][nc] += dp[r][c]/8;
+                        q.push({nr, nc});
+                        seen[nr][nc] = true;
+                    }
+                }
+            }
+            dp = dp2;
+            k -= 1;
+        }
+        for (int i = 0; i < n; i ++) {
+            for (int j = 0; j < n; j ++) {
+                ans += dp[i][j];
+            }
+        }
+        return ans;
+    }
+};
+```

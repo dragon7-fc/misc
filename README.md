@@ -318,10 +318,11 @@ A playground to note something.
             setenv ipaddr [HOST_IP]
             setenv serverip [SERVER_IP]
             sf probe 0  # select spi 0
-            sf erase 0 4000000  # erase 64M spi
-            mw.b 82000000 ff 4000000  # clear 64M memory at 0x82000000
+            # sf erase 0 4000000  # erase 64M spi
+            # mw.b 82000000 ff 4000000  # clear 64M memory at 0x82000000
             tftpboot 82000000 [FILE_NAME]  # download [FILE_NAME] from tftp server to memory 0x82000000
-            sf write 82000000 0 4000000  # write memory 0x82000000 64M to spi
+            # sf write 82000000 0 4000000  # write memory 0x82000000 64M to spi
+            sf update 82000000 0 4000000  # update memory 0x82000000 64M to spi
             ```
         - read spi
 
@@ -338,6 +339,7 @@ A playground to note something.
     - [LINUX Administrator’s Quick Reference Card](http://www.cheat-sheets.org/saved-copy/linux_quickref.pdf)
     - [Practical Linux Command Line Reference](http://www.pixelbeat.org/cmdline.html)
     - [Linux Quick Reference Guide](https://perso.crans.org/~raffo/docs/linux-guide.pdf)
+    - [Linux Kernel Teaching](https://linux-kernel-labs.github.io/refs/heads/master/index.html)
     - [Inter Process Communication Tutorial](https://www.tutorialspoint.com/inter_process_communication/index.htm)
     - [systemd](https://wiki.archlinux.org/index.php/systemd)
     - [How To Use Systemctl to Manage Systemd Services and Units](https://www.digitalocean.com/community/tutorials/how-to-use-systemctl-to-manage-systemd-services-and-units)

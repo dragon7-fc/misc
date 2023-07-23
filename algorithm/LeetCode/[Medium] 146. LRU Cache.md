@@ -68,55 +68,83 @@ class LRUCache:
 # obj.put(key,value)
 ```
 
-**Solution 2: (List, Hash Table)**
+**Solution 2: (double Linked List, Hash Table)**
 ```
-Runtime: 384 ms
-Memory Usage: 41.9 MB
+Runtime: 538 ms
+Memory: 178.7 MB
 ```
 ```c++
 class LRUCache {
+    class Node{
+        public: 
+            int key;
+            int val;
+            Node* prev;
+            Node* next;
+
+            Node(int key, int val){
+                this->key = key;
+                this->val = val;
+            }
+    };
+
+    Node* head = new Node(-1, -1);
+    Node* tail = new Node(-1, -1);
+
+    int cap;
+    unordered_map<int, Node*> m;
+
+    void addNode(Node* newnode){
+        Node* temp = head -> next;
+
+        newnode -> next = temp;
+        newnode -> prev = head;
+
+        head -> next = newnode;
+        temp -> prev = newnode;
+    }
+
+    void deleteNode(Node* delnode){
+        Node* prevv = delnode -> prev;
+        Node* nextt = delnode -> next;
+
+        prevv -> next = nextt;
+        nextt -> prev = prevv;
+    }
 public:
-    list<int>  lru_key;
-    //LRU map with integer key and value
-    unordered_map<int, int> lru;
-    int capacity;
-    
     LRUCache(int capacity) {
-        this->capacity = capacity;
-        lru.clear();
+        cap = capacity;
+        head -> next = tail;
+        tail -> prev = head;
     }
     
     int get(int key) {
-        if(lru.count(key)>0)
-        {
-            lru_key.remove(key);
-            lru_key.push_front(key);
-            return lru[key];
+        if (m.count(key)) {
+            Node* resNode = m[key];
+            int ans = resNode -> val;
+
+            m.erase(key);
+            deleteNode(resNode);
+            addNode(resNode);
+
+            m[key] = head -> next;
+            return ans;
         }
-        else
-            return -1;
+        return -1;
     }
     
     void put(int key, int value) {
-        if(lru.count(key)>0)
-        {
-            lru[key] = value;
-            lru_key.remove(key);
-            lru_key.push_front(key);
+        if (m.count(key)) {
+            Node* curr = m[key];
+            m.erase(key);
+            deleteNode(curr);
         }
-        else if(lru.size()>=capacity)
-        {   
-            lru.erase(lru_key.back());
-            lru_key.pop_back();
-            
-            lru.insert({key,value});
-            lru_key.push_front(key);
+        if (m.size() == cap) {
+            m.erase(tail -> prev -> key);
+            deleteNode(tail -> prev);
         }
-        else
-        {
-            lru.insert({key,value});
-            lru_key.push_front(key);
-        }  
+        addNode(new Node(key, value));
+        m[key] = head -> next;
     }
 };
 

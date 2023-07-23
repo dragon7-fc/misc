@@ -176,3 +176,29 @@ public:
     }
 };
 ```
+
+**Solution 4: (Two Pointers)**
+```
+Runtime: 15 ms
+Memory: 17.5 MB
+```
+```c++
+class Solution {
+public:
+    vector<int> asteroidCollision(vector<int>& asteroids) {
+        int i = -1;
+        for (int j = 0; j < asteroids.size(); j ++) {
+            while (i >= 0 && asteroids[j] < 0 && asteroids[i] > 0 && -asteroids[j] > asteroids[i]) {
+                i -= 1;
+            }
+            if (i >= 0 && asteroids[i] > 0 && asteroids[j] < 0 && -asteroids[j] == asteroids[i]) {
+                i -= 1;
+            } else if ((i < 0) || (asteroids[i]*asteroids[j] > 0) || (asteroids[i] < 0 && asteroids[j] > 0)) {
+                i += 1;
+                asteroids[i] = asteroids[j];
+            }
+        }
+        return vector<int>(asteroids.begin(), asteroids.begin()+i+1);
+    }
+};
+```
