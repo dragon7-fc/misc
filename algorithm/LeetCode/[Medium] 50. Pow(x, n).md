@@ -133,3 +133,59 @@ double myPow(double x, int n){
     }
 }
 ```
+
+**Solution 5: (Math, DFS)**
+```
+Runtime: 0 ms
+Memory: 6 MB
+```
+```c++
+class Solution {
+public:
+    double myPow(double x, int n) {
+        if (n==0) return 1;
+        if (n<0) {
+            n = abs(n);
+            x = 1/x;
+        }
+        if(n%2 == 0){
+            return myPow(x*x, n/2);
+        }
+        else{
+            return x*myPow(x, n-1);
+        }
+    }
+};
+```
+
+**Solution 6: (Math)**
+```
+Runtime: 0 ms
+Memory: 5.9 MB
+```
+```c++
+class Solution {
+public:
+    double myPow(double x, int n) {
+        double ans = 1;
+        long long m = n;
+        if(n < 0){
+            m = (-1) * m;
+        }
+        while(m > 0){
+            if(m % 2 == 1){
+                ans = ans * x;
+                m = m -1;
+            }
+            else{
+                x = x*x;
+                m = m/2;
+            }
+        }
+        if(n < 0){
+            ans = 1/ans;
+        }
+        return ans;
+    }
+};
+```

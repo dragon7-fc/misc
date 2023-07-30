@@ -258,3 +258,51 @@ class Solution:
 
         return dp(0, N - 1) >= 0
 ```
+
+**Solution 4: (DP Top-Down)**
+```
+Runtime: 0 ms
+Memory: 7.5 MB
+```
+```c++
+class Solution {
+    int dfs(int i, int j, vector<vector<int>> &dp, vector<int> &nums) {
+        if (i >= j) {
+            return nums[i];
+        }
+        if (dp[i][j] != INT_MIN) {
+            return dp[i][j];
+        }
+        dp[i][j] = max(nums[i] - dfs(i+1, j, dp, nums), nums[j] - dfs(i, j-1, dp, nums));
+        return dp[i][j];
+    }
+public:
+    bool PredictTheWinner(vector<int>& nums) {
+        int n = nums.size();
+        vector<vector<int>> dp(n, vector<int>(n, INT_MIN));
+        return dfs(0, n-1, dp, nums) >= 0;
+    }
+};
+```
+
+**Solution 5: (DP Bottom-Up)**
+```
+Runtime: 0 ms
+Memory: 7.4 MB
+```
+```c++
+class Solution {
+public:
+    bool PredictTheWinner(vector<int>& nums) {
+        vector<int> score = nums;
+        for (int len=2; len<=nums.size(); len++) {
+            vector<int> newscore(nums.size()-len+1);
+            for (int i=0; i<=nums.size()-len; i++) {
+                newscore[i] = max(nums[i] - score[i+1], nums[i+len-1] - score[i]);
+            }
+            score = newscore;
+        }
+        return score[0] >= 0 ? true : false;
+    }
+};
+```

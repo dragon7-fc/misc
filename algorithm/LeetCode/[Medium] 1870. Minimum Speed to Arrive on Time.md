@@ -69,3 +69,36 @@ class Solution:
                 hi = speed
         return -1 if lo == 10 ** 7 + 1 else lo  
 ```
+
+**Solution 2: (Binary Search)**
+```
+Runtime: 392 ms
+Memory: 101.4 MB
+```
+```c++
+class Solution {
+    bool possible(int mid, vector<int> &dist, double hour) {
+        int cur = 0;
+        for (int i = 0; i < dist.size()-1; i ++) {
+            cur += ceil(dist[i]/(double)mid);
+        }
+        return cur + dist.back()/(double)mid <= hour;
+    }
+public:
+    int minSpeedOnTime(vector<int>& dist, double hour) {
+        int n = dist.size(), lo = 1, hi = 1e9, mid;
+        while (lo < hi) {
+            mid = lo + (hi - lo) / 2;
+            if (!possible(mid, dist, hour)) {
+                lo = mid + 1;
+            } else {
+                hi = mid;
+            }
+        }
+        if (!possible(lo, dist, hour)) {
+            return -1;
+        }
+        return lo;
+    }
+};
+```

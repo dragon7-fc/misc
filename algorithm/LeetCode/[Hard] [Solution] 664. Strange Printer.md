@@ -108,3 +108,65 @@ class Solution:
 
         return dp(0, len(s) - 1)
 ```
+
+**Solution 3: (DP Top-Down)**
+```
+Runtime: 14 ms
+Memory: 9.5 MB
+```
+```c++
+class Solution {
+    int n;
+    vector<vector<int>> dp;
+    int f(int i, int j, string& s){       
+        if (dp[i][j]!=-1) return dp[i][j];
+        if (i==j) return dp[i][j]=1;
+        int ans;
+        if (s[i]==s[j]||s[j-1]==s[j]) ans=f(i, j-1, s);
+        else if (s[i]==s[i+1]) ans=f(i+1, j, s);
+        else{
+            ans=f(i,j-1, s)+1;
+            for(int k=i+1; k<j; k++){
+                if(s[k]==s[j])
+                    ans=min(ans, f(i, k-1, s)+f(k, j-1, s));
+            }
+        }
+        return dp[i][j]=ans;
+    }
+public:
+    int strangePrinter(string s) {
+        n=s.size();
+        dp.assign(n, vector<int>(n, -1));
+        return f(0, n-1, s);
+    }
+};
+```
+
+**Solution 4: (DP Bottom-Up)**
+```
+Runtime: 34 ms
+Memory: 9.5 MB
+```
+```c++
+class Solution {
+public:
+    int strangePrinter(string s) {
+        int n = s.length();
+        vector<vector<int>> dp(n, vector<int>(n, INT_MAX));
+        for (int i = 0; i < n; i++)
+            dp[i][i] = 1;
+        for (int l = 2; l < n + 1; l++) {
+            for (int i = 0; i < n-l+1; i++) {
+                int j = i + l - 1;
+                dp[i][j] = dp[i+1][j]+1;
+                for (int k = i+1; k <= j; k++) {
+                    if (s[i] == s[k]) {
+                        dp[i][j] = min(dp[i][j], dp[i][k-1] + ((j>k) ? dp[k+1][j] : 0));
+                    }
+                }
+            }
+        }
+        return dp[0][n-1];
+    }
+};
+```
