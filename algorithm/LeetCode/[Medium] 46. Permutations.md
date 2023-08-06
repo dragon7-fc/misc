@@ -65,3 +65,36 @@ class Solution:
 
         return ans
 ```
+
+**Solution 3: (Backtracking)**
+```
+Runtime: 0 ms
+Memory: 7.4 MB
+```
+```c++
+class Solution {
+    void dfs(vector<int> &path, vector<bool> &seen, vector<vector<int>> &ans, vector<int> &nums) {
+        if (path.size() == nums.size()) {
+            ans.push_back(path);
+            return;
+        }
+        for (int i = 0; i < nums.size(); i ++) {
+            if (!seen[i]) {
+                path.push_back(nums[i]);
+                seen[i] = true;
+                dfs(path, seen, ans, nums);
+                path.pop_back();
+                seen[i] = false;
+            }
+        }
+    }
+public:
+    vector<vector<int>> permute(vector<int>& nums) {
+        vector<vector<int>> ans;
+        vector<int> path;
+        vector<bool> seen(nums.size());
+        dfs(path, seen, ans, nums);
+        return ans;
+    }
+};
+```

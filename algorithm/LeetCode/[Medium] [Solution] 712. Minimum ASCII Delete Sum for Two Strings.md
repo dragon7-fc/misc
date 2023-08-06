@@ -119,3 +119,37 @@ class Solution:
             
         return dfs(0, 0)
 ```
+
+**Solution 3: (DP Top-Down)**
+```
+Runtime: 50 ms
+Memory: 15.2 MB
+```
+```c++
+class Solution {
+    int dfs(int i, int j, vector<vector<int>> &dp, string &s1, string &s2) {
+        int rst = 0;
+        if (i < 0 || j < 0) {
+            while (i >= 0) rst += s1[i--];
+            while (j >= 0) rst += s2[j--];
+            return rst;
+        }
+        if (dp[i][j] != -1) {
+            return dp[i][j];
+        }
+        if (s1[i] == s2[j]) {           
+            rst = dfs(i-1, j-1, dp, s1, s2);
+        } else {
+            rst = min(s1[i] + dfs(i-1, j, dp, s1, s2), s2[j] + dfs(i, j-1, dp, s1, s2));
+        }
+        dp[i][j] = rst;
+        return dp[i][j];
+    }
+public:
+    int minimumDeleteSum(string s1, string s2) {
+        int m = s1.size(), n = s2.size();
+        vector<vector<int>> dp(m, vector<int>(n, -1));
+        return dfs(m-1, n-1, dp, s1, s2);
+    }
+};
+```

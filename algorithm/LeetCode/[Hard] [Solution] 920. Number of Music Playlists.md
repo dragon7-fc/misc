@@ -2,7 +2,7 @@
 
 Your music player contains `N` different songs and she wants to listen to `L` (not necessarily different) songs during your trip.  You create a playlist so that:
 
-* Every song is played at least once
+* Every song is played **at least once**
 * A song can only be played again only if `K` other songs have been played
 
 Return the number of possible playlists.  **As the answer can be very large, return it modulo** `10^9 + 7`.
@@ -264,4 +264,29 @@ class Solution:
         for k in range(1, N+1):
             ans = ans * k % MOD
         return ans
+```
+
+**Solution 4: (DP Top-Town)**
+```
+Runtime: 5 ms
+Memory: 8 MB
+```
+```c++
+class Solution {
+    #define ll long long
+    const int MOD = 1e9 + 7;
+    ll solve(int n, int goal, int k, vector<vector<int>>& dp) {
+        if (n == 0 && goal == 0) return 1;
+        if (n == 0 || goal == 0) return 0;
+        if (dp[n][goal] != -1) return dp[n][goal];
+        ll pick = solve(n - 1, goal - 1, k, dp) * n;
+        ll notpick = solve(n, goal - 1, k, dp) * max(n - k, 0);
+        return dp[n][goal] = (pick + notpick) % MOD;
+    }
+public:
+    int numMusicPlaylists(int n, int goal, int k) {
+        vector<vector<int>> dp(n + 1, vector<int>(goal + 1, -1));
+        return solve(n, goal, k, dp);
+    }
+};
 ```

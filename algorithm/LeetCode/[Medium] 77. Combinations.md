@@ -51,3 +51,35 @@ class Solution:
         nums = [_ for _ in range(1,n+1)]
         return [_ for _ in itertools.combinations(nums, k)]
 ```
+
+**Solution 3: (Backtracking)**
+```
+Runtime: 24 ms
+Memory: 17.9 MB
+```
+```c++
+[200~class Solution {
+    void bt(int i, int n, int k, vector<int> &cur, vector<vector<int>> &ans) {
+        if (i == n+1) {
+            if (k == 0) {
+                ans.push_back(cur);
+            }
+            return;
+        }
+        if (k < 0) {
+            return;
+        }
+        cur.push_back(i);
+        bt(i+1, n, k-1, cur, ans);
+        cur.pop_back();
+        bt(i+1, n, k, cur, ans);
+    }
+public:
+    vector<vector<int>> combine(int n, int k) {
+        vector<vector<int>> ans;
+        vector<int> cur;
+        bt(1, n, k, cur, ans);
+        return ans;
+    }
+};
+```
