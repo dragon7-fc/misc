@@ -99,3 +99,50 @@ class Solution:
         
         return dp(0, 0)
 ```
+
+**Solution4 4: (DP Bottom-Up)**
+```
+Runtime: 43 ms
+Memory: 18.6 MB
+```
+```c++
+class Solution {
+public:
+    int change(int amount, vector<int>& coins) {
+        vector<vector<int>> dp(coins.size() + 1, vector<int>(amount + 1, 0));
+        dp[0][0] = 1;//1 comb: no coins for no amount 
+
+        for (int j = 1; j <= coins.size(); j++) {
+            for (int i = 0; i <= amount; i++) {
+                dp[j][i] = dp[j-1][i]; // Exclude the current coin
+            
+                if (i >= coins[j-1]) {
+                    dp[j][i] += dp[j][i-coins[j-1]];//Include the current coin
+                }
+            }
+        }
+        return dp[coins.size()][amount];
+    }
+};
+```
+
+**Solution 5: (DP Bottom-Up 1D)**
+```
+Runtime: 7 ms
+Memory: 7.2 MB
+```
+```c++
+class Solution {
+public:
+    int change(int amount, vector<int>& coins) {
+        vector<int> dp(amount+1);
+        dp[0] = 1;
+        for (int i = 0; i < coins.size(); i ++) {
+            for (int j = coins[i]; j <= amount; j ++) {
+                dp[j] += dp[j - coins[i]];
+            }
+        }
+        return dp[amount];
+    }
+};
+```
