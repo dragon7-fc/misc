@@ -174,3 +174,55 @@ public:
     }
 };
 ```
+
+**Solution 3: (Two Pointers)**
+```
+Runtime: 4 ms
+Memory: 10.3 MB
+```
+```c++
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode() : val(0), next(nullptr) {}
+ *     ListNode(int x) : val(x), next(nullptr) {}
+ *     ListNode(int x, ListNode *next) : val(x), next(next) {}
+ * };
+ */
+class Solution {
+public:
+    ListNode* partition(ListNode* head, int x) {
+        ListNode *small = nullptr, *big = nullptr;
+        ListNode *small_head = small, *big_head = big;
+        while (head) {
+            if (head->val < x) {
+                if (small) {
+                    small->next = head;
+                    small = small->next;
+                } else {
+                    small = head;
+                    small_head = small;
+                }
+            } else {
+                if (big) {
+                    big->next = head;
+                    big = big->next;
+                } else {
+                    big = head;
+                    big_head = big;
+                }
+            }
+            head = head->next;
+        }
+        if (small) {
+            small->next = big_head;
+        }
+        if (big) {
+            big->next = nullptr;
+        }
+        return small_head ? small_head : big_head;
+    }
+};
+```
