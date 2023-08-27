@@ -83,3 +83,23 @@ class Solution:
         pattern = re.compile(r'^(.+)\1+$')
         return pattern.match(s)
 ```
+
+**Solution 3: (String)**
+
+The idea behind this approach is that if a string s can be constructed by repeating a substring, then concatenating two copies of s together and removing the first and last character would still contain s as a substring.
+
+```
+Runtime: 16 ms
+Memory: 13.5 MB
+```
+```c++
+class Solution {
+public:
+    bool repeatedSubstringPattern(string s) {
+        string t=s+s;
+        if(t.substr(1,t.size()-2).find(s)!=-1)
+            return true;
+        return false;
+    }
+};
+```

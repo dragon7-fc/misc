@@ -193,3 +193,53 @@ char ** fullJustify(char ** words, int wordsSize, int maxWidth, int* returnSize)
     return out;
 }
 ```
+
+**Solution 3: (String)**
+```
+Runtime: 0 ms
+Memory: 7.4 MB
+```
+```c++
+class Solution {
+public:
+    vector<string> fullJustify(vector<string>& words, int maxWidth) {
+        int m = words.size(), j = 0, i, cur, rem, extra, space, r;
+        vector<string> ans;
+        while (j < m) {
+            i = j;
+            rem = maxWidth;
+            rem -= words[j].size();
+            extra = 0;
+            while (j+1 < m && int(rem-1-words[j+1].size()) >= 0) {
+                extra += 1;
+                rem = rem-1-words[j+1].size();
+                j += 1;
+            }
+            string level = words[i];
+            i += 1;
+            if (extra) {
+                space = (rem+extra)/extra;
+                r = (rem+extra)%extra;
+                for (int k = 0; k < extra; k ++) {
+                    if (j == m-1) {
+                        level += " ";
+                    } else if (r) {
+                        level += string(space+1, ' ');
+                        r -= 1;
+                    } else {
+                        level += string(space, ' ');
+                    }
+                    level += words[i];
+                    i += 1;
+                }
+            }
+            if (level.size() < maxWidth) {
+                level += string(maxWidth-level.size(), ' ');
+            }
+            ans.push_back(level);
+            j += 1;
+        }
+        return ans;
+    }
+};
+```

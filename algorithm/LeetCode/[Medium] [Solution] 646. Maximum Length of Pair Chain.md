@@ -137,3 +137,54 @@ class Solution:
             
         return dfs(0)
 ```
+
+**Solution 4: (DP Bottom-Up)**
+```
+Runtime: 212 ms
+Memory: 22.8 MB
+```
+```c++
+class Solution {
+public:
+    int findLongestChain(vector<vector<int>>& pairs) {
+        int n = pairs.size();
+        sort(pairs.begin(), pairs.end());
+        vector<int> dp(n, 1);
+        int ans = 1;
+        for (int j = 1; j < n; j ++) {
+            for (int i = 0; i < j; i ++) {
+                if (pairs[i][1] < pairs[j][0]) {
+                    dp[j] = max(dp[j], dp[i]+1);
+                    ans = max(ans, dp[j]);
+                }
+            }
+        }
+        return ans;
+    }
+};
+```
+
+**Solution 5: (Greedy, sort by end point)**
+```
+Runtime: 39 ms
+Memory: 22.4 MB
+```
+```c++
+class Solution {
+public:
+    int findLongestChain(vector<vector<int>>& pairs) {
+        int n = pairs.size();
+        sort(pairs.begin(), pairs.end(), [](vector<int> &pa, vector<int> &pb){
+            return pa[1] < pb[1];
+        });
+        int cur = INT_MIN, ans = 0;
+        for (int i = 0; i < n; i ++) {
+            if (cur < pairs[i][0]) {
+                cur = pairs[i][1];
+                ans += 1;
+            }
+        }
+        return ans;
+    }
+};
+```

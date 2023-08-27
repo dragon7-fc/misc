@@ -91,3 +91,49 @@ class Solution:
                     canJump(stonePosition + jumpUnits + 1, jumpUnits + 1))
         return canJump(1, 1)
 ```
+
+**Solution 3: (DP Top-Down)**
+```
+Runtime: 42 ms
+Memory: 21.7 MB
+```
+```c++
+class Solution {
+    int dfs(int i, int k, vector<unordered_map<int, int>> &dp, vector<int> &stones) {
+        if (i == stones.size()-1) {
+            dp[i][k] = 1;
+            return 1;
+        }
+        if (i > stones.size()) {
+            dp[i][k] = -1;
+            return -1;
+        }
+        if (dp[i][k]) {
+            return dp[i][k];
+        }
+        int j = i+1;
+        int step = stones[j]-stones[i];
+        while (step <= k+1) {
+            if ((step == k-1 || step == k || step == k+1) && dfs(j, step, dp, stones) == 1) {
+                dp[i][k] = 1;
+                return 1;
+            }
+            j += 1;
+            if (j >= stones.size()) {
+                break;
+            }
+            step = stones[j] - stones[i];
+        }
+        dp[i][k] = -1;
+        return -1;
+    }
+public:
+    bool canCross(vector<int>& stones) {
+        if (stones[1] - stones[0] != 1) {
+            return false;
+        }
+        vector<unordered_map<int, int>> dp(stones.size());
+        return dfs(1, 1, dp, stones) == 1;
+    }
+};
+```

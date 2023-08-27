@@ -48,3 +48,21 @@ class Solution:
             ans.insert(0, chr(ord('A')+r))
         return ''.join(ans)
 ```
+
+**Solution 2: (Math, String)**
+```
+Runtime: 2 ms
+emory: 6 MB
+```c++
+class Solution {
+public:
+    string convertToTitle(int columnNumber) {
+        string ans;
+        while (columnNumber) {
+            ans = char('A' + ((columnNumber-1) % 26)) + ans;
+            columnNumber = (columnNumber-1) / 26;
+        }
+        return ans;
+    }
+};
+```
