@@ -77,22 +77,22 @@ class Solution:
 
 **Solution 2: (Two Pass)**
 ```
-Runtime: 36 ms
-Memory: 10.6 MB
+Runtime: 26 ms
+Memory: 10.7 MB
 ```
 ```c++
 class Solution {
 public:
     int bestClosingTime(string customers) {
-        int p = count(begin(customers), end(customers), 'Y'), min_p = p, j = 0;
+        int cur = count(begin(customers), end(customers), 'Y'), mn = cur, ans = 0;
         for (int i = 0; i < customers.size(); ++i) {
-            p += customers[i] == 'Y' ? -1 : 1;
-            if (p < min_p) {
-                min_p = p;
-                j = i + 1;
+            cur += customers[i] == 'Y' ? -1 : 1;
+            if (cur < mn) {
+                mn = cur;
+                ans = i + 1;
             }
         }
-        return j;
+        return ans;
     }
 };
 ```

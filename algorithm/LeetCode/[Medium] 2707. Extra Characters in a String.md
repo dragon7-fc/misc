@@ -74,3 +74,33 @@ public:
     }
 };
 ```
+
+**Solution 3: (DP Bottom-Up)**
+```
+Runtime: 51 ms
+Memory: 54.8 MB
+```
+```c++
+class Solution {
+public:
+    int minExtraChar(string s, vector<string>& dictionary) {
+        int n = s.size(), k;
+        vector<int> dp(n+1, INT_MAX);
+        dp[0] = 0;
+        for (int i = 0; i < n; i ++) {
+            dp[i+1] = min(dp[i+1], dp[i] + 1);
+            for (int j = 0; j < dictionary.size(); j ++) {
+                for (k = 0; i+k <= n-1 && k < dictionary[j].size(); k ++) {
+                    if (s[i+k] != dictionary[j][k]) {
+                        break;
+                    }
+                }
+                if (k == dictionary[j].size()) {
+                    dp[i+k] = min(dp[i+k], dp[i]);
+                }
+            }
+        }
+        return dp[n];
+    }
+};
+```
