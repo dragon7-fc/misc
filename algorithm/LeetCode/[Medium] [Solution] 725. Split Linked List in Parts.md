@@ -284,3 +284,101 @@ struct ListNode** splitListToParts(struct ListNode* head, int k, int* returnSize
     return ret_array;
 }
 ```
+
+**Solution 5: (Linked List)**
+```
+Runtime: 6 ms
+Memory: 8.9 MB
+```
+```c++
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode() : val(0), next(nullptr) {}
+ *     ListNode(int x) : val(x), next(nullptr) {}
+ *     ListNode(int x, ListNode *next) : val(x), next(next) {}
+ * };
+ */
+class Solution {
+    void dfs(ListNode *cur, int i, int d, int r, int k, vector<ListNode *> &ans) {
+        if (!cur) {
+            return;
+        }
+        ListNode *pre;
+        ans[i] = cur;
+        for (int j = 0; cur && j < d + (r > 0); j ++) {
+            pre = cur;
+            cur = cur->next;
+        }
+        pre->next = nullptr;
+        dfs(cur, i+1, d, r-1, k, ans);
+    }
+public:
+    vector<ListNode*> splitListToParts(ListNode* head, int k) {
+        int n = 0;
+        ListNode *cur = head;
+        vector<ListNode *> ans(k, nullptr);
+        while (cur) {
+            n += 1;
+            cur = cur->next;
+        }
+        dfs(head, 0, n/k, n%k, k, ans);
+        return ans;
+    }
+};
+```
+
+**Solution 6: (Linked List)**
+```
+Runtime: 0 ms
+Memory: 8.9 MB
+```
+```c++
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode() : val(0), next(nullptr) {}
+ *     ListNode(int x) : val(x), next(nullptr) {}
+ *     ListNode(int x, ListNode *next) : val(x), next(next) {}
+ * };
+ */
+class Solution {
+public:
+    vector<ListNode*> splitListToParts(ListNode* head, int k) {
+        // Create a vector of ListNode pointers to store the k parts.
+        vector<ListNode*> parts(k, nullptr);
+
+        // Calculate the length of the linked list.
+        int len = 0;
+        for (ListNode* node = head; node; node = node->next)
+            len++;
+
+        // Calculate the minimum guaranteed part size (n) and the number of extra nodes (r).
+        int n = len / k, r = len % k;
+
+        // Initialize pointers to traverse the linked list.
+        ListNode* node = head, *prev = nullptr;
+
+        // Loop through each part.
+        for (int i = 0; node && i < k; i++, r--) {
+            // Store the current node as the start of the current part.
+            parts[i] = node;
+            // Traverse n + 1 nodes if there are remaining extra nodes (r > 0).
+            // Otherwise, traverse only n nodes.
+            for (int j = 0; j < n + (r > 0); j++) {
+                prev = node;
+                node = node->next;
+            }
+            // Disconnect the current part from the rest of the list by setting prev->next to nullptr.
+            prev->next = nullptr;
+        }
+
+        // Return the array of k parts.
+        return parts;
+    }
+};
+```

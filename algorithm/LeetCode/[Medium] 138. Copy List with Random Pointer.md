@@ -174,7 +174,7 @@ struct Node* copyRandomList(struct Node* head) {
 }
 ```
 
-**Solution 4: (Hash Table, Linked List, address as key)**
+**Solution 4: (Hash Table, Linked List, DP Top-Down)**
 ```
 Runtime: 8 ms
 Memory Usage: 11.5 MB
@@ -211,6 +211,51 @@ public:
         node->next = copyRandomList(head->next);
         node->random = copyRandomList(head->random);
         return node;
+    }
+};
+```
+
+**Solution 5: (Hash Table)**
+```
+Runtime: 11 ms
+Memory: 11.4 MB
+```
+```c++
+/*
+// Definition for a Node.
+class Node {
+public:
+    int val;
+    Node* next;
+    Node* random;
+    
+    Node(int _val) {
+        val = _val;
+        next = NULL;
+        random = NULL;
+    }
+};
+*/
+
+class Solution {
+public:
+    Node* copyRandomList(Node* head) {
+        unordered_map<Node*, Node*> m;
+        Node *cur = head, *pre = nullptr;
+        while (cur) {
+            m[cur] = new Node(cur->val);
+            if (pre) {
+                m[pre]->next = m[cur];
+            }
+            pre = cur;
+            cur = cur->next;
+        }
+        cur = head;
+        while (cur) {
+            m[cur]->random = m[cur->random];
+            cur = cur->next;
+        }
+        return m[head];
     }
 };
 ```
