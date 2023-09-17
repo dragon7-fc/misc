@@ -172,3 +172,35 @@ class Solution:
         
         return ans
 ```
+
+**Solution 2: (Counter)**
+```
+Runtime: 78 ms
+Memory: 23.8 MB
+```
+```c++
+class Solution {
+public:
+    int minDeletions(string s) {
+        vector<int> freq(26);
+        int max_freq = 0, ans = 0;
+        for (int i = 0; i < s.size(); i ++) {
+            freq[s[i] - 'a'] += 1;
+            max_freq = max(max_freq, freq[s[i] - 'a']);
+        }
+        unordered_map<int ,int> freq_count;
+        for (int i = 0; i < freq.size(); i ++) {
+            if (freq[i]) {
+                freq_count[freq[i]] += 1;
+            }
+        }
+        for (int i = max_freq; i > 0; i --) {
+            if (freq_count[i] > 1) {
+                ans += (freq_count[i] -1);
+                freq_count[i-1] += (freq_count[i] - 1);
+            }
+        }
+        return ans;
+    }
+};
+```

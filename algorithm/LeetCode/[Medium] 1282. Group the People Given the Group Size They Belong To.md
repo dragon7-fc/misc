@@ -41,3 +41,26 @@ class Solution:
             count[size].append(i)
         return [ids[i:i + size] for size, ids in count.items() for i in range(0, len(ids), size)]
 ```
+
+**Solution 2: (Greedy)**
+```
+Runtime: 6 ms
+Memory: 12.5 MB
+```
+```c++
+class Solution {
+public:
+    vector<vector<int>> groupThePeople(vector<int>& groupSizes) {
+        unordered_map<int, vector<int>> m;
+        vector<vector<int>> ans;
+        for (int i = 0; i < groupSizes.size(); i ++) {
+            m[groupSizes[i]].push_back(i);
+            if (m[groupSizes[i]].size() == groupSizes[i]) {
+                ans.push_back(m[groupSizes[i]]);
+                m[groupSizes[i]].clear();
+            }
+        }
+        return ans;
+    }
+};
+```

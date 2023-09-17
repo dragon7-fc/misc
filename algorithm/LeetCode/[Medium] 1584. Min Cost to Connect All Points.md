@@ -207,7 +207,7 @@ public:
 };
 ```
 
-**Solution: Prim's Algorithm()**
+**Solution: (Prim's Algorithm)**
 ```
 Runtime: 1752 ms
 Memory Usage: 78.6 MB
@@ -249,7 +249,7 @@ class Solution:
         return mst_cost
 ```
 
-**Solution: Prim's Algorithm()**
+**Solution: (Prim's Algorithm)**
 ```
 Runtime: 178 ms
 Memory Usage: 42.2 MB
@@ -399,7 +399,7 @@ public:
 };
 ```
 
-**Solution 1: (Graph, Minimum Spanning Tree)**
+**Solution 1: (Graph, Minimum Spanning Tree, Prim)**
 ```
 Runtime: 2388 ms
 Memory Usage: 126.9 MB
@@ -425,4 +425,97 @@ class Solution:
                 for record in g[j]: heapq.heappush(heap, record)
             if cnt >= N: break        
         return ans
+```
+
+**Solution 2: (MST: Kruskal)**
+```
+Runtime: 144 ms
+Memory: 58.5 MB
+```
+```c++
+class Solution {
+    int find(vector<int> &ds, int i) {
+        return ds[i] < 0 ? i : ds[i] = find(ds, ds[i]);
+    }
+public:
+    int minCostConnectPoints(vector<vector<int>>& points) {
+        int n = points.size(), res = 0;
+        vector<int> ds(n, -1);
+        vector<array<int, 3>> arr;
+        for (auto i = 0; i < n; ++i)
+            for (auto j = i + 1; j < n; ++j) {
+                arr.push_back({abs(points[i][0] - points[j][0]) + abs(points[i][1] - points[j][1]), i, j});
+            }
+        make_heap(begin(arr), end(arr), greater<array<int, 3>>());
+        while (!arr.empty()) {
+            pop_heap(begin(arr), end(arr), greater<array<int, 3>>());
+            auto [dist, i, j] = arr.back();
+            arr.pop_back();
+            i = find(ds, i), j = find(ds, j);
+            if (i != j) {
+                res += dist;
+                ds[i] += ds[j];
+                ds[j] = i;
+                if (ds[i] == -n)
+                    break;
+            }
+        }
+        return res;
+    }
+};
+```
+
+**Solution 3: (MST: Prim)**
+```
+Runtime: 142 ms
+Memory: 42.4 MB
+```
+```c++
+class Solution {
+public:
+    int minCostConnectPoints(vector<vector<int>>& points) {
+        int n = points.size(), res = 0, i = 0, connected = 0;
+        vector<bool> visited(n);
+        priority_queue<pair<int, int>> pq;
+        while (++connected < n) {
+            visited[i] = true;
+            for (int j = 0; j < n; ++j)
+                if (!visited[j])
+                    pq.push({-(abs(points[i][0] - points[j][0]) + abs(points[i][1] - points[j][1])), j});
+            while (visited[pq.top().second])
+                pq.pop();
+            res -= pq.top().first;
+            i = pq.top().second;
+            pq.pop();
+        }
+        return res;
+    }
+};
+```
+
+**Solution 4: (MST: Prim's for Complete Graph)**
+```
+Runtime: 56 ms
+Memory: 10.4 MB
+```
+```c++
+class Solution {
+public:
+    int minCostConnectPoints(vector<vector<int>>& points) {
+         int n = points.size(), res = 0, i = 0, connected = 0;
+        vector<int> min_d(n, 10000000);
+        while (++connected < n) {
+            min_d[i] = INT_MAX;
+            int min_j = i;
+            for (int j = 0; j < n; ++j)
+                if (min_d[j] != INT_MAX) {
+                    min_d[j] = min(min_d[j], abs(points[i][0] - points[j][0]) + abs(points[i][1] - points[j][1]));
+                    min_j = min_d[j] < min_d[min_j] ? j : min_j;
+                }
+            res += min_d[min_j];
+            i = min_j;
+        }
+        return res;
+    }
+};
 ```

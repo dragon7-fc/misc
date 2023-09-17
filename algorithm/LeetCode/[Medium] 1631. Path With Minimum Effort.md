@@ -73,53 +73,48 @@ class Solution:
 
 **Solution 2: (BFS, Dijkstra)**
 ```
-Runtime: 158 ms
-Memory Usage: 19.9 MB
+Runtime: 73 ms
+Memory: 19.4 MB
 ```
 ```c++
+int dx[] = {-1,1,0,0};
+int dy[] = {0,0,1,-1};
 class Solution {
-    vector<vector<int>> dirs = {
-        {-1,0},
-        {0,-1},
-        {0,1},
-        {1, 0}
-    };
 public:
     int minimumEffortPath(vector<vector<int>>& heights) {
-        using pipii = pair<int,pair<int,int>>;
-        priority_queue<pipii, vector<pipii>, greater<pipii>> pq;
-        
-        int ROWS = heights.size();
-        int COLS = heights[0].size();
-        
-        vector<vector<int>> dists(ROWS, vector<int>(COLS, INT_MAX));
-        
-        dists[0][0] = 0;
-        
-        pq.push({0, {0,0}});
-        while(!pq.empty()) {
-            auto node = pq.top();
+        int n = heights.size();
+        int m = heights[0].size();
+
+        vector<vector<int>> dist(n,vector<int>(m,1e9));
+        dist[0][0] = 0;
+
+        priority_queue<pair<int,pair<int,int>>> pq;
+        pq.push({0,{0,0}});
+
+        while(!pq.empty()){
+            int curr_diff = -pq.top().first;
+            int x = pq.top().second.first;
+            int y = pq.top().second.second;
             pq.pop();
-            
-            int weight = node.first;
-            auto coords = node.second;
-            int r = coords.first;
-            int c = coords.second;
-            if(dists[r][c] < weight) continue;
-            if(r == ROWS - 1 && c == COLS - 1) return weight;
-            
-            for(auto& dir : dirs) {
-                int dr = r + dir[0];
-                int dc = c + dir[1];
-                if(dr < 0 || dr >= ROWS) continue;
-                if(dc < 0 || dc >= COLS) continue;
-                int newWeight = abs(heights[r][c] - heights[dr][dc]);
-                newWeight = max(newWeight, weight);
-                if(dists[dr][dc] <= newWeight) continue;
-                dists[dr][dc] = newWeight;
-                pq.push({newWeight, {dr, dc}});         
-            }  
-        }     
+
+            if(x==n-1 && y==m-1) return curr_diff;
+
+            for(int i=0; i<4; i++){
+                int newx = x + dx[i];
+                int newy = y + dy[i];
+
+                if(newx >= 0 && newy >= 0 && newx < n && newy < m){
+                    int new_diff = max(abs(heights[x][y] - heights[newx][newy]),curr_diff);
+
+                    if(new_diff < dist[newx][newy]){
+                        dist[newx][newy] = new_diff;
+                        pq.push({-new_diff,{newx,newy}});
+                    }
+
+                }
+            }
+        }
+
         return 0;
     }
 };

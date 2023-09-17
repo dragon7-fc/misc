@@ -18242,6 +18242,23 @@ for ... in sortedXXX:
 return ans
 ```
 
+**Template 3: (Dijkstra)**
+```python
+R, C = len(...), len(...)
+dis = [[float('inf')]*C for _ in range(R)]
+hq = [{0, x, y}]
+while hq:
+    w, r, c = heapq.heappop(hq)
+    if r == R-1 and c == C-1:
+        return w
+    for hr, nc in [...]:
+        if 0 <= nr < R and 0 <= nc < C:
+            nw = w ...
+            if nw < dist[nr][nc]:
+                dist[nr][nc] = nw
+                heapq.heappush(hq, {nw, nr, nc}) 
+```
+
 ## Union Find <a name="uf"></a>
 ---
 ### Path Compression

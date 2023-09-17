@@ -95,7 +95,7 @@ public:
 };
 ```
 
-**Solution 2: (Trie)**
+**Solution 3: (Trie)**
 ```
 Runtime: 16 ms
 Memory Usage: 9.3 MB
@@ -272,4 +272,81 @@ char ** findItinerary(char *** tickets, int ticketsSize, int* ticketsColSize, in
 
     return ReturnBuffer;
 }
+```
+
+**Solution 4: (DFS, iterative)**
+```
+Runtime: 7 ms
+Memory: 15.2 MB
+```
+```c++
+class Solution {
+public:
+    vector<string> findItinerary(vector<vector<string>>& tickets) {
+        std::unordered_map<std::string, std::vector<std::string>> graph;
+        
+        for (auto& ticket : tickets) {
+            graph[ticket[0]].push_back(ticket[1]);
+        }
+        
+        for (auto& [_, dests] : graph) {
+            std::sort(dests.rbegin(), dests.rend());
+        }
+        
+        std::vector<std::string> stack = {"JFK"};
+        std::vector<std::string> itinerary;
+        
+        while (!stack.empty()) {
+            std::string curr = stack.back();
+            if (graph.find(curr) != graph.end() && !graph[curr].empty()) {
+                stack.push_back(graph[curr].back());
+                graph[curr].pop_back();
+            } else {
+                itinerary.push_back(stack.back());
+                stack.pop_back();
+            }
+        }
+        
+        std::reverse(itinerary.begin(), itinerary.end());
+        return itinerary;
+    }
+};
+```
+
+**Solution 5: (DFS)**
+```
+Runtime: 11 ms
+Memory: 14.6 MB
+```
+```c++
+class Solution {
+public:
+    vector<string> findItinerary(vector<vector<string>>& tickets) {
+        unordered_map<string, vector<string>> graph;
+        
+        for (auto& ticket : tickets) {
+            graph[ticket[0]].push_back(ticket[1]);
+        }
+        
+        for (auto& [_, destinations] : graph) {
+            sort(destinations.rbegin(), destinations.rend());
+        }
+        
+        vector<string> itinerary;
+        
+        function<void(const string&)> dfs = [&](const string& airport) {
+            while (!graph[airport].empty()) {
+                string next = graph[airport].back();
+                graph[airport].pop_back();
+                dfs(next);
+            }
+            itinerary.push_back(airport);
+        };
+        
+        dfs("JFK");
+        reverse(itinerary.begin(), itinerary.end());
+
+        return itinerary;
+    }
+};
 ```
