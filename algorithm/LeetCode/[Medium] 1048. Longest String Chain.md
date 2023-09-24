@@ -107,3 +107,36 @@ public:
     }
 };
 ```
+
+**Solution 2: (DP Bottom-Up)**
+```
+Runtime: 80 ms
+Memory: 27.8 MB
+```
+```c++
+public:
+    int longestStrChain(vector<string>& words) {
+        sort(words.begin(), words.end(), [](string s1, string s2){return s1.size() < s2.size();});
+        unordered_map<int, unordered_map<string, int>> m;
+        int ans = 1, sz, j;
+        for (string cur: words) {
+            sz = cur.size();
+            m[sz][cur] = 1;
+            for (auto [pre, cnt]: m[sz-1]) {
+                j = 0;
+                for (int i = 0; i < sz; i++) {
+                    if (pre[j] == cur[i]) {
+                        j += 1;
+                        if (j == sz-1) {
+                            m[sz][cur] = max(m[sz][cur], cnt + 1);
+                            ans = max(ans, m[sz][cur]);
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+        return ans;
+    }
+};
+```

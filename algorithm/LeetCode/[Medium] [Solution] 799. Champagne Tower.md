@@ -130,3 +130,92 @@ public:
     }
 };
 ```
+
+**Solution 4: (DP Bottom-Up)**
+```
+Runtime: 12 ms
+Memory: 14.7 MB
+```
+```c++
+class Solution {
+public:
+    double champagneTower(int poured, int query_row, int query_glass) {
+        vector<vector<double>> dp(query_row+1, vector<double>(query_row+1));
+        dp[0][0] = poured;
+        for (int i = 1; i <= query_row; i ++) {
+            for (int j = 0; j <= i; j ++) {
+                if (j == 0) {
+                    dp[i][j] = (dp[i-1][j]-1) > 0 ? (dp[i-1][j]-1)/2 : 0;
+                } else if (j == i) {
+                    dp[i][j] = (dp[i-1][j-1]-1 > 0) ? (dp[i-1][j-1]-1)/2 : 0;
+                } else {
+                    dp[i][j] = ((dp[i-1][j-1]-1) > 0 ? (dp[i-1][j-1]-1)/2 : 0) + ((dp[i-1][j]-1) > 0 ? (dp[i-1][j]-1)/2 : 0);
+                }
+            }
+        }
+        return dp[query_row][query_glass] > 1 ? 1 : dp[query_row][query_glass];
+    }
+};
+```
+
+**Solution 5: (DP Bottom-Up 1-D)**
+```
+Runtime: 7 ms
+Memory: 6.9 MB
+```
+```c++
+class Solution {
+public:
+    double champagneTower(int poured, int query_row, int query_glass) {
+        vector<double> dp(query_row+1), pre(query_row+1);
+        pre[0] = dp[0] = poured;
+        for (int i = 1; i <= query_row; i ++) {
+            for (int j = 0; j <= i; j ++) {
+                if (j == 0) {
+                    dp[j] = (pre[j]-1) > 0 ? (pre[j]-1)/2 : 0;
+                } else if (j == i) {
+                    dp[j] = (pre[j-1]-1 > 0) ? (pre[j-1]-1)/2 : 0;
+                } else {
+                    dp[j] = ((pre[j-1]-1) > 0 ? (pre[j-1]-1)/2 : 0) + ((pre[j]-1) > 0 ? (pre[j]-1)/2 : 0);
+                }
+            }
+            pre = dp;
+        }
+        return dp[query_glass] > 1 ? 1 : dp[query_glass];
+    }
+};
+```
+
+**Solution 6: (DP Bottom-Up 1-D)**
+```
+Runtime: 6 ms
+Memory: 6.8 MB
+```
+```c++
+class Solution {
+public:
+    double champagneTower(int poured, int query_row, int query_glass) {
+        vector<double> res(102);
+        res[0] = poured;
+        for (int row = 1; row <= query_row; row++)
+            for (int i = row; i >= 0; i--)
+                res[i + 1] += res[i] = max(0.0, (res[i] - 1) / 2);
+        return min(res[query_glass], 1.0);
+    }
+};
+```
+
+**Solution 7: (DP Bottom-Up 1-D)**
+```
+Runtime: 132 ms
+Memory: 16.3 MB
+```
+```python
+class Solution:
+    def champagneTower(self, poured: int, query_row: int, query_glass: int) -> float:
+        res = [poured] + [0] * query_row
+        for row in range(1, query_row + 1):
+            for i in range(row, -1, -1):
+                res[i] = max(res[i] - 1, 0) / 2.0 + max(res[i - 1] - 1, 0) / 2.0
+        return min(res[query_glass], 1)
+```

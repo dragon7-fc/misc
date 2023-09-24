@@ -2067,13 +2067,13 @@ A playground to note something.
         chown nobody:nogroup -R [/PATH/TO/TFTPROOT]
         sudo service tftpd-hpa restart
         
-        # power on auto start
-        sudo vim /etc/rc.local
-        
-        + sleep 30
-        + service tftpd-hpa restart
-        
-        exit 0
+        ## power on auto start
+        #sudo vim /etc/rc.local
+        #
+        #+ sleep 30
+        #+ service tftpd-hpa restart
+        #
+        #exit 0
         ```
 
     - client
