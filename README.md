@@ -1682,6 +1682,13 @@ A playground to note something.
         - scp
         
             - [SCP Command Examples to Securely Transfer Files in Linux](https://www.linuxtechi.com/scp-command-examples-in-linux/)
+            - sshfs
+                ```
+                sudo apt-get install sshfs
+                # adduser <username> fuse #Not required for new Linux versions (including Ubuntu > 18.04
+                mkdir ${LOCAL_PATH}
+                sshfs -o idmap=user ${USER}@${IP}:${REMOTE_PATH} ${LOCAL_PATH}
+                ```
         - sftp
         
             - [SFTP commands and options](https://learn.akamai.com/en-us/webhelp/netstorage/netstorage-user-guide/GUID-E0B5C44E-7618-4C41-B9AB-186CF3E28628.html)

@@ -153,23 +153,27 @@ char * reverseWords(char * s){
 
 **Solution 3: (Two Pointers)**
 ```
-Runtime: 44 ms
-Memory Usage: 9.7 MB
+Runtime: 17 ms
+Memory: 10.2 MB
 ```
 ```c++
 class Solution {
 public:
     string reverseWords(string s) {
-        int i=0;
-        for(int j=0;j<s.length();j++)
-        {
-            if(s[j]==' ')
-            {
-                reverse(s.begin()+i,s.begin()+j);
-                i=j+1;
+        int start = 0;
+        
+        for (int i = 0; i < s.length(); i++) {
+            if (s[i] == ' ' || i == s.length() - 1) {
+                int end = (i == s.length() - 1) ? i : i-1;
+                while (start < end) {
+                    swap(s[start], s[end]);
+                    start++;
+                    end--;
+                }
+                start = i + 1;
             }
         }
-        reverse(s.begin()+i,s.end());
+        
         return s;
     }
 };
