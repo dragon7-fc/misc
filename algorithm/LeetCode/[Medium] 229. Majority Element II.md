@@ -77,46 +77,35 @@ public:
 
 **Solution 3: (Boyer-Moore Voting Algorithm)**
 ```
-Runtime: 29 ms
-Memory Usage: 15.9 MB
+Runtime: 11 ms
+Memory: 16.4 MB
 ```
 ```c++
 class Solution {
 public:
     vector<int> majorityElement(vector<int>& nums) {
-        int n = nums.size();
-        vector<int> myvec;
-        int ele1 = -1 , ele2 = -1, count1 = 0 , count2 = 0;
+        vector<int> result;
+        int candidate1 = 0, candidate2 = 1, count1 = 0, count2 = 0;
 
-        for(auto it : nums){
-
-            if(ele1 == it) count1++;
-            else if(ele2 == it) count2++;
-
-            else if(count1 == 0) {
-                ele1 = it;
-                count1 = 1;
-            }
-            else if(count2 == 0) {
-                ele2 = it;
-                count2 = 1;
-            }
-
-            else {
-                count1--;
-                count2--;
-            }
+        for (int num : nums) {
+            if (num == candidate1) count1++;
+            else if (num == candidate2) count2++;
+            else if (count1 == 0) candidate1 = num, count1 = 1;
+            else if (count2 == 0) candidate2 = num, count2 = 1;
+            else count1--, count2--;
         }
 
-        count1 =0;
-        count2 = 0;
-        for(auto it : nums){
-            if(it == ele1) count1++;
-            else if(it == ele2) count2++;
+        count1 = count2 = 0;
+
+        for (int num : nums) {
+            if (num == candidate1) count1++;
+            if (num == candidate2) count2++;
         }
-        if(count1 > n/3) myvec.push_back(ele1);
-        if(count2 > n/3) myvec.push_back(ele2);
-        return myvec;
+
+        if (count1 > nums.size() / 3) result.push_back(candidate1);
+        if (count2 > nums.size() / 3) result.push_back(candidate2);
+
+        return result;
     }
 };
 ```

@@ -112,8 +112,8 @@ class Trie:
 
 **Solution 2: (Trie)**
 ```
-Runtime: 351 ms
-Memory Usage: 66.7 MB
+Runtime: 154 ms
+Memory: 65.4 MB
 ```
 ```c++
 class TrieNode {
@@ -128,81 +128,81 @@ public:
 };
 
 class Trie {
+    TrieNode *root;
 public:
-    TrieNode* root;
     Trie() {
         root = new TrieNode();
     }
     
     void insert(string word) {
-        TrieNode* temp = root;
+        TrieNode* cur = root;
         int n = word.size();
         for(int i = 0; i < n; i++){
-		// if this character is not present in trie, we add it
-            if(temp->children[word[i]-'a'] == NULL){
-                temp->children[word[i]-'a'] = new TrieNode();
+		    // if this character is not present in trie, we add it
+            if (cur->children[word[i]-'a'] == NULL) {
+                cur->children[word[i]-'a'] = new TrieNode();
             }
-            temp = temp->children[word[i]-'a'];
+            cur = cur->children[word[i]-'a'];
 			// increment the count of words starting with/passing through this character
-            temp->countStarts++;
+            cur->countStarts++;
         }
 		// increment word counter for the last character
-        temp->countWords++;
+        cur->countWords++;
+
     }
     
     int countWordsEqualTo(string word) {
-        TrieNode* temp = root;
+        TrieNode* cur = root;
         int n = word.size();
 		// base case
-        if(n == 0){
+        if (n == 0){
             return 0;
         }
-        for(int i = 0; i < n; i++){
+        for (int i = 0; i < n; i++){
 		    // if this character is not present in trie, there are no matching words possible
-            if(temp->children[word[i]-'a'] == NULL){
+            if (cur->children[word[i]-'a'] == NULL){
                 return 0;
             } else {
-			// move to the next character
-               temp = temp->children[word[i]-'a'];
+			    // move to the next character
+                cur = cur->children[word[i]-'a'];
             }
         }
 		// return the count of words ending with the last character
-        return temp->countWords;
+        return cur->countWords;
+
     }
     
     int countWordsStartingWith(string prefix) {
-        TrieNode* temp = root;
-        
+        TrieNode* cur = root;
         int n = prefix.size();
-        if(n == 0){
+        if (n == 0) {
             return 0;
         }
-        for(int i = 0; i < n; i++){
-		// if this character is not present, there are no matching words possible.
-		// NOTE: Because of ERASE operation, we might have nodes which are no longer
-		// present in any word's path, so we have to check countStarts
-            if(temp->children[prefix[i]-'a'] == NULL || 
-               temp->children[prefix[i]-'a']->countStarts == 0){
-                return 0;
+        for (int i = 0; i < n; i++){
+		    // if this character is not present, there are no matching words possible.
+		    // NOTE: Because of ERASE operation, we might have nodes which are no longer
+		    // present in any word's path, so we have to check countStarts
+            if (cur->children[prefix[i]-'a'] == NULL || 
+                cur->children[prefix[i]-'a']->countStarts == 0){
+                    return 0;
             } else {
-               temp = temp->children[prefix[i]-'a'];
+                cur = cur->children[prefix[i]-'a'];
             }
         }
 		// return the count of words passing through the last character
-        return temp->countStarts;
- 
+        return cur->countStarts;
     }
     
     void erase(string word) {
-        TrieNode* temp = root;
+        TrieNode* cur = root;
         int n = word.size();
         for(int i = 0; i < n; i++){
 		    // decrement the counter for words which pass through this node
-            temp->children[word[i]-'a']->countStarts--;
-            temp = temp->children[word[i]-'a'];
+            cur->children[word[i]-'a']->countStarts--;
+            cur = cur->children[word[i]-'a'];
         }
 		// decrement the word counter for the last character
-        temp->countWords--;
+        cur->countWords--;
     }
 };
 
