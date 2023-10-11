@@ -113,3 +113,21 @@ class Solution:
         vals = collections.Counter(deck).values()
         return reduce(math.gcd, vals) >= 2
 ```
+
+**Solution 1: (Math, GCD)**
+```
+Runtime: 14 ms
+Memory: 17.7 MB
+```
+```c++
+class Solution {
+public:
+    bool hasGroupsSizeX(vector<int>& deck) {
+        unordered_map<int, int> count;
+        int res = 0;
+        for (int i : deck) count[i]++;
+        for (auto i : count) res = __gcd(i.second, res);
+        return res > 1;
+    }
+};
+```

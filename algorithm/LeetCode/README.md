@@ -13260,7 +13260,7 @@ while q:
 return -1
 ```
 
-**Template 4: (Breadth-first Search)**
+**Template 4: (Breadth-first Search, topological sort)**
 ```python
 N = ...
 g = collections.defaultdict(list)

@@ -77,3 +77,85 @@ class Solution:
         
         return dfs(root, nodes)
 ```
+
+**Solution 2: (DFS, set)**
+```
+Runtime: 68 ms
+Memory: 44.2 MB
+```
+```c++
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+class Solution {
+    TreeNode* dfs(TreeNode* node, unordered_set<TreeNode*> &st) {
+        if (!node) {
+            return nullptr;
+        }
+        if (st.count(node)) {
+            return node;
+        }
+        TreeNode *left, *right;
+        left = dfs(node->left, st);
+        right = dfs(node->right, st);
+        if (left && right) {
+            return node;
+        }
+        if (left) {
+            return left;
+        }
+        if (right) {
+            return right;
+        }
+        return nullptr;
+    }
+public:
+    TreeNode* lowestCommonAncestor(TreeNode* root, vector<TreeNode*> &nodes) {
+        unordered_set<TreeNode*> st(nodes.begin(), nodes.end());
+        return dfs(root, st);
+    }
+};
+```
+
+**Solution 3: (DFS, Set)**
+```
+Runtime: 61 ms
+Memory: 46.3 MB
+```
+```c++
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+class Solution {
+    TreeNode *res = nullptr;
+    int traverse(TreeNode* r, unordered_set<TreeNode*> &ns) {
+        int match = r == nullptr ? 0 :
+            ns.count(r) + traverse(r->left, ns) + traverse(r->right, ns);
+        if (match == ns.size() && res == nullptr)
+            res = r;
+        return match;
+    }    
+public:
+    TreeNode* lowestCommonAncestor(TreeNode* root, vector<TreeNode*> &nodes) {
+        unordered_set<TreeNode*> ns(begin(nodes), end(nodes));
+        traverse(root, ns);
+        return res;
+    }
+};
+```

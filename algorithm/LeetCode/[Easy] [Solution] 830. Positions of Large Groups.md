@@ -100,3 +100,28 @@ class Solution:
         
         return ans
 ```
+
+**Solution 3: (Two Pointers)**
+```
+Runtime: 0 ms
+Memory: 7.7 MB
+```
+```c++
+class Solution {
+public:
+    vector<vector<int>> largeGroupPositions(string s) {
+        int n = s.size(), i = 0, j = 0;
+        vector<vector<int>> ans;
+        while (j < n) {
+            while (j < n && s[i] == s[j]) {
+                j += 1;
+            }
+            if (j -i >= 3) {
+                ans.push_back({i, j-1});
+            }
+            i = j;
+        }
+        return ans;
+    }
+};
+```

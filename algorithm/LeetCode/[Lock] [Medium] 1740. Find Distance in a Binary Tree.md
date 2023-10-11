@@ -81,3 +81,63 @@ class Solution:
         else:
             return abs(dfs(root, q, 0) - dfs(root, p, 0))
 ```
+
+**Solution 2: (DFS)**
+```
+Runtime: 28 ms
+Memory: 31.7 MB
+```
+```c++
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+class Solution {
+    bool flag;
+public:
+    int findDistance(TreeNode* root, int p, int q) {
+        if (p == q) {
+            return 0;
+        }
+        if (!root) {
+            return INT_MAX;
+        }
+        int left, right;
+        left = findDistance(root->left, p, q);
+        right = findDistance(root->right, p, q);
+        if (root->val == p || root->val == q) {
+            if (left != INT_MAX) {
+                flag = true;
+                return left + 1;
+            } else if (right != INT_MAX) {
+                flag = true;
+                return right + 1;
+            } else {
+                return 0;
+            }
+        }
+        if (left != INT_MAX && right != INT_MAX) {
+            flag = true;
+            return left + right + 2;
+        } else if (left != INT_MAX) {
+            if (!flag) {
+                return left + 1;
+            }
+            return left;
+        } else if (right != INT_MAX) {
+            if (!flag) {
+                return right + 1;
+            }
+            return right;
+        }
+        return INT_MAX;
+    }
+};
+```

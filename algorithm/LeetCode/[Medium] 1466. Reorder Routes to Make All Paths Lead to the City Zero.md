@@ -112,3 +112,38 @@ public:
     }
 };
 ```
+
+**Solution 3: (BFS)**
+```
+Runtime: 303 ms
+Memory: 110.3 MB
+```
+```c++
+class Solution {
+public:
+    int minReorder(int n, vector<vector<int>>& connections) {
+        vector<vector<pair<int, int>>> g(n);
+        for (vector<int> v: connections) {
+            g[v[0]].push_back({v[1], 0});
+            g[v[1]].push_back({v[0], 1});
+        }
+        queue<int> q;
+        q.push(0);
+        vector<bool> visited(n);
+        visited[0] = true;
+        int ans = 0, v;
+        while (!q.empty()) {
+            v = q.front();
+            q.pop();
+            visited[v] = true;
+            for (auto [nv, io]: g[v]) {
+                if (!visited[nv]) {
+                    ans += io == 0;
+                    q.push(nv);
+                }
+            }
+        }
+        return ans;
+    }
+};
+```

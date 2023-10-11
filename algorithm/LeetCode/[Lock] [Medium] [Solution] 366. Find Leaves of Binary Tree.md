@@ -129,12 +129,12 @@ public:
 };
 ```
 
-**Solution 3: (DFS (Depth-First Search) without sorting)**
+**Solution 3: (DFS, post order)**
 ```
-Runtime: 4 ms
-Memory Usage: 8.9 MB
+Runtime: 0 ms
+Memory: 9.2 MB
 ```
-```python
+```c++
 /**
  * Definition for a binary tree node.
  * struct TreeNode {
@@ -147,44 +147,29 @@ Memory Usage: 8.9 MB
  * };
  */
 class Solution {
-private:
-
-    vector<vector<int>> solution;  
-    
-public:
-    
-    int getHeight(TreeNode *root) {
-        
-        // return -1 for null nodes
-        if (!root) {
-            return -1;
+    int dfs(TreeNode* node, vector<vector<int>> &ans) {
+        if (!node) {
+            return 0;
         }
-
-        // first calculate the height of the left and right children
-        int leftHeight = getHeight(root->left);
-        int rightHeight = getHeight(root->right);
-        
-        // based on the height of the left and right children, obtain the height of the current (parent) node
-        int currHeight = max(leftHeight, rightHeight) + 1;
-        
-        // create space for node located at `currHeight` if not already exists
-        if (this->solution.size() == currHeight) {
-            this->solution.push_back({});
+        if (!node->left && !node->right) {
+            ans[0].push_back(node->val);
+            return 1;
         }
-
-        // insert the value at the correct position in the solution array
-        this->solution[currHeight].push_back(root->val);
-        
-        // return the height of the current node
-        return currHeight;
+        int dl, dr, dc;
+        dl = dfs(node->left, ans);
+        dr = dfs(node->right, ans);
+        dc = max(dl, dr);
+        if (ans.size() < dc+1) {
+            ans.push_back({});
+        }
+        ans[dc].push_back(node->val);
+        return dc+1;
     }
-    
+public:
     vector<vector<int>> findLeaves(TreeNode* root) {
-        this->solution.clear();
-        
-        getHeight(root);
-        
-        return this->solution;
+        vector<vector<int>> ans(1);
+        dfs(root, ans);
+        return ans;
     }
 };
 ```

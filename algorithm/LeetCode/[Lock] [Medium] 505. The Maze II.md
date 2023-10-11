@@ -85,47 +85,79 @@ class Solution:
 
 **Solution 2: (BFS)**
 ```
-Runtime: 59 ms
-Memory Usage: 20.2 MB
+Runtime: 28 ms
+Memory: 20.4 MB
 ```
 ```c++
 class Solution {
+    int dd[5] = {0, 1, 0, -1, 0};
 public:
     int shortestDistance(vector<vector<int>>& maze, vector<int>& start, vector<int>& destination) {
-        m = maze.size(), n = maze[0].size();
-        distance.assign(m, vector<int>(n, INT_MAX));
-        distance[start[0]][start[1]] = 0;  // distance from start position
-        bfs(maze, start);
-        return distance[destination[0]][destination[1]] == INT_MAX ? -1 : distance[destination[0]][destination[1]];
-    }
-
-private:
-    int m, n;
-    vector<int> dirX = {0, 0, 1, -1};
-    vector<int> dirY = {1, -1, 0, 0};
-    vector<vector<int>> distance;
-
-    void bfs(const vector<vector<int>> &maze, const vector<int> &start) {
+        int m = maze.size(), n = maze[0].size(), nr, nc, w;
         queue<pair<int, int>> q;
         q.push({start[0], start[1]});
+        vector<vector<int>> dist(m, vector<int>(n, INT_MAX));
+        dist[start[0]][start[1]] = 0;
         while (!q.empty()) {
-          auto [x, y] = q.front();
-          q.pop();
-          for (int i = 0; i < 4; i++) {
-            int newRow = x + dirX[i], newCol = y + dirY[i];
-            int count = 0;
-            // Keep moving until we hit the boundary, everything else is
-            // treated as unreachable.
-            while (newRow >= 0 && newRow < m && newCol >= 0 && newCol < n && maze[newRow][newCol] == 0) {
-              newRow += dirX[i], newCol += dirY[i], ++count;
+            auto [r, c] = q.front();
+            q.pop();
+            for (int i = 0; i < 4; i ++) {
+                nr = r;
+                nc = c;
+                w = 0;
+                while (0 <= nr+dd[i] && nr+dd[i] < m && 0 <= nc+dd[i+1] && nc+dd[i+1] < n && maze[nr+dd[i]][nc+dd[i+1]] == 0) {
+                    nr += dd[i];
+                    nc += dd[i+1];
+                    w += 1;
+                }
+                if (dist[r][c]+w < dist[nr][nc]) {
+                    dist[nr][nc] = dist[r][c] + w;
+                    q.push({nr, nc});
+                }
             }
-            newRow -= dirX[i], newCol -= dirY[i];  // went too far, back up a bit
-            if (distance[x][y] + count < distance[newRow][newCol]) {
-              distance[newRow][newCol] = distance[x][y] + count;
-              q.push({newRow, newCol});
-            }
-          }
         }
+        return dist[destination[0]][destination[1]] == INT_MAX ? -1 : dist[destination[0]][destination[1]];
     }
 };
+```
+
+**Solution 3: (Dijkstra)**
+```
+Runtime: 32 ms
+Memory: 20.2 MB
+```
+```c++
+class Solution {
+    int dd[5] = {0, 1, 0, -1, 0};
+public:
+    int shortestDistance(vector<vector<int>>& maze, vector<int>& start, vector<int>& destination) {
+        int m = maze.size(), n = maze[0].size(), nr, nc, nw;
+        priority_queue<tuple<int, int, int>, vector<tuple<int, int, int>>, greater<tuple<int, int, int>>> pq;
+        pq.push({0, start[0], start[1]});
+        vector<vector<int>> dist(m, vector<int>(n, INT_MAX));
+        dist[start[0]][start[1]] = 0;
+        while (!pq.empty()) {
+            auto [w, r, c] = pq.top();
+            pq.pop();
+            if (r == destination[0] && c == destination[1]) {
+                return w;
+            }
+            for (int i = 0; i < 4; i ++) {
+                nr = r;
+                nc = c;
+                nw = 0;
+                while (0 <= nr+dd[i] && nr+dd[i] < m && 0 <= nc+dd[i+1] && nc+dd[i+1] < n && maze[nr+dd[i]][nc+dd[i+1]] == 0) {
+                    nr += dd[i];
+                    nc += dd[i+1];
+                    nw += 1;
+                }
+                if (dist[r][c] + nw < dist[nr][nc]) {
+                    dist[nr][nc] = dist[r][c] + nw;
+                    pq.push({w + nw, nr, nc});
+                }
+            }
+        }
+        return -1;
+    }
+}; 
 ```
