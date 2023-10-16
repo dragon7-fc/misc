@@ -63,3 +63,27 @@ public:
     }
 };
 ```
+
+**Solution 3: (DP Bottom-Up)**
+```
+Runtime: 0 ms
+Memory: 6.6 MB
+```
+```c++
+class Solution {
+public:
+    vector<int> getRow(int rowIndex) {
+        vector<int> dp(rowIndex+1);
+        for (int i = 0; i <= rowIndex; i ++) {
+            for (int j = i; j >= 0; j --) {
+                if (j == 0 || j == i) {
+                    dp[j] = 1;
+                } else {
+                    dp[j] += dp[j-1];
+                }
+            }
+        }
+        return dp;
+    }
+};
+```
