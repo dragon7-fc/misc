@@ -292,3 +292,41 @@ class Codec:
 # codec = Codec()
 # codec.decode(codec.encode(strs))
 ```
+
+**Solution 4: (String)**
+```
+Runtime: 35 ms
+Memory: 23.1 MB
+```
+```c++
+class Codec {
+public:
+
+    // Encodes a list of strings to a single string.
+    string encode(vector<string>& strs) {
+        string result;
+
+        for (string str : strs) 
+             result += to_string(str.size()) + "#" + str;
+
+        return result;
+    }
+
+    // Decodes a single string to a list of strings.
+    vector<string> decode(string s) {
+        vector<string> result;
+        int start = 0;
+        int end   = s.find("#");
+
+        while (end != string::npos) {
+            
+            int size = stoi(s.substr(start, end - start));
+            result.push_back(s.substr(end+1, size));
+            start = end+size+1;
+            end   = s.find("#", start);
+        }
+
+        return result;
+    }
+};
+```

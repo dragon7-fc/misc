@@ -80,3 +80,25 @@ public:
     }
 };
 ```
+
+**Solution 3: (Array, append boundary)**
+```
+Runtime: 0 ms
+Memory: 7.4 MB
+```
+```c++
+class Solution {
+public:
+    vector<vector<int>> findMissingRanges(vector<int>& nums, int lower, int upper) {
+        nums.insert(nums.begin(), lower-1);
+        nums.push_back(upper+1);
+        vector<vector<int>> ans;
+        for (int i = 1; i < nums.size(); i ++) {
+            if (nums[i] - nums[i-1] > 1) {
+                ans.push_back({nums[i-1]+1, nums[i]-1});
+            }
+        }
+        return ans;
+    }
+};
+```

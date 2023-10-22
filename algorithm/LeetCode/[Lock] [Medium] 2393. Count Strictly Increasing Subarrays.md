@@ -50,3 +50,23 @@ class Solution:
             ans += cur
         return ans
 ```
+
+**Solution 2: (Two Pointers)**
+```
+Runtime: 114 ms
+Memory: 76.1 MB
+```
+```c++
+class Solution {
+public:
+    long long countSubarrays(vector<int>& nums) {
+        long long res = 0;
+        for (int i = 1, j = 0; i < nums.size(); ++i) {
+            if (nums[i - 1] >= nums[i])
+                j = i;
+            res += i - j;
+        }
+        return res + nums.size();
+    }
+};
+```

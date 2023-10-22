@@ -215,3 +215,36 @@ public:
     }
 };
 ```
+
+**Solution 3: (Stack)**
+```
+Runtime: 0 ms
+Memory: 6.6 MB
+```
+```c++
+class Solution {
+public:
+    bool backspaceCompare(string s, string t) {
+        string s1, s2;
+        for (char &c: s) {
+            if (c == '#') {
+                if (s1 != "") {
+                    s1.pop_back();
+                }
+            } else {
+                s1 += c;
+            }
+        }
+        for (char &c: t) {
+            if (c == '#') {
+                if (s2 != "") {
+                    s2.pop_back();
+                }
+            } else {
+                s2 += c;
+            }
+        }
+        return s1 == s2;
+    }
+};
+```

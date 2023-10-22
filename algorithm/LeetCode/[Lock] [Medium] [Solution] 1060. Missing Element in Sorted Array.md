@@ -215,3 +215,55 @@ class Solution:
         # and less than nums[left]
         return nums[left - 1] + k - missing(left - 1) 
 ```
+
+**Solution 3: (Greedy)**
+```
+Runtime: 40 ms
+Memory: 31.8 MB
+```
+```c++
+class Solution {
+public:
+    int missingElement(vector<int>& nums, int k) {
+        nums.push_back(INT_MAX);
+        int d, ans;
+        for (int i = 1; i < nums.size(); i ++) {
+            d = nums[i] - nums[i-1] - 1;
+            if (k > d) {
+                k -= d;
+            } else {
+                ans = nums[i-1] + k;
+                break;
+            }
+        }
+        return ans;
+    }
+};
+```
+
+**Solution 4: (Binary Search)**
+```
+Runtime: 37 ms
+Memory: 31.9 MB
+```
+```c++
+class Solution {
+public:
+    int missingElement(vector<int>& nums, int k) {
+        int n = nums.size();
+        int left = 0, right = n - 1;
+
+        while (left <= right){
+            int mid = left + (right -left) / 2;
+            int total_missing_number = nums[mid] - nums[0] - mid;
+            if (total_missing_number < k){
+                left = mid + 1;
+            } else {
+                right = mid - 1;
+            }
+        }
+        
+        return nums[0] + left + k - 1;
+    }
+};
+```

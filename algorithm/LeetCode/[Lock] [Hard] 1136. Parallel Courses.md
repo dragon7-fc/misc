@@ -66,3 +66,50 @@ class Solution:
         
         return -1
 ```
+
+**Solution 2: (Topological Sort)**
+```
+Runtime: 48 ms
+Memory: 26.8 MB
+```
+```c++
+class Solution {
+public:
+    int minimumSemesters(int n, vector<vector<int>>& relations) {
+        vector<int> indeg(n);
+        vector<vector<int>> g(n);
+        for (auto &vec: relations) {
+            g[vec[0]-1].push_back(vec[1]-1);
+            indeg[vec[1]-1] += 1;
+        }
+        queue<int> q;
+        int ans = 0, sz;
+        vector<int> visited(n);
+        for (int i = 0; i < n; i ++) {
+            if (indeg[i] == 0) {
+                q.push(i);
+                visited[i] = true;
+            }
+        }
+        while (!q.empty()) {
+            ans += 1;
+            sz = q.size();
+            for (int i = 0; i < sz; i ++) {
+                int v = q.front();
+                q.pop();
+                for (auto nv: g[v]) {
+                    indeg[nv] -= 1;
+                    if (indeg[nv] == 0) {
+                        q.push(nv);
+                        visited[nv] = true;
+                    }
+                }
+            }
+        }
+        if (any_of(visited.begin(), visited.end(), [](bool v){return v != true;})) {
+            return -1;
+        }
+        return ans;
+    }
+};
+```

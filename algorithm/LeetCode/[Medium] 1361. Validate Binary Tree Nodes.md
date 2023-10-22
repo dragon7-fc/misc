@@ -48,25 +48,61 @@ Output: false
 
 # Submissions
 ---
-**Solution 1: (Math)**
-
-* The total number of children should be `n - 1`.
-
-    * If less, it means there are multiple trees.
-    * If more than that, it means there is a cycle or one node is a child of multiple nodes.
-
+**Solution 1: (DFS)**
 ```
-Runtime: 288 ms
-Memory Usage: 14.1 MB
+Runtime: 26 ms
+Memory: 34.7 MB
 ```
-```python
-class Solution:
-    def validateBinaryTreeNodes(self, n: int, leftChild: List[int], rightChild: List[int]) -> bool:
-        children = 0
-        for i in range(n):
-            if leftChild[i] != -1:
-                children += 1
-            if rightChild[i] != -1:
-                children += 1
-        return children == n - 1
+```c++
+class Solution {
+    void dfs(int v, vector<bool> &visited, vector<int> &leftChild, vector<int> &rightChild) {
+        visited[v] = true;
+        if (leftChild[v] != -1) {
+            dfs(leftChild[v], visited, leftChild, rightChild);
+        }
+        if (rightChild[v] != -1) {
+            dfs(rightChild[v], visited, leftChild, rightChild);
+        }
+    }
+public:
+    bool validateBinaryTreeNodes(int n, vector<int>& leftChild, vector<int>& rightChild) {
+        // every node have one parent
+        vector<int> indeg(n);
+        for (int i = 0; i < n; i ++) {
+            if (leftChild[i] != -1) {
+                indeg[leftChild[i]] += 1;
+                if (indeg[leftChild[i]] > 1) {
+                    return false;
+                }
+            }
+            if (rightChild[i] != -1) {
+                indeg[rightChild[i]] += 1;
+                if (indeg[rightChild[i]] > 1) {
+                    return false;
+                }
+            }
+        }
+
+        // single root
+        int root = -1;
+        for (int i = 0; i < n; i ++) {
+            if (indeg[i] == 0) {
+                if (root == -1) {
+                    root = i;
+                } else {
+                    return false;
+                }
+            }
+        }
+        if (root == -1) {
+            return false;
+        }
+
+        // filter invalid graph
+        vector<bool> visited(n);
+        dfs(root, visited, leftChild, rightChild);
+        return all_of(visited.begin(), visited.end(), [](int v) {return v == true;});
+    }
+};
 ```
+

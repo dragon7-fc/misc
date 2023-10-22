@@ -252,3 +252,43 @@ class Solution:
 
         return False
 ```
+
+**Solution 3: (DFS)**
+```
+Runtime: 20 ms
+Memory: 19.7 MB
+```
+```c++
+int d[5] = {0, 1, 0, -1, 0};
+class Solution {
+    bool dfs(int r, int c, int dr, int dc, vector<vector<int>> &maze, vector<vector<bool>> &visited) {
+        if (r == dr && c == dc) {
+            return true;
+        }
+        visited[r][c] = true;
+        int nr, nc;
+        for (int i = 0; i < 4; i ++) {
+            nr = r + d[i], nc = c + d[i+1];
+            while (nr >= 0 && nr < maze.size() && nc >= 0 && nc < maze[0].size() && maze[nr][nc] == 0) {
+                nr += d[i];
+                nc += d[i+1];
+            }
+            nr -= d[i];
+            nc -= d[i+1];
+            if (!visited[nr][nc] && dfs(nr, nc ,dr, dc, maze, visited)) {
+                return true;
+            }
+        }
+        return false;
+    }
+public:
+    bool hasPath(vector<vector<int>>& maze, vector<int>& start, vector<int>& destination) {
+        int m = maze.size(), n = maze[0].size();
+        vector<vector<bool>> visited(m, vector<bool>(n));
+        if (dfs(start[0], start[1], destination[0], destination[1], maze, visited)) {
+            return true;
+        }
+        return false;
+    }
+};
+```

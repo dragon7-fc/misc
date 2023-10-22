@@ -77,3 +77,44 @@ class Solution:
         q1 = dfs(root1)
         return any(target - a in q1 for a in dfs(root2))
 ```
+
+**Solution 3: (Set)**
+```
+Runtime: 28 ms
+Memory: 36.7 MB
+```
+```c++
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+class Solution {
+    void dfs(TreeNode *node, unordered_set<int> &st) {
+        if (!node) {
+            return;
+        }
+        st.insert(node->val);
+        dfs(node->left, st);
+        dfs(node->right, st);
+    }
+public:
+    bool twoSumBSTs(TreeNode* root1, TreeNode* root2, int target) {
+        unordered_set<int> st, st2;
+        dfs(root1, st);
+        dfs(root2, st2);
+        for (int a: st) {
+            if (st2.count(target-a)) {
+                return true;
+            }
+        }
+        return false;
+    }
+};
+```
