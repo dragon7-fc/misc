@@ -77,14 +77,14 @@ class Solution:
 
 **Solution 3: (Math)**
 ```
-Runtime: 0 ms
-Memory Usage: 6.1 MB
+Runtime: 2 ms
+Memory: 6.5 MB
 ```
 ```c++
 class Solution {
 public:
     int poorPigs(int buckets, int minutesToDie, int minutesToTest) {
-        return ceil(log(buckets) / log(minutesToTest / minutesToDie + 1));
+        return ceil(log2(buckets)/log2(int(minutesToTest/minutesToDie)+1));
     }
 };
 ```

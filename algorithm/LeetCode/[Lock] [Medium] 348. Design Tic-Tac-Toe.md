@@ -148,3 +148,41 @@ public:
  * int param_1 = obj->move(row,col,player);
  */
 ```
+
+**Solution 3: (Hash Table)**
+```
+Runtime: 21 ms
+Memory: 19.5 MB
+```
+```c++
+class TicTacToe {
+    int t;
+    vector<vector<int>> dp;
+public:
+    TicTacToe(int n) {
+        t = n;
+        dp = vector<vector<int>>(2, vector<int>(2*n+2));
+    }
+    
+    int move(int row, int col, int player) {
+        dp[player-1][row] += 1;
+        dp[player-1][t + col] += 1;
+        if (row == col) {
+            dp[player-1][2*t] += 1;
+        }
+        if (row + col == t-1) {
+            dp[player-1][2*t+1] += 1;
+        }
+        if (any_of(dp[player-1].begin(), dp[player-1].end(), [&](int &v){return v == t;})) {
+            return player;
+        }
+        return 0;
+    }
+};
+
+/**
+ * Your TicTacToe object will be instantiated and called as such:
+ * TicTacToe* obj = new TicTacToe(n);
+ * int param_1 = obj->move(row,col,player);
+ */
+```

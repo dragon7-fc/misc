@@ -148,7 +148,6 @@ class Solution {
                 return true;
             }
         }
-        seen.erase(s);
         return false;
     }
 public:

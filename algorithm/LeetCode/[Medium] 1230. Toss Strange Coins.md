@@ -66,3 +66,24 @@ class Solution:
         
         return dp(N, target)
 ```
+
+**Solution 3: (DP Bottom-Up)**
+```
+Runtime: 42 ms
+Memory: 9.1 MB
+```
+```c++
+class Solution {
+public:
+    double probabilityOfHeads(vector<double>& prob, int target) {
+        vector<double> dp(prob.size()+1);
+        dp[0] = 1;
+        for (auto &p: prob) {
+            for (int i = target; i >= 0; i--) {
+                dp[i] = (i ? dp[i-1] : 0)*p + dp[i]*(1-p);
+            }
+        }
+        return dp[target];
+    }
+};
+```

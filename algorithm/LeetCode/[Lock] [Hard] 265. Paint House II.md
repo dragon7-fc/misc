@@ -224,3 +224,37 @@ class Solution:
 
         return prev_min_cost
 ```
+
+**Solution 6: (DP Bottom-Up)**
+```
+Runtime: 15 ms
+Memory: 11.2 MB
+```
+```c++
+class Solution {
+public:
+    int minCostII(vector<vector<int>>& costs) {
+        int n = costs.size(), k = costs[0].size();
+        if (n == 1) {
+            return *min_element(costs[0].begin(), costs[0].end());
+        }
+        int ans = INT_MAX;
+        for (int i = 1; i < n; i ++) {
+            for (int j = 0; j < k; j ++) {
+                int c = INT_MAX;
+                for (int j2 = 0; j2 < k; j2++) {
+                    if (j2 == j) {
+                        continue;
+                    }
+                    c = min(c, costs[i-1][j2]);
+                }
+                costs[i][j] += c;
+                if (i == n-1) {
+                    ans = min(ans, costs[i][j]);
+                }
+            }
+        }
+        return ans;
+    }
+};
+```

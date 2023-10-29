@@ -130,3 +130,94 @@ class Solution:
 
         return dfs(abs(x), abs(y))
 ```
+
+**Solution 4: (BFS, shift location)**
+```
+Runtime: 442 ms
+Memory: 54.6 MB
+```
+```c++
+int dx[8] = {1, 1, 2, 2, -1, -1, -2, -2};
+int dy[8] = {2, -2, 1, -1, 2, -2, 1, -1};
+class Solution {
+public:
+    int minKnightMoves(int x, int y) {
+        queue<pair<int, int>> q;
+        q.push({500, 500});
+        vector<vector<bool>> visited(1000, vector<bool>(1000));
+        visited[500][500] = true;
+        int ans = 0, sz, nx, ny;
+        while (q.size()) {
+            sz = q.size();
+            for (int i = 0; i < sz; i ++) {
+                auto [cx, cy] = q.front();
+                q.pop();
+                if (cx == x+500 && cy == y+500) {
+                    return ans;
+                }
+                for (int d = 0; d < 8; d ++) {
+                    nx = cx + dx[d];
+                    ny = cy + dy[d];
+                    if (1 <= nx && nx < 1000 && 1 <= ny && ny < 1000 && !visited[nx][ny]) {
+                        visited[nx][ny] = true;
+                        q.push({nx, ny});
+                    }
+                }
+            }
+            ans += 1;
+        }
+        return -1;
+    }
+};
+```
+
+**Solution 5: (BFS, bidirectional bfs)**
+```
+Runtime: 992 ms
+Memory: 156.9 MB
+```
+```c++
+int dx[8] = {1, 1, 2, 2, -1, -1, -2, -2};
+int dy[8] = {2, -2, 1, -1, 2, -2, 1, -1};
+class Solution {
+public:
+    int minKnightMoves(int x, int y) {
+        queue<tuple<int,int,int>> sq, tq;
+        sq.push({0, 0, 0});
+        tq.push({x, y, 0});
+        unordered_map<int, unordered_map<int,int>> sdist, tdist;
+        sdist[0][0] = 0;
+        tdist[x][y] = 0;
+        int ans = 0, sz, nsx, nsy, ntx, nty;
+        while (1) {
+            auto [sx, sy, sstep] = sq.front();
+            sq.pop();
+            if (tdist.count(sx) && tdist[sx].count(sy)) {
+                return sstep + tdist[sx][sy];
+            }
+            auto [tx, ty, tstep] = tq.front();
+            tq.pop();
+            if (sdist.count(tx) && sdist[tx].count(ty)) {
+                return tstep + sdist[tx][ty];
+            }
+            for (int i = 0; i < 8; i ++) {
+                nsx = sx + dx[i];
+                nsy = sy + dy[i];
+                if (!sdist.count(nsx) || !sdist[nsx].count(nsy)) {
+                    sq.push({nsx, nsy, sstep+1});
+                    sdist[nsx][nsy] = sstep+1;
+                }
+                ntx = tx + dx[i];
+                nty = ty + dy[i];
+                if (!tdist.count(ntx) || !tdist[ntx].count(nty)) {
+                    tq.push({ntx, nty, tstep+1});
+                    tdist[ntx][nty] = tstep+1;
+                }
+            }
+        }
+        return -1;
+    }
+};
+Console
+
+```
