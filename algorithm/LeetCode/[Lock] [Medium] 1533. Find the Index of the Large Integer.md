@@ -88,3 +88,41 @@ class Solution:
                 return left_partition #middle is large number
         return right
 ```
+
+**Solution 2: (Binary Search)**
+```
+Runtime: 114 ms
+Memory: 39.9 MB
+```
+```c++
+/**
+ * // This is the ArrayReader's API interface.
+ * // You should not implement it, or speculate about its implementation
+ * class ArrayReader {
+ *   public:
+ *     // Compares the sum of arr[l..r] with the sum of arr[x..y] 
+ *     // return 1 if sum(arr[l..r]) > sum(arr[x..y])
+ *     // return 0 if sum(arr[l..r]) == sum(arr[x..y])
+ *     // return -1 if sum(arr[l..r]) < sum(arr[x..y])
+ *     int compareSub(int l, int r, int x, int y);
+ *
+ *     // Returns the length of the array
+ *     int length();
+ * };
+ */
+
+class Solution {
+public:
+    int getIndex(ArrayReader &reader) {
+        int l = 0, r = reader.length() - 1;
+        while (l < r) {
+            int h = (r - l + 1) / 2; // half, h * 2 <= r - l + 1
+            if (reader.compareSub(l, l + h - 1, l + h, l + h * 2 - 1) != 1)
+                l = l + h;
+            else
+                r = l + h - 1;
+        }
+        return l;
+    }
+};
+```

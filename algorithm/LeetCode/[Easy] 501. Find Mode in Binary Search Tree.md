@@ -60,3 +60,291 @@ class Solution:
                 ans += [k]
         return ans
 ```
+
+**Solution 2: (DFS)**
+```
+Runtime: 15 ms
+Memory: 25.6 MB
+```
+```c++
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+class Solution {
+    void dfs(TreeNode* node, unordered_map<int, int>& counter) {
+        if (node == nullptr) {
+            return;
+        }
+
+        counter[node->val]++;
+        dfs(node->left, counter);
+        dfs(node->right, counter);
+    }
+public:
+    vector<int> findMode(TreeNode* root) {
+        unordered_map<int, int> counter;
+        dfs(root, counter);
+        int maxFreq = 0;
+
+        for (auto& [key, val] : counter) {
+            maxFreq = max(maxFreq, val);
+        }
+        
+        vector<int> ans;
+        for (auto& [key, val] : counter) {
+            if (val == maxFreq) {
+                ans.push_back(key);
+            } 
+        }
+        
+        return ans;
+    }
+};
+```
+
+**Solution 3: (Iterative DFS)**
+```
+Runtime: 22 ms
+Memory: 25.6 MB
+```
+```c++
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+class Solution {
+public:
+    vector<int> findMode(TreeNode* root) {
+        unordered_map<int, int> counter;
+        vector<TreeNode*> stack;
+        stack.push_back(root);
+        
+        while (!stack.empty()) {
+            TreeNode* node = stack.back();
+            stack.pop_back();
+
+            counter[node->val]++;
+            if (node->left != nullptr) {
+                stack.push_back(node->left);
+            }
+            if (node->right != nullptr) {
+                stack.push_back(node->right);
+            }
+        }
+        
+        int maxFreq = 0;
+
+        for (auto& [key, val] : counter) {
+            maxFreq = max(maxFreq, val);
+        }
+        
+        vector<int> ans;
+        for (auto& [key, val] : counter) {
+            if (val == maxFreq) {
+                ans.push_back(key);
+            } 
+        }
+        
+        return ans;
+    }
+};
+```
+
+**Solution 4: (DFS, No Hash-Map)**
+```
+Runtime: 8 ms
+Memory: 24.5 MB
+```
+```c++
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+class Solution {
+    void dfs(TreeNode* node, vector<int>& values) {
+        if (node == nullptr) {
+            return;
+        }
+        
+        // Inorder traversal visits nodes in sorted order
+        dfs(node->left, values);
+        values.push_back(node->val);
+        dfs(node->right, values);
+    }
+public:
+    vector<int> findMode(TreeNode* root) {
+        vector<int> values;
+        dfs(root, values);
+        
+        int maxStreak = 0;
+        int currStreak = 0;
+        int currNum = 0;
+        vector<int> ans;
+        
+        for (int num : values) {
+            if (num == currNum) {
+                currStreak++;
+            } else {
+                currStreak = 1;
+                currNum = num;
+            }
+            
+            if (currStreak > maxStreak) {
+                ans = {};
+                maxStreak = currStreak;
+            }
+            
+            if (currStreak == maxStreak) {
+                ans.push_back(num);
+            }
+        }
+        
+        return ans;
+    }
+};
+```
+
+**Solution 5: (BFS)**
+```
+Runtime: 19 ms
+Memory: 25.9 MB
+```
+```c++
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+class Solution {
+public:
+    vector<int> findMode(TreeNode* root) {
+        unordered_map<int, int> counter;
+        queue<TreeNode*> queue;
+        queue.push(root);
+        
+        while (!queue.empty()) {
+            TreeNode* node = queue.front();
+            queue.pop();
+
+            counter[node->val]++;
+            if (node->left != nullptr) {
+                queue.push(node->left);
+            }
+            if (node->right != nullptr) {
+                queue.push(node->right);
+            }
+        }
+        
+        int maxFreq = 0;
+        for (auto& [key, val] : counter) {
+            maxFreq = max(maxFreq, val);
+        }
+        
+        vector<int> ans;
+        for (auto& [key, val] : counter) {
+            if (val == maxFreq) {
+                ans.push_back(key);
+            } 
+        }
+        
+        return ans;
+    }
+};
+```
+
+**Solution 6: (True Constant Space: Morris Traversal)**
+```
+Runtime: 12 ms
+Memory: 12.7 MB
+```
+```c++
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+class Solution {
+public:
+    vector<int> findMode(TreeNode* root) {
+        vector<int> ans;
+        int maxStreak = 0;
+        int currStreak = 0;
+        int currNum = 0;
+        
+        TreeNode* curr = root;
+        while (curr != nullptr) {
+            if (curr->left != nullptr) {
+                // Find the friend
+                TreeNode* friendNode = curr->left;
+                while (friendNode->right != nullptr) {
+                    friendNode = friendNode->right;
+                }
+                
+                friendNode->right = curr;
+                
+                // Delete the edge after using it
+                TreeNode* left = curr->left;
+                curr->left = nullptr;
+                curr = left;
+            } else {
+                // Handle the current node
+                int num = curr->val;
+                if (num == currNum) {
+                    currStreak++;
+                } else {
+                    currStreak = 1;
+                    currNum = num;
+                }
+
+                if (currStreak > maxStreak) {
+                    ans = {};
+                    maxStreak = currStreak;
+                }
+
+                if (currStreak == maxStreak) {
+                    ans.push_back(num);
+                }
+                
+                curr = curr->right;
+            }
+        }
+        
+        return ans;
+    }
+};
+
+```

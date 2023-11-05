@@ -63,3 +63,30 @@ class Solution:
         return all(w1 == w2 or (w1, w2) in pairset or (w2, w1) in pairset
                    for w1, w2 in zip(sentence1, sentence2))
 ```
+
+**Solution 2: (Hash Table, Set)**
+```
+Runtime: 9 ms
+Memory: 12.5 MB
+```
+```c++
+class Solution {
+public:
+    bool areSentencesSimilar(vector<string>& sentence1, vector<string>& sentence2, vector<vector<string>>& similarPairs) {
+        if (sentence1.size() != sentence2.size()) {
+            return false;
+        }
+        unordered_map<string,unordered_set<string>> m;
+        for (auto sp: similarPairs) {
+            m[sp[0]].insert(sp[1]);
+            m[sp[1]].insert(sp[0]);
+        }
+        for (int i = 0; i < sentence1.size(); i ++) {
+            if (sentence1[i] != sentence2[i] && !m[sentence1[i]].count(sentence2[i])) {
+                return false;
+            }
+        }
+        return true;
+    }
+};
+```

@@ -37,6 +37,9 @@ Explanation: We have pref[0] = arr[0] = 13.
 # Submissions
 ---
 **Solution 1: (Greedy)**
+
+![2433_2433A.png](img/2433_2433A.png)
+
 ```
 Runtime: 2045 ms
 Memory: 33.1 MB

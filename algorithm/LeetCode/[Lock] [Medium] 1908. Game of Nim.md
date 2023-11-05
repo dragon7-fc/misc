@@ -85,3 +85,19 @@ class Solution:
         else:
             return False
 ```
+
+**Solution 2: (Bit Manipulation)**
+```
+Runtime: 3 ms
+Memory: 7.7 MB
+```
+```c++
+class Solution {
+public:
+    bool nimGame(vector<int>& piles) {
+        int result=0,n=piles.size();
+        for(int i=0;i<n;i++) result^=piles[i];
+        return result;
+    }
+};
+```

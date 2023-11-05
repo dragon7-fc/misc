@@ -119,3 +119,39 @@ class Solution:
         s = sorted(nums)
         nums[::2], nums[1::2] = s[:(len(s)+1)//2], s[(len(s)+1)//2:]
 ```
+
+**Solution 3: (Sort)**
+```
+Runtime: 7 ms
+Memory: 13.8 MB
+```
+```c++
+class Solution {
+public:
+    void wiggleSort(vector<int>& nums) {
+        sort(nums.begin(), nums.end());
+        for (int i = 1; i < nums.size() - 1; i += 2) {
+            swap(nums[i], nums[i + 1]);
+        }
+    }
+};
+```
+
+**Solution 4: (Greedy)**
+```
+Runtime: 8 ms
+Memory: 14 MB
+```
+```c++
+class Solution {
+public:
+    void wiggleSort(vector<int>& nums) {
+        for (int i = 0; i < nums.size() - 1; i++) {
+            if (((i % 2 == 0) && nums[i] > nums[i + 1]) ||
+                ((i % 2 == 1) && nums[i] < nums[i + 1])) {
+                swap(nums[i], nums[i + 1]);
+            }
+        }
+    }
+};
+```

@@ -101,19 +101,23 @@ class Solution:
 
 **Solution 2: (brainteaser)**
 ```
-Runtime: 80 ms
-Memory Usage: 22.9 MB
+Runtime: 18 ms
+Memory: 23.1 MB
 ```
 ```c++
 class Solution {
 public:
     int getLastMoment(int n, vector<int>& left, vector<int>& right) {
-        int res = 0;
-        for (int& i: left)
-            res = max(res, i);
-        for (int& i: right)
-            res = max(res, n - i);
-        return res;
+        int ans = 0;
+        for (int num : left) {
+            ans = max(ans, num);
+        }
+        
+        for (int num : right) {
+            ans = max(ans, n - num);
+        }
+        
+        return ans;
     }
 };
 ```
