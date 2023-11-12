@@ -47,3 +47,22 @@ class Solution:
             return t >= max(abs(sx-fx), abs(sy-fy))
         return t != 1
 ```
+
+**Solution 2: (Case Study)**
+```
+Runtime: 2 ms
+Memory: 6.3 MB
+```
+```c++
+class Solution {
+public:
+    bool isReachableAtTime(int sx, int sy, int fx, int fy, int t) {
+        int width = abs(sx - fx);
+        int height = abs(sy - fy);
+        if (width == 0 && height == 0 && t == 1) {
+            return false;
+        }
+        return t >= max(width, height);
+    }
+};
+```

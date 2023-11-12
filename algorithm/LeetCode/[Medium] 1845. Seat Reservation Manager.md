@@ -63,3 +63,132 @@ class SeatManager:
 # param_1 = obj.reserve()
 # obj.unreserve(seatNumber)
 ```
+
+**Solution 2: (Heap)**
+```
+Runtime: 289 ms
+Memory: 148.3 MB
+```
+```c++
+class SeatManager {
+    priority_queue<int, vector<int>, greater<int>> pq;
+public:
+    SeatManager(int n) {
+        for (int i = 0; i < n; i ++) {
+            pq.push(i);
+        }
+    }
+    
+    int reserve() {
+        int rst = pq.top();
+        pq.pop();
+        return rst+1;
+    }
+    
+    void unreserve(int seatNumber) {
+        pq.push(seatNumber-1);
+    }
+};
+
+/**
+ * Your SeatManager object will be instantiated and called as such:
+ * SeatManager* obj = new SeatManager(n);
+ * int param_1 = obj->reserve();
+ * obj->unreserve(seatNumber);
+ */
+```
+
+**Solution 3: (Min Heap (without pre-initialization))**
+```
+Runtime: 272 ms
+Memory: 142 MB
+```
+```c++
+class SeatManager {
+    // Marker to point to unreserved seats.
+    int marker;
+
+    // Min heap to store all unreserved seats.
+    priority_queue<int, vector<int>, greater<int>> availableSeats;
+public:
+    SeatManager(int n) {
+        // Set marker to the first unreserved seat.
+        marker = 1;
+    }
+    
+    int reserve() {
+        // If min-heap has any element in it, then,
+        // get the smallest-numbered unreserved seat from the min heap.
+        if (!availableSeats.empty()) {
+            int seatNumber = availableSeats.top();
+            availableSeats.pop();
+            return seatNumber;
+        }
+
+        // Otherwise, the marker points to the smallest-numbered seat.
+        int seatNumber = marker;
+        marker++;
+        return seatNumber;
+    }
+    
+    void unreserve(int seatNumber) {
+        // Push unreserved seat in the min heap.
+        availableSeats.push(seatNumber);
+    }
+};
+
+/**
+ * Your SeatManager object will be instantiated and called as such:
+ * SeatManager* obj = new SeatManager(n);
+ * int param_1 = obj->reserve();
+ * obj->unreserve(seatNumber);
+ */
+```
+
+**Solution 4: (Sorted/Ordered Set)**
+```
+Runtime: 275 ms
+Memory: 148.5 MB
+```
+```c++
+class SeatManager {
+    // Marker to point to unreserved seats.
+    int marker;
+
+    // Sorted set to store all unreserved seats.
+    set<int> availableSeats;
+    
+public:
+    SeatManager(int n) {
+        // Set marker to the first unreserved seat.
+        marker = 1;
+    }
+    
+    int reserve() {
+        // If the sorted set has any element in it, then,
+        // get the smallest-numbered unreserved seat from it.
+        if (!availableSeats.empty()) {
+            int seatNumber = *availableSeats.begin();
+            availableSeats.erase(availableSeats.begin());
+            return seatNumber;
+        }
+
+        // Otherwise, the marker points to the smallest-numbered seat.
+        int seatNumber = marker;
+        marker++;
+        return seatNumber;
+    }
+    
+    void unreserve(int seatNumber) {
+        // Push unreserved seat in the sorted set.
+        availableSeats.insert(seatNumber);
+    }
+};
+
+/**
+ * Your SeatManager object will be instantiated and called as such:
+ * SeatManager* obj = new SeatManager(n);
+ * int param_1 = obj->reserve();
+ * obj->unreserve(seatNumber);
+ */
+```

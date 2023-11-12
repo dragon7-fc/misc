@@ -386,3 +386,59 @@ public:
     }
 };
 ```
+
+**Solution 8: (Binary Search)**
+```
+Runtime: 6 ms
+Memory: 10.5 MB
+```
+```c++
+class Solution {
+public:
+    int lengthOfLIS(vector<int>& nums) {
+        int left, right, mid;
+        vector<int> dp;
+        for (int num: nums) {
+            if (dp.empty() || num > dp.back()) {
+                dp.push_back(num);
+            } else {
+                left = 0, right = dp.size()-1;
+                while (left < right) {
+                    mid = left + (right-left)/2;
+                    if (num > dp[mid]) {
+                        left = mid+1;
+                    } else {
+                        right = mid;
+                    }
+                }
+                dp[left] = num;
+            }
+        }
+        return dp.size();
+    }
+};
+```
+
+**Solution 9: (Binary Search)**
+```
+Runtime: 10 ms
+Memory: 10.6 MB
+```
+```c++
+class Solution {
+public:
+    int lengthOfLIS(vector<int>& nums) {
+        int left, right, mid;
+        vector<int> dp;
+        for (int num: nums) {
+            if (dp.empty() || num > dp.back()) {
+                dp.push_back(num);
+            } else {
+                int i = lower_bound(dp.begin(), dp.end(), num) - dp.begin();
+                dp[i] = num;
+            }
+        }
+        return dp.size();
+    }
+};
+```

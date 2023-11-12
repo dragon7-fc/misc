@@ -57,3 +57,31 @@ class Solution:
             res += n * (n + 1) // 2
         return res % (10**9 + 7)
 ```
+
+**Solution 2: (Counting Streaks)**
+```
+Runtime: 27 ms
+Memory: 12 MB
+```
+```c++
+class Solution {
+public:
+    int countHomogenous(string s) {
+        int ans = 0;
+        int currStreak = 0;
+        int MOD = 1e9 + 7;
+        
+        for (int i = 0; i < s.size(); i++) {
+            if (i == 0 || s[i] == s[i - 1]) {
+                currStreak++;
+            } else {
+                currStreak = 1;
+            }
+            
+            ans = (ans + currStreak) % MOD;
+        }
+        
+        return ans;
+    }
+};
+```

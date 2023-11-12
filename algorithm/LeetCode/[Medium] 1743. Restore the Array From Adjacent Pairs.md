@@ -70,3 +70,85 @@ class Solution:
                     break
         return ans
 ```
+
+**Solution 2: (DFS)**
+```
+Runtime: 298 ms
+Memory: 141.1 MB
+```
+```c++
+class Solution {
+    unordered_map<int, vector<int>> graph;
+    void dfs(int node, int prev, vector<int>& ans) {
+        ans.push_back(node);
+        for (int neighbor : graph[node]) {
+            if (neighbor != prev) {
+                dfs(neighbor, node, ans);
+            }
+        }
+    }
+public:
+    vector<int> restoreArray(vector<vector<int>>& adjacentPairs) {
+        for (auto& edge : adjacentPairs) {
+            graph[edge[0]].push_back(edge[1]);
+            graph[edge[1]].push_back(edge[0]);
+        }
+        
+        int root = 0;
+        for (auto& pair : graph) {
+            if (pair.second.size() == 1) {
+                root = pair.first;
+                break;
+            }
+        }
+        
+        vector<int> ans;
+        dfs(root, INT_MAX, ans);
+        return ans;
+    }
+};
+```
+
+**Solution 3: (Iterative, Follow the Path)**
+```
+Runtime: 290 ms
+Memory: 105.7 MB
+```
+```c++
+class Solution {
+public:
+    vector<int> restoreArray(vector<vector<int>>& adjacentPairs) {
+        unordered_map<int, vector<int>> graph;
+
+        for (auto& edge : adjacentPairs) {
+            graph[edge[0]].push_back(edge[1]);
+            graph[edge[1]].push_back(edge[0]);
+        }
+        
+        int root = 0;
+        for (auto& pair : graph) {
+            if (pair.second.size() == 1) {
+                root = pair.first;
+                break;
+            }
+        }
+        
+        int curr = root;
+        vector<int> ans = {root};
+        int prev = INT_MAX;
+        
+        while (ans.size() < graph.size()) {
+            for (int neighbor : graph[curr]) {
+                if (neighbor != prev) {
+                    ans.push_back(neighbor);
+                    prev = curr;
+                    curr = neighbor;
+                    break;
+                }
+            }
+        }
+
+        return ans;
+    }
+};
+```

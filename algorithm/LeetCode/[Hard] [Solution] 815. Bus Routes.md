@@ -109,36 +109,102 @@ class Solution:
         return -1
 ```
 
-**Solution 2: (BFS)**
+**Solution 2: (BFS, route as key)**
 ```
-Runtime: 272 ms
-Memory Usage: 42 MB
+Runtime: 685 ms
+Memory: 55.5 MB
 ```
 ```c++
 class Solution {
 public:
-    int numBusesToDestination(vector<vector<int>>& routes, int S, int T) {
-        if(S == T) return 0; // must
-        unordered_map<int, vector<int> > buses4stop; // stop_id->buses; key/stop_id is sparse
-        for(int i = 0; i < routes.size(); i++)
-            for(const auto& stop: routes[i])
-                buses4stop[stop].emplace_back(i);
-        queue<int> q{{S}};        
-        vector<bool>visited(routes.size());        
-                 
-        for(int step = 0;!q.empty(); step++)
-            for(int sz = q.size(); sz-- > 0; ){
-                const int cur = q.front(); q.pop();                                
-                for(const auto& bus: buses4stop[cur]){
-                    if(visited[bus]) continue;
-                    visited[bus] = 1;
-                    for(const auto& next: routes[bus]){                       
-                        if(next == T) return step+1;                
-                        q.emplace(next);               
+    int numBusesToDestination(vector<vector<int>>& routes, int source, int target) {
+        if (source == target) {
+            return 0;
+        }
+
+        unordered_map<int, vector<int>> adjList;
+        // Create a map from the bus stop to all the routes that include this stop.
+        for (int route = 0; route < routes.size(); route++) {
+            for (auto stop : routes[route]) {
+                // Add all the routes that have this stop.
+                adjList[stop].push_back(route);
+            }
+        }
+
+        queue<int> q;
+        vector<bool> vis(routes.size());
+        // Insert all the routes in the queue that have the source stop.
+        for (auto route : adjList[source]){
+            q.push(route);
+            vis[route] = true;
+        }
+
+        int busCount = 1;
+        while (q.size()) {
+            int size = q.size();
+
+            for (int i = 0; i < size; i++) {
+                int route = q.front(); q.pop();
+
+                // Iterate over the stops in the current route.
+                for (auto stop: routes[route]) {
+                    // Return the current count if the target is found.
+                    if (stop == target) {
+                        return busCount;
+                    }
+
+                    // Iterate over the next possible routes from the current stop.
+                    for (auto nextRoute : adjList[stop]) {
+                        if (!vis[nextRoute]) {
+                            vis[nextRoute] = true;
+                            q.push(nextRoute);
+                        }
                     }
                 }
-            }            
-        
+            }
+            busCount++;
+        }
+        return -1;
+    }
+};
+```
+
+**Solution 3: (BFS, stop as key)**
+```
+Runtime: 280 ms
+Memory: 121.1 MB
+```
+```c++
+class Solution {
+public:
+    int numBusesToDestination(vector<vector<int>>& routes, int source, int target) {
+        int n = routes.size();
+        unordered_map<int, unordered_set<int>> g;
+        for (int i = 0; i < n; i ++) {
+            for (int j = 0; j < routes[i].size(); j ++) {
+                g[routes[i][j]].insert(i);
+            }
+        }
+        queue<pair<int,int>> q;
+        unordered_set<int> visited;
+        q.push({source, 0});
+        visited.insert(source);
+        while (q.size()) {
+            auto [u, s] = q.front();
+            q.pop();
+            if (u == target) {
+                return s;
+            }
+            for (auto route: g[u]) {
+                for (auto stop: routes[route]) {
+                    if (!visited.count(stop)) {
+                        visited.insert(stop);
+                        q.push({stop, s+1});
+                    }
+                }
+                routes[route].clear();
+            }
+        }
         return -1;
     }
 };
