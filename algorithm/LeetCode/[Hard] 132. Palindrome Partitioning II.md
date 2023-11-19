@@ -91,3 +91,74 @@ class Solution:
         
         return dp(0) - 1
 ```
+
+**Solution 4: (DP Top-Down)**
+```
+Runtime: 1578 ms
+Memory: 7 MB
+```
+```c++
+class Solution {
+    bool isPalindrome(string &s,int i,int j){
+        while(j>=i){
+            if(s[i]!=s[j]) return false;
+            i++;
+            j--;
+        }
+        return true;
+    }
+    int solve(string &s,int i, vector<int> &dp){
+        if(i>=s.size() || isPalindrome(s,i,s.size()))
+            return 0;
+        if(dp[i]!=-1) return dp[i];
+        int res=INT_MAX;
+        for(int j=i;j<s.size();j++){
+            if(isPalindrome(s, i, j))
+            {
+                int cost=1+solve(s, j+1, dp);
+                res = min(res, cost);
+            }
+        }
+        return dp[i]=res;
+    }
+public:
+    int minCut(string s) {
+        vector<int> dp(s.size(), -1);
+        return solve(s, 0, dp)-1;
+    }
+};
+```
+
+**Solution 5: (DP Bottom-Up)**
+```
+Runtime: 1504 ms
+Memory: 6.8 MB
+```
+```c++
+class Solution {
+    bool isPalindrome(string& s, int l, int r) {
+        while (l < r) {
+            if(s[l++] != s[r--]) {
+                return false;
+            }
+        }
+        return true;
+    }
+public:
+    int minCut(string s) {
+        int n = s.size();
+        vector<int> dp(n+1, 0);
+        for(int i = n-1; i >= 0; i--) {
+            int minSteps = INT_MAX;
+            for (int j = i; j < n; j++) {
+                if (isPalindrome(s, i, j)) {
+                    int steps = 1 + dp[j+1];
+                    minSteps = min(minSteps, steps);
+                }
+            }
+            dp[i] = minSteps;
+        }
+        return dp[0] - 1;
+    }
+};
+```

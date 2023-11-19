@@ -104,3 +104,47 @@ class Solution:
         ans = dfs(s)
         return ans
 ```
+
+**Solution 3: (DP Top-Down)**
+```
+Runtime: 0 ms
+Memory: 8.2 MB
+```
+```c++
+class Solution {
+    vector<string> dfs(int i, vector<vector<string>> &dp, unordered_set<string> &st, string &s) {
+        if (i == s.size()) {
+            return {""};
+        }
+        if (!dp[i].empty()) {
+            return dp[i];
+        }
+        vector<string> rst;
+        string pre;
+        for (int k = 1; k <= s.size()-i; k++) {
+            pre = s.substr(i, k);
+            if (st.count(pre)) {
+                for (auto suffix : dfs(i+k, dp, st, s)) {
+                    if (suffix != "") {
+                        rst.push_back(pre + " " + suffix);
+                    } else {
+                        rst.push_back(pre);
+                    }
+                }
+            }
+        }
+        dp[i] = rst;
+        for (int j = 0; j < rst.size(); j ++) {
+            cout << dp[i][j] << endl;
+        }
+        return rst;
+    }
+public:
+    vector<string> wordBreak(string s, vector<string>& wordDict) {
+        int n = s.size();
+        unordered_set<string> st(wordDict.begin(), wordDict.end());
+        vector<vector<string>> dp(n);
+        return dfs(0, dp, st, s);
+    }
+};
+```

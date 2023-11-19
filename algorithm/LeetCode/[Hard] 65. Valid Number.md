@@ -91,3 +91,49 @@ class Solution:
         if not is_integer(parts[0]) and not is_decimal(parts[0]): return False
         return True if len(parts) == 1 else is_integer(parts[1])
 ```
+
+**Solution 3: (String, Greedy)**
+```
+Runtime: 0 ms
+Memory: 6.3 MB
+```
+```c++
+class Solution {
+public:
+    bool isNumber(string s) {
+        if (s.empty()) return false;
+
+        size_t i = 0;
+        if (s[i] == '+' || s[i] == '-') i++;
+
+        bool has_integer_part = false;
+        while (i < s.size() && isdigit(s[i])) {
+            has_integer_part = true;
+            i++;
+        }
+
+        bool has_decimal_part = false;
+        if (i < s.size() && s[i] == '.') {
+            i++;
+            while (i < s.size() && isdigit(s[i])) {
+                has_decimal_part = true;
+                i++;
+            }
+        }
+
+        if (i < s.size() && (s[i] == 'e' || s[i] == 'E')) {
+            i++;
+
+            if (i < s.size() && (s[i] == '+' || s[i] == '-')) i++;
+
+            if (i == s.size() || !isdigit(s[i])) {
+                return false;
+            }
+            while (i < s.size() && isdigit(s[i])) {
+                i++;
+            }
+        }
+        return i == s.size() && (has_integer_part || has_decimal_part);
+    }
+};
+```

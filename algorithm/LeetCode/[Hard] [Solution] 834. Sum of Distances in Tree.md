@@ -118,7 +118,9 @@ class Solution:
                     ans[child] = ans[node] - count[child] + N - count[child]
                     dfs2(child, node)
 
+        # get ans[root]
         dfs()
+        # fine tune all other node
         dfs2()
         return ans
 ```

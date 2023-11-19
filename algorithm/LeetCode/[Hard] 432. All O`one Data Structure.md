@@ -282,3 +282,64 @@ public:
  * string param_4 = obj->getMinKey();
  */
 ```
+
+**Solution 3: (sorted set)**
+```
+Runtime: 114 ms
+Memory: 49.1 MB
+```
+```c++
+class AllOne {
+    unordered_map<string, set<pair<int,string>>::iterator> m;
+    set<pair<int,string>> st;
+public:
+    AllOne() {
+        
+    }
+    
+    void inc(string key) {
+        if (m.count(key)) {
+            auto [cnt, _] = *m[key];
+            st.erase(m[key]);
+            cnt += 1;
+            m[key] = st.insert({cnt, key}).first;
+        } else {
+            m[key] = st.insert({1, key}).first;
+        }
+    }
+    
+    void dec(string key) {
+        auto [cnt, _] = *m[key];
+        st.erase(m[key]);
+        cnt -= 1;
+        if (cnt) {
+            m[key] = st.insert({cnt, key}).first;
+        } else {
+            m.erase(key);
+        }
+    }
+    
+    string getMaxKey() {
+        if (m.size()) {
+            return st.rbegin()->second;
+        }
+        return "";
+    }
+    
+    string getMinKey() {
+        if (m.size()) {
+            return st.begin()->second;
+        }
+        return "";
+    }
+};
+
+/**
+ * Your AllOne object will be instantiated and called as such:
+ * AllOne* obj = new AllOne();
+ * obj->inc(key);
+ * obj->dec(key);
+ * string param_3 = obj->getMaxKey();
+ * string param_4 = obj->getMinKey();
+ */
+```

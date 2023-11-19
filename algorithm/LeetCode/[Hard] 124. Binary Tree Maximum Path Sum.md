@@ -171,3 +171,40 @@ class Solution:
         gain_from_subtree(root)
         return max_path
 ```
+
+**Solution 5: (DFS)**
+```
+Runtime: 12 ms
+Memory: 27.9 MB
+```
+```c++
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+class Solution {
+    int ans = 0;
+    int dfs(TreeNode* node, int &ans) {
+        if (!node) {
+            return 0;
+        }
+        int left = dfs(node->left, ans);
+        int right = dfs(node->right, ans);
+        ans = max(ans, node->val + left + right);
+        return max(node->val + max(left, right), 0);
+    }
+public:
+    int maxPathSum(TreeNode* root) {
+        int ans = INT_MIN;
+        dfs(root, ans);
+        return ans;
+    }
+};
+```

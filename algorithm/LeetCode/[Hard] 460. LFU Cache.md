@@ -198,17 +198,15 @@ class LFUCache:
 
 **Solution 3: (Hash Table)**
 ```
-Runtime: 268 ms
-Memory Usage: 45.3 MB
+Runtime: 449 ms
+Memory: 190 MB
 ```
 ```c++
 class LFUCache {
-private:
+    unordered_map<int, list<vector<int>>::iterator> m;
+    map<int, list<vector<int>>> freq;
     int cap;
     int size;
-    unordered_map<int, list<vector<int>>::iterator> um;
-    map<int, list<vector<int>>> freq;
-
 public:
     LFUCache(int capacity) {
         cap = capacity;
@@ -216,38 +214,37 @@ public:
     }
     
     int get(int key) {
-        if(um.find(key) == um.end())
+        if (!m.count(key)) {
             return -1;
-        int value = (*(um[key]))[1], f = (*(um[key]))[2];
-        freq[f].erase(um[key]);
-        if(freq[f].empty())
+        }
+        int value = (*(m[key]))[1], f = (*(m[key]))[2];
+        freq[f].erase(m[key]);
+        if (freq[f].empty()) {
             freq.erase(f);
-        f++;
-        freq[f].push_front(vector<int>({key, value, f}));
-        um[key] = freq[f].begin();
+        }
+        f += 1;
+        freq[f].push_front({key, value, f});
+        m[key] = freq[f].begin();
         return value;
     }
     
     void put(int key, int value) {
-        if(cap == 0)
-            return;
-        if(um.find(key) != um.end()){
-            (*(um[key]))[1] = value;
+        if (m.count(key)) {
+            (*(m[key]))[1] = value;
             get(key);
-        }
-        else if(size < cap){
-            size++;
-            freq[1].push_front(vector<int>({key, value, 1}));
-            um[key] = freq[1].begin();
-        }
-        else{
-            int x = (freq.begin()->second.back())[0];
+        } else if (size < cap) {
+            freq[1].push_front({key, value, 1});
+            m[key] = freq[1].begin();
+            size += 1;
+        } else {
+            int d_key = freq.begin()->second.back()[0];
             freq.begin()->second.pop_back();
-            if(freq.begin()->second.empty())
-                freq.erase(freq.begin()->first);
-            um.erase(x);
-            freq[1].push_front(vector<int>({key, value, 1}));
-            um[key] = freq[1].begin();
+            if (freq.begin()->second.empty()) {
+                freq.erase(freq.begin());
+            }
+            m.erase(d_key);
+            freq[1].push_front({key, value, 1});
+            m[key] = freq[1].begin();
         }
     }
 };
@@ -313,4 +310,79 @@ class LFUCache:
 # obj = LFUCache(capacity)
 # param_1 = obj.get(key)
 # obj.put(key,value)
+```
+
+**Solution 5: (Maintaining 2 HashMaps)**
+```
+Runtime: 420 ms
+Memory: 180.2 MB
+```
+```c++
+class LFUCache {
+    // key: frequency, value: list of original key-value pairs that have the same frequency.
+    unordered_map<int, list<pair<int, int>>> frequencies;
+    // key: original key, value: pair of frequency and the iterator corresponding key int the
+    // frequencies map's list.
+    unordered_map<int, pair<int, list<pair<int, int>>::iterator>> cache;
+    int capacity;
+    int minf;
+
+    void insert(int key, int frequency, int value) {
+        frequencies[frequency].push_back({key, value});
+        cache[key] = {frequency, --frequencies[frequency].end()};
+    }
+public:
+    LFUCache(int capacity) : capacity(capacity), minf(0) {}
+    
+    int get(int key) {
+        const auto it = cache.find(key);
+        if (it == cache.end()) {
+            return -1;
+        }
+        const int f = it->second.first;
+        const auto iter = it->second.second;
+        const pair<int, int> kv = *iter;
+        frequencies[f].erase(iter);
+        if (frequencies[f].empty()){
+            frequencies.erase(f);
+
+            if(minf == f) {
+                ++minf;
+            }
+        }
+        
+        insert(key, f + 1, kv.second);
+        return kv.second;
+    }
+    
+    void put(int key, int value) {
+        if (capacity <= 0) {
+            return;
+        }
+        const auto it = cache.find(key);
+        if (it != cache.end()) {
+            it->second.second->second = value;
+            get(key);
+            return;
+        }
+        if (capacity == cache.size()) {
+            cache.erase(frequencies[minf].front().first);
+            frequencies[minf].pop_front();
+
+            if(frequencies[minf].empty()) {
+                frequencies.erase(minf);
+            }
+        }
+
+        minf = 1;
+        insert(key, 1, value);
+    }
+};
+
+/**
+ * Your LFUCache object will be instantiated and called as such:
+ * LFUCache* obj = new LFUCache(capacity);
+ * int param_1 = obj->get(key);
+ * obj->put(key,value);
+ */
 ```

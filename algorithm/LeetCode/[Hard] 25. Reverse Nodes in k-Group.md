@@ -224,3 +224,47 @@ class Solution:
             
         return dfs(head, k)
 ```
+
+**Solution 6: (DFS)**
+```
+Runtime: 7 ms
+Memory: 11.8 MB
+```
+```c++
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode() : val(0), next(nullptr) {}
+ *     ListNode(int x) : val(x), next(nullptr) {}
+ *     ListNode(int x, ListNode *next) : val(x), next(next) {}
+ * };
+ */
+class Solution {
+public:
+    ListNode* reverseKGroup(ListNode* head, int k) {
+        int r = k;
+        ListNode *cur = head, *pre, *nxt;
+        while (r && cur) {
+            cur = cur->next;
+            r -= 1;
+        }
+        if (r) {
+            return head;
+        }
+        pre = head;
+        cur = head->next;
+        r = k-1;
+        while (r) {
+            nxt = cur->next;
+            cur->next = pre;
+            pre = cur;
+            cur = nxt;
+            r -= 1;
+        }
+        head->next = reverseKGroup(cur, k);
+        return pre;
+    }
+};
+```

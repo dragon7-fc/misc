@@ -13981,6 +13981,20 @@ for j, x in enumerate(N):
 return ans
 ```
 
+**Template 4: (Sliding window, Non-shrinkable)**
+```python
+ans = []
+A.sort()
+i = 0
+for j in ragen(len(A)):
+    cur = ...
+    max_profix = ... cur ...
+    if max_profit > limit:
+        i += 1
+        
+return A.size() - i
+```
+
 **Template 4: (Two Pointers, Binary Search)**
 ```python
 for i in range(N):

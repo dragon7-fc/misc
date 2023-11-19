@@ -60,3 +60,138 @@ class Solution:
                 mx = max(mx, hi - lo + 1)
         return mx
 ```
+
+**Solution 2: (Sliding Window)**
+```
+Runtime: 157 ms
+Memory: 99.3 MB
+```
+```c++
+class Solution {
+public:
+    int maxFrequency(vector<int>& nums, int k) {
+        sort(nums.begin(), nums.end());
+        int left = 0;
+        int ans = 0;
+        long curr = 0;
+        
+        for (int right = 0; right < nums.size(); right++) {
+            long target = nums[right];
+            curr += target;
+            
+            while ((right - left + 1) * target - curr > k) {
+                curr -= nums[left];
+                left++;
+            }
+            
+            ans = max(ans, right - left + 1);
+        }
+        
+        return ans;
+    }
+};
+```
+
+**Solution 3: (Advanced Sliding Window)**
+```
+Runtime: 146 ms
+Memory: 99.4 MB
+```
+```c++
+class Solution {
+public:
+    int maxFrequency(vector<int>& nums, int k) {
+        sort(nums.begin(), nums.end());
+        int left = 0;
+        long curr = 0;
+        
+        for (int right = 0; right < nums.size(); right++) {
+            long target = nums[right];
+            curr += target;
+            
+            if ((right - left + 1) * target - curr > k) {
+                curr -= nums[left];
+                left++;
+            }
+        }
+        
+        return nums.size() - left;
+    }
+};
+```
+
+**Solution 4: ()Binary Search**
+```
+Runtime: 319 ms
+Memory: 121 MB
+```
+```c++
+class Solution {
+    int check(int i, int k, vector<int>& nums, vector<long>& prefix) {
+        int target = nums[i];
+        int left = 0;
+        int right = i;
+        int best = i;
+        
+        while (left <= right) {
+            int mid = (left + right) / 2;
+            long count = i - mid + 1;
+            long finalSum = count * target;
+            int originalSum = prefix[i] - prefix[mid] + nums[mid];
+            int operationsRequired = finalSum - originalSum;
+            
+            if (operationsRequired > k) {
+                left = mid + 1;
+            } else {
+                best = mid;
+                right = mid - 1;
+            }
+        }
+        
+        return i - best + 1;
+    }
+public:
+    int maxFrequency(vector<int>& nums, int k) {
+        sort(nums.begin(), nums.end());
+        vector<long> prefix;
+        prefix.push_back(nums[0]);
+        
+        for (int i = 1; i < nums.size(); i++) {
+            prefix.push_back(nums[i] + prefix.back());
+        }
+        
+        int ans = 0;
+        for (int i = 0; i < nums.size(); i++) {
+            ans = max(ans, check(i, k, nums, prefix));
+        }
+        
+        return ans;
+    }
+};
+```
+
+**Solution 5: (Sliding Window)**
+```
+Runtime: 161 ms
+Memory: 99.5 MB
+```
+```c++
+class Solution {
+public:
+    int maxFrequency(vector<int>& nums, int k) {
+        sort(nums.begin(), nums.end());
+        int i = 0;
+        long long cur = 0;
+        for (int j = 0; j < nums.size(); j ++) {
+            if (j) {
+                cur += (nums[j]-(long long)nums[j-1]) * (j-i);
+            }
+            if (cur > k) {
+                cur -= nums[j] - nums[i];
+                i += 1;
+            }
+        }
+        return nums.size() - i;
+    }
+};
+```

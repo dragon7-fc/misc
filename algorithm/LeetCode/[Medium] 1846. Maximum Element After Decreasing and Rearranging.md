@@ -66,3 +66,52 @@ class Solution:
                 arr[i] = arr[i-1]+1
         return arr[-1]
 ```
+
+**Solution 1: (Greedy, simulation)**
+```
+Runtime: 73 ms
+Memory: 51.5 MB
+```
+```c++
+class Solution {
+public:
+    int maximumElementAfterDecrementingAndRearranging(vector<int>& arr) {
+        sort(arr.begin(), arr.end());
+        int ans = 1;
+        
+        for (int i = 1; i < arr.size(); i++) {
+            if (arr[i] >= ans + 1) {
+                ans++;
+            }
+        }
+        
+        return ans;
+    }
+};
+```
+
+**Solution 2: (No Sort, bucket sort)**
+```
+Runtime: 65 ms
+Memory: 53.5 MB
+```
+```c++
+class Solution {
+public:
+    int maximumElementAfterDecrementingAndRearranging(vector<int>& arr) {
+        int n = arr.size();
+        vector<int> counts = vector(n + 1, 0);
+        
+        for (int num : arr) {
+            counts[min(num, n)]++;
+        }
+        
+        int ans = 1;
+        for (int num = 2; num <= n; num++) {
+            ans = min(ans + counts[num], num);
+        }
+        
+        return ans;
+    }
+};
+```

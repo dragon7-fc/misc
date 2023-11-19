@@ -59,3 +59,53 @@ class Solution:
             ans += i * cnt[k]
         return ans
 ```
+
+**Solution 2: (sorted map)**
+```
+Runtime: 340 ms
+Memory: 124.6 MB
+```
+```c++
+class Solution {
+public:
+    int reductionOperations(vector<int>& nums) {
+        map<int,int> cnt;
+        for (auto num: nums) {
+            cnt[num] += 1;
+        }
+        int pre = 0, ans = 0;
+        for (auto it = cnt.rbegin(); it != cnt.rend(); it ++) {
+            ans += pre;
+            it->second += pre;
+            pre = it->second;
+        }
+        return ans;
+    }
+};
+```
+
+**Solution 3: (Sort and Count)**
+```
+Runtime: 149 ms
+Memory: 83.2 MB
+```
+```c++
+class Solution {
+public:
+    int reductionOperations(vector<int>& nums) {
+        sort(nums.begin(), nums.end());
+        int ans = 0;
+        int up = 0;
+        
+        for (int i = 1; i < nums.size(); i++) {
+            if (nums[i] != nums[i - 1]) {
+                up++;
+            }
+            
+            ans += up;
+        }
+        
+        return ans;
+    }
+};
+```
