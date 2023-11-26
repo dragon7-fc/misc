@@ -117,3 +117,41 @@ class Solution:
                 j += 1
         return ans
 ```
+
+**Solution 3: (Greedy, Heap)**
+```
+Runtime: 373 ms
+Memory: 129.3 MB
+```
+```c++
+class Solution {
+public:
+    vector<int> getOrder(vector<vector<int>>& tasks) {
+        vector<tuple<int,int,int>> sorted_tasks;
+        for (int i = 0; i < tasks.size(); i ++) {
+            sorted_tasks.push_back({tasks[i][0], tasks[i][1], i});
+        }
+        sort(sorted_tasks.begin(), sorted_tasks.end());
+        priority_queue<tuple<int,int,int>,vector<tuple<int,int,int>>, greater<tuple<int,int,int>>> pq;
+        pq.push({get<1>(sorted_tasks[0]), get<2>(sorted_tasks[0]), get<0>(sorted_tasks[0])});
+        int j = 1, n = tasks.size();
+        long long cur = 0;
+        vector<int> ans;
+        while (pq.size()) {
+            auto [process, i, t] = pq.top();
+            pq.pop();
+            ans.push_back(i);
+            cur = max(cur, (long long)t);
+            cur += process;
+            if (pq.empty() && j < n) {
+                cur = max(cur, (long long)get<0>(sorted_tasks[j]));
+            }
+            while (j < n && (get<0>(sorted_tasks[j]) <= cur)) {
+                pq.push({get<1>(sorted_tasks[j]), get<2>(sorted_tasks[j]), get<0>(sorted_tasks[j])});
+                j += 1;
+            }
+        }
+        return ans;
+    }
+};
+```

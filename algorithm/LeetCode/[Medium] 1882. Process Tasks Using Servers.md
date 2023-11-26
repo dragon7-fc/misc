@@ -73,3 +73,41 @@ class Solution:
             heappush(tasks_in_progress, (time + task, heappop(servers_available)))
         return res
 ```
+
+**Solution 2: (Heap, 2 heap)**
+```
+Runtime: 371 ms
+Memory: 126.4 MB
+```
+```c++
+class Solution {
+public:
+    vector<int> assignTasks(vector<int>& servers, vector<int>& tasks) {
+        priority_queue<pair<int,int>, vector<pair<int,int>>, greater<pair<int,int>>> pq;
+        priority_queue<pair<int,pair<int,int>>, vector<pair<int,pair<int,int>>>, greater<pair<int,pair<int,int>>>> dp;
+        int cur = 0;
+        vector<int> ans;
+        for (int i = 0; i < servers.size(); i ++) {
+            pq.push({servers[i], i});
+        }
+        for (int i = 0; i < tasks.size(); i ++) {
+            cur = max(cur, i);
+            if (pq.empty()) {
+                pq.push(dp.top().second);
+                cur = max(cur, dp.top().first);
+                dp.pop();
+            }
+            while (dp.size() && dp.top().first <= cur) {
+                auto [_, p] = dp.top();
+                dp.pop();
+                pq.push(p);
+            }
+            auto p = pq.top();
+            ans.push_back(p.second);
+            dp.push({cur + tasks[i], p});
+            pq.pop();
+        }
+        return ans;
+    }
+};
+```

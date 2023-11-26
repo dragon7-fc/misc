@@ -889,24 +889,6 @@ class Solution:
 ```
 * [Medium] 1769. Minimum Number of Operations to Move All Balls to Each Box
 
-### submatrix rearrangement, prefix sum
-```python
-class Solution:
-    def largestSubmatrix(self, matrix: List[List[int]]) -> int:
-        ans = 0
-        for row in range(len(matrix)):
-            for col in range(len(matrix[0])):
-                if matrix[row][col] != 0 and row > 0:
-                    matrix[row][col] += matrix[row - 1][col]
-
-            curr = sorted(matrix[row], reverse=True) 
-            for i in range(len(matrix[0])):
-                ans = max(ans, curr[i] * (i + 1))
-        
-        return ans
-```
-* [Medium] 1727. Largest Submatrix With Rearrangements
-
 ### scan neighbor of each cell
 ```python
 class Solution:
@@ -2684,6 +2666,24 @@ class NumMatrix:
         return self.dp[row2 + 1][col2 + 1] - self.dp[row1][col2 + 1] - self.dp[row2 + 1][col1] + self.dp[row1][col1]
 ```
 * [Medium] [Solution] 304. Range Sum Query 2D - Immutable
+
+### submatrix rearrangement, prefix sum
+```python
+class Solution:
+    def largestSubmatrix(self, matrix: List[List[int]]) -> int:
+        ans = 0
+        for row in range(len(matrix)):
+            for col in range(len(matrix[0])):
+                if matrix[row][col] != 0 and row > 0:
+                    matrix[row][col] += matrix[row - 1][col]
+
+            curr = sorted(matrix[row], reverse=True) 
+            for i in range(len(matrix[0])):
+                ans = max(ans, curr[i] * (i + 1))
+        
+        return ans
+```
+* [Medium] 1727. Largest Submatrix With Rearrangements
 
 ### Floyd Warshall's shortest path
 ```python

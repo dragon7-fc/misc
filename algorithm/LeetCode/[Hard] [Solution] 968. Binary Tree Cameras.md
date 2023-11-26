@@ -301,3 +301,49 @@ public:
     }
 };
 ```
+
+**Solution 3: (DFS)**
+```
+Runtime: 8 ms
+Memory: 24.5 MB
+```
+```c++
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+class Solution {
+    void dfs(TreeNode* node, TreeNode *parent, unordered_map<TreeNode*,bool> &visited, int &ans) {
+        if (!node) {
+            return;
+        }
+        dfs(node->left, node, visited, ans);
+        dfs(node->right, node, visited, ans);
+        if (node->left && !visited[node->left] || node->right && !visited[node->right] || !parent && !visited[node]) {
+            visited[node] = true;
+            if (node->left) {
+                visited[node->left] = true;
+            }
+            if (node->right) {
+                visited[node->right] = true;
+            }
+            visited[parent] = true;
+            ans += 1;
+        }
+    }
+public:
+    int minCameraCover(TreeNode* root) {
+        int ans = 0;
+        unordered_map<TreeNode*,bool> visited;
+        dfs(root, nullptr, visited, ans);
+        return ans;
+    }
+};
+```

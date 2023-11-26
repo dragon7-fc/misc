@@ -1,6 +1,6 @@
 1597. Build Binary Expression Tree From Infix Expression
 
-A binary expression tree is a kind of binary tree used to represent arithmetic expressions. Each node of a binary expression tree has either zero or two children. Leaf nodes (nodes with 0 children) correspond to operands (numbers), and internal nodes (nodes with 2 children) correspond to the operators `'+'` (addition), `'-'` (subtraction), '*' (multiplication), and `'/'` (division).
+A binary expression tree is a kind of binary tree used to represent arithmetic expressions. Each node of a binary expression tree has either zero or two children. Leaf nodes (nodes with 0 children) correspond to operands (numbers), and internal nodes (nodes with 2 children) correspond to the operators `'+'` (addition), `'-'` (subtraction), `'*'` (multiplication), and `'/'` (division).
 
 For each internal node with operator `o`, the infix expression that it represents is (`A o B`), where `A` is the expression the left subtree represents and `B` is the expression the right subtree represents.
 

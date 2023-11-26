@@ -48,3 +48,33 @@ class Solution:
                 
         return False
 ```
+
+**Solution 2: (Sliding Window, set)**
+```
+Runtime: 259 ms
+Memory: 114.9 MB
+```
+```c++
+class Solution {
+public:
+    bool containsNearbyAlmostDuplicate(vector<int>& nums, int indexDiff, int valueDiff) {
+        int n = nums.size();
+        multiset<int> ms;     //to store window elements in sorted order
+		int i = 0, j = 0;
+        while (j < n)
+        {
+            auto up = ms.upper_bound(nums[j]);
+            if ((up != ms.end() && *up-nums[j] <= valueDiff) || (up != ms.begin() && nums[j] - *(--up) <= valueDiff)) {
+                return true;
+            }
+            ms.insert(nums[j]);
+            if (ms.size() == indexDiff+1) {
+                ms.erase(nums[i]);
+                i ++;
+            }
+            j ++;
+        }
+        return false;
+    }
+};
+```

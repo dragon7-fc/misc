@@ -97,3 +97,36 @@ public:
     }
 };
 ```
+
+**Solution 3: (DP Bottom-Up)**
+```
+Runtime: 67 ms
+Memory: 16 MB
+```
+```c++
+class Solution {
+public:
+    int longestIncreasingPath(vector<vector<int>>& matrix) {
+        int m = size(matrix), n = size(matrix[0]), ans = 0;
+        vector<int> idx(m*n);
+        iota(begin(idx), end(idx), 0);
+        sort(begin(idx), end(idx), [&](auto& a, auto& b){return matrix[a/n][a%n]<matrix[b/n][b%n];});
+        int dp[m][n];
+        int dx[4]{0, 0, -1, 1};
+        int dy[4]{1, -1, 0, 0};
+        memset(dp, 0, sizeof(dp));
+        for (int i : idx){
+            int x = i/n, y = i%n;
+            for (int k = 0; k < 4; ++k){
+                int nx = x+dx[k];
+                int ny = y+dy[k];
+                if (nx >= 0 && ny >= 0 && nx < m && ny < n && matrix[x][y] > matrix[nx][ny]){
+                    dp[x][y] = max(dp[x][y], dp[nx][ny]);
+                }
+            }
+            ans = max(++dp[x][y], ans);
+        }
+        return ans;
+    }
+};
+```

@@ -80,3 +80,28 @@ class Solution:
             return min(S[i:] + S[:i] for i in range(len(S)))
         return "".join(sorted(S))
 ```
+
+**Solution 2: (sorting)**
+```
+Runtime: 5 ms
+Memory: 8.8 MB
+```
+```c++
+class Solution {
+public:
+    string orderlyQueue(string s, int k) {
+        string ans;
+        ans = s;
+        if (k > 1) {
+            sort(s.begin(), s.end());
+            return (s);
+        } else {
+            string temp = s + s;
+            for (int i = 0; i + s.length() <= temp.length(); i++) {
+                ans = min(ans, temp.substr(i, s.length()));
+            }
+            return ans;
+        }
+    }
+};
+```

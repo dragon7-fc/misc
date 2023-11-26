@@ -50,3 +50,27 @@ class Solution:
 
         return result
 ```
+
+**Solution 2: (prefix sum)**
+```
+Runtime: 88 ms
+Memory: 87.7 MB
+```
+```c++
+class Solution {
+public:
+    vector<int> getSumAbsoluteDifferences(vector<int>& nums) {
+        int n = nums.size(), left = 0, right = 0;
+        for (int i = n-1; i >= 0; i --) {
+            right += nums[i];
+        }
+        vector<int> ans;
+        for (int i = 0; i < n; i ++) {
+            right -= nums[i];
+            ans.push_back(right - (n-1-i)*nums[i] + i*nums[i] - left);
+            left += nums[i];
+        }
+        return ans;
+    }
+};
+```

@@ -4371,6 +4371,7 @@ Objects such as lists and dictionaries are passed by object reference too, which
     - x86
         - [OSDev](https://wiki.osdev.org/Expanded_Main_Page)
         - [x86 and amd64 instruction reference](https://www.felixcloutier.com/x86/index.html)
+        - [Basic x86 interrupts](https://alex.dzyoba.com/blog/os-interrupts/)
         - 8086
 
             - [Complete 8086 instruction set](https://jbwyatt.com/253/emu/8086_instruction_set.html#IDIV)

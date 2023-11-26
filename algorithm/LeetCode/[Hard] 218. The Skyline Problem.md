@@ -123,7 +123,7 @@ class Solution:
         return merge(self.getSkyline(a), self.getSkyline(b))
 ```
 
-**Solution 3: (Sort, line sweeping, start-end event)**
+**Solution 3: (Sort, line sweeping, start-end event, sorted set)**
 ```
 Runtime: 37 ms
 Memory: 14.8 MB
