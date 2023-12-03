@@ -149,3 +149,24 @@ public:
     }
 };
 ```
+
+**Solution 4: (Math, greedy clear right most bit)**
+```
+Runtime: 4 ms
+emory: 6.3 MB
+```
+```c++
+class Solution {
+public:
+    int hammingWeight(uint32_t n) {
+        int setBitCount = 0;
+        
+		while (n != 0) {
+            n &= (n - 1);
+            ++setBitCount;
+        }
+		
+        return setBitCount;
+    }
+};
+```

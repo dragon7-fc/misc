@@ -10,6 +10,7 @@ Design an algorithm that:
 * Finds the **latest price** of the stock based on the current records. The **latest price** is the price at the latest timestamp recorded.
 * Finds the **maximum price** the stock has been based on the current records.
 * Finds the **minimum price** the stock has been based on the current records.
+
 Implement the StockPrice class:
 
 * `StockPrice()` Initializes the object with no price records.

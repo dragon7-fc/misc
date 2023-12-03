@@ -16,7 +16,7 @@ Implement the `DetectSquares` class:
 
 **Example 1:**
 
-![img/2013_imag](eimg/2013_image.png)
+![2013_imag](img/2013_image.png)
 ```
 Input
 ["DetectSquares", "add", "add", "add", "count", "count", "add", "count"]

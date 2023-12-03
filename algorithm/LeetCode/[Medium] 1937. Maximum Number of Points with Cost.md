@@ -55,18 +55,34 @@ Constraints:
 Similar to 1014. Best Sightseeing Pair
 
 ```
-Runtime: 2092 ms
-Memory Usage: 48.4 MB
+Runtime: 207 ms
+Memory: 85.2 MB
 ```
-```python
-class Solution:
-    def maxPoints(self, points: List[List[int]]) -> int:
-        m, n = len(points), len(points[0])
-        for i in range(m - 1):
-            for j in range(n - 2, -1, -1):
-                points[i][j] = max(points[i][j], points[i][j + 1] - 1)
-            for j in range(n):
-                points[i][j] = max(points[i][j], points[i][j - 1] - 1 if j else 0)
-                points[i + 1][j] += points[i][j]
-        return max(points[-1])
+```c++
+class Solution {
+public:
+    long long maxPoints(vector<vector<int>>& points) {
+        const int n = int(points[0].size());
+        vector<vector<long long>> dp(2, vector<long long>(n));
+        for (int i = 0; i < n; ++i) {
+            dp[0][i] = points[0][i];
+        }
+        int last = 0;
+        for (int i = 1; i < points.size(); ++i) {
+            int now = last ^ 1;
+            long long temp = 0;
+            for (int j = 0; j < n; ++j) {
+                temp = max(temp, dp[last][j] + j);
+                dp[now][j] = temp - j + points[i][j];
+            }
+            temp = -n;
+            for (int j = n - 1; j >= 0; --j) {
+                temp = max(temp, dp[last][j] - j);
+                dp[now][j] = max(dp[now][j], temp + j + points[i][j]);
+            }
+            last = now;
+        }
+        return *max_element(dp[last].begin(), dp[last].end());
+    }
+};
 ```
