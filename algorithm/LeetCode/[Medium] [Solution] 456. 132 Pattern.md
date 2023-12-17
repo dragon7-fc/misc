@@ -352,3 +352,29 @@ public:
     }
 };
 ```
+
+**Solution 3: (Prefix sum, Stack, space: O(1))**
+```
+Runtime: 114 ms
+Memory: 66.8 MB
+```
+```c++
+class Solution {
+public:
+    bool find132pattern(vector<int>& nums) {
+        stack<int> st;
+        int pre = INT_MIN, n = nums.size();
+        for(int i=n-1;i>-1;i--)
+        {
+            if (nums[i] < pre) return true;
+            while (!st.empty() && st.top() < nums[i])
+            {
+                pre = st.top();
+                st.pop();
+            }
+            st.push(nums[i]);
+        }
+        return false;
+    }
+};
+```

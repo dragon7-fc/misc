@@ -73,49 +73,40 @@ class Solution:
 
 **Solution 2: (BFS, Dijkstra)**
 ```
-Runtime: 73 ms
+Runtime: 75 ms
 Memory: 19.4 MB
 ```
 ```c++
-int dx[] = {-1,1,0,0};
-int dy[] = {0,0,1,-1};
 class Solution {
+    int dd[5] = {0, 1, 0, -1, 0};
 public:
     int minimumEffortPath(vector<vector<int>>& heights) {
-        int n = heights.size();
-        int m = heights[0].size();
-
-        vector<vector<int>> dist(n,vector<int>(m,1e9));
-        dist[0][0] = 0;
-
-        priority_queue<pair<int,pair<int,int>>> pq;
-        pq.push({0,{0,0}});
-
-        while(!pq.empty()){
-            int curr_diff = -pq.top().first;
-            int x = pq.top().second.first;
-            int y = pq.top().second.second;
+        int R = heights.size(), C = heights[0].size();
+        priority_queue<pair<int, pair<int, int>>> pq;
+        pq.push({0, {0, 0}});
+        vector<vector<int>> dist(R, vector<int>(C, INT_MAX));
+        int r, c, nr, nc, neffort;
+        while (!pq.empty()) {
+            auto [effort, p] = pq.top();
             pq.pop();
-
-            if(x==n-1 && y==m-1) return curr_diff;
-
-            for(int i=0; i<4; i++){
-                int newx = x + dx[i];
-                int newy = y + dy[i];
-
-                if(newx >= 0 && newy >= 0 && newx < n && newy < m){
-                    int new_diff = max(abs(heights[x][y] - heights[newx][newy]),curr_diff);
-
-                    if(new_diff < dist[newx][newy]){
-                        dist[newx][newy] = new_diff;
-                        pq.push({-new_diff,{newx,newy}});
+            r = p.first, c = p.second;
+            dist[r][c] = -effort;
+            if (r == R-1 && c == C-1) {
+                return -effort;
+            }
+            for (int d = 0; d < 4; d ++) {
+                nr = r + dd[d];
+                nc = c + dd[d+1];
+                if (0 <= nr && nr < R && 0 <= nc && nc < C) {
+                    neffort = max(-effort, abs(heights[nr][nc] - heights[r][c]));
+                    if (neffort < dist[nr][nc]) {
+                        dist[nr][nc] = neffort;
+                        pq.push({-neffort, {nr, nc}});
                     }
-
                 }
             }
         }
-
-        return 0;
+        return -1;
     }
 };
 ```

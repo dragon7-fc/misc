@@ -88,34 +88,169 @@ class FoodRatings:
 # param_2 = obj.highestRated(cuisine)
 ```
 
-**Solution 2: (3 Maps)**
+**Solution 2: (Hash Maps and Priority Queue)**
 ```
-Runtime: 824 ms
-Memory Usage: 165.8 MB
+Runtime: 375 ms
+Memory: 162.5 MB
 ```
 ```c++
+class Food {
+public:
+    // Store the food's rating.
+    int foodRating;
+    // Store the food's name.
+    string foodName;
+
+    Food(int foodRating, string foodName) {
+        this->foodRating = foodRating;
+        this->foodName = foodName;
+    }
+
+    // Overload the less than operator for comparison
+    bool operator<(const Food& other) const {
+        // If food ratings are same sort on the basis of their name. (lexographically smaller name food will be on top)
+        if (foodRating == other.foodRating) {
+            return foodName > other.foodName;
+        }
+        // Sort on the basis of food rating. (bigger rating food will be on top)
+        return foodRating < other.foodRating;
+    }
+};
+
+
 class FoodRatings {
-    unordered_map<string, set<pair<int, string>>> cuisine_ratings;
-    unordered_map<string, string> food_cuisine;
-    unordered_map<string, int> food_rating;
+    // Map food with its rating.
+    unordered_map<string, int> foodRatingMap;
+    // Map food with cuisine it belongs to.
+    unordered_map<string, string> foodCuisineMap;
+    
+    // Store all food of a cusine in priority queue (to sort them on ratings/name)
+    // Priority queue element -> Food: (foodRating, foodName)
+    unordered_map<string, priority_queue<Food>> cuisineFoodMap;
+
 public:
     FoodRatings(vector<string>& foods, vector<string>& cuisines, vector<int>& ratings) {
         for (int i = 0; i < foods.size(); ++i) {
-            cuisine_ratings[cuisines[i]].insert({ -ratings[i], foods[i] });
-            food_cuisine[foods[i]] = cuisines[i];
-            food_rating[foods[i]] = ratings[i];
+            // Store 'rating' and 'cuisine' of current 'food' in 'foodRatingMap' and 'foodCuisineMap' maps.
+            foodRatingMap[foods[i]] = ratings[i];
+            foodCuisineMap[foods[i]] = cuisines[i];
+            // Insert the '(rating, name)' element in current cuisine's priority queue.
+            cuisineFoodMap[cuisines[i]].push(Food(ratings[i], foods[i]));
         }
     }
     
     void changeRating(string food, int newRating) {
-        auto &cuisine = food_cuisine.find(food)->second;
-        cuisine_ratings[cuisine].erase({ -food_rating[food], food });
-        cuisine_ratings[cuisine].insert({ -newRating, food });
-        food_rating[food] = newRating;
+        // Update food's rating in 'foodRating' map.
+        foodRatingMap[food] = newRating;
+        // Insert the '(new rating, name)' element in respective cuisine's priority queue.
+        auto cuisineName = foodCuisineMap[food];
+        cuisineFoodMap[cuisineName].push(Food(newRating, food));
     }
     
     string highestRated(string cuisine) {
-        return begin(cuisine_ratings[cuisine])->second;
+        // Get the highest rated 'food' of 'cuisine'.
+        auto highestRated = cuisineFoodMap[cuisine].top();
+        
+        // If latest rating of 'food' doesn't match with 'rating' on which it was sorted in priority queue,
+        // then we discard this element of the priority queue.
+        while (foodRatingMap[highestRated.foodName] != highestRated.foodRating) {
+            cuisineFoodMap[cuisine].pop();
+            highestRated = cuisineFoodMap[cuisine].top();
+        }
+        // Return name of the highest rated 'food' of 'cuisine'.
+        return highestRated.foodName;
+    }
+};
+
+/**
+ * Your FoodRatings object will be instantiated and called as such:
+ * FoodRatings* obj = new FoodRatings(foods, cuisines, ratings);
+ * obj->changeRating(food,newRating);
+ * string param_2 = obj->highestRated(cuisine);
+ */
+```
+
+**Solution 3: (Hash Maps and Sorted Set)**
+```
+Runtime: 443 ms
+Memory: 166.4 MB
+```
+```c++
+class FoodRatings {
+    // Map food with its rating.
+    unordered_map<string, int> foodRatingMap;
+    // Map food with cuisine it belongs to.
+    unordered_map<string, string> foodCuisineMap;
+
+    // Store all food of a cusine in set (to sort them on ratings/name)
+    // Set element -> Pair: (-1 * foodRating, foodName)
+    unordered_map<string, set<pair<int, string>>> cuisineFoodMap;
+public:
+    FoodRatings(vector<string>& foods, vector<string>& cuisines, vector<int>& ratings) {
+        for (int i = 0; i < foods.size(); ++i) {
+            // Store 'rating' and 'cuisine' of current 'food' in 'foodRatingMap' and 'foodCuisineMap' maps.
+            foodRatingMap[foods[i]] = ratings[i];
+            foodCuisineMap[foods[i]] = cuisines[i];
+            // Insert the '(-1 * rating, name)' element in current cuisine's set.
+            cuisineFoodMap[cuisines[i]].insert({ -ratings[i], foods[i] });
+        }
+    }
+    
+    void changeRating(string food, int newRating) {
+        // Fetch cuisine name for food.
+        auto cuisineName = foodCuisineMap[food];
+
+        // Find and delete the element from the respective cuisine's set.
+        auto oldElementIterator = cuisineFoodMap[cuisineName].find({ -foodRatingMap[food], food });
+        cuisineFoodMap[cuisineName].erase(oldElementIterator);
+
+        // Update food's rating in 'foodRating' map.
+        foodRatingMap[food] = newRating;
+        // Insert the '(-1 * new rating, name)' element in respective cuisine's set.
+        cuisineFoodMap[cuisineName].insert({ -newRating, food });
+    }
+    
+    string highestRated(string cuisine) {
+        auto highestRated = *cuisineFoodMap[cuisine].begin();
+        // Return name of the highest rated 'food' of 'cuisine'.
+        return highestRated.second;
+    }
+};
+
+/**
+ * Your FoodRatings object will be instantiated and called as such:
+ * FoodRatings* obj = new FoodRatings(foods, cuisines, ratings);
+ * obj->changeRating(food,newRating);
+ * string param_2 = obj->highestRated(cuisine);
+ */
+```
+
+**Solution 4: (2 Maps)**
+```
+Runtime: 379 ms
+Memory: 156 MB
+```
+```c++
+class FoodRatings {
+    unordered_map<string, pair<string, int>> m_food;
+    unordered_map<string, set<pair<int, string>>> m_cuisine;
+public:
+    FoodRatings(vector<string>& foods, vector<string>& cuisines, vector<int>& ratings) {
+        for (int i = 0; i < foods.size(); i ++) {
+            m_food[foods[i]] = {cuisines[i], -ratings[i]};
+            m_cuisine[cuisines[i]].insert({-ratings[i], foods[i]}); 
+        }
+    }
+    
+    void changeRating(string food, int newRating) {
+        auto [cuisine, rating] = m_food[food];
+        m_cuisine[cuisine].erase({rating, food});
+        m_cuisine[cuisine].insert({-newRating, food});
+        m_food[food].second = -newRating;
+    }
+    
+    string highestRated(string cuisine) {
+        return m_cuisine[cuisine].begin()->second;
     }
 };
 

@@ -60,3 +60,34 @@ class Solution:
             i += 1
         return ans
 ```
+
+**Solution 2: (Heap, Greedy)**
+```
+Runtime: 141 ms
+Memory: 47.7 MB
+```
+```c++
+class Solution {
+public:
+    int eatenApples(vector<int>& apples, vector<int>& days) {
+        priority_queue<pair<int,int>> pq;
+        int ans = 0, i = 0;
+        while (i < apples.size() || pq.size()) {
+            while (pq.size() && (-pq.top().first <= i || pq.top().second == 0)) {
+                pq.pop();
+            }
+            if (i < apples.size() && apples[i] && days[i]) {
+                pq.push({-(i+days[i]), apples[i]});
+            }
+            if (pq.size()) {
+                auto [t, c] = pq.top();
+                pq.pop();
+                ans += 1;
+                pq.push({t, c-1});
+            }
+            i += 1;
+        }
+        return ans;
+    }
+};
+```

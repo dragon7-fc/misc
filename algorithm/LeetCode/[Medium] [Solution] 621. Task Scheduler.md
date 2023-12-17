@@ -237,75 +237,38 @@ public:
 };
 ```
 
-**Solution 4: (Heap, one-by-one)**
+**Solution 4: (Heap)**
 ```
-Runtime: 150 ms
-Memory Usage: 34.6 MB
+Runtime: 84 ms
+Memory: 34.9 MB
 ```
 ```c++
 class Solution {
 public:
     int leastInterval(vector<char>& tasks, int n) {
         unordered_map<char, int> cnt;
-        for (auto task: tasks)
-            cnt[task] += 1;
-        priority_queue<tuple<int, int, char>> pq;
-        for (auto [a, c]: cnt)
-            pq.push({-1, c, a});
-        int ans = -1;
-        while (!pq.empty()) {
-            auto [t, c, a] = pq.top();
-            pq.pop();
-            c -= 1;
-            if (c) {
-                if (t == -1)
-                    t = ans;
-                else
-                    ans = min(ans, t);
-                pq.push({t-n-1, c, a});
-            } else
-                ans = min(ans, t);
-            ans -= 1;
+        for (char a: tasks) {
+            cnt[a] += 1;
         }
-        return -(ans+1);
+        priority_queue<pair<int, int>> pq;
+        for (auto [_, c]: cnt) {
+            pq.push({0, c});
+        }
+        int cur = 0;
+        while (pq.size()) {
+            while (pq.size() && pq.top().first > -cur) {
+                pq.push({-cur, pq.top().second});
+                pq.pop();
+            }
+            auto [t, c] = pq.top();
+            pq.pop();
+            cur = max(cur, -t);
+            if (c-1) {
+                pq.push({-(cur+n+1), c-1});
+            }
+            cur += 1;
+        }
+        return cur;
     }
 };
-```
-
-**Solution 5: (Heap, level)**
-```
-Runtime: 116 ms
-Memory Usage: 43.9 MB
-```
-```c++
-    class Solution {
-    public:
-        int leastInterval(vector<char>& tasks, int n) {
-            unordered_map<char, int> d;
-            for (auto task: tasks)
-                d[task] += 1;
-            priority_queue<int> pq;
-            for (auto [a, c]: d)
-                pq.push(c);
-            n += 1;
-            int sz, cnt, ans = 0;
-            while (!pq.empty()) {
-                vector<int> v;
-                cnt = 0;
-                for (int i = 0; i < n; i ++) {
-                    if (!pq.empty()) {
-                        int c = pq.top();
-                        pq.pop();
-                        cnt += 1;
-                        if (c > 1)
-                            v.push_back(c-1);
-                    }
-                }
-                for (auto el: v)
-                    pq.push(el);
-                ans += (!pq.empty() ? n : cnt);
-            }
-            return ans;
-        }
-    };
 ```

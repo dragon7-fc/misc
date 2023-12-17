@@ -76,3 +76,66 @@ class Solution:
                 _, ind = heappop(departures)
                 occupied[d[ind]] = 0
 ```
+
+**Solution 2: (multimap and set)**
+```
+Runtime: 196 ms
+Memory: 60.8 MB
+```
+```c++
+class Solution {
+public:
+    int smallestChair(vector<vector<int>>& times, int targetFriend) {
+        int t_arrival = times[targetFriend][0];
+        sort(begin(times), end(times));
+        multimap<int, int> reserved;
+        set<int> avail;
+        for (auto &t : times) {
+            while (!reserved.empty() && begin(reserved)->first <= t[0]) {
+                avail.insert(begin(reserved)->second);
+                reserved.erase(begin(reserved));
+            }
+            if (t[0] == t_arrival)
+                break;
+            if (avail.empty())
+                reserved.insert({t[1], reserved.size()});
+            else {
+                reserved.insert({t[1], *begin(avail)});
+                avail.erase(begin(avail));
+            }
+        }
+        return avail.empty() ? reserved.size() : (*begin(avail));
+    }
+};
+```
+
+**Solution 3: (Heap)**
+```
+Runtime: 192 ms
+Memory: 51.5 MB
+```
+```c++
+class Solution {
+public:
+    int smallestChair(vector<vector<int>>& times, int targetFriend) {
+        int t_arrival = times[targetFriend][0];
+        sort(begin(times), end(times));
+        priority_queue<pair<int, int>, vector<pair<int, int>>, greater<pair<int, int>>> pq;
+        for (auto &t : times) {
+            while (!pq.empty() && pq.top().first < t[0]) {
+                pq.push({t[0], pq.top().second});
+                pq.pop();
+            }
+            if (t[0] == t_arrival)
+                break;         
+            if (pq.empty() || pq.top().first > t[0])
+                pq.push({t[1], pq.size()});
+            else {
+                pq.push({t[1], pq.top().second});
+                pq.pop();
+            }
+        }
+        return !pq.empty() && pq.top().first <= t_arrival ? pq.top().second : pq.size();
+    }
+};
+```

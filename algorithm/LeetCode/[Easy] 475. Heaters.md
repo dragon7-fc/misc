@@ -30,7 +30,7 @@ Explanation: The two heater was placed in the position 1 and 4. We need to use r
 
 # Submissions
 ---
-**Solution 1:**
+**Solution 1: (Binary Search)**
 
 Compute all distance between hourses and heaters, then get the max one.
 
@@ -52,4 +52,43 @@ class Solution:
             else: diff = min(heaters[ind] - h, h - heaters[ind - 1])
             dist.append(diff)
         return max(dist)
+```
+
+**Solution 2: (Greedy)**
+```
+Runtime: 49 ms
+Memory: 26 MB
+```
+```c++
+class Solution {
+
+public:
+    int findRadius(vector<int>& houses, vector<int>& heaters) {
+        sort(houses.begin(), houses.end());
+        sort(heaters.begin(), heaters.end());
+        vector<int> res(houses.size(), INT_MAX); 
+        
+        // For each house, calculate distance to nearest RHS heater
+        for (int i = 0, h = 0; i < houses.size() && h < heaters.size(); ) {
+            if (houses[i] <= heaters[h]) {
+                res[i] = heaters[h] - houses[i]; 
+                i++;
+            } else { 
+                h++; 
+            }
+        }
+        
+        // For each house, calculate distance to nearest LHS heater
+        for (int i = houses.size() - 1, h = heaters.size()-1; i >= 0 && h >= 0; ) {
+            if (houses[i] >= heaters[h]) { 
+                res[i] = min(res[i], houses[i] - heaters[h]); 
+                i--; 
+            } else { 
+                h--; 
+            }
+        }
+       
+        return *max_element(res.begin(), res.end());
+    }
+};
 ```

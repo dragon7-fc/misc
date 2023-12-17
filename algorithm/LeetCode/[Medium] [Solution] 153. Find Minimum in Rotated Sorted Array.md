@@ -236,32 +236,32 @@ int findMin(int* nums, int numsSize){
 }
 ```
 
-**Solution 3: (Binary Search)**
-```
-Runtime: 0 ms
-Memory Usage: 10.3 MB
-```
-```c++
-class Solution {
-public:
-    int findMin(vector<int>& nums) {
-        int s=0, e=nums.size()-1;
-        int mid = s + (e-s)/2;
-        while(s<e){
-            if (nums[mid] >= nums[0]){
-                s = mid + 1;
-            }
-            else{
-                e = mid;
-            }
-            mid = s + (e-s)/2;
-        }
-        // cout << "Start Index after exiting loop is " << s << endl;
-        // To cover the edge case where array is not rotated.
-        if (nums[s] > nums[0]){
-            return nums[0];
-        }
-        return nums[s];
-    }
-};
-```
+// **Solution 3: (Binary Search)**
+// ```
+// Runtime: 0 ms
+// Memory Usage: 10.3 MB
+// ```
+// ```c++
+// class Solution {
+// public:
+//     int findMin(vector<int>& nums) {
+//         int s=0, e=nums.size()-1;
+//         int mid = s + (e-s)/2;
+//         while(s<e){
+//             if (nums[mid] >= nums[0]){
+//                 s = mid + 1;
+//             }
+//             else{
+//                 e = mid;
+//             }
+//             mid = s + (e-s)/2;
+//         }
+//         // cout << "Start Index after exiting loop is " << s << endl;
+//         // To cover the edge case where array is not rotated.
+//         if (nums[s] > nums[0]){
+//             return nums[0];
+//         }
+//         return nums[s];
+//     }
+// };
+// ```

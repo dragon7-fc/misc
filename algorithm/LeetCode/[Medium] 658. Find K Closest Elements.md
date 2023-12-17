@@ -268,3 +268,26 @@ public:
     }
 };
 ```
+
+**Solution 9: (Binary Search for start pointer)**
+```
+Runtime: 34 ms
+Memory: 31.5 MB
+```
+```c++
+class Solution {
+public:
+    vector<int> findClosestElements(vector<int>& arr, int k, int x) {
+        int lo = 0, hi = arr.size()-k, mi;
+        while (lo < hi) {
+            mi = lo + (hi-lo)/2;
+            if (x - arr[mi] > arr[mi+k] - x) {
+                lo = mi + 1;
+            } else {
+                hi = mi;
+            }
+        }
+        return vector<int>({arr.begin()+lo, arr.begin()+lo + k});
+    }
+};
+```

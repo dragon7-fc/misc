@@ -1,44 +1,4 @@
-# Must do questions for a beginner!!
-
-Start with the questions which are tagged easy. Keep a goal of solving 5 questions daily, if you are not able to solve 5 in a day, reduce it to 2-3 questions. In the same way, you can increase the count to 8-10 questions daily. Make sure you remember your approach and try to explore more approaches available for that question.
-
-A must do list according to me:
-(these are some of the easy questions - once your solution gets accepted, leetcode shows you suggestion for next similar questions, you can solve them too rather than following this list.)
-
-👉 Save as list to practice these questions
-```
-#1 Two Sum
-#268 Missing Number
-#155 Min Stack
-#7 Reverse Integer
-#20 Valid Paranthesis
-#21 Merge two sorted lists
-#236 LCA of a binary tree
-#189 Rotate array
-#112 Path sum
-```
-(list of medium questions - once you get comfortable with the platform and the questions, you can jump to these questions.)
-
-👉 Save as list to practice these questions
-```
-#15 3 Sum
-#19 Remove Nth node from end of a Linked List
-#98 Validate BST
-#54 Spiral Matrix
-#55 Jump Game
-#215 Kth largest element in an array
-#56 Merge Intervals
-#23 Merge K sorted list
-#32 Longest Valid Parantheses
-#403 Frog Jump
-#239 Sliding Window Maximum
-```
-(As you are now a pro already, you can jump to the hard questions and do whichever questions you find interesting)
-
-Happy Coding!!
-
-
-### Table of Contents
+# Table of Contents
 
 1. [Libraries](#libraries)
 1. [Concepts](#concept)
@@ -230,574 +190,7 @@ Happy Coding!!
 36, 697, 1197, 274, 380, 295, 33, 443, 74, 75, 48, 22, 238, 70, 200
 
 ## Array <a name="array"></a>
-
-### Array
-```python
-class Solution:
-    def tictactoe(self, moves: List[List[int]]) -> str:
-        A = [0]*8
-        B = [0]*8
-        for i in range(len(moves)):
-            r = moves[i][0]
-            c = moves[i][1]
-            player = A if i%2==0 else B
-            player[r] += 1
-            player[c+3] += 1
-            if r == c:
-                player[6] += 1
-            if r == 2-c:
-                player[7] += 1
-        for i in range(8):
-            if A[i] == 3:
-                return "A"
-            if B[i] == 3:
-                return "B"
-        
-        return "Draw" if len(moves) == 9 else "Pending"
-```
-* [Easy] 1275. Find Winner on a Tic Tac Toe Game
-
 ---
-### Single Pass
-```python
-class Solution:
-    def maxCount(self, m: int, n: int, ops: List[List[int]]) -> int:
-        for op in ops:
-            m = min(m, op[0])
-            n = min(n, op[1])
-        return m*n
-```
-* [Easy] [Solution] 598. Range Addition II
-
-
-### Greedy
-```python
-class Solution:
-    def maxSubArray(self, nums):
-        """
-        :type nums: List[int]
-        :rtype: int
-        """
-        for i in range(1, len(nums)):
-            if nums[i-1] > 0:
-                nums[i] += nums[i-1]
-        return max(nums)
-
-class Solution:
-    def maxSubArray(self, nums: List[int]) -> int:
-        N = len(nums)
-        curr_sum = max_sum = nums[0]
-
-        for i in range(1, N):
-            curr_sum = max(nums[i], curr_sum + nums[i])
-            max_sum = max(max_sum, curr_sum)
-
-        return max_sum
-```
-* [Easy] 53. Maximum Subarray
-
-### Locate and Analyze Problem Index
-```python
-class Solution:
-    def checkPossibility(self, nums: List[int]) -> bool:
-        p = None
-        for i in range(len(nums) - 1):
-            if nums[i] > nums[i+1]:
-                if p is not None:
-                    return False
-                p = i
-
-        return (p is None or p == 0 or p == len(nums)-2 or
-                nums[p-1] <= nums[p+1] or nums[p] <= nums[p+2])
-```
-* [Easy] [Solution] 665. Non-decreasing Array
-
-### Accumulate
-```python
-class Solution:
-    def runningSum(self, nums: List[int]) -> List[int]:
-        return itertools.accumulate(nums)
-```
-* [Easy] 1480. Running Sum of 1d Array
-
-### Simulate hash table
-```python
-class MyHashMap:
-
-    def __init__(self):
-        """
-        Initialize your data structure here.
-        """
-        self.buckets = [-1 for _ in range(1000001)]
-
-    def put(self, key: int, value: int) -> None:
-        """
-        value will always be non-negative.
-        """
-        self.buckets[key] = value
-
-    def get(self, key: int) -> int:
-        """
-        Returns the value to which the specified key is mapped, or -1 if this map contains no mapping for the key
-        """
-        return self.buckets[key]
-
-    def remove(self, key: int) -> None:
-        """
-        Removes the mapping of the specified value key if this map contains a mapping for the key
-        """
-        """
-        self.buckets[key] = -1
-
-
-# Your MyHashMap object will be instantiated and called as such:
-# obj = MyHashMap()
-# obj.put(key,value)
-# param_2 = obj.get(key)
-# obj.remove(key)
-```
-* [Easy] 706. Design HashMap
-
-### Mask as visited
-```python
-class Solution:
-    def findErrorNums(self, nums: List[int]) -> List[int]:
-        dup = -1
-        missing = 1
-        for num in nums:
-            if nums[abs(num) - 1] < 0:
-                dup = abs(num);
-            else:
-                nums[abs(num) - 1] *= -1
-
-        for i in range(1, len(nums)):
-            if nums[i] > 0:
-                missing = i + 1
-        return [dup, missing]
-```
-* [Easy] [Solution] 645. Set Mismatch
-
-### Sort by value and index
-```python
-class Solution:
-    def kWeakestRows(self, mat: List[List[int]], k: int) -> List[int]:
-        return list(zip(*sorted((sum(row), i) for i, row in enumerate(mat))[:k]))[1]
-```
-* [Easy] 1337. The K Weakest Rows in a Matrix
-
-### Min Array, Two Pass
-```python
-class Solution:
-    def shortestToChar(self, S: str, C: str) -> List[int]:
-        prev = float('-inf')
-        ans = []
-        for i, x in enumerate(S):
-            if x == C: prev = i
-            ans.append(i - prev)
-
-        prev = float('inf')
-        for i in range(len(S) - 1, -1, -1):
-            if S[i] == C: prev = i
-            ans[i] = min(ans[i], prev - i)
-
-        return ans
-```
-* [Easy] [Solution] 821. Shortest Distance to a Character
-
-### Simulate
-```python
-class Solution:
-    def getMaximumGenerated(self, n: int) -> int:
-        if not n: return 0 # edge case 
-        nums = [0, 1]
-        for i in range(2, n+1): 
-            if i&1: nums.append(nums[i//2] + nums[i//2+1])
-            else: nums.append(nums[i//2])
-        return max(nums)
-```
-* [Easy] 1646. Get Maximum in Generated Array
-
-### Greedy
-```python
-class Solution:
-    def findKthPositive(self, arr: List[int], k: int) -> int:
-        arr = [0] + arr
-        nk = k
-        for a, b in zip(arr[:], arr[1:]):
-            nk -= b-a-1
-            if nk <= 0:
-                return a+k
-            k = nk
-        return arr[-1]+k
-```
-* [Easy] 1539. Kth Missing Positive Number
-
-### Two while loop for Walk up and down
-```python
-class Solution:
-    def validMountainArray(self, arr: List[int]) -> bool:
-        N = len(arr)
-        i = 0
-
-        # walk up
-        while i+1 < N and arr[i] < arr[i+1]:
-            i += 1
-
-        # peak can't be first or last
-        if i == 0 or i == N-1:
-            return False
-
-        # walk down
-        while i+1 < N and arr[i] > arr[i+1]:
-            i += 1
-
-        return i == N-1
-```
-* [Easy] [Solution] 941. Valid Mountain Array
-
-### Counter
-```python
-class Solution:
-    def maxNumberOfBalloons(self, text: str) -> int:
-        counter = collections.Counter(text)
-        ans = counter['b']
-        
-        for c in 'an':
-            ans = min(ans, counter[c])
-        
-        for c in 'lo':
-            ans = min(ans, counter[c] // 2)
-        
-        return ans
-```
-* [Easy] 1189. Maximum Number of Balloons
-
-### Counter
-```python
-class Solution:
-    def numPairsDivisibleBy60(self, time: List[int]) -> int:
-        c = collections.Counter(map(lambda x: x % 60, time))
-        ans = 0
-        for k in c.keys():
-            if k <= 30 and c[(60-k) % 60]:
-                if k == 0 or k == 30:
-                    ans += (c[k] * (c[k]-1)) // 2
-                else:
-                    ans += c[k] * c[60-k]
-        return ans
-```
-* [Easy] 1010. Pairs of Songs With Total Durations Divisible by 60
-
-### space transformation
-```python
-class Solution:
-    def decrypt(self, code: List[int], k: int) -> List[int]:
-        if k < 0: return self.decrypt(code[::-1], -k)[::-1]
-        n = len(code)
-        prefix = code * 2
-        for i in range(1, 2 * n):
-            prefix[i] += prefix[i - 1]
-        for i in range(n):
-            code[i] = prefix[i + k] - prefix[i]
-        return code
-```
-* [Easy] 1652. Defuse the Bomb
-
-### Groupby
-```python
-class Solution:
-    def maxPower(self, s: str) -> int:
-        return max(len(list(g)) for k, g in itertools.groupby(s))
-```
-* [Easy] 1446. Consecutive Characters
-
-### Preprocess array
-```python
-class Solution:
-    def maxDistToClosest(self, seats: List[int]) -> int:
-        ones = [i for i, v in enumerate(seats) if v]
-        ans = 0
-        ans = max(ans, ones[0])
-        for i, j in zip(ones[:], ones[1:]):
-            ans = max(ans, (j-i) // 2)
-        ans = max(ans, len(seats)-ones[-1]-1) 
-        return ans
-```
-* [Easy] [Solution] 849. Maximize Distance to Closest Person
-
-### Direct
-```python
-class Solution:
-    def flipAndInvertImage(self, A: List[List[int]]) -> List[List[int]]:
-        for row in A:
-            for i in range((len(row) + 1) // 2):
-                """
-                In Python, the shortcut row[~i] = row[-i-1] = row[len(row) - 1 - i]
-                helps us find the i-th value of the row, counting from the right.
-                """
-                row[i], row[~i] = row[~i] ^ 1, row[i] ^ 1
-        return A
-
-class Solution:
-    def flipAndInvertImage(self, A: List[List[int]]) -> List[List[int]]:
-        return [[col^1 for col in row[::-1]] for row in A]
-```
-* [Easy] [Solution] 832. Flipping an Image
-
-### Rotate array = 1 whole reverse + 2 partial reverse
-```python
-class Solution:
-    def reverse(self, nums: list, start: int, end: int) -> None:
-        while start < end:
-            nums[start], nums[end] = nums[end], nums[start]
-            start, end = start + 1, end - 1
-
-    def rotate(self, nums: List[int], k: int) -> None:
-        """
-        Do not return anything, modify nums in-place instead.
-        """
-        n = len(nums)
-        k %= n
-
-        self.reverse(nums, 0, n - 1)
-        self.reverse(nums, 0, k - 1)
-        self.reverse(nums, k, n - 1)
-```
-* [Easy] [Solution] 189. Rotate Array
-
-### Boyer-Moore Voting Algorithm
-```python
-class Solution:
-    def majorityElement(self, nums):
-        """
-        :type nums: List[int]
-        :rtype: int
-        """
-        count = 0
-        candidate = None
-
-        for num in nums:
-            if count == 0:
-                candidate = num
-            count += (1 if num == candidate else -1)
-
-        return candidate
-```
-* [Easy] [Solution] 169. Majority Element
-
-### Using division and modulus
-```python
-class Solution:
-    def matrixReshape(self, mat: List[List[int]], r: int, c: int) -> List[List[int]]:
-        R , C = len(mat), len(mat[0])
-        if R*C != r*c: return mat
-        ans = []
-        i = 0
-        for ri in range(r):
-            for ci in range(c):
-                cur_r, cur_c = divmod(i, C)
-                if ci == 0:
-                    ans += [[mat[cur_r][cur_c]]]
-                else:
-                    ans[-1] += [mat[cur_r][cur_c]]
-                i += 1
-        return ans
-```
-* [Easy] [Solution] 566. Reshape the Matrix
-
-### Locate and Analyze Problem Index
-```python
-class Solution:
-    def checkPossibility(self, nums: List[int]) -> bool:
-        p = None
-        for i in range(len(nums) - 1):
-            if nums[i] > nums[i+1]:
-                if p is not None:
-                    return False
-                p = i
-
-        return (p is None or p == 0 or p == len(nums)-2 or
-                nums[p-1] <= nums[p+1] or nums[p] <= nums[p+2])
-```
-* [Easy] [Solution] 665. Non-decreasing Array
-
-### Prefix Sum
-```python
-class Solution:
-    def pivotIndex(self, nums: List[int]) -> int:
-        S = sum(nums)
-        leftsum = 0
-        for i, x in enumerate(nums):
-            if leftsum == (S - leftsum - x):
-                return i
-            leftsum += x
-        return -1
-```
-* [Easy] [Solution] 724. Find Pivot Index
-
-### Compare With Top-Left Neighbor
-```python
-class Solution:
-    def isToeplitzMatrix(self, matrix: List[List[int]]) -> bool:
-        return all(r == 0 or c == 0 or matrix[r-1][c-1] == val
-                   for r, row in enumerate(matrix)
-                   for c, val in enumerate(row))
-```
-* [Easy] [Solution] 766. Toeplitz Matrix
-
-### Brute Force
-```python
-class Solution:
-    def numMagicSquaresInside(self, grid: List[List[int]]) -> int:
-        R, C = len(grid), len(grid[0])
-
-        def magic(a,b,c,d,e,f,g,h,i):
-            return (sorted([a,b,c,d,e,f,g,h,i]) == list(range(1, 10)) and
-                (a+b+c == d+e+f == g+h+i == a+d+g ==
-                 b+e+h == c+f+i == a+e+i == c+e+g == 15))
-
-        ans = 0
-        for r in range(R-2):
-            for c in range(C-2):
-                if grid[r+1][c+1] != 5: continue  # optional skip
-                if magic(grid[r][c], grid[r][c+1], grid[r][c+2],
-                         grid[r+1][c], grid[r+1][c+1], grid[r+1][c+2],
-                         grid[r+2][c], grid[r+2][c+1], grid[r+2][c+2]):
-                    ans += 1
-        return ans
-```
-* [Easy] [Solution] 840. Magic Squares In Grid
-
-### Copy Directly
-```python
-class Solution:
-    def transpose(self, A: List[List[int]]) -> List[List[int]]:
-        return zip(*A)
-```
-* [Easy] [Solution] 867. Transpose Matrix
-
-### Greatest Common Divisor
-```python
-class Solution:
-    def hasGroupsSizeX(self, deck: List[int]) -> bool:
-        from functools import reduce
-        vals = collections.Counter(deck).values()
-        return reduce(math.gcd, vals) >= 2
-```
-* [Easy] [Solution] 914. X of a Kind in a Deck of Cards
-
-### One Pass (Simple Variant)
-```python
-class Solution:
-    def isMonotonic(self, A: List[int]) -> bool:
-        increasing = decreasing = True
-
-        for i in range(len(A) - 1):
-            if A[i] > A[i+1]:
-                increasing = False
-            if A[i] < A[i+1]:
-                decreasing = False
-
-        return increasing or decreasing
-```
-* [Easy] [Solution] 896. Monotonic Array
-
-### Maintain Array Sum
-```python
-class Solution:
-    def sumEvenAfterQueries(self, A: List[int], queries: List[List[int]]) -> List[int]:
-        S = sum(x for x in A if x % 2 == 0)
-        ans = []
-
-        for x, k in queries:
-            if A[k] % 2 == 0: S -= A[k]
-            A[k] += x
-            if A[k] % 2 == 0: S += A[k]
-            ans.append(S)
-
-        return ans
-```
-* [Easy] [Solution] 985. Sum of Even Numbers After Queries
-
-### Groupby
-```python
-class Solution:
-    def islandPerimeter(self, grid: List[List[int]]) -> int:
-        h = sum(k for row in grid for k, _ in itertools.groupby(row))
-        v = sum(k for col in zip(*grid) for k, _ in itertools.groupby(col))
-        return 2*(h+v)
-```
-* [Easy] 463. Island Perimeter
-
-### Design HashSet
-```python
-class MyHashSet:
-
-    def __init__(self):
-        """
-        Initialize your data structure here.
-        """
-        self.hs = [0]*1000001
-
-
-    def add(self, key: int) -> None:
-        self.hs[key] = 1
-
-    def remove(self, key: int) -> None:
-        self.hs[key] = 0
-
-    def contains(self, key: int) -> bool:
-        """
-        Returns true if this set contains the specified element
-        """
-        return self.hs[key]
-
-
-# Your MyHashSet object will be instantiated and called as such:
-# obj = MyHashSet()
-# obj.add(key)
-# obj.remove(key)
-# param_3 = obj.contains(key)
-```
-* [Easy] 705. Design HashSet
-
-### Row XOR Column
-```python
-class Solution:
-    def oddCells(self, n: int, m: int, indices: List[List[int]]) -> int:
-        row, col = [False] * n, [False] * m
-        for r, c in indices:
-            row[r] ^= True
-            col[c] ^= True
-        return sum(ro ^ cl for ro in row for cl in col)
-```
-* [Easy] 1252. Cells with Odd Values in a Matrix
-
-### In-Degree/Out-Degree
-```python
-class Solution:
-    def findJudge(self, N: int, trust: List[List[int]]) -> int:
-        in_edges, out_edges = [0]*N, [0]*N
-        for t in trust:
-            s, d = t[0]-1, t[1]-1
-            in_edges[d] += 1
-            out_edges[s] += 1
-        for i in range(0, N):
-            if in_edges[i] == N-1 and out_edges[i] == 0:
-                return i+1
-
-        return -1
-```
-* [Easy] 997. Find the Town Judge
-
-### Generator
-```python
-class Solution:
-    def shuffle(self, nums: List[int], n: int) -> List[int]:
-        return sum(([nums[i], nums[i+n]] for i in range(n)), [])
-```
-* [Easy] 1470. Shuffle the Array
-
 ### Simulation
 ```python
 class Solution:
@@ -1722,187 +1115,6 @@ class Solution:
 
 ## Dynamic Programming <a name="dp"></a>
 ---
-### DP
-```python
-class Solution:
-    def tribonacci(self, n: int) -> int:
-        a, b, c = 0, 1, 1
-        for _ in range(n): a, b, c = b, c, a+b+c
-        return a
-```
-* [Easy] 1137. N-th Tribonacci Number
-
-### Prefix Sum
-```python
-class NumArray:
-
-    def __init__(self, nums):
-        """
-        :type nums: List[int]
-        """
-        n = len(nums)
-        self.sum = [0] * (n+1)
-        for i in range(n):
-            self.sum[i+1] = self.sum[i] + nums[i]
-        
-
-    def sumRange(self, i, j):
-        """
-        :type i: int
-        :type j: int
-        :rtype: int
-        """
-        return self.sum[j+1] - self.sum[i]
-        
-
-
-# Your NumArray object will be instantiated and called as such:
-# obj = NumArray(nums)
-# param_1 = obj.sumRange(i,j)
-```
-* [Easy] 303. Range Sum Query - Immutable
-
-### Prefix Sum
-```python
-class Solution:
-    def generate(self, numRows):
-        """
-        :type numRows: int
-        :rtype: List[List[int]]
-        """
-        triangle = []
-
-        for row_num in range(numRows):
-            # The first and last row elements are always 1.
-            row = [None for _ in range(row_num+1)]
-            row[0], row[-1] = 1, 1
-
-            # Each triangle element is equal to the sum of the elements
-            # above-and-to-the-left and above-and-to-the-right.
-            for j in range(1, len(row)-1):
-                row[j] = triangle[row_num-1][j-1] + triangle[row_num-1][j]
-
-            triangle.append(row)
-
-        return triangle
-```
-* [Easy] [Solution] 118. Pascal's Triangle
-
-### Bottom-Up
-```python
-class Solution:
-    def fib(self, N: int) -> int:
-        if N <= 1:
-            return N
-        return self.memoize(N)
-
-    def memoize(self, N: int) -> {}:
-        cache = {0: 0, 1: 1}
-
-        # Since range is exclusive and we want to include N, we need to put N+1.
-        for i in range(2, N+1):
-            cache[i] = cache[i-1] + cache[i-2]
-
-        return cache[N]
-```
-* [Easy] [Solution] 509. Fibonacci Number
-
-### Typical
-```python
-class Solution:
-    def rob(self, nums):
-        """
-        :type nums: List[int]
-        :rtype: int
-        """
-        if len(nums) == 0:
-            return 0
-
-        n = len(nums)
-        rob = [0]*(n+1)
-        rob[0] = 0
-        rob[1] = nums[0]
-        for i in range(2, n+1):
-            rob[i] = max(rob[i-1], nums[i-1]+rob[i-2])
-        return rob[n]
-
-class Solution:
-    def rob(self, nums: List[int]) -> int:
-        N = len(nums)
-
-        @functools.lru_cache(None)
-        def dp(i):
-            if i >= N:
-                return 0
-            return max(nums[i] + dp(i+2), dp(i+1))
-
-        return dfs(0)
-```
-[Easy] 198. House Robber
-
-### Pascal's Triangle
-```python
-class Solution:
-    def getRow(self, rowIndex: int) -> List[int]:
-        prev_row = []
-
-        for row_number in range(rowIndex+1):
-            row = [None for _ in range(row_number+1)]
-            row[0], row[-1] = 1,1
-            for column_number in range(1,len(row)-1):
-                row[column_number] = prev_row[column_number-1] + prev_row[column_number]
-            prev_row = row
-        return prev_row
-```
-* [Easy] 119. Pascal's Triangle II
-
-### Fibonacci Number
-```python
-class Solution:
-    def climbStairs(self, n):
-        """
-        :type n: int
-        :rtype: int
-        """
-        if n == 1:
-            return 1
-        first = 1
-        second = 2
-        for n in range(3, n+1):
-            third = first+second
-            first = second
-            second = third
-        return second
-```
-* [Easy] [Solution] 70. Climbing Stairs
-
-### 1D state
-```python
-class Solution(object):
-    def minCostClimbingStairs(self, cost):
-        """
-        :type cost: List[int]
-        :rtype: int
-        """
-        n = len(cost)
-        dp = [0]*n
-
-        dp[0] = cost[0]
-        dp[1] = cost[1]
-        for i in range(2, n):
-            dp[i] = min(dp[i-1], dp[i-2]) + cost[i]
-
-        return min(dp[n-1], dp[n-2])
-
-class Solution:
-    def minCostClimbingStairs(self, cost: List[int]) -> int:
-        f1 = f2 = 0
-        for x in reversed(cost):
-            f1, f2 = x + min(f1, f2), f1
-        return min(f1, f2)
-```
-* [Easy] [Solution] 746. Min Cost Climbing Stairs
-
 ### Count
 ```python
 class Solution:
@@ -4738,339 +3950,6 @@ class Solution:
 
 ## Math <a name="math"></a>
 ---
-### Hash Table
-```python
-class Solution:
-    def addStrings(self, num1: str, num2: str) -> str:
-        d = {str(i) + str(j): str(i + j) for i in range(10) for j in range(10)}
-        carry = 0
-        maxlen = max(len(num1), len(num2))
-        n1, n2 = num1.zfill(maxlen), num2.zfill(maxlen)
-        result = ''
-        for i, j in zip(n1[::-1], n2[::-1]):
-            s = d[i + j] 
-            if carry: 
-                s = ('1' if len(s) == 2 else '') + d['1' + s[-1]] 
-            result = s[-1] + result  
-            if len(s) == 2: carry = True
-            else: carry = False
-        if carry: 
-            result = '1' + result 
-        return result
-```
-* [Easy] 415. Add Strings
-
-### brute force
-```python
-class Solution:
-    def countPrimes(self, n):
-        """
-        :type n: int
-        :rtype: int
-        """
-        if n < 3:
-            return 0
-        prime = [True]*n
-        prime[0] = prime[1] = False
-        for i in range(2, int(n**0.5)+1):
-            if prime[i]:
-                prime[i*i: n: i] = [False] * len(prime[i*i: n: i])
-        return sum(prime)
-```
-* [Easy] 204. Count Primes
-
-### Logartihmic Bounds
-```python
-class Solution:
-    def powerfulIntegers(self, x: int, y: int, bound: int) -> List[int]:
-
-        a = bound if x == 1 else int(log(bound, x))
-        b = bound if y == 1 else int(log(bound, y))
-
-        powerful_integers = set([])
-
-        for i in range(a + 1):
-            for j in range(b + 1):
-
-                value = x**i + y**j
-
-                if value <= bound:
-                    powerful_integers.add(value)
-
-                if y == 1:
-                    break
-
-            if x == 1:
-                break
-
-        return list(powerful_integers)
-```
-* [Easy] [Solution] 970. Powerful Integers
-
-### Greedy
-```python
-class Solution:
-    def isPowerOfThree(self, n):
-        """
-        :type n: int
-        :rtype: bool
-        """
-        if n == 0:
-            return False
-        while n%3 == 0:
-            n = n/3
-        return True if n == 1 else False
-```
-* [Easy] 326. Power of Three
-
-### Simulation
-```python
-class Solution:
-    def numberOfSteps (self, num: int) -> int:
-        ans = 0
-        while num > 0:
-            if num%2:
-                num -= 1
-            else:
-                num //= 2
-            ans += 1
-
-        return ans
-```
-* [Easy] 1342. Number of Steps to Reduce a Number to Zero
-
-### Conclude possible case
-```python
-class Solution:
-    def check(self, nums: List[int]) -> bool:
-        return sum(a > b for a, b in zip(nums, nums[1:] + nums[:1])) <= 1
-```
-* [Easy] 1752. Check if Array Is Sorted and Rotated
-
-### Count of even of odd
-```pyth0on
-class Solution:
-    def minCostToMoveChips(self, chips: List[int]) -> int:
-        odd = even = 0
-        for c in chips:
-            if not c %2:
-                even += 1
-            else:
-                odd += 1
-        return min(odd, even)
-```
-* [Easy] 1217. Play with Chips
-
-### Base Conversion
-```python
-class Solution:
-    def titleToNumber(self, s):
-        """
-        :type s: str
-        :rtype: int
-        """
-        base = ord('A') - 1
-        return sum((ord(v)-base)*26**i for i,v in enumerate(s[::-1]))
-```
-* [Easy] 171. Excel Sheet Column Number
-
-### Power of Four
-```python
-class Solution:
-    def isPowerOfFour(self, num: int) -> bool:
-        temp = bin(num).split('1')
-        return num > 0 and len(temp) == 2 and not len(temp[-1]) % 2
-```
-* [Easy] [Solution] 342. Power of Four
-
-### Digital Root
-```python
-class Solution:
-    def addDigits(self, num: int) -> int:
-        if num == 0:
-            return 0
-        if num % 9 == 0:
-            return 9
-        return num % 9
-        
-class Solution:
-    def addDigits(self, num: int) -> int:
-        return 1 + (num - 1) % 9 if num else 0
-```
-* [Easy] [Solution] 258. Add Digits
-
-### Binary Search
-```python
-class Solution:
-    def isPerfectSquare(self, num: int) -> bool:
-        if num == 1: return True
-        lo, hi = 1, num
-        while lo <= hi:
-            mid = lo + (hi - lo) // 2
-            val = mid ** 2
-            if val == num: return True
-            elif val < num: lo = mid + 1
-            else: hi = mid - 1
-        return False
-```
-* [Easy] 367. Valid Perfect Square
-
-### Increase number
-```python
-class Solution:
-    def minMoves(self, nums: List[int]) -> int:
-        return sum(nums)-len(nums)*min(nums)
-```
-* [Easy] 453. Minimum Moves to Equal Array Elements
-
-### Hamming Distance
-```python
-class Solution:
-    def hammingDistance(self, x: int, y: int) -> int:
-        return bin(x^y).count("1")
-```
-* [Easy] 461. Hamming Distance
-
-### Perfect Number
-```python
-class Solution:
-    def checkPerfectNumber(self, num: int) -> bool:
-        if num <= 0:
-            return False
-        sum_ = 0
-        for i in range(1, int(num**.5) + 1):
-            if num % i == 0:
-                sum_ += i
-                if i**2 != num:
-                    sum_ += num / i
-        return sum_ - num == num
-```
-* [Easy] [Solution] 507. Perfect Number
-
-### Rectangle Overlap
-```python
-class Solution:
-    def isRectangleOverlap(self, rec1: List[int], rec2: List[int]) -> bool:
-        def intersect(p_left, p_right, q_left, q_right):
-            return min(p_right, q_right) > max(p_left, q_left)
-        return (intersect(rec1[0], rec1[2], rec2[0], rec2[2]) and # width > 0
-                intersect(rec1[1], rec1[3], rec2[1], rec2[3]))    # height > 0
-```
-* [Easy] [Solution] 836. Rectangle Overlap
-
-### Binary Gap
-```python
-class Solution:
-    def binaryGap(self, N: int) -> int:
-        last = None
-        ans = 0
-        for i in range(32):
-            if (N >> i) & 1:
-                if last is not None:
-                    ans = max(ans, i - last)
-                last = i
-        return ans
-```
-* [Easy] [Solution] 868. Binary Gap
-
-### Projection
-```python
-class Solution:
-    def projectionArea(self, grid: List[List[int]]) -> int:
-        ans = sum(map(max, grid))  # x-z plane
-        ans += sum(map(max, zip(*grid)))  # y-z plane
-        ans += sum(v > 0 for row in grid for v in row)  # x-y plane
-        return ans
-```
-* [Easy] [Solution] 883. Projection Area of 3D Shapes
-
-### Square by Square
-```python
-class Solution:
-    def surfaceArea(self, grid: List[List[int]]) -> int:
-        N = len(grid)
-
-        ans = 0
-        for r in range(N):
-            for c in range(N):
-                if grid[r][c]:
-                    ans += 2
-                    for nr, nc in ((r-1, c), (r+1, c), (r, c-1), (r,c+1)):
-                        if 0 <= nr < N and 0 <= nc < N:
-                            nval = grid[nr][nc]
-                        else:
-                            nval = 0
-
-                        ans += max(grid[r][c] - nval, 0)
-
-        return ans
-```
-* [Easy] [Solution] 892. Surface Area of 3D Shapes
-
-### GCD
-```python
-class Solution:
-    def hasGroupsSizeX(self, deck: List[int]) -> bool:
-        from functools import reduce
-        vals = collections.Counter(deck).values()
-        return reduce(math.gcd, vals) >= 2
-```
-* [Easy] [Solution] 914. X of a Kind in a Deck of Cards
-
-### Smallest Range
-```python
-class Solution:
-    def smallestRangeI(self, A: List[int], K: int) -> int:
-        return max(0, max(A) - min(A) - 2*K)
-```
-* [Easy] [Solution] 908. Smallest Range I
-
-### Ad-Hoc
-```python
-class Solution:
-    def diStringMatch(self, S: str) -> List[int]:
-        lo, hi = 0, len(S)
-        ans = []
-        for x in S:
-            if x == 'I':
-                ans.append(lo)
-                lo += 1
-            else:
-                ans.append(hi)
-                hi -= 1
-
-        return ans + [lo]
-```
-* [Easy] [Solution] 942. DI String Match
-
-### Brute Force
-```python
-class Solution:
-    def largestTimeFromDigits(self, A: List[int]) -> str:
-        ans = -1
-        for h1, h2, m1, m2 in itertools.permutations(A):
-            hours = 10 * h1 + h2
-            mins = 10 * m1 + m2
-            time = 60 * hours + mins
-            if 0 <= hours < 24 and 0 <= mins < 60 and time > ans:
-                ans = time
-
-        return "{:02}:{:02}".format(*divmod(ans, 60)) if ans >= 0 else ""
-```
-* [Easy] [Solution] 949. Largest Time for Given Digits
-
-### Largest Perimeter Triangle
-```python
-class Solution:
-    def largestPerimeter(self, A: List[int]) -> int:
-        A.sort()
-        for i in range(len(A) - 3, -1, -1):
-            if A[i] + A[i+1] > A[i+2]:
-                return A[i] + A[i+1] + A[i+2]
-        return 0
-```
-* [Easy] [Solution] 976. Largest Perimeter Triangle
-
 ### Odd and even
 ```python
 class Solution:
@@ -6030,377 +4909,6 @@ class Solution:
         # no match was found
         return -1
 ```
-
-### Canonical Form
-```python
-class Solution:
-    def numUniqueEmails(self, emails: List[str]) -> int:
-        seen = set()
-        for email in emails:
-            local, domain = email.split('@')
-            if '+' in local:
-                local = local[:local.index('+')]
-            seen.add(local.replace('.','') + '@' + domain)
-        return len(seen)
-```
-* [Easy] [Solution] 929. Unique Email Addresses
-
-### Math
-```python
-class Solution:
-    def removePalindromeSub(self, s: str) -> int:
-        return 2 - (s == s[::-1]) - (s == "")
-```
-* [Easy] 1332. Remove Palindromic Subsequences
-
-### Sort
-```python
-class Solution:
-    def isAlienSorted(self, words: List[str], order: str) -> bool:
-        return words == sorted(words, key= lambda word: [order.index(c) for c in word])
-```
-* [Easy] [Solution] 953. Verifying an Alien Dictionary
-
-### product
-```python
-class Solution:
-    def letterCasePermutation(self, S: str) -> List[str]:
-        return set(map(''.join, itertools.product(*zip(S.lower(), S.upper()))))
-```
-* [Easy] 784. Letter Case Permutation
-
-### string concatenate
-```python
-class Solution:
-    def arrayStringsAreEqual(self, word1: List[str], word2: List[str]) -> bool:
-        return ''.join(word1) == ''.join(word2)
-```
-* [Easy] 1662. Check If Two String Arrays are Equivalent
-
-### Enumerate Cases
-```python
-class Solution:
-    def buddyStrings(self, A: str, B: str) -> bool:
-        if len(A) != len(B): return False
-        if A == B:
-            seen = set()
-            for a in A:
-                if a in seen:
-                    return True
-                seen.add(a)
-            return False
-        else:
-            pairs = []
-            for a, b in zip(A, B):
-                if a != b:
-                    pairs.append((a, b))
-                if len(pairs) >= 3: return False
-            return len(pairs) == 2 and pairs[0] == pairs[1][::-1]
-```
-* [Easy] [Solution] 859. Buddy Strings
-
-### split
-```python
-class Solution:
-    def lengthOfLastWord(self, s: str) -> int:
-        return len(s.strip().split(' ')[-1])
-```
-* [Easy] 58. Length of Last Word
-
-### Read N Characters Given Read4
-```python
-"""
-The read4 API is already defined for you.
-
-    @param buf4, a list of characters
-    @return an integer
-    def read4(buf4):
-
-# Below is an example of how the read4 API can be called.
-file = File("abcdefghijk") # File is "abcdefghijk", initially file pointer (fp) points to 'a'
-buf4 = [' '] * 4 # Create buffer with enough space to store characters
-read4(buf4) # read4 returns 4. Now buf = ['a','b','c','d'], fp points to 'e'
-read4(buf4) # read4 returns 4. Now buf = ['e','f','g','h'], fp points to 'i'
-read4(buf4) # read4 returns 3. Now buf = ['i','j','k',...], fp points to end of file
-"""
-
-class Solution:
-    def read(self, buf, n):
-        """
-        :type buf: Destination buffer (List[str])
-        :type n: Number of characters to read (int)
-        :rtype: The number of actual characters read (int)
-        """
-        copied_chars = 0
-        read_chars = 4
-        buf4 = [''] * 4
-
-        while copied_chars < n and read_chars == 4:
-            read_chars = read4(buf4)
-
-            for i in range(read_chars):
-                if copied_chars == n:
-                    return copied_chars
-                buf[copied_chars] = buf4[i]
-                copied_chars += 1
-
-        return copied_chars
-```
-* [Lock] [Easy] [Solution] 157. Read N Characters Given Read4
-
-### KMP
-```python
-class Solution:
-    def rotateString(self, A: str, B: str) -> bool:
-        N = len(A)
-        if N != len(B): return False
-        if N == 0: return True
-
-        #Compute shift table
-        shifts = [1] * (N+1)
-        left = -1
-        for right in range(N):
-            while left >= 0 and B[left] != B[right]:
-                left -= shifts[left]
-            shifts[right + 1] = right - left
-            left += 1
-
-        #Find match of B in A+A
-        match_len = 0
-        for char in A+A:
-            while match_len >= 0 and B[match_len] != char:
-                match_len -= shifts[match_len]
-
-            match_len += 1
-            if match_len == N:
-                return True
-
-        return False
-```
-* [Easy] [Solution] 796. Rotate String
-
-### Goat Latin
-```python
-class Solution:
-    def toGoatLatin(self, S: str) -> str:
-        def convert(word):
-            if word[0] not in 'aeiouAEIOU':
-                word = word[1:] + word[:1]
-            return word + 'ma'
-
-        return " ".join(convert(word) + 'a' * i
-                        for i, word in enumerate(S.split(), 1))
-```
-* [Easy] [Solution] 824. Goat Latin
-
-### Rolling Hash
-```python
-class Solution:
-    def rotateString(self, A: str, B: str) -> bool:
-        MOD = 10**9 + 7
-        P = 113
-        Pinv = pow(P, MOD-2, MOD)
-
-        hb = 0
-        power = 1
-        for x in B:
-            code = ord(x) - 96
-            hb = (hb + power * code) % MOD
-            power = power * P % MOD
-
-        ha = 0
-        power = 1
-        for x in A:
-            code = ord(x) - 96
-            ha = (ha + power * code) % MOD
-            power = power * P % MOD
-
-        if ha == hb and A == B: return True
-        for i, x in enumerate(A):
-            code = ord(x) - 96
-            ha += power * code
-            ha -= code
-            ha *= Pinv
-            ha %= MOD
-            if ha == hb and A[i+1:] + A[:i+1] == B:
-                return True
-        return False
-```
-* [Easy] [Solution] 796. Rotate String
-
-### Read and Write Heads
-```python
-class Solution:
-    def compress(self, chars: List[str]) -> int:
-        anchor = write = 0
-        for read, c in enumerate(chars):
-            if read + 1 == len(chars) or chars[read + 1] != c:
-                chars[write] = chars[anchor]
-                write += 1
-                if read > anchor:
-                    for digit in str(read - anchor + 1):
-                        chars[write] = digit
-                        write += 1
-                anchor = read + 1
-        return write
-```
-* [Easy] [Solution] 443. String Compression
-
-### Plus One
-```python
-class Solution:
-    def plusOne(self, digits: List[int]) -> List[int]:
-        return list(map(int, str(int(''.join(map(str, digits))) + 1)))
-```
-* [Easy] 66. Plus One
-
-### Add Binary
-```python
-class Solution:
-    def addBinary(self, a: str, b: str) -> str:
-        num_a = int(a, 2)
-        num_b = int(b, 2)
-        return bin(num_a+num_b)[2:]
-```
-* [Easy] 67. Add Binary
-
-### Reverse Bits
-```python
-class Solution:
-    def reverseBits(self, n):
-        return int('{:032b}'.format(n)[::-1], 2)
-```
-* [Easy] 190. Reverse Bits
-
-### Valid Palindrome
-```python
-class Solution:
-    def isPalindrome(self, s: str) -> bool:
-        filter_str = [*filter(lambda c:c.isdigit() or c.isalpha(), s.lower())]  # list(filter(lambda c:c.isdigit() or c.isalpha(), s.lower()))
-        return filter_str[::-1] == filter_str
-```
-* [Easy] [Solution] 125. Valid Palindrome
-
-### Repeated Substring Pattern
-```python
-class Solution:
-    def repeatedSubstringPattern(self, s: str) -> bool:
-        return s in (s+s)[1:-1]
-```
-* [Easy] 459. Repeated Substring Pattern
-
-### Reverse String
-```python
-class Solution:
-    def reverseString(self, s: List[str]) -> None:
-        """
-        Do not return anything, modify s in-place instead.
-        """
-        left, right = 0, len(s) - 1
-        while left < right:
-            s[left], s[right] = s[right], s[left]
-            left, right = left + 1, right - 1
-```
-* [Easy] [Solution] 344. Reverse String
-
-### Two Pointers
-```python
-class Solution:
-    def validPalindrome(self, s: str) -> bool:
-        i , j = 0, len(s) - 1
-
-        while i <= j:
-            if s[i] == s[j]:
-                i += 1
-                j -= 1
-            else:
-                c1 = s[i:j]
-                c2 = s[i+1:j+1]
-
-                if c1 == c1[::-1] or c2 == c2[::-1]:  # checking the candidate is palindrome or not
-                    return True
-                else:
-                    return False
-        return True
-```
-* [Easy] [Solution] 680. Valid Palindrome II
-
-### Ad-Hoc
-```python
-class Solution(object):
-    def repeatedStringMatch(self, A, B):
-        q = (len(B) - 1) // len(A) + 1
-        for i in range(2):
-            if B in A * (q+i): return q+i
-        return -1
-```
-* [Easy] [Solution] 686. Repeated String Match
-
-### Linear Scan
-```python
-class Solution:
-    def countBinarySubstrings(self, s: str) -> int:
-        ans, prev, cur = 0, 0, 1
-        for i in range(1, len(s)):
-            if s[i-1] != s[i]:
-                ans += min(prev, cur)
-                prev, cur = cur, 1
-            else:
-                cur += 1
-
-        return ans + min(prev, cur)
-```
-* [Easy] [Solution] 696. Count Binary Substrings
-
-### Enumerate Cases
-```python
-class Solution:
-    def buddyStrings(self, A: str, B: str) -> bool:
-        if len(A) != len(B): return False
-        if A == B:
-            seen = set()
-            for a in A:
-                if a in seen:
-                    return True
-                seen.add(a)
-            return False
-        else:
-            pairs = []
-            for a, b in zip(A, B):
-                if a != b:
-                    pairs.append((a, b))
-                if len(pairs) >= 3: return False
-            return len(pairs) == 2 and pairs[0] == pairs[1][::-1]
-```
-* [Easy] [Solution] 859. Buddy Strings
-
-### Stack of Letters
-```python
-class Solution:
-    def reverseOnlyLetters(self, S: str) -> str:
-        letters = [c for c in S if c.isalpha()]
-        ans = []
-        for c in S:
-            if c.isalpha():
-                ans.append(letters.pop())
-            else:
-                ans.append(c)
-        return "".join(ans)
-```
-* [Easy] [Solution] 917. Reverse Only Letters
-
-### Custom Sort
-```python
-class Solution:
-    def reorderLogFiles(self, logs: List[str]) -> List[str]:
-        def f(log):
-            id_, rest = log.split(" ", 1)
-            return (0, rest, id_) if rest[0].isalpha() else (1,)
-
-        return sorted(logs, key = f)
-```
-* [Easy] [Solution] 937. Reorder Data in Log Files
-
 ### Cartesian Product, Brute force all combination
 ```python
 class Solution:
@@ -6444,17 +4952,6 @@ class Solution:
                 size -= 1
 ```
 * [Medium] [Solution] 880. Decoded String at Index
-
-### GCD
-```python
-class Solution:
-    def gcdOfStrings(self, str1: str, str2: str) -> str:
-        if str1 == str2: return str1
-        if len(str2) > len(str1): return self.gcdOfStrings(str2, str1)
-        if str1[:len(str2)] == str2: return self.gcdOfStrings(str1[len(str2):], str2)  # x - y (also need to check the prefix str match)
-        return "" # original gcd alway has a solution (at least '1')
-```
-* [Easy] 1071. Greatest Common Divisor of Strings
 
 ### Binary
 ```python
@@ -6853,20 +5350,6 @@ class Solution:
 ```
 * [Medium] [Solution] 816. Ambiguous Coordinates
 
-### Counting
-```python
-class Solution:
-    def numSpecialEquivGroups(self, A: List[str]) -> int:
-        def count(A):
-            ans = [0] * 52
-            for i, letter in enumerate(A):
-                ans[ord(letter) - ord('a') + 26 * (i%2)] += 1
-            return tuple(ans)
-
-        return len({count(word) for word in A})
-```
-* [Easy] [Solution] 893. Groups of Special-Equivalent Strings
-
 ### Prefix Sum
 ```python
 class Solution:
@@ -7006,310 +5489,6 @@ class Solution:
 
 ## Tree <a name="tree"></a>
 ---
-### DFS
-```python
-# Definition for a binary tree node.
-# class TreeNode:
-#     def __init__(self, x):
-#         self.val = x
-#         self.left = None
-#         self.right = None
-
-class Solution:
-    def sortedArrayToBST(self, nums: List[int]) -> TreeNode:
-        if len(nums) == 0:
-            return None
-        if len(nums) == 1:
-            return TreeNode(nums[0])
-        node = TreeNode(nums[len(nums)//2])
-        node.left = self.sortedArrayToBST(nums[:len(nums)//2])
-        node.right = self.sortedArrayToBST(nums[len(nums)//2 + 1:])
-        return node
-```
-* [Easy] 108. Convert Sorted Array to Binary Search Tree
-
-### DFS
-```python
-# Definition for a binary tree node.
-# class TreeNode:
-#     def __init__(self, x):
-#         self.val = x
-#         self.left = None
-#         self.right = None
-
-class Solution:
-    def trimBST(self, root: TreeNode, L: int, R: int) -> TreeNode:
-        def trim(node):
-            if not node:
-                return None
-            elif node.val > R:
-                return trim(node.left)
-            elif node.val < L:
-                return trim(node.right)
-            else:
-                node.left = trim(node.left)
-                node.right = trim(node.right)
-                return node
-
-        return trim(root)
-```
-* [Easy] [Solution] 669. Trim a Binary Search Tree
-
-### DFS
-```python
-# Definition for a binary tree node.
-# class TreeNode:
-#     def __init__(self, x):
-#         self.val = x
-#         self.left = None
-#         self.right = None
-
-class Solution:
-    def isBalanced(self, root: TreeNode) -> bool:
-        self.isBalanced = True
-
-        def height(root):
-            if not root:
-                return 0
-
-            left = height(root.left)
-            right = height(root.right)
-            if self.isBalanced:
-                self.isBalanced = abs(left - right) < 2 
-
-            return 1 + max(left, right)
-
-
-        height(root)
-        return self.isBalanced
-```
-* [Easy] 110. Balanced Binary Tree
-
-### Traversal with Relinking
-```python
-# Definition for a binary tree node.
-# class TreeNode:
-#     def __init__(self, x):
-#         self.val = x
-#         self.left = None
-#         self.right = None
-
-class Solution:
-    def increasingBST(self, root: TreeNode) -> TreeNode:
-        def inorder(node):
-            if node:
-                inorder(node.left)
-                node.left = None
-                self.cur.right = node
-                self.cur = node
-                inorder(node.right)
-
-        ans = self.cur = TreeNode(None)
-        inorder(root)
-        return ans.right
-```
-* [Easy] [Solution] 897. Increasing Order Search Tree
-
-### DFS/BFS
-```python
-# Definition for a binary tree node.
-# class TreeNode:
-#     def __init__(self, x):
-#         self.val = x
-#         self.left = None
-#         self.right = None
-
-class Solution:
-    def maxDepth(self, root: TreeNode) -> int:
-        if not root:
-            return 0
-        elif root.left == None and root.right == None:
-            return 1
-        else:
-             return 1 + max(self.maxDepth(root.left), self.maxDepth(root.right))
-            
-# Definition for a binary tree node.
-# class TreeNode:
-#     def __init__(self, val=0, left=None, right=None):
-#         self.val = val
-#         self.left = left
-#         self.right = right
-class Solution:
-    def maxDepth(self, root: TreeNode) -> int:
-        q = [[root, 1]] if root else []
-        depth = 0
-        while q:
-            node, d = q.pop(0)
-            depth = max(depth, d)
-            for c in [node.left, node.right]:
-                if c:
-                    q += [[c, d+1]]
-
-        return depth
-```
-* [Easy] 104. Maximum Depth of Binary Tree
-
-### DFS, Yield
-```python
-# Definition for a binary tree node.
-# class TreeNode:
-#     def __init__(self, x):
-#         self.val = x
-#         self.left = None
-#         self.right = None
-
-class Solution:
-    def sumRootToLeaf(self, root: TreeNode) -> int:
-        def dfs(node, previous):
-            if not node.left and not node.right:
-                yield 2*previous + node.val
-
-            if node.left:
-                yield from dfs(node.left, 2*previous + node.val)
-
-            if node.right:
-                yield from dfs(node.right, 2*previous + node.val)
-
-        return sum(dfs(root, 0))
-```
-* [Easy] 1022. Sum of Root To Leaf Binary Numbers
-
-### DFS
-```python
-# Definition for a binary tree node.
-# class TreeNode:
-#     def __init__(self, x):
-#         self.val = x
-#         self.left = None
-#         self.right = None
-
-class Solution:
-    def invertTree(self, root: TreeNode) -> TreeNode:
-        if not root:
-            return None
-        left = self.invertTree(root.left)
-        right = self.invertTree(root.right)
-        root.left = right
-        root.right = left
-        return root
-```
-* [Easy] [Solution] 226. Invert Binary Tree
-
-### In-Order with extra pointer
-```python
-# Definition for a binary tree node.
-# class TreeNode:
-#     def __init__(self, x):
-#         self.val = x
-#         self.left = None
-#         self.right = None
-
-class Solution:
-    def __init__(self):
-        self.total = 0
-
-    def convertBST(self, root):
-        """
-        :type root: TreeNode
-        :rtype: TreeNode
-        """
-        if root is not None:
-            self.convertBST(root.right)
-            self.total += root.val
-            root.val = self.total
-            self.convertBST(root.left)
-        return root
-```
-* [Easy] [Solution] 538. Convert BST to Greater Tree
-
-### Range Sum
-```python
-# Definition for a binary tree node.
-# class TreeNode:
-#     def __init__(self, x):
-#         self.val = x
-#         self.left = None
-#         self.right = None
-
-class Solution:
-    def rangeSumBST(self, root: TreeNode, L: int, R: int) -> int:
-        def dfs(node):
-            if node:
-                if L <= node.val <= R:
-                    self.ans += node.val
-                if L < node.val:
-                    dfs(node.left)
-                if node.val < R:
-                    dfs(node.right)
-
-        self.ans = 0
-        dfs(root)
-        return self.ans
-```
-* [Easy] [Solution] 938. Range Sum of BST
-
-### DFS
-```python
-class Solution:
-    def isCousins(self, root: TreeNode, x: int, y: int) -> bool:
-        parent = {}
-        def dfs(node, par=None, depth=0):
-            if node:
-                parent[node.val] = (par, depth)
-                dfs(node.left, node.val, depth + 1)
-                dfs(node.right, node.val, depth + 1)
-
-        dfs(root)
-        x_parent, x_depth = parent[x]
-        y_parent, y_depth = parent[y]
-        return True if x_parent != y_parent and x_depth == y_depth else False 
-```
-* [Easy] [Solution] 993. Cousins in Binary Tree
-
-### BFS
-```python
-# Definition for a binary tree node.
-# class TreeNode:
-#     def __init__(self, val=0, left=None, right=None):
-#         self.val = val
-#         self.left = left
-#         self.right = right
-class Solution:
-    def levelOrderBottom(self, root: TreeNode) -> List[List[int]]:
-        if not root:
-            return []
-        ans = []
-        level = [root]
-        while level:
-            ans += [[node.val for node in level if node]]
-            level = [c for node in level if node for c in [node.left, node.right] if c]
-        return ans[::-1]
-```
-* [Easy] 107. Binary Tree Level Order Traversal II
-
-### DFS
-```python
-# Definition for a binary tree node.
-# class TreeNode:
-#     def __init__(self, x):
-#         self.val = x
-#         self.left = None
-#         self.right = None
-
-class Solution:
-    def searchBST(self, root: TreeNode, val: int) -> TreeNode:
-        if not root:
-            return None
-
-        if root.val == val:
-            return root
-        elif root.val > val:
-            return self.searchBST(root.left, val)
-        elif root.val < val:
-            return self.searchBST(root.right, val)
-```
-* [Easy] 700. Search in a Binary Search Tree
-
 ### DFS
 ```python
 # Definition for a binary tree node.
@@ -8039,299 +6218,6 @@ class Solution:
 
 ## Hash Table <a name='ht'></a>
 ---
-### Counter
-```python
-class Solution:
-    def intersect(self, nums1, nums2):
-        """
-        :type nums1: List[int]
-        :type nums2: List[int]
-        :rtype: List[int]
-        """
-        return list((collections.Counter(nums1) & collections.Counter(nums2)).elements())
-```
-* [Easy] 350. Intersection of Two Arrays II
-
-### Hash Table 
-```python
-class Solution:
-    def slowestKey(self, releaseTimes: List[int], keysPressed: str) -> str:
-        ans, time = 'z', Counter()
-        for i, char in enumerate(keysPressed):
-            time[char] = max(time[char], releaseTimes[i] - (releaseTimes[i - 1] if i > 0 else 0))
-            if time[char] > time[ans] or time[char] == time[ans] and ans < char:
-                ans = char
-                
-        return ans
-```
-[Easy] 1629. Slowest Key
-
-### Step-by-step build Hash Table
-```python
-class Solution:
-    def twoSum(self, nums: List[int], target: int) -> List[int]:
-        sum_dict = {}
-        for i in range(len(nums)):
-            if target-nums[i] in sum_dict:
-                return [i, sum_dict[target-nums[i]]]
-            else:
-                sum_dict[nums[i]] = i
-```
-* [Easy] [Solution] 1. Two Sum
-
-### Character Mapping with Dictionary
-```python
-class Solution:
-    def isIsomorphic(self, s: str, t: str) -> bool:
-        
-        mapping_s_t = {}
-        mapping_t_s = {}
-        
-        for c1, c2 in zip(s, t):
-            
-            # Case 1: No mapping exists in either of the dictionaries
-            if (c1 not in mapping_s_t) and (c2 not in mapping_t_s):
-                mapping_s_t[c1] = c2
-                mapping_t_s[c2] = c1
-            
-            # Case 2: Ether mapping doesn't exist in one of the dictionaries or Mapping exists and
-            # it doesn't match in either of the dictionaries or both            
-            elif mapping_s_t.get(c1) != c2 or mapping_t_s.get(c2) != c1:
-                return False
-            
-        return True
-```
-* [Easy] 205. Isomorphic Strings
-
-### Counter
-```python
-class Solution:
-    def largestUniqueNumber(self, A: List[int]) -> int:
-        cnt = collections.Counter(A)
-        for k in sorted(cnt, reverse=True):
-            if cnt[k] == 1:
-                return k
-        return -1
-```
-* [Lock] [Easy] 1133. Largest Unique Number
-
-### Count set size
-```python
-class Solution:
-    def distributeCandies(self, candies: List[int]) -> int:
-        return min(len(set(candies)), len(candies) // 2)
-```
-* [Easy] [Solution] 575. Distribute Candies
-
-### Greedy, Hash Table
-```python
-class Solution:
-    def romanToInt(self, s):
-        """
-        :type s: str
-        :rtype: int
-        """
-        roman_dict = {
-            'I': 1,
-            'V': 5,
-            'X': 10,
-            'L': 50,
-            'C': 100,
-            'D': 500,
-            'M': 1000
-        }
-
-        result = 0    
-        for i in range(0, len(s)):
-            result +=  roman_dict[s[i]]
-            if i>=1 and roman_dict[s[i]]>roman_dict[s[i-1]]:
-                result -= 2*roman_dict[s[i-1]]
-        return result
-```
-* [Easy] 13. Roman to Integer
-
-### Counter
-```python
-class Solution:
-    def isAnagram(self, s, t):
-        """
-        :type s: str
-        :type t: str
-        :rtype: bool
-        """
-        return collections.Counter(s) == collections.Counter(t)
-```
-* [Easy] [Solution] 242. Valid Anagram
-
-### Counter
-```python
-class Solution:
-    def findLHS(self, nums: List[int]) -> int:
-        seen_d = collections.Counter(nums)        # prep dict { elem: times_seen }
-
-        # find 2 harmomious keys in seen_d with max times_seen for both of them
-        max_seen = 0
-        for k in seen_d:
-            if k + 1 in seen_d:
-                max_seen = max(max_seen, seen_d[k] + seen_d[k + 1])
-        return max_seen
-```
-* [Easy] [Solution] 594. Longest Harmonious Subsequence
-
-### Hash Table
-```python
-class Solution:
-    def canFormArray(self, arr: List[int], pieces: List[List[int]]) -> bool:
-        mp = {x[0]: x for x in pieces}
-        i = 0
-        while i < len(arr): 
-            if (x := arr[i]) not in mp or mp[x] != arr[i:i+len(mp[x])]: return False 
-            i += len(mp[x])
-        return True
-```
-* [Easy] 1640. Check Array Formation Through Concatenation
-
-### Hash Set
-```python
-class Solution(object):
-    def uniqueMorseRepresentations(self, words):
-        """
-        :type words: List[str]
-        :rtype: int
-        """
-        MORSE = [".-","-...","-.-.","-..",".","..-.","--.",
-                 "....","..",".---","-.-",".-..","--","-.",
-                 "---",".--.","--.-",".-.","...","-","..-",
-                 "...-",".--","-..-","-.--","--.."]
-
-        seen = {"".join(MORSE[ord(c) - ord('a')] for c in word) for word in words}
-
-        return len(seen)
-```
-* [Easy] [Solution] 804. Unique Morse Code Words
-
-### Candidate value hash
-```python
-class Solution:
-    def findPairs(self, nums: List[int], k: int) -> int:
-        nums.sort()
-        res = []
-        dic = {}
-        for num in nums:
-            if num in dic:
-                res.append((dic[num],num))          
-            dic[num+k] = num
-        return len(set(res))
-```
-* [Easy] 532. K-diff Pairs in an Array
-
-### Two Counter
-```python
-class Solution:
-    def getHint(self, secret: str, guess: str) -> str:
-        cow_count = sum(dict(collections.Counter(secret) & collections.Counter(guess)).values())
-        bull_count = len(["_" for letter_secret, letter_guess in zip(secret, guess) if letter_secret == letter_guess])
-        return '{}A{}B'.format(bull_count, cow_count - bull_count)
-```
-* [Easy] 299. Bulls and Cows
-
-### Word Pattern
-```python
-class Solution:
-    def wordPattern(self, pattern: str, str: str) -> bool:
-        d = {}
-        word = str.split()
-        if len(word) != len(pattern): return False
-        for i in range(len(pattern)):
-            if not d.get(pattern[i], None):
-                if word[i] in d.values():
-                    return False
-                d[pattern[i]] = word[i]
-            else:
-                if d[pattern[i]] != word[i]:
-                    return False
-        return True
-```
-* [Easy] 290. Word Pattern
-
-### Fizz Buzz
-```python
-class Solution:
-    def fizzBuzz(self, n: int) -> List[str]:
-        # ans list
-        ans = []
-
-        # Dictionary to store all fizzbuzz mappings
-        fizz_buzz_dict = {3 : "Fizz", 5 : "Buzz"}
-
-        for num in range(1,n+1):
-
-            num_ans_str = ""
-
-            for key in fizz_buzz_dict.keys():
-
-                # If the num is divisible by key,
-                # then add the corresponding string mapping to current num_ans_str
-                if num % key == 0:
-                    num_ans_str += fizz_buzz_dict[key]
-
-            if not num_ans_str:
-                num_ans_str = str(num)
-
-            # Append the current answer str to the ans list
-            ans.append(num_ans_str)  
-
-        return ans
-```
-* [Easy] [Solution] 412. Fizz Buzz
-
-### Left and Right Index
-```python
-class Solution:
-    def findShortestSubArray(self, nums: List[int]) -> int:
-        left, right, count = {}, {}, {}
-        for i, x in enumerate(nums):
-            if x not in left: left[x] = i
-            right[x] = i
-            count[x] = count.get(x, 0) + 1
-
-        ans = len(nums)
-        degree = max(count.values())
-        for x in count:
-            if count[x] == degree:
-                ans = min(ans, right[x] - left[x] + 1)
-
-        return ans
-```
-* [Easy] [Solution] 697. Degree of an Array
-
-### Counter
-```python
-class Solution:
-    def canConstruct(self, ransomNote: str, magazine: str) -> bool:
-        return len(collections.Counter(ransomNote) - collections.Counter(magazine)) == 0
-```
-* [Easy] 383. Ransom Note
-
-### Counter
-```python
-class Solution:
-    def firstUniqChar(self, s):
-        """
-        :type s: str
-        :rtype: int
-        """            
-        # build hash map : character and how often it appears
-        count = collections.Counter(s)
-
-        # find the index
-        for idx, ch in enumerate(s):
-            if count[ch] == 1:
-                return idx     
-        return -1
-```
-* [Easy] [Solution] 387. First Unique Character in a String
-
 ### Counter with order
 ```python
 class Solution:
@@ -8379,25 +6265,6 @@ class Solution:
         return res
 ```
 * [Medium] [Solution] 609. Find Duplicate File in System
-
-### Set
-```python
-class Solution:
-    def destCity(self, paths: List[List[str]]) -> str:
-        A, B = map(set, zip(*paths))
-        return (B - A).pop()
-```
-* [Easy] 1436. Destination City
-
-### Set
-```python
-class Solution:
-    def halvesAreAlike(self, s: str) -> bool:
-        a = s.lower()[:len(s)//2]
-        b = s.lower()[len(s)//2:]
-        return collections.Counter(c in 'aeiou' for c in a) == collections.Counter(c in 'aeiou' for c in b)
-```
-* [Easy] 1704. Determine if String Halves Are Alike
 
 ### Counter
 ```python
@@ -8770,6 +6637,49 @@ class LRUCache:
 # obj = LRUCache(capacity)
 # param_1 = obj.get(key)
 # obj.put(key,value)
+```
+```c++
+class LRUCache {
+    unordered_map<int,list<pair<int,int>>::iterator> m;
+    list<pair<int,int>> q;
+    int cap;
+public:
+    LRUCache(int capacity) {
+        cap = capacity;
+    }
+    
+    int get(int key) {
+        if (!m.count(key)) {
+            return -1;
+        } else {
+            auto p = *m[key];
+            q.erase(m[key]);
+            m.erase(key);
+            q.push_front(p);
+            m[key] = q.begin();
+            return p.second;
+        }
+    }
+    
+    void put(int key, int value) {
+        if (m.count(key)) {
+            q.erase(m[key]);
+            m.erase(key);
+        } else if (m.size() == cap) {
+            m.erase(q.back().first);
+            q.pop_back();
+        }
+        q.push_front({key, value});
+        m[key] = q.begin();
+    }
+};
+
+/**
+ * Your LRUCache object will be instantiated and called as such:
+ * LRUCache* obj = new LRUCache(capacity);
+ * int param_1 = obj->get(key);
+ * obj->put(key,value);
+ */
 ```
 * [Medium] 146. LRU Cache
 
@@ -9158,156 +7068,6 @@ class Solution:
 
 ## Depth-first Search <a name="dfs"></a>
 ---
-### Pre-Order
-```python
-"""
-# Definition for a Node.
-class Node:
-    def __init__(self, val=None, children=None):
-        self.val = val
-        self.children = children
-"""
-class Solution:
-    def preorder(self, root: 'Node') -> List[int]:
-        self.ans = []
-        def dfs(node):
-            if not node:
-                return
-            self.ans.append(node.val)
-            for c in node.children:
-                dfs(c)
-        dfs(root)
-        return self.ans
-    
-"""
-# Definition for a Node.
-class Node:
-    def __init__(self, val=None, children=None):
-        self.val = val
-        self.children = children
-"""
-class Solution:
-    def preorder(self, root: 'Node') -> List[int]:
-        ans = []
-        stack = root and [root]
-        while stack:
-            node = stack.pop()
-            ans.append(node.val)
-            stack.extend([c for c in node.children[::-1] if c])
-        return ans
-```
-* [Easy] 589. N-ary Tree Preorder Traversal
-
-### Post-Order
-```python
-# Definition for a binary tree node.
-# class TreeNode:
-#     def __init__(self, x):
-#         self.val = x
-#         self.left = None
-#         self.right = None
-
-class Solution:
-    def findTilt(self, root: TreeNode) -> int:
-        self.ans = 0
-        def dfs(node):
-            if not node:
-                return 0
-            left = dfs(node.left)
-            right = dfs(node.right)
-            diff = abs(left - right)
-            self.ans += diff
-            return node.val + left + right
-
-        dfs(root)
-        return self.ans
-```
-* [Easy] [Solution] 563. Binary Tree Tilt
-
-### Sum of Left Leaves
-```python
-# Definition for a binary tree node.
-# class TreeNode:
-#     def __init__(self, x):
-#         self.val = x
-#         self.left = None
-#         self.right = None
-
-class Solution:
-    def sumOfLeftLeaves(self, root: TreeNode) -> int:
-        if root is None: 
-            return 0
-
-        def is_leaf(node):
-            return node is not None and node.left is None and node.right is None
-
-        stack = [root]
-        total = 0
-        while stack:
-            sub_root = stack.pop()
-            # Check if the left node is a leaf node.
-            if is_leaf(sub_root.left):
-                total += sub_root.left.val
-            # If the right node exists, put it on the stack.
-            if sub_root.right is not None:
-                stack.append(sub_root.right)
-            # If the left node exists, put it on the stack.
-            if sub_root.left is not None:
-                stack.append(sub_root.left)
-
-        return total
-    
-# Definition for a binary tree node.
-# class TreeNode:
-#     def __init__(self, x):
-#         self.val = x
-#         self.left = None
-#         self.right = None
-
-class Solution:
-    def sumOfLeftLeaves(self, root: TreeNode) -> int:
-
-        def process_subtree(subtree, is_left):
-
-            # Base case: If this subtree is empty, return 0
-            if subtree is None:
-                return 0
-
-            # Base case: This is a leaf node.
-            if subtree.left is None and subtree.right is None:
-                return subtree.val if is_left else 0
-
-            # Recursive case: return result of adding the left and right subtrees.
-            return process_subtree(subtree.left, True) + process_subtree(subtree.right, False)
-
-        return process_subtree(root, False)
-```
-* [Easy] 404. Sum of Left Leaves
-
-### DFS
-```python
-# Definition for a binary tree node.
-# class TreeNode:
-#     def __init__(self, x):
-#         self.val = x
-#         self.left = None
-#         self.right = None
-
-class Solution:
-    def isSameTree(self, p: TreeNode, q: TreeNode) -> bool:
-        # p and q are both None
-        if not p and not q:
-            return True
-        # one of p and q is None
-        if not q or not p:
-            return False
-        if p.val != q.val:
-            return False
-        return self.isSameTree(p.right, q.right) and \
-               self.isSameTree(p.left, q.left)
-```
-* [Easy] [Solution] 100. Same Tree
-
 ### 2 DFS
 ```python
 # Definition for a binary tree node.
@@ -9514,26 +7274,6 @@ class Solution:
         return ans
 ```
 * [Medium] 1754. Largest Merge Of Two Strings
-
-### Flood Fill
-```python
-class Solution:
-    def floodFill(self, image: List[List[int]], sr: int, sc: int, newColor: int) -> List[List[int]]:
-        R, C = len(image), len(image[0])
-        color = image[sr][sc]
-        if color == newColor: return image
-        def dfs(r, c):
-            if image[r][c] == color:
-                image[r][c] = newColor
-                if r >= 1: dfs(r-1, c)
-                if r+1 < R: dfs(r+1, c)
-                if c >= 1: dfs(r, c-1)
-                if c+1 < C: dfs(r, c+1)
-
-        dfs(sr, sc)
-        return image
-```
-* [Easy] [Solution] 733. Flood Fill
 
 ### DFS
 ```python
@@ -10497,110 +8237,6 @@ return num_connected_components
 
 ## Binary Search <a name="bs"></a>
 ---
-### Binary Search
-```
-class Solution:
-    def judgeSquareSum(self, c: int) -> bool:
-        left, right = 0, int(sqrt(c))
-        while left <= right:
-            cur = left**2 + right**2
-            if cur == c:
-                return True
-            elif cur > c:
-                right -= 1
-            else:
-                left += 1
-            
-        return False
-```
-* [Easy] [Solution] 633. Sum of Square Numbers
-
-### Binary Search
-```python
-class Solution:
-    def search(self, nums: List[int], target: int) -> int:
-        left, right = 0, len(nums) - 1
-        while left <= right:
-            pivot = left + (right - left) // 2
-            if nums[pivot] == target:
-                return pivot
-            if target < nums[pivot]:
-                right = pivot - 1
-            else:
-                left = pivot + 1
-        return -1
-```
-* [Easy] [Solution] 704. Binary Search
-
-### Closest Binary Search Tree Value
-```python
-# Definition for a binary tree node.
-# class TreeNode:
-#     def __init__(self, val=0, left=None, right=None):
-#         self.val = val
-#         self.left = left
-#         self.right = right
-class Solution:
-    def closestValue(self, root: TreeNode, target: float) -> int:
-        closest = root.val
-        while root:
-            closest = min(root.val, closest, key = lambda x: abs(target - x))
-            root = root.left if target < root.val else root.right
-        return closest
-```
-* [Lock] [Easy] [Solution] 270. Closest Binary Search Tree Value
-
-### Binary Search to leftmost - increase one side
-```python
-class Solution:
-    def firstBadVersion(self, n):
-        """
-        :type n: int
-        :rtype: int
-        """
-        left = 1
-        right = n
-        while left < right:
-            mid = left + (right - left) // 2
-            if isBadVersion(mid):  # >=
-                right = mid
-            else:  # <
-                left = mid + 1
-        return left
-```
-* [Easy] [Solution] 278. First Bad Version
-
-### Insert Position
-```python
-class Solution:
-    def searchInsert(self, nums, target):
-        """
-        :type nums: List[int]
-        :type target: int
-        :rtype: int
-        """
-        return bisect.bisect_left(nums, target)
-```
-* [Easy] 35. Search Insert Position
-
-### Arranging Coins
-```python
-class Solution:
-    def arrangeCoins(self, n: int) -> int:
-        left, right = 0, n
-        while left <= right:
-            k = (right + left) // 2
-            curr = k * (k + 1) // 2
-            if curr == n:
-                return k
-            if n < curr:
-                right = k - 1
-            else:
-                left = k + 1
-        return right
-```
-* [Easy] [Solution] 441. Arranging Coins
-
 ### search interval
 ```python
 class MyCalendar:
@@ -10765,86 +8401,44 @@ class Solution:
 * [Medium] 33. Search in Rotated Sorted Array
 
 ### Binary Search with duplicate
-```python
-class Solution:
-    def search(self, nums: List[int], target: int) -> bool:
-        N = len(nums)
-        if N == 0: return False
-        end = N - 1
-        start = 0
 
-        # returns true if we can reduce the search space in current binary search space
-        def isBinarySearchHelpful(start, element):
-            return nums[start] != element
-
-        # returns true if element exists in first array, false if it exists in second
-        def existsInFirst(start, element):
-            return nums[start] <= element
+```c++
+class Solution {
+public:
+    bool search(vector<int>& nums, int target) {
+        int l = 0;
+        int r = nums.size() - 1;
         
-        while start <= end:
-            mid = start + (end - start) // 2
-
-            if nums[mid] == target:
-                return True
-
-            if not isBinarySearchHelpful(start, nums[mid]):
-                start += 1
-                continue
-            # which array does pivot belong to.
-            pivotArray = existsInFirst(start, nums[mid])
-
-            # which array does target belong to.
-            targetArray = existsInFirst(start, target)
-            if pivotArray ^ targetArray: # If pivot and target exist in different sorted arrays, recall that xor is true when both operands are distinct
-                if pivotArray:
-                    start = mid + 1 # pivot in the first, target in the second
-                else:
-                    end = mid - 1 # target in the first, pivot in the second
-            else: # If pivot and target exist in same sorted array
-                if nums[mid] < target:
-                    start = mid + 1
-                else:
-                    end = mid - 1
-
-        return False
-
-class Solution:
-    def search(self, nums: List[int], target: int) -> bool:
-        if not nums: return False
-
-        def dfs(left, right):
-            if left >= right: return False
-            mid = left + (right - left) // 2
-            if nums[mid] == target: return True
-            if nums[mid] == nums[left] and nums[left] == nums[right - 1]:
-                return dfs(left, mid) or dfs(mid + 1, right)
-            if nums[mid] >= nums[left]:                
-                return dfs(left, mid) if nums[left] <= target < nums[mid] else dfs(mid + 1, right)
-            else:
-                return dfs(mid + 1, right) if nums[mid] < target <= nums[right - 1] else dfs(left, mid)
-        
-        return dfs(0, len(nums))
-
-class Solution:
-    def search(self, nums: List[int], target: int) -> bool:
-        def dfs(beg, end):
-            if end - beg <= 1: return target in nums[beg: end+1]
-            
-            mid = (beg + end)//2
-            if nums[mid] > nums[end]:   # eg. 3,4,5,6,7,1,2
-                if nums[end] < target <= nums[mid]:
-                    return dfs(beg, mid)
-                else:
-                    return dfs(mid + 1, end)
-            elif nums[mid] < nums[end]: # eg. 6,7,1,2,3,4,5
-                if nums[mid] < target <= nums[end]:
-                    return dfs(mid + 1, end)
-                else:
-                    return dfs(beg, mid)
-            else:
-                return dfs(mid+1, end) or dfs(beg, mid)
-    
-        return dfs(0, len(nums)-1)
+        while(l <= r)
+        {
+            int mid = l + (r-l) / 2;
+            if (nums[mid] == target)
+                return true;
+			// with duplicates we can have this contdition, just update left & right
+            if((nums[l] == nums[mid]) && (nums[r] == nums[mid]))
+            {
+                l++;
+                r--;
+            }
+            else if(nums[l] <= nums[mid])
+            {
+				// target is in first  half
+                if((nums[l] <= target) && (nums[mid] > target))
+                    r = mid - 1;
+                else
+                    l = mid + 1;
+            }
+            else
+            {
+                if((nums[mid] < target) && (nums[r]>= target))
+                    l = mid + 1;
+                else
+                    r = mid - 1;
+            }
+        }
+        return false;
+    }
+};
 ```
 * [Medium] 81. Search in Rotated Sorted Array II
 
@@ -11350,89 +8944,6 @@ return ans
 
 ## Greedy <a name="greedy"></a>
 ---
-### groupby
-```python
-class Solution:
-    def findMaxConsecutiveOnes(self, nums: List[int]) -> int:
-        return max([len(list(grp)) if k == 1 else 0 for k, grp in itertools.groupby(nums)])
-```
-* [Easy] 485. Max Consecutive Ones
-
-### character conversion
-```python
-class Solution:
-    def toLowerCase(self, s: str) -> str:
-        ans = ''
-        for c in s:
-            if c.isalpha() and ord(c) < ord('a'):
-                ans += chr(ord('a')+ord(c)-ord('A')) 
-            else:
-                ans += c
-        return ans
-```
-* [Easy] 709. To Lower Case
-
-### Max Profit
-```python
-class Solution:
-    def maxProfit(self, prices: List[int]) -> int:
-        min_price = sys.maxsize
-        max_profit = 0
-        for i in range(len(prices)):
-            if prices[i] < min_price:
-                min_price = prices[i]
-            elif prices[i]-min_price > max_profit:
-                max_profit = prices[i]-min_price
-        return max_profit
-```
-* [Easy] [Solution] 121. Best Time to Buy and Sell Stock
-
-### Greedy
-```python
-class Solution:
-    def distributeCandies(self, candies: int, num_people: int) -> List[int]:
-        i = 1
-        ans = [0]*num_people
-        i = 1
-        while candies-i > 0:
-            ans[(i-1)%num_people] += i
-            candies -= i
-            i += 1
-        ans[(i-1)%num_people] += candies
-        return ans
-```
-* [Easy] [Solution] 1103. Distribute Candies to People
-
-### Greedy
-```python
-class Solution:
-    def longestPalindrome(self, s: str) -> int:
-        ans = 0
-        for v in collections.Counter(s).values():
-            ans += v // 2 * 2
-            if ans % 2 == 0 and v % 2 == 1:
-                ans += 1
-        return ans
-```
-* [Easy] [Solution] 409. Longest Palindrome
-
-### Append leftmost and rightmost element
-```python
-class Solution:
-    def canPlaceFlowers(self, flowerbed: List[int], n: int) -> bool:
-        tmp =[0] + flowerbed +[0]
-
-        index = 1 
-
-        while index< len(tmp)-1:
-            if tmp[index-1]== 0 and tmp[index]==0 and tmp[index+1]==0:
-                n -= 1
-                index += 1 
-            index += 1
-        return n <= 0
-```
-* [Easy] [Solution] 605. Can Place Flowers
-
 ###  Greedy
 ```python
 class Solution:
@@ -11758,16 +9269,6 @@ class Solution:
         return False
 ```
 * [Medium] 334. Increasing Triplet Subsequence
-
-### 1-bit and 2-bit Characters
-```python
-class Solution:
-    def isOneBitCharacter(self, bits: List[int]) -> bool:
-        parity = bits.pop()
-        while bits and bits.pop(): parity ^= 1
-        return parity == 0
-```
-* [Easy] [Solution] 717. 1-bit and 2-bit Characters
 
 ### Logical Deduction with Caching
 ```python
@@ -12184,97 +9685,10 @@ return ans
 
 * [Medium] [Solution] 767. Reorganize String
 * [Medium] [Solution] 738. Monotone Increasing Digits
-* [Easy] [Solution] 874. Walking Robot Simulation
 * [Medium] * 1111. Maximum Nesting Depth of Two Valid Parentheses Strings
 
 ## Breadth-first Search <a name="bfs"></a>
 ---
-### Level-Order, Set
-```python
-# Definition for a binary tree node.
-# class TreeNode:
-#     def __init__(self, x):
-#         self.val = x
-#         self.left = None
-#         self.right = None
-
-class Solution:
-    def findTarget(self, root: TreeNode, k: int) -> bool:
-        s = set()
-        
-        level = root and [root]
-        while level:
-            next_level = []
-            for node in level:
-                if (k - node.val) in s:
-                    return True
-                else:
-                    s.add(node.val)
-                next_level += [c for c in [node.left, node.right] if c]
-            level = next_level
-        return False
-```
-* [Easy] [Solution] 653. Two Sum IV - Input is a BST
-
-### Level-Order
-```python
-class Solution:
-    def averageOfLevels(self, root: TreeNode) -> List[float]:
-        ans = []
-        level = [root]
-        while level:
-            ans += [sum([node.val for node in level])/len(level)]
-            level = [c for node in level if node for c in [node.left, node.right] if c]
-        return ans
-```
-* [Easy] [Solution] 637. Average of Levels in Binary Tree
-
-### Minimum Depth
-```python
-# Definition for a binary tree node.
-# class TreeNode:
-#     def __init__(self, x):
-#         self.val = x
-#         self.left = None
-#         self.right = None
-
-class Solution:
-    def minDepth(self, root: TreeNode) -> int:
-        if not root:
-            return 0
-
-        q = collections.deque()
-        q.append((root,1))
-
-        while q:
-            node, level = q.popleft()
-            if not node.left and not node.right:
-                return level
-
-            for node in [node.left, node.right]:
-                if node:
-                    q.append((node, level+1))
-                    
-# Definition for a binary tree node.
-# class TreeNode:
-#     def __init__(self, val=0, left=None, right=None):
-#         self.val = val
-#         self.left = left
-#         self.right = right
-class Solution:
-    def minDepth(self, root: TreeNode) -> int:
-        if root == None: 
-            return 0
-        if root.left == None and root.right == None: # Reach leaf node
-            return 1
-        if root.left == None:
-            return self.minDepth(root.right) + 1
-        if root.right == None:
-            return self.minDepth(root.left) + 1
-        return min(self.minDepth(root.left), self.minDepth(root.right)) + 1
-```
-* [Easy] 111. Minimum Depth of Binary Tree
-
 ### expand from answer 
 ```python
 class Solution:
@@ -12359,6 +9773,47 @@ class Solution:
             ans += [cur]
             q = nq
         return ans
+```
+```c++
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+class Solution {
+public:
+    vector<vector<int>> levelOrder(TreeNode* root) {
+        vector<vector<int>> ans;
+        queue<TreeNode*> q;
+        if (!root)
+            return ans;
+        q.push(root);
+        int sz;
+        TreeNode* node;
+        vector<int> level;
+        while (!q.empty()) {
+            sz = q.size();
+            level.clear();
+            for (int i = 0; i < sz; i ++) {
+                node = q.front();
+                level.push_back(node->val);
+                q.pop();
+                if (node->left)
+                    q.push(node->left);
+                if (node->right)
+                    q.push(node->right);
+            }
+            ans.push_back(level);
+        }
+        return ans;
+    }
+};
 ```
 * [Medium] 102. Binary Tree Level Order Traversal
 
@@ -13283,115 +10738,6 @@ return ans if len(ans) == N else []
 
 ## Two Pointers <a name="tp"></a>
 ---
-### walk backward
-```python
-class Solution:
-    def merge(self, nums1: List[int], m: int, nums2: List[int], n: int) -> None:
-        """
-        Do not return anything, modify nums1 in-place instead.
-        """
-        p1, p2 = m - 1, n - 1
-        for i in range(m+n-1, -1, -1):
-            if p1 < 0 or p2 < 0: break
-            if nums1[p1] > nums2[p2]:
-                nums1[i] = nums1[p1]
-                p1 -= 1
-            else:
-                nums1[i] = nums2[p2]
-                p2 -= 1
-              
-        while p2 >= 0:
-            nums1[i] = nums2[p2]
-            i -= 1
-            p2 -= 1
-```
-* [Easy] 88. Merge Sorted Array
-
-### Two Pointers
-```python
-class Solution:
-    def sortedSquares(self, A: List[int]) -> List[int]:
-        N = len(A)
-        # i, j: negative, positive parts
-        j = 0
-        while j < N and A[j] < 0:
-            j += 1
-        i = j - 1
-
-        ans = []
-        while 0 <= i and j < N:
-            if A[i]**2 < A[j]**2:
-                ans.append(A[i]**2)
-                i -= 1
-            else:
-                ans.append(A[j]**2)
-                j += 1
-
-        while i >= 0:
-            ans.append(A[i]**2)
-            i -= 1
-        while j < N:
-            ans.append(A[j]**2)
-            j += 1
-
-        return ans
-```
-* [Easy] [Solution] 977. Squares of a Sorted Array
-
-### Scan one and increment the other
-```python
-class Solution:
-    def sortArrayByParityII(self, A: List[int]) -> List[int]:
-        j = 1
-        for i in range(0, len(A), 2):
-            if A[i] % 2:
-                while A[j] % 2:
-                    j += 2
-                A[i], A[j] = A[j], A[i]
-        return A
-```
-* [Easy] [Solution] 922. Sort Array By Parity II
-
-### Cycle, slow/fast start from head
-```python
-# Definition for singly-linked list.
-# class ListNode:
-#     def __init__(self, x):
-#         self.val = x
-#         self.next = None
-
-class Solution:
-    def hasCycle(self, head: ListNode) -> bool:
-        if not head or not head.next:
-            return False
-        slow = head
-        fast = head
-        while fast and fast.next:
-            slow = slow.next
-            fast = fast.next.next
-            if slow == fast:
-                return True
-
-        return False
-```
-* [Easy] [Solution] 141. Linked List Cycle
-
-### Is Subsequence
-```python
-class Solution:
-    def isSubsequence(self, s: str, t: str) -> bool:
-        if not s:
-            return True
-        j = 0
-        for i in range(len(t)):
-            if t[i] == s[j]:
-                j += 1
-            if j == len(s):
-                return True
-        return False
-```
-* [Easy] 392. Is Subsequence
-
 ### fix one and slide over the other two
 ```python
 class Solution:
@@ -13696,24 +11042,6 @@ class Solution:
 ```
 * [Medium] [Solution] 838. Push Dominoes
 
-### Two Pointers, iterate left and right pointer with yield
-```python
-class Solution:
-    def backspaceCompare(self, S: str, T: str) -> bool:
-        def F(S):
-            skip = 0
-            for x in reversed(S):
-                if x == '#':
-                    skip += 1
-                elif skip:
-                    skip -= 1
-                else:
-                    yield x
-
-        return all(x == y for x, y in itertools.zip_longest(F(S), F(T)))
-```
-* [Easy] [Solution] 844. Backspace String Compare
-
 ### Three pointer
 ```python
 class Solution:
@@ -13751,20 +11079,6 @@ class Solution:
         return ans % MOD
 ```
 * [Medium] [Solution] 923. 3Sum With Multiplicity
-
-### Group into Blocks
-```python
-class Solution:
-    def isLongPressedName(self, name: str, typed: str) -> bool:
-        g1 = [(k, len(list(grp))) for k, grp in itertools.groupby(name)]
-        g2 = [(k, len(list(grp))) for k, grp in itertools.groupby(typed)]
-        if len(g1) != len(g2):
-            return False
-
-        return all(k1 == k2 and v1 <= v2
-                   for (k1,v1), (k2,v2) in zip(g1, g2))
-```
-* [Easy] [Solution] 925. Long Pressed Name
 
 ### Three pointer
 ```python
@@ -14012,150 +11326,6 @@ return ans
 
 ## Stack <a name="stack"></a>
 ---
-### Greedy add
-```python
-class Solution:
-    def removeDuplicates(self, S: str) -> str:
-        stack = []
-        for c in S:
-            if stack and stack[-1] == c:
-                stack.pop()
-            else:
-                stack.append(c)
-                
-        return ''.join(stack)
-```
-* [Easy] 1047. Remove All Adjacent Duplicates In String
-
-### Mapping
-```python
-class Solution:
-    def isValid(self, s):
-        """
-        :type s: str
-        :rtype: bool
-        """
-        # The stack to keep track of opening brackets.
-        stack = []
-
-        # Hash map for keeping track of mappings. This keeps the code very clean.
-        # Also makes adding more types of parenthesis easier
-        mapping = {")": "(", "}": "{", "]": "["}
-
-        # For every bracket in the expression.
-        for char in s:
-
-            # If the character is an closing bracket
-            if char in mapping:
-
-                # Pop the topmost element from the stack, if it is non empty
-                # Otherwise assign a dummy value of '#' to the top_element variable
-                top_element = stack.pop() if stack else '#'
-
-                # The mapping for the opening bracket in our hash and the top
-                # element of the stack don't match, return False
-                if mapping[char] != top_element:
-                    return False
-            else:
-                # We have an opening bracket, simply push it onto the stack.
-                stack.append(char)
-
-        # In the end, if the stack is empty, then we have a valid expression.
-        # The stack won't be empty for cases like ((()
-        return not stack
-```
-* [Easy] [Solution] 20. Valid Parentheses
-
-### PreOrder
-```python
-class Solution:
-    def preorderTraversal(self, root: TreeNode) -> List[int]:
-        preorder, stack = [], [(root, False)]
-        while stack:
-            (node, visited) = stack.pop()
-            if not node:
-                continue
-            if visited:
-                preorder.append(node.val)
-            else:
-                stack.append((node.right, False))
-                stack.append((node.left, False))
-                stack.append((node, True))
-        return preorder
-```
-
-### InOrder
-```python
-class Solution:
-    def inorderTraversal(self, root: TreeNode) -> List[int]:
-        inorder, stack = [], [(root, False)]
-        while stack:
-            (node, visited) = stack.pop()
-            if node:
-                if visited:
-                    inorder.append(node.val)
-                else:
-                    stack.append((node.right, False))
-                    stack.append((node, True))
-                    stack.append((node.left, False))
-        return inorder
-```
-### PostOrder
-```python
-class Solution:
-    def postorderTraversal(self, root: TreeNode) -> List[int]:
-        postorder, stack = [], [(root, False)]
-        while stack:
-            (node, visited) = stack.pop()
-            if node:
-                if visited:
-                    postorder.append(node.val)
-                else:
-                    stack.append((node, True))
-                    stack.append((node.right, False))
-                    stack.append((node.left, False))
-        return postorder
-```
-
-### Valid Parentheses
-```python
-class Solution:
-    def isValid(self, s):
-        """
-        :type s: str
-        :rtype: bool
-        """
-        # The stack to keep track of opening brackets.
-        stack = []
-
-        # Hash map for keeping track of mappings. This keeps the code very clean.
-        # Also makes adding more types of parenthesis easier
-        mapping = {")": "(", "}": "{", "]": "["}
-
-        # For every bracket in the expression.
-        for char in s:
-
-            # If the character is an closing bracket
-            if char in mapping:
-
-                # Pop the topmost element from the stack, if it is non empty
-                # Otherwise assign a dummy value of '#' to the top_element variable
-                top_element = stack.pop() if stack else '#'
-
-                # The mapping for the opening bracket in our hash and the top
-                # element of the stack don't match, return False
-                if mapping[char] != top_element:
-                    return False
-            else:
-                # We have an opening bracket, simply push it onto the stack.
-                stack.append(char)
-
-        # In the end, if the stack is empty, then we have a valid expression.
-        # The stack won't be empty for cases like ((()
-        return not stack
-```
-* [Easy] [Solution] 20. Valid Parentheses
-
 ### 2 element stack: key and count
 ```python
 class Solution:
@@ -15607,38 +12777,6 @@ return ans
 
 ## Bit Manipulation <a name="bm"></a>
 ---
-### A + ~A = 2**N - 1
-```python
-class Solution:
-    def bitwiseComplement(self, N: int) -> int:
-        return 2 ** (len(bin(N))-2)-1 - N
-```
-* [Easy] 1009. Complement of Base 10 Integer
-
-### Power of Two
-```python
-class Solution:
-    def isPowerOfTwo(self, n: int) -> bool:
-        if n <= 0:
-            return False
-
-        while n >= 2:
-            n, r = divmod(n, 2)
-            if r:
-                return False
-
-        return True
-```
-* [Easy] 231. Power of Two
-
-### Number Complement
-```python
-class Solution:
-    def findComplement(self, num: int) -> int:
-         return int(''.join(chr(ord('0') + ord('1') - ord(ch)) for ch in bin(num)[2:]),2)
-```
-* [Easy] 476. Number Complement
-
 ### Ascii to hash value
 ```python
 class Solution:
@@ -15717,45 +12855,6 @@ class Solution:
 ```
 * [Medium] [Solution] 78. Subsets
 
-### Next highest 1 bit: n & (n-1))
-```python
-class Solution(object):
-    def hammingWeight(self, n):
-        """
-        :type n: int
-        :rtype: int
-        """
-        ans = 0
-        while n != 0:
-            ans += 1
-            n &= (n - 1)
-
-        return ans
-```
-* [Easy] [Solution] 191. Number of 1 Bits
-
-### a xor a = 0, a xor 0 = a
-```python
-class Solution:
-    def findTheDifference(self, s: str, t: str) -> str:
-        ans = 0
-        for c in s: ans ^= ord(c)
-        for c in t: ans ^= ord(c)
-        return chr(ans)
-```
-* [Easy] 389. Find the Difference
-
-### a xor a = 0, a xor 0 = a
-```python
-class Solution:
-    def missingNumber(self, nums: List[int]) -> int:
-        missing = len(nums)
-        for i, num in enumerate(nums):
-            missing ^= i ^ num
-        return missing
-```
-* [Easy] [Solution] 268. Missing Number
-
 ### a xor b xor c = b xor c xor a
 ```python
 class Solution:
@@ -15828,16 +12927,6 @@ class Solution:
         return n_bytes == 0
 ```
 * [Medium] [Solution] 393. UTF-8 Validation
-
-### Direct
-```python
-class Solution:
-    def countPrimeSetBits(self, L: int, R: int) -> int:
-        primes = {2, 3, 5, 7, 11, 13, 17, 19}
-        return sum(bin(x).count('1') in primes
-                   for x in range(L, R+1))
-```
-* [Easy] [Solution] 762. Prime Number of Set Bits in Binary Representation
 
 ### Frontier Set, DP Bottom-Up
 ```python
@@ -15944,67 +13033,6 @@ def binaryToGray(self, n: int) -> int:
 
 ## Sort <a name="sort"></a>
 ---
-### Greedy most profit
-```python
-class Solution:
-    def maximumUnits(self, boxTypes: List[List[int]], truckSize: int) -> int:
-        A = sorted(boxTypes, key = lambda x:x[1] , reverse = True)
-        res = 0
-        for i in range(len(A)):
-            if truckSize - A[i][0] >= 0:
-                res += A[i][0] * A[i][1]
-                truckSize = truckSize - A[i][0]
-            else:
-                res += truckSize * A[i][1]
-                break
-        return res
-```
-*  [Lock] [Easy] [Solution] 1710. Maximum Units on a Truck
-
-### Counting Sort
-```python
-class Solution:
-    def twoSumLessThanK(self, A: List[int], K: int) -> int:
-        S = -1
-        count = [0] * 1001
-        for i in A:
-            count[i] += 1
-        lo, hi = 0, 1000
-        while lo < hi:
-            if lo + hi >= K or count[hi] == 0:
-                hi -= 1
-            else:
-                if count[lo] > 0 if lo < hi else 1:
-                    S = max(S, lo + hi)
-                lo += 1
-        return S
-```
-* [Lock] [Easy] [Solution] 1099. Two Sum Less Than K
-
-### Shortest Unsorted Continuous Subarray
-```python
-class Solution:
-    def findUnsortedSubarray(self, nums: List[int]) -> int:
-        sorted_nums = sorted(nums) # returns the another sorted copy     
-        start = 0
-        end = len(nums)-1
-        while start <= end and sorted_nums[start] == nums[start]:
-            start += 1
-        while end >= 0 and sorted_nums[end] == nums[end]:
-            end -= 1
-
-        return 0 if start > end else end - start + 1
-```
-* [Easy] [Solution] 581. Shortest Unsorted Continuous Subarray
-
-### Two City Scheduling
-```python
-class Solution:
-    def twoCitySchedCost(self, costs: List[List[int]]) -> int:
-        return sum([x[0] if i < len(costs)//2 else x[1] for i, x in enumerate(sorted(costs,key=lambda x: x[0]-x[1]))])
-```
-* [Easy] 1029. Two City Scheduling
-
 ### Count
 ```python
 class Solution:
@@ -16444,206 +13472,6 @@ class Solution:
 
 ## Linked List <a name="ll"></a>
 ---
-### Iterative and Recursive
-```python
-# Definition for singly-linked list.
-# class ListNode:
-#     def __init__(self, x):
-#         self.val = x
-#         self.next = None
-
-class Solution:
-    def reverseList(self, head):
-        """
-        :type head: ListNode
-        :rtype: ListNode
-        """
-        prev = None
-        while head:
-            nxt = head.next
-            head.next = prev
-            prev = head
-            head = nxt
-        return prev
-
-# Definition for singly-linked list.
-# class ListNode:
-#     def __init__(self, x):
-#         self.val = x
-#         self.next = None
-
-class Solution:
-    def reverseList(self, head):
-        """
-        :type head: ListNode
-        :rtype: ListNode
-        """
-        if not head or not head.next:
-            return head
-        p = self.reverseList(head.next)
-        head.next.next = head
-        head.next = None
-        return p
-```
-* [Easy] 206. Reverse Linked List
-
-### fast and slow pointer
-```python
-# Definition for singly-linked list.
-# class ListNode:
-#     def __init__(self, x):
-#         self.val = x
-#         self.next = None
-
-class Solution:
-    def isPalindrome(self, head: ListNode) -> bool:
-        if not head or not head.next:
-            return True
-
-        slow = fast = head
-        prev = None
-
-        #Reverse the list until it's mid point
-
-        while fast and fast.next:
-            fast = fast.next.next
-            temp = slow.next
-            slow.next = prev
-            prev = slow
-            slow = temp
-
-        if fast and not fast.next:
-            slow = slow.next
-
-        while prev and slow:
-            if prev.val != slow.val:
-                return False
-            prev = prev.next
-            slow = slow.next
-
-        return True
-```
-* [Easy] 234. Palindrome Linked List
-
-### interaction
-```python
-# Definition for singly-linked list.
-# class ListNode(object):
-#     def __init__(self, x):
-#         self.val = x
-#         self.next = None
-
-class Solution(object):
-    def getIntersectionNode(self, headA, headB):
-        """
-        :type head1, head1: ListNode
-        :rtype: ListNode
-        """
-        if not headA or not headB:
-            return None
-        pa = headA
-        pb = headB
-        while pa is not pb:
-            pa = headB if not pa else pa.next
-            pb = headA if not pb else pb.next
-        return pa
-```
-* [Easy] [Solution] 160. Intersection of Two Linked Lists
-
-### Linked List
-```python
-# Definition for singly-linked list.
-# class ListNode:
-#     def __init__(self, x):
-#         self.val = x
-#         self.next = None
-
-class Solution:
-    def mergeTwoLists(self, l1: ListNode, l2: ListNode) -> ListNode:
-        current = None
-        head = None
-        while l1 and l2:
-            if l1.val <= l2.val:
-                node = ListNode(l1.val)
-                l1 = l1.next
-            else:
-                node = ListNode(l2.val)
-                l2 = l2.next
-            if current == None:
-                current = node
-                head = current
-            else:
-                current.next = node
-                current = current.next
-        if head == None:
-            head = l1 or l2
-            current = head
-        else:
-            current.next = l1 or l2
-        return head
-```
-* [Easy] 21. Merge Two Sorted Lists
-
-### Binary Representation
-```python
-# Definition for singly-linked list.
-# class ListNode:
-#     def __init__(self, x):
-#         self.val = x
-#         self.next = None
-
-class Solution:
-    def getDecimalValue(self, head: ListNode) -> int:
-        ans = 0
-        while head:
-            ans = ans * 2 + head.val
-            head = head.next
-        return ans
-```
-* [Easy] 1290. Convert Binary Number in a Linked List to Integer
-
-### Delete Node
-```python
-# Definition for singly-linked list.
-# class ListNode:
-#     def __init__(self, x):
-#         self.val = x
-#         self.next = None
-
-class Solution:
-    def deleteNode(self, node):
-        """
-        :type node: ListNode
-        :rtype: void Do not return anything, modify node in-place instead.
-        """
-        node.val = node.next.val
-        node.next = node.next.next
-```
-* [Easy] [Solution] 237. Delete Node in a Linked List
-
-###  Remove Linked List Elements
-```python
-# Definition for singly-linked list.
-# class ListNode:
-#     def __init__(self, x):
-#         self.val = x
-#         self.next = None
-
-class Solution:
-    def removeElements(self, head: ListNode, val: int) -> ListNode:
-        dummy = ListNode(0)
-        dummy.next = head
-        tmp = dummy
-        while dummy.next:
-            if dummy.next.val == val:
-                dummy.next = dummy.next.next
-            else:
-                dummy = dummy.next
-            
-        return tmp.next
-```
-* [Easy] 203. Remove Linked List Elements
-
 ### Two pointer, runner and walker
 ```python
 # Definition for singly-linked list.
@@ -17654,6 +14482,40 @@ class Solution:
                         dist[nr][nc] = newDist
                         heappush(minHeap, (dist[nr][nc], nr, nc))
 ```
+```c++
+class Solution {
+    int dd[5] = {0, 1, 0, -1, 0};
+public:
+    int minimumEffortPath(vector<vector<int>>& heights) {
+        int R = heights.size(), C = heights[0].size();
+        priority_queue<pair<int, pair<int, int>>> pq;
+        pq.push({0, {0, 0}});
+        vector<vector<int>> dist(R, vector<int>(C, INT_MAX));
+        int r, c, nr, nc, neffort;
+        while (!pq.empty()) {
+            auto [effort, p] = pq.top();
+            pq.pop();
+            r = p.first, c = p.second;
+            dist[r][c] = -effort;
+            if (r == R-1 && c == C-1) {
+                return -effort;
+            }
+            for (int d = 0; d < 4; d ++) {
+                nr = r + dd[d];
+                nc = c + dd[d+1];
+                if (0 <= nr && nr < R && 0 <= nc && nc < C) {
+                    neffort = max(-effort, abs(heights[nr][nc] - heights[r][c]));
+                    if (neffort < dist[nr][nc]) {
+                        dist[nr][nc] = neffort;
+                        pq.push({-neffort, {nr, nc}});
+                    }
+                }
+            }
+        }
+        return -1;
+    }
+};
+```
 * [Medium] 1631. Path With Minimum Effort
 
 ### Dijkstra's Algorithm
@@ -17744,6 +14606,104 @@ class Solution:
 ```
 * [Medium] [Solution] 767. Reorganize String
 
+### Sort, Greedy, Heap
+```c++
+class Solution {
+public:
+    vector<int> getOrder(vector<vector<int>>& tasks) {
+        vector<tuple<int,int,int>> sorted_tasks;
+        for (int i = 0; i < tasks.size(); i ++) {
+            sorted_tasks.push_back({tasks[i][0], tasks[i][1], i});
+        }
+        sort(sorted_tasks.begin(), sorted_tasks.end());
+        priority_queue<tuple<int,int,int>,vector<tuple<int,int,int>>, greater<tuple<int,int,int>>> pq;
+        pq.push({get<1>(sorted_tasks[0]), get<2>(sorted_tasks[0]), get<0>(sorted_tasks[0])});
+        int j = 1, n = tasks.size();
+        long long cur = 0;
+        vector<int> ans;
+        while (pq.size()) {
+            auto [process, i, t] = pq.top();
+            pq.pop();
+            ans.push_back(i);
+            cur = max(cur, (long long)t);
+            cur += process;
+            if (pq.empty() && j < n) {
+                cur = max(cur, (long long)get<0>(sorted_tasks[j]));
+            }
+            while (j < n && (get<0>(sorted_tasks[j]) <= cur)) {
+                pq.push({get<1>(sorted_tasks[j]), get<2>(sorted_tasks[j]), get<0>(sorted_tasks[j])});
+                j += 1;
+            }
+        }
+        return ans;
+    }
+};
+```
+* [Medium] 1834. Single-Threaded CPU
+
+### Greedy 2 heap, processing and buffer queue
+```c++
+class Solution {
+public:
+    vector<int> assignTasks(vector<int>& servers, vector<int>& tasks) {
+        priority_queue<pair<int,int>, vector<pair<int,int>>, greater<pair<int,int>>> pq;
+        priority_queue<pair<int,pair<int,int>>, vector<pair<int,pair<int,int>>>, greater<pair<int,pair<int,int>>>> dp;
+        int cur = 0;
+        vector<int> ans;
+        for (int i = 0; i < servers.size(); i ++) {
+            pq.push({servers[i], i});
+        }
+        for (int i = 0; i < tasks.size(); i ++) {
+            cur = max(cur, i);
+            if (pq.empty()) {
+                pq.push(dp.top().second);
+                cur = max(cur, dp.top().first);
+                dp.pop();
+            }
+            while (dp.size() && dp.top().first <= cur) {
+                auto [_, p] = dp.top();
+                dp.pop();
+                pq.push(p);
+            }
+            auto p = pq.top();
+            ans.push_back(p.second);
+            dp.push({cur + tasks[i], p});
+            pq.pop();
+        }
+        return ans;
+    }
+};
+```
+* [Medium] 1882. Process Tasks Using Servers
+
+### Greedy heap
+```c++
+class Solution {
+public:
+    int smallestChair(vector<vector<int>>& times, int targetFriend) {
+        int t_arrival = times[targetFriend][0];
+        sort(begin(times), end(times));
+        priority_queue<pair<int, int>, vector<pair<int, int>>, greater<pair<int, int>>> pq;
+        for (auto &t : times) {
+            while (!pq.empty() && pq.top().first < t[0]) {
+                pq.push({t[0], pq.top().second});
+                pq.pop();
+            }
+            if (t[0] == t_arrival)
+                break;         
+            if (pq.empty() || pq.top().first > t[0])
+                pq.push({t[1], pq.size()});
+            else {
+                pq.push({t[1], pq.top().second});
+                pq.pop();
+            }
+        }
+        return !pq.empty() && pq.top().first <= t_arrival ? pq.top().second : pq.size();
+    }
+};
+```
+* [Medium] 1942. The Number of the Smallest Unoccupied Chair
+
 ### nsmallest
 ```python
 class Solution:
@@ -17779,6 +14739,41 @@ class MedianFinder:
 # obj = MedianFinder()
 # obj.addNum(num)
 # param_2 = obj.findMedian()
+```
+```c++
+class MedianFinder {
+    priority_queue<int> lo;                              // max heap
+    priority_queue<int, vector<int>, greater<int>> hi;   // min heap
+    
+public:
+    /** initialize your data structure here. */
+    MedianFinder() {
+        
+    }
+    
+    void addNum(int num) {
+        lo.push(num);                                    // Add to max heap
+
+        hi.push(lo.top());                               // balancing step
+        lo.pop();
+
+        if (lo.size() < hi.size()) {                     // maintain size property
+            lo.push(hi.top());
+            hi.pop();
+        }
+    }
+    
+    double findMedian() {
+        return lo.size() > hi.size() ? lo.top() : ((double) lo.top() + hi.top()) * 0.5;
+    }
+};
+
+/**
+ * Your MedianFinder object will be instantiated and called as such:
+ * MedianFinder* obj = new MedianFinder();
+ * obj->addNum(num);
+ * double param_2 = obj->findMedian();
+ */
 ```
 * [Hard] [Solution] 295. Find Median from Data Stream
 
@@ -18180,6 +15175,56 @@ class Solution:
                 skyline.append((x, skyline_here))
 
         return skyline
+```
+```c++
+class Solution {
+public:
+    vector<vector<int>> getSkyline(vector<vector<int>>& buildings) {
+        // create event points
+        // each event point has an coordinate and height associated with it
+        vector<pair<int, int> > events;
+        vector<vector<int>> contour;
+        // tracks the max height 
+        multiset<int> heights;
+        // to track the height of each building, we create
+        // two kinds of events for each building
+        // left pt: We make the height -ve(so that sorting puts it in front)
+        // right pt: We make the height +ve, this is just to help us know 
+        // we have reached the end of building
+        for(const vector<int>& building: buildings) {
+            // left point
+            events.emplace_back(make_pair(building[0], -1 * building[2]));
+            // right point
+            events.emplace_back(make_pair(building[1], building[2]));
+        }
+        
+        // sort the event points by coordinate
+        sort(events.begin(), events.end());
+        int max_height_so_far = 0, curr_height = 0;
+        
+        // height of lst contour point
+        heights.emplace(0);
+        for(const pair<int, int>& event: events) {
+            // add the event point if it is left, remove the event point if right
+            if(event.second < 0)
+                heights.emplace(-1 * event.second);
+            else
+                heights.erase(heights.find(event.second));
+            
+            // get the max height of the building seen so far
+            // that still hasn't reached its end
+            curr_height = *heights.rbegin();
+            // if we get a height greater than the height seen so far,
+            // that means that building will create a contour point
+            if(curr_height != max_height_so_far) {
+                contour.emplace_back(vector<int>{event.first, curr_height});
+                max_height_so_far = curr_height;
+            }
+        }
+        
+        return contour;
+    }
+};
 ```
 * [Hard] 218. The Skyline Problem
 
@@ -19415,32 +16460,6 @@ class Solution:
 
 ## Trie <a name="trie"></a>
 ---
-### Trie + Depth-First Search
-```python
-import functools
-class Solution:
-    def longestWord(self, words: List[str]) -> str:
-        Trie = lambda: collections.defaultdict(Trie)
-        trie = Trie()
-        END = True
-
-        for i, word in enumerate(words):
-            functools.reduce(dict.__getitem__, word, trie)[END] = i
-
-        stack = list(trie.values())
-        ans = ""
-        while stack:
-            cur = stack.pop()
-            if END in cur:
-                word = words[cur[END]]
-                if len(word) > len(ans) or len(word) == len(ans) and word < ans:
-                    ans = word
-                stack.extend([cur[letter] for letter in cur if letter != END])
-
-        return ans
-```
-* [Easy] [Solution] 720. Longest Word in Dictionary
-
 ### Implementation
 ```python
 class Trie:
@@ -19834,36 +16853,6 @@ for XXX in XXXs:
 
 ## Recursion <a name="recursion"></a>
 ---
-### Tree
-```python
-# Definition for a binary tree node.
-# class TreeNode:
-#     def __init__(self, x):
-#         self.val = x
-#         self.left = None
-#         self.right = None
-
-class Solution:
-    def longestUnivaluePath(self, root: TreeNode) -> int:
-        self.ans = 0
-
-        def arrow_length(node):
-            if not node: return 0
-            left_length = arrow_length(node.left)
-            right_length = arrow_length(node.right)
-            left_arrow = right_arrow = 0
-            if node.left and node.left.val == node.val:
-                left_arrow = left_length + 1
-            if node.right and node.right.val == node.val:
-                right_arrow = right_length + 1
-            self.ans = max(self.ans, left_arrow + right_arrow)
-            return max(left_arrow, right_arrow)
-
-        arrow_length(root)
-        return self.ans
-```
-* [Easy] [Solution] 687. Longest Univalue Path
-
 ### Search by Constructing Subset Sums, backtrack by group
 ```python
 class Solution:
@@ -20350,21 +17339,6 @@ class Solution:
 
 ## Queue <a name="queue"></a>
 ---
-### Recent Calls
-```python
-class RecentCounter:
-
-    def __init__(self):
-        self.q = collections.deque()
-
-    def ping(self, t: int) -> int:
-        self.q.append(t)
-        while self.q[0] < t-3000:
-            self.q.popleft()
-        return len(self.q)
-```
-* [Easy] [Solution] 933. Number of Recent Calls
-
 ### head, tail pointer, size and filled
 ```python
 class MyCircularQueue:
@@ -20492,14 +17466,6 @@ class Solution:
 
 ## Minimax <a name="minimax"></a>
 ---
-### Math
-```python
-class Solution:
-    def canWinNim(self, n: int) -> bool:
-        return (n % 4 != 0)
-```
-* [Easy] [Solution] 292. Nim Game
-
 ### Winner/Looser
 ```python
 import functools
@@ -21040,38 +18006,6 @@ class Solution:
 
 ## Geometry <a name="geometry"></a>
 ---
-### Square by Square
-```python
-class Solution:
-    def surfaceArea(self, grid: List[List[int]]) -> int:
-        N = len(grid)
-
-        ans = 0
-        for r in range(N):
-            for c in range(N):
-                if grid[r][c]:
-                    ans += 2
-                    for nr, nc in ((r-1, c), (r+1, c), (r, c-1), (r,c+1)):
-                        if 0 <= nr < N and 0 <= nc < N:
-                            nval = grid[nr][nc]
-                        else:
-                            nval = 0
-
-                        ans += max(grid[r][c] - nval, 0)
-
-        return ans
-```
-* [Easy] [Solution] 892. Surface Area of 3D Shapes
-
-### Straight line
-```python
-class Solution:
-    def checkStraightLine(self, coordinates: List[List[int]]) -> bool:
-        (u, v), (p, q) = coordinates[: 2]
-        return all((x - u) * (y - q) == (x - p) * (y - v) for x, y in coordinates)
-```
-* [Easy] 1232. Check If It Is a Straight Line
-
 ### Iterate Centers
 ```python
 class Solution:
@@ -21135,14 +18069,6 @@ class Solution:
 
 ## Regular Expression <a name="re"></a>
 ---
-### Detect Capital
-```python
-class Solution:
-    def detectCapitalUse(self, word: str) -> bool:
-        return re.fullmatch(r"[A-Z]*|.[a-z]*", word)
-```
-* [Easy] [Solution] 520. Detect Capital
-
 ### Using regex for spliting
 ```python
 class Solution:

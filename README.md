@@ -341,6 +341,7 @@ A playground to note something.
     - [Linux Quick Reference Guide](https://perso.crans.org/~raffo/docs/linux-guide.pdf)
     - [Linux Kernel Teaching](https://linux-kernel-labs.github.io/refs/heads/master/index.html)
     - [Inter Process Communication Tutorial](https://www.tutorialspoint.com/inter_process_communication/index.htm)
+    - [Understanding process thread priorities in Linux](https://blogs.oracle.com/linux/post/task-priority)
     - [systemd](https://wiki.archlinux.org/index.php/systemd)
     - [How To Use Systemctl to Manage Systemd Services and Units](https://www.digitalocean.com/community/tutorials/how-to-use-systemctl-to-manage-systemd-services-and-units)
     - [Terry : systemd](https://terry.im/wiki/terry/systemd.html)

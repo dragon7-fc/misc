@@ -193,7 +193,7 @@ class Solution:
         return l
 ```
 
-**Solution 2: (Binary Search)**
+**Solution 2: (Binary Search, search increasing upper bound)**
 ```
 Runtime: 4 ms
 Memory Usage: 5.8 MB

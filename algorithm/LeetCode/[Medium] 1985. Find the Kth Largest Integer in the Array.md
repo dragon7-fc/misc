@@ -54,3 +54,25 @@ class Solution:
     def kthLargestNumber(self, nums: List[str], k: int) -> str:
         return str(sorted(list(map(int, nums)))[-k])
 ```
+
+**Solution 2: (Heap)**
+```
+Runtime: 205 ms
+Memory: 71.4 MB
+```
+```c++
+class Solution {
+public:
+    string kthLargestNumber(vector<string>& nums, int k) {
+        priority_queue<pair<int,string>,vector<pair<int,string>>,greater<pair<int,string>>>pq;
+        for (int i = 0 ; i < nums.size(); i++) {
+            int sz = nums[i].length(); 
+            pq.push({sz, nums[i]});
+            if (pq.size() > k) {
+                pq.pop();
+            }
+        }
+       return  pq.top().second;
+    }
+};
+```
