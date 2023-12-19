@@ -129,3 +129,53 @@ public:
     }
 };
 ```
+
+**Solution 2: (Binary Search)**
+```
+Runtime: 47 ms
+Memory: 37.6 MB
+```
+```c++
+class Solution {
+public:
+    int numFriendRequests(vector<int>& ages) {
+        sort(ages.begin(), ages.end());
+        int ans = 0;
+        auto it = upper_bound(ages.begin(), ages.end(), 14);
+        while (it != ages.end())
+        {
+            auto it2 = upper_bound(ages.begin(), ages.end(), *it);
+            
+            ans += (it2-it)*max((int)(prev(it2) - upper_bound(ages.begin(), ages.end(), 0.5*(*it) +7)), 0);
+            
+            it = it2;
+        }
+        return ans;
+    }
+};
+```
+
+**Solution 3: (Counting)**
+```
+Runtime: 39 ms
+Memory: 37.9 MB
+```
+```c++
+class Solution {
+    bool request(int a, int b) {
+        return !(b <= 0.5 * a + 7 || b > a || (b > 100 && a < 100));
+    }
+public:
+    int numFriendRequests(vector<int>& ages) {
+        unordered_map<int, int> count;
+        for (int &age : ages)
+            count[age]++;
+        int res = 0;
+        for (auto &a : count)
+            for (auto &b : count)
+                if (request(a.first, b.first))
+                    res += a.second * (b.second - (a.first == b.first ? 1 : 0));
+        return res;
+    }
+};
+```

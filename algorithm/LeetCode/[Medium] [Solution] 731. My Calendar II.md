@@ -251,3 +251,39 @@ class MyCalendarTwo:
 # obj = MyCalendarTwo()
 # param_1 = obj.book(start,end)
 ```
+
+**Solution 4: (event point)**
+```
+Runtime: 197 ms
+Memory: 38.9 MB
+```
+```c++
+class MyCalendarTwo {
+    map<int, int> cnt;
+public:
+    MyCalendarTwo() {
+        
+    }
+    
+    bool book(int start, int end) {
+        cnt[start] += 1;
+        cnt[end] -= 1;
+        int cur = 0;
+        for (auto [_, c]: cnt) {
+            cur += c;
+            if (cur >= 3) {
+                cnt[start] -= 1;
+                cnt[end] += 1;
+                return false;
+            }
+        }
+        return true;
+    }
+};
+
+/**
+ * Your MyCalendarTwo object will be instantiated and called as such:
+ * MyCalendarTwo* obj = new MyCalendarTwo();
+ * bool param_1 = obj->book(start,end);
+ */
+```

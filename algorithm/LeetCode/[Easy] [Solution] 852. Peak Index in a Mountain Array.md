@@ -123,6 +123,7 @@ Memory Usage: 6.5 MB
 
 int peakIndexInMountainArray(int* arr, int arrSize){
     int low = 1, high = arrSize-2;
+    int low = 0, high = arrSize-1;  // fail
     while (low <= high) {
         int mid = low + (high - low) / 2;
         if (arr[mid - 1] < arr[mid] && arr[mid] > arr[mid + 1])

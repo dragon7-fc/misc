@@ -158,6 +158,19 @@ public:
     string get(string key, int timestamp) {
         auto it = mp[key].upper_bound(timestamp); 
         return it == mp[key].begin() ? "" : prev(it)->second; 
+
+        // lower bound
+        // if (mp.count(key)) {
+        //     auto it = mp[key].lower_bound(timestamp);
+        //     if (it->first == timestamp){
+        //         return it->second;
+        //     }
+        //     it--;
+        //     if (it->first < timestamp){
+        //         return it->second;
+        //     }
+        // }
+        // return "";
     }
 };
 

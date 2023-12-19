@@ -65,49 +65,29 @@ class Solution:
 
 **Solution 3: (Greedy, Binary Search)**
 ```
-Runtime: 169 ms
-Memory Usage: 36.2 MB
+Runtime: 59 ms
+Memory: 38.2 MB
 ```
 ```c++
 class Solution {
 public:
     int maxProfitAssignment(vector<int>& difficulty, vector<int>& profit, vector<int>& worker) {
-        int n=worker.size(),m=profit.size(),ans=0;
-    
-        vector<pair<int,int>> v1(m);
-
-        for(int i=0;i<m;++i)
-        {
-            v1[i].first=difficulty[i];
-            v1[i].second=profit[i];
+        vector<pair<int, int>> job;
+        for (int i = 0; i < difficulty.size(); i ++) {
+            job.push_back({difficulty[i], profit[i]});
         }
-
-        sort(v1.begin(),v1.end());
-
-        for(int i=1;i<m;++i)
-        v1[i].second=max(v1[i].second,v1[i-1].second);
-
-        for(int i=0;i<m;++i)
-        {
-            difficulty[i]=v1[i].first;
-            profit[i]=v1[i].second;
+        sort(job.begin(), job.end());
+        for (int i = 1; i < job.size(); i ++) {
+            job[i].second = max(job[i].second, job[i-1].second);
         }
-
-        for(int i=0;i<n;++i)
-        {
-            int p=worker[i];
-
-            int it=upper_bound(difficulty.begin(),difficulty.end(),p)-difficulty.begin();
-
-            if(it==0)
-            continue;
-            else
-            {
-                it--;
-                ans+=profit[it];
+        int ans = 0, j;
+        for (int i = 0; i < worker.size(); i ++) {
+            auto it = upper_bound(job.begin(), job.end(), make_pair(worker[i], INT_MAX));
+            if (it == job.begin()) {
+                continue;
             }
+            ans += prev(it)->second;
         }
-
         return ans;
     }
 };

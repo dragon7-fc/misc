@@ -240,27 +240,38 @@ class MyCalendar:
 # param_1 = obj.book(start,end)
 ```
 
-**Solution 5: (Sorted Map)**
+**Solution 5: (Sorted List + Binary Search)**
 ```
-Runtime: 182 ms
-Memory Usage: 38.7 MB
+Runtime: 78 ms
+Memory: 39.3 MB
 ```
 ```c++
 class MyCalendar {
-    map<int, int> events;
+    set<pair<int, int>> calendar;
 public:
     MyCalendar() {
         
     }
     
     bool book(int start, int end) {
-        auto next = events.upper_bound (start );
-        if( next != events.end() && (*next).second < end ) return false;
-        events.insert( {end,start} );
+        const pair<int, int> event{start, end};
+        const auto nextEvent = calendar.lower_bound(event);
+        // const auto nextEvent = calendar.upper_bound(event);
+        if (nextEvent != calendar.end() && nextEvent->first < end) {
+            return false;
+        }
+
+        if (nextEvent != calendar.begin()) {
+            const auto prevEvent = prev(nextEvent);
+            if (prevEvent->second > start) {
+                return false;
+            }
+        }
+
+        calendar.insert(event);
         return true;
     }
 };
-
 /**
  * Your MyCalendar object will be instantiated and called as such:
  * MyCalendar* obj = new MyCalendar();
