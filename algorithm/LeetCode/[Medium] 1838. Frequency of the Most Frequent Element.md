@@ -120,7 +120,7 @@ public:
 };
 ```
 
-**Solution 4: ()Binary Search**
+**Solution 4: (Binary Search)**
 ```
 Runtime: 319 ms
 Memory: 121 MB

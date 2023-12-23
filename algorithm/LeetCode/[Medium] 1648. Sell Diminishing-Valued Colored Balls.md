@@ -72,3 +72,40 @@ class Solution:
                     return ans % 1_000_000_007
             k += 1
 ```
+
+**Solution 2: (Binary Search)**
+```
+Runtime: 221 ms
+Memory: 87.5 MB
+```
+```c++
+class Solution {
+    map<int, int, greater<>> m;
+    bool valid(int M, int T) {
+        for (auto &[n , cnt] : m) {
+            if (n <= M) break;
+            T -= (long)cnt * (n - M);
+            if (T <= 0) return true;
+        }
+        return T <= 0;
+    }
+public:
+    int maxProfit(vector<int>& inventory, int orders) {
+        long ans = 0, mod = 1e9+7, L = 0, R = *max_element(begin(inventory), end(inventory));
+        for (int n : inventory)
+            m[n]++;
+        while (L < R) {
+            long M = (L + R) / 2;
+            if (valid(M, orders)) L = M + 1;
+            else R = M;
+        }
+        for (auto &[n , cnt] : m) {
+            if (n <= L) break;
+            orders -= cnt * (n - L);
+            ans = (ans + (n + L + 1) * (n - L) / 2 % mod * cnt % mod) % mod;
+        }
+        if (orders) ans = (ans + L * orders % mod) % mod;
+        return ans;
+    }
+};
+```

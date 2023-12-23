@@ -6841,7 +6841,7 @@ class Solution:
 ```
 * [Medium] [Solution] 560. Subarray Sum Equals K
 
-### Binary Search with Rolling Hash
+### Binary Search with longest string with Rolling Hash
 ```python
 class Solution:
     def search(self, L: int, a: int, modulus: int, n: int, nums: List[int]) -> str:

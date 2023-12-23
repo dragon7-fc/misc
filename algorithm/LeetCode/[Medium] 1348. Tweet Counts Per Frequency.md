@@ -70,3 +70,46 @@ class TweetCounts:
 # obj.recordTweet(tweetName,time)
 # param_2 = obj.getTweetCountsPerFrequency(freq,tweetName,startTime,endTime)
 ```
+
+**Solution 2: (Binary Search, multiset)**
+```
+Runtime: 59 ms
+Memory: 39.6 MB
+```
+```c++
+class TweetCounts {
+    unordered_map<string, multiset<int>> m;
+public:
+    TweetCounts() {
+        
+    }
+    
+    void recordTweet(string tweetName, int time) {
+        m[tweetName].insert(time);
+    }
+    
+    vector<int> getTweetCountsPerFrequency(string freq, string tweetName, int startTime, int endTime) {
+        int d = 86400;
+        if (freq[0] == 'm') {
+            d = 60;
+        } else if (freq[0] == 'h') {
+            d = 3600;
+        }
+        vector<int> rst((endTime - startTime) / d + 1);
+        const auto s = m.find(tweetName);
+        if (s != m.end()) {
+            for (auto it = s->second.lower_bound(startTime); it != s->second.end() && *it <= endTime; ++it) {
+               ++rst[(*it - startTime) / d];
+            }
+        }
+        return rst;
+    }
+};
+
+/**
+ * Your TweetCounts object will be instantiated and called as such:
+ * TweetCounts* obj = new TweetCounts();
+ * obj->recordTweet(tweetName,time);
+ * vector<int> param_2 = obj->getTweetCountsPerFrequency(freq,tweetName,startTime,endTime);
+ */
+```

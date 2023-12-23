@@ -34,7 +34,7 @@ Output: 11361
 
 # Submissions
 ---
-**Solution 1:**
+**Solution 1: (Binary Search)**
 ```
 Runtime: 112 ms
 Memory Usage: 13.7 MB
@@ -67,4 +67,22 @@ class Solution:
         
         # Return the minimum value among candidates
         return sorted(cand)[0]
+```
+
+**Solution 2: (Sort)**
+```
+Runtime: 17 ms
+Memory: 12.8 MB
+```
+```c++
+class Solution {
+public:
+    int findBestValue(vector<int>& arr, int target) {
+        sort(arr.begin(), arr.end());
+        int n = arr.size(), i = 0;
+        while (i < n && target > arr[i] * (n - i))
+            target -= arr[i++];
+        return i == n ? arr[n - 1] : int(round((target - 0.0001) / (n - i)));
+    }
+};
 ```

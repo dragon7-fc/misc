@@ -76,3 +76,34 @@ class Solution:
             prefix[curr] = i
         return -1 if ans == math.inf else ans
 ```
+
+**Solution 2: (Prefix Sum, Greedy)**
+```
+Runtime: 262 ms
+Memory: 151.7 MB
+```
+```c++
+class Solution {
+public:
+    int minSumOfLengths(vector<int>& arr, int target) {
+        int n = arr.size();
+        unordered_map<long long, int> m;
+        vector<int> dp(n, INT_MAX);
+        long long cur = 0;
+        int ans = INT_MAX, mn = INT_MAX;
+        m[0] = -1;
+        for (int i = 0; i < arr.size(); i ++) {
+            cur += arr[i];
+            if (m.count(cur - target)) {
+                if (m[cur-target] > -1) {
+                    ans = dp[m[cur-target]] == INT_MAX ? INT_MAX : min(ans, i-m[cur-target] + dp[m[cur-target]]);
+                }
+                mn = min(mn, i-m[cur-target]);
+            }
+            m[cur] = i;
+            dp[i] = mn;
+        }
+        return ans == INT_MAX ? -1 : ans;
+    }
+};
+```
