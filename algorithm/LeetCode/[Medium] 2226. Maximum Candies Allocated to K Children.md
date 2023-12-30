@@ -59,7 +59,7 @@ public:
     int maximumCandies(vector<int>& candies, long long k) {
         int left = 0, right = 1e7;
         while (left < right) {
-            long sum = 0, mid = (left + right + 1) / 2;
+            long sum = 0, mid = right - (right - left) / 2;
             for (int& a : candies) {
                 sum += a / mid;
             }

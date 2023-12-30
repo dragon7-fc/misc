@@ -82,20 +82,6 @@ Memory Usage: 8.4 MB
 ```
 ```c++
 class Solution {
-public:
-    int findLUSlength(vector<string>& strs) {
-        unordered_map<string, int> freq;
-        for (auto str : strs) freq[str]++;
-        
-        sort(strs.begin(), strs.end(), compare);
-        
-        for (int i = 0; i < strs.size(); i++) {
-            if (freq[strs[i]] > 1) continue;
-            if (!checkSubsUptoI(strs, strs[i], i-1)) return strs[i].size();
-        }
-        return -1;
-    }
-    
     static bool compare(string& a, string& b) {
         return a.size() > b.size();
     }
@@ -116,6 +102,19 @@ public:
             if (isSubsequence(sub, strs[i])) return true;
         }
         return false;
+    }
+public:
+    int findLUSlength(vector<string>& strs) {
+        unordered_map<string, int> freq;
+        for (auto str : strs) freq[str]++;
+        
+        sort(strs.begin(), strs.end(), compare);
+        
+        for (int i = 0; i < strs.size(); i++) {
+            if (freq[strs[i]] > 1) continue;
+            if (!checkSubsUptoI(strs, strs[i], i-1)) return strs[i].size();
+        }
+        return -1;
     }
 };
 ```

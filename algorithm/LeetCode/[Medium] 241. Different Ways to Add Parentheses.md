@@ -48,72 +48,35 @@ class Solution:
         return rst
 ```
 
-**Solution 1: (DP, Top-Downr)**
+**Solution 2: (DFS, Divide and Conquer)**
 ```
-Runtime: 0 ms
-Memory Usage: 7.8 MB
+Runtime: 3 ms
+Memory: 11.9 MB
 ```
-```++
+```c++
 class Solution {
-    bool noOps(string exp){
-        for(int i=0;i<exp.size();i++){
-            if(exp[i]=='+' or exp[i]=='-' or exp[i]=='*'){
-                return false;
-            }
-        }
-        return true;
-    }
-    unordered_map<string,vector<int>>dp;
-    
 public:
     vector<int> diffWaysToCompute(string expression) {
-        vector<int>ans;
-        if(noOps(expression)){
-            ans.push_back(stoi(expression));
-            return ans;
-        } else if(dp.count(expression)!=0){
-            return dp[expression];
-        } else {
-            for(int i=0;i<expression.size();i++){
-                if(expression[i]-'0'>=0 and expression[i]-'0'<=9){
-                    continue;
-                } else {
-                    vector<int>left=diffWaysToCompute(expression.substr(0,i));
-                    vector<int>right=diffWaysToCompute(expression.substr(i+1));
-                    vector<int>tmp;
-                    switch(expression[i]){
-                        case '+':{
-                            for(int l=0;l<left.size();l++){
-                                for(int r=0;r<right.size();r++){
-                                    tmp.push_back(left[l]+right[r]);
-                                }
-                            }
-                        }
-                            break;
-                        case '*': {
-                            for(int l=0;l<left.size();l++){
-                                for(int r=0;r<right.size();r++){
-                                    tmp.push_back(left[l]*right[r]);
-                                }
-                            }
-                        }
-                            break;
-                        case '-': {
-                            for(int l=0;l<left.size();l++){
-                                for(int r=0;r<right.size();r++){
-                                    tmp.push_back(left[l]-right[r]);
-                                }
-                            }
-                        }
-                            break;
-                    }
-                    for(int j=0;j<tmp.size();j++){
-                        ans.push_back(tmp[j]);
+        vector<int> ans;
+        int n = expression.size();
+        for (int i = 0; i < n; i++){
+            char c = expression[i];
+            if (c == '+' || c == '-' || c == '*'){
+                vector<int> left = diffWaysToCompute(expression.substr(0,i));
+                vector<int> right = diffWaysToCompute(expression.substr(i+1));
+                for (int l: left){
+                    for (int r: right){
+                        if (c == '+') ans.push_back(l+r);
+                        else if(c == '-') ans.push_back(l-r);
+                        else if(c == '*') ans.push_back(l*r);
                     }
                 }
             }
-            return dp[expression]=ans;
         }
+        if (ans.empty()) {
+            ans.push_back(stoi(expression));
+        }
+        return ans;
     }
 };
 ```

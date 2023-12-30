@@ -53,3 +53,37 @@ class Solution:
     def numTilePossibilities(self, tiles: str) -> int:
         return functools.reduce(operator.add , map(lambda x: len(set(itertools.permutations(tiles ,x))), range(1 , len(tiles)+1)))
 ```
+
+**Solution 3: (Backtracking)**
+```
+Runtime: 8 ms
+Memory: 6.3 MB
+```
+```c++
+class Solution {
+    void backtrack(vector<int>& count, int& res){
+        for (int i = 0; i < count.size(); i++) {
+            if (count[i] > 0) {
+                res++;
+                count[i]--;
+                backtrack(count, res);
+                count[i]++;
+            }
+        }
+    }
+public:
+    int numTilePossibilities(string tiles) {
+        unordered_map<char, int> m;
+        for (const auto& it: tiles) {
+            m[it]++;
+        }
+        vector<int> count;
+        for (const auto& it: m) {
+            count.emplace_back(it.second);
+        }
+        int res = 0;
+        backtrack(count, res);
+        return res;
+    }
+};
+```

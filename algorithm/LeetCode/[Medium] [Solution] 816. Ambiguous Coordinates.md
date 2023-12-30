@@ -101,32 +101,13 @@ class Solution:
                 for cand in itertools.product(make(S[:i]), make(S[i:]))]
 ```
 
-**Solution 1: (String)**
+**Solution 1: (String, Backtracking)**
 ```
 Runtime: 18 ms
 Memory Usage: 9.8 MB
 ```
 ```c++
 class Solution {
-public:
-    vector<string> ambiguousCoordinates(string s) {
-        vector<string> res;
-        string s2 = s.substr(1, s.size()-2);
-        int n = s2.size();
-        
-        for (int i = 1; i < n; i++) {
-            vector<string> first = getNumbers(s2.substr(0, i));
-            vector<string> second = getNumbers(s2.substr(i));
-            
-            for (int j = 0; j < first.size(); j++) {
-                for (int k = 0; k < second.size(); k++) {
-                    res.push_back("(" + first[j] + ", " + second[k] + ")");
-                }
-            }
-        }
-        return res;
-    }
-    
     vector<string> getNumbers(string num) {
         vector<string> res;
         int n = num.size();
@@ -147,6 +128,24 @@ public:
             res.push_back(num.substr(0, i) + "." + num.substr(i));
         }
         
+        return res;
+    }
+public:
+    vector<string> ambiguousCoordinates(string s) {
+        vector<string> res;
+        string s2 = s.substr(1, s.size()-2);
+        int n = s2.size();
+        
+        for (int i = 1; i < n; i++) {
+            vector<string> first = getNumbers(s2.substr(0, i));
+            vector<string> second = getNumbers(s2.substr(i));
+            
+            for (int j = 0; j < first.size(); j++) {
+                for (int k = 0; k < second.size(); k++) {
+                    res.push_back("(" + first[j] + ", " + second[k] + ")");
+                }
+            }
+        }
         return res;
     }
 };

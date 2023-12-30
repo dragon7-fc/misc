@@ -81,21 +81,21 @@ Memory Usage: 6.1 MB
 class Solution {
 public:
     string complexNumberMultiply(string num1, string num2) {
-        int idx=num1.find('+');
-        int idy=num2.find('+');
-        int idxi=num1.find('i');
-        int idyi=num2.find('i');
+        int idx = num1.find('+');
+        int idy = num2.find('+');
+        int idxi = num1.find('i');
+        int idyi = num2.find('i');
 
-        int ar=stoi(num1.substr(0,idx));
-        int br=stoi(num2.substr(0,idy));
+        int ar = stoi(num1.substr(0,idx));
+        int br = stoi(num2.substr(0,idy));
 
-        int ai=stoi(num1.substr(idx+1,idxi-idx-1));
-        int bi=stoi(num2.substr(idy+1,idyi-idy-1));
+        int ai = stoi(num1.substr(idx + 1, idxi - idx - 1));
+        int bi = stoi(num2.substr(idy + 1, idyi - idy - 1));
 
-        string real=to_string(ar*br-(ai*bi));
-        string img=to_string(ar*bi+ai*br);
+        string real = to_string(ar*br - (ai*bi));
+        string img = to_string(ar*bi + ai*br);
 
-        return real+"+"+img+"i";
+        return real + "+" + img + "i";
     }
 };
 ```

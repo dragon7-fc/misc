@@ -11295,7 +11295,7 @@ for j, x in enumerate(N):
 return ans
 ```
 
-**Template 4: (Sliding window, Non-shrinkable)**
+**Template 4: (Advanced Sliding Window, Non-shrinkable)**
 ```python
 ans = []
 A.sort()

@@ -97,12 +97,6 @@ Memory Usage: 6.1 MB
 ```
 ```c++
 class Solution {
-public:
-    string maskPII(string s) {
-        int id = s.find('@'); 
-        return id == -1 ? phone(s) : email(s, id);
-    }
-    
     string email(string &s, int id){
         string t = string(1, s[0] | ' ') + "*****" + string(1, s[id-1] | ' ');
 
@@ -119,6 +113,11 @@ public:
             if(ch >= '0' && ch <= '9') t.push_back(ch);
 
         return table[t.size() - 10] + "***-***-" + t.substr(t.size() - 4, 4);
+    }
+public:
+    string maskPII(string s) {
+        int id = s.find('@'); 
+        return id == -1 ? phone(s) : email(s, id);
     }
 };
 ```

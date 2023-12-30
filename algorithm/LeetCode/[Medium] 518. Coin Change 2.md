@@ -134,15 +134,19 @@ Memory: 7.2 MB
 ```c++
 class Solution {
 public:
-    int change(int amount, vector<int>& coins) {
-        vector<int> dp(amount+1);
-        dp[0] = 1;
-        for (int i = 0; i < coins.size(); i ++) {
-            for (int j = coins[i]; j <= amount; j ++) {
-                dp[j] += dp[j - coins[i]];
+    int numRollsToTarget(int n, int k, int target) {
+        int MOD = 1e9 + 7;
+        int dp[n+1][target+1];
+        memset(dp, 0, sizeof(dp));
+        dp[0][0] = 1;
+        for (int i = 1; i <= n; i++) {
+            for (int j = 1; j <= min(i*k, target); j++) {
+                for (int f = 1; f <= min(k, j); f++) {
+                    dp[i][j] = (dp[i][j] + dp[i-1][j-f]) % MOD;
+                }
             }
         }
-        return dp[amount];
+        return dp[n][target];
     }
 };
 ```

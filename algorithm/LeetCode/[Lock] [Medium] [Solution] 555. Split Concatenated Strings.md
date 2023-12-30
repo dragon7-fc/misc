@@ -249,7 +249,7 @@ class Solution:
         for i, s in enumerate(strs):
             sr = s[::-1]
             for j in range(len(s)+1):
-                output = max(output, s[j:]+exclusives[i]+s[:j], sr[j:]+exclusives[i]+sr[:j])
+                output = max(output, s[j:] + exclusives[i] + s[:j], sr[j:] + exclusives[i] + sr[:j])
 
         return output
 ```

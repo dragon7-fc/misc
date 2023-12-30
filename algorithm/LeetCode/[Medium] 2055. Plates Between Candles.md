@@ -60,6 +60,11 @@ class Solution:
 ```
 
 **Solution 2: (Binary Search)**
+
+* `A[i] - A[j] + 1` is the length between two candies,
+* `i - j + 1` is the number of candies.
+* `(A[j] - A[i]) - (j - i)` is the number of plates between two candies.
+
 ```
 Runtime: 432 ms
 Memory Usage: 140.3 MB

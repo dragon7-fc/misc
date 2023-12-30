@@ -148,16 +148,47 @@ class Solution {
 public:
     int numDecodings(string s) {
         int n = s.size();
-        vector<int> dp(n + 1);    // ways ending in the ith index (1-indexed)
+        vector<int> dp(n+1);
         dp[0] = 1;
-        for (int i = 0; i < n; ++i)
-        {
-            if (s[i] != '0')
-                dp[i + 1] += dp[i];
-            if (i >= 1 && (s[i - 1] == '1' || (s[i - 1] == '2' && s[i] >= '0' && s[i] <= '6')))
-                dp[i + 1] += dp[i - 1];
+        for (int i = 0; i < n; i ++) {
+            if (s[i] != '0') {
+                dp[i+1] += dp[i];
+            }
+            if (i && (s[i-1] == '1' || (s[i-1] == '2' && s[i] <= '6'))) {
+                dp[i+1] += dp[i-1];
+            }
         }
         return dp[n];
+    }
+};
+```
+
+**Solution 6: (DP 1-D)**
+```
+Runtime: 0 ms
+Memory: 6.4 MB
+```
+```c++
+class Solution {
+public:
+    int numDecodings(string s) {
+        int n = s.size();
+        int dp0 = 1, dp1 = s[0] > '0' ? 1 : 0, dp2 = 0;
+        for (int i = 1; i < n; i ++) {
+            if (s[i] != '0') {
+                dp2 += dp1;
+            }
+            if (s[i-1] == '1' || (s[i-1] == '2' && s[i] <= '6')) {
+                dp2 += dp0;
+            }
+            dp0 = dp1;
+            dp1 = dp2;
+            if (i == n-1) {
+                break;
+            }
+            dp2 = 0;
+        }
+        return s.size() > 1 ? dp2 : dp1;
     }
 };
 ```

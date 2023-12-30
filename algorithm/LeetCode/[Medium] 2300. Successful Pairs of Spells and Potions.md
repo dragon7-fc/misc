@@ -75,8 +75,8 @@ public:
 
 **Solution 3: (Binary Search)**
 ```
-Runtime: 244 ms
-Memory: 97 MB
+Runtime: 173 ms
+Memory: 97.6 MB
 ```
 ```c++
 class Solution {
@@ -90,16 +90,16 @@ public:
             spell = spells[i];
             left = 0;
             right = M - 1;
-            while (left <= right) {
+            while (left < right) {
                 mid = left + (right - left) / 2;
                 product = (long long)spell * (long long)potions[mid];
-                if (product >= success) {
-                    right = mid - 1;
-                } else {
+                if (product < success) {
                     left = mid + 1;
+                } else {
+                    right = mid;
                 }
             }
-            ans[i] = M - left;
+            ans[i] = M - left - ((long long)spell * (long long)potions[left] < success);
         }
         return ans;
     }

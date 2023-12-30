@@ -132,7 +132,7 @@ public:
 };
 ```
 
-**Solution 4: (String)**
+**Solution 4: (String, Stack)**
 ```
 Runtime: 11 ms
 Memory: 9.5 MB

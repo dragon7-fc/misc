@@ -33,6 +33,18 @@ Memory Usage: 6.3 MB
 ```
 ```c++
 class Solution {
+    // get the maximum number of unique letters in the string s
+    int getMaxUniqueLetters(string s) {
+        bool map[26] = {0};
+        int maxUnique = 0;
+        for (int i = 0; i < s.length(); i++) {
+            if (!map[s[i] - 'a']) {
+                maxUnique++;
+                map[s[i] - 'a'] = true;
+            }
+        }
+        return maxUnique;
+    }
 public:
     int longestSubstring(string s, int k) {
         int countMap[26];
@@ -65,19 +77,6 @@ public:
         }
 
         return result;
-    }
-
-    // get the maximum number of unique letters in the string s
-    int getMaxUniqueLetters(string s) {
-        bool map[26] = {0};
-        int maxUnique = 0;
-        for (int i = 0; i < s.length(); i++) {
-            if (!map[s[i] - 'a']) {
-                maxUnique++;
-                map[s[i] - 'a'] = true;
-            }
-        }
-        return maxUnique;
     }
 };
 ```
@@ -119,7 +118,7 @@ class Solution:
         return max(self.longestSubstring(substring, k) for substring in s.split(minChar))
 ```
 
-**Solution 3: (Sliding Window)**
+**Solution 3: (Sliding Window, DFS)**
 ```
 Runtime: 11 ms
 Memory Usage: 6.8 MB
@@ -129,18 +128,26 @@ class Solution {
 public:
     int longestSubstring(string s, int k) {
         int n = s.size();
-        if(n<k) return 0;
+        if (n < k) {
+            return 0;
+        }
         unordered_map<char,int>m;
-        for(auto x:s){
-            m[x]++;
+        for (auto x: s) {
+            m[x] += 1;
         }
         int j = 0;
-        while(j<n && m[s[j]]>=k) j++;
-        if(j>=n-1) return j;
-        int c1 = longestSubstring(s.substr(0,j),k);
-        while(j<n && m[s[j]]<k) j++;
-        int c2 = longestSubstring(s.substr(j),k);
-        return max(c1,c2);
+        while (j < n && m[s[j]] >= k) {
+            j += 1;
+        }
+        if (j >= n-1) {
+            return j;
+        }
+        int c1 = longestSubstring(s.substr(0, j), k);
+        while (j < n && m[s[j]] < k) {
+            j += 1;
+        }
+        int c2 = longestSubstring(s.substr(j), k);
+        return max(c1, c2);
     }
 };
 ```

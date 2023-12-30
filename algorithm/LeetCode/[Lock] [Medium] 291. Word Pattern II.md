@@ -80,7 +80,6 @@ Memory Usage: 6.5 MB
 ```
 ```c++
 class Solution {
-private:
     unordered_map<char, string> mymap;
     unordered_map<string, char> mymap1;
     

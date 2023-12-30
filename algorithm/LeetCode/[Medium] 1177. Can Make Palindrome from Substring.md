@@ -134,3 +134,27 @@ class Solution:
             for l, r, k in queries
         ]
 ```
+
+**Solution 2: (DP, Bit Manipulation)**
+```
+Runtime: 541 ms
+Memory: 95.2 MB
+```
+```c++
+class Solution {
+public:
+    vector<bool> canMakePaliQueries(string s, vector<vector<int>>& queries) {
+        int mask = 0;
+        vector<int> dp(1);
+        for (char c : s)
+            dp.push_back(mask ^= 1 << (c - 'a'));
+
+        vector<bool> ans;
+        for (auto &q : queries) {
+            int ones = __builtin_popcount(dp[q[1] + 1] ^ dp[q[0]]);
+            ans.push_back(q[2] >= ones / 2);
+        }
+        return ans;
+    }
+};
+```

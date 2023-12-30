@@ -33,3 +33,36 @@ class Solution:
     def queryString(self, S: str, N: int) -> bool:
         return all(bin(i)[2:] in S for i in range(1, N+1))
 ```
+
+**Solution 2: (Brute Force)**
+```
+Runtime: 0 ms
+Memory: 6.8 MB
+```
+```c++
+class Solution {
+public:
+    bool queryString(string s, int n) {
+        for (int i = 1; i <= n; ++i) {
+            vector<int> binary;
+            int temp = i;
+            while (temp != 0) {
+                int digit = temp % 2;
+                binary.push_back(digit);
+                temp /= 2;
+            }
+            reverse(binary.begin(), binary.end());
+
+            string result;
+            for (int num : binary) {
+                result += to_string(num);
+            }
+
+            if (s.find(result) == string::npos) {
+                return false;
+            }
+        }
+        return true;
+    }
+};
+```

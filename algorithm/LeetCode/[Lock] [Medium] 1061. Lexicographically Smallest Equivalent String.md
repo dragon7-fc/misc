@@ -5,6 +5,7 @@ You are given two strings of the same length `s1` and `s2` and a string `baseStr
 We say `s1[i]` and `s2[i]` are equivalent characters.
 
 * For example, if `s1 = "abc"` and `s2 = "cde"`, then we have `'a'` == `'c'`, `'b'` == `'d'`, and `'c'` == `'e'`.
+
 Equivalent characters follow the usual rules of any equivalence relation:
 
 * **Reflexivity**: `'a'` == `'a'`.

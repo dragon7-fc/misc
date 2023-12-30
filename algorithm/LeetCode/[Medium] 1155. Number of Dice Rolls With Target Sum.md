@@ -110,22 +110,48 @@ class Solution:
 
 **solution 3: (DP Bottom-Up)**
 ```
-Runtime: 17 ms
-Memory: 6.1 MB
+Runtime: 29 ms
+Memory: 6.6 MB
 ```
 ```c++
 class Solution {
 public:
     int numRollsToTarget(int n, int k, int target) {
-        int R = 1e9 + 7;
-        int dp[n+1][target+1], t;
+        int MOD = 1e9 + 7;
+        int dp[target+1][n+1];
         memset(dp, 0, sizeof(dp));
         dp[0][0] = 1;
-        for(int i=1; i<=n; i++){
-            t = i*k;
-            for(int j=0; j<=min(t,target); j++){
-                for(int f=1; f<=min(k,j); f++){
-                    dp[i][j] = (dp[i][j] + dp[i-1][j-f]) % R;
+        for (int t = 1; t <= target; t ++) {
+            for (int i = 1; i <= n; i ++) {
+                for (int j = 1; j <= k; j ++) {
+                    if (t-j >= 0) {
+                        dp[t][i] = (dp[t][i] + dp[t-j][i-1]) % MOD;
+                    }
+                }
+            }
+        }
+        return dp[target][n];
+    }
+};
+```
+
+**solution 4: (DP Bottom-Up)**
+```
+Runtime: 8 ms
+Memory: 6.5 MB
+```
+```c++
+class Solution {
+public:
+    int numRollsToTarget(int n, int k, int target) {
+        int MOD = 1e9 + 7;
+        int dp[n+1][target+1];
+        memset(dp, 0, sizeof(dp));
+        dp[0][0] = 1;
+        for (int i = 1; i <= n; i++) {
+            for (int j = 1; j <= min(i*k, target); j++) {
+                for (int f = 1; f <= min(k, j); f++) {
+                    dp[i][j] = (dp[i][j] + dp[i-1][j-f]) % MOD;
                 }
             }
         }

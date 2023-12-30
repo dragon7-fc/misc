@@ -101,19 +101,19 @@ public:
         int ans = 0;
         for(int i=0;i<n;i++){
             // binary search to find the index where the carpet ends.
-            auto it = lower_bound(tile.begin(),tile.end(),carpetLen+tiles[i][0]); 
-            if(it!=tile.end() and (*it)>carpetLen+tiles[i][0])
+            auto it = lower_bound(tile.begin(),tile.end(),carpetLen + tiles[i][0]); 
+            if (it != tile.end() and (*it) > carpetLen + tiles[i][0])
                 --it;
             
             // adding the elements which are completely covered by carpet.          
-            int temp = (it-tile.begin()-1>=0 ? pre[it-tile.begin()-1] : 0)-(i-1>=0 ? pre[i-1] : 0);
+            int temp = (it - tile.begin() - 1 >= 0 ? pre[it - tile.begin() - 1] : 0) - (i - 1 >= 0 ? pre[i - 1] : 0);
             
             // adding the last element which may or may not completely be covered by the carpet.
-            if(it!=tile.end() and (carpetLen+tiles[i][0])>=(*it))
-                temp+=min(carpetLen+tiles[i][0]-(*it),pre[it-tile.begin()]-(it-tile.begin()-1>=0 ? pre[it-tile.begin()-1] : 0));
+            if (it != tile.end() and (carpetLen + tiles[i][0]) >= (*it))
+                temp += min(carpetLen + tiles[i][0] - (*it),pre[it - tile.begin()] - (it - tile.begin() - 1 >= 0 ? pre[it-tile.begin() - 1] : 0));
             
             // updating our ans variable            
-            ans = max(ans,temp);
+            ans = max(ans, temp);
         }
         return ans;
     }

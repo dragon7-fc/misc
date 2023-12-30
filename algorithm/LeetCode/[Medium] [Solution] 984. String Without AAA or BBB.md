@@ -2,9 +2,9 @@
 
 Given two integers `A` and `B`, return any string `S` such that:
 
-`S` has length `A + B` and contains exactly `A` `'a'` letters, and exactly `B` `'b'` letters;
-The substring `'aaa'` does not occur in `S`;
-The substring `'bbb'` does not occur in `S`.
+* `S` has length `A + B` and contains exactly `A` `'a'` letters, and exactly `B` `'b'` letters;
+* The substring `'aaa'` does not occur in `S`;
+* The substring `'bbb'` does not occur in `S`.
  
 
 **Example 1:**

@@ -79,31 +79,6 @@ Memory Usage: 102.2 MB
 ```
 ```c++
 class Solution {
-public:
-    int findMaxForm(vector<string>& strs, int m, int n) {
-        vector<pair<int,int>> count;
-        vector<vector<vector<int>>> dp(strs.size(),vector<vector<int>>(m+1,vector<int>(n+1,-1)));
-        for(int i=0;i<strs.size();i++)
-        {
-            int count0=0;
-            int count1=0;
-            for(int j=0;j<strs[i].size();j++)
-            {
-                if(strs[i][j]=='0')
-                {
-                    count0++;
-                }
-                else
-                {
-                    count1++;
-                }
-            }
-            count.push_back({count0,count1});
-        }
-        
-        return explore(count,dp,m,n,0);
-    }
-    
     int explore(vector<pair<int,int>>& count,vector<vector<vector<int>>> &dp,int m,int n,int i)
     {
         if(m<0||n<0)
@@ -127,6 +102,30 @@ public:
         
         
         return dp[i][m][n]=ans;
+    }
+public:
+    int findMaxForm(vector<string>& strs, int m, int n) {
+        vector<pair<int,int>> count;
+        vector<vector<vector<int>>> dp(strs.size(),vector<vector<int>>(m+1,vector<int>(n+1,-1)));
+        for(int i=0;i<strs.size();i++)
+        {
+            int count0=0;
+            int count1=0;
+            for(int j=0;j<strs[i].size();j++)
+            {
+                if(strs[i][j]=='0')
+                {
+                    count0++;
+                }
+                else
+                {
+                    count1++;
+                }
+            }
+            count.push_back({count0,count1});
+        }
+        
+        return explore(count,dp,m,n,0);
     }
 };
 ```
