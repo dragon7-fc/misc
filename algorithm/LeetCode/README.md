@@ -6808,7 +6808,7 @@ class Solution:
 ```
 * [Medium] 1366. Rank Teams by Votes
 
-### Happen again
+### longest matched pattern with even count
 ```python
 class Solution:
     def findTheLongestSubstring(self, s: str) -> int:

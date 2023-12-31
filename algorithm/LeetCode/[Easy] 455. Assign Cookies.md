@@ -31,7 +31,7 @@ You need to output 2.
 
 # Submissions
 ---
-**Solution 1: (Greedy)**
+**Solution 1: (Greedy, Two-Pointer)**
 ```
 Runtime: 172 ms
 Memory Usage: 14.4 MB

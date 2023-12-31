@@ -46,7 +46,7 @@ Explanation: We can replace the last 3 'Q' to make s = "QWER".
 
 # Submissions
 ---
-**Solution 1:**
+**Solution 1: (Sliding Window)**
 
 **Intuition**
 We want a minimum length of substring,
@@ -97,4 +97,30 @@ class Solution:
                 count[s[i]] += 1  ## restore character and leave sliding window
                 i += 1 ## try to increase start
         return res
+```
+
+**Solution 2: (Sliding Window)**
+```
+Runtime: 65 ms
+Memory: 8.3 MB
+```
+```c++
+class Solution {
+public:
+    int balancedString(string s) {
+        unordered_map<int, int> count;
+        int n = s.length(), res = n, i = 0, k = n / 4;
+        for (int j = 0; j < n; ++j) {
+            count[s[j]]++;
+        }
+        for (int j = 0; j < n; ++j) {
+            count[s[j]]--;
+            while (i < n && count['Q'] <= k && count['W'] <= k && count['E'] <= k && count['R'] <= k) {
+                res = min(res, j - i + 1);
+                count[s[i++]] += 1;
+            }
+        }
+        return res;
+    }
+};
 ```
