@@ -79,3 +79,51 @@ class Solution:
                     seen.add(nv)
                     q += [[nv, path+d]]
 ```
+
+**Solution 2: (3 Steps)**
+
+1. Build directions for both start and destination from the root.
+	* Say we get "LLRRL" and "LRR".
+1. Remove common prefix path.
+	* We remove "L", and now start direction is "LRRL", and destination - "RR"
+1. Replace all steps in the start direction to "U" and add destination direction.
+	* The result is "UUUU" + "RR".
+```
+Runtime: 168 ms
+Memory: 113.5 MB
+```
+```c++
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+class Solution {
+    bool find(TreeNode* n, int val, string &path) {
+        if (n->val == val)
+            return true;
+        if (n->left && find(n->left, val, path))
+            path.push_back('L');
+        else if (n->right && find(n->right, val, path))
+            path.push_back('R');
+        return !path.empty();
+    }
+public:
+    string getDirections(TreeNode* root, int startValue, int destValue) {
+        string s_p, d_p;
+        find(root, startValue, s_p);
+        find(root, destValue, d_p);
+        while (!s_p.empty() && !d_p.empty() && s_p.back() == d_p.back()) {
+            s_p.pop_back();
+            d_p.pop_back();
+        }
+        return string(s_p.size(), 'U') + string(rbegin(d_p), rend(d_p));
+    }
+};
+```

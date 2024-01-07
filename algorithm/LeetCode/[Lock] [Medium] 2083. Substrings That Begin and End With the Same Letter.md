@@ -49,5 +49,5 @@ Memory Usage: 15.2 MB
 ```python
 class Solution:
     def numberOfSubstrings(self, s: str) -> int:
-        return len(s)+sum([val*(val-1)//2 for val in collections.Counter(s).values()])
+        return len(s) + sum([val*(val-1)//2 for val in collections.Counter(s).values()])
 ```

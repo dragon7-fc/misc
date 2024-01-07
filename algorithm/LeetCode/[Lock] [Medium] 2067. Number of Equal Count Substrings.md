@@ -1,6 +1,6 @@
 2067. Number of Equal Count Substrings
 
-You are given a **0-indexed** string `s` consisting of only lowercase English letters, and an integer `count`. A **substring** of `s` is said to be an **equal count substring** if, for each **unique** letter in the substring, it appears exactly count times in the substring.
+You are given a **0-indexed** string `s` consisting of only lowercase English letters, and an integer `count`. A **substring** of `s` is said to be an **equal count substring** if, for each **unique** letter in the substring, it appears exactly `count` times in the substring.
 
 Return the number of **equal count substrings** in `s`.
 

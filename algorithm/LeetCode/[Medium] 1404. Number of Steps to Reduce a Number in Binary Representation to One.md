@@ -63,3 +63,52 @@ class Solution:
             
         return step
 ```
+
+**Solution 2: (Math)**
+```
+Runtime: 7 ms
+Memory: 6.6 MB
+```
+```c++
+class Solution {
+public:
+    int numSteps(string s) {
+        int res = 0, carry = 0;
+        for (int i = s.size() - 1; i > 0; --i) {
+            ++res;
+            if (s[i] - '0' + carry == 1) {
+                carry = 1;
+                ++res;
+            }
+        }
+        return res + carry;
+    }
+};
+```
+
+**Solution 3: (DFS)**
+```
+Runtime: 6 ms
+Memory: 6.7 MB
+```
+```c++
+class Solution {
+    int dfs(int i, int carry, string &s) {
+        if (i == 0) {
+            if (s[i] - '0' + carry == 1) {
+                return 0;
+            }
+            return 1;
+        }
+        if (s[i] - '0' + carry == 1) {
+            return dfs(i-1, 1, s) + 2;
+        } else {
+            return dfs(i-1, (s[i]-'0'+carry)/2, s) + 1;
+        }
+    }
+public:
+    int numSteps(string s) {
+        return dfs(s.size()-1, 0, s);
+    }
+};
+```

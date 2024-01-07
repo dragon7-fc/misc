@@ -52,6 +52,8 @@ class Solution:
     def maxProduct(self, s: str) -> int:
         mem = {}
         n = len(s)
+
+	# 2^n possible palindromes,
         for i in range(1,1<<n):
             tmp = ""
             for j in range(n):
@@ -59,6 +61,7 @@ class Solution:
                     tmp += s[j]
             if tmp == tmp[::-1]:
                 mem[i] = len(tmp)
+
         res = 0
         for i,x in mem.items():
             for j,y in mem.items():

@@ -49,3 +49,41 @@ class Solution:
                 return bina
         return ""
 ```
+
+**Solution 2: (Backtracking, Recursively Generate All Strings, Time: O(N^2))**
+```
+Runtime: 3 ms
+Memory: 10.6 MB
+```
+```c++
+class Solution {
+    string bt(int i, int n, string &path, unordered_set<string> &st) {
+        if (i == n) {
+            if (!st.count(path)) {
+                return path;
+            }
+            return "";
+        }
+        path.push_back('0');
+        string rst = bt(i+1, n, path, st);
+        if (rst != "") {
+            return rst;
+        }
+        path.pop_back();
+        path.push_back('1');
+        rst = bt(i+1, n, path, st);
+        if (rst != "") {
+            return rst;
+        }
+        path.pop_back();
+        return "";
+    }
+public:
+    string findDifferentBinaryString(vector<string>& nums) {
+        int n = nums.size();
+        unordered_set<string> st(nums.begin(), nums.end());
+        string path;
+        return bt(0, n, path, st);
+    }
+};
+```

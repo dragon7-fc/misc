@@ -74,3 +74,21 @@ class Solution:
         ans += word2
         return ans
 ```
+
+**Solution 3: (DFS)**
+```
+Runtime: 374 ms
+Memory: 420 MB
+```
+```c++
+class Solution {
+public:
+    string largestMerge(string word1, string word2) {
+        if (word1.size() == 0  || word2.size() == 0)
+            return word1 + word2;
+        if (word1 > word2)
+            return word1[0] + largestMerge(word1.substr(1), word2);
+        return word2[0] + largestMerge(word1, word2.substr(1));
+    }
+};
+```

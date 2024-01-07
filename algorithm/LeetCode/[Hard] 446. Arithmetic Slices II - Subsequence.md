@@ -336,3 +336,27 @@ class Solution:
           
         return total - (n-1)*n//2   # total - sequence length 2 number
 ```
+
+**Solution 3: (DP Bottom-Up)**
+```
+Runtime: 1076 ms
+Memory: 285.6 MB
+```
+```c++
+class Solution {
+public:
+    int numberOfArithmeticSlices(vector<int>& nums) {
+        int n = nums.size(), ans = 0;
+        vector<unordered_map<long long, int>> dp(n);
+        long long diff;
+        for (int j = 1; j < n; j ++) {
+            for (int i = 0; i < j; i ++) {
+                diff = (long long)nums[j]-(long long)nums[i];
+                ans += dp[i][diff];
+                dp[j][diff] += dp[i][diff] + 1;
+            }
+        }
+        return ans;
+    }
+};
+```

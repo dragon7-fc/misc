@@ -82,35 +82,29 @@ class Solution:
 
 **Solution 3: (Hash Table)**
 ```
-Runtime: 8 ms
-Memory Usage: 10.8 MB
+Runtime: 10 ms
+Memory: 12.5 MB
 ```
 ```c++
 class Solution {
 public:
     int numOfPairs(vector<string>& nums, string target) {
-        std::unordered_map<std::string, std::vector<int>> strings;
+        int cnt = 0;
+        int n = target.size();
+        unordered_map<string, int> map;
+        for(auto digit : nums)
+            map[digit]++;
         
-        for(size_t i = 0; i < nums.size(); i++) {
-            strings[nums[i]].push_back(i);
-        }
-        size_t total = 0;
-        for(size_t i = 0; i < nums.size(); i++) {
-            if (target.compare(0, nums[i].size(), nums[i]) == 0) {
-                std::string remaining = target.substr(nums[i].size());
-                auto count_it = strings.find(remaining);
-                if (count_it != strings.end()) {
-                    total += count_it->second.size();
-                    // If the string pairs are identical, we should eliminate (i,i) kind of pairs
-                    // since the problem states that i != j
-                    if (remaining == nums[i]) {
-                        total--;
-                    }
-                }
+        for (int i = 0; i < target.size(); i++) {
+            string s1 = target.substr(0,i);
+            string s2 = target.substr(i,n);
+            if (s1 == s2){
+               cnt += map[s1]*(map[s2]-1);
+            } else {
+                cnt += map[s1]*map[s2]; 
             }
         }
-        
-        return total;
+        return cnt;
     }
 };
 ```

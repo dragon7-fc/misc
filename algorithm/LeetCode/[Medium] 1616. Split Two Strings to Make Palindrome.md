@@ -1,6 +1,6 @@
 1616. Split Two Strings to Make Palindrome
 
-You are given two strings `a` and `b` of the same length. Choose an index and split both strings at the same index, splitting `a` into two strings: `aprefix` and `asuffix` where `a = aprefix + asuffix`, and splitting `b` into two strings: `bprefix` and `bsuffix` where `b = bprefix + bsuffix`. Check if `aprefix + bsuffix` or `bprefix + asuffix` forms a palindrome.
+You are given two strings `a` and `b` of the same length. Choose an index and split both strings **at the same index**, splitting `a` into two strings: `aprefix` and `asuffix` where `a = aprefix + asuffix`, and splitting `b` into two strings: `bprefix` and `bsuffix` where `b = bprefix + bsuffix`. Check if `aprefix + bsuffix` or `bprefix + asuffix` forms a palindrome.
 
 When you split a string `s` into sprefix and ssuffix, either ssuffix or sprefix is allowed to be empty. For example, if `s = "abc"`, then `"" + "abc"`, `"a" + "bc"`, `"ab" + "c"` , and `"abc" + ""` are valid splits.
 
@@ -69,4 +69,29 @@ class Solution:
         s3, s4 = a[i:j + 1], b[i:j + 1]
 
         return any(s == s[::-1] for s in (s1,s2,s3,s4))
+```
+
+**Solution 1: (String, Greedy)**
+```
+Runtime: 69 ms
+Memory: 24.5 MB
+```
+```c++
+class Solution {
+    bool isPalindrome(string &s, int i, int j) {
+        while (i < j && s[i] == s[j])
+            ++i, --j;
+        return i >= j;
+    }
+    bool check(string &a, string &b) {
+        int i = 0, j = a.size() - 1;
+        while (i < j && a[i] == b[j])
+            ++i, --j;
+        return isPalindrome(a, i, j) || isPalindrome(b, i, j);
+    }
+public:
+    bool checkPalindromeFormation(string a, string b) {
+        return check(a, b) || check(b, a);
+    }
+};
 ```

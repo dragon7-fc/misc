@@ -38,6 +38,35 @@ Some of the strings which can be obtained from text and have 6 subsequences "ab"
 # Submissions
 ---
 **Solution 1: (Greedy)**
+
+__Intuition__
+If we add pattern[0], the best option is to add at the begin.
+If we add pattern[1], the best option is to add at the end.
+
+
+__Explanation__
+Firstly we'll try to find the number of subquence pattern in the current string text
+Iterate every character c from input string text,
+cnt1 means the count of character pattern[0],
+cnt2 means the count of character pattern[1].
+
+If c == pattern[1],
+it can build up string pattern with every pattern[0] before it,
+so we update res += cnt1 as well as cnt2++
+
+If c == pattern[0],
+we simply increment cnt1++.
+
+Then we consider of adding one more character:
+
+If we add pattern[0],
+the best option is to add at the begin,
+res += cnt2
+
+If we add pattern[1],
+the best option is to add at the end,
+res += cnt1
+
 ```
 Runtime: 232 ms
 Memory Usage: 15 MB

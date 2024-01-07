@@ -899,6 +899,21 @@ class Solution:
 ```
 * [Medium] [Solution] 974. Subarray Sums Divisible by K
 
+### Prefix Sum state count
+```python
+class Solution:
+    def wonderfulSubstrings(self, word: str) -> int:
+        count = [1] + [0] * 1024
+        res = cur = 0
+        for c in word:
+            cur ^= 1 << (ord(c) - ord('a'))
+            res += count[cur]
+            res += sum(count[cur ^ (1 << i)] for i in range(10))
+            count[cur] += 1
+        return res
+```
+* [Medium] 1915. Number of Wonderful Substrings
+
 ### Prefix Sum Range
 ```python
 class Solution:
@@ -9214,6 +9229,34 @@ class Solution:
                 return -1
         return 0
 ```
+‵``c++
+class Solution {
+public:
+    int compareVersion(string version1, string version2) {
+        vector<int> v1, v2;
+        stringstream ss(version1);
+        string str;
+        while (getline(ss, str, '.')) {
+            v1.push_back(stoi(str));
+        }
+        ss = stringstream(version2);
+        str.erase();
+        while (getline(ss, str, '.')) {
+            v2.push_back(stoi(str));
+        }
+        int n1, n2;
+        for (int i = 0; i < max(v1.size(), v2.size()); i++) {
+            n1 = (i < v1.size() ? v1[i] : 0);
+            n2 = (i < v2.size() ? v2[i] : 0);
+            if (n1 < n2)
+                return -1;
+            else if (n1 > n2)
+                return 1;
+        }
+        return 0;
+    }
+};
+```
 * [Medium] 165. Compare Version Numbers
 
 ### Greedy over sorted intervals
@@ -13467,6 +13510,34 @@ class Solution:
             if dp[i][1] + p > dp[-1][1]:
                 dp.append([e, dp[i][1] + p])
         return dp[-1][1]
+```
+```c++
+class Solution {
+public:
+    int jobScheduling(vector<int>& startTime, vector<int>& endTime, vector<int>& profit) {
+        int numJobs = profit.size(); // Number of jobs
+        vector<tuple<int, int, int>> jobs(numJobs);
+      
+        for (int i = 0; i < numJobs; ++i) {
+            jobs[i] = {endTime[i], startTime[i], profit[i]};
+        }
+      
+        sort(jobs.begin(), jobs.end());
+        vector<int> dp(numJobs + 1);
+      
+        for (int i = 0; i < numJobs; ++i) {
+            auto [endTime, startTime, profit] = jobs[i];
+          
+            int latestNonConflictJobIndex = upper_bound(jobs.begin(), jobs.begin() + i, startTime, [&](int time, const auto& job) -> bool {
+                return time < get<0>(job);
+            }) - jobs.begin();
+          
+            dp[i + 1] = max(dp[i], dp[latestNonConflictJobIndex] + profit);
+        }
+      
+        return dp[numJobs];
+    }
+};
 ```
 * [Hard] 1235. Maximum Profit in Job Scheduling
 

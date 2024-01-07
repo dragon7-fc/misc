@@ -70,3 +70,28 @@ class Solution:
             ans += v//3 + (v%3 > 0)
         return ans
 ```
+
+**Solution 2: (Counting)**
+```
+Runtime: 125 ms
+Memory: 85.1 MB
+```
+```c++
+class Solution {
+public:
+    int minOperations(vector<int>& nums) {
+        unordered_map<int, int> counter;
+        for (int num : nums) {
+            counter[num]++;
+        }
+        int ans = 0;
+        for (auto [_, c]: counter) {
+            if (c == 1) {
+                return -1;
+            }
+            ans += ceil((double)(c) / 3);
+        }
+        return ans;
+    }
+};
+```

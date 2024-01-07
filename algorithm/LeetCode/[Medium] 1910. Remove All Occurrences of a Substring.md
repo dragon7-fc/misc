@@ -85,3 +85,23 @@ class Solution:
     def removeOccurrences(self, s: str, part: str) -> str:
         return reduce(lambda a, b: (a + b).removesuffix(part), s, '')
 ```
+
+**Solution 3: (String)**
+```
+Runtime: 0 ms
+Memory: 7.1 MB
+```
+```c++
+class Solution {
+public:
+    string removeOccurrences(string s, string part) {
+        int pos=s.find(part);
+        while(pos!=string::npos)
+        {
+            s.erase(pos,part.length());
+            pos=s.find(part);
+        }
+        return s;
+    }
+};
+```

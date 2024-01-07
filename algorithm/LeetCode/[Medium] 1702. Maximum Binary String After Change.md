@@ -66,3 +66,27 @@ class Solution:
         k, n = binary.count('1', binary.find('0')), len(binary)
         return '1' * (n - k - 1) + '0' + '1' * k
 ```
+
+```
+Runtime: 156 ms
+Memory: 40.8 MB
+```
+
+```c++
+class Solution {
+public:
+    string maximumBinaryString(string binary) {
+        int ones = 0, zeros = 0, n = binary.length();
+        for (auto& c : binary) {
+            if (c == '0')
+                zeros++;
+            else if (zeros == 0)
+                ones++;
+            c = '1';
+        }
+        if (ones < n)
+            binary[ones + zeros - 1] = '0';
+        return binary;
+    }
+};
+```

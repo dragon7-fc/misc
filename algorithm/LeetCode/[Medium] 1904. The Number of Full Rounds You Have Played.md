@@ -59,3 +59,19 @@ class Solution:
         tf = 60 * hf + mf
         return tf//15 - (ts+14)//15 + (ts>tf)*96
 ```
+
+**Solution 2: (Math)**
+```
+Runtime: 0 ms
+Memory: 6.3 MB
+```
+```c++
+class Solution {
+public:
+    int numberOfRounds(string loginTime, string logoutTime) {
+        int start = 60 * stoi(loginTime.substr(0, 2)) + stoi(loginTime.substr(3)), finish = 60 * stoi(logoutTime.substr(0, 2)) + stoi(logoutTime.substr(3));
+        if (start > finish) finish += 60 * 24; // If `finishTime` is earlier than `startTime`, add 24 hours to `finishTime`.
+        return max(0, finish / 15 - (start + 14) / 15); // max(0, floor(finish / 15) - ceil(start / 15))
+    }
+};
+```

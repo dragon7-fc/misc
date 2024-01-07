@@ -104,3 +104,28 @@ class Solution:
                     break
         return ans
 ```
+
+**Solution 3: (Bitmask)**
+```
+Runtime: 226 ms
+Memory: 99.1 MB
+```
+```c++
+class Solution {
+public:
+    int wordCount(vector<string>& startWords, vector<string>& targetWords) {
+        auto get_mask = [](string &w){
+            return accumulate(begin(w), end(w), 0, [](int mask, char ch){ return mask + (1 << (ch - 'a')); });  
+        };
+        unordered_set<int> s;
+        for (auto &w : startWords)
+            s.insert(get_mask(w));
+        int res = 0;
+        for (auto &w : targetWords) {
+            int mask = get_mask(w);
+            res += any_of(begin(w), end(w), [&](char ch){ return s.count(mask - (1 << (ch - 'a'))); });
+        }
+        return res;
+    }
+};
+```

@@ -89,3 +89,34 @@ public:
     }
 };
 ```
+
+**Solution 3: (prefix sum)**
+```
+Runtime: 83 ms
+Memory: 24.6 MB
+```
+```c++
+class Solution {
+public:
+    long long numberOfWays(string s) {
+        int n = s.size(), zero = 0;
+        for (int c: s) {
+            zero += c == '0' ? 1 : 0;
+        }
+        int one = n - zero, zero_left = 0, one_left = 0;
+        long long ans = 0;
+        for (auto c: s) {
+            if (c == '0') {
+                zero -= 1;
+                zero_left += 1;
+                ans += one_left * one;
+            } else {
+                one -= 1;
+                one_left += 1;
+                ans += zero_left * zero;
+            }
+        }
+        return ans;
+    }
+};
+```
