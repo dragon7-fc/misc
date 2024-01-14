@@ -57,7 +57,7 @@ class Solution:
         return ''.join(res)
 ```
 
-**Solution 2: (stack)**
+**Solution 2: (stack, keep increasing then reverse)**
 ```
 Runtime: 0 ms
 Memory Usage: 5.9 MB

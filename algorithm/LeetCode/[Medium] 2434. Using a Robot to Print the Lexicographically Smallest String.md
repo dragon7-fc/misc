@@ -68,7 +68,7 @@ class Solution:
         return ''.join(ans)
 ```
 
-**Solution 2: (Stack)**
+**Solution 2: (Stack, mono decreasing stack with future smallest character)**
 ```
 Runtime: 202 ms
 Memory: 29.7 MB

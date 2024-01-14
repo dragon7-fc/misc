@@ -5429,7 +5429,7 @@ class Solution:
 ```
 * [Medium] [Solution] 966. Vowel Spellchecker
 
-### break string, stack
+### break string, stack, divide and conquer
 ```python
 class Solution:
     def longestSubstring(self, s: str, k: int) -> int:

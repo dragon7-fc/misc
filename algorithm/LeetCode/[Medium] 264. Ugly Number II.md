@@ -18,7 +18,7 @@ Explanation: 1, 2, 3, 4, 5, 6, 8, 9, 10, 12 is the sequence of the first 10 ugly
 
 # Submissions
 ---
-**Solution 1: (DP)**
+**Solution 1: (DP Bottom-Up)**
 
 * DP approach
 
@@ -51,7 +51,7 @@ class Solution:
         return uglyNumbers[-1]
 ```
 
-**Solution 2: (Three Pointers)**
+**Solution 2: (DP Bottom-Up)**
 ```
 Runtime: 160 ms
 Memory Usage: 12.8 MB
@@ -92,36 +92,7 @@ class Solution:
         return cur
 ```
 
-**Solution 4: (Three Pointers)**
-```
-Runtime: 4 ms
-Memory Usage: 7.6 MB
-```
-```c++
-class Solution {
-public:
-    int nthUglyNumber(int n) {
-        if (n == 1)
-            return 1;
-        vector<int> uglies(n);
-        uglies[0] = 1;
-        int l2 = 0, l3 = 0, l5 = 0; //indexes for respective list
-        for (int i=1; i<n; i++)
-        {
-            uglies[i] = min(2 * uglies[l2], min(3 * uglies[l3], 5 * uglies[l5]));
-            if (uglies[i] == 2 * uglies[l2])
-                l2++;
-            if (uglies[i] == 3 * uglies[l3])
-                l3++;
-            if (uglies[i] == 5 * uglies[l5])
-                l5++;
-        }
-        return uglies[n - 1];
-    }
-};
-```
-
-**Solution 5: (DP Bottom-Up)**
+**Solution 4: (DP Bottom-Up)**
 ```
 Runtime: 3 ms
 Memory Usage: 5.6 MB

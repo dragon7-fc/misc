@@ -32,7 +32,7 @@ Explanation: We show that the string "aba" contains all the given strings: a = a
 
 # Submissions
 ---
-**Solution 1: (Check all Permuations)**
+**Solution 1: (Brute Force, Check all Permuations)**
 ```
 Runtime: 227 ms
 Memory: 16.2 MB
@@ -48,4 +48,42 @@ class Solution:
                     return a + b[k:]
         
         return min((f(f(a,b), c) for a,b,c in permutations((a,b,c))), key=lambda a: (len(a), a))
+```
+
+**Solution 2: (Brute Force, Check all Permuations)**
+```
+Runtime: 244 ms
+Memory: 87.49 MB
+```
+```c++
+class Solution {
+    string solve(string& a,string& b) {
+        if(a.find(b)!=string::npos) return a;
+        for(int i=min(a.size(),b.size()); i>=0;i--){
+            if(a.substr(a.size()-i)==b.substr(0, i)) {
+                return a+b.substr(i);
+            }
+        }
+        return a+b;
+    }
+public:
+    string minimumString(string a, string b, string c) {
+        vector<string> vec={a, b, c};
+        string str="";
+        for(int i=0;i<3;i++){
+            for(int j=0;j<3;j++){
+                for(int k=0;k<3;k++){
+                    if(i!=j && j!=k && i!=k){
+                        string s1=solve(vec[i], vec[j]);
+                        string s2=solve(s1, vec[k]);
+                        if(str=="" || (s2.size()<str.size()) || (s2.size()==str.size() && s2<str)) {
+                            str=s2;
+                        }
+                    }
+                }
+            }
+        }
+        return str;
+    }
+};
 ```

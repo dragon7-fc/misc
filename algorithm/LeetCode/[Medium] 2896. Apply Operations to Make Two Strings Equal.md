@@ -73,37 +73,50 @@ class Solution:
 
 **Solution 2: (DP Top-Down)**
 ```
-Runtime: 34 ms
-Memory: 8.6 MB
+Runtime: 3 ms
+Memory: 7.12 MB
 ```
 ```c++
 class Solution {
-    int dp[501][501];
-    int solve(int l, int r, vector<int>&a,int x)
-    {
-        if (l >= r) return 0;
-        if (dp[l][r] != -1) return dp[l][r];
-        int ans = min(
-            { min(x, a[l+1]-a[l]) + solve(l+2, r, a, x)
-            , min(x, a[r]-a[l]) + solve(l+1, r-1,a,x) 
-            , min(x, a[r]-a[r-1]) + solve(l, r-2,a,x) }
-            );
-        
-        return dp[l][r] = ans;
+    int dp[501] = {}, diff[501] = {}, sz = 0;
+    int dfs(int i, int x) {
+        if (i + 1 >= sz)
+            return i % 2 * x;
+        if (!dp[i])
+            dp[i] = min(dfs(i + 1, x) + x, 
+                        dfs(i + 2, x) + (diff[i + 1] - diff[i]) * 2);
+        return dp[i];
     }
 public:
     int minOperations(string s1, string s2, int x) {
-        int n = s1.size();
-        vector<int>a;
-        for (int i = 0; i < n; i++) {
-            if (s1[i] != s2[i]) {
-                a.push_back(i);
-            }
-        }
-        if ((int)a.size()%2) return -1;
-        if(a.size()==0) return 0;
-        memset(dp, -1, sizeof(dp));
-        return solve(0, a.size()-1, a, x);
+        for (int i = 0; i < s1.size(); ++i)
+            if (s1[i] != s2[i])
+                diff[sz++] = i;
+        return sz % 2 ? -1 : dfs(0, x) / 2;
+    }
+};
+```
+
+**Solution 3: (DP Bottom-Up)**
+```
+Runtime: 3 ms
+Memory: 6.84 MB
+```
+```c++
+class Solution {
+public:
+    int minOperations(string s1, string s2, int x) {
+        int dp[3] = {}, diff[501] = {}, sz = 0;
+        for (int i = 0; i < s1.size(); ++i)
+            if (s1[i] != s2[i])
+                diff[sz++] = i;
+        if (sz % 2)
+            return -1;
+        diff[sz] = 1000000000; // sentinel    
+        for (int i = sz - 1; i >= 0; --i)
+            dp[i % 3] = min(dp[(i + 2) % 3] + (diff[i + 1] - diff[i]) * 2, 
+                            dp[(i + 1) % 3] + x);
+        return dp[0] / 2;
     }
 };
 ```

@@ -186,8 +186,8 @@ class Solution:
 
 **Solution 4: (Backtracking)**
 ```
-Runtime: 0 ms
-Memory Usage: 6.8 MB
+Runtime: 3 ms
+Memory: 7.24 MB
 ```
 ```c++
 class Solution {
@@ -202,18 +202,18 @@ class Solution {
         {'9', "wxyz"}
     };
     vector<string> ans;
-    void bt(string s, string p) {
-        if (s == "" && p != "") {
+    void bt(int i, string &s, string p) {
+        if (i == s.size() && p != "") {
             ans.push_back(p);
             return;
         }
-        for (char nc: m[s[0]]) {
-            bt(s.substr(1), p+nc);
+        for (char nc: m[s[i]]) {
+            bt(i+1, s, p+nc);
         }
     }
 public:
     vector<string> letterCombinations(string digits) {
-        bt(digits, "");
+        bt(0, digits, "");
         return ans;
     }
 };

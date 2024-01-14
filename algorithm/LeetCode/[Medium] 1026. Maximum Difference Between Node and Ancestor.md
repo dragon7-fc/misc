@@ -221,3 +221,45 @@ class Solution:
 
         return dfs(root)
 ```
+
+**Solution 7: (DFS, track min/max top-down)**
+```
+Runtime: 4 ms
+Memory: 11.60 MB
+```
+```c++
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+class Solution {
+public:
+    int maxAncestorDiff(TreeNode* root) {
+        int ans = 0;
+
+        function<void(TreeNode*, int, int)> dfs = [&](TreeNode* node, int mx, int mn) {
+            if (!node) {
+                return;
+            }
+            if (mx != INT_MIN && mn != INT_MAX) {
+                ans = max(ans, abs(node->val - mx));
+                ans = max(ans, abs(node->val - mn));
+            }
+            mx = max(mx, node->val);
+            mn = min(mn, node->val);
+            dfs(node->left, mx, mn);
+            dfs(node->right, mx, mn);
+        };
+        
+        dfs(root, INT_MIN, INT_MAX);
+        return ans;
+    }
+};
+```

@@ -48,3 +48,22 @@ class Solution:
             ans += (ord(word[i])-ord(word[i-1])-1)%3
         return ans
 ```
+
+**Solution 2: (Greedy)**
+```
+Runtime: 3 ms
+Memory: 6.5 MB
+```
+```c++
+class Solution {
+public:
+    int addMinimum(string word) {
+        int k = 0, prev = 'z';
+        for (char& c: word) {
+            k += c <= prev;
+            prev = c;
+        }
+        return k * 3 - word.size();
+    }
+};
+```

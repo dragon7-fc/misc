@@ -15,6 +15,11 @@ Input: [1,1,1,3,3,2,2,2]
 Output: [1,2]
 ```
 
+**Constraints:**
+
+* `1 <= nums.length <= 5 * 10^4`
+* `-10^9 <= nums[i] <= 10^9`
+
 # Submissions
 ---
 **Solution 1: (Boyer-Moore Voting Algorithm)**

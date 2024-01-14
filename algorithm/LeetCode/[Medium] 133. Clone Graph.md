@@ -186,6 +186,18 @@ public:
 */
 
 class Solution {
+    void dfs(Node* parent, Node* node, unordered_map<Node*, Node*>& saved) {
+        if (saved.find(node) == saved.end()) {
+            Node* temp = new Node(node->val);
+            parent->neighbors.push_back(temp);
+            saved[node] = temp;
+            for (int i = 0; i < node->neighbors.size(); ++i) {
+                dfs(temp, node->neighbors[i], saved);
+            }
+         } else {
+            parent->neighbors.push_back(saved[node]);
+        }
+    }
 public:
     Node* cloneGraph(Node* node) {
         if (node == NULL) {
@@ -198,19 +210,6 @@ public:
             dfs(ans, node->neighbors[i], saved);
         }
         return ans;
-    }
-    
-    void dfs(Node* parent, Node* node, unordered_map<Node*, Node*>& saved) {
-        if (saved.find(node) == saved.end()) {
-            Node* temp = new Node(node->val);
-            parent->neighbors.push_back(temp);
-            saved[node] = temp;
-            for (int i = 0; i < node->neighbors.size(); ++i) {
-                dfs(temp, node->neighbors[i], saved);
-            }
-         } else {
-            parent->neighbors.push_back(saved[node]);
-        }
     }
 };
 ```

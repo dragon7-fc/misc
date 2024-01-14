@@ -294,3 +294,29 @@ public:
     }
 };
 ```
+
+**Solution 5: (Sliding Window, Non-shrinkable)**
+```
+Runtime: 0 ms
+Memory: 7.44 MB
+```
+```c++
+class Solution {
+public:
+    int lengthOfLongestSubstring(string s) {
+        int i = 0, dups = 0;
+        int cnt[256] = {0};
+        for (int j = 0; j < s.size(); j++) {
+            if (cnt[s[j]]++ == 1) {
+                dups ++;
+            }
+            if (dups) {
+                if (--cnt[s[i++]] == 1) {
+                    dups --;
+                }
+            }
+        }
+        return s.size() - i;
+    }
+};
+```

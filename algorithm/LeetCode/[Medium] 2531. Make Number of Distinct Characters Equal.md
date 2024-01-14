@@ -36,7 +36,7 @@ Explanation: Both resulting strings will have 5 distinct characters, regardless 
 
 # Submissions
 ---
-**Solution 1: (Brute Force)**
+**Solution 1: (Brute Force on all character)**
 ```
 Runtime: 125 ms
 Memory: 15.2 MB

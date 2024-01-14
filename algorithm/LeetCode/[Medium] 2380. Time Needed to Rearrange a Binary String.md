@@ -52,6 +52,10 @@ class Solution:
 ```
 
 **Solution 2: (DP)**
+
+* Time: O(n * n) - OK for n <= 1,000. We process n characters in the string n times in the worst case (0111...1).
+* Memory: O(n) to store an interim string.
+
 ```
 Runtime: 0 ms
 Memory Usage: 6.6 MB

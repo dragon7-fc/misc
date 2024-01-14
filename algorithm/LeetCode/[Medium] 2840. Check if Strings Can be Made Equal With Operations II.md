@@ -46,3 +46,31 @@ class Solution:
         return Counter(s1[::2]) == Counter(s2[::2]) and Counter(s1[1::2]) == Counter(s2[1::2])
 ```
 
+**Solution 1: (Counter)**
+```
+Runtime: 70 ms
+Memory: 18.49 MB
+```
+```c++
+class Solution {
+public:
+    bool checkStrings(string s1, string s2) {
+        unordered_map<char, int> s1even;
+        unordered_map<char, int> s1odd;
+        unordered_map<char, int> s2even;
+        unordered_map<char, int> s2odd;
+
+        for (int i = 0; i < s1.length(); i++) {
+            if (i % 2 == 0) {
+                s1even[s1[i]]++;
+                s2even[s2[i]]++;
+            } else {
+                s1odd[s1[i]]++;
+                s2odd[s2[i]]++;
+            }
+        }
+
+        return (s1even == s2even && s1odd == s2odd);
+    }
+};
+```

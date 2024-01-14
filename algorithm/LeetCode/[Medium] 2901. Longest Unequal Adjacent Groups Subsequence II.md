@@ -53,7 +53,7 @@ Hence, it is the only answer.
 
 # Submissions
 ---
-**Solution 1: (DP Bottom-Up)**
+**Solution 1: (DP Bottom-Up, LIS)**
 ```
 Runtime: 309 ms
 Memory: 121.9 MB

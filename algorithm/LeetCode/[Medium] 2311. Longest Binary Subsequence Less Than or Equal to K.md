@@ -76,3 +76,29 @@ public:
     }
 };
 ```
+
+**Solution 3: (Greedy)**
+
+Such a deceptive problem. The key is to realize that we need to take all zeros.
+
+Then, we take as many 1 from the right as we can, before exceeding k. It can be shown that greedily using 1 from the right is always better than to skip it.
+
+```
+Runtime: 5 ms
+Memory: 7.1 MB
+```
+```c++
+public:
+    int longestSubsequence(string s, int k) {
+        int val = 0, cnt = 0, pow = 1;
+        for (int i = s.size() - 1; i >= 0 && val + pow <= k; --i) {
+            if (s[i] == '1') {
+                ++cnt;
+                val += pow;
+            }
+            pow <<= 1;
+        }
+        return count(begin(s), end(s), '0') + cnt;
+    }
+};
+```

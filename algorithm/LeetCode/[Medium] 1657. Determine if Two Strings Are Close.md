@@ -73,3 +73,38 @@ class Solution:
     def closeStrings(self, word1: str, word2: str) -> bool:
         return set(word1) == set(word2) and Counter(Counter(word1).values()) == Counter(Counter(word2).values())
 ```
+
+**Solution 2: (String)**
+```
+Runtime: 63 ms
+Memory: 20.78 MB
+```
+```c++
+class Solution {
+public:
+    bool closeStrings(string word1, string word2) {
+        int cnt1[26] = {0}, cnt2[26] = {0};
+        for (char c: word1) {
+            cnt1[c-'a'] += 1;
+        }
+        for (char c: word2) {
+            cnt2[c-'a'] += 1;
+        }
+        vector<int> v1, v2;
+        for (int i = 0; i < 26; i ++) {
+            if (cnt1[i] && !cnt2[i] || !cnt1[i] && cnt2[i]) {
+                return false;
+            }
+            if (cnt1[i]) {
+                v1.push_back(cnt1[i]);
+            }
+            if (cnt2[i]) {
+                v2.push_back(cnt2[i]);
+            }
+        }
+        sort(v1.begin(), v1.end());
+        sort(v2.begin(), v2.end());
+        return v1 == v2;
+    }
+};
+```

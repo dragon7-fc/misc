@@ -70,3 +70,43 @@ class Solution:
 
         return list(dfs(root1)) == list(dfs(root2))      
 ```
+
+**Solution 2: (DFS)**
+```
+Runtime: 0 ms
+Memory: 14 MB
+```
+```c++
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+class Solution {
+public:
+    bool leafSimilar(TreeNode* root1, TreeNode* root2) {
+
+        function<void(TreeNode*, vector<int>&)> dfs = [&](TreeNode* node, vector<int> &rst) {
+            if (!node) {
+                return;
+            }
+            if (!node->left && !node->right) {
+                rst.push_back(node->val);
+                return;
+            }
+            dfs(node->left, rst);
+            dfs(node->right, rst);
+        };
+        vector<int> v1, v2;
+        dfs(root1, v1);
+        dfs(root2, v2);
+        return v1 == v2; 
+    }
+};
+```
