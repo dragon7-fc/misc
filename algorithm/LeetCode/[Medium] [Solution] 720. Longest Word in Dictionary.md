@@ -207,20 +207,6 @@ public:
 };
 
 class Solution {
-public:
-    string longestWord(vector<string>& words) {
-        if (words.size() == 0) {
-            return "";
-        }
-        Trie* root = new Trie();
-        for(int i = 0; i < words.size(); i++) {
-            insert(root, words[i]);
-        }
-        string res = "";
-        dfs(root, res);
-        return res;
-    }
-    
     void insert(Trie* root, string s) {
         if (s.size() == 0) return;
         Trie* curr = root;
@@ -242,6 +228,19 @@ public:
                 dfs(curr, res);
             }
         }
+    }
+public:
+    string longestWord(vector<string>& words) {
+        if (words.size() == 0) {
+            return "";
+        }
+        Trie* root = new Trie();
+        for(int i = 0; i < words.size(); i++) {
+            insert(root, words[i]);
+        }
+        string res = "";
+        dfs(root, res);
+        return res;
     }
 };
 ```

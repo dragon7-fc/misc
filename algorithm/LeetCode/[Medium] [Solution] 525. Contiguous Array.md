@@ -156,7 +156,7 @@ class Solution:
         return ans
 ```
 
-**Solution 2: (Using HashMap)**
+**Solution 2: (Using HashMap, equal = sum to 0)**
 ```
 Runtime: 254 ms
 Memory Usage: 83.9 MB

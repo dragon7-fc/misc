@@ -8959,6 +8959,30 @@ return ans
 
 ## Greedy <a name="greedy"></a>
 ---
+### Greedy on score
+```c++
+class Solution {
+public:
+    int longestWPI(vector<int>& hours) {
+        int res = 0, score = 0, n = hours.size();
+        unordered_map<int, int> seen;
+        for (int i = 0; i < n; ++i) {
+            score += hours[i] > 8 ? 1 : -1;
+            if (score > 0) {
+                res = i + 1;
+            } else {
+                if (seen.find(score) == seen.end())
+                    seen[score] = i;
+                if (seen.find(score - 1) != seen.end())
+                    res = max(res, i - seen[score - 1]);
+            }
+        }
+        return res;
+    }
+};
+```
+* [Medium] 1124. Longest Well-Performing Interval
+
 ###  Greedy
 ```python
 class Solution:
@@ -9522,7 +9546,7 @@ class Solution:
 ```
 * [Hard] 1402. Reducing Dishes
 
-### Prefix Sum
+### Prefix Sum and DP
 ```python
 class Solution:
     def minSumOfLengths(self, arr: List[int], target: int) -> int:
@@ -11692,6 +11716,33 @@ class Solution:
             ans += dot
         return ans % MOD
 ```
+```c++
+class Solution {
+public:
+    int sumSubarrayMins(vector<int>& arr) {
+        const int MOD = 1000000007;
+        stack<int> st;
+        long sumOfMinimums = 0;
+
+        for (int i = 0; i <= arr.size(); i++) {
+            while (!st.empty() && (i == arr.size() || arr[st.top()] >= arr[i])) {
+                int mid = st.top();
+                st.pop();
+                int leftBoundary = st.empty() ? -1 : st.top();
+                int rightBoundary = i;
+
+                long count = (mid - leftBoundary) * (rightBoundary - mid) % MOD;
+
+                sumOfMinimums += (count * arr[mid]) % MOD;
+                sumOfMinimums %= MOD;
+            }
+            st.push(i);
+        }
+
+        return static_cast<int>(sumOfMinimums);
+    }
+};
+```
 * [Medium] [Solution] 907. Sum of Subarray Minimums
 
 ### Decreasing stack
@@ -11974,10 +12025,12 @@ class Solution:
 stack = []
 ans = 0
 for ...:
+    # balance
     while stack and stack[-1]...:
         stack.pop()
     ...
     ans = ...
+    # greedy
     stack.append(...)
 
 return ans

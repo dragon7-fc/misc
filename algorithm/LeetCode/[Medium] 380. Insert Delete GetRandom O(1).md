@@ -81,39 +81,41 @@ class RandomizedSet:
 
 **Solution 2: (Hash Table, Array)**
 ```
-Runtime: 204 ms
-Memory Usage: 97.1 MB
+Runtime: 178 ms
+Memory: 97.34 MB
 ```
 ```c++
 class RandomizedSet {
-    unordered_map<int, int> mp;
-    vector<int> nums;
+    vector<int> dp;
+    unordered_map<int, int> m;
 public:
     RandomizedSet() {
         
     }
     
     bool insert(int val) {
-        if(mp.find(val) != mp.end())
+        if (m.count(val)) {
             return false;
-        mp[val] = nums.size();               // insert value and its index (in vector) to map
-        nums.push_back(val);                // insert value into vector
+        }
+        m[val] = dp.size();
+        dp.push_back(val);
         return true;
     }
     
     bool remove(int val) {
-        if(mp.find(val) == mp.end())
+        if (!m.count(val)) {
             return false;
-        int lastElem = nums.back();                        // get the last element of vector
-        mp[lastElem] = mp[val];                            // last element will be copied to index where "val" exist so update map
-        nums[mp[val]] = lastElem;                          // copy last element at index of  "val"
-        nums.pop_back();                                   // remove the last element of vector
-        mp.erase(val);                                     // erase val from map
+        }
+        int i = m[val];
+        dp[i] = dp.back();
+        m[dp.back()] = i;
+        m.erase(val);
+        dp.pop_back();
         return true;
     }
     
     int getRandom() {
-        return nums[rand() % nums.size()];  
+        return dp[rand()%dp.size()];
     }
 };
 

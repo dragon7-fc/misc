@@ -73,7 +73,7 @@ class Solution:
         return False
 ```
 
-**Solution 2: (Hash Table, Greedy, Prefix Sum)**
+**Solution 2: (Hash Table, Greedy, Prefix Sum, (a+b) % c = a%c + b %c)**
 ```
 Runtime: 568 ms
 Memory: 113.8 MB

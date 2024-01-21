@@ -63,6 +63,6 @@ class Solution:
                 rst += 2
             return rst
 
-        return dfs(0, -1)n
+        return dfs(0, -1)
 ```
 

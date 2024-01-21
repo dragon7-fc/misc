@@ -171,6 +171,12 @@ public:
 
 class Solution {
     unordered_map<int, pair<int, vector<int>>> g;
+    int dfs(int id) {
+        int rst = g[id].first;
+        for (auto &nid: g[id].second)
+            rst += dfs(nid);
+        return rst;
+    }
 public:
     int getImportance(vector<Employee*> employees, int id) {
         for (auto &e: employees) {
@@ -179,13 +185,6 @@ public:
         }
         int ans = dfs(id);
         return ans;
-    }
-    
-    int dfs(int id) {
-        int rst = g[id].first;
-        for (auto &nid: g[id].second)
-            rst += dfs(nid);
-        return rst;
     }
 };
 ```

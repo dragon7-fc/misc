@@ -176,7 +176,7 @@ class Solution:
         return ans
 ```
 
-**Solution: (Three Pointer)**
+**Solution: (Sliding Windows)**
 ```
 Runtime: 296 ms
 Memory Usage: 13.5 MB

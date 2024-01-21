@@ -135,7 +135,7 @@ public:
 };
 ```
 
-**Solution 2: (Set, String)**
+**Solution 2: (Set, String, Sort)**
 ```
 Runtime: 8 ms
 Memory Usage: 8.6 MB

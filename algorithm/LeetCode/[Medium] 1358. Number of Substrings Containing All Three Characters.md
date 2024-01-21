@@ -63,6 +63,6 @@ class Solution:
         res, last = 0, [-1] * 3
         for i, c in enumerate(s):
             last[ord(c) - 97] = i
-            res += 1 + min(last)
+            res += 1 + min(last)  ## the starting index can be in range [0, min(last)],
         return res
 ```

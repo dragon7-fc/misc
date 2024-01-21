@@ -76,7 +76,6 @@ Memory Usage: 24.5 MB
  * };
  */
 class Solution {
-public:
     unordered_map<int,int> mp;
     int helper(TreeNode *root){
         if(!root){
@@ -87,6 +86,7 @@ public:
         mp[l+r+root->val]++;
         return l+r+root->val;
     }
+public:
     vector<int> findFrequentTreeSum(TreeNode* root) {
         helper(root);
         int mx=INT_MIN;

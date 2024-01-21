@@ -204,7 +204,6 @@ Memory Usage: 46.2 MB
 ```
 ```c++
 class Solution {
-public:
     unordered_set<string> visited;
     unordered_map<string, vector<string>> adjacent;
     
@@ -219,6 +218,7 @@ public:
             }
         }
     }
+public:
     vector<vector<string>> accountsMerge(vector<vector<string>>& accounts) {
         int accountListSize = accounts.size();
         

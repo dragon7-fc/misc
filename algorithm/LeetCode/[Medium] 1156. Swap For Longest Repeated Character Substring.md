@@ -85,3 +85,58 @@ class Solution:
         return res
             
 ```
+
+**Solution 2: (Sliding Window)**
+```
+Runtime: 9 ms
+Memory: 7.04 MB
+```
+```c++
+
+class Solution {
+public:
+    int maxRepOpt1(string text) {
+        int res = 0;
+        for (auto ch = 'a'; ch <= 'z'; ++ch) {
+            int i = 0, j = 0, gap = 0;
+            while (i < text.size()) {
+                gap += text[i++] != ch;
+                if (gap > 1)
+                    gap -= text[j++] != ch;
+            }
+            res = max(res, min(i - j, (int)count_if(begin(text), end(text), [&](char ch1) { return ch1 == ch; })));
+        }
+        return res;
+    }
+};
+```
+
+**Solution 3: (Group and Count)**
+```
+Runtime: 0 ms
+Memory: 7.96 MB
+```
+```c++
+class Solution {
+public:
+    int maxRepOpt1(string text) {
+        vector<vector<int>> idx(26);
+        int res = 0;
+        for (auto i = 0; i < text.size(); ++i) 
+            idx[text[i] - 'a'].push_back(i);
+        for (auto n = 0; n < 26; ++n) {
+            auto cnt = 1, cnt1 = 0, mx = 0;
+            for (auto i = 1; i < idx[n].size(); ++i) {
+                if (idx[n][i] == idx[n][i - 1] + 1) ++cnt;
+                else {
+                    cnt1 = idx[n][i] == idx[n][i - 1] + 2 ? cnt : 0;
+                    cnt = 1;
+                }
+                mx = max(mx, cnt1 + cnt);        
+            }
+            res = max(res, mx + (idx[n].size() > mx ? 1 : 0));
+        }
+        return res;
+    }
+};
+```

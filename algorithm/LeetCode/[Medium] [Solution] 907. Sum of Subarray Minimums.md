@@ -155,7 +155,7 @@ class Solution:
         return ans % MOD
 ```
 
-**Solution 1: (Stack)**
+**Solution 1: (Stack, greedy add then balance)**
 ```
 Runtime: 101 ms
 Memory Usage: 40 MB
@@ -174,13 +174,46 @@ public:
                 auto [x, c] = stk.top();
                 stk.pop();
                 count += c;
-                dot -= x*c;
+                dot -= x*c;  // balance
             }
             stk.push({arr[j], count});
-            dot += arr[j]*count;
+            dot += arr[j]*count;  // greedy
             ans += dot;
         }
         return (int)(ans % MOD);
+    }
+};
+```
+
+**Solution 2: (Mono increasing stack, left and right)**
+```
+Runtime: 65 ms
+Memory: 41.82 MB
+```
+```c++
+class Solution {
+public:
+    int sumSubarrayMins(vector<int>& arr) {
+        const int MOD = 1000000007;
+        stack<int> st;
+        long sumOfMinimums = 0;
+
+        for (int i = 0; i <= arr.size(); i++) {
+            while (!st.empty() && (i == arr.size() || arr[st.top()] >= arr[i])) {
+                int mid = st.top();
+                st.pop();
+                int leftBoundary = st.empty() ? -1 : st.top();
+                int rightBoundary = i;
+
+                long count = (mid - leftBoundary) * (rightBoundary - mid) % MOD;
+
+                sumOfMinimums += (count * arr[mid]) % MOD;
+                sumOfMinimums %= MOD;
+            }
+            st.push(i);
+        }
+
+        return static_cast<int>(sumOfMinimums);
     }
 };
 ```

@@ -117,3 +117,28 @@ class Solution:
                     ans = min(ans, matrix[r][c])
         return ans
 ```
+
+**Solution 3: (DP Bottom-Up)**
+```
+Runtime: 15 ms
+Memory: 10.32 MB
+```
+```c++
+class Solution {
+public:
+    int minFallingPathSum(vector<vector<int>>& matrix) {
+        int n = matrix.size(), ans = INT_MAX;
+        for (int i = 0; i < n; i ++) {
+            for (int j = 0; j < n; j ++) {
+                if (i) {
+                    matrix[i][j] += min({j-1 >= 0 ? matrix[i-1][j-1] : INT_MAX, matrix[i-1][j], j+1 < n ? matrix[i-1][j+1] : INT_MAX});
+                }
+                if (i == n-1) {
+                    ans = min(ans, matrix[i][j]);
+                }
+            }
+        }
+        return ans;
+    }
+};
+```

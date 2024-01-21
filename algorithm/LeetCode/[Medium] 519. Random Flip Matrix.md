@@ -91,35 +91,40 @@ class Solution:
 # obj.reset()
 ```
 
-**Solution 2: (Hash Table)**
+**Solution 2: (Random)**
 ```
-Runtime: 15 ms
-Memory Usage: 19 MB
+Runtime: 18 ms
+Memory: 19.10 MB
 ```
 ```c++
 class Solution {
+    unordered_map<int, int> m;
+    int r, c, sz;
 public:
-    int rows, cols;
-    unordered_set<int> flipped;
     Solution(int m, int n) {
-        rows = m, cols = n;
+        r = m;
+        c = n;
+        sz = r*c;
     }
     
     vector<int> flip() {
-        int random = rand() % (rows*cols);
-        
-        while (flipped.count(random)) {
-            random++;
-            random %= (rows*cols);
+        int i = rand()%(sz);
+        sz -= 1;
+        int ni = i;
+        if (m.count(ni)) {
+            ni = m[i];
         }
-        
-        flipped.insert(random);
-        return {random / cols, random % cols};
-
+        int tail = sz;
+        if (m.count(tail)) {
+            tail = m[tail];
+        }
+        m[i] = tail;
+        return {ni/c, ni%c};
     }
     
     void reset() {
-        flipped.clear();
+        m.clear();
+        sz = r*c;
     }
 };
 

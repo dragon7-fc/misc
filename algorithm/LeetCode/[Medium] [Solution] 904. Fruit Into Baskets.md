@@ -211,7 +211,7 @@ class Solution:
         return ans
 ```
 
-**Solution 3: (Hash Table)**
+**Solution 3: (Hash Table, Sliding Window)**
 ```
 Runtime: 152 ms
 Memory Usage: 61.4 MB
