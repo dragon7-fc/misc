@@ -63,7 +63,7 @@ Output: "ba"
 
 # Submissions
 ---
-**Solution 1: (String)**
+**Solution 1: (String, Hash Table)**
 ```
 Runtime: 936 ms
 Memory Usage: 54.8 MB
@@ -87,4 +87,41 @@ class Solution:
             else:
                 res.append(c)
         return ''.join(res)
+```
+**Solution 2: (String, Hash Table)**
+```
+Runtime: 284 ms
+Memory: 120.92 MB
+```
+```c++
+class Solution {
+public:
+    string evaluate(string s, vector<vector<string>>& knowledge) {
+        string result = "";
+
+        string currentKey = "";
+
+        unordered_map<string, string> knowledgeMap;
+        for (int i = 0; i < knowledge.size(); i++) {
+            knowledgeMap[knowledge[i][0]] = knowledge[i][1];
+        }
+
+        for (int i = 0; i < s.size(); i++) {
+            if (s[i] != '(') { // if regular character append to result the character
+                result.push_back(s[i]);
+            } else { // if open parenthesis
+                while (s[++i] != ')') { // loop until closing parenthesis to extract the key
+                    currentKey.push_back(s[i]);
+                }
+                if (knowledgeMap.find(currentKey) != knowledgeMap.end()) { // if key is in the hashmap append its value 
+                    result.append(knowledgeMap[currentKey]);
+                } else { // otherwise append "?"
+                    result.push_back('?');
+                }
+                currentKey = ""; // reset current key for next key
+            }
+        }
+        return result;
+    }
+};
 ```

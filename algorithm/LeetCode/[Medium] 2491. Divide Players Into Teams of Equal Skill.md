@@ -64,3 +64,36 @@ class Solution:
             j -= 1
         return ans
 ```
+
+**Solution 2: (Hash Table)**
+```
+Runtime: 62 ms
+Memory: 56.97 MB
+```
+```c++
+class Solution {
+public:
+    long long dividePlayers(vector<int>& skill) {
+        unordered_map<int, int> cnt;
+        int n = skill.size(), cur = 0;
+        long long ans = 0;
+        for (int sk: skill) {
+            cur += sk;
+            cnt[sk] += 1;
+        }
+        cur /= (n/2);
+        for (int sk: skill) {
+            if (cnt[sk] == 0) {
+                continue;
+            }
+            if (cnt[cur-sk] == 0) {
+                return -1;
+            }
+            cnt[sk] -= 1;
+            cnt[cur-sk] -= 1;
+            ans += sk*(cur-sk);
+        }
+        return ans;
+    }
+};
+```

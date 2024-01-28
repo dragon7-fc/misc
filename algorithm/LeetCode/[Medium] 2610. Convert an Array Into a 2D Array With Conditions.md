@@ -54,7 +54,7 @@ class Solution:
         return ans
 ```
 
-**Solution 2: (Counter)**
+**Solution 2: (Counter, Greedy)**
 ```
 Runtime: 23 ms
 Memory: 29.5 MB

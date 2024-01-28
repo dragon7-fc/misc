@@ -44,7 +44,7 @@ Explanation: We don't need to perform any operations as all elements in the init
 
 # Submissions
 ---
-**Solution 1: (Maximum Gap)**
+**Solution 1: (Maximum Gap, Brute Force)**
 ```
 Runtime: 404 ms
 Memory: 162 MB
@@ -58,7 +58,7 @@ public:
             n_pos[nums[i]].push_back(i);
         int res = INT_MAX;
         for (auto &[n, pos] : n_pos) {
-            pos.push_back(pos[0] + nums.size());
+            pos.push_back(pos[0] + nums.size());  // last to first element distance
             int seconds = 0;
             for (int i = 1; i < pos.size(); ++i)
                 seconds = max(seconds, (pos[i] - pos[i - 1]) / 2);

@@ -77,8 +77,8 @@ public:
                 c2[i] += c2[i - 1];
             }
             if (i < 25) {
-                res = min(res, m - c1[i] + c2[i]); // condition 1
-                res = min(res, n - c2[i] + c1[i]); // condition 2
+                res = min(res, m - c1[i] + c2[i]); // condition 1 (a < b)
+                res = min(res, n - c2[i] + c1[i]); // condition 2 (b < a)
             }
         }
         return res;

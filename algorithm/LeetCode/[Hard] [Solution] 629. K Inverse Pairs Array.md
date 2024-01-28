@@ -385,57 +385,7 @@ public class Solution {
 
 # Submissions
 ---
-**Solution 1: (DP Top-Down, Time Limit Exceeded)**
-```python
-class Solution:
-    
-    @functools.lru_cache(None)
-    def kInversePairs(self, n: int, k: int) -> int:
-        if n == 0:
-            return 0
-        if k == 0:
-            return 1
-        inv = 0
-        for i in range(min(k, n - 1) + 1):
-            inv = (inv + self.kInversePairs(n - 1, k - i)) % (10**9 + 7)
-        return inv
-```
-
-**Solution 2 : (Using Recursion with Memoization, Time Limit Exceeded)**
-```python
-class Solution:
-    memo = [[None]*1001 for _ in range(1001)]
-    def kInversePairs(self, n: int, k: int) -> int:
-        if n == 0:
-            return 0
-        if k == 0:
-            return 1
-        if self.memo[n][k] != None:
-            return self.memo[n][k]
-        inv = 0
-        for i in range(min(k, n - 1) + 1):
-            inv = (inv + self.kInversePairs(n - 1, k - i)) % (10**9 + 7)
-        self.memo[n][k] = inv
-        return inv
-```
-
-**Solution 3: (Dynamic Programming Bottom-Up, Time Limit Exceeded)**
-```python
-class Solution:
-    def kInversePairs(self, n: int, k: int) -> int:
-        dp = [[0]*(k + 1) for _ in range(n + 1)]
-        for i in range(1, n+1):
-            for j in range(k+1):
-                if j == 0:
-                    dp[i][j] = 1
-                else:
-                    for p in range(min(j, i - 1) + 1):
-                        dp[i][j] = (dp[i][j] + dp[i - 1][j - p]) % (10**9 + 7)
-
-        return dp[n][k]
-```
-
-**Solution 4: (Dynamic Programming with Cumulative Sum)**
+**Solution 1: (Dynamic Programming with Cumulative Sum)**
 ```
 Runtime: 836 ms
 Memory Usage: 51.1 MB
@@ -457,7 +407,7 @@ class Solution:
         return dp[n][k]
 ```
 
-**Solution 5: (Another Optimized Dynamic Programming Approach)**
+**Solution 2: (Another Optimized Dynamic Programming Approach)**
 ```
 Runtime: 836 ms
 Memory Usage: 52.4 MB
@@ -482,7 +432,7 @@ class Solution:
         return dp[n][k]
 ```
 
-**Solution 6: (Once Again DP Top-Down)**
+**Solution 3: (Once Again DP Top-Down)**
 ```
 Runtime: 1348 ms
 Memory Usage: 256 MB
@@ -504,7 +454,7 @@ class Solution:
         return ((inv(n, k) + MOD - (inv(n, k - 1) if k > 0 else 0)) % MOD)
 ```
 
-**Solution 7: (1-D Dynamic Programmming)**
+**Solution 4: (1-D Dynamic Programmming)**
 ```
 Runtime: 516 ms
 Memory Usage: 13.8 MB
@@ -525,7 +475,7 @@ class Solution:
         return ((dp[k] + MOD - (dp[k - 1] if k > 0 else 0)) % MOD)
 ```
 
-**Solution 8: (DP Bottom-Up)**
+**Solution 5: (DP Bottom-Up)**
 ```
 Runtime: 19 ms
 Memory Usage: 14.8 MB

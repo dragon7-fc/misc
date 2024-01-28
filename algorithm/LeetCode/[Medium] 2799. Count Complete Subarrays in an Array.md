@@ -33,7 +33,7 @@ Explanation: The array consists only of the integer 5, so any subarray is comple
 
 # Submissions
 ---
-**Solution 1: (Sliding Window)**
+**Solution 1: (Sliding Window, left index as count)**
 ```
 Runtime: 106 ms
 Memory: 16.6 MB

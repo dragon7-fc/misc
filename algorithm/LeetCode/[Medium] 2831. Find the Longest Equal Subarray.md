@@ -38,7 +38,7 @@ It can be proven that no longer equal subarrays can be created.
 
 # Submissions
 ---
-**Solution 1: (Sliding Window)**
+**Solution 1: (Sliding Window, Greedy)**
 ```
 Runtime: 263 ms
 Memory: 179.1 MB

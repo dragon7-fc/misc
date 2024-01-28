@@ -54,6 +54,7 @@ public:
             ans[v[0]] = cur;
             for (int i = 1; i < v.size(); i++) {
                 cur += (v[i]-v[i-1])*(2*i-v.size());
+                // cur ++ (v[i]-v[i-1])*i - (v[i]-v[i-1])*(v.size()-i)
                 ans[v[i]] = cur;
             }
         }

@@ -42,7 +42,7 @@ Some of them are (0, 2), (2, 0), (2, 4), (3, 2), and (4, 4).
 
 # Submissions
 ---
-**Solution 1: (Set)**
+**Solution 1: (Set, Brute Force)**
 ```
 Runtime: 2779 ms
 Memory Usage: 18.7 MB
@@ -64,7 +64,7 @@ class Solution:
         return len(ans)
 ```
 
-**Solution 2: (Set)**
+**Solution 2: (Set, Brute Force)**
 ```
 Runtime: 1574 ms
 Memory Usage: 25 MB

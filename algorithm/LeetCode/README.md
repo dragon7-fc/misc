@@ -936,6 +936,51 @@ class Solution:
 ```
 * [Medium] 1109. Corporate Flight Bookings
 
+### prefix sum all values over every index
+```c++
+class Solution {
+    int cnt[100001][101] = {};
+public:
+    vector<int> minDifference(vector<int>& nums, vector<vector<int>>& queries) {
+        vector<int> res;
+        for (int i = 0; i < nums.size(); ++i)
+            for (int j = 1; j <= 100; ++j)
+                cnt[i + 1][j] = cnt[i][j] + (nums[i] == j);
+        for (int i = 0; i < queries.size(); ++i) {
+            int prev = 0, delta = INT_MAX;
+            for (int j = 1; j <= 100; ++j)
+                if (cnt[queries[i][1] + 1][j] - cnt[queries[i][0]][j]) {
+                    delta = min(delta, prev == 0 ? INT_MAX : j - prev);
+                    prev = j;
+                }
+            res.push_back(delta == INT_MAX ? -1 : delta);
+        }
+        return res;
+    }
+};
+```
+[Medium] 1906. Minimum Absolute Difference Queries
+
+### prefix sum over difference
+```python
+class Solution:
+    def widestPairOfIndices(self, nums1: List[int], nums2: List[int]) -> int:
+        diff_prefix = {}
+        diff_prefix[0] = -1
+        n1_running_sum, n2_running_sum = 0, 0
+        max_distance = 0
+        for index,(n1,n2) in enumerate(zip(nums1,nums2)):
+            n1_running_sum, n2_running_sum = n1_running_sum + n1, n2_running_sum + n2
+            diff = n1_running_sum - n2_running_sum
+            if diff in diff_prefix:
+                max_distance = max(max_distance, index - diff_prefix[diff])
+            else:
+                diff_prefix[diff] = index
+        
+        return max_distance
+```
+* [Medium] 1983. Widest Pair of Indices With Equal Range Sum
+
 ### Prefix XOR
 ```python
 class Solution:

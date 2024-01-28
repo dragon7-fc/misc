@@ -40,7 +40,7 @@ Explanation: It can be proved that there is no way to create a square field by r
 
 # Submissions
 ---
-**Solution 1: (Enumerate All Sizes)**
+**Solution 1: (Brute Force, Enumerate All Sizes)**
 ```
 Runtime: 1173 ms
 Memory: 262.8 MB

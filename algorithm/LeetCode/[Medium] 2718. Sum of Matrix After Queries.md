@@ -41,7 +41,7 @@ Explanation: The image above describes the matrix after each query. The sum of t
 
 # Submissions
 ---
-**Solution 1: (Last Query Wins)**
+**Solution 1: (Last Query Wins, forward)**
 ```
 Runtime: 1995 ms
 Memory: 39.3 MB
@@ -59,7 +59,7 @@ class Solution:
         return ans
 ```
 
-**Solution 2: (Last Query Wins)**
+**Solution 2: (Last Query Wins, backward)**
 ```
 Runtime: 584 ms
 Memory: 190.4 MB

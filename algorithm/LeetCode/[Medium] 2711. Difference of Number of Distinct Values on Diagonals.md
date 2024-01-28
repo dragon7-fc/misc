@@ -87,17 +87,17 @@ public:
         vector<vector<int>>ans(row,vector<int>(column,0));
         for(int i=0;i<row;i++){
             for(int j=0;j<column;j++){
-            set<int>left;
-            set<int>right;
-            int n=i+1;int m=j+1;
-            while(n<row&&m<column)
-                right.insert(grid[n++][m++]);
-            n=i-1,m=j-1;
-            while(n>=0&&m>=0)
-                left.insert(grid[n--][m--]);
-            int a=right.size();
-            int b=left.size();
-            ans[i][j]=abs(a-b);
+                set<int>left;
+                set<int>right;
+                int n=i+1;int m=j+1;
+                while(n<row&&m<column)
+                    right.insert(grid[n++][m++]);
+                n=i-1,m=j-1;
+                while(n>=0&&m>=0)
+                    left.insert(grid[n--][m--]);
+                int a=right.size();
+                int b=left.size();
+                ans[i][j]=abs(a-b);
             }
         }
         return ans;

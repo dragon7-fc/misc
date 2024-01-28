@@ -41,7 +41,7 @@ For queries[1]: Only server with id 3 gets no request in the duration [2,4].
 
 # Submissions
 ---
-**Solution 1: (Sliding Window)**
+**Solution 1: (Sort, Sliding Window)**
 ```
 Runtime: 573 ms
 Memory: 191.7 MB

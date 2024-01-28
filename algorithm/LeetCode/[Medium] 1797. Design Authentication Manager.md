@@ -4,10 +4,10 @@ There is an authentication system that works with authentication tokens. For eac
 
 Implement the `AuthenticationManager` class:
 
-* `AuthenticationManager(int timeToLive)` constructs the AuthenticationManager and sets the timeToLive.
-* `generate(string tokenId, int currentTime)` generates a new token with the given tokenId at the given currentTime in seconds.
-* `renew(string tokenId, int currentTime)` renews the unexpired token with the given tokenId at the given currentTime in seconds. If there are no unexpired tokens with the given tokenId, the request is ignored, and nothing happens.
-* `countUnexpiredTokens(int currentTime)` returns the number of unexpired tokens at the given currentTime.
+* `AuthenticationManager(int timeToLive)` constructs the AuthenticationManager and sets the `timeToLive`.
+* `generate(string tokenId, int currentTime)` generates a new token with the given `tokenId` at the given `currentTime` in seconds.
+* `renew(string tokenId, int currentTime)` renews the unexpired token with the given `tokenId` at the given `currentTime` in seconds. If there are no unexpired tokens with the given `tokenId`, the request is ignored, and nothing happens.
+* `countUnexpiredTokens(int currentTime)` returns the number of unexpired tokens at the given `currentTime`.
 
 Note that if a token expires at time `t`, and another action happens on time `t` (`renew` or `countUnexpiredTokens`), the expiration takes place before the other actions.
 
@@ -86,4 +86,55 @@ class AuthenticationManager:
 # obj.generate(tokenId,currentTime)
 # obj.renew(tokenId,currentTime)
 # param_3 = obj.countUnexpiredTokens(currentTime)
+```
+
+**Solution 2: (Time map and Token map)**
+```
+Runtime: 55 ms
+Memory: 36.78 MB
+```
+```c++
+class AuthenticationManager {
+    int ttl;
+    set<pair<int, string>> time_map;
+    unordered_map<string, int> token_map;
+    void clean(int currentTime) {
+        while(!time_map.empty() && begin(time_map)->first <= currentTime) {
+            token_map.erase(begin(time_map)->second);
+            time_map.erase(begin(time_map));
+        }
+    }
+public:
+    AuthenticationManager(int timeToLive) {
+        ttl = timeToLive;
+    }
+
+    void generate(string tokenId, int currentTime) {
+        token_map[tokenId] = currentTime + ttl;
+        time_map.insert({currentTime + ttl, tokenId});
+    }
+    
+    void renew(string tokenId, int currentTime) {
+        clean(currentTime);
+        auto it = token_map.find(tokenId);
+        if (it != end(token_map)) {
+            time_map.erase({it->second, it->first});
+            it->second = currentTime + ttl;
+            time_map.insert({currentTime + ttl, tokenId});
+        }
+    }
+    
+    int countUnexpiredTokens(int currentTime) {
+        clean(currentTime);
+        return token_map.size();
+    }
+};
+
+/**
+ * Your AuthenticationManager object will be instantiated and called as such:
+ * AuthenticationManager* obj = new AuthenticationManager(timeToLive);
+ * obj->generate(tokenId,currentTime);
+ * obj->renew(tokenId,currentTime);
+ * int param_3 = obj->countUnexpiredTokens(currentTime);
+ */
 ```

@@ -76,24 +76,3 @@ public:
     }
 };
 ```
-
-**Solution 2: (String)**
-```
-Runtime: 8849 ms
-Memory: 79.8 MB
-```
-```python
-class Solution:
-    def substringXorQueries(self, s: str, queries: List[List[int]]) -> List[List[int]]:
-        result = []
-        # cnt = 0
-        for m,n in queries:
-            val = m^n
-            se = bin(val)[2:]
-            if se in s:
-                result.append([s.index(se) , s.index(se) + len(se)-1])
-            else:
-                result.append([-1,-1])
-                
-        return result if result else [[-1,-1]]
-```
