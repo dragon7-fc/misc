@@ -64,3 +64,30 @@ class Solution:
     def sequentialDigits(self, low: int, high: int) -> List[int]:
         return [x for x in self.s.nums if x >= low and x <= high]
 ```
+
+**Solution 3: (Brute Force, String)**
+```
+Runtime: 0 ms
+Memory: 7.38 MB
+```
+```c++
+class Solution {
+public:
+    vector<int> sequentialDigits(int low, int high) {
+        int left = to_string(low).size(), right = to_string(high).size(), cur;
+        vector<int> ans;
+        string dp = "123456789";
+        for (int k = left; k <= right; k ++) {
+            for (int i = 0; dp.size() >= k && i <= dp.size() - k; i ++) {
+                cur = stoi(dp.substr(i, k));
+                if (cur >= low && cur <= high) {
+                    ans.push_back(cur);
+                } else if (cur > high) {
+                    break;
+                }
+            }
+        }
+        return ans;
+    }
+};
+```

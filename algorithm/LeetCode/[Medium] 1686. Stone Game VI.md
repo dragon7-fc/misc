@@ -76,3 +76,50 @@ class Solution:
         if AScore == BScore : return 0
         return 1 if AScore > BScore else  -1
 ```
+
+**Solution 2: (Sort)**
+
+__Intuition__
+
+Sort stones by their sum value for Alice and Bob.
+If a stone is super valued for Alice, Alice wants to take it.
+If a stone is super valued for Bob, Alice also wants to take it.
+Because she doesn't want Bob to take it.
+
+
+__Explanation__
+
+Here is more convinced explanation.
+Assume a stone valued [a,b] for Alice and Bod.
+Alice takes it, worth a for Alice,
+Bob takes it, worth b for Bob,
+we can also consider that it worth -b for Alice.
+The difference will be a+b.
+That's the reason why we need to sort based on a+b.
+And Alice and Bob will take one most valued stone each turn.
+
+
+__Complexity__
+
+* Time O(nlogn)
+* Space O(n)
+
+```
+Runtime: 285 ms
+Memory: 159.75 MB
+```
+```c++
+class Solution {
+public:
+    int stoneGameVI(vector<int>& aliceValues, vector<int>& bobValues) {
+        vector<vector<int>> C;
+        int res[2] = {0, 0}, n = aliceValues.size();
+        for (int i = 0; i < n; ++i)
+            C.push_back({ -aliceValues[i] - bobValues[i], aliceValues[i], bobValues[i]});
+        sort(begin(C), end(C));
+        for (int i = 0; i < n; ++i)
+            res[i % 2] += C[i][1 + i % 2];
+        return res[0] == res[1] ? 0 : res[0] > res[1] ? 1 : -1;
+    }
+};
+```
