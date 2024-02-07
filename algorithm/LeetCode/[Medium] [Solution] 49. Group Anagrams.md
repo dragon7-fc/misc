@@ -113,27 +113,66 @@ class Solution:
         return ans.values()
 ```
 
-**Solution 3: (Set)**
+**Solution 3: (Sort)**
 ```
-Runtime: 28 ms
-Memory Usage: 20.5 MB
+Runtime: 20 ms
+Memory: 24.53 MB
 ```
 ```c++
 class Solution {
 public:
     vector<vector<string>> groupAnagrams(vector<string>& strs) {
-        unordered_map<string,vector<string>>m;
-        string temp;
-        for(auto i=0;i<strs.size();i++){
-            temp = strs[i];
-            sort(strs[i].begin(),strs[i].end());
-            m[strs[i]].push_back(temp);
+        unordered_map<string, vector<string>> dp;
+        string cur;
+        for (auto str: strs) {
+            cur = str;
+            sort(cur.begin(), cur.end());
+            dp[cur].push_back(str);
         }
-        vector<vector<string>>ans;
-        for(auto i:m){
-            ans.push_back(i.second);
+        vector<vector<string>> ans;
+        for (auto [k, v]: dp) {
+            ans.push_back(v);
         }
         return ans;
+    }
+};
+```
+
+**Solution 4: (Counter)**
+```
+Runtime: 33 ms
+Memory: 31.74 MB
+```
+```c++
+class Solution {
+    string getSignature(const string& s) {
+        vector<int> count(26, 0);
+        for (char c : s) {
+            count[c - 'a']++;
+        }
+
+        stringstream ss;
+        for (int i = 0; i < 26; i++) {
+            if (count[i] != 0) {
+                ss << (char)('a' + i) << count[i];
+            }
+        }
+        return ss.str();
+    }
+public:
+    vector<vector<string>> groupAnagrams(vector<string>& strs) {
+        vector<vector<string>> result;
+        unordered_map<string, vector<string>> groups;
+
+        for (const string& s : strs) {
+            groups[getSignature(s)].push_back(s);
+        }
+
+        for (const auto& entry : groups) {
+            result.push_back(entry.second);
+        }
+
+        return result;
     }
 };
 ```

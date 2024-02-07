@@ -14,8 +14,8 @@ Return the sum of distances between all the pairs of robots d seconds after the 
 * For two robots at the index `i` and `j`, pair `(i,j)` and pair `(j,i)` are considered the same pair.
 * When robots collide, they instantly change their directions without wasting any time.
 * Collision happens when two robots share the same place in a moment.
-* For example, if a robot is positioned in `0` going to the right and another is positioned in `2` going to the left, the next second they'll be both in `1` and they will change direction and the next second the first one will be in `0`, heading left, and another will be in `2`, heading right.
-* For example, if a robot is positioned in `0` going to the right and another is positioned in `1` going to the left, the next second the first one will be in `0`, heading left, and another will be in `1`, heading right.
+    * For example, if a robot is positioned in `0` going to the right and another is positioned in `2` going to the left, the next second they'll be both in `1` and they will change direction and the next second the first one will be in `0`, heading left, and another will be in `2`, heading right.
+    * For example, if a robot is positioned in `0` going to the right and another is positioned in `1` going to the left, the next second the first one will be in `0`, heading left, and another will be in `1`, heading right.
  
 
 **Example 1:**
@@ -28,7 +28,7 @@ After 2 seconds, the positions are [-2,0,0]. Now, the robot at index 1 will move
 After 3 seconds, the positions are [-3,-1,1].
 The distance between the robot at index 0 and 1 is abs(-3 - (-1)) = 2.
 The distance between the robot at index 0 and 2 is abs(-3 - 1) = 4.
-The distance between the robot at index 0 and 1 is abs(-1 - 1) = 2.
+The distance between the robot at index 1 and 2 is abs(-1 - 1) = 2.
 The sum of the pairs of all distances = 2 + 4 + 2 = 8.
 ```
 

@@ -13173,7 +13173,145 @@ def binaryToGray(self, n: int) -> int:
 
 
 ## Sort <a name="sort"></a>
+
+### sort by group
+```c++
+class Solution {
+public:
+    vector<int> lexicographicallySmallestArray(vector<int>& nums, int limit) {
+        vector<pair<int, int>> b;
+        int n = nums.size();
+        for (int i = 0; i < n; ++i)
+            b.push_back({nums[i], i});
+        sort(b.begin(), b.end());
+        vector<vector<pair<int, int>>> c = {{b[0]}};
+        for (int i = 1; i < n; ++i) {
+            if (b[i].first - b[i - 1].first <= limit)
+                c.back().push_back(b[i]);
+            else
+                c.push_back({b[i]});
+        }
+        for (const auto& t : c) {
+            vector<int> ind;
+            for (const auto& p : t)
+                ind.push_back(p.second);
+            sort(ind.begin(), ind.end());
+            for (int i = 0; i < ind.size(); ++i)
+                nums[ind[i]] = t[i].first;
+        }
+        return nums;
+    }
+}
+```
+* [Medium] 2948. Make Lexicographically Smallest Array by Swapping Elements
+
+### Pass Through + Prefix Sum
+```python
+class Solution:
+    def sumDistance(self, nums: List[int], s: str, d: int) -> int:
+        n, m = len(nums), int(1e9 + 7)
+        # Ignore the Collisions
+        for i in range(n):
+            if s[i] == 'L':
+                nums[i] -= d
+            else: 
+                nums[i] += d
+        
+        # Sort according to position to calculate abs sum of each pair in O(N)
+        nums.sort()
+
+        pre = nums.copy()
+        # Calculate Prefix Sum
+        for i in range(1, n):
+            pre[i] += pre[i - 1]
+            pre[i] %= m
+
+        ans = 0
+        for i in range(1, n):
+            # each jth index contributes to j * nums[j] - pre[j - 1]
+            ans += i * nums[i] - pre[i - 1]
+            ans %= m
+        return ans
+```
+* [Medium] 2731. Movement of Robots
+
+### max diff
+```c++
+class Solution {
+public:
+    int miceAndCheese(vector<int>& reward1, vector<int>& reward2, int k) {
+        int n = reward1.size(), res = 0;
+        for (int i = 0; i < n; ++i) {
+            reward1[i] -= reward2[i];
+            res += reward2[i];
+        }
+        nth_element(reward1.begin(), reward1.begin() + k, reward1.end(), greater<int>());
+        return accumulate(reward1.begin(), reward1.begin() + k, res);
+    }
+};
+```
+* [Medium] 2611. Mice and Cheese
 ---
+### left right area sum
+```c++
+class Solution {
+public:
+    vector<long long> minOperations(vector<int>& nums, vector<int>& queries) {
+        sort(nums.begin(), nums.end());    
+        int n = nums.size();
+        vector<long long> prefix(n), ans(queries.size());
+        for (int i = 0; i < n; ++i)
+            prefix[i] = nums[i] + (i > 0 ? prefix[i - 1] : 0);
+        for (int k = 0; k < queries.size(); ++k) {
+            auto &q = queries[k];
+            int i = lower_bound(nums.begin(), nums.end(), q) - nums.begin();
+            long long leftCnt = i, rightCnt = n - i;
+            long long left = leftCnt * q - (i > 0 ? prefix[i - 1] : 0);
+            long long right = rightCnt <= 0 
+                ? 0 
+                : prefix.back() - (i > 0 ? prefix[i - 1] : 0) - rightCnt * q;
+            ans[k] = left + right;
+        }
+        return ans;
+    }
+};
+```
+* [Medium] 2602. Minimum Operations to Make All Array Elements Equal
+
+### Bucket sort
+```c++
+class Solution {
+public:
+    long long minSumSquareDiff(vector<int>& nums1, vector<int>& nums2, int k1, int k2) {
+        int n = nums1.size();
+        vector<int> diff(n);
+        for(int i = 0; i<n; ++i) {
+            diff[i] = abs(nums1[i] - nums2[i]);
+        }
+        int M = *max_element(diff.begin(), diff.end());
+        vector<int> bucket(M+1);
+        for(int i = 0 ; i<n; ++i) {
+            bucket[diff[i]]++;
+        }
+        int k = k1 + k2;
+        for(int i = M; i > 0; --i) {
+            if(bucket[i] > 0) {
+                int minus = min(bucket[i], k);
+                bucket[i] -= minus;
+                bucket[i-1] += minus;
+                k -= minus;
+            }
+        }
+        long long ans = 0;
+        for(long long i = M; i > 0; --i) {
+            ans += bucket[i]*i*i;
+        }
+        return ans;
+    }
+};
+```
+* [Medium] 2333. Minimum Sum of Squared Difference
+
 ### Accumulate the Coins
 ```python
 class Solution:

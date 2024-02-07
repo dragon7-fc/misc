@@ -88,20 +88,21 @@ class Solution:
 
 **Solution 2: (Counter)**
 ```
-Runtime: 96 ms
-Memory Usage: 10.7 MB
+Runtime: 24 ms
+Memory: 11.72 MB
 ```
 ```c++
 class Solution {
 public:
     int firstUniqChar(string s) {
-        unordered_map<char, int> cnt;
-        for (char c: s)
-            cnt[c] += 1;
-        for (int i = 0; i < s.size(); i ++)
-        {
-            if (cnt[s[i]] == 1)
+        int dp[26] = {0};
+        for (char c: s) {
+            dp[c-'a'] += 1;
+        }
+        for (int i = 0; i < s.size(); i ++) {
+            if (dp[s[i]-'a'] == 1) {
                 return i;
+            }
         }
         return -1;
     }

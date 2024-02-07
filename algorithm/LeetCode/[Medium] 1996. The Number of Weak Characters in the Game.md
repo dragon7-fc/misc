@@ -78,7 +78,13 @@ class Solution:
         return ans
 ```
 
-**Solution 3: (Sort, Greedy)**
+**Solution 3: (Sort, Greedy, sort by first element and greedy over second element)**
+
+* We sort the properties by the first element i.e attack( High->Low)
+* So now we need to handle the second element only i.e defense.
+* Iterate through the back and use a variable maxTillNow to store the maximum defense we saw till now.
+* If at any point the current defense is smaller than the maxTillNow it clearly means that we have a property with both attack and defense greater than the current property so we can increase our ans else we just update our maxTillNow.
+
 ```
 Runtime: 803 ms
 Memory Usage: 125.2 MB

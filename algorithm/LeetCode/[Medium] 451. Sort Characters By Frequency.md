@@ -134,3 +134,27 @@ public:
     }
 };
 ```
+
+**Solution 5: (Sort)**
+```
+Runtime: 30 ms
+Memory: 10.23 MB
+```
+```c++
+class Solution {
+public:
+    string frequencySort(string s) {
+        vector<int> cnt(256);
+        for (auto &c: s) {
+            cnt[c] += 1;
+        }
+        sort(s.begin(), s.end(), [&](char a, char b) {
+            if (cnt[a] != cnt[b])
+                return cnt[a] > cnt[b];
+            else
+                return a > b;
+        });
+        return s;
+    }
+};
+```

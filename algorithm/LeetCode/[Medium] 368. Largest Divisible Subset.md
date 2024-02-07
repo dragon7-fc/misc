@@ -101,3 +101,40 @@ class Solution:
         
         return dfs(-1, 0)
 ```
+
+**Solution 4: (DP Bottom-Up)**
+```
+Runtime: 30 ms
+Memory: 13.94 MB
+```
+```c++
+class Solution {
+public:
+    vector<int> largestDivisibleSubset(vector<int>& nums) {
+        int n = nums.size();
+        if (n == 0) {
+            return {};
+        }
+        sort(nums.begin(), nums.end());
+        vector<vector<int>> dp(n);
+        for (int i = 0; i < n; i ++) {
+            dp[i].push_back(nums[i]);
+        }
+        vector<int> ans = {nums[0]};
+        for (int j = 0; j < n; j ++) {
+            for (int i = 0; i < j; i ++) {
+                if (nums[j]%nums[i] == 0) {
+                    if (dp[i].size() + 1 > dp[j].size()) {
+                        dp[j] = dp[i];
+                        dp[j].push_back(nums[j]);
+                    }
+                }
+            }
+            if (dp[j].size() > ans.size()) {
+                ans = dp[j];
+            }
+        }
+        return ans;
+    }
+};
+```
