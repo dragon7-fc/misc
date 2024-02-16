@@ -43,7 +43,7 @@ public:
                 ans.pop_back();
             }
             ans+=s[i];
-            vis[s[i]]=true;
+            vis[s[i]]=true;  // s[i] in stack
         }
         return ans.substr(1,string::npos);
     }

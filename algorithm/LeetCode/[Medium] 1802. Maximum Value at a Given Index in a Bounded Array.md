@@ -29,7 +29,7 @@ Output: 3
 
 **Constraints:**
 
-* `1 <= n <= maxSum <= 109`
+* `1 <= n <= maxSum <= 10^9`
 * `0 <= index < n`
 
 # Submissions

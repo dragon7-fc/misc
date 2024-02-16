@@ -68,3 +68,34 @@ class Solution:
         
         return ''.join(soln_stack)
 ```
+
+**Solution 2: (Greedy, Stack, Monotonic stack)**
+```
+Runtime: 0 ms
+```
+```c++
+class Solution {
+public:
+    string smallestSubsequence(string s) {
+        int cnt[26] = {0};
+        for (auto c: s) {
+            cnt[c-'a'] += 1;
+        }
+        bool visited[26] = {false};
+        string ans = "0";
+        for (auto c: s) {
+            cnt[c-'a'] -= 1;
+            if (visited[c-'a']) {
+                continue;
+            }
+            while (c < ans.back() && cnt[ans.back()-'a']) {
+                visited[ans.back()-'a'] = false;
+                ans.pop_back();
+            }
+            visited[c-'a'] = true;
+            ans += c;
+        }
+        return ans.substr(1);
+    }
+};
+```

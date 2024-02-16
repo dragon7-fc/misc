@@ -58,3 +58,63 @@ class Solution:
             k -= heapq.heappop(hp)[0]
         return len(hp) + (k < 0)   
 ```
+
+**Solution 3: (Counter)**
+```
+Runtime: 98 ms
+Memory: 66.17 MB
+```
+```c++
+class Solution {
+public:
+    int findLeastNumOfUniqueInts(vector<int>& arr, int k) {
+        unordered_map<int, int> cnt;
+        for (auto a: arr) {
+            cnt[a] += 1;
+        }
+        vector<int> vals;
+        for (auto [_, v]: cnt) {
+            vals.push_back(v);
+        }
+        sort(vals.begin(), vals.end());
+        int n = cnt.size(), i = 0, cur = 0;
+        while (cur < k) {
+            cur += vals[i];
+            i += 1;
+        }
+        return n-i + (cur > k);
+    }
+};
+```
+
+**Solution 4: (Heap)**
+```
+Runtime: 115 ms
+Memory: 65.97 MB
+```
+```c++
+class Solution {
+public:
+    int findLeastNumOfUniqueInts(vector<int>& arr, int k) {
+        unordered_map<int, int> freq;
+        for (int num : arr) {
+            freq[num]++;
+        }
+        priority_queue<int, vector<int>, greater<int>> minHeap;
+        for (auto& entry : freq) {
+            minHeap.push(entry.second);
+        }
+        while (k > 0) {
+            int top = minHeap.top();
+            minHeap.pop();
+            if (k >= top) {
+                k -= top;
+            } else {
+                minHeap.push(top - k);
+                k = 0;
+            }
+        }
+        return minHeap.size();
+    }
+};
+```

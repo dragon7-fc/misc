@@ -60,7 +60,7 @@ class Solution:
         return ans
 ```
 
-**Solution 3: (Greedy)**
+**Solution 3: (Sort, Greedy)**
 ```
 Runtime: 2162 ms
 Memory Usage: 59 MB
@@ -86,7 +86,7 @@ class Solution:
         return arrows
 ```
 
-**Solution 4: (Greedy)**
+**Solution 4: (Sort, Greedy)**
 ```
 Runtime: 464 ms
 Memory Usage: 102.4 MB
@@ -119,7 +119,7 @@ public:
 };
 ```
 
-**Solution 5: (Greedy)**
+**Solution 5: (Sort, Greedy)**
 ```
 Runtime: 1447 ms
 Memory: 59.6 MB

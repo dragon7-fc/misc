@@ -8,7 +8,7 @@ You are given an integer `n`, an array `languages`, and an array `friendships` w
 * `languages[i]` is the set of languages the `i`th user knows, and
 * `friendships[i] = [ui, vi]` denotes a friendship between the users `ui` and `vi`.
 
-You can choose one language and teach it to some users so that all friends can communicate with each other. Return the minimum number of users you need to teach.
+You can choose **one** language and teach it to some users so that all friends can communicate with each other. Return the minimum number of users you need to teach.
 
 Note that friendships are not transitive, meaning if `x` is a friend of `y` and `y` is a friend of `z`, this doesn't guarantee that `x` is a friend of `z`.
  

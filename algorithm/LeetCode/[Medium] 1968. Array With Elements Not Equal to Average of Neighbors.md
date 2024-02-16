@@ -35,7 +35,7 @@ When i=3, nums[i] = 2, and the average of its neighbors is (6+0) / 2 = 3.
 
 # Submissions
 ---
-**Solution 1: (Math)**
+**Solution 1: (Sort, Math)**
 ```
 Runtime: 1444 ms
 Memory Usage: 29.4 MB
