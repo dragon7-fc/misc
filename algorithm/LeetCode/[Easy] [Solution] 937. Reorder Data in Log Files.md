@@ -128,7 +128,7 @@ char ** reorderLogFiles(char ** logs, int logsSize, int* returnSize){
 }
 ```
 
-**Solution 3: (Sort)**
+**Solution 3: (Sort, backward)**
 ```
 Runtime: 9 ms
 Memory: 11.8 MB

@@ -200,3 +200,27 @@ class Solution:
             stk += [j]
         return ans
 ```
+
+**Solution 6: (Stack)**
+```
+Runtime: 131 ms
+Memory: 105.51 MB
+```
+```c++
+class Solution {
+public:
+    vector<int> dailyTemperatures(vector<int>& temperatures) {
+        int n = temperatures.size();
+        vector<int> ans(n);
+        stack<int> dp;
+        for (int i = 0; i < n; i ++) {
+            while (dp.size() && temperatures[dp.top()] < temperatures[i]) {
+                ans[dp.top()] = i - dp.top();
+                dp.pop();
+            }
+            dp.push(i);
+        }
+        return ans;
+    }
+};
+```

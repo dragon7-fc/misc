@@ -1,22 +1,31 @@
 792. Number of Matching Subsequences
 
-Given string `S` and a dictionary of words `words`, find the number of `words[i]` that is a subsequence of `S`.
+Given a string `s` and an array of strings `words`, return the number of `words[i]` that is a subsequence of `s`.
 
-**Example :**
+A **subsequence** of a string is a new string generated from the original string with some characters (can be none) deleted without changing the relative order of the remaining characters.
+
+For example, `"ace"` is a subsequence of `"abcde"`.
+ 
+
+**Example 1:**
 ```
-Input: 
-S = "abcde"
-words = ["a", "bb", "acd", "ace"]
+Input: s = "abcde", words = ["a","bb","acd","ace"]
 Output: 3
-Explanation: There are three words in words that are a subsequence of S: "a", "acd", "ace".
+Explanation: There are three strings in words that are a subsequence of s: "a", "acd", "ace".
 ```
 
-**Note:**
+**Example 2:**
+```
+Input: s = "dsahjpjauf", words = ["ahjpjau","ja","ahbwzgqnuk","tnmlanowax"]
+Output: 2
+```
 
-* All words in `words` and `S` will only consists of lowercase letters.
-* The length of `S` will be in the range of `[1, 50000]`.
-* The length of `words` will be in the range of `[1, 5000]`.
-* The length of `words[i]` will be in the range of `[1, 50]`.
+**Constraints:**
+
+* `1 <= s.length <= 5 * 10^4`
+* `1 <= words.length <= 5000`
+* `1 <= words[i].length <= 50`
+* `s` and `words[i]` consist of only lowercase English letters.
 
 # Submissions
 ---
@@ -119,6 +128,50 @@ public:
             if (hasMatches(str, s))
                 count++;
         
+        return count;
+    }
+};
+```
+
+**Solution 5: (Hash Table, Binary Search)**
+```
+untime: 135 ms
+Memory: 54.85 MB
+```
+```c++
+class Solution {
+public:
+    int numMatchingSubseq(string s, vector<string>& words) {
+        int n = s.length();
+        int m = words.size();
+        vector<vector<int>> char_map(26);
+        for(int i=0;i<n;i++){
+            int ch=s[i]-'a';
+            char_map[ch].push_back(i);
+        }
+        int count=0;
+        for(int i=0;i<m;i++){
+            int last=-1;
+            int flag=1;
+            for(int j=0;j<words[i].length();j++){
+                int ch=words[i][j]-'a';
+                //go for upper bound
+                if(char_map[ch].size()==0){
+                    flag=0;
+                    break;
+                }
+                auto it=upper_bound(char_map[ch].begin(),char_map[ch].end(),last);
+                if (it==char_map[ch].end()) {
+                    flag=0;
+                    break;
+                } else {
+                    last=*it;
+                }
+            }
+            if (flag) {
+                count+=1;
+            }
+        }
         return count;
     }
 };

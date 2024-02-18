@@ -50,7 +50,7 @@ Explanation: All non-empty subset satisfy the condition (2^7 - 1) = 127
 
 # Submissions
 ---
-**Solution 1: (Two Pointers)**
+**Solution 1: (Sort, Two Pointers)**
 
 **Intuition**
 
@@ -103,7 +103,7 @@ class Solution:
         return res % mod
 ```
 
-**Solution 2: (Two Pointers)**
+**Solution 2: (Sort, Two Pointers)**
 ```
 Runtime: 340 ms
 Memory Usage: 49.8 MB

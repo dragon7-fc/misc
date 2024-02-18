@@ -48,7 +48,7 @@ class Solution {
 public:
     int twoCitySchedCost(vector<vector<int>>& costs) {
         sort(costs.begin(), costs.end(), [](vector<int>& a, vector<int>& b){
-            return a[0]-a[1] < b[0]-b[1];
+            return a[0]-a[1] < b[0]-b[1];  // fix a[1], and compare a[0]
         });
         int ans = 0;
         int N = costs.size();

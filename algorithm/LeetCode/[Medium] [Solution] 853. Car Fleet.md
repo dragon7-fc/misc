@@ -92,7 +92,7 @@ class Solution:
         return ans + bool(times) # remaining car is fleet (if it exists)
 ```
 
-**Solution 2: (Sort)**
+**Solution 2: (Sort, forward)**
 ```
 Runtime: 80 ms
 Memory Usage: 20.6 MB
@@ -115,7 +115,7 @@ public:
         
         for (int i = 0; i < position.size(); ++i) {
             double curTime = ((double)target - vec[i].first) / vec[i].second;
-            if (curTime <= prevTime)
+            if (curTime <= prevTime)  // faster in a group
                 --fleets;
             prevTime = max(prevTime, curTime);
         }
@@ -125,7 +125,7 @@ public:
 };
 ```
 
-**Solution 3: (Sort)**
+**Solution 3: (Sort, backward)**
 
 ```
 Runtime: 284 ms
@@ -140,7 +140,7 @@ class Solution:
         most = 0
         count = 0
         for i in range(len(times)-1 ,-1, -1):
-            if times[i] > most:
+            if times[i] > most:  // slower in a group
                 most = times[i]
                 count += 1
                 

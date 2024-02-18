@@ -75,3 +75,26 @@ class Solution:
                 j = j - 1
         return arr[:i] + arr[j + 1:]
 ```
+
+**Solution 2: (Two Pointers)**
+```
+Runtime: 119 ms
+Memory: 83.94 MB
+```
+```c++
+class Solution {
+public:
+    vector<int> getStrongest(vector<int>& arr, int k) {
+        sort(begin(arr), end(arr));
+        int i = 0, j = arr.size() - 1;
+        int med = arr[(arr.size() - 1) / 2];
+        while (--k >= 0)
+            if (med - arr[i] > arr[j] - med)
+                ++i;  
+            else
+                --j;
+        arr.erase(begin(arr) + i, begin(arr) + j + 1);
+        return arr;
+    }
+};
+```

@@ -181,3 +181,58 @@ class MyQueue:
 # param_3 = obj.peek()
 # param_4 = obj.empty()
 ```
+
+**Solution 4: (Two Stacks)**
+```
+Runtime: 0 ms
+Memory: 8.51 MB
+```
+```c++
+class MyQueue {
+    stack<int> dp;
+    stack<int> dp2;
+public:
+    MyQueue() {
+        
+    }
+    
+    void push(int x) {
+        dp.push(x);
+    }
+    
+    int pop() {
+        if (dp2.empty()) {
+            while(dp.size()) {
+                dp2.push(dp.top());
+                dp.pop();
+            }
+        }
+        int rst = dp2.top();
+        dp2.pop();
+        return rst;
+    }
+    
+    int peek() {
+        if (dp2.empty()) {
+            while(dp.size()) {
+                dp2.push(dp.top());
+                dp.pop();
+            }
+        }
+        return dp2.top();
+    }
+    
+    bool empty() {
+        return dp.empty() && dp2.empty();
+    }
+};
+
+/**
+ * Your MyQueue object will be instantiated and called as such:
+ * MyQueue* obj = new MyQueue();
+ * obj->push(x);
+ * int param_2 = obj->pop();
+ * int param_3 = obj->peek();
+ * bool param_4 = obj->empty();
+ */
+```
