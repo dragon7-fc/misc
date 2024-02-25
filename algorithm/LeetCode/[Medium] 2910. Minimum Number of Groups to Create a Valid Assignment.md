@@ -50,40 +50,26 @@ Hence, the answer is 4.
 
 # Submissions
 ---
-**Solution 1: (Greedy, Math, Scan from 1 to min(c.values()))**
+**Solution 1: (Greedy, try all possible group size))**
 ```
 Runtime: 900 ms
 Memory: 34.9 MB
 ```
-```python
-Runtime: 900 ms
-Memory: 34.9 MB
-```
+Runtime: 860 ms
+Memory: 36.13 MB
 ```python
 class Solution:
     def minGroupsForValidAssignment(self, nums: List[int]) -> int:
-        c = Counter(nums)
-        
-        if len(c) == 1:
-            return 1
-        
-        def search(num):
-            ans = 0
-            for key in c:
-                t = c[key] % num
-                if t > c[key] // num:
-                    return 0
-                
-                ans += ceil(c[key] / (num + 1))
-                    
-            return ans
-        
-        minn, maxx = 1, min(c.values())
-        ans = float('inf')
-        for i in range(minn, maxx + 1):
-            s = search(i)
-            if s:
-                ans = min(ans, s)
-                
-        return ans
+        cnt = Counter(nums)
+        for max_group_size in range(min(cnt.values()) + 1, 0, -1):
+            total_groups = 0
+            for num in cnt.keys():
+                groups = ceil(cnt[num] / max_group_size)
+                if groups * max_group_size >= cnt[num] and groups * (max_group_size - 1) <= cnt[num]:
+                    total_groups += groups
+                else:
+                    # add 1e9 summy value to mark that this max_group_size is impossible
+                    total_groups += 1e9
+            if total_groups < 1e9: 
+                return total_groups
 ```

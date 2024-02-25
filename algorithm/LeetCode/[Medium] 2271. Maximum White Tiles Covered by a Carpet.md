@@ -119,3 +119,30 @@ public:
     }
 };
 ```
+
+**Solution 3: (Sliding Window)**
+```
+Runtime: 205 ms
+Memory: 73.39 MB
+```
+```c++
+class Solution {
+public:
+    int maximumWhiteTiles(vector<vector<int>>& tiles, int carpetLen) {
+        sort(tiles.begin(), tiles.end());
+        int cnt = 0, ans = 0, n = tiles.size();
+        for(int i = 0, j = 0; i < n; i++){
+            if(i > 0) cnt -= tiles[i-1][1] - tiles[i-1][0]+1;
+
+            while(j < n && tiles[j][1] - tiles[i][0] + 1 <= carpetLen){
+                cnt += tiles[j][1] - tiles[j][0] + 1;
+                j++;
+            }
+            int addi = 0;
+            if(j < n) addi = max(0, tiles[i][0] + carpetLen - tiles[j][0]);
+            ans = max(ans, cnt+addi);
+        }
+        return ans;
+    }
+};
+```

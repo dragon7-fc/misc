@@ -43,7 +43,7 @@ Explanation: It can be proven that there is no way to perform operations to make
 
 # Submissions
 ---
-**Solution 1: (Greedy, Math, Binary Search)**
+**Solution 1: (Greedy, Math)**
 ```
 Runtime: 632 ms
 Memory: 13.9 MB
@@ -81,7 +81,7 @@ class Solution:
         return True
 ```
 
-**Solution 2: (Greedy, Math)**
+**Solution 2: (Greedy, Math, Brute Force)**
 ```
 Runtime: 142 ms
 Memory: 23.6 MB

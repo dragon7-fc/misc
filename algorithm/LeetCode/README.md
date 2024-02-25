@@ -14912,47 +14912,39 @@ class Solution:
 ```
 * [Medium] [Solution] 743. Network Delay Time
 
-### Dijkstra's Algorithm
-```python
-class Solution:
-    def findCheapestPrice(self, n: int, flights: List[List[int]], src: int, dst: int, K: int) -> int:
-        dic = collections.defaultdict(list)
-        for s, d, p in flights:
-            dic[s].append([d, p])
-        q = [[0, src, 0]]
-        while q:
-            price, s, hop = heapq.heappop(q)
-            if s == dst:
-                return price
-            if hop > K: continue
-            for nd, np in dic[s]:
-                heapq.heappush(q, [price + np, nd, hop + 1])
-        return -1
-```
-* [Medium] 787. Cheapest Flights Within K Stops
+### level based Dijkstra's Algorithm, BFS
+```c++
+class Solution {
+public:
+    int findCheapestPrice(int n, vector<vector<int>>& flights, int src, int dst, int k) {
+        unordered_map<int, vector<pair<int, int>>> adj;
+        for (auto& flight : flights) {
+            adj[flight[0]].push_back({flight[1], flight[2]});
+        }
 
-### Minimum Spanning Tree
-```python
-class Solution:
-    def minCostConnectPoints(self, points: List[List[int]]) -> int:
-        manhattan = lambda p1, p2: abs(p1[0]-p2[0]) + abs(p1[1]-p2[1])
-        N = len(points)
-        g = collections.defaultdict(list)
-        for i in range(N):
-            for j in range(i+1, N):
-                d = manhattan(points[i], points[j])
-                g[i].append((d, j))
-                g[j].append((d, i))
-        cnt, ans, visited, heap = 1, 0, [0] * N, g[0]
-        visited[0] = 1
-        heapq.heapify(heap)
-        while heap:
-            d, j = heapq.heappop(heap)
-            if not visited[j]:
-                visited[j], cnt, ans = 1, cnt+1, ans+d
-                for record in g[j]: heapq.heappush(heap, record)
-            if cnt >= N: break        
-        return ans
+        vector<int> dist(n, INT_MAX);
+        dist[src] = 0;
+
+        queue<pair<int, int>> q;
+        q.push({src, 0});
+        int stops = 0;
+
+        while (!q.empty() && stops <= k) {
+            int sz = q.size();
+            while (sz-- > 0) {
+                auto [node, distance] = q.front();
+                q.pop();
+                for (auto& [neighbour, price] : adj[node]) {
+                    if (price + distance >= dist[neighbour]) continue;
+                    dist[neighbour] = price + distance;
+                    q.push({neighbour, dist[neighbour]});
+                }
+            }
+            stops++;
+        }
+        return dist[dst] == INT_MAX ? -1 : dist[dst];
+    }
+};
 ```
 * [Medium] 1584. Min Cost to Connect All Points
 

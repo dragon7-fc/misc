@@ -2,7 +2,7 @@
 
 You are given a **0-indexed** integer array `nums`.
 
-**Swaps** of **adjacent** elements are able to be performed on nums.
+**Swaps** of **adjacent** elements are able to be performed on `nums`.
 
 A **valid** array meets the following conditions:
 

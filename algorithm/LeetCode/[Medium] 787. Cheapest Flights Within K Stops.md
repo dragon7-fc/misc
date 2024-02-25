@@ -218,7 +218,10 @@ class Solution:
         for f, t, p in flights:
             g[f] += [(t, p)]
         hq = [(0, 0, src)]
+
+        # can't use dist[] to recored profit, it will lost step information.
         step = [float('inf')]*n
+
         while hq:
             p, s, u = heapq.heappop(hq)
             if s > step[u] or s > k+1:
@@ -255,4 +258,80 @@ class Solution:
                     q += [(nu, dist[nu])]
             k -= 1
         return dist[dst] if dist[dst] != float('inf') else -1
+```
+
+**Solution 7: (Dijkstra, level based)**
+```
+Runtime: 36 ms
+Memory: 17.26 MB
+```
+```c++
+class Solution {
+public:
+    int findCheapestPrice(int n, vector<vector<int>>& flights, int src, int dst, int k) {
+        vector<vector<pair<int,int>>> g(n, vector<pair<int,int>>());
+        for (int i = 0; i < flights.size(); i ++) {
+            g[flights[i][0]].push_back({flights[i][1], flights[i][2]});
+        }
+        priority_queue<tuple<int, int, int>, vector<tuple<int, int, int>>, greater<tuple<int, int, int>>> pq;
+        vector<vector<int>> dist(n, vector<int>(k+2, INT_MAX));
+        pq.push({0, src, 0});
+        dist[src][0] = 0;
+        int rst = INT_MAX;
+        while (pq.size()) {
+            auto [c, v, s] = pq.top();
+            pq.pop();
+            if (v == dst) {
+                rst = min(rst, c);
+                continue;
+            }
+            for (auto [nv, nc]: g[v]) {
+                if (s <= k && dist[nv][s+1] > dist[v][s] + nc) {
+                    dist[nv][s+1] = dist[v][s] + nc;
+                    pq.push({c+nc, nv, s+1});
+                }
+            }
+        }
+        return rst != INT_MAX? rst : -1;
+    }
+};
+```
+
+**Solution 8: (BFS)**
+```
+Runtime: 20 ms
+Memory: 16.80 MB
+```
+```c++
+class Solution {
+public:
+    int findCheapestPrice(int n, vector<vector<int>>& flights, int src, int dst, int k) {
+        unordered_map<int, vector<pair<int, int>>> adj;
+        for (auto& flight : flights) {
+            adj[flight[0]].push_back({flight[1], flight[2]});
+        }
+
+        vector<int> dist(n, INT_MAX);
+        dist[src] = 0;
+
+        queue<pair<int, int>> q;
+        q.push({src, 0});
+        int stops = 0;
+
+        while (!q.empty() && stops <= k) {
+            int sz = q.size();
+            while (sz-- > 0) {
+                auto [node, distance] = q.front();
+                q.pop();
+                for (auto& [neighbour, price] : adj[node]) {
+                    if (price + distance >= dist[neighbour]) continue;
+                    dist[neighbour] = price + distance;
+                    q.push({neighbour, dist[neighbour]});
+                }
+            }
+            stops++;
+        }
+        return dist[dst] == INT_MAX ? -1 : dist[dst];
+    }
+};
 ```

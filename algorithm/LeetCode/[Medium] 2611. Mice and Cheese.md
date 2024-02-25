@@ -64,6 +64,7 @@ public:
             reward1[i] -= reward2[i];
             res += reward2[i];
         }
+        // sort(reward1.begin(), reward1.end(), greater<int>());
         nth_element(reward1.begin(), reward1.begin() + k, reward1.end(), greater<int>());
         return accumulate(reward1.begin(), reward1.begin() + k, res);
     }
