@@ -241,7 +241,7 @@ public:
 };
 ```
 
-**Solution 4: (BFS)**
+**Solution 4: (DFS)**
 ```
 Runtime: 14 ms
 Memory Usage: 14.8 MB

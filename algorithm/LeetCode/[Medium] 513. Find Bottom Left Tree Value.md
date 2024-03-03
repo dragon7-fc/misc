@@ -105,3 +105,46 @@ public:
     }
 };
 ```
+
+**Solution 3: (DFS)**
+```
+Runtime: 7 ms
+Memory: 20.02 MB
+```
+```c++
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+class Solution {
+public:
+    int findBottomLeftValue(TreeNode* root) {
+        stack<pair<TreeNode*, int>> stk;
+        stk.push({root, 0});
+        TreeNode *node;
+        int mx_row = -1, ans;
+        while (stk.size()) {
+            auto [node, row] = stk.top();
+            stk.pop();
+            if (row > mx_row) {
+                mx_row = row;
+                ans = node->val;
+            }
+            if (node->right) {
+                stk.push({node->right, row+1});
+            }
+            if (node->left) {
+                stk.push({node->left, row+1});
+            }
+        }
+        return ans;
+    }
+};
+```

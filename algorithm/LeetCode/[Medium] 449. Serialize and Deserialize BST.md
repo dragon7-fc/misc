@@ -306,3 +306,49 @@ public:
 // TreeNode* ans = deser->deserialize(tree);
 // return ans;
 ```
+**Solution 5: (DFS)**
+```
+Runtime: 31 ms
+Memory: 31.81 MB
+```
+```c++
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Codec {
+    TreeNode* decode(stringstream& take,string res = ""){
+        getline(take,res,'#');
+        if(res.empty())return NULL;
+        
+        TreeNode* root= new TreeNode(stoi(res));
+        root->left = decode(take), root->right = decode(take);
+        return root;
+    }
+public:
+
+    // Encodes a tree to a single string.
+    string serialize(TreeNode* root) {
+        if(!root)return "#";
+        return to_string(root->val)+"#"+serialize(root->left) + serialize(root->right);
+    }
+
+    // Decodes your encoded data to tree.
+    TreeNode* deserialize(string data) {
+        stringstream take(data);
+        return decode(take);
+    }
+};
+
+// Your Codec object will be instantiated and called as such:
+// Codec* ser = new Codec();
+// Codec* deser = new Codec();
+// string tree = ser->serialize(root);
+// TreeNode* ans = deser->deserialize(tree);
+// return ans;
+```

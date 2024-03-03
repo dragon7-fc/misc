@@ -30,6 +30,8 @@ Both the input and output have TreeNode type.
 * The number of nodes in the tree will be between 1 and 500.
 * The values of each node are unique.
 
+**Note:** This question is the same as 1123: [https://leetcode.com/problems/lowest-common-ancestor-of-deepest-leaves/](https://leetcode.com/problems/lowest-common-ancestor-of-deepest-leaves/)
+
 # Submissions
 ---
 ## Approach 1: Paint Deepest Nodes

@@ -24,6 +24,9 @@ Output: [30,36,21,36,35,26,15,null,null,null,33,null,null,null,8]
 * The given tree is a binary search tree.
 * Note: This question is the same as 538: https://leetcode.com/problems/convert-bst-to-greater-tree/
 
+
+**Note:** This question is the same as 538: [https://leetcode.com/problems/convert-bst-to-greater-tree/](https://leetcode.com/problems/convert-bst-to-greater-tree/)
+
 # Submissions
 ---
 **Solution 1: (Binary Search Tree, Recursive)**

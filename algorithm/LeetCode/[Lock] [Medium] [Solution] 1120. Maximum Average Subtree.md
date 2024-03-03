@@ -76,12 +76,6 @@ Memory Usage: 22 MB
  * };
  */
 class Solution {
-public:
-    double maximumAverageSubtree(TreeNode* root) {
-        return maxAverage(root).maxAverage;
-    }
-    
-private:
     struct State {
         // count of nodes in the subtree
         int nodeCount;
@@ -110,5 +104,8 @@ private:
 
         return {nodeCount, sum, maxAverage};
     }
-};
+public:
+    double maximumAverageSubtree(TreeNode* root) {
+        return maxAverage(root).maxAverage;
+    }
 ```

@@ -88,6 +88,16 @@ Memory Usage: 62.7 MB
 ```
 ```c++
 class Solution {
+    void dfs(vector<vector<int>> &graph,int i,int j,vector<vector<int>> &ans,vector<bool> &vis){
+        vis[j]=true;
+        for(auto &x:graph[j]){
+            if(!vis[x]){
+                ans[x].push_back(i);
+                dfs(graph,i,x,ans,vis);
+            }
+            
+        }
+    }
 public:
     vector<vector<int>> getAncestors(int n, vector<vector<int>>& edges) {
         vector<vector<int>> ans(n),graph(n);
@@ -99,17 +109,6 @@ public:
             dfs(graph,i,i,ans,vis);
         }
         return ans;
-    }
-    
-    void dfs(vector<vector<int>> &graph,int i,int j,vector<vector<int>> &ans,vector<bool> &vis){
-        vis[j]=true;
-        for(auto &x:graph[j]){
-            if(!vis[x]){
-                ans[x].push_back(i);
-                dfs(graph,i,x,ans,vis);
-            }
-            
-        }
     }
 };
 ```

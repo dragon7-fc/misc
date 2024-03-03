@@ -120,7 +120,7 @@ public:
 };
 ```
 
-**Solution 3: (Sliding Window)**
+**Solution 3: (Sort, Sliding Window)**
 ```
 Runtime: 205 ms
 Memory: 73.39 MB

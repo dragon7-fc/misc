@@ -15,9 +15,9 @@ A number `x` is power of `2` if `x == 2^i` where `i >= 0`.
 Input: n = 39
 Output: 3
 Explanation: We can do the following operations:
-- Add 20 = 1 to n, so now n = 40.
-- Subtract 23 = 8 from n, so now n = 32.
-- Subtract 25 = 32 from n, so now n = 0.
+- Add 2^0 = 1 to n, so now n = 40.
+- Subtract 2^3 = 8 from n, so now n = 32.
+- Subtract 2^5 = 32 from n, so now n = 0.
 It can be shown that 3 is the minimum number of operations we need to make n equal to 0.
 ```
 
@@ -26,9 +26,9 @@ It can be shown that 3 is the minimum number of operations we need to make n equ
 Input: n = 54
 Output: 3
 Explanation: We can do the following operations:
-- Add 21 = 2 to n, so now n = 56.
-- Add 23 = 8 to n, so now n = 64.
-- Subtract 26 = 64 from n, so now n = 0.
+- Add 2^1 = 2 to n, so now n = 56.
+- Add 2^3 = 8 to n, so now n = 64.
+- Subtract 2^6 = 64 from n, so now n = 0.
 So the minimum number of operations is 3.
 ```
 

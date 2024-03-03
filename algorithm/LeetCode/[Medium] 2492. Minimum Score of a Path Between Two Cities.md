@@ -101,3 +101,36 @@ public:
     }
 };
 ```
+
+**Solution 3: (Dijkstra)**
+```
+Runtime: 332 ms
+Memory: 135.00 MB
+```
+```c++
+class Solution {
+public:
+    int minScore(int n, vector<vector<int>>& roads) {
+        vector<vector<pair<int, int>>> adj(n + 1);
+        vector<int> dist(n + 1, INT_MAX);
+        std::priority_queue<pair<int, int>, vector<pair<int, int>>, greater<pair<int, int>>> pq;
+        for (int i = 0; i < roads.size(); ++i) {
+            adj[roads[i][0]].push_back({roads[i][1], roads[i][2]});
+            adj[roads[i][1]].push_back({roads[i][0], roads[i][2]});
+        }
+        pq.push({INT_MAX, 1});
+        while(!pq.empty()) {
+            auto [d, node] = pq.top();
+            pq.pop();
+            for (int i = 0; i < adj[node].size(); ++i) {
+                d = min(d, adj[node][i].second);
+                if (dist[adj[node][i].first] > d) {
+                    dist[adj[node][i].first] = d;
+                    pq.push({dist[adj[node][i].first], adj[node][i].first});
+                }
+            }
+        }
+        return dist[n];
+    }
+};
+```

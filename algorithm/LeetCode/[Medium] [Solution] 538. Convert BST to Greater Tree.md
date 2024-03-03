@@ -15,6 +15,8 @@ Output: The root of a Greater Tree like this:
           20     13
 ```
 
+**Note:** This question is the same as 1038: [https://leetcode.com/problems/binary-search-tree-to-greater-sum-tree/](https://leetcode.com/problems/binary-search-tree-to-greater-sum-tree/)
+
 # Solution
 ---
 **Initial Thoughts**

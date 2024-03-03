@@ -74,7 +74,7 @@ findElements.find(5); // return True
 
 # Submissions
 ---
-**Solution 1:**
+**Solution 1: (DFS)**
 ```
 Runtime: 104 ms
 Memory Usage: 17.7 MB

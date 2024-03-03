@@ -119,7 +119,7 @@ class Solution:
             if i < 0 or i >= len(grid) or j < 0 or j >= len(grid[0]) or not grid[i][j]:
                 return False
             grid[i][j] = 0
-            return dfs(i + 1, j) or dfs(i, j + 1) or dfs(i - 1, j) or dfs(i, j - 1)
+            return dfs(i + 1, j) or dfs(i, j + 1)
         if not dfs(0, 0):
             return True
         grid[0][0] = 1

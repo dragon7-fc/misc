@@ -162,7 +162,7 @@ class Solution:
 **Solution 2: (DFS)**
 ```
 Runtime: 0 ms
-Memory Usage: 10.2 MB
+Memory: 11.60 MB
 ```
 ```c++
 /**
@@ -178,25 +178,14 @@ Memory Usage: 10.2 MB
  */
 class Solution {
 public:
-    bool dfs(TreeNode* p, TreeNode* q){
-        if (p == nullptr && q == nullptr)
-            return true;
-        else if (p == nullptr || q == nullptr)
-            return false;
-        else{
-            if (p->val == q->val) {
-                if (dfs(p->left, q->left) and dfs(p->right, q->right))
-                    return true;
-                else
-                    return false;
-            }
-            else
-                return false;
-        }
-    }
     bool isSameTree(TreeNode* p, TreeNode* q) {
-        bool ans = dfs(p,q);
-        return ans;
+        if (!p && !q) {
+            return true;
+        }
+        if (!p || !q) {
+            return false;
+        }
+        return p->val == q->val && isSameTree(p->left, q->left) && isSameTree(p->right, q->right);
     }
 };
 ```

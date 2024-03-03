@@ -119,3 +119,45 @@ public:
     }
 };
 ```
+
+**Solution 3: (floyd warshall)**
+```
+Runtime: 126 ms
+Memory: 18.77 MB
+```
+```c++
+class Solution {
+public:
+    int maximumDetonation(vector<vector<int>>& bombs) {
+        int n = bombs.size();
+        vector<vector<int>> r(n, vector<int>(n));
+            
+        auto reachable = [] (auto &a, auto &b) {
+            long long t1 = a[0] - b[0], t2 = a[1] - b[1], r = a[2];
+            return t1 * t1 + t2 * t2 <= r * r;
+        };
+        
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < n; j++) {
+                if (reachable(bombs[i], bombs[j])) {
+                    r[i][j] = 1;
+                }
+            }
+        }
+        
+        for (int k = 0; k < n; k++) {
+            for (int i = 0; i < n; i++) {
+                for (int j = 0; j < n; j++) {
+                    r[i][j] |= r[i][k] & r[k][j];
+                }
+            }
+        }
+        
+        int res = 1;
+        for (auto &row : r)
+            res = max(res, (int) count(row.begin(), row.end(), 1));
+        
+        return res;
+    }
+};
+```

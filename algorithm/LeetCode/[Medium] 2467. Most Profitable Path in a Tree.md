@@ -68,7 +68,7 @@ Thus, Alice opens the gate at node 0 only. Hence, her net income is -7280.
 
 # Submissions
 ---
-**Solution 1: (DFS, post-order)**
+**Solution 1: (DFS, pre-order + post-order)**
 
 __Explanation__
 

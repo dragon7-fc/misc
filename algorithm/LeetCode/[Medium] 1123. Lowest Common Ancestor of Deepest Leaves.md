@@ -36,6 +36,8 @@ Output: [2,4,5]
 * The given tree will have between `1` and `1000` nodes.
 * Each node of the tree will have a distinct value between `1` and `1000`.
 
+**Note:** This question is the same as 865: [https://leetcode.com/problems/smallest-subtree-with-all-the-deepest-nodes/](https://leetcode.com/problems/smallest-subtree-with-all-the-deepest-nodes/)
+
 # Submissions
 ---
 **Solution 1:**

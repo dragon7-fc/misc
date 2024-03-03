@@ -83,3 +83,43 @@ public:
     }
 };
 ```
+
+**Solution 2: (DFS, post-order)**
+```
+Runtime: 325 ms
+Memory: 169.82 MB
+```
+```c++
+class Solution {
+    long long solve(int v, int pre, vector<vector<int>> &g, vector<int> &values)
+    {
+        long long taken, not_taken;
+        taken = values[v];
+        not_taken = 0;
+        for (auto nv: g[v]) {
+            if (nv != pre) {
+                not_taken += solve(nv, v, g, values);
+            }
+        }
+        if (not_taken) {
+            return min(taken, not_taken);
+        }
+        return taken;
+    } 
+public:
+    long long maximumScoreAfterOperations(vector<vector<int>>& edges, vector<int>& values) {
+        int n = values.size();
+        vector<vector<int>> g;
+        g.resize(n);
+        for (auto e:edges)
+        {
+            g[e[0]].push_back(e[1]);
+            g[e[1]].push_back(e[0]);
+        }
+        long long sum = 0;
+        for (auto v: values) sum += v;
+        long long t = solve(0, -1, g, values);
+        return sum - t;       
+    }
+};
+```

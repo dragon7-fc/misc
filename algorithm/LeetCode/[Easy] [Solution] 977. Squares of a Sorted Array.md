@@ -135,3 +135,68 @@ class Solution:
 
         return ans
 ```
+
+**Solution 3: (Two Pointer)**
+```
+Runtime: 19 ms
+Memory: 29.40 MB
+```
+```c++
+class Solution {
+public:
+    vector<int> sortedSquares(vector<int>& nums) {
+        int n = nums.size(), i, j;
+        vector<int> ans;
+        j = lower_bound(nums.begin(), nums.end(), 0) - nums.begin();
+        i = j-1;
+        while (i >= 0 && j < n) {
+            if (nums[i]*nums[i] <= nums[j]*nums[j]) {
+                ans.push_back(nums[i]*nums[i]);
+                i -= 1;
+            } else {
+                ans.push_back(nums[j]*nums[j]);
+                j += 1;
+            }
+        }
+        while (i >= 0) {
+            ans.push_back(nums[i]*nums[i]);
+            i -= 1;
+        }
+        while (j < n) {
+            ans.push_back(nums[j]*nums[j]);
+            j += 1;
+        }
+        return ans;
+    }
+};
+```
+
+**Solution 4: (Two Pointer)**
+```
+Runtime: 17 ms
+Memory: 28.48 MB
+```
+```c++
+class Solution {
+public:
+    vector<int> sortedSquares(vector<int>& nums) {
+        int n = nums.size();
+        vector<int> ans(n);
+        for (int i = 0; i < n; i++) {
+            nums[i] *= nums[i];
+        }
+        int i=nums.size()-1;
+        int l = 0, r = nums.size()-1;
+
+        while (l <= r) {
+            if (nums[l] > nums[r]) {
+                ans[i--] = nums[l++];
+            } else {
+                ans[i--] = nums[r--];
+            }
+        }
+
+        return ans;
+    }
+};
+```

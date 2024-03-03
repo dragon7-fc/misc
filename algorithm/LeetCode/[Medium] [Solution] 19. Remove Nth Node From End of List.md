@@ -171,8 +171,8 @@ struct ListNode* removeNthFromEnd(struct ListNode* head, int n){
 
 **Solution 3: (Two Pointers)**
 ```
-Runtime: 11 ms
-Memory Usage: 10.8 MB
+Runtime: 3 ms
+Memory: 13.31 MB
 ```
 ```c++
 /**
@@ -188,20 +188,21 @@ Memory Usage: 10.8 MB
 class Solution {
 public:
     ListNode* removeNthFromEnd(ListNode* head, int n) {
-        ListNode *dummy = new ListNode(), *fast, *slow, *prev;
+        ListNode *dummy = new ListNode(), *pre, *slow, *fast;
         dummy->next = head;
-        fast = dummy;
+        fast = head;
         while (n) {
             fast = fast->next;
             n -= 1;
         }
-        slow = dummy;
+        slow = head;
+        pre = dummy;
         while (fast) {
             fast = fast->next;
-            prev = slow;
             slow = slow->next;
+            pre = pre->next;
         }
-        prev->next = slow->next;
+        pre->next = slow->next;
         delete slow;
         return dummy->next;
     }
