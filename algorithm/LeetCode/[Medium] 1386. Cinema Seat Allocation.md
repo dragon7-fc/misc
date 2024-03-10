@@ -42,7 +42,7 @@ Output: 4
 
 # Submissions
 ---
-**Solution 1: (Greedy)**
+**Solution 1: (Greedy, 3 case)**
 
 M is the length of reserved seats.  
 As M is smaller than N, so iterate with M.  

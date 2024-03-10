@@ -42,3 +42,22 @@ class Solution:
     def getSum(self, a: int, b: int) -> int:
         return int(math.log2(pow(2,a)*pow(2,b)))
 ```
+
+**Solution 3: (Bit Manipulation**
+```
+Runtime: 0 ms
+Memory: 7.17 MB
+```
+```c++
+class Solution {
+public:
+    int getSum(int a, int b) {
+        while(b!=0){
+            int carry = a&b;
+            a = a^b;
+            b = carry<<1;
+        }
+        return a;
+    }
+};
+```

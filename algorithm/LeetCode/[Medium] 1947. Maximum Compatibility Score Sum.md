@@ -42,7 +42,7 @@ Explanation: The compatibility score of any student-mentor pair is 0.
 
 # Submissions
 ---
-**Solution 1: (DP, Bottom-Up, Bitmask)**
+**Solution 1: (DP, Top-Down, Bitmask, Backtracking)**
 ```
 Runtime: 56 ms
 Memory Usage: 14.6 MB

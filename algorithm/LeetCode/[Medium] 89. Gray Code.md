@@ -39,6 +39,16 @@ Explanation: We define the gray code sequence to begin with 0.
 Runtime: 28 ms
 Memory Usage: 12.6 MB
 ```
+
+// 000 = 000 ^ 000  0^0
+// 001 = 001 ^ 000  1^0
+// 011 = 010 ^ 001  2^1
+// 010 = 011 ^ 001  3^1
+// 110 = 100 ^ 010  4^2
+// 111 = 101 ^ 010  5^2
+// 101 = 110 ^ 011  6^3
+// 100 = 111 ^ 011  7^3
+
 ```python
 class Solution:
     def grayCode(self, n: int) -> List[int]:

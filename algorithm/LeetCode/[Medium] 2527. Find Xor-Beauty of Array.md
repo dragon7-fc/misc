@@ -46,6 +46,15 @@ Explanation: The xor-beauty of the given array is 34.
 # Submissions
 ---
 **Solution 1: (Greedy)**
+
+The key observation is that the triplets ((nums[i] | nums[j]) & nums[k]) occurs in pairs except when i=j=ki=j=ki=j=k.
+
+* when i=j=ki = j = ki=j=k, the result ((nums[i] | nums[j]) & nums[k]) is the the number itself.
+* when i=j but i≠k, we would have nums[i] & nums[k] and nums[k] & nums[i] be valid triplets for each pair of number in nums. XORing them would give 0.
+* otherwise, for each nums[k], ((nums[i] | nums[j]) & nums[k]) and ((nums[j] | nums[i]) & nums[k]) would both be a valid triplets and be considered in the final result. Obviously they are the same and XORing them in the last step would make them 0.
+
+Hence, the result is just the XOR of all numbers in the array.
+
 ```
 Runtime: 385 ms
 Memory: 27.7 MB

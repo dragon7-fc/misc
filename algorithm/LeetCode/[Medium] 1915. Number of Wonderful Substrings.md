@@ -82,8 +82,8 @@ class Solution:
         res = cur = 0
         for c in word:
             cur ^= 1 << (ord(c) - ord('a'))
-            res += count[cur]
-            res += sum(count[cur ^ (1 << i)] for i in range(10))
+            res += count[cur]  ## all even
+            res += sum(count[cur ^ (1 << i)] for i in range(10))  ## at most one odd
             count[cur] += 1
         return res
 ```

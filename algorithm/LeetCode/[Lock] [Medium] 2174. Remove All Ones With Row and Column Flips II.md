@@ -57,35 +57,12 @@ There are no 1's to remove so return 0.
 
 # Submissions
 ---
-**Solution 1: (DFS, Set)**
+**Solution 1: (Backtracking, DFS, Set)**
 ```
 Runtime: 85 ms
 Memory: 13.9 MB
 ```
 ```python
-
-Close
-FC Su
-FC Su
-Dec 21, 2022 21:41
-
-Details
-Solution
-Python3
-Runtime
-85 ms
-Beats
-9.52%
-Memory
-13.9 MB
-Beats
-80.95%
-Click to check the distribution chart
-Notes
-Write your notes here
-Related Tags
-Select tags
-0/5
 class Solution:
     def removeOnes(self, grid: List[List[int]]) -> int:
         m = len(grid)

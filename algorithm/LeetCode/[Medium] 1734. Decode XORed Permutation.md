@@ -57,7 +57,7 @@ so we can have the result of `a2^a2^a3...^an`.
 And a1,a2,a3... is a permuatation of 1,2,3,4..n
 
 so we can have
-a1 = 1^2^3...^n^a2^a2^a3...^an
+a1 = 1^2^3...^n^a2^a3...^an
 
 Then we can deduct the whole decoded array.
 
@@ -77,4 +77,29 @@ class Solution:
     def decode(self, encoded: List[int]) -> List[int]:
         first = reduce(ixor, encoded[::-2] + list(range(len(encoded) + 2)))
         return list(accumulate([first] + encoded, ixor))
+```
+
+**Solution 2: (Math)**
+```
+Runtime: 88 ms
+Memory: 104.64 MB
+```
+```c++
+class Solution {
+public:
+    vector<int> decode(vector<int>& encoded) {
+        int n = encoded.size() + 1, a = 0;
+        for (int i = 0; i <= n; ++i) {
+            a ^= i;
+            if (i < n && i % 2 == 1) {
+                a ^= encoded[i];
+            }
+        }
+        vector<int> res = {a};
+        for (int a: encoded) {
+            res.push_back(res.back() ^ a);
+        }
+        return res;
+    }
+};
 ```

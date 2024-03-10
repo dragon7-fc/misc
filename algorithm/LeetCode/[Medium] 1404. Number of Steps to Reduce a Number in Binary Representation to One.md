@@ -44,7 +44,7 @@ Output: 0
 
 # Submissions
 ---
-**Solution 1: (Brute Force)**
+**Solution 1: (Brute Force, simulation)**
 ```
 Runtime: 32 ms
 Memory Usage: 13.9 MB
@@ -64,7 +64,7 @@ class Solution:
         return step
 ```
 
-**Solution 2: (Math)**
+**Solution 2: (Math, Greedy, work backward)**
 ```
 Runtime: 7 ms
 Memory: 6.6 MB
@@ -86,7 +86,7 @@ public:
 };
 ```
 
-**Solution 3: (DFS)**
+**Solution 3: (DFS, workd backward)**
 ```
 Runtime: 6 ms
 Memory: 6.7 MB

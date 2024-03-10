@@ -163,7 +163,7 @@ For detailed analysis, refer to Linked List Cycle II.
 
 # Submissions
 ---
-**Solution 1: (Two Pointers)**
+**Solution 1: (Two Pointers, detect cycle entry point)**
 ```
 Runtime: 92 ms
 Memory Usage: 16.4 MB
@@ -192,7 +192,7 @@ class Solution:
         return hare
 ```
 
-**Solution 2: (Two Pointers)**
+**Solution 2: (Two Pointers, detect cycle entry point)**
 ```
 Runtime: 16 ms
 Memory Usage: 11.1 MB

@@ -53,7 +53,7 @@ class Solution:
         mem = {}
         n = len(s)
 
-	# 2^n possible palindromes,
+	    # 2^n possible palindromes,
         for i in range(1,1<<n):
             tmp = ""
             for j in range(n):

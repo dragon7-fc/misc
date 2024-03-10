@@ -90,3 +90,32 @@ public:
     }
 };
 ```
+
+**Solution 3: (Bitmask, Brute Force all combination)**
+```
+Runtime: 76 ms
+Memory 9.82 MB
+```
+```c++
+class Solution {
+public:
+    int countMaxOrSubsets(vector<int>& nums) {
+        int n = nums.size(), cur, mx = 0, ans;
+        for (int i = 0; i < 1<<n; i ++) {
+            cur = 0;
+            for (int j = 0; j < n; j ++) {
+                if (i & 1<<j) {
+                    cur |= nums[j];
+                }
+            }
+            if (cur > mx) {
+                mx = cur;
+                ans = 1;
+            } else if (cur == mx) {
+                ans += 1;
+            }
+        }
+        return ans;
+    }
+};
+```

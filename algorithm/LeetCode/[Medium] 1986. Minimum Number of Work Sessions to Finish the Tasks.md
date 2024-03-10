@@ -48,7 +48,7 @@ Explanation: You can finish all the tasks in one work session.
 
 # Submissions
 ---
-**Solution 1: (DFS)**
+**Solution 1: (Backtracking)**
 ```
 Runtime: 108 ms
 Memory Usage: 14.3 MB
@@ -78,4 +78,39 @@ class Solution:
         
         dfs(0)
         return result[0]
+```
+
+**Solution 2: (DP Top-Down)**
+```
+Runtime: 135 ms
+Memory: 10.38 MB
+```
+```c++
+class Solution {
+    int n, sessionTime;
+    int memo[1<<14][15] = {};  // minimum of work sessions needed to finish all the tasks represent by mask (where ith bit = 1 means tasks[i] need to proceed) with the remainTime we have for the current session.
+    int dp(vector<int>& tasks, int mask, int remainTime) {
+        if (mask == 0) return 0;
+        if (memo[mask][remainTime] != -1) return memo[mask][remainTime];
+        int ans = n;  // There is up to N work sessions
+        for (int i = 0; i < n; ++i) {
+            if ((mask >> i) & 1) {
+                int newMask = ~(1 << i) & mask; // clear i th bit
+                if (tasks[i] <= remainTime) {
+                    ans = min(ans, dp(tasks, newMask, remainTime - tasks[i])); // Consume current session
+                } else {
+                    ans = min(ans, dp(tasks, newMask, sessionTime - tasks[i]) + 1); // Create new session
+                }
+            }
+        }
+        return memo[mask][remainTime] = ans;
+    }
+public:
+    int minSessions(vector<int>& tasks, int sessionTime) {
+        n = tasks.size();
+        this->sessionTime = sessionTime;
+        memset(memo, -1, sizeof(memo));
+        return dp(tasks, (1 << n) - 1, 0);
+    }
+};
 ```

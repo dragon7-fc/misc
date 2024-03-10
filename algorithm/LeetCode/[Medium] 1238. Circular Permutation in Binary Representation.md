@@ -29,7 +29,7 @@ Explanation: The binary representation of the permutation is (010,110,111,101,10
 
 # Submissions
 ---
-**Solution 1:**
+**Solution 1: (gray code)**
 
 Gray code has the property that any two neighboring elements differ by only one bit. So we can map every number from 0 to 2^n - 1 to its Gray code, find the start element, and make the array circularly offset by index.
 

@@ -45,7 +45,7 @@ class Solution:
         return int(''.join(bin(i)[2 :] for i in range(1, n + 1)), 2) % (10 ** 9 + 7)
 ```
 
-**Solution 2: (Math, Bit Manipulation)**
+**Solution 2: (Math, Bit Manipulation, simulation)**
 ```
 Runtime: 22 ms
 Memory Usage: 5.9 MB

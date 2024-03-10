@@ -330,7 +330,7 @@ public:
 };
 ```
 
-**Solution 6: (Cascading)**
+**Solution 6: (DP Bottom-Up)**
 ```
 Runtime: 0 ms
 Memory Usage: 7.1 MB

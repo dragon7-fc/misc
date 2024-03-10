@@ -54,7 +54,7 @@ class Solution {
 public:
     int squareFreeSubsets(vector<int>& nums) {
         using ll = long long;
-        map<ll,ll> mp;
+        map<ll,ll> mp;  // {subset product, volume}
         int MOD = 1e9 + 7;
         
         for(int num : nums) {

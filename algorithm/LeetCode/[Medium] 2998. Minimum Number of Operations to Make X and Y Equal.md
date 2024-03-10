@@ -77,3 +77,49 @@ public:
     }
 };
 ```
+
+**Solution 2: (BFS)**
+```
+Runtime: 0 ms
+Memory: 9.14 MB
+```
+```c++
+class Solution {
+public:
+    int minimumOperationsToMakeEqual(int x, int y) {
+        vector<bool> visited(10020);
+        queue<pair<int, int>> q;
+        q.push({x, 0});
+        visited[x] = true;
+        int cur, step, ans = INT_MAX;
+        while (q.size()) {
+            auto [cur, step] = q.front();
+            q.pop();
+            if (step > ans) {
+                return ans;
+            }
+            if (cur <= y) {
+                ans = min(ans, step + y-cur);
+                continue;
+            }
+            if (cur%11 == 0 && !visited[cur/11]) {
+                q.push({cur/11, step+1});
+                visited[cur/11] = true;
+            }
+            if (cur%5 == 0 && !visited[cur/5]) {
+                q.push({cur/5, step+1});
+                visited[cur/5] = true;
+            }
+            if (cur+1 < 10020 && !visited[cur+1]) {
+                q.push({cur+1, step+1});
+                visited[cur+1] = true;
+            }
+            if (cur-1 >= 0 && !visited[cur-1]) {
+                q.push({cur-1, step+1});
+                visited[cur-1] = true;
+            }
+        }
+        return ans;
+    }
+};
+```

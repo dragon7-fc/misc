@@ -162,18 +162,6 @@ Memory Usage: 8.1 MB
 ```
 ```c++
 class Solution {
-public:
-    bool pyramidTransition(string bottom, vector<string>& allowed) {
-        unordered_map<string, vector<char>> mapping;
-        for (const string& s : allowed)
-        {
-            mapping[s.substr(0, 2)].push_back(s[2]);
-        }
-
-        return dfs(bottom, "", mapping);
-    }
-    
-private:
     unordered_map<string, bool> memo;
     bool dfs(string bottom, string top, unordered_map<string, vector<char>>& mapping)
     {
@@ -209,6 +197,16 @@ private:
         
         memo[bottom] = false;
         return false;
+    }
+public:
+    bool pyramidTransition(string bottom, vector<string>& allowed) {
+        unordered_map<string, vector<char>> mapping;
+        for (const string& s : allowed)
+        {
+            mapping[s.substr(0, 2)].push_back(s[2]);
+        }
+
+        return dfs(bottom, "", mapping);
     }
 };
 ```

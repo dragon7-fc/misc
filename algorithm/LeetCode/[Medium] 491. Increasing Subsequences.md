@@ -122,7 +122,7 @@ class Solution:
         return result
 ```
 
-**Solution 5: (Bitmasks)**
+**Solution 5: (Bitmasks, check all combination)**
 ```
 Runtime: 1218 ms
 Memory: 22.4 MB

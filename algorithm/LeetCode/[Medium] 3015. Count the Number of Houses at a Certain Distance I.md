@@ -87,3 +87,53 @@ public:
     }
 };
 ```
+
+**Solution 2: (Floyd Warshall)**
+```
+Runtime: 252 ms
+Memory: 18.36 MB
+```
+```c++
+class Solution {
+public:
+    vector<int> countOfPairs(int n, int x, int y) {
+        // Adjust indices to be 0-based
+        x--, y--;
+
+        // Initialize distance matrix
+        vector<vector<int>> dist(n, vector<int>(n, 1e9));
+        for (int i = 0; i < n; i++) {
+            dist[i][i] = 0;
+            if (i < n - 1) {
+                dist[i][i + 1] = 1;
+                dist[i + 1][i] = 1;
+            }
+        }
+        // Special case for x and y
+        dist[x][y] = 1;
+        dist[y][x] = 1;
+
+        // Floyd-Warshall Algorithm
+        for (int k = 0; k < n; k++) {
+            for (int i = 0; i < n; i++) {
+                for (int j = 0; j < n; j++) {
+                    if (dist[i][k] + dist[k][j] < dist[i][j]) {
+                        dist[i][j] = dist[i][k] + dist[k][j];
+                    }
+                }
+            }
+        }
+
+        // Count distances
+        vector<int> ans(n, 0);
+        for (int i = 0; i < n; i++) {
+            for (int j = i + 1; j < n; j++) {
+                if (dist[i][j] < n) {
+                    ans[dist[i][j] - 1] += 2;
+                }
+            }
+        }
+        return ans;
+    }
+};
+```

@@ -360,7 +360,7 @@ class Solution:
         return recurse((1 << L) - 1, 0)
 ```
 
-**Solution 2: (Backtracking)**
+**Solution 2: (Backtracking, sort)**
 ```
 Runtime: 36 ms
 Memory Usage: 10.2 MB

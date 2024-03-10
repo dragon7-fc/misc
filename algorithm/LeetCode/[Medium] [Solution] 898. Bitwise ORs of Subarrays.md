@@ -91,3 +91,23 @@ class Solution:
             ans |= cur
         return len(ans)
 ```
+
+**Solution 2: (Frontier Set, DP Bottom-Up)**
+```
+Runtime: 979 ms
+Memory: 212.96 MB
+```
+```c++
+class Solution {
+public:
+    int subarrayBitwiseORs(vector<int>& arr) {
+        unordered_set<int> res, cur, cur2;
+        for (int a: arr) {
+            cur2 = {a};
+            for (int b: cur) cur2.insert(a|b);
+            for (int c: cur = cur2) res.insert(c);
+        }
+        return res.size();
+    }
+};
+```
