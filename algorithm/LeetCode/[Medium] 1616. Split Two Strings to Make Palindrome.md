@@ -70,28 +70,3 @@ class Solution:
 
         return any(s == s[::-1] for s in (s1,s2,s3,s4))
 ```
-
-**Solution 1: (String, Greedy)**
-```
-Runtime: 69 ms
-Memory: 24.5 MB
-```
-```c++
-class Solution {
-    bool isPalindrome(string &s, int i, int j) {
-        while (i < j && s[i] == s[j])
-            ++i, --j;
-        return i >= j;
-    }
-    bool check(string &a, string &b) {
-        int i = 0, j = a.size() - 1;
-        while (i < j && a[i] == b[j])
-            ++i, --j;
-        return isPalindrome(a, i, j) || isPalindrome(b, i, j);
-    }
-public:
-    bool checkPalindromeFormation(string a, string b) {
-        return check(a, b) || check(b, a);
-    }
-};
-```

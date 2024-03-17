@@ -158,24 +158,25 @@ class Solution:
 
 **Solution 2: (Using HashMap, equal = sum to 0)**
 ```
-Runtime: 254 ms
-Memory Usage: 83.9 MB
+Runtime: 88 ms
+Memory: 87.81 MB
 ```
 ```c++
 class Solution {
 public:
     int findMaxLength(vector<int>& nums) {
-        int max_len = 0;
-        unordered_map<int, int> sum_pos;
-        sum_pos[0] = -1;
-        for(int i = 0, sum = 0; i < nums.size(); ++i) {
-            sum += 2*nums[i] - 1;
-            if(auto it = sum_pos.find(sum); it != sum_pos.end())
-                max_len = max(max_len, i - it->second);
-            else
-                sum_pos[sum] = i;
+        unordered_map<int, int> m;
+        int cur = 0, ans = 0;
+        m[0] = -1;
+        for (int i = 0; i < nums.size(); i ++) {
+            cur += (nums[i] == 1 ? 1 : -1);
+            if (m.count(cur)) {
+                ans = max(ans, i - m[cur]);
+            } else {
+                m[cur] = i;
+            }
         }
-        return max_len;
+        return ans;
     }
 };
 ```

@@ -129,11 +129,11 @@ struct ListNode* removeZeroSumSublists(struct ListNode* head){
 
 **Solution 3: (Prefix Sum, Linked List, Hash Table)**
 ```
-Runtime: 11 ms
-Memory: 11.90 MB
+Runtime: 3 ms
+Memory: 14.94 MB
 ```
 ```c++
-/**
+[200~/**
  * Definition for singly-linked list.
  * struct ListNode {
  *     int val;
@@ -146,25 +146,26 @@ Memory: 11.90 MB
 class Solution {
 public:
     ListNode* removeZeroSumSublists(ListNode* head) {
-        ListNode* dummy = new ListNode(0), *cur = dummy;
+        unordered_map<int, ListNode*> m;
+        ListNode *dummy = new ListNode(0), *cur;
+        int pre = 0, nxt;
         dummy->next = head;
-        int prefix = 0;
-        map<int, ListNode*> m;
-        while (cur) {
-            prefix += cur->val;
-            if (m.count(prefix)) {
-                cur =  m[prefix]->next;
-                int p = prefix + cur->val;
-                while (p != prefix) {
-                    m.erase(p);
+        m[0] = dummy;
+        while (head) {
+            pre += head->val;
+            if (m.count(pre)) {
+                cur = m[pre]->next;
+                nxt = pre + cur->val;
+                while (nxt != pre) {
+                    m.erase(nxt);
                     cur = cur->next;
-                    p += cur->val;
+                    nxt += cur->val;
                 }
-                m[prefix]->next = cur->next;
+                m[pre]->next = cur->next;
             } else {
-                m[prefix] = cur;
+                m[pre] = head;
             }
-            cur = cur->next;
+            head = head->next;
         }
         return dummy->next;
     }

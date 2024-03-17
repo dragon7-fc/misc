@@ -103,6 +103,7 @@ public:
             return n;
         int i = 1;
         for (int j = 2; j < n; j ++) {
+            // before copy, check already have 2 same value
             if (nums[i-1] != nums[j] || nums[i] != nums[j])
                 i += 1;
             nums[i] = nums[j];

@@ -43,7 +43,7 @@ Output: 0
 
 # Submissions
 ---
-**Solution 1: (Two Pointers)**
+**Solution 1: (Two Pointers, remove front, tail or middle)**
 ```
 Runtime: 636 ms
 Memory Usage: 28.2 MB

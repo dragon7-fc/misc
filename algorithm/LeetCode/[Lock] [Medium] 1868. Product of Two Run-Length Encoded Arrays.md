@@ -39,8 +39,8 @@ prodNums = [2,2,2,6,9,9], which is compressed into the run-length encoded array 
 * `1 <= encoded1.length, encoded2.length <= 10^5`
 * `encoded1[i].length == 2`
 * `encoded2[j].length == 2`
-* `1 <= vali, freqi <= 104 for each encoded1[i]`.
-* `1 <= valj, freqj <= 104 for each encoded2[j]`.
+* `1 <= vali, freqi <= 10^4 for each encoded1[i]`.
+* `1 <= valj, freqj <= 10^4 for each encoded2[j]`.
 * The full arrays that `encoded1` and `encoded2` represent are the same length.
 
 # Submissions

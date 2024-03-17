@@ -46,7 +46,7 @@ diff is the sum of cnt single-bit numbers; a single-bit number is 2 power someth
 So, we check if we can make diff:
 
 Number of bits in diff should not exceed cnt.
-The minimum possible sum is cnt * (2 ^ 0), so cnt should not be larger than diff.
+The minimum possible sum is cnt = (2 ^ 0), so cnt should not be larger than diff.
 
 ```
 Runtime: 0 ms
