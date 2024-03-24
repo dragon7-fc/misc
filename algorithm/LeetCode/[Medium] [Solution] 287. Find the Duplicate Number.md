@@ -194,32 +194,27 @@ class Solution:
 
 **Solution 2: (Two Pointers, detect cycle entry point)**
 ```
-Runtime: 16 ms
-Memory Usage: 11.1 MB
+Runtime: 82 ms
+Memory: 63.50 MB
 ```
 ```c++
 class Solution {
 public:
     int findDuplicate(vector<int>& nums) {
-        // Find the intersection point of the two runners.
-        int tortoise = nums[0];
-        int hare = nums[0]; 
-        while (true) {
-            tortoise = nums[tortoise];
-            hare = nums[nums[hare]];
-            if (tortoise == hare) {
+        int i = nums[0], j = nums[0];
+        while (1) {
+            i = nums[i];
+            j = nums[nums[j]];
+            if (i == j) {
                 break;
             }
         }
-        
-        // Find the "entrance" to the cycle.
-        tortoise = nums[0];
-        while (tortoise != hare) {
-            tortoise = nums[tortoise];
-            hare = nums[hare];
+        i = nums[0];
+        while (i != j) {
+            i = nums[i];
+            j = nums[j];
         }
-        
-        return hare;
+        return i;
     }
 };
 ```

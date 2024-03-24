@@ -36,7 +36,7 @@ Output: 2
 
 # Submissions
 ---
-**Solution 1: (Prefix Sum)**
+**Solution 1: (Prefix Sum, Brute Force)**
 ```
 Runtime: 732 ms
 Memory Usage: 14.4 MB

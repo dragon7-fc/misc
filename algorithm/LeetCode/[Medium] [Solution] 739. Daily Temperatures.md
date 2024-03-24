@@ -201,7 +201,7 @@ class Solution:
         return ans
 ```
 
-**Solution 6: (Stack)**
+**Solution 6: (Stack, mono dec)**
 ```
 Runtime: 131 ms
 Memory: 105.51 MB

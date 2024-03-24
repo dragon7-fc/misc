@@ -64,7 +64,7 @@ class Solution:
         ans = "0"
         for i in range(N):
             cnt[s[i]] -= 1
-            if visited[s[i]]: continue
+            if visited[s[i]]: continue  ## same char appear first with smaller order
             while s[i] < ans[-1] and cnt[ans[-1]]:
                 visited[ans[-1]] = 0
                 ans = ans[:-1]

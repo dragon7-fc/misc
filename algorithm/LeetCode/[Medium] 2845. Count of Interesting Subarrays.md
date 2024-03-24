@@ -54,7 +54,7 @@ It can be shown that there are no other interesting subarrays. So, the answer is
 
 # Submissions
 ---
-**Solution 1: (prefix sum)**
+**Solution 1: (Hash Table, prefix sum)**
 
 __Intuition__
 We don't care the value of A[i],

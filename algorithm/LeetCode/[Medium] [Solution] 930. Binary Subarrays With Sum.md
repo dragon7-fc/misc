@@ -156,7 +156,7 @@ class Solution(object):
 
 # Submissions
 ---
-**Solution: (Prefix Sums)**
+**Solution: (Hash Table, Prefix Sums)**
 ```
 Runtime: 320 ms
 Memory Usage: 17.4 MB
@@ -207,4 +207,26 @@ class Solution:
                 ans += i_hi - i_lo + 1
 
         return ans
+```
+
+**Solution 3: (Hash Table)**
+```
+Runtime: 32 ms
+Memory: 40.01 MB
+```
+```c++
+class Solution {
+public:
+    int numSubarraysWithSum(vector<int>& nums, int goal) {
+        unordered_map<int, int> cnt;
+        int cur = 0, ans = 0;
+        cnt[0] = 1;
+        for (auto num: nums) {
+            cur += num;
+            ans += cnt[cur-goal];
+            cnt[cur] += 1;
+        }
+        return ans;
+    }
+};
 ```

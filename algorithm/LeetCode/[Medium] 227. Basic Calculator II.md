@@ -176,7 +176,7 @@ class Solution:
         return sum(stack)
 ```
 
-**Solution 3: (Stack)**
+**Solution 3: (Stack, Greedy)**
 ```
 Runtime: 0 ms
 Memory Usage: 7.3 MB

@@ -247,7 +247,7 @@ class Solution:
         return ans if ans != float('inf') else 0
 ```
 
-**Solution 3: (Two Pointers, O(N^2))**
+**Solution 3: (Two Pointers, O(N))**
 ```
 Runtime: 45 ms
 Memory: 28.2 MB

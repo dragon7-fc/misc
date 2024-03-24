@@ -113,9 +113,10 @@ public:
         double prevTime = 0;
         int fleets = position.size();
         
+        ## smaller distance
         for (int i = 0; i < position.size(); ++i) {
             double curTime = ((double)target - vec[i].first) / vec[i].second;
-            if (curTime <= prevTime)  // faster in a group
+            if (curTime <= prevTime)  ## faster in a group
                 --fleets;
             prevTime = max(prevTime, curTime);
         }
@@ -139,8 +140,10 @@ class Solution:
         # count from back
         most = 0
         count = 0
+
+        ## larger distance
         for i in range(len(times)-1 ,-1, -1):
-            if times[i] > most:  // slower in a group
+            if times[i] > most:  ## slower in a group
                 most = times[i]
                 count += 1
                 

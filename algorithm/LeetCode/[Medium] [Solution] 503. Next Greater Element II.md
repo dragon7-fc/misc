@@ -189,7 +189,7 @@ int* nextGreaterElements(int* nums, int numsSize, int* returnSize){
 }
 ```
 
-**Solution 3: (Stack)**
+**Solution 3: (Stack, mono dec stack)**
 ```
 Runtime: 32 ms
 Memory Usage: 24 MB

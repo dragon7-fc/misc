@@ -33,6 +33,8 @@ Output: "letcod"
 1. `1 <= text.length <= 1000`
 1. `text` consists of lowercase English letters.
 
+**Note:** This question is the same as 316: [https://leetcode.com/problems/remove-duplicate-letters/](https://leetcode.com/problems/remove-duplicate-letters/)
+
 # Submissions
 ---
 **Solution 1: (Stack, Hash Table)**

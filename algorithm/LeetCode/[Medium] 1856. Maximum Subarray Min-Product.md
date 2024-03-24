@@ -105,3 +105,29 @@ class Solution:
             maxProduct = max(maxProduct, nums[i] * getSum(left_bound[i], right_bound[i]))
         return maxProduct % 1000_000_007
 ```
+
+**Solution 2: (Mono Stack)**
+```
+Runtime: 141 ms
+Memory: 88.30 MB
+```
+```c++
+class Solution {
+public:
+    int maxSumMinProduct(vector<int>& nums) {
+        long res = 0;
+        vector<long> dp(nums.size() + 1), st;
+        for (int i = 0; i < nums.size(); ++i)
+            dp[i + 1] = dp[i] + nums[i];
+        for (int i = 0; i <= nums.size(); ++i) {
+            while (!st.empty() && (i == nums.size() || nums[st.back()] > nums[i])) {
+                int j = st.back();
+                st.pop_back();
+                res = max(res, nums[j] * (dp[i] - dp[st.empty() ? 0 : st.back() + 1]));
+            }
+            st.push_back(i);
+        }
+        return res % 1000000007;
+    }
+};
+```

@@ -59,7 +59,7 @@ class Solution:
         prefixSum = [0] * (N+1)
         for i in range(1, N+1):
             prefixSum[i] = prefixSum[i-1] + (1 if hours[i-1] > 8 else -1)
-        stack = []
+        stack = []  ## mono dec stack
         for i in range(N+1):
             if not stack or prefixSum[stack[-1]] > prefixSum[i]:
                 # Trick, store index than value.

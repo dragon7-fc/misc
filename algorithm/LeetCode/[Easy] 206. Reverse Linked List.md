@@ -68,8 +68,8 @@ class Solution:
 
 **Solution 3: (Iterative, Linked List)**
 ```
-Runtime: 8 ms
-Memory Usage: 8.2 MB
+Runtime: 7 ms
+Memory: 11.52 MB
 ```
 ```c++
 /**
@@ -85,21 +85,21 @@ Memory Usage: 8.2 MB
 class Solution {
 public:
     ListNode* reverseList(ListNode* head) {
-        ListNode *curr = head,*prev = NULL,*next_node;
-        while(curr!=NULL){
-            next_node = curr->next;
-            curr->next = prev;
-            prev = curr;
-            curr = next_node;
+        ListNode *pre = nullptr, *cur;
+        while (head) {
+            cur = head;
+            head = head->next;
+            cur->next = pre;
+            pre = cur;
         }
-        return prev;
+        return pre;
     }
 };
 ```
 **Solution 4: (Recursive, Linked List)**
 ```
-Runtime: 8 ms
-Memory Usage: 8.8 MB
+Runtime: 3 ms
+Memory: 11.85: MB
 ```
 ```c++
 /**
@@ -113,28 +113,17 @@ Memory Usage: 8.8 MB
  * };
  */
 class Solution {
-public:
-    ListNode* new_head = NULL;
-    
-    ListNode* reverse(ListNode* curr){
-        if(curr==NULL)
-            return curr;
-        ListNode* node = reverse(curr->next);
-        ListNode* now = new ListNode(curr->val);
-        if(node==NULL){
-            new_head = now;
+    ListNode *dfs(ListNode *pre, ListNode *node) {
+        if (!node) {
+            return pre;
         }
-        else{
-            node->next = now;
-        }
-        now->next = NULL;
-        return now;
+        ListNode *cur = dfs(node, node->next);
+        node->next = pre;
+        return cur;
     }
-
-    
+public:
     ListNode* reverseList(ListNode* head) {
-        reverse(head);
-        return new_head;
+        return dfs(nullptr, head);
     }
 };
 ```

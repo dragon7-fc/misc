@@ -170,7 +170,7 @@ class Solution {
 public:
     int maxWidthRamp(vector<int>& nums) {
         int out{0}, sz(size(nums));
-        stack<int> s({sz-1});
+        stack<int> s({sz-1});  // mono inc stack
         for (int i{sz-2}; i >= 0; i--)
             if (nums[s.top()] < nums[i]) s.push(i);
 

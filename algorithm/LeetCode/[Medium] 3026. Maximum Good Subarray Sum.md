@@ -37,7 +37,7 @@ Explanation: The absolute difference between the first and last element must be 
 
 # Submissions
 ---
-**Solution 1: (Prefix sum)**
+**Solution 1: (Hash Table, Prefix sum)**
 ```
 Runtime: 264 ms
 Memory: 148.38 MB

@@ -298,6 +298,7 @@ public:
         stack<int> stk;
         int l = nums.size(), r = 0;
         for (int i = 0; i < nums.size(); i++) {
+            // mono inc stack
             while (!stk.empty() && nums[stk.top()] > nums[i]) {
                 l = min(l, stk.top());
                 stk.pop();
@@ -306,6 +307,7 @@ public:
         }
         stk = stack<int>();
         for (int i = nums.size() - 1; i >= 0; i--) {
+            // mono dec stack
             while (!stk.empty() && nums[stk.top()] < nums[i]) {
                 r = max(r, stk.top());
                 stk.pop();

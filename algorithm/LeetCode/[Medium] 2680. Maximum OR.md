@@ -31,6 +31,9 @@ Explanation: If we apply the operation twice on index 0, we yield a new array of
 # Submissions
 ---
 **Solution 1: (try all combination)**
+
+to have a largest value we should shift a single number to the k number of times which end up with max value possible.
+
 ```
 Runtime: 169 ms
 Memory: 93.8 MB

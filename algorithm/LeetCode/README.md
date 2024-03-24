@@ -11484,6 +11484,50 @@ class Solution:
 ```
 * [Medium] [Solution] 946. Validate Stack Sequences
 
+### reverse mono inc stack, simulate reverse sort
+```c++
+class Solution {
+public:
+    int maxWidthRamp(vector<int>& nums) {
+        int out{0}, sz(size(nums));
+        stack<int> s({sz-1});  // mono inc stack
+        for (int i{sz-2}; i >= 0; i--)
+            if (nums[s.top()] < nums[i]) s.push(i);
+
+        for (int i{0}; i < sz; )
+            if (!empty(s) and nums[i] <= nums[s.top()])
+                out = max(out, s.top()-i), s.pop();
+            else
+                ++i;
+        return out;
+    }
+};
+```
+* [Medium] 962. Maximum Width Ramp
+
+### mono dec stack, simulate reverse sort
+```python
+class Solution:
+    def longestWPI(self, hours: List[int]) -> int:
+        N = len(hours)
+        prefixSum = [0] * (N+1)
+        for i in range(1, N+1):
+            prefixSum[i] = prefixSum[i-1] + (1 if hours[i-1] > 8 else -1)
+        stack = []  ## mono dec stack
+        for i in range(N+1):
+            if not stack or prefixSum[stack[-1]] > prefixSum[i]:
+                # Trick, store index than value.
+                stack.append(i)
+        res = 0
+        for j in range(N, -1, -1):
+            while stack and prefixSum[stack[-1]] < prefixSum[j]:
+                res = max(res, j - stack[-1])
+                stack.pop()
+                          
+        return res
+```
+* [Medium] 1124. Longest Well-Performing Interval
+
 ### index-element stack
 ```python
 class Solution:
@@ -12095,7 +12139,56 @@ for ...:
 return ans
 ```
 
-* [Medium] [Solution] 636. Exclusive Time of Functions
+**Template 2: (Stack, mono inc, left to right)**
+```python
+arr = [...]
+N = arr.size()
+stack = []
+ans = [0]*N
+for i in range(N):
+    while stack and arr[stack[-1]] > arr[i]:
+        ans[i] = i ... stack[-1]
+        stack.pop()
+    ...
+    stack.append(i)
+
+return ans
+```
+
+**Template 3: (Stack, nono dec, left to right)**
+```python
+arr = [...]
+N = arr.size()
+stack = []
+ans = [0]*N
+for i in range(N):
+    while stack and arr[stack[-1]] < arr[i]:
+        ans[i] = i ... stack[-1]
+        stack.pop()
+    ...
+    stack.append(i)
+
+return ans
+```
+
+**Template 4: (Stack, reverse mono inc, simulate reverse sort)**
+```pytho
+N = len(arr)
+stack = [N-1]
+ans = 0
+# create mono inc stack
+for i in range(N-2, -1, -1):
+    if arr[i] > stack[-1]:
+        stack += [i]
+i = 0
+while i < N:
+    ## greedy
+    while stack and arr[stack[-1]] >= arr[i]:
+        ans = max(ans, stack[-1]-i)
+        stack.pop()
+    i += 1
+return ans 
+```
 
 ## Backtracking <a name="backtracking"></a>
 ---

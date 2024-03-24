@@ -38,7 +38,7 @@ Explanation: nums is already complementary.
 
 * `n == nums.length`
 * `2 <= n <= 10^5`
-* `1 <= nums[i] <= limit <= 105`
+* `1 <= nums[i] <= limit <= 10^5`
 * `n` is even.
 
 # Submissions

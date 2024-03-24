@@ -216,23 +216,27 @@ class Solution:
 
 **Solution 3: (Calculating Idle slots)**
 ```
-Runtime: 76 ms
-Memory Usage: 34.5 MB
+Runtime: 44 ms
+Memory: 37.95 MB
 ```
 ```c++
 class Solution {
 public:
     int leastInterval(vector<char>& tasks, int n) {
-        if(n==0) return (int)tasks.size();
-        unordered_map<char,int> freq; 
-        int max_freq = 0,inc=0;
-        for(int x : tasks) {freq[x]++; max_freq = max(max_freq, freq[x]);}
-        int idle_time = (max_freq-1)*(n+1)+1;
-        for(auto it: freq){
-            if(it.second==max_freq) inc++;
+        int cnt[26] = {0};
+        int mx = 0, ans;
+        for (auto c: tasks) {
+            cnt[c-'A'] += 1;
         }
-        int ans = idle_time+(inc-1); // One of which was already used for the maximum frequency char earlier //
-        return max(ans, (int)tasks.size());
+        for (int i = 0; i < 26; i ++) {
+            mx = max(mx, cnt[i]);
+        }
+        ans = (mx-1)*(n+1);
+        for (int i = 0; i < 26; i ++) {
+            ans += (cnt[i] == mx ? 1 : 0);
+        }
+        return max((int)tasks.size(), ans);
+
     }
 };
 ```
