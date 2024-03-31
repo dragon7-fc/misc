@@ -205,28 +205,6 @@ Memory Usage: 6.2 MB
 ```
 ```c++
 class Solution {
-public:
-    string solveEquation(string equation) {
-        stringstream ss(equation);
-        string s;
-        int var_x_left=0;
-        int constant_left=0;
-        int var_x_right=0;
-        int constant_right=0;
-        getline(ss,s,'=');
-        calculate(s,var_x_left,constant_left);
-        getline(ss,s,'=');
-        calculate(s,var_x_right,constant_right);
-        if(var_x_left==var_x_right && (constant_left!=0 || constant_right!=0) && constant_left!=constant_right)
-            return "No solution";
-        if(var_x_left==var_x_right) 
-            return "Infinite solutions";
-        var_x_left-=var_x_right;
-        constant_right-=constant_left;
-        int val=constant_right/var_x_left;
-        return "x="+to_string(val);
-    }
-    
     void calculate(string s,int &x,int &y){
         string word;
         int i=0;
@@ -285,6 +263,27 @@ public:
                 }
             } 
         }
+    }
+public:
+    string solveEquation(string equation) {
+        stringstream ss(equation);
+        string s;
+        int var_x_left=0;
+        int constant_left=0;
+        int var_x_right=0;
+        int constant_right=0;
+        getline(ss,s,'=');
+        calculate(s,var_x_left,constant_left);
+        getline(ss,s,'=');
+        calculate(s,var_x_right,constant_right);
+        if(var_x_left==var_x_right && (constant_left!=0 || constant_right!=0) && constant_left!=constant_right)
+            return "No solution";
+        if(var_x_left==var_x_right) 
+            return "Infinite solutions";
+        var_x_left-=var_x_right;
+        constant_right-=constant_left;
+        int val=constant_right/var_x_left;
+        return "x="+to_string(val);
     }
 };
 ```

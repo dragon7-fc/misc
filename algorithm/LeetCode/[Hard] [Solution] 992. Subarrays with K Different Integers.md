@@ -94,7 +94,7 @@ class Solution(object):
 
 # Submissions
 ---
-**Solution 1: (Sliding Window)**
+**Solution 1: (Sliding Window, exactly k = (at most k) - (at most k-1))**
 ```
 Runtime: 780 ms
 Memory Usage: 15.9 MB
@@ -136,4 +136,31 @@ class Solution:
             ans += left2 - left1
 
         return ans
+```
+
+**Solution 1: (Sliding Window, exactly k = (at most k) - (at most k-1))**
+```
+Runtime: 83 ms
+Memory: 48.76 MB
+```
+```c++
+class Solution {
+    int atMostK(vector<int>& A, int K) {
+        int i = 0, res = 0;
+        unordered_map<int, int> count;
+        for (int j = 0; j < A.size(); ++j) {
+            if (!count[A[j]]++) K--;
+            while (K < 0) {
+                if (!--count[A[i]]) K++;
+                i++;
+            }
+            res += j - i + 1;
+        }
+        return res;
+    }
+public:
+    int subarraysWithKDistinct(vector<int>& nums, int k) {
+        return atMostK(nums, k) - atMostK(nums, k - 1);
+    }
+};
 ```

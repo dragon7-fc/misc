@@ -30,7 +30,7 @@ Explanation: No subarray contains the element 4 at least 3 times.
 
 # Submissions
 ---
-**Solution 1: (Sliding Window)**
+**Solution 1: (Sliding Window, conly consider first element)**
 ```
 Runtime: 136 ms
 Memory: 120.8 MB
@@ -52,6 +52,31 @@ public:
                 ans += dp[cnt-k+1]+1;
             }
         }
+        return ans;
+    }
+};
+```
+
+**Solution 2: (Sliding Window, consider first and last element)**
+```
+Runtime: 112 ms
+Memory: 123.60 MB
+```
+```c++
+class Solution {
+public:
+    long long countSubarrays(vector<int>& nums, int k) {
+        int n = nums.size(), mx = *max_element(nums.begin(), nums.end());
+        vector<int> dp;
+        dp.push_back(-1);
+        for (int i = 0; i < n; i ++) {
+            if (nums[i] == mx) {
+                dp.push_back(i);
+            }
+        }
+        long long ans = 0;
+        for (int i = 1; i+k <= dp.size(); i ++) {
+            ans += (dp[i]-dp[i-1]) * (long long)(n-dp[i+k-1]);   }
         return ans;
     }
 };
