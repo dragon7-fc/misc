@@ -4169,6 +4169,32 @@ Attribute: This is a part of an object. One or more attributes make up an object
         
         runqemu intel-ast2500 slirp nographic
         ```
+* Nuvoton-Israel
+    - openbmc
+        - Build `evb-npcm845`
+
+            ```bash
+            git clone https://github.com/Nuvoton-Israel/openbmc
+            cd openbmc
+            . ./setup evb-npcm845
+            bitbake obmc-phosphor-image
+            ```
+    - qemu
+        - Build `aarch64`
+            ```bash
+            git clone https://github.com/Nuvoton-Israel/qemu
+            cd qemu
+            ./configure --target-list=aarch64-softmmu
+            make
+            ```
+        - Run
+            ```bash
+             ~/Nuvoton-Israel/qemu/build/qemu-system-aarch64 -bios ~/Nuvoton-Israel/qemu/pc-bios/npcm8xx_bootrom.bin -M npcm845-evb -nographic -drive file=~/Nuvoton-Israel/openbmc/build/evb-npcm845/tmp/deploy/images/evb-npcm845/obmc-phosphor-image-evb-npcm845.static.mtd,format=raw,if=mtd,snapshot=on -netdev user,id=nic,hostfwd=:127.0.0.1:2222-:22,hostfwd=:127.0.0.1:2443-:443,hostfwd=udp:127.0.0.1:2623-:623 -net nic,model=npcm-gmac,netdev=nic
+
+            ssh -p 2222 root@localhost
+            curl -u admin:admin -k -s -X GET https://127.0.0.1:2443/redfish/v1 | json_pp -json_opt pretty,canonical 
+            ipmitool -p 2623 -C 17 -I lanplus -H 127.0.0.1 -U root -P 0penBmc mc inf
+            ```
 
 ## Language
 

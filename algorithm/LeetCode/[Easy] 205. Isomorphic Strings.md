@@ -100,3 +100,32 @@ class Solution:
                 return False
         return True
 ```
+
+**Solution 4: (2 Hash Table)**
+```
+Runtime: 3 ms
+Memory: 9.37 MB
+```
+```c++
+class Solution {
+public:
+    bool isIsomorphic(string s, string t) {
+        unordered_map<char, char> m, m2;
+        for (int i = 0; i < s.size(); i ++) {
+            if (m.count(s[i])) {
+                if (m[s[i]] != t[i]) {
+                    return false;
+                }
+            } else if (m2.count(t[i])) {
+                if (m2[t[i]] != s[i]) {
+                    return false;
+                }
+            } else {
+                m[s[i]] = t[i];
+                m2[t[i]] = s[i];
+            }
+        }
+        return true;
+    }
+};
+```

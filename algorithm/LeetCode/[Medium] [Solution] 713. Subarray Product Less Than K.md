@@ -107,3 +107,29 @@ class Solution:
             ans += right - left + 1
         return ans             
 ```
+
+**Solution 2: (Sliding window)**
+```
+untime: 66 ms
+Memory: 63.67 MB
+```
+```c++
+class Solution {
+public:
+    int numSubarrayProductLessThanK(vector<int>& nums, int k) {
+        if (k <= 1) {
+            return 0;
+        }
+        int n = nums.size(), i = 0, cur = 1, ans = 0;
+        for (int j = 0; j < n; j ++) {
+            cur *= nums[j];
+            while (cur >= k) {
+                cur /= nums[i];
+                i += 1;
+            }
+            ans += j-i+1;
+        }
+        return ans;
+    }
+};
+```

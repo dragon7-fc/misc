@@ -48,7 +48,7 @@ Finally, the backlog has (1000000000-3) sell orders with price 7, and (999999995
 
 * `1 <= orders.length <= 10^5`
 * `orders[i].length == 3`
-* `1 <= pricei, amounti <= 109`
+* `1 <= pricei, amounti <= 10^9`
 * `orderTypei` is either `0` or `1`.
 
 # Submissions

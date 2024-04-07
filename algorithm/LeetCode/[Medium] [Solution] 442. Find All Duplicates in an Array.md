@@ -290,3 +290,27 @@ int* findDuplicates(int* nums, int numsSize, int* returnSize){
     return ans;
 }
 ```
+
+**Solution 1: (Mark Visited Elements in the Input Array itself)**
+```
+Runtime: 35 ms
+Memory: 35.79 MB
+```
+```c++
+class Solution {
+public:
+    vector<int> findDuplicates(vector<int>& nums) {
+        vector<int> ans;
+        int j;
+        for (int i = 0; i < nums.size(); i ++) {
+            j = abs(nums[i]);
+            if (nums[j-1] > 0) {
+                nums[j-1] = -nums[j-1];
+            } else {
+                ans.push_back(j);
+            }
+        }
+        return ans;
+    }
+};
+```

@@ -239,7 +239,7 @@ void twitterFree(Twitter* obj) {
 */
 ```
 
-**Solution 3: (Hash Table)**
+**Solution 3: (Hash Table, ordered)**
 ```
 Runtime: 0 ms
 Memory Usage: 7.3 MB

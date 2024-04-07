@@ -1,5 +1,9 @@
 call plug#begin('~/.vim/plugged')
 
+" Install YouCompleteMe
+Plug 'ycm-core/YouCompleteMe'
+
+
 " Nerdtree plugin
 Plug 'scrooloose/nerdtree'
 Plug 'xuyuanp/nerdtree-git-plugin'
@@ -45,6 +49,9 @@ Plug 'joe-skb7/cscope-maps'
 Plug 'mileszs/ack.vim'
 Plug 'ekalinin/Dockerfile.vim'
 Plug 'andrewradev/linediff.vim'
+Plug 'mfukar/robotframework-vim'
+Plug 'greymd/oscyank.vim'
+Plug 'tpope/vim-surround'
 
 call plug#end()
 
@@ -70,12 +77,37 @@ let g:NERDSpaceDelims = 1
 let g:NERDTrimTrailingWhitespace = 1
 let g:NERDTreeMinimalUI=1
 
+" YCM settings
+let g:ycm_log_level = 'debug'
+let g:ycm_keep_logfiles = 1
+let g:ycm_autoclose_preview_window_after_insertion = 1
+let g:ycm_autoclose_preview_window_after_completion = 1
+let g:ycm_global_ycm_extra_conf = '~/.vim/.ycm_extra_conf.py'
+let g:ycm_filetype_blacklist = { 'nerdtree': 1 }
+let g:ycm_semantic_triggers =  {
+  \   'c' : ['->', '.','re![_a-zA-z0-9]'],
+  \   'objc' : ['->', '.', 're!\[[_a-zA-Z]+\w*\s', 're!^\s*[^\W\d]\w*\s',
+  \             're!\[.*\]\s'],
+  \   'ocaml' : ['.', '#'],
+  \   'cpp,objcpp' : ['->', '.', '::','re![_a-zA-Z0-9]'],
+  \   'perl' : ['->'],
+  \   'php' : ['->', '::'],
+  \   'cs,java,javascript,typescript,d,python,perl6,scala,vb,elixir,go' : ['.'],
+  \   'ruby' : ['.', '::'],
+  \   'lua' : ['.', ':'],
+  \   'erlang' : [':'],
+  \ }
+
+"lombok work around for youcompleteme
+let $JAVA_TOOL_OPTIONS = '-javaagent:/usr/local/share/vim/lombok-1.18.8.jar'
+" let $JAVA_TOOL_OPTIONS = '-javaagent:/usr/local/share/vim/lombok-1.18.8.jar -Xbootclasspath/a:/usr/local/share/vim/lombok-1.18.8.jar'
+
 " Color Schemes
 let g:solarized_termcolors = 256
 set background=light
 silent! colorscheme solarized
 silent! call togglebg#map("<F5>")
-" silent! colorscheme onedark
+silent! colorscheme onedark
 
 " Open file from last location
 if has("autocmd")
@@ -85,6 +117,9 @@ endif
 " add yaml stuffs
 autocmd! BufNewFile,BufReadPost *.{yaml,yml} set filetype=yaml
 autocmd FileType yaml setlocal ts=2 sts=2 sw=2 expandtab
+
+" add asm stuffs
+autocmd BufNew,BufRead *.asm set ft=nasm
 
 set encoding=utf-8
 set switchbuf=usetab
@@ -106,15 +141,15 @@ set mouse=a
 let g:autotagStartMethod='fork'
 
 " The NERD tree settings
-nmap <F3> :NERDTreeFocus<CR>
+nnoremap <leader>n :NERDTreeFocus<CR>
+nnoremap <C-n> :NERDTree<CR>
+nnoremap <C-f> :NERDTreeFind<CR>
 
 " Tagbar settings
 nmap <F8> :TagbarToggle<CR>
 
 " Fix Not Working Backspace in Vi/Vim Mac
 set backspace=indent,eol,start
-
-" ack.vim --- {{{
 
 " Use ripgrep for searching ⚡️
 " Options include:
@@ -128,4 +163,5 @@ let g:ack_autoclose = 1
 
 " Any empty ack search will search for the work the cursor is on
 let g:ack_use_cword_for_empty_search = 1
-" }}}
+
+set clipboard=unnamed

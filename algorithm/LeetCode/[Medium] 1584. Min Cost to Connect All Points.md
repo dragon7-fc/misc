@@ -502,7 +502,7 @@ Memory: 10.4 MB
 class Solution {
 public:
     int minCostConnectPoints(vector<vector<int>>& points) {
-         int n = points.size(), res = 0, i = 0, connected = 0;
+        int n = points.size(), res = 0, i = 0, connected = 0;
         vector<int> min_d(n, 10000000);
         while (++connected < n) {
             min_d[i] = INT_MAX;

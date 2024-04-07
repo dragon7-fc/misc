@@ -135,36 +135,7 @@ class Solution:
         return n + 1
 ```
 
-**Solution 5: (Set)**
-```
-Runtime: 4 ms
-Memory Usage: 10.1 MB
-```
-```c++
-class Solution {
-public:
-    int firstMissingPositive(vector<int>& nums) {
-        set<int> s;
-        for(int i = 0; i < nums.size(); i++){
-            if(nums[i] <= 0) continue;
-            s.insert(nums[i]);
-        }
-        int x = 1;
-		// finding which number is missing
-        while(!s.empty()){
-            if(*s.begin() == x){
-                x++;
-                s.erase(s.begin());
-                continue;
-            }
-            break;
-        }
-        return x;
-    }
-};
-```
-
-**Solution 6: (value as index)**
+**Solution 5: (value as index)**
 ```
 Runtime: 116 ms
 Memory Usage: 30.2 MB
@@ -192,4 +163,33 @@ int firstMissingPositive(int* nums, int numsSize){
             return i+1;
     return numsSize+1;
 }
+```
+
+**Solution 6: (value as index)**
+```
+Runtime: 47 ms
+Memory: 43.49 MB
+```
+```c++
+class Solution {
+public:
+    int firstMissingPositive(vector<int>& nums) {
+        int i = 0, j, n = nums.size();
+        while (i < n) {
+            if (nums[i] <= 0 || nums[i] > n) {
+                i += 1;
+                continue;
+            }
+            j = nums[i];
+            if (nums[j-1] != nums[i]) {
+                swap(nums[i], nums[j-1]);
+            } else
+                i += 1;
+        }
+        for (i = 0; i < n; i ++)
+            if (i+1 != nums[i])
+                return i+1;
+        return nums.size()+1;
+    }
+};
 ```

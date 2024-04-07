@@ -90,7 +90,7 @@ class Solution:
         return self.ans
 ```
 
-**(Topological Sort)**
+**Solution 2: (Topological Sort)**
 ```
 Runtime: 2599 ms
 Memory: 63.8 MB

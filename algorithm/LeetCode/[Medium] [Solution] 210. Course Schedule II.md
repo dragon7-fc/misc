@@ -463,7 +463,7 @@ int* findOrder(int numCourses, int** prerequisites, int prerequisitesSize, int* 
 }
 ```
 
-**Solution 5: (BFS)**
+**Solution 5: (BFS, topological sort)**
 ```
 Runtime: 28 ms
 Memory Usage: 14.1 MB

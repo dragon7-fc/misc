@@ -136,8 +136,10 @@ public:
 Runtime: 1101 ms
 Memory: 14.1 MB
 ```
-```
-board_cnt = collections.Counter(c for r in board for c in r)
+```python
+class Solution:
+    def exist(self, board: List[List[str]], word: str) -> bool:
+        board_cnt = collections.Counter(c for r in board for c in r)
         word_cnt = collections.Counter(word)
         if any(word_cnt[k] > board_cnt[k] for k in word_cnt):
             return False

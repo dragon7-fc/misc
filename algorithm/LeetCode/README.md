@@ -11484,7 +11484,7 @@ class Solution:
 ```
 * [Medium] [Solution] 946. Validate Stack Sequences
 
-### reverse mono inc stack, simulate reverse sort
+### reverse mono inc stack, simulate linear search
 ```c++
 class Solution {
 public:
@@ -11505,7 +11505,7 @@ public:
 ```
 * [Medium] 962. Maximum Width Ramp
 
-### mono dec stack, simulate reverse sort
+### mono dec stack, simulate linear search
 ```python
 class Solution:
     def longestWPI(self, hours: List[int]) -> int:
@@ -11635,6 +11635,34 @@ class Solution:
         return stk 
 ```
 * [Medium] 1673. Find the Most Competitive Subsequence
+
+### Monotonic Stack, range min and min
+```python
+class Solution:
+    def subArrayRanges(self, nums: List[int]) -> int:
+        n, answer = len(nums), 0 
+        stack = []
+        
+        # Find the sum of all the minimum.
+        for right in range(n + 1):
+            while stack and (right == n or nums[stack[-1]] >= nums[right]):
+                mid = stack.pop()
+                left = -1 if not stack else stack[-1]
+                answer -= nums[mid] * (mid - left) * (right - mid)
+            stack.append(right)
+
+        # Find the sum of all the maximum.
+        stack.clear()
+        for right in range(n + 1):
+            while stack and (right == n or nums[stack[-1]] <= nums[right]):
+                mid = stack.pop()
+                left = -1 if not stack else stack[-1]
+                answer += nums[mid] * (mid - left) * (right - mid)
+            stack.append(right)
+        
+        return answer
+```
+* [Medium] 2104. Sum of Subarray Ranges
 
 ### Fix one direction and use decreasing stack to filter element in the other side
 ```python
@@ -12171,7 +12199,7 @@ for i in range(N):
 return ans
 ```
 
-**Template 4: (Stack, reverse mono inc, simulate reverse sort)**
+**Template 4: (Stack, reverse mono inc, simulate linear search)**
 ```pytho
 N = len(arr)
 stack = [N-1]

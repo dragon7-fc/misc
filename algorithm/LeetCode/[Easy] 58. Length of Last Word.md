@@ -39,3 +39,51 @@ class Solution:
     def lengthOfLastWord(self, s: str) -> int:
         return len(s.strip().split(' ')[-1])
 ```
+
+**Solution 3: (String)**
+```
+Runtime: 2 ms
+Memory: 8.04 MB
+```
+```c++
+class Solution {
+public:
+    int lengthOfLastWord(string s) {
+        stringstream ss(s);
+        string cur, ans;
+        while (getline(ss, cur, ' ')) {
+            if (cur != "") {
+                ans = cur;
+            }
+        }
+        return ans.size();
+    }
+};
+```
+
+**Solution 4: (String)**
+```
+Runtime: 0 ms
+Memory: 7.69 MB
+```
+```c++
+class Solution {
+public:
+    int lengthOfLastWord(string s) {
+        int ans = 0;
+        bool counting = false;
+        
+        for (int i = s.length() - 1; i >= 0; i--) {
+            if (s[i] != ' ') {
+                counting = true;
+                ans++;
+            }
+            else if (counting) {
+                break;
+            }
+        }
+        
+        return ans;
+    }
+};
+```

@@ -51,7 +51,7 @@ class Solution:
         
 ```
 
-**Solution 2: (DP)**
+**Solution 2: (Greedy)**
 
 * Time: O(n * n) - OK for n <= 1,000. We process n characters in the string n times in the worst case (0111...1).
 * Memory: O(n) to store an interim string.
