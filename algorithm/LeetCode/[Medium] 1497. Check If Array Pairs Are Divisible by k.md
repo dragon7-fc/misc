@@ -70,26 +70,27 @@ class Solution:
         return all(c == 0 for c in cnt)
 ```
 
-**Soluton 2: (Hash Table)**
+**Soluton 2: (Hash Table, counter)**
 ```
-Runtime: 376 ms
-Memory Usage: 70.3 MB
+Runtime: 123 ms
+Memory: 73.36 MB
 ```
 ```c++
 class Solution {
 public:
     bool canArrange(vector<int>& arr, int k) {
-        if (arr.size()&1) return false;
-        unordered_map<int,int>m;
-        for (auto x:arr) m[(x%k + k)%k]++;          //store the count of remainders in a map.
-        for (auto x:arr)
-        {
-            int rem=(x%k + k)%k;
-            if(rem==0)                         //if the remainder for an element is 0 then the count of numbers that give this remainder must be even.
-            { 
-                if(m[rem] & 1) return false;            //if count of numbers that give this remainder is odd all pairs can't be made hence return false.
-            }         
-            else if(m[rem] != m[k - rem]) return false;    //if the remainder rem and k-rem do not have the same count then pairs can not be made 
+        unordered_map<int, int> counter;
+        for (auto a: arr) {
+            auto rem = (a%k + k) % k;
+            counter[rem]++;
+        }
+        for (auto [rem, value]: counter) {
+            if (!rem && (value & 1)) {
+                return false;
+            }
+            if (rem && counter[rem] != counter[k-rem]) {
+                return false;
+            }
         }
         return true;
     }

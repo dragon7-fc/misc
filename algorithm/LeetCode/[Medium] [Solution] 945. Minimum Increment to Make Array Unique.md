@@ -107,7 +107,7 @@ class Solution(object):
 
 # Submissions
 ---
-**Solution: (Counting)**
+**Solution: (Counting, bucket sort)**
 ```
 Runtime: 1772 ms
 Memory Usage: 20.8 MB
@@ -146,6 +146,13 @@ class Solution:
             else:
                 give = min(taken, A[i] - A[i-1] - 1)
                 ans += give * (give + 1) // 2 + give * A[i-1]
+##                     ----------------------   -------------
+##                      $\sum_(k=1}^{give}$ 
+##                             
+##                /|           /|
+##               ---          ---                   ---
+##               | |     =                    +     | |
+##               ---                                ---
                 taken -= give
 
         return ans

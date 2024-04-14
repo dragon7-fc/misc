@@ -37,7 +37,7 @@ Explanation: The best way is to make condition 1 true by changing b to "eee".
 
 # Submissions
 ---
-**Solution 1: (Counter)**
+**Solution 1: (Counter, prefix sum)**
 ```
 Runtime: 224 ms
 Memory Usage: 15 MB

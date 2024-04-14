@@ -87,7 +87,7 @@ public:
 };
 ```
 
-**Solution 4: (Heap)**
+**Solution 4: (Heap, counter)**
 ```
 Runtime: 115 ms
 Memory: 65.97 MB

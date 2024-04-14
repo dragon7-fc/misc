@@ -47,7 +47,7 @@ Explanation: The subset chosen is the first, second, and fourth item.
 
 # Submissions
 ---
-**Solution 1: (Greedy)**
+**Solution 1: (Greedy, sort)**
 ```
 Runtime: 140 ms
 Memory Usage: 17.9 MB

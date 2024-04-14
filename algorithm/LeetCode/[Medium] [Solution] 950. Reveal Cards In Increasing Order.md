@@ -86,3 +86,53 @@ class Solution:
 
         return ans
 ```
+
+**Solution 2: (Simulation, deque, sort and greedy over index)**
+```
+Runtime: 3 ms
+Memory: 10.90 MB
+```
+```c++
+class Solution {
+public:
+    vector<int> deckRevealedIncreasing(vector<int>& deck) {
+        int n = deck.size();
+        deque<int> q(n);
+        vector<int> ans(n);
+        for (int i = 0; i < n; i ++) {
+            q[i] = i;
+        }
+        sort(deck.begin(), deck.end());
+        for (auto d: deck) {
+            ans[q.front()] = d;
+            q.pop_front();
+            q.push_back(q.front());
+            q.pop_front();
+        }
+        return ans;
+    }
+};
+```
+
+**Solution 3: (Simulation, deque, sort, walk backward)**
+```
+Runtime: 3 ms
+Memory: 11.04MB
+```
+```c++
+class Solution {
+public:
+    vector<int> deckRevealedIncreasing(vector<int>& deck) {
+        int n = deck.size();
+        sort(deck.begin(), deck.end());
+        deque<int> q;
+        q.push_front(deck[n - 1]);
+        for (int i = n - 2; i >= 0; i--) {
+            q.push_front(q.back());
+            q.pop_back();
+            q.push_front(deck[i]);
+        }
+        return vector<int>(q.begin(), q.end());
+    }
+};
+```

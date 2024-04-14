@@ -227,6 +227,8 @@ Memory Usage: 9.1 MB
 ```
 ```c++
 class DSU {
+private:
+    unordered_map<int, int> p;
 public:
     DSU (int n) {
         for (int i = 0 ; i<n; i++) {
@@ -240,8 +242,6 @@ public:
         if (p[i] != i) p[i] = find(p[i]);
         return p[i];
     }
-private:
-    unordered_map<int, int> p;
 };
 
 class Solution {

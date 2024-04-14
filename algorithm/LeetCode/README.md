@@ -15804,6 +15804,52 @@ while hq:
 
 ## Union Find <a name="uf"></a>
 ---
+### Union-Find
+```c++
+class DSU {
+    vector<int> par;
+public:
+    DSU(int n) {
+        for (int i = 0; i < n; i ++) {
+            par.push_back(i);
+        }
+    }
+    int find(int x) {
+        if (x != par[x]) {
+            par[x] = find(par[x]);
+        }
+        return par[x];
+    }
+    void joint(int x, int y) {
+        int xr = find(x);
+        int yr = find(y);
+        par[xr] = yr;
+    }
+};
+
+class Solution {
+public:
+    int findCircleNum(vector<vector<int>>& isConnected) {
+        int n = isConnected.size();
+        DSU dsu(n);
+        for (int i = 0; i < n; i ++) {
+            for (int j = 0; j < n; j ++) {
+                if (isConnected[i][j]) {
+                    dsu.joint(i, j);
+                }
+            }
+        }
+        unordered_set<int> st;
+        for (int i = 0; i < n; i ++) {
+            st.insert(dsu.find(i));
+        }
+        return st.size();
+    }
+};
+
+```
+* [Medium] 547. Friend Circles
+
 ### Path Compression
 ```python
 class DSU(object):
@@ -16994,6 +17040,66 @@ class Trie:
 # obj.insert(word)
 # param_2 = obj.search(word)
 # param_3 = obj.startsWith(prefix)
+```
+```c++
+class Trie {
+    struct TrieNode {
+        struct TrieNode *child[26];
+        bool isEnd;
+        TrieNode() {
+            isEnd = false;
+            for (int i = 0; i < 26; i ++) {
+                child[i] = nullptr;
+            }
+        }
+    };
+    TrieNode *trie;
+public:
+    Trie() {
+        trie = new TrieNode();
+    }
+    
+    void insert(string word) {
+        TrieNode *t = trie;
+        for (char &c: word) {
+            if (!t->child[c - 'a']) {
+                t->child[c - 'a'] = new TrieNode();
+            }
+            t = t->child[c - 'a'];
+        }
+        t->isEnd = true;
+    }
+    
+    bool search(string word) {
+        TrieNode *t = trie;
+        for (char &c: word) {
+            if (!t->child[c - 'a']) {
+                return false;   
+            }
+            t = t->child[c - 'a'];
+        }
+        return t->isEnd;
+     }
+    
+    bool startsWith(string prefix) {
+        TrieNode *t = trie;
+        for (char &c: prefix) {
+            if (!t->child[c - 'a']) {
+                return false;
+            }
+            t = t->child[c - 'a'];
+        }
+        return true;
+    }
+};
+
+/**
+ * Your Trie object will be instantiated and called as such:
+ * Trie* obj = new Trie();
+ * obj->insert(word);
+ * bool param_2 = obj->search(word);
+ * bool param_3 = obj->startsWith(prefix);
+ */
 ```
 * [Medium] [Solution] 208. Implement Trie (Prefix Tree)
 
