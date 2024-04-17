@@ -73,9 +73,9 @@ class Solution:
 
 **Solution 2: (DFS)**
 ```
-Runtime: 8 ms
-Memory Usage: 12.4 MB
 ```
+Runtime: 0 ms
+Memory: 10.77 MB
 ```c++
 /**
  * Definition for a binary tree node.
@@ -89,22 +89,19 @@ Memory Usage: 12.4 MB
  * };
  */
 class Solution {
-public:
-    void dfs(TreeNode* root, int cur, int& res) {
-        if (root == nullptr)
-            return;
-        cur = cur*10 + root->val;
-        if (root->left == nullptr && root->right == nullptr) {
-            res += cur;
-            return;
+    int dfs(TreeNode* node, int cur) {
+        if (!node) {
+            return 0;
         }
-        dfs(root->left, cur, res);
-        dfs(root->right, cur, res);
+        cur = cur*10 + node->val;
+        if (!node->left && !node->right) {
+            return cur;
+        }
+        return dfs(node->left, cur) + dfs(node->right, cur);
     }
+public:
     int sumNumbers(TreeNode* root) {
-        int res = 0;
-        dfs(root, 0, res);
-        return res;
+        return dfs(root, 0);
     }
 };
 ```

@@ -453,8 +453,8 @@ public:
 
 **Solution 4: (BFS)**
 ```
-Runtime: 32 ms
-Memory: 25.2 MB
+Runtime: 12 ms
+Memory: 24.54 MB
 ```
 ```c++
 /**
@@ -471,38 +471,43 @@ Memory: 25.2 MB
 class Solution {
 public:
     TreeNode* addOneRow(TreeNode* root, int val, int depth) {
+        TreeNode *cur, *node;
         if (depth == 1) {
-            TreeNode *node = new TreeNode(val);
-            node->left = root;
-            return node;
+            cur = new TreeNode(val);
+            cur->left = root;
+            return cur;
         }
-        vector<TreeNode *> pre, cur;
-        pre.push_back(root);
-        TreeNode *left, *right;
+        int sz;
+        queue<TreeNode*> q;
+        q.push(root);
         while (depth > 2) {
-            for (TreeNode *node: pre) {
-                if (node->left)
-                    cur.push_back(node->left);
-                if (node->right)
-                    cur.push_back(node->right);
+            sz = q.size();
+            for (int i = 0; i < sz; i ++) {
+                cur = q.front();
+                q.pop();
+                if (cur->left) {
+                    q.push(cur->left);
+                }
+                if (cur->right) {
+                    q.push(cur->right);
+                }
             }
-            pre = cur;
-            cur.clear();
             depth -= 1;
         }
-        for (TreeNode *node: pre) {
-            left = new TreeNode(val);
-            if (node->left) {
-                left->left = node->left;
+        while (q.size()) {
+            cur = q.front();
+            q.pop();
+            node = cur->left;
+            cur->left = new TreeNode(val);
+            if (node) {
+                cur->left->left = node;
             }
-            node->left = left;
-            right = new TreeNode(val);
-            if (node->right) {
-                right->right = node->right;
+            node = cur->right;
+            cur->right = new TreeNode(val);
+            if (node) {
+                cur->right->right = node;
             }
-            node->right = right;
         }
-
         return root;
     }
 };

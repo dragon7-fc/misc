@@ -15846,7 +15846,6 @@ public:
         return st.size();
     }
 };
-
 ```
 * [Medium] 547. Friend Circles
 

@@ -107,3 +107,123 @@ class Solution:
         self.ans = ''.join(map(lambda x: chr(ord('a') + x), self.ans))
         return self.ans
 ```
+
+**Solution 2: (DFS)**
+```
+Runtime: 11 ms
+Memory: 20.35 MB
+```
+```c++
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+class Solution {
+     string smallestString;
+
+    // Helper function to find the lexicographically smallest string
+    void dfs(TreeNode* root, string currentString) {
+
+        // If the current node is NULL, return
+        if (!root) {
+            return;
+        }
+
+        // Construct the current string by appending 
+        // the character corresponding to the node's value
+        currentString = char(root->val + 'a') + currentString; 
+
+        // If the current node is a leaf node
+        if (!root->left && !root->right) { 
+            
+            // If the current string is smaller than the result 
+            // or if the result is empty
+            if (smallestString == "" || smallestString > currentString) { 
+                smallestString = currentString;
+            }
+        }
+
+        // Recursively traverse the left subtree
+        if (root->left) {
+            dfs(root->left, currentString);
+        }
+
+        // Recursively traverse the right subtree
+        if (root->right) {
+            dfs(root->right, currentString);
+        }
+    }
+public:
+    string smallestFromLeaf(TreeNode* root) {
+        dfs(root, "");
+        return smallestString;
+    }
+};
+```
+
+**Solution 3: (BFS)**
+```
+Runtime: 8 ms
+Memory: 20.31 MB
+```
+```c++
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+class Solution {
+public:
+    string smallestFromLeaf(TreeNode* root) {
+        string smallestString = "";
+        queue<pair<TreeNode*, string>> nodeQueue;
+
+        // Add root node to queue along with its value converted to a character
+        nodeQueue.push({root, string(1, root->val + 'a')});
+
+        // Perform BFS traversal until queue is empty
+        while (!nodeQueue.empty()) {
+
+            // Pop the leftmost node and its corresponding string from queue
+            auto[node, currentString] = nodeQueue.front();
+            nodeQueue.pop();
+
+            // If current node is a leaf node
+            if (!node->left && !node->right) {
+
+                // Update smallest_string if it's empty or current string is smaller
+                if (smallestString.empty()) {
+                    smallestString = currentString;
+                } else {
+                    smallestString = min(smallestString, currentString);
+                }
+            }
+
+            // If current node has a left child, append it to queue
+            if (node->left) {
+                nodeQueue.push({node->left, char(node->left->val + 'a') + currentString});
+            }
+
+            // If current node has a right child, append it to queue
+            if (node->right) {
+                nodeQueue.push({node->right, char(node->right->val + 'a') + currentString});
+            }
+        }
+
+        return smallestString;
+    }
+};
+```
