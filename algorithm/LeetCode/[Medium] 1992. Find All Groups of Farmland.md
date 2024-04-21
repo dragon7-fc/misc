@@ -80,56 +80,75 @@ class Solution:
         return ans
 ```
 
-**Solution 2: (Straight Forward)**
+**Solution 2: (BFS)**
 ```
-Runtime: 116 ms
-Memory Usage: 56.3 MB
+Runtime: 117 ms
+Memory: 62.91 MB
+```
+```c++
+class Solution {
+    int d[4][2] = {{0, 1},{0, -1},{1, 0},{-1, 0}};
+public:
+    vector<vector<int>> findFarmland(vector<vector<int>>& land) {
+        queue<pair<int,int>> q;
+        int m = land.size(), n = land[0].size(), r1, c1, r2, c2, nr, nc;
+        vector<vector<int>> ans;
+        for (int i = 0; i < m; i ++) {
+            for (int j = 0; j < n; j ++) {
+                if (land[i][j]) {
+                    q.push({i, j});
+                    r1 = i, c1 = j, r2 = i, c2 = j;
+                    land[i][j] = 0;
+                    while (q.size()) {
+                        auto [r, c] = q.front();
+                        q.pop();
+                        for (auto nd: d) {
+                            nr = r + nd[0];
+                            nc = c + nd[1];
+                            if (0 <= nr && nr < m && 0 <= nc && nc < n && land[nr][nc]) {
+                                r1 = min(r1, nr), c1 = min(c1, nc), r2 = max(r2, nr), c2 = max(c2, nc);
+                                land[nr][nc] = 0;
+                                q.push({nr, nc});
+                            }
+                        }
+                    }
+                    ans.push_back({r1, c1, r2, c2});
+                }
+            }
+        }
+        return ans;
+    }
+};
+```
+
+**Solution 3: (Greedy)**
+```
+Runtime: 84 ms
+Memory: 59.34 MB
 ```
 ```c++
 class Solution {
 public:
     vector<vector<int>> findFarmland(vector<vector<int>>& land) {
-        int m = land.size();
-        int n = land[0].size();
+        int M = land.size(), N = land[0].size();
+        vector<vector<int>> res;
         
-        vector<vector<int>> result;
-        for(int i = 0; i<m; i++) {
-            for(int j = 0; j<n; j++) {
-                
-                //We have to deal with 1s only
-                if(land[i][j] == 0) continue;
-
-                //Find right most column of rectangle (see the image below)
-                int c1 = j;
-                while(c1 < n && land[i][c1] == 1) {
-                    c1++;
-                }
-
-                //Find bottom most row of rectangle (see the image below)
-                int r2 = i;
-                while(r2 < m && land[r2][j] == 1) {
-                    r2++;
-                }
-                
-                //Then you can find bottom right most of rectangle
-                c1 = c1==0 ? c1 : c1-1;
-                r2 = r2==0 ? r2 : r2-1;
-
-                //Use them as your answer
-                //{r1, c1} = {i, j}
-                //{r2, c2} = {r2, c1}
-                result.push_back({i, j, r2, c1});
-                
-                //Now, mark the covered land with 0 so that you don't consider them later
-                for(int k = i; k<=r2; k++) {
-                    for(int l = j; l<=c1; l++) {
-                        land[k][l] = 0;
+        for (int row1 = 0; row1 < M; row1++) {
+            for (int col1 = 0; col1 < N; col1++) {
+                if (land[row1][col1]) {
+                    int x = row1, y = col1;
+                    
+                    for (x = row1; x < M && land[x][col1]; x++) {
+                        for (y = col1; y < N && land[x][y]; y++) {
+                            land[x][y] = 0;
+                        }
                     }
+
+                    res.push_back({row1, col1, x - 1, y - 1});
                 }
-                
             }
         }
-        return result;
+        return res;
     }
 };
 ```
