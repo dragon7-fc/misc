@@ -228,7 +228,7 @@ public class Solution {
 
 # Submissions
 ---
-**Solution 1: (DP Bottom-Up)**
+**Solution 1: (DP Bottom-Up, greedy)**
 ```
 Runtime: 44 ms
 Memory Usage: 13.9 MB

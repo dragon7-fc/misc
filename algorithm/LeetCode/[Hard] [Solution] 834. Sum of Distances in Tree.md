@@ -127,40 +127,42 @@ class Solution:
 
 **Solution 2: (DFS)**
 ```
-Runtime: 228 ms
-Memory Usage: 91.1 MB
+Runtime: 204 ms
+Memory: 103.32 MB
 ```
 ```c++
 class Solution {
-public:
-    // TIME COMPLEXITY:- O(N)
-    // SPACE COMPLEXITY:- O(N)
-    int dfs(int v,int par,vector<int> adj[],vector<int>& subtree){
-        int curr = 0;
-        for(auto u:adj[v]){
-            if(u!=par){
-                curr+=dfs(u,v,adj,subtree);
-                curr+=subtree[u];
-                subtree[v]+=subtree[u];
+    int dfs(int v, int p, vector<int> &dp,vector<vector<int>> &g) {
+        int rst = 0;
+        for (auto nv: g[v]) {
+            if (nv == p) {
+                continue;
             }
+            rst += dfs(nv, v, dp, g);
+            dp[v] += dp[nv];
         }
-        return curr;
+        dp[v] += 1;
+        return rst + dp[v];
     }
-    void dfs(int v,int par,vector<int> adj[],vector<int>& ans,vector<int>& subtree,int now){
-        ans[v] = now;
-        for(auto u:adj[v]){
-            if(u!=par)
-                dfs(u,v,adj,ans,subtree,now-subtree[u]+subtree[0]-subtree[u]);
+    void dfs2(int v, int p, int n, vector<int> &dp,vector<vector<int>> &g, vector<int> &ans) {
+        for (auto nv: g[v]) {
+            if (nv == p) {
+                continue;
+            }
+            ans[nv] = ans[v] - dp[nv] + (n - dp[nv]);
+            dfs2(nv, v, n, dp, g, ans);
         }
     }
+public:
     vector<int> sumOfDistancesInTree(int n, vector<vector<int>>& edges) {
-        vector<int> ans(n),subtree(n,1),adj[n];
-        for(auto v:edges){
-            adj[v[0]].push_back(v[1]);
-            adj[v[1]].push_back(v[0]);
+        vector<vector<int>> g(n);
+        for (auto e: edges) {
+            g[e[0]].push_back(e[1]);
+            g[e[1]].push_back(e[0]);
         }
-        int root_ans = dfs(0,-1,adj,subtree);
-        dfs(0,-1,adj,ans,subtree,root_ans);
+        vector<int> dp(n), ans(n);
+        ans[0] = dfs(0, -1, dp, g) - n;
+        dfs2(0, -1, n, dp, g, ans);
         return ans;
     }
 };

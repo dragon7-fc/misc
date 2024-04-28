@@ -61,3 +61,114 @@ class Solution:
             
         return ans
 ```
+
+**Solution 2: (DP Bottom-Uo)**
+```
+Runtime: 20 ms
+Memory: 14.65 MB
+```
+```c++
+class Solution {
+public:
+    int findRotateSteps(string ring, string key) {
+        int m = ring.size(), n = key.size();
+        vector<vector<int> > dp(n+1, vector<int>(m, INT_MAX));
+        dp[0][0] = 0;
+        for (int i = 0; i < n; i ++){
+            for (int j = 0; j < m; j ++){
+                if(dp[i][j] == INT_MAX)
+                    continue;
+                for (int k = 0; k < m; k ++){
+                    if (ring[k] == key[i]){
+                        int tmp = abs(j-k);
+                        dp[i+1][k] = min(dp[i+1][k], dp[i][j] + min(tmp, m-tmp));
+                    }
+                }
+            }
+        }
+        int ans = INT_MAX;
+        for (int j = 0; j < m; j ++)
+            ans = min(ans, dp[n][j]);
+        return ans + n;
+    }
+};
+```
+
+**Solution 2: (DP Bottom-Uo 1-D)**
+```
+Runtime: 14 ms
+Memory: 11.30 MB
+```
+```c++
+class Solution {
+public:
+    int findRotateSteps(string ring, string key) {
+        key = ring[0] + key;
+        int m = ring.size(), n = key.size();
+        vector<vector<int>> mp(26);
+        for (int i = 0; i < m; i ++) {
+            mp[ring[i]-'a'].push_back(i);
+        }
+        vector<int> pre, dp;
+        pre.push_back(0);
+        int level, cur;
+        for (int i = 1; i < n; i ++) {
+            dp = vector<int>();
+            for (int j = 0; j < mp[key[i]-'a'].size(); j ++) {
+                level = INT_MAX;
+                for (int k = 0; k < pre.size(); k ++) {
+                    cur = abs(mp[key[i]-'a'][j] - mp[key[i-1]-'a'][k]);
+                    cur = min(cur, m - cur);
+                    cur += pre[k];
+                    level = min(level, cur);
+                }
+                dp.push_back(level + 1);
+            }
+            pre = dp;
+        }
+        return *min_element(dp.begin(), dp.end());
+    }
+};
+```
+
+**Solution 3: (Dijkstra)**
+```
+Runtime: 17 ms
+Memory: 12.04 MB
+```
+```c++
+class Solution {
+public:
+    int findRotateSteps(string ring, string key) {
+        unordered_map<char, vector<int>> m;
+        for (int i = 0; i < ring.size(); i++) {
+            m[ring[i]].push_back(i);
+        }
+        int dist[102][102] = {};
+        for (auto &dv: dist) {
+            for (auto &d: dv) {
+                d = INT_MAX;
+            }
+        }
+        priority_queue<tuple<int,int,int>, vector<tuple<int,int,int>>, greater<tuple<int,int,int>>> pq; // distance, pos, index
+        for (auto i: m[key[0]]) {
+            pq.push({1 + min(i, (int)ring.length()-i), i, 0});
+        }
+        while (!pq.empty()){
+            auto [d, t, i] = pq.top();
+            pq.pop();
+            if (i == key.size()-1) {
+                return d;
+            }
+            for (auto j: m[key[i+1]]) {
+                int steps = 1 + min({abs(t-j), t + (int)ring.length()-j, (int)ring.length() - t + j});
+                if (d+steps < dist[i+1][j]){
+                    dist[i+1][j] = d + steps;
+                    pq.push({d + steps, j, i+1});
+                }
+            }
+        }
+        return -1; 
+    }
+};
+```

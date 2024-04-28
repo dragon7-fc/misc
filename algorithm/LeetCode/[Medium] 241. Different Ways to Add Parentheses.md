@@ -23,9 +23,15 @@ Explanation:
 (((2*3)-4)*5) = 10
 ```
 
+**Constraints:**
+
+* `1 <= expression.length <= 20`
+* `expression` consists of digits and the operator `'+'`, `'-'`, and `'*'`.
+* All the integer values in the input expression are in the range `[0, 99]`.
+
 # Submissions
 ---
-**Solution 1: (DFS, Divide and Conquer)**
+**Solution 1: (DFS, Divide and Conquer, backtracking)**
 ```
 Runtime: 28 ms
 Memory Usage: 12.6 MB
@@ -48,7 +54,7 @@ class Solution:
         return rst
 ```
 
-**Solution 2: (DFS, Divide and Conquer)**
+**Solution 2: (DFS, Divide and Conquer, backtracking)**
 ```
 Runtime: 3 ms
 Memory: 11.9 MB

@@ -84,39 +84,45 @@ class Solution:
 
 **Solution 2: (BFS)**
 ```
-Runtime: 344 ms
-Memory Usage: 34.6 MB
+Runtime: 112 ms
+Memory: 38.29 MB
 ```
 ```c++
 class Solution {
 public:
-    unordered_set<string> hash;
     int openLock(vector<string>& deadends, string target) {
-        for(int i=0;i<deadends.size();i++){
-            if(deadends[i]=="0000") return -1;
-            hash.insert(deadends[i]);
+        unordered_set<string> visited(deadends.begin(), deadends.end());
+        if (visited.count("0000")) {
+            return -1;
         }
-        queue<string> q; q.push("0000"); hash.insert("0000");
-        int moves=0;
-        vector<int> x = {-1,1};
-        while(!q.empty()){
-            int size=q.size();
-            while(size--){
-                string front = q.front(); q.pop();
-                if(front==target) return moves;
-                for(int i=0;i<4;i++){
-                    string temp = front;
-                    for(int j=0;j<2;j++){
-                        front[i]=(((front[i]-'0')+10+x[j])%10 + '0');
-                        if(!hash.count(front)){
-                            hash.insert(front);
-                            q.push(front);
-                        }
-                        front=temp;
+        queue<string> q;
+        q.push("0000");
+        visited.insert("0000");
+        string cur, ncur;
+        int ans = 0, sz;
+        while (q.size()) {
+            sz = q.size();
+            for (int i = 0; i < sz; i ++) {
+                cur = q.front();
+                q.pop();
+                if (cur == target) {
+                    return ans;
+                }
+                for (int i = 0; i < 4; i ++) {
+                    ncur = cur;
+                    ncur[i] = (cur[i] - '0' +1)%10 + '0';
+                    if (!visited.count(ncur)) {
+                        visited.insert(ncur);
+                        q.push(ncur);
+                    }
+                    ncur[i] = (cur[i] - '0' -1 + 10)%10 + '0';
+                    if (!visited.count(ncur)) {
+                        visited.insert(ncur);
+                        q.push(ncur);
                     }
                 }
             }
-            moves++;
+            ans += 1;
         }
         return -1;
     }

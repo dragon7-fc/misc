@@ -10176,6 +10176,49 @@ class Solution:
         # The remaining nodes are the centroids of the graph
         return leaves
 ```
+```c++
+class Solution {
+public:
+    vector<int> findMinHeightTrees(int n, vector<vector<int>>& edges) {
+        if (n == 1) {
+            return {0};
+        }
+        vector<vector<int>> g(n);
+        vector<int> indeg(n);
+        for (auto e: edges) {
+            g[e[0]].push_back(e[1]);
+            g[e[1]].push_back(e[0]);
+            indeg[e[0]] += 1;
+            indeg[e[1]] += 1;
+        }
+        queue<int> q;
+        for (int i = 0; i < n; i ++) {
+            if (indeg[i] == 1) {
+                q.push(i);
+            }
+        }
+        int v, sz;
+        vector<int> ans;
+        while (q.size()) {
+            sz = q.size();
+            ans.clear();
+            for (int i = 0; i < sz; i ++) {
+                v = q.front();
+                q.pop();
+                ans.push_back(v);
+                indeg[v] -= 1;
+                for (auto nv: g[v]) {
+                    indeg[nv] -= 1;
+                    if (indeg[nv] == 1) {
+                        q.push(nv);
+                    }
+                }    
+            }
+        }
+        return ans;
+    }
+};
+```
 * [Medium] 310. Minimum Height Trees
 
 ### BFS with seen
