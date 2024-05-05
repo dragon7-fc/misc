@@ -36,12 +36,11 @@ Plug 'altercation/vim-colors-solarized'
 " Onedark color scheme
 Plug 'joshdick/onedark.vim'
 
+" gruvbox color scheme
+Plug 'morhetz/gruvbox'
+
 " Auto ctags update on file change
 Plug 'craigemery/vim-autotag'
-
-Plug 'francoiscabrol/ranger.vim'
-Plug 'rbgrouleff/bclose.vim'
-
 
 Plug 'majutsushi/tagbar'
 Plug 'will133/vim-dirdiff'
@@ -50,8 +49,9 @@ Plug 'mileszs/ack.vim'
 Plug 'ekalinin/Dockerfile.vim'
 Plug 'andrewradev/linediff.vim'
 Plug 'mfukar/robotframework-vim'
-Plug 'greymd/oscyank.vim'
+Plug 'ojroques/vim-oscyank', {'branch': 'main'}
 Plug 'tpope/vim-surround'
+Plug 'qpkorr/vim-bufkill'
 
 call plug#end()
 
@@ -103,11 +103,10 @@ let $JAVA_TOOL_OPTIONS = '-javaagent:/usr/local/share/vim/lombok-1.18.8.jar'
 " let $JAVA_TOOL_OPTIONS = '-javaagent:/usr/local/share/vim/lombok-1.18.8.jar -Xbootclasspath/a:/usr/local/share/vim/lombok-1.18.8.jar'
 
 " Color Schemes
-let g:solarized_termcolors = 256
-set background=light
-silent! colorscheme solarized
-silent! call togglebg#map("<F5>")
-silent! colorscheme onedark
+set background=dark
+let g:gruvbox_contrast_dark = 'hard'
+let g:gruvbox_invert_selection = 0
+silent! colorscheme gruvbox
 
 " Open file from last location
 if has("autocmd")
@@ -148,6 +147,11 @@ nnoremap <C-f> :NERDTreeFind<CR>
 " Tagbar settings
 nmap <F8> :TagbarToggle<CR>
 
+" vim-oscyank settings
+nmap <leader>c <Plug>OSCYankOperator
+nmap <leader>cc <leader>c_
+vmap <leader>c <Plug>OSCYankVisual
+
 " Fix Not Working Backspace in Vi/Vim Mac
 set backspace=indent,eol,start
 
@@ -165,3 +169,4 @@ let g:ack_autoclose = 1
 let g:ack_use_cword_for_empty_search = 1
 
 set clipboard=unnamed
+

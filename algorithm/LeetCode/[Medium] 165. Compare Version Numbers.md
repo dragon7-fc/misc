@@ -131,38 +131,32 @@ public:
 
 **Solution 4: (Greedy)**
 ```
-Runtime: 2 ms
-Memory Usage: 6.2 MB
+Runtime: 0 ms
+Memory: 7.48 MB
 ```
 ```c++
 class Solution {
 public:
     int compareVersion(string version1, string version2) {
-        int i = 0, j = 0, n1 = version1.size(), n2 = version2.size(), num1 = 0, num2 = 0; 
-        while(i<n1 || j<n2)
-        {
-            while(i<n1 && version1[i]!='.')
-            {
-                num1 = num1*10+(version1[i]-'0');
-                i++;
+        int i = 0, j = 0, n1 = version1.size(), n2 = version2.size(), a = 0, b = 0; 
+        while (i < n1 || j < n2) {
+            while (i < n1 && version1[i] != '.') {
+                a = a*10 + (version1[i]-'0');
+                i += 1;
             }
-            while(j<n2 && version2[j]!='.')
-            {
-                num2 = num2*10+(version2[j]-'0');
-                j++;
+            while (j < n2 && version2[j] != '.') {
+                b = b*10 + (version2[j]-'0');
+                j += 1;
             }
-            if(num1>num2)
-            {
+            if (a > b) {
                 return 1;
-            }
-            if(num1 < num2) 
-            {
+            } else if (a < b) {
                 return -1;
             }
-            i++;
-            j++;
-            num1 = 0;
-            num2 = 0;
+            i += 1;
+            j += 1;
+            a = 0;
+            b = 0;
         }
         return 0; 
     }

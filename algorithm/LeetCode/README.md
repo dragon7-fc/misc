@@ -899,18 +899,25 @@ class Solution:
 ```
 * [Medium] [Solution] 974. Subarray Sums Divisible by K
 
-### Prefix Sum state count
-```python
-class Solution:
-    def wonderfulSubstrings(self, word: str) -> int:
-        count = [1] + [0] * 1024
-        res = cur = 0
-        for c in word:
-            cur ^= 1 << (ord(c) - ord('a'))
-            res += count[cur]
-            res += sum(count[cur ^ (1 << i)] for i in range(10))
-            count[cur] += 1
-        return res
+### Counter, bitmask, find pattern
+```c++
+class Solution {
+public:
+    long long wonderfulSubstrings(string word) {
+        int cnt[1024], cur = 0;
+        long long ans = 0;
+        cnt[0] = 1;
+        for (auto c: word) {
+            cur ^= 1<<(c-'a');
+            ans += cnt[cur];
+            for (int i = 0; i < 10; i ++) {
+                ans += cnt[cur ^ (1<<i)];
+            }
+            cnt[cur] += 1;
+        }
+        return ans;
+    }
+};
 ```
 * [Medium] 1915. Number of Wonderful Substrings
 
@@ -1957,7 +1964,7 @@ class Solution:
 ```
 * [Medium] 1727. Largest Submatrix With Rearrangements
 
-### Floyd Warshall's shortest path
+### Floyd Warshall's shortest path (all path shortest path)
 ```python
 class Solution:
     def findTheCity(self, n: int, edges: List[List[int]], distanceThreshold: int) -> int:
@@ -14996,7 +15003,7 @@ class Solution:
 ```
 * [Medium] [Solution] 692. Top K Frequent Words
 
-### Dijkstra's Algorithm
+### Dijkstra's Algorithm, time: O(E + v*Log(v))
 ```python
 class Solution:
     def minimumEffortPath(self, heights: List[List[int]]) -> int:

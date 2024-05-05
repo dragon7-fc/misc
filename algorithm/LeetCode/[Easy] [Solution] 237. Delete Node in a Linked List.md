@@ -123,3 +123,25 @@ public:
     }
 };
 ```
+
+**Solution 3: (Linked List)**
+```
+Runtime: 6 ms
+Memory: 11.45 MB
+```
+```c++
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode(int x) : val(x), next(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    void deleteNode(ListNode* node) {
+        *node = *node->next;
+    }
+};
+```

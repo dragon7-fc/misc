@@ -87,3 +87,28 @@ class Solution:
             count[cur] += 1
         return res
 ```
+
+**Solution 2: (Counter, bitmask, find pattern)**
+```
+Runtime: 48 ms
+Memory: 16.29 MB
+```
+```c++
+class Solution {
+public:
+    long long wonderfulSubstrings(string word) {
+        int cnt[1024], cur = 0;
+        long long ans = 0;
+        cnt[0] = 1;
+        for (auto c: word) {
+            cur ^= 1<<(c-'a');
+            ans += cnt[cur];
+            for (int i = 0; i < 10; i ++) {
+                ans += cnt[cur ^ (1<<i)];
+            }
+            cnt[cur] += 1;
+        }
+        return ans;
+    }
+};
+```

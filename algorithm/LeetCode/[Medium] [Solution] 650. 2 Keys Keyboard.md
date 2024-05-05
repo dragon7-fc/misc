@@ -106,3 +106,20 @@ class Solution:
         #start with 1 A on the board and 0 copied
         return copy_or_paste(1, 0)
 ```
+
+**Solution 3: (DP Bottom-Up)**
+```
+Runtime: 287 ms
+Memory: 16.64 MB
+```
+```python
+class Solution:
+    def minSteps(self, n: int) -> int:
+        dp = [i for i in range(0, n+1)]
+        dp[1] = 0
+        for i in range(1, n + 1):
+            for j in range(i // 2, 1, -1):
+                if i % j == 0: 
+                    dp[i] = min(dp[i], dp[j] + i // j)
+        return dp[-1]
+```
