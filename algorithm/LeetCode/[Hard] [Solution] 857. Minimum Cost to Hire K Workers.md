@@ -148,27 +148,36 @@ class Solution:
         return float(ans)
 ```
 
-**Solution 2: (Heap)**
+**Solution 2: (Heap, sort then greedy over max heap)**
 ```
-Runtime: 69 ms
-Memory: 29.6 MB
+Runtime: 25 ms
+Memory: 26.50 MB
 ```
 ```c++
 class Solution {
 public:
     double mincostToHireWorkers(vector<int>& quality, vector<int>& wage, int k) {
-        vector<vector<double>> workers;
-        for (int i = 0; i < quality.size(); ++i)
-            workers.push_back({(double)(wage[i]) / quality[i], (double)quality[i]});
-        sort(workers.begin(), workers.end());
-        double res = DBL_MAX, qsum = 0;
-        priority_queue<int> pq;
-        for (auto worker: workers) {
-            qsum += worker[1], pq.push(worker[1]);
-            if (pq.size() > k) qsum -= pq.top(), pq.pop();
-            if (pq.size() == k) res = min(res, qsum * worker[0]);
+        int n = quality.size(), c = 0;
+        vector<pair<double,int>> dp;
+        for (int i = 0; i < n; i ++) {
+            dp.push_back({(double)wage[i]/quality[i], i});
         }
-        return res;
+        sort(dp.begin(), dp.end());
+        priority_queue<int> pq;
+        double ans = INT_MAX;
+        for (int j = 0; j < dp.size(); j ++) {
+            auto [u, i] = dp[j];
+            c += quality[i];
+            pq.push(quality[i]);
+            if (j >= k) {
+                c -= pq.top();
+                pq.pop();
+            }
+            if (j >= k-1) {
+                ans = min(ans, u*c);
+            }
+        }
+        return ans;
     }
 };
 ```

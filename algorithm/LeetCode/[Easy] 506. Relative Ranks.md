@@ -41,34 +41,31 @@ class Solution:
         return ans
 ```
 
-**Solution 2: (Sort)**
+**Solution 2: (Sort, sorted map)**
 ```
-Runtime: 24 ms
-Memory Usage: 11.2 MB
+Runtime: 8 ms
+Memory: 14.70 MB
 ```
 ```c++
 class Solution {
 public:
-    vector<string> findRelativeRanks(vector<int>& nums) {
+    vector<string> findRelativeRanks(vector<int>& score) {
         map<int,int,greater<int>> rates;
-        vector <string> res(nums.size());
-        for(int i = 0 ; i < nums.size();i++)
-        {
-            rates[nums[i]] = i;
+        vector<string> ans(score. size());
+        for (int i = 0 ; i < score.size();i++) {
+            rates[score[i]] = i;
         }
         int j = 1;
         string medals[3] = {"Gold Medal","Silver Medal", "Bronze Medal"};
-        for(auto m : rates)
-        {
-           if(j < 4)
-               res[m.second] = medals[j-1];
-            else
-            res[m.second] = to_string(j);
-
-            j++;
+        for (auto m : rates) {
+            if (j < 4) {
+                ans[m.second] = medals[j-1];
+            } else {
+                ans[m.second] = to_string(j);
+            }
+            j ++;
         }
-
-        return res;
+        return ans;
 
     }
 };

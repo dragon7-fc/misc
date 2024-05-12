@@ -107,6 +107,13 @@ set background=dark
 let g:gruvbox_contrast_dark = 'hard'
 let g:gruvbox_invert_selection = 0
 silent! colorscheme gruvbox
+nnoremap <silent> [oh :call gruvbox#hls_show()<CR>
+nnoremap <silent> ]oh :call gruvbox#hls_hide()<CR>
+nnoremap <silent> coh :call gruvbox#hls_toggle()<CR>
+
+nnoremap * :let @/ = ""<CR>:call gruvbox#hls_show()<CR>*
+nnoremap / :let @/ = ""<CR>:call gruvbox#hls_show()<CR>/
+nnoremap ? :let @/ = ""<CR>:call gruvbox#hls_show()<CR>?
 
 " Open file from last location
 if has("autocmd")

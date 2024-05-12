@@ -38,7 +38,7 @@ There is no way to connect all cities even if all edges are used.
 
 # Submissions
 ---
-**Solution 1: (Kruskals Algorithm)**
+**Solution 1: (Kruskals Algorithm, union find, time: O(Elong(E)) = O(ELog(V^2)) = O(2ELog(V)) = O(ELog(V)))**
 ```
 Runtime: 640 ms
 Memory Usage: 19.9 MB
@@ -70,7 +70,7 @@ class Solution:
         return total if all(root == find(city) for city in parent[1:]) else -1 
 ```
 
-**Solution 1: (Prims Algorithm)**
+**Solution 2: (Prims Algorithm, heap, like dijkstra)**
 ```
 Runtime: 664 ms
 Memory Usage: 20.2 MB

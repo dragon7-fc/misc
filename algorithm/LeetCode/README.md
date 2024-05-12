@@ -8208,7 +8208,7 @@ class Solution:
 ```
 * [Hard] 1192. Critical Connections in a Network
 
-**Template 1: (Postorder)**
+**Template 1: (DFS, Postorder)**
 ```python
 ans = ...
 def dfs(...):
@@ -8228,7 +8228,7 @@ if XXX:
 return ans
 ```
 
-**Template 2: (Matrix)**
+**Template 2: (DFS, Matrix)**
 ```python
 # 1. Check for an empty graph.
 if not matrix:
@@ -8259,7 +8259,7 @@ for i in range(rows):
         dfs(i, j)
 ```
 
-**Template 3: (Cycle)**
+**Template 3: (DFS, Cycle)**
 ```python
 seen = [0 for _ in range(N)]
 def is_cycle(i):
@@ -8279,7 +8279,7 @@ for i in range(N):
 return False
 ```
 
-**Template 4: (connected component)**
+**Template 4: (DFS, connected component)**
 ```python
 g = [set() for ...]
 for i, j in ...:
@@ -11429,18 +11429,6 @@ class Solution:
 ```
 * [Hard] 1537. Get the Maximum Score
 
-**Template 1: (Linked list)**
-```python
-dummy = ListNode(0)
-dummy.next = head
-first = second = dummy
-...
-while ...:
-    first = ....
-    second = ...
-...
-return dummy.next
-```
 
 **Template 2: (Sliding window)**
 ```python
@@ -14851,6 +14839,19 @@ while head:
 return dummy.next
 ```
 
+**Template 2: (Linked list)**
+```python
+dummy = ListNode(0)
+dummy.next = head
+first = second = dummy
+...
+while ...:
+    first = ....
+    second = ...
+...
+return dummy.next
+```
+
 ## Heap <a name="heap"></a>
 ---
 ### Greedy add
@@ -15003,7 +15004,7 @@ class Solution:
 ```
 * [Medium] [Solution] 692. Top K Frequent Words
 
-### Dijkstra's Algorithm, time: O(E + v*Log(v))
+### MST, Prime, time: O(M*N * Log(M*N))
 ```python
 class Solution:
     def minimumEffortPath(self, heights: List[List[int]]) -> int:
@@ -15060,7 +15061,7 @@ public:
 ```
 * [Medium] 1631. Path With Minimum Effort
 
-### Dijkstra's Algorithm
+### Dijkstra's Algorithm, time O((V+E) * Log(V)) = O(E*log(V))
 ```python
 class Solution:
     def networkDelayTime(self, times: List[List[int]], N: int, K: int) -> int:
@@ -15072,9 +15073,11 @@ class Solution:
         # heapq.heapify(pq)
         dist = {}  # visited node -> distance
         while pq:
+            ## E*log(E) = E*log(V^2) = 2*E*log(V) = E*log(V)
             d, node = heapq.heappop(pq)  # get next smallest distance node
             if node in dist: continue
             dist[node] = d
+            ## V*Log(V)
             for nei, d2 in graph[node]:
                 if nei not in dist:
                     heapq.heappush(pq, (d+d2, nei))  # append neighbor un-visited node
@@ -15140,32 +15143,32 @@ class Solution:
 ```
 * [Medium] [Solution] 767. Reorganize String
 
-### Sort, Greedy, Heap
+### sort then greedy over min heap with current time
 ```c++
 class Solution {
 public:
     vector<int> getOrder(vector<vector<int>>& tasks) {
-        vector<tuple<int,int,int>> sorted_tasks;
+        vector<tuple<int,int,int>> dp;
         for (int i = 0; i < tasks.size(); i ++) {
-            sorted_tasks.push_back({tasks[i][0], tasks[i][1], i});
+            dp.push_back({tasks[i][0], tasks[i][1], i});
         }
-        sort(sorted_tasks.begin(), sorted_tasks.end());
+        sort(dp.begin(), dp.end());
         priority_queue<tuple<int,int,int>,vector<tuple<int,int,int>>, greater<tuple<int,int,int>>> pq;
-        pq.push({get<1>(sorted_tasks[0]), get<2>(sorted_tasks[0]), get<0>(sorted_tasks[0])});
+        pq.push({get<1>(dp[0]), get<2>(dp[0]), get<0>(dp[0])});
         int j = 1, n = tasks.size();
         long long cur = 0;
         vector<int> ans;
         while (pq.size()) {
-            auto [process, i, t] = pq.top();
+            auto [p, i, b] = pq.top();
             pq.pop();
             ans.push_back(i);
-            cur = max(cur, (long long)t);
-            cur += process;
-            if (pq.empty() && j < n) {
-                cur = max(cur, (long long)get<0>(sorted_tasks[j]));
+            cur = max(cur, (long long)b);
+            cur += p;
+            if (j < n && pq.empty()) {
+                cur = max(cur, (long long)get<0>(dp[j]));
             }
-            while (j < n && (get<0>(sorted_tasks[j]) <= cur)) {
-                pq.push({get<1>(sorted_tasks[j]), get<2>(sorted_tasks[j]), get<0>(sorted_tasks[j])});
+            while (j < n && (get<0>(dp[j]) <= cur)) {
+                pq.push({get<1>(dp[j]), get<2>(dp[j]), get<0>(dp[j])});
                 j += 1;
             }
         }
@@ -15175,13 +15178,13 @@ public:
 ```
 * [Medium] 1834. Single-Threaded CPU
 
-### Greedy 2 heap, processing and buffer queue
+### Greedy 2 heap, task and free queue
 ```c++
 class Solution {
 public:
     vector<int> assignTasks(vector<int>& servers, vector<int>& tasks) {
-        priority_queue<pair<int,int>, vector<pair<int,int>>, greater<pair<int,int>>> pq;
-        priority_queue<pair<int,pair<int,int>>, vector<pair<int,pair<int,int>>>, greater<pair<int,pair<int,int>>>> dp;
+        priority_queue<pair<int,int>, vector<pair<int,int>>, greater<pair<int,int>>> pq;  // free queue
+        priority_queue<pair<int,pair<int,int>>, vector<pair<int,pair<int,int>>>, greater<pair<int,pair<int,int>>>> dp;  // task queue
         int cur = 0;
         vector<int> ans;
         for (int i = 0; i < servers.size(); i ++) {
@@ -15210,7 +15213,7 @@ public:
 ```
 * [Medium] 1882. Process Tasks Using Servers
 
-### Greedy heap
+### Sort then greedy over min heap
 ```c++
 class Solution {
 public:

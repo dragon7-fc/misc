@@ -54,7 +54,46 @@ class Solution:
         return head
 ```
 
-**Solution 2: (DFS)**
+**Solution 2: (Stack, mono stack)**
+```
+Runtime: 250 ms
+Memory: 170.36 MB
+```
+```c++
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode() : val(0), next(nullptr) {}
+ *     ListNode(int x) : val(x), next(nullptr) {}
+ *     ListNode(int x, ListNode *next) : val(x), next(next) {}
+ * };
+ */
+class Solution {
+public:
+    ListNode* removeNodes(ListNode* head) {
+        vector<ListNode*> stk;
+        ListNode *node = head;
+        while (node) {
+            while (stk.size() && stk.back()->val < node->val) {
+                stk.pop_back();
+            }
+            if (stk.size()) {
+                stk.back()->next = node;
+            }
+            stk.push_back(node);
+            node = node->next;
+        }
+        if (stk.size()) {
+            return stk[0];
+        }
+        return nullptr;
+    }
+};
+```
+
+**Solution 3: (DFS)**
 ```
 Runtime: 1119 ms
 Memory: 161 MB

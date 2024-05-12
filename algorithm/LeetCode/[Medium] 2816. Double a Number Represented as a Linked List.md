@@ -32,7 +32,56 @@ Explanation: The figure above corresponds to the given linked list which represe
 
 # Submissions
 ---
-**Solution 1: (Linked List)**
+**Solution 1: (Linked List, DFS, reverse 2 times)**
+```
+Runtime: 167 ms
+Memory: 120.71 MB
+```
+```c++
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode() : val(0), next(nullptr) {}
+ *     ListNode(int x) : val(x), next(nullptr) {}
+ *     ListNode(int x, ListNode *next) : val(x), next(next) {}
+ * };
+ */
+class Solution {
+    ListNode *rev(ListNode *cur, ListNode *pre) {
+        if (!cur) {
+            return pre;
+        }
+        ListNode *node = cur->next;
+        cur->next = pre;
+        pre = cur;
+        return rev(node, cur);
+    }
+public:
+    ListNode* doubleIt(ListNode* head) {
+        ListNode *pre, *node;
+        int c, v;
+        node = rev(head, nullptr);
+        head = node;
+        c = 0;
+        while (node) {
+            v = node->val*2 + c;
+            node->val = v % 10;
+            c = v / 10;
+            pre = node;
+            node = node->next;
+        }
+        if (c) {
+            node = new ListNode(c);
+            pre->next = node;
+        }
+        return rev(head, nullptr);
+    }
+};
+```
+
+**Solution 1: (Linked List, 1 loop)**
 ```
 Runtime: 240 ms
 Memory: 116.1 MB

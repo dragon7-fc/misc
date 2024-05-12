@@ -118,36 +118,36 @@ class Solution:
         return ans
 ```
 
-**Solution 3: (Greedy, Heap)**
+**Solution 3: (Heap, sort then greedy over min heap with current time)**
 ```
-Runtime: 373 ms
-Memory: 129.3 MB
+Runtime: 329 ms
+Memory: 132.36 MB
 ```
 ```c++
 class Solution {
 public:
     vector<int> getOrder(vector<vector<int>>& tasks) {
-        vector<tuple<int,int,int>> sorted_tasks;
+        vector<tuple<int,int,int>> dp;
         for (int i = 0; i < tasks.size(); i ++) {
-            sorted_tasks.push_back({tasks[i][0], tasks[i][1], i});
+            dp.push_back({tasks[i][0], tasks[i][1], i});
         }
-        sort(sorted_tasks.begin(), sorted_tasks.end());
+        sort(dp.begin(), dp.end());
         priority_queue<tuple<int,int,int>,vector<tuple<int,int,int>>, greater<tuple<int,int,int>>> pq;
-        pq.push({get<1>(sorted_tasks[0]), get<2>(sorted_tasks[0]), get<0>(sorted_tasks[0])});
+        pq.push({get<1>(dp[0]), get<2>(dp[0]), get<0>(dp[0])});
         int j = 1, n = tasks.size();
         long long cur = 0;
         vector<int> ans;
         while (pq.size()) {
-            auto [process, i, t] = pq.top();
+            auto [p, i, b] = pq.top();
             pq.pop();
             ans.push_back(i);
-            cur = max(cur, (long long)t);
-            cur += process;
-            if (pq.empty() && j < n) {
-                cur = max(cur, (long long)get<0>(sorted_tasks[j]));
+            cur = max(cur, (long long)b);
+            cur += p;
+            if (j < n && pq.empty()) {
+                cur = max(cur, (long long)get<0>(dp[j]));
             }
-            while (j < n && (get<0>(sorted_tasks[j]) <= cur)) {
-                pq.push({get<1>(sorted_tasks[j]), get<2>(sorted_tasks[j]), get<0>(sorted_tasks[j])});
+            while (j < n && (get<0>(dp[j]) <= cur)) {
+                pq.push({get<1>(dp[j]), get<2>(dp[j]), get<0>(dp[j])});
                 j += 1;
             }
         }
