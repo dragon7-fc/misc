@@ -110,6 +110,43 @@ class Solution:
 
 **Solution 2: (DFS)**
 ```
+Runtime: 3 ms
+Memory: 15.64 MB
+```
+```c++
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+class Solution {
+    pair<int,int> dfs(TreeNode *node, int &ans) {
+        if (!node) {
+            return {0, 0};
+        }
+        auto [l_sum, l_cnt] = dfs(node->left, ans);
+        auto [r_sum, r_cnt] = dfs(node->right, ans);
+        ans += abs(l_sum + r_sum + node->val - l_cnt - r_cnt - 1);
+        return {l_sum + r_sum + node->val, l_cnt + r_cnt + 1};  
+    }
+public:
+    int distributeCoins(TreeNode* root) {
+        int ans = 0;
+        dfs(root, ans);
+        return ans;
+    }
+};
+```
+
+
+**Solution 3: (DFS)**
+```
 Runtime: 9 ms
 Memory Usage: 6.8 MB
 ```

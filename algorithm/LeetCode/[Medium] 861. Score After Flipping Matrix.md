@@ -117,7 +117,7 @@ class Solution(object):
 
 # Submissions
 ---
-**Solution: (Greedy)**
+**Solution: (Greedy, not nodify input)**
 ```
 Runtime: 32 ms
 Memory Usage: 12.8 MB
@@ -135,7 +135,47 @@ class Solution:
         return ans
 ```
 
-**Solution 2: (Greedy)**
+**Solution 2: (Greedy, modify input)**
+```
+Runtime: 0 ms
+Memory: 10.04 MB
+```
+```c++
+class Solution {
+public:
+    int matrixScore(vector<vector<int>>& grid) {
+        int m = grid.size(), n = grid[0].size(), c, ans = 0;
+        for (int i = 0; i < m; i ++) {
+            if (grid[i][0] == 0) {
+                for (int j = 0; j < n; j ++) {
+                    grid[i][j] ^= 1;
+                }
+            }
+        }
+        for (int j = 0; j < n; j ++) {
+            c = 0;
+            for (int i = 0; i < m; i ++) {
+                c += grid[i][j];
+            }
+            if (c < (m+1)/2) {
+                for (int i = 0; i < m; i ++) {
+                    grid[i][j] ^= 1;
+                }
+            }
+        }
+        for (int i = 0; i < m; i ++) {
+            c = 0;
+            for (int j = 0; j < n; j ++) {
+                c = (c<<1) + grid[i][j];
+            }
+            ans += c;
+        }
+        return ans;
+    }
+};
+```
+
+**Solution 3: (Greedy, not nodify input)**
 
 Assume A is M * N.
 

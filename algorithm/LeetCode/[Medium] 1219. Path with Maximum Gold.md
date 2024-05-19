@@ -37,3 +37,44 @@ class Solution:
                 ans = max(ans, dfs(grid, r, c))
         return ans
 ```
+
+**Solution 2: (Backtracking, O(m * n * 4^g), g = not-zero cell)**
+```
+Runtime: 75 ms
+Memory: 9.21 MB
+```
+```c++
+class Solution {
+    int dfs(int i, int j, vector<vector<int>> &grid) {
+        int v = grid[i][j];
+        grid[i][j] = 0;
+        int rst = 0;
+        if (i+1 < grid.size() && grid[i+1][j]) {
+            rst = max(rst, dfs(i+1, j, grid));
+        }
+        if (i-1 >= 0 && grid[i-1][j]) {
+            rst = max(rst, dfs(i-1, j, grid));
+        }
+        if (j+1 < grid[0].size() && grid[i][j+1]) {
+            rst = max(rst, dfs(i, j+1, grid));
+        }
+        if (j-1 >= 0 && grid[i][j-1]) {
+            rst = max(rst, dfs(i, j-1, grid));
+        }
+        grid[i][j] = v;
+        return rst + v;
+    }
+public:
+    int getMaximumGold(vector<vector<int>>& grid) {
+        int m = grid.size(), n = grid[0].size(), ans = 0;
+        for (int i = 0; i < grid.size(); i ++) {
+            for (int j = 0; j < grid[0].size(); j ++) {
+                if (grid[i][j]) {
+                    ans = max(ans, dfs(i, j, grid));
+                }
+            }
+        }
+        return ans;
+    }
+};
+```
