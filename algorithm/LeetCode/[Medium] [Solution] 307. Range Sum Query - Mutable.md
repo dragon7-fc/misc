@@ -402,3 +402,82 @@ class NumArray:
 # obj.update(index,val)
 # param_2 = obj.sumRange(left,right)
 ```
+
+**Solution 4: (Segment Tree)**
+```
+Runtime: 510 ms
+Memory: 216.92 MB
+```
+```c++
+class SegmentTree {
+    SegmentTree *left, *right;
+    int start, end, val;
+    const vector<int>& nums;
+public:
+    SegmentTree(const vector<int>& nums_, int a, int b) : start(a), end(b), val(0), left(nullptr), right(nullptr), nums(nums_) {
+        
+        if (start == end) {
+            val = nums[start];
+            return;
+        }
+        
+        int mid = (a + b) / 2;
+        
+        left = new SegmentTree(nums, a, mid);
+        right = new SegmentTree(nums, mid + 1, b);
+        
+        val = left->val + right->val;
+    }
+    
+    void updateNode(int index, int n) {
+        if (index < start || index > end) {
+            return;
+        }
+        
+        if (start == end) {
+            val = n;
+            return;
+        }
+        
+        left->updateNode(index, n);
+        right->updateNode(index, n);
+        
+        val = left->val + right->val;
+    }
+    
+    int queryRange(int a, int b) {
+        if (a > end || b < start) {
+            return 0;
+        }
+        
+        if (start >= a && end <= b) {
+            return val;
+        }
+        
+        return left->queryRange(a, b) + right->queryRange(a, b);
+    }
+};
+
+class NumArray {
+    SegmentTree* tree;
+public:
+    NumArray(vector<int>& nums) {
+        tree = new SegmentTree(nums, 0, nums.size() - 1);
+    }
+    
+    void update(int index, int val) {
+        tree->updateNode(index, val);
+    }
+    
+    int sumRange(int left, int right) {
+        return tree->queryRange(left, right);
+    }
+};
+
+/**
+ * Your NumArray object will be instantiated and called as such:
+ * NumArray* obj = new NumArray(nums);
+ * obj->update(index,val);
+ * int param_2 = obj->sumRange(left,right);
+ */
+```
