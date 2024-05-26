@@ -24,38 +24,7 @@ Only "AA" won't be regarded as rewardable owing to more than one absent times.
 
 # Submissions
 ---
-**Solution 1: (DP Top-Down, Memory Limit Exceeded)**
-```python
-class Solution:
-    def checkRecord(self, n: int) -> int:
-        
-        @functools.lru_cache(None)
-        def dp(i, seq):
-            if seq.count('A') >= 2 or seq.count('LLL') >= 1: return 0
-            if i == n: return 1
-            return dp(i+1, seq + 'A') + dp(i+1, seq + 'L') + dp(i+1, seq + 'P')
-            
-        return dp(0, '')
-```
-
-**Solution 2: (DP Top-Town, Time Limit Exceeded)**
-```python
-class Solution:
-    def checkRecord(self, n: int) -> int:
-        memo = collections.defaultdict(int)
-
-        def dp(i, seq):
-            if memo[i, seq]: return memo[i, seq]
-            if seq.count('A') >= 2 or seq.count('LLL') >= 1: return 0
-            if i == n: return 1
-            rst = dp(i+1, seq + 'A') + dp(i+1, seq + 'L') + dp(i+1, seq + 'P')
-            memo[i, seq] = rst
-            return rst
-            
-        return dp(0, '')
-```
-
-**Solution 3: (DP Bottom-Up)**
+**Solution 1: (DP Bottom-Up, state set)**
 ```
 Runtime: 804 ms
 Memory Usage: 12.8 MB
@@ -86,4 +55,206 @@ class Solution:
             AXL = (N_AXL + N_AL + N_ALL + N_XAL + N_XALL + N_XAXL) % MOD;
 
         return (XAXL + XAL + XALL + AXL + AL + ALL) % MOD
+```
+
+**Solution 2: (Top-Down Dynamic Programming with Memoization)**
+```
+Runtime: 1506 ms
+Memory: 399.12 MB
+```
+```c++
+class Solution {
+    int MOD = 1e9 + 7;
+    // Cache to store sub-problem results.
+    vector<vector<vector<int>>> memo;
+
+public:
+    // Recursive function to return the count of combinations of length 'n' eligible for the award.
+    int eligibleCombinations(int n, int totalAbsences, int consecutiveLates) {
+        // If the combination has become not eligible for the award,
+        // then we will not count any combinations that can be made using it.
+        if (totalAbsences >= 2 or consecutiveLates >= 3) {
+            return 0;
+        }
+        // If we have generated a combination of length 'n' we will count it.
+        if (n == 0) {
+            return 1;
+        }
+        // If we have already seen this sub-problem earlier, we return the stored result.
+        if (memo[n][totalAbsences][consecutiveLates] != -1) {
+            return memo[n][totalAbsences][consecutiveLates];
+        }
+
+        int count = 0;
+        // We choose 'P' for the current position.
+        count = eligibleCombinations(n - 1, totalAbsences, 0);
+        // We choose 'A' for the current position.
+        count = (count + eligibleCombinations(n - 1, totalAbsences + 1, 0)) % MOD;
+        // We choose 'L' for the current position.
+        count = (count + eligibleCombinations(n - 1, totalAbsences, consecutiveLates + 1)) % MOD;
+
+        // Return and store the current sub-problem result in the cache.
+        return memo[n][totalAbsences][consecutiveLates] = count;
+    }
+public:
+    int checkRecord(int n) {
+       // Initialize the cache.
+        memo = vector<vector<vector<int>>>(n + 1, vector<vector<int>>(2, vector<int>(3, -1)));
+        // Return count of combinations of length 'n' eligible for the award.
+        return eligibleCombinations(n, 0, 0);
+    }
+};
+```
+
+**Solution 3: (Bottom-Up Dynamic Programming)**
+```
+Runtime: 1097 ms
+Memory: 386.75 MB
+```
+```c++
+class Solution {
+public:
+    int checkRecord(int n) {
+       int MOD = 1000000007;
+        // Cache to store sub-problem results.
+        vector<vector<vector<int>>> dp = vector<vector<vector<int>>>(n + 1, 
+                                            vector<vector<int>>(2, vector<int>(3, 0)));
+
+        // Base case: there is 1 string of length 0 with zero 'A' and zero 'L'.
+        dp[0][0][0] = 1;
+
+        // Iterate on smaller sub-problems and use the current smaller sub-problem 
+        // to generate results for bigger sub-problems.
+        for (int len = 0; len < n; ++len) {
+            for (int totalAbsences = 0; totalAbsences <= 1; ++totalAbsences) {
+                for (int consecutiveLates = 0; consecutiveLates <= 2; ++consecutiveLates) {
+                    // Store the count when 'P' is chosen.
+                    dp[len + 1][totalAbsences][0] = (
+                        dp[len + 1][totalAbsences][0] +
+                        dp[len][totalAbsences][consecutiveLates]
+                    ) % MOD;
+                    // Store the count when 'A' is chosen.
+                    if (totalAbsences < 1) {
+                        dp[len + 1][totalAbsences + 1][0] = (
+                            dp[len + 1][totalAbsences + 1][0] + 
+                            dp[len][totalAbsences][consecutiveLates]
+                        ) % MOD;
+                    }
+                    // Store the count when 'L' is chosen.
+                    if (consecutiveLates < 2) {
+                        dp[len + 1][totalAbsences][consecutiveLates + 1] = (
+                            dp[len + 1][totalAbsences][consecutiveLates + 1] + 
+                            dp[len][totalAbsences][consecutiveLates]
+                        ) % MOD;
+                    }
+                }
+            }
+        }
+
+        // Sum up the counts for all combinations of length 'n' with different absent and late counts.
+        int count = 0;
+        for (int totalAbsences = 0; totalAbsences <= 1; ++totalAbsences) {
+            for (int consecutiveLates = 0; consecutiveLates <= 2; ++consecutiveLates) {
+                count = (count + dp[n][totalAbsences][consecutiveLates]) % MOD;
+            }
+        }
+        return count;
+    }
+};
+```
+
+**Solution 4: (Bottom-Up Dynamic Programming, Space Optimized)**
+```
+Runtime: 1720 ms
+Memory: 420.22 MB
+```
+```c++
+class Solution {
+public:
+    int checkRecord(int n) {
+        int MOD = 1000000007;
+        // Cache to store current sub-problem results.
+        vector<vector<int>> dpCurrState = vector<vector<int>>(2, vector<int>(3, 0));
+        // Cache to store next sub-problem results.
+        vector<vector<int>> dpNextState = vector<vector<int>>(2, vector<int>(3, 0));
+
+        // Base case: there is 1 string of length 0 with zero 'A' and zero 'L'.
+        dpCurrState[0][0] = 1;
+
+        // Iterate on smaller sub-problems and use the current smaller sub-problem 
+        // to generate results for bigger sub-problems.
+        for (int len = 0; len < n; ++len) {
+            for (int totalAbsences = 0; totalAbsences <= 1; ++totalAbsences) {
+                for (int consecutiveLates = 0; consecutiveLates <= 2; ++consecutiveLates) {
+                    // Store the count when 'P' is chosen.
+                    dpNextState[totalAbsences][0] = (
+                        dpNextState[totalAbsences][0] + 
+                        dpCurrState[totalAbsences][consecutiveLates]
+                    ) % MOD;
+                    // Store the count when 'A' is chosen.
+                    if (totalAbsences < 1) {
+                        dpNextState[totalAbsences + 1][0] = (
+                            dpNextState[totalAbsences + 1][0] + 
+                            dpCurrState[totalAbsences][consecutiveLates]
+                        ) % MOD;
+                    }
+                    // Store the count when 'L' is chosen.
+                    if (consecutiveLates < 2) {
+                        dpNextState[totalAbsences][consecutiveLates + 1] = (
+                            dpNextState[totalAbsences][consecutiveLates + 1] + 
+                            dpCurrState[totalAbsences][consecutiveLates]
+                        ) % MOD;
+                    }
+                }
+            }
+            
+            // Next state sub-problems will become current state sub-problems in next iteration.
+            dpCurrState = dpNextState;
+            // Next state sub-problem results will reset to zero.
+            dpNextState = vector<vector<int>>(2, vector<int>(3, 0));
+        }
+
+        // Sum up the counts for all combinations of length 'n' with different absent and late counts.
+        int count = 0;
+        for (int totalAbsences = 0; totalAbsences <= 1; ++totalAbsences) {
+            for (int consecutiveLates = 0; consecutiveLates <= 2; ++consecutiveLates) {
+                count = (count + dpCurrState[totalAbsences][consecutiveLates]) % MOD;
+            }
+        }
+        return count;
+    }
+};
+```
+
+**Solution 5: (DP Top-Down)**
+```
+Runtime: 278 ms
+Memory: 17.52 MB
+```
+```c++
+class Solution {
+    int mod = 1e9 + 7;
+    int dp[100001][2][3];
+    int dfs(int i, int a, int l) {
+        if (a >= 2 || l >= 3) {
+            return 0;
+        }
+        if (i == 0) {
+            return 1;
+        }
+        if (dp[i][a][l] != -1) {
+            return dp[i][a][l];
+        }
+        int rst = dfs(i-1, a, 0) % mod;
+        rst = (rst + dfs(i-1, a+1, 0)) % mod;
+        rst = (rst + dfs(i-1, a, l+1)) % mod;
+        dp[i][a][l] = rst;
+        return rst;
+    }
+public:
+    int checkRecord(int n) {
+        memset(dp, -1, sizeof(dp));
+        return dfs(n, 0, 0);
+    }
+};
 ```

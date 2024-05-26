@@ -105,46 +105,196 @@ class Solution:
         return ans
 ```
 
-**Solution 3: (DP Top-Down)**
+**Solution 3: (Backtracking)**
 ```
-Runtime: 0 ms
-Memory: 8.2 MB
+Runtime: 4 ms
+Memory: 9.31 MB
 ```
 ```c++
 class Solution {
-    vector<string> dfs(int i, vector<vector<string>> &dp, unordered_set<string> &st, string &s) {
+    void bt(int i, string pre, string &cur, vector<string> &ans, string &s, unordered_set<string> &st) {
+        if (i == s.size()) {
+            if (pre == "") {
+                ans.push_back(cur);
+            }
+            return;
+        }
+        pre += s[i];
+        bt(i+1, pre, cur, ans, s, st);
+        if (st.count(pre)) {
+            if (cur.size()) {
+                cur += " ";
+            }
+            cur += pre;
+            bt(i+1, "", cur, ans, s, st);
+            for (int j = 0; j < pre.size(); j ++) {
+                cur.pop_back();
+            }
+            if (cur.size() && cur.back() == ' ') {
+                cur.pop_back();
+            }
+        }
+    }
+public:
+    vector<string> wordBreak(string s, vector<string>& wordDict) {
+        vector<string> ans;
+        string cur, pre;
+        unordered_set<string> st(wordDict.begin(), wordDict.end());
+        bt(0, pre, cur, ans, s, st);
+        return ans;
+    }
+};
+```
+
+**Solution 4: (DP Top-Down)**
+```
+Runtime: 4 ms
+Memory: 9.63 MB
+```
+```c++
+class Solution {
+    vector<string> dfs(int i, string &cur, vector<vector<string>> &dp, string &s, unordered_set<string> &st) {
         if (i == s.size()) {
             return {""};
         }
-        if (!dp[i].empty()) {
+        if (dp[i].size() != 0) {
             return dp[i];
         }
         vector<string> rst;
-        string pre;
-        for (int k = 1; k <= s.size()-i; k++) {
-            pre = s.substr(i, k);
-            if (st.count(pre)) {
-                for (auto suffix : dfs(i+k, dp, st, s)) {
-                    if (suffix != "") {
-                        rst.push_back(pre + " " + suffix);
+        for (int j = i; j < s.size(); j ++) {
+            cur += s[j];
+            if (st.count(cur)) {
+                string pre = "";
+                for (auto ncur: dfs(j+1, pre, dp, s, st)) {
+                    if (ncur.size()) {
+                        rst.push_back(cur + " " + ncur);
                     } else {
-                        rst.push_back(pre);
+                        rst.push_back(cur);
                     }
                 }
             }
         }
         dp[i] = rst;
-        for (int j = 0; j < rst.size(); j ++) {
-            cout << dp[i][j] << endl;
-        }
-        return rst;
+        return dp[i];
     }
 public:
     vector<string> wordBreak(string s, vector<string>& wordDict) {
-        int n = s.size();
+        string cur;
         unordered_set<string> st(wordDict.begin(), wordDict.end());
-        vector<vector<string>> dp(n);
-        return dfs(0, dp, st, s);
+        vector<vector<string>> dp(s.size());
+        return dfs(0, cur, dp, s, st);
+    }
+};
+```
+
+**Solution 5: (DP Bottom-Up)**
+```
+Runtime: 0 ms
+Memory: 8.61 MB
+```
+```c++
+class Solution {
+public:
+    vector<string> wordBreak(string s, vector<string>& wordDict) {
+        int n = s.size();
+        string cur;
+        unordered_set<string> st(wordDict.begin(), wordDict.end());
+        vector<vector<string>> dp(n+1);
+        dp[n] = {""};
+        for (int i = n-1; i >= 0; i --) {
+            cur = "";
+            for (int j = i; j < n; j ++) {
+                cur += s[j];
+                if (st.count(cur)) {
+                    for (auto ncur: dp[j+1]) {
+                        if (ncur != "") {
+                            dp[i].push_back(cur + " " + ncur);
+                        } else {
+                            dp[i].push_back(cur);
+                        }
+                    }
+                }
+            }
+        }
+        return dp[0];
+    }
+};
+```
+
+**Solution 6: (DP Bottom-Up, Trie)**
+```
+Runtime: 0 ms
+Memory: 8.81 MB
+```
+```c++
+class TrieNode {
+public:
+    bool isEnd;
+    TrieNode *c[26];
+
+    TrieNode() {
+        isEnd = false;
+        for (int i = 0; i < 26; i++) {
+            c[i] = nullptr;
+        }
+    }
+};
+
+class Trie {
+public:
+    TrieNode *root;
+
+    Trie() {
+        root = new TrieNode(); 
+    }
+
+    void insert(string word) {
+        TrieNode *node = root;
+        for (char c : word) {
+            int index = c - 'a';
+            if (!node->c[index]) {
+                node->c[index] = new TrieNode();
+            }
+            node = node->c[index];
+        }
+        node->isEnd = true;
+    }
+};
+
+class Solution {
+public:
+    vector<string> wordBreak(string s, vector<string>& wordDict) {
+        int n = s.size();
+        string cur;
+        vector<vector<string>> dp(n+1);
+        Trie trie;
+        TrieNode *node;
+        for (string word : wordDict) {
+            trie.insert(word);
+        }
+        dp[n] = {""};
+        
+        for (int i = n-1; i >= 0; i --) {
+            cur = "";
+            node = trie.root;
+            for (int j = i; j < n; j ++) {
+                if (!node->c[s[j]-'a']) {
+                    break;
+                }
+                cur += s[j];
+                node = node->c[s[j]-'a'];
+                if (node->isEnd) {
+                    for (auto ncur: dp[j+1]) {
+                        if (ncur != "") {
+                            dp[i].push_back(cur + " " + ncur);
+                        } else {
+                            dp[i].push_back(cur);
+                        }
+                    }
+                }
+            }
+        }
+        return dp[0];
     }
 };
 ```
