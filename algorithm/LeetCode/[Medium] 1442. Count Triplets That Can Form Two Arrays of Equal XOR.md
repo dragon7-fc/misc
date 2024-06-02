@@ -160,3 +160,63 @@ class Solution:
             count[cur] = [n + 1, total + k]
         return res
 ```
+
+**Solution 3: (Prefix sum)**
+```
+Runtime: 0 ms
+Memory: 9.16 MB
+```
+```c++
+class Solution {
+public:
+    int countTriplets(vector<int>& arr) {
+        vector<int> dp;
+        dp.push_back(0);
+        for (auto a: arr) {
+            dp.push_back(dp.back() ^ a);
+        }
+        int n = dp.size(), ans = 0;
+        for (int i = 0; i < n; i ++) {
+            for (int j = i+1; j < n; j ++) {
+                if (dp[i] == dp[j]) {
+                    ans += j-i-1;
+                }
+            }
+        }
+        return ans;
+    }
+};
+```
+
+**Solution 4: (One Pass Prefix XOR)**
+```
+Runtime: 5 ms
+Memory: 9.92 MB
+```
+```c++
+class Solution {
+public:
+    int countTriplets(vector<int>& arr) {
+        int size = arr.size();
+        int count = 0;
+        int prefix = 0;
+
+        // Maps to store counts and totals of XOR values encountered
+        unordered_map<int, int> countMap = {{0, 1}}, totalMap;
+
+        // Iterating through the array
+        for (int i = 0; i < size; ++i) {
+            // Calculating XOR prefix
+            prefix ^= arr[i];
+
+            // Calculating contribution of current element to the result
+            count += countMap[prefix]++ * i - totalMap[prefix];
+
+            // Updating total count of current XOR value
+            totalMap[prefix] += i + 1;
+        }
+
+        return count;
+    }
+};
+```

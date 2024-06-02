@@ -66,7 +66,7 @@ public:
 };
 ```
 
-**Solution 2: (Math)**
+**Solution 2: (Math, observation)**
 ```
 Runtime: 20 ms
 Memory: 11.75 MB

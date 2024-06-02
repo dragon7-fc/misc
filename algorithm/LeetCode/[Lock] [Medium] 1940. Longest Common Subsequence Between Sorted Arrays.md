@@ -64,3 +64,71 @@ class Solution:
     def longestCommonSubsequence(self, arrays: List[List[int]]) -> List[int]:
         return sorted(list(reduce(lambda x, y: set(x) & set(y), arrays)))
 ```
+
+**Solution 3: (Two Pointers)**
+```
+Runtime: 23 ms
+emory: 18.10 MB
+```
+```c++
+class Solution {
+public:
+    vector<int> longestCommonSubsequence(vector<vector<int>>& arrays) {
+        int m = arrays.size(), n = arrays[0].size();
+        vector<int> dp(m), ans;
+        int cnt;
+        for (int j = 0; j < n; j ++) {
+            cnt = 1;
+            for (int i = 1; i < m; i ++) {
+                while (dp[i] < arrays[i].size() && arrays[i][dp[i]] < arrays[0][j]) {
+                    dp[i] += 1;
+                }
+                if (dp[i] >= arrays[i].size()) {
+                    break;
+                }
+                cnt += arrays[i][dp[i]] == arrays[0][j];
+            }
+            if (cnt == m) {
+                ans.push_back(arrays[0][j]);
+            }
+        }
+        return ans;
+    }
+};
+```
+
+**Solution 4: (Binary Search)**
+```
+Runtime: 26 ms
+Memory: 18.04 MB
+```
+```c++
+class Solution {
+public:
+    vector<int> longestCommonSubsequence(vector<vector<int>>& arrays) {
+        int m = arrays.size(), n = arrays[0].size();
+        vector<int>dp(m), ans;
+        int cnt;
+        for (int j = 0; j < n; j ++) {
+            cnt = 1;
+            for (int i = 1; i < m; i ++) {
+                if (dp[i] >= arrays[i].size()) {
+                    break;
+                }
+                auto it = lower_bound(arrays[i].begin()+dp[i], arrays[i].end(), arrays[0][j]);
+                dp[i] = it - arrays[i].begin();
+                if (it >= arrays[i].end()) {
+                    break;
+                }
+                if (*it == arrays[0][j]) {
+                    cnt += 1;
+                }
+            }
+            if (cnt == m) {
+                ans.push_back(arrays[0][j]);
+            }
+        }
+        return ans;
+    }
+};
+```

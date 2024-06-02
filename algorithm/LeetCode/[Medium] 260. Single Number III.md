@@ -55,6 +55,62 @@ class Solution:
 
 **Solution 3: (XOR)**
 ```
+Runtime: 64 ms
+Memory Usage: 15.5 MB
+```
+```python
+class Solution:
+    def singleNumber(self, nums: List[int]) -> List[int]:
+        # xor all numbers, so the duplicates are cancelled
+        x = functools.reduce(operator.xor, nums)
+        
+        # find the bit that is set in x.
+        bit = 0
+        for i in range(32):
+            if x & (1<<i):
+                bit = i
+                break
+                
+        # let the answer be first and second.
+        # let first is the number that has the bit set.
+        # second does not have the bit set, because x=first^second has the bit set.  
+        # now xor all numbers in nums with the bit set.
+        # all duplicates will be cancelled
+        # only first will remain. second will not be included, as second does not have the bit set.
+        first = 0
+        for a in nums:
+            if a & (1<<bit):
+                first ^= a
+
+        # now x=first^second, therefore second = a^first
+        second = first^x
+        return [first, second]
+```
+
+**Solution 4: (Two bitmasks)**
+```
+Runtime: 10 ms
+Memory: 12.42 MB
+```
+```c++
+class Solution {
+public:
+    vector<int> singleNumber(vector<int>& nums) {
+        // difference between two numbers (x and y) which were seen only once
+        long long bitmask = 0;
+        for (int num : nums) bitmask ^= num;
+
+        // rightmost 1-bit diff between x and y
+        int diff = bitmask & (-bitmask);
+
+        int x = 0;
+        // bitmask which will contain only x
+        for (int num : nums) if ((num & diff) != 0) x ^= num;
+
+```
+
+**Solution 5: (XOR)**
+```
 Runtime: 40 ms
 Memory Usage: 10.1 MB
 ```
@@ -94,38 +150,4 @@ public:
         return {first, second};
     }
 };
-```
-
-**Solution 4: (XOR)**
-```
-Runtime: 64 ms
-Memory Usage: 15.5 MB
-```
-```python
-class Solution:
-    def singleNumber(self, nums: List[int]) -> List[int]:
-        # xor all numbers, so the duplicates are cancelled
-        x = functools.reduce(operator.xor, nums)
-        
-        # find the bit that is set in x.
-        bit = 0
-        for i in range(32):
-            if x & (1<<i):
-                bit = i
-                break
-                
-        # let the answer be first and second.
-        # let first is the number that has the bit set.
-        # second does not have the bit set, because x=first^second has the bit set.  
-        # now xor all numbers in nums with the bit set.
-        # all duplicates will be cancelled
-        # only first will remain. second will not be included, as second does not have the bit set.
-        first = 0
-        for a in nums:
-            if a & (1<<bit):
-                first ^= a
-
-        # now x=first^second, therefore second = a^first
-        second = first^x
-        return [first, second]
 ```

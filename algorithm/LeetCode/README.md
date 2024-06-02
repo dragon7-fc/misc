@@ -4910,72 +4910,65 @@ class Solution:
 ## String <a name="string"></a>
 ---
 ### KMP
-```python
-class Solution:
-    def build_lps(self, pattern):
-        """ Helper function for strStr.
-        Returns longest proper suffix array for string pattern.
-        Each lps_array[i] is the length of the longest proper prefix
-        which is equal to suffix for pattern ending at character i.
-        Proper means that whole string cannot be prefix or suffix.
-
-        Time complexity: O(m). Space complexity: O(1), where
-        m is the length of the pattern, space used for lps array isn't included.
-        """
-        m = len(pattern)
-        lps_array = [0] * m
-        i, j = 1, 0  # start from the 2nd character in pattern
-        while i < m:
-            if pattern[i] == pattern[j]:
-                lps_array[i] = j + 1
-                j += 1
-                i += 1
-            else:
-                if j > 0:
-                    j = lps_array[j - 1]
-                else:
-                    lps_array[i] = 0
-                    i += 1
-        return lps_array
-
-    def strStr(self, text, pattern):
-        """ Returns index of 1st occurence of pattern in text.
-        Returns -1 if pattern is not in the text.
-        Knuth–Morris–Pratt algorithm.
-        Time complexity: O(n + m). Space complexity: O(m).
-        """
-        # special cases
-        if not text and not pattern:
-            return 0
-        elif not pattern:
-            return 0
-
-        # build longest proper suffix array for pattern
-        lps_array = self.build_lps(pattern)
-
-        n, m = len(text), len(pattern)
-        i, j = 0, 0
-        while i < n:
-            # current characters match, move to the next characters
-            if text[i] == pattern[j]:
-                i += 1
-                j += 1
-            # current characters don't match
-            else:
-                if j > 0:  # try start with previous longest prefix
-                    j = lps_array[j - 1]
-                # 1st character of pattern doesn't match character in text
-                # go to the next character in text
-                else:
-                    i += 1
-
-            # whole pattern matches text, match is found
-            if j == m:
-                return i - m
-
-        # no match was found
-        return -1
+```c++
+/**
+ * Definition for an infinite stream.
+ * class InfiniteStream {
+ * public:
+ *     InfiniteStream(vector<int> bits);
+ *     int next();
+ * };
+ */
+class Solution {
+public:
+    int findPattern(InfiniteStream* stream, vector<int>& pattern) {
+        int n = pattern.size(), i, k, cur;
+        vector<int> dp(n);
+        k = 0, i = 1;
+        while (i < n) {
+            if (pattern[k] == pattern[i]) {
+                dp[i] = k+1;
+                k += 1;
+                i += 1;
+            } else {
+                if (k) {
+                    k = dp[k-1];
+                } else {
+                    dp[i] = 0;
+                    i += 1;
+                }
+            }
+        }
+        k = 0, i = 0;
+        bool flag = false;
+        while (true) {
+            if (!flag) {
+                cur = stream->next();
+                flag = true;
+            }
+            if (cur == pattern[k]) {
+                k += 1;
+                i += 1;
+                if (k == n) {
+                    return i-k;
+                }
+                flag = false;
+            } else {
+                if (k) {
+                    k = dp[k-1];
+                } else {
+                    k = 0;
+                    i += 1;
+                    flag = false;
+                }
+            }
+        }
+        return -1;
+    }
+};
 ```
+* [Lock] [Medium] 3023. Find Pattern in Infinite Stream I
+
 ### Cartesian Product, Brute force all combination
 ```python
 class Solution:
@@ -8988,18 +8981,18 @@ while lo < hi:
 return lo
 ```
 
-**Template 3: (Binary Search)**
+**Template 3: (Binary Search, lower bound 2)**
 ```python
 def is_XXX(...):
     ...
 
-lo, hi = ...
+lo, hi = 0, N-1
 while lo <= hi: 
     mi = lo + (hi - lo) // 2
-    if is_XXX(mi):
-        ans = max(ans, mi)
+    if not is_XXX(mi):  ## false
         lo = mi + 1
     else:
+        ans = max(ans, mi)
         hi = mi - 1
 
 return ans
