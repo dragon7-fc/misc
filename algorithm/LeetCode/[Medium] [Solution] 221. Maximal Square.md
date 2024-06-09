@@ -337,3 +337,31 @@ int maximalSquare(char** matrix, int matrixSize, int* matrixColSize){
     return max_len*max_len;
 }
 ```
+
+**Solution 7: (DP Bottom-Up)**
+```
+Runtime: 61 ms
+Memory: 24.47 MB
+```
+```c++
+class Solution {
+public:
+    int maximalSquare(vector<vector<char>>& matrix) {
+        int m = matrix.size(), n = matrix[0].size(), ans = 0;
+        vector<vector<int>> dp(m, vector<int>(n));
+        for (int i = 0; i < m; i ++) {
+            for (int j = 0; j < n; j ++) {
+                if (i == 0 || j == 0) {
+                    dp[i][j] = matrix[i][j] == '1';
+                } else {
+                    if (matrix[i][j] == '1') {
+                        dp[i][j] = min({dp[i][j-1], dp[i-1][j], dp[i-1][j-1]}) +1;
+                    }
+                }
+                ans = max(ans, dp[i][j]*dp[i][j]);
+            }
+        }
+        return ans;
+    }
+};
+```

@@ -172,65 +172,73 @@ class Solution:
 
 **Solution 4: (trie)**
 ```
-Runtime: 70 ms
-Memory Usage: 49.6 MB
+Runtime: 65 ms
+Memory: 75.40 MB
 ```
 ```c++
-class Solution {
-public:
-    struct Node{
-        Node* arr[26];
-        string str;
-        Node(){
-            for(int i=0;i<26;i++){
-                arr[i]=NULL;
+class Trie {
+    struct TrieNode {
+        TrieNode *child[26];
+        bool isEnd;
+        TrieNode() {
+            for (int i = 0; i < 26; i ++) {
+                child[i] = nullptr;
             }
-            str="";
-                
+            isEnd = false;
         }
     };
-    void insert(string word,Node* root){
-        Node* curr=root;
-        for(int i=0;i<word.size();i++){
-            if(curr->arr[word[i]-'a']==NULL){
-                curr->arr[word[i]-'a']=new Node();
-            }
-            curr=curr->arr[word[i]-'a'];
-        }
-        curr->str=word;
+    TrieNode *root;
+public:
+    Trie() {
+        root = new TrieNode();
     }
-    string find(string word,Node* root)
-    {
-        Node* curr=root;
-        for(int i=0;i<word.size();i++){
-            if(curr->arr[word[i]-'a']==NULL){
-                return word;
+    void add(string s) {
+        TrieNode *node = root;
+        for (auto c: s) {
+            if (!node->child[c-'a']) {
+                node->child[c-'a'] = new TrieNode();
             }
-            curr=curr->arr[word[i]-'a'];
-            if(curr->str!=""){
-                return curr->str;
-            }
+            node = node->child[c-'a'];
         }
-        return word;
+        node->isEnd = true;
     }
+    string find(string s) {
+        TrieNode *node = root;
+        string rst;
+        for (auto c: s) {
+            if (node->isEnd) {
+                break;
+            }
+            if (!node->child[c-'a']) {
+                rst = s;
+                break;
+            }
+            rst += c;
+            node = node->child[c-'a'];
+        }
+        return rst == ""? s: rst;
+    }
+};
+
+class Solution {
+public:
     string replaceWords(vector<string>& dictionary, string sentence) {
-        Node* root=new Node();
-        for(auto it:dictionary){
-            insert(it,root);
+        Trie trie;
+        for (auto d: dictionary) {
+            trie.add(d);
         }
-        string word="",ans="";
-        for(int i=0;i<sentence.size();i++){
-            if(sentence[i]==' '){
-                if(word.size()>0){
-                    ans+=find(word,root);word="";
-                    ans+=" ";
-                }
-            }else{
-                word+=sentence[i];
+        string ans;
+        int n = sentence.size(), i = 0, k;
+        while (i < n) {
+            k = 0;
+            while (i+k < n && sentence[i+k] != ' ') {
+                k += 1;
             }
-        }
-        if(word.size()>0){
-             ans+=find(word,root);
+            if (ans != "") {
+                ans += " ";
+            }
+            ans += trie.find(sentence.substr(i, k));
+            i += k+1;
         }
         return ans;
     }

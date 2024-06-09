@@ -62,3 +62,39 @@ class Solution:
 
         return self.res       
 ```
+
+**Solution 2: (DFS)**
+```
+Runtime: 2338 ms
+Memory Usage: 10.8 MB
+```
+```c++
+class Solution {
+    void bt(string f, string b, int &ans, unordered_map<string, string> &g, int n) {
+        if (stol(f) > n) {
+            return;
+        }
+        if (stoi(f) != stoi(b)) {
+            ans += 1;
+        }
+        for (auto [k, v]: g) {
+            bt(f+k, v+b, ans, g, n);
+        }
+    }
+public:
+    int confusingNumberII(int n) {
+        unordered_map<string, string> g;
+        g["0"] = "0";
+        g["1"] = "1";
+        g["6"] = "9";
+        g["8"] = "8";
+        g["9"] = "6";
+        int ans = 0;
+        bt("1", "1", ans, g, n);
+        bt("6","9", ans, g, n);
+        bt("8", "8", ans, g, n);
+        bt("9", "6", ans, g, n);
+        return ans;
+    }
+};
+```

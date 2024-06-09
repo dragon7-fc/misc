@@ -111,3 +111,130 @@ class Solution:
                    dsu.find(index[w1]) == dsu.find(index[w2])
                    for w1, w2 in zip(sentence1, sentence2))
 ```
+**Solution 3: (DFS, O(n*k*m))**
+```
+Runtime: 317 ms
+Memory: 110.38 MB
+```
+```c++
+class Solution {
+    // Returns true if there is a path from source to dest.
+    bool dfs(string& source, unordered_set<string>& visit,
+             unordered_map<string, unordered_set<string>>& adj, string& dest) {
+        visit.insert(source);
+        if (source == dest) {
+            return true;
+        }
+        for (auto neighbor : adj[source]) {
+            if (!visit.count(neighbor) && dfs(neighbor, visit, adj, dest)) {
+                return true;
+            }
+        }
+        return false;
+    }
+public:
+    bool areSentencesSimilarTwo(vector<string>& sentence1, vector<string>& sentence2, vector<vector<string>>& similarPairs) {
+        if (sentence1.size() != sentence2.size()) {
+            return false;
+        }
+        // Create the graph using each pair in similarPairs.
+        unordered_map<string, unordered_set<string>> adj;
+        for (auto& pair : similarPairs) {
+            adj[pair[0]].insert(pair[1]);
+            adj[pair[1]].insert(pair[0]);
+        }
+        // The number of nodes in the graph.
+        int nodesCount = adj.size();
+        for (int i = 0; i < sentence1.size(); i++) {
+            if (sentence1[i] == sentence2[i]) {
+                continue;
+            }
+            unordered_set<string> visit;
+            if (adj.count(sentence1[i]) && adj.count(sentence2[i]) &&
+                dfs(sentence1[i], visit, adj, sentence2[i])) {
+                continue;
+            }
+            return false;
+        }
+        return true;
+    }
+};
+```
+
+**Solution 4: (Union Find, O((n+k)*m))**
+```
+Runtime: 396 ms
+Memory: 76.38 MB
+```
+```c++
+class UnionFind {
+private:
+    map<string, string> parent;
+    map<string, int> rank;
+
+public:
+    void addWord(string x) {
+        if (!parent.count(x)) {
+            parent[x] = x;
+            rank[x] = 0;
+        }
+    }
+
+    bool isWordPresent(string x) {
+        if (parent.count(x)) {
+            return true;
+        }
+        return false;
+    }
+
+    string find(string x) {
+        if (parent[x] != x) {
+            parent[x] = find(parent[x]);
+        }
+        return parent[x];
+    }
+
+    void unionSet(string x, string y) {
+        string xset = find(x), yset = find(y);
+        if (xset == yset) {
+            return;
+        } else if (rank[xset] < rank[yset]) {
+            parent[xset] = yset;
+        } else if (rank[xset] > rank[yset]) {
+            parent[yset] = xset;
+        } else {
+            parent[yset] = xset;
+            rank[xset]++;
+        }
+    }
+};
+
+class Solution {
+public:
+    bool areSentencesSimilarTwo(vector<string>& sentence1, vector<string>& sentence2, vector<vector<string>>& similarPairs) {
+        if (sentence1.size() != sentence2.size()) {
+            return false;
+        }
+
+        UnionFind dsu;
+        for (auto& pair : similarPairs) {
+            // Create the graph using the hashed values of the similarPairs.
+            dsu.addWord(pair[0]);
+            dsu.addWord(pair[1]);
+            dsu.unionSet(pair[0], pair[1]);
+        }
+
+        for (int i = 0; i < sentence1.size(); i++) {
+            if (sentence1[i] == sentence2[i]) {
+                continue;
+            }
+            if (dsu.isWordPresent(sentence1[i]) && dsu.isWordPresent(sentence2[i]) &&
+                dsu.find(sentence1[i]) == dsu.find(sentence2[i])) {
+                continue;
+            }
+            return false;
+        }
+        return true;
+    }
+};
+```

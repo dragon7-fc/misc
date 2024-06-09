@@ -119,3 +119,36 @@ class Solution:
         
         return dfs(0, -1, -1, False)
 ```
+
+**Solution 3: (DP Bottom-Up)**
+```
+Runtime: 122 ms
+Memory: 92.66 MB
+```
+```c++
+class Solution {
+public:
+    int minSwap(vector<int>& nums1, vector<int>& nums2) {
+        int n = nums1.size(), c1 = 0, c2 = 1, nc1,nc2;
+        for (int i = 1; i < n; i ++) {
+            nc1 = INT_MAX;
+            if (nums1[i] > nums1[i-1] && nums2[i] > nums2[i-1]) {
+                nc1 = min(nc1, c1);
+            }
+            if (nums1[i] > nums2[i-1] && nums2[i] > nums1[i-1]) {
+                nc1 = min(nc1, c2);
+            }
+            nc2 = INT_MAX;
+            if (nums2[i] > nums1[i-1] && nums1[i] > nums2[i-1]) {
+                nc2 = min(nc2, c1+1);
+            }
+            if (nums2[i] > nums2[i-1] && nums1[i] > nums1[i-1]) {
+                nc2 = min(nc2, c2+1);
+            }
+            c1 = nc1;
+            c2 = nc2;
+        }
+        return min(c1, c2);
+    }
+};
+```

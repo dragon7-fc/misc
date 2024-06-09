@@ -142,3 +142,56 @@ class ExamRoom:
 # param_1 = obj.seat()
 # obj.leave(p)
 ```
+
+**Solution 2: (Straight Forward)**
+```
+Runtime: 143 ms
+Memory: 22.89 MB
+```
+```c++
+class ExamRoom {
+    int N;
+    vector<int> arr;
+public:
+    ExamRoom(int n) {
+        N = n;
+    }
+    
+    int seat() {
+        if (arr.size() == 0) {
+            arr.push_back(0);
+            return 0;
+        }
+        int d = max(arr[0], N - 1 - arr.back());
+        for (int i = 0; i < arr.size() - 1; ++i) {
+            d = max(d, (arr[i + 1] - arr[i]) / 2);
+        }
+        if (arr[0] == d) {
+            arr.insert(arr.begin(), 0);
+            return 0;
+        }
+        for (int i = 0; i < arr.size() - 1; ++i)
+            if ((arr[i + 1] - arr[i]) / 2 == d) {
+                arr.insert(arr.begin() + i + 1, (arr[i + 1] + arr[i]) / 2);
+                return arr[i + 1];
+            }
+        arr.push_back(N - 1);
+        return N - 1;
+    }
+    
+    void leave(int p) {
+        for (int i = 0; i < arr.size(); ++i) {
+            if (arr[i] == p) {
+                arr.erase(arr.begin() + i);
+            }
+        }
+    }
+};
+
+/**
+ * Your ExamRoom object will be instantiated and called as such:
+ * ExamRoom* obj = new ExamRoom(n);
+ * int param_1 = obj->seat();
+ * obj->leave(p);
+ */
+```

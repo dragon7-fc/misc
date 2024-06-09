@@ -141,3 +141,25 @@ class Solution:
             pre[cur] += 1
         return ans
 ```
+
+**Solution 5: (Hash Table, prefix sum)**
+```
+Runtime: 29 ms
+Memory: 32.41 MB
+```
+```c++
+class Solution {
+public:
+    int subarraysDivByK(vector<int>& nums, int k) {
+        int cur = 0, ans = 0;
+        vector<int> cnt(k);
+        cnt[0] = 1;
+        for (auto num: nums) {
+            cur = (((cur+num) % k)+k) % k;
+            ans += cnt[cur];
+            cnt[cur] += 1;
+        }
+        return ans;
+    }
+};
+```

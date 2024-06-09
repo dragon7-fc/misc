@@ -130,3 +130,134 @@ public:
     }
 };
 ```
+
+**Solution 4: (Hash Table, sort)**
+```
+Runtime: 64 ms
+Memory: 30.69 MB
+```
+```c++
+class Solution {
+public:
+    bool isNStraightHand(vector<int>& hand, int groupSize) {
+        int handSize = hand.size();
+
+        if (handSize % groupSize != 0) {
+            return false;
+        }
+
+        // Map to store the count of each card value
+        map<int, int> cardCount;
+        for (int i = 0; i < handSize; i++) {
+            cardCount[hand[i]]++;
+        }
+
+        // Process the cards until the map is empty
+        while (!cardCount.empty()) {
+            // Get the smallest card value
+            int currentCard = cardCount.begin()->first;
+            // Check each consecutive sequence of groupSize cards
+            for (int i = 0; i < groupSize; i++) {
+                // If a card is missing or has exhausted its occurrences
+                if (cardCount[currentCard + i] == 0) {
+                    return false;
+                }
+                cardCount[currentCard + i]--;
+                if (cardCount[currentCard + i] < 1) {
+                    // Remove the card value if its occurrences are exhausted
+                    cardCount.erase(currentCard + i);
+                }
+            }
+        }
+
+        return true;
+    }
+};
+```
+
+**Solution 5: (Rerverse Decrement**
+```
+Runtime: 46 ms
+Memory: 30.61 MB
+```
+```c++
+class Solution {
+public:
+    bool isNStraightHand(vector<int>& hand, int groupSize) {
+        if (hand.size() % groupSize != 0) {
+            return false;
+        }
+
+        // Map to store the count of each card value
+        unordered_map<int, int> cardCount;
+        for (int card : hand) {
+            cardCount[card]++;
+        }
+
+        for (int card : hand) {
+            int startCard = card;
+            // Find the start of the potential straight sequence
+            while (cardCount[startCard - 1]) {
+                startCard--;
+            }
+
+            // Process the sequence starting from startCard
+            while (startCard <= card) {
+                while (cardCount[startCard]) {
+                    // Check if we can form a consecutive sequence of
+                    // groupSize cards
+                    for (int nextCard = startCard;
+                         nextCard < startCard + groupSize; nextCard++) {
+                        if (!cardCount[nextCard]) {
+                            return false;
+                        }
+                        cardCount[nextCard]--;
+                    }
+                }
+                startCard++;
+            }
+        }
+
+        return true;
+    }
+};
+```
+
+**Solution 6: (Counter)**
+```
+untime: 39 ms
+Memory: 30.40 MB
+```
+```c++
+class Solution {
+public:
+    bool isNStraightHand(vector<int>& hand, int groupSize) {
+        int n = hand.size(), cur, v;
+        if (n%groupSize != 0) {
+            return false;
+        }
+        unordered_map<int,int> cnt;
+        for (int i = 0; i < n; i ++) {
+            cnt[hand[i]] += 1;
+        }
+        while (cnt.size()) {
+            auto [k, _] = *cnt.begin();
+            cur = k;
+            while (cnt.count(cur-1)) {
+                cur -= 1;
+            }
+            v = cnt[cur];
+            for (int i = 0; i < groupSize; i ++) {
+                if (cnt[cur+i] < v) {
+                    return false;
+                }
+                cnt[cur+i] -= v;
+                if (cnt[cur+i] == 0) {
+                    cnt.erase(cur+i);
+                }
+            }
+        }
+        return true;
+    }
+};
+```

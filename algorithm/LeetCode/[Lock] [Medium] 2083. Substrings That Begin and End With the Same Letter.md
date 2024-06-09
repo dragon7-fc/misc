@@ -51,3 +51,23 @@ class Solution:
     def numberOfSubstrings(self, s: str) -> int:
         return len(s) + sum([val*(val-1)//2 for val in collections.Counter(s).values()])
 ```
+
+**Solution 2: (Counter)**
+```
+Runtime: 8 ms
+Memory: 10.69 MB
+```
+```c++
+class Solution {
+public:
+    long long numberOfSubstrings(string s) {
+        vector<int> cnt(26);
+        long long ans = 0;
+        for (auto c: s) {
+            ans += 1 + cnt[c-'a'];
+            cnt[c-'a'] += 1;
+        }
+        return ans;
+    }
+};
+```

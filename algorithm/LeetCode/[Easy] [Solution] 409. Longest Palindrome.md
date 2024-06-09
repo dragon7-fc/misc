@@ -72,6 +72,33 @@ class Solution:
 
 **Solution 2: (Greedy)**
 ```
+Runtime: 0 ms
+Memory: 7.72 MB
+```
+```c++
+class Solution {
+public:
+    int longestPalindrome(string s) {
+        int cnt[52] = {0}, ans = 0;
+        for (auto c: s) {
+            if (c >= 'a' && c <= 'z') {
+                cnt[c-'a'] += 1;
+            } else {
+                cnt[c-'A' + 26] += 1;
+            }
+        }
+        bool flag = false;
+        for (int i = 0; i < 52; i ++) {
+            ans += cnt[i]/2 * 2;
+            flag |= cnt[i]%2;
+        }
+        return ans + flag;
+    }
+};
+```
+
+**Solution 3: (Greedy)**
+```
 Runtime: 4 ms
 Memory Usage: 6.8 MB
 ```
