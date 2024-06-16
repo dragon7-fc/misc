@@ -78,3 +78,42 @@ public:
     }
 };
 ```
+
+**Solution 3: (Greedy, heap)**
+```
+Runtime: 139 ms
+Memory: 85.56 MB
+```
+```c++
+class Solution {
+public:
+    int findMaximizedCapital(int k, int w, vector<int>& profits, vector<int>& capital) {
+        int n = profits.size(), i, ans = w;
+        vector<pair<int,int>> dp;
+        for (i = 0; i < n; i ++) {
+            dp.push_back({capital[i], profits[i]});
+        }
+        sort(dp.begin(), dp.end());
+        priority_queue<int> pq;
+        i = 0;
+        while (i < n && dp[i].first <= ans) {
+            pq.push(dp[i].second);
+            i += 1;
+        }
+        while (k && pq.size()) {
+            auto p = pq.top();
+            pq.pop();
+            ans += p;
+            k -= 1;
+            if (k == 0) {
+                break;
+            }
+            while (i < n && dp[i].first <= ans) {
+                pq.push(dp[i].second);
+                i += 1;
+            }
+        }
+        return ans;
+    }
+};
+```

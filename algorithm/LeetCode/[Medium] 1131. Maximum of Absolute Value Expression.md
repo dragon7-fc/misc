@@ -84,3 +84,62 @@ class Solution:
 
         return max((max1 - min1), (max2 - min2),(max3 - min3),(max4 - min4))
 ```
+
+**Solution 2: (Math)**
+
+__Intuition__
+Take |x[i] - x[j]| + |y[i] - y[j]| as Manhattan distance of two points.
+x is the coordinate of points on the x-axis,
+y is the coordinate of points on the y-axis.
+
+
+__Explanation 1: Math__
+Assume i < j, there are four possible expression:
+|x[i] - x[j]| + |y[i] - y[j]| = (x[i] - x[j]|) + (y[i] - y[j]) = (x[i] + y[i]|) - (x[j] + y[j])
+|x[i] - x[j]| + |y[i] - y[j]| = (x[i] - x[j]|) - (y[i] - y[j]) = (x[i] - y[i]|) - (x[j] - y[j])
+|x[i] - x[j]| + |y[i] - y[j]| = -(x[i] - x[j]|) + (y[i] - y[j]) = (-x[i] + y[i]|) - (-x[j] + y[j])
+|x[i] - x[j]| + |y[i] - y[j]| = -(x[i] - x[j]|) - (y[i] - y[j]) = (-x[i] - y[i]|) - (-x[j] - y[j])
+
+So we can see, the expression
+|x[i] - x[j]| + |y[i] - y[j]| + |i - j| = f(j) - f(i)
+
+where f(i) = p * x[i] + q * y[i] + i
+with p = 1 or -1, q = 1 or -1
+
+
+__Explanation 2: Graph__
+For 3 points on the plane, we always have |AO| - |BO| <= |AB|.
+When AO and BO are in the same direction, we have ||AO| - |BO|| = |AB|.
+
+We take 4 points for point O, left-top, left-bottom, right-top and right-bottom.
+Each time, for each point B, and find the smallest A point to O,
+the Manhattan distance |AB| >= |AO| - |BO|.
+
+
+__Complexity__
+Time O(N) for 4 passes
+Space O(1)
+
+```
+Runtime: 28 ms
+Memory: 26.69 MB 
+```
+```c++
+class Solution {
+public:
+    int maxAbsValExpr(vector<int>& arr1, vector<int>& arr2) {
+        int res = 0, n = arr1.size(), smallest, cur;
+        for (int p : {1, -1}) {
+            for (int q : {1, -1}) {
+                smallest = p * arr1[0] + q * arr2[0] + 0;
+                for (int i = 1; i < n; ++i) {
+                    cur = p * arr1[i] + q * arr2[i] + i;
+                    res = max(res, cur - smallest);
+                    smallest = min(smallest, cur);
+                }
+            }
+        }
+        return res;
+    }
+};
+```

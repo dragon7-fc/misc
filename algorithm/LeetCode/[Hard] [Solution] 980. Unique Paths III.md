@@ -346,3 +346,55 @@ class Solution:
 
         return bt(start[0], start[1], todo)
 ```
+
+**Solution 6: (Backtracking)**
+```
+Runtime: 4 ms
+Memory: 11.13 MB
+```
+```c++
+class Solution {
+    int d[5] = {1, 0, -1, 0, 1};
+    void bt(pair<int,int> cur, pair<int,int> end, int r, set<pair<int,int>> &visited, set<pair<int,int>> &st, int &ans, int m, int n, vector<vector<int>> &grid) {
+        if (cur == end) {
+            if (r == 0) {
+                ans += 1;
+            }
+            return;
+        }
+        visited.insert(cur);
+        r -= 1;
+        auto [cr, cc] = cur;
+        int nr, nc;
+        for (int i = 0; i < 4; i ++) {
+            nr = cr + d[i], nc = cc + d[i+1];
+            if (0 <= nr && nr < m && 0 <= nc && nc < n && !st.count({nr,nc}) && !visited.count({nr,nc})) {
+                bt({nr,nc}, end, r, visited, st, ans, m, n, grid);
+            }
+        }
+        visited.erase(cur);
+    }
+public:
+    int uniquePathsIII(vector<vector<int>>& grid) {
+        int m = grid.size(), n = grid[0].size(), r = 0, ans = 0;
+        pair<int,int> start, end;
+        set<pair<int,int>> st, visited;
+        for (int i = 0; i < m; i ++) {
+            for (int j = 0; j < n; j ++) {
+                if (grid[i][j] == 1) {
+                    start = {i, j};
+                    r += 1;
+                } else if (grid[i][j] == 2) {
+                    end = {i, j};
+                } else if (grid[i][j] == -1) {
+                    st.insert({i, j});
+                } else {
+                    r += 1;
+                }
+            }
+        }
+        bt(start, end, r, visited, st, ans, m, n, grid);
+        return ans;
+    }
+};
+```

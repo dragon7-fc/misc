@@ -90,30 +90,7 @@ class Solution:
         return level
 ```
 
-**Solution 4: (DP Bottom-Up)**
-```
-Runtime: 120 ms
-Memory Usage: 6.2 MB
-```
-```c++
-class Solution {
-public:
-    int numSquares(int n) {
-        int dp[n + 1];
-        dp[0] = 0;
-        for(int i = 1; i <= n; i++){
-            dp[i] = INT_MAX;
-            for(int j = 1; j*j <= i; j++){
-                dp[i] = min(dp[i], dp[i - j*j] + 1);
-            }
-        }
-        
-        return dp[n];
-    }
-};
-```
-
-**Solution 5: (BFS)**
+**Solution 4: (BFS)**
 ```
 Runtime: 205 ms
 Memory Usage: 51.2 MB
@@ -151,3 +128,24 @@ public:
     }
 };
 ```
+**Solution 5: (DP Bottom-Up)**
+```
+Runtime: 95 ms
+Memory: 10.35 MB
+```
+```c++
+class Solution {
+public:
+    int numSquares(int n) {
+        vector<int> dp(n+1, INT_MAX);
+        dp[0] = 0;
+        for (int i = 1; i <= n; i ++) {
+            for (int j = 1; j <= int(sqrt(i)); j ++) {
+                dp[i] = min(dp[i], dp[i-j*j]+1);
+            }
+        }
+        return dp[n];
+    }
+};
+```
+

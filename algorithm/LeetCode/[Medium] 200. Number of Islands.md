@@ -258,3 +258,42 @@ int numIslands(char** grid, int gridSize, int* gridColSize){
     return res;
 }
 ```
+
+**Solution 7: (BFS)**
+```
+Runtime: 32 ms
+Memory: 16.99 MB
+```
+```c++
+class Solution {
+public:
+    int numIslands(vector<vector<char>>& grid) {
+        int m = grid.size(), n = grid[0].size(), ans = 0, ni, nj;
+        vector<vector<bool>> visited(m, vector<bool>(n));
+        queue<pair<int,int>> q;
+        int d[5] = {0, 1, 0, -1, 0};
+        for (int i = 0; i < m; i ++) {
+            for (int j = 0; j < n; j ++) {
+                if (grid[i][j] == '1' && !visited[i][j]) {
+                    ans += 1;
+                    q.push({i, j});
+                    visited[i][j] = true;
+                    while (q.size()) {
+                        auto [ci, cj] = q.front();
+                        q.pop();
+                        for (int dd = 0; dd < 4; dd ++) {
+                            ni = ci + d[dd];
+                            nj = cj + d[dd+1];
+                            if (0 <= ni && ni < m && 0 <= nj && nj < n && grid[ni][nj] == '1' && !visited[ni][nj]) {
+                                q.push({ni, nj});
+                                visited[ni][nj] = true;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        return ans;
+    }
+};
+```

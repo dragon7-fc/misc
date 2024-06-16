@@ -80,43 +80,30 @@ class Solution:
                    for c, val in enumerate(row))
 ```
 
-**Solution 2: (Array)**
+**Solution 2: (Prefix sum)**
 ```
-Runtime: 12 ms
-Memory Usage: 10.4 MB
+Runtime: 5 ms
+Memory: 12.54 MB
 ```
 ```c++
 class Solution {
 public:
     int maxIncreaseKeepingSkyline(vector<vector<int>>& grid) {
-        vector<int> rowMaxes;
-        vector<int> colMaxes;
-        
-        //Get the maxes for each row and col
-        for(int i = 0; i < grid.size(); i++) {
-            int rowMax = 0;
-            int colMax = 0;
-            for(int j = 0; j < grid.size(); j++) {
-                if(grid[i][j] > rowMax) {
-                    rowMax = grid[i][j];
-                }
-                if(grid[j][i] > colMax) {
-                    colMax = grid[j][i];
-                }
-            }
-            rowMaxes.push_back(rowMax);
-            colMaxes.push_back(colMax);
-        }
-        
-        int totalSum = 0;
-       
-        for(int i = 0; i < grid.size(); i++) {
-            for(int j = 0; j < grid.size(); j++) {
-                totalSum += min(rowMaxes[i], colMaxes[j]) - grid[i][j];
+        int n = grid.size();
+        vector<int> dp(n*n);
+        for (int i = 0; i < n; i ++) {
+            for (int j = 0; j < n; j ++) {
+                dp[i] = max(dp[i], grid[i][j]);
+                dp[n+j] = max(dp[n+j], grid[i][j]);
             }
         }
-        
-        return totalSum;
+        int ans = 0;
+        for (int i = 0; i < n; i ++) {
+            for (int j = 0; j < n; j ++) {
+                ans += min(dp[i], dp[n+j]) - grid[i][j];
+            }
+        }
+        return ans;
     }
 };
 ```

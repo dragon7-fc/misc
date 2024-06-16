@@ -39,23 +39,28 @@ class Solution:
 
 **Solution 2: (Hash Table)**
 ```
-Runtime: 12 ms
-Memory Usage: 8.4 MB
+Runtime: 0 ms
+Memory: 10.48 MB
 ```
 ```c++
 class Solution {
 public:
     vector<vector<string>> groupStrings(vector<string>& strings) {
-        std::unordered_map<std::string, std::vector<std::string>> m;
-        for(const auto& s: strings) {
-            size_t size{s.size()};
-            string k{""};
-            for(int i{0}; i < size; ++i) k += std::to_string((s[0]-s[i]+26) % 26)+",";
-            m[k].emplace_back(s);
+        int n = strings.size();
+        unordered_map<string, vector<string>> m;
+        string cur;
+        for (auto s: strings) {
+            cur = "";
+            for (int i = 1; i < s.size(); i ++) {
+                cur += (((s[i]-s[i-1])%26 + 26)%26) + 'a';
+            }
+            m[cur].push_back(s);
         }
-        std::vector<std::vector<std::string>> res;
-        for(const auto &[_, v]: m) res.emplace_back(v);
-        return res;
+        vector<vector<string>> ans;
+        for (auto [_, v]: m) {
+            ans.push_back(v);
+        }
+        return ans;
     }
 };
 ```

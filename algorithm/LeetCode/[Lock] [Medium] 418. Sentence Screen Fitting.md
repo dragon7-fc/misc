@@ -91,3 +91,38 @@ class Solution:
         return nums//N
 
 ```
+
+**Solution 2: (String, Hash Table)**
+```
+Runtime: 23 ms
+Memory Usage: 10.1 MB
+```
+```c++
+class Solution {
+public:
+    int wordsTyping(vector<string>& sentence, int rows, int cols) {
+        int r = 0, c, i = 0, k, n = sentence.size(), ans = 0;
+        unordered_map<int, int> m;
+        string cur;
+        while (r < rows) {
+            if (m.count(i)) {
+                ans += (i + m[i])/n;
+                i = (i + m[i])%n;
+            } else {
+                c = 0;
+                k = 0;
+                while (c + sentence[(i+k)%n].size() <= cols) {
+                    c += sentence[(i+k)%n].size();
+                    k += 1;
+                    c += 1;
+                }
+                m[i] = k;
+                ans += (i + k)/n;
+                i = (i + k)%n;
+            }
+            r += 1;
+        }
+        return ans;
+    }
+};
+```

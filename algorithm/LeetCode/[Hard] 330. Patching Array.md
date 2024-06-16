@@ -26,6 +26,13 @@ Input: nums = [1,2,2], n = 5
 Output: 0
 ```
 
+**Constraints:**
+
+* `1 <= nums.length <= 1000`
+* `1 <= nums[i] <= 10^4`
+* `nums` is sorted in **ascending order**.
+
+---
 # Submissions
 ---
 

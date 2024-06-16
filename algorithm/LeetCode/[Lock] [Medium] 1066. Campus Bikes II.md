@@ -94,3 +94,240 @@ class Solution:
         
         return dp(tuple(range(M)), 0)
 ```
+
+**Solution 3: (Greedy Backtracking, O(M!/(M−N)!))**
+```
+Runtime: 440 ms
+Memory: 9.67 MB
+```
+```c++
+class Solution {
+    // Maximum number of bikes is 10
+    int smallestDistanceSum = INT_MAX;
+    int visited[10];
+    
+    // Manhattan distance
+    int findDistance(vector<int>& worker, vector<int>& bike) {
+        return abs(worker[0] - bike[0]) + abs(worker[1] - bike[1]);
+    }
+    
+    void minimumDistanceSum(vector<vector<int>>& workers, int workerIndex, 
+                            vector<vector<int>>& bikes, int currDistanceSum) {
+        if (workerIndex >= workers.size()) {
+            smallestDistanceSum = min(smallestDistanceSum, currDistanceSum);
+            return;
+        }
+        // If the current distance sum is greater than the smallest result 
+        // found then stop exploring this combination of workers and bikes
+        if (currDistanceSum >= smallestDistanceSum) {
+            return;
+        }
+        
+        for (int bikeIndex = 0; bikeIndex < bikes.size(); bikeIndex++) {
+            // If bike is available
+            if (!visited[bikeIndex]) {
+                visited[bikeIndex] = true;
+                minimumDistanceSum(workers, workerIndex + 1, bikes, 
+                    currDistanceSum + findDistance(workers[workerIndex], bikes[bikeIndex]));
+                visited[bikeIndex] = false;
+            }
+        }
+        
+    }
+public:
+    int assignBikes(vector<vector<int>>& workers, vector<vector<int>>& bikes) {
+        minimumDistanceSum(workers, 0, bikes, 0);
+        return smallestDistanceSum;
+    }
+};
+```
+
+**Solution 4: (Top-Down Dynamic Programming + BitMasking, O(M⋅2^M))**
+```
+Runtime: 0 ms
+Memory: 9.61 MB
+```
+```c++
+class Solution {
+    // Maximum value of mask will be 2^(Number of bikes)
+    // and number of bikes can be 10 at max
+    int memo[1024];
+    
+    // Manhattan distance
+    int findDistance(vector<int>& worker, vector<int>& bike) {
+        return abs(worker[0] - bike[0]) + abs(worker[1] - bike[1]);
+    }
+    
+    int minimumDistanceSum(vector<vector<int>>& workers, vector<vector<int>>& bikes, int workerIndex, int mask) {
+        if (workerIndex >= workers.size()) {
+            return 0;
+        }
+        
+        // If result is already calculated, return it no recursion needed
+        if (memo[mask] != -1)
+            return memo[mask];
+        
+        int smallestDistanceSum = INT_MAX;
+        for (int bikeIndex = 0; bikeIndex < bikes.size(); bikeIndex++) {
+            // Check if the bike at bikeIndex is available
+            if ((mask & (1 << bikeIndex)) == 0) {
+                // Adding the current distance and repeat the process for next worker
+                // also changing the bit at index bikeIndex to 1 to show the bike there is assigned
+                smallestDistanceSum = min(smallestDistanceSum, 
+                             findDistance(workers[workerIndex], bikes[bikeIndex]) + 
+                                          minimumDistanceSum(workers, bikes, workerIndex + 1, 
+                                                             mask | (1 << bikeIndex)));
+            }
+        }
+        
+        // Memoizing the result corresponding to mask
+        return memo[mask] = smallestDistanceSum;
+    }
+public:
+    int assignBikes(vector<vector<int>>& workers, vector<vector<int>>& bikes) {
+        // Marking all positions to -1 that signifies result 
+        // has not been calculated yet for this mask
+        memset(memo, -1, sizeof(memo));
+        return minimumDistanceSum(workers, bikes, 0, 0);
+    }
+};
+```
+
+**Solution 5: (Bottom-Up Dynamic Programming + BitMasking, O(M⋅2^M))**
+```
+Runtime: 2 ms
+Memory: 9.47 MB
+```
+```c++
+class Solution {
+    // Maximum value of mask will be 2^(Number of bikes)
+    // And number of bikes can be 10 at max
+    int memo [1024];
+    
+    // Count the number of ones using Brian Kernighan’s Algorithm
+    int countNumOfOnes(int mask) {
+        int count = 0;
+        while (mask != 0) {
+            mask &= (mask - 1);
+            count++;
+        } 
+        return count;
+    }
+    
+    // Manhattan distance
+    int findDistance(vector<int>& worker, vector<int>& bike) {
+        return abs(worker[0] - bike[0]) + abs(worker[1] - bike[1]);
+    }
+    
+    int minimumDistanceSum(vector<vector<int>>& workers, vector<vector<int>>& bikes) {
+        int numOfBikes = bikes.size();
+        int numOfWorkers = workers.size();
+        int smallestDistanceSum = INT_MAX;
+
+        // 0 signifies that no bike has been assigned and
+        // Distance sum for not assigning any bike is equal to 0
+        memo[0] = 0;
+        // Traverse over all the possible values of mask
+        for (int mask = 0; mask < (1 << numOfBikes); mask++) {
+            int nextWorkerIndex = countNumOfOnes(mask);
+            
+            // If mask has more number of 1's than the number of workers
+            // Then we can update our answer accordingly
+            if (nextWorkerIndex >= numOfWorkers) {
+                smallestDistanceSum = min(smallestDistanceSum, memo[mask]);
+                continue;
+            }
+            
+            for (int bikeIndex = 0; bikeIndex < numOfBikes; bikeIndex++) {
+                // Checking if the bike at bikeIndex has already been assigned
+                if ((mask & (1 << bikeIndex)) == 0) {
+                    int newMask = (1 << bikeIndex) | mask;
+                    
+                    // Updating the distance sum for newMask
+                    memo[newMask] = min(memo[newMask], memo[mask] + 
+                                        findDistance(workers[nextWorkerIndex], bikes[bikeIndex]));
+                }
+            }
+        }
+        
+        return smallestDistanceSum;
+    }
+public:
+    int assignBikes(vector<vector<int>>& workers, vector<vector<int>>& bikes) {
+        // Initializing the answers for all masks to be INT_MAX
+        for (int i = 0; i < 1024; i++) {
+            memo[i] = INT_MAX;
+        }
+        return minimumDistanceSum(workers, bikes);
+    }
+};
+```
+
+**Solution 6: (Priority Queue (Similar to Dijkstra's Algorithm), O(P(M,N)⋅log(P(M,N))+(M⋅log(P(M,N))⋅2^M))**
+```
+Runtime: 18 ms
+Memory: 12.78 MB
+```
+```c++
+class Solution {
+    // Manhattan distance
+    int findDistance(vector<int>& worker, vector<int>& bike) {
+        return abs(worker[0] - bike[0]) + abs(worker[1] - bike[1]);
+    }
+    
+    // Count the number of ones using Brian Kernighan’s Algorithm
+    int countNumOfOnes(int mask) {
+        int count = 0;
+        while (mask != 0) {
+            mask &= (mask - 1);
+            count++;
+        } 
+        return count;
+    }
+public:
+    int assignBikes(vector<vector<int>>& workers, vector<vector<int>>& bikes) {
+        int numOfBikes = bikes.size();
+        int numOfWorkers = workers.size();
+        
+        priority_queue<pair<int, int>, vector<pair<int, int>>, greater<pair<int, int>>> priorityQueue;
+        unordered_set<int> visited;
+
+        // Initially both distance sum and mask is 0
+        priorityQueue.push({0, 0});
+        while (!priorityQueue.empty()) {
+            int currentDistanceSum = priorityQueue.top().first;
+            int currentMask = priorityQueue.top().second;
+            priorityQueue.pop();
+            
+            // Continue if the mask is already traversed
+            if (visited.find(currentMask) != visited.end())
+                continue;
+            
+            // Marking the mask as visited
+            visited.insert(currentMask);
+            // Next Worker index would be equal to the number of 1's in currentMask
+            int workerIndex = countNumOfOnes(currentMask);
+            
+            // Return the current distance sum if all workers are covered
+            if (workerIndex == numOfWorkers) {
+                return currentDistanceSum;
+            }
+
+            for (int bikeIndex = 0; bikeIndex < numOfBikes; bikeIndex++) {
+                // Checking if the bike at bikeIndex has been assigned or not
+                if ((currentMask & (1 << bikeIndex)) == 0) {
+                    int nextStateDistanceSum = currentDistanceSum + 
+                        findDistance(workers[workerIndex], bikes[bikeIndex]);
+                    
+                    // Put the next state pair into the priority queue
+                    int nextStateMask = currentMask | (1 << bikeIndex);
+                    priorityQueue.push({nextStateDistanceSum, nextStateMask});
+                }
+            }
+        }
+        
+        // This statement will never be executed provided there is at least one bike per worker
+        return -1;
+    }
+};
+```

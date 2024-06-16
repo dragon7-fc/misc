@@ -62,3 +62,43 @@ class Solution:
         numNodes(root,x)
         return max(self.l, self.r, n - self.l - self.r - 1) > n/2
 ```
+
+**Solution 2: (DFS)**
+```
+Runtime: 0 ms
+Memory: 12.65 MB
+```
+```c++
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+class Solution {
+    int dfs(TreeNode *node, int x, int &n1, int &n2) {
+        if (!node) {
+            return 0;
+        }
+        int left = dfs(node->left, x, n1, n2);
+        int right = dfs(node->right, x, n1, n2);
+        if (node->val == x) {
+            n1 = left;
+            n2 = right;
+        }
+        return left + right + 1;
+    }
+public:
+    bool btreeGameWinningMove(TreeNode* root, int n, int x) {
+        int n1, n2;
+        dfs(root, x, n1, n2);
+        x = max({n1, n2, n-n1-n2-1});
+        return x > (n-x);
+    }
+};
+```

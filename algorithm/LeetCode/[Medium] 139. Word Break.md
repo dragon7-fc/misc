@@ -131,3 +131,28 @@ public:
     }
 };
 ```
+
+**Solution 5: (DP Bottom-Up)**
+```
+Runtime: 14 ms
+Memory: 17.22 MB
+```
+```c++
+class Solution {
+public:
+    bool wordBreak(string s, vector<string>& wordDict) {
+        int n = s.size();
+        vector<bool> dp(n+1);
+        dp[0] = true;
+        unordered_set<string> st(wordDict.begin(), wordDict.end());
+        for (int j = 0; j < n; j ++) {
+            for (int i = 0; i <= j; i ++) {
+                if (st.count(s.substr(i, j-i+1))) {
+                    dp[j+1] = dp[j+1] | dp[i];
+                }
+            }
+        }
+        return dp.back();
+    }
+};
+```

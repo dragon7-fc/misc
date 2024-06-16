@@ -78,7 +78,35 @@ class Solution:
 
 # Submissions
 ---
-**Solution 1: (Two Pointers)**
+**Solution 1: (Sliding Window)**
+```
+Runtime: 20 ms
+Memory: 22.09 MB
+```
+```c++
+class Solution {
+public:
+    vector<vector<int>> intervalIntersection(vector<vector<int>>& firstList, vector<vector<int>>& secondList) {
+        int n = secondList.size(), j = 0;
+        vector<vector<int>> ans;
+        for (int i = 0; i < firstList.size(); i ++) {
+            while (j < n && secondList[j][1] < firstList[i][0]) {
+                j += 1;
+            }
+            while (j < n && secondList[j][0] <= firstList[i][1]) {
+                ans.push_back({max(firstList[i][0], secondList[j][0]), min(firstList[i][1], secondList[j][1])});
+                if (secondList[j][1] > firstList[i][1]) {
+                    break;
+                }
+                j += 1;
+            }
+        }
+        return ans;
+    }
+};
+```
+
+**Solution 2: (Two Pointers)**
 ```
 Runtime: 172 ms
 Memory Usage: 14.4 MB

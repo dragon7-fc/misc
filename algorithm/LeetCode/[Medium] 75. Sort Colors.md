@@ -89,3 +89,31 @@ void sortColors(int* nums, int numsSize){
     }
 }
 ```
+**Solution 3: (Two Pointers)**
+```
+Runtime: 0 ms
+Memory: 9.72 MB
+```
+```c++
+class Solution {
+public:
+    void sortColors(vector<int>& nums) {
+        int n = nums.size(), i = 0, j = 0;
+        while (j < n) {
+            if (nums[j] == 0) {
+                swap(nums[i], nums[j]);
+                i += 1;
+            }
+            j += 1;
+        }
+        j = i;
+        while (j < n) {
+            if (nums[j] == 1) {
+                swap(nums[i], nums[j]);
+                i += 1;
+            }
+            j += 1;
+        }
+    }
+};
+```

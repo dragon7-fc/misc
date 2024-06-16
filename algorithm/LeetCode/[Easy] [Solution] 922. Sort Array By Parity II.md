@@ -112,3 +112,28 @@ class Solution:
                 A[i], A[j] = A[j], A[i]
         return A
 ```
+
+**Solution 2: (Two Pointers)**
+```
+Runtime: 8 ms
+Memory: 23.78 MB
+```
+```c++
+class Solution {
+public:
+    vector<int> sortArrayByParityII(vector<int>& nums) {
+        int n = nums.size(), o = 1, e = 0;
+        vector<int> ans(n);
+        for (auto num: nums) {
+            if (num%2) {
+                ans[o] = num;
+                o += 2;
+            } else {
+                ans[e] = num;
+                e += 2;
+            }
+        }
+        return ans;
+    }
+};
+```
