@@ -71,7 +71,7 @@ class Solution:
             n = -n
 
         ans = 1
-        if n %2 == 1:
+        if n%2 == 1:
             ans = x * self.myPow(x*x, (n-1)/2)
         else:
             ans = self.myPow(x*x, n/2)
@@ -158,7 +158,7 @@ public:
 };
 ```
 
-**Solution 6: (Math)**
+**Solution 6: (Math, shift right)**
 ```
 Runtime: 0 ms
 Memory: 5.9 MB
@@ -188,4 +188,36 @@ public:
         return ans;
     }
 };
+```
+
+**Solution u: (Math, shift left)**
+```
+Runtime: 0 ms
+Memory: 8.13 MB
+```
+```c++
+class Solution {
+public:
+    double myPow(double x, int n) {
+        if (x == 0) {
+            return 0;
+        }
+        if (n == 0) {
+            return 1;
+        }
+        int i = 1;
+        long long ln = n;
+        double tmp = (ln > 0 ? x : 1.0/x), pre = (abs(ln)%2 ? tmp : 1), ans = pre;
+        while (i < 32 && (1<<i) <= abs(ln)) {
+            tmp *= tmp;
+            if ((1<<i) & abs(ln)) {
+                ans = tmp * pre;
+                pre = ans;
+            }
+            i += 1;
+        }
+        return ans;
+    }
+};
+
 ```

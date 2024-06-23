@@ -100,29 +100,75 @@ class Solution:
         return len(nums) - i
 ```
 
-**Solution 3: (Sliding Window, Min Max Queue)**
+**Solution 3: (Sliding Window, sorted hash table)**
 ```
-Runtime: 72 ms
-Memory: 52.4 MB
+Runtime: 118 ms
+Memory: 65.07 MB
 ```
 ```c++
 class Solution {
 public:
     int longestSubarray(vector<int>& nums, int limit) {
-        deque<int> maxd, mind;
-        int i = 0, j;
-        for (j = 0; j < nums.size(); ++j) {
-            while (!maxd.empty() && nums[j] > maxd.back()) maxd.pop_back();
-            while (!mind.empty() && nums[j] < mind.back()) mind.pop_back();
-            maxd.push_back(nums[j]);
-            mind.push_back(nums[j]);
-            if (maxd.front() - mind.front() > limit) {
-                if (maxd.front() == nums[i]) maxd.pop_front();
-                if (mind.front() == nums[i]) mind.pop_front();
-                ++i;
+        map<int,int> cnt;
+        int i = 0, ans = 0;
+        for (int j = 0; j < nums.size(); j ++) {
+            cnt[nums[j]] += 1;
+            while (cnt.size() && cnt.rbegin()->first - cnt.begin()->first > limit) {
+                cnt[nums[i]] -= 1;
+                if (cnt[nums[i]] == 0) {
+                    cnt.erase(nums[i]);
+                }
+                i += 1;
             }
+            ans = max(ans, j-i+1);
         }
-        return j - i;
+        return ans;
+    }
+};
+```
+
+**Solution 4: (Two Deques)**
+```
+Runtime: 59 ms
+Memory: 54.44 MB
+```
+```c++
+class Solution {
+public:
+    int longestSubarray(vector<int>& nums, int limit) {
+        deque<int> maxDeque, minDeque;
+        int left = 0, right;
+        int maxLength = 0;
+
+        for (right = 0; right < nums.size(); ++right) {
+            // Maintain the maxDeque in decreasing order
+            while (!maxDeque.empty() && maxDeque.back() < nums[right]) {
+                maxDeque.pop_back();
+            }
+            maxDeque.push_back(nums[right]);
+
+            // Maintain the minDeque in increasing order
+            while (!minDeque.empty() && minDeque.back() > nums[right]) {
+                minDeque.pop_back();
+            }
+            minDeque.push_back(nums[right]);
+
+            // Check if the current window exceeds the limit
+            while (maxDeque.front() - minDeque.front() > limit) {
+                // Remove the elements that are out of the current window
+                if (maxDeque.front() == nums[left]) {
+                    maxDeque.pop_front();
+                }
+                if (minDeque.front() == nums[left]) {
+                    minDeque.pop_front();
+                }
+                ++left;
+            }
+
+            maxLength = max(maxLength, right - left + 1);
+        }
+
+        return maxLength;
     }
 };
 ```

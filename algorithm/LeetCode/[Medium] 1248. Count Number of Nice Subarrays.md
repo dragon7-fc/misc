@@ -50,3 +50,29 @@ class Solution:
             arr[k+1:]
         )])
 ```
+
+**Solution 1: (Prefix Sum)**
+```
+Runtime: 80 ms
+Memory: 74.15 MB
+```
+```c++
+class Solution {
+public:
+    int numberOfSubarrays(vector<int>& nums, int k) {
+        int n = nums.size(), ans = 0;
+        vector<int> dp;
+        dp.push_back(-1);
+        for (int i = 0; i < n; i ++) {
+            if (nums[i]%2) {
+                dp.push_back(i);
+            }
+        }
+        dp.push_back(n);
+        for (int i = k; i < dp.size()-1; i ++) {
+            ans += (dp[i+1]-dp[i])*(dp[i-k+1]-dp[i-k]);
+        }
+        return ans;
+    }
+};
+```

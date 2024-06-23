@@ -16717,32 +16717,46 @@ class Solution:
 ```
 * [Medium] 1358. Number of Substrings Containing All Three Characters
 
-### Min Max Queue
-```python
-class Solution:
-    def longestSubarray(self, nums: List[int], limit: int) -> int:
-        min_deque, max_deque = deque(), deque()
-        l = r = 0
-        ans = 0
-        while r < len(nums):
-            while min_deque and nums[r] <= nums[min_deque[-1]]:
-                min_deque.pop()
-            while max_deque and nums[r] >= nums[max_deque[-1]]:
-                max_deque.pop()
-            min_deque.append(r)
-            max_deque.append(r)
-            
-            while nums[max_deque[0]] - nums[min_deque[0]] > limit:
-                l += 1
-                if l > min_deque[0]:
-                    min_deque.popleft()
-                if l > max_deque[0]:
-                    max_deque.popleft()
-            
-            ans = max(ans, r - l + 1)
-            r += 1
-                
-        return ans
+### Two Deques
+```c++
+class Solution {
+public:
+    int longestSubarray(vector<int>& nums, int limit) {
+        deque<int> maxDeque, minDeque;
+        int left = 0, right;
+        int maxLength = 0;
+
+        for (right = 0; right < nums.size(); ++right) {
+            // Maintain the maxDeque in decreasing order
+            while (!maxDeque.empty() && maxDeque.back() < nums[right]) {
+                maxDeque.pop_back();
+            }
+            maxDeque.push_back(nums[right]);
+
+            // Maintain the minDeque in increasing order
+            while (!minDeque.empty() && minDeque.back() > nums[right]) {
+                minDeque.pop_back();
+            }
+            minDeque.push_back(nums[right]);
+
+            // Check if the current window exceeds the limit
+            while (maxDeque.front() - minDeque.front() > limit) {
+                // Remove the elements that are out of the current window
+                if (maxDeque.front() == nums[left]) {
+                    maxDeque.pop_front();
+                }
+                if (minDeque.front() == nums[left]) {
+                    minDeque.pop_front();
+                }
+                ++left;
+            }
+
+            maxLength = max(maxLength, right - left + 1);
+        }
+
+        return maxLength;
+    }
+};
 ```
 * [Medium] 1438. Longest Continuous Subarray With Absolute Diff Less Than or Equal to Limit
 

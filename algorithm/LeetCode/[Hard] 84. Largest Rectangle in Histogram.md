@@ -34,32 +34,31 @@ class Solution:
         return max_area
 ```
 
-**Solution 2: (Stack)**
+**Solution 2: (Stack, mono inc stack)**
 ```
-Runtime: 124 ms
-Memory Usage: 63.4 MB
+Runtime: 105 ms
+Memory: 79.46 MB
 ```
 ```c++
 class Solution {
 public:
     int largestRectangleArea(vector<int>& heights) {
-        int ans=INT_MIN, area_with_top=0, top=0, i=0, n=heights.size();
-        stack<int> s;
-        
-        while(i<n){
-            if(s.empty() || heights[s.top()]<=heights[i]) s.push(i++);
-            else{
-                top = s.top(); s.pop();
-                area_with_top = heights[top]*(s.empty() ? i : i-s.top()-1);
-                ans = max(ans, area_with_top);
+        int n = heights.size();
+        stack<int> stk;
+        int i, j, ans = INT_MIN;
+        for (j = 0; j < n; j ++) {
+            while (stk.size() && heights[stk.top()] > heights[j]) {
+                i = stk.top();
+                stk.pop();
+                ans = max(ans, heights[i]*(stk.empty() ? j : j-stk.top()-1));
             }
+            stk.push(j);
         }
-        
-        while(!s.empty()){
-            top = s.top(); s.pop();
-            area_with_top = heights[top]*(s.empty() ? i : i-s.top()-1);
-            ans = max(ans, area_with_top);
-        }  
+        while (stk.size()) {
+            i = stk.top();
+            stk.pop();
+            ans = max(ans, heights[i]*(stk.empty() ? j : j-stk.top()-1));
+        }
         return ans;
     }
 };
