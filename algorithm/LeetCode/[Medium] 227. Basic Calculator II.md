@@ -254,3 +254,45 @@ int calculate(char * s){
     return num[idx];
 }
 ```
+
+**Solution 4: (Stack, previous operator and append magic end signature)**
+```
+Runtime: 20 ms
+Memory: 14.37 MB
+```
+```c++
+class Solution {
+public:
+    int calculate(string s) {
+        int n = s.size(), ans = 0;
+        long long cur = 0;
+        char op = '+';
+        stack<int> stk;
+        s += '#';
+        for (auto c: s) {
+            if (c >= '0' && c <= '9') {
+                cur = cur*10 + c -'0';
+            } else if (c == ' ') {
+                continue;
+            } else {
+                if (op == '+') {
+                    stk.push(cur);
+                } else if (op == '-') {
+                    stk.push(-cur);
+                } else if (op == '*') {
+                    stk.top() *= cur;
+                } else {
+                    stk.top() /= cur;
+                }
+                cur = 0;
+                op = c;
+            }
+        }
+        while (stk.size()) {
+            ans += stk.top();
+            stk.pop();
+        }
+        return ans;
+    }
+};
+```

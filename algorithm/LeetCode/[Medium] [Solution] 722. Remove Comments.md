@@ -189,3 +189,45 @@ public:
     }
 };
 ```
+
+**Solution 2: (String)**
+```
+Runtime: 0 ms
+Memory: 9.22 MB 
+```
+```c++
+class Solution {
+public:
+    vector<string> removeComments(vector<string>& source) {
+        vector<string> ans;
+        string cur;
+        bool flag = false;
+        for (auto s: source) {
+            if (!flag) {
+                cur = "";
+            }
+            for (int i = 0; i < s.size(); i ++) {
+                if (i < s.size()-1) {
+                    if (s[i] == '/' && s[i+1] == '/' && !flag) {
+                        break;
+                    } else if (s[i] == '/' && s[i+1] == '*' && !flag) {
+                        i += 1;
+                        flag = true;
+                    } else if (s[i] == '*' && s[i+1] == '/' && flag) {
+                        i += 1;
+                        flag = false;
+                    } else if (!flag) {
+                        cur += s[i];
+                    }
+                } else if (!flag) {
+                    cur += s[i];
+                }
+            }
+            if (cur != "" && !flag) {
+                ans.push_back(cur);
+            }
+        }
+        return ans;
+    }
+};
+```

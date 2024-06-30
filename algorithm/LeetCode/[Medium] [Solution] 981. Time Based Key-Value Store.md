@@ -138,7 +138,41 @@ class TimeMap:
 # param_2 = obj.get(key,timestamp)
 ```
 
-**Solution 1: (Hash Table)**
+**Solution 1: (Hash Table, binary search)**
+```
+Runtime: 275 ms
+Memory: 147.86 MB
+```
+```c++
+ class TimeMap {
+    unordered_map<string, vector<pair<int,string>>> m;
+public:
+    TimeMap() {
+        
+    }
+    
+    void set(string key, string value, int timestamp) {
+        m[key].push_back({timestamp, value});
+    }
+    
+    string get(string key, int timestamp) {
+        auto it = upper_bound(m[key].begin(), m[key].end(), make_pair(timestamp, string(100, 'z'+1)));
+        if (it == m[key].begin()){
+            return "";
+        }
+        return prev(it)->second;
+    }
+};
+
+/**
+ * Your TimeMap object will be instantiated and called as such:
+ * TimeMap* obj = new TimeMap();
+ * obj->set(key,value,timestamp);
+ * string param_2 = obj->get(key,timestamp);
+ */
+```
+
+**Solution 2: (Hash Table, binary search)**
 ```
 Runtime: 300 ms
 Memory Usage: 130.6 MB

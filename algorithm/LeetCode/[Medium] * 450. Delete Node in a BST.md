@@ -200,3 +200,47 @@ struct TreeNode* deleteNode(struct TreeNode* root, int key){
 	return root;
 }
 ```
+
+**Solution 4: (DFS, Post Order)**
+```
+Runtime: 28 ms
+Memory: 32.20 MB
+```
+```c++
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+class Solution {
+public:
+    TreeNode* deleteNode(TreeNode* root, int key) {
+        if (!root) {
+            return nullptr;
+        }
+        if (root->val == key) {
+            if (!root->left || !root->right) {
+                return !root->left ? root->right : root->left;
+            }
+            TreeNode *node = root->left, *par = root;
+            while (node) {
+                par = node;
+                node = node->right;
+            }
+            par->right = root->right;
+            return root->left;
+        } else if (root->val < key) {
+            root->right = deleteNode(root->right, key);
+        } else {
+            root->left = deleteNode(root->left, key);
+        }
+        return root;
+    }
+};
+```

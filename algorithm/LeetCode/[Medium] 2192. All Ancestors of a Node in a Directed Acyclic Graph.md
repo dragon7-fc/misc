@@ -83,32 +83,207 @@ class Solution:
 
 **Solution 2: (DFS)**
 ```
-Runtime: 166 ms
-Memory Usage: 62.7 MB
+Runtime: 113 ms
+Memory: 63.12 MB
 ```
 ```c++
 class Solution {
-    void dfs(vector<vector<int>> &graph,int i,int j,vector<vector<int>> &ans,vector<bool> &vis){
-        vis[j]=true;
-        for(auto &x:graph[j]){
-            if(!vis[x]){
-                ans[x].push_back(i);
-                dfs(graph,i,x,ans,vis);
+    void dfs(vector<vector<int>> &g, int pv, int v, vector<vector<int>> &ans, vector<bool> &visited){
+        visited[v] = true;
+        for (auto &nv: g[v]){
+            if (!visited[nv]){
+                ans[nv].push_back(pv);
+                dfs(g, pv, nv, ans, visited);
             }
             
         }
     }
+
 public:
     vector<vector<int>> getAncestors(int n, vector<vector<int>>& edges) {
-        vector<vector<int>> ans(n),graph(n);
-        for(auto &v:edges){
-            graph[v[0]].push_back(v[1]);
+        vector<vector<int>> ans(n), g(n);
+        for (auto &e: edges){
+            g[e[0]].push_back(e[1]);
         }
-        for(int i=0;i<n;i++){
-            vector<bool> vis(n);
-            dfs(graph,i,i,ans,vis);
+        vector<bool> visited(n);
+        for (int i = 0; i < n; i ++){
+            fill(visited.begin(), visited.end(), false);
+            dfs(g, i, i, ans, visited);
         }
         return ans;
+
+    }
+};
+```
+
+**Solution 3: (Depth First Search (Reversed Graph))**
+```
+Runtime: 434 ms
+Memory: 158.41 MB
+```
+```c++
+class Solution {
+     // Helper method to perform DFS and find all children of a given node
+    void findChildren(int currentNode, vector<vector<int>>& adjacencyList,
+                      unordered_set<int>& visitedNodes) {
+        // Mark current node as visited
+        visitedNodes.insert(currentNode);
+
+        // Recursively traverse all neighbors
+        for (int neighbour : adjacencyList[currentNode]) {
+            if (visitedNodes.find(neighbour) == visitedNodes.end()) {
+                findChildren(neighbour, adjacencyList, visitedNodes);
+            }
+        }
+    }
+
+public:
+    vector<vector<int>> getAncestors(int n, vector<vector<int>>& edges) {
+        // Initialize adjacency list for the graph
+        vector<vector<int>> adjacencyList(n);
+
+        // Populate the adjacency list with reversed edges
+        for (auto& edge : edges) {
+            int from = edge[0];
+            int to = edge[1];
+            adjacencyList[to].push_back(from);
+        }
+
+        vector<vector<int>> ancestorsList;
+
+        // For each node, find all its ancestors (children in reversed graph)
+        for (int i = 0; i < n; i++) {
+            vector<int> ancestors;
+            unordered_set<int> visited;
+            findChildren(i, adjacencyList, visited);
+            // Add visited nodes to the current nodes' ancestor list
+            for (int node = 0; node < n; node++) {
+                if (node == i) continue;
+                if (visited.find(node) != visited.end())
+                    ancestors.push_back(node);
+            }
+            ancestorsList.push_back(ancestors);
+        }
+
+        return ancestorsList;
+    }
+};
+```
+
+**Solution 4: (Topological Sort (BFS))**
+```
+Runtime: 381 ms
+Memory: 144.58 MB
+```
+```c++
+class Solution {
+public:
+    vector<vector<int>> getAncestors(int n, vector<vector<int>>& edges) {
+        // Create adjacency list
+        vector<vector<int>> adjacencyList(n);
+        for (int i = 0; i < n; i++) {
+            adjacencyList[i] = {};
+        }
+
+        // Fill the adjacency list and indegree array based on the edges
+        vector<int> indegree(n, 0);
+        for (auto& edge : edges) {
+            int from = edge[0];
+            int to = edge[1];
+            adjacencyList[from].push_back(to);
+            indegree[to]++;
+        }
+
+        queue<int> nodesWithZeroIndegree;
+        for (int i = 0; i < indegree.size(); i++) {
+            if (indegree[i] == 0) {
+                nodesWithZeroIndegree.push(i);
+            }
+        }
+
+        // List to store the topological order of nodes
+        vector<int> topologicalOrder;
+        while (!nodesWithZeroIndegree.empty()) {
+            int currentNode = nodesWithZeroIndegree.front();
+            nodesWithZeroIndegree.pop();
+            topologicalOrder.push_back(currentNode);
+
+            // Reduce indegree of neighboring nodes and add them to the queue
+            // if they have no more incoming edges
+            for (int neighbor : adjacencyList[currentNode]) {
+                indegree[neighbor]--;
+                if (indegree[neighbor] == 0) {
+                    nodesWithZeroIndegree.push(neighbor);
+                }
+            }
+        }
+
+        // Initialize the result list and set list for storing ancestors
+        vector<vector<int>> ancestorsList(n);
+        vector<set<int>> ancestorsSetList(n);
+
+        // Fill the set list with ancestors using the topological order
+        for (int node : topologicalOrder) {
+            for (int neighbor : adjacencyList[node]) {
+                // Add immediate parent, and other ancestors
+                ancestorsSetList[neighbor].insert(node);
+                ancestorsSetList[neighbor].insert(
+                    ancestorsSetList[node].begin(),
+                    ancestorsSetList[node].end());
+            }
+        }
+
+        // Convert sets to lists and sort them
+        for (int i = 0; i < ancestorsList.size(); i++) {
+            ancestorsList[i].assign(ancestorsSetList[i].begin(),
+                                    ancestorsSetList[i].end());
+            sort(ancestorsList[i].begin(), ancestorsList[i].end());
+        }
+
+        return ancestorsList;
+    }
+};
+```
+
+**Solution 5: (Depth First Search (Optimized))**
+```
+Runtime: 92 ms
+Memory: 64.30 MB
+```
+```c++
+class Solution {
+     // Helper method to perform DFS and find ancestors
+    void findAncestorsDFS(int ancestor, vector<vector<int>>& adjacencyList,
+                          int currentNode, vector<vector<int>>& ancestors) {
+        for (int childNode : adjacencyList[currentNode]) {
+            // Check if the ancestor is already added to avoid duplicates
+            if (ancestors[childNode].empty() ||
+                ancestors[childNode].back() != ancestor) {
+                ancestors[childNode].push_back(ancestor);
+                findAncestorsDFS(ancestor, adjacencyList, childNode, ancestors);
+            }
+        }
+    }
+
+public:
+    vector<vector<int>> getAncestors(int n, vector<vector<int>>& edges) {
+        // Initialize adjacency list for each node and ancestors list
+        vector<vector<int>> adjacencyList(n);
+        vector<vector<int>> ancestors(n);
+
+        // Populate the adjacency list with edges
+        for (vector<int> edge : edges) {
+            int from = edge[0];
+            int to = edge[1];
+            adjacencyList[from].push_back(to);
+        }
+
+        // Perform DFS for each node to find all its ancestors
+        for (int i = 0; i < n; i++) {
+            findAncestorsDFS(i, adjacencyList, i, ancestors);
+        }
+
+        return ancestors;
     }
 };
 ```

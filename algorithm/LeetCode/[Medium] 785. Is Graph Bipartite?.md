@@ -170,12 +170,11 @@ bool isBipartite(int** graph, int graphSize, int* graphColSize){
 
 **Solution 5: (DFS)**
 ```
-Runtime: 28 ms
-Memory Usage: 13.3 MB
+Runtime: 17 ms
+Memory: 16.02 MB
 ```
 ```c++
 class Solution {
-public:
     bool dfs(int v, int c, vector<int>& color, vector<vector<int>>& graph) {
         color[v] = c;
         for (auto &nv: graph[v]) {
@@ -187,6 +186,8 @@ public:
         }
         return true;
     }
+
+public:
     bool isBipartite(vector<vector<int>>& graph) {
         int n = graph.size();
         vector<int> color(n, -1);
@@ -196,7 +197,7 @@ public:
                     return false;
             }
         }
-        return all_of(color.begin(), color.end(), [](int c) {return c != -1;});
+        return true;
     }
 };
 ```

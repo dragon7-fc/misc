@@ -89,3 +89,81 @@ class Solution:
 
         return root
 ```
+
+**Solution 3: (Binary Search Tree, DFS)**
+```
+Runtime: 4 ms
+Memory: 10.17 MB
+```
+```c++
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+class Solution {
+    void dfs(TreeNode *node, TreeNode** par) {
+        if (!node) {
+            return;
+        }
+        dfs(node->right, par);
+        if (*par) {
+            node->val += (*par)->val;
+        }
+        *par = node;
+        dfs(node->left, par);
+    }
+public:
+    TreeNode* bstToGst(TreeNode* root) {
+        TreeNode *par = nullptr;
+        dfs(root, &par);
+        return root;
+    }
+};
+```
+
+**Solution 4: (Binary Search Tree, stack)**
+```
+Runtime: 0 ms
+Memory: 10.16 MB
+```
+```c++
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+class Solution {
+public:
+    TreeNode* bstToGst(TreeNode* root) {
+        stack<TreeNode*> stk;
+        TreeNode *node = root, *par = nullptr;
+        while (stk.size() || node) {
+            while (node) {
+                stk.push(node);
+                node = node->right;
+            }
+            node = stk.top();
+            stk.pop();
+            if (par) {
+                node->val += par->val;
+            }
+            par = node;
+            node = node->left;
+        }
+        return root;
+    }
+};
+```

@@ -16196,58 +16196,79 @@ class Solution:
 ```
 * [Hard] [Solution] 952. Largest Component Size by Common Factor
 
-### Remove Max Number of Edges to Keep Graph Fully Traversable
-```python
-class Solution:
-    def maxNumEdgesToRemove(self, n: int, edges: List[List[int]]) -> int:
+### Union-Find with rank
+```c++
+class DSU {
+public:
+    vector<int> parent, rank;
+    DSU(int n) {
+        parent.resize(n);
+        rank.resize(n, 0);
+        for (int i = 0; i < n; i ++) {
+            parent[i] = i;
+        }
+    }
+    int find(int x) {
+        return parent[x] = parent[x] == x ? x : find(parent[x]);
+    }
+    bool uni(int x, int y) {
+        int xset = find(x), yset = find(y);
+        if (xset == yset) {
+            return false;
+        }
+        if (rank[xset] < rank[yset]) {
+            parent[xset] = parent[yset];
+        } else if (rank[yset] < rank[xset]) {
+            parent[yset] = parent[xset];
+        } else {
+            parent[yset] = xset;
+            rank[xset] += 1;
+        }
+        return true;
+    }
+};
 
-        # Union find
-        def find(i):
-            if i != root[i]:
-                root[i] = find(root[i])
-            return root[i]
-
-        def uni(x, y):
-            x, y = find(x), find(y)
-            if x == y: return 0
-            root[x] = y
-            return 1
-
-        res = e1 = e2 = 0
-
-        # Alice and Bob
-        root = list(range(n + 1))
-        for t, i, j in edges:
-            if t == 3:
-                if uni(i, j):
-                    e1 += 1
-                    e2 += 1
-                else:
-                    res += 1
-        root0 = root[:]
-
-        # only Alice
-        for t, i, j in edges:
-            if t == 1:
-                if uni(i, j):
-                    e1 += 1
-                else:
-                    res += 1
-
-        # only Bob
-        root = root0
-        for t, i, j in edges:
-            if t == 2:
-                if uni(i, j):
-                    e2 += 1
-                else:
-                    res += 1
-
-        return res if e1 == e2 == n - 1 else -1
+class Solution {
+public:
+    int maxNumEdgesToRemove(int n, vector<vector<int>>& edges) {
+        DSU dsu1(n), dsu2(n);
+        int e1 = 0, e2 = 0, ans = 0;
+        for (int i = 0; i < edges.size(); i ++) {
+            if (edges[i][0] == 3) {
+                if (dsu1.uni(edges[i][1]-1, edges[i][2]-1)) {
+                    e1 += 1;
+                    e2 += 1;
+                } else {
+                    ans += 1;
+                }
+            }
+        }
+        dsu2.parent = dsu1.parent;
+        for (int i = 0; i < edges.size(); i ++) {
+            if (edges[i][0] == 1) {
+                if (dsu1.uni(edges[i][1]-1, edges[i][2]-1)) {
+                    e1 += 1;
+                } else {
+                    ans += 1;
+                }
+            }
+        }
+        for (int i = 0; i < edges.size(); i ++) {
+            if (edges[i][0] == 2) {
+                if (dsu2.uni(edges[i][1]-1, edges[i][2]-1)) {
+                    e2 += 1;
+                } else {
+                    ans += 1;
+                }
+            }
+        }
+        return e1 == e2 && e2 == n-1 ? ans : -1;
+    }
+};
 ```
 * [Hard] 1579. Remove Max Number of Edges to Keep Graph Fully Traversable
 
-**Template 1: (Union Find with rank)**
+**Template 1: (Union-Find with rank)**
 ```python
 class DSU(object):
     def __init__(self):
@@ -17563,60 +17584,78 @@ class Solution:
 ## Segment Tree <a name="st"></a>
 ---
 ### Range Sum, array to tree simulation
-```python
-class NumArray:
-
-    def __init__(self, nums: List[int]):
-        self.N = len(nums)
-        if self.N > 0:
-            self.tree = [0] * 2*self.N
-            self.buildTree(nums)
+```c++
+class SegmentTree {
+    SegmentTree *left, *right;
+    int start, end, val;
+    const vector<int>& nums;
+public:
+    SegmentTree(const vector<int>& nums_, int a, int b) : start(a), end(b), val(0), left(nullptr), right(nullptr), nums(nums_) {
+        
+        if (start == end) {
+            val = nums[start];
+            return;
+        }
+        
+        int mid = (a + b) / 2;
+        
+        left = new SegmentTree(nums, a, mid);
+        right = new SegmentTree(nums, mid + 1, b);
+        
+        val = left->val + right->val;
+    }
     
-    def buildTree(self, nums):
-        j = 0
-        for i in range(self.N, 2*self.N):
-            self.tree[i] = nums[j]
-            j += 1
-        for i in range(self.N-1, 0, -1):
-            self.tree[i] = self.tree[i*2] + self.tree[i*2 + 1]
+    void updateNode(int index, int n) {
+        if (index < start || index > end) {
+            return;
+        }
+        
+        if (start == end) {
+            val = n;
+            return;
+        }
+        
+        left->updateNode(index, n);
+        right->updateNode(index, n);
+        
+        val = left->val + right->val;
+    }
+    
+    int queryRange(int a, int b) {
+        if (a > end || b < start) {
+            return 0;
+        }
+        
+        if (start >= a && end <= b) {
+            return val;
+        }
+        
+        return left->queryRange(a, b) + right->queryRange(a, b);
+    }
+};
 
-    def update(self, index: int, val: int) -> None:
-        pos = index + self.N
-        self.tree[pos] = val
-        while pos > 0:
-            left = pos
-            right = pos
-            if pos % 2 == 0:
-                right = pos + 1
-            else:
-                left = pos - 1
-            # parent is updated after child is updated
-            self.tree[pos // 2] = self.tree[left] + self.tree[right]
-            pos //= 2
+class NumArray {
+    SegmentTree* tree;
+public:
+    NumArray(vector<int>& nums) {
+        tree = new SegmentTree(nums, 0, nums.size() - 1);
+    }
+    
+    void update(int index, int val) {
+        tree->updateNode(index, val);
+    }
+    
+    int sumRange(int left, int right) {
+        return tree->queryRange(left, right);
+    }
+};
 
-    def sumRange(self, left: int, right: int) -> int:
-        # get leaf with value 'i'
-        left += self.N;
-        # get leaf with value 'j'
-        right += self.N;
-        rst = 0
-        while left <= right:
-            if (left % 2) == 1:
-                rst += self.tree[left]
-                left += 1
-            if (right % 2) == 0:
-                rst += self.tree[right]
-                right -= 1
-            left //= 2
-            right //= 2
-            
-        return rst
-
-
-# Your NumArray object will be instantiated and called as such:
-# obj = NumArray(nums)
-# obj.update(index,val)
-# param_2 = obj.sumRange(left,right)
+/**
+ * Your NumArray object will be instantiated and called as such:
+ * NumArray* obj = new NumArray(nums);
+ * obj->update(index,val);
+ * int param_2 = obj->sumRange(left,right);
+ */
 ```
 * [Medium] [Solution] 307. Range Sum Query - Mutable
 

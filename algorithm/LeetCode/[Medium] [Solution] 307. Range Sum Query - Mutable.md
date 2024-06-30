@@ -481,3 +481,87 @@ public:
  * int param_2 = obj->sumRange(left,right);
  */
 ```
+
+**Solution 5: (Segment Tree)*
+```
+Runtime: 337 ms
+Memory: 178.22 MB
+```
+```c++
+class SegmentTree {
+public:
+    vector<int> tree;
+
+    SegmentTree() {}
+
+    SegmentTree(vector<int>& nums) {
+        int n = nums.size();
+        tree.resize(4 * n, 0);
+        buildTree(nums, 0, 0, n - 1);
+    }
+
+    void buildTree(vector<int>& nums, int pos, int left, int right) {
+        if (left == right) {
+            tree[pos] = nums[left];
+            return;
+        }
+        int mid = left + (right - left) / 2;
+        buildTree(nums, 2 * pos + 1, left, mid);
+        buildTree(nums, 2 * pos + 2, mid + 1, right);
+        tree[pos] = tree[2 * pos + 1] + tree[2 * pos + 2];
+    }
+
+    void updateTree(int pos, int left, int right, int idx, int val) {
+        if (idx < left || idx > right) {
+            return;
+        }
+        if (left == right) {
+            if (left == idx) {
+                tree[pos] = val;
+            }
+            return;
+        }
+        int mid = left + (right - left) / 2;
+        updateTree(2 * pos + 1, left, mid, idx, val);
+        updateTree(2 * pos + 2, mid + 1, right, idx, val);
+        tree[pos] = tree[2 * pos + 1] + tree[2 * pos + 2];
+    }
+
+    int queryTree(int q_left, int q_right, int left, int right, int pos) {
+        if (q_left <= left && q_right >= right) {
+            return tree[pos];
+        }
+        if (q_left > right || q_right < left) {
+            return 0;
+        }
+        int mid = left + (right - left) / 2;
+        return queryTree(q_left, q_right, left, mid, 2 * pos + 1) + 
+               queryTree(q_left, q_right, mid + 1, right, 2 * pos + 2);
+    }
+};
+
+class NumArray {
+    SegmentTree tree_;
+    int n_;
+public:
+    NumArray(vector<int>& nums) {
+        tree_ = SegmentTree(nums);
+        n_ = nums.size();
+    }
+    
+    void update(int index, int val) {
+        tree_.updateTree(0, 0, n_ - 1, index, val);
+    }
+    
+    int sumRange(int left, int right) {
+        return tree_.queryTree(left, right, 0, n_ - 1, 0);
+    }
+};
+
+/**
+ * Your NumArray object will be instantiated and called as such:
+ * NumArray* obj = new NumArray(nums);
+ * obj->update(index,val);
+ * int param_2 = obj->sumRange(left,right);
+ */
+```
