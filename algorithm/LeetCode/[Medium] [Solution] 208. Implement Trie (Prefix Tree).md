@@ -290,14 +290,8 @@ Memory: 45.2 MB
 ```c++
 class Trie {
     struct TrieNode {
-        struct TrieNode *child[26];
-        bool isEnd;
-        TrieNode() {
-            isEnd = false;
-            for (int i = 0; i < 26; i ++) {
-                child[i] = nullptr;
-            }
-        }
+        struct TrieNode *child[26] = {nullptr};
+        bool isEnd = false;
     };
     TrieNode *trie;
 public:

@@ -333,3 +333,29 @@ char * longestCommonPrefix(char ** strs, int strsSize){
     return ans;
 }
 ```
+
+**Solution 3: (String)**
+```
+Runtime: 3 ms
+Memory: 10.64 MB
+```
+```c++
+class Solution {
+public:
+    string longestCommonPrefix(vector<string>& strs) {
+        int j, k = strs[0].size();
+        for (int i = 1; i < strs.size(); i ++) {
+            for (j = 0; j < min((int)strs[i].size(), k); j ++) {
+                if (strs[i][j] != strs[0][j]) {
+                    break;
+                }
+            }
+            k = j;
+            if (k == 0) {
+                return "";
+            }
+        }
+        return strs[0].substr(0, k);
+    }
+};
+```

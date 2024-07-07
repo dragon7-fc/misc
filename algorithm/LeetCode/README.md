@@ -6701,7 +6701,7 @@ class LRUCache:
 ```c++
 class LRUCache {
     unordered_map<int,list<pair<int,int>>::iterator> m;
-    list<pair<int,int>> q;
+    list<pair<int,int>> q;  //not deque, need delete in O(1)
     int cap;
 public:
     LRUCache(int capacity) {
@@ -7284,28 +7284,28 @@ class Solution:
 ```
 * [Medium] [Solution] 695. Max Area of Island
 
-### Search map, fix one axes and move forward the other
-```python
-class Solution:
-    def searchMatrix(self, matrix, target):
-        """
-        :type matrix: List[List[int]]
-        :type target: int
-        :rtype: bool
-        """
-        if not matrix:
-            return False
-        def search(matrix, rows, cols):
-            if rows >= len(matrix) or cols < 0:
-                return False
-            upper_right = matrix[rows][cols]
-            if upper_right > target:
-                return search(matrix, rows, cols - 1)
-            elif upper_right < target:
-                return search(matrix, rows + 1, cols)
-            else:
-                return True
-        return search(matrix, 0, len(matrix[0]) - 1)
+### Binary Search, 2 pointers, search from corner
+```c++
+class Solution {
+public:
+    bool searchMatrix(vector<vector<int>>& matrix, int target) {
+        int m = matrix.size();
+        int n = matrix[0].size();
+        
+        int i = m - 1;  // largest row
+        int j = 0;  // smallest col
+        
+        while (i>=0 && j<n){
+            
+            if (matrix[i][j] == target) return true;
+            
+            else if (matrix[i][j] < target) j++;
+            
+            else i--;
+        }
+        return false;
+    }
+};
 ```
 * [Medium] 240. Search a 2D Matrix II
 
@@ -17124,14 +17124,8 @@ class Trie:
 ```c++
 class Trie {
     struct TrieNode {
-        struct TrieNode *child[26];
-        bool isEnd;
-        TrieNode() {
-            isEnd = false;
-            for (int i = 0; i < 26; i ++) {
-                child[i] = nullptr;
-            }
-        }
+        struct TrieNode *child[26] = {nullptr};
+        bool isEnd = false;
     };
     TrieNode *trie;
 public:
@@ -17184,55 +17178,68 @@ public:
 * [Medium] [Solution] 208. Implement Trie (Prefix Tree)
 
 ### Add and Search Word
-```python
-class WordDictionary:
+```c++
+class WordDictionary {
+    struct TrieNode {
+        TrieNode *child[26] = {nullptr};
+        bool isEnd = false;
+    };
+    TrieNode *trie;
+    bool dfs(int i, string &word, TrieNode *t) {
+        if (i == word.size()) {
+            if (t->isEnd) {
+                return true;
+            }
+            return false;
+        }
+        TrieNode *nt;
+        if (word[i] == '.') {
+            for (int j = 0; j < 26; j ++) {
+                nt = t->child[j];
+                if (nt) {
+                    if (dfs(i+1, word, nt)) {
+                        return true;
+                    }
+                }
+            }
+            return false;
+        } else {
+            nt = t->child[word[i]-'a'];
+            if (!nt) {
+                return false;
+            }
+            return dfs(i+1, word, nt);
+        }
+    }
+public:
+    WordDictionary() {
+        trie = new TrieNode();
+    }
+    
+    void addWord(string word) {
+        TrieNode *t = trie;
+        for (char c: word) {
+            if (!t->child[c-'a']) {
+                t->child[c-'a'] = new TrieNode();
+            }
+            t = t->child[c-'a'];
+        }
+        t->isEnd = true;
 
-    def __init__(self):
-        """
-        Initialize your data structure here.
-        """
-        self.trie = {}
+    }
 
-    def addWord(self, word: str) -> None:
-        """
-        Adds a word into the data structure.
-        """
-        node = self.trie
+    bool search(string word) {
+        TrieNode *t = trie;
+        return dfs(0, word, t);
+    }
+};
 
-        for ch in word:
-            if not ch in node:
-                node[ch] = {}
-            node = node[ch]
-        node['@'] = True
-
-    def search(self, word: str) -> bool:
-        """
-        Returns if the word is in the data structure. A word could contain the dot character '.' to represent any one letter.
-        """
-        def search_in_node(word, node) -> bool:
-            for i, ch in enumerate(word):
-                if not ch in node:
-                    # if the current character is '.'
-                    # check all possible nodes at this level
-                    if ch == '.':
-                        for x in node:
-                            if x != '@' and search_in_node(word[i + 1:], node[x]):
-                                return True
-                    # if no nodes lead to answer
-                    # or the current character != '.'
-                    return False
-                # if the character is found
-                # go down to the next level in trie
-                else:
-                    node = node[ch]
-            return '@' in node
-
-        return search_in_node(word, self.trie)
-
-# Your WordDictionary object will be instantiated and called as such:
-# obj = WordDictionary()
-# obj.addWord(word)
-# param_2 = obj.search(word)
+/**
+ * Your WordDictionary object will be instantiated and called as such:
+ * WordDictionary* obj = new WordDictionary();
+ * obj->addWord(word);
+ * bool param_2 = obj->search(word);
+ */
 ```
 * [Medium] [Solution] 211. Add and Search Word - Data structure design
 

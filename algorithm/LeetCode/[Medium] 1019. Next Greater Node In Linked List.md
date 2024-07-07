@@ -113,3 +113,40 @@ int* nextLargerNodes(struct ListNode* head, int* returnSize){
     return ans;
 }
 ```
+
+**Solution 3: (Stack, mono dec stack)**
+```
+Runtime: 65 ms
+Memory: 45.03 MB
+```
+```c++
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode() : val(0), next(nullptr) {}
+ *     ListNode(int x) : val(x), next(nullptr) {}
+ *     ListNode(int x, ListNode *next) : val(x), next(next) {}
+ * };
+ */
+class Solution {
+public:
+    vector<int> nextLargerNodes(ListNode* head) {
+        stack<pair<int,int>> stk;
+        vector<int> ans;
+        int i  = 0;
+        while (head) {
+            while (stk.size() && stk.top().second < head->val) {
+                ans[stk.top().first] = head->val;
+                stk.pop();
+            }
+            stk.push({i, head->val});
+            ans.push_back(0);
+            i += 1;
+            head = head->next;
+        }
+        return ans;
+    }
+};
+```

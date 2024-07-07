@@ -137,30 +137,27 @@ void solutionFree(Solution* obj) {
 */
 ```
 
-**Solution 3: (Random, Binary Search)**
+**Solution 3: (Random, Binary Search, prefix sum)**
 ```
-Runtime: 68 ms
-Memory Usage: 40.1 MB
+Runtime: 63 ms
+Memory: 43.89 MB
 ```
 ```c++
 class Solution {
-    int sum = 0,n;
-    vector<int>pre;
+    vector<int> pre;
+    int r;
 public:
     Solution(vector<int>& w) {
-        n = w.size();
-        for(auto x:w) sum+=x;
-        pre.resize(n);
-        pre[0] = w[0];
-        for(int i=1;i<n;i++){
-            pre[i] = (pre[i-1]+w[i]);
+        pre.push_back(w[0]);
+        for (int i = 1; i < w.size(); i ++) {
+            pre.push_back(pre.back()+w[i]);
         }
+        r = pre.back();
     }
     
     int pickIndex() {
-        int x = (rand()%sum)+1;
-        int idx = lower_bound(pre.begin(),pre.end(),x)-pre.begin();
-        return idx;
+        int w = rand()%r + 1;
+        return lower_bound(pre.begin(), pre.end(), w) - pre.begin();
     }
 };
 

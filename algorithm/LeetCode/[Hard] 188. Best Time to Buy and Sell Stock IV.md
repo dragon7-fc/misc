@@ -254,3 +254,33 @@ public:
     }
 };
 ```
+
+**Solution 7: (DP Bottom-Up 1-D)**
+```
+Runtime: 3 ms
+Memory: 12.91 MB
+```
+```c++
+class Solution {
+public:
+    int maxProfit(int k, vector<int>& prices) {
+        int n = prices.size(), ans = 0;
+        vector<int> pre(2*k, INT_MIN), dp(2*k);
+        pre[0] = -prices[0];
+        for (int i = 1; i < n; i ++) {
+            fill(dp.begin(),dp.end(), INT_MIN);
+            dp[0] = max(pre[0], -prices[i]);
+            for (int j = 1; j < 2*k && j <= i; j ++) {
+                if (j%2) {
+                    dp[j] = max(pre[j], pre[j-1]+prices[i]);
+                } else {
+                    dp[j] = max(pre[j], pre[j-1]-prices[i]);
+                }
+            }
+            ans = max(ans, *max_element(dp.begin(), dp.end()));
+            pre = dp;
+        }
+        return ans;
+    }
+};
+```

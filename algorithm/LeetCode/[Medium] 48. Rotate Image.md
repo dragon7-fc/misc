@@ -115,6 +115,16 @@ void rotate(int** matrix, int matrixSize, int* matrixColSize){
 ```
 
 **Solution 4: (Rotate Groups of Four Cells)**
+
+
+      |r             |  
+    ---------      c |--
+        c            |r
+    --|              |
+    r |c
+      |   --------------
+      |          c   |r
+
 ```
 Runtime: 0 ms
 Memory Usage: 7.1 MB

@@ -94,3 +94,32 @@ class Solution:
                 ans.append(n)
         return ans #Equals filter(self_dividing, range(left, right+1))
 ```
+
+**Solution 2: (Brute Force)**
+```
+Runtime: 0 ms
+Memory: 7.59 MB
+```
+```c++
+class Solution {
+public:
+    vector<int> selfDividingNumbers(int left, int right) {
+        vector<int> ans;
+        int d, ca;
+        for (int a = left; a <= right; a++) {
+            ca = a;
+            while (ca) {
+                d = ca%10;
+                if (d == 0 || a%d) {
+                    break;
+                }
+                ca /= 10;
+            }
+            if (ca == 0) {
+                ans.push_back(a);
+            }
+        }
+        return ans;
+    }
+};
+```

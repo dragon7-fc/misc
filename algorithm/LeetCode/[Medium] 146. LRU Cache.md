@@ -156,7 +156,7 @@ public:
  */
 ```
 
-**Solution 3: (List, queue)**
+**Solution 3: (List, queue, not deque)**
 ```
 Runtime: 445 ms
 Memory: 183.3 MB

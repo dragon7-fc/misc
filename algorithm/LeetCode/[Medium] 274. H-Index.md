@@ -34,3 +34,25 @@ class Solution:
                 return i
         return len(citations)
 ```
+
+**Solution 2: (Sort)**
+```
+Runtime: 0 ms
+Memory: 10.71 MB
+```
+```c++
+class Solution {
+public:
+    int hIndex(vector<int>& citations) {
+        sort(citations.begin(), citations.end(), [](int a, int b){return a > b;});
+        int i = 0;
+        for (int j = 0; j < citations.size(); j ++) {
+            if (citations[j] < i+1) {
+                break;
+            }
+            i += 1;
+        }
+        return i;
+    }
+};
+```

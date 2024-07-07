@@ -366,6 +366,38 @@ class Solution:
 
 **Solution 6: (Using 2D Dynamic Programming)**
 ```
+Runtime: 6 ms
+Memory Usage: 8.2 MB
+```
+```c++
+class Solution {
+public:
+    bool isInterleave(string s1, string s2, string s3) {
+        int m = s1.size(), n = s2.size();
+        if (s3.size() != m+n) {
+            return false;
+        }
+        vector dp(m + 1, vector<bool>(n + 1));
+        dp[0][0] = true;
+        for (int i = 0; i < m; i ++) {
+            dp[i+1][0] = dp[i][0] && s1[i] == s3[i];
+        }
+        for (int j = 0; j < n; j ++) {
+            dp[0][j+1] = dp[0][j] && s2[j] == s3[j];
+        }
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                dp[i+1][j+1] = (dp[i][j+1] && (s1[i] == s3[i+j+1]))
+                    || (dp[i+1][j] && (s2[j] == s3[i+j+1])); 
+            }
+        }
+        return dp[m][n];
+    }
+};
+```
+
+**Solution 7: (Using 2D Dynamic Programming)**
+```
 Runtime: 7 ms
 Memory Usage: 6.6 MB
 ```
@@ -399,7 +431,7 @@ public:
 };
 ```
 
-**Solution 7: (Using 1D Dynamic Programming)**
+**Solution 8: (Using 1D Dynamic Programming)**
 ```
 Runtime: 0 ms
 Memory Usage: 6.3 MB

@@ -278,68 +278,16 @@ class WordDictionary:
 # param_2 = obj.search(word)
 ```
 
-**Solution 2: (Hash Table)**
+**Solution 2: (Trie)**
 ```
-Runtime: 85 ms
-Memory Usage: 33.2 MB
-```
-```c++
-class WordDictionary {
-    unordered_map<int,vector<string>> mp;
-public:
-    WordDictionary() {
-        mp.clear();
-    }
-    
-    void addWord(string word) {
-        //add word to its corresponding key size
-		mp[word.size()].push_back(word);
-    }
-    
-    //comparing my search word with all other words having same length
-	bool check(string &s, string &p){
-		for(int i=0;i<p.length();i++){
-			if(p[i]=='.') continue;
-			if(p[i]!=s[i]) return false;
-		}
-		return true;
-	}
-    
-    bool search(string word) {
-        //if any word of same length does not exist return false
-		if(mp.find(word.size())==mp.end())  return false;
-		vector<string> v=mp[word.size()];
-		for(auto it: v){
-			if(check(it,word)) return true;
-		}
-		return false;
-    }
-};
-
-/**
- * Your WordDictionary object will be instantiated and called as such:
- * WordDictionary* obj = new WordDictionary();
- * obj->addWord(word);
- * bool param_2 = obj->search(word);
- */
-```
-
-**Solution 3: (Trie)**
-```
-Runtime: 818 ms
-Memory: 558.5 MB
+Runtime: 463 ms
+Memory: 554.79 MB
 ```
 ```c++
 class WordDictionary {
     struct TrieNode {
-        TrieNode *child[26];
-        bool isEnd;
-        TrieNode() {
-            for (int i = 0; i < 26; i ++) {
-                child[i] = nullptr;
-            }
-            isEnd = false;
-        }
+        TrieNode *child[26] = {nullptr};
+        bool isEnd = false;
     };
     TrieNode *trie;
     bool dfs(int i, string &word, TrieNode *t) {
@@ -360,12 +308,13 @@ class WordDictionary {
                 }
             }
             return false;
+        } else {
+            nt = t->child[word[i]-'a'];
+            if (!nt) {
+                return false;
+            }
+            return dfs(i+1, word, nt);
         }
-        nt = t->child[word[i]-'a'];
-        if (!nt) {
-            return false;
-        }
-        return dfs(i+1, word, nt);
     }
 public:
     WordDictionary() {
@@ -381,8 +330,9 @@ public:
             t = t->child[c-'a'];
         }
         t->isEnd = true;
+
     }
-    
+
     bool search(string word) {
         TrieNode *t = trie;
         return dfs(0, word, t);

@@ -339,26 +339,7 @@ class Solution:
         return t2_profit
 ```
 
-**Solution 3: (DP)**
-```
-Runtime: 80 ms
-Memory Usage: 14 MB
-```
-```python
-class Solution:
-    def maxProfit(self, prices: List[int]) -> int:
-        if not prices:
-            return 0
-        sell, sell2, buy, buy2 = 0, 0, -float('inf'), -float('inf')
-        for i in range(len(prices)):
-            buy = max(buy, -prices[i])
-            sell = max(sell, buy + prices[i])
-            buy2 = max(buy2, sell - prices[i])
-            sell2 = max(sell2, buy2 + prices[i])
-        return sell2
-```
-
-**Solution 4: (DP Array)**
+**Solution 3: (DP Bottom-Up)**
 ```
 Runtime: 84 ms
 Memory Usage: 14.7 MB
@@ -379,4 +360,23 @@ class Solution:
             sell2[day] = max(sell2[day-1], buy2[day-1] + prices[day])
             
         return sell2[-1]
+```
+
+**Solution 4: (DP Bottom-Up 1-D)**
+```
+Runtime: 80 ms
+Memory Usage: 14 MB
+```
+```python
+class Solution:
+    def maxProfit(self, prices: List[int]) -> int:
+        if not prices:
+            return 0
+        sell, sell2, buy, buy2 = 0, 0, -float('inf'), -float('inf')
+        for i in range(len(prices)):
+            buy = max(buy, -prices[i])
+            sell = max(sell, buy + prices[i])
+            buy2 = max(buy2, sell - prices[i])
+            sell2 = max(sell2, buy2 + prices[i])
+        return sell2
 ```

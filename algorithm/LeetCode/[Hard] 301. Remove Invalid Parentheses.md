@@ -469,7 +469,6 @@ Memory Usage: 21.8 MB
 ```
 ```c++
 class Solution {
-public:
     void helper(string &str, string ans, int openBrackets, int closeBrackets, int maxDefects, int currDefects, int pos, unordered_set<string> &hset)
     {
         if (closeBrackets > openBrackets)
@@ -508,6 +507,7 @@ public:
         }
     }
     
+public:
     vector<string> removeInvalidParentheses(string s) {
         stack<char> st;
         // count is the number of defects in the current given string

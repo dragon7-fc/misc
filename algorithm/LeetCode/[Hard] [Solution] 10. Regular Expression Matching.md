@@ -256,3 +256,30 @@ class Solution:
 
         return dp[0][0]
 ```
+
+**Solution 5: (DP Bottom-Up)**
+```
+Runtime: 7 ms
+Memory: 8.92 MB
+```
+```c++
+class Solution {
+public:
+    bool isMatch(string s, string p) {
+        int m = s.size(), n = p.size();
+        vector<vector<bool>> dp(m+1, vector<bool>(n+1));
+        dp[m][n] = true;
+        for (int i = m; i >= 0; i --) {
+            for (int j = n-1; j >= 0; j --) {
+                bool one_match = (i < s.size()) && (p[j] == s[i] || p[j] == '.'); 
+                if (j+1 < p.size() && p[j+1] == '*') {
+                    dp[i][j] = dp[i][j+2] || (one_match && dp[i+1][j]);
+                } else {
+                    dp[i][j] = one_match && dp[i+1][j+1];
+                }
+            }
+        }
+        return dp[0][0];
+    }
+};
+```

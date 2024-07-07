@@ -125,7 +125,7 @@ class Solution:
         return False
 ```
 
-**Solution 5: (Binary Search)**
+**Solution 5: (Binary Search, two pointes)**
 ```
 Runtime: 196 ms
 Memory Usage: 14.8 MB
