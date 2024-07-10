@@ -60,3 +60,172 @@ class Solution:
             nums.pop(i)
         return nums[0] + 1
 ```
+
+**Solution 2: (Simulation with List, O(n^2), O(n))**
+
+    1  2  3  4  5
+       x
+             x
+    x
+                x
+```
+Runtime: 4 ms
+Memory: 7.36 MB
+```
+```c++
+class Solution {
+public:
+    int findTheWinner(int n, int k) {
+        // Initialize vector of N friends, labeled from 1-N
+        vector<int> circle;
+        for (int i = 1; i <= n; i++) {
+            circle.push_back(i);
+        }
+
+        // Maintain the index of the friend to start the count on
+        int startIndex = 0;
+
+        // Perform eliminations while there is more than 1 friend left
+        while (circle.size() > 1) {
+            // Calculate the index of the friend to be removed
+            int removalIndex = (startIndex + k - 1) % circle.size();
+
+            // Erase the friend at removalIndex
+            circle.erase(circle.begin() + removalIndex);
+
+            // Update startIndex for the next round
+            startIndex = removalIndex;
+        }
+
+        return circle.front();
+    }
+};
+```
+
+**Solution 3: (Simulation, List, Double Link List)**
+```
+Runtime: 6 ms
+Memory: 8.19 MB
+```
+```c++
+class Solution {
+public:
+    int findTheWinner(int n, int k) {
+        list<int> dp;
+        for (int i = 1; i <= n; i ++) {
+            dp.push_back(i);
+        }
+        int ck;
+        auto it = dp.begin();
+        while (dp.size() > 1) {
+            ck = k;
+            while (ck > 1) {
+                ++it;
+                if (it == dp.end()) {
+                    it = dp.begin();
+                }
+                ck -= 1;
+            }
+            it = dp.erase(it);
+            if (it == dp.end()) {
+                it = dp.begin();
+            }
+        }
+        return *it;
+    }
+};
+```
+**Solution 4: (Simulation with Queue, O(nk), O(n))**
+
+    1  2  3  4  5  1  3  5  3
+    ^           ^ 
+          ^        ^ 
+                ^     ^ 
+                      ^  ^ 
+                            ^
+```
+Runtime: 20 ms
+Memory: 25.55 MB
+```
+```c++
+class Solution {
+public:
+    int findTheWinner(int n, int k) {
+        // Initialize queue with n friends
+        queue<int> circle;
+        for (int i = 1; i <= n; i++) {
+            circle.push(i);
+        }
+
+        // Perform eliminations while more than 1 player remains
+        while (circle.size() > 1) {
+            // Process the first k-1 friends without eliminating them
+            for (int i = 0; i < k - 1; i++) {
+                circle.push(circle.front());
+                circle.pop();
+            }
+            // Eliminate the k-th friend
+            circle.pop();
+        }
+
+        return circle.front();
+    }
+};
+```
+
+**Solution 5: (Recursion, O(n), O(n))**
+
+   0  1  2  3  4  (0->0, n=5)
+   ^  x             
+   3     0  1  2  (2->0, n=4)
+      x  ^  x       
+   1     2     0  (4->0, n=3)
+   x  x     x  ^    
+         0     1  (2->0, n=2)
+   x  x  ^  x  x
+         ^        (2->0, n=1)
+
+f(n,k) = (f(n−1,k)+k) mod n    
+
+```
+Runtime: 2 ms
+Memory: 7.22 MB
+```
+```c++
+class Solution {
+     int winnerHelper(int n, int k) {
+        if (n == 1) return 0;
+        return (winnerHelper(n - 1, k) + k) % n;
+    }
+public:
+    int findTheWinner(int n, int k) {
+        return winnerHelper(n, k) + 1;
+    }
+};
+```
+
+**Solution 6: (Iterative, O(n), O(1))**
+
+    0  1  2  3  4
+   [^] ^i
+   [^   ] ^i
+   [      ^] ^i
+   [^         ] ^i
+   [      ^      ] ^i
+```
+Runtime: 3 ms
+Memory: 7.14 MB
+```
+```c++
+class Solution {
+public:
+    int findTheWinner(int n, int k) {
+        int ans = 0;
+        for (int i = 2; i <= n; i++) {
+            ans = (ans + k) % i;
+        }
+        // add 1 to convert back to 1 indexing
+        return ans + 1;
+    }
+};
+```

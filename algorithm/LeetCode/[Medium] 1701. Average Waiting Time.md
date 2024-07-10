@@ -56,3 +56,23 @@ class Solution:
             wait += cur - t
         return wait / len(customers)
 ```
+
+**Solution 2: (Greedy)**
+```
+Runtime: 142 ms
+Memory: 76.62 MB
+```
+```c++
+class Solution {
+public:
+    double averageWaitingTime(vector<vector<int>>& customers) {
+        int n = customers.size(), cur = customers[0][0];
+        double ans = customers[0][1];
+        for (int i = 1; i < customers.size(); i ++) {
+            cur = max(cur + customers[i-1][1], customers[i][0]) ;
+            ans += cur + customers[i][1] - customers[i][0];
+        }
+        return ans/n;
+    }
+};
+```
