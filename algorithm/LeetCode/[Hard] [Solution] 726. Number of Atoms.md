@@ -302,3 +302,539 @@ class Solution:
         return "".join(name + (str(stack[-1][name]) if stack[-1][name] > 1 else '')
                        for name in sorted(stack[-1]))
 ```
+
+**Solution 4: (Recursion)**
+```
+Runtime: 0 ms
+Memory: 9.80 MB
+```
+```c++
+class Solution {
+    // Global variable
+    int index = 0;
+    // Recursively parse the formula
+    unordered_map<string, int> parseFormula(string& formula) {
+        // Local variable
+        unordered_map<string, int> currMap;
+        string currAtom;
+        string currCount;
+
+        // Iterate until the end of the formula
+        while (index < formula.length()) {
+            // UPPERCASE LETTER
+            if (isupper(formula[index])) {
+                if (!currAtom.empty()) {
+                    if (currCount.empty()) {
+                        currMap[currAtom] += 1;
+                    } else {
+                        currMap[currAtom] += stoi(currCount);
+                    }
+                }
+
+                currAtom = formula[index];
+                currCount = "";
+                index++;
+            }
+
+            // lowercase letter
+            else if (islower(formula[index])) {
+                currAtom += formula[index];
+                index++;
+            }
+
+            // Digit. Concatenate the count
+            else if (isdigit(formula[index])) {
+                currCount += formula[index];
+                index++;
+            }
+
+            // Left Parenthesis
+            else if (formula[index] == '(') {
+                index++;
+                unordered_map<string, int> nestedMap = parseFormula(formula);
+                for (auto& [atom, count] : nestedMap) {
+                    currMap[atom] += count;
+                }
+            }
+
+            // Right Parenthesis
+            else if (formula[index] == ')') {
+                // Save the last atom and count of nested formula
+                if (!currAtom.empty()) {
+                    if (currCount.empty()) {
+                        currMap[currAtom] += 1;
+                    } else {
+                        currMap[currAtom] += stoi(currCount);
+                    }
+                }
+
+                index++;
+                string multiplier;
+                while (index < formula.length() && isdigit(formula[index])) {
+                    multiplier += formula[index];
+                    index++;
+                }
+                if (!multiplier.empty()) {
+                    int mult = stoi(multiplier);
+                    for (auto& [atom, count] : currMap) {
+                        currMap[atom] = count * mult;
+                    }
+                }
+
+                return currMap;
+            }
+        }
+
+        // Save the last atom and count
+        if (!currAtom.empty()) {
+            if (currCount.empty()) {
+                currMap[currAtom] += 1;
+            } else {
+                currMap[currAtom] += stoi(currCount);
+            }
+        }
+
+        return currMap;
+    }
+public:
+    string countOfAtoms(string formula) {
+        // Recursively parse the formula
+        unordered_map<string, int> finalMap = parseFormula(formula);
+
+        // Sort the final map
+        map<string, int> sortedMap(finalMap.begin(), finalMap.end());
+
+        // Generate the answer string
+        string ans;
+        for (auto& [atom, count] : sortedMap) {
+            ans += atom;
+            if (count > 1) {
+                ans += to_string(count);
+            }
+        }
+
+        return ans;
+    }
+};
+```
+
+**Solution 5: (Stack)**
+```
+Runtime: 0 ms
+Memory: 9.97 MB
+```
+```c++
+class Solution {
+public:
+    string countOfAtoms(string formula) {
+        // Stack to keep track of the atoms and their counts
+        stack<unordered_map<string, int>> stack;
+        stack.push(unordered_map<string, int>());
+
+        // Index to keep track of the current character
+        int index = 0;
+
+        // Parse the formula
+        while (index < formula.length()) {
+            // If left parenthesis, insert a new hashmap to the stack. It will
+            // keep track of the atoms and their counts in the nested formula
+            if (formula[index] == '(') {
+                stack.push(unordered_map<string, int>());
+                index++;
+            }
+
+            // If right parenthesis, pop the top element from the stack
+            // Multiply the count with the multiplicity of the nested formula
+            else if (formula[index] == ')') {
+                unordered_map<string, int> currMap = stack.top();
+                stack.pop();
+                index++;
+                string multiplier;
+                while (index < formula.length() && isdigit(formula[index])) {
+                    multiplier += formula[index];
+                    index++;
+                }
+                if (!multiplier.empty()) {
+                    int mult = stoi(multiplier);
+                    for (auto& [atom, count] : currMap) {
+                        currMap[atom] = count * mult;
+                    }
+                }
+
+                for (auto& [atom, count] : currMap) {
+                    stack.top()[atom] += count;
+                }
+            }
+
+            // Otherwise, it must be a UPPERCASE LETTER. Extract the complete
+            // atom with frequency, and update the most recent hashmap
+            else {
+                string currAtom;
+                currAtom += formula[index];
+                index++;
+                while (index < formula.length() && islower(formula[index])) {
+                    currAtom += formula[index];
+                    index++;
+                }
+
+                string currCount;
+                while (index < formula.length() && isdigit(formula[index])) {
+                    currCount += formula[index];
+                    index++;
+                }
+
+                int count = currCount.empty() ? 1 : stoi(currCount);
+                stack.top()[currAtom] += count;
+            }
+        }
+
+        // Sort the final map
+        map<string, int> finalMap(stack.top().begin(), stack.top().end());
+
+        // Generate the answer string
+        string ans;
+        for (auto& [atom, count] : finalMap) {
+            ans += atom;
+            if (count > 1) {
+                ans += to_string(count);
+            }
+        }
+
+        return ans;
+    }
+};
+```
+
+**Solution 6: (Regular Expression)**
+```
+Runtime: 26 ms
+Memory: 19.85 MB
+```
+```c++
+class Solution {
+public:
+    string countOfAtoms(string formula) {
+        // Regular expression to extract atom, count, (, ), multiplier
+        // Every element of matcher will be a quintuple
+        regex reg("([A-Z][a-z]*)(\\d*)|(\\()|(\\))(\\d*)");
+        sregex_iterator it(formula.begin(), formula.end(), reg);
+        sregex_iterator end;
+
+        // Stack to keep track of the atoms and their counts
+        stack<unordered_map<string, int>> stack;
+        stack.push(unordered_map<string, int>());
+
+        // Parse the formula
+        while (it != end) {
+            smatch match = *it;
+            string atom = match[1].str();
+            string count = match[2].str();
+            string left = match[3].str();
+            string right = match[4].str();
+            string multiplier = match[5].str();
+
+            // If atom, add it to the top hashmap
+            if (!atom.empty()) {
+                stack.top()[atom] += count.empty() ? 1 : stoi(count);
+            }
+
+            // If left parenthesis, insert a new hashmap to the stack
+            else if (!left.empty()) {
+                stack.push(unordered_map<string, int>());
+            }
+
+            // If right parenthesis, pop the top element from the stack
+            // Multiply the count with the attached multiplicity.
+            // Add the count to the current formula
+            else if (!right.empty()) {
+                unordered_map<string, int> currMap = stack.top();
+                stack.pop();
+                if (!multiplier.empty()) {
+                    int mult = stoi(multiplier);
+                    for (auto& [atom, count] : currMap) {
+                        currMap[atom] = count * mult;
+                    }
+                }
+
+                for (auto& [atom, count] : currMap) {
+                    stack.top()[atom] += count;
+                }
+            }
+
+            it++;
+        }
+
+        // Sort the final map
+        map<string, int> finalMap(stack.top().begin(), stack.top().end());
+
+        // Generate the answer string
+        string ans;
+        for (auto& [atom, count] : finalMap) {
+            ans += atom;
+            if (count > 1) {
+                ans += to_string(count);
+            }
+        }
+
+        return ans;
+    }
+};
+```
+
+**Solution 7: (Reverse Scanning)**
+```
+Runtime: 0 ms
+Memory: 9.06 MB
+```
+```c++
+class Solution {
+public:
+    string countOfAtoms(string formula) {
+        // For multipliers
+        int runningMul = 1;
+        stack<int> stack;
+        stack.push(1);
+
+        // Map to store the count of atoms
+        unordered_map<string, int> finalMap;
+
+        // Strings to take care of current atom and count
+        string currAtom = "";
+        string currCount = "";
+
+        // Index to traverse the formula in reverse
+        int index = formula.length() - 1;
+
+        // Parse the formula
+        while (index >= 0) {
+            // If digit, update the count
+            if (isdigit(formula[index])) {
+                currCount = formula[index] + currCount;
+            }
+
+            // If a lowercase letter, prepend to the currAtom
+            else if (islower(formula[index])) {
+                currAtom = formula[index] + currAtom;
+            }
+
+            // If UPPERCASE LETTER, update the finalMap
+            else if (isupper(formula[index])) {
+                currAtom = formula[index] + currAtom;
+                int count = currCount.empty() ? 1 : stoi(currCount);
+                finalMap[currAtom] += count * runningMul;
+
+                currAtom = "";
+                currCount = "";
+            }
+
+            // If the right parenthesis, the currCount if any
+            // will be considered as multiplier
+            else if (formula[index] == ')') {
+                int currMultiplier = currCount.empty() ? 1 : stoi(currCount);
+                stack.push(currMultiplier);
+                runningMul *= currMultiplier;
+                currCount = "";
+            }
+
+            // If left parenthesis, update the runningMul
+            else if (formula[index] == '(') {
+                runningMul /= stack.top();
+                stack.pop();
+            }
+
+            index--;
+        }
+
+        // Sort the final map
+        map<string, int> sortedMap(finalMap.begin(), finalMap.end());
+
+        // Generate the answer string
+        string ans;
+        for (auto& [atom, count] : sortedMap) {
+            ans += atom;
+            if (count > 1) {
+                ans += to_string(count);
+            }
+        }
+
+        return ans;
+    }
+};
+```
+
+**Solution 8: (Preprocessing)**
+```
+Runtime: 0 ms
+Memory: 9.28 MB
+```
+```c++
+class Solution {
+public:
+    string countOfAtoms(string formula) {
+        // For every index, store the valid multiplier
+        vector<int> muls(formula.length());
+        int runningMul = 1;
+
+        // Stack to take care of nested formula
+        stack<int> stack;
+        stack.push(1);
+
+        // Preprocess the formula and extract all multipliers
+        int index = formula.length() - 1;
+        string currNumber = "";
+        while (index >= 0) {
+            if (isdigit(formula[index])) {
+                currNumber = formula[index] + currNumber;
+            }
+
+            // If we encountered a letter, then the scanned
+            // number was count and not a multiplier. Discard it.
+            else if (isalpha(formula[index])) {
+                currNumber = "";
+            }
+
+            // If we encounter a right parenthesis, then the
+            // scanned number was multiplier. Store it.
+            else if (formula[index] == ')') {
+                int currMultiplier = currNumber.empty() ? 1 : stoi(currNumber);
+                runningMul *= currMultiplier;
+                stack.push(currMultiplier);
+                currNumber = "";
+            }
+
+            // If we encounter a left parenthesis, then the
+            // most recent multiplier will cease to exist.
+            else if (formula[index] == '(') {
+                runningMul /= stack.top();
+                stack.pop();
+                currNumber = "";
+            }
+
+            // For every index, store the valid multiplier
+            muls[index] = runningMul;
+            index--;
+        }
+
+        // Map to store the count of atoms
+        unordered_map<string, int> finalMap;
+
+        // Traverse left to right in the formula
+        index = 0;
+        while (index < formula.length()) {
+            // If UPPER CASE LETTER, extract the entire atom
+            if (isupper(formula[index])) {
+                string currAtom = "";
+                currAtom += formula[index];
+                string currCount = "";
+                index++;
+                while (index < formula.length() && islower(formula[index])) {
+                    currAtom += formula[index];
+                    index++;
+                }
+
+                // Extract the count
+                while (index < formula.length() && isdigit(formula[index])) {
+                    currCount += formula[index];
+                    index++;
+                }
+
+                // Update the final map
+                int count = currCount.empty() ? 1 : stoi(currCount);
+                finalMap[currAtom] += count * muls[index - 1];
+            } else {
+                index++;
+            }
+        }
+
+        // Sort the final map
+        map<string, int> sortedMap(finalMap.begin(), finalMap.end());
+
+        // Generate the answer string
+        string ans;
+        for (auto& [atom, count] : sortedMap) {
+            ans += atom;
+            if (count > 1) {
+                ans += to_string(count);
+            }
+        }
+
+        return ans;
+    }
+};
+```
+
+**Solution 9: (Reverse Scanning with Regex)**
+```
+Runtime: 22 ms
+Memory: 19.67 MB
+```
+```c++
+class Solution {
+public:
+    string countOfAtoms(string formula) {
+        // Every element of matcher will be a quintuple
+        regex reg("([A-Z][a-z]*)(\\d*)|(\\()|(\\))(\\d*)");
+        sregex_iterator it(formula.begin(), formula.end(), reg);
+        sregex_iterator end;
+        vector<tuple<string, string, string, string, string>> matcher;
+        while (it != end) {
+            matcher.push_back(
+                {(*it)[1], (*it)[2], (*it)[3], (*it)[4], (*it)[5]});
+            it++;
+        }
+        reverse(matcher.begin(), matcher.end());
+
+        // Map to store the count of atoms
+        unordered_map<string, int> finalMap;
+
+        // Stack to keep track of the nested multiplicities
+        stack<int> stack;
+        stack.push(1);
+
+        // Current Multiplicity
+        int runningMul = 1;
+
+        // Parse the formula
+        for (auto& quintuple : matcher) {
+            string atom = get<0>(quintuple);
+            string count = get<1>(quintuple);
+            string left = get<2>(quintuple);
+            string right = get<3>(quintuple);
+            string multiplier = get<4>(quintuple);
+
+            // If atom, add it to the final map
+            if (!atom.empty()) {
+                int cnt = count.empty() ? 1 : stoi(count);
+                finalMap[atom] += cnt * runningMul;
+            }
+
+            // If the right parenthesis, multiply the runningMul
+            else if (!right.empty()) {
+                int currMultiplier = multiplier.empty() ? 1 : stoi(multiplier);
+                runningMul *= currMultiplier;
+                stack.push(currMultiplier);
+            }
+
+            // If left parenthesis, divide the runningMul
+            else if (!left.empty()) {
+                runningMul /= stack.top();
+                stack.pop();
+            }
+        }
+
+        // Sort the final map
+        map<string, int> sortedMap(finalMap.begin(), finalMap.end());
+
+        // Generate the answer string
+        string ans;
+        for (auto& [atom, count] : sortedMap) {
+            ans += atom;
+            if (count > 1) {
+                ans += to_string(count);
+            }
+        }
+
+        return ans;
+    }
+};
+```

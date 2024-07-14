@@ -249,6 +249,19 @@ Memory Usage: 143 MB
 ```
 ```c++
 class Solution {
+    vector<string> neighbers(string s, string t){
+        vector<string> res;
+        int i = 0;
+        while(s[i]==t[i]){i++;}
+        for(int j = i+1; j < s.length(); j++){
+            if(s[j] == t[i]){
+                swap(s[j],s[i]);
+                res.push_back(s);
+                swap(s[j],s[i]);
+            }
+        }
+        return res;
+    }
 public:
     int kSimilarity(string A, string B) {
         if(A == B){return 0;}
@@ -271,19 +284,6 @@ public:
             }
         }
         return -1;
-    }
-    vector<string> neighbers(string s, string t){
-        vector<string> res;
-        int i = 0;
-        while(s[i]==t[i]){i++;}
-        for(int j = i+1; j < s.length(); j++){
-            if(s[j] == t[i]){
-                swap(s[j],s[i]);
-                res.push_back(s);
-                swap(s[j],s[i]);
-            }
-        }
-        return res;
     }
 };
 ```

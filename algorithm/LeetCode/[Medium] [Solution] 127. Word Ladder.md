@@ -466,77 +466,37 @@ class Solution:
 
 **Solution 4: (BFS)**
 ```
-Runtime: 112 ms
-Memory Usage: 14 MB
+Runtime: 54 ms
+Memory: 19.18 MB
 ```
 ```c++
 class Solution {
 public:
     int ladderLength(string beginWord, string endWord, vector<string>& wordList) {
-        unordered_set<string> wordSet; // declare an unordered set
-        
-        bool isPresent = false; // to find whether end word is present in word list or not
-        
-        // Inserting all words from wordList to wordSet
-        for(string word: wordList)
-        {
-            if(endWord.compare(word) == 0) // if end word is present in wordList
-            {
-                isPresent = true;
+        int n = beginWord.size();
+        unordered_set<string> st(wordList.begin(), wordList.end());
+        queue<pair<string, int>> q;
+        q.push({beginWord, 1});
+        st.erase(beginWord);
+        string ns;
+        while (q.size()) {
+            auto [cs, s] = q.front();
+            q.pop();
+            if (cs == endWord) {
+                return s;
             }
-            
-            wordSet.insert(word); // Inserting each word in wordSet
-        }
-        
-        if(isPresent == false) // if end word is not present in worrd List
-            return 0;
-        
-        queue<string> q; // declare an queue, for BFS traversal
-        q.push(beginWord); // push begi word into our queue
-        
-        int depth = 0; // for telling depth of the queue we are exploring
-        
-        // Implementing BFS
-        while(q.empty() == false)
-        {
-            depth = depth + 1; // if one level is over increment depth
-            
-            int levelSize = q.size(); // number of words present at a level
-            
-            // travelling in each level
-            while(levelSize--)
-            {
-                string curr = q.front();
-                q.pop();
-                
-                // checking for all possible depth word
-                for(int i = 0; i < curr.length(); i++) // for each index
-                {
-                    string temp = curr; 
-                    
-                    //checking out each possibility of alphabet
-                    for(char c = 'a'; c <= 'z'; c++)
-                    {
-                        temp[i] = c;
-                        
-                        if(curr.compare(temp) == 0) // skipping the same word
-                            continue;
-                        
-                        if(temp.compare(endWord) == 0) // if matches with end word
-                            return depth + 1;
-                        
-                        // if present in word set
-                        if(wordSet.find(temp) != wordSet.end())
-                        {
-                            q.push(temp);
-                            wordSet.erase(temp);
-                        }
+            for (int i = 0; i < n; i ++) {
+                ns = cs;
+                for (int j = 0; j < 26; j ++) {
+                    ns[i] = 'a' + j;
+                    if (st.count(ns)) {
+                        st.erase(ns);
+                        q.push({ns, s+1});
                     }
                 }
             }
         }
-        
-        return 0; // and at last, we still not able to find our end word.
+        return 0;
     }
 };
 ```

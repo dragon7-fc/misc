@@ -218,3 +218,34 @@ public:
     }
 };
 ```
+
+**Solution 5: (Iterative)**
+```
+Runtime: 0 ms
+Memory: 7.79 MB
+```
+```c++
+class Solution {
+public:
+    vector<string> letterCombinations(string digits) {
+        if (digits == "") {
+            return {};
+        }
+        vector<string> m = {
+            "", "", "abc", "def", "ghi", "jkl", "mno", "pqrs", "tuv", "wxyz"
+        };
+        vector<string> ans = {""};
+        int sz;
+        for (int i = 0; i < digits.size(); i ++) {
+            sz = ans.size();
+            for (int j = 0; j < sz; j ++) {
+                for (int k = 0; k < m[digits[i]-'0'].size(); k ++) {
+                    ans.push_back(*ans.begin() + m[digits[i]-'0'][k]);
+                }
+                ans.erase(ans.begin());
+            }
+        }
+        return ans;
+    }
+};
+```

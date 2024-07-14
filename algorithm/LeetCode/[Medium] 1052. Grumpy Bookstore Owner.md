@@ -56,3 +56,79 @@ class Solution:
             j += 1
         return ans
 ```
+
+**Solution 2: (Sliding Window)**
+```
+Runtime: 25 ms
+Memory: 34.29 MB
+```
+```c++
+class Solution {
+public:
+    int maxSatisfied(vector<int>& customers, vector<int>& grumpy, int minutes) {
+        int n = customers.size();
+        int unrealizedCustomers = 0;
+
+        // Calculate initial number of unrealized customers in first 'minutes'
+        // window
+        for (int i = 0; i < minutes; i++) {
+            unrealizedCustomers += customers[i] * grumpy[i];
+        }
+
+        int maxUnrealizedCustomers = unrealizedCustomers;
+
+        // Slide the 'minutes' window across the rest of the customers array
+        for (int i = minutes; i < n; i++) {
+            // Add the current minute's unsatisfied customers if the owner is
+            // grumpy and remove the customers that are out of the current
+            // window
+            unrealizedCustomers += customers[i] * grumpy[i];
+            unrealizedCustomers -= customers[i - minutes] * grumpy[i - minutes];
+
+            // Update the maximum unrealized customers
+            maxUnrealizedCustomers =
+                max(maxUnrealizedCustomers, unrealizedCustomers);
+        }
+
+        // Start with maximum possible satisfied customers due to secret
+        // technique
+        int totalCustomers = maxUnrealizedCustomers;
+
+        // Add the satisfied customers during non-grumpy minutes
+        for (int i = 0; i < n; i++) {
+            totalCustomers += customers[i] * (1 - grumpy[i]);
+        }
+
+        // Return the maximum number of satisfied customers
+        return totalCustomers;
+    }
+};
+```
+
+**Solution 3: (Sliding Window)**
+```
+Runtime: 22 ms
+Memory: 34.36 MB
+```
+```c++
+class Solution {
+public:
+    int maxSatisfied(vector<int>& customers, vector<int>& grumpy, int minutes) {
+        int n = customers.size(), i = 0, cur = 0, left = 0, right = 0, ans = 0;
+        for (int j = 0; j < n; j ++) {
+            right += (grumpy[j]^1) * customers[j];
+        }
+        for (int j = 0; j < n; j ++) {
+            cur += customers[j];
+            right -= (grumpy[j]^1) * customers[j];
+            if (j-i >= minutes) {
+                cur -= customers[i];
+                left += (grumpy[i]^1) * customers[i];
+                i += 1;
+            }
+            ans = max(ans, cur + right + left);
+        }
+        return ans;
+    }
+};
+```

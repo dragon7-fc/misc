@@ -63,3 +63,32 @@ class Solution:
                 
         return content
 ```
+
+**Solution 2: (Stack)**
+```
+Runtime: 0 ms
+Memory: 8.14 MB
+```
+```c++
+class Solution {
+public:
+    string reverseParentheses(string s) {
+        stack<string> stk;
+        string cur;
+        stk.push("");
+        for (auto c: s) {
+            if (c == '(') {
+                stk.push("");
+            } else if (c == ')') {
+                cur = stk.top();
+                reverse(cur.begin(), cur.end());
+                stk.pop();
+                stk.top() += cur;
+            } else {
+                stk.top() += c;
+            }
+        }
+        return stk.top();
+    }
+};
+```

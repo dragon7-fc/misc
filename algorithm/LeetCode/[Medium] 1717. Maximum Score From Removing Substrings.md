@@ -94,3 +94,195 @@ public:
     }
 };
 ```
+
+**Solution 3: (Greedy)**
+```
+Runtime: 95 ms
+Memory: 25.63 MB
+```
+```c++
+class Solution {
+public:
+    int maximumGain(string s, int x, int y) {
+        int ans = 0;
+        vector<pair<int,string>> dp = {{x, "ab"},{y, "ba"}};
+        sort(dp.begin(), dp.end(), [](auto pa, auto pb){return pa.first > pb.first;});
+        string pre = s, cur;
+        for (int i = 0; i < dp.size(); i ++) {
+            cur = pre[0];
+            for (int j = 1; j < pre.size(); j ++) {
+                if (cur != "" && cur.back() == dp[i].second[0] && pre[j] == dp[i].second[1]) {
+                    cur.pop_back();
+                    ans += dp[i].first;
+                } else {
+                    cur += pre[j];
+                }
+            }
+            pre = cur;
+        }
+        return ans;
+    }
+```
+
+**Solution 4: (Greedy Way (Stack))**
+```
+Runtime: 112 ms
+Memory: 30.47 MB
+```
+```c++
+class Solution {
+    string removeSubstring(const string& input, const string& targetPair) {
+        stack<char> charStack;
+
+        // Iterate through each character in the input string
+        for (char currentChar : input) {
+            // Check if current character forms the target pair with the top of
+            // the stack
+            if (currentChar == targetPair[1] && !charStack.empty() &&
+                charStack.top() == targetPair[0]) {
+                charStack
+                    .pop();  // Remove the matching character from the stack
+            } else {
+                charStack.push(currentChar);
+            }
+        }
+
+        // Reconstruct the remaining string after removing target pairs
+        string remainingChars;
+        while (!charStack.empty()) {
+            remainingChars += charStack.top();
+            charStack.pop();
+        }
+        reverse(remainingChars.begin(), remainingChars.end());
+        return remainingChars;
+    }
+public:
+    int maximumGain(string s, int x, int y) {
+        int totalScore = 0;
+        string highPriorityPair = x > y ? "ab" : "ba";
+        string lowPriorityPair = highPriorityPair == "ab" ? "ba" : "ab";
+
+        // First pass: remove high priority pair
+        string stringAfterFirstPass = removeSubstring(s, highPriorityPair);
+        int removedPairsCount =
+            (s.length() - stringAfterFirstPass.length()) / 2;
+
+        // Calculate score from first pass
+        totalScore += removedPairsCount * max(x, y);
+
+        // Second pass: remove low priority pair
+        string stringAfterSecondPass =
+            removeSubstring(stringAfterFirstPass, lowPriorityPair);
+        removedPairsCount =
+            (stringAfterFirstPass.length() - stringAfterSecondPass.length()) /
+            2;
+
+        // Calculate score from second pass
+        totalScore += removedPairsCount * min(x, y);
+
+        return totalScore;
+    }
+};
+```
+
+**Solution 5: (Greedy Way (Without Stack))**
+```
+Runtime: 70 ms
+Memory: 18.29 MB
+```
+```c++
+class Solution {
+    int removeSubstring(string& inputString, string targetSubstring,
+                        int pointsPerRemoval) {
+        int totalPoints = 0;
+        int writeIndex = 0;
+
+        // Iterate through the string
+        for (int readIndex = 0; readIndex < inputString.size(); readIndex++) {
+            // Add the current character
+            inputString[writeIndex++] = inputString[readIndex];
+
+            // Check if we've written at least two characters and
+            // they match the target substring
+            if (writeIndex > 1 &&
+                inputString[writeIndex - 2] == targetSubstring[0] &&
+                inputString[writeIndex - 1] == targetSubstring[1]) {
+                writeIndex -= 2;  // Move write index back to remove the match
+                totalPoints += pointsPerRemoval;
+            }
+        }
+
+        // Trim the string to remove any leftover characters
+        inputString.erase(inputString.begin() + writeIndex, inputString.end());
+
+        return totalPoints;
+    }
+public:
+    int maximumGain(string s, int x, int y) {
+        int totalPoints = 0;
+
+        if (x > y) {
+            // Remove "ab" first (higher points), then "ba"
+            totalPoints += removeSubstring(s, "ab", x);
+            totalPoints += removeSubstring(s, "ba", y);
+        } else {
+            // Remove "ba" first (higher or equal points), then "ab"
+            totalPoints += removeSubstring(s, "ba", y);
+            totalPoints += removeSubstring(s, "ab", x);
+        }
+
+        return totalPoints;
+    }
+};
+```
+
+**Solution 6: (Greedy Way (Counting))**
+```
+Runtime: 52 ms
+Memory: 18.28 MB
+```
+```c++
+class Solution {
+public:
+    int maximumGain(string s, int x, int y) {
+        // Ensure "ab" always has more points than "ba"
+        if (x < y) {
+            // Swap points
+            int temp = x;
+            x = y;
+            y = temp;
+            // Reverse the string to maintain logic
+            reverse(s.begin(), s.end());
+        }
+
+        int aCount = 0, bCount = 0, totalPoints = 0;
+
+        for (int i = 0; i < s.size(); ++i) {
+            char currentChar = s[i];
+
+            if (currentChar == 'a') {
+                ++aCount;
+            } else if (currentChar == 'b') {
+                if (aCount > 0) {
+                    // Can form "ab", remove it and add points
+                    --aCount;
+                    totalPoints += x;
+                } else {
+                    // Can't form "ab", keep 'b' for potential future "ba"
+                    ++bCount;
+                }
+            } else {
+                // Non 'a' or 'b' character encountered
+                // Calculate points for any remaining "ba" pairs
+                totalPoints += min(bCount, aCount) * y;
+                // Reset counters for next segment
+                aCount = bCount = 0;
+            }
+        }
+        // Calculate points for any remaining "ba" pairs at the end
+        totalPoints += min(bCount, aCount) * y;
+
+        return totalPoints;
+    }
+};
+```
