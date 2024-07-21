@@ -104,7 +104,7 @@ class Solution:
         return A
 ```
 
-**Solution 2: (Array)**
+**Solution 2: (Greedy, Array)**
 ```
 Runtime: 36 ms
 Memory: 35.70 MB
@@ -122,6 +122,34 @@ public:
             }
         }
         return ans;
+    }
+};
+```
+
+**Solution 3: (Time + Space Optimized Greedy)**
+```
+Runtime: 31 ms
+Memory: 36.17 MB
+```
+```c++
+class Solution {
+public:
+    vector<vector<int>> restoreMatrix(vector<int>& rowSum, vector<int>& colSum) {
+        int M = rowSum.size();
+        int N = colSum.size();
+
+        vector<vector<int>> origMatrix(M, vector<int>(N, 0));
+        int i = 0, j = 0;
+
+        while (i < M && j < N) {
+            origMatrix[i][j] = min(rowSum[i], colSum[j]);
+
+            rowSum[i] -= origMatrix[i][j];
+            colSum[j] -= origMatrix[i][j];
+
+            rowSum[i] == 0 ? i++ : j++;
+        }
+        return origMatrix;
     }
 };
 ```

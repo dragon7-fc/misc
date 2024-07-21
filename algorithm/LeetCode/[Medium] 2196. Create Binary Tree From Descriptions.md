@@ -69,10 +69,10 @@ class Solution:
         return m[root]
 ```
 
-**Solution 1: (Hash Table)**
+**Solution 2: (Convert to Graph with Breadth First Search)**
 ```
-Runtime: 1320 ms
-Memory Usage: 277.7 MB
+Runtime: 833 ms
+Memory: 318.28 MB
 ```
 ```c++
 /**
@@ -89,25 +89,242 @@ Memory Usage: 277.7 MB
 class Solution {
 public:
     TreeNode* createBinaryTree(vector<vector<int>>& descriptions) {
-        unordered_map<int, TreeNode*> getNode;                          //to check if node alredy exist
-        unordered_map<int, bool> isChild;                               //to check if node has parent or not
-        for(auto &v: descriptions){
-            if(getNode.count(v[0])==0){
-                TreeNode* par = new TreeNode(v[0]);
-                getNode[v[0]] = par;
-            }
-            if(getNode.count(v[1])==0){
-                TreeNode* child = new TreeNode(v[1]);
-                getNode[v[1]] = child;
-            }
-            if(v[2]==1) getNode[v[0]]->left = getNode[v[1]];               //left-child
-            else getNode[v[0]]->right = getNode[v[1]];                     //right-child
-            isChild[v[1]] = true;
+        // Sets to track unique children and parents
+        unordered_set<int> children, parents;
+        // Map to store parent to children relationships
+        unordered_map<int, vector<pair<int, int>>> parentToChildren;
+
+        // Build graph from parent to child, and add nodes to HashSets
+        for (auto& d : descriptions) {
+            int parent = d[0], child = d[1], isLeft = d[2];
+            parents.insert(parent);
+            parents.insert(child);
+            children.insert(child);
+            parentToChildren[parent].emplace_back(child, isLeft);
         }
-        TreeNode* ans = NULL;
-        for(auto &v: descriptions){
-            if(isChild[v[0]] != true){                  //if node has no parent then this is root node
-                ans = getNode[v[0]]; 
+
+        // Find the root node by checking which node is in parents but not in
+        // children
+        for (auto it = parents.begin(); it != parents.end();) {
+            if (children.find(*it) != children.end()) {
+                it = parents.erase(it);
+            } else {
+                ++it;
+            }
+        }
+        TreeNode* root = new TreeNode(*parents.begin());
+
+        // Starting from root, use BFS to construct binary tree
+        queue<TreeNode*> queue;
+        queue.push(root);
+
+        while (!queue.empty()) {
+            TreeNode* parent = queue.front();
+            queue.pop();
+            // Iterate over children of current parent
+            for (auto& childInfo : parentToChildren[parent->val]) {
+                int childValue = childInfo.first, isLeft = childInfo.second;
+                TreeNode* child = new TreeNode(childValue);
+                queue.push(child);
+                // Attach child node to its parent based on isLeft flag
+                if (isLeft == 1) {
+                    parent->left = child;
+                } else {
+                    parent->right = child;
+                }
+            }
+        }
+
+        return root;
+    }
+};
+```
+
+**Solution 3: (Convert to Graph with Depth First Search)**
+```
+Runtime: 846 ms
+Memory: 309.36 MB
+```
+```c++
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+class Solution {
+    TreeNode* dfs(unordered_map<int, vector<pair<int, bool>>>& parentToChildren,
+                  int val) {
+        // Create new TreeNode for current value
+        TreeNode* node = new TreeNode(val);
+
+        // If current node has children, recursively build them
+        if (parentToChildren.find(val) != parentToChildren.end()) {
+            for (auto& child_info : parentToChildren[val]) {
+                int child = child_info.first;
+                bool isLeft = child_info.second;
+
+                // Attach child node based on isLeft flag
+                if (isLeft) {
+                    node->left = dfs(parentToChildren, child);
+                } else {
+                    node->right = dfs(parentToChildren, child);
+                }
+            }
+        }
+
+        return node;
+    }
+public:
+    TreeNode* createBinaryTree(vector<vector<int>>& descriptions) {
+        // Step 1: Organize data
+        unordered_map<int, vector<pair<int, bool>>> parentToChildren;
+        unordered_set<int> allNodes;
+        unordered_set<int> children;
+
+        for (auto& desc : descriptions) {
+            int parent = desc[0];
+            int child = desc[1];
+            bool isLeft = desc[2];
+
+            parentToChildren[parent].push_back({child, isLeft});
+            allNodes.insert(parent);
+            allNodes.insert(child);
+            children.insert(child);
+        }
+
+        // Step 2: Find the root
+        int rootVal = 0;
+        for (int node : allNodes) {
+            if (!children.contains(node)) {
+                rootVal = node;
+                break;
+            }
+        }
+
+        // Step 3 & 4: Build the tree using DFS
+        return dfs(parentToChildren, rootVal);
+    }
+};
+```
+
+**Solution 4: (Constructing Tree From Directly Map and TreeNode Object)**
+```
+Runtime: 713 ms
+Memory: 276.28 MB
+```
+```c++
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+class Solution {
+public:
+    TreeNode* createBinaryTree(vector<vector<int>>& descriptions) {
+        // Maps values to TreeNode pointers
+        unordered_map<int, TreeNode*> nodeMap;
+        // Stores values which are children in the descriptions
+        unordered_set<int> children;
+
+        // Iterate through descriptions to create nodes and set up tree
+        // structure
+        for (const auto& description : descriptions) {
+            // Extract parent value, child value, and whether it is a
+            // left child (1) or right child (0)
+            int parentValue = description[0];
+            int childValue = description[1];
+            bool isLeft = description[2];
+
+            // Create parent and child nodes if not already created
+            if (nodeMap.count(parentValue) == 0) {
+                nodeMap[parentValue] = new TreeNode(parentValue);
+            }
+            if (nodeMap.count(childValue) == 0) {
+                nodeMap[childValue] = new TreeNode(childValue);
+            }
+
+            // Attach child node to parent's left or right branch
+            if (isLeft) {
+                nodeMap[parentValue]->left = nodeMap[childValue];
+            } else {
+                nodeMap[parentValue]->right = nodeMap[childValue];
+            }
+
+            // Mark child as a child in the set
+            children.insert(childValue);
+        }
+
+        // Find and return the root node
+        for (auto& entry : nodeMap) {
+            auto& value = entry.first;
+            auto& node = entry.second;
+            // Root node found
+            if (children.find(value) == children.end()) {
+                return node;
+            }
+        }
+
+        // Should not occur according to problem statement
+        return nullptr;
+    }
+};
+```
+
+**Solution 5: (Hash Table)**
+```
+Runtime: 641 ms
+Memory: 256.38 MB
+```
+```c++
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+class Solution {
+public:
+    TreeNode* createBinaryTree(vector<vector<int>>& descriptions) {
+        unordered_map<int, pair<TreeNode*,bool>> m;
+        int p, c, isLeft;
+        for (int i = 0; i < descriptions.size(); i ++) {
+            p = descriptions[i][0];
+            c = descriptions[i][1];
+            isLeft = descriptions[i][2];
+            if (!m.count(p)) {
+                m[p] = {new TreeNode(p), false};
+            }
+            if (!m.count(c)) {
+                m[c] = {new TreeNode(c), false};
+            }
+            m[c].second = true;
+            if (isLeft) {
+                m[p].first->left = m[c].first;
+            } else {
+                m[p].first->right = m[c].first;
+            }
+        }
+        TreeNode *ans;
+        for (auto [_, pa]: m) {
+            if (!pa.second) {
+                ans = pa.first;
                 break;
             }
         }

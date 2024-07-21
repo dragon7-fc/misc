@@ -838,3 +838,64 @@ public:
     }
 };
 ```
+
+**Solution 10: (Stack)**
+```
+Runtime: 0 ms
+Memory: 10.41 MB
+```
+```c++
+class Solution {
+public:
+    string countOfAtoms(string formula) {
+        stack<map<string, int>> stk;
+        stk.push({});
+        string cur = "";
+        int n = formula.size(), i = 0, c;
+        while (i < n) {
+            if (formula[i] >= 'A' && c <= 'Z') {
+                cur = formula[i];
+                while (i+1 < n && formula[i+1] >= 'a' && formula[i+1] <= 'z') {
+                    cur += formula[i+1];
+                    i += 1;
+                }
+                c = 0;
+                while (i+1 < n && formula[i+1] >= '0' && formula[i+1] <= '9') {
+                    c = c*10 + formula[i+1]-'0';
+                    i += 1;
+                }
+                if (c == 0) {
+                    c = 1;
+                }
+                stk.top()[cur] += c;
+            } else if (formula[i] == '(') {
+                stk.push({});
+            } else {
+                c = 0;
+                while (i+1 < n && formula[i+1] >= '0' && formula[i+1] <= '9') {
+                    c = c*10 + formula[i+1] - '0';
+                    i += 1;
+                }
+                if (c == 0) {
+                    c = 1;
+                }
+                auto m = stk.top();
+                stk.pop();
+                for (auto [k, v]: m) {
+                    stk.top()[k] += v*c;
+                }
+            }
+            i += 1;
+        }
+        string ans;
+        auto m2 = stk.top();
+        for (auto [k, v]: m2) {
+            ans += k;
+            if (v > 1) {
+                ans += to_string(v);
+            }
+        }
+        return ans;
+    }
+};
+```

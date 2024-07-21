@@ -127,3 +127,351 @@ public:
     }
 };
 ```
+
+**Solution 3: (DFS + BFS)**
+```
+Runtime: 1256 ms
+Memory: 612.06 MB
+```
+```c++
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+class Solution {
+    void dfs(TreeNode* node, TreeNode *p, TreeNode **s, int startValue, unordered_map<TreeNode*, vector<pair<TreeNode*,char>>> &g) {
+        if (!node) {
+            return;
+        }
+        if (node->val == startValue) {
+            *s = node;
+        }
+        if(p) {
+            g[node].push_back({p, 'U'});
+        }
+        if (node->left) {
+            g[node].push_back({node->left, 'L'});
+            dfs(node->left, node, s, startValue, g);
+        }
+        if (node->right) {
+            g[node].push_back({node->right, 'R'});
+            dfs(node->right, node, s, startValue, g);
+        }
+    }
+public:
+    string getDirections(TreeNode* root, int startValue, int destValue) {
+        unordered_map<TreeNode*, vector<pair<TreeNode*,char>>> g;
+        unordered_map<TreeNode*, pair<TreeNode*, char>> visited;
+        TreeNode *s, node;
+        dfs(root, nullptr, &s, startValue, g);
+        queue<TreeNode*> q;
+        q.push(s);
+        visited[s] = {nullptr, ' '};
+        string ans;
+        while (q.size()) {
+            auto node = q.front();
+            q.pop();
+            if (node->val == destValue) {
+                while (node != s) {
+                    ans += visited[node].second;
+                    node = visited[node].first;
+                }
+                reverse(ans.begin(), ans.end());
+                return ans;
+            }
+            for (auto [nnode, d]: g[node]) {
+                if (!visited.count(nnode)) {
+                    visited[nnode] = {node, d};
+                    q.push({nnode});
+                }
+            }
+        }
+        return "";
+    }
+};
+```
+
+**Solution 4: (DFS + BFS)**
+```
+Runtime: 517 ms
+Memory: 283.79 MB
+```
+```c++
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+class Solution {
+    string backtrackPath(
+        TreeNode* node,
+        unordered_map<TreeNode*, pair<TreeNode*, string>> pathTracker) {
+        string path;
+        // Construct the path
+        while (pathTracker.count(node)) {
+            // Add the directions in reverse order and
+            // move on to the previous node
+            path += pathTracker[node].second;
+            node = pathTracker[node].first;
+        }
+        reverse(path.begin(), path.end());
+        return path;
+    }
+
+    void populateParentMap(TreeNode* node,
+                           unordered_map<int, TreeNode*>& parentMap) {
+        if (node == nullptr) return;
+
+        // Add children to the map and recurse further
+        if (node->left != nullptr) {
+            parentMap[node->left->val] = node;
+            populateParentMap(node->left, parentMap);
+        }
+
+        if (node->right != nullptr) {
+            parentMap[node->right->val] = node;
+            populateParentMap(node->right, parentMap);
+        }
+    }
+
+    TreeNode* findStartNode(TreeNode* node, int startValue) {
+        if (node == nullptr) return nullptr;
+
+        if (node->val == startValue) return node;
+
+        TreeNode* leftResult = findStartNode(node->left, startValue);
+
+        // If left subtree returns a node, it must be StartNode. Return it
+        // Otherwise, return whatever is returned by right subtree.
+        if (leftResult != nullptr) return leftResult;
+        return findStartNode(node->right, startValue);
+    }
+public:
+    string getDirections(TreeNode* root, int startValue, int destValue) {
+        unordered_map<int, TreeNode*> parentMap;
+
+        // Find the start node and populate parent map
+        TreeNode* startNode = findStartNode(root, startValue);
+        populateParentMap(root, parentMap);
+
+        // Perform BFS to find the path
+        queue<TreeNode*> q;
+        q.push(startNode);
+        unordered_set<TreeNode*> visitedNodes;
+        // Key: next node, Value: <current node, direction>
+        unordered_map<TreeNode*, pair<TreeNode*, string>> pathTracker;
+        visitedNodes.insert(startNode);
+
+        while (!q.empty()) {
+            TreeNode* currentNode = q.front();
+            q.pop();
+
+            // If destination is reached, return the path
+            if (currentNode->val == destValue) {
+                return backtrackPath(currentNode, pathTracker);
+            }
+
+            // Check and add parent node
+            if (parentMap.find(currentNode->val) != parentMap.end()) {
+                TreeNode* parentNode = parentMap[currentNode->val];
+                if (visitedNodes.find(parentNode) == visitedNodes.end()) {
+                    q.push(parentNode);
+                    pathTracker[parentNode] = {currentNode, "U"};
+                    visitedNodes.insert(parentNode);
+                }
+            }
+
+            // Check and add left child
+            if (currentNode->left != nullptr &&
+                visitedNodes.find(currentNode->left) == visitedNodes.end()) {
+                q.push(currentNode->left);
+                pathTracker[currentNode->left] = {currentNode, "L"};
+                visitedNodes.insert(currentNode->left);
+            }
+
+            // Check and add right child
+            if (currentNode->right != nullptr &&
+                visitedNodes.find(currentNode->right) == visitedNodes.end()) {
+                q.push(currentNode->right);
+                pathTracker[currentNode->right] = {currentNode, "R"};
+                visitedNodes.insert(currentNode->right);
+            }
+        }
+
+        // This line should never be reached if the tree is valid
+        return "";
+    }
+};
+```
+
+**Solution 5: (LCA + DFS)**
+```
+Runtime: 158 ms
+Memory: 118.66 MB
+```
+```c++
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+class Solution {
+    TreeNode* findLowestCommonAncestor(TreeNode* node, int value1, int value2) {
+        if (node == nullptr) return nullptr;
+
+        if (node->val == value1 || node->val == value2) return node;
+
+        TreeNode* leftLCA =
+            findLowestCommonAncestor(node->left, value1, value2);
+        TreeNode* rightLCA =
+            findLowestCommonAncestor(node->right, value1, value2);
+
+        if (leftLCA == nullptr)
+            return rightLCA;
+        else if (rightLCA == nullptr)
+            return leftLCA;
+        else
+            return node;  // Both values found, this is the LCA
+    }
+
+    bool findPath(TreeNode* node, int targetValue, string& path) {
+        if (node == nullptr) return false;
+
+        if (node->val == targetValue) return true;
+
+        // Try left subtree
+        path.push_back('L');
+        if (findPath(node->left, targetValue, path)) {
+            return true;
+        }
+        path.pop_back();  // Remove last character
+
+        // Try right subtree
+        path.push_back('R');
+        if (findPath(node->right, targetValue, path)) {
+            return true;
+        }
+        path.pop_back();  // Remove last character
+
+        return false;
+    }
+public:
+    string getDirections(TreeNode* root, int startValue, int destValue) {
+        // Find the Lowest Common Ancestor (LCA) of start and destination nodes
+        TreeNode* lowestCommonAncestor =
+            findLowestCommonAncestor(root, startValue, destValue);
+
+        string pathToStart;
+        string pathToDest;
+
+        // Find paths from LCA to start and destination nodes
+        findPath(lowestCommonAncestor, startValue, pathToStart);
+        findPath(lowestCommonAncestor, destValue, pathToDest);
+
+        string directions;
+
+        // Add "U" for each step to go up from start to LCA
+        directions.append(pathToStart.length(), 'U');
+
+        // Append the path from LCA to destination
+        directions.append(pathToDest);
+
+        return directions;
+    }
+};
+```
+
+**Solution 6: (LCA + DFS (Optimized))**
+```
+Runtime: 164 ms
+Memory: 119.62 MB
+```
+```c++
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+class Solution {
+    bool findPath(TreeNode* node, int target, string& path) {
+        if (node == nullptr) {
+            return false;
+        }
+
+        if (node->val == target) {
+            return true;
+        }
+
+        // Try left subtree
+        path += "L";
+        if (findPath(node->left, target, path)) {
+            return true;
+        }
+        path.pop_back();  // Remove last character
+
+        // Try right subtree
+        path += "R";
+        if (findPath(node->right, target, path)) {
+            return true;
+        }
+        path.pop_back();  // Remove last character
+
+        return false;
+    }
+public:
+    string getDirections(TreeNode* root, int startValue, int destValue) {
+        string startPath, destPath;
+
+        // Find paths from root to start and destination nodes
+        findPath(root, startValue, startPath);
+        findPath(root, destValue, destPath);
+
+        string directions;
+        int commonPathLength = 0;
+
+        // Find the length of the common path
+        while (commonPathLength < startPath.length() &&
+               commonPathLength < destPath.length() &&
+               startPath[commonPathLength] == destPath[commonPathLength]) {
+            commonPathLength++;
+        }
+
+        // Add "U" for each step to go up from start to common ancestor
+        for (int i = 0; i < startPath.length() - commonPathLength; i++) {
+            directions += "U";
+        }
+
+        // Add directions from common ancestor to destination
+        for (int i = commonPathLength; i < destPath.length(); i++) {
+            directions += destPath[i];
+        }
+
+        return directions;
+    }
+};
+```
