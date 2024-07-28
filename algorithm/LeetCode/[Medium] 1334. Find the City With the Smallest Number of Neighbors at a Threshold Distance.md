@@ -114,7 +114,7 @@ class Solution:
 
 ```
 
-**Solution 3: (BFS, Dijkstra, Graph, Graph)**
+**Solution 3: (Dijkstra, Graph)**
 ```
 Runtime: 1720 ms
 Memory Usage: 13.7 MB
@@ -148,4 +148,439 @@ class Solution:
                 res = i
                 count = c
         return res
+```
+
+
+**Solution 4: (Dijkstra Algorithm, O(N^3 log(N)))**
+```
+Runtime: 40 ms
+Memory: 20.17 MB
+```
+```c++
+lass Solution {
+     // Dijkstra's algorithm to find shortest paths from a source city
+    void dijkstra(int n, const vector<vector<pair<int, int>>>& adjacencyList,
+                  vector<int>& shortestPathDistances, int source) {
+        // Priority queue to process nodes with the smallest distance first
+        priority_queue<pair<int, int>, vector<pair<int, int>>,
+                       greater<pair<int, int>>>
+            priorityQueue;
+        priorityQueue.emplace(0, source);
+        fill(shortestPathDistances.begin(), shortestPathDistances.end(),
+             INT_MAX);
+        shortestPathDistances[source] = 0;  // Distance to source itself is zero
+
+        // Process nodes in priority order
+        while (!priorityQueue.empty()) {
+            auto [currentDistance, currentCity] = priorityQueue.top();
+            priorityQueue.pop();
+            if (currentDistance > shortestPathDistances[currentCity]) {
+                continue;
+            }
+
+            // Update distances to neighboring cities
+            for (const auto& [neighborCity, edgeWeight] :
+                 adjacencyList[currentCity]) {
+                if (shortestPathDistances[neighborCity] >
+                    currentDistance + edgeWeight) {
+                    shortestPathDistances[neighborCity] =
+                        currentDistance + edgeWeight;
+                    priorityQueue.emplace(shortestPathDistances[neighborCity],
+                                          neighborCity);
+                }
+            }
+        }
+    }
+
+    // Determine the city with the fewest number of reachable cities within the
+    // distance threshold
+    int getCityWithFewestReachable(
+        int n, const vector<vector<int>>& shortestPathMatrix,
+        int distanceThreshold) {
+        int cityWithFewestReachable = -1;
+        int fewestReachableCount = n;
+
+        // Count number of cities reachable within the distance threshold for
+        // each city
+        for (int i = 0; i < n; i++) {
+            int reachableCount = 0;
+            for (int j = 0; j < n; j++) {
+                if (i == j) {
+                    continue;
+                }  // Skip self
+                if (shortestPathMatrix[i][j] <= distanceThreshold) {
+                    reachableCount++;
+                }
+            }
+            // Update the city with the fewest reachable cities
+            if (reachableCount <= fewestReachableCount) {
+                fewestReachableCount = reachableCount;
+                cityWithFewestReachable = i;
+            }
+        }
+        return cityWithFewestReachable;
+    }
+public:
+    int findTheCity(int n, vector<vector<int>>& edges, int distanceThreshold) {
+        // Adjacency list to store the graph
+        vector<vector<pair<int, int>>> adjacencyList(n);
+        // Matrix to store shortest path distances from each city
+        vector<vector<int>> shortestPathMatrix(n, vector<int>(n, INT_MAX));
+
+        // Initialize adjacency list and shortest path matrix
+        for (int i = 0; i < n; i++) {
+            shortestPathMatrix[i][i] = 0;  // Distance to itself is zero
+        }
+
+        // Populate the adjacency list with edges
+        for (const auto& edge : edges) {
+            int start = edge[0];
+            int end = edge[1];
+            int weight = edge[2];
+            adjacencyList[start].emplace_back(end, weight);
+            adjacencyList[end].emplace_back(start,
+                                            weight);  // For undirected graph
+        }
+
+        // Compute shortest paths from each city using Dijkstra's algorithm
+        for (int i = 0; i < n; i++) {
+            dijkstra(n, adjacencyList, shortestPathMatrix[i], i);
+        }
+
+        // Find the city with the fewest number of reachable cities within the
+        // distance threshold
+        return getCityWithFewestReachable(n, shortestPathMatrix,
+                                          distanceThreshold);
+    }
+};
+```
+
+**Solution 5: (Bellman-Ford Algorithm, O(N^4))**
+```
+Runtime: 277 ms
+Memory: 15.61 MB
+```
+```c++
+class Solution {
+    // Bellman-Ford algorithm to find shortest paths from a source city
+    void bellmanFord(int n, const vector<vector<int>>& edges,
+                     vector<int>& shortestPathDistances, int source) {
+        // Initialize distances from the source
+        fill(shortestPathDistances.begin(), shortestPathDistances.end(), INF);
+        shortestPathDistances[source] = 0;  // Distance to source itself is zero
+
+        // Relax edges up to n-1 times
+        for (int i = 1; i < n; i++) {
+            for (const auto& edge : edges) {
+                int start = edge[0];
+                int end = edge[1];
+                int weight = edge[2];
+                // Update shortest path distances if a shorter path is found
+                if (shortestPathDistances[start] != INF &&
+                    shortestPathDistances[start] + weight <
+                        shortestPathDistances[end]) {
+                    shortestPathDistances[end] =
+                        shortestPathDistances[start] + weight;
+                }
+                if (shortestPathDistances[end] != INF &&
+                    shortestPathDistances[end] + weight <
+                        shortestPathDistances[start]) {
+                    shortestPathDistances[start] =
+                        shortestPathDistances[end] + weight;
+                }
+            }
+        }
+    }
+
+    // Determine the city with the fewest number of reachable cities within the
+    // distance threshold
+    int getCityWithFewestReachable(
+        int n, const vector<vector<int>>& shortestPathMatrix,
+        int distanceThreshold) {
+        int cityWithFewestReachable = -1;
+        int fewestReachableCount = n;
+
+        // Count number of cities reachable within the distance threshold for
+        // each city
+        for (int i = 0; i < n; i++) {
+            int reachableCount = 0;
+            for (int j = 0; j < n; j++) {
+                if (i == j) {
+                    continue;
+                }  // Skip self
+                if (shortestPathMatrix[i][j] <= distanceThreshold) {
+                    reachableCount++;
+                }
+            }
+            // Update the city with the fewest reachable cities
+            if (reachableCount <= fewestReachableCount) {
+                fewestReachableCount = reachableCount;
+                cityWithFewestReachable = i;
+            }
+        }
+        return cityWithFewestReachable;
+    }
+public:
+    // Large value to represent infinity
+    const int INF = 1e9 + 7;
+    int findTheCity(int n, vector<vector<int>>& edges, int distanceThreshold) {
+        // Matrix to store shortest path distances from each city
+        vector<vector<int>> shortestPathMatrix(n, vector<int>(n, INF));
+
+        // Initialize shortest path matrix
+        for (int i = 0; i < n; i++) {
+            shortestPathMatrix[i][i] = 0;  // Distance to itself is zero
+        }
+
+        // Populate the matrix with initial edge weights
+        for (const auto& edge : edges) {
+            int start = edge[0];
+            int end = edge[1];
+            int weight = edge[2];
+            shortestPathMatrix[start][end] = weight;
+            shortestPathMatrix[end][start] = weight;  // For undirected graph
+        }
+
+        // Compute shortest paths from each city using Bellman-Ford algorithm
+        for (int i = 0; i < n; i++) {
+            bellmanFord(n, edges, shortestPathMatrix[i], i);
+        }
+
+        // Find the city with the fewest number of reachable cities within the
+        // distance threshold
+        return getCityWithFewestReachable(n, shortestPathMatrix,
+                                          distanceThreshold);
+    }
+};
+```
+
+**Solution 6: (Shortest Path First Algorithm (SPFA), O(N^4))**
+```
+Runtime: 42 ms
+Memory: 18.78 MB
+```
+```
+class Solution {
+    // SPFA algorithm to find shortest paths from a source city
+    void spfa(int n, const vector<vector<pair<int, int>>>& adjacencyList,
+              vector<int>& shortestPathDistances, int source) {
+        // Queue to process nodes with updated shortest path distances
+        deque<int> queue;
+        vector<int> updateCount(n, 0);
+        queue.push_back(source);
+        fill(shortestPathDistances.begin(), shortestPathDistances.end(),
+             INT_MAX);
+        shortestPathDistances[source] = 0;  // Distance to source itself is zero
+
+        // Process nodes in queue
+        while (!queue.empty()) {
+            int currentCity = queue.front();
+            queue.pop_front();
+            for (const auto& [neighborCity, edgeWeight] :
+                 adjacencyList[currentCity]) {
+                if (shortestPathDistances[neighborCity] >
+                    shortestPathDistances[currentCity] + edgeWeight) {
+                    shortestPathDistances[neighborCity] =
+                        shortestPathDistances[currentCity] + edgeWeight;
+                    updateCount[neighborCity]++;
+                    queue.push_back(neighborCity);
+
+                    // Detect negative weight cycles (not expected in this
+                    // problem)
+                    if (updateCount[neighborCity] > n) {
+                        cerr << "Negative weight cycle detected" << endl;
+                    }
+                }
+            }
+        }
+    }
+
+    // Determine the city with the fewest number of reachable cities within the
+    // distance threshold
+    int getCityWithFewestReachable(
+        int n, const vector<vector<int>>& shortestPathMatrix,
+        int distanceThreshold) {
+        int cityWithFewestReachable = -1;
+        int fewestReachableCount = n;
+
+        // Count number of cities reachable within the distance threshold for
+        // each city
+        for (int i = 0; i < n; i++) {
+            int reachableCount = 0;
+            for (int j = 0; j < n; j++) {
+                if (i == j) {
+                    continue;
+                }  // Skip self
+                if (shortestPathMatrix[i][j] <= distanceThreshold) {
+                    reachableCount++;
+                }
+            }
+            // Update the city with the fewest reachable cities
+            if (reachableCount <= fewestReachableCount) {
+                fewestReachableCount = reachableCount;
+                cityWithFewestReachable = i;
+            }
+        }
+        return cityWithFewestReachable;
+    }
+public:
+    int findTheCity(int n, vector<vector<int>>& edges, int distanceThreshold) {
+        // Adjacency list to store the graph
+        vector<vector<pair<int, int>>> adjacencyList(n);
+        // Matrix to store shortest path distances from each city
+        vector<vector<int>> shortestPathMatrix(n, vector<int>(n, INT_MAX));
+
+        // Initialize adjacency list and shortest path matrix
+        for (int i = 0; i < n; i++) {
+            shortestPathMatrix[i][i] = 0;  // Distance to itself is zero
+        }
+
+        // Populate the adjacency list with edges
+        for (const auto& edge : edges) {
+            int start = edge[0];
+            int end = edge[1];
+            int weight = edge[2];
+            adjacencyList[start].emplace_back(end, weight);
+            adjacencyList[end].emplace_back(start,
+                                            weight);  // For undirected graph
+        }
+
+        // Compute shortest paths from each city using SPFA algorithm
+        for (int i = 0; i < n; i++) {
+            spfa(n, adjacencyList, shortestPathMatrix[i], i);
+        }
+
+        // Find the city with the fewest number of reachable cities within the
+        // distance threshold
+        return getCityWithFewestReachable(n, shortestPathMatrix,
+                                          distanceThreshold);
+    }
+};
+```
+
+**Solution 7: (Dijkstra)**
+```
+Runtime: 63 ms
+Memory: 17.13 MB
+```
+```c++
+class Solution {
+public:
+    int findTheCity(int n, vector<vector<int>>& edges, int distanceThreshold) {
+        vector<vector<pair<int,int>>> g(n);
+        for (auto e: edges) {
+            g[e[0]].push_back({e[1], e[2]});
+            g[e[1]].push_back({e[0], e[2]});
+        }
+        int cur, mn = INT_MAX, ans;
+        vector<int> dist(n);
+        priority_queue<pair<int,int>, vector<pair<int,int>>, greater<pair<int,int>>> pq;
+        for (int i = 0; i < n; i ++) {
+            fill(dist.begin(), dist.end(), INT_MAX);
+            cur = 0;
+            pq.push({0, i});
+            while (pq.size()) {
+                auto [w, v] = pq.top();
+                pq.pop();
+                if (w >= dist[v]) {
+                    continue;
+                }
+                cur += 1;
+                dist[v] = w;
+                for (auto [nv, nw]: g[v]) {
+                    if (w + nw < dist[nv] && w + nw <= distanceThreshold) {
+                        pq.push({w+nw, nv});
+                    }
+                }
+            }
+            if (cur <= mn) {
+                mn = cur;
+                ans = i;
+            }
+        }
+        return ans;
+    }
+};
+```
+
+**Solution 8: (Floyd-Warshall Algorithm, O(N^3))**
+```
+Runtime: 24 ms
+Memory: 15.59 MB
+```
+```c++
+class Solution {
+    // Floyd-Warshall algorithm to compute shortest paths between all pairs of
+    // cities
+    void floyd(int n, vector<vector<int>>& distanceMatrix) {
+        // Update distances for each intermediate city
+        for (int k = 0; k < n; k++) {
+            for (int i = 0; i < n; i++) {
+                for (int j = 0; j < n; j++) {
+                    // Update shortest path from i to j through k
+                    distanceMatrix[i][j] =
+                        min(distanceMatrix[i][j],
+                            distanceMatrix[i][k] + distanceMatrix[k][j]);
+                }
+            }
+        }
+    }
+
+    // Determine the city with the fewest number of reachable cities within the
+    // distance threshold
+    int getCityWithFewestReachable(int n,
+                                   const vector<vector<int>>& distanceMatrix,
+                                   int distanceThreshold) {
+        int cityWithFewestReachable = -1;
+        int fewestReachableCount = n;
+
+        // Count number of cities reachable within the distance threshold for
+        // each city
+        for (int i = 0; i < n; i++) {
+            int reachableCount = 0;
+            for (int j = 0; j < n; j++) {
+                if (i == j) {
+                    continue;
+                }  // Skip self
+                if (distanceMatrix[i][j] <= distanceThreshold) {
+                    reachableCount++;
+                }
+            }
+            // Update the city with the fewest reachable cities
+            if (reachableCount <= fewestReachableCount) {
+                fewestReachableCount = reachableCount;
+                cityWithFewestReachable = i;
+            }
+        }
+        return cityWithFewestReachable;
+    }
+public:
+    int findTheCity(int n, vector<vector<int>>& edges, int distanceThreshold) {
+        // Large value to represent infinity
+        const int INF = 1e9 + 7;
+        // Distance matrix to store shortest paths between all pairs of cities
+        vector<vector<int>> distanceMatrix(n, vector<int>(n, INF));
+
+        // Initialize distance matrix
+        for (int i = 0; i < n; i++) {
+            distanceMatrix[i][i] = 0;  // Distance to itself is zero
+        }
+
+        // Populate the distance matrix with initial edge weights
+        for (const auto& edge : edges) {
+            int start = edge[0];
+            int end = edge[1];
+            int weight = edge[2];
+            distanceMatrix[start][end] = weight;
+            distanceMatrix[end][start] = weight;  // For undirected graph
+        }
+
+        // Compute shortest paths using Floyd-Warshall algorithm
+        floyd(n, distanceMatrix);
+
+        // Find the city with the fewest number of reachable cities within the
+        // distance threshold
+        return getCityWithFewestReachable(n, distanceMatrix, distanceThreshold);
+    }
+};
 ```
