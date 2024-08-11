@@ -359,3 +359,247 @@ public:
     }
 };
 ```
+
+**Solution 5: (Expanded Grid)**
+```
+Runtime: 18 ms
+Memory: 19.40 MB
+```
+```c++
+class Solution {
+    // Directions for traversal: right, left, down, up
+    const vector<vector<int>> DIRECTIONS = {{0, 1}, {0, -1}, {1, 0}, {-1, 0}};
+
+    // Flood fill algorithm to mark all cells in a region
+    void floodFill(vector<vector<int>>& expandedGrid, int row, int col) {
+        queue<pair<int, int>> q;
+        expandedGrid[row][col] = 1;
+        q.push({row, col});
+
+        while (!q.empty()) {
+            auto [currentRow, currentCol] = q.front();
+            q.pop();
+            // Check all four directions from the current cell
+            for (const auto& direction : DIRECTIONS) {
+                int newRow = direction[0] + currentRow;
+                int newCol = direction[1] + currentCol;
+                // If the new cell is valid and unvisited, mark it and add to
+                // queue
+                if (isValidCell(expandedGrid, newRow, newCol)) {
+                    expandedGrid[newRow][newCol] = 1;
+                    q.push({newRow, newCol});
+                }
+            }
+        }
+    }
+
+    // Check if a cell is within bounds and unvisited
+    bool isValidCell(const vector<vector<int>>& expandedGrid, int row,
+                     int col) {
+        int n = expandedGrid.size();
+        return row >= 0 && col >= 0 && row < n && col < n &&
+               expandedGrid[row][col] == 0;
+    }
+public:
+    int regionsBySlashes(vector<string>& grid) {
+        int gridSize = grid.size();
+        // Create a 3x3 matrix for each cell in the original grid
+        vector<vector<int>> expandedGrid(gridSize * 3,
+                                         vector<int>(gridSize * 3, 0));
+
+        // Populate the expanded grid based on the original grid
+        // 1 represents a barrier in the expanded grid
+        for (int i = 0; i < gridSize; i++) {
+            for (int j = 0; j < gridSize; j++) {
+                int baseRow = i * 3;
+                int baseCol = j * 3;
+                // Check the character in the original grid
+                if (grid[i][j] == '\\') {
+                    // Mark diagonal for backslash
+                    expandedGrid[baseRow][baseCol] = 1;
+                    expandedGrid[baseRow + 1][baseCol + 1] = 1;
+                    expandedGrid[baseRow + 2][baseCol + 2] = 1;
+                } else if (grid[i][j] == '/') {
+                    // Mark diagonal for forward slash
+                    expandedGrid[baseRow][baseCol + 2] = 1;
+                    expandedGrid[baseRow + 1][baseCol + 1] = 1;
+                    expandedGrid[baseRow + 2][baseCol] = 1;
+                }
+            }
+        }
+
+        int regionCount = 0;
+        // Count regions using flood fill
+        for (int i = 0; i < gridSize * 3; i++) {
+            for (int j = 0; j < gridSize * 3; j++) {
+                // If we find an unvisited cell (0), it's a new region
+                if (expandedGrid[i][j] == 0) {
+                    // Fill that region
+                    floodFill(expandedGrid, i, j);
+                    regionCount++;
+                }
+            }
+        }
+        return regionCount;
+    }
+};
+```
+
+**Solution 6: (Disjoint Set Union (Triangles))**
+```
+Runtime: 9 ms
+Memory: 12.19 MB
+```
+```c++
+class Solution {
+    // Calculate the index of a triangle in the flattened array
+    // Each cell is divided into 4 triangles, numbered 0 to 3 clockwise from the
+    // top
+    int getTriangleIndex(int gridSize, int row, int col, int triangleNum) {
+        return (gridSize * row + col) * 4 + triangleNum;
+    }
+
+    // Union two triangles and return 1 if they were not already connected, 0
+    // otherwise
+    int unionTriangles(vector<int>& parentArray, int x, int y) {
+        int parentX = findParent(parentArray, x);
+        int parentY = findParent(parentArray, y);
+
+        if (parentX != parentY) {
+            parentArray[parentX] = parentY;
+            return 1;  // Regions were merged, so count decreases by 1
+        }
+
+        return 0;  // Regions were already connected
+    }
+
+    // Find the parent (root) of a set
+    int findParent(vector<int>& parentArray, int x) {
+        if (parentArray[x] == -1) return x;
+
+        return parentArray[x] = findParent(parentArray, parentArray[x]);
+    }
+public:
+    int regionsBySlashes(vector<string>& grid) {
+        int gridSize = grid.size();
+        int totalTriangles = gridSize * gridSize * 4;
+        vector<int> parentArray(totalTriangles, -1);
+
+        // Initially, each small triangle is a separate region
+        int regionCount = totalTriangles;
+
+        for (int row = 0; row < gridSize; row++) {
+            for (int col = 0; col < gridSize; col++) {
+                // Connect with the cell above
+                if (row > 0) {
+                    regionCount -= unionTriangles(
+                        parentArray,
+                        getTriangleIndex(gridSize, row - 1, col, 2),
+                        getTriangleIndex(gridSize, row, col, 0));
+                }
+                // Connect with the cell to the left
+                if (col > 0) {
+                    regionCount -= unionTriangles(
+                        parentArray,
+                        getTriangleIndex(gridSize, row, col - 1, 1),
+                        getTriangleIndex(gridSize, row, col, 3));
+                }
+
+                // If not '/', connect triangles 0-1 and 2-3
+                if (grid[row][col] != '/') {
+                    regionCount -= unionTriangles(
+                        parentArray, getTriangleIndex(gridSize, row, col, 0),
+                        getTriangleIndex(gridSize, row, col, 1));
+                    regionCount -= unionTriangles(
+                        parentArray, getTriangleIndex(gridSize, row, col, 2),
+                        getTriangleIndex(gridSize, row, col, 3));
+                }
+
+                // If not '\', connect triangles 0-3 and 1-2
+                if (grid[row][col] != '\\') {
+                    regionCount -= unionTriangles(
+                        parentArray, getTriangleIndex(gridSize, row, col, 0),
+                        getTriangleIndex(gridSize, row, col, 3));
+                    regionCount -= unionTriangles(
+                        parentArray, getTriangleIndex(gridSize, row, col, 2),
+                        getTriangleIndex(gridSize, row, col, 1));
+                }
+            }
+        }
+        return regionCount;
+    }
+};
+```
+
+**Solution 7: (Disjoint Set Union (Graph))**
+```
+Runtime: 8 ms
+Memory: 11.74 MB
+```
+```c++
+class Solution {
+    // Find the parent of a set
+    int find(vector<int>& parentArray, int node) {
+        if (parentArray[node] == -1) return node;
+
+        return parentArray[node] = find(parentArray, parentArray[node]);
+    }
+
+    // Union two sets and return 1 if a new region is formed, 0 otherwise
+    int union_sets(vector<int>& parentArray, int node1, int node2) {
+        int parent1 = find(parentArray, node1);
+        int parent2 = find(parentArray, node2);
+
+        if (parent1 == parent2) {
+            return 1;  // Nodes are already in the same set, new region formed
+        }
+
+        parentArray[parent2] = parent1;  // Union the sets
+        return 0;                        // No new region formed
+    }
+public:
+    int regionsBySlashes(vector<string>& grid) {
+        int gridSize = grid.size();
+        int pointsPerSide = gridSize + 1;
+        int totalPoints = pointsPerSide * pointsPerSide;
+
+        // Initialize disjoint set data structure
+        vector<int> parentArray(totalPoints, -1);
+
+        // Connect border points
+        for (int i = 0; i < pointsPerSide; i++) {
+            for (int j = 0; j < pointsPerSide; j++) {
+                if (i == 0 || j == 0 || i == pointsPerSide - 1 ||
+                    j == pointsPerSide - 1) {
+                    int point = i * pointsPerSide + j;
+                    parentArray[point] = 0;
+                }
+            }
+        }
+
+        // Set the parent of the top-left corner to itself
+        parentArray[0] = -1;
+        int regionCount = 1;  // Start with one region (the border)
+
+        // Process each cell in the grid
+        for (int i = 0; i < gridSize; i++) {
+            for (int j = 0; j < gridSize; j++) {
+                // Treat each slash as an edge connecting two points
+                if (grid[i][j] == '/') {
+                    int topRight = i * pointsPerSide + (j + 1);
+                    int bottomLeft = (i + 1) * pointsPerSide + j;
+                    regionCount +=
+                        union_sets(parentArray, topRight, bottomLeft);
+                } else if (grid[i][j] == '\\') {
+                    int topLeft = i * pointsPerSide + j;
+                    int bottomRight = (i + 1) * pointsPerSide + (j + 1);
+                    regionCount +=
+                        union_sets(parentArray, topLeft, bottomRight);
+                }
+            }
+        }
+
+        return regionCount;
+    }
+};
+```

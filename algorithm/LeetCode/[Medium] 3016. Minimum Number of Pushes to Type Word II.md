@@ -70,7 +70,80 @@ It can be shown that no other mapping can provide a lower cost.
 
 # Submissions
 ---
-**Solution 1: (Counter)**
+**Solution 1: (Greedy Sorting)**
+```
+Runtime: 63 ms
+Memory: 27.59 MB
+```
+```c++
+class Solution {
+public:
+    int minimumPushes(string word) {
+        // Frequency vector to store count of each letter
+        vector<int> frequency(26, 0);
+
+        // Count occurrences of each letter
+        for (char& c : word) {
+            ++frequency[c - 'a'];
+        }
+
+        // Sort frequencies in descending order
+        sort(frequency.rbegin(), frequency.rend());
+
+        int totalPushes = 0;
+
+        // Calculate total number of presses
+        for (int i = 0; i < 26; ++i) {
+            if (frequency[i] == 0) break;
+            totalPushes += (i / 8 + 1) * frequency[i];
+        }
+
+        return totalPushes;
+    }
+};
+```
+
+**Solution 2: (Using Heap)**
+```
+Runtime: 115 ms
+Memory: 27.18 MB
+```
+```c++
+class Solution {
+public:
+    int minimumPushes(string word) {
+        // Frequency map to store count of each letter
+        unordered_map<char, int> frequencyMap;
+
+        // Count occurrences of each letter
+        for (char& c : word) {
+            ++frequencyMap[c];
+        }
+
+        // Priority queue to store frequencies in descending order
+        priority_queue<int> frequencyQueue;
+
+        // Push all frequencies into the priority queue
+        for (const auto& entry : frequencyMap) {
+            frequencyQueue.push(entry.second);
+        }
+
+        int totalPushes = 0;
+        int index = 0;
+
+        // Calculate total number of presses
+        while (!frequencyQueue.empty()) {
+            totalPushes += (1 + (index / 8)) * frequencyQueue.top();
+            frequencyQueue.pop();
+            index++;
+        }
+
+        return totalPushes;
+    }
+};
+```
+
+**Solution 3: (Counter, sort)**
 ```
 Runtime: 75 ms
 Memory: 24.52 MB

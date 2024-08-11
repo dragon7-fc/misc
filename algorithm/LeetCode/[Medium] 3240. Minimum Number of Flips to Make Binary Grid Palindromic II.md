@@ -79,12 +79,12 @@ public:
         if (m%2 == 0 && n%2 == 0) {
             return ans;
         }
-        int one = 0, two = 0;
+        int zero_or_two = 0, two = 0;
         if (m%2) {
             for (int j = 0; j < n/2; j ++) {
                 if (grid[m/2][j] != grid[m/2][n-1-j]) {
                     ans += 1;
-                    one += 1;
+                    zero_or_two += 1;
                 } else if (grid[m/2][j] == 1) {
                     two += 1;
                 }
@@ -94,13 +94,13 @@ public:
             for (int i = 0; i < m/2; i++) {
                 if (grid[i][n/2] != grid[m-1-i][n/2]) {
                     ans += 1;
-                    one += 1;
+                    zero_or_two += 1;
                 } else if (grid[i][n/2] == 1) {
                     two += 1;
                 }
             }
         }
-        if (two%2 == 1 && one == 0) {
+        if (two%2 == 1 && zero_or_two == 0) {
             ans += 2;
         }
         if (m%2 == 1 && n%2 == 1 && grid[m/2][n/2] == 1) {

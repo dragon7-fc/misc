@@ -116,3 +116,87 @@ class Solution:
                         if len(ans) == R * C:
                             return ans
 ```
+
+**Solution 2: (Simulation)**
+```
+Runtime: 11 ms
+Memory: 13.88 MB
+```
+```c++
+class Solution {
+public:
+    vector<vector<int>> spiralMatrixIII(int rows, int cols, int rStart, int cStart) {
+        // Store all possible directions in an array.
+        vector<vector<int>> dir{{0, 1}, {1, 0}, {0, -1}, {-1, 0}};
+        vector<vector<int>> traversed;
+
+        // Initial step size is 1, value of d represents the current direction.
+        for (int step = 1, direction = 0; traversed.size() < rows * cols;) {
+            // direction = 0 -> East, direction = 1 -> South
+            // direction = 2 -> West, direction = 3 -> North
+            for (int i = 0; i < 2; ++i) {
+                for (int j = 0; j < step; ++j) {
+                    // Validate the current position
+                    if (rStart >= 0 && rStart < rows && cStart >= 0 &&
+                        cStart < cols) {
+                        traversed.push_back({rStart, cStart});
+                    }
+                    // Make changes to the current position.
+                    rStart += dir[direction][0];
+                    cStart += dir[direction][1];
+                }
+
+                direction = (direction + 1) % 4;
+            }
+            ++step;
+        }
+        return traversed;
+    }
+};
+```
+
+**Solution 3: (Simulation)**
+```
+Runtime: 9 ms
+Memory: 13.66 MB
+```
+```c++
+class Solution {
+public:
+    vector<vector<int>> spiralMatrixIII(int rows, int cols, int rStart, int cStart) {
+        int r = rStart, c = cStart, top = rStart, bottom = rStart, left = cStart, right = cStart;
+        vector<vector<int>> ans;
+        while (ans.size() < rows*cols) {
+            while (c <= right) {
+                if (r >= 0 && r < rows && c >= 0 && c < cols) {
+                    ans.push_back({r, c});
+                }
+                c += 1;
+            }
+            right += 1;
+            while (r <= bottom) {
+                if (r >= 0 && r < rows && c >= 0 && c < cols) {
+                    ans.push_back({r, c});
+                }
+                r += 1;
+            }
+            bottom += 1;
+            while (c >= left) {
+                if (r >= 0 && r < rows && c >= 0 && c < cols) {
+                    ans.push_back({r, c});
+                }
+                c -= 1;
+            }
+            left -= 1;
+            while (r >= top) {
+                if (r >= 0 && r < rows && c >= 0 && c < cols) {
+                    ans.push_back({r, c});
+                }
+                r -= 1;
+            }
+            top -= 1;
+        }
+        return ans;
+    }
+};
+```
