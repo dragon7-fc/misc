@@ -86,3 +86,35 @@ public:
     }
 };
 ```
+
+**Solution 2: (DP Bottom-UP, left right)**
+```
+Runtime: 174 ms
+Memory: 88.82 MB
+```
+```c++
+class Solution {
+public:
+    long long maxPoints(vector<vector<int>>& points) {
+        int m = points.size(), n = points[0].size();
+        vector<long long> pre(n), right(n), cur(n);
+        long long left;
+        for (int j = 0; j < n; j ++) {
+            pre[j] = points[0][j];
+        }
+        for (int i = 1; i < m; i ++) {
+            right[n-1] = pre[n-1];
+            for (int j = n-2; j >= 0; j--) {
+                right[j] = max(pre[j], right[j+1] - 1);
+            }
+            left = 0;
+            for (int j = 0; j < n; j ++) {
+                cur[j] = points[i][j] + max(left-1, right[j]);
+                left = max(left-1, pre[j]);
+            }
+            pre = cur;
+        }
+        return *max_element(pre.begin(), pre.end());
+    }
+};
+```

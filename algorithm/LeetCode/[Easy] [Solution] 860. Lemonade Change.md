@@ -100,3 +100,39 @@ class Solution:
                 return False
         return True
 ```
+
+**Solution 2: (Greedy)**
+```
+Runtime: 73 ms
+Memory: 86.05 MB
+```
+```c++
+class Solution {
+public:
+    bool lemonadeChange(vector<int>& bills) {
+        int c5 = 0, c10 = 0, c20 = 0;
+        for (auto b: bills) {
+            if (b == 5) {
+                c5 += 1;
+            } else if (b == 10) {
+                if (c5 == 0) {
+                    return false;
+                }
+                c5 -= 1;
+                c10 += 1;
+            } else {
+                if (c10 && c5) {
+                    c5 -= 1 ;
+                    c10 -= 1;
+                } else {
+                    if (c5 < 3) {
+                        return false;
+                    }
+                    c5 -= 3;
+                }
+            }
+        }
+        return true;
+    }
+};
+```

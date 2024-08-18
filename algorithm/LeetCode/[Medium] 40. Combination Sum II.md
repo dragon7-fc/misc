@@ -155,3 +155,35 @@ int** combinationSum2(int* candidates, int candidatesSize, int target, int* retu
     return ret;
 }
 ```
+
+**Solution 4: (Backtracking)**
+```
+Runtime: 4 ms
+Memory: 12.92 MB
+```
+```c++
+class Solution {
+    void bt(int i, int cur, vector<int> &p, vector<vector<int>> &ans, vector<int> &candidates) {
+        if (cur == 0) {
+            ans.push_back(p);
+            return;
+        }
+        for (int j = i; j < candidates.size() && candidates[j] <= cur; j++) {
+            // skip duplicate
+            if (j == i || candidates[j] != candidates[j-1]) {
+                p.push_back(candidates[j]);
+                bt(j+1, cur-candidates[j], p, ans, candidates);
+                p.pop_back();
+            }
+        }
+    }
+public:
+    vector<vector<int>> combinationSum2(vector<int>& candidates, int target) {
+        sort(candidates.begin(), candidates.end());
+        vector<int> p;
+        vector<vector<int>> ans;
+        bt(0, target, p, ans, candidates);
+        return ans;
+    }
+};
+```

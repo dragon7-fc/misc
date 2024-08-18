@@ -155,9 +155,9 @@ nnoremap <C-f> :NERDTreeFind<CR>
 nmap <F8> :TagbarToggle<CR>
 
 " vim-oscyank settings
-nmap <leader>c <Plug>OSCYankOperator
-nmap <leader>cc <leader>c_
-vmap <leader>c <Plug>OSCYankVisual
+nmap <leader>y <Plug>OSCYankOperator
+nmap <leader>yc <leader>c_
+vmap <leader>y <Plug>OSCYankVisual
 
 " Fix Not Working Backspace in Vi/Vim Mac
 set backspace=indent,eol,start

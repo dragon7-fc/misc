@@ -140,3 +140,54 @@ class Solution:
                                          
         return res
 ```
+
+**Solution 2: (sorted map)**
+```
+Runtime: 261 ms
+Memory: 116.55 MB
+```
+```c++
+class Solution {
+public:
+    int maxDistance(vector<vector<int>>& arrays) {
+        map<int,vector<int>> mini;
+        map<int,vector<int>> maxi;
+        for(int i=0; i<arrays.size(); i++){
+            mini[arrays[i][0]].push_back(i);
+            maxi[arrays[i][arrays[i].size()-1]].push_back(i);
+        }
+        auto miniptr = mini.begin();
+        auto maxiptr = maxi.rbegin();
+        
+        if(miniptr->second[0] == maxiptr->second[0]){
+            auto mininext = mini.begin();
+            if(mininext->second.size() == 1)mininext++;
+            auto maxinext = maxi.rbegin();
+            if(maxinext->second.size() == 1)maxinext++;
+            return max(abs(maxinext->first - miniptr->first), abs(maxiptr->first - mininext->first));
+        }
+        return abs(maxiptr->first - miniptr->first);
+    }
+};
+```
+
+**Solution 3: (Greedy)**
+```
+Runtime: 220 ms
+Memory: 107.91 MB
+```
+```c++
+class Solution {
+public:
+    int maxDistance(vector<vector<int>>& arrays) {
+        int ans = 0, mn = arrays[0][0], mx = arrays[0].back();
+        for (int i = 1; i < arrays.size(); i ++) {
+            ans = max({ans, abs(arrays[i].back() - mn), abs(mx - arrays[i][0])});
+            mn = min(mn, arrays[i][0]);
+            mx = max(mx, arrays[i].back());
+        }
+        return ans;
+    }
+};
+```
+``

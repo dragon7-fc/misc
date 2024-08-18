@@ -135,7 +135,57 @@ void kthLargestFree(KthLargest* obj) {
 */
 ```
 
-**Solution 3: (Heap)**
+**Solution 3: (Maintain Sorted List)**
+```
+Runtime: 43 ms
+Memory: 25.17 MB
+```
+```c++
+class KthLargest {
+    vector<int> stream;
+    int k;
+    int getIndex(int val) {
+        int left = 0;
+        int right = stream.size() - 1;
+        while (left <= right) {
+            int mid = (left + right) / 2;
+            int midValue = stream[mid];
+            if (midValue == val) return mid;
+            if (midValue > val) {
+                // Go to left half
+                right = mid - 1;
+            } else {
+                // Go to right half
+                left = mid + 1;
+            }
+        }
+        return left;
+    }
+public:
+    KthLargest(int k, vector<int>& nums) {
+        this->k = k;
+        for (int num : nums) {
+            stream.push_back(num);
+        }
+        sort(stream.begin(), stream.end());
+    }
+    
+    int add(int val) {
+        int index = getIndex(val);
+        // Add val to correct position
+        stream.insert(stream.begin() + index, val);
+        return stream[stream.size() - k];
+    }
+};
+
+/**
+ * Your KthLargest object will be instantiated and called as such:
+ * KthLargest* obj = new KthLargest(k, nums);
+ * int param_1 = obj->add(val);
+ */
+```
+
+**Solution 4: (Heap)**
 ```
 Runtime: 56 ms
 Memory Usage: 19.8 MB
@@ -167,3 +217,4 @@ public:
  * int param_1 = obj->add(val);
  */
 ```
+
