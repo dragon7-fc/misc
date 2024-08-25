@@ -51,3 +51,22 @@ int findComplement(int num){
     return num ^ c;
 }
 ```
+
+**Solution 2: (Bit Manipulation)**
+```
+Runtime: 0 ms
+Memory: 7.53 MB
+```
+```c++
+class Solution {
+public:
+    int findComplement(int num) {
+        int b = 0;
+        while (b < 31 && (1<<b) <= num) {
+            num ^= (1<<b);
+            b += 1;
+        }
+        return num;
+    }
+};
+```

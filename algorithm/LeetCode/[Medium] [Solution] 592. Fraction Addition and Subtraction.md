@@ -320,3 +320,120 @@ public:
     }
 };
 ```
+
+**Solution 3: (Manual Parsing + Common Denominator)**
+```
+Runtime: 0 ms
+Memory: 7.49 MB
+```
+```c++
+class Solution {
+    int FindGCD(int a, int b) {
+        if (a == 0) return b;
+        return FindGCD(b % a, a);
+    }
+public:
+    string fractionAddition(string expression) {
+        int num = 0;
+        int denom = 1;
+
+        int i = 0;
+        while (i < expression.size()) {
+            int currNum = 0;
+            int currDenom = 0;
+
+            bool isNegative = false;
+
+            // check for sign
+            if (expression[i] == '-' || expression[i] == '+') {
+                if (expression[i] == '-') {
+                    isNegative = true;
+                }
+                // move to next character
+                i++;
+            }
+
+            // build numerator
+            while (isdigit(expression[i])) {
+                int val = expression[i] - '0';
+                currNum = currNum * 10 + val;
+                i++;
+            }
+
+            if (isNegative) currNum *= -1;
+
+            // skip divisor
+            i++;
+
+            // build denominator
+            while (i < expression.size() && isdigit(expression[i])) {
+                int val = expression[i] - '0';
+                currDenom = currDenom * 10 + val;
+                i++;
+            }
+
+            // add fractions together using common denominator
+            num = num * currDenom + currNum * denom;
+            denom = denom * currDenom;
+        }
+
+        int gcd = abs(FindGCD(num, denom));
+
+        // reduce fractions
+        num /= gcd;
+        denom /= gcd;
+
+        return to_string(num) + "/" + to_string(denom);
+    }
+};
+```
+
+**Solution 4: (Parsing with Regular Expressions)**
+```
+Runtime: 0 ms
+Memory: 8.21 MB
+```
+```c++
+class Solution {
+    int FindGCD(int a, int b) {
+        if (a == 0) return b;
+        return FindGCD(b % a, a);
+    }
+public:
+    string fractionAddition(string expression) {
+        int num = 0;
+        int denom = 1;
+
+        // separate expression into signed numbers
+        vector<string> nums;
+        int i = 0;
+        if (expression[0] != '-') expression = '+' + expression;
+        while (i < expression.size()) {
+            int j = i + 1;
+            while (j < expression.size() && expression[j] != '+' &&
+                   expression[j] != '-') {
+                j++;
+            }
+            nums.push_back(expression.substr(i, j - i));
+            i = j;
+        }
+
+        for (int i = 0; i < nums.size(); ++i) {
+            size_t pos = nums[i].find('/');
+            int currNum = stoi(nums[i].substr(1, pos - 1));
+            if (nums[i][0] == '-') currNum = -currNum;
+            int currDenom = stoi(nums[i].substr(pos + 1));
+
+            num = num * currDenom + currNum * denom;
+            denom = denom * currDenom;
+
+            int gcd = abs(FindGCD(num, denom));
+
+            num /= gcd;
+            denom /= gcd;
+        }
+
+        return to_string(num) + "/" + to_string(denom);
+    }
+};
+```

@@ -70,7 +70,7 @@ ZSH_THEME="agnoster"
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
 # plugins=(git)
-plugins=(git zsh-completions zsh-autosuggestions zsh-syntax-highlighting forgit)
+plugins=(git jsontools zsh-completions zsh-autosuggestions zsh-syntax-highlighting forgit diff-so-fancy)
 
 source $ZSH/oh-my-zsh.sh
 

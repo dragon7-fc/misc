@@ -4035,6 +4035,12 @@ Attribute: This is a part of an object. One or more attributes make up an object
         - zsh-completions
         
             `git clone https://github.com/zsh-users/zsh-completions ${ZSH_CUSTOM:=~/.oh-my-zsh/custom}/plugins/zsh-completions`
+        - forgit
+
+            `git clone https://github.com/wfxr/forgit.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/forgit`
+        - diff-so-fancy
+
+            `git clone https://github.com/so-fancy/diff-so-fancy ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/diff-so-fancy`
     - configure .zshrc
     
         ```bash
@@ -4042,7 +4048,7 @@ Attribute: This is a part of an object. One or more attributes make up an object
         + ZSH_THEME="agnoster"
         
         - plugins=(git)
-        + plugins=(git zsh-completions zsh-autosuggestions zsh-syntax-highlighting)
+        + plugins=(git jsontools zsh-completions zsh-autosuggestions zsh-syntax-highlighting forgit diff-so-fancy)
     
         + export TERM=xterm-256color
         + if [ -r /usr/local/lib/python3.8/dist-packages/powerline/bindings/zsh/powerline.zsh ]; then

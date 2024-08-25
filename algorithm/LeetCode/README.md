@@ -8998,6 +8998,23 @@ while lo <= hi:
 return ans
 ```
 
+**Template 4: (Binary Search, upper bound 2)**
+```python
+def is_XXX(...):
+    ...
+
+lo, hi = 0, N-1
+while lo <= hi: 
+    mi = lo + (hi - lo) // 2
+    if not is_XXX(mi):  ## false
+        hi = mi - 1
+    else:
+        ans = min(ans, hi)
+        lo = mi + 1
+
+return ans
+```
+
 * [Hard] 1231. Divide Chocolate
 * [Medium] 1201. Ugly Number III
 * [Medium] [Solution] 875. Koko Eating Bananas

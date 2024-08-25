@@ -52,6 +52,7 @@ Plug 'mfukar/robotframework-vim'
 Plug 'ojroques/vim-oscyank', {'branch': 'main'}
 Plug 'tpope/vim-surround'
 Plug 'qpkorr/vim-bufkill'
+Plug 'vim-scripts/bash-support.vim'
 
 call plug#end()
 

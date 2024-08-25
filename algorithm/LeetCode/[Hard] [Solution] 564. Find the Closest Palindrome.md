@@ -178,3 +178,114 @@ class Solution:
                 
         return str(ans)
 ```
+
+**Solution 2: (Find Previous and Next Palindromes)**
+```
+Runtime: 2 ms
+Memory: 8.26 MB
+```
+```c++
+class Solution {
+    long halfToPalindrome(long left, bool even) {
+        long res = left;
+        if (!even) left = left / 10;
+        while (left > 0) {
+            res = res * 10 + left % 10;
+            left /= 10;
+        }
+        return res;
+    }
+public:
+    string nearestPalindromic(string n) {
+        int len = n.size();
+        int i = len % 2 == 0 ? len / 2 - 1 : len / 2;
+        long firstHalf = stol(n.substr(0, i + 1));
+        /*
+        Generate possible palindromic candidates:
+        1. Create a palindrome by mirroring the first half.
+        2. Create a palindrome by mirroring the first half incremented by 1.
+        3. Create a palindrome by mirroring the first half decremented by 1.
+        4. Handle edge cases by considering palindromes of the form 999...
+           and 100...001 (smallest and largest n-digit palindromes).
+        */
+        vector<long> possibilities;
+        possibilities.push_back(halfToPalindrome(firstHalf, len % 2 == 0));
+        possibilities.push_back(halfToPalindrome(firstHalf + 1, len % 2 == 0));
+        possibilities.push_back(halfToPalindrome(firstHalf - 1, len % 2 == 0));
+        possibilities.push_back((long)pow(10, len - 1) - 1);
+        possibilities.push_back((long)pow(10, len) + 1);
+
+        long diff = LONG_MAX, res = 0, nl = stol(n);
+        for (auto cand : possibilities) {
+            if (cand == nl) continue;
+            if (abs(cand - nl) < diff) {
+                diff = abs(cand - nl);
+                res = cand;
+            } else if (abs(cand - nl) == diff) {
+                res = min(res, cand);
+            }
+        }
+
+        return to_string(res);
+    }
+};
+```
+
+**Solution 3: (Binary Search)**
+```
+Runtime: 6 ms
+Memory: 11.22 MB
+```
+```c++
+class Solution {
+    // Convert to palindrome keeping first half constant.
+    long long convert(long long& num) {
+        string s = to_string(num);
+        int n = s.length();
+        int l = (n - 1) / 2, r = n / 2;
+        while (l >= 0) s[r++] = s[l--];
+        return stoll(s);
+    }
+    // Find the next palindrome, just greater than n.
+    long long nextPalindrome(long long num) {
+        long long left = 0, right = num;
+        long long ans = INT_MIN;
+        while (left <= right) {
+            long long mid = (right - left) / 2 + left;
+            long long palin = convert(mid);
+            if (palin < num) {
+                ans = palin;
+                left = mid + 1;
+            } else {
+                right = mid - 1;
+            }
+        }
+        return ans;
+    }
+    // Find the previous palindrome, just smaller than n.
+    long long minBinarySearch(long long num) {
+        long long left = num, right = 1e18;
+        long long ans = INT_MIN;
+        while (left <= right) {
+            long long mid = (right - left) / 2 + left;
+            long long palin = convert(mid);
+            if (palin > num) {
+                ans = palin;
+                right = mid - 1;
+            } else {
+                left = mid + 1;
+            }
+        }
+        return ans;
+    }
+public:
+    string nearestPalindromic(string n) {
+        int len = n.size();
+        long long num = stoll(n);
+        long long a = nextPalindrome(num);
+        long long b = minBinarySearch(num);
+        if (abs(a - num) <= abs(b - num)) return to_string(a);
+        return to_string(b);
+    }
+};
+```
