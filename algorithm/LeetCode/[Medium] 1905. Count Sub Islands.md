@@ -57,3 +57,41 @@ class Solution:
             
         return sum(dfs(i, j) for i in range(n) for j in range(m) if grid2[i][j])
 ```
+
+**Solution 2: (DFS)**
+```
+Runtime: 206 ms
+Memory: 91.69 MB
+```
+```c++
+class Solution {
+    int dd[5] = {0, 1, 0, -1, 0};
+    bool dfs(int i, int j, vector<vector<int>> &grid1, vector<vector<int>> &grid2) {
+        bool rst = grid1[i][j] == 0;
+        grid2[i][j] = 0;
+        int ni, nj;
+        for (int d = 0; d < 4; d ++) {
+            ni = i + dd[d];
+            nj = j + dd[d+1];
+            if (0 <= ni && ni < grid1.size() && 0 <= nj && nj < grid1[0].size() && grid2[ni][nj] == 1) {
+                rst |= dfs(ni, nj, grid1, grid2);
+            }
+        }
+        return rst;
+    }
+public:
+    int countSubIslands(vector<vector<int>>& grid1, vector<vector<int>>& grid2) {
+        int ans = 0;
+        for (int i = 0; i < grid1.size(); i ++) {
+            for (int j = 0; j < grid1[0].size(); j ++) {
+                if (grid2[i][j] == 1) {
+                    if (!dfs(i, j, grid1, grid2)) {
+                        ans += 1;
+                    }
+                }
+            }
+        }
+        return ans;
+    }
+};
+```

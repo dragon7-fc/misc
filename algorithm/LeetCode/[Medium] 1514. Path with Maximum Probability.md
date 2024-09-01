@@ -73,7 +73,7 @@ class Solution:
         return 0
 ```
 
-**Solution 2: (BFS)**
+**Solution 2: (BFS, O(n * e))**
 ```
 Runtime: 772 ms
 Memory Usage: 73.3 MB
@@ -121,38 +121,39 @@ public:
 
 **Solution 3: (Dijkstra's)**
 ```
-Runtime: 244 ms
-Memory: 71.4 MB
+Runtime: 114 ms
+Memory: 70.38 MB
 ```
 ```c++
 class Solution {
 public:
-    double maxProbability(int n, vector<vector<int>>& edges, vector<double>& succProb, int start, int end) {
-        unordered_map<int, vector<pair<int, double>>> m;
+    double maxProbability(int n, vector<vector<int>>& edges, vector<double>& succProb, int start_node, int end_node) {
+        vector<vector<pair<int,double>>> g(n);
         for (int i = 0; i < edges.size(); i ++) {
-            m[edges[i][0]].push_back({edges[i][1], succProb[i]});
-            m[edges[i][1]].push_back({edges[i][0], succProb[i]});
+            g[edges[i][0]].push_back({edges[i][1], succProb[i]});
+            g[edges[i][1]].push_back({edges[i][0], succProb[i]});
         }
-        priority_queue<pair<double, int>> pq;
-        vector<double> ps(n);
-        pq.push({1, start});
-        double ans = 0;
-        while (!pq.empty()) {
-            auto [p, u] = pq.top();
+        vector<double> dist(n);
+        priority_queue<pair<double,int>> pq;
+        pq.push({1, start_node});
+        while (pq.size()) {
+            auto [p, v] = pq.top();
             pq.pop();
-            ps[u] = p;
-            if (u == end) {
-                ans = p;
-                break;
+            if (p < dist[v]) {
+                continue;
             }
-            for (int i = 0; i < m[u].size(); i ++) {
-                auto [v, np] = m[u][i];
-                if (p*np > ps[v]) {
-                    pq.push({p*np, v});
+            if (v == end_node) {
+                return p;
+            }
+            dist[v] = p;
+            for (auto [nv, np]: g[v]) {
+                if (p*np > dist[nv]) {
+                    dist[nv] = p*np;
+                    pq.push({p*np, nv});
                 }
             }
         }
-        return ans;
+        return 0;
     }
 };
 ```
