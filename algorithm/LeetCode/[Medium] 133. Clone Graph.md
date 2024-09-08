@@ -271,8 +271,8 @@ public:
 
 **Solution 7: (DFS, Hash Table)**
 ```
-Runtime: 5 ms
-Memory: 9 MB
+Runtime: 4 ms
+Memory: 12.14 MB
 ```
 ```c++
 /*
@@ -297,19 +297,19 @@ public:
 */
 
 class Solution {
-    unordered_map<Node*, Node*> m;
+    unordered_map<Node*, Node*> dp;
 public:
     Node* cloneGraph(Node* node) {
         if (!node) {
             return nullptr;
-        } else if (m[node]) {
-            return m[node];
         }
-        Node *cur = new Node(node->val), *ncur;
-        m[node] = cur;
-        for (Node* nei: node->neighbors) {
-            ncur = cloneGraph(nei);
-            cur->neighbors.push_back(ncur);
+        if (dp.count(node)) {
+            return dp[node];
+        }
+        Node *cur = new Node(node->val);
+        dp[node] = cur;
+        for (auto c: node->neighbors) {
+            cur->neighbors.push_back(cloneGraph(c));
         }
         return cur;
     }

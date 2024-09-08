@@ -117,3 +117,187 @@ bool isSubPath(struct ListNode* head, struct TreeNode* root){
     return false;
 }
 ```
+
+**Solution 3: (Iterative Approach)**
+```
+Runtime: 24 ms
+Memory: 31.03 MB
+```
+```c++
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode() : val(0), next(nullptr) {}
+ *     ListNode(int x) : val(x), next(nullptr) {}
+ *     ListNode(int x, ListNode *next) : val(x), next(next) {}
+ * };
+ */
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+class Solution {
+    bool isMatch(TreeNode* node, ListNode* list) {
+        while (node && list) {
+            if (node->val != list->val) return false;
+            list = list->next;
+            // Continue to the next node in the tree, left or right
+            if (list) {
+                node = (node->left && isMatch(node->left, list)) ? node->left
+                                                                 : node->right;
+            }
+        }
+        return !list;  // Ensure that all nodes in the linked list were matched
+    }
+public:
+    bool isSubPath(ListNode* head, TreeNode* root) {
+        if (!root) return false;
+
+        stack<pair<TreeNode*, ListNode*>> stk;
+        stk.push({root, head});
+
+        while (!stk.empty()) {
+            auto [node, list] = stk.top();
+            stk.pop();
+
+            if (!node) continue;
+
+            if (isMatch(node, list)) return true;
+
+            // Push left and right children with the linked list head
+            if (node->left) stk.push({node->left, head});
+            if (node->right) stk.push({node->right, head});
+        }
+
+        return false;
+    }
+};
+```
+
+**Solution 4: (Knuth-Morris-Pratt (KMP) Algorithm)**
+```
+Runtime: 16 ms
+Memory: 30.78 MB
+```
+```c++
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode() : val(0), next(nullptr) {}
+ *     ListNode(int x) : val(x), next(nullptr) {}
+ *     ListNode(int x, ListNode *next) : val(x), next(next) {}
+ * };
+ */
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+class Solution {
+    bool searchInTree(TreeNode* node, int patternIndex,
+                      const vector<int>& pattern,
+                      const vector<int>& prefixTable) {
+        if (!node) return false;
+
+        while (patternIndex && node->val != pattern[patternIndex])
+            patternIndex = prefixTable[patternIndex - 1];
+        patternIndex += node->val == pattern[patternIndex];
+
+        // Check if the pattern is fully matched
+        if (patternIndex == pattern.size()) return true;
+
+        // Recursively search left and right subtrees
+        return searchInTree(node->left, patternIndex, pattern, prefixTable) ||
+               searchInTree(node->right, patternIndex, pattern, prefixTable);
+    }
+public:
+    bool isSubPath(ListNode* head, TreeNode* root) {
+        // Build the pattern and prefix table from the linked list
+        vector<int> pattern = {head->val}, prefixTable = {0};
+        int patternIndex = 0;
+        head = head->next;
+
+        while (head) {
+            while (patternIndex && head->val != pattern[patternIndex])
+                patternIndex = prefixTable[patternIndex - 1];
+            patternIndex += head->val == pattern[patternIndex];
+            pattern.push_back(head->val);
+            prefixTable.push_back(patternIndex);
+            head = head->next;
+        }
+
+        // Perform DFS to search for the pattern in the tree
+        return searchInTree(root, 0, pattern, prefixTable);
+    }
+};
+```
+
+**Solution 5: (DFS)**
+```
+Runtime: 19 ms
+Memory: 30.66 MB
+```
+```c++
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode() : val(0), next(nullptr) {}
+ *     ListNode(int x) : val(x), next(nullptr) {}
+ *     ListNode(int x, ListNode *next) : val(x), next(next) {}
+ * };
+ */
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+class Solution {
+    bool dfs(ListNode *node, TreeNode *root) {
+        if (!node) {
+            return true;
+        }
+        if (!root) {
+            return false;
+        }
+        if (node->val != root->val) {
+            return false;
+        }
+        if (dfs(node->next, root->left) || dfs(node->next, root->right)) {
+            return true;
+        }
+        return false;
+    }
+public:
+    bool isSubPath(ListNode* head, TreeNode* root) {
+        if (!root) {
+            return false;
+        }
+        return dfs(head, root) || isSubPath(head, root->left) || isSubPath(head, root->right);
+    }
+};
+```

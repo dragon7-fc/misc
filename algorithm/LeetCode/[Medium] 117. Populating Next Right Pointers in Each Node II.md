@@ -161,8 +161,8 @@ struct Node* connect(struct Node* root) {
 
 **Solution 4: (BFS)**
 ```
-Runtime: 18 ms
-Memory Usage: 17.6 MB
+Runtime: 7 ms
+Memory: 18.76 MB
 ```
 ```c++
 /*
@@ -186,20 +186,26 @@ public:
 class Solution {
 public:
     Node* connect(Node* root) {
-        if (!root)
+        if (!root) {
             return nullptr;
-        std::queue<Node*> q;
+        }
+        queue<Node*> q;
+        int sz;
         q.push(root);
-        while (!q.empty()) {
-            int n = q.size();
-            while (n--) {
-                Node* node = q.front();
+        while (q.size()) {
+            sz = q.size();
+            for (int i = 0; i < sz; i ++) {
+                auto node = q.front();
                 q.pop();
-                node->next = (n == 0 ? nullptr : q.front());
-                if (node->left)
+                if (i < sz-1) {
+                    node->next = q.front();
+                }
+                if (node->left) {
                     q.push(node->left);
-                if (node->right)
+                }
+                if (node->right) {
                     q.push(node->right);
+                }
             }
         }
         return root;

@@ -63,3 +63,55 @@ class Solution:
             k -= a
         return 0
 ```
+
+**Solution 2: (Prefix Sum)**
+```
+Runtime: 100 ms
+Memory: 77.04 MB
+```
+```c++
+class Solution {
+public:
+    int chalkReplacer(vector<int>& chalk, int k) {
+        int d = 0;
+        for (int i = 0; i < chalk.size(); i ++) {
+            d += chalk[i];
+            if (d > k) {
+                return i;
+            }
+        }
+        k %= d;
+        for (int i = 0; i < chalk.size(); i ++) {
+            if (k < chalk[i]) {
+                return i;
+            }
+            k -= chalk[i];
+        }
+        return -1;
+    }
+};
+```
+
+**Solution 3: (Binary Search)**
+```
+Runtime: 98 ms
+Memory: 81.78 MB
+```
+```c++
+class Solution {
+public:
+    int chalkReplacer(vector<int>& chalk, int k) {
+        vector<long long> pre;
+        pre.push_back(0);
+        for (int i = 0; i < chalk.size(); i ++) {
+            k -= chalk[i];
+            if (k < 0) {
+                return i;
+            }
+            pre.push_back(pre.back() + chalk[i]);
+        }
+        k %= pre.back();
+        return upper_bound(pre.begin(), pre.end(), k) - pre.begin() - 1;
+    }
+};
+```

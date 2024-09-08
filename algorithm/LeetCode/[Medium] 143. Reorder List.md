@@ -181,8 +181,8 @@ public:
 
 **Solution 5: (Linked List, Reverse the Second Part of the List and Merge Two Sorted Lists)**
 ```
-Runtime: 21 ms
-Memory: 21.30 MB
+Runtime: 30 ms
+Memory: 22.74 MB
 ```
 ```c++
 /**
@@ -198,7 +198,7 @@ Memory: 21.30 MB
 class Solution {
 public:
     void reorderList(ListNode* head) {
-        ListNode *pre, *cur, *slow = head, *fast = head;
+        ListNode *fast = head, *slow = head, *pre;
         while (fast && fast->next) {
             pre = slow;
             slow = slow->next;
@@ -211,20 +211,19 @@ public:
         pre->next = nullptr;
         pre = nullptr;
         while (slow) {
-            cur = slow->next;
+            fast = slow->next;
             slow->next = pre;
             pre = slow;
-            slow = cur;
-        }
-        cur = head;
-        slow = pre;
-        while (cur && slow) {
-            pre = cur->next;
-            fast = slow->next;
-            cur->next = slow;
-            slow->next = pre;
-            cur = pre;
             slow = fast;
+        }
+        fast = head;
+        slow = pre;
+        while (slow) {
+            pre = slow->next;
+            slow->next = fast->next;
+            fast->next = slow;
+            fast = slow->next;
+            slow = pre;
         }
     }
 };

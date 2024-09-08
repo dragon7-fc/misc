@@ -63,3 +63,31 @@ class Solution:
         div, mod = divmod(diff, n)
         return [div + 1] * mod + [div] * (n - mod)
 ```
+
+**Solution 2: (Math)**
+```
+Runtime: 87 ms
+Memory: 116.32 MB
+```
+```c++
+class Solution {
+public:
+    vector<int> missingRolls(vector<int>& rolls, int mean, int n) {
+        int sm = accumulate(rolls.begin(), rolls.end(), 0);
+        int left = sm + n, right = sm + n*6, m = rolls.size(), i, d;
+        if (mean*(m+n) < left || mean*(m+n) > right) {
+            return {};
+        }
+        vector<int> ans(n, 1);
+        left = mean*(m+n) - left;
+        i = 0;
+        while (left) {
+            d = min(5, left);
+            left -= d;
+            ans[i] += d;
+            i += 1;
+        }
+        return ans;
+    }
+};
+```

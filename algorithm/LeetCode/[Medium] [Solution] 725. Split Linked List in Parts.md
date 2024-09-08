@@ -382,3 +382,54 @@ public:
     }
 };
 ```
+
+**Solution 7: (Linked List)**
+```
+Runtime: 4 ms
+Memory: 13.88 MB
+```
+```c++
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode() : val(0), next(nullptr) {}
+ *     ListNode(int x) : val(x), next(nullptr) {}
+ *     ListNode(int x, ListNode *next) : val(x), next(next) {}
+ * };
+ */
+class Solution {
+public:
+    vector<ListNode*> splitListToParts(ListNode* head, int k) {
+        int sz = 0, d, r;
+        ListNode *cur = head, *pre;
+        while (cur) {
+            sz += 1;
+            cur = cur->next;
+        }
+        d = sz/k;
+        r = sz%k;
+        vector<ListNode*> ans;
+        for (int i = 0; i < k; i ++) {
+            cur = head;
+            ans.push_back(cur);
+            pre = nullptr;
+            for (int j = 0; j < d + (r > 0); j ++) {
+                if (head) {
+                    head = head->next;
+                }
+                pre = cur;
+                if (cur) {
+                    cur = cur->next;
+                }
+            }
+            if (pre) {
+                pre->next = nullptr;
+            }
+            r -= 1;
+        }
+        return ans;
+    }
+};
+```

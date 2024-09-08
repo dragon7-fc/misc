@@ -142,3 +142,48 @@ class Solution:
                 max_distance = max(max_distance, x**2 + y**2)
         return max_distance
 ```
+
+**Solution 3: (Simulation)**
+```
+Runtime: 68 ms
+Memory: 38.89 MB
+```
+```c++
+class Solution {
+    int d[5] = {0, 1, 0, -1, 0};
+    int cd;
+public:
+    int robotSim(vector<int>& commands, vector<vector<int>>& obstacles) {
+        unordered_set<int> visited;
+        for (auto v: obstacles) {
+            visited.insert(v[0]*60001 + v[1]);
+        }
+        int cx = 0, cy = 0, nx, ny, ans = 0;
+        cd = 0;
+        for (auto  c: commands) {
+            if (c == -1) {
+                cd = (cd+1)%4;
+                nx = cx + d[cd];
+                ny = cy + d[cd+1];
+            } else if (c == -2) {
+                cd = (cd-1+4)%4;
+                nx = cx + d[cd];
+                ny = cy + d[cd+1];
+            } else {
+                while (c) {
+                    nx = cx + d[cd];
+                    ny = cy + d[cd+1];
+                    if (visited.count(60001*nx + ny)) {
+                        break;
+                    }
+                    ans = max(ans, nx*nx + ny*ny);
+                    cx = nx;
+                    cy = ny;
+                    c -= 1;
+                }
+            }
+        }
+        return ans;
+    }
+};
+```
