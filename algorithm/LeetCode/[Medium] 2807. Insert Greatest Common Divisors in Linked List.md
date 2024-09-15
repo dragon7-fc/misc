@@ -62,3 +62,35 @@ class Solution:
             cur = nxt
         return head
 ```
+
+**Solution 2: (Linked List)**
+```
+Runtime: 40 ms
+Memory: 35.60 MB
+```
+```c++
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode() : val(0), next(nullptr) {}
+ *     ListNode(int x) : val(x), next(nullptr) {}
+ *     ListNode(int x, ListNode *next) : val(x), next(next) {}
+ * };
+ */
+class Solution {
+public:
+    ListNode* insertGreatestCommonDivisors(ListNode* head) {
+        ListNode *cur = head->next, *pre = head, *node;
+        while (cur) {
+            node = new ListNode(gcd(cur->val, pre->val));
+            pre->next = node;
+            node->next = cur;
+            pre = cur;
+            cur = cur->next;
+        }
+        return head;
+    }
+};
+```

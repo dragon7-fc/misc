@@ -57,3 +57,24 @@ class Solution:
             prefixXor[i + 1] = prefixXor[i] ^ a
         return [(prefixXor[Ri + 1] ^ prefixXor[Li]) for Li, Ri in queries]   
 ```
+
+**Solution 2: (Prefix Sum)**
+```
+Runtime: 60 ms
+Memory: 41.52 MB
+```
+```c++
+class Solution {
+public:
+    vector<int> xorQueries(vector<int>& arr, vector<vector<int>>& queries) {
+        vector<int> dp(arr.size()+1), ans(queries.size());
+        for (int i = 0; i < arr.size(); i ++) {
+            dp[i+1] = dp[i]^arr[i];
+        }
+        for (int i = 0; i < queries.size(); i ++) {
+            ans[i] = dp[queries[i][1]+1]^dp[queries[i][0]];
+        }
+        return ans;
+    }
+};
+```

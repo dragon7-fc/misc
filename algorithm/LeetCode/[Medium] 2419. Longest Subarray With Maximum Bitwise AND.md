@@ -87,3 +87,33 @@ public:
     }
 };
 ```
+
+**Solution 3: (Gerrdy, Longest consecutive sequence of the maximum value)**
+```
+Runtime: 100 ms
+Memory: 84.93 MB
+```
+```c++
+class Solution {
+public:
+    int longestSubarray(vector<int>& nums) {
+        int mx = 0, ans = 0, k = 0;
+
+        for (int num : nums) {
+            if (mx < num) {
+                mx = num;
+                ans = k = 0;
+            }
+
+            if (mx == num) {
+                k++;
+            } else {
+                k = 0;
+            }
+
+            ans = max(ans, k);
+        }
+        return ans;
+    }
+};
+```

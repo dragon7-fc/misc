@@ -53,3 +53,71 @@ class Solution:
                 r = max(r, i - d[n])
         return r
 ```
+
+**Solution 2: (Bitmasking)**
+```
+Runtime: 39 ms
+Memory: 17.65 MB
+```
+```c++
+class Solution {
+public:
+    int findTheLongestSubstring(string s) {
+        int prefixXOR = 0;
+        // Store the masks of all letters in an array.
+        int characterMap[26] = {0};
+        characterMap['a' - 'a'] = 1;
+        characterMap['e' - 'a'] = 2;
+        characterMap['i' - 'a'] = 4;
+        characterMap['o' - 'a'] = 8;
+        characterMap['u' - 'a'] = 16;
+        // Initialize mp to store the previous index with this prefixXOR value.
+        vector<int> mp(32, -1);
+        int longestSubstring = 0;
+
+        for (int i = 0; i < s.length(); i++) {
+            // If the current character is a vowel, find it's prefix XOR and add
+            // it in the map.
+            prefixXOR ^= characterMap[s[i] - 'a'];
+            if (mp[prefixXOR] == -1 and prefixXOR != 0) mp[prefixXOR] = i;
+
+            // If the value of prefixXOR exists in the map, find the longest
+            // subarray.
+            longestSubstring = max(longestSubstring, i - mp[prefixXOR]);
+        }
+
+        return longestSubstring;
+    }
+};
+```
+
+**Solution 2: (Bitmasking, Hash Table)**
+```
+Runtime: 45 ms
+Memory: 17.51 MB
+```
+```++
+class Solution {
+public:
+    int findTheLongestSubstring(string s) {
+        int m[26] = {0};
+        m['a' - 'a'] = 1;
+        m['e' - 'a'] = 2;
+        m['i' - 'a'] = 4;
+        m['o' - 'a'] = 8;
+        m['u' - 'a'] = 16;
+        vector<int> dp(32, INT_MIN);
+        dp[0] = -1;
+        int cur = 0, ans = 0;
+        for (int i = 0; i < s.size(); i ++) {
+            cur ^= m[s[i]-'a'];
+            if (dp[cur] == INT_MIN) {
+                dp[cur] = i;
+            } else {
+                ans = max(ans, i - dp[cur]);
+            }
+        }
+        return ans;
+    }
+};
+```
