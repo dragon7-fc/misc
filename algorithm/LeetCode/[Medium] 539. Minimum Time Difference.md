@@ -33,29 +33,68 @@ class Solution:
 
 **Solution 2: (String, Sort)**
 ```
-Runtime: 24 ms
-Memory Usage: 13.7 MB
+Runtime: 4 ms
+Memory: 17.61 MB
 ```
 ```c++
 class Solution {
 public:
     int findMinDifference(vector<string>& timePoints) {
-        vector<int>dp;
-        for (auto x: timePoints) {
-            string hr = x.substr(0,2);
-            string str = x.substr(3);
-            int hrx = stoi(hr);
-            int xy = stoi(str);
-            xy = xy + hrx*60;
-            dp.push_back(xy);
+        vector<int> dp;
+        int h, m;
+        for (auto t: timePoints) {
+            h = (t[0]-'0')*10 + t[1]-'0';
+            m = (t[3]-'0')*10 + t[4]-'0';
+            dp.push_back(h*60 + m);
         }
         sort(dp.begin(), dp.end());
-        int answer = INT_MAX;
-        for (int i = 0; i < dp.size()-1; i++) {
-           answer = min(answer, abs(dp[i] - dp[i+1]));
+        int ans = 60*24+dp[0] - dp.back();
+        for (int i = 1; i < dp.size(); i ++) {
+            ans = min(ans, dp[i]-dp[i-1]);
         }
-        answer = min(answer, dp[0]+24*60-dp.back());
-        return answer;
+        return ans;
+    }
+};
+```
+
+**Solution 3: (Bucket Sort)**
+```
+Runtime: 9 ms
+Memory: 17.38 MB
+```
+```c++
+class Solution {
+public:
+    int findMinDifference(vector<string>& timePoints) {
+        // create buckets array for the times converted to minutes
+        vector<bool> minutes(24 * 60, false);
+        for (string time : timePoints) {
+            int h = stoi(time.substr(0, 2));
+            int m = stoi(time.substr(3));
+            int min = h * 60 + m;
+            if (minutes[min]) return 0;
+            minutes[min] = true;
+        }
+        int prevIndex = INT_MAX;
+        int firstIndex = INT_MAX;
+        int lastIndex = INT_MAX;
+        int ans = INT_MAX;
+
+        // find differences between adjacent elements in sorted array
+        for (int i = 0; i < 24 * 60; i++) {
+            if (minutes[i]) {
+                if (prevIndex != INT_MAX) {
+                    ans = min(ans, i - prevIndex);
+                }
+                prevIndex = i;
+                if (firstIndex == INT_MAX) {
+                    firstIndex = i;
+                }
+                lastIndex = i;
+            }
+        }
+
+        return min(ans, 24 * 60 - lastIndex + firstIndex);
     }
 };
 ```

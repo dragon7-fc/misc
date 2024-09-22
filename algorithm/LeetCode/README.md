@@ -16957,23 +16957,33 @@ class Solution:
 ```
 * [Medium] 912. Sort an Array
 
-### Iterate over response
-```python
-class Solution:
-    def diffWaysToCompute(self, input: str) -> List[int]:
-        if input.isdigit(): return [int(input)]
-        rst, tmp = [], 0
-        for i in range(len(input)):
-            if input[i] in '+-*':
-                a, b = input[:i], input[i+1:]
-                l, r = self.diffWaysToCompute(a), self.diffWaysToCompute(b)
-                for p in l: 
-                    for q in r:
-                        if input[i] == '+': tmp = p + q
-                        elif input[i] == '-': tmp = p - q
-                        else: tmp = p * q
-                        rst.append(tmp)
-        return rst
+### Iterate over response, merge sort, O(n * 2^n)
+```c++
+class Solution {
+public:
+    vector<int> diffWaysToCompute(string expression) {
+        vector<int> ans;
+        int n = expression.size();
+        for (int i = 0; i < n; i++){
+            char c = expression[i];
+            if (c == '+' || c == '-' || c == '*'){
+                vector<int> left = diffWaysToCompute(expression.substr(0,i));
+                vector<int> right = diffWaysToCompute(expression.substr(i+1));
+                for (int l: left){
+                    for (int r: right){
+                        if (c == '+') ans.push_back(l+r);
+                        else if(c == '-') ans.push_back(l-r);
+                        else if(c == '*') ans.push_back(l*r);
+                    }
+                }
+            }
+        }
+        if (ans.empty()) {
+            ans.push_back(stoi(expression));
+        }
+        return ans;
+    }
+};
 ```
 * [Medium] 241. Different Ways to Add Parentheses
 
@@ -17150,6 +17160,54 @@ class Solution:
         return mergesort(0, N)
 ```
 * [Hard] 327. Count of Range Sum
+
+### Prefix Tree, O((long (n))^2)
+```c++
+class Solution {
+public:
+    int findKthNumber(int n, int k) {
+        int ans = 1, s;
+        long long left, right;
+        // O(long(n))
+        while (k > 1) {
+            s = 0;
+            left = right = ans;
+            // O(long(n))
+            while (left <= n) {
+                s += min(right, (long long)n) - left  +1;
+                left *= 10;
+                right = right * 10 + 9;
+            }
+            if (k > s) {
+                ans += 1;
+                k -= s;
+            } else {
+                ans = ans * 10;  
+                k -= 1;
+            }
+        }
+        return ans;
+    }
+};
+```
+* [Hard] 440. K-th Smallest in Lexicographical Order
+
+**Template: Divide And Conquer (= DP Top-Down without cache, merge sort)**
+```c++
+... dfs(int i, int n) {
+    ... ans;
+    for (int j = 0; j < ...; i ++) {
+        ... left = dfs(0, i);
+        ... right = dfs(i+1, n);
+        for (auto OOO: left) {
+            for (auto XXiX: right) {
+                 ans.push_back(OOO...XXX);
+            }
+        }
+    }
+    return ans;
+}
+```
 
 ## Trie <a name="trie"></a>
 ---

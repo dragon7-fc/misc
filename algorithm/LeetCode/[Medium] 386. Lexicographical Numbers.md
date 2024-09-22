@@ -19,28 +19,86 @@ class Solution:
         return map(int, sorted([str(i) for i in range(1, n+1)]))
 ```
 
-**Solution 2: (Math)**
+**Solution 2: (DFS, Time: O(n), Space: O(long_10 (n)))**
+
+n = 130
+
+    1 
+    1 0
+    1 0 0
+        9
+      1
+      1 0
+        9
+      2
+      2 0
+        9
+      3
+      3 0
+    2
+    2 0
+      9
+    3
+    3 0
+
 ```
-Runtime: 4 ms
-Memory Usage: 11.2 MB
+Runtime: 12 ms
+```
+```c++
+class Solution {
+    void dfs(int v, vector<int> &ans, int n) {
+        if (v > n) {
+            return;
+        }
+        ans.push_back(v);
+        for (int i = 0; i <= 9; i ++) {
+            dfs(v*10 + i, ans, n);
+        }
+    }
+public:
+    vector<int> lexicalOrder(int n) {
+        vector<int> ans;
+        for (int v = 1; v <= 9; v ++) {
+            dfs(v, ans, n);
+        }
+        return ans;
+    }
+};
+```
+
+**Solution 2: (Iterative, Time: O(n), Space: O(1))**
+```
+Runtime: 3 ms
+Memory: 12.45 MB
 ```
 ```c++
 class Solution {
 public:
     vector<int> lexicalOrder(int n) {
-        if(n==0) return {};
-        vector<int> result;
-        int current=1; //Initial element
-        for(int i=0;i<n;i++){
-            result.push_back(current); //Push current to the result.
-            current*=10; // Add zero at the end of current.
-            while(current>n){ //If current exceeds n.
-                current/=10; //Fall back to last element.
-                current++; //Get Next in order.
-                while(current%10==0) current/=10; //Remove extra trailing zeros.
+        vector<int> ans;
+        int cur = 1;
+
+        // Generate numbers from 1 to n
+        for (int i = 0; i < n; ++i) {
+            ans.push_back(cur);
+
+            // If multiplying the current number by 10 is within the limit, do
+            // it
+            if (cur * 10 <= n) {
+                cur *= 10;
+            } else {
+                // Adjust the current number by moving up one digit
+                while (cur % 10 == 9 || cur >= n) {
+//                    ^^^^^^^^^^^^^^
+//              ex. 18 -> 19 -> 2 -> 20
+//                        ^^^^^^^
+                    cur /= 10;  // Remove the last digit
+                }
+                cur += 1;  // Increment the number
             }
         }
-        return result;
+
+        return ans;
     }
 };
 ```

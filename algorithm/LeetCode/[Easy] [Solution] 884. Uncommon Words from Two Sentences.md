@@ -79,3 +79,33 @@ class Solution:
 
         return [word for word in count if count[word] == 1]
 ```
+
+**Solution 2: (String, Counter)**
+```
+Runtime: 4 ms
+Memory: 8.97 MB
+```
+```c++
+class Solution {
+public:
+    vector<string> uncommonFromSentences(string s1, string s2) {
+        unordered_map<string, int> cnt;
+        stringstream ss(s1);
+        string w;
+        while (getline(ss, w, ' ')) {
+            cnt[w] += 1;
+        }
+        ss = stringstream(s2);
+        while (getline(ss, w, ' ')) {
+            cnt[w] += 1;
+        }
+        vector<string> ans;
+        for (auto [w, c]: cnt) {
+            if (c == 1) {
+                ans.push_back(w);
+            }
+        }
+        return ans;
+    }
+};
+```

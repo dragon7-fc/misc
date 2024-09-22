@@ -241,7 +241,7 @@ class Solution:
         return rev[:n - f[n_new - 1]] + s
 ```
 
-**Solution 4: (Brute force, Time Limit Exceeded)**
+**Solution 4: (Brute force, Time Limit Exceeded, O(n^2))**
 ```c++
 class Solution {
 public:
@@ -259,7 +259,7 @@ public:
 };
 ```
 
-**Solution 5: (Two pointers and recursion)**
+**Solution 5: (Two pointers and recursion, O(n^2) = O(n) + O(n-2) + O(n-4) + O(1))**
 ```
 Runtime: 12 ms
 Memory Usage: 7.4 MB
@@ -283,7 +283,7 @@ public:
 };
 ```
 
-**Solution 6: (KMP)**
+**Solution 6: (KMP, O(n))**
 ```
 Runtime: 20 ms
 Memory Usage: 8 MB
@@ -307,6 +307,97 @@ public:
             f[i] = t;
         }
         return rev.substr(0, n - f[n_new - 1]) + s;
+    }
+};
+```
+
+**Solution 7: (KMP, O(n))**
+```
+Runtime: 6 ms
+Memory: 11.77 MB
+```
+```c++
+class Solution {
+    // Helper function to build the KMP prefix table
+    vector<int> buildPrefixTable(const string& s) {
+        vector<int> prefixTable(s.length(), 0);
+        int length = 0;
+
+        // Build the table by comparing characters
+        for (int i = 1; i < s.length(); i++) {
+            while (length > 0 && s[i] != s[length]) {
+                length = prefixTable[length - 1];
+            }
+            if (s[i] == s[length]) {
+                length++;
+            }
+            prefixTable[i] = length;
+        }
+        return prefixTable;
+    }
+public:
+    string shortestPalindrome(string s) {
+        // Reverse the original string
+        string reversedString = string(s.rbegin(), s.rend());
+
+        // Combine the original and reversed strings with a separator
+        string combinedString = s + "#" + reversedString;
+
+        // Build the prefix table for the combined string
+        vector<int> prefixTable = buildPrefixTable(combinedString);
+
+        // Get the length of the longest palindromic prefix
+        int palindromeLength = prefixTable[combinedString.length() - 1];
+
+        // Construct the shortest palindrome by appending the reverse of the
+        // suffix
+        string suffix = reversedString.substr(0, s.length() - palindromeLength);
+        return suffix + s;
+    }
+};
+```
+
+**Solution 8: (Rolling Hash Based Algorithm, O(n))**
+```
+Runtime: 4 ms
+Memory: 9.53 MB
+```
+```c++
+class Solution {
+public:
+    string shortestPalindrome(string s) {
+        long long hashBase = 29;
+        long long modValue = 1e9 + 7;
+        long long forwardHash = 0, reverseHash = 0, powerValue = 1;
+        int palindromeEndIndex = -1;
+
+        // Calculate rolling hashes and find the longest palindromic prefix
+        for (int i = 0; i < s.length(); ++i) {
+            char currentChar = s[i];
+
+            // Update forward hash
+            forwardHash =
+                (forwardHash * hashBase + (currentChar - 'a' + 1)) % modValue;
+
+            // Update reverse hash
+            reverseHash =
+                (reverseHash + (currentChar - 'a' + 1) * powerValue) % modValue;
+            powerValue = (powerValue * hashBase) % modValue;
+
+            // If forward and reverse hashes match, update palindrome end index
+            if (forwardHash == reverseHash) {
+                palindromeEndIndex = i;
+            }
+        }
+
+        // Find the remaining suffix after the longest palindromic prefix
+        string suffix = s.substr(palindromeEndIndex + 1);
+        // Reverse the remaining suffix
+        string reversedSuffix(suffix.rbegin(), suffix.rend());
+
+        // Prepend the reversed suffix to the original string and return the
+        // result
+        return reversedSuffix + s;
     }
 };
 ```

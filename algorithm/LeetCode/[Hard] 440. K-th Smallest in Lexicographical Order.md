@@ -72,3 +72,37 @@ class Solution:
         
         return dfs(1, n, k - 1)
 ```
+
+**Solution 3: (Divide And Conquer, Prefix Tree, O((long (n))^2))**
+```
+Runtime: 0 ms
+Memory: 7.46 MB
+```
+```c++
+class Solution {
+public:
+    int findKthNumber(int n, int k) {
+        int ans = 1, s;
+        long long left, right;
+        // O(long (n))
+        while (k > 1) {
+            s = 0;
+            left = right = ans;
+            // O(long (n))
+            while (left <= n) {
+                s += min(right, (long long)n) - left  +1;
+                left *= 10;
+                right = right * 10 + 9;
+            }
+            if (k > s) {
+                ans += 1;
+                k -= s;
+            } else {
+                ans = ans * 10;  
+                k -= 1;
+            }
+        }
+        return ans;
+    }
+};
+```
