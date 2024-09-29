@@ -38,7 +38,7 @@ Note that common prefixes between elements of the same array do not count.
 
 # Submissions
 ---
-**Solution 1: (Hash Table)**
+**Solution 1: (Hash Table, O(m*log_10 M + n*log_10 N))**
 ```
 Runtime: 290 ms
 Memory: 134.06 MB
@@ -62,6 +62,55 @@ public:
                     ans = max(ans, (int)to_string(cur).size());
                 }
                 cur /= 10;
+            }
+        }
+        return ans;
+    }
+};
+```
+
+**Solution 2: (Trie, time: O(m*d + n*d), space: O(m*d))**
+```
+Runtime: 237 ms
+Memory: 161.05 MB
+```
+```c++
+truct TrieNode {
+    TrieNode *child[10] = {nullptr};
+};
+
+class Solution {
+    TrieNode *root;
+    void build(vector<int> &arr1) {
+        string s;
+        for (auto a: arr1) {
+            s = to_string(a);
+            auto node = root;
+            for (auto c: s) {
+                if (node->child[c-'0'] == nullptr) {
+                    node->child[c-'0'] = new TrieNode();
+                }
+                node = node->child[c-'0'];
+            }
+        }
+    }
+public:
+    int longestCommonPrefix(vector<int>& arr1, vector<int>& arr2) {
+        root = new TrieNode();
+        build(arr1);
+        string s;
+        int k, ans = 0;
+        for (auto b: arr2) {
+            s = to_string(b);
+            k = 1;
+            auto node = root;
+            for (auto c: s) {
+                if (!node->child[c-'0']) {
+                    break;
+                }
+                node = node->child[c-'0'];
+                ans = max(ans, k);
+                k += 1;
             }
         }
         return ans;

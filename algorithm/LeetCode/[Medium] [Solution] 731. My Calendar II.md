@@ -252,7 +252,7 @@ class MyCalendarTwo:
 # param_1 = obj.book(start,end)
 ```
 
-**Solution 4: (event point)**
+**Solution 4: (event point, bucket sort)**
 ```
 Runtime: 197 ms
 Memory: 38.9 MB

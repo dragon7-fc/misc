@@ -54,53 +54,78 @@ class Solution:
         return dp(0)
 ```
 
-**Solution 2: (DP Bottom-Up)**
+**Solution 2: (DP Bottom-Up, O(n^3))**
 ```
-Runtime: 64 ms
-Memory: 55.1 MB
+Runtime: 122 ms
+Memory: 86.92 MB
 ```
 ```c++
 class Solution {
 public:
     int minExtraChar(string s, vector<string>& dictionary) {
-        int dp[51] = {};
-        for (int i = s.size() - 1; i >= 0; --i) {
-            dp[i] = 1 + dp[i + 1];
-            for (const auto &w: dictionary)
-                if (s.compare(i, w.size(), w) == 0)
-                    dp[i] = min(dp[i], dp[i + w.size()]);
+        int n = s.size();
+        vector<int> dp(n+1);
+        unordered_set<string> st(dictionary.begin(), dictionary.end());
+        for (int i = n-1; i >= 0; i --) {  // O(n)
+            dp[i] = dp[i+1] + 1;
+            for (int k = 1; i+k <= n; k ++) {  // O(n)
+                if (st.count(s.substr(i, k))) {
+                        //  ^^^^^^^^^^^^^^^
+                        //       O(n)
+                    dp[i] = min(dp[i], dp[i+k]);
+                }
+            }
         }
         return dp[0];
     }
 };
 ```
 
-**Solution 3: (DP Bottom-Up)**
+**Solution 3: (DP Bottom-Up, Trie, O(n^2 + m*k)**
 ```
-Runtime: 51 ms
-Memory: 54.8 MB
+Runtime: 48 ms
+Memory: 111.70 MB
 ```
 ```c++
+struct TrieNode {
+    TrieNode *children[26] = {nullptr};
+    bool is_word;
+};
+
 class Solution {
+    TrieNode* buildTrie(vector<string>& dictionary) {
+        auto root = new TrieNode();
+        for (auto &word : dictionary) {  // O(m)
+            auto node = root;
+            for (auto &c : word) {  // O(k)
+                if (node->children[c-'a'] == nullptr) {
+                    node->children[c-'a'] = new TrieNode();
+                }
+                node = node->children[c-'a'];
+            }
+            node->is_word = true;
+        }
+        return root;
+    }
 public:
     int minExtraChar(string s, vector<string>& dictionary) {
-        int n = s.size(), k;
-        vector<int> dp(n+1, INT_MAX);
-        dp[0] = 0;
-        for (int i = 0; i < n; i ++) {
-            dp[i+1] = min(dp[i+1], dp[i] + 1);
-            for (int j = 0; j < dictionary.size(); j ++) {
-                for (k = 0; i+k <= n-1 && k < dictionary[j].size(); k ++) {
-                    if (s[i+k] != dictionary[j][k]) {
-                        break;
-                    }
+        int n = s.size();
+        vector<int> dp(n+1);
+        auto root = buildTrie(dictionary);  O(m*k)
+        for (int i = n-1; i >= 0; i --) {  // O(n)
+            dp[i] = dp[i+1] + 1;
+            auto node = root;
+            for (int k = 1; i+k <= n; k ++) {  // O(n)
+                if (node->children[s[i+k-1]-'a'] == nullptr) {
+                    break;
                 }
-                if (k == dictionary[j].size()) {
-                    dp[i+k] = min(dp[i+k], dp[i]);
+                node = node->children[s[i+k-1]-'a'];
+                if (node->is_word) {
+                    dp[i] = min(dp[i], dp[i+k]);
                 }
             }
         }
-        return dp[n];
+        return dp[0];
     }
 };
 ```

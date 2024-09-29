@@ -278,3 +278,86 @@ public:
  * bool param_1 = obj->book(start,end);
  */
 ```
+
+**Solution 6: (Set, Binary Search)**
+```
+Runtime: 73 ms
+Memory: 42.82 MB
+```
+```c++
+class MyCalendar {
+    set<pair<int,int>> st;
+public:
+    MyCalendar() {
+
+    }
+    
+    bool book(int start, int end) {
+        auto it = st.lower_bound({start, end});
+        if ((it == st.begin() || prev(it)->second <= start) && (it == st.end() || end <= it->first)) {
+            st.insert({start, end});
+            return true;
+        } else {
+            return false;
+        }
+    }
+};
+
+/**
+ * Your MyCalendar object will be instantiated and called as such:
+ * MyCalendar* obj = new MyCalendar();
+ * bool param_1 = obj->book(start,end);
+ */
+```
+
+**Solution 7: (Segment Tree)**
+```
+Runtime: 66 ms
+Memory: 42.18 MB
+```
+```c++
+class segment{
+    public:
+        int start, end;
+        segment* left;
+        segment* right;
+        segment(int s, int e): start(s), end(e), left(nullptr), right(nullptr){}
+};
+
+class MyCalendar {
+    segment* root;
+public:
+    MyCalendar() {
+        root = new segment(0, 0);
+    }
+    
+    bool book(int start, int end) {
+        return bookAvail(root, start, end);
+    }
+    bool bookAvail(segment* root, int start, int end){
+        if (end <= root->start) {
+            if (root->left == nullptr) {
+                root->left = new segment(start, end);
+                return true;
+            } else {
+                return bookAvail(root->left, start, end);
+            }
+        } else if(start >= root->end){
+            if (root->right == nullptr) {
+                root->right = new segment(start, end);
+                return true;
+            } else {
+                return bookAvail(root->right, start, end);
+            }
+        } else {
+            return false;
+        }
+    }
+};
+
+/**
+ * Your MyCalendar object will be instantiated and called as such:
+ * MyCalendar* obj = new MyCalendar();
+ * bool param_1 = obj->book(start,end);
+ */
+```
