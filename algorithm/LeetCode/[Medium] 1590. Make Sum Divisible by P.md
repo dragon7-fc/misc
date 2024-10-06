@@ -69,3 +69,31 @@ class Solution:
                 res = min(res, i - dp[(cur - need) % p])
         return res if res < n else -1
 ```
+
+**Solution 1: (Prefix Sum, Hash Table, Prefix sum Hash Table index)**
+```
+Runtime: 124 ms
+Memory: 70.48 MB
+```
+```c++
+class Solution {
+public:
+    int minSubarray(vector<int>& nums, int p) {
+        unordered_map<int, int> dp;
+        dp[0] = -1;
+        long long cur = 0;
+        int d = accumulate(nums.begin(), nums.end(), 0L)%p, n = nums.size(), ans = n;
+        if (d == 0) {
+            return 0;
+        }
+        for (int i = 0; i < n; i ++) {
+            cur +=  nums[i];
+            if (dp.count(((cur-d)%p + p)%p)) {
+                ans = min(ans, i - dp[((cur-d)%p + p)%p]);
+            }
+            dp[cur%p] = i;
+        }
+        return ans == n ? -1 : ans;
+    }
+};
+```

@@ -72,23 +72,22 @@ class Solution:
 
 **Soluton 2: (Hash Table, counter)**
 ```
-Runtime: 123 ms
-Memory: 73.36 MB
+Runtime: 78 ms
+Memory: 64.33 MB
 ```
 ```c++
 class Solution {
 public:
     bool canArrange(vector<int>& arr, int k) {
-        unordered_map<int, int> counter;
+        vector<int> cnt(k);
         for (auto a: arr) {
-            auto rem = (a%k + k) % k;
-            counter[rem]++;
+            cnt[((a%k)+k)%k] += 1;
         }
-        for (auto [rem, value]: counter) {
-            if (!rem && (value & 1)) {
-                return false;
-            }
-            if (rem && counter[rem] != counter[k-rem]) {
+        if (cnt[0]%2) {
+            return false;
+        }
+        for (int i = 1; i < k-i; i ++) {
+            if (cnt[i] != cnt[k-i]) {
                 return false;
             }
         }

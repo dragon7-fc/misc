@@ -97,3 +97,46 @@ public:
     }
 };
 ```
+
+**Solution 3: (Counter, bucket sort)**
+```
+Runtime: 39 ms
+Memory: 56.11 MB
+```
+```c++
+class Solution {
+public:
+    long long dividePlayers(vector<int>& skill) {
+        int cnt[10001] = {0}, pre = 0, i = 1, j = 1000;
+        for (auto sk: skill) {
+            cnt[sk] += 1;
+        }
+        long long ans = 0;
+        while (i <= j) {
+            while (cnt[i] == 0) {
+                i += 1;
+            }
+            while (cnt[j] == 0) {
+                j -= 1;
+            }
+            if (i > j) {
+                break;
+            }
+            if (pre == 0) {
+                pre = i+j;
+            }
+            if (i+j != pre || cnt[i] != cnt[j] || i == j && cnt[i]%2) {
+                return -1;
+            }
+            if (i != j) {
+                ans += (long long)i*j*cnt[i];
+            } else {
+                ans += (long long)i*j*cnt[i]/2;
+            }
+            i += 1;
+            j -= 1;
+        }
+        return ans;
+    }
+};
+```

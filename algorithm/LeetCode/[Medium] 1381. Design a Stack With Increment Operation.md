@@ -100,3 +100,57 @@ class CustomStack:
 # param_2 = obj.pop()
 # obj.increment(k,val)
 ```
+
+**Solution 2: (Array, aux array)**
+```
+Runtime: 30 ms
+Memory: 25.86 MB
+```
+```c++
+class CustomStack {
+    vector<int> stk, dp;
+    int i = -1;
+public:
+    CustomStack(int maxSize) {
+        stk.resize(maxSize);
+        dp.resize(maxSize);
+    }
+    
+    void push(int x) {
+        if (i+1 < stk.size()) {
+            i += 1;
+            stk[i] = x;
+            dp[i] = 0;
+        }
+    }
+    
+    int pop() {
+        if (i >= 0) {
+            int rst = stk[i] + dp[i];
+            stk[i] = 0;
+            if (i) {
+                dp[i-1] += dp[i];
+            }
+            dp[i] = 0;
+            i -= 1;
+            return rst;
+        }
+        return -1;
+    }
+    
+    void increment(int k, int val) {
+        int ck = min(k, i+1);
+        if (ck) {
+            dp[ck-1] += val;
+        }
+    }
+};
+
+/**
+ * Your CustomStack object will be instantiated and called as such:
+ * CustomStack* obj = new CustomStack(maxSize);
+ * obj->push(x);
+ * int param_2 = obj->pop();
+ * obj->increment(k,val);
+ */
+```

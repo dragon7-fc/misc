@@ -91,3 +91,84 @@ public:
     }
 };
 ```
+
+**Solution 3: (Sliding Window, counter)**
+```
+Runtime: 3 ms
+Memory: 8.75 MB
+```
+```c++
+class Solution {
+public:
+    bool checkInclusion(string s1, string s2) {
+        int m = s1.size(), n = s2.size(), cnt[26] = {0}, cur[26] = {0}, i = 0, j, ii;
+        bool flag;
+        for (auto c: s1) {
+            cnt[c-'a'] += 1;
+        }
+        for (j = 0; j < n; j ++) {
+            cur[s2[j]-'a'] += 1;
+            if (j < m-1) {
+                continue;
+            }
+            flag = true;
+            for (ii = 0; ii < 26; ii ++) {
+                if (cnt[ii] != cur[ii]) {
+                    flag = false;
+                    break;
+                }
+            }
+            if (flag) {
+                return true;
+            }
+            cur[s2[i]-'a'] -= 1;
+            i += 1;
+        }
+        return false;
+    }
+};
+```
+
+**Solution 4: (Sliding Window, counter, optimized)**
+```
+Runtime: 8 ms
+Memory: 8.62 MB
+```
+```c++
+class Solution {
+public:
+    bool checkInclusion(string s1, string s2) {
+        int m = s1.size(), n = s2.size(), cnt[26] = {0}, cnt2[26] = {0}, i = 0, j, k = 0, l, r;
+        if (m > n) {
+            return false;
+        }
+        for (j = 0; j < m; j ++) {
+            cnt[s1[j]-'a'] += 1;
+            cnt2[s2[j]-'a'] += 1;
+        }
+        for (j = 0; j < 26; j ++) {
+            k += cnt[j] == cnt2[j];
+        }
+        for (j = 0; j < n-m; j ++) {
+            l = s2[j]-'a';
+            r = s2[j+m]-'a';
+            if (k == 26) {
+                return true;
+            }
+            cnt2[r] += 1;
+            if (cnt[r] == cnt2[r]) {
+                k += 1;
+            } else if (cnt2[r] == cnt[r] + 1) {
+                k -= 1;
+            }
+            cnt2[l] -= 1;
+            if (cnt[l] == cnt2[l]) {
+                k += 1;
+            } else if (cnt2[l] == cnt[l] - 1) {
+                k -= 1;
+            }
+        }
+        return k == 26;
+    }
+};
+```

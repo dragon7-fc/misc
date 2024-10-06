@@ -93,3 +93,115 @@ public:
     }
 };
 ```
+
+**Solution 3: (Deque)**
+```
+Runtime: 4 ms
+Memory: 8.91 MB
+```
+```c++
+class Solution {
+public:
+    bool areSentencesSimilar(string sentence1, string sentence2) {
+        istringstream iss1(sentence1);
+        vector<string> vec1((istream_iterator<string>{iss1}),
+                            istream_iterator<string>());
+        istringstream iss2(sentence2);
+        vector<string> vec2((istream_iterator<string>{iss2}),
+                            istream_iterator<string>());
+        // Compare the prefixes or beginning of the strings.
+        while (!vec1.empty() && !vec2.empty() && vec1.front() == vec2.front()) {
+            vec1.erase(vec1.begin());
+            vec2.erase(vec2.begin());
+        }
+        // Compare the suffixes or ending of the strings.
+        while (!vec1.empty() && !vec2.empty() && vec1.back() == vec2.back()) {
+            vec1.pop_back();
+            vec2.pop_back();
+        }
+        return vec1.empty() || vec2.empty();
+    }
+};
+```
+
+**Solution 4: (Two Pointers)**
+```
+Runtime: 2 ms
+Memory: 9.11 MB
+```
+```c++
+class Solution {
+public:
+    bool areSentencesSimilar(string sentence1, string sentence2) {
+        // Convert sentences to lists of words
+        stringstream ss1(sentence1), ss2(sentence2);
+        string word;
+        vector<string> s1Words, s2Words;
+        while (ss1 >> word) s1Words.push_back(word);
+        while (ss2 >> word) s2Words.push_back(word);
+
+        int start = 0, ends1 = s1Words.size() - 1, ends2 = s2Words.size() - 1;
+
+        // If words in s1 are more than s2, swap them and return the answer.
+        if (s1Words.size() > s2Words.size()) return areSentencesSimilar(sentence2, sentence1);
+
+        // Find the maximum words matching from the beginning.
+        while (start < s1Words.size() && s1Words[start] == s2Words[start])
+            ++start;
+
+        // Find the maximum words matching in the end.
+        while (ends1 >= 0 && s1Words[ends1] == s2Words[ends2]) {
+            --ends1;
+            --ends2;
+        }
+
+        // If ends1 index is less than start, then sentence is similar.
+        return ends1 < start;
+    }
+};
+```
+
+**Solution 5: (Two Pointers)**
+```
+Runtime: 3 ms
+Memory: 7.75 MB
+```
+```c++
+class Solution {
+public:
+    bool areSentencesSimilar(string sentence1, string sentence2) {
+        if (sentence1.size() > sentence2.size()) {
+            swap(sentence1, sentence2);
+        }
+        int m = sentence1.size(), n = sentence2.size(), i = 0, j = m-1, j2 = n-1, k;
+        while (i <= j && sentence1[i] == sentence2[i]) {
+            k = 0;
+            while (i+k <= j && sentence1[i+k] != ' ' && sentence1[i+k] == sentence2[i+k]) {
+                k += 1; 
+            }
+            if (i+k > j && (i+k > j2 || sentence2[i+k] == ' ')) {
+                return true;
+            }
+            if (i+k <= j && sentence1[i+k] != ' ' || sentence2[i+k] != ' ') {
+                break;
+            }
+            i += k+1;
+        }
+        while (i <= j && sentence1[j] == sentence2[j2]) {
+            k = 0;
+            while (i <= j-k && sentence1[j-k] != ' ' && sentence1[j-k] == sentence2[j2-k]) {
+                k += 1;
+            }
+            if (i > j-k && i < j2-k && sentence2[j2-k] == ' ') {
+                return true;
+            }
+            if (i <= j-k && sentence1[j-k] != ' ' || sentence2[j2-k] != ' ') {
+                break;
+            }
+            j -= k+1;
+            j2 -= k+1;
+        }
+        return i > j;
+    }
+};
+```
