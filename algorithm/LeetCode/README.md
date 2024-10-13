@@ -11532,22 +11532,27 @@ class Solution:
 ```
 * [Medium] [Solution] 946. Validate Stack Sequences
 
-### reverse mono inc stack, simulate linear search
+### prefix mono stack
 ```c++
 class Solution {
 public:
     int maxWidthRamp(vector<int>& nums) {
-        int out{0}, sz(size(nums));
-        stack<int> s({sz-1});  // mono inc stack
-        for (int i{sz-2}; i >= 0; i--)
-            if (nums[s.top()] < nums[i]) s.push(i);
-
-        for (int i{0}; i < sz; )
-            if (!empty(s) and nums[i] <= nums[s.top()])
-                out = max(out, s.top()-i), s.pop();
-            else
-                ++i;
-        return out;
+        int n = nums.size();
+        vector<int> dp;  // prefix mono inc stack from back
+        dp.push_back(n-1);
+        for (int i = n-1; i >= 0; i --) {
+            if (nums[i] > nums[dp.back()]) {
+                dp.push_back(i);
+            }
+        }
+        int ans = 0;
+        for (int i = 0; i < n; i ++) {
+            while (dp.size() && nums[i] <= nums[dp.back()]) {
+                ans = max(ans, dp.back()-i);
+                dp.pop_back();
+            }
+        }
+        return ans;
     }
 };
 ```
@@ -15251,7 +15256,7 @@ public:
 ```
 * [Medium] 1834. Single-Threaded CPU
 
-### Greedy 2 heap, task and free queue
+### Greedy 2 heap, working and free queue
 ```c++
 class Solution {
 public:
@@ -15286,14 +15291,48 @@ public:
 ```
 * [Medium] 1882. Process Tasks Using Servers
 
-### Sort then greedy over min heap
+### working heap and free set
 ```c++
+class Solution {
+public:
+    int smallestChair(vector<vector<int>>& times, int targetFriend) {
+        priority_queue<pair<int, int>, vector<pair<int, int>>> pq;  // free time, chair
+        int t = times[targetFriend][0];
+        sort(times.begin(), times.end());
+        int k = 0;  // Track next available chair number
+        set<int> st;
+        for (auto time : times) {
+            int arrival = time[0];
+            int leave = time[1];
+            // Free up chairs based on current time
+            while (!pq.empty() && pq.top().first >= -arrival) {
+                st.insert(pq.top().second);
+                pq.pop();
+            }
+            int cur;
+            // Assign chair from available set or increment new chair
+            if (!st.empty()) {
+                cur = *st.begin();
+                st.erase(st.begin());
+            } else {
+                cur = k++;
+            }
+            // Push current leave time and chair
+            pq.push({-leave, cur});
+            // Check if it's the target friend
+            if (arrival == t) return cur;
+        }
+        return 0;
+    }
+};
+
+// one heap version
 class Solution {
 public:
     int smallestChair(vector<vector<int>>& times, int targetFriend) {
         int t_arrival = times[targetFriend][0];
         sort(begin(times), end(times));
-        priority_queue<pair<int, int>, vector<pair<int, int>>, greater<pair<int, int>>> pq;
+        priority_queue<pair<int, int>, vector<pair<int, int>>, greater<pair<int, int>>> pq;  // free time: chair
         for (auto &t : times) {
             while (!pq.empty() && pq.top().first < t[0]) {
                 pq.push({t[0], pq.top().second});

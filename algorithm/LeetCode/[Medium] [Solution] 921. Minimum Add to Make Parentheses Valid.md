@@ -111,3 +111,29 @@ public:
     }
 };
 ```
+
+**Solution 2: (Counter)**
+```
+Runtime: 3 ms
+Memory: 7.73 MB
+```
+```c++
+class Solution {
+public:
+    int minAddToMakeValid(string s) {
+        int a = 0, b = 0;
+        for (auto c: s) {
+            if (c == ')' && a) {
+                a -= 1;
+            } else {
+                if (c == '(') {
+                    a += 1;
+                } else {
+                    b += 1;
+                }
+            }
+        }
+        return a+b;
+    }
+};
+```

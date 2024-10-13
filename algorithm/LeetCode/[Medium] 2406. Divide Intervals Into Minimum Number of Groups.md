@@ -56,22 +56,67 @@ class Solution:
 ```
 
 **Solution 2: (Heap)**
+
+interval   [5,10],[6,8],[1,5],[2,3],[1,10]
+sort       [1,5],[1,10],[2,3],[5,10],[6,8]
+pq         {-5}
+                 {-5,-10}
+                        {-3,-5,-10}
+                              {-5,-10,-10}
+                                     {-8,-10,-10} 
+
 ```
-Runtime: 1078 ms
-Memory Usage: 89 MB
+Runtime: 328 ms
+Memory: 104.59 MB
 ```
 ```c++
 class Solution {
 public:
     int minGroups(vector<vector<int>>& intervals) {
-        sort(begin(intervals), end(intervals));
-        priority_queue<int, vector<int>, greater<int>> pq;
-        for (const auto &i : intervals) {
-            if (!pq.empty() && pq.top() < i[0])
+        sort(intervals.begin(), intervals.end());
+        priority_queue<int> pq;
+        int ans = 0, a, b;
+        for (auto interval: intervals) {
+            a = interval[0];
+            b = interval[1];
+            while (pq.size() && pq.top() > -a) {
                 pq.pop();
-            pq.push(i[1]);
+            }
+            pq.push(-b);
+            ans = max(ans, (int)pq.size());
         }
-        return pq.size();
+        return ans;
+    }
+};
+```
+
+**Solution 1: (bucket sort, start end event)**
+
+interval   [5,10],[6,8],[1,5],[2,3],[1,10]
+dp   0 1 2 3 4  5 6 7 8  9 10 11
+       2 1   -1 1 0     -1    -2
+cur  0 2 3 3 2  3 3 3 3  2     0 
+
+```
+Runtime: 264 ms
+Memory: 107.02 MB
+```
+```c++
+class Solution {
+public:
+    int minGroups(vector<vector<int>>& intervals) {
+        int a, b, cur = 0, ans = 0, dp[1000002] = {0};
+        for (auto interval: intervals) {
+            a = interval[0];
+            b = interval[1];
+            dp[a] += 1;
+            dp[b+1] -= 1;
+        }
+        for (int i = 0; i <= 1000001; i ++) {
+            cur += dp[i];
+            ans = max(ans, cur);
+        }
+        return ans;
     }
 };
 ```

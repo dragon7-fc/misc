@@ -368,3 +368,195 @@ class Solution:
             
         return res
 ```
+
+**Solution 4: (Sliding Window)**
+
+           [4,      10,     15,             24,   26]
+    [0,           9,    12,           20]
+              [5,               18,      22             30]
+    ---------------------------------------------------------
+                                     [20    24]
+    ^left                                               ^right
+r0: ^i         ^j
+    0          5
+r1:  ^i           ^j
+     1            9
+            ^i    ^j
+            4     9
+r2:          ^i     ^j
+             5      10
+             ^i     ^j
+             5      10
+r3:            ^i               ^j
+               6                18
+                        ^i      ^j
+                        12      18
+r4:                      ^i           ^j
+                         13           20
+                            ^i        ^j
+                            15        20
+r5:                          ^i              ^j
+                             16              24
+                                      ^i     ^j
+                                      20     24
+r6:                                     ^i                     ^j
+    {1}    {0,1}  {0,1,2}
+              {0,1,2}
+              6   6 6   7   
+
+```
+Runtime: 669 ms
+Memory: 379.15 MB
+```
+```c++
+class Solution {
+public:
+    vector<int> smallestRange(vector<vector<int>>& nums) {
+        int n = nums.size(), left = INT_MAX, right = INT_MIN, i, j;
+        if (n == 1) {
+            return {nums[0][0], nums[0][0]};
+        }
+        unordered_map<int, vector<int>> dp;
+        for (i = 0; i < n; i ++) {
+            for (j = 0; j < nums[i].size(); j ++) {
+                left = min(left, nums[i][j]);
+                right = max(right, nums[i][j]);
+                dp[nums[i][j]].push_back(i);
+            }
+        }
+        unordered_map<int,int> cur;
+        vector<int> ans;
+        i = left, j = left;
+        for (auto ii: dp[left]) {
+            cur[ii] += 1;
+        }
+        while (j+1 <= right) {
+            while (j+1 <= right && cur.size() < n) {
+                if (dp.count(j+1)) {
+                    for (auto ii: dp[j+1]) {
+                        cur[ii] += 1;
+                    }
+                }
+                j += 1;
+            }
+            if (cur.size() < n) {
+                break;
+            }
+            while (cur.size() == n) {
+                if (dp[i].size()) {
+                    if (ans.empty() || ans[1] - ans[0] > j-i) {
+                        ans = {i, j};
+                    }
+                    for (auto ii: dp[i]) {
+                        cur[ii] -= 1;
+                        if (cur[ii] == 0) {
+                            cur.erase(ii);
+                        }
+                    }
+                }
+                i += 1;
+            }
+        }
+        return ans;
+    }
+};
+```
+
+**Solution 5: (Sliding Window)**
+```
+Runtime: 29 ms
+Memory: 23.96 MB
+```
+```c++
+class Solution {
+public:
+    vector<int> smallestRange(vector<vector<int>>& nums) {
+        int n = nums.size(), i, j;
+        if (n == 1) {
+            return {nums[0][0], nums[0][0]};
+        }
+        map<int, vector<int>> dp;
+        for (i = 0; i < n; i ++) {
+            for (j = 0; j < nums[i].size(); j ++) {
+                dp[nums[i][j]].push_back(i);
+            }
+        }
+        unordered_map<int,int> cur;
+        vector<int> ans;
+        auto it_i = dp.begin(),  it_j = dp.begin();
+        while (it_j != dp.end()) {
+            while (it_j != dp.end() && cur.size() < n) {
+                for (auto ii: it_j->second) {
+                    cur[ii] += 1;
+                }
+                it_j++;
+            }
+            if (cur.size() < n) {
+                break;
+            }
+            while (cur.size() == n) {
+                if (ans.empty() || ans[1] - ans[0] > prev(it_j)->first-it_i->first) {
+                    ans = {it_i->first, prev(it_j)->first};
+                }
+                for (auto ii: it_i->second) {
+                    cur[ii] -= 1;
+                    if (cur[ii] == 0) {
+                        cur.erase(ii);
+                    }
+                }
+                it_i++;
+            }
+        }
+        return ans;
+    }
+};
+```
+
+**Solution 6: (Two Pointer, Sliding Window)**
+```
+Runtime: 41 ms
+Memory: 22.45 MB
+```
+```c++
+class Solution {
+public:
+    vector<int> smallestRange(vector<vector<int>>& nums) {
+        vector<pair<int, int>> merged;
+
+        // Merge all lists with their list index
+        for (int i = 0; i < nums.size(); i++) {
+            for (int num : nums[i]) {
+                merged.push_back({num, i});
+            }
+        }
+
+        // Sort the merged list
+        sort(merged.begin(), merged.end());
+
+        // Two pointers to track the smallest range
+        unordered_map<int, int> freq;
+        int left = 0, count = 0;
+        int rangeStart = 0, rangeEnd = INT_MAX;
+
+        for (int right = 0; right < merged.size(); right++) {
+            freq[merged[right].second]++;
+            if (freq[merged[right].second] == 1) count++;
+
+            // When all lists are represented, try to shrink the window
+            while (count == nums.size()) {
+                int curRange = merged[right].first - merged[left].first;
+                if (curRange < rangeEnd - rangeStart) {
+                    rangeStart = merged[left].first;
+                    rangeEnd = merged[right].first;
+                }
+
+                freq[merged[left].second]--;
+                if (freq[merged[left].second] == 0) count--;
+                left++;
+            }
+        }
+
+        return {rangeStart, rangeEnd};
+    }
+};
+```

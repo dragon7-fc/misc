@@ -155,31 +155,72 @@ public:
     }
 };
 ```
-
-**Solution 2: (Stack)**
-
-* Time: O(N) 
-* Space: O(N)
-
-```
-Runtime: 57 ms
-Memory Usage: 29.5 MB
+**Solution 2: (Sort)**
+``
+Runtime: 96 ms
+Memory: 48.48 MB
 ```
 ```c++
 class Solution {
 public:
     int maxWidthRamp(vector<int>& nums) {
-        int out{0}, sz(size(nums));
-        stack<int> s({sz-1});  // mono inc stack
-        for (int i{sz-2}; i >= 0; i--)
-            if (nums[s.top()] < nums[i]) s.push(i);
+        int n = nums.size();
+        vector<int> indices(n);
 
-        for (int i{0}; i < sz; )
-            if (!empty(s) and nums[i] <= nums[s.top()])
-                out = max(out, s.top()-i), s.pop();
-            else
-                ++i;
-        return out;
+        // Initialize the array with indices
+        for (int i = 0; i < n; i++) {
+            indices[i] = i;
+        }
+
+        // Sort indices based on corresponding values in nums and ensure
+        // stability
+        sort(indices.begin(), indices.end(), [&](int i, int j) {
+            return nums[i] != nums[j] ? nums[i] < nums[j] : i < j;
+        });
+
+        int minIndex = n;  // Minimum index encountered so far
+        int maxWidth = 0;
+
+        // Calculate maximum width ramp
+        for (int i = 0; i < n; i++) {
+            maxWidth = max(maxWidth, indices[i] - minIndex);
+            minIndex = min(minIndex, indices[i]);
+        }
+
+        return maxWidth;
+    }
+};
+```
+
+**Solution 3: (Stack, prefix sum)**
+
+* Time: O(N) 
+* Space: O(N)
+
+```
+Runtime: 47 ms
+Memory: 47.83 MB
+```
+```c++
+class Solution {
+public:
+    int maxWidthRamp(vector<int>& nums) {
+        int n = nums.size();
+        vector<int> dp;  // prefix mono inc stack from back
+        dp.push_back(n-1);
+        for (int i = n-1; i >= 0; i --) {
+            if (nums[i] > nums[dp.back()]) {
+                dp.push_back(i);
+            }
+        }
+        int ans = 0;
+        for (int i = 0; i < n; i ++) {
+            while (dp.size() && nums[i] <= nums[dp.back()]) {
+                ans = max(ans, dp.back()-i);
+                dp.pop_back();
+            }
+        }
+        return ans;
     }
 };
 ```

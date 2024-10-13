@@ -73,3 +73,38 @@ class Solution:
                 stk.append(c)
         return (len(stk) // 2 + 1) // 2
 ```
+
+**Solution 2: (Space-Optimized Stack)**
+
+]][[             k = 2 -> 2 swap
+^  ^
+]]][[[           k = 3 -> 2 swap
+^ ^ ^^
+]]]][[[[         k = 4 -> 2 swap
+^ ^  ^ ^
+]]]]][[[[[       k = 5 -> 3 swap
+^ ^ ^ ^ ^^
+]]]]]][[[[[[     k = 6 -> 3 swap
+^ ^ ^  ^ ^ ^
+```
+Runtime: 100 ms
+Memory: 32.67 MB
+```
+```c++
+class Solution {
+public:
+    int minSwaps(string s) {
+        int n = s.size(), k = 0;
+        for (auto c: s) {
+            if (c == '[') {
+                k += 1;
+            } else {
+                if (k) {
+                    k -= 1;
+                }
+            }
+        }
+        return (k + 1) / 2;
+    }
+};
+```

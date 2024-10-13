@@ -88,8 +88,8 @@ public:
     int smallestChair(vector<vector<int>>& times, int targetFriend) {
         int t_arrival = times[targetFriend][0];
         sort(begin(times), end(times));
-        multimap<int, int> reserved;
-        set<int> avail;
+        multimap<int, int> reserved;  // to_time: seat
+        set<int> avail;  // seat
         for (auto &t : times) {
             while (!reserved.empty() && begin(reserved)->first <= t[0]) {
                 avail.insert(begin(reserved)->second);
@@ -109,7 +109,7 @@ public:
 };
 ```
 
-**Solution 3: (Heap)**
+**Solution 3: (Heap, min heap)**
 ```
 Runtime: 192 ms
 Memory: 51.5 MB
@@ -120,7 +120,7 @@ public:
     int smallestChair(vector<vector<int>>& times, int targetFriend) {
         int t_arrival = times[targetFriend][0];
         sort(begin(times), end(times));
-        priority_queue<pair<int, int>, vector<pair<int, int>>, greater<pair<int, int>>> pq;
+        priority_queue<pair<int, int>, vector<pair<int, int>>, greater<pair<int, int>>> pq;  // free time: seat
         for (auto &t : times) {
             while (!pq.empty() && pq.top().first < t[0]) {
                 pq.push({t[0], pq.top().second});
@@ -136,6 +136,89 @@ public:
             }
         }
         return !pq.empty() && pq.top().first <= t_arrival ? pq.top().second : pq.size();
+    }
+};
+```
+
+**Solution 4: (Heap, max heap)**
+```
+Runtime: 140 ms
+Memory: 54.94 MB
+```
+```c++
+class Solution {
+public:
+    int smallestChair(vector<vector<int>>& times, int targetFriend) {
+        int t_arrival = -times[targetFriend][0], a, b;
+        sort(begin(times), end(times));
+        priority_queue<pair<int, int>> pq;  // free time: seat
+        for (auto &t : times) {
+            a = -t[0];
+            b = -t[1];
+            while (!pq.empty() && pq.top().first > a) {
+                pq.push({a, pq.top().second});
+                pq.pop();
+            }
+            if (a == t_arrival)
+                break;         
+            if (pq.empty() || pq.top().first < a)
+                pq.push({b, -pq.size()});
+            else {
+                pq.push({b, pq.top().second});
+                pq.pop();
+            }
+        }
+        return !pq.empty() && pq.top().first >= t_arrival ? -pq.top().second : pq.size();
+    }
+};
+```
+
+**Solution 5: (Heap, working heap and free set)**
+
+
+t | chair
+--|------
+0 | 0
+1 | 01
+2 | 012
+4 | 0 2
+5 | 012
+
+```
+Runtime: 140 ms
+Memory: 62.00 MB
+```
+```c++
+class Solution {
+public:
+    int smallestChair(vector<vector<int>>& times, int targetFriend) {
+        priority_queue<pair<int, int>, vector<pair<int, int>>> pq;
+        int t = times[targetFriend][0], a, b, cur;
+        sort(times.begin(), times.end());
+        int k = 0;  // Track next available chair number
+        set<int> st;
+        for (auto time : times) {
+            a = time[0];
+            b = time[1];
+            // Free up chairs based on current time
+            while (!pq.empty() && pq.top().first >= -a) {
+                st.insert(pq.top().second);
+                pq.pop();
+            }
+            // Assign chair from available set or increment new chair
+            if (!st.empty()) {
+                cur = *st.begin();
+                st.erase(st.begin());
+            } else {
+                cur = k++;
+            }
+            // Push current leave time and chair
+            pq.push({-b, cur});
+
+            // Check if it's the target friend
+            if (a == t) return cur;
+        }
+        return 0;
     }
 };
 ```
