@@ -99,3 +99,34 @@ class Solution:
                     return int("".join(map(str, A)))
         return num
 ```
+
+**Solution 2: (Prefix Sum)**
+```
+Runtime: 0 ms
+Memory: 7.56 MB
+```
+```c++
+class Solution {
+public:
+    int maximumSwap(int num) {
+        string s = to_string(num);
+        int n = s.size();
+        vector<int> dp(n);
+        dp[n-1] = n-1;
+        for (int i = n-2; i >= 0; i --) {
+            if (s[i] > s[dp[i+1]]) {
+                dp[i] = i;
+            } else {
+                dp[i] = dp[i+1];
+            }
+        }
+        for (int i = 0; i < s.size(); i ++) {
+            if (s[i] < s[dp[i]]) {
+                swap(s[i], s[dp[i]]);
+                break;
+            }
+        }
+        return stoi(s);
+    }
+};
+```

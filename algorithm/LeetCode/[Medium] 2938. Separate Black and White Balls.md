@@ -64,3 +64,26 @@ public:
     }
 };
 ```
+
+**Solution 2: (Counter)**
+```
+Runtime: 30 ms
+Memory: 15.65 MB
+```
+```c++
+class Solution {
+public:
+    long long minimumSteps(string s) {
+        long long ans = 0;
+        int cnt = 0;
+        for (int j = 0; j < s.size(); j ++) {
+            if (s[j] == '0') {
+                ans += cnt;
+            } else {
+                cnt += 1;
+            }
+        }
+        return ans;
+    }
+};
+```

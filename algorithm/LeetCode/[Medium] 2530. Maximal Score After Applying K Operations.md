@@ -60,3 +60,29 @@ class Solution:
             
         return ans
 ```
+
+**Solution 1: (Heap)**
+```
+Runtime: 197 ms
+Memory: 79.80 MB
+```
+```c++
+class Solution {
+public:
+    long long maxKelements(vector<int>& nums, int k) {
+        priority_queue<int> pq;
+        for (auto num: nums) {
+            pq.push(num);
+        }
+        long long ans = 0;
+        while (k && pq.size()) {
+            auto a = pq.top();
+            pq.pop();
+            ans += a;
+            pq.push(ceil((double)a/3));
+            k -= 1;
+        }
+        return ans;
+    }
+};
+```

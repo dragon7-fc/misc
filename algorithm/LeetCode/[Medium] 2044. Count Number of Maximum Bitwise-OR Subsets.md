@@ -91,7 +91,7 @@ public:
 };
 ```
 
-**Solution 3: (Bitmask, Brute Force all combination)**
+**Solution 3: (Bitmask, Brute Force all combination, O(n * 2^n))**
 ```
 Runtime: 76 ms
 Memory 9.82 MB
@@ -116,6 +116,56 @@ public:
             }
         }
         return ans;
+    }
+};
+```
+
+**Solution 4: (Bit Manipulation, DP Bottom Up, O(n * max))**
+
+nums 3 1
+
+init:
+max  0
+dp   0 1 2 3
+     1
+r0:
+nums 3 1
+     ^
+max  0
+dp   0 1 2 3
+     1     1
+r1:
+nums 3 1
+       ^
+max  3
+dp   0 1 2 3
+     1 1   2
+```
+Runtime: 111 ms
+Memory: 75.35 MB
+```
+```c++
+class Solution {
+public:
+    int countMaxOrSubsets(vector<int>& nums) {
+        int max = 0;
+        vector<int> dp(1 << 17, 0);
+
+        // Initialize the empty subset
+        dp[0] = 1;
+
+        // Iterate through each number in the input array
+        for (int num : nums) {
+            for (int a = max; a >= 0; a--) {
+                // For each existing subset, create a new subset by including
+                // the current number
+                dp[a | num] += dp[a];
+            }
+            // Update the maximum OR value
+            max |= num;
+        }
+
+        return dp[max];
     }
 };
 ```

@@ -130,3 +130,83 @@ class Solution:
         if k < 2**(n-1): return self.findKthBit(n-1, k)
         return "0" if self.findKthBit(n-1, 2**n-k) == "1" else "1"
 ```
+
+**Solution 3: (Bit Manipulation)**
+
+S4 = "011100110110001"
+             |  ^
+S3 = "0111001"
+         |^
+S2 = "011"
+       |^
+S1 = "0"
+      ^
+
+```
+Runtime: 0 ms
+Memory: 7.34 MB
+```
+```c++
+class Solution {
+public:
+    char findKthBit(int n, int k) {
+        int ans = 0;
+        while (k > 1) {
+            if (k >= (1<<(n-1))) {
+                ans ^= 1;
+                if (k == 1<<(n-1)) {
+                    break;
+                }
+                k = (1<<(n-1)) - (k - (1<<(n-1)));
+            }
+            n -= 1;
+        }
+        return ans + '0';
+    }
+};
+```
+
+**Solution 4: (Bit Manipulation)**
+
+k  =  6 = 0b    1100
+-k = -6 = 0b1...0100 
+
+
+n = 4, k = 11
+k  =  11 =     1011
+-k = -11 = 1...0101
+positionInSection = 1
+isInInvertedPart = ((11/1)>>1)&1 == 1 -> true
+originalBitIsOne = (11&1) == 0 -> false
+
+
+```
+Runtime: 0 ms
+Memory: 7.35 MB
+```
+```c++
+class Solution {
+public:
+    char findKthBit(int n, int k) {
+        // Find the position of the rightmost set bit in k
+        // This helps determine which "section" of the string we're in
+        int positionInSection = k & -k;
+
+        // Determine if k is in the inverted part of the string
+        // This checks if the bit to the left of the rightmost set bit is 1
+        bool isInInvertedPart = (((k / positionInSection) >> 1) & 1) == 1;
+
+        // Determine if the original bit (before any inversion) would be 1
+        // This is true if k is even (i.e., its least significant bit is 0)
+        bool originalBitIsOne = (k & 1) == 0;
+
+        if (isInInvertedPart) {
+            // If we're in the inverted part, we need to flip the bit
+            return originalBitIsOne ? '0' : '1';
+        } else {
+            // If we're not in the inverted part, return the original bit
+            return originalBitIsOne ? '1' : '0';
+        }
+    }
+};
+```

@@ -179,3 +179,5 @@ let g:ack_use_cword_for_empty_search = 1
 set clipboard=unnamed
 cnoremap %% <C-R>=expand('%:h').'/'<CR>
 
+" Visualize Tab
+noremap <Leader><Tab><Tab> :set invlist<CR>

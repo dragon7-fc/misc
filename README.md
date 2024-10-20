@@ -213,9 +213,11 @@ A playground to note something.
     - [Vi Cheat Sheet](http://www.lagmonster.org/docs/vi2.html)
     - [VI (Linux Terminal) Help Sheet](https://www.gosquared.com/blog/vi-linux-terminal-help-sheet)
 
-    |             | command                                                               |
-    |-------------|-----------------------------------------------------------------------|
-    | edit binary | `vi -b [FILE] ` -> `:%!xxd -g1` -> edit binary... -> `:%!xxd -r` -> `:wq` |
+    |             | command                                                                  |
+    |-------------|--------------------------------------------------------------------------|
+    | edit binary | `vi -b [FILE]` -> `:%!xxd -g1` -> edit binary... -> `:%!xxd -r` -> `:wq` |
+    **Note:** `vi -b [File]` = `vi` -> `:set binary`
+
 * Vim
 
     - [Vim Cheatsheet](https://alejandrodev.com/vim)
