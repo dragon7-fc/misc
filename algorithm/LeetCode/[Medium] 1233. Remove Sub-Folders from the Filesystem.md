@@ -59,3 +59,198 @@ class Solution:
                 
         return ans
 ```
+
+**Solution 2: (Sort, O(N * log N * L(word length)))**
+```
+Runtime: 69 ms
+Memory: 51.49 MB
+```
+```c++
+class Solution {
+public:
+    vector<string> removeSubfolders(vector<string>& folder) {
+        sort(folder.begin(), folder.end());
+        unordered_set<string> st;
+        string cur;
+        bool flag;
+        vector<string> ans;
+        for (auto f: folder) {
+            flag = true;
+            cur = "/";
+            for (int i = 1; i < f.size(); i ++) {
+                if (f[i] == '/' && st.count(cur)) {
+                    flag = false;
+                    break;
+                }
+                cur += f[i];
+            }
+            if (cur.size() == f.size() && cur.back() != '/' && st.count(cur)) {
+                flag = false;
+                break;
+            }
+            if (flag) {
+                st.insert(f);
+                ans.push_back(f);
+            }
+        }
+        return ans;
+    }
+};
+```
+
+**Solution 3: (Trie, O(N * L))**
+```
+Runtime: 244 ms
+Memory: 97.70 MB
+```
+```c++
+class Solution {
+    private:
+    struct TrieNode {
+        bool isEndOfFolder;
+        unordered_map<string, TrieNode*> children;
+        TrieNode() : isEndOfFolder(false) {}
+    };
+
+    TrieNode* root;
+
+    // Recursively delete all TrieNodes to prevent memory leaks
+    void deleteTrie(TrieNode* node) {
+        if (node == nullptr) return;
+        for (auto& pair : node->children) {
+            deleteTrie(pair.second);
+        }
+        delete node;
+    }
+
+public:
+    // Constructor initializes the root of the Trie
+    Solution() : root(new TrieNode()) {}
+
+    // Clean up memory
+    // A destructor to recursively delete all TrieNodes and prevent memory
+    // leaks.
+    ~Solution() { deleteTrie(root); }
+
+    vector<string> removeSubfolders(vector<string>& folder) {
+        // Build Trie from folder paths
+        for (string& path : folder) {
+            TrieNode* currentNode = root;
+            istringstream iss(path);
+            string folderName;
+
+            while (getline(iss, folderName, '/')) {
+                // Skip empty folder names
+                if (folderName.empty()) continue;
+                // Create new node if it doesn't exist
+                if (currentNode->children.find(folderName) ==
+                    currentNode->children.end()) {
+                    currentNode->children[folderName] = new TrieNode();
+                }
+                currentNode = currentNode->children[folderName];
+            }
+            // Mark the end of the folder path
+            currentNode->isEndOfFolder = true;
+        }
+
+        // Check each path for subfolders
+        vector<string> result;
+        for (string& path : folder) {
+            TrieNode* currentNode = root;
+            istringstream iss(path);
+            string folderName;
+            bool isSubFolder = false;
+
+            while (getline(iss, folderName, '/')) {
+                // Skip empty folder names
+                if (folderName.empty()) continue;
+                TrieNode* nextNode = currentNode->children[folderName];
+                // Check if the current folder path is a subfolder of an
+                // existing folder
+                if (nextNode->isEndOfFolder && iss.rdbuf()->in_avail() != 0) {
+                    isSubFolder = true;
+                    break;  // Found a sub-folder
+                }
+                currentNode = nextNode;
+            }
+            // If not a sub-folder, add to the result
+            if (!isSubFolder) result.push_back(path);
+        }
+
+        return result;
+    }
+};
+```
+
+**Solution 4: (Trie, O(N * L))**
+```
+Runtime: 370 ms
+Memory: 144.32 MB
+```
+```c++
+class Solution {
+    struct TrieNode {
+        string path;
+        unordered_map<string, TrieNode*> child;
+        bool is_end;
+        TrieNode(string p) {
+            path = p;
+            is_end = false;
+        }
+    };
+    TrieNode *root = new TrieNode("/");;
+    void deleteTrie(TrieNode *node) {
+        if (node == nullptr) return;
+        for (auto& [_, nnode] : node->child) {
+            deleteTrie(nnode);
+        }
+        delete node;
+    }
+    void insert(string s) {
+        TrieNode *node = root;
+        string cur = "/";
+        for (int i = 1; i < s.size(); i ++) {
+            if (s[i] == '/' && cur[i-1] != '/') {
+                if (!node->child.count(cur)) {
+                    node->child[cur] = new TrieNode(cur);
+                }
+                node = node->child[cur];
+            }
+            cur += s[i];
+        }
+        if (cur.back() != '/') {
+            if (!node->child.count(cur)) {
+                node->child[cur] = new TrieNode(cur);
+            }
+            node = node->child[cur];
+        }
+        node->is_end = true;
+    }
+    void dfs(TrieNode *node, vector<string> &ans) {
+        if (node->is_end) {
+            ans.push_back(node->path);
+            return;
+        }
+        for (auto [s, nnode]: node->child) {
+            dfs(nnode, ans);
+        }
+    }
+    void search(vector<string> &ans) {
+        TrieNode *node = root;
+        dfs(node, ans);
+    }
+public:
+    ~Solution() {
+        deleteTrie(root);
+    }
+    vector<string> removeSubfolders(vector<string>& folder) {
+        for (auto f: folder) {
+            insert(f);
+        }
+        vector<string> ans;
+        search(ans);
+
+        return ans;
+    }
+};
+```
