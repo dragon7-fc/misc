@@ -94,22 +94,22 @@ class Solution:
 
 **Solution 3: (DP Bottom-Up)**
 ```
-Runtime: 50 ms
-Memory: 24 MB
+Runtime: 13 ms
+Memory: 28.94 MB
 ```
 ```c++
 class Solution {
 public:
     int countSquares(vector<vector<int>>& matrix) {
-        int ans = 0;
-        for (int i = 0; i < matrix.size(); i ++) {
-            for (int j = 0; j < matrix[0].size(); j++) {
-                if (matrix[i][j]) {
-                    if (i >= 1 && j >= 1) {
-                        matrix[i][j] = min({matrix[i-1][j], matrix[i][j-1], matrix[i-1][j-1]}) + 1;
-                    }
-                    ans += matrix[i][j];
+        int m = matrix.size(), n = matrix[0].size(), ans = 0;
+        vector<vector<int>> dp(m, vector<int>(n));
+        for (int i = 0; i < m; i ++) {
+            for (int j = 0; j < n; j ++) {
+                dp[i][j] = matrix[i][j];
+                if (i&&j && dp[i][j]) {
+                    dp[i][j] += min({dp[i-1][j], dp[i][j-1], dp[i-1][j-1]});
                 }
+                ans += dp[i][j];
             }
         }
         return ans;
