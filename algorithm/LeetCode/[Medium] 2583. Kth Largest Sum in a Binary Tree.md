@@ -85,3 +85,56 @@ public:
     }
 };
 ```
+
+**Solution 2: (BFS, Heap)**
+```
+Runtime: 13 ms
+Memory: 158.05 MB
+```
+```c++
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+class Solution {
+public:
+    long long kthLargestLevelSum(TreeNode* root, int k) {
+        priority_queue<long long> pq;
+        int sz;
+        long long cur;
+        queue<TreeNode*> q;
+        q.push(root);
+        while (q.size()) {
+            sz = q.size();
+            cur = 0;
+            for (int i = 0; i < sz; i ++) {
+                auto node = q.front();
+                q.pop();
+                cur += node->val;
+                if (node->left) {
+                    q.push(node->left);
+                }
+                if (node->right) {
+                    q.push(node->right);
+                }
+            }
+            pq.push(cur);
+        }
+        if (k > pq.size()) {
+            return -1;
+        }
+        while (k > 1 && pq.size()) {
+            pq.pop();
+            k -= 1;
+        }
+        return pq.top();
+    }
+};
+```

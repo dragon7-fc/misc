@@ -57,3 +57,29 @@ class Solution:
                 dp[sorted_nums[i]] = 1
         return ans
 ```
+
+**Solution 2: (Set)**
+```
+Runtime: 82 ms
+Memory: 108.97 MB
+```
+```c++
+class Solution {
+public:
+    int longestSquareStreak(vector<int>& nums) {
+        unordered_set<int> st(nums.begin(), nums.end());
+        long long cur;
+        int k, ans = 0;
+        for (auto num: st) {
+            cur = num;
+            k = 0;
+            while (cur <= 1e5 && st.count(cur)) {
+                k += 1;
+                cur *= cur;
+            }
+            ans = max(ans, k);
+        }
+        return ans != 1 ? ans : -1;
+    }
+};
+```
