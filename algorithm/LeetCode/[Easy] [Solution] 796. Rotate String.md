@@ -283,3 +283,78 @@ class Solution:
 
         return False
 ```
+
+**Solution 5: (Two Pointers)**
+```
+Runtime: 0 ms
+Memory: 7.65 MB
+```
+```c++
+class Solution {
+public:
+    bool rotateString(string s, string goal) {
+        int m = s.size(), n = goal.size(), i = 0, j = 0;
+        if (m > n) {
+            return false;
+        }
+        while (j < 2*n) {
+            if (s[i] == goal[j%n]) {
+                i += 1;
+                if (i == m) {
+                    break;
+                }
+                j += 1;
+            } else if (i) {
+                j -= (i-1);
+                i = 0;
+            } else {
+                j += 1;
+            }
+        }
+        return i == m;
+    }
+};
+```
+
+**Solution 6: (KMP)**
+```
+Runtime: 0 ms
+Memory: 7.73 MB
+```
+```c++
+class Solution {
+public:
+    bool rotateString(string s, string goal) {
+        int m = s.size(), n = goal.size(), i, j;
+        if (m > n) {
+            return false;
+        }
+        vector<int> dp(n, -1);
+        dp[0] = -1;
+        for (j = 1; j < n; j ++) {
+            i = dp[j-1];
+            while (i >= 0 && s[i+1] != s[j]) {
+                i = dp[i];
+            }
+            if (s[i+1] == s[j]) {
+                dp[j] = i+1;
+            } else {
+                dp[j] = i;
+            }
+        }
+        i = -1;
+        for (j = 0; j < 2*n; j ++) {
+            while (i >= 0 && s[i+1] != goal[j%n]) {
+                i = dp[i];
+            }
+            if (s[i+1] == goal[j%n]) {
+                i += 1;
+                if (i == m-1) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+};
+```
