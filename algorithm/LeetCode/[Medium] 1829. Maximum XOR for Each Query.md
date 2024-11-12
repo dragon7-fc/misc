@@ -63,3 +63,30 @@ class Solution:
             cur ^= nums.pop()
         return ans
 ```
+
+**Solution 2: (Prefix Sum)**
+```
+Runtime: 7 ms
+Memory: 99.54 MB
+```
+```c++
+class Solution {
+public:
+    vector<int> getMaximumXor(vector<int>& nums, int maximumBit) {
+        int n = nums.size(), i = 0, cur = 0, t;
+        vector<int> ans;
+        while (i < n) {
+            cur ^= nums[i];
+            i += 1;
+        }
+        t = (1<<maximumBit) - 1;
+        i = n-1;
+        while (i >= 0) {
+            ans.push_back(cur^t);
+            cur ^= nums[i];
+            i -= 1;
+        }
+        return ans;
+    }
+};
+```

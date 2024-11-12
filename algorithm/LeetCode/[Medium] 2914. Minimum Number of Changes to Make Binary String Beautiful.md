@@ -61,3 +61,21 @@ class Solution:
                 ans += 1
         return ans
 ```
+
+**Solution 2: (Greedy)**
+```
+Runtime: 0 ms
+Memory: 12.22 MB
+```
+```c++
+class Solution {
+public:
+    int minChanges(string s) {
+        int ans = 0;
+        for (int i = 0; i < s.size(); i += 2) {
+            ans += s[i] != s[i+1];
+        }
+        return ans;
+    }
+};
+```

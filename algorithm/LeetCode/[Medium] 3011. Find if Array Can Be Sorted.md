@@ -66,3 +66,43 @@ public:
     }
 };
 ```
+
+**Solution 2: (Bit Manipulation, Greedy)**
+```
+Runtime: 0 ms
+Memory: 31.51 MB
+```
+```c++
+class Solution {
+public:
+    bool canSortArray(vector<int>& nums) {
+        int n = nums.size(), pre = 0, a, b, i, j, k;
+        vector<int> dp(n);
+        for (i = 0; i < n; i ++) {
+            b = 0;
+            k = 0;
+            while ((1<<b) <= nums[i]) {
+                k += (nums[i] & (1<<b)) ? 1 : 0;
+                b += 1;
+            }
+            dp[i] = k;
+        }
+        i = 0;
+        while (i < n) {
+            a = b = nums[i];
+            j = i;
+            while (j+1 < n && dp[j+1] == dp[i]) {
+                a = min(a, nums[j+1]);
+                b = max(b, nums[j+1]);
+                j += 1;
+            }
+            if (pre > a) {
+                return false;
+            }
+            pre = b;
+            i = j+1;
+        }
+        return true;
+    }
+};
+```

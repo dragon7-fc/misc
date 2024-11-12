@@ -62,18 +62,30 @@ public:
 };
 ```
 
-**SOlution 2: (Bit Manipulation)**
-
-O(n) is only accepted in C++ and Java.
-We can split all bits of n - 1
-and fill them into empty bits of x.
-
-Time O(70)
-Space O(1)
-
+**Solution 2: (Bit Manipulation)**
 ```
 Runtime: 0 ms
-Memory: 7.75 MB
+Memory: 8.49 MB
+```
+```c++
+class Solution {
+public:
+    long long minEnd(int n, int x) {
+        int i = 0, j = 0;
+        long long ans = x;
+        while ((1<<j) <= (n-1)) {
+            if ((ans & (1LL<<i)) == 0) {
+                ans |= (1LL<<i)*(((n-1)&(1<<j)) != 0);
+                j += 1;
+            }
+            i += 1;
+        }
+        return ans;
+    }
+};
+```
+
+**SOlution 3: (Bit Manipulation)**
 ```
 ```c++
 class Solution {
@@ -91,3 +103,4 @@ public:
     }
 };
 ```
+
