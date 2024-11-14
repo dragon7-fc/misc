@@ -8981,7 +8981,7 @@ while lo < hi:
 return lo
 ```
 
-**Template 3: (Binary Search, lower bound 2)**
+**Template 3: (Binary Search, lower bound 2, handle element not in array)**
 ```python
 def is_XXX(...):
     ...
@@ -8998,7 +8998,7 @@ while lo <= hi:
 return ans
 ```
 
-**Template 4: (Binary Search, upper bound 2)**
+**Template 4: (Binary Search, upper bound 2, handle element not in array)**
 ```python
 def is_XXX(...):
     ...
@@ -9009,7 +9009,7 @@ while lo <= hi:
     if not is_XXX(mi):  ## false
         hi = mi - 1
     else:
-        ans = min(ans, hi)
+        ans = min(ans, mi)
         lo = mi + 1
 
 return ans

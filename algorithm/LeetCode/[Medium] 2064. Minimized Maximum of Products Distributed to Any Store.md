@@ -90,3 +90,94 @@ public:
     }
 };
 ```
+
+**Solution 3: (Greedy Approach Using a Heap)**
+```
+Runtime: 1748 ms
+Memory: 113.71 MB
+```
+```c++
+class Solution {
+public:
+    int minimizedMaximum(int n, vector<int>& quantities) {
+        int m = quantities.size();
+
+        // Define a custom comparator for the priority queue
+        // It sorts the pairs based on the ratio of their first to their second
+        // element
+        auto compareTypeStorePairs = [](pair<int, int>& a, pair<int, int>& b) {
+            return (long long)a.first * b.second <
+                   (long long)a.second * b.first;
+        };
+
+        // Helper array - useful for the efficient initialization of the
+        // priority queue
+        vector<pair<int, int>> typeStorePairsArray;
+
+        // Push all product types to the array, after assigning one store to
+        // each of them
+        for (int i = 0; i < m; i++) {
+            typeStorePairsArray.push_back({quantities[i], 1});
+        }
+
+        // Initialize the priority queue
+        priority_queue<pair<int, int>, vector<pair<int, int>>,
+                       decltype(compareTypeStorePairs)>
+            typeStorePairs(typeStorePairsArray.begin(),
+                           typeStorePairsArray.begin() + m);
+
+        // Iterate over the remaining n - m stores.
+        for (int i = 0; i < n - m; i++) {
+            // Pop first element
+            pair<int, int> pairWithMaxRatio = typeStorePairs.top();
+            int totalQuantityOfType = pairWithMaxRatio.first;
+            int storesAssignedToType = pairWithMaxRatio.second;
+            typeStorePairs.pop();
+
+            // Push same element after assigning one more store to its product
+            // type
+            typeStorePairs.push(
+                {totalQuantityOfType, storesAssignedToType + 1});
+        }
+
+        // Pop first element
+        pair<int, int> pairWithMaxRatio = typeStorePairs.top();
+        int totalQuantityOfType = pairWithMaxRatio.first;
+        int storesAssignedToType = pairWithMaxRatio.second;
+
+        // Return the maximum minimum ratio
+        return ceil((double)totalQuantityOfType / storesAssignedToType);
+    }
+};
+```
+
+**Solution 4: (Binary Search, lower bound, O(n log(k)))**
+```
+Runtime: 19 ms
+Memory: 87.35 MB
+```
+```c++
+class Solution {
+    bool check(int mid, vector<int>& quantities, int n) {
+        int k = 0;
+        for (auto q: quantities) {
+            k += q/mid + ((q%mid) > 0);
+        }
+        return k <= n;
+    }
+public:
+    int minimizedMaximum(int n, vector<int>& quantities) {
+        int left = 1, right = *max_element(quantities.begin(), quantities.end()), mid, ans;
+        while (left <= right) {
+            mid = left + (right-left)/2;
+            if (!check(mid, quantities, n)) {
+                left = mid+1;
+            } else {
+                ans = mid;
+                right = mid-1;
+            }
+        }
+        return ans;
+    }
+};
+```
