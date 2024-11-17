@@ -111,3 +111,105 @@ class Solution:
 
         return ans if ans < N+1 else -1
 ```
+
+**Solution 2: (Heap)**
+```
+Runtime: 99 ms
+Memory: 119.78 MB
+```
+```c++
+class Solution {
+public:
+    int shortestSubarray(vector<int>& nums, int k) {
+        int n = nums.size(), ans = INT_MAX;
+        long long cur = 0;
+        priority_queue<pair<long long, int>, vector<pair<long long, int>>, greater<>> pq;
+        for (int i = 0; i < n; i++) {
+            cur += nums[i];
+            if (cur >= k) {
+                ans = min(ans, i + 1);
+            }
+            while (!pq.empty() && cur - pq.top().first >= k) {
+                ans = min(ans, i - pq.top().second);
+                pq.pop();
+            }
+            pq.emplace(cur, i);
+        }
+
+        return ans == INT_MAX ? -1 : ans;
+    }
+};
+```
+
+**Solution 4: (Binary Search, mono stack)**
+```
+Runtime: 46 ms
+Memory: 110.29 MB
+```
+```c++
+class Solution {
+    int check(const vector<pair<long long, int>>& nums, long long target) {
+        int left = 0, right = nums.size() - 1, mid;
+        while (left <= right) {
+            mid = left + (right - left) / 2;
+            if (nums[mid].first <= target) {
+                left = mid + 1;
+            } else {
+                right = mid - 1;
+            }
+        }
+
+        return left;
+    }
+public:
+    int shortestSubarray(vector<int>& nums, int k) {
+        int n = nums.size(), i, j, ans = INT_MAX;;
+        vector<pair<long long, int>> stk;
+        stk.emplace_back(0LL, -1);
+        long long cur = 0;
+        for (j = 0; j < n; j++) {
+            cur += nums[j];
+            while (!stk.empty() && cur <= stk.back().first) {
+                stk.pop_back();
+            }
+            stk.emplace_back(cur, j);
+            i = check(stk, cur - k);
+            if (i-1 != -1) {
+                ans = min(ans, j - stk[i-1].second);
+            }
+        }
+
+        return ans == INT_MAX ? -1 : ans;
+    }
+};
+```
+
+**Solution 5: (Deque, mono stack)**
+```
+Runtime: 36 ms
+Memory: 107.60 MB
+``
+```c++
+class Solution {
+public:
+    int shortestSubarray(vector<int>& nums, int k) {
+        int n = nums.size(), i, ans = INT_MAX;
+        vector<long long> pre(n + 1, 0);
+        for (i = 1; i <= n; i++) {
+            pre[i] = pre[i - 1] + nums[i - 1];
+        }
+        deque<int> dq;
+        for (i = 0; i <= n; i++) {
+            while (!dq.empty() && pre[i] - pre[dq.front()] >= k) {
+                ans = min(ans, i - dq.front());
+                dq.pop_front();
+            }
+            while (!dq.empty() && pre[i] <= pre[dq.back()]) {
+                dq.pop_back();
+            }
+            dq.push_back(i);
+        }
+        return ans == INT_MAX ? -1 : ans;
+    }
+};
+```

@@ -11101,26 +11101,37 @@ class Solution:
 * [Medium] 228. Summary Ranges
 
 ### Shortest Subarray to be Removed to Make Array Sorted
-```python
-class Solution:
-    def findLengthOfShortestSubarray(self, arr: List[int]) -> int:
-        N = len(arr)
-        left, right = 0, N - 1
-        while left + 1 < N and arr[left] <= arr[left + 1]:
-            left += 1
-        if left == N - 1: 
-            return 0
-        while right > left and arr[right - 1] <= arr[right]:
-            right -= 1
-        ans = min(N - left - 1, right)
-        i, j = 0, right
-        while i <= left and j < N:
-            if arr[j] >= arr[i]:
-                ans = min(ans, j - i - 1)
-                i += 1
-            else:
-                j += 1
-        return ans
+```c++
+class Solution {
+public:
+    int findLengthOfShortestSubarray(vector<int>& arr) {
+        int n = arr.size(), left = 0, right = n-1, i, j, ans;
+
+        // remove right or left area
+        while (left+1 < n && arr[left+1] >= arr[left]) {
+            left += 1;
+        }
+        if (left == n-1) {
+            return 0;
+        }
+        while (right-1 >= 0 && arr[right-1] <= arr[right]) {
+            right -= 1;
+        }
+        ans = min(n-left-1, right);
+
+        // remove middle area
+        i = 0, j = right;
+        while (i <= left && j < n) {
+            if (arr[i] <= arr[j]) {
+                ans = min(ans, j-i-1);
+                i += 1;
+            } else {
+                j += 1;
+            }
+        }
+        return ans;
+    }
+};
 ```
 * [Medium] 1574. Shortest Subarray to be Removed to Make Array Sorted
 
@@ -16859,6 +16870,33 @@ class Solution:
         return res
 ```
 * [Medium] 1358. Number of Substrings Containing All Three Characters
+
+### Deque, mono stack
+```c++
+class Solution {
+public:
+    int shortestSubarray(vector<int>& nums, int k) {
+        int n = nums.size(), i, ans = INT_MAX;
+        vector<long long> pre(n + 1, 0);
+        for (i = 1; i <= n; i++) {
+            pre[i] = pre[i - 1] + nums[i - 1];
+        }
+        deque<int> dq;
+        for (i = 0; i <= n; i++) {
+            while (!dq.empty() && pre[i] - pre[dq.front()] >= k) {
+                ans = min(ans, i - dq.front());
+                dq.pop_front();
+            }
+            while (!dq.empty() && pre[i] <= pre[dq.back()]) {
+                dq.pop_back();
+            }
+            dq.push_back(i);
+        }
+        return ans == INT_MAX ? -1 : ans;
+    }
+};
+```
+* [Hard] 862. Shortest Subarray with Sum at Least K
 
 ### Two Deques
 ```c++
