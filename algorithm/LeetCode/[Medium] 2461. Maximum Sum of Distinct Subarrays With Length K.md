@@ -65,32 +65,130 @@ class Solution:
         return res
 ```
 
-**Solution 2: (last position)**
+**Solution 2: (Sliding Window, counter)**
 ```
-Runtime: 155 ms
-Memory: 136.6 MB
+Runtime: 126 ms
+Memory: 95.14 MB
 ```
 ```c++
 class Solution {
 public:
     long long maximumSubarraySum(vector<int>& nums, int k) {
-        long long res = 0, cur = 0, dup = -1;
-        vector<long long> pos(100001,-1);
-        
-        for (int i = 0; i < nums.size(); ++i)
-        {
+        unordered_map<int,int> cnt;
+        long long cur = 0, ans = 0;
+        for (int i = 0; i < nums.size(); i ++) {
             cur += nums[i];
-            if (i >= k) cur -= nums[i-k];
-            
-            if (i - pos[nums[i]] < k)
-                dup = max(dup, pos[nums[i]]);
-            
-            if (i - dup >= k) res = max(res, cur);
-            
-            pos[nums[i]] = i;
+            cnt[nums[i]] += 1;
+            if (i >= k-1) {
+                if (cnt.size() == k) {
+                    ans = max(ans, cur);
+                }
+                cur -= nums[i-k+1];
+                cnt[nums[i-k+1]] -= 1;
+                if (!cnt[nums[i-k+1]]) {
+                    cnt.erase(nums[i-k+1]);
+                }
+            }
         }
-        
-        return res;
+        return ans;
     }
 };
 ```
+
+**Solution 3: (Sliding Window)**
+```
+Runtime: 92 ms
+Memory: 98.23 MB
+```
+```c++
+class Solution {
+public:
+    long long maximumSubarraySum(vector<int>& nums, int k) {
+        long long ans = 0;
+        long long currentSum = 0;
+        int begin = 0;
+        int end = 0;
+
+        unordered_map<int, int> numToIndex;
+
+        while (end < nums.size()) {
+            int currNum = nums[end];
+            int lastOccurrence =
+                (numToIndex.count(currNum) ? numToIndex[currNum] : -1);
+
+            // if current window already has number or if window is too big,
+            // adjust window
+            while (begin <= lastOccurrence || end - begin + 1 > k) {
+                currentSum -= nums[begin];
+                begin++;
+            }
+            numToIndex[currNum] = end;
+            currentSum += nums[end];
+            if (end - begin + 1 == k) {
+                ans = max(ans, currentSum);
+            }
+            end++;
+        }
+        return ans;
+    }
+};
+```
+
+
+**Solution 4: (Sliding Windows, last pointer)**
+```
+Runtime: 16 ms
+Memory: 109.62 MB
+```
+```c++
+class Solution {
+public:
+    long long maximumSubarraySum(vector<int>& nums, int k) {
+        vector<int> dp(100001, -1);
+        int i = -1;
+        long long cur = 0, ans = 0;
+        for (int j = 0; j < nums.size(); j ++) {
+            cur += nums[j];
+            while (i+1 <= dp[nums[j]]) {
+                i += 1;
+                cur -= nums[i];
+            }
+            if (j-i >= k) {
+                ans = max(ans, cur);
+                i += 1;
+                cur -= nums[i];
+            }
+            dp[nums[j]] = j;
+        }
+        return ans;
+    }
+};
+```
+
+**Solution 5: (Sliding Windows, last pointer)**
+```
+Runtime: 18 ms
+Memory: 109.66 MB
+```
+```c++
+class Solution {
+public:
+    long long maximumSubarraySum(vector<int>& nums, int k) {
+        vector<int> dp(100001, -1);
+        int i = -1;
+        long long cur = 0, ans = 0;
+        for (int j = 0; j < nums.size(); j ++) {
+            cur += nums[j];
+            if (j >= k) {
+                cur -= nums[j-k];
+            }
+            i = max(i, dp[nums[j]]);
+            if (j-i >= k) {
+                ans = max(ans, cur);
+            }
+            dp[nums[j]] = j;
+        }
+        return ans;
+    }
+};`
+``

@@ -6278,6 +6278,43 @@ class Solution:
 
 ## Hash Table <a name='ht'></a>
 ---
+### Counter
+```c++
+class Solution {
+public:
+    int maxEqualRowsAfterFlips(vector<vector<int>>& matrix) {
+         // Map to store frequency of each pattern
+        unordered_map<string, int> patternFrequency;
+
+        for (auto& currentRow : matrix) {
+            string patternBuilder = "";
+
+            // Convert row to pattern relative to its first element
+            for (int col = 0; col < currentRow.size(); col++) {
+                // 'T' if current element matches first element, 'F' otherwise
+                if (currentRow[0] == currentRow[col]) {
+                    patternBuilder += "T";
+                } else {
+                    patternBuilder += "F";
+                }
+            }
+
+            // Convert pattern to string and update its frequency in map
+            patternFrequency[patternBuilder]++;
+        }
+
+        // Find the pattern with maximum frequency
+        int maxFrequency = 0;
+        for (auto& entry : patternFrequency) {
+            maxFrequency = max(entry.second, maxFrequency);
+        }
+
+        return maxFrequency;
+    }
+};
+```
+* [Medium] 1072. Flip Columns For Maximum Number of Equal Rows
+
 ### Counter with order
 ```python
 class Solution:
@@ -9021,6 +9058,36 @@ return ans
 
 ## Greedy <a name="greedy"></a>
 ---
+### Journey From Minus to Plus
+```c++
+class Solution {
+public:
+    long long maxMatrixSum(vector<vector<int>>& matrix) {
+        long long totalSum = 0;
+        int minAbsVal = INT_MAX;
+        int negativeCount = 0;
+
+        for (auto& row : matrix) {
+            for (int val : row) {
+                totalSum += abs(val);
+                if (val < 0) {
+                    negativeCount++;
+                }
+                minAbsVal = min(minAbsVal, abs(val));
+            }
+        }
+
+        // Adjust if the count of negative numbers is odd
+        if (negativeCount % 2 != 0) {
+            totalSum -= 2 * minAbsVal;
+        }
+
+        return totalSum;
+    }
+};
+```
+* [Medium] 1975. Maximum Matrix Sum
+
 ### Greedy on index
 ```c++
 class Solution {

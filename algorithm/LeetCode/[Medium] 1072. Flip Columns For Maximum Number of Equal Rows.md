@@ -80,3 +80,72 @@ class Solution:
                 
         return ans 
 ```
+
+**Solution 2: (Hash Table, DP Bottom-Up)**
+```
+Runtime: 22 ms
+Memory: 70.76 MB
+```
+```c++
+class Solution {
+public:
+    int maxEqualRowsAfterFlips(vector<vector<int>>& matrix) {
+        unordered_map<string, int> cnt;
+        string cur, cur2;
+        for (int i = 0; i < matrix.size(); i ++) {
+            cur = "", cur2 = "";
+            for (int j = 0; j < matrix[0].size(); j ++) {
+                cur += '0' + matrix[i][j];
+                cur2 += '0' + (matrix[i][j]^1);
+            }
+            cnt[cur] += 1;
+            cnt[cur2] += 1;
+        }
+        int ans = 0;
+        for (auto [_, k]: cnt) {
+            ans = max(ans, k);
+        }
+        return ans;
+    }
+};
+```
+
+**Solution 3: (Hash Table)**
+```
+Runtime: 20 ms
+Memory: 74.60 MB
+```
+```c++
+class Solution {
+public:
+    int maxEqualRowsAfterFlips(vector<vector<int>>& matrix) {
+         // Map to store frequency of each pattern
+        unordered_map<string, int> patternFrequency;
+
+        for (auto& currentRow : matrix) {
+            string patternBuilder = "";
+
+            // Convert row to pattern relative to its first element
+            for (int col = 0; col < currentRow.size(); col++) {
+                // 'T' if current element matches first element, 'F' otherwise
+                if (currentRow[0] == currentRow[col]) {
+                    patternBuilder += "T";
+                } else {
+                    patternBuilder += "F";
+                }
+            }
+
+            // Convert pattern to string and update its frequency in map
+            patternFrequency[patternBuilder]++;
+        }
+
+        // Find the pattern with maximum frequency
+        int maxFrequency = 0;
+        for (auto& entry : patternFrequency) {
+            maxFrequency = max(entry.second, maxFrequency);
+        }
+
+        return maxFrequency;
+    }
+};
+```
