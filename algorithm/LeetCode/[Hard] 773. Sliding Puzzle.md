@@ -147,3 +147,168 @@ class Solution:
     
         return -1
 ```
+
+**Solution 4: (DFS, O((m n)! x (m n)))**
+```
+Runtime: 131 ms
+Memory: 12.65 MB
+```
+```c++
+class Solution {
+    // Direction map for zero's possible moves in a flattened 1D array (2x3
+    // board)
+    vector<vector<int>> directions = {{1, 3}, {0, 2, 4}, {1, 5},
+                                      {0, 4}, {3, 5, 1}, {4, 2}};
+    void dfs(string state, unordered_map<string, int>& visited, int zeroPos,
+             int moves) {
+        // Skip if this state has been visited with fewer or equal moves
+        if (visited.count(state) && visited[state] <= moves) {
+            return;
+        }
+        visited[state] = moves;
+
+        // Try moving zero to each possible adjacent position
+        for (int nextPos : directions[zeroPos]) {
+            swap(state[zeroPos], state[nextPos]);  // Swap to generate new state
+            dfs(state, visited, nextPos,
+                moves + 1);  // Recursive DFS with updated state and move count
+            swap(state[zeroPos],
+                 state[nextPos]);  // Swap back to restore original state
+        }
+    }
+public:
+    int slidingPuzzle(vector<vector<int>>& board) {
+        // Convert the 2D board into a string representation to use as state
+        string startState;
+        for (int i = 0; i < 2; i++) {
+            for (int j = 0; j < 3; j++) {
+                startState += to_string(board[i][j]);
+            }
+        }
+
+        // Map to store the minimum moves for each visited state
+        unordered_map<string, int> visited;
+
+        // Start DFS traversal from initial board state
+        dfs(startState, visited, startState.find('0'), 0);
+
+        // Return the minimum moves required to reach the target state, or -1 if
+        // unreachable
+        return visited.count("123450") ? visited["123450"] : -1;
+    }
+};
+```
+
+**Solution 5: (BFS, O((m n)! x (m n)))**
+```
+Runtime: 6 ms
+Memory: 11.04 MB
+````
+```c++
+class Solution {
+public:
+    int slidingPuzzle(vector<vector<int>>& board) {
+        // Direction map for zero's possible moves in a 1D representation of the
+        // 2x3 board
+        vector<vector<int>> directions = {{1, 3}, {0, 2, 4}, {1, 5},
+                                          {0, 4}, {1, 3, 5}, {2, 4}};
+
+        string target = "123450";
+        string startState;
+
+        // Convert the 2D board into a string representation
+        for (int i = 0; i < board.size(); i++) {
+            for (int j = 0; j < board[0].size(); j++) {
+                startState += to_string(board[i][j]);
+            }
+        }
+
+        unordered_set<string> visited;  // To store visited states
+        queue<string> queue;
+        queue.push(startState);
+        visited.insert(startState);
+
+        int moves = 0;
+
+        // BFS to find the minimum number of moves
+        while (!queue.empty()) {
+            int size = queue.size();
+            while (size-- > 0) {
+                string currentState = queue.front();
+                queue.pop();
+
+                // Check if we reached the target solved state
+                if (currentState == target) {
+                    return moves;
+                }
+
+                int zeroPos = currentState.find('0');
+                for (int newPos : directions[zeroPos]) {
+                    string nextState = currentState;
+                    swap(nextState[zeroPos], nextState[newPos]);
+
+                    // Skip if this state has been visited
+                    if (visited.count(nextState)) continue;
+
+                    // Mark the new state as visited and add it to the queue
+                    visited.insert(nextState);
+                    queue.push(nextState);
+                }
+            }
+            moves++;
+        }
+        return -1;
+    }
+};
+```
+
+**Solution 6: (BFS, O((m n)! x (m n)), level order, try every combination)**
+```
+Runtime: 7 ms
+Memory: 11.97 MB
+```
+```c++
+class Solution {
+public:
+    int slidingPuzzle(vector<vector<int>>& board) {
+        int sz, i, j, ans = 0;
+        string cur = "#####", ncur;
+        for (auto r: board) {
+            cur += '#';
+            for (auto c: r) {
+                cur += c+'0';
+            }
+            cur += '#';
+        }
+        cur += "#####";
+        queue<string> q;
+        unordered_set<string> visited;
+        q.push(cur);
+        visited.insert(cur);
+        while (q.size()) {
+            sz = q.size();
+            for (i = 0; i < sz; i ++) {
+                cur = q.front();
+                q.pop();
+                if (cur == "######123##450######") {
+                    return ans;
+                }
+                j = cur.find('0');
+                for (auto nj: {j-1, j+1, j-5, j+5}) {
+                    if (cur[nj] != '#') {
+                        ncur = cur;
+                        swap(ncur[nj], ncur[j]);
+                        if (!visited.count(ncur)) {
+                            q.push(ncur);
+                            visited.insert(ncur);
+                        }
+                    }
+                }
+            }
+            ans += 1;
+        }
+        return -1;
+    }
+};
+
+```
