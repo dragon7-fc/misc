@@ -57,3 +57,33 @@ class Solution:
         
         return dfs(0, len(boxes)-1, 0)
 ```
+
+**Solution 2: (DP Top-Down)**
+```
+Runtime: 36 ms
+Memory: 14.62 MB
+```
+```c++
+class Solution {
+    int dp[100][100][100] = {};
+    int dfs(vector<int>& boxes, int l, int r, int k) {
+        if (l > r) return 0;
+        if (dp[l][r][k] > 0) return dp[l][r][k];
+        int lOrg = l, kOrg = k;
+
+        while (l+1 <= r && boxes[l] == boxes[l+1]) { // Increase both `l` and `k` if they have consecutive colors with `boxes[l]`
+            l += 1;
+            k += 1;
+        }
+        int rst = (k+1) * (k+1) + dfs(boxes, l+1, r, 0); // Remove all boxes which has the same with `boxes[l]`
+        for (int m = l + 1; m <= r; ++m) // Try to merge non-contiguous boxes of the same color together
+            if (boxes[m] == boxes[l])
+                rst = max(rst, dfs(boxes, l+1, m-1, 0) + dfs(boxes, m, r, k+1));
+        return dp[lOrg][r][kOrg] = rst;
+    }
+public:
+    int removeBoxes(vector<int>& boxes) {
+        return dfs(boxes, 0, boxes.size() - 1, 0);
+    }
+};
+```

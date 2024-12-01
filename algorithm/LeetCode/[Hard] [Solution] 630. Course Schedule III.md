@@ -335,7 +335,7 @@ class Solution:
         return len(h)
 ```
 
-**Solution 3: (Priority Queue, greedy push then pick max)**
+**Solution 3: (Priority Queue, greedy push then drop max duration)**
 ```
 Runtime: 468 ms
 Memory Usage: 56.3 MB
