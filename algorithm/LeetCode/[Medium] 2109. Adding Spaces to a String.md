@@ -102,3 +102,31 @@ char * addSpaces(char * s, int* spaces, int spacesSize){
     return s_new;
 }
 ```
+
+**Solution 3: (Two Pointer, Greedy)**
+```
+Runtime: 16 ms
+Memory: 85.35 MB
+```
+```c++
+class Solution {
+public:
+    string addSpaces(string s, vector<int>& spaces) {
+        int m = s.size(), n = spaces.size(), i, j = 0;
+        string ans;
+        for (i = 0; i < m; i ++) {
+            if (j < n && i == spaces[j]) {
+                ans += " ";
+                j += 1;
+            }
+            if (j >= n) {
+                ans += s.substr(i);
+                break;
+            } else {
+                ans += s[i];
+            }
+        }
+        return ans;
+    }
+};
+```

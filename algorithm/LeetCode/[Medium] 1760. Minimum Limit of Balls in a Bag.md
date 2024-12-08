@@ -65,3 +65,37 @@ class Solution:
                 right = mid
         return left
 ```
+
+**Solution 2: (Binary Search)**
+```
+Runtime: 27 ms
+Memory: 59.79 MB
+```
+```c++
+class Solution {
+    bool check(int mid, vector<int> &nums, int maxOperations) {
+        int cur = 0;
+        for (auto &num: nums) {
+            cur += (num-1) / mid;
+            if (cur > maxOperations) {
+                return false;
+            }
+        }
+        return true;
+    }
+public:
+    int minimumSize(vector<int>& nums, int maxOperations) {
+        int lo = 1, hi = *max_element(nums.begin(), nums.end()), mid, ans = INT_MAX;
+        while (lo <= hi) {
+            mid = lo + (hi-lo)/2;
+            if (!check(mid, nums, maxOperations)) {
+                lo = mid+1;
+            } else {
+                ans = min(ans, mid);
+                hi = mid-1;
+            }
+        }
+        return ans;
+    }
+};
+```

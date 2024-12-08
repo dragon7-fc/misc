@@ -70,9 +70,34 @@ public:
             cur = a - nums[i];
             dp[nums[i]] -= 1;
             if (cur%2 == 0 && dp.count(cur/2) && dp[cur/2] >= 1) {
-                ans = max(ans, nums[i]);
+                ans = max(ans, nums[i]);  // nums[i] as outlier
             }
             dp[nums[i]] += 1;
+        }
+        return ans;
+    }
+};
+```
+
+**Solution 1: (Math, Hash Table, try outlier on every number)**
+```
+Runtime: 276 ms
+Memory: 191.32 MB
+```
+```c++
+class Solution {
+public:
+    int getLargestOutlier(vector<int>& nums) {
+        int n = nums.size(), i, cur, a = accumulate(nums.begin(), nums.end(), 0), ans = INT_MIN;
+        unordered_map<int,int> dp;
+        for (auto num: nums) {
+            dp[num] += 1;
+        }
+        for (i = 0; i < n; i ++) {
+            cur = a - 2*nums[i];
+            if (dp[cur] > (cur == nums[i])) {
+                ans = max(ans, cur);  // cur as outlier
+            }
         }
         return ans;
     }

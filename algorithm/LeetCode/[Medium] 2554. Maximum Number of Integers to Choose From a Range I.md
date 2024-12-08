@@ -61,22 +61,50 @@ class Solution:
         return ans
 ```
 
-**Solution 2: (Set)**
+**Solution 2: (Sort)**
 ```
-Runtime: 459 ms
-Memory: 161.9 MB
+Runtime: 42 ms
+Memory: 117.64 MB
 ```
 ```c++
 class Solution {
 public:
     int maxCount(vector<int>& banned, int n, int maxSum) {
-        unordered_set<int> st(banned.begin(), banned.end());
-        int ans = 0, acc = 0;
-        for (int i = 1; i<= n; i ++) {
-            if(st.count(i)==0 and acc+i <= maxSum) {
-                acc += i;
-                ans ++;
+        int m = banned.size(), i = 0, a = 1, cur = 0, ans = 0;
+        sort(banned.begin(), banned.end());
+        while (i < m && a <= n && cur + a <= maxSum) {
+            if (a != banned[i]) {
+                cur += a;
+                ans += 1;
+            } else {
+                while (i+1 < m && banned[i] == a) {
+                    i += 1;
+                }
             }
+            a += 1;
+        }
+        return ans;
+    }
+};
+```
+
+**Solution 2: (Set)**
+```
+Runtime: 198 ms
+Memory: 177.76 MB
+```
+```c++
+class Solution {
+public:
+    int maxCount(vector<int>& banned, int n, int maxSum) {
+        int a = 1, cur = 0, ans = 0;
+        unordered_set<int> st(banned.begin(), banned.end());
+        while (a <= n && cur + a <= maxSum) {
+            if (!st.count(a)) {
+                cur += a;
+                ans += 1;
+            }
+            a += 1;
         }
         return ans;
     }
