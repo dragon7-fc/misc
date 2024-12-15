@@ -12298,7 +12298,7 @@ for ...:
 return ans
 ```
 
-**Template 2: (Stack, mono inc, left to right)**
+**Template 2: (Stack, min stack, mono inc, left to right)**
 ```python
 arr = [...]
 N = arr.size()
@@ -12314,7 +12314,7 @@ for i in range(N):
 return ans
 ```
 
-**Template 3: (Stack, nono dec, left to right)**
+**Template 3: (Stack, max stack, mono dec, left to right)**
 ```python
 arr = [...]
 N = arr.size()

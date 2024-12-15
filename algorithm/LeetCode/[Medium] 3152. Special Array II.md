@@ -41,27 +41,31 @@ The subarray is [1,6]. There is only one pair: (1,6) and it contains numbers wit
 
 # Submissions
 ---
-**Solution 1: (Prefix Sum)**
+**Solution 1: (Counter, Prefix Sum)**
 ```
-Runtime: 181 ms
-Memory: 125.76 MB
+Runtime: 5 ms
+Memory: 126.36 MB
 ```
 ```c++
 class Solution {
 public:
     vector<bool> isArraySpecial(vector<int>& nums, vector<vector<int>>& queries) {
-        int n = nums.size(), pre = -1;
-        vector<int> dp(n);
-        dp[0] = -1;
-        for (int i = 1; i < n; i ++) {
+        int m = nums.size(), n = queries.size(), i;
+        vector<int> cnt(m);
+        vector<bool> ans(n);
+        for (i = 1; i < m; i ++) {
             if (nums[i]%2 == nums[i-1]%2) {
-                pre = i-1;
+                cnt[i] = cnt[i-1] + 1;
+            } else {
+                cnt[i] = cnt[i-1]; 
             }
-            dp[i] = pre;
         }
-        vector<bool> ans;
-        for (int i = 0; i < queries.size(); i ++) {
-            ans.push_back(queries[i][0] > dp[queries[i][1]]);
+        for (i = 0; i < n; i ++) {
+            if (cnt[queries[i][0]] == cnt[queries[i][1]]) {
+                ans[i] = true;
+            } else {
+                ans[i] = false;
+            }
         }
         return ans;
     }

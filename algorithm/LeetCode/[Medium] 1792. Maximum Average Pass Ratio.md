@@ -58,3 +58,45 @@ class Solution:
 
         return sum([x[1]/(x[2]*len(classes)) for x in d])
 ```
+
+**Solution 2: (Heap, math)**
+
+    [[2,4],               [3,9],               [4,5],                [2,10]]
+pq: [3/5-2/4,             4/10-3/9,            5/6-4/5,              3/11-2/10]
+    [0.09999999999999998, 0.06666666666666671, 0.033333333333333326, 0.0727272727272727]
+        ^
+    [4/6-3/5,             4/10-3/9,            5/6-4/5,              3/11-2/10]
+    [0.06666666666666665, 0.06666666666666671, 0.033333333333333326, 0.0727272727272727]
+                                                                         ^
+    [4/6-3/5,             4/10-3/9,            5/6-4/5,              4/12-3/11]
+    [0.06666666666666665, 0.06666666666666671, 0.033333333333333326, 0.06060606060606061]
+                              ^
+    [4/6-3/5,             5/11-4/10,           5/6-4/5,              4/12-3/11]
+    [0.06666666666666665, 0.05454545454545451, 0.033333333333333326, 0.06060606060606061]
+        ^
+```
+Runtime: 322 ms
+Memory: 98.90 MB
+```
+```c++
+class Solution {
+public:
+    double maxAverageRatio(vector<vector<int>>& classes, int extraStudents) {
+        int n = classes.size(), i, k = extraStudents;
+        priority_queue<tuple<double,int,int>> pq;
+        double ans = 0;
+        for (i = 0; i < n; i ++) {
+            ans += (double)classes[i][0]/classes[i][1];
+            pq.push({((double)classes[i][0]+1)/(classes[i][1]+1) - (double)classes[i][0]/classes[i][1], classes[i][0]+1, classes[i][1]+1});
+        }
+        while (k) {
+            auto [r, c, p] = pq.top();
+            pq.pop();
+            ans += r;
+            pq.push({((double)c+1)/(p+1)-(double)c/p, c+1, p+1});
+            k -= 1;
+        }
+        return ans/n;
+    }
+};
+```

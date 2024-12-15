@@ -71,36 +71,35 @@ class Solution:
 
 **Solution 2: (Heap)**
 ```
-Runtime: 380 ms
-Memory: 100.1 MB
+Runtime: 115 ms
+Memory: 105.76 MB
 ```
 ```c++
 class Solution {
 public:
     long long findScore(vector<int>& nums) {
-        long long res = 0;
-        priority_queue<pair<int,int>,vector<pair<int,int>>,greater<pair<int,int>>> pq;
-        vector<bool> mark(nums.size(),false);
-        for(int i=0;i<nums.size();i++)
-        {
-            pq.push({nums[i],i});
+        int n = nums.size(), i;
+        long long ans = 0;
+        priority_queue<pair<int,int>, vector<pair<int,int>>, greater<pair<int,int>>> pq;
+        vector<bool> visited(n);
+        for (i = 0; i < n; i ++) {
+            pq.push({nums[i], i});
         }
-        while(!pq.empty())
-        {
-            while (!pq.empty() && mark[pq.top().second])
-                pq.pop();
-            if (!pq.empty())
-            {
-                auto [x,y] = pq.top();
-                res += x;
-                if (y-1 >= 0)
-                    mark[y-1] = true;
-                if (y+1 < nums.size())
-                    mark[y+1] = true;
-                pq.pop();
+        while (pq.size()) {
+            auto [s, j] = pq.top();
+            pq.pop();
+            if (visited[j]) {
+                continue;
+            }
+            visited[j] = true;
+            ans += s;
+            for (auto nj: {j+1, j-1}) {
+                if (0 <= nj && nj < n) {
+                    visited[nj] = true;
+                } 
             }
         }
-        return res;
+        return ans;
     }
 };
 ```

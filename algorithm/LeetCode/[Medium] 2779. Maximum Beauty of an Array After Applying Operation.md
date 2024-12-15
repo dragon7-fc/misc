@@ -60,3 +60,56 @@ class Solution:
             ans = max(ans, j-i+1)
         return ans
 ```
+
+**Solution 2: (Sort, Sliding Window)**
+```
+Runtime: 47 ms
+Memory: 105.16 MB
+```
+```c++
+class Solution {
+public:
+    int maximumBeauty(vector<int>& nums, int k) {
+        int n = nums.size(), i, j, ans = 1;
+        sort(nums.begin(), nums.end());
+        for (j = 0; j < n; j ++) {
+            while (nums[j] - nums[i] > 2*k) {
+                i += 1;
+            }
+            ans = max(ans, j-i+1);
+            if (ans == n) {
+                break;
+            }
+        }
+        return ans;
+    }
+};
+```
+
+**Solution 3: (Bucket sort)**
+```
+Runtime: 42 ms
+Memory: 105.41 MB
+```
+```c++
+class Solution {
+public:
+    int maximumBeauty(vector<int>& nums, int k) {
+        int n = nums.size(), i, cur = 0, cnt[100001] = {0}, ans = 1;
+        for (auto num: nums) {
+            cnt[max(num - k, 0)] += 1;
+            if (num + k +1 <= 100000) {
+                cnt[num + k +1] -= 1;
+            }
+        }
+        for (i = 0; i <= 100000; i ++) {
+            cur += cnt[i];
+            ans = max(ans, cur);
+            if (ans == n) {
+                break;
+            }
+        }
+        return ans;
+    }
+};
+```
