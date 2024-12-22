@@ -88,3 +88,59 @@ public:
     }
 };
 ```
+
+**Solution 2: (Prefix Sum)**
+```
+Runtime: 0 ms
+Memory: 9.28 MB
+```
+```c++
+class Solution {
+public:
+    int maxChunksToSorted(vector<int>& arr) {
+        int n = arr.size(), i, cur, ans = 0;
+        vector<int> dp(n);
+        dp[n-1] = arr[n-1];
+        for (i = n-2; i >= 0; i --) {
+            dp[i] = min(arr[i], dp[i+1]);
+        }
+        i = 0;
+        while (i < n) {
+            cur = arr[i];
+            while (i+1 < n && cur >= dp[i+1]) {
+                cur = max(cur, arr[i+1]);
+                i += 1;
+            }
+            ans += 1;
+            i += 1;
+        }
+        return ans;
+    }
+};
+```
+
+**Solution 3: (Stack, mono stack)**
+```
+Runtime: 0 ms
+Memory: 9.38 MB
+```
+```c++
+class Solution {
+public:
+    int maxChunksToSorted(vector<int>& arr) {
+        stack<int> stk;
+        for (auto a: arr) {
+            if (!stk.size() || a > stk.top()) {
+                stk.push(a);
+            } else {
+                auto cur = stk.top();
+                while (stk.size() && a < stk.top()) {
+                    stk.pop();
+                }
+                stk.push(cur);
+            }
+        }
+        return stk.size();
+    }
+};
+```
