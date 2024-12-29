@@ -252,3 +252,31 @@ class Solution:
         
         return dp(0, S)
 ```
+
+**Solution 4: (DP Bottom-Up, 1-D)**
+```
+Runtime: 23 ms
+Memory: 11.67 MB
+```
+```c++
+class Solution {
+public:
+    int findTargetSumWays(vector<int>& nums, int target) {
+        int n = nums.size(), i, j;
+        int dp[20001], pre[20001] = {0};
+        pre[10000+nums[0]] += 1;
+        pre[10000-nums[0]] += 1;
+        for (i = 1; i < n; i ++) {
+            memset(dp, 0, sizeof(dp));
+            for (j = 0; j <= 20000; j ++) {
+                if (pre[j]) {
+                    dp[j+nums[i]] += pre[j];
+                    dp[j-nums[i]] += pre[j];
+                }
+            }
+            memcpy(pre, dp, sizeof(dp));
+        }
+        return pre[target+10000];
+    }
+};
+```

@@ -115,3 +115,209 @@ class Solution:
                 ans = i, j, k
         return ans
 ```
+
+**Solution 2: (DP Bottom-Up)**
+```
+Runtime: 0 ms
+Memory: 31.26 MB
+```
+```c++
+class Solution {
+public:
+    vector<int> maxSumOfThreeSubarrays(vector<int>& nums, int k) {
+        int n = nums.size();
+
+        // Prefix sum array to calculate sum of any subarray in O(1) time
+        vector<int> prefixSum(n + 1, 0);
+        for (int i = 1; i <= n; i++) {
+            prefixSum[i] = prefixSum[i - 1] + nums[i - 1];
+        }
+
+        // Arrays to store the best sum and starting indices for up to 3
+        // subarrays
+        vector<vector<int>> bestSum(4, vector<int>(n + 1, 0));
+        vector<vector<int>> bestIndex(4, vector<int>(n + 1, 0));
+
+        // Compute the best sum and indices for 1, 2, and 3 subarrays
+        for (int subarrayCount = 1; subarrayCount <= 3; subarrayCount++) {
+            for (int endIndex = k * subarrayCount; endIndex <= n; endIndex++) {
+                int currentSum = prefixSum[endIndex] - prefixSum[endIndex - k] +
+                                 bestSum[subarrayCount - 1][endIndex - k];
+
+                // Check if the current configuration gives a better sum
+                if (currentSum > bestSum[subarrayCount][endIndex - 1]) {
+                    bestSum[subarrayCount][endIndex] = currentSum;
+                    bestIndex[subarrayCount][endIndex] = endIndex - k;
+                } else {
+                    bestSum[subarrayCount][endIndex] =
+                        bestSum[subarrayCount][endIndex - 1];
+                    bestIndex[subarrayCount][endIndex] =
+                        bestIndex[subarrayCount][endIndex - 1];
+                }
+            }
+        }
+
+        // Trace back the indices of the three subarrays
+        vector<int> result(3, 0);
+        int currentEnd = n;
+        for (int subarrayIndex = 3; subarrayIndex >= 1; subarrayIndex--) {
+            result[subarrayIndex - 1] = bestIndex[subarrayIndex][currentEnd];
+            currentEnd = result[subarrayIndex - 1];
+        }
+
+        return result;
+    }
+};
+```
+
+**Solution 3: (Sliding Window)**
+```
+Runtime: 0 ms
+Memory: 23.83 MB
+```
+```c++
+class Solution {
+public:
+    vector<int> maxSumOfThreeSubarrays(vector<int>& nums, int k) {
+        // Variables to track the best indices for one, two, and three subarray
+        // configurations
+        int bestSingleStart = 0;
+        vector<int> bestDoubleStart = {0, k};
+        vector<int> bestTripleStart = {0, k, k * 2};
+
+        // Compute the initial sums for the first three subarrays
+        int currentWindowSumSingle = 0;
+        for (int i = 0; i < k; i++) {
+            currentWindowSumSingle += nums[i];
+        }
+
+        int currentWindowSumDouble = 0;
+        for (int i = k; i < k * 2; i++) {
+            currentWindowSumDouble += nums[i];
+        }
+
+        int currentWindowSumTriple = 0;
+        for (int i = k * 2; i < k * 3; i++) {
+            currentWindowSumTriple += nums[i];
+        }
+
+        // Track the best sums found so far
+        int bestSingleSum = currentWindowSumSingle;
+        int bestDoubleSum = currentWindowSumSingle + currentWindowSumDouble;
+        int bestTripleSum = currentWindowSumSingle + currentWindowSumDouble +
+                            currentWindowSumTriple;
+
+        // Sliding window pointers for the subarrays
+        int singleStartIndex = 1;
+        int doubleStartIndex = k + 1;
+        int tripleStartIndex = k * 2 + 1;
+
+        // Slide the windows across the array
+        while (tripleStartIndex <= nums.size() - k) {
+            // Update the sums using the sliding window technique
+            currentWindowSumSingle = currentWindowSumSingle -
+                                     nums[singleStartIndex - 1] +
+                                     nums[singleStartIndex + k - 1];
+            currentWindowSumDouble = currentWindowSumDouble -
+                                     nums[doubleStartIndex - 1] +
+                                     nums[doubleStartIndex + k - 1];
+            currentWindowSumTriple = currentWindowSumTriple -
+                                     nums[tripleStartIndex - 1] +
+                                     nums[tripleStartIndex + k - 1];
+
+            // Update the best single subarray start index if a better sum is
+            // found
+            if (currentWindowSumSingle > bestSingleSum) {
+                bestSingleStart = singleStartIndex;
+                bestSingleSum = currentWindowSumSingle;
+            }
+
+            // Update the best double subarray start indices if a better sum is
+            // found
+            if (currentWindowSumDouble + bestSingleSum > bestDoubleSum) {
+                bestDoubleStart[0] = bestSingleStart;
+                bestDoubleStart[1] = doubleStartIndex;
+                bestDoubleSum = currentWindowSumDouble + bestSingleSum;
+            }
+
+            // Update the best triple subarray start indices if a better sum is
+            // found
+            if (currentWindowSumTriple + bestDoubleSum > bestTripleSum) {
+                bestTripleStart[0] = bestDoubleStart[0];
+                bestTripleStart[1] = bestDoubleStart[1];
+                bestTripleStart[2] = tripleStartIndex;
+                bestTripleSum = currentWindowSumTriple + bestDoubleSum;
+            }
+
+            // Move the sliding windows forward
+            singleStartIndex += 1;
+            doubleStartIndex += 1;
+            tripleStartIndex += 1;
+        }
+
+        // Return the starting indices of the three subarrays with the maximum
+        // sum
+        return bestTripleStart;
+    }
+};
+```
+
+**Solution 4: (Two Pointers, left right)**
+
+       0  1  2              7
+       1, 2, 1, 2, 6, 7, 5, 1
+       ^^^^     ^^^^  ^^^^
+dp     3  3  3  8 13 12  6  1
+                ^  ^
+right  4  4  4  4  4  5  6  7
+                      ^  ^
+left   0  0  0  4  5  5  5  5
+          ^  ^
+
+
+```
+Runtime: 8 ms
+Memory: 26.33 MB
+```
+```c++
+class Solution {
+public:
+    vector<int> maxSumOfThreeSubarrays(vector<int>& nums, int k) {
+        int n = nums.size(), i, j = n-1, cur = 0, mx = INT_MIN;
+        vector<int> dp(n), left(n), right(n), ans;
+        right[n-1] = n-1;
+        for (i = n-1; i >= 0; i --) {
+            cur += nums[i];
+            if (i < n-k) {
+                cur -= nums[j];
+                j -= 1;
+            }
+            dp[i] = cur;
+            if (i < n-1) {
+                if (dp[i] >= dp[right[i+1]]) {
+                    right[i] = i;
+                } else {
+                    right[i] = right[i+1];
+                }
+            }
+        }
+        for (i = 0; i <= n-2*k; i ++) {
+            if (i >= k) {
+                cur = dp[i] + dp[left[i-k]] + dp[right[i+k]];
+                if (cur > mx) {
+                    mx = cur;
+                    ans = {left[i-k], i, right[i+k]};
+                }
+            }
+            if (i) {
+                if (dp[i] > dp[left[i-1]]) {
+                    left[i] = i;
+                } else {
+                    left[i] = left[i-1];
+                }
+            }
+        }
+        return ans;
+    }
+};
+```
