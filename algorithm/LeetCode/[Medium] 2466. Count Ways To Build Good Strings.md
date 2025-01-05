@@ -53,6 +53,22 @@ class Solution:
 ```
 
 **Solution 2: (DP Top-Down)**
+
+       0
+       0  0   0
+       ^^^^
+       ^^^^^^^^
+          1   1
+        ^^^^^^^^
+       1  1   0
+       ^^^^
+       ^^^^^^^^
+    1  1  2   3
+
+    dp[i] = dp[i-zero] + dp[i-one]
+
+    1  2  4  8 
+
 ```
 Runtime: 371 ms
 Memory: 179.5 MB
@@ -75,26 +91,21 @@ class Solution:
 
 **Solution 3: (DP Bottom-Up)**
 ```
-Runtime: 10 ms
-Memory: 6.4 MB
+Runtime: 2 ms
+Memory: 8.65 MB
 ```
-```
+```c++
 class Solution {
 public:
     int countGoodStrings(int low, int high, int zero, int one) {
-        int dp[high+1];
-        memset(dp, 0, sizeof(dp));
-        int ans = 0, MOD = 1e9+7;
+        long long dp[100001] = {0}, MOD=1e9 + 7, i;
+        long long ans = 0;
         dp[0] = 1;
-        for (int i = 1; i <= high; i ++) {
-            if (i >= zero) {
-                dp[i] = (dp[i] + dp[i-zero]) % MOD;
-            }
-            if (i >= one) {
-                dp[i] = (dp[i] + dp[i-one]) % MOD;
-            }
-            if (low <= i && i <= high) {
-                ans = (ans + dp[i]) % MOD;
+        for (i = 1; i <= high; i ++) {
+            dp[i] = (i-zero >= 0 ? dp[i-zero] : 0) + (i - one >= 0 ? dp[i-one] : 0) % MOD;
+            if (i >= low) {
+                ans += dp[i];
+                ans %= MOD;
             }
         }
         return ans;

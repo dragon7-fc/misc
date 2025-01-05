@@ -60,35 +60,28 @@ class Solution:
 ```
 
 **Solution 2: (Prefix Sum)**
+
+         10  4 -8 7
+right 13  3 -1  7
+left     10 14  6
+          V  V  
+
 ```
-Runtime: 256 ms
-Memory Usage: 85.5 MB
+Runtime: 4 ms
+Memory: 89.34 MB
 ```
 ```c++
 class Solution {
 public:
     int waysToSplitArray(vector<int>& nums) {
-        int valid_split=0;
-        long long right_sum=0;
-        long long left_sum =0;
-        
-        //counting the total sum and store it into the right sum
-        for(int i=0; i<nums.size(); i++) 
-            right_sum += nums[i];
-        
-        for(int i=0; i<nums.size()-1; i++)
-        {
-            // add nums[i] in left sum 
-            // subtract nums[i] from right sum
-            left_sum += nums[i];  
-            right_sum -= nums[i]; 
-            
-            //check whether left_sum is greater than or equal to right_sum
-            //if it is , then increase split by 1
-            if(left_sum >= right_sum) 
-                valid_split++; 
+        int n = nums.size(), i, ans = 0;
+        long long cur = 0, right = accumulate(nums.begin(), nums.end(), 0LL);
+        for (i = 0; i < n-1; i ++) {
+            cur += nums[i];
+            right -= nums[i];
+            ans += cur >= right;
         }
-        return valid_split; 
+        return ans;
     }
 };
 ```
