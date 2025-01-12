@@ -110,130 +110,43 @@ class Solution:
         return res
 ```
 
-**Solution 2: (Reduce to Single Word in B)**
+**Solution 2: (Counter)**
 ```
-Runtime: 100 ms
-Memory Usage: 57.3 MB
-```
-```c++
-class Solution {
-public:
-    vector<string> wordSubsets(vector<string>& A, vector<string>& B) {
-        vector<string> result;
-        int bfreq[26] ={0};
-        
-        for(string bword : B) {
-            int b_count[26] = {0};
-            for(char b : bword) {
-                b_count[b-'a']++;
-            }
-            for(int i=0;i<26;i++) 
-                bfreq[i] = max(bfreq[i],b_count[i]);   //the maximum frequency of a letter in any word is stored in bfreq ....in eg: if B=['eer','erereee'] then bfreq['e'-'a'] = 5
-        }
-        for(auto aword: A) {
-            int a_count[26] = {0};
-            for(char a : aword) {
-                a_count[a-'a']++;
-            }
-            bool flag = true;
-            
-            for(int i=0;i<26;i++) {
-                if(a_count[i]<bfreq[i]) //at any point if a frequency of a letter in 'aword' is less than the maximum frequency of that letter in a word in B then aword cannot be added to result
-                {
-                    flag = false;
-                    break;
-                }
-            }
-            if(flag) 
-                result.push_back(aword);
-        }
-        
-        
-        return result;
-    }
-};
-```
-
-**Solution 3: (Counter)**
-```
-Runtime: 172 ms
-Memory Usage: 102.4 MB
+Runtime: 16 ms
+Memory: 61.86 MB
 ```
 ```c++
 class Solution {
-public:
-    vector<string> wordSubsets(vector<string>& A, vector<string>& B) {
-        std::vector<int> match(26,  0);
-        for(const auto &s: B) {
-            std::vector<int> curMatch(26, 0);
-            for(const auto &c: s) ++curMatch[c-'a'];
-            for(int i{0}; i < 26; ++i) match[i] = std::max(match[i], curMatch[i]);
-        }
-        
-        std::vector<string> res;
-        for(const auto &s: A) {
-            std::vector<int> curMatch(26, 0);
-            for(const auto &c: s) ++curMatch[c-'a'];
-            for(int i{0}; i < 26; ++i) {
-                if(curMatch[i] < match[i]) goto next;
-            }
-            
-            res.emplace_back(s);
-            
-            next:
-            continue;
-        }
-        return res;
-    }
-};
-```
-
-**Solution 4: (Counter)**
-```
-Runtime: 474 ms
-Memory Usage: 102.5 MB
-```
-```c++
-class Solution {
-    // calculate the frequency of string s
-    vector<int> giveMeFreq(string s)
-    {
-        vector<int> freq(26,0);
-        for(int i = 0; i < s.length(); i++)
-        {
-            freq[s[i] - 'a']++;
-        }
-        return freq;
-    }
 public:
     vector<string> wordSubsets(vector<string>& words1, vector<string>& words2) {
-        vector<string> ans; // store ans
-        vector<int> max_Freq_w2(26, 0);   // store max freq of each character present in word2 stirngs
-	   
-        // we will Iterate over word to and try to find max freq for each character present in all strings.
-		for(auto &x : words2) 
-        {
-            vector<int> freq = giveMeFreq(x);
-            for(int i = 0; i < 26; i++)
-            {
-                max_Freq_w2[i] = max(freq[i], max_Freq_w2[i]);  // upadate freq to max freq
+        int m = words1.size(), n = words2.size(), i, j;
+        vector<int> cnt(26), cur(26);
+        bool flag;
+        vector<string> ans;
+        for (i = 0; i < n; i ++) {
+            for (auto c: words2[i]) {
+                cur[c-'a'] += 1;
             }
+            for (j = 0; j < 26; j ++) {
+                cnt[j] = max(cnt[j], cur[j]);
+            }
+            fill(cur.begin(), cur.end(), 0);
         }
-        
-		// we will iterate for each string in words1 ans if it have all charaters present in freq array with freq >= that     then we will add it to ans
-        for(auto &x : words1)
-        {
-            vector<int> freq = giveMeFreq(x);  // gives freq of characters for word in words1
-            bool flag = true;
-            for(int i = 0; i < 26; i++)
-            {
-                if(freq[i] < max_Freq_w2[i]) // specifies that word did not have all the characters from word2 array
-                {
+        for (i = 0; i < m; i ++) {
+            for (auto c: words1[i]) {
+                cur[c-'a'] += 1;
+            }
+            flag = true;
+            for (j = 0; j < 26; j ++) {
+                if (cur[j] < cnt[j]) {
                     flag = false;
                     break;
                 }
             }
-            if(flag) ans.push_back(x);   // string x is Universal string
+            if (flag) {
+                ans.push_back(words1[i]);
+            }
+            fill(cur.begin(), cur.end(), 0);
         }
         return ans;
     }

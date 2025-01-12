@@ -52,9 +52,13 @@ Selecting bags at positions [1, 2] gives the maximum number of coins: 3 + 3 = 6.
 case 1:
         xxxx  x xxxx
         ----------
+        ^^^^
+        (most profit)
 case 2:
-       xxxx xxx xxxx
+        x x xxx xxxx
          -----------
+                ^^^^
+                (most profit)
 
 ```
 Runtime: 89 ms

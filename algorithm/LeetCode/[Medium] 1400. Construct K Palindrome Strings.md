@@ -81,3 +81,27 @@ class Solution:
     def canConstruct(self, s: str, k: int) -> bool:
         return sum(i & 1 for i in collections.Counter(s).values()) <= k <= len(s)
 ```
+
+**Solution 2: (Counter)**
+```
+Runtime: 0 ms
+Memory: 14.99 MB
+```
+```c++
+class Solution {
+public:
+    bool canConstruct(string s, int k) {
+        int i, cnt[26] = {0}, even = 0, one = 0;
+        for (auto c: s) {
+            cnt[c-'a'] += 1;
+        }
+        for (i = 0; i < 26; i ++) {
+            even += cnt[i]/2;
+            one += cnt[i]%2;
+        }
+        return (even*2 + one) >= k && one <= k;
+//              ^^^^^^
+//             even can convert to odd
+    }
+};
+```
