@@ -52,21 +52,49 @@ class Solution:
 ```
 
 **Solution 2: (Math)**
+
+    [2,1,3],  [10,2,5,0]
+    -------   ----------
+    odd -> xor(B)   odd -> xor(A)
+    2^10 ^ 2^2 ^ 2^5 ^ 2^0 ^ 1^10 ^ 1^2 ^ 1^5 ^ 1^0 ^ 3^10 ^ 3^2 ^3^5 ^ 3^10
+    10^2         5^2        10^1          5^1
+    10   ^  2  ^ 5  ^ 0       10   ^ 2  ^ 5  ^ 0
+
+    1, 2, 3     4, 5, 6
+
+    1^4 ^ 1^5 ^ 1^6  ^ 2^4 ^ 2^5 ^ 2^6 ^ 3^4 ^ 3^5 ^ 3^6
+    4^1                4^2               4^3
+     4 ^ 5 ^ 1^6   ^ 4 ^ 5 ^ 2^6 ^ 4 ^ 5 ^ 3 ^ 6
+
+    1, 2     3, 4
+    1^3 ^ 1^4 ^ 2^3 ^ 2^4
+    3^1         3^2
+    3   ^ 4   ^ 3  ^ 4
+
+    1, 2, 3, 4              5, 6, 7, 8
+    1^5 ^ 1^6 ^ 1^7 ^ 1^8  2^5 ^ 2^6 ^ 2^7 ^ 2^8
+    5^1
+
 ```
-Runtime: 183 ms
-Memory: 60.5 MB
+Runtime: 0 ms
+Memory: 64.35 MB
 ```
 ```c++
 class Solution {
 public:
     int xorAllNums(vector<int>& nums1, vector<int>& nums2) {
-        int x1 = 0, x2 = 0;
-        for(int i = 0; i<nums1.size();++i) x1 = x1^nums1[i];
-        for(int i = 0; i<nums2.size();++i) x2 = x2^nums2[i];
-        int re = 0;
-        if(nums2.size()%2) re = re^x1;
-        if(nums1.size()%2) re = re^x2;
-        return re;
+        int ans = 0;
+        if (nums1.size()%2) {
+            for (auto a: nums2) {
+                ans ^= a;
+            }
+        }
+        if (nums2.size()%2) {
+            for (auto a: nums1) {
+                ans ^= a;
+            }
+        }
+        return ans;
     }
 };
 ```

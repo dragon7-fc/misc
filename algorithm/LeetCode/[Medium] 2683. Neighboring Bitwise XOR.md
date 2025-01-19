@@ -66,3 +66,95 @@ class Solution:
         return False
 ```
 
+**Solution 2: (Check if starts with 0 or 1)**
+
+a ^ b = c
+a ^ c = b
+
+d   c 
+o   a b
+
+d   1,1,0
+o   0 1 0
+    1 0 1
+
+d   1,1
+o   0 1
+    1 0
+
+d   1,0
+o   0 1 x
+    1 0 x
+
+```
+Runtime: 8 ms
+Memory: 263.93 MB
+```
+```c++
+class Solution {
+public:
+    bool doesValidArrayExist(vector<int>& derived) {
+        int a0 = 0, a = a0, b;
+        for (auto c: derived) {
+            b = a^c;
+            a = b;
+        }
+        if (b == a0) {
+            return true;
+        }
+        a0 = 1, a = a0;
+        for (auto c: derived) {
+            b = a^c;
+            a = b;
+        }
+        if (b == a0) {
+            return true;
+        }
+        return false;
+    }
+};
+```
+
+**Solution 3: (Cumulative XOR)**
+
+    a^b ^ b^c ^ c^a = 0
+
+```
+Runtime: 1 ms
+Memory: 263.94 MB
+```
+```c++
+class Solution {
+public:
+    bool doesValidArrayExist(vector<int>& derived) {
+        int XOR = 0;
+        for (auto element : derived) {
+            XOR = XOR ^ element;
+        }
+        return XOR == 0;
+    }
+};
+```
+
+**Solution 4: (Sum Parity)**
+
+    a^b ^ b^c ^ c^a = 0
+cnt:
+    a: 2
+    b: 2
+    c: 2
+
+
+```
+Runtime: 0 ms
+Memory: 263.91 MB
+```
+```c++
+class Solution {
+public:
+    bool doesValidArrayExist(vector<int>& derived) {
+        int sum = accumulate(derived.begin(), derived.end(), 0);
+        return sum % 2 == 0;
+    }
+};
+```

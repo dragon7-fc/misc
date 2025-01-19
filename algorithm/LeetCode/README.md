@@ -6474,6 +6474,28 @@ class Solution:
 ```
 * [Medium] 1679. Max Number of K-Sum Pairs
 
+### Counter, summary condition
+```c++
+class Solution {
+public:
+    int minimumLength(string s) {
+        int cnt[26] = {0};
+        for (auto c: s) {
+            cnt[c-'a'] += 1;
+        }
+        int ans = 0;
+        for (int i = 0; i < 26; i ++) {
+            if (cnt[i] >= 3) {
+                cnt[i] = cnt[i]%2 ? 1 : 2;
+            }
+            ans += cnt[i];
+        }
+        return ans;
+    }
+};
+```
+* [Medium] 3223. Minimum Length of String After Operations
+
 ### Frequency Table
 ```python
 class Solution:
@@ -11578,6 +11600,53 @@ return ans
 
 ## Stack <a name="stack"></a>
 ---
+### 2 stack, matched index elimination
+```c++
+class Solution {
+public:
+    bool canBeValid(string s, string locked) {
+        int length = s.size();
+        // If length of string is odd, return false.
+        if (length % 2 == 1) {
+            return false;
+        }
+
+        stack<int> openBrackets, unlocked;
+
+        // Iterate through the string to handle '(' and ')'
+        for (int i = 0; i < length; i++) {
+            if (locked[i] == '0') {
+                unlocked.push(i);
+            } else if (s[i] == '(') {
+                openBrackets.push(i);
+            } else if (s[i] == ')') {
+                if (!openBrackets.empty()) {
+                    openBrackets.pop();
+                } else if (!unlocked.empty()) {
+                    unlocked.pop();
+                } else {
+                    return false;
+                }
+            }
+        }
+
+        // Match remaining open brackets with unlocked characters
+        while (!openBrackets.empty() && !unlocked.empty() &&
+               openBrackets.top() < unlocked.top()) {
+            openBrackets.pop();
+            unlocked.pop();
+        }
+
+        if (!openBrackets.empty()) {
+            return false;
+        }
+
+        return true;
+    }
+};
+```
+* [Medium] 2116. Check if a Parentheses String Can Be Valid
+
 ### 2 element stack: key and count
 ```python
 class Solution:
@@ -15438,6 +15507,48 @@ class Solution:
         return heapq.nsmallest(K, points, key= lambda x: x[0]**2 + x[1]**2)
 ```
 * [Medium] [Solution] 973. K Closest Points to Origin
+
+### Greedy min step from border
+```c++
+class Solution {
+    int dr[4] = {-1, 0, 1, 0};
+    int dc[4] = {0, -1, 0, 1};
+public:
+    int trapRainWater(vector<vector<int>>& heightMap) {
+        int m = heightMap.size(), n = heightMap[0].size();
+        priority_queue<tuple<int, int, int>, vector<tuple<int, int, int>>, greater<tuple<int, int, int>>> pq;
+        vector<vector<int>> vis(m, vector<int>(n));
+        for (int i = 0; i < m; i++){
+            vis[i][0] = 1;
+            vis[i][n-1] = 1;
+            pq.push({heightMap[i][0], i, 0});
+            pq.push({heightMap[i][n-1], i, n-1});
+        }
+        for (int  i = 0; i < n; i++){
+            vis[0][i] = 1;
+            vis[m-1][i] = 1;
+            pq.push({heightMap[0][i], 0, i});
+            pq.push({heightMap[m-1][i], m-1, i});
+        }
+        int ans = 0;
+        while (!pq.empty()) {
+            auto [h, r, c] = pq.top();
+            pq.pop();
+            for (int i = 0; i < 4; i++) {
+                int nr = r + dr[i];
+                int nc = c + dc[i];
+                if (nr >= 0 && nr < m && nc >= 0 && nc < n && !vis[nr][nc]){
+                    ans += max(0, h-heightMap[nr][nc]);
+                    pq.push({max(h, heightMap[nr][nc]), nr, nc});
+                    vis[nr][nc] = 1;
+                }
+            }
+        }
+        return ans;
+    }
+};
+```
+* [Hard] 407. Trapping Rain Water II
 
 ### Two Heaps, Min and Max Heap
 ```python
