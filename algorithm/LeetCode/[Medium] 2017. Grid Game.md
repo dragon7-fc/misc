@@ -67,3 +67,33 @@ class Solution:
             bottom += g1
         return res
 ```
+
+**Solution 1: (Prefix Sum, try all possible solution)**
+
+             max
+            -----    
+    x x x x . . . (>0)
+    . . . x x x x
+    ----- 
+     max
+
+```
+Runtime: 0 ms
+Memory: 66.68 MB
+```
+```c++
+class Solution {
+public:
+    long long gridGame(vector<vector<int>>& grid) {
+        int n = grid[0].size(), i, j;
+        long long left = 0, right = accumulate(grid[0].begin(), grid[0].end(), 0LL), ans = 0;
+        ans = LONG_LONG_MAX;
+        for (i = 0; i < n; i ++) {
+            right -= grid[0][i];
+            ans = min(ans, max(left, right));
+            left += grid[1][i];
+        }
+        return ans;
+    }
+};
+```

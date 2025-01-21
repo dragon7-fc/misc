@@ -264,7 +264,7 @@ int trapRainWater(int** heightMap, int heightMapSize, int* heightMapColSize){
 }
 ```
 
-**Solution 3: (Heap, greedy min step from border)**
+**Solution 3: (Heap, bfs from border with heap)**
 ```
 Runtime: 28 ms
 Memory: 19.31 MB

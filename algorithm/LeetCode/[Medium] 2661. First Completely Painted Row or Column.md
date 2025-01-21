@@ -59,3 +59,83 @@ class Solution:
             if cr[g[a][0]] == C or cc[g[a][1]] == R:
                 return i
 ```
+
+**Solution 2: (Reverse Mapping)**
+```
+Runtime: 101 ms
+Memory: 161.54 MB
+```
+```c++
+class Solution {
+public:
+    int firstCompleteIndex(vector<int>& arr, vector<vector<int>>& mat) {
+        // Map to store the index of each number in the arr
+        unordered_map<int, int> numToIndex;
+        for (int i = 0; i < arr.size(); i++) {
+            numToIndex[arr[i]] = i;
+        }
+
+        int result = INT_MAX;
+        int numRows = mat.size();
+        int numCols = mat[0].size();
+
+        // Check for the earliest row to be completely painted
+        for (int row = 0; row < numRows; row++) {
+            // Tracks the greatest index in this column
+            int lastElementIndex = INT_MIN;
+            for (int col = 0; col < numCols; col++) {
+                int indexVal = numToIndex[mat[row][col]];
+                lastElementIndex = max(lastElementIndex, indexVal);
+            }
+            // Update result with the minimum index where this row is fully
+            // painted
+            result = min(result, lastElementIndex);
+        }
+
+        // Check for the earliest column to be completely painted
+        for (int col = 0; col < numCols; col++) {
+            // Tracks the greatest index in this column
+            int lastElementIndex = INT_MIN;
+            for (int row = 0; row < numRows; row++) {
+                int indexVal = numToIndex[mat[row][col]];
+                lastElementIndex = max(lastElementIndex, indexVal);
+            }
+            // Update result with the minimum index where this column is fully
+            // painted
+            result = min(result, lastElementIndex);
+        }
+
+        return result;
+    }
+};
+```
+
+**Solution 3: (Counter)**
+```
+Runtime: 9 ms
+Memory: 133.96 MB
+```
+```c++
+class Solution {
+public:
+    int firstCompleteIndex(vector<int>& arr, vector<vector<int>>& mat) {
+        int m = mat.size(), n = mat[0].size(), i, j;
+        vector<pair<int,int>> dp(m*n+1);
+        vector<int> row(m), col(n);
+        for (i = 0; i < m; i ++) {
+            for (j = 0; j < n; j ++) {
+                dp[mat[i][j]] = {i, j};
+            }
+        }
+        for (i = 0; i < arr.size(); i ++) {
+            auto [r, c] = dp[arr[i]];
+            row[r] += 1;
+            col[c] += 1;
+            if (row[r] == n || col[c] == m) {
+                return i;
+            }
+        }
+        return -1;
+    }
+};
+```

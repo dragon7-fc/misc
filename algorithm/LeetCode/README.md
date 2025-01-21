@@ -617,6 +617,25 @@ class Solution:
 ```
 * [Medium] [Solution] 238. Product of Array Except Self
 
+Prefix Sum, try all possible solution
+```c++
+class Solution {
+public:
+    long long gridGame(vector<vector<int>>& grid) {
+        int n = grid[0].size(), i, j;
+        long long left = 0, right = accumulate(grid[0].begin(), grid[0].end(), 0LL), ans = 0;
+        ans = LONG_LONG_MAX;
+        for (i = 0; i < n; i ++) {
+            right -= grid[0][i];
+            ans = min(ans, max(left, right));
+            left += grid[1][i];
+        }
+        return ans;
+    }
+};
+```
+* [Medium] 2017. Grid Game
+
 ### O(1) Space, Efficient Solution, symbol mask
 ```python
 class Solution:
@@ -15508,7 +15527,7 @@ class Solution:
 ```
 * [Medium] [Solution] 973. K Closest Points to Origin
 
-### Greedy min step from border
+### bfs from border with heap
 ```c++
 class Solution {
     int dr[4] = {-1, 0, 1, 0};
