@@ -62,7 +62,37 @@ class Solution:
         return res
 ```
 
-**Solution 2: (Count Letters In-Between)**
+**Solution 2: (Prefix Sum, counter, left and right)**
+```
+Runtime: 849 ms
+Memory: 17.13 MB
+```
+```c++
+class Solution {
+public:
+    int countPalindromicSubsequence(string s) {
+        int n = s.size(), i, j;
+        vector<int> cur(26), right(26);
+        unordered_set<string> st;
+        for (i = n-1; i >= 2; i --) {
+            right[s[i]-'a'] += 1;
+        }
+        cur[s[0]-'a'] += 1;
+        for (i = 1; i < n-1; i ++) {
+            for (j = 0; j < 26; j ++) {
+                if (cur[j] && right[j]) {
+                    st.insert(string(1, 'a'+j) + string(1, s[i]));
+                }
+            }
+            cur[s[i]-'a'] += 1;
+            right[s[i+1]-'a'] -= 1;
+        }
+        return st.size();
+    }
+};
+```
+
+**Solution 3: (Count Letters In-Between)**
 ```
 Runtime: 300 ms
 Memory: 13.4 MB
@@ -104,7 +134,19 @@ public:
 };
 ```
 
-**Solution 3: (Pre-Compute First and Last Indices)**
+**Solution 4: (Pre-Compute First and Last Indices)**
+
+    a a b c a
+   -----------
+    0 1 2 3 4
+a   ^ . . . ^
+
+    b b c b a b a
+   ---------------
+    0 1 2 3 4 5 6
+a           ^ . ^
+b   ^ . .   . ^
+
 ```
 Runtime: 275 ms
 Memory: 13.3 MB

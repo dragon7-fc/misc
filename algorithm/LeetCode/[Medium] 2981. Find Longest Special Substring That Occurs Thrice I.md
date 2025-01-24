@@ -75,3 +75,39 @@ public:
     }
 };
 ```
+
+**Solution 2: (Sliding Window, Counter)**
+```
+Runtime: 0 ms
+Memory: 9.80 MB
+```
+```c++
+class Solution {
+public:
+    int maximumLength(string s) {
+        int n = s.size(), i = 0, j, k, cnt[26][51] = {0}, cur = 0;
+        while (i < n) {
+            j = i;
+            while (j < n && s[j] == s[i]) {
+                j += 1;
+            }
+            cur = j-i;
+            cnt[s[i]-'a'][cur] += 1;
+            k = 1;
+            while (cur-k) {
+                cnt[s[i]-'a'][cur-k] += k+1;
+                k += 1;
+            }
+            i = j;
+        }
+        for (k = 48; k >= 0; k --) {
+            for (i = 0; i < 26; i ++) {
+                if (cnt[i][k] >= 3) {
+                    return k;
+                }
+            }
+        }
+        return -1;
+    }
+};
+```

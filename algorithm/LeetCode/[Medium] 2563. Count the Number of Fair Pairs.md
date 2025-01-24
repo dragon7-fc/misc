@@ -51,7 +51,7 @@ class Solution:
         return count
 ```
 
-**Solution 1: (Binary Search)**
+**Solution 2: (Binary Search)**
 ```
 Runtime: 292 ms
 Memory: 53.5 MB
@@ -69,6 +69,96 @@ public:
             ans += (right-left);
         }
         return ans;
+    }
+};
+```
+
+**Solution 3: (Binary Search)**
+```
+Runtime: 62 ms
+Memory: 60.35 MB
+```
+```c++
+class Solution {
+    int lower_bound(vector<int> &nums, int lo, int hi, int a) {
+        int mid;
+        while (lo <= hi) {
+            mid = lo + (hi-lo)/2;
+            if (a > nums[mid]) {
+                lo = mid + 1;
+            } else {
+                hi = mid - 1;
+            }
+        }
+        return lo;
+        return lo;
+    }
+public:
+    long long countFairPairs(vector<int>& nums, int lower, int upper) {
+        int n = nums.size(), i, left, right;
+        long long ans = 0;
+        sort(nums.begin(), nums.end());
+        for (i = 0; i < n; i ++) {
+            left = lower_bound(nums, i+1, n-1, lower - nums[i]);
+            right = lower_bound(nums, i+1, n-1, upper - nums[i] + 1);
+            ans += 1LL * (right - left);
+        }
+        return ans;
+    }
+};
+```
+
+**Solution 4: (Binary Search)**
+```
+Runtime: 71 ms
+Memory: 60.42 MB
+```
+```c++
+class Solution {
+public:
+    long long countFairPairs(vector<int>& nums, int lower, int upper) {
+        int n = nums.size(), i, left, right;
+        long long ans = 0;
+        sort(nums.begin(), nums.end());
+        for (i = 0; i < n; i ++) {
+            left = lower_bound(nums.begin() + i+1, nums.end(), lower - nums[i]) - nums.begin();
+            right = lower_bound(nums.begin() + i+1, nums.end(), upper - nums[i] + 1) - nums.begin();
+            ans += 1LL * (right - left);
+        }
+        return ans;
+    }
+};
+```
+
+**Solution 5: (Two Pointers)**
+```
+Runtime: 28 ms
+Memory: 60.32 MB
+```
+```c++
+class Solution {
+    long long lower_bound(vector<int>& nums, int value) {
+        int left = 0, right = nums.size() - 1;
+        long long result = 0;
+        while (left < right) {
+            int sum = nums[left] + nums[right];
+            // If sum is less than value, add the size of window to result and
+            // move to the next index.
+            if (sum < value) {
+                result += (right - left);
+                left++;
+            } else {
+                // Otherwise, shift the right pointer backwards, until we get a
+                // valid window.
+                right--;
+            }
+        }
+        return result;
+    }
+public:
+    long long countFairPairs(vector<int>& nums, int lower, int upper) {
+        sort(nums.begin(), nums.end());
+        return lower_bound(nums, upper + 1) - lower_bound(nums, lower);
     }
 };
 ```

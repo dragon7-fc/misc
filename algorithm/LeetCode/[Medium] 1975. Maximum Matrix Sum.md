@@ -58,3 +58,55 @@ class Solution:
         else:
             return sum(num) #return sum
 ```
+
+**Solution 2: (Math, Case Study, Greedy, Journey From Minus to Plus)**
+
+even: can turn every number to positive
+     -1 -2 -3 -4
+      ----  -----
+      +  +   +  +
+
+odd: can turn every number to positive except smallest
+    -1 -2 -3 -4 -5
+        ----  ----
+    -   +  +  +  +
+    -2 -1 -3 -4 -5
+        ----  ----
+    -----
+    +  -  +   +  +
+
+    -2 -3 -1 -4 -5
+    -----    -----
+    +   +  -  +  +
+
+```
+Runtime: 0 ms
+Memory: 38.39 MB
+```
+```c++
+class Solution {
+public:
+    long long maxMatrixSum(vector<vector<int>>& matrix) {
+        long long totalSum = 0;
+        int minAbsVal = INT_MAX;
+        int negativeCount = 0;
+
+        for (auto& row : matrix) {
+            for (int val : row) {
+                totalSum += abs(val);
+                if (val < 0) {
+                    negativeCount++;
+                }
+                minAbsVal = min(minAbsVal, abs(val));
+            }
+        }
+
+        // Adjust if the count of negative numbers is odd
+        if (negativeCount % 2 != 0) {
+            totalSum -= 2 * minAbsVal;
+        }
+
+        return totalSum;
+    }
+};
+```

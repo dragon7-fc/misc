@@ -71,52 +71,91 @@ class Solution:
 
 **Solution 2: (Heap)**
 ```
-Runtime: 226 ms
-Memory Usage: 24.9 MB
+Runtime: 49 ms
+Memory: 28.29 MB
 ```
 ```c++
 class Solution {
 public:
     string repeatLimitedString(string s, int repeatLimit) {
-        int n = s.length();
-        unordered_map<char,int> m;
-        for(int i=0;i<n;i++){
-            m[s[i]]++;
+        unordered_map<char, int> freq;
+        for (char ch : s) {
+            freq[ch]++;
         }
-        priority_queue<pair<char,int>> pq;
-        for(auto i: m){
-            pq.push({i.first,i.second}); // pushing the characters with their frequencies.
+
+        priority_queue<char> maxHeap;
+        for (auto& [ch, count] : freq) {
+            maxHeap.push(ch);
         }
-        
-        string ans = "";
-        while(!pq.empty()){
-            char c1 = pq.top().first;
-            int n1 = pq.top().second;
-            pq.pop();
-                
-            int len = min(repeatLimit,n1); // Adding characters upto minimum of repeatLimit and present character count.
-            for(int i=0;i<len;i++){ // adding the highest priority element to the ans.
-                ans += c1;
+
+        string result;
+
+        while (!maxHeap.empty()) {
+            char ch = maxHeap.top();
+            maxHeap.pop();
+            int count = freq[ch];
+
+            int use = min(count, repeatLimit);
+            result.append(use, ch);
+
+            freq[ch] -= use;
+
+            if (freq[ch] > 0 && !maxHeap.empty()) {
+                char nextCh = maxHeap.top();
+                maxHeap.pop();
+
+                result.push_back(nextCh);
+                freq[nextCh]--;
+
+                if (freq[nextCh] > 0) {
+                    maxHeap.push(nextCh);
+                }
+
+                maxHeap.push(ch);
             }
-            
-            char c2;
-            int n2=0;
-            if(n1-len>0){ // If the cnt of present character is more than the limit.
-                if(!pq.empty()){ //Getting the next priority character.
-                    c2 = pq.top().first;
-                    n2 = pq.top().second;
-                    pq.pop();
+        }
+
+        return result;
+    }
+};
+```
+
+**Solution 3: (Counter, two pointer)**
+```
+Runtime: 17 ms
+Memory: 30.38 MB
+```
+```c++
+class Solution {
+public:
+    string repeatLimitedString(string s, int repeatLimit) {
+        int cnt[26] = {0}, i = 25, j = 26, k;
+        string ans;
+        for (auto c: s) {
+            cnt[c-'a'] += 1;
+        }
+        while (i >= 0) {
+            while (i >= 0 && !cnt[i]) {
+                i -= 1;
+            }
+            if (i < 0) {
+                break;
+            }
+            k = min(cnt[i], repeatLimit);
+            ans += string(k, i+'a');
+            cnt[i] -= k;
+            if (cnt[i]) {
+                while (j >= i) {
+                    j = i-1;
                 }
-                else{
-                    return ans; // if there is no another letter to add, we just return ans.
+                while (j >= 0 && !cnt[j]) {
+                    j -= 1;
                 }
-                ans += c2; // Adding next priority character to ans.
-                
-                // If the elements are left out, pushing them back into priority queue for next use.
-                pq.push({c1,n1-len});
-                if(n2-1>0){
-                    pq.push({c2,n2-1});
-                } 
+                if (j < 0) {
+                    return ans;
+                }
+                cnt[j] -= 1;
+                ans += string(1, j+'a');
             }
         }
         return ans;

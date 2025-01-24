@@ -57,27 +57,41 @@ class Solution:
         return answer
 ```
 
-**Solution 2: (LTR + RTL)**
+**Solution 2: (Sum of Left and Right Moves)**
+
+        0   0   1   0   1   1
+      -----------------------
+       11,  8,  5,  4,  3,  4
+cur    11   8   5 1+2   1   0  cur+right
+right   3   3   3   2   2   1   right += '1'
+           <-
+cur     0   0   0 0+1   2   4  cur+left
+left    0   0   1   1   2   3
+           ->
+
 ```
-Runtime: 4 ms
-Memory: 9.3 MB
+Runtime: 0 ms
+Memory: 12.14 MB
 ```
 ```c++
 class Solution {
 public:
     vector<int> minOperations(string boxes) {
-        vector<int> res(boxes.length()); 
-        for (int i = 0, ops = 0, cnt = 0; i < boxes.length(); ++i) {
-            res[i] += ops;
-            cnt += boxes[i] == '1' ? 1 : 0;
-            ops += cnt;
+        int n = boxes.size(), i, cur = 0, left = 0, right = 0;
+        vector<int> ans(n);
+        for (i = n-1; i >= 0; i --) {
+            cur += right;
+            ans[i] = cur;
+            right += boxes[i] == '1';
         }
-        for (int i = boxes.length() - 1, ops = 0, cnt = 0; i >= 0; --i) {
-            res[i] += ops;
-            cnt += boxes[i] == '1' ? 1 : 0;
-            ops += cnt;
+        left = 0;
+        cur = 0;
+        for (i = 0; i < n; i ++) {
+            cur += left;
+            ans[i] += cur;
+            left += boxes[i] == '1';
         }
-        return res;
+        return ans;
     }
 };
 ```

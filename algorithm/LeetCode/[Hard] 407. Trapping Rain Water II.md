@@ -263,3 +263,48 @@ int trapRainWater(int** heightMap, int heightMapSize, int* heightMapColSize){
     return *dimension;
 }
 ```
+
+**Solution 3: (Heap, bfs from border with heap)**
+```
+Runtime: 28 ms
+Memory: 19.31 MB
+```
+```c++
+class Solution {
+    int dr[4] = {-1, 0, 1, 0};
+    int dc[4] = {0, -1, 0, 1};
+public:
+    int trapRainWater(vector<vector<int>>& heightMap) {
+        int m = heightMap.size(), n = heightMap[0].size();
+        priority_queue<tuple<int, int, int>, vector<tuple<int, int, int>>, greater<tuple<int, int, int>>> pq;
+        vector<vector<int>> vis(m, vector<int>(n));
+        for (int i = 0; i < m; i++){
+            vis[i][0] = 1;
+            vis[i][n-1] = 1;
+            pq.push({heightMap[i][0], i, 0});
+            pq.push({heightMap[i][n-1], i, n-1});
+        }
+        for (int  i = 0; i < n; i++){
+            vis[0][i] = 1;
+            vis[m-1][i] = 1;
+            pq.push({heightMap[0][i], 0, i});
+            pq.push({heightMap[m-1][i], m-1, i});
+        }
+        int ans = 0;
+        while (!pq.empty()) {
+            auto [h, r, c] = pq.top();
+            pq.pop();
+            for (int i = 0; i < 4; i++) {
+                int nr = r + dr[i];
+                int nc = c + dc[i];
+                if (nr >= 0 && nr < m && nc >= 0 && nc < n && !vis[nr][nc]){
+                    ans += max(0, h-heightMap[nr][nc]);
+                    pq.push({max(h, heightMap[nr][nc]), nr, nc});
+                    vis[nr][nc] = 1;
+                }
+            }
+        }
+        return ans;
+    }
+};
+```

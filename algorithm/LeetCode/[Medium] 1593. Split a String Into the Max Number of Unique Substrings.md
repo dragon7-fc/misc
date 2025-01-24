@@ -87,3 +87,86 @@ class Solution:
         dfs(0)
         return ans
 ```
+
+**Solution 3: (Bitmask)**
+```
+Runtime: 980 ms
+Memory: 252.60 MB
+```
+```c++
+class Solution {
+public:
+    int maxUniqueSplit(string s) {
+        int n = s.size(), j, ans = 0;
+        unordered_set<string> st;
+        string cur;
+        bool flag;
+        for (int i = 0; i < (1<<n); i ++) {
+            j = 0;
+            flag = true;
+            while (j < n) {
+                cur = s[j];
+                while (j+1 < n && (((i>>(j+1))&1) == ((i>>j)&1))) {
+                    cur += s[j+1];
+                    j += 1;
+                }
+                if (st.count(cur) || st.size() + (n-j) < ans) {
+                    flag = false;
+                    break;
+                }
+                st.insert(cur);
+                j += 1;
+            }
+            if (flag) {
+                ans = max(ans, (int)st.size());
+            }
+            st.clear();
+        }
+        return ans;
+    }
+};
+```
+
+**Solution 4: (Backtracking with Pruning, O(n * 2^n))**
+```
+Runtime: 15 ms
+Memory: 12.72 MB
+```
+```c++
+class Solution {
+    void backtrack(const string& s, int i, unordered_set<string>& seen,
+                   int count, int& maxCount) {
+        // Prune: If the current count plus remaining characters can't exceed
+        // maxCount, return
+        if (count + (s.size() - i) <= maxCount) return;
+
+        // Base case: If we reach the end of the string, update maxCount
+        if (i == s.size()) {
+            maxCount = max(maxCount, count);
+            return;
+        }
+
+        // Try every possible substring starting from 'start'
+        string substring = "";
+        for (int j = i; j <= s.size()-1; j ++) {
+            substring += s[j];
+            // If the substring is unique
+            if (!seen.count(substring)) {
+                // Add the substring to the seen set
+                seen.insert(substring);
+                // Recursively count unique substrings from the next position
+                backtrack(s, j+1, seen, count + 1, maxCount);
+                // Backtrack: remove the substring from the seen set
+                seen.erase(substring);
+            }
+        }
+    }
+public:
+    int maxUniqueSplit(string s) {
+        unordered_set<string> seen;
+        int maxCount = 0;
+        backtrack(s, 0, seen, 0, maxCount);
+        return maxCount;
+    }
+};
+```

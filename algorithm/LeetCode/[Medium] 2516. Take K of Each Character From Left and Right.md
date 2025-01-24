@@ -57,3 +57,33 @@ class Solution:
             return -1
         return ans
 ```
+
+**Solution 2:(Sliding Window, inverse)**
+```
+Runtime: 0 ms
+Memory: 12.14 MB
+```
+```c++
+class Solution {
+public:
+    int takeCharacters(string s, int k) {
+        int n = s.size(), cnt[3] = {0}, i, j, ans = n;
+        for (auto c: s) {
+            cnt[c-'a'] += 1;
+        }
+        if (cnt[0] < k || cnt[1] < k || cnt[2] < k) {
+            return -1;
+        }
+        i = 0;
+        for (j = 0; j < n; j ++) {
+            cnt[s[j]-'a'] -= 1;
+            while (cnt[s[j]-'a'] < k) {
+                cnt[s[i]-'a'] += 1;
+                i += 1;
+            }
+            ans = min(ans, n - (j-i+1));
+        }
+        return ans;
+    }
+};
+```

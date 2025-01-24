@@ -118,3 +118,125 @@ public:
     }
 };
 ```
+
+
+**Solution 3: (Sorting Items + Sorting Queries)**
+```
+Runtime: 59 ms
+Memory: 99.09 MB
+```
+```c++
+class Solution {
+public:
+    vector<int> maximumBeauty(vector<vector<int>>& items, vector<int>& queries) {
+        vector<int> ans(queries.size());
+        // sort both items and queries in ascending order
+        sort(items.begin(), items.end(),
+             [](vector<int>& a, vector<int>& b) { return a[0] < b[0]; });
+
+        vector<vector<int>> queriesWithIndices(queries.size(), vector<int>(2));
+
+        for (int i = 0; i < queries.size(); i++) {
+            queriesWithIndices[i][0] = queries[i];
+            queriesWithIndices[i][1] = i;
+        }
+
+        sort(queriesWithIndices.begin(), queriesWithIndices.end(),
+             [](vector<int>& a, vector<int>& b) { return a[0] < b[0]; });
+
+        int itemIndex = 0;
+        int maxBeauty = 0;
+
+        for (int i = 0; i < queries.size(); i++) {
+            int query = queriesWithIndices[i][0];
+            int originalIndex = queriesWithIndices[i][1];
+
+            while (itemIndex < items.size() && items[itemIndex][0] <= query) {
+                maxBeauty = max(maxBeauty, items[itemIndex][1]);
+                itemIndex++;
+            }
+
+            ans[originalIndex] = maxBeauty;
+        }
+        return ans;
+    }
+};
+```
+
+**Solution 4: (Sort, Binary Search, lower bound)**
+```
+Runtime: 48 ms
+Memory: 94.78 MB
+```
+```c++
+class Solution {
+public:
+    vector<int> maximumBeauty(vector<vector<int>>& items, vector<int>& queries) {
+        sort(items.begin(), items.end());
+        vector<pair<int,int>> dp;
+        int i;
+        for (i = 0; i < items.size(); i ++) {
+            if (dp.size() && dp.back().first == items[i][0]) {
+                dp.back().second = max(dp.back().second, items[i][1]);
+            } else {
+                if (!dp.size()) {
+                    dp.push_back({items[i][0], items[i][1]});
+                } else {
+                    dp.push_back({items[i][0], max(dp.back().second, items[i][1])});
+                }
+            }
+        }
+        cout << endl;
+        vector<int> ans;
+        for (auto q: queries) {
+            i = lower_bound(dp.begin(), dp.end(), make_pair(q, 0)) - dp.begin();
+            if (i < dp.size() && dp[i].first <= q) {
+                ans.push_back(dp[i].second);
+            } else if (i && dp[i-1].first <= q) {
+                ans.push_back(dp[i-1].second);
+            } else {
+                ans.push_back(0);
+            }
+        }
+        return ans;
+    }
+};
+```
+
+**Solution 5: (Sort, Binary Search, upper bound)**
+```
+Runtime: 48 ms
+Memory: 94.54 MB
+```
+```c++
+class Solution {
+public:
+    vector<int> maximumBeauty(vector<vector<int>>& items, vector<int>& queries) {
+        sort(items.begin(), items.end());
+        vector<pair<int,int>> dp;
+        int i;
+        for (i = 0; i < items.size(); i ++) {
+            if (dp.size() && dp.back().first == items[i][0]) {
+                dp.back().second = max(dp.back().second, items[i][1]);
+            } else {
+                if (!dp.size()) {
+                    dp.push_back({items[i][0], items[i][1]});
+                } else {
+                    dp.push_back({items[i][0], max(dp.back().second, items[i][1])});
+                }
+            }
+        }
+        cout << endl;
+        vector<int> ans;
+        for (auto q: queries) {
+            i = upper_bound(dp.begin(), dp.end(), make_pair(q, INT_MAX)) - dp.begin();
+            if (dp.size() && i && dp[i-1].first <= q) {
+                ans.push_back(dp[i-1].second);
+            } else {
+                ans.push_back(0);
+            }
+        }
+        return ans;
+    }
+};
+```

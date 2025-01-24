@@ -98,3 +98,33 @@ public:
     }
 };
 ```
+
+**Solution 2: (DP Bottom-Up)**
+```
+Runtime: 43 ms
+Memory: 55.76 MB
+```
+```c++
+class Solution {
+public:
+    vector<int> shortestDistanceAfterQueries(int n, vector<vector<int>>& queries) {
+        vector<vector<int>> g(n);
+        vector<int> dp(n), ans;
+        int i;
+        for (i = 0; i < n; i ++) {
+            dp[i] = n-1-i;
+            g[i].push_back(i+1);
+        }
+        for (auto q: queries) {
+            g[q[0]].push_back(q[1]);
+            for (i = q[0]; i >= 0; i --) {
+                for (auto j: g[i]) {
+                    dp[i] = min(dp[i], dp[j] + 1);
+                }
+            }
+            ans.push_back(dp[0]);
+        }
+        return ans;
+    }
+};
+```

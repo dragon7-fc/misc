@@ -79,3 +79,62 @@ class Solution:
 
         return zip(*box[::-1])                       # rotate array
 ```
+
+**Solution 2:(Array, rotate then shift, 2 step)**
+```
+Runtime: 185 ms
+Memory: 56.39 MB
+```
+```c++
+class Solution {
+public:
+    vector<vector<char>> rotateTheBox(vector<vector<char>>& box) {
+        int m = box.size(), n = box[0].size(), i, j, k;
+        vector<vector<char>> ans(n, vector<char>(m));
+        for (i = 0; i < m; i ++) {
+            for (j = 0; j < n; j ++) {
+                ans[j][m-1-i] = box[i][j];
+            }
+        }
+        for (i = 0; i < m; i ++) {
+            k = n-1;
+            for (j = n-1; j >= 0; j --) {
+                if (ans[j][i] == '*') {
+                    k = j-1;
+                } else if (ans[j][i] == '#') {
+                    swap(ans[k--][i], ans[j][i]);
+                }
+            }
+        }
+        return ans;
+    }
+};
+```
+
+
+**Solution 3:(Array, rotate and shift, 1 step)**
+```
+Runtime: 187 ms
+Memory: 56.25 MB
+```
+```c++
+class Solution {
+public:
+    vector<vector<char>> rotateTheBox(vector<vector<char>>& box) {
+        int m = box.size(), n = box[0].size(), i, j, k;
+        vector<vector<char>> ans(n, vector<char>(m, '.'));
+        for (i = 0; i < m; i ++) {
+            k = n-1;
+            for (j = n-1; j >= 0; j --) {
+                if (box[i][j] == '*') {
+                    ans[j][m-1-i] = '*';
+                    k = j-1;
+                } else if (box[i][j] == '#') {
+                    ans[k--][m-1-i] = '#';
+                }
+            }
+        }
+        return ans;
+    }
+};
+```

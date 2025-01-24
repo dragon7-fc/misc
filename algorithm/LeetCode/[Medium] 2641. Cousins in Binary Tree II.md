@@ -74,3 +74,117 @@ class Solution:
             q = nq
         return root
 ```
+
+**Solution 2: (BFS, two pass)**
+```
+Runtime: 14 ms
+Memory: 321.91 MB
+```
+```c++
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+class Solution {
+public:
+    TreeNode* replaceValueInTree(TreeNode* root) {
+        queue<TreeNode*> q;
+        root->val = 0;
+        q.push(root);
+        int sz, level, cur, i;
+        while (q.size()) {
+            sz = q.size(), level = 0;
+            for (i = 0; i < sz; i ++) {
+                auto node = q.front();
+                if (node->left) {
+                    level += node->left->val;
+                }
+                if (node->right) {
+                    level += node->right->val;
+                }
+                q.push(q.front());
+                q.pop();
+            }
+            for (i = 0; i < sz; i ++) {
+                auto node = q.front();
+                cur = 0;
+                if (node->left) {
+                    cur += node->left->val;
+                }
+                if (node->right) {
+                    cur += node->right->val;
+                }
+                if (node->left) {
+                    node->left->val = level - cur;
+                    q.push(node->left);
+                }
+                if (node->right) {
+                    node->right->val = level - cur;
+                    q.push(node->right);
+                }
+                q.pop();
+            }
+        }
+        return root;
+    }
+};
+```
+
+**Solution 3: (BFS, one pass)**
+```
+Runtime: 7 ms
+Memory: 317.21 MB
+```
+```c++
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+class Solution {
+public:
+    TreeNode* replaceValueInTree(TreeNode* root) {
+        queue<TreeNode*> q;
+        root->val = 0;
+        q.push(root);
+        int sz, pre = 0, cur, i;
+        while (q.size()) {
+            sz = q.size(), cur = 0;
+            for (i = 0; i < sz; i ++) {
+                auto node = q.front();
+                node->val = pre - node->val;
+                if (node->left) {
+                    cur += node->left->val;
+                    if (node->right) {
+                        node->left->val += node->right->val;
+                    }
+                    q.push(node->left);
+                }
+                if (node->right) {
+                    cur += node->right->val;
+                    if (node->left) {
+                        node->right->val = node->left->val;
+                    }
+                    q.push(node->right);
+                }
+                q.pop();
+            }
+            pre = cur;
+        }
+        return root;
+    }
+};
+```

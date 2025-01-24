@@ -43,7 +43,50 @@ We cannot perform any operations, so we return the length of the original string
 
 # Submissions
 ---
-**Solution 1: (Counter)**
+**Solution 1: (Prefix sum)**
+```
+Runtime: 136 ms
+Memory: 87.76 MB
+```
+```c++
+class Solution {
+public:
+    int minimumLength(string s) {
+        int n = s.size(), i;
+        vector<vector<int>> right(26), left(26);
+        vector<bool> visited(n);
+        for (i = n-1; i >= 0; i --) {
+            right[s[i]-'a'].push_back(i);
+        }
+        for (i = 0; i < n-1; i++) {
+            if (right[s[i]-'a'].size() && right[s[i]-'a'].back() == i) {
+                right[s[i]-'a'].pop_back();
+            }
+            if (!visited[i]) {
+                if (left[s[i]-'a'].size() && right[s[i]-'a'].size()) {
+                    visited[left[s[i]-'a'].back()] = true;
+                    visited[right[s[i]-'a'].back()] = true;
+                    left[s[i]-'a'].pop_back();
+                    right[s[i]-'a'].pop_back();
+                }
+                left[s[i]-'a'].push_back(i);
+            }
+        }
+        return count(visited.begin(), visited.end(), false);
+    }
+};
+```
+
+**Solution 2: (Counter, summary)**
+
+min length -> remove max -> remove method
+
+remove method:
+1)    a .. a .. a                   -> .. a ..
+2)    a .. a .. a .. a              -> .. a .. .. a
+3)    a .. a .. a .. a .. a         -> .. .. a .. ..
+4)    a .. a .. a .. a .. a .. a    -> .. .. .. a .. .. a 
+    
 ```
 Runtime: 90 ms
 Memory: 30.42 MB

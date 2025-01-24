@@ -72,23 +72,66 @@ class Solution:
 
 **Solution 2: (Two Pointers)**
 ```
-Runtime: 312 ms
-Memory Usage: 66.8 MB
+Runtime: 0 ms
+Memory: 69.54 MB
 ```
 ```c++
 class Solution {
 public:
     int findLengthOfShortestSubarray(vector<int>& arr) {
-        int N = arr.size(), left = 0, right = N - 1;
-        while (left + 1 < N && arr[left] <= arr[left + 1]) ++left;
-        if (left == arr.size() - 1) return 0;
-        while (right > left && arr[right - 1] <= arr[right]) --right;
-        int ans = min(N - left - 1, right), i = 0, j = right;
-        while (i <= left && j < N) {
-            if (arr[j] >= arr[i]) {
-                ans = min(ans, j - i - 1);
-                ++i;
-            } else ++j;
+        int right = arr.size() - 1;
+        while (right > 0 && arr[right] >= arr[right - 1]) {
+            right--;
+        }
+
+        int ans = right;
+        int left = 0;
+        while (left < right && (left == 0 || arr[left - 1] <= arr[left])) {
+            // find next valid number after arr[left]
+            while (right < arr.size() && arr[left] > arr[right]) {
+                right++;
+            }
+            // save length of removed subarray
+            ans = min(ans, right - left - 1);
+            left++;
+        }
+        return ans;
+    }
+};
+```
+
+**Solution 3: (Two Pointers)**
+```
+Runtime: 0 ms
+Memory: 69.58 MB
+```
+```c++
+class Solution {
+public:
+    int findLengthOfShortestSubarray(vector<int>& arr) {
+        int n = arr.size(), left = 0, right = n-1, i, j, ans;
+
+        // remove right or left area
+        while (left+1 < n && arr[left+1] >= arr[left]) {
+            left += 1;
+        }
+        if (left == n-1) {
+            return 0;
+        }
+        while (right-1 >= 0 && arr[right-1] <= arr[right]) {
+            right -= 1;
+        }
+        ans = min(n-left-1, right);
+
+        // remove middle area
+        i = 0, j = right;
+        while (i <= left && j < n) {
+            if (arr[i] <= arr[j]) {
+                ans = min(ans, j-i-1);
+                i += 1;
+            } else {
+                j += 1;
+            }
         }
         return ans;
     }

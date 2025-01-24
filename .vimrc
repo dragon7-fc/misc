@@ -53,6 +53,7 @@ Plug 'ojroques/vim-oscyank', {'branch': 'main'}
 Plug 'tpope/vim-surround'
 Plug 'qpkorr/vim-bufkill'
 Plug 'vim-scripts/bash-support.vim'
+Plug 'tpope/vim-sleuth'
 
 call plug#end()
 
@@ -98,6 +99,7 @@ let g:ycm_semantic_triggers =  {
   \   'lua' : ['.', ':'],
   \   'erlang' : [':'],
   \ }
+let g:ycm_auto_hover=''
 
 "lombok work around for youcompleteme
 let $JAVA_TOOL_OPTIONS = '-javaagent:/usr/local/share/vim/lombok-1.18.8.jar'

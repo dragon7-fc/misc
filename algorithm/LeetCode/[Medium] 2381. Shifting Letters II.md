@@ -35,7 +35,7 @@ Finally, shift the characters from index 1 to index 1 forward. Now s = "catz".
 
 # Submissions
 ---
-**Solution 2: (Prefix sum)**
+**Solution 1: (Prefix sum)**
 ```
 Runtime: 5101 ms
 Memory Usage: 39.5 MB
@@ -63,25 +63,51 @@ class Solution:
         return s
 ```
 
-**Solution 1: (Prefix sum)**
+**Solution 2: (Prefix sum, counter)**
+
+    a   b  c   [0,1,0],[1,2,1],[0,2,1]
+    -------    -----------------------
+          m-1                   n-1
+cnt
+    -1     1
+       1     -1
+    1        -1
+cur 0  1   2 
+    a  c   e
+
+    [0,0,0],[1,1,1]
+      ^
+    d   z   t   z
+    ------------
+    -1  1    
+        1  -1
+    -1 0   -1
+
 ```
-Runtime: 684 ms
-Memory Usage: 92.2 MB
+Runtime: 4 ms
+Memory: 98.68 MB
 ```
 ```c++
 class Solution {
 public:
     string shiftingLetters(string s, vector<vector<int>>& shifts) {
-        int line[50001] = {};
-        for (auto &shift : shifts) {
-            line[shift[0]] += shift[2] ? 1 : -1;
-            line[shift[1] + 1] += shift[2] ? -1 : 1;
+        int m = s.size(), n = shifts.size(), i, cur = 0;
+        vector<int> cnt(m+1);
+        string ans;
+        for (i = 0; i < n; i ++) {
+            if (shifts[i][2]) {
+                cnt[shifts[i][0]] += 1;
+                cnt[shifts[i][1]+1] -= 1;
+            } else {
+                cnt[shifts[i][0]] -= 1;
+                cnt[shifts[i][1]+1] += 1;
+            }
         }
-        for (int i = 0, val = 0; i < s.size(); ++i) {
-            val = (val + line[i]) % 26;
-            s[i] = 'a' + (26 + (s[i] - 'a') + val) % 26;
+        for (i = 0; i < m; i ++) {
+            cur += cnt[i];
+            ans += string(1, 'a' + ((s[i] - 'a' + cur)%26 + 26)%26);
         }
-        return s;
+        return ans;
     }
 };
 ```

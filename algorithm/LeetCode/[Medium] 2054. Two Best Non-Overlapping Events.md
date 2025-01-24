@@ -71,23 +71,53 @@ class Solution:
 
 **Solution 2: (Heap)**
 ```
-Runtime: 524 ms
-Memory Usage: 121.8 MB
+Runtime: 112 ms
+Memory: 139.53 MB
 ```
 ```c++
 class Solution {
 public:
     int maxTwoEvents(vector<vector<int>>& events) {
-        int res = 0, max_val = 0;
-        priority_queue<pair<int, int>> pq;
-        sort(begin(events), end(events));
-        for (auto &e : events) {
-            for(; !pq.empty() && -pq.top().first < e[0]; pq.pop())
-                max_val = max(max_val, pq.top().second);
-            res = max(res, max_val + e[2]);
-            pq.push({-e[1], e[2]});
+        int ans = 0, cur = 0;
+        priority_queue<pair<int,int>, vector<pair<int,int>>, greater<pair<int,int>>> pq;
+        sort(events.begin(), events.end());
+        for (auto e: events) {
+            while (pq.size() && pq.top().first < e[0]) {
+                cur = max(cur, pq.top().second);
+                pq.pop();
+            }
+            ans = max(ans, cur + e[2]);
+            pq.push({e[1], e[2]});
         }
-        return res;
+        return ans;
+    }
+};
+```
+
+**Solution 3: (Greedy)**
+```
+Runtime: 107 ms
+Memory: 155.24 MB
+```
+```c++
+class Solution {
+public:
+    int maxTwoEvents(vector<vector<int>>& events) {
+        int ans = 0, cur = 0;
+        vector<tuple<int,int,int>> dp;
+        for (auto e: events) {
+            dp.push_back({e[0], 1, e[2]});
+            dp.push_back({e[1] + 1, 0, e[2]});
+        }
+        sort(dp.begin(), dp.end());
+        for (auto [_, t, v]: dp) {
+            if (t == 1) {
+                ans = max(ans, v + cur);
+            } else {
+                cur = max(cur, v);
+            }
+        }
+        return ans;
     }
 };
 ```

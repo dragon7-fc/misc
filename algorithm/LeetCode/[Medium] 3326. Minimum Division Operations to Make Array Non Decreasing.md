@@ -45,6 +45,13 @@ Output: 0
 # Submissions
 ---
 **Solution 1: (Math)**
+
+The largest perfect divisor of a number will always result in the smallest prime factor of the number. Now the number will not be further divisible because it is prime now.
+
+Maximum one operation can be performed with a single number.
+
+Just iterate over array from backwards.
+
 ```
 Runtime: 261 ms
 Memory: 141.71 MB

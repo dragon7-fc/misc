@@ -101,3 +101,129 @@ public:
     }
 };
 ```
+
+**Solution 3: (DP Bottom-Up)**
+```
+Runtime: 49 ms
+Memory: 74.39 MB
+```
+```c++
+class Solution {
+public:
+    int maxMoves(vector<vector<int>>& grid) {
+        int m = grid.size(), n = grid[0].size(), ans = 0;
+        vector<vector<int>> dp(m, vector<int>(n));
+        bool flag;
+        for (int j = 1; j < n; j ++) {
+            for (int i = 0; i < m; i ++) {
+                flag = false;
+                if (i && j && grid[i-1][j-1] < grid[i][j] && dp[i-1][j-1] != INT_MAX) {
+                    dp[i][j] = max(dp[i][j], dp[i-1][j-1] + 1);
+                    flag = true;
+                }
+                if (i < m-1 && j && grid[i+1][j-1] < grid[i][j] && dp[i+1][j-1] != INT_MAX) {
+                    dp[i][j] = max(dp[i][j], dp[i+1][j-1] + 1);
+                    flag = true;
+                }
+                if (grid[i][j-1] < grid[i][j] && dp[i][j-1] != INT_MAX) {
+                    dp[i][j] = max(dp[i][j], dp[i][j-1] + 1);
+                    flag = true;
+                }
+                if (!flag) {
+                    dp[i][j] = INT_MAX;
+                } else {
+                    ans = max(ans, dp[i][j]);
+                }
+            }
+        }
+        return ans;
+    }
+};
+```
+
+**Solution 4: (DP Bottom-UP, 1-D)**
+```
+Runtime: 15 ms
+Memory: 67.63 MB
+```
+```c++
+class Solution {
+public:
+    int maxMoves(vector<vector<int>>& grid) {
+        int m = grid.size(), n = grid[0].size(), ans = 0;
+        vector<int> pre(m), dp(m);
+        bool flag;
+        for (int j = 1; j < n; j ++) {
+            for (int i = 0; i < m; i ++) {
+                flag = false;
+                if (i && j && grid[i-1][j-1] < grid[i][j] && pre[i-1] != INT_MAX) {
+                    dp[i] = max(dp[i], pre[i-1] + 1);
+                    flag = true;
+                }
+                if (i < m-1 && j && grid[i+1][j-1] < grid[i][j] && pre[i+1] != INT_MAX) {
+                    dp[i] = max(dp[i], pre[i+1] + 1);
+                    flag = true;
+                }
+                if (grid[i][j-1] < grid[i][j] && pre[i] != INT_MAX) {
+                    dp[i] = max(dp[i], pre[i] + 1);
+                    flag = true;
+                }
+                if (!flag) {
+                    dp[i] = INT_MAX;
+                } else {
+                    ans = max(ans, dp[i]);
+                }
+            }
+            pre = dp;
+            fill(dp.begin(), dp.end(), 0);
+        }
+        return ans;
+    }
+};
+```
+
+**Solution 5: (Space-Optimized Bottom-up Dynamic Programming)**
+```
+Runtime: 26 ms
+Memory: 69.12 MB
+```
+```c++
+class Solution {
+public:
+    int maxMoves(vector<vector<int>>& grid) {
+        int M = grid.size(), N = grid[0].size();
+
+        vector<vector<int>> dp(M, vector<int>(2, 0));
+
+        for (int i = 0; i < M; i++) {
+            dp[i][0] = 1;
+        }
+
+        int maxMoves = 0;
+        for (int j = 1; j < N; j++) {
+            for (int i = 0; i < M; i++) {
+                if (grid[i][j] > grid[i][j - 1] && dp[i][0] > 0) {
+                    dp[i][1] = max(dp[i][1], dp[i][0] + 1);
+                }
+                if (i - 1 >= 0 && grid[i][j] > grid[i - 1][j - 1] &&
+                    dp[i - 1][0] > 0) {
+                    dp[i][1] = max(dp[i][1], dp[i - 1][0] + 1);
+                }
+                if (i + 1 < M && grid[i][j] > grid[i + 1][j - 1] &&
+                    dp[i + 1][0] > 0) {
+                    dp[i][1] = max(dp[i][1], dp[i + 1][0] + 1);
+                }
+
+                maxMoves = max(maxMoves, dp[i][1] - 1);
+            }
+
+            for (int k = 0; k < M; k++) {
+                dp[k][0] = dp[k][1];
+                dp[k][1] = 0;
+            }
+        }
+
+        return maxMoves;
+    }
+};
+```

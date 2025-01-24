@@ -75,3 +75,32 @@ public:
     }
 };
 ```
+
+**Solution 3: (Counter)**
+```
+Runtime: 0 ms
+Memory: 85.74 MB
+```
+```c++
+class Solution {
+public:
+    vector<int> findThePrefixCommonArray(vector<int>& A, vector<int>& B) {
+        int n = A.size(), i;
+        vector<int> cnt(n+1), ans(n);
+        for (i = 0; i < n; i ++) {
+            if (i) {
+                ans[i] = ans[i-1];
+            }
+            cnt[A[i]] += 1;
+            if (cnt[A[i]] == 2) {
+                ans[i] += 1;
+            }
+            cnt[B[i]] += 1;
+            if (cnt[B[i]] == 2) {
+                ans[i] += 1;
+            }
+        }
+        return ans;
+    }
+};
+```

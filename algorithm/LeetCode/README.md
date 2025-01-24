@@ -617,6 +617,25 @@ class Solution:
 ```
 * [Medium] [Solution] 238. Product of Array Except Self
 
+Prefix Sum, try all possible solution
+```c++
+class Solution {
+public:
+    long long gridGame(vector<vector<int>>& grid) {
+        int n = grid[0].size(), i, j;
+        long long left = 0, right = accumulate(grid[0].begin(), grid[0].end(), 0LL), ans = 0;
+        ans = LONG_LONG_MAX;
+        for (i = 0; i < n; i ++) {
+            right -= grid[0][i];
+            ans = min(ans, max(left, right));
+            left += grid[1][i];
+        }
+        return ans;
+    }
+};
+```
+* [Medium] 2017. Grid Game
+
 ### O(1) Space, Efficient Solution, symbol mask
 ```python
 class Solution:
@@ -6278,6 +6297,43 @@ class Solution:
 
 ## Hash Table <a name='ht'></a>
 ---
+### Counter
+```c++
+class Solution {
+public:
+    int maxEqualRowsAfterFlips(vector<vector<int>>& matrix) {
+         // Map to store frequency of each pattern
+        unordered_map<string, int> patternFrequency;
+
+        for (auto& currentRow : matrix) {
+            string patternBuilder = "";
+
+            // Convert row to pattern relative to its first element
+            for (int col = 0; col < currentRow.size(); col++) {
+                // 'T' if current element matches first element, 'F' otherwise
+                if (currentRow[0] == currentRow[col]) {
+                    patternBuilder += "T";
+                } else {
+                    patternBuilder += "F";
+                }
+            }
+
+            // Convert pattern to string and update its frequency in map
+            patternFrequency[patternBuilder]++;
+        }
+
+        // Find the pattern with maximum frequency
+        int maxFrequency = 0;
+        for (auto& entry : patternFrequency) {
+            maxFrequency = max(entry.second, maxFrequency);
+        }
+
+        return maxFrequency;
+    }
+};
+```
+* [Medium] 1072. Flip Columns For Maximum Number of Equal Rows
+
 ### Counter with order
 ```python
 class Solution:
@@ -6436,6 +6492,28 @@ class Solution:
         return ans
 ```
 * [Medium] 1679. Max Number of K-Sum Pairs
+
+### Counter, summary condition
+```c++
+class Solution {
+public:
+    int minimumLength(string s) {
+        int cnt[26] = {0};
+        for (auto c: s) {
+            cnt[c-'a'] += 1;
+        }
+        int ans = 0;
+        for (int i = 0; i < 26; i ++) {
+            if (cnt[i] >= 3) {
+                cnt[i] = cnt[i]%2 ? 1 : 2;
+            }
+            ans += cnt[i];
+        }
+        return ans;
+    }
+};
+```
+* [Medium] 3223. Minimum Length of String After Operations
 
 ### Frequency Table
 ```python
@@ -8981,7 +9059,7 @@ while lo < hi:
 return lo
 ```
 
-**Template 3: (Binary Search, lower bound 2)**
+**Template 3: (Binary Search, lower bound 2, handle element not in array)**
 ```python
 def is_XXX(...):
     ...
@@ -8998,7 +9076,7 @@ while lo <= hi:
 return ans
 ```
 
-**Template 4: (Binary Search, upper bound 2)**
+**Template 4: (Binary Search, upper bound 2, handle element not in array)**
 ```python
 def is_XXX(...):
     ...
@@ -9009,7 +9087,7 @@ while lo <= hi:
     if not is_XXX(mi):  ## false
         hi = mi - 1
     else:
-        ans = min(ans, hi)
+        ans = min(ans, mi)
         lo = mi + 1
 
 return ans
@@ -9021,6 +9099,36 @@ return ans
 
 ## Greedy <a name="greedy"></a>
 ---
+### Journey From Minus to Plus
+```c++
+class Solution {
+public:
+    long long maxMatrixSum(vector<vector<int>>& matrix) {
+        long long totalSum = 0;
+        int minAbsVal = INT_MAX;
+        int negativeCount = 0;
+
+        for (auto& row : matrix) {
+            for (int val : row) {
+                totalSum += abs(val);
+                if (val < 0) {
+                    negativeCount++;
+                }
+                minAbsVal = min(minAbsVal, abs(val));
+            }
+        }
+
+        // Adjust if the count of negative numbers is odd
+        if (negativeCount % 2 != 0) {
+            totalSum -= 2 * minAbsVal;
+        }
+
+        return totalSum;
+    }
+};
+```
+* [Medium] 1975. Maximum Matrix Sum
+
 ### Greedy on index
 ```c++
 class Solution {
@@ -11101,26 +11209,37 @@ class Solution:
 * [Medium] 228. Summary Ranges
 
 ### Shortest Subarray to be Removed to Make Array Sorted
-```python
-class Solution:
-    def findLengthOfShortestSubarray(self, arr: List[int]) -> int:
-        N = len(arr)
-        left, right = 0, N - 1
-        while left + 1 < N and arr[left] <= arr[left + 1]:
-            left += 1
-        if left == N - 1: 
-            return 0
-        while right > left and arr[right - 1] <= arr[right]:
-            right -= 1
-        ans = min(N - left - 1, right)
-        i, j = 0, right
-        while i <= left and j < N:
-            if arr[j] >= arr[i]:
-                ans = min(ans, j - i - 1)
-                i += 1
-            else:
-                j += 1
-        return ans
+```c++
+class Solution {
+public:
+    int findLengthOfShortestSubarray(vector<int>& arr) {
+        int n = arr.size(), left = 0, right = n-1, i, j, ans;
+
+        // remove right or left area
+        while (left+1 < n && arr[left+1] >= arr[left]) {
+            left += 1;
+        }
+        if (left == n-1) {
+            return 0;
+        }
+        while (right-1 >= 0 && arr[right-1] <= arr[right]) {
+            right -= 1;
+        }
+        ans = min(n-left-1, right);
+
+        // remove middle area
+        i = 0, j = right;
+        while (i <= left && j < n) {
+            if (arr[i] <= arr[j]) {
+                ans = min(ans, j-i-1);
+                i += 1;
+            } else {
+                j += 1;
+            }
+        }
+        return ans;
+    }
+};
 ```
 * [Medium] 1574. Shortest Subarray to be Removed to Make Array Sorted
 
@@ -11500,6 +11619,53 @@ return ans
 
 ## Stack <a name="stack"></a>
 ---
+### 2 stack, matched index elimination
+```c++
+class Solution {
+public:
+    bool canBeValid(string s, string locked) {
+        int length = s.size();
+        // If length of string is odd, return false.
+        if (length % 2 == 1) {
+            return false;
+        }
+
+        stack<int> openBrackets, unlocked;
+
+        // Iterate through the string to handle '(' and ')'
+        for (int i = 0; i < length; i++) {
+            if (locked[i] == '0') {
+                unlocked.push(i);
+            } else if (s[i] == '(') {
+                openBrackets.push(i);
+            } else if (s[i] == ')') {
+                if (!openBrackets.empty()) {
+                    openBrackets.pop();
+                } else if (!unlocked.empty()) {
+                    unlocked.pop();
+                } else {
+                    return false;
+                }
+            }
+        }
+
+        // Match remaining open brackets with unlocked characters
+        while (!openBrackets.empty() && !unlocked.empty() &&
+               openBrackets.top() < unlocked.top()) {
+            openBrackets.pop();
+            unlocked.pop();
+        }
+
+        if (!openBrackets.empty()) {
+            return false;
+        }
+
+        return true;
+    }
+};
+```
+* [Medium] 2116. Check if a Parentheses String Can Be Valid
+
 ### 2 element stack: key and count
 ```python
 class Solution:
@@ -12220,7 +12386,7 @@ for ...:
 return ans
 ```
 
-**Template 2: (Stack, mono inc, left to right)**
+**Template 2: (Stack, min stack, mono inc, left to right)**
 ```python
 arr = [...]
 N = arr.size()
@@ -12236,7 +12402,7 @@ for i in range(N):
 return ans
 ```
 
-**Template 3: (Stack, nono dec, left to right)**
+**Template 3: (Stack, max stack, mono dec, left to right)**
 ```python
 arr = [...]
 N = arr.size()
@@ -15361,6 +15527,48 @@ class Solution:
 ```
 * [Medium] [Solution] 973. K Closest Points to Origin
 
+### bfs from border with heap
+```c++
+class Solution {
+    int dr[4] = {-1, 0, 1, 0};
+    int dc[4] = {0, -1, 0, 1};
+public:
+    int trapRainWater(vector<vector<int>>& heightMap) {
+        int m = heightMap.size(), n = heightMap[0].size();
+        priority_queue<tuple<int, int, int>, vector<tuple<int, int, int>>, greater<tuple<int, int, int>>> pq;
+        vector<vector<int>> vis(m, vector<int>(n));
+        for (int i = 0; i < m; i++){
+            vis[i][0] = 1;
+            vis[i][n-1] = 1;
+            pq.push({heightMap[i][0], i, 0});
+            pq.push({heightMap[i][n-1], i, n-1});
+        }
+        for (int  i = 0; i < n; i++){
+            vis[0][i] = 1;
+            vis[m-1][i] = 1;
+            pq.push({heightMap[0][i], 0, i});
+            pq.push({heightMap[m-1][i], m-1, i});
+        }
+        int ans = 0;
+        while (!pq.empty()) {
+            auto [h, r, c] = pq.top();
+            pq.pop();
+            for (int i = 0; i < 4; i++) {
+                int nr = r + dr[i];
+                int nc = c + dc[i];
+                if (nr >= 0 && nr < m && nc >= 0 && nc < n && !vis[nr][nc]){
+                    ans += max(0, h-heightMap[nr][nc]);
+                    pq.push({max(h, heightMap[nr][nc]), nr, nc});
+                    vis[nr][nc] = 1;
+                }
+            }
+        }
+        return ans;
+    }
+};
+```
+* [Hard] 407. Trapping Rain Water II
+
 ### Two Heaps, Min and Max Heap
 ```python
 class MedianFinder:
@@ -16859,6 +17067,33 @@ class Solution:
         return res
 ```
 * [Medium] 1358. Number of Substrings Containing All Three Characters
+
+### Deque, mono stack
+```c++
+class Solution {
+public:
+    int shortestSubarray(vector<int>& nums, int k) {
+        int n = nums.size(), i, ans = INT_MAX;
+        vector<long long> pre(n + 1, 0);
+        for (i = 1; i <= n; i++) {
+            pre[i] = pre[i - 1] + nums[i - 1];
+        }
+        deque<int> dq;
+        for (i = 0; i <= n; i++) {
+            while (!dq.empty() && pre[i] - pre[dq.front()] >= k) {
+                ans = min(ans, i - dq.front());
+                dq.pop_front();
+            }
+            while (!dq.empty() && pre[i] <= pre[dq.back()]) {
+                dq.pop_back();
+            }
+            dq.push_back(i);
+        }
+        return ans == INT_MAX ? -1 : ans;
+    }
+};
+```
+* [Hard] 862. Shortest Subarray with Sum at Least K
 
 ### Two Deques
 ```c++

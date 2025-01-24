@@ -48,8 +48,8 @@ The range of dresses number in a super washing machine is [0, 1e5].
 
 * For each machines, the number of moves it conducts is the number of dresses it sends out.
 * Start scanning from left
-    * if it has >target dresses, send the surplus to right
-    * if it has <targer dresses, let its right neighbor send the deficit to it (regardless of how many dresses this neighbor has at the momnet)
+    * if it has > target dresses, send the surplus to right
+    * if it has < targer dresses, let its right neighbor send the deficit to it (regardless of how many dresses this neighbor has at the momnet)
     * Don't worry about the aggregated surplus or deficit, it eventually will be taken care by later machines.
 
 ```
@@ -99,7 +99,33 @@ class Solution:
         res = 0
         for m in machines:
             sumneed += m-ave
-            res = max(res,abs(sumneed), m-ave)
+            res = max(res, abs(sumneed), m-ave)
+                           -----------   -----
+                              pre         cur
             
         return res
+```
+
+**Solution 3: (Greedy)**
+```
+Runtime: 0 ms
+Memory: 16.83 MB
+```
+```c++
+class Solution {
+public:
+    int findMinMoves(vector<int>& machines) {
+        int n = machines.size(), a = accumulate(machines.begin(), machines.end(), 0), t, pre, ans = 0;
+        if (a%n) {
+            return -1;
+        }
+        t = a/n;
+        pre = 0;
+        for (auto m: machines) {
+            pre += m-t;
+            ans = max({ans, abs(pre), m-t});
+        }
+        return ans;
+    }
+};
 ```

@@ -67,3 +67,35 @@ class Solution:
             j += 1
         return True
 ```
+
+**Solution 2: (Greedy, Two Pointers)**
+```
+Runtime: 11 ms
+Memory: 21.85 MB
+```
+```c++
+class Solution {
+public:
+    bool canChange(string start, string target) {
+        int n = target.size(), i, j = 0;
+        for (i = 0; i < n; i ++) {
+            if (start[i] != '_') {
+                while (j < n && target[j] == '_') {
+                    j += 1;
+                }
+                if (j >= n 
+                    || start[i] != target[j]
+                    || i > j && start[i] == 'R'
+                    || i < j && start[i] == 'L') {
+                    return false;
+                }
+                j += 1;
+            }
+        }
+        while (j < n && target[j] == '_') {
+            j += 1;
+        }
+        return j == n;
+    }
+};
+```

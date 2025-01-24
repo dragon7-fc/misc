@@ -48,23 +48,53 @@ class Solution:
         return max(sum(n & (1 << i) > 0 for n in candidates) for i in range(0, 24))
 ```
 
-**Solution 2: (Bit Manipulation)**
+**Solution 2: (Direct Maximum Bit Count)**
 ```
-Runtime: 168 ms
-Memory Usage: 57.5 MB
+Runtime: 27 ms
+Memory: 60.24 MB
 ```
 ```c++
 class Solution {
 public:
     int largestCombination(vector<int>& candidates) {
-        int res = 0, max_e = *max_element(begin(candidates), end(candidates));
-        for (int b = 1; b <= max_e; b <<= 1) {
-            int cnt = 0;
-            for (auto n : candidates)
-                cnt += (n & b) > 0;
-            res = max(res, cnt);
+        int maxCount = 0;  // Variable to track the maximum count of set bits.
+        for (int i = 0; i < 24; i++) {
+            int count = 0;  // Count of numbers with the i-th bit set.
+            for (int num : candidates) {
+                if ((num & (1 << i)) != 0) {  // Check if the i-th bit is set.
+                    count++;
+                }
+            }
+            maxCount = max(maxCount, count);  // Update the maximum count.
         }
-        return res;
+        return maxCount;
+    }
+};
+```
+
+**Solution 3: (Bit Manipulation)**
+```
+Runtime: 11 ms
+Memory: 60.21 MB
+```
+```c++
+class Solution {
+public:
+    int largestCombination(vector<int>& candidates) {
+        int cnt[25] = {0}, i, ans;
+        for (auto c: candidates) {
+            i = 0;
+            while (c) {
+                cnt[i] += c&1;
+                c >>= 1;
+                i += 1;
+            }
+        }
+        ans = cnt[0];
+        for (i = 1; i < 25; i ++) {
+            ans = max(ans, cnt[i]);
+        }
+        return ans;
     }
 };
 ```

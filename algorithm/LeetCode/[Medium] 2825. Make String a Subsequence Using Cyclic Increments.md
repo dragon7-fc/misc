@@ -61,3 +61,27 @@ class Solution:
             i += 1
         return j == m
 ```
+
+**Solution 2: (Two Pointers)**
+```
+Runtime: 5 ms
+Memory: 17.11 MB
+```
+```c++
+class Solution {
+public:
+    bool canMakeSubsequence(string str1, string str2) {
+        int m = str1.size(), n = str2.size(), i = 0, j = 0;
+        while (i < m) {
+            if (j < n && (str1[i] == str2[j]) || (str1[i]+1 == str2[j] || str1[i]-25 == str2[j])) {
+                j += 1;
+            }
+            if (j == n) {
+                return true;
+            }
+            i += 1;
+        }
+        return false;
+    }
+};
+```

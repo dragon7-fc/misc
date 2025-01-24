@@ -234,7 +234,7 @@ public:
 };
 ```
 
-**Solution 5: (DP Bottom-Up)**
+**Solution 5: (DP Bottom-Up, deque)**
 ```
 Runtime: 2 ms
 Memory: 9.6 MB
@@ -253,6 +253,47 @@ public:
             cost = min({ cost + costs[0], last7.front().second, last30.front().second });
         }
         return cost;
+    }
+};
+```
+
+**Solution 6: (DP Bottom-Up)**
+
+     1, 4, 6, 7, 8, 20
+     ^i             ^j
+dp   0  2 >4 >6  8 >9  11 
+              9 11 13  19
+             13 15 17  18
+              7  9 11  17
+             11 13 15  15
+                >7 9   13
+                11 13  11
+                   11
+
+    cost: [7,2,15]
+        1,  4,  6,  7,  8,  20
+    dp  0   
+
+```
+Runtime: 0 ms
+Memory: 13.29 MB
+```
+```c++
+class Solution {
+public:
+    int mincostTickets(vector<int>& days, vector<int>& costs) {
+        int n = days.size(), i, j;
+        vector<int> dp(n+1);
+        for (j = 0; j < n; j ++) {
+            dp[j+1] = dp[j] + *min_element(costs.begin(), costs.end());
+            for (i = j-1; i >= 0 && days[j]-days[i] < 30; i--) {
+                if (days[j]-days[i] < 7) {
+                    dp[j+1] = min(dp[j+1], dp[i] + costs[1]);
+                }
+                dp[j+1] = min(dp[j+1], dp[i] + costs[2]);
+            }
+        }
+        return dp[n];
     }
 };
 ```

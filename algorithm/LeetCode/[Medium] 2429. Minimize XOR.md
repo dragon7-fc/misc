@@ -67,57 +67,78 @@ class Solution:
 **Solution 2: (Bit Manipulation)**
 ```
 Runtime: 0 ms
-Memory: 5.8 MB
+Memory: 8.11 MB
 ```
 ```c++
 class Solution {
-    int countSetBits(int n)
-    {
-        int count = 0;
-        while (n)
-        {
-            n &= (n - 1);
-            count++;
-        }
-        return count;
-    }
 public:
     int minimizeXor(int num1, int num2) {
-        int cnt1 = countSetBits(num1), cnt2 = countSetBits(num2);
-        if (cnt1 == cnt2)
-        {
-            return num1;
+        int cnt = 0, k = 0, cur = num2, ans;
+        while (cur) {
+            cnt += cur&1;
+            cur >>= 1;
         }
-        else if (cnt1 > cnt2)
-        {
-            int diff = cnt1 - cnt2;
-            for (int bit = 0; bit < 31; bit++)
-            {
-                if (diff == 0)
-                    break;
-                else if ((num1 & (1 << bit)) != 0)
-                {
-                    diff--;
-                    num1 ^= (1 << bit);
-                }
+        cur = num1;
+        while (cur) {
+            k += cur&1;
+            cur >>= 1;
+        }
+        ans = num1;
+        cur = 1;
+        while (k > cnt) {
+            if (ans&cur) {
+                k -= 1;
+                ans ^= cur;
             }
-            return num1;
+            cur <<= 1;
         }
-        else
-        {
-            int diff = cnt2 - cnt1;
-            for (int bit = 0; bit < 31; bit++)
-            {
-                if (diff == 0)
-                    break;
-                else if ((num1 & (1 << bit)) == 0)
-                {
-                    diff--;
-                    num1 |= (1 << bit);
-                }
+        cur = 1;
+        while (k < cnt) {
+            if ((ans&cur) == 0) {
+                ans ^= cur;
+                k += 1;
             }
-            return num1;
+            cur <<= 1;
         }
+        return ans;
     }
 };
+```
+
+**Solution 3: (Building the Answer)**
+```
+Runtime: 0 ms
+Memory: 7.96 MB
+```
+```c++
+class Solution {
+    // Helper function to check if the given bit position in x is set (1).
+    bool isSet(int x, int bit) { return x & (1 << bit); }
+
+    // Helper function to set the given bit position in x to 1.
+    void setBit(int &x, int bit) { x |= (1 << bit); }
+public:
+    int minimizeXor(int num1, int num2) {
+         int result = 0;
+
+        int targetSetBitsCount = __builtin_popcount(num2);
+        int setBitsCount = 0;
+        int currentBit = 31;  // Start from the most significant bit.
+
+        // While x has fewer set bits than num2
+        while (setBitsCount < targetSetBitsCount) {
+            // If the current bit of num1 is set or we must set all remaining
+            // bits in result
+            if (isSet(num1, currentBit) ||
+                (targetSetBitsCount - setBitsCount > currentBit)) {
+                setBit(result, currentBit);
+                setBitsCount++;
+            }
+            currentBit--;  // Move to the next bit.
+        }
+
+        return result;
+    }
+};
+
 ```

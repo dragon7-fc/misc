@@ -43,3 +43,54 @@ class Solution:
                 f_add = i + n            
         return res
 ```
+
+**Solution 2: (Greedy, Math)**
+
+A[i] + A[j] + i - j
+-> A[i] + i - (j - A[j])
+   ^^^^^^^^
+     pre
+
+```
+Runtime: 0 ms
+Memory: 45.60 MB
+```
+```c++
+class Solution {
+public:
+    int maxScoreSightseeingPair(vector<int>& values) {
+        int n = values.size(), j, pre = values[0], ans = INT_MIN;
+        for (j = 1; j < n; j ++) {
+            ans = max(ans, pre - (j-values[j]));
+            pre = max(pre, j+values[j]);
+        }
+        return ans;
+    }
+};
+```
+
+**Solution 3: (Two Pointers)**
+
+A[i] + A[j] + i - j
+->  (A[i] + (i-j)) + A[j]
+    ^^^^^^^^^^^^^^
+         pre
+
+```
+Runtime: 0 ms
+Memory: 45.40 MB
+```
+```c++
+class Solution {
+public:
+    int maxScoreSightseeingPair(vector<int>& values) {
+        int n = values.size(), i, pre = values[0], ans = INT_MIN;
+        for (i = 1; i < n; i ++) {
+            pre -= 1;
+            ans = max(ans, pre + values[i]);
+            pre = max(pre, values[i]);
+        }
+        return ans;
+    }
+};
+```

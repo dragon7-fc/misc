@@ -86,8 +86,8 @@ public:
 
 **Solution 3: (DFS)**
 ```
-Runtime: 3 ms
-Memory: 22.5 MB
+Runtime: 0 ms
+Memory: 22.60 MB
 ```
 ```c++
 /**
@@ -105,34 +105,26 @@ class Solution {
 public:
     vector<int> largestValues(TreeNode* root) {
         if (root == nullptr) {
-            return {};
+            return vector<int>{};
         }
-        
         vector<int> ans;
-        stack<pair<TreeNode*, int>> stack;
-        stack.push({root, 0});
-        
-        while (!stack.empty()) {
-            pair<TreeNode*, int> pair = stack.top();
-            stack.pop();
-            TreeNode* node = pair.first;
-            int depth = pair.second;
-            
-            if (depth == ans.size()) {
+        stack<pair<TreeNode*, int>> stk;
+        stk.push({root, 0});
+        while (!stk.empty()) {
+            auto [node, d] = stk.top();
+            stk.pop();
+            if (d == ans.size()) {
                 ans.push_back(node->val);
             } else {
-                ans[depth] = max(ans[depth], node->val);
+                ans[d] = max(ans[d], node->val);
             }
-            
             if (node->left) {
-                stack.push(make_pair(node->left, depth + 1));
+                stk.push({node->left, d + 1});
             }
-            
             if (node->right) {
-                stack.push(make_pair(node->right, depth + 1));
+                stk.push({node->right, d + 1});
             }
         }
-        
         return ans;
     }
 };

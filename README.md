@@ -228,7 +228,7 @@ A playground to note something.
     - [Vimdiff cheatsheet](https://devhints.io/vim-diff)
     - [Learn Vim Progressively](https://yannesposito.com/Scratch/en/blog/Learn-Vim-Progressively/)
     - [Use Vim like an IDE](https://vim.fandom.com/wiki/Use_Vim_like_an_IDE)
-    - [Vim Awesome](https://vimawesome.com/)'
+    - [Vim Awesome](https://vimawesome.com/)
     - [Learn Vimscript the Hard Way](http://learnvimscriptthehardway.stevelosh.com/)
     - [vim-plug](https://github.com/junegunn/vim-plug)
     - [Use vim with ctags](https://kulkarniamit.github.io/whatwhyhow/howto/use-vim-ctags.html)
@@ -252,6 +252,7 @@ A playground to note something.
             cd /home/jru/cscope     # the directory with 'cscope.files'
             cscope -b -q -k
             ```
+    - [Work with cscope,ctags and vim](https://gist.github.com/RockDeng110/d19d97534a34c971183327a11a466b91)
     - file revision compare
     
         `vimdiff <( git show [REVISION_1]:[XXX_FI|LE] ) <( git show [REVISION_2]:[XXX_FI|LE] )`

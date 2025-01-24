@@ -74,33 +74,79 @@ class Solution:
                         cur ^= (1 << b)
                 i += 1     
         return res if res != float("inf") else -1
+
 ```
 
 **Solution 2: (Sliding Window, Counter)**
 ```
-Runtime: 95 ms
-Memory: 87.59 MB
+Runtime: 4 ms
+Memory: 88.40 MB
 ```
 ```c++
 class Solution {
 public:
     int minimumSubarrayLength(vector<int>& nums, int k) {
-        int i = 0, cur = 0, ans = INT_MAX;
-        int cnt[32] = {0};
-        for (int j = 0; j < nums.size(); j ++) {
+        if (k == 0) {
+            return 1;
+        }
+        int n = nums.size(), i = 0, j = 0, cur = 0, b, cnt[32] = {0}, ans = INT_MAX;
+        while (j < n) {
+            while (j < n && cur < k) {
+                b = 0;
+                while ((1<<b) <= nums[j]) {
+                    cnt[b] += ((nums[j]&(1<<b)) > 0);
+                    b += 1;
+                }
+                cur |= nums[j];
+                j += 1;
+            }
+            while (i <= j && cur >= k) {
+                ans = min(ans, j-i);
+                if (ans == 1) {
+                    return ans;
+                }
+                b = 0;
+                while ((1<<b) <= nums[i]) {
+                    if ((1<<b) & nums[i]) {
+                        cnt[b] -= 1;
+                        if (cnt[b] == 0) {
+                            cur -= (1<<b); 
+                        }
+                    }
+                    b += 1;
+                }
+                i += 1;
+            }
+        }
+        return ans != INT_MAX ? ans : -1;
+    }
+};
+```
+
+**Solution 3: (Sliding Window, Counter, Greedy)**
+```
+Runtime: 23 ms
+Memory: 88.35 MB
+```
+```c++
+class Solution {
+public:
+    int minimumSubarrayLength(vector<int>& nums, int k) {
+        int i = 0, j = 0, b, cur = 0, ans = INT_MAX, cnt[32] = {0};
+        for (j = 0; j < nums.size(); j ++) {
             cur |= nums[j];
-            for (int p = 0; (1<<p) <= nums[j]; p ++) {
-                if (nums[j] & (1<<p)) {
-                    cnt[p] += 1;
+            for (b = 0; (1<<b) <= nums[j]; b ++) {
+                if (nums[j] & (1<<b)) {
+                    cnt[b] += 1;
                 }
             }
             while (i <= j && cur >= k) {
                 ans = min(ans, j-i+1);
-                for (int p = 0; p < 32; p ++) {
-                    if ((1<<p) & nums[i]) {
-                        cnt[p] -= 1;
-                        if (cnt[p] == 0) {
-                            cur ^= (1<<p);
+                for (int b = 0; b < 32; b ++) {
+                    if ((1<<b) & nums[i]) {
+                        cnt[b] -= 1;
+                        if (cnt[b] == 0) {
+                            cur ^= (1<<b);
                         }
                     }
                 }
@@ -108,6 +154,7 @@ public:
             }
         }
         return ans != INT_MAX ? ans : -1;
+
     }
 };
 ```

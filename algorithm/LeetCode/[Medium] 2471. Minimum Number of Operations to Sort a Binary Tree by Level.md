@@ -99,10 +99,10 @@ class Solution:
         return count
 ```
 
-**Solution 2: (BFS)**
+**Solution 2: (BFS, hash table)**
 ```
-Runtime: 818 ms
-Memory: 134.6 MB
+Runtime: 125 ms
+Memory: 187.94 MB
 ```
 ```c++
 /**
@@ -119,26 +119,101 @@ Memory: 134.6 MB
 class Solution {
 public:
     int minimumOperations(TreeNode* root) {
-        int res = 0;
-        vector<TreeNode*> q{root};
-        while(!q.empty()) {
-            vector<TreeNode*> q1;
-            vector<int> vals, ids(q.size());
-            for (auto n : q) {
-                vals.push_back(n->val);
-                if (n->left != nullptr)
-                    q1.push_back(n->left);
-                if (n->right != nullptr)
-                    q1.push_back(n->right);
+        int i, j, sz, ans = 0;
+        queue<TreeNode*> q;
+        vector<int> dp, dp2;
+        unordered_map<int,int> m;
+        q.push(root);
+        while (q.size()) {
+            sz = q.size();
+            for (i = 0; i < sz; i ++) {
+                auto node = q.front();
+                q.pop();
+                dp.push_back(node->val);
+                m[node->val] = i;
+                if (node->left) {
+                    q.push(node->left);
+                }
+                if (node->right) {
+                    q.push(node->right);
+                }
             }
-            iota(begin(ids), end(ids), 0);
-            sort(begin(ids), end(ids), [&](int i, int j){ return vals[i] < vals[j]; });
-            for (int i = 0; i < ids.size(); ++i)
-                for (; ids[i] != i; ++res)
-                    swap(ids[i], ids[ids[i]]);
-            swap(q, q1);
+            dp2 = dp;
+            sort(dp2.begin(), dp2.end());
+            for (i = 0; i < sz; i ++) {
+                if (dp[i] != dp2[i]) {
+                    j = m[dp2[i]];
+                    m[dp[i]] = j;
+                    swap(dp[i], dp[j]);
+                    ans += 1;
+                }
+            }
+            dp.clear();
+            m.clear();
         }
-        return res;
+        return ans;
     }
 };
 ```
+
+**Solution 3: (BFS, greedy)**
+```
+Runtime: 21 ms
+Memory: 165.97 MB
+```
+case 1:
+    3 2 1
+    ^ 
+    1 2 3
+
+case 2:
+    3 1 2
+    ^
+    2 1 3
+    1 2 3
+
+```c++
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+class Solution {
+public:
+    int minimumOperations(TreeNode* root) {
+        int i, sz, ans = 0;
+        queue<TreeNode*> q;
+        vector<pair<int,int>> dp;
+        q.push(root);
+        while (q.size()) {
+            sz = q.size();
+            for (i = 0; i < sz; i ++) {
+                auto node = q.front();
+                q.pop();
+                dp.push_back({node->val, i});
+                if (node->left) {
+                    q.push(node->left);
+                }
+                if (node->right) {
+                    q.push(node->right);
+                }
+            }
+            sort(dp.begin(), dp.end());
+            for (i = 0; i < sz; i ++) {
+                // case 1, 2
+                while (dp[i].second != i) {
+                    swap(dp[i], dp[dp[i].second]);
+                    ans += 1;
+                }
+            }
+            dp.clear();
+        }
+        return ans;
+    }
+};```
