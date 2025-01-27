@@ -109,3 +109,162 @@ class Solution:
 
         return [connected[i][j] for i, j in queries]
 ```
+
+**Solution 3: (DFS)**
+```
+Runtime: 293 ms
+Memory: 77.20 MB
+```
+```c++
+class Solution {
+    // Performs DFS and returns true if there's a path between src and target
+    // and false otherwise.
+    bool isPrerequisite(unordered_map<int, vector<int>>& adjList,
+                        vector<bool>& visited, int src, int target) {
+        visited[src] = 1;
+
+        if (src == target) {
+            return true;
+        }
+
+        int answer = false;
+        for (auto adj : adjList[src]) {
+            if (!visited[adj]) {
+                answer =
+                    answer || isPrerequisite(adjList, visited, adj, target);
+            }
+        }
+        return answer;
+    }
+public:
+    vector<bool> checkIfPrerequisite(int numCourses, vector<vector<int>>& prerequisites, vector<vector<int>>& queries) {
+        unordered_map<int, vector<int>> adjList;
+        for (auto edge : prerequisites) {
+            adjList[edge[0]].push_back(edge[1]);
+        }
+
+        vector<bool> answer;
+        for (auto q : queries) {
+            // Reset the visited array for each query.
+            vector<bool> visited(numCourses, false);
+            answer.push_back(isPrerequisite(adjList, visited, q[0], q[1]));
+        }
+
+        return answer;
+    }
+};
+```
+
+**Solution 4: (Floyd Warshall Algorithm)**
+
+    1 -> 2 -> 3 -> 4
+    ------
+        -------
+    -----------
+             -------
+    ----------------
+
+    
+    4 -> 3 -> 2 -> 1
+              ------
+         -------
+         -----------
+    -------
+    ----------------
+
+    3 -> 2 -> 4 -> 1
+         ------
+             -------
+         -----------
+    -------
+    ----------------
+
+    2 -> 3 -> 4 -> 1
+    ------
+        --------
+    ------------
+             -------
+    ---------------- 
+
+```
+Runtime: 111 ms
+Memory: 71.14 MB
+```
+```c++
+class Solution {
+public:
+    vector<bool> checkIfPrerequisite(int numCourses, vector<vector<int>>& prerequisites, vector<vector<int>>& queries) {
+        vector<vector<bool>> isPrerequisite(numCourses,
+                                            vector<bool>(numCourses, false));
+        for (auto edge : prerequisites) {
+            isPrerequisite[edge[0]][edge[1]] = true;
+        }
+
+        for (int intermediate = 0; intermediate < numCourses; intermediate++) {
+            for (int src = 0; src < numCourses; src++) {
+                for (int target = 0; target < numCourses; target++) {
+                    // If src -> intermediate & intermediate -> target exists
+                    // then src -> target will also exist.
+                    isPrerequisite[src][target] =
+                        isPrerequisite[src][target] ||
+                        (isPrerequisite[src][intermediate] &&
+                         isPrerequisite[intermediate][target]);
+                }
+            }
+        }
+
+        vector<bool> answer;
+        for (auto q : queries) {
+            answer.push_back(isPrerequisite[q[0]][q[1]]);
+        }
+
+        return answer;
+    }
+};
+```
+
+**Solution 5: (Topological Sort)**
+```
+Runtime: 47 ms
+Memory: 68.31 MB
+```
+```c++
+class Solution {
+public:
+    vector<bool> checkIfPrerequisite(int numCourses, vector<vector<int>>& prerequisites, vector<vector<int>>& queries) {
+        int n = queries.size(), i;
+        vector<vector<int>> g(numCourses);
+        vector<int> indeg(numCourses);
+        queue<int> q;
+        vector<vector<bool>> dp(numCourses, vector<bool>(numCourses));
+        vector<bool> ans;
+        for (auto p: prerequisites) {
+            g[p[0]].push_back(p[1]);
+            indeg[p[1]] += 1;
+        }
+        for (i = 0; i < numCourses; i ++) {
+            if (indeg[i] == 0) {
+                q.push(i);
+            }
+        }
+        while (q.size()) {
+            auto u = q.front();
+            q.pop();
+            for (auto v: g[u]) {
+                for (i = 0; i < numCourses; i ++) {
+                    dp[v][i] = dp[v][i] | dp[u][i];
+                }
+                dp[v][u] = true;
+                indeg[v] -= 1;
+                if (indeg[v] == 0) {
+                    q.push(v);
+                }
+            }
+        }
+        for (i = 0; i < n; i ++) {
+            ans.push_back(dp[queries[i][1]][queries[i][0]]);
+        }
+        return ans;
+    }
+};
+```

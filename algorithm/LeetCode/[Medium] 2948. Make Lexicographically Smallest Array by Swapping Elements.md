@@ -47,36 +47,89 @@ Explanation: [1,7,28,19,10] is the lexicographically smallest array we can obtai
 
 # Submissions
 ---
-**Solution 1: (sort by group)**
+**Solution 1: (Sorting + Grouping)**
 ```
-Runtime: 364 ms
-Memory: 179.4 MB
+Runtime: 339 ms
+Memory: 234.52 MB
 ```
 ```c++
 class Solution {
 public:
     vector<int> lexicographicallySmallestArray(vector<int>& nums, int limit) {
-        vector<pair<int, int>> b;
-        int n = nums.size();
-        for (int i = 0; i < n; ++i)
-            b.push_back({nums[i], i});
-        sort(b.begin(), b.end());
-        vector<vector<pair<int, int>>> c = {{b[0]}};
-        for (int i = 1; i < n; ++i) {
-            if (b[i].first - b[i - 1].first <= limit)
-                c.back().push_back(b[i]);
-            else
-                c.push_back({b[i]});
+        vector<int> numsSorted(nums);
+        sort(numsSorted.begin(), numsSorted.end());
+
+        int currGroup = 0;
+        unordered_map<int, int> numToGroup;
+        numToGroup.insert(pair<int, int>(numsSorted[0], currGroup));
+
+        unordered_map<int, list<int>> groupToList;
+        groupToList.insert(
+            pair<int, list<int>>(currGroup, list<int>(1, numsSorted[0])));
+
+        for (int i = 1; i < nums.size(); i++) {
+            if (abs(numsSorted[i] - numsSorted[i - 1]) > limit) {
+                // new group
+                currGroup++;
+            }
+
+            // assign current element to group
+            numToGroup.insert(pair<int, int>(numsSorted[i], currGroup));
+
+            // add element to sorted group list
+            if (groupToList.find(currGroup) == groupToList.end()) {
+                groupToList[currGroup] = list<int>();
+            }
+            groupToList[currGroup].push_back(numsSorted[i]);
         }
-        for (const auto& t : c) {
-            vector<int> ind;
-            for (const auto& p : t)
-                ind.push_back(p.second);
-            sort(ind.begin(), ind.end());
-            for (int i = 0; i < ind.size(); ++i)
-                nums[ind[i]] = t[i].first;
+
+        // iterate through input and overwrite each element with the next
+        // element in its corresponding group
+        for (int i = 0; i < nums.size(); i++) {
+            int num = nums[i];
+            int group = numToGroup[num];
+            nums[i] = *groupToList[group].begin();
+            groupToList[group].pop_front();
         }
+
         return nums;
+    }
+};
+```
+
+**Solution 2: (sort by group)**
+```
+Runtime: 351 ms
+Memory: 458.98 MB
+```
+```c++
+class Solution {
+public:
+    vector<int> lexicographicallySmallestArray(vector<int>& nums, int limit) {
+        int n = nums.size(), i;
+        vector<pair<int,int>> dp;
+        vector<int> dp2(n), ans(n);  // dp2: index -> group
+        vector<deque<int>> dp3;      // dp3: group element
+        for (i = 0; i < n; i ++) {
+            dp.push_back({nums[i], i});
+        }
+        sort(dp.begin(), dp.end());
+        dp2[dp[0].second] = 0;
+        dp3.push_back({dp[0].first});
+        for (i = 1; i < n; i ++) {
+            if (dp[i].first - dp[i-1].first <= limit) {
+                dp2[dp[i].second] = dp3.size()-1;
+                dp3.back().push_back(dp[i].first);
+            } else {
+                dp2[dp[i].second] = dp3.size();
+                dp3.push_back({dp[i].first});
+            }
+        }
+        for (i = 0; i < n; i ++) {
+            ans[i] = dp3[dp2[i]].front();
+            dp3[dp2[i]].pop_front();
+        }
+        return ans;
     }
 };
 ```

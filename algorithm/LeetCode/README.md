@@ -905,6 +905,40 @@ class Solution:
 ```
 * [Medium] [Solution] 969. Pancake Sorting
 
+### sort by group
+```c++
+class Solution {
+public:
+    vector<int> lexicographicallySmallestArray(vector<int>& nums, int limit) {
+        int n = nums.size(), i;
+        vector<pair<int,int>> dp;
+        vector<int> dp2(n), ans(n);  // dp2: index -> group
+        vector<deque<int>> dp3;      // dp3: group element
+        for (i = 0; i < n; i ++) {
+            dp.push_back({nums[i], i});
+        }
+        sort(dp.begin(), dp.end());
+        dp2[dp[0].second] = 0;
+        dp3.push_back({dp[0].first});
+        for (i = 1; i < n; i ++) {
+            if (dp[i].first - dp[i-1].first <= limit) {
+                dp2[dp[i].second] = dp3.size()-1;
+                dp3.back().push_back(dp[i].first);
+            } else {
+                dp2[dp[i].second] = dp3.size();
+                dp3.push_back({dp[i].first});
+            }
+        }
+        for (i = 0; i < n; i ++) {
+            ans[i] = dp3[dp2[i]].front();
+            dp3[dp2[i]].pop_front();
+        }
+        return ans;
+    }
+};
+```
+* [Medium] 2948. Make Lexicographically Smallest Array by Swapping Elements
+
 ### Prefix Sums and Counting
 ```python
 class Solution:

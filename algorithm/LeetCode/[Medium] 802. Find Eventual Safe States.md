@@ -189,3 +189,99 @@ public:
     }
 };
 ```
+
+**Solution 4: (BFS)**
+```
+Runtime: 48 ms
+Memory: 65.76 MB
+```
+```c++
+class Solution {
+public:
+    vector<int> eventualSafeNodes(vector<vector<int>>& graph) {
+        int n = graph.size(), i;
+        vector<vector<int>> par(n);
+        for (i = 0; i < n; i ++) {
+            for (auto j: graph[i]) {
+                par[j].push_back(i);
+            }
+        }
+        vector<bool> visited(n), is_safe(n);
+        queue<int> q;
+        vector<int> ans;
+        for (i = 0; i < n; i ++) {
+            if (!graph[i].size()) {
+                visited[i] = true;
+                is_safe[i] = true;
+                q.push(i);
+            }
+        }
+        while (q.size()) {
+            auto u = q.front();
+            q.pop();
+            for (auto v: par[u]) {
+                if (!visited[v] && all_of(graph[v].begin(), graph[v].end(), [&](int nv){return is_safe[nv];})) {
+                    visited[v] = true;
+                    is_safe[v] = true;
+                    q.push(v);
+                }
+            }
+        }
+        for (i = 0; i < n; i ++) {
+            if (is_safe[i]) {
+                ans.push_back(i);
+            }
+        }
+        return ans;
+    }
+};
+```
+
+**Solution 5: (DFS, check cycle)**
+```
+Runtime: 4 ms
+Memory: 51.40 MB
+```
+```c++
+class Solution {
+    bool dfs(int node, vector<vector<int>>& adj, vector<bool>& visit,
+             vector<bool>& inStack) {
+        // If the node is already in the stack, we have a cycle.
+        if (inStack[node]) {
+            return true;
+        }
+        if (visit[node]) {
+            return false;
+        }
+        // Mark the current node as visited and part of current recursion stack.
+        visit[node] = true;
+        inStack[node] = true;
+        for (auto neighbor : adj[node]) {
+            if (dfs(neighbor, adj, visit, inStack)) {
+                return true;
+            }
+        }
+        // Remove the node from the stack.
+        inStack[node] = false;
+        return false;
+    }
+public:
+    vector<int> eventualSafeNodes(vector<vector<int>>& graph) {
+        int n = graph.size();
+        vector<bool> visit(n), inStack(n);
+
+        for (int i = 0; i < n; i++) {
+            dfs(i, graph, visit, inStack);
+        }
+
+        vector<int> safeNodes;
+        for (int i = 0; i < n; i++) {
+            if (!inStack[i]) {
+                safeNodes.push_back(i);
+            }
+        }
+
+        return safeNodes;
+    }
+};
+```
