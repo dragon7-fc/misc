@@ -15668,72 +15668,6 @@ public:
 ```
 * [Hard] [Solution] 295. Find Median from Data Stream
 
-### Dijkstra's Algorithm
-```python
-class Solution:
-    def reachableNodes(self, edges: List[List[int]], M: int, N: int) -> int:
-        graph = collections.defaultdict(dict)
-        for u, v, w in edges:
-            graph[u][v] = graph[v][u] = w
-
-        pq = [(0, 0)]
-        dist = {0: 0}
-        used = {}
-        ans = 0
-
-        while pq:
-            d, node = heapq.heappop(pq)
-            if d > dist[node]: continue
-            # Each node is only visited once.  We've reached
-            # a node in our original graph.
-            ans += 1
-
-            for nei, weight in graph[node].items():
-                # M - d is how much further we can walk from this node;
-                # weight is how many new nodes there are on this edge.
-                # v is the maximum utilization of this edge.
-                v = min(weight, M - d)
-                used[node, nei] = v
-
-                # d2 is the total distance to reach 'nei' (neighbor) node
-                # in the original graph.
-                d2 = d + weight + 1
-                if d2 < dist.get(nei, M+1):
-                    heapq.heappush(pq, (d2, nei))
-                    dist[nei] = d2
-
-        # At the end, each edge (u, v, w) can be used with a maximum
-        # of w new nodes: a max of used[u, v] nodes from one side,
-        # and used[v, u] nodes from the other.
-        for u, v, w in edges:
-            ans += min(w, used.get((u, v), 0) + used.get((v, u), 0))
-
-        return ans
-```
-* [Hard] [Solution] 882. Reachable Nodes In Subdivided Graph
-
-### Dijkstra's Algorithm
-```python
-class Solution:
-    def swimInWater(self, grid: List[List[int]]) -> int:
-        # not sure whether anyone else find this one easier than the cheapest flight
-        n = len(grid)
-        dirs = [(1,0),(0,1),(-1,0),(0,-1)]
-
-        q = [(grid[0][0], 0, 0)]
-        best = {}
-        while q:
-            elev, x0, y0 = heapq.heappop(q)
-            best[(x0, y0)] = elev
-            if (x0, y0) == (n-1, n-1): return elev
-            for dx, dy in dirs:
-                nx, ny = x0 + dx, y0 + dy
-                if n > nx >= 0 and n > ny >= 0 and max(elev, grid[nx][ny]) < best.get((nx, ny), float('inf')):
-                    heapq.heappush(q,(max(elev, grid[nx][ny]), nx, ny))
-                    best[(nx, ny)] = max(elev, grid[nx][ny])
-```
-* [Hard] 778. Swim in Rising Water
-
 ### Sort by efficiency, and greedy over max speed with heap
 ```python
 class Solution:
@@ -16197,13 +16131,13 @@ return ans
 R, C = len(...), len(...)
 dist = [[float('inf')]*C for _ in range(R)]
 hq = [{0, x, y}]
+dist[x][y] = 0
 while hq:
     w, r, c = heapq.heappop(hq)
     if w > dist[r][c]:
         continue
     if r == R-1 and c == C-1:
         return w
-    dist[r][c] = w
     for nr, nc in [...]:
         if 0 <= nr < R and 0 <= nc < C:
             nw = w + dw[nr][nc]

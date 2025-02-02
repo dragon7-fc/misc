@@ -177,3 +177,85 @@ class Solution:
                     ans = max(ans, 1 + sum(area[i] for i in seen))
         return ans
 ```
+
+**Solution 2: (Union Find)**
+```
+Runtime: 295 ms, Beats 36.39%
+Memory: 159.23 MB, Beats 41.73%
+```
+```c++
+class Solution {
+    int dd[5] = {0, 1, 0, -1, 0};
+    int find(int x, vector<int> &p) {
+        if (p[x] != x) {
+            p[x] = find(p[x], p);
+        }
+        return p[x];
+    }
+    void uni(int x, int y, vector<int> &p, vector<int> &sz) {
+        int xr = find(x, p), yr = find(y, p);
+        if (xr == yr) {
+            return;
+        }
+        if (sz[xr] < sz[yr]) {
+            p[xr] = yr;
+            sz[yr] += sz[xr];
+        } else if (sz[yr] < sz[xr]) {
+            p[yr] = xr;
+            sz[xr] += sz[yr];
+        } else {
+            p[xr] = yr;
+            sz[yr] += sz[xr];
+        }
+    }
+public:
+    int largestIsland(vector<vector<int>>& grid) {
+        int n = grid.size(), i, j, ni, nj, d, y, cur, ans = 0;
+        vector<int> p(n*n), sz(n*n);
+        for (i = 0; i < n; i ++) {
+            for (j = 0; j < n; j ++) {
+                p[i*n + j] = i*n + j;
+                if (grid[i][j]) {
+                    sz[i*n + j] = 1;
+                }
+            }
+        }
+        for (i = 0; i < n; i ++) {
+            for (j = 0; j < n; j ++) {
+                if (grid[i][j]) {
+                    for (d = 0; d < 4; d ++) {
+                        ni = i + dd[d];
+                        nj = j + dd[d+1];
+                        if (0 <= ni && ni < n && 0 <= nj && nj < n && grid[ni][nj]) {
+                            uni(i*n + j, ni*n + nj, p, sz);
+                        }
+                    }
+                }
+            }
+        }
+        for (i = 0; i < n; i ++) {
+            for (j = 0; j < n; j ++) {
+                if (grid[i][j] == 0) {
+                    cur = 1;
+                    unordered_set<int> st;
+                    for (d = 0; d < 4; d ++) {
+                        ni = i + dd[d];
+                        nj = j + dd[d+1];
+                        if (0 <= ni && ni < n && 0 <= nj && nj < n && grid[ni][nj]) {
+                            y = find(ni*n + nj, p);
+                            if (!st.count(y)) {
+                                st.insert(y);
+                                cur += sz[y];
+                            }
+                        }
+                    }
+                    ans = max(ans, cur);
+                } else {
+                    ans = max(ans, sz[i*n + j]);
+                }
+            }
+        }
+        return ans;
+    }
+};
+```
