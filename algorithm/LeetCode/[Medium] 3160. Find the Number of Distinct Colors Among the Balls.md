@@ -59,25 +59,29 @@ After query 4, ball 0 has color 1, balls 1 and 2 have color 2, ball 3 has color 
 ---
 **Solution 1: (Hash Table, 2 Hash Table)**
 ```
-Runtime: 383 ms
-Memory: 157.10 MB
+Runtime: 102 ms, Beats 90.35%
+Memory: 157.59 MB, Beats 56.59%
 ```
 ```c++
 class Solution {
 public:
     vector<int> queryResults(int limit, vector<vector<int>>& queries) {
-        vector<int> res;
-        unordered_map<int, int> ball_col, col_cnt;
-        for (auto &q : queries) {
-            int x = q[0], y = q[1];
-            int col = ball_col[x];
-            if (col && --col_cnt[col] == 0)
-                col_cnt.erase(col);
-            ball_col[x] = y;
-            ++col_cnt[y];
-            res.push_back(col_cnt.size());
+        int n = queries.size(), i, pre;
+        unordered_map<int, int> m, cnt;
+        vector<int> ans;
+        for (i = 0; i < n; i ++) {
+            if (m.count(queries[i][0])) {
+                pre = m[queries[i][0]];
+                cnt[pre] -= 1;
+                if (cnt[pre] == 0) {
+                    cnt.erase(pre);
+                }
+            }
+            m[queries[i][0]] = queries[i][1];
+            cnt[queries[i][1]] += 1;
+            ans.push_back(cnt.size());
         }
-        return res;
+        return ans;
     }
 };
 ```

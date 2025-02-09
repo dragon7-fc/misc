@@ -61,3 +61,25 @@ class Solution:
                 freq[key] = 1 + freq.get(key, 0)
         return 8*ans
 ```
+
+**Solution 2: (Hash Table)**
+```
+Runtime: 369 ms, Beats 21.63%
+Memory: 85.11 MB, Beats 23.20%
+```
+```c++
+class Solution {
+public:
+    int tupleSameProduct(vector<int>& nums) {
+        int n = nums.size(), i, j, ans = 0;
+        unordered_map<int, int> cnt;
+        for (i = 1; i < n; i ++) {
+            for (j = 0; j < i; j ++) {
+                ans += cnt[nums[i]*nums[j]] * 8;
+                cnt[nums[i]*nums[j]] += 1;
+            }
+        }
+        return ans;
+    }
+};
+```

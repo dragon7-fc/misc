@@ -9072,7 +9072,7 @@ lo, hi = 1, max(piles)
 while lo < hi:
     mi = lo + (hi - lo) // 2
     if not is_XXX(...):  ## false
-        lo = mi + 1
+        lo = mi + 1      ## move lo
     else:
         hi = mi
 return lo
@@ -9087,7 +9087,7 @@ lo, hi = 1, max(piles)
 while lo < hi:
     mi = hi - (hi-lo) // 2  ## mi = lo + (hi - lo + 1) // 2
     if not is_XXX(...):  ## false
-        hi = mi - 1
+        hi = mi - 1      ## move hi
     else:
         lo = mi
 return lo
@@ -9102,7 +9102,7 @@ lo, hi = 0, N-1
 while lo <= hi: 
     mi = lo + (hi - lo) // 2
     if not is_XXX(mi):  ## false
-        lo = mi + 1
+        lo = mi + 1     ## move lo
     else:
         ans = max(ans, mi)
         hi = mi - 1
@@ -9119,7 +9119,7 @@ lo, hi = 0, N-1
 while lo <= hi: 
     mi = lo + (hi - lo) // 2
     if not is_XXX(mi):  ## false
-        hi = mi - 1
+        hi = mi - 1     ## move hi
     else:
         ans = min(ans, mi)
         lo = mi + 1
@@ -15219,7 +15219,7 @@ class Solution:
 ```
 * [Medium] [Solution] 692. Top K Frequent Words
 
-### MST, Prime, time: O(M*N * Log(M*N))
+### MST, Prime, Dijkstra, time: O(M*N * Log(M*N))
 ```python
 class Solution:
     def minimumEffortPath(self, heights: List[List[int]]) -> int:
@@ -16515,9 +16515,9 @@ public:
             return false;
         }
         if (rank[xset] < rank[yset]) {
-            parent[xset] = parent[yset];
+            parent[xset] = yset;
         } else if (rank[yset] < rank[xset]) {
-            parent[yset] = parent[xset];
+            parent[yset] = xset;
         } else {
             parent[yset] = xset;
             rank[xset] += 1;

@@ -76,31 +76,77 @@ class NumberContainers:
 # param_2 = obj.find(number)
 ```
 
-**Solution 2: (Hash Table)**
+**Solution 2: (Hash Table, set)**
 ```
-Runtime: 943 ms
-Memory Usage: 177 MB
+Runtime: 106 ms, Beats 74.38%
+Memory: 195.80 MB, Beats 61.88%
 ```
 ```c++
 class NumberContainers {
-    unordered_map<int, int> ind_num;
-    unordered_map<int, set<int>> num_inds;
+    unordered_map<int, int> m;  // index -> number, ex: 1 -> 12
+    unordered_map<int, set<int>> dp;  // number -> index, ex: 12 -> {x x x ...}
 public:
     NumberContainers() {
         
     }
     
     void change(int index, int number) {
-        auto it = ind_num.find(index);
-        if (it != end(ind_num))
-            num_inds[it->second].erase(index);
-        ind_num[index] = number;
-        num_inds[number].insert(index);
+        if (m.count(index)) {
+            int pre = m[index];
+            dp[pre].erase(index);
+            if (!dp[pre].size()) {
+                dp.erase(pre);
+            }
+        }
+        m[index] = number;
+        dp[number].insert(index);
     }
     
     int find(int number) {
-        auto it = num_inds.find(number);
-        return it == end(num_inds) || it->second.empty() ? -1 : *begin(it->second);
+        if (dp.count(number)) {
+            return *dp[number].begin();
+        } else {
+            return -1;
+        }
+    }
+};
+
+/**
+ * Your NumberContainers object will be instantiated and called as such:
+ * NumberContainers* obj = new NumberContainers();
+ * obj->change(index,number);
+ * int param_2 = obj->find(number);
+ */
+```
+
+**Solution 3: (Hash Table, heap, lazy update)**
+```
+Runtime: 88 ms, Beats 93.44%
+Memory: 185.95 MB, Beats 84.69%
+```
+```c++
+class NumberContainers {
+    unordered_map<int, int> m;  // index -> number, ex: 1 -> 12
+    unordered_map<int, priority_queue<int, vector<int>, greater<int>>> dp;  // number -> index, ex: 12 -> {x x x ...}
+public:
+    NumberContainers() {
+        
+    }
+    
+    void change(int index, int number) {
+        m[index] = number;
+        dp[number].push(index);
+    }
+    
+    int find(int number) {
+        while (dp[number].size()) {
+            auto i = dp[number].top();
+            if (m[i] == number) {
+                return i;
+            }
+            dp[number].pop();
+        }
+        return -1;
     }
 };
 

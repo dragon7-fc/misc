@@ -53,19 +53,33 @@ class Solution:
 ```
 
 **Solution 2: (Hash Table)**
+
+    j - i != nums[j] - nums[i]
+    -> j - nums[j] != i - nums[i]
+    4, 1, 3, 3
+             ^
+ans 0  1  3  5
+cnt
+    -3: 1
+    0: 1
+    -1: 1
+
+    i - cnt[i-nums[i]]
+
 ```
-Runtime: 232 ms
-Memory Usage: 83.7 MB
+Runtime: 69 ms, Beats 56.08%
+Memory: 87.56 MB, Beats 81.46%
 ```
 ```c++
 class Solution {
 public:
     long long countBadPairs(vector<int>& nums) {
+        int n = nums.size(), i;
         long long ans = 0;
-        unordered_map<int, int> m;
-        for (int i = 0; i < nums.size(); i++) {
-            ans += i - m[nums[i] - i];
-            m[nums[i] - i]++;
+        unordered_map<int, int> cnt;
+        for (i = 0; i < n; i ++) {
+            ans += i - cnt[i - nums[i]];
+            cnt[i - nums[i]] += 1;
         }
         return ans;
     }
