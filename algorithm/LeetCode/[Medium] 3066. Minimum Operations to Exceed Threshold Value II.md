@@ -47,30 +47,52 @@ It can be shown that 4 is the minimum number of operations needed so that all el
 ---
 **Solution 1: (Heap)**
 ```
-Runtime: 210 ms
-Memory: 98.50 MB
+Runtime: 103 ms, Beats 31.83%
+Memory: 99.15 MB, Beats 16.98%
 ```
 ```c++
+
+
+Accepted
+675 / 675 testcases passed
+FC Su
+FC Su
+submitted at Feb 13, 2025 20:07
+
+Editorial
+
+Solution
+Runtime
+103
+ms
+Beats
+31.83%
+Analyze Complexity
+Memory
+99.15
+MB
+Beats
+16.98%
+Analyze Complexity
+Code
+C++
 class Solution {
 public:
     int minOperations(vector<int>& nums, int k) {
         priority_queue<long long, vector<long long>, greater<long long>> pq;
+        int ans = 0;
         for (auto num: nums) {
             pq.push(num);
         }
-        int ans = 0;
-        while (pq.size()) {
-            auto a = pq.top();
+        while (pq.top() < k) {
+            auto x = pq.top();
             pq.pop();
-            if (a >= k) {
-                return ans;
-            }
-            auto b = pq.top();
+            auto y = pq.top();
             pq.pop();
-            pq.push(a*2 + b);
             ans += 1;
+            pq.push(x*2 + y);
         }
-        return -1;
+        return ans;
     }
 };
 ```

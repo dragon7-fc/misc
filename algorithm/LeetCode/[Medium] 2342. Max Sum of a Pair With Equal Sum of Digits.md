@@ -52,23 +52,27 @@ class Solution:
 
 **Solution 2: (Hash Table)**
 ```
-Runtime: 232 ms
-Memory Usage: 59.8 MB
+Runtime: 0 ms, Beats 100.00%
+Memory: 63.66 MB, Beats 95.95%
 ```
 ```c++
 class Solution {
 public:
     int maximumSum(vector<int>& nums) {
-        int res = -1, d_n[82] = {}; // 9 * 9
-        for (int n : nums) {
-            int d = 0;
-            for (int nn = n; nn; nn /= 10)
-                d += nn % 10;
-            if (d_n[d])
-                res = max(res, d_n[d] + n);
-            d_n[d] = max(d_n[d], n);
+        int dp[90] = {0}, cur, r, ans = -1;
+        for (auto num: nums) {
+            cur = 0;
+            r = num;
+            while (r) {
+                cur += r%10;
+                r /= 10;
+            }
+            if (dp[cur]) {
+                ans = max(ans, dp[cur] + num);
+            }
+            dp[cur] = max(dp[cur], num);
         }
-        return res;
+        return ans;
     }
-};
+};
 ```

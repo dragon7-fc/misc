@@ -63,25 +63,29 @@ elements[0] = 2 is assigned to the groups with even values, and elements[1] = 1 
 ---
 **Solution 1: (Hash Table)**
 ```
-Runtime: 1130 ms, Beats 42.10%
-Memory: 247.60 MB, Beats 63.16%
+Runtime: 777 ms, Beats 42.10%
+Memory: 247.43 MB, Beats 63.16%
 ```
 ```c++
 class Solution {
 public:
     vector<int> assignElements(vector<int>& groups, vector<int>& elements) {
         vector<int> ans(groups.size(), -1);
-        unordered_map<int,int> eleIndex;
+        unordered_map<int,int> m;
         for (int i = 0; i < elements.size(); ++i) {
-            eleIndex[elements[i]] = (eleIndex.find(elements[i]) != eleIndex.end())? min(eleIndex[elements[i]], i): i;
+            if (m.count(elements[i]) == 0) {
+                m[elements[i]] = i;
+            }
         }
         for (int i = 0; i < groups.size(); ++i) { 
             for (int f = 1; f*f <= groups[i]; ++f) {
-                if (groups[i] % f == 0 && eleIndex.find(f) != eleIndex.end()) {
-                    ans[i] = min(((ans[i] >= 0)? ans[i] : INT_MAX), eleIndex[f]);
-                }
-                if (groups[i] % f == 0 && eleIndex.find(groups[i]/f) != eleIndex.end()) {
-                    ans[i] = min(((ans[i] >= 0)? ans[i] : INT_MAX), eleIndex[groups[i]/f]);
+                if (groups[i] % f == 0) {
+                    if (m.count(f)) {
+                        ans[i] = min(((ans[i] >= 0)? ans[i] : INT_MAX), m[f]);
+                    }
+                    if (f != groups[i]/f && groups[i]%f == 0 && m.count(groups[i]/f)) {
+                        ans[i] = min(((ans[i] >= 0)? ans[i] : INT_MAX), m[groups[i]/f]);
+                    }
                 }
             }
         }

@@ -78,3 +78,36 @@ class ProductOfNumbers:
 # obj.add(num)
 # param_2 = obj.getProduct(k)
 ```
+
+**Solution 2: (Prefix Sum)**
+```
+Runtime: 11 ms, Beats 94.59%
+Memory: 77.94 MB, Beats 77.84%
+```
+```c++
+class ProductOfNumbers {
+    int sz = 0;
+    vector<int> dp;
+public:
+    ProductOfNumbers() {
+        dp.push_back(1);
+    }
+    
+    void add(int num) {
+        if (num) {
+            dp.push_back(dp.back()*num);
+            sz += 1;
+        } else {
+            dp = {1};
+            sz = 0;
+        }
+    }
+    
+    int getProduct(int k) {
+        if (sz < k) {
+            return 0;
+        }
+        return dp.back()/dp[sz - k];
+    }
+};
+```

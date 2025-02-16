@@ -69,7 +69,59 @@ class Solution:
         return ans
 ```
 
-**Solution 2: (Backtracking)**
+**Solution 2: (DP Bottom-Up)**
+
+cur 1 2 9 6
+    - --- -
+ncur  296
+left  ncur/10**k
+right ncur%(10**k)
+j     ^
+k         ^
+left   29
+right     6
+1 <= k <= j
+          [6]
+        [96, 15]
+      [296, 35, 17, 98]
+    [1296, 135, 108, 27, ]
+
+dp[i][j] = cur/(10**k) + dp[cur%(10**k)] 
+
+```
+Runtime: 1029 ms, Beats 5.04%
+Memory: 431.86 MB, Beats 10.58%
+```
+```c++
+class Solution {
+public:
+    int punishmentNumber(int n) {
+        int i, j, k, cur, ncur, left, right;
+        vector<vector<unordered_set<int>>> dp(1001, vector<unordered_set<int>>(8));
+        int ans = 0;
+        for (i = 1; i <= n; i ++) {
+            cur = i*i;
+            for (j = 1; pow(10, j-1) <= cur; j ++) {
+                ncur = cur%(int)pow(10, j);
+                for (k = 0; k < j; k ++) {
+                    left = ncur/(int)pow(10, k);
+                    for (auto right: dp[i][k]) {
+                        dp[i][j].insert(left + right);
+                    }
+                }
+                dp[i][j].insert(ncur);
+            }
+            if (dp[i][j-1].count(i)) {
+                ans += cur;
+            }
+        }
+        return ans;
+    }
+};
+```
+
+
+**Solution 3: (Backtracking)**
 ```
 Runtime: 145 ms
 Memory: 5.9 MB
@@ -103,6 +155,39 @@ public:
             if (check(s, i))
             {
                 ans += x;
+            }
+        }
+        return ans;
+    }
+};
+```
+
+**Solution 4: (Recursion of Integers, Time: O(n * 2^(log_10 (n))), Space: O(log_10 (n)))**
+```
+Runtime: 0 ms, Beats 100.00%
+Memory: 7.86 MB, Beats 95.72%
+```
+```c++
+class Solution {
+     bool dfs(int num, int target) {
+        if (target < 0 || num < target) {
+            return false;
+        }
+        if (num == target) {
+            return true;
+        }
+        return dfs(num / 10, target - num % 10) ||
+               dfs(num / 100, target - num % 100) ||
+               dfs(num / 1000, target - num % 1000);
+    }
+
+public:
+    int punishmentNumber(int n) {
+        int i, cur, ans = 0;
+        for (i = 1; i <= n; i++) {
+            cur = i*i;
+            if (dfs(cur, i)) {
+                ans += cur;
             }
         }
         return ans;

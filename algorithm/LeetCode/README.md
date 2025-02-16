@@ -4976,7 +4976,7 @@ class Solution {
 public:
     int findPattern(InfiniteStream* stream, vector<int>& pattern) {
         int n = pattern.size(), i, k, cur;
-        vector<int> dp(n);
+        vector<int> dp(n);  // index -> length
         k = 0, i = 1;
         while (i < n) {
             if (pattern[k] == pattern[i]) {
