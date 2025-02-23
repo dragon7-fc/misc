@@ -80,3 +80,113 @@ class Solution:
                 return res
         return ''
 ```
+
+**Solution 2: (Backtracking, O(n * 2^n))**
+```
+Runtime: 0 ms, Beats 100.00%
+Memory: 7.90 MB, Beats 95.26%
+```
+```c++
+class Solution {
+    bool bt(int n, int &k, string &cur) {
+        if (cur.size() == n) {
+            k -= 1;
+            if (k == 0) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+        for (int i = 0; i < 3; i ++) {
+            if (cur == "" || i != cur.back()-'a') {
+                cur += i+'a';
+                if (bt(n, k, cur)) {
+                    return true;
+                }
+                cur.pop_back();
+            }
+        }
+        return false;
+    }
+public:
+    string getHappyString(int n, int k) {
+        string ans;
+        bt(n, k, ans);
+        return ans;
+    }
+};
+```
+
+**Solution 3: (Math, O(n))**
+
+       n = 3, k = 9
+---------------------
+total  12
+startA  1
+startB  1 + 4 = 5
+startC  5 + 4 = 9
+
+k       9 0 0 0
+mid         2 1
+result    c a b
+
+```
+Runtime: 0 ms, Beats 100.00%
+Memory: 8.47 MB, Beats 84.68%
+```
+```c++
+class Solution {
+public:
+    string getHappyString(int n, int k) {
+        // Calculate the total number of happy strings of length n
+        int total = 3 * (1 << (n - 1));
+
+        // If k is greater than the total number of happy strings, return an
+        // empty string
+        if (k > total) return "";
+
+        string result(n, 'a');
+
+        // Define mappings for the next smallest and greatest valid characters
+        unordered_map<char, char> nextSmallest = {
+            {'a', 'b'}, {'b', 'a'}, {'c', 'a'}};
+        unordered_map<char, char> nextGreatest = {
+            {'a', 'c'}, {'b', 'c'}, {'c', 'b'}};
+
+        // Calculate the starting indices for strings beginning with 'a', 'b',
+        // and 'c'
+        int startA = 1;
+        int startB = startA + (1 << (n - 1));
+        int startC = startB + (1 << (n - 1));
+
+        // Determine the first character based on the value of k
+        if (k < startB) {
+            result[0] = 'a';
+            k -= startA;
+        } else if (k < startC) {
+            result[0] = 'b';
+            k -= startB;
+        } else {
+            result[0] = 'c';
+            k -= startC;
+        }
+
+        // Iterate through the remaining positions in the result string
+        for (int charIndex = 1; charIndex < n; charIndex++) {
+            // Calculate the midpoint of the group for the current character
+            // position
+            int midpoint = (1 << (n - charIndex - 1));
+
+            // Determine the next character based on the value of k
+            if (k < midpoint) {
+                result[charIndex] = nextSmallest[result[charIndex - 1]];
+            } else {
+                result[charIndex] = nextGreatest[result[charIndex - 1]];
+                k -= midpoint;
+            }
+        }
+
+        return result;
+    }
+};
+```

@@ -57,7 +57,114 @@ class Solution:
         return ''.join(res)
 ```
 
-**Solution 2: (stack, keep increasing then reverse)**
+**Solution 2: (Backtracking, O(9^n))**
+```
+Runtime: 0 ms, Beats 100.00%
+Memory: 9.06 MB, Beats 9.74%
+```
+```c++
+class Solution {
+    void bt(int i, int &visited, string &cur, string &ans, string pattern) {
+        if (ans != "" && cur > ans) {
+            return;
+        }
+        if (i == pattern.length()) {
+            ans = min(ans, cur);
+            return;
+        }
+        if (pattern[i] == 'I') {
+            for (int a = cur.back() - '0'; a <= 1+pattern.length(); a++) {
+                if ((visited&(1<<a)) == 0) {
+                    visited ^= (1<<a);
+                    cur += string(1, a+'0');
+                    bt(i+1, visited, cur, ans, pattern);
+                    visited ^= (1<<a);
+                    cur.pop_back();
+                }
+            }
+        } else {
+            for (int a = cur.back() - '0'; a >= 1; a--) {
+                if ((visited&(1<<a)) == 0) {
+                    visited ^= (1<<a);
+                    cur += string(1, a+'0');
+                    bt(i+1, visited, cur, ans, pattern);
+                    visited ^= (1<<a);
+                    cur.pop_back();
+                }
+            }
+        }
+    }
+public:
+    string smallestNumber(string pattern) {
+        int a, visited = 0;
+        string cur, ans = string(pattern.length()+1, '9');
+        for (a = 1; a <= 1+pattern.length(); a ++) {
+            visited ^= (1<<a);
+            cur += string(1, a+'0');
+            bt(0, visited, cur, ans, pattern);
+            visited ^= (1<<a);
+            cur.pop_back();
+        }
+        return ans;
+    }
+};
+```
+
+**Solution 3: (Optimized Greedy Approach with Precomputed 'D' Segments)**
+```
+Runtime: 0 ms, Beats 100.00%
+Memory: 7.81 MB, Beats 73.43%
+```
+```c++
+class Solution {
+public:
+    string smallestNumber(string pattern) {
+        int patternLength = pattern.length();
+        int maxSoFar = 0, currMax = 0, temp;
+
+        // Array to store lengths of decreasing subsequences in the pattern
+        vector<int> arrD(patternLength + 1, 0);
+
+        // Compute the lengths of decreasing subsequences in the pattern
+        for (int patternIndex = patternLength - 1; patternIndex >= 0;
+             patternIndex--) {
+            if (pattern[patternIndex] == 'D')
+                // If 'D', increment the length of the decreasing sequence
+                arrD[patternIndex] = arrD[patternIndex + 1] + 1;
+        }
+
+        string result = "";
+
+        // Build the result string based on the pattern
+        for (int position = 0; position <= patternLength; position++) {
+            if (pattern[position] == 'I') {
+                // If 'I', assign the next maximum digit and append it to the
+                // result
+                maxSoFar++;
+                result += '0' + maxSoFar;
+
+                // Update the max digit encountered so far
+                maxSoFar = max(maxSoFar, currMax);
+
+                // Reset current max for the next iteration
+                currMax = 0;
+            } else {
+                // If 'D', calculate the appropriate digit and append it to the
+                // result
+                temp = 1 + maxSoFar + arrD[position];
+                result += '0' + temp;
+
+                // Update the current max value
+                currMax = max(currMax, temp);
+            }
+        }
+
+        return result;
+    }
+};
+```
+
+**Solution 4: (stack, keep increasing then reverse)**
 ```
 Runtime: 0 ms
 Memory Usage: 5.9 MB

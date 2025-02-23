@@ -109,3 +109,55 @@ class FindElements:
 # obj = FindElements(root)
 # param_1 = obj.find(target)
 ```
+
+**Solution 2: (DFS)**
+```
+Runtime: 8 ms, Beats 73.64%
+Memory: 27.08 MB, Beats 83.93%
+```
+```c++
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+class FindElements {
+    unordered_set<int> visited;
+public:
+    FindElements(TreeNode* root) {
+        TreeNode *cur;
+        stack<TreeNode*> stk;
+        root->val = 0;
+        stk.push(root);
+        while (stk.size()) {
+            cur = stk.top();
+            stk.pop();
+            visited.insert(cur->val);
+            if (cur->right) {
+                cur->right->val = cur->val*2 + 2;
+                stk.push(cur->right);
+            }
+            if (cur->left) {
+                cur->left->val = cur->val*2 + 1;
+                stk.push(cur->left);
+            }
+        }
+    }
+    
+    bool find(int target) {
+        return visited.count(target);
+    }
+};
+
+/**
+ * Your FindElements object will be instantiated and called as such:
+ * FindElements* obj = new FindElements(root);
+ * bool param_1 = obj->find(target);
+ */
+```
