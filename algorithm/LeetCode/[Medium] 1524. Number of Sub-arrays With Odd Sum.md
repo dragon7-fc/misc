@@ -95,3 +95,86 @@ public:
     }
 };
 ```
+
+**Solution 3: (Prefix Sum with Odd-Even Counting)**
+
+              1 2 3  4  5  6  7
+prefixSum  0  1 3 6 10 15 21 28
+oddCount   0  1 1 2  2  3  4  4
+evenCount  1  1 2 2  3  3  3  4
+count         1 2 4  6  9 12 16
+
+case 1:
+      x1 x2 x3 y1 y2 y3  = even
+      -------- ---------
+                   odd
+      -> sum(x1+x2+x3) = odd
+
+case 1:
+      x1 x2 x3 y1 y2 y3  = odd
+      -------- ---------
+                  odd
+      -> sum(x1+x2+x3) = even
+```
+Runtime: 4 ms, Beats 62.15%
+Memory: 112.04 MB, Beats 55.17%
+```
+```c++
+class Solution {
+public:
+    int numOfSubarrays(vector<int>& arr) {
+        const int MOD = 1e9 + 7;
+        int count = 0, prefixSum = 0;
+        // evenCount starts as 1 since the initial sum (0) is even
+        int oddCount = 0, evenCount = 1;
+
+        for (int num : arr) {
+            prefixSum += num;
+            // If current prefix sum is even, add the number of odd subarrays
+            if (prefixSum % 2 == 0) {
+                count += oddCount;
+                evenCount++;
+            } else {
+                // If current prefix sum is odd, add the number of even
+                // subarrays
+                count += evenCount;
+                oddCount++;
+            }
+
+            count %= MOD;  // To handle large results
+        }
+
+        return count;
+    }
+};
+```
+
+**Solution 4: (DP Bottom-Up)**
+
+         1 2 3 4 5  6  7
+dp[0]  0 0 1 1 2 2  3  3
+dp[1]  0 1 1 2 2 3  3  4
+ans      1 2 4 6 9 12 16
+
+```
+Runtime: 2 ms, Beats 76.78%
+Memory: 111.90 MB, Beats 80.00%
+```
+```c++
+class Solution {
+public:
+    int numOfSubarrays(vector<int>& arr) {
+        int n = arr.size(), i, dp[2] = {0}, MOD=1e9+7;
+        long long ans = 0;
+        for (i = 0; i < n; i ++) {
+            if (arr[i]%2) {
+                swap(dp[0], dp[1]);
+            }
+            dp[arr[i]%2] += 1;
+            ans += dp[1];
+            ans %= MOD;
+        }
+        return ans;
+    }
+};
+```

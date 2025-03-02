@@ -161,7 +161,71 @@ public:
 };
 ```
 
-**Solution 2: (DFS, DP)**
+**Solution 2: (Optimized Recursion)**
+
+    preorder = [1,2,4,5,3,6,7],     MLR
+                    ^^^   ^^^        ^^
+    postorder = [4,5,2,6,7,3,1]     LRM
+                 ^^^   ^^^          ^^
+
+         1
+      2
+   4    5
+
+
+```
+Runtime: 0 ms, Beats 100.00%
+Memory: 28.20 MB, Beats 76.14%
+```
+```c++
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+class Solution {
+     // Helper function to recursively build the tree
+    TreeNode* constructTree(int& preIndex, int& postIndex,
+                            vector<int>& preorder, vector<int>& postorder) {
+        // Create a new node with the value at the current preorder index
+        TreeNode* root = new TreeNode(preorder[preIndex]);
+        preIndex++;  // Mark this node as created
+
+        // Recursively construct the left subtree if the root is not the last of
+        // its subtree
+        if (root->val != postorder[postIndex]) {
+            root->left =
+                constructTree(preIndex, postIndex, preorder, postorder);
+        }
+
+        // Recursively construct the right subtree if the root is still not the
+        // last of its subtree
+        if (root->val != postorder[postIndex]) {
+            root->right =
+                constructTree(preIndex, postIndex, preorder, postorder);
+        }
+
+        // Mark this node and its subtree as fully processed
+        postIndex++;
+
+        return root;
+    }
+public:
+    TreeNode* constructFromPrePost(vector<int>& preorder, vector<int>& postorder) {
+        int preIndex = 0;
+        int postIndex = 0;
+        return constructTree(preIndex, postIndex, preorder, postorder);
+    }
+};
+```
+
+**Solution 3: (DFS, DP)**
 
     preorder = [1,2,4,5,3,6,7],
                           ^
@@ -231,7 +295,7 @@ public:
 };
 ```
 
-**Solution 3: (DFS, left and right)**
+**Solution 4: (DFS, left and right)**
 ```
 Runtime: 0 ms, Beats 100.00%
 Memory: 28.38 MB, Beats 45.37%

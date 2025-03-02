@@ -63,3 +63,73 @@ class Solution:
     def maxAbsoluteSum(self, nums: List[int]) -> int:
         return max(accumulate(nums, initial=0)) - min(accumulate(nums, initial=0))
 ```
+
+**Solution 2: (Prefix Sum)**
+
+         1,-3, 2, 3,-4
+                ^^^^
+cur 0    1 -2  0  3 -1
+min      0  0 -2 -2 -2
+max      0  1  1  1  3
+ans      1  3  3  5  5
+
+      2,-5, 1,-4, 3,-2
+         ^^^^^^^
+pre 0 2 -3 -2 -6 -3 -5
+min   0  0 -3 -3 -6 -6
+max   0  2  2  2  2  2
+ans   2  5  5  8  8  8
+
+```
+Runtime: 0 ms, Beats  100.00%
+Memory: 45.21 MB, Beats 20.65%
+```
+```c++
+class Solution {
+public:
+    int maxAbsoluteSum(vector<int>& nums) {
+        int n = nums.size(), i, cur = 0, mn = 0, mx = 0, ans = INT_MIN;
+        for (i = 0; i < n; i ++) {
+            cur += nums[i];
+            if (cur >= 0) {
+                ans = max(ans, cur - mn);
+            } else if (cur < 0) {
+                ans = max(ans, mx - cur);
+            }
+            mn = min(mn, cur);
+            mx = max(mx, cur);
+        }
+        return ans;
+    }
+};
+```
+
+**Solution 3: (Prefix Sum - Shorter)**
+
+        2,-5, 1,-4, 3,-2
+pre  0  2 -3 -2 -6 -3 -1
+min  0  0 -3 -3 -6 -6 -6
+max  0  2  2  2  2  2  2
+
+```
+Runtime: 3 ms, Beats 24.38%
+Memory: 45.00 MB, Beats 78.26%
+```
+```c++
+class Solution {
+public:
+    int maxAbsoluteSum(vector<int>& nums) {
+        int minPrefixSum = 0, maxPrefixSum = 0;
+
+        int prefixSum = 0;
+        for (int i = 0; i < nums.size(); i++) {
+            prefixSum += nums[i];
+
+            minPrefixSum = min(minPrefixSum, prefixSum);
+            maxPrefixSum = max(maxPrefixSum, prefixSum);
+        }
+
+        return maxPrefixSum - minPrefixSum;
+    }
+};
+```

@@ -297,3 +297,100 @@ public:
     }
 };
 ```
+
+**Solution 8: (Brute Force, O(n^2 log M))**
+```
+Runtime: 284 ms, Beats 62.39%
+Memory: 15.60 MB, Beats 87.82%
+```
+```c++
+class Solution {
+public:
+    int lenLongestFibSubseq(vector<int>& arr) {
+        int n = arr.size(), i, j, a, b, c, cur, ans = 0;
+        unordered_set<int> st(arr.begin(), arr.end());
+        for (i = 0; i < n; i ++) {
+            for (j = i+1; j < n; j ++) {
+                a = arr[i];
+                b = arr[j];
+                c = a+b;
+                cur = 2;
+                while (st.count(c)) {
+                    cur += 1;
+                    a = b;
+                    b = c;
+                    c = a+b;
+                }
+                if (cur > 2) {
+                    ans = max(ans, cur);
+                }
+            }
+        }
+        return ans;
+    }
+};
+```
+
+**Soluttion 9: (DP Bottom-Up)**
+```
+Runtime: 381 ms, Beats 22.86%
+Memory: 150.03 MB, Beats 13.25%
+```
+```c++
+class Solution {
+public:
+    int lenLongestFibSubseq(vector<int>& arr) {
+        int n = arr.size(), i, j, pi, a, ans = 0;
+        vector<vector<int>> dp(n, vector<int>(n));
+        unordered_map<int,int> m;
+        for (j = 0; j < n; j ++) {
+            for (i = 0; i < j; i ++) {
+                a = arr[j] - arr[i];
+                pi = m.count(a) ? m[a] : -1;
+                if (a < arr[i] && pi >= 0) {
+                    dp[i][j] = dp[pi][i] + 1;
+                } else {
+                    dp[i][j] = 2;
+                }
+                if (dp[i][j] > 2) {
+                    ans = max(ans, dp[i][j]);
+                }
+            }
+            m[arr[j]] = j;
+        }
+        return ans;
+    }
+};
+```
+
+**Soluttion 10: (DP Bottom-Up, optimized)**
+```
+Runtime: 113 ms, Beats 92.73%
+Memory: 147.88 MB, Beats 35.47%
+```
+```c++
+class Solution {
+public:
+    int lenLongestFibSubseq(vector<int>& arr) {
+        int n = arr.size(), i, j, pi, ans = 0;
+        vector<vector<int>> dp(n, vector<int>(n));
+        for (j = 2; j < n; j ++) {
+            pi = 0;
+            i = j-1;
+            while (pi < i) {
+                if (arr[pi] + arr[i] > arr[j]) {
+                    i -= 1;
+                } else if (arr[pi] + arr[i] < arr[j]) {
+                    pi += 1;
+                } else {
+                    dp[i][j] = dp[pi][i] + 1;
+                    ans = max(ans, dp[i][j]);
+                    pi += 1;
+                    i -= 1;
+                }
+            }
+        }
+        return ans? ans + 2 : 0;
+    }
+};
+```
