@@ -85,3 +85,61 @@ public:
     }
 };
 ```
+
+**Solution 2: (Deque)**
+```
+Runtime: 7 ms, Beats 59.22%
+Memory: 133.18 MB, Beats 68.03%
+```
+```c++
+class Solution {
+public:
+    vector<int> pivotArray(vector<int>& nums, int pivot) {
+        int n = nums.size(), i;
+        deque<int> dq;
+        for (auto num: nums) {
+            if (num == pivot) {
+                dq.push_front(num);
+            } else if (num > pivot) {
+                dq.push_back(num);
+            }
+        }
+        for (i = n-1; i >= 0; i --) {
+            if (nums[i] < pivot) {
+                dq.push_front(nums[i]);
+            }
+        }
+        return vector<int>(dq.begin(), dq.end());
+    }
+};
+```
+
+**Solution 3: (Two Pointers)**
+```
+Runtime: 10 ms, Beats 35.38%
+Memory: 127.72 MB, Beats 77.25%
+```
+```c++
+class Solution {
+public:
+    vector<int> pivotArray(vector<int>& nums, int pivot) {
+        int n = nums.size(), i, j, left = 0, right = n-1;
+        vector<int> ans(n);
+        for (i = 0, j = n-1; i < n; i ++, j--) {
+            if (nums[i] < pivot) {
+                ans[left] = nums[i];
+                left += 1;
+            }
+            if (nums[j] > pivot) {
+                ans[right] = nums[j];
+                right -= 1;
+            }
+        }
+        while (left <= right) {
+            ans[left] = pivot;
+            left += 1;
+        }
+        return ans;
+    }
+};
+```
