@@ -68,3 +68,66 @@ public:
     }
 };
 ```
+
+**Solution 3: (DP Bottom-Up)**
+
+      *            1
+
+      *
+    * * *          1+4
+      *             (4*1)
+      v
+    v * v 
+  v * * * v        5+8
+    v * v           (4*2)
+      v
+
+      v
+    v * v
+  V * * * v
+v * * * * * v      13+12 
+  v * * * v          (4*3)
+    v * v
+      v
+
+```
+Runtime: 0 ms, Beats 100.00%
+Memory: 7.92 MB, Beats 31.17%
+```
+```c++
+class Solution {
+public:
+    long long coloredCells(int n) {
+        if (n == 1) {
+            return 1;
+        }
+        int i = 2;
+        long long pre = 1, cur;
+        while (i <= n) {
+            cur = pre + (i-1)*4;
+            pre = cur;
+            i += 1;
+        }
+        return pre;
+    }
+};
+```
+
+**Solution 4: (Math)**
+
+1 + 4*1 + 4*2 + ... + 4*(n-1)
+= 1 + 4*n*(n-1)/2
+= 1 + 2*n*(n-1)
+
+```
+Runtime: 0 ms, Beats 100.00%
+Memory: 7.86 MB, Beats 61.42%
+```
+```c++
+class Solution {
+public:
+    long long coloredCells(int n) {
+        return 1 + (long long)n * (n - 1) * 2; 
+    }
+};
+```

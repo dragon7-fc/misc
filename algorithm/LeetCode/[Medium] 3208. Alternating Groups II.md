@@ -88,3 +88,43 @@ public:
     }
 };
 ```
+
+**Solution 2: (Sliding Window)**
+
+    0,1,0,1,0|0 1
+i             ^
+j               ^
+ck  1 2 3 4 5 1 2
+ans     1 2 3
+
+    0,1,0,0,1,0,1|0 1 0 0 1
+i                       ^
+j                         ^
+ck  1 2 3 1 2 3 4 5 6 7 1 2
+ans                 1 2
+
+```
+Runtime: 72 ms, Beats 55.02%
+Memory: 102.63 MB, Beats 76.78%
+```
+```c++
+class Solution {
+public:
+    int numberOfAlternatingGroups(vector<int>& colors, int k) {
+        int n = colors.size(), i = 0, j = 1, ck = 1, ans = 0;
+        while (j < n+k-1) {
+            if (colors[j%n] != colors[(j-1)%n]) {
+                ck += 1;
+                if (ck >= k) {
+                    ans += 1;
+                }
+            } else {
+                i = j;
+                ck = 1;
+            }
+            j += 1;
+        }
+        return ans;
+    }
+};
+```

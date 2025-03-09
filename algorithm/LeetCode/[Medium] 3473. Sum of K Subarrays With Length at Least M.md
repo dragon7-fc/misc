@@ -55,9 +55,8 @@ dp[i+1][j] = max(
     dp[i+1][j]
     dp[i+1][j-1]
     dp[i][j-m] + (prefix[j] - prefix[j-m]) = prefix[j] + (dp[i][j-m] - prefix[j-m])
-                                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^
+)                                                        ^^^^^^^^^^^^^^^^^^^^^^^^^^
                                                                    best
-)
 
 dp
            [1, 2,-1, 3, 3, 4]

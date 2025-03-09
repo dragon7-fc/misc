@@ -62,3 +62,68 @@ class Solution:
                 return False
         return True
 ```
+
+**Solution 3: (Math)**
+
+         9  3  1
+         ^  ^
+cur  27  9  3  
+r    12  3  0
+
+
+        81 27 9 3 1
+         ^    ^   ^
+cur 243 81 27 9 3 1
+r    91 10    1   0
+
+
+        9 3 1
+        ^ ^  
+cur 27  9 3 1
+r   21 18 6 5
+
+```
+Runtime: 0 ms, Beats 100.00%
+Memory: 7.75 MB, Beats 67.84%
+```
+```c++
+class Solution {
+public:
+    bool checkPowersOfThree(int n) {
+        int r = n, cur = 1;
+        while (cur < r) {
+            cur *= 3;
+        }
+        while (r && cur) {
+            if (r >= cur) {
+                r -= cur;
+            }
+            cur /= 3;
+        }
+        return r == 0;
+    }
+};
+```
+
+**Solution 4: (Ternary Representation)**
+```
+Runtime: 0 ms, Beats 100.00%
+Memory: 7.71 MB, Beats 67.84%
+```
+```c++
+class Solution {
+public:
+    bool checkPowersOfThree(int n) {
+        while (n > 0) {
+            // Check if this power should be used twice
+            if (n % 3 == 2) return false;
+
+            // Divide n by 3 to move to the next greater power
+            n /= 3;
+        }
+
+        // The ternary representation of n consists only of 0s and 1s
+        return true;
+    }
+};
+```
