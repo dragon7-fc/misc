@@ -114,3 +114,128 @@ public:
     }
 };
 ```
+
+**Solution 2: (Sliding Window)**
+
+     0  1  2  3  4  5  6  7  8  9 
+     a  a  e  i  o  u  q  a  e  q, k = 1
+pre  6  6  6  6  6  6  9  9  9 10
+    i^                j^-- 3  --|        
+        ^              ^-- 3  --|
+          ^               ^- 2 -|
+             ^               ^ 1| 
+ans                    6  8  9  9
+
+```
+Runtime: 442 ms, Beats 20.00%
+Memory: 50.68 MB, Beats 46.30%
+```
+```c++
+class Solution {
+public:
+    long long countOfSubstrings(string word, int k) {
+        int n = word.size(), i, j, c = 0;
+        unordered_map<char, int> cnt{
+            {'a', 0},
+            {'e', 0},
+            {'i', 0},
+            {'o', 0},
+            {'u', 0}
+        };
+        long long ans = 0;
+        vector<int> pre(n);
+        j = n;
+        for (i = n - 1; i >= 0; i--) {
+            pre[i] = j;
+            if (!cnt.count(word[i])) {
+                j = i;
+            }
+        }
+        i = 0;
+        j = 0;
+        while (j < n) {
+            if (cnt.count(word[j])) {
+                cnt[word[j]] += 1;
+            } else {
+                c += 1;
+            }
+            while (c > k) {
+                if (cnt.count(word[i])) {
+                    cnt[word[i]] -= 1;
+                } else {
+                    c -= 1;
+                }
+                i += 1;
+            }
+            while (cnt['a'] && cnt['e'] && cnt['i'] && cnt['o'] && cnt['u'] && c == k) {
+                ans += pre[j] - j;
+                if (cnt.count(word[i])) {
+                    cnt[word[i]] -= 1;
+                } else {
+                    c -= 1;
+                }
+                i += 1;
+            }
+            j += 1;
+        }
+        return ans;
+    }
+};
+```
+
+**Solution 3: (Sliding Window (Relaxed Constraints))**
+```
+Runtime: 183 ms, Beats 65.75%
+Memory: 48.71 MB, Beats 53.15%
+```
+```c++
+class Solution {
+    long atLeastK(string word, int k) {
+        long numValidSubstrings = 0;
+        int start = 0;
+        int end = 0;
+        // Keep track of counts of vowels and consonants.
+        unordered_map<char, int> vowelCount;
+        int consonantCount = 0;
+
+        // Start sliding window.
+        while (end < word.length()) {
+            // Insert new letter.
+            char newLetter = word[end];
+
+            // Update counts.
+            if (isVowel(newLetter)) {
+                vowelCount[newLetter]++;
+            } else {
+                consonantCount++;
+            }
+
+            // Shrink window while we have a valid substring.
+            while (vowelCount.size() == 5 and consonantCount >= k) {
+                numValidSubstrings += word.length() - end;
+                char startLetter = word[start];
+                if (isVowel(startLetter)) {
+                    if (--vowelCount[startLetter] == 0) {
+                        vowelCount.erase(startLetter);
+                    }
+                } else {
+                    consonantCount--;
+                }
+                start++;
+            }
+
+            end++;
+        }
+
+        return numValidSubstrings;
+    }
+
+    bool isVowel(char c) {
+        return c == 'a' || c == 'e' || c == 'i' || c == 'o' || c == 'u';
+    }
+public:
+    long long countOfSubstrings(string word, int k) {
+        return atLeastK(word, k) - atLeastK(word, k + 1);
+    }
+};
+```

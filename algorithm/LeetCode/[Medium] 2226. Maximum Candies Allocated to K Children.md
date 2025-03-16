@@ -48,27 +48,31 @@ class Solution:
         return left
 ```
 
-**Solution 2: (Binary Search)**
+**Solution 2: (Binary Search, upper bound)**
 ```
-Runtime: 308 ms
-Memory Usage: 84.4 MB
+Runtime: 35 ms, Beats 33.70%
+Memory: 88.14 MB, Beats 73.33%
 ```
 ```c++
 class Solution {
 public:
     int maximumCandies(vector<int>& candies, long long k) {
-        int left = 0, right = 1e7;
-        while (left < right) {
-            long sum = 0, mid = right - (right - left) / 2;
-            for (int& a : candies) {
-                sum += a / mid;
+        int n = candies.size(), i, left = 1, right = *max_element(candies.begin(), candies.end()), mid, ans = 0;
+        long long ck;
+        while (left <= right) {
+            mid = left + (right - left)/2;
+            ck = 0;
+            for (i = 0; i < n; i ++) {
+                ck += candies[i]/mid;
             }
-            if (k > sum)
+            if (ck < k) {
                 right = mid - 1;
-            else
-                left = mid;
+            } else {
+                ans = mid;
+                left = mid + 1;
+            }
         }
-        return left;
+        return ans;
     }
 };
 ```

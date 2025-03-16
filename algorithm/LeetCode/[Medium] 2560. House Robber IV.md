@@ -64,3 +64,40 @@ class Solution:
                 l = m + 1
         return l
 ```
+
+**Solution 2: (Binary Search, search on value, DP Bottom-Up)**
+
+    dp[i+1] = max(dp[i], dp[i-1] + (nums[i] < a))
+
+```
+Runtime: 9 ms, Beats 99.19%
+Memory: 60.81 MB Beats 67.69%
+```
+```c++
+class Solution {
+    bool check(int a, vector<int> &nums, int k) {
+        int n = nums.size(), i, cur, pre, pre2 = 0;
+        pre = (nums[0] <= a);
+        for (i = 1; i < n; i ++) {
+            cur = max(pre, pre2 + (nums[i] <= a));
+            pre2 = pre;
+            pre = cur;
+        }
+        return pre >= k;
+    }
+public:
+    int minCapability(vector<int>& nums, int k) {
+        int left = 1, right = *max_element(nums.begin(), nums.end()), mid, ans;
+        while (left <= right) {
+            mid = left + (right - left)/2;
+            if (!check(mid, nums, k)) {
+                left = mid + 1;
+            } else {
+                ans = mid;
+                right = mid - 1;
+            }
+        }
+        return ans;
+    }
+};
+```

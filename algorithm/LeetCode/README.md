@@ -9098,13 +9098,13 @@ return lo
 def is_XXX(...):
     ...
 
-lo, hi = 0, N-1
+lo, hi, ans = 0, N-1, N
 while lo <= hi: 
     mi = lo + (hi - lo) // 2
     if not is_XXX(mi):  ## false
         lo = mi + 1     ## move lo
     else:
-        ans = max(ans, mi)
+        ans =  ans ... mi
         hi = mi - 1
 
 return ans
@@ -9115,13 +9115,13 @@ return ans
 def is_XXX(...):
     ...
 
-lo, hi = 0, N-1
+lo, hi, ans = 0, N-1, N
 while lo <= hi: 
     mi = lo + (hi - lo) // 2
     if not is_XXX(mi):  ## false
         hi = mi - 1     ## move hi
     else:
-        ans = min(ans, mi)
+        ans = ans ... mi
         lo = mi + 1
 
 return ans
@@ -17976,67 +17976,75 @@ class Solution:
 ### Range Sum, array to tree simulation
 ```c++
 class SegmentTree {
-    SegmentTree *left, *right;
-    int start, end, val;
-    const vector<int>& nums;
 public:
-    SegmentTree(const vector<int>& nums_, int a, int b) : start(a), end(b), val(0), left(nullptr), right(nullptr), nums(nums_) {
-        
-        if (start == end) {
-            val = nums[start];
-            return;
-        }
-        
-        int mid = (a + b) / 2;
-        
-        left = new SegmentTree(nums, a, mid);
-        right = new SegmentTree(nums, mid + 1, b);
-        
-        val = left->val + right->val;
+    vector<int> tree;
+
+    SegmentTree() {}
+
+    SegmentTree(vector<int>& nums) {
+        int n = nums.size();
+        tree.resize(4 * n, 0);
+        buildTree(nums, 0, 0, n - 1);
     }
-    
-    void updateNode(int index, int n) {
-        if (index < start || index > end) {
+
+    // O(n)
+    void buildTree(vector<int>& nums, int pos, int left, int right) {
+        if (left == right) {
+            tree[pos] = nums[left];
             return;
         }
-        
-        if (start == end) {
-            val = n;
-            return;
-        }
-        
-        left->updateNode(index, n);
-        right->updateNode(index, n);
-        
-        val = left->val + right->val;
+        int mid = left + (right - left) / 2;
+        buildTree(nums, 2 * pos + 1, left, mid);
+        buildTree(nums, 2 * pos + 2, mid + 1, right);
+        tree[pos] = tree[2 * pos + 1] + tree[2 * pos + 2];
     }
-    
-    int queryRange(int a, int b) {
-        if (a > end || b < start) {
+
+    // O(log(n))
+    void updateTree(int pos, int left, int right, int idx, int val) {
+        if (idx < left || idx > right) {
+            return;
+        }
+        if (left == right) {
+            if (left == idx) {
+                tree[pos] = val;
+            }
+            return;
+        }
+        int mid = left + (right - left) / 2;
+        updateTree(2 * pos + 1, left, mid, idx, val);
+        updateTree(2 * pos + 2, mid + 1, right, idx, val);
+        tree[pos] = tree[2 * pos + 1] + tree[2 * pos + 2];
+    }
+
+    // O(log(n))
+    int queryTree(int q_left, int q_right, int left, int right, int pos) {
+        if (q_left <= left && q_right >= right) {
+            return tree[pos];
+        }
+        if (q_left > right || q_right < left) {
             return 0;
         }
-        
-        if (start >= a && end <= b) {
-            return val;
-        }
-        
-        return left->queryRange(a, b) + right->queryRange(a, b);
+        int mid = left + (right - left) / 2;
+        return queryTree(q_left, q_right, left, mid, 2 * pos + 1) + 
+               queryTree(q_left, q_right, mid + 1, right, 2 * pos + 2);
     }
 };
 
 class NumArray {
-    SegmentTree* tree;
+    SegmentTree tree_;
+    int n_;
 public:
     NumArray(vector<int>& nums) {
-        tree = new SegmentTree(nums, 0, nums.size() - 1);
+        tree_ = SegmentTree(nums);
+        n_ = nums.size();
     }
     
     void update(int index, int val) {
-        tree->updateNode(index, val);
+        tree_.updateTree(0, 0, n_ - 1, index, val);
     }
     
     int sumRange(int left, int right) {
-        return tree->queryRange(left, right);
+        return tree_.queryTree(left, right, 0, n_ - 1, 0);
     }
 };
 

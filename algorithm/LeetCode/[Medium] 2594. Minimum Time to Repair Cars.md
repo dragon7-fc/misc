@@ -78,7 +78,7 @@ class Solution:
             heappush(h, [rank * k * k, rank, k, count])
         return time
 ```
-**Solution 3: (Heap)**
+**Solution 3: (Heap0**
 ```
 Runtime: 1294 ms, Beats 5.09%
 Memory: 336.03 MB, Beats 5.08%
