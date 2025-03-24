@@ -57,21 +57,64 @@ class Solution:
 
 **Solution 2: (Sliding Window)**
 ```
-Runtime: 231 ms
-Memory Usage: 57.2 MB
+Runtime: 140 ms, Beats 10.96%
+Memory: 60.94 MB, Beats 64.15%
 ```
 ```c++
 class Solution {
 public:
     int longestNiceSubarray(vector<int>& nums) {
-        int used = 0, j = 0, res = 0;
-        for (int i = 0; i < nums.size(); ++i) {
-            while ((used & nums[i]) != 0)
-                used ^= nums[j++];
-            used |= nums[i];
-            res = max(res, i - j + 1);
+        int n = nums.size(), i = 0, j, k, ck = 0, cnt[32] = {0}, cur = 0, ans = 1;
+        for (j = 0; j < n; j ++) {
+            k = 0;
+            while ((1<<k) <= nums[j]) {
+                if ((1<<k) & nums[j]) {
+                    cnt[k] += 1;
+                    if (cnt[k] == 2) {
+                        ck += 1;
+                    }
+                }
+                k += 1;
+            }
+            while (ck) {
+                k = 0;
+                while ((1<<k) <= nums[i]) {
+                    if ((1<<k) & nums[i]) {
+                        cnt[k] -= 1;
+                        if (cnt[k] == 1) {
+                            ck -= 1;
+                        }
+                    }
+                    k += 1;
+                }
+                i += 1;
+            }
+            ans = max(ans, j - i + 1);
         }
-        return res;
+        return ans;
+    }
+};
+```
+
+**Solution 3: (Sliding Window, optimizzed)**
+```
+Runtime: 0 ms, Beats 100.00%
+Memory: 61.05 MB, Beats 28.44%
+```
+```c++
+class Solution {
+public:
+    int longestNiceSubarray(vector<int>& nums) {
+        int n = nums.size(), i = 0, j, pre = 0, ans = 0;
+        for (j = 0; j < n; j ++) {
+            while ((pre & nums[j]) != 0) {
+                pre ^= nums[i];
+                i += 1;
+            }
+            pre ^= nums[j];
+            ans = max(ans, j - i + 1);
+        }
+        return ans;
     }
 };
 ```

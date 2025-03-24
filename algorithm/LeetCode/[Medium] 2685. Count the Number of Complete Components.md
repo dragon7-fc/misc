@@ -78,58 +78,98 @@ class Solution:
         return ans
 ```
 
-**Solution 2: (Union-Find)**
+**Solution 2: (DFS)**
 ```
-Runtime: 228 ms
-Memory: 112 MB
+Runtime: 66 ms, Beats 40.94%
+Memory: 135.20 MB, Beats 45.25%
 ```
 ```c++
-class DSU {
-private:
-    vector<int> p, rank, count;
-public:
-    DSU(int n) {
-        p.resize(n), rank.resize(n), count.resize(n, 1);
-        for (int i = 0; i < n; ++i) p[i] = i;
-    }
-    int find(int x) {
-        if (x != p[x]) p[x] = find(p[x]);
-        return p[x];
-    }
-    void union_set(int x, int y) {
-        int xx = find(x), yy = find(y);
-        if (xx == yy) return;
-        count[xx] = count[yy] = count[xx] + count[yy];
-        if (rank[xx] < rank[yy]) p[xx] = yy;
-        else p[yy] = xx;
-        if (rank[xx] == rank[yy]) ++rank[xx];
-    }
-    int sizeOfGroupThatXIsAPartOf(int x) {
-        return count[find(x)];
-    }
-};
-
 class Solution {
+    void dfs(int u, pair<int,int> &dp, vector<int> &visited, vector<vector<int>> &g) {
+        visited[u] = 1;
+        dp.first += 1;
+        for (auto v: g[u]) {
+            dp.second += 1;
+            if (!visited[v]) {
+                dfs(v, dp, visited, g);
+            }
+        }
+    }
 public:
     int countCompleteComponents(int n, vector<vector<int>>& edges) {
-        DSU uf(n);
-        set<int> groups;
-        vector<int> counter(n, 0);
-        for (auto& e : edges) {
-            uf.union_set(e[0], e[1]);
-            ++counter[e[0]], ++counter[e[1]];
+        int i, ans = 0;
+        vector<vector<int>> g(n);
+        vector<int> visited(n);
+        for (auto e: edges) {
+            g[e[0]].push_back(e[1]);
+            g[e[1]].push_back(e[0]);
         }
-        
-        for (int i = 0; i < n; ++i)
-            groups.insert(uf.find(i));
+        for (i = 0; i < n; i ++) {
+            if (!visited[i]) {
+                pair<int,int> dp;
+                dfs(i, dp, visited, g);
+                auto [v, e] = dp;
+                if (v == 1 || e == v*(v-1)) {
+                    ans += 1;
+                }
+            }
+        }
+        return ans;
+    }
+};
+```
 
-        for (int i = 0; i < n; ++i) {
-            int f = uf.find(i);
-            if (!groups.count(f)) continue;
-            if (uf.sizeOfGroupThatXIsAPartOf(i) != counter[i] + 1) 
-                groups.erase(f);
+**Solution 3: (Union Find, size, rank not compress)**
+```
+Runtime: 42 ms, Beats 71.05%
+Memory: 130.90 MB, Beats 59.92%
+```
+```c++
+class Solution {
+    vector<int> p;
+    vector<int> sz;
+    int find(int x) {
+        if (p[x] == -1) {
+            return x;
         }
-        return groups.size();
+        if (x != p[x]) {
+            p[x] = find(p[x]);
+        }
+        return p[x];
+    }
+    void uni(int x, int y) {
+        int xr = find(x), yr = find(y);
+        if (xr == yr) {
+            return;
+        }
+        if (sz[xr] < sz[yr]) {
+            p[xr] = yr;
+            sz[yr] += sz[xr];
+        } else {
+            p[yr] = xr;
+            sz[xr] += sz[yr];
+        }
+    }
+public:
+    int countCompleteComponents(int n, vector<vector<int>>& edges) {
+        int i, ans = 0;
+        vector<int> cnt(n);
+        p.resize(n, -1);
+        sz.resize(n, 1);
+        for (auto e: edges) {
+            uni(e[0], e[1]);
+        }
+        for (auto e: edges) {
+            cnt[find(e[0])] += 1;
+        }
+        for (i = 0; i < n; i ++) {
+            if (i == find(i)) {
+                if (sz[i]*(sz[i]-1)/2 == cnt[i]) {
+                    ans += 1;
+                }
+            }
+        }
+        return ans;
     }
 };
 ```

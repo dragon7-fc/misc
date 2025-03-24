@@ -72,3 +72,141 @@ class Solution:
         
         return dijkstra(0)
 ```
+
+**Solution 2: (Floyd-Warshall)**
+
+             0
+         1 /   \ 4
+         1  -  2
+            2
+init
+          0    1     2
+    0  {0,0} {1,1} {4,1}
+    1  {1,1} {0,0} {2,1}
+    2  {4,1} {2,1} {0,0}
+mid 0:
+          0    1     2
+    0  {0,1} {1,1} {4,1}
+    1  {1,1} {0,1} {2,1}
+    2  {4,1} {2,1} {0,1}
+mid 1:
+          0    1     2
+    0               {3,1}
+    1  
+    2  {3,1} 
+mid 2
+          0    1     2
+    0               
+    1  
+    2  
+
+```
+Runtime: 295 ms, Beats 5.29%
+Memory: 39.65 MB, Beats 25.13%
+```
+```c++
+class Solution {
+public:
+    int countPaths(int n, vector<vector<int>>& roads) {
+        vector<vector<pair<long long,long long>>> dp(n, vector<pair<long long, long long>>(n, {1e12, 0}));
+        int MOD = 1e9 + 7, i, j, k;
+        for (i = 0; i < n; i ++) {
+            dp[i][i] = {0, 1};
+        }
+        for (auto r: roads) {
+            dp[r[0]][r[1]] = {r[2], 1};
+            dp[r[1]][r[0]] = {r[2], 1};
+        }
+        for (k = 0; k < n; k ++) {
+            for (i = 0; i < n; i ++) {
+                for (j = 0; j < n; j ++) {
+                    if (i != k && j != k) {
+                        if (dp[i][j].first > dp[i][k].first + dp[k][j].first) {
+                            dp[i][j].first = dp[i][k].first + dp[k][j].first;
+                            dp[i][j].second = (dp[i][k].second * dp[k][j].second) % MOD;
+                        } else if (dp[i][j].first == dp[i][k].first + dp[k][j].first) {
+                            dp[i][j].second = (dp[i][j].second + dp[i][k].second * dp[k][j].second) % MOD;
+                        }
+                    }
+                }
+            }
+        }
+        return dp[0][n-1].second;
+    }
+};
+```
+
+**Solution 3: (Dijkstra, DP Bottom-Up)**
+
+               0  <
+            5/ | 2\
+           /  7|     1  <
+          4 <  |   3/ \3
+           \   |   3 <  2 <
+           2\  | 3/ \1 /1
+             \ | /   \/
+             > 6 --- 5 
+                  1
+
+dist    0     1     2     3     4     5     6
+      {0,1} 
+            {2,1}             {5,1}        {7,1}
+                  {5,1} {5,1}
+                                           {7,2}
+                                    {6,2}
+                                           {7,3}
+pq
+      {0,0}
+        ^
+      {5,4} {7,6} {2,1}
+                    ^
+      {5,4} {7,6} {5,3} {5,2}
+       ^
+      {7,6} {7,6} {5,3} {5,2}
+                   ^
+      {7,6} {7,6} {6,5} {5,2}
+                          ^
+      {7,6} {7,6} {6,5}
+                    ^
+
+```
+Runtime: 15 ms, Beats 34.98%
+Memory: 37.29 MB, Beats 56.38%
+```
+```c++
+class Solution {
+public:
+    int countPaths(int n, vector<vector<int>>& roads) {
+        vector<vector<pair<int,int>>> g(n);
+        priority_queue<pair<long long,int>, vector<pair<long long,int>>, greater<pair<long long,int>>> pq;
+        vector<pair<long long,long long>> dist(n, {LONG_LONG_MAX, 0});
+        long long nt;
+        int MOD = 1e9 + 7;
+        for (auto r: roads) {
+            g[r[0]].push_back({r[1], r[2]});
+            g[r[1]].push_back({r[0], r[2]});
+        }
+        dist[0] = {0, 1};
+        pq.push({0, 0});
+        while (pq.size()) {
+            auto [t, u] = pq.top();
+            pq.pop();
+            if (t > dist[u].first) {
+                continue;
+            }
+            for (auto [v, w]: g[u]) {
+                nt = t + w;
+                if (nt < dist[v].first) {
+                    dist[v].first = nt;
+                    dist[v].second = dist[u].second;
+                    pq.push({nt, v});
+                } else if (nt == dist[v].first) {
+                    dist[v].second += dist[u].second;
+                    dist[v].second %= MOD;
+                }
+            }
+        }
+        return dist[n-1].second;
+    }
+};
+```

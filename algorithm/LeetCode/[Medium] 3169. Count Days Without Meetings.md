@@ -53,22 +53,24 @@ Meetings are scheduled for all working days.
 ---
 **Solution 1: (Sort)**
 ```
-Runtime: 323 ms
-Memory: 125.50 MB
+Runtime: 71 ms, Beats 53.06%
+Memory: 126.54 MB, Beats 59.18%
 ```
 ```c++
 class Solution {
 public:
     int countDays(int days, vector<vector<int>>& meetings) {
+        int i, s, e, right = 0, ans = 0;
         sort(meetings.begin(), meetings.end());
-        int last = meetings[0][1], ans = meetings[0][0]-1;
-        for (int i = 1; i < meetings.size(); i ++) {
-            if (meetings[i][0] > last) {
-                ans += meetings[i][0] - last - 1;
+        for (auto &m: meetings) {
+            s = m[0];
+            e = m[1];
+            if (s > right) {
+                ans += s - right - 1;
             }
-            last = max(last, meetings[i][1]);
+            right = max(right, e);
         }
-        ans += days - last;
+        ans += days - right;
         return ans;
     }
 };

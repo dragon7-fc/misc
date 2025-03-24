@@ -16405,7 +16405,7 @@ class Solution:
 ```
 * [Hard] [Solution] 803. Bricks Falling When Hit
 
-### Coloring
+### Coloring, size, rank not compress
 ```python
 class DSU:
     def __init__(self, N):
@@ -16598,7 +16598,7 @@ class Solution:
                 return True
 ```
 
-**Template 2: (Union Find)**
+**Template 2: (Union Find with size, rank not compress)**
 ```python
 class DSU:
     def __init__(self, N):
@@ -16616,9 +16616,6 @@ class DSU:
         self.p[xr] = yr
         self.sz[yr] += self.sz[xr]
         
-    def size(self, x):
-        return self.sz[self.find(x)]
-        
 class Solution:
     def ...(self, XXX):
         N = ...
@@ -16627,9 +16624,9 @@ class Solution:
             dus.union(..., ...)
         max_component_size = max(dsu.sz)
         for ... in XXX:
-            component_size[...] = dsu.size(...)
-        n_component = len({dsu.find(...) for ... in XXX})
-        # n_component = sum(dsu.find(x) == x for x in range(N))
+            root = dsu.find(...);
+            component_size[root] = dsu.sz[root]
+        n_component = sum(dsu.find(x) == x for x in range(N))
 ```
 
 ## Sliding Window <a name="sw"></a>

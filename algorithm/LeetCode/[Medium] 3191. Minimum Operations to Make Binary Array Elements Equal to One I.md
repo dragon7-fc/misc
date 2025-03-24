@@ -46,8 +46,8 @@ It is impossible to make all elements equal to 1.
 ---
 **Solution 1: (Greedy)**
 ```
-Runtime: 128 ms
-Memory: 138.42 MB
+Runtime: 7 ms, Beats 59.94%
+Memory: 140.04 MB, Beats 47.55%
 ```
 ```c++
 class Solution {
