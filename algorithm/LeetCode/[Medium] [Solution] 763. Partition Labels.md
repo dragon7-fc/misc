@@ -71,25 +71,47 @@ class Solution:
         return ans
 ```
 
-**Solution 1: (Greedy, Two Pointers)**
+**Solution 1: (Prefix Sum)**
+
+     0  1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16 17 18 19 20 21 22 23
+     a  b  a  b  c  b  a  c  a  d  e  f  e  g  d  e  h  i  j  h  k  l  i  j
+                                                                          ^  
+last 8  8  8  8  8  8  8  8  8 14 15 15 15 15 15 15 19 22 23 22 23 23 23 23
+                             ^                    ^                       ^
+pre
+    a 8
+    b 5
+    c 7
+    d 14
+    e 15
+    f 11
+    g 13
+    h 19
+    i 22
+    j 23
+    k 20
+    l 21
+
 ```
-Runtime: 7 ms
-Memory Usage: 6.7 MB
+Runtime: 0 ms, Beats 100.00%
+Memory: 8.65 MB, Beats 97.09%
 ```
 ```c++
 class Solution {
 public:
-    unordered_map<char, int> last;
     vector<int> partitionLabels(string s) {
-        for (int i = 0; i < s.size(); i ++)
-            last[s[i]] = i;
-        int j = 0, anchor = 0;
-        vector<int>ans;
-        for (int i = 0; i < s.size(); i ++) {
-            j = max(j, last[s[i]]);
-            if (i == j) {
-                ans.push_back(i - anchor + 1);
-                anchor = i + 1;
+        int n = s.size(), i, pre[26], last = -1, k = 0;
+        vector<int> ans;
+        memset(pre, 0xff, sizeof(pre));
+        for (i = 0; i < n; i ++) {
+            pre[s[i] - 'a'] = i; 
+        }
+        for (i = 0; i < n; i ++) {
+            last = max(last, pre[s[i] - 'a']);
+            k += 1;
+            if (last == i) {
+                ans.push_back(k);
+                k = 0;
             }
         }
         return ans;

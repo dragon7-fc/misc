@@ -70,3 +70,81 @@ class Solution:
                 return i
         return -1
 ```
+
+**Solution 2: (Prefix sum)**
+
+    [2,1,3,1,1,1,7,1,2,1]
+               ^ 
+left:
+   1: 3
+   2: 1
+   3: 1
+right:
+    11 6 5 4 3
+    2: 2 1 
+    3: 1 0
+    7: 1   
+
+```
+Runtime: 55 ms, Beats 29.10%
+Memory: 103.06 MB, Beats 12.30%
+```
+```c++
+class Solution {
+public:
+    int minimumIndex(vector<int>& nums) {
+        int n = nums.size(), i;
+        unordered_map<int,int> left, right;
+        for (i = 0; i < n; i ++) {
+            right[nums[i]] += 1;
+
+        }
+        for (i = 0; i < n-1; i ++) {
+            right[nums[i]] -= 1;
+            left[nums[i]] += 1;
+            if (left[nums[i]] > (i+1)/2 && right[nums[i]] > (n-i-1)/2) {
+                return i;
+            }
+        }
+        return -1;
+    }
+};
+```
+
+**Solution 3: (Boyer-Moore Majority Voting Algorithm)**
+```
+Runtime: 0 ms, Beats 100.00%
+Memory: 90.04 MB, Beats 64.34%
+```
+```c++
+class Solution {
+public:
+    int minimumIndex(vector<int>& nums) {
+        int n = nums.size(), i, x = nums[0], cnt = 0, cur = 0;
+        for (auto num: nums) {
+            if (x != num) {
+                cnt -= 1;
+                if (cnt == 0) {
+                    x = num;
+                    cnt = 1;
+                }
+            } else {
+                cnt += 1;
+            }
+        }
+        cnt = 0;
+        for (auto num: nums) {
+            cnt += num == x;
+        }
+        for (i = 0; i < n; i ++) {
+            if (nums[i] == x) {
+                cur += 1;
+            }
+            if (cur*2 > (i+1) && (cnt-cur)*2 > (n-i-1)) {
+                return i;
+            }
+        }
+        return -1;
+    }
+};
+```

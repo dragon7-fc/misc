@@ -423,3 +423,268 @@ class Solution:
 
         return ans % (10**9 + 7)
 ```
+
+**Solution 4: (Coordinate Compression, coordinate transformation)**
+
+           0             1                           2
+    [0,0,100,100] [10000,10000,20000, 20000] [50,50,150,150]
+
+ 2000                   -----x
+                        | 1  |
+ 1000                   x-----
+  150     --------x
+  100 ----|---x 2 |
+   50 | 0 x---|----
+    0 x--------
+      0  50  100 150  1000  2000
+  
+   dpy
+5 2000
+4 1000                   x
+3  150
+2  100      x  x
+1   50  x   x  x
+0    0  x   x
+        0  50 100 150  1000 2000 dpx
+        0  1    2    3    4    5
+
+```
+Runtime: 18 ms, Beats 19.11%
+Memory: 15.08 MB, Beats 18.85%
+```
+```c++
+class Solution {
+public:
+    int rectangleArea(vector<vector<int>>& rectangles) {
+        int MOD = 1e9 + 7;
+        set<int> stx, sty;
+        for (auto r: rectangles) {
+            stx.insert(r[0]);
+            stx.insert(r[2]);
+            sty.insert(r[1]);
+            sty.insert(r[3]);
+        }
+        vector<long long> dpx(stx.begin(), stx.end());
+        vector<long long> dpy(sty.begin(), sty.end());
+        unordered_map<long long,int> mx, my;
+        int i, j, m = dpx.size(), n = dpy.size();
+        for (i = 0; i < m; i ++) {
+            mx[dpx[i]] = i;
+        }
+        for (j = 0; j < n; j ++) {
+            my[dpy[j]] = j;
+        }
+        vector<vector<int>> g(m, vector<int>(n));
+        for (auto r: rectangles) {
+            for (i = mx[r[0]]; i < mx[r[2]]; i ++) {
+                for (j = my[r[1]]; j < my[r[3]]; j ++) {
+                    g[i][j] = 1;
+                }
+            }
+        }
+        long long ans = 0;
+        for (i = 0; i < m-1; i ++) {
+            for (j = 0; j < n-1; j ++) {
+                if (g[i][j]) {
+                    ans += (dpx[i+1] - dpx[i]) * (dpy[j+1] - dpy[j]);
+                    ans %= MOD;
+                }
+            }
+        }
+        return ans;
+    }
+};
+```
+
+**Solution 5: (Line Sweep, open close event)**
+
+ 2000                   -----x
+                        | 1  |
+ 1000                   x-----
+  150     --------x                <dy
+  100 ----|---x 2 |                |
+   50 | 0 x---|----                
+    0 x--------                   
+      0  50  100 150  1000  2000
+      ^e0 ^e1 ^e2 ^e3   ^e4   ^e5
+              ^px ^x
+w         e0  e0  e0        e4
+              e1
+
+```
+Runtime: 3 ms, Beats 64.06%
+Memory: 12.36 MB, Beats 65.10%
+```
+```c++
+class Solution {
+public:
+    int rectangleArea(vector<vector<int>>& rectangles) {
+        int n = rectangles.size(), i, MOD = 1e9 + 7, px, cur;
+        long long dy, ans = 0;
+        vector<tuple<int,int,int,int,int>> dp;
+        for (i = 0; i < n; i ++) {
+            dp.push_back({rectangles[i][0], 0, rectangles[i][1], rectangles[i][3], i});
+            dp.push_back({rectangles[i][2], 1, rectangles[i][1], rectangles[i][3], i});
+        }
+        sort(dp.begin(), dp.end());
+        vector<pair<int,int>> w;
+        px = get<0>(dp[0]);
+        for (auto [x, t, y1, y2, i]: dp) {
+            dy = 0;
+            cur = -1;
+            for (auto [cy1, cy2]: w) {
+                cur = max(cur, cy1);
+                dy += max(0, cy2 - cur);
+                cur = max(cur, cy2);
+            }
+            ans += dy * (x - px);
+            ans %= MOD;
+            if (t == 0) {
+                w.push_back({y1, y2});
+                sort(w.begin(), w.end());
+            } else {
+                auto it = find(w.begin(), w.end(), make_pair(y1, y2));
+                w.erase(it);
+            }
+            px = x;
+        }
+        return ans;
+    }
+};
+```
+
+**Solution 6: (Segment Tree)**
+
+    rectangles = [[0,0,2,2],[1,0,2,3],[1,0,3,1]]
+
+       3      |--x data[5]
+       2   ------x data[4]
+       1   |  |--|--x data[3]
+       0   x--x-----|
+           0  1  2  3
+                      
+data                    y  t
+> 0        x     x      0  1
+  1           x  x      0  1
+  2           x     x   0  1
+  3           x     x   1 -1
+  4        x     x      2 -1
+  5           x  x      3 -1
+
+dp  {0, 1 ,2 ,3}
+        root  ->   [0, 1, 2, 3] 0 2
+                   /           \
+            [0, 1] 1 1          [1, 2, 3] 0 1
+                                /       \
+                            [1, 2] 1 1  [2, 3] 0 0
+
+```
+Runtime: 3 ms, Beats 63.78%
+Memory: 14.63 MB, Beats 20.73%
+```
+```c++
+const int MOD = 1e9+7;
+struct Node {
+    int start; //start coordinate of a range
+    int end; // end coordinate of a range
+    int cnt; // count how many times this range has been covered by rectangles
+    int area; // area that is covered within this range
+    Node *left; //left sub-segement tree
+    Node *right;// right sub-segment tree
+    Node (int s, int e, int cn, int ar, Node *l_node, Node *r_node) {
+        start = s;
+        end = e;
+        cnt = cn;
+        area = ar;
+        left = l_node;
+        right = r_node;
+    }
+};
+
+static bool cmp(const vector<int>&a, const vector<int> &b) {
+    if (a[2] != b[2])
+        return a[2] < b[2];
+    return a[0] < b[0];
+}
+
+Node* build(const vector<int> &nums, int s, int e){        
+    if (s >= e)
+        return NULL;
+    if (e - s == 1) {
+        return new Node(nums[s], nums[s+1], 0, 0, NULL, NULL);
+    }   
+    int mid = (s + e)/2;
+    Node *left = build(nums, s, mid);
+    Node *right = build(nums, mid, e);
+    return new Node(left->start, right->end, 0, 0, left, right);
+}
+
+void update(Node *node, int s, int e, const int t){
+    if (!node) {
+        return;
+    }
+    if (s >= node->end || e <= node->start) {
+        return;
+    }
+    if (s <= node->start && e >= node->end) {
+        node->cnt += t;
+    } else {
+        update(node->left, s, e, t); //update left tree
+        update(node->right, s, e, t); //update right tree
+    }
+    if (node->cnt) {
+        node->area = node->end - node->start;
+    } else {
+        if (node->left && node->right) {
+            node->area = node->left->area + node->right->area;
+        } else {
+            node->area = 0;
+        }
+    }
+}
+
+class Solution {
+public:
+    int rectangleArea(vector<vector<int>>& rectangles) {
+        const int m = rectangles.size();
+        if (m == 0) {
+            return 0;
+        }
+        set<int> x_st;
+        for (const vector<int> &v : rectangles) {
+            x_st.insert(v[0]);
+            x_st.insert(v[2]);
+        }               
+        vector<int> dp(x_st.begin(), x_st.end());
+        long long ans = 0;
+        Node *root = build(dp, 0, dp.size()-1);        
+        
+        vector<vector<int>> data;
+        vector<int> cur(4);
+        for (const vector<int> &v: rectangles){
+            cur[0] = v[0];  // x_left
+            cur[1] = v[2];  // x_right
+            cur[2] = v[1];  // y_left
+            cur[3] = 1;
+            data.push_back(cur);
+            cur[2] = v[3];  // y_right
+            cur[3] = -1;
+            data.push_back(cur);            
+        }
+        
+        sort(data.begin(), data.end(), cmp);
+        
+        update(root, data[0][0], data[0][1], data[0][3]);
+        for (int i = 1; i < data.size(); i++){
+            long long h = data[i][2] - data[i-1][2];        
+            long long w = root->area;            
+            if (h > 0) {
+                ans += (w*h) % MOD;
+                ans %= MOD;
+            }
+            update(root, data[i][0], data[i][1], data[i][3]);       
+        }
+        return ans;
+    }
+};
+```
