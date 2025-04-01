@@ -85,23 +85,26 @@ public:
 };
 ```
 
-**Solution 3: (DP Top-Down)**
+**Solution 3: (DP Bottom-Up)**
 ```
-Runtime: 396 ms
-Memory: 112.6 MB
+Runtime: 8 ms, Beats 49.73%
+Memory: 119.70 MB, Beats 86.16%
 ```
 ```c++
 class Solution {
 public:
     long long mostPoints(vector<vector<int>>& questions) {
-        int n = questions.size();
-        long long dp[n+1];
-        memset(dp, 0, sizeof(dp));
-        int point, brainpower;
-        for (int i = n-1; i >= 0; i --) {
-            point = questions[i][0];
-            brainpower = questions[i][1];
-            dp[i] = max(dp[i+1], dp[min(i+brainpower+1, n)] + point);
+        int n = questions.size(), i, b;
+        vector<long long> dp(n);
+        long long p;
+        dp[n-1] = questions[n-1][0];
+        for (i = n-2; i >= 0; i --) {
+            p = questions[i][0];
+            b = questions[i][1];
+            dp[i] = max(p, dp[i+1]);
+            if (i+b+1 < n) {
+                dp[i] = max(dp[i], p + dp[i+b+1]);
+            }
         }
         return dp[0];
     }
