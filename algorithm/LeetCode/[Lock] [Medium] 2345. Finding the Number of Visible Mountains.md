@@ -58,3 +58,63 @@ class Solution:
                 stk.append(i)
         return len([i for i in stk if cnt[tuple(peaks[i])] == 1])
 ```
+
+**Solution 1: (Monotonic Stack)**
+
+    5
+    4                  x
+    3               /     x
+    2         x  /     /      \
+    1      /  /  \  /            \
+    0   x--x-----x--x--------------x
+        0  1  2  3  4  5  6  7  8  9
+
+     [2,2],[6,3],[5,4]
+     [2,2] [5,4] [6,3]
+                   ^
+ans  2
+
+
+    [[2,2],[2,2],[3,1]]
+
+    2         x
+    1      /     x
+    0   x-----------x      
+        0  1  2  3  4
+ans  1
+
+```
+Runtime: 71 ms, Beats 50.68%
+Memory: 132.00 MB, Beats 67.12%
+```
+```c++
+class Solution {
+public:
+    int visibleMountains(vector<vector<int>>& peaks) {
+        int n = peaks.size(), i, x, y, ans = 0;
+        sort(peaks.begin(), peaks.end());
+        vector<int> repeat(n);
+        stack<int> stk;
+        for (i = 0; i < n; i ++) {
+            x = peaks[i][0];
+            y = peaks[i][1];
+            if (i && peaks[i-1] == peaks[i]) {
+                repeat[i-1] = 1;
+                repeat[i] = 1;
+            }
+            while (stk.size() && x - peaks[stk.top()][0] <= y - peaks[stk.top()][1]) {
+                stk.pop();
+            }
+            if (!stk.size() || stk.size() && x - peaks[stk.top()][0] > peaks[stk.top()][1] - y) {
+                stk.push(i);
+            }
+        }
+        while (stk.size()) {
+            i = stk.top();
+            stk.pop();
+            ans += repeat[i] == 0;
+        }
+        return ans;
+    }
+};
+```

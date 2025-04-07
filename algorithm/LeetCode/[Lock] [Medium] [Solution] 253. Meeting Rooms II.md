@@ -334,3 +334,28 @@ class Solution:
         
         return ans
 ```
+
+**Solution 5: (Counter)**
+```
+Runtime: 8 ms, Beats 17.43%
+Memory: 17.65 MB, Beats 25.07%
+```
+```c++
+class Solution {
+public:
+    int minMeetingRooms(vector<vector<int>>& intervals) {
+        int n = intervals.size(), i, k, ans;
+        map<int,int> cnt;
+        for (i = 0; i < n; i ++) {
+            cnt[intervals[i][0]] += 1;
+            cnt[intervals[i][1]] -= 1;
+        }
+        k = 0;
+        for (auto &[_, c]: cnt) {
+            k += c;
+            ans = max(ans, k);
+        }
+        return ans;
+    }
+};
+```

@@ -149,3 +149,46 @@ public:
     }
 };
 ```
+
+**Solution 3: (Deque)**
+```
+Runtime: 0 ms, Beats 100.00%
+Memory: 9.11 MB, Beats 4.35%
+```
+```c++
+/**
+ * The read4 API is defined in the parent class Reader4.
+ *     int read4(char *buf4);
+ */
+
+class Solution {
+    deque<char> dp;
+public:
+    /**
+     * @param buf Destination buffer
+     * @param n   Number of characters to read
+     * @return    The number of actual characters read
+     */
+    int read(char *buf, int n) {
+        int i, k;
+        char buf4[4] = {0};
+        while (dp.size() < n) {
+            k = read4(buf4);
+            if (k == 0) {
+                break;
+            }
+            for (i = 0; i < k; i ++) {
+                dp.push_back(buf4[i]);
+            }
+        }
+        cout << dp.size() << endl;
+        i = 0;
+        while (i < n && dp.size()) {
+            buf[i] = dp.front();
+            dp.pop_front();
+            i += 1;
+        }
+        return i;
+    }
+};
+```

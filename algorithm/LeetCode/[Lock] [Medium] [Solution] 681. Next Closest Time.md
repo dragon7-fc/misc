@@ -121,3 +121,94 @@ class Solution:
 
         return "{:02d}:{:02d}".format(*divmod(ans, 60))
 ```
+
+**Solution 3: (Build From Allowed Digits)**
+```
+Runtime: 3 ms Beats, 20.39%
+Memory: 9.25 MB, Beats 21.05%
+```
+```c++
+class Solution {
+public:
+    string nextClosestTime(string time) {
+        int cnt[10] = {0}, i, n, a, h, m, t, ct, mn = INT_MAX;
+        string d, cur, ans = time;
+        unordered_set<string> dp;
+        for (i = 0; i < time.size(); i ++) {
+            if (i == 2) {
+                continue;
+            }
+            cnt[time[i]-'0'] += 1;
+        }
+        for (i = 0; i < 10; i ++) {
+            if (cnt[i]) {
+                d += i+'0';
+            }
+        }
+        n = d.size();
+        for (a = 0; a < pow(n,4); a ++) {
+            cur = "";
+            i = 0;
+            while (i < 4) {
+                cur += d[(a/(int)pow(n,i))%n];
+                i += 1;
+            }
+            dp.insert(cur);
+        }
+        t = ((time[0]-'0')*10 + time[1]-'0') * 60 + (time[3]-'0')*10 + time[4]-'0';
+        for (auto cur: dp) {
+            h = (cur[0]-'0')*10 + cur[1]-'0';
+            m = (cur[2]-'0')*10 + cur[3]-'0';
+            if (h > 23 || m > 59) {
+                continue;
+            }
+            ct = h*60 + m;
+            if (ct > t && ct-t < mn) {
+                mn = ct-t;
+                ans = cur.substr(0, 2) + ":" + cur.substr(2, 2);
+            } else if (ct < t && ct+ 24*60 - t < mn) {
+                mn = ct + 24*60 - t;
+                ans = cur.substr(0, 2) + ":" + cur.substr(2, 2);
+            }
+        }
+        return ans;
+    }
+};
+```
+
+**Solution 4: (Try all solution)**
+```
+Runtime: 0 ms, Beats 100.00%
+Memory: 7.98 MB, Beats 71.71%
+```
+```c++
+class Solution {
+public:
+    string nextClosestTime(string time) {
+        int cnt[10] = {0}, i, h, m, t, ct, mn = INT_MAX;
+        string ans = time;
+        for (i = 0; i < time.size(); i ++) {
+            if (i == 2) {
+                continue;
+            }
+            cnt[time[i]-'0'] += 1;
+        }
+        t = ((time[0]-'0')*10 + time[1]-'0') * 60 + (time[3]-'0')*10 + time[4]-'0';
+        for (h = 0; h <= 23; h ++) {
+            for (m = 0; m <= 59; m ++) {
+                if (cnt[h/10] && cnt[h%10] && cnt[m/10] && cnt[m%10]) {
+                    ct = h*60 + m;
+                    if (ct > t && ct-t < mn)  {
+                        mn = ct - t;
+                        ans = string(1, h/10 + '0') + string(1, h%10 + '0') + ":" + string(1, m/10 + '0') + string(1, m%10 + '0');
+                    } else if (ct < t && ct + 24*60 - t < mn) {
+                        mn = ct + 24*60 - t;
+                        ans = string(1, h/10 + '0') + string(1, h%10 + '0') + ":" + string(1, m/10 + '0') + string(1, m%10 + '0');
+                    }
+                }
+            }
+        }
+        return ans;
+    }
+};
+```

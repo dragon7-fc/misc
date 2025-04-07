@@ -164,3 +164,30 @@ class Solution:
 
         return max_len
 ```
+
+**Solution 2: (Sliding Window)**
+```
+Runtime: 136 ms, Beats 22.02%
+Memory: 37.34 MB, Beats 22.03%
+```
+```c++
+class Solution {
+public:
+    int lengthOfLongestSubstringTwoDistinct(string s) {
+        int n = s.size(), i = 0, j, ans = 0;
+        unordered_map<char,int> cnt;
+        for (j = 0; j < n; j ++) {
+            cnt[s[j]] += 1;
+            while (cnt.size() > 2) {
+                cnt[s[i]] -= 1;
+                if (cnt[s[i]] == 0) {
+                    cnt.erase(s[i]);
+                }
+                i += 1;
+            }
+            ans = max(ans, j-i+1);
+        }
+        return ans;
+    }
+};
+```

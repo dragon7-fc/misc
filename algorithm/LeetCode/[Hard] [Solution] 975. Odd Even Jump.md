@@ -218,3 +218,94 @@ class Solution:
 
         return sum(odd)
 ```
+
+**Solution 2: (Monotonic Stack, DP Bottom-Up)**
+
+      4  3  1  2  0
+      0  2  1  3  4
+      0  1  2  3  4
+     ---------------
+    [10,13,12,14,15]
+               ^  
+                  ^
+
+
+     [2, 3, 1, 1, 4]
+      ^  ^  ^  ^x
+         ^        ^
+            ^  ^x
+               ^  ^
+                  ^
+
+     [1, 2, 3, 2, 1, 4, 4, 5]
+      ^           ^x
+         ^     ^  ^  ^  ^  ^
+            ^        ^  ^  ^
+               ^     ^  ^  ^
+                  ^  ^  ^  ^
+                     ^  ^x
+                        ^  ^
+                           ^
+
+```
+Runtime: 43 ms, Beats 86.53%
+Memory: 34.35 MB, Beats 40.85%
+```
+```c++
+class Solution {
+public:
+    int oddEvenJumps(vector<int>& arr) {
+        int n = arr.size(), i, ans;
+        vector<vector<int>> dp(n, vector<int>(2));
+        vector<pair<int,int>> dp2;
+        vector<int> odd(n, -1), even(n, -1);
+        for (i = 0; i < n; i ++) {
+            dp2.push_back({i, arr[i]});
+        }
+        sort(dp2.begin(), dp2.end(), [](auto &pa, auto &pb){
+            if (pa.second != pb.second) {
+                return pa.second < pb.second;
+            } else {
+                return pa.first < pb.first;
+            }
+        });
+        stack<int> stk;
+        for (i = 0; i < n; i ++) {
+            while (stk.size() && stk.top() < dp2[i].first) {
+                odd[stk.top()] = dp2[i].first;
+                stk.pop();
+            }
+            stk.push(dp2[i].first);
+        }
+        while (stk.size()) {
+            stk.pop();
+        }
+        sort(dp2.begin(), dp2.end(), [](auto &pa, auto &pb){
+            if (pa.second != pb.second) {
+                return pa.second > pb.second;
+            } else {
+                return pa.first < pb.first;
+            }
+        });
+        for (i = 0; i < n; i ++) {
+            while (stk.size() && stk.top() < dp2[i].first) {
+                even[stk.top()] = dp2[i].first;
+                stk.pop();
+            }
+            stk.push(dp2[i].first);
+        }
+        dp[n-1] = {1, 1};
+        ans = 1;
+        for (i = n-2; i >= 0; i --) {
+            if (odd[i] != -1) {
+                dp[i][0] += dp[odd[i]][1];
+                ans += dp[i][0];
+            }
+            if (even[i] != -1) {
+                dp[i][1] += dp[even[i]][0];
+            }
+        }
+        return ans;
+    }
+};
+```

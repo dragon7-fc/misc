@@ -111,3 +111,50 @@ bool canPartition(int* nums, int numsSize){
     return dp[sum];
 }
 ```
+
+**Solution 4: (DP Bottom-Up)**
+
+    1  5  5 11
+a   0  0  0
+    1  1  5
+       6  1
+          6
+          11<
+
+    
+    1 2 5
+    0 0 0
+    1 1 1
+      2 2
+      3 3
+        5
+        6
+
+```
+Runtime: 21 ms, Beats 98.25%
+Memory: 14.79 MB, Beats 82.88%
+```
+```c++
+class Solution {
+public:
+    bool canPartition(vector<int>& nums) {
+        int n = nums.size(), i = 0, j, a = accumulate(nums.begin(), nums.end(), 0), t;
+        if (a%2) {
+            return false;
+        }
+        t = a/2;
+        vector<int> dp(t+1);
+        dp[0] = 1;
+        for (i = 0; i < n; i ++) {
+            for (j = t-nums[i]; j >= 0; j --) {
+                a = j + nums[i];
+                dp[a] |= dp[j];
+                if (a == t && dp[a]) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+};
+```

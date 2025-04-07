@@ -135,3 +135,52 @@ struct TreeNode* lcaDeepestLeaves(struct TreeNode* root){
     return helper(root, &level);
 }
 ```
+
+**Solution 3: (DFS)**
+
+        0
+       /  \
+      1    3
+       \
+        2 <
+
+```
+Runtime: 0 ms, Beats 100.00%
+Memory: 21.94 MB, Beats 87.17%
+```
+```c++
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+class Solution {
+    pair<TreeNode*, int>dfs(TreeNode *node, int d) {
+        if (!node) {
+            return {nullptr, -1};
+        }
+        if (!node->left && !node->right) {
+            return {node, d};
+        }
+        auto [left, dl] = dfs(node->left, d+1);
+        auto [right, dr] = dfs(node->right, d+1);
+        if (dl == dr) {
+            return {node, dl};
+        } else if (dl > dr) {
+            return {left, dl};
+        } else {
+            return {right, dr};
+        }
+    }
+public:
+    TreeNode* lcaDeepestLeaves(TreeNode* root) {
+        return dfs(root, 0).first;
+    }
+};
+```

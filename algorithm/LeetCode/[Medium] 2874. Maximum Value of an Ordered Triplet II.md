@@ -58,3 +58,30 @@ public:
     }
 };
 ```
+**Solution 2: (One Pass)**
+
+     12, 6, 1, 2, 7
+pre  12 12 12
+a        6 11 11 
+cur         6 22 77
+ans         6 22 77
+
+```
+Runtime: 2 ms, Beats 77.44%
+Memory: 91.06 MB, Beats 85.24%
+```
+```c++
+class Solution {
+public:
+    long long maximumTripletValue(vector<int>& nums) {
+        int n = nums.size(), i, pre = 0, a = 0;
+        long long ans = 0;
+        for (i = 2; i < n; i ++) {
+            pre = max(pre, nums[i-2]);
+            a = max(a, pre-nums[i-1]);
+            ans = max(ans, 1LL*a*nums[i]);
+        }
+        return ans;
+    }
+};
+```

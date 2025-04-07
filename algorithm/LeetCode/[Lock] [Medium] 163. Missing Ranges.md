@@ -102,3 +102,33 @@ public:
     }
 };
 ```
+
+**Solution 4: (Greedy)**
+```
+Runtime: 0 ms, Beats 100.00%
+Memory: 9.36 MB, Beats 29.37%
+```
+```c++
+class Solution {
+public:
+    vector<vector<int>> findMissingRanges(vector<int>& nums, int lower, int upper) {
+        int n = nums.size(), i;
+        if (n == 0) {
+            return {{lower, upper}};
+        }
+        vector<vector<int>> ans;
+        if (nums[0] != lower) {
+            ans.push_back({lower, nums[0]-1});
+        }
+        for (i = 0; i < n-1; i ++) {
+            if (nums[i] + 1 != nums[i+1]) {
+                ans.push_back({nums[i] + 1, nums[i+1] - 1});
+            }
+        }
+        if (nums[n-1] != upper) {
+            ans.push_back({nums[n-1] + 1, upper});
+        }
+        return ans;
+    }
+};
+```

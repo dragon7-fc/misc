@@ -138,3 +138,63 @@ public:
     }
 };
 ```
+
+**Solution 5: (DP Bottom-Up)**
+
+    1  2  3
+       ^
+    {1,0}
+       {1,1}
+       {2,0}
+          {1,2}
+          {2,0}
+
+    1  2  4  8
+    {1,0}
+       {1,1}
+       {2,0}
+          {1,2}
+          {3,1}
+             {1,3}
+             {4,2} <
+
+```
+Runtime: 7 ms, Beats 94.70%
+Memory: 12.65 MB, Beats 47.06%
+```
+```c++
+class Solution {
+public:
+    vector<int> largestDivisibleSubset(vector<int>& nums) {
+        int n = nums.size(), i, j, k = 0, mx = 1;
+        vector<int> ans;
+        vector<pair<int,int>> dp(n);
+        stack<int>stk;
+        for (i = 0; i < n; i ++) {
+            dp[i] = {1, i};
+        }
+        sort(nums.begin(), nums.end());
+        for (j = 1; j < n; j ++) {
+            for (i = 0; i < j; i ++) {
+                if (nums[j]%nums[i] == 0 && dp[i].first + 1 > dp[j].first) {
+                    dp[j] = {dp[i].first + 1, i};
+                    if (dp[j].first > mx) {
+                        mx = dp[j].first;
+                        k = j;
+                    }
+                }
+            }
+        }
+        while (dp[k].first != 1) {
+            stk.push(nums[k]);
+            k = dp[k].second;
+        }
+        stk.push(nums[k]);
+        while (stk.size()) {
+            ans.push_back(stk.top());
+            stk.pop();
+        }
+        return ans;
+    }
+};
+```

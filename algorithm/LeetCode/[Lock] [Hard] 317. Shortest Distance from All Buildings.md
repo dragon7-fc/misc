@@ -93,3 +93,123 @@ class Solution:
                     res = min(res, dp[x][y][SUM])
         return res if res != float('inf') else -1
 ```
+
+**Solution 2: (BFS)**
+```
+Runtime: 2473 ms, Beats 13.67%
+Memory: 468.22 MB, Beats 9.57%
+```
+```c++
+class Solution {
+    int dd[5] = {0, 1, 0, -1, 0};
+public:
+    int shortestDistance(vector<vector<int>>& grid) {
+        int m = grid.size(), n = grid[0].size(), i, j, k = 0, ii, nr, nc, cur, ans = INT_MAX;
+        vector<vector<unordered_map<int,int>>> dp(m, vector<unordered_map<int,int>>(n));
+        queue<tuple<int,int,int,int>> q;
+        for (i = 0; i < m; i ++) {
+            for (j = 0; j < n; j ++) {
+                if (grid[i][j] == 1) {
+                    q.push({i, j, k, 0});
+                    dp[i][j][k] = 0;
+                    k += 1;
+                }
+            }
+        }
+        if (k == m*n) {
+            return -1;
+        }
+        while (q.size()) {
+            auto [r, c, f, d] = q.front();
+            q.pop();
+            if (grid[r][c] == 0 && dp[r][c].size() == k) {
+                cur = 0;
+                for (auto [_, cd]: dp[r][c]) {
+                    cur += cd;
+                }
+                ans = min(ans, cur);
+            }
+            for (ii = 0; ii < 4; ii ++) {
+                nr = r + dd[ii];
+                nc = c + dd[ii+1];
+                if (0 <= nr && nr < m && 0 <= nc && nc < n && grid[nr][nc] == 0 && !dp[nr][nc].count(f)) {
+                    dp[nr][nc][f] = d+1;
+                    q.push({nr, nc, f, d+1});
+                }
+            }
+        }
+        return ans != INT_MAX ? ans : -1;
+    }
+};
+```
+
+**Solution 2: (BFS)**
+```
+Runtime: 151 ms, Beats 95.15%
+Memory: 48.82 MB, Beats 86.69%
+```
+```c++
+class Solution {
+public:
+    int shortestDistance(vector<vector<int>>& grid) {
+        // Next four directions.
+        int dirs[4][2] = {{1, 0}, {-1, 0}, {0, 1}, {0, -1}};
+        
+        int rows = grid.size();
+        int cols = grid[0].size();
+        
+        // Total Mtrix to store total distance sum for each empty cell.
+        vector<vector<int>> total(rows, vector<int> (cols, 0));
+
+        int emptyLandValue = 0;
+        int minDist = INT_MAX;
+
+        for (int row = 0; row < rows; ++row) {
+            for (int col = 0; col < cols; ++col) {
+
+                // Start a bfs from each house.
+                if (grid[row][col] == 1) {
+                    minDist = INT_MAX;
+
+                    // Use a queue to perform a BFS, starting from the cell located at (row, col).
+                    queue<pair<int, int>> q;
+                    q.push({ row, col });
+                    
+                    int steps = 0;
+
+                    while (!q.empty()) {
+                        steps++;
+
+                        for (int level = q.size(); level > 0; --level) {
+                            auto curr = q.front();
+                            q.pop();
+
+                            for (auto& dir : dirs) {
+                                int nextRow = curr.first + dir[0];
+                                int nextCol = curr.second + dir[1];
+
+                                // For each cell with the value equal to empty land value
+                                // add distance and decrement the cell value by 1.
+                                if (nextRow >= 0 && nextRow < rows &&
+                                    nextCol >= 0 && nextCol < cols &&
+                                    grid[nextRow][nextCol] == emptyLandValue) {
+                                    grid[nextRow][nextCol]--;
+                                    total[nextRow][nextCol] += steps;
+
+                                    q.push({ nextRow, nextCol });
+                                    minDist = min(minDist, total[nextRow][nextCol]);
+                                }
+                            }
+                        }
+                    }
+
+                    // Decrement empty land value to be searched in next iteration.
+                    emptyLandValue--;
+                }
+            }
+        }
+
+        return minDist == INT_MAX ? -1 : minDist;
+    }
+};
+```
