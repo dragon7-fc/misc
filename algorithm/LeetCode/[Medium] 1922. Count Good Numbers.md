@@ -68,3 +68,59 @@ class Solution:
             i //= 2
         return good
 ```
+
+**Solution 3: (Math, Bit Manipulation)**
+
+    0  2  0
+    2  3  2
+    4  5  4
+    6  7  6
+    8     8
+
+    5  4  5  4  5  4  5  4
+    ----------  ----------
+        400        1600
+
+          1      5    1*5
+         10     20    5*4
+         11    100   20*5
+        100    400   80*4
+        101   2000  400*5  
+        110   8000 2000*4  
+        111  40000 8000*5
+          ^        5*20*400
+                        20**2
+       1000 160000
+         ^  (20*20)**2 = 20**4
+
+      20**16
+         20**8        20**1
+       1  1     0  0  1  0
+       (20**16) * 20**8 * 20
+
+```
+Runtime: 0 ms, Beats 100.00%
+Memory: 7.83 MB, Beats 69.99%
+```
+```c++
+class Solution {
+public:
+    int countGoodNumbers(long long n) {
+        if (n == 1) {
+            return 5;
+        }
+        int MOD = 1e9 + 7;
+        long long a = 2, b = 20, ans = (n%2? 5 : 1);
+        while (a <= n) {
+            if (a&n) {
+                ans *= b;
+                ans %= MOD;
+            }
+            b *= b;
+            b %= MOD;
+            a <<= 1;
+        }
+        return ans;
+    }
+};
+```

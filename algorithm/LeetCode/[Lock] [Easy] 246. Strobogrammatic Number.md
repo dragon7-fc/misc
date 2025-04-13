@@ -60,3 +60,32 @@ class Solution:
             r -= 1
         return True
 ```
+
+**Solution 2: (Hash Table)**
+```
+Runtime: 0 ms, Beats 100.00%
+Memory: 8.09 MB, Beats 37.95%
+```
+```c++
+class Solution {
+public:
+    bool isStrobogrammatic(string num) {
+        int n = num.size(), i;
+        string dp;
+        unordered_map<char,char> m = {
+            {'0','0'},
+            {'1','1'},
+            {'6','9'},
+            {'8','8'},
+            {'9','6'}
+        };
+        for (i = n-1; i >= 0; i --) {
+            if (!m.count(num[i])) {
+                return false;
+            }
+            dp += m[num[i]];
+        }
+        return dp == num;
+    }
+};
+```

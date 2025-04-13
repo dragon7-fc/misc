@@ -228,3 +228,32 @@ public:
  * bool param_1 = obj->shouldPrintMessage(timestamp,message);
  */
 ```
+
+**Solution 3: (Hash Table)**
+```
+Runtime: 7 ms, Beats 71.20%
+Memory: 39.28 MB, Beats 50.00%
+```
+```c++
+class Logger {
+    unordered_map<string,int> dp;
+public:
+    Logger() {
+        
+    }
+    
+    bool shouldPrintMessage(int timestamp, string message) {
+        if (!dp.count(message) || timestamp >= dp[message]) {
+            dp[message] = timestamp + 10;
+            return true;
+        }
+        return false;
+    }
+};
+
+/**
+ * Your Logger object will be instantiated and called as such:
+ * Logger* obj = new Logger();
+ * bool param_1 = obj->shouldPrintMessage(timestamp,message);
+ */
+```

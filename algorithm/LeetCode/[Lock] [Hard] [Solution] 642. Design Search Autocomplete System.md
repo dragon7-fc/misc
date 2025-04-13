@@ -525,3 +525,94 @@ public:
  * vector<string> param_1 = obj->input(c);
  */
 ```
+
+**Solution 3: (Trie)**
+
+trie
+  x -> i               -> ' '                  -> a    -? '#'         -> 
+    >{5,"i love you"}       {5,"i love you"}       {}      []
+    >{3, "island"}          {2, "i love leetcode"}
+     {2,"ironman"}                ^
+    >{2, "i love leetcode"}
+          ^    
+
+```
+Runtime: 284 ms, Beats 20.59%
+Memory: 298.78 MB, Beats 44.12%
+```
+```c++
+class AutocompleteSystem {
+    struct TrieNode {
+        unordered_map<char,TrieNode*> child;
+        unordered_set<string> st;
+    };
+    TrieNode *root, *cur, *dead = new TrieNode;
+    unordered_map<string,int> cnt;
+    string cs;
+    void build(string s) {
+        TrieNode *node = root;
+        for (auto c: s) {
+            if (!node->child.count(c)) {
+                node->child[c] = new TrieNode();
+            }
+            node = node->child[c];
+            node->st.insert(s);
+        }
+    }
+    
+public:
+    AutocompleteSystem(vector<string>& sentences, vector<int>& times) {
+        int n = sentences.size(), i;
+        root = new TrieNode();
+        for (i = 0; i < n; i ++) {
+            cnt[sentences[i]] += times[i];
+            build(sentences[i]);
+        }
+        cur = root;
+    }
+    
+    vector<string> input(char c) {
+        if (c == '#') {
+            cnt[cs] += 1;
+            if (cnt[cs] == 1) {
+                cur = root;
+                for (auto c: cs) {
+                    if (!cur->child.count(c)) {
+                        cur->child[c] = new TrieNode();
+                    }
+                    cur = cur->child[c];
+                    cur->st.insert(cs);
+                }
+            }
+            cs = "";
+            cur = root;
+            return {};
+        }
+        cs += c;
+        if (!cur->child.count(c)) {
+            cur = dead;
+            return {};
+        }
+        cur = cur->child[c];
+        vector<string> dp(cur->st.begin(), cur->st.end());
+        sort(dp.begin(), dp.end(), [&](auto &s1, auto &s2){
+            if (cnt[s1] != cnt[s2]) {
+                return cnt[s1] > cnt[s2];
+            } else {
+                return s1 < s2;
+            }
+        });
+        vector<string> rst;
+        for (int i = 0; i < min(3, (int)dp.size()); i ++) {
+            rst.push_back(dp[i]);
+        }
+        return rst;
+    }
+};
+
+/**
+ * Your AutocompleteSystem object will be instantiated and called as such:
+ * AutocompleteSystem* obj = new AutocompleteSystem(sentences, times);
+ * vector<string> param_1 = obj->input(c);
+ */
+```

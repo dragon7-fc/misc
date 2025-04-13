@@ -103,3 +103,67 @@ public:
     }
 };
 ```
+
+**Solution 2: (DFS, BFS)**
+```
+Runtime: 125 ms, Beats 45.45%
+Memory: 46.05 MB, Beats 60.00%
+```
+```c++
+class Solution {
+    bool dfs(int u, int e, vector<int> &visited, vector<int> &p, vector<vector<int>> &g) {
+        visited[u] = 1;
+        p.push_back(u);
+        if (u == e) {
+            return true;
+        }
+        for (auto v: g[u]) {
+            if (!visited[v]) {
+                if (dfs(v, e, visited, p, g)) {
+                    return true;
+                }
+            }
+        }
+        p.pop_back();
+        return false;
+    } 
+public:
+    vector<int> closestNode(int n, vector<vector<int>>& edges, vector<vector<int>>& query) {
+        vector<vector<int>> g(n);
+        vector<int> p, visited(n), ans;
+        queue<pair<int,int>> q;
+        for (auto v: edges) {
+            g[v[0]].push_back(v[1]);
+            g[v[1]].push_back(v[0]);
+        }
+        for (auto qv: query) {
+            dfs(qv[0], qv[1], visited, p, g);
+            fill(visited.begin(), visited.end(), 0);
+            for (auto v: p) {
+                q.push({v, v});
+                visited[v] = 1;
+            }
+            p.clear();
+            while (q.size()) {
+                auto [u, s] = q.front();
+                q.pop();
+                if (u == qv[2]) {
+                    ans.push_back(s);
+                    break;
+                }
+                for (auto v: g[u]) {
+                    if (!visited[v]) {
+                        visited[v] = 1;
+                        q.push({v, s});
+                    }
+                }
+            }
+            while (q.size()) {
+                q.pop();
+            }
+            fill(visited.begin(), visited.end(), 0);
+        }
+        return ans;
+    }
+};
+```

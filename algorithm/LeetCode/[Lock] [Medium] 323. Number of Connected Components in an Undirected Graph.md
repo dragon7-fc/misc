@@ -161,3 +161,59 @@ public:
     }
 };
 ```
+
+**Solution 3: (Union-Find)**
+
+p
+    0  1  2  3  4
+    1  2     4
+    2  
+
+```
+Runtime: 0 ms, Beats 100.00%
+Memory: 16.35 MB, Beats 80.29%
+```
+```c++
+class Solution {
+    vector<int> p;
+    vector<int> r;
+    int find(int x) {
+        if (x != p[x]) {
+            p[x] = find(p[x]);
+        }
+        return p[x];
+    }
+    void uni(int x, int y) {
+        int xr = find(x), yr = find(y);
+        if (xr == yr) {
+            return;
+        }
+        if (r[xr] < r[yr]) {
+            p[xr] = yr;
+        } else if (r[xr] > r[yr]) {
+            p[yr] = xr;
+        } else {
+            p[xr] = yr;
+            r[yr] += 1;
+        }
+    }
+public:
+    int countComponents(int n, vector<vector<int>>& edges) {
+        int i, ans = 0;
+        p.resize(n);
+        r.resize(n);
+        for (i = 0; i < n; i ++) {
+            p[i] = i;
+        }
+        for (auto &e: edges) {
+            uni(e[0], e[1]);
+        }
+        for (i = 0; i < n; i ++) {
+            if (i == find(i)) {
+                ans += 1;
+            }
+        }
+        return ans;
+    }
+};
+```

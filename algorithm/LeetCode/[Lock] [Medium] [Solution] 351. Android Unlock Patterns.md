@@ -184,3 +184,232 @@ class Solution:
                 
         return backtrack([])
 ```
+
+**Solution 2: (Backtracking, O(3 * 8^n))**
+```
+Runtime: 15 ms, Beats 45.26%
+Memory: 8.10 MB, Beats 68.95%
+```
+```c++
+class Solution {
+    int countPatternsFromNumber(int currentNumber, int currentLength,
+                                int minLength, int maxLength,
+                                vector<vector<int>>& jump,
+                                vector<bool>& visitedNumbers) {
+        // Base case: if current pattern length exceeds maxLength, stop
+        // exploring
+        if (currentLength > maxLength) return 0;
+
+        int validPatterns = 0;
+        // If current pattern length is within the valid range, count it
+        if (currentLength >= minLength) {
+            validPatterns++;
+        }
+
+        visitedNumbers[currentNumber] = true;
+
+        // Explore all possible next numbers
+        for (int nextNumber = 1; nextNumber <= 9; nextNumber++) {
+            int jumpOverNumber = jump[currentNumber][nextNumber];
+            // Check if the next number is unvisited and either:
+            // 1. There's no number to jump over, or
+            // 2. The number to jump over has been visited
+            if (!visitedNumbers[nextNumber] &&
+                (jumpOverNumber == 0 || visitedNumbers[jumpOverNumber])) {
+                validPatterns += countPatternsFromNumber(
+                    nextNumber, currentLength + 1, minLength, maxLength, jump,
+                    visitedNumbers);
+            }
+        }
+
+        // Backtrack: unmark the current number before returning
+        visitedNumbers[currentNumber] = false;
+
+        return validPatterns;
+    }
+public:
+    int numberOfPatterns(int m, int n) {
+        vector<vector<int>> jump(10, vector<int>(10, 0));
+
+        // Initialize the jump over numbers for all valid jumps
+        jump[1][3] = jump[3][1] = 2;
+        jump[4][6] = jump[6][4] = 5;
+        jump[7][9] = jump[9][7] = 8;
+        jump[1][7] = jump[7][1] = 4;
+        jump[2][8] = jump[8][2] = 5;
+        jump[3][9] = jump[9][3] = 6;
+        jump[1][9] = jump[9][1] = jump[3][7] = jump[7][3] = 5;
+
+        vector<bool> visitedNumbers(10, false);
+        int totalPatterns = 0;
+
+        // Count patterns starting from corner numbers (1, 3, 7, 9) and multiply
+        // by 4 due to symmetry
+        totalPatterns +=
+            countPatternsFromNumber(1, 1, m, n, jump, visitedNumbers) * 4;
+
+        // Count patterns starting from edge numbers (2, 4, 6, 8) and multiply
+        // by 4 due to symmetry
+        totalPatterns +=
+            countPatternsFromNumber(2, 1, m, n, jump, visitedNumbers) * 4;
+
+        // Count patterns starting from the center number (5)
+        totalPatterns +=
+            countPatternsFromNumber(5, 1, m, n, jump, visitedNumbers);
+
+        return totalPatterns;
+    }
+};
+```
+
+**Solution 3: (DP Top-Down)**
+```
+Runtime: 0 ms Beats, 100.00%
+Memory: 8.50 MB, Beats 51.05%
+```
+```c++
+class Solution {
+    int countPatternsFromNumber(int currentNumber, int currentLength,
+                                int minLength, int maxLength, int jump[10][10],
+                                int visitedNumbers, int dp[10][1 << 10]) {
+        // Base case: if current pattern length exceeds maxLength, stop
+        // exploring
+        if (currentLength > maxLength) return 0;
+
+        if (dp[currentNumber][visitedNumbers] != -1)
+            return dp[currentNumber][visitedNumbers];
+
+        int validPatterns = 0;
+        // If current pattern length is within the valid range, count it
+        if (currentLength >= minLength) {
+            validPatterns++;
+        }
+
+        visitedNumbers = setBit(visitedNumbers, currentNumber);
+
+        // Explore all possible next numbers
+        for (int nextNumber = 1; nextNumber <= 9; nextNumber++) {
+            int jumpOverNumber = jump[currentNumber][nextNumber];
+            // Check if the next number is unvisited and either:
+            // 1. There's no number to jump over, or
+            // 2. The number to jump over has been visited
+            if (!isSet(visitedNumbers, nextNumber) &&
+                (jumpOverNumber == 0 ||
+                 isSet(visitedNumbers, jumpOverNumber))) {
+                validPatterns += countPatternsFromNumber(
+                    nextNumber, currentLength + 1, minLength, maxLength, jump,
+                    visitedNumbers, dp);
+            }
+        }
+
+        // Backtrack: unmark the current number before returning
+        visitedNumbers = clearBit(visitedNumbers, currentNumber);
+
+        return dp[currentNumber][visitedNumbers] = validPatterns;
+    }
+
+    int setBit(int num, int position) {
+        num |= 1 << (position - 1);
+        return num;
+    }
+
+    int clearBit(int num, int position) {
+        num ^= 1 << (position - 1);
+        return num;
+    }
+
+    bool isSet(int num, int position) {
+        int bitAtPosition = (num >> (position - 1)) & 1;
+        return bitAtPosition == 1;
+    }
+public:
+    int numberOfPatterns(int m, int n) {
+        int jump[10][10] = {0};
+
+        // Initialize the jump over numbers for all valid jumps
+        jump[1][3] = jump[3][1] = 2;
+        jump[4][6] = jump[6][4] = 5;
+        jump[7][9] = jump[9][7] = 8;
+        jump[1][7] = jump[7][1] = 4;
+        jump[2][8] = jump[8][2] = 5;
+        jump[3][9] = jump[9][3] = 6;
+        jump[1][9] = jump[9][1] = jump[3][7] = jump[7][3] = 5;
+
+        int visitedNumbers = 0;
+        int totalPatterns = 0;
+        int dp[10][1 << 10] = {0};
+        memset(dp, -1, sizeof(dp));
+
+        // Count patterns starting from corner numbers (1, 3, 7, 9) and multiply
+        // by 4 due to symmetry
+        totalPatterns +=
+            countPatternsFromNumber(1, 1, m, n, jump, visitedNumbers, dp) * 4;
+
+        // Count patterns starting from edge numbers (2, 4, 6, 8) and multiply
+        // by 4 due to symmetry
+        totalPatterns +=
+            countPatternsFromNumber(2, 1, m, n, jump, visitedNumbers, dp) * 4;
+
+        // Count patterns starting from the center number (5)
+        totalPatterns +=
+            countPatternsFromNumber(5, 1, m, n, jump, visitedNumbers, dp);
+
+        return totalPatterns;
+    }
+};
+```
+
+**Solution 4: (DP Bottom-Up)**
+```
+Runtime: 0 ms, Beats 100.00%
+Memory: 8.75 MB, Beats 30.60%
+```
+```c++
+class Solution {
+public:
+    int numberOfPatterns(int m, int n) {
+        int i, a, b, d, mid, cnt, ans;
+        vector<vector<int> > dp(9, vector<int>(1 << 9, 0));
+        for (a = 0; a < 9; a++) {
+            dp[a][1 << a] = 1;
+        }
+        for (i = 0; i < (1 << 9); i ++) {
+            for (a = 0; a < 9; a ++) {
+                if (i & (1 << a)) {
+                    for (b = 0; b < 9; b ++) {
+                        if ((i & (1 << b))) {
+                            continue;
+                        }
+                        d = max(abs(a/3 - b/3), abs(a%3 - b%3));
+                        if (d > 1) {
+                            if ((a + b) % 2 == 0) {
+                                mid = (a + b) / 2;
+                                if (!(i & (1 << mid))) {
+                                    continue;
+                                }
+                            }
+                        }
+                        dp[b][i | (1 << b)] += dp[a][i];
+                    }
+                }
+            }
+        }
+        
+        ans = 0;
+        for (i = 0; i < (1 << 9); i++) {
+            cnt = 0;
+            for (a = 0; a < 9; a++) {
+                if (i & (1 << a)) {
+                    cnt += 1;
+                }
+            }
+            if (cnt >= m && cnt <= n) {
+                for (a = 0; a < 9; a ++) {
+                    ans += dp[a][i];
+                }
+            }
+        }
+        return ans;
+    }
+};
+```

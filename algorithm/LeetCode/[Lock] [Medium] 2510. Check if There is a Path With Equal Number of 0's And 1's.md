@@ -96,3 +96,94 @@ class Solution:
         target = (rows + cols - 1) // 2
         return min_[rows - 1][cols - 1] <= target <= max_[rows - 1][cols - 1]
 ```
+
+**Solution 3: (DP Btoom-Up)**
+
+    [[0,     1,     0,     0],
+     -1:1  0:1   -1:1   -2:1
+    [0,     1,      0,     0],
+    -2:1  -1:1    0:1    -1:1
+           1:1   -2:2    -3:3
+    [1,      0,     1,      0]]
+    -1:1  -2:1    1:1      0:1
+           0:1   -1:3     -2:3
+                 
+
+    [1,    1,    0],
+    1:1    2:1   1:1
+    [0,    0,    1],
+    0:1   -1:1   0:1
+           1:1   2:2
+    [1,    0,    0]]
+    1:1   0:2   -1:2
+                 1:2
+
+```
+Runtime: 50 ms, Beats 56.39%
+Memory: 18.33 MB, Beats 66.16%
+```
+```c++
+class Solution {
+public:
+    bool isThereAPath(vector<vector<int>>& grid) {
+        int m = grid.size(), n = grid[0].size(), i, j, k;
+        vector<vector<vector<bool>>> dp(m, vector<vector<bool>>(n, vector<bool>(101)));
+        if (grid[0][0]) {
+            k = 1;
+        } else {
+            k = -1;
+        }
+        for (i = 1; i < m; i ++) {
+            if (grid[i][0]) {
+                k += 1;
+            } else {
+                k -= 1;
+            }
+            if (k > 50 || k < -50) {
+                break;
+            }
+            dp[i][0][k + 50] = 1;
+        }
+        if (grid[0][0]) {
+            k = 1;
+        } else {
+            k = -1;
+        }
+        for (j = 1; j < n; j ++) {
+            if (grid[0][j]) {
+                k += 1;
+            } else {
+                k -= 1;
+            }
+            if (k > 50 || k < -50) {
+                break;
+            }
+            dp[0][j][k + 50] = 1;
+        }
+        for (i = 1; i < m; i ++) {
+            for (j = 1; j < n; j ++) {
+                if (grid[i][j] == 0) {
+                    for (k = 1; k <= 100; k ++) {
+                        if (dp[i-1][j][k]) {
+                            dp[i][j][k-1] = 1;
+                        }
+                        if (dp[i][j-1][k]) {
+                            dp[i][j][k-1] = 1;
+                        }
+                    }
+                } else {
+                    for (k = 0; k <= 99; k ++) {
+                        if (dp[i-1][j][k]) {
+                            dp[i][j][k+1] = 1;
+                        }
+                        if (dp[i][j-1][k]) {
+                            dp[i][j][k+1] = 1;
+                        }
+                    }
+                }
+            }
+        }
+        return dp[m-1][n-1][50];
+    }
+};
+```
