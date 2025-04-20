@@ -64,3 +64,52 @@ class Solution:
                         del d[num]
         return count
 ```
+
+**Solution 2: (Counter)**
+
+    0   0   1   1   1
+                    ^
+cnt
+    1 1
+    2 1
+ans
+    3
+    
+    1,  1,  2
+            ^
+    2   3
+    1+1 2+1
+
+    10  10  10
+
+    11
+
+    2 2 2 2
+          ^
+    3 3
+
+```
+Runtime: 0 ms, Beats 100.00%
+Memory: 12.17 MB, Beats 71.00%
+```
+```c++
+class Solution {
+public:
+    int numRabbits(vector<int>& answers) {
+        unordered_map<int,int> cnt;
+        int ans = 0;
+        for (auto a: answers) {
+            cnt[a + 1] += 1;
+            if (cnt[a + 1] > a + 1) {
+                ans += a + 1;
+                cnt[a + 1] = 1;
+            }
+        }
+        for (auto [a, _]: cnt) {
+            ans += a;
+        }
+        return ans;
+    }
+};
+
+```

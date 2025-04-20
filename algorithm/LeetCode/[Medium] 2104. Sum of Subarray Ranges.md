@@ -54,6 +54,34 @@ Explanation: The sum of all subarray ranges of nums is 59.
 # Submissions
 ---
 **Solution: (Monotonic Stack)**
+
+    sum(max - min)
+= sum(max) - sum(min)
+
+sum(min)
+= mono inc stack
+      --
+    / \--
+   /   \-<
+  /     \  /
+         \/ 
+
+    |--|
+    | v|
+   x    < 
+ x
+
+sum(max)
+= mono dec stack
+
+   \  
+    \   /-<
+     \ /---
+   
+   x
+    x    <
+     | ^|  
+     |--| 
 ```
 Runtime: 84 ms
 Memory: 13.9 MB
@@ -82,4 +110,40 @@ class Solution:
             stack.append(right)
         
         return answer
+```
+
+**Solution 2: (Monotonic Stack)**
+```
+Runtime: 0 ms, Beats 100.00%
+Memory: 14.07 MB, Beats 77.06%
+```
+```c++
+class Solution {
+public:
+    long long subArrayRanges(vector<int>& nums) {
+        int n = nums.size(), i, j, k;
+        long long ans = 0;
+        stack<int> stk;
+        for (j = 0; j <= n; j ++) {
+            while (stk.size() && (j == n || nums[stk.top()] >= nums[j])) {
+                i = stk.top();
+                stk.pop();
+                k = stk.size() == 0 ? -1 : stk.top();
+                ans -= (long long)(i - k) * (j - i) * nums[i];
+            }
+            stk.push(j);
+        }
+        stk.pop();
+        for (j = 0; j <= n; j ++) {
+            while (stk.size() && (j == n || nums[stk.top()] <= nums[j])) {
+                i = stk.top();
+                stk.pop();
+                k = stk.size() == 0 ? -1 : stk.top();
+                ans += (long long)(i - k) * (j - i) * nums[i];
+            }
+            stk.push(j);
+        }
+        return ans;
+    }
+};
 ```

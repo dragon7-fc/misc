@@ -224,46 +224,135 @@ class Solution:
                 return (max_of_left + min_of_right) / 2.0
 ```
 
-**Solution 2: (Binary Search)**
+**Solution 2: (Binary Search, O(log (m*n)))**
+
+                    v
+        1  2  3  4  5  6  7  8
+           ----------
+           ^l ^m    ^r
+                 ^lm^r
+                    ^lmr
+                 -------------
+                 ^l    ^m    ^r
+                 ^lm^r
+                    ^lmr
+                 ^r ^l
+
+     2 3 4 4 5 5 6 7 8
+             ^   
 ```
-Runtime: 31 ms
-Memory: 89.4 MB
+Runtime: 0 ms, Beats 100.00%
+Memory: 94.90 MB, Beats 93.35%
+```
+```c++
+class Solution {
+    int solve(vector<int>& A, vector<int>& B, int k, int aStart, int aEnd,
+              int bStart, int bEnd) {
+        // If the segment of on array is empty, it means we have passed all
+        // its element, just return the corresponding element in the other
+        // array.
+        if (aEnd < aStart) {
+            return B[k - aStart];
+        }
+        if (bEnd < bStart) {
+            return A[k - bStart];
+        }
+
+        // Get the middle indexes and middle values of A and B.
+        int aIndex = (aStart + aEnd) / 2, bIndex = (bStart + bEnd) / 2;
+        int aValue = A[aIndex], bValue = B[bIndex];
+
+        // If k is in the right half of A + B, remove the smaller left half.
+        if (aIndex + bIndex < k) {
+            if (aValue > bValue) {
+                return solve(A, B, k, aStart, aEnd, bIndex + 1, bEnd);
+            } else {
+                return solve(A, B, k, aIndex + 1, aEnd, bStart, bEnd);
+            }
+        }
+        // Otherwise, remove the larger right half.
+        else {
+            if (aValue > bValue) {
+                return solve(A, B, k, aStart, aIndex - 1, bStart, bEnd);
+            } else {
+                return solve(A, B, k, aStart, aEnd, bStart, bIndex - 1);
+            }
+        }
+        return -1;
+    }
+public:
+    double findMedianSortedArrays(vector<int>& nums1, vector<int>& nums2) {
+        int na = int(nums1.size()), nb = int(nums2.size());
+        int n = na + nb;
+        if (n % 2) {
+            return solve(nums1, nums2, n / 2, 0, na - 1, 0, nb - 1);
+        } else {
+            return 1.0 *
+                   (solve(nums1, nums2, n / 2 - 1, 0, na - 1, 0, nb - 1) +
+                    solve(nums1, nums2, n / 2, 0, na - 1, 0, nb - 1)) /
+                   2;
+        }
+    }
+};
+```
+
+**Solution 3: (Binary Search, O(log (min(m, n))))**
+
+          
+        1  2  3  4  5  6  7  8
+           ----------
+           ^l       ^r
+              ^maxLeftA
+                 ^minRightA
+             
+              ----------
+                 ^maxLeftB
+                    ^minRightB 
+
+    2 3 3 4 4 5 5 6
+          ^^^
+
+
+```
+Runtime: 0 ms, Beats 100.00%
+Memory: 95.02 MB, Beats 80.09%
 ```
 ```c++
 class Solution {
 public:
     double findMedianSortedArrays(vector<int>& nums1, vector<int>& nums2) {
         if (nums1.size() > nums2.size()) {
-            swap(nums1, nums2);
+            return findMedianSortedArrays(nums2, nums1);
         }
-        
-        int m = nums1.size();
-        int n = nums2.size();
-        int low = 0, high = m;
-        
-        while (low <= high) {
-            int partitionX = (low + high) / 2;
-            int partitionY = (m + n + 1) / 2 - partitionX;
-            
-            int maxX = (partitionX == 0) ? INT_MIN : nums1[partitionX - 1];
-            int maxY = (partitionY == 0) ? INT_MIN : nums2[partitionY - 1];
-            
-            int minX = (partitionX == m) ? INT_MAX : nums1[partitionX];
-            int minY = (partitionY == n) ? INT_MAX : nums2[partitionY];
-            
-            if (maxX <= minY && maxY <= minX) {
+
+        int m = nums1.size(), n = nums2.size();
+        int left = 0, right = m;
+
+        while (left <= right) {
+            int partitionA = (left + right) / 2;
+            int partitionB = (m + n + 1) / 2 - partitionA;
+
+            int maxLeftA = (partitionA == 0) ? INT_MIN : nums1[partitionA - 1];
+            int minRightA = (partitionA == m) ? INT_MAX : nums1[partitionA];
+            int maxLeftB = (partitionB == 0) ? INT_MIN : nums2[partitionB - 1];
+            int minRightB = (partitionB == n) ? INT_MAX : nums2[partitionB];
+
+            if (maxLeftA <= minRightB && maxLeftB <= minRightA) {
                 if ((m + n) % 2 == 0) {
-                    return (max(maxX, maxY) + min(minX, minY)) / 2.0;
+                    return (max(maxLeftA, maxLeftB) +
+                            min(minRightA, minRightB)) /
+                           2.0;
                 } else {
-                    return max(maxX, maxY);
+                    return max(maxLeftA, maxLeftB);
                 }
-            } else if (maxX > minY) {
-                high = partitionX - 1;
+            } else if (maxLeftA > minRightB) {
+                right = partitionA - 1;
             } else {
-                low = partitionX + 1;
+                left = partitionA + 1;
             }
         }
-        throw invalid_argument("Input arrays are not sorted.");
+
+        return 0.0;
     }
 };
 ```

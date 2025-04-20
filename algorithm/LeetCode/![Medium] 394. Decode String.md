@@ -217,6 +217,13 @@ char * decodeString(char * s){
 ```
 
 **Solution 6: (Stack)**
+
+     "3 [ a 2 [ c ] ]"
+
+        {2, "c"}     
+        {3, "a"} -> {3, "acc"} 
+        {0, ""}  -> {0, "accaccacc"}
+
 ```
 Runtime: 3 ms
 Memory Usage: 6.7 MB

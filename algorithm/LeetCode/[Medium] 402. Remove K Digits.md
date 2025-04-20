@@ -54,33 +54,44 @@ class Solution:
 ```
 
 **Solution 2: (Greedy, Stack)**
+
+             x x   x
+    num = "1 4 3 2 2 1 9", k = 3
+                       ^
+           1   13  122 1219
+             14  12  121
+
 ```
-Runtime: 0 ms
-Memory Usage: 7.1 MB
+Runtime: 3 ms, Beats 63.28%
+Memory: 11.15 MB, Beats 83.60%
 ```
 ```c++
 class Solution {
 public:
     string removeKdigits(string num, int k) {
-        if (num.size() == k)
-            return "0";
-        string ans;
+        int i;
+        string dp;
         for (auto c: num) {
-            while (k > 0 && !ans.empty() && ans.back() > c) {
-                ans.pop_back();
+            while (k && dp.size() && dp.back() > c) {
+                dp.pop_back();
                 k -= 1;
             }
-            ans.push_back(c);
+            dp += c;
         }
-        while (k > 0 && !ans.empty()) {
-            ans.pop_back();
+        while (dp.size() && k) {
+            dp.pop_back();
             k -= 1;
         }
-        int i;
-        for(i = 0; i < ans.size(); i++)//remove leading zeroes
-            if(ans[i]!='0') break;
-        ans= ans.substr(i); 
-        return ans == "" ? "0": ans;  //empty string=> 0
+        i = 0;
+        while (i < dp.size() && dp[i] == '0') {
+            i += 1;
+        }
+        if (i < dp.size()) {
+            dp = dp.substr(i);
+        } else {
+            dp = "0";
+        }
+        return dp;
     }
 };
 ```

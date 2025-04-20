@@ -193,7 +193,7 @@ class Solution:
         return ans
 ```
 
-**Solution 1: (Backtracking)**
+**Solution 1: (Backtracking, O(4^n / sqrt(n)))**
 ```
 Runtime: 10 ms
 Memory Usage: 15.6 MB

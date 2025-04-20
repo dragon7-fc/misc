@@ -56,3 +56,46 @@ class Solution:
                 i += 1
         return ans
 ```
+
+**Solution 2: (Sliding Window)**
+
+                    vvvvv
+    [3, 1, 4, 3, 2, 2, 4]
+                    ^
+     ^      
+        ^              ^
+           ^  ^
+                    
+     ^        ^
+                 ^  ^
+           ^           ^
+    [                ]
+    [                   ]
+       [                ]
+          [             ]
+
+```
+Runtime: 77 ms, Beats 75.12%
+Memory: 79.22 MB, Beats 36.26%
+```
+```c++
+class Solution {
+public:
+    long long countGood(vector<int>& nums, int k) {
+        int n = nums.size(), i = 0, j, ck = 0, a;
+        long long ans = 0;
+        unordered_map<int,int> cnt;
+        for (j = 0; j < n; j ++) {
+            ck += cnt[nums[j]];
+            cnt[nums[j]] += 1;
+            while (ck >= k) {
+                ans += n - j;
+                ck -= cnt[nums[i]] - 1;
+                cnt[nums[i]] -= 1;
+                i += 1;
+            }
+        }
+        return ans;
+    }
+};
+```

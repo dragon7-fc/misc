@@ -49,3 +49,56 @@ class Solution:
                 sums[current_sum] = i
         return max_len
 ```
+
+**SOlution 2: (Prefix Sum)**
+
+    nums = [1, -1,  5, -2,  3], k = 3
+                ^
+            -------------
+          0 1   0   5   3   6
+          ^             ^
+          3-0
+    pre 
+        0: -1 <- 3-3
+        1:  0
+        5:  2
+        3:  3 <
+        6:  4
+
+    nums = [-2, -1,  2,  1], k = 1
+             ^
+                ------   -
+          0 -2  -3  -1   0
+            ^        ^
+            -1-1
+    pre:
+        0: -1
+       -2:  0 < -1-1
+       -3:  1
+       -1:  2 <
+
+```
+Runtime: 155 ms, Beats 79.09%
+Memory: 131.01 MB, Beats 15.15%
+```
+```c++
+class Solution {
+public:
+    int maxSubArrayLen(vector<int>& nums, int k) {
+        int n = nums.size(), i, ans = 0;
+        long long cur = 0;
+        unordered_map<long long,int> pre;
+        pre[0] = -1;
+        for (i = 0; i < n; i ++) {
+            cur += nums[i];
+            if (pre.count(cur - k)) {
+                ans = max(ans, i - pre[cur - k]);
+            }
+            if (!pre.count(cur)) {
+                pre[cur] = i;
+            }
+        }
+        return ans;
+    }
+};
+```

@@ -130,30 +130,64 @@ public:
 };
 ```
 
-**Solution 5: (Two Pointers)**
+**Solution 5: (Binary Search)**
+
+ x + 4 >= 3
+ x >= -1
+ x + 4 <= 7
+ x <= 3
+lower 3
+upper 6
+    0, 1, 7, 4, 4, 5
+    0  1  4  4  5  7
+       ^
+    ----  ^
+    ----     ^
+    ----        ^
+                   ^
+    -----------------
+    ^     ^
+    ^        ^
+    ^           ^
+       ^  ^
+       ^     ^
+       ^        ^
+
+    nums = [1, 7, 9, 2, 5], lower = 11, upper = 11
+           [1, 2, 5, 7, 9]
+               ^                    [4, 4]
+                  ^                 [6, 6]
+                     ^              [4, 4]
+                        ^           [2, 2]
+
 ```
-Runtime: 28 ms
-Memory: 60.32 MB
+Runtime: 59 ms, Beats 46.51%
+Memory: 60.33 MB, Beats 73.14%
+```
+```c++
+
+```
+
+**Solution 6: (Two Pointers)**
+```
+Runtime: 30 ms, Beats 84.91%
+Memory: 60.35 MB, Beats 73.14%
 ```
 ```c++
 class Solution {
-    long long lower_bound(vector<int>& nums, int value) {
-        int left = 0, right = nums.size() - 1;
-        long long result = 0;
+    long long lower_bound(vector<int>& nums, int a) {
+        int left = 0, right = nums.size() - 1, b;
+        long long rst = 0;
         while (left < right) {
-            int sum = nums[left] + nums[right];
-            // If sum is less than value, add the size of window to result and
-            // move to the next index.
-            if (sum < value) {
-                result += (right - left);
-                left++;
+            b = nums[left] + nums[right];
+            if (b < a) {
+                rst += right - left;
+                left += 1;
             } else {
-                // Otherwise, shift the right pointer backwards, until we get a
-                // valid window.
-                right--;
+                right -= 1;
             }
         }
-        return result;
+        return rst;
     }
 public:
     long long countFairPairs(vector<int>& nums, int lower, int upper) {

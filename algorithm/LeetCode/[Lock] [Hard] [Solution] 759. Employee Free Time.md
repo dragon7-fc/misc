@@ -100,3 +100,67 @@ class Solution:
 
         return ans
 ```
+
+**Solution 3: (Sort, Counter, Line Sweep)**
+
+    1 2 3 4 5 6 7 8 9 10
+    -       -
+    ---
+          -----------
+    2 1 0 1 2 1       0
+        x             
+
+    1 2 3 4 5 6 7 8 9 10 11 
+    ---       -
+      ---
+      -----         -------
+cnt 1 3 2 1 0 1 0   1
+            x   xxx
+
+```
+Runtime: 27 ms, Beats 28.45%
+Memory: 16.81 MB, Beats 21.97%
+```
+```c++
+/*
+// Definition for an Interval.
+class Interval {
+public:
+    int start;
+    int end;
+
+    Interval() {}
+
+    Interval(int _start, int _end) {
+        start = _start;
+        end = _end;
+    }
+};
+*/
+
+class Solution {
+public:
+    vector<Interval> employeeFreeTime(vector<vector<Interval>> schedule) {
+        map<int,int> cnt;
+        vector<Interval> ans;
+        int cur;
+        for (auto s: schedule) {
+            for (auto [st, e]: s) {
+                cnt[st] += 1;
+                cnt[e] -= 1;
+            }
+        }
+        cur = 0;
+        auto it = cnt.begin();
+        while (it != cnt.end()) {
+            auto [t, c] = *it;
+            cur += c;
+            if (cur == 0 && next(it) != cnt.end()) {
+                ans.push_back({t, next(it)->first});
+            }
+            it++;
+        }
+        return ans;
+    }
+};
+```

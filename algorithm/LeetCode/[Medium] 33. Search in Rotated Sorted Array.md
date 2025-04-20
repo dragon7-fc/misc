@@ -154,3 +154,66 @@ class Solution:
                     right = mid-1
         return -1
 ```
+
+**Solution 6: (Binary Search)**
+
+         /
+      /   
+   /  
+           /
+   ^l   ^m  ^r  
+ 
+   /     
+         / 
+       / 
+     /
+   ^l ^m  ^r
+
+                        v
+    4,   5,   6,   7,   0,   1,   2
+    ^l             ^m             ^r
+                        ^l   ^m    ^r
+                        ^lrm
+    
+                
+    [4,   5,   6,   7,   0,   1,   2],    target = 3
+     ^l             ^m             ^r
+                        ^l    ^m   ^r
+                                   ^lrm
+
+            v
+        3   1
+        ^lm ^r
+
+
+```
+Runtime: 2 ms, Beats 3.07%
+Memory: 15.09 MB, Beats 95.16%
+```
+```c++
+class Solution {
+public:
+    int search(vector<int>& nums, int target) {
+        int n = nums.size(), left = 0, right = n-1, mid;
+        while (left <= right) {
+            mid = left + (right-left)/2;
+            if (nums[mid] == target) {
+                return mid;
+            } else if (nums[left] <= nums[mid]) {
+                if (target >= nums[left] && target < nums[mid]) {
+                    right = mid - 1;
+                } else {
+                    left = mid + 1;
+                }
+            } else {
+                if (target > nums[mid] && target <= nums[right]) {
+                    left = mid + 1;
+                } else {
+                    right = mid - 1;
+                }
+            }
+        }
+        return -1;
+    }
+};
+```

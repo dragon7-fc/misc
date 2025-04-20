@@ -98,41 +98,60 @@ public:
 };
 ```
 
-**Solution 3: (String)**
+**Solution 3: (String, O(4 ^ (n/3)))**
 ```
-Runtime: 10 ms
-Memory: 6.2 MB
+Runtime: 59 ms, Beats 5.37%
+Memory: 40.64 MB, Beats 16.66%
 ```
 ```c++
 class Solution {
 public:
     string countAndSay(int n) {
-        string ans="1", cur;
-        char pre = ' ';
-        int cnt = 0;
-        while (n > 1) {
-            cur = ans;
-            ans.clear();
-            for (int i = 0; i < cur.size(); i ++) {
-                if (cur[i] == pre)
-                    cnt += 1;
-                else {
-                    if (cnt) {
-                        ans += to_string(cnt);
-                        ans += pre;
-                    }
-                    pre = cur[i];
-                    cnt = 1;
-                }
+        regex e("(.)\\1*");
+        string s = "1";
+        for (int i = 2; i <= n; i++) {
+            string t;
+            for (sregex_iterator it = sregex_iterator(s.begin(), s.end(), e);
+                 it != sregex_iterator(); it++) {
+                t += to_string(it->str().size()) + it->str(1);
             }
-            if (cnt) {
-                ans += to_string(cnt);
-                ans += pre;
-                cnt = 0;
-            }
-            n -= 1;
+            s = t;
         }
-        return ans;
+        return s;
+    }
+};
+```
+
+**Solution 4: (String, O(4 ^ (n/3)))**
+```
+Runtime: 3 ms, Beats 83.88%
+Memory: 9.55 MB, Beats 91.45%
+```
+```c++
+class Solution {
+public:
+    string countAndSay(int n) {
+        if (n == 1) {
+            return "1";
+        }
+        string pre = "1", cur;
+        int i, j, k = 1;
+        while (k < n) {
+            i = 0;
+            while (i < pre.length()) {
+                j = i+1;
+                while (j < pre.length() && pre[j] == pre[i]) {
+                    j += 1;
+                }
+                cur += to_string(j-i);
+                cur += pre[i];
+                i = j;
+            }
+            pre = cur;
+            cur = "";
+            k += 1;
+        }
+        return pre;
     }
 };
 ```
