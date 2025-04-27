@@ -82,3 +82,54 @@ public:
     }
 };
 ```
+
+**Solution 3: (Math)**
+
+    differences = [1,-3,4], lower = 1, upper = 6
+
+         1 <- 3
+         v
+    0 1 -2 2
+           ^
+           6 -> 4
+
+
+    differences = [3,-4,5,1,-2], lower = -4, upper = 5
+    
+         -4 -> -3
+         v
+    0 3 -1 4 5 3
+             ^
+             5 -> 0
+
+    differences = [4,-7,2], lower = 3, upper = 6
+
+      6 -> 2
+      v
+    0 4 -3 -1
+         ^
+         3 -> 6
+
+```
+Runtime: 0 ms, Beats 100.00%
+Memory: 112.58 MB, Beats 75.00%
+```
+```c++
+class Solution {
+public:
+    int numberOfArrays(vector<int>& differences, int lower, int upper) {
+        long long cur = 0, mx = 0, mn = 0, a, b;
+        for (auto d: differences) {
+            cur += d;
+            mx = max(mx, cur);
+            mn = min(mn, cur);
+        }
+        a = lower - mn;
+        b = upper - mx;
+        if (a > b) {
+            return 0;
+        }
+        return b - a + 1;
+    }
+};
+```

@@ -56,52 +56,43 @@ It can be shown that there are no other interesting subarrays. So, the answer is
 ---
 **Solution 1: (Hash Table, prefix sum)**
 
-__Intuition__
-We don't care the value of A[i],
-we care if A[i] % mod == k.
+    nums = [3,  2,  4], modulo = 2, k = 1
+pre    0    1   1   1
+cnt    0:1  0:1 0:1
+            1:1 1:2
+ans         0   1   3
+            ^
+            ^^^^^
+            ^^^^^^^^^
 
-So if A[i] % mod == k,
-we take A[i] as 1,
-otherwise 0.
-
-
-__Explanation__
-we calculate the prefix sum acc of A,
-then acc mean the number of A[i] % mod == k in i + 1 first elements.
-
-count is a hashmap,
-where count[v] means the number of prefix array that have acc % mod == k.
-and we initial count[0] = 1 for empty prefix subarray.
-
-Then we iterate a in A,
-and we update prefix sum acc,
-and update increment res by count[(acc - k) % mod].
-
-Finally return res
-
-
-__Complexity__
-Time O(n)
-Space O(mod)
+    nums = [3,  1,  9,  6], modulo = 3, k = 0
+pre   0     1   1   2   3
+cnt   0:1   0:1 0:1 0:1
+            1:1 1:2 1:2 
+                    2:1
+ans             1       2
+            1       2   0
+            ^^^^^^^^^^^^^
+                ^
 
 ```
-Runtime: 155 ms
-Memory: 117.8 MB
+Runtime: 55 ms, Beats 61.20%
+Memory: 122.78 MB, Beats 59.02%
 ```
 ```c++
 class Solution {
 public:
     long long countInterestingSubarrays(vector<int>& nums, int modulo, int k) {
-        long long res = 0;
-        int acc = 0;
-        unordered_map<int, int> count;
-        count[0] = 1;
+        long long ans = 0;
+        int pre = 0;
+        unordered_map<int, int> cnt;
+        cnt[0] = 1;
         for (int a : nums) {
-            acc = (acc + (a % modulo == k ? 1 : 0)) % modulo;
-            res += count[(acc - k + modulo) % modulo];
-            count[acc]++;
+            pre = (pre + (a % modulo == k ? 1 : 0)) % modulo;
+            ans += cnt[(pre - k + modulo) % modulo];
+            cnt[pre]++;
         }
-        return res;
+        return ans;
     }
 };
 ```

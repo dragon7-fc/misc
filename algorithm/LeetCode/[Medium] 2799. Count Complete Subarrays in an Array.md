@@ -54,3 +54,45 @@ class Solution:
             res += i
         return res
 ```
+
+**Solution 2: (Sliding Window)**
+
+    1  3  1  2  2
+    ^i       ^j
+          ^i    ^j
+    ----------
+    -------------
+       -------
+       ----------
+
+
+    5  5  5  5
+    ^ij
+       ^ij
+
+
+```
+Runtime: 15 ms, Beats 80.59%
+Memory: 41.80 MB, Beats 71.22%
+```
+```c++
+class Solution {
+public:
+    int countCompleteSubarrays(vector<int>& nums) {
+        int n = nums.size(), i = 0, j, a = unordered_set(nums.begin(), nums.end()).size(), ans = 0;
+        unordered_map<int,int> cnt;
+        for (j = 0; j < n; j ++) {
+            cnt[nums[j]] += 1;
+            while (cnt.size() == a) {
+                ans += n - j;
+                cnt[nums[i]] -= 1;
+                if (cnt[nums[i]] == 0) {
+                    cnt.erase(nums[i]);
+                }
+                i += 1;
+            }
+        }
+        return ans;
+    }
+};
+```
