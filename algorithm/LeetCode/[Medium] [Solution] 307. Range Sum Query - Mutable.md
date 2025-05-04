@@ -483,6 +483,17 @@ public:
 ```
 
 **Solution 5: (Segment Tree)*
+
+          0     3
+         [  18   ]
+          /    \
+       0  1     2  3
+      [ 6  ]   [ 12 ]
+       /  \     / \
+      0    1   2   3
+     [2]  [4] [5] [7]
+
+
 ```
 Runtime: 337 ms
 Memory: 178.22 MB

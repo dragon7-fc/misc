@@ -258,6 +258,14 @@ class Solution:
 ```
 
 **Solution 5: (DP Bottom-Up)**
+
+        s
+        a b c c
+p   a
+    .
+    c
+    *
+                1
 ```
 Runtime: 7 ms
 Memory: 8.92 MB

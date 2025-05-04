@@ -81,3 +81,27 @@ public:
     }
 };
 ```
+
+**Solution 3: (Sliding Window)**
+```
+Runtime: 7 ms, Beats 44.58%
+Memory: 121.76 MB, Beats 48.26%
+```
+```c++
+class Solution {
+public:
+    long long countSubarrays(vector<int>& nums, int k) {
+        int n = nums.size(), i = 0, j, a = *max_element(nums.begin(), nums.end()), cnt = 0;
+        long long ans = 0;
+        for (j = 0; j < n; j ++) {
+            cnt += nums[j] == a;
+            while (cnt >= k) {
+                ans += n - j;
+                cnt -= nums[i] == a;
+                i += 1;
+            }
+        }
+        return ans;
+    }
+};
+```

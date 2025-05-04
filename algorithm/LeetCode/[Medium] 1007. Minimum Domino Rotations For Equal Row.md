@@ -106,7 +106,67 @@ class Solution:
         return -1 if ans == n else ans
 ```
 
-**Solutin 3: (Counter, Vote)**
+**Solution 3: (Brute Force, try all solution)**
+```
+Runtime: 7 ms, Beats 34.91%
+Memory: 115.40 MB, Beats 76.51%
+```
+```c++
+class Solution {
+public:
+    int minDominoRotations(vector<int>& tops, vector<int>& bottoms) {
+        int n = tops.size(), i, a, k, ans = INT_MAX;
+        for (a = 1; a <= 6; a ++) {
+            k = 0;
+            for (i = 0; i < n; i ++) {
+                if (tops[i] != a) {
+                    if (bottoms[i] == a) {
+                        k += 1;
+                    } else {
+                        break;
+                    }
+                }
+            }
+            if (i == n) {
+                ans = min(ans, k);
+            }
+            k = 0;
+            for (i = 0; i < n; i ++) {
+                if (bottoms[i] != a) {
+                    if (tops[i] == a) {
+                        k += 1;
+                    } else {
+                        break;
+                    }
+                }
+            }
+            if (i == n) {
+                ans = min(ans, k);
+            }
+        }
+        return ans == INT_MAX ? -1 : ans;
+    }
+};
+```
+
+**Solutin 4: (Counter, Vote)**
+
+    tops =    [2,1,2,4,2,2], 
+    bottoms = [5,2,6,2,3,2]
+top:
+   1: 1
+   2: 4 <
+   4: 1
+bottom:
+   2: 3
+   3: 1 <
+   5: 1
+   6: 1
+same:
+   2: 1 <
+
+    4 + 3 - 1 = 6
+
 ```
 Runtime: 173 ms
 Memory Usage: 111.7 MB

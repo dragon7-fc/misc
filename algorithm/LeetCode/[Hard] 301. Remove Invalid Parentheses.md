@@ -549,3 +549,54 @@ public:
     }
 };
 ```
+
+**Solution 4: (Backtracking)**
+```
+Runtime: 107 ms, Beats 53.53%
+Memory: 11.44 MB, Beats 87.02%
+```
+```c++
+class Solution {
+    void bt(int i, string &s, int b, int a, int &mn, string &cur, unordered_set<string> &ans) {
+        if (i == s.size()) {
+            if (b == 0) {
+                if (a < mn) {
+                    mn = a;
+                    ans.clear();
+                    ans.insert(cur);
+                } else if (a == mn){
+                    ans.insert(cur);
+                }
+            }
+            return;
+        }
+        if (a > mn || b > 10 || b < 0) {
+            return;
+        }
+        if (s[i] == '(' || s[i] == ')') {
+            if (s[i] == '(') {
+                cur += s[i];
+                bt(i+1, s, b+1, a, mn, cur, ans);
+                cur.pop_back();
+            } else {
+                cur += s[i];
+                bt(i+1, s, b-1, a, mn, cur, ans);
+                cur.pop_back();
+            }
+            bt(i+1, s, b, a+1, mn, cur, ans);
+        } else {
+            cur += s[i];
+            bt(i+1, s, b, a, mn, cur, ans);
+            cur.pop_back();
+        }
+    }
+public:
+    vector<string> removeInvalidParentheses(string s) {
+        unordered_set<string> ans;
+        string cur;
+        int mn = INT_MAX, a = 0;
+        bt(0, s, 0, a, mn, cur, ans);
+        return vector<string>(ans.begin(), ans.end());
+    }
+};
+```

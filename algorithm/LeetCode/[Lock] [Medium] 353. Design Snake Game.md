@@ -170,3 +170,55 @@ public:
  * int param_1 = obj->move(direction);
  */
 ```
+
+**Solution 3: (Double Eneded Queue)**
+```
+Runtime: 90 ms, Beats 67.07%
+Memory: 66.38 MB, Beats 89.43%
+```
+```c++
+class SnakeGame {
+    unordered_map<string, pair<int,int>> d = {
+        {"U", {-1,0}},
+        {"D", {1,0}},
+        {"L", {0,-1}},
+        {"R", {0,1}}
+    };
+    int m, n, i = 0, score = 0;
+    pair<int,int> cur;
+    vector<vector<int>> dp;
+    deque<pair<int,int>> dq;
+public:
+    SnakeGame(int width, int height, vector<vector<int>>& food) {
+        m = height, n = width;
+        cur = {0,0};
+        dq.push_back(cur);
+        dp = food;
+    }
+    
+    int move(string direction) {
+        auto [r, c] = cur;
+        int nr, nc;
+        nr = r + d[direction].first;
+        nc = c + d[direction].second;
+        cur = {nr, nc};
+        if (i < dp.size() && nr == dp[i][0] && nc == dp[i][1]) {
+            score += 1;
+            i += 1;
+        } else {
+            dq.pop_front();
+        }
+        if (nr < 0 || nr >= m || nc < 0 || nc >= n || find(dq.begin(), dq.end(), cur) != dq.end()) {
+            return -1;
+        }
+        dq.push_back(cur);
+        return score;
+    }
+};
+
+/**
+ * Your SnakeGame object will be instantiated and called as such:
+ * SnakeGame* obj = new SnakeGame(width, height, food);
+ * int param_1 = obj->move(direction);
+ */
+```

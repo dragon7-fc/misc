@@ -217,7 +217,92 @@ public:
 };
 ```
 
-**Solution 2: (Calculate Force, DP Bottom-Up)**
+**Solution 2: (Prefix Sum, left and right)**
+
+        RR.L
+       ------
+        1120
+      -------
+    cur 4321
+          0
+        RR.L
+
+
+
+    .L.R...LR..L..
+    00012340123000
+----------------------
+    .L.RRRRLRRRL..
+    00012340123000
+    210543214321
+    LL.RR.LLRRLL..
+
+```
+Runtime: 14 ms, Beats 64.29%
+Memory: 21.48 MB, Beats 52.14%
+```
+```c++
+class Solution {
+public:
+    string pushDominoes(string dominoes) {
+        int n = dominoes.size(), i, cur;
+        vector<int> dp(n);
+        string ans;
+        for (i = 0; i < n; i ++) {
+            if (dominoes[i] == 'R') {
+                dp[i] = 1;
+            } else if (dominoes[i] == 'L') {
+                dp[i] = 0;
+            } else if (i && dp[i-1]) {
+                dp[i] = dp[i-1] + 1;
+            }
+        }
+        ans = string(n, ' ');
+        cur = 0;
+        for (i = n-1; i >= 0; i --) {
+            if (dominoes[i] == 'L') {
+                ans[i] = 'L';
+                cur = 1;
+            } else if (dominoes[i] == 'R') {
+                ans[i] = 'R';
+                cur = 0;
+            } else {
+                if (cur) {
+                    cur += 1;
+                    if (dp[i]) {
+                        if (cur < dp[i]) {
+                            ans[i] = 'L';
+                        } else if (cur > dp[i]) {
+                            ans[i] = 'R';
+                        } else {
+                            ans[i] = '.';
+                        }
+                    } else {
+                        ans[i] = 'L';
+                    }
+                } else {
+                    if (dp[i]) {
+                        ans[i] = 'R';
+                    } else {
+                        ans[i] = '.';
+                    }
+                }
+            }
+        }
+        return ans;
+    }
+};
+```
+
+**Solution 3: (Calculate Force, DP Bottom-Up)**
+
+    dominoes = .   L   .   R   .   .   .   L   R   .   .   L   .   .
+      force    0   0   0   N N-1 N-2 N-3   0   N N-1 N-2   0   0   0
+             N-1   N   0   0 N-3 N-2 N-1   N   0 N-2 N-1   N   0   0
+            ---------------------------------------------------------
+               -   -   0   +   +   0   -   -   +   +   -   -   0   0
+               L   L   .   R   R   .   L   L   R   R   L   L   .   .
+
 ```
 Runtime: 108 ms
 Memory Usage: 17.6 MB
