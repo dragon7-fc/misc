@@ -133,3 +133,57 @@ public:
     }
 };
 ```
+
+**Solution 4: (String, KMP)**
+
+                      v
+    a b c a b c a b c d
+    0 0 0 1 2 3 4 5 6
+k             ^ x 
+        ^ x
+    x
+
+```
+Runtime: 0 ms, Beats 100.00%
+Memory: 8.65 MB, Beats 59.04%
+```
+```c++
+class Solution {
+public:
+    int strStr(string haystack, string needle) {
+        int m = haystack.size(), n = needle.size(), i, k = 0;
+        vector<int> dp(n);
+        for (i = 1; i < n; i ++) {
+            if (needle[i] == needle[k]) {
+                k += 1;
+                dp[i] = k;
+            } else {
+                while (k && needle[i] != needle[k]) {
+                    k = dp[k-1];
+                }
+                if (needle[i] == needle[k]) {
+                    k += 1;
+                }
+                dp[i] = k;
+            }
+        }
+        k = 0;
+        for (i = 0; i < m; i ++) {
+            if (haystack[i] == needle[k]) {
+                k += 1;
+                if (k == n) {
+                    return i-k+1;
+                }
+            } else {
+                while (k && haystack[i] != needle[k]) {
+                    k = dp[k-1];
+                }
+                if (haystack[i] == needle[k]) {
+                    k += 1;
+                }
+            }
+        }
+        return -1;
+    }
+};
+```

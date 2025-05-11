@@ -57,31 +57,36 @@ Output: 3
 ---
 **Solution 1: (Dijkstra)**
 ```
-Runtime: 19 ms
-Memory: 28.94 MB
+Runtime: 17 ms, Beats 82.47%
+Memory: 30.00 MB, Beats 49.26%
 ```
 ```c++
 class Solution {
     int dd[5] = {0, 1, 0, -1, 0};
 public:
     int minTimeToReach(vector<vector<int>>& moveTime) {
-        int m = moveTime.size(), n = moveTime[0].size(), nr, nc;
-        priority_queue<tuple<int,int,int>, vector<tuple<int,int,int>>, greater<tuple<int,int,int>>> pq;
+        int m = moveTime.size(), n = moveTime[0].size(), d, nr, nc;
+        priority_queue<tuple<int,int,int>, vector<tuple<int,int,int>>, greater<>> pq;
         vector<vector<int>> dist(m, vector<int>(n, INT_MAX));
         pq.push({0, 0, 0});
         dist[0][0] = 0;
         while (pq.size()) {
-            auto [t, r, c] = pq.top();
+            auto [w, r, c] = pq.top();
             pq.pop();
-            if (r == m-1 && c== n-1) {
-                return max(t, moveTime[r][c]);
+            if (w > dist[r][c]) {
+                continue;
             }
-            for (int d = 0; d < 4; d++) {
+            if (r == m-1 && c == n-1) {
+                return w;
+            }
+            for (d = 0; d < 4; d ++) {
                 nr = r + dd[d];
                 nc = c + dd[d+1];
-                if (0 <= nr && nr < m && 0 <= nc && nc < n && dist[nr][nc] > max(t, moveTime[nr][nc]) + 1) {
-                    dist[nr][nc] = max(t, moveTime[nr][nc]) + 1;
-                    pq.push({max(t, moveTime[nr][nc]) + 1, nr, nc});
+                if (0 <= nr && nr < m && 0 <= nc && nc < n) {
+                    if (max(w, moveTime[nr][nc]) + 1 < dist[nr][nc]) {
+                        dist[nr][nc] = max(w, moveTime[nr][nc]) + 1;
+                        pq.push({max(w, moveTime[nr][nc])+1, nr, nc});
+                    }
                 }
             }
         }

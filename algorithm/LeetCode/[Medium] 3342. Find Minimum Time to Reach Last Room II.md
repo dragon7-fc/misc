@@ -58,31 +58,37 @@ Output: 4
 ---
 **Solution 1: (Dijkstra)**
 ```
-Runtime: 285 ms
-Memory: 108.80 MB
+Runtime: 204 ms, Beats 89.66%
+Memory: 97.05 MB, Beats 82.49%
 ```
 ```c++
 class Solution {
     int dd[5] = {0, 1, 0, -1, 0};
 public:
     int minTimeToReach(vector<vector<int>>& moveTime) {
-        int m = moveTime.size(), n = moveTime[0].size(), nr, nc;
-        priority_queue<tuple<int,int,int,int>, vector<tuple<int,int,int,int>>, greater<tuple<int,int,int,int>>> pq;
-        vector<vector<vector<int>>> dist(2, vector<vector<int>>(m, vector<int>(n, INT_MAX)));
-        pq.push({0, 0, 0, -1});
-        dist[0][0][0] = 0;
+        int m = moveTime.size(), n = moveTime[0].size(), d, nr, nc, nw, ns;
+        priority_queue<tuple<int,int,int,int>, vector<tuple<int,int,int,int>>, greater<>> pq;
+        vector<vector<int>> dist(m, vector<int>(n, INT_MAX));
+        pq.push({0, 0, 0, 1});
         while (pq.size()) {
-            auto [t, r, c, s] = pq.top();
+            auto [w, r, c, s] = pq.top();
             pq.pop();
-            if (r == m-1 && c== n-1) {
-                return max(t, moveTime[r][c]);
+            if (w > dist[r][c]) {
+                continue;
             }
-            for (int d = 0; d < 4; d++) {
+            if (r == m-1 && c == n-1) {
+                return w;
+            }
+            ns = s == 1 ? 2 : 1;
+            for (d = 0; d < 4; d ++) {
                 nr = r + dd[d];
                 nc = c + dd[d+1];
-                if (0 <= nr && nr < m && 0 <= nc && nc < n && dist[(s+1)%2][nr][nc] > max(t, moveTime[nr][nc]) + (s == 2 ? 1: 2)) {
-                    dist[(s+1)%2][nr][nc] = max(t, moveTime[nr][nc]) + (s == 0 ? 2: 1);
-                    pq.push({dist[(s+1)%2][nr][nc], nr, nc, (s+1)%2});
+                if (0 <= nr && nr < m && 0 <= nc && nc < n) {
+                    nw = max(w, moveTime[nr][nc]) + s;
+                    if (dist[nr][nc] > nw) {
+                        dist[nr][nc] = nw;
+                        pq.push({nw, nr, nc, ns});
+                    }
                 }
             }
         }

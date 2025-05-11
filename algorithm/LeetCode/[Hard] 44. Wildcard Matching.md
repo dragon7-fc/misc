@@ -115,3 +115,61 @@ class Solution:
 
         return dp[0][0]
 ```
+
+**Solution 3: (DP Bottom-Up)**
+
+      a a
+    a   v
+          v
+      a a
+    * v v
+          v
+      c b
+    ?  
+    a
+          v
+                vi    
+      a d c e b 
+    * v
+    a v
+    * v v v v v
+  j>b         v
+                v
+                
+      ""
+    * v
+    * v
+    * v
+    * v
+    * v
+    * v
+      v  
+
+```
+Runtime: 39 ms, Beats 24.50%
+Memory: 31.67 MB, Beats 22.13%
+```
+```c++
+class Solution {
+public:
+    bool isMatch(string s, string p) {
+        int m = s.size(), n = p.size(), i, j;
+        vector<vector<int>> dp(m+1, vector<int>(n+1));
+        dp[m][n] = 1;
+        for (j = n-1; j >= 0; j --) {
+            for (i = m; i >= 0; i --) {
+                if (i < m && (s[i] == p[j] || p[j] == '?')) {
+                    dp[i][j] = dp[i+1][j+1];
+                } else if (p[j] == '*') {
+                    dp[i][j] = dp[i][j+1];
+                    if (i < m) {
+                        dp[i][j] |= dp[i+1][j];
+                        dp[i][j] |= dp[i+1][j+1];
+                    }
+                }
+            }
+        }
+        return dp[0][0];
+    }
+};
+```

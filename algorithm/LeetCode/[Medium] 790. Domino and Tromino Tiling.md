@@ -144,3 +144,47 @@ class Solution:
             dp[i][2] = ((dp[i-2][0] if i >= 2 else 0) + dp[i-1][1]) % MOD
         return dp[-1][0]
 ```
+
+**Solution 5: (DP Bottom-Up)**
+
+    dp[i][0]
+        x x   .. 1      .. 1 1       ...... 1    .... 1 1
+        x x = .. 1    + .. 2 2    +  .... 1 1  + ...... 1
+          ^i   ^i-1     ^i-2              ^i-1        ^i-1
+    dp[i][1]
+        x x   .. 1 1    .. 1 1
+        x   = .. 1    + .... 
+          ^i   ^i-2        ^i-1
+    dp[i][2]
+        x     .. 1      ....
+        x x = .. 1 1  + .. 1 1
+          ^i   ^i-2        ^i-1
+    dp:
+      0 1 2 3  4  5
+      -------------
+      1 1 2 5 11 24
+          1 2  4
+          1 2  4
+
+```
+Runtime: 3 ms, Beats 17.99%
+Memory: 10.45, MB Beats 8.88%
+```
+```c++
+class Solution {
+public:
+    int numTilings(int n) {
+        int MOD = 1e9 + 7, i;
+        vector<vector<long long>> dp(n+1, vector<long long>(3));
+        dp[0][0] = 1;
+        for (i = 1; i <= n; i ++) {
+            dp[i][0] = dp[i-1][0] + (i >= 2 ? dp[i-2][0] : 0) + dp[i-1][1] + dp[i-1][2];
+            dp[i][0] %= MOD;
+            dp[i][1] = dp[i-1][2] + (i >= 2 ? dp[i-2][0] : 0);
+            dp[i][1] %= MOD;
+            dp[i][2] = dp[i-1][1] + (i >= 2 ? dp[i-2][0] : 0);
+            dp[i][2] %= MOD;
+        }
+        return dp[n][0];
+    }
+```

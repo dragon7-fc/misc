@@ -237,12 +237,12 @@ k   0 0 1 1 2 3 0 1 1 2 3
 dp2   0 1 1 2 3 
       0 1       0 1       2 3
 ans
-      d
-            daab
-              da
-                      dabaab
-                        daba
-                            dab
+          vvvvv 
+      d a a b c     vvvvv
+            d a b a a b c
+                        vvvvv
+                  d a b a b c
+                        d a b
 
 ```
 Runtime: 0 ms, Beats 100.00%

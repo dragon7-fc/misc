@@ -183,3 +183,6 @@ cnoremap %% <C-R>=expand('%:h').'/'<CR>
 
 " Visualize Tab
 noremap <Leader><Tab><Tab> :set invlist<CR>
+
+" Count highlighted string length
+set showcmd
