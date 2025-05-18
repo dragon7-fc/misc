@@ -61,41 +61,54 @@ Final Length of the string: The string is "babcl", which has 5 characters.
 
 # Submissions
 ---
-**Solution 1: (Counter, DP)**
+**Solution 1: (Counter, Simulation, space transform)**
+
+    s = "abcyy", t = 2
+t:0
+cnt
+    a:1
+    b:1
+    c:1
+    y:2
+t:1
+    b:1
+    c:1
+    d:1
+    z:2
+t:2
+    a:2
+    b:2
+    c:1
+    d:1
+    e:1  
+
 ```
-Runtime: 966 ms
-Memory: 465.74 MB
+Runtime: 631 ms, Beats 52.22%
+Memory: 494.76 MB, Beats 17.24%
 ```
 ```c++
 class Solution {
+    static constexpr int mod = 1000000007;
 public:
     int lengthAfterTransformations(string s, int t) {
-        const int MOD = 1e9 + 7;
-        vector<long long> cnt(26, 0);
-
-        for (char c : s) {
-            cnt[c - 'a']++;
+        vector<int> cnt(26);
+        for (char ch : s) {
+            ++cnt[ch - 'a'];
         }
-
-        for (int j = 0; j < t; j++) {
-            vector<long long> dp(26, 0);
-            for (int i = 0; i < 26; i++) {
-                if (i == 25) {
-                    dp[0] = (dp[0] + cnt[i]) % MOD;
-                    dp[1] = (dp[1] + cnt[i]) % MOD;
-                } else {
-                    dp[i + 1] = (dp[i + 1] + cnt[i]) % MOD;
-                }
+        for (int round = 0; round < t; ++round) {
+            vector<int> nxt(26);
+            nxt[0] = cnt[25];
+            nxt[1] = (cnt[25] + cnt[0]) % mod;
+            for (int i = 2; i < 26; ++i) {
+                nxt[i] = cnt[i - 1];
             }
-            cnt = dp;
+            cnt = move(nxt);
         }
-
-        long long len = 0;
-        for (long long c : cnt) {
-            len = (len + c) % MOD;
+        int ans = 0;
+        for (int i = 0; i < 26; ++i) {
+            ans = (ans + cnt[i]) % mod;
         }
-
-        return len;
+        return ans;
     }
 };
 ```

@@ -261,10 +261,10 @@ class Solution:
 
         s
         a b c c
-p   a
-    .
-    c
-    *
+p   a   1
+    .     1
+    c       1 1 1
+    *            
                 1
 ```
 Runtime: 7 ms

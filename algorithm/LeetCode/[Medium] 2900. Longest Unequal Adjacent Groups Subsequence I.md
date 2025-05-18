@@ -49,20 +49,18 @@ It can be shown that the length of the longest subsequence of indices that satis
 ---
 **Solution 1: (Greedy, Take first then take the one with diff group value)**
 ```
-Runtime: 7 ms
-Memory: 25.1 MB
+Runtime: 0 ms, Beats 100.00%
+Memory: 30.02 MB, Beats 40.56%
 ```
 ```c++
 class Solution {
 public:
-    vector<string> getWordsInLongestSubsequence(int n, vector<string>& words, vector<int>& groups) {
+    vector<string> getLongestSubsequence(vector<string>& words, vector<int>& groups) {
         vector<string> ans;
-        int last = groups[0];
-        ans.push_back(words[0]);
-        for(int i = 1; i < words.size(); ++i){
-            if(last != groups[i]){
-                last = groups[i];
-                ans.push_back(words[i]);
+        int n = words.size();
+        for (int i = 0; i < n; i++) {
+            if (i == 0 || groups[i] != groups[i - 1]) {
+                ans.emplace_back(words[i]);
             }
         }
         return ans;
