@@ -61,39 +61,112 @@ nums cannot be converted to a zero array even after using all the queries.
 # Submissions
 ---
 **Solution 1: (Heap, 2 Heap)**
+
+    [[0,2],[0,2],[1,1]]
+             ^
+
+    2  0  2
+    -------   <
+    -------   <
+       -
+            ^  
+pq  33   
+dp  33
+    xx
+k   12
+
+    [[1,3],[0,2],[1,3],[1,2]]
+     [0,2] [1,2] [1,3] [1,3]
+       ^
+    1   1   1   1
+        ---------- <
+    ----------     <
+        ----------
+        ------
+                 ^
+pq  3       3x   4
+dp  3   443      443
+    x            x
+k   1            2 
+
 ```
-Runtime: 148 ms
-Memory: 224.38 MB
+Runtime: 111 ms, Beats 74.94%
+Memory: 224.46 MB, Beats 40.72%
 ```
 ```c++
 class Solution {
 public:
     int maxRemoval(vector<int>& nums, vector<vector<int>>& queries) {
+        int m = nums.size(), n = queries.size(), i, j = 0, k = 0;
+        priority_queue<int, vector<int>, greater<int>> pq;
+        priority_queue<int> dp;
         sort(queries.begin(), queries.end());
-        priority_queue<int> candidate;  // max heap
-        priority_queue<int, vector<int>, greater<>> chosen;  // min heap
-        int ans = 0;
-        int n = nums.size();
-        int j = 0;
-        for (int i = 0; i < n; i++){
-            while (j < queries.size() && queries[j][0] == i){
-                candidate.push(queries[j][1]);
-                j++;
+        for (i = 0; i < m; i ++) {
+            while (pq.size() && pq.top() <= i) {
+                pq.pop();
             }
-            nums[i] -= chosen.size();
-            while (nums[i] > 0 && !candidate.empty() && candidate.top() >= i){
-                ans++;
-                chosen.push(candidate.top());
-                candidate.pop();
-                nums[i]--;
-            } 
-            if (nums[i] > 0)
+            while (j < n && queries[j][0] == i) {
+                dp.push(queries[j][1] + 1);
+                j += 1;
+            }
+            while (pq.size() < nums[i] && dp.size() && dp.top() > i) {
+                auto ed = dp.top();
+                dp.pop();
+                pq.push(ed);
+                k += 1;
+            }
+            if (pq.size() < nums[i]) {
                 return -1;
-            while (!chosen.empty() && chosen.top() == i)
-                chosen.pop();
-            
+            }
         }
-        return queries.size() - ans;
+        return n - k;
+    }
+};
+```
+
+**Solution 2: (Heap, 1 heap)**
+
+    1   1   1   1
+        ---------- <
+    ----------     <
+        ----------
+        ------
+    ^
+dp              -1   -1
+pq  3   443     443
+    x           x
+k   1           2
+```
+Runtime: 85 ms, Beats 89.64%
+Memory: 224.00 MB, Beats 94.94%
+```
+```c++
+class Solution {
+public:
+    int maxRemoval(vector<int>& nums, vector<vector<int>>& queries) {
+        int m = nums.size(), n = queries.size(), i, j = 0, k = 0;
+        priority_queue<int> pq;
+        vector<int> dp(m+1);
+        sort(queries.begin(), queries.end(),
+             [](const vector<int>& a, const vector<int>& b) {
+                 return a[0] < b[0];
+             });
+        for (i = 0; i < m; i ++) {
+            k += dp[i];
+            while (j < n && queries[j][0] == i) {
+                pq.push(queries[j][1] + 1);
+                j += 1;
+            }
+            while (k < nums[i] && pq.size() && pq.top() > i) {
+                dp[pq.top()] -= 1;
+                pq.pop();
+                k += 1;
+            }
+            if (k < nums[i]) {
+                return -1;
+            }
+        }
+        return pq.size();
     }
 };
 ```

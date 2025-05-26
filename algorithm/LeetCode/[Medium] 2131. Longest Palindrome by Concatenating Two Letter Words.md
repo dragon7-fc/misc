@@ -174,3 +174,35 @@ public:
     }
 };
 ```
+
+**Solution 5: (Hash Table)**
+```
+Runtime: 0 ms, Beats 100.00%
+Memory: 171.95 MB, Beats 44.24%
+```
+```c++
+class Solution {
+public:
+    int longestPalindrome(vector<string>& words) {
+        int cnt[26][26] = {0}, ans = 0;
+        for (int i = 0; i < words.size(); i++) {
+            int a = words[i][0] - 'a';
+            int b = words[i][1] - 'a';
+            if (cnt[b][a] > 0) {
+                ans += 4;
+                cnt[b][a]--;
+            }
+            else
+                cnt[a][b]++;
+        }
+        
+        for (int i = 0; i < 26; i++) {
+            if (cnt[i][i] >= 1) {
+                ans += 2;
+                break;
+            }
+        }
+        return ans;
+    }
+};
+```

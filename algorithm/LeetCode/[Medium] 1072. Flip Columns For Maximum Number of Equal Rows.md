@@ -111,6 +111,11 @@ public:
 ```
 
 **Solution 3: (Hash Table)**
+
+equal row
+-> all element equal to row[0]
+-> row pattern match
+
 ```
 Runtime: 20 ms
 Memory: 74.60 MB

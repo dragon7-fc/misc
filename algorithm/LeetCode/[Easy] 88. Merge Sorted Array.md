@@ -127,33 +127,24 @@ void merge(int* nums1, int nums1Size, int m, int* nums2, int nums2Size, int n){
 
 **Solution 5: (Two Pointers, walk backward)**
 ```
-Runtime: 9 ms
-Memory Usage: 9 MB
+Runtime: 0 ms, Beats 100.00%
+Memory: 12.36 MB, Beats 38.83%
 ```
 ```c++
 class Solution {
 public:
     void merge(vector<int>& nums1, int m, vector<int>& nums2, int n) {
-        int i = m-1, j = n-1;
-        int k;
-        for (k = m+n-1; k >= 0; k --) {
-            if (i < 0 || j < 0) {
-                break;
-            }
-            if (nums1[i] >= nums2[j]) {
-                nums1[k] = nums1[i];
-                i -= 1;
+        int i = m-1, j = n-1, k = m+n-1;
+        while (i >= 0 && j >= 0) {
+            if (nums1[i] > nums2[j]) {
+                nums1[k--] = nums1[i--];
             } else {
-                nums1[k] = nums2[j];
-                j -= 1;
+                nums1[k--] = nums2[j--];
             }
         }
         while (j >= 0) {
-            nums1[k] = nums2[j];
-            j -= 1;
-            k -= 1;
+            nums1[k--] = nums2[j--];
         }
-
     }
 };
 ```

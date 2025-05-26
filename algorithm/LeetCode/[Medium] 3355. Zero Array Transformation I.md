@@ -53,29 +53,31 @@ The array will become [3, 1, 0, 0], which is not a Zero Array.
 
 # Submissions
 ---
-**Solution 1: (Prefix Sum)**
+**Solution 1: (Counter)**
 ```
-Runtime: 135 ms
-Memory: 324.80 MB
+Runtime: 4 ms, Beats 83.72%
+Memory: 292.82 MB, Beats 71.03%
 ```
 ```c++
 class Solution {
 public:
     bool isZeroArray(vector<int>& nums, vector<vector<int>>& queries) {
-        int n = nums.size(), i, cur;
-        vector<int> dp(n+1);
-        for (auto q: queries) {
-            dp[q[0]] -= 1;
-            dp[q[1]+1] += 1;
+        int n = nums.size(), i;
+        vector<int> cnt(n+1);
+        for (i = 0; i < queries.size(); i ++) {
+            cnt[queries[i][0]] += 1;
+            cnt[queries[i][1] + 1] -= 1;
         }
-        cur = 0;
         for (i = 0; i < n; i ++) {
-            cur += dp[i];
-            if (cur + nums[i] > 0) {
+            if (i) {
+                cnt[i] += cnt[i-1];
+            }
+            if (cnt[i] < nums[i]) {
                 return false;
             }
         }
         return true;
     }
 };
+
 ```

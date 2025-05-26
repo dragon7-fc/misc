@@ -186,6 +186,18 @@ public:
 ```
 
 **Solution 2: (Mono increasing stack, left and right)**
+
+
+               Y      
+                      x
+        x      
+    x
+        ^left  ^mid   ^right
+                      ^i
+         -------
+         mid-left
+                -------
+                 right-mid
 ```
 Runtime: 65 ms
 Memory: 41.82 MB

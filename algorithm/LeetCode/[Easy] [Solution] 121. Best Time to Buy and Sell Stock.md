@@ -124,3 +124,23 @@ public:
     }
 };
 ```
+
+**Solution 3: (Prefix Sum)**
+```
+Runtime: 0 ms, Beats 100.00%
+Memory: 97.17 MB, Beats 99.10%
+```
+```c++
+class Solution {
+public:
+    int maxProfit(vector<int>& prices) {
+        int n = prices.size(), i, a = prices[0], ans = 0;
+        for (i = 1; i < n; i ++) {
+            ans = max(ans, prices[i] - a);
+            a = min(a, prices[i]);
+        }
+        return ans;
+    }
+};
+
+```

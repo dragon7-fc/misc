@@ -178,3 +178,48 @@ public:
     }
 };
 ```
+
+**Solution 4: (Sort, multiset)**
+```
+Runtime: 37 ms, Beats 20.28%
+Memory: 34.20 MB, Beats 15.81%
+```
+```c++
+class Solution {
+public:
+    vector<vector<int>> getSkyline(vector<vector<int>>& buildings) {
+        map<int,vector<pair<int,int>>> m;
+        for (int i = 0; i < buildings.size(); i ++) {
+            m[buildings[i][0]].push_back({buildings[i][2], 0});
+            m[buildings[i][1]].push_back({buildings[i][2], 1});
+        }
+        multiset<int> st;
+        int cur = 0, ncur;
+        vector<vector<int>> ans;
+        for (auto [x, v]: m) {
+            sort(v.begin(), v.end(), [](auto &pa, auto &pb){
+                return pa.second < pb.second;
+            });
+            for (auto [y, t]: v) {
+                if (t == 0) {
+                    st.insert(y);
+                } else {
+                    auto it = st.find(y);
+                    st.erase(it);
+                }
+            }
+            ncur = cur;
+            if (st.size() && ncur != *st.rbegin()) {
+                ncur = *st.rbegin(); 
+            } else if (st.size() == 0 && ncur != 0) {
+                ncur = 0;
+            }
+            if (ncur != cur) {
+                ans.push_back({x, ncur});
+                cur = ncur;
+            }
+        }
+        return ans;
+    }
+};
+```

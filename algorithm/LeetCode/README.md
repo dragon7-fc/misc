@@ -6812,32 +6812,30 @@ class LRUCache:
 ```
 ```c++
 class LRUCache {
-    unordered_map<int,list<pair<int,int>>::iterator> m;
-    list<pair<int,int>> q;  //not deque, need delete in O(1)
-    int cap;
+    list<pair<int,int>> q;
+    unordered_map<int, list<pair<int,int>>::iterator> m;
+    int n;
 public:
     LRUCache(int capacity) {
-        cap = capacity;
+        n = capacity;
     }
     
     int get(int key) {
         if (!m.count(key)) {
             return -1;
-        } else {
-            auto p = *m[key];
-            q.erase(m[key]);
-            m.erase(key);
-            q.push_front(p);
-            m[key] = q.begin();
-            return p.second;
         }
+        auto it = m[key];
+        int rst = it->second;
+        q.push_front(*it);
+        q.erase(it);
+        m[key] = q.begin();
+        return rst;
     }
     
     void put(int key, int value) {
         if (m.count(key)) {
             q.erase(m[key]);
-            m.erase(key);
-        } else if (m.size() == cap) {
+        } else if (m.size() == n) {
             m.erase(q.back().first);
             q.pop_back();
         }
@@ -11653,7 +11651,7 @@ return ans
 
 ## Stack <a name="stack"></a>
 ---
-### 2 stack, matched index elimination
+### 2 stack, matched index elimination, step by step
 ```c++
 class Solution {
 public:
@@ -13562,37 +13560,6 @@ def binaryToGray(self, n: int) -> int:
 
 ## Sort <a name="sort"></a>
 
-### sort by group
-```c++
-class Solution {
-public:
-    vector<int> lexicographicallySmallestArray(vector<int>& nums, int limit) {
-        vector<pair<int, int>> b;
-        int n = nums.size();
-        for (int i = 0; i < n; ++i)
-            b.push_back({nums[i], i});
-        sort(b.begin(), b.end());
-        vector<vector<pair<int, int>>> c = {{b[0]}};
-        for (int i = 1; i < n; ++i) {
-            if (b[i].first - b[i - 1].first <= limit)
-                c.back().push_back(b[i]);
-            else
-                c.push_back({b[i]});
-        }
-        for (const auto& t : c) {
-            vector<int> ind;
-            for (const auto& p : t)
-                ind.push_back(p.second);
-            sort(ind.begin(), ind.end());
-            for (int i = 0; i < ind.size(); ++i)
-                nums[ind[i]] = t[i].first;
-        }
-        return nums;
-    }
-}
-```
-* [Medium] 2948. Make Lexicographically Smallest Array by Swapping Elements
-
 ### Pass Through + Prefix Sum
 ```python
 class Solution:
@@ -15398,7 +15365,8 @@ public:
     }
 };
 ```
-* [Medium] 1584. Min Cost to Connect All Points
+* [Medium] 787. Cheapest Flights Within K Stops
+
 
 ### Greedy with Heap
 ```python
@@ -15526,7 +15494,7 @@ public:
     }
 };
 
-// one heap version
+// one heap version, no free set
 class Solution {
 public:
     int smallestChair(vector<vector<int>>& times, int targetFriend) {
@@ -15552,6 +15520,39 @@ public:
 };
 ```
 * [Medium] 1942. The Number of the Smallest Unoccupied Chair
+
+### heap with event
+```c++
+class Solution {
+public:
+    int maxRemoval(vector<int>& nums, vector<vector<int>>& queries) {
+        int m = nums.size(), n = queries.size(), i, j = 0, k = 0;
+        priority_queue<int> pq;
+        vector<int> dp(m+1);
+        sort(queries.begin(), queries.end(),
+             [](const vector<int>& a, const vector<int>& b) {
+                 return a[0] < b[0];
+             });
+        for (i = 0; i < m; i ++) {
+            k += dp[i];
+            while (j < n && queries[j][0] == i) {
+                pq.push(queries[j][1] + 1);
+                j += 1;
+            }
+            while (k < nums[i] && pq.size() && pq.top() > i) {
+                dp[pq.top()] -= 1;
+                pq.pop();
+                k += 1;
+            }
+            if (k < nums[i]) {
+                return -1;
+            }
+        }
+        return pq.size();
+    }
+};
+```
+* [Medium] 3362. Zero Array Transformation III
 
 ### nsmallest
 ```python
@@ -15716,17 +15717,28 @@ class Solution:
 * [Hard] 1354. Construct Target Array With Multiple Sums
 
 ### Greedy with max heap
-```python
-class Solution:
-    def scheduleCourse(self, courses: List[List[int]]) -> int:
-        heap, time = [], 0
-        for t, end in sorted(courses, key=lambda x: x[1]):
-            time += t
-            heapq.heappush(heap, -t)
-            if time > end:
-                nt = heapq.heappop(heap)
-                time += nt
-        return len(heap)
+```c++
+class Solution {
+public:
+    int scheduleCourse(vector<vector<int>>& courses) {
+        sort(courses.begin(), courses.end(), [](vector<int> &c1, vector<int> &c2){
+            return c1[1] < c2[1];
+        });
+        priority_queue<int> pq;
+        int cur = 0, duration, lastDay;
+        for (auto &c: courses) {
+            duration = c[0];
+            lastDay = c[1];
+            pq.push(duration);
+            cur += duration;
+            if (cur > lastDay) {
+                cur -= pq.top();
+                pq.pop();
+            }
+        }
+        return pq.size();
+    }
+};
 ```
 * [Hard] [Solution] 630. Course Schedule III
 
@@ -17196,7 +17208,7 @@ class Solution:
 ```
 * [Medium] 912. Sort an Array
 
-### Iterate over response, merge sort, O(n * 2^n)
+### Iterate over response, merge sort, backtracking, O(n * 2^n)
 ```c++
 class Solution {
 public:

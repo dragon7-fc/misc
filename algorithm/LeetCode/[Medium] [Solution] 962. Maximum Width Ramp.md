@@ -194,6 +194,12 @@ public:
 
 **Solution 3: (Stack, prefix sum)**
 
+                   \
+        ------------ \
+                       \
+          -------------- \
+        ^ 
+
 * Time: O(N) 
 * Space: O(N)
 

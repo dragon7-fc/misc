@@ -163,32 +163,30 @@ Memory: 183.3 MB
 ```
 ```c++
 class LRUCache {
-    unordered_map<int,list<pair<int,int>>::iterator> m;
     list<pair<int,int>> q;
-    int cap;
+    unordered_map<int, list<pair<int,int>>::iterator> m;
+    int n;
 public:
     LRUCache(int capacity) {
-        cap = capacity;
+        n = capacity;
     }
     
     int get(int key) {
         if (!m.count(key)) {
             return -1;
-        } else {
-            auto p = *m[key];
-            q.erase(m[key]);
-            m.erase(key);
-            q.push_front(p);
-            m[key] = q.begin();
-            return p.second;
         }
+        auto it = m[key];
+        int rst = it->second;
+        q.push_front(*it);
+        q.erase(it);
+        m[key] = q.begin();
+        return rst;
     }
     
     void put(int key, int value) {
         if (m.count(key)) {
             q.erase(m[key]);
-            m.erase(key);
-        } else if (m.size() == cap) {
+        } else if (m.size() == n) {
             m.erase(q.back().first);
             q.pop_back();
         }

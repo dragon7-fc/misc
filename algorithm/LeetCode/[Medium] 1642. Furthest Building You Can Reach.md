@@ -69,6 +69,12 @@ class Solution:
 ```
 
 **Solution 2: (Heap, Greedy, greedy add to brick then pick the largest as ladder)**
+
+    heights = [4,12,2,7,3,18,20,3,19], bricks = 10, ladders = 2
+                8  - 5 - 15 2  - 16
+                     b      b
+*/
+
 ```
 Runtime: 209 ms
 Memory Usage: 54 MB

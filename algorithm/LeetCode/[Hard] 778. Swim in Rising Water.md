@@ -135,3 +135,53 @@ int swimInWater(int** grid, int gridSize, int* gridColSize){
     return min;
 }
 ```
+
+**Solution 3: (BFS, Heap)**
+```
+Runtime: 9 ms, Beats 44.77%
+Memory: 14.59 MB, Beats 35.53%
+```
+```c++
+class Solution {
+    int dd[5] = {0, 1, 0, -1, 0};
+public:
+    int swimInWater(vector<vector<int>>& grid) {
+        int n = grid.size(), i, j, d, nr, nc, ans = grid[0][0];
+        queue<pair<int,int>> q;
+        priority_queue<tuple<int,int,int>, vector<tuple<int,int,int>>, greater<>> pq;
+        vector<vector<int>> visited(n, vector<int>(n));
+        q.push({0, 0});
+        visited[0][0] = 1;
+        while (q.size()) {
+            auto [r, c] = q.front();
+            q.pop();
+            if (r == n-1 && c == n-1) {
+                return ans;
+            }
+            for (d = 0; d < 4; d ++) {
+                nr = r + dd[d];
+                nc = c + dd[d+1];
+                if (0 <= nr && nr < n && 0 <= nc && nc < n && !visited[nr][nc]) {
+                    if (grid[nr][nc] < ans) {
+                        q.push({nr,nc});
+                        visited[nr][nc] = 1;
+                    } else {
+                        pq.push({grid[nr][nc], nr, nc});
+                    }
+                }
+            }
+            if (q.size() == 0) {
+                while (pq.size() && get<0>(pq.top()) < grid[r][c]) {
+                    pq.pop();
+                }
+                auto [w, r, c] = pq.top();
+                pq.pop();
+                ans = w;
+                q.push({r, c});
+                visited[r][c] = 1;
+            }
+        }
+        return ans;
+    }
+};
+```

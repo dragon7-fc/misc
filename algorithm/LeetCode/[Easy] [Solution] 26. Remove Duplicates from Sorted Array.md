@@ -106,3 +106,27 @@ int removeDuplicates(int* nums, int numsSize){
     return left;
 }
 ```
+
+**Solution 3: (Two Pointers)**
+```
+Runtime: 0 ms, Beats 100.00%
+Memory: 22.64, MB Beats 50.48%
+```
+```c++
+class Solution {
+public:
+    int removeDuplicates(vector<int>& nums) {
+        int n = nums.size(), i = 0, j = 1;
+        while (j < n) {
+            while (j < n && nums[i] == nums[j]) {
+                j += 1;
+            }
+            if (j < n) {
+                nums[++i] = nums[j];
+            }
+            j += 1;
+        }
+        return i+1;
+    }
+};
+```

@@ -254,6 +254,15 @@ bool search(int* nums, int numsSize, int target){
 ```
 
 **Solution 6: (Binary Search)**
+
+    nums = [2,5,6,0,0,1,2], target = 0
+            ^l    ^m   ^r
+
+    nums = [2,5,6,0,0,1,2], target = 3
+            ^l    ^m    ^r
+                    ^l^m^r
+                        ^lmr
+
 ```
 Runtime: 9 ms
 Memory: 13.9 MB

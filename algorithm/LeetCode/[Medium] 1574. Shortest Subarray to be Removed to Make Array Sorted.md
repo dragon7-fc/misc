@@ -101,6 +101,14 @@ public:
 ```
 
 **Solution 3: (Two Pointers)**
+
+                    /
+                  / 
+                /  
+       / 
+     /
+    ^i          ^j  ^n-1
+        ^left   ^right
 ```
 Runtime: 0 ms
 Memory: 69.58 MB

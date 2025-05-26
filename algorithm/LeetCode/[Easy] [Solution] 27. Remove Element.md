@@ -128,3 +128,25 @@ class Solution:
                 i += 1
         return i
 ```
+
+**Solution 2: (Two Pointers)**
+```
+Runtime: 0 ms, Beats 100.00%
+Memory: 11.78 MB, Beats 41.30%
+```
+```c++
+class Solution {
+public:
+    int removeElement(vector<int>& nums, int val) {
+        int n = nums.size(), i = 0, j;
+        for (j = 0; j < n; j ++) {
+            if (nums[j] != val) {
+                swap(nums[i], nums[j]);
+                i += 1;
+            }
+        }
+        return i;
+    }
+};
+
+```

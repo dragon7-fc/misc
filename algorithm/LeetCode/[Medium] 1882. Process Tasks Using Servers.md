@@ -75,6 +75,18 @@ class Solution:
 ```
 
 **Solution 2: (Heap, 2 heap)**
+
+    servers = [3,3,2],
+    tasks = [1,   2,   3,   2,   1,   2]
+                                 ^
+pq           332  332  33_  _32  _3_  _32
+               x    x  x      x   x     x
+                              
+    servers = [5,1,4,3,2],
+    tasks = [2,    1,    2,    4,    5,    2,    1]
+pq           51432 5_432 51432 5_432 5143_ 5_43_ 5_4__   32       1
+              x        x  x        x  x       x    x
+
 ```
 Runtime: 371 ms
 Memory: 126.4 MB
@@ -83,8 +95,8 @@ Memory: 126.4 MB
 class Solution {
 public:
     vector<int> assignTasks(vector<int>& servers, vector<int>& tasks) {
-        priority_queue<pair<int,int>, vector<pair<int,int>>, greater<pair<int,int>>> pq;
-        priority_queue<pair<int,pair<int,int>>, vector<pair<int,pair<int,int>>>, greater<pair<int,pair<int,int>>>> dp;
+        priority_queue<pair<int,int>, vector<pair<int,int>>, greater<pair<int,int>>> pq;  // {weight, i}, free
+        priority_queue<pair<int,pair<int,int>>, vector<pair<int,pair<int,int>>>, greater<pair<int,pair<int,int>>>> dp;  // {time, {weight, i}}, working
         int cur = 0;
         vector<int> ans;
         for (int i = 0; i < servers.size(); i ++) {

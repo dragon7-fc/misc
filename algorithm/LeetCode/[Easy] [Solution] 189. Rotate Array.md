@@ -349,3 +349,27 @@ public:
     }
 };
 ```
+
+**Solution 5; (Using Reverse)**
+
+    1,2,3,4,5,6,7
+    xxxxx -------
+    5,6,7 1 2 3 4
+    ----- xxxxxxx
+    7 6 5 4 3 2 1
+    5 6 7 1 2 3 4
+
+```
+Runtime: 0 ms, Beats 100.00%
+Memory: 29.45 MB, Beats 78.90%
+```
+```c++
+class Solution {
+public:
+    void rotate(vector<int>& nums, int k) {
+        int n = nums.size();
+        reverse(nums.begin(), nums.end());
+        reverse(nums.begin(), nums.begin()+k%n);
+        reverse(nums.begin()+k%n, nums.end());
+    
+```
