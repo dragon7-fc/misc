@@ -125,10 +125,13 @@ class Solution:
 1      -----------
 0   -----
     1  2  3  4  5  6  7  8
-cur 1     3     5  6
-dp  0     12    13 1
+cur ^     ^     ^  ^
+pq  0     12    13 1
     x      x     x x
-pq  0     2     3  1
+    --------
+          --------
+                -----
+ans 0     2     3  1
 
 4                           ------
 3                           ---------------
@@ -136,40 +139,47 @@ pq  0     2     3  1
 1                           --------------------------------------------------------
 0                           ---------------------------------------------
     1   2   3   4   5   6   7   8   9   10   11   12   13   14   15   16   17   18
-cur                         7       10                 13
-dp                          01234   0123               012
-pq                              x      x                 x
-                            4       3                  2
+cur                         ^       ^                   ^
+pq                          01234   0123               012
+                                x      x                 x
+                            ----------
+                                    ----------------------
+                                                       ----------------------------------
+ans                         4       3                  2
 ```
-Runtime: 329 ms
-Memory: 132.36 MB
+Runtime: 75 ms, Beats 92.82%
+Memory: 130.91 MB, Beats 87.54%
 ```
 ```c++
 class Solution {
 public:
     vector<int> getOrder(vector<vector<int>>& tasks) {
+        int n = tasks.size(), i;
+        long long cur = 0;
+        vector<int> ans;
         vector<tuple<int,int,int>> dp;
-        for (int i = 0; i < tasks.size(); i ++) {
+        for (i = 0; i < n; i ++) {
             dp.push_back({tasks[i][0], tasks[i][1], i});
         }
         sort(dp.begin(), dp.end());
-        priority_queue<tuple<int,int,int>,vector<tuple<int,int,int>>, greater<tuple<int,int,int>>> pq;
-        pq.push({get<1>(dp[0]), get<2>(dp[0]), get<0>(dp[0])});
-        int j = 1, n = tasks.size();
-        long long cur = 0;
-        vector<int> ans;
+        priority_queue<pair<int,int>, vector<pair<int,int>>, greater<pair<int,int>>> pq;
+        cur = 0;
+        pq.push({get<1>(dp[0]), get<2>(dp[0])});
+        i = 1;
         while (pq.size()) {
-            auto [p, i, b] = pq.top();
+            auto [p, j] = pq.top();
             pq.pop();
-            ans.push_back(i);
-            cur = max(cur, (long long)b);
-            cur += p;
-            if (j < n && pq.empty()) {
-                cur = max(cur, (long long)get<0>(dp[j]));
+            ans.push_back(j);
+            cur = max(cur, (long long)tasks[j][0]);
+            while (i < n && get<0>(dp[i]) <= cur + p) {
+                pq.push({get<1>(dp[i]), get<2>(dp[i])});
+                i += 1;
             }
-            while (j < n && (get<0>(dp[j]) <= cur)) {
-                pq.push({get<1>(dp[j]), get<2>(dp[j]), get<0>(dp[j])});
-                j += 1;
+            cur += p;
+            if (pq.size() == 0 && i < n) {
+                pq.push({get<1>(dp[i]), get<2>(dp[i])});
+                cur = get<0>(dp[i]);
+                i += 1;
             }
         }
         return ans;

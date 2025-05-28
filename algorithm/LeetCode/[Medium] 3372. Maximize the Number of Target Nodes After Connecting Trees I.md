@@ -101,3 +101,54 @@ public:
     } 
 };
 ```
+
+**Solution 2: (BFS, Brute Force, try every node)**
+```
+Runtime: 363 ms, Beats 29.96%
+Memory: 199.80 MB, Beats 34.10%
+```
+```c++
+class Solution {
+    int bfs(int i, vector<vector<int>> &g, int k) {
+        int sz, j, rst = 0;
+        queue<pair<int,int>> q;
+        q.push({i, -1});
+        while (q.size() && k >= 0) {
+            sz = q.size();
+            rst += sz;
+            for (j = 0; j < sz; j ++) {
+                auto [u, p] = q.front();
+                q.pop();
+                for (auto v: g[u]) {
+                    if (v != p) {
+                        q.push({v, u});
+                    }
+                }
+            }
+            k -= 1;
+        }
+        return rst;
+    }
+public:
+    vector<int> maxTargetNodes(vector<vector<int>>& edges1, vector<vector<int>>& edges2, int k) {
+        int n = edges1.size()+1, m = edges2.size()+1, i, j, a = 0;
+        vector<vector<int>> gn(n), gm(m);
+        vector<int> ans(n);
+        for (i = 0; i < n-1; i ++) {
+            gn[edges1[i][0]].push_back(edges1[i][1]);
+            gn[edges1[i][1]].push_back(edges1[i][0]);
+        }
+        for (i = 0; i < m-1; i ++) {
+            gm[edges2[i][0]].push_back(edges2[i][1]);
+            gm[edges2[i][1]].push_back(edges2[i][0]);
+        }
+        for (i = 0; i < m; i ++) {
+            a = max(a, bfs(i, gm, k-1));
+        }
+        for (i = 0; i < n; i ++) {
+            ans[i] = bfs(i, gn, k) + a;
+        }
+        return ans;
+    } 
+};
+```
