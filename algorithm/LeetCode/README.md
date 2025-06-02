@@ -2331,49 +2331,22 @@ class Solution:
 * [Hard] 1220. Count Vowels Permutation
 
 ### Prefix Sum, left and right scan
-```python
-class Solution:
-    def candy(self, ratings: List[int]) -> int:
-        # Concept - Just do what the problem is saying, we can 
-        # fill our result array with one, now the first requirement
-        # is fulfilled and for 2nd requirement, there will be 2 cases
-        # 1 - Rating at i is greater than at i-1 --> Forward Pass
-        # 2 - Rating at i is greater than i + 1 --> Backward Pass
-        
-        
-        # Condition-1 Fulfilled as we gave 1 candy to everyone
-        candies = [1] * len(ratings)
-        
-        # Calculate the candies needed to fulfill left condition     
-        # We drop the 0th element as nothing is located left to it
-        for i in range(1, len(ratings)):
-            if ratings[i] > ratings[i-1]:
-                candies[i] = candies[i-1] + 1
-        
-        # Calculate the candies needed to fulfill right condition  
-        # We drop the last element as nothing is located right to it
-        for i in range(len(ratings)-2, -1, -1):
-            if ratings[i] > ratings[i+1]:
-                candies[i] = max(candies[i], candies[i+1] + 1)
-        
-        # Take the summation --> Minimum candies
-        return sum(candies)
-
-class Solution:
-    def candy(self, ratings: List[int]) -> int:
-        ans = down = up = 0
-        for i in range(len(ratings)):
-            if not i or ratings[i-1] < ratings[i]:
-                if down: down, up = 0, 1
-                up += 1
-                ans += up
-            elif ratings[i-1] == ratings[i]: 
-                down, up = 0, 1
-                ans += 1
-            else:
-                down += 1
-                ans += down if down < up else down+1
-        return ans
+```c++
+class Solution {
+public:
+    int candy(vector<int>& ratings) {
+        int n = ratings.size(), i;
+        vector<int> dp(n);
+        dp[0] = 1;
+        for (i = 1; i < n; i ++) {
+            dp[i] = ratings[i] > ratings[i-1] ? dp[i-1] + 1 : 1;
+        }
+        for (i = n-2; i >= 0; i --) {
+            dp[i] = max(dp[i], ratings[i] > ratings[i+1] ? dp[i+1] + 1 : 1);
+        }
+        return accumulate(dp.begin(), dp.end(), 0);
+    }
+};
 ```
 * [Hard] [Solution] 135. Candy
 
@@ -15433,29 +15406,31 @@ public:
 class Solution {
 public:
     vector<int> assignTasks(vector<int>& servers, vector<int>& tasks) {
-        priority_queue<pair<int,int>, vector<pair<int,int>>, greater<pair<int,int>>> pq;  // free queue
-        priority_queue<pair<int,pair<int,int>>, vector<pair<int,pair<int,int>>>, greater<pair<int,pair<int,int>>>> dp;  // task queue
-        int cur = 0;
-        vector<int> ans;
-        for (int i = 0; i < servers.size(); i ++) {
-            pq.push({servers[i], i});
+        int n = servers.size(), m = tasks.size(), i, j, cur = 0;
+        vector<int> ans(m);
+        priority_queue<pair<int,int>, vector<pair<int,int>>, greater<pair<int,int>>> work, free;
+        for (i = 0; i < n; i ++) {
+            free.push({servers[i], i});
         }
-        for (int i = 0; i < tasks.size(); i ++) {
-            cur = max(cur, i);
-            if (pq.empty()) {
-                pq.push(dp.top().second);
-                cur = max(cur, dp.top().first);
-                dp.pop();
+        for (j = 0; j < m; j ++) {
+            cur = max(cur, j);
+            while (work.size() && work.top().first <= cur) {
+                auto [t, i] = work.top();
+                work.pop();
+                free.push({servers[i], i});
             }
-            while (dp.size() && dp.top().first <= cur) {
-                auto [_, p] = dp.top();
-                dp.pop();
-                pq.push(p);
+            if (free.size() == 0) {
+                cur = work.top().first;
+                while (work.size() && work.top().first == cur) {
+                    auto [_, i2] = work.top();
+                    work.pop();
+                    free.push({servers[i2], i2});
+                }
             }
-            auto p = pq.top();
-            ans.push_back(p.second);
-            dp.push({cur + tasks[i], p});
-            pq.pop();
+            auto [_, i] = free.top();
+            free.pop();
+            work.push({cur+tasks[j], i});
+            ans[j] = i;
         }
         return ans;
     }
@@ -16021,49 +15996,38 @@ class Solution:
 class Solution {
 public:
     vector<vector<int>> getSkyline(vector<vector<int>>& buildings) {
-        // create event points
-        // each event point has an coordinate and height associated with it
-        vector<pair<int, int> > events;
-        vector<vector<int>> contour;
-        // tracks the max height 
-        multiset<int> heights;
-        // to track the height of each building, we create
-        // two kinds of events for each building
-        // left pt: We make the height -ve(so that sorting puts it in front)
-        // right pt: We make the height +ve, this is just to help us know 
-        // we have reached the end of building
-        for(const vector<int>& building: buildings) {
-            // left point
-            events.emplace_back(make_pair(building[0], -1 * building[2]));
-            // right point
-            events.emplace_back(make_pair(building[1], building[2]));
+        map<int,vector<pair<int,int>>> m;
+        for (int i = 0; i < buildings.size(); i ++) {
+            m[buildings[i][0]].push_back({buildings[i][2], 0});
+            m[buildings[i][1]].push_back({buildings[i][2], 1});
         }
-        
-        // sort the event points by coordinate
-        sort(events.begin(), events.end());
-        int max_height_so_far = 0, curr_height = 0;
-        
-        // height of lst contour point
-        heights.emplace(0);
-        for(const pair<int, int>& event: events) {
-            // add the event point if it is left, remove the event point if right
-            if(event.second < 0)
-                heights.emplace(-1 * event.second);
-            else
-                heights.erase(heights.find(event.second));
-            
-            // get the max height of the building seen so far
-            // that still hasn't reached its end
-            curr_height = *heights.rbegin();
-            // if we get a height greater than the height seen so far,
-            // that means that building will create a contour point
-            if(curr_height != max_height_so_far) {
-                contour.emplace_back(vector<int>{event.first, curr_height});
-                max_height_so_far = curr_height;
+        multiset<int> st;
+        int cur = 0, ncur;
+        vector<vector<int>> ans;
+        for (auto [x, v]: m) {
+            sort(v.begin(), v.end(), [](auto &pa, auto &pb){
+                return pa.second < pb.second;
+            });
+            for (auto [y, t]: v) {
+                if (t == 0) {
+                    st.insert(y);
+                } else {
+                    auto it = st.find(y);
+                    st.erase(it);
+                }
+            }
+            ncur = cur;
+            if (st.size() && ncur != *st.rbegin()) {
+                ncur = *st.rbegin(); 
+            } else if (st.size() == 0 && ncur != 0) {
+                ncur = 0;
+            }
+            if (ncur != cur) {
+                ans.push_back({x, ncur});
+                cur = ncur;
             }
         }
-        
-        return contour;
+        return ans;
     }
 };
 ```

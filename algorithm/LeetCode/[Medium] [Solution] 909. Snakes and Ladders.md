@@ -265,3 +265,61 @@ class Solution:
             ans += 1
         return -1
 ```
+
+**Solution 6: (BFS)**
+
+    22 
+    r = 6 - 1 - (22-1)/6 = 2
+    d = (6 - 1 - r)%2 = 1
+    c = 6-1 - ((22-1)%6 = 3)
+
+```
+Runtime: 0 ms, Beats 100.00%
+Memory: 16.84 MB, Beats 70.36%
+```
+```c++
+class Solution {
+    pair<int,int> getrc(int ncur, int n) {
+        int nr, nc, nd;
+        nr = n - 1 - (ncur - 1)/n;
+        nd = (n - 1 - nr)%2;
+        if (nd) {
+            nc = n - 1 - (ncur - 1)%n;
+        } else {
+            nc = (ncur - 1)%n;
+        }
+        return {nr, nc};
+    }
+public:
+    int snakesAndLadders(vector<vector<int>>& board) {
+        int n = board.size(), a, ncur;
+        queue<pair<int,int>> q;
+        vector<int> visited(n*n);
+        q.push({1, 0});
+        visited[0] = 1;
+        while (q.size()) {
+            auto [cur, s] = q.front();
+            q.pop();
+            if (cur == n*n) {
+                return s;
+            }
+            auto [r, c] = getrc(cur, n);
+            for (a = 1; a <= 6; a ++) {
+                ncur = cur + a;
+                if (ncur > n*n) {
+                    break;
+                }
+                auto [nr, nc] = getrc(ncur, n);
+                if (board[nr][nc] != -1) {
+                    ncur = board[nr][nc];
+                }
+                if (!visited[ncur - 1]) {
+                    visited[ncur - 1] = 1;
+                    q.push({ncur, s+1});
+                }
+            }
+        }
+        return -1;
+    }
+};
+```

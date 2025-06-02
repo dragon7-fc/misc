@@ -187,6 +187,15 @@ public:
 
 **Solution 5: (Heap, working heap and free set)**
 
+       0   1   2   3   4   5   6
+       ----------  --
+               -----------
+               ------
+   
+chair  0       012 012 012  1
+                   x   x x  x
+                   0
+
 times = [[1,4],[2,3],[4,6]], targetFriend = 1
 
 2               ------
@@ -195,11 +204,12 @@ times = [[1,4],[2,3],[4,6]], targetFriend = 1
     1   2   3   4   5   6
                 ^
 pq  4,0 4,0     4,0x
-        3,1     3,1x
+        3,1 3,1x
                 6,0
 k   1   2
-st              0,1
-                x
+st  0   01  01  0
+             x  x
+                0
 
 times = [[3,10],[1,5],[2,6]], targetFriend = 0
 
@@ -212,7 +222,8 @@ pq  5,0 5,0 5,0
         6,1 6,1
             10,2
 k 0 1   2   3
-st              
+st  0   01  012     012 12 
+                    x   x     
 ```
 Runtime: 140 ms
 Memory: 62.00 MB

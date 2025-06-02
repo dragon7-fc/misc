@@ -200,3 +200,31 @@ class Solution:
                 cur = 0
         return ans if total >= 0 else -1
 ```
+
+**Solution 7: (Greedy)**
+```
+Runtime: 0 ms, Beats 100.00%
+Memory: 112.26 MB, Beats 94.29%
+```
+```c++
+class Solution {
+public:
+    int canCompleteCircuit(vector<int>& gas, vector<int>& cost) {
+        int n = gas.size(), i, j = 0, a, b, cur;
+        a = accumulate(gas.begin(), gas.end(), 0);
+        b = accumulate(cost.begin(), cost.end(), 0);
+        if (a < b) {
+            return -1;
+        }
+        cur = 0;
+        for (i = 0; i < n; i ++) {
+            cur += gas[i] - cost[i];
+            if (cur < 0) {
+                cur = 0;
+                j = i+1;
+            }
+        }
+        return j;
+    }
+};
+```

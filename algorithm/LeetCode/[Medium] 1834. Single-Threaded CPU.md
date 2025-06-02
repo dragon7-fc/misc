@@ -120,6 +120,17 @@ class Solution:
 
 **Solution 3: (Heap, sort then greedy over min heap with current time)**
 
+task
+ti:        [    pi    ]
+           ^ei
+tj:           [  pj   ]
+              ^ej  
+tk:           [ pk  ]x
+              ^ek
+thread  [      | tk |  tj  | ti      |                 ]
+        ^t1----^t2--^t3----^54------    
+                 pk  t2+pk  t3+pj
+
 3            --    
 2         -----
 1      -----------

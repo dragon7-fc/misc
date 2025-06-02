@@ -308,35 +308,35 @@ public:
 ```
 
 **Solution 4: (left right scan)**
+
+    1 0 2
+   -------
+    1 1 2  ->
+    2 1 2  <-
+
+    1 2 2
+   -------
+    1 2 1  ->
+    1 2 1  <-
+
 ```
-Runtime: 18 ms
-Memory: 17.8 MB
+Runtime: 0 ms, Beats 100.00%
+Memory: 22.87 MB, Beats 59.49%
 ```
 ```c++
 class Solution {
 public:
     int candy(vector<int>& ratings) {
-        int n = ratings.size();
-        std::vector<int> candies(n, 1);
-
-        for (int i = 1; i < n; ++i) {
-            if (ratings[i] > ratings[i - 1]) {
-                candies[i] = candies[i - 1] + 1;
-            }
+        int n = ratings.size(), i;
+        vector<int> dp(n);
+        dp[0] = 1;
+        for (i = 1; i < n; i ++) {
+            dp[i] = ratings[i] > ratings[i-1] ? dp[i-1] + 1 : 1;
         }
-
-        for (int i = n - 2; i >= 0; --i) {
-            if (ratings[i] > ratings[i + 1]) {
-                candies[i] = max(candies[i], candies[i + 1] + 1);
-            }
+        for (i = n-2; i >= 0; i --) {
+            dp[i] = max(dp[i], ratings[i] > ratings[i+1] ? dp[i+1] + 1 : 1);
         }
-
-        int totalCandies = 0;
-        for (int candy : candies) {
-            totalCandies += candy;
-        }
-
-        return totalCandies;
+        return accumulate(dp.begin(), dp.end(), 0);
     }
 };
 ```

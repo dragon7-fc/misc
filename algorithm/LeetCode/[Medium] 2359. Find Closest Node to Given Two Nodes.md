@@ -145,3 +145,46 @@ class Solution:
                 break
         return ans if ans != float('inf') else -1
 ```
+
+**Solution 4: (Brute Force)**
+```
+Runtime: 154 ms, Beats 20.17%
+Memory: 152.55 MB, Beats 20.16%
+```
+```c++
+class Solution {
+public:
+    int closestMeetingNode(vector<int>& edges, int node1, int node2) {
+        int n = edges.size(), i, j, k, a = INT_MAX, b;
+        vector<vector<int>> dp(n, vector<int>(2, INT_MAX));
+        k = 0;
+        dp[node1][0] = k;
+        while (edges[node1] != -1) {
+            k += 1;
+            node1 = edges[node1];
+            if (dp[node1][0] <= k) {
+                break;
+            }
+            dp[node1][0] = k;
+        }
+        k = 0;
+        dp[node2][1] = k;
+        while (edges[node2] != -1) {
+            k += 1;
+            node2 = edges[node2];
+            if (dp[node2][1] <= k) {
+                break;
+            }
+            dp[node2][1] = k;
+        }
+        for (i = 0; i < n; i ++) {
+            b = max(dp[i][0], dp[i][1]);
+            if (b < a) {
+                j = i;
+                a = b;
+            }
+        }
+        return a != INT_MAX ? j : -1;
+    }
+};
+```

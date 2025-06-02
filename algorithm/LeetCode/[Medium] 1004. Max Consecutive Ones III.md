@@ -55,3 +55,41 @@ class Solution:
         
         return ans
 ```
+
+**Solution 2: (Sliding Window)**
+
+    nums = [1,1,1,0,0,0,1,1,1,1,0], k = 2
+                                ^j
+                      ^i
+    k             1 2 3          3
+                      2          2
+
+    nums = [0,0,1,1,0,0,1,1,1,0,1,1,0,0,0,1,1,1,1], k = 3
+                                  ^j
+                ^i
+        k   1 2     3 4
+                      3        4
+                               3
+      ans                     10
+
+```
+Runtime: 0 ms, Beats 100.00%
+Memory: 59.38 MB, Beats 25.44%
+```
+```c++
+class Solution {
+public:
+    int longestOnes(vector<int>& nums, int k) {
+        int n = nums.size(), i = 0, j, ck = 0, ans = 0;
+        for (j = 0; j < n; j ++) {
+            ck += nums[j] == 0;
+            while (ck > k) {
+                ck -= nums[i] == 0;
+                i += 1;
+            }
+            ans = max(ans, j-i+1);
+        }
+        return ans;
+    }
+};
+```

@@ -55,66 +55,57 @@ Hence, it is the only answer.
 ---
 **Solution 1: (DP Bottom-Up, LIS)**
 ```
-Runtime: 309 ms
-Memory: 121.9 MB
+Runtime: 36 ms, Beats 88.28%
+Memory: 34.12 MB, Beats 96.09%
 ```
 ```c++
 class Solution {
-    int calculate_ham_dist(string w1, string w2){
-      int hamdist= 0;
-      
-      for (int k = 0; k < w1.size(); k++)
-      {
-
-          if (w1[k] != w2[k])
-           {
-                 hamdist++;
-                 if (hamdist > 1) break;
-           }
-      }
-      return hamdist;
-  }
-public:
-    vector<string> getWordsInLongestSubsequence(int n, vector<string>& words, vector<int>& groups) {
-        vector<vector<string>> dp(n); // dp[i] stores the longest subsequence ending at index i
-
-        for (int i = 0; i < n; i++) {
-            dp[i].push_back(words[i]);
+    bool check(int i, int j, vector<string> &words, vector<int> &groups) {
+        if (words[i].length() != words[j].length() || groups[i] == groups[j]) {
+            return false;
         }
-
-        int maxLength = 1; // Initialize with the minimum length
-
-        for (int i = 1; i < n; i++) {
-            for (int j = 0; j < i; j++) {
-                
-                if (groups[j] != groups[i] && words[j].size() == words[i].size()) {  // checking the condition given in problem
-                    
-                    int hamDist = calculate_ham_dist(words[i], words[j]);
-                
-                    if (hamDist == 1)  // if all condition satisfied
-                    {           
-                        if (dp[j].size() + 1 > dp[i].size())   // and check whether from this index you are getting max length subsequence
-                        {   
-                            dp[i] = dp[j]; // Copy the longest subsequence found so far  
-                            dp[i].push_back(words[i]);
-                            maxLength = max(maxLength, int(dp[i].size()));
+        int i2, k = 0;
+        for (i2 = 0; i2 < words[i].length(); i2 ++) {
+            if (words[i][i2] != words[j][i2]) {
+                k += 1;
+            }
+            if (k >= 2) {
+                return false;
+            }
+        }
+        return k == 1;
+    }
+public:
+    vector<string> getWordsInLongestSubsequence(vector<string>& words, vector<int>& groups) {
+        int n = words.size(), i, j, k, i2;
+        vector<pair<int,int>> dp(n);
+        for (i = 0; i < n; i ++) {
+            dp[i] = {1, -1};
+        }
+        k = 1;
+        i2 = 0;
+        for (j = 1; j < n; j ++) {
+            for (i = 0; i < j; i ++) {
+                if (check(i, j, words, groups)) {
+                    if (dp[i].first + 1 > dp[j].first) {
+                        dp[j].first = dp[i].first + 1;
+                        dp[j].second = i;
+                        if (dp[j].first > k) {
+                            k = dp[j].first;
+                            i2 = j;
                         }
                     }
                 }
             }
         }
-
-        vector<string> longestSubsequence;
-        for (int i = 0; i < n; i++) 
-        {
-            if (dp[i].size() == maxLength) 
-            {             
-                longestSubsequence = dp[i];
-                break; // Break when the first longest subsequence is found
-            }
+        vector<string> ans(k);
+        k -= 1;
+        while (k >= 0) {
+            ans[k] = words[i2];
+            i2 = dp[i2].second;
+            k -= 1;
         }
-
-        return longestSubsequence;
+        return ans;
     }
 };
 ```

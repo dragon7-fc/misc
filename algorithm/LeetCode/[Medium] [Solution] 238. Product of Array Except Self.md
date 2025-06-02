@@ -211,3 +211,37 @@ class Solution:
             
         return ans
 ```
+
+**Solution 3: (Prefix Sum, left and right)**
+
+      1        2       3       4
+       2*3*4  1 3*4 1*2 4 1*2*3
+right         24        12      4  1
+ans   24      12         4      1
+left 1 1       2         6
+      24      12         8      6 
+
+```
+Runtime: 0 ms, Beats 100.00%
+Memory: 40.16 MB, Beats 79.68%
+```
+```c++
+class Solution {
+public:
+    vector<int> productExceptSelf(vector<int>& nums) {
+        int n = nums.size(), i, left, right;
+        vector<int> ans(n);
+        right = 1;
+        for (i = n-1; i >= 0; i --) {
+            ans[i] = right;
+            right *= nums[i];
+        }
+        left = 1;
+        for (i = 0; i < n; i ++) {
+            ans[i] *= left;
+            left *= nums[i];
+        }
+        return ans;
+    }
+};
+```

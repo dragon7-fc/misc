@@ -76,48 +76,62 @@ class Solution:
 
 **Solution 2: (Heap, 2 heap)**
 
-    servers = [3,3,2],
-    tasks = [1,   2,   3,   2,   1,   2]
-                                 ^
-pq           332  332  33_  _32  _3_  _32
-               x    x  x      x   x     x
-                              
-    servers = [5,1,4,3,2],
-    tasks = [2,    1,    2,    4,    5,    2,    1]
-pq           51432 5_432 51432 5_432 5143_ 5_43_ 5_4__   32       1
-              x        x  x        x  x       x    x
+    
+    task [     t[j]         ]
+                ^time
+  queue        [    (time + t[j], i)        ] <- pq
+  server [(s[i],i)   ] <-  pq2
+              x
+
+    servers = [3,3,2], n
+             0    1    2    3    4    5    6    7
+    tasks = [1,   2,   3,   2,   1,   2], m
+                                      ^j
+    work      0   1   12   23   234    5
+    free    012 012  01-  -12   -1-  012
+              x   x  x      x    x     x
+
+    servers = [5,1,4,3,2], 
+    tasks = [   2,    1,    2,    4,    5,    2,    1]
+
+    work        0    01     2    23    34    345   3451
+                1    14     1    14    41    413   413
+    free    01234 0-23- 01234 0-234 0123-  0-23-  0-2--
+             x        x  x        x  x        x     x
 
 ```
-Runtime: 371 ms
-Memory: 126.4 MB
+Runtime: 121 ms, Beats 97.43%
+Memory: 124.20 MB, Beats 88.75%
 ```
 ```c++
 class Solution {
 public:
     vector<int> assignTasks(vector<int>& servers, vector<int>& tasks) {
-        priority_queue<pair<int,int>, vector<pair<int,int>>, greater<pair<int,int>>> pq;  // {weight, i}, free
-        priority_queue<pair<int,pair<int,int>>, vector<pair<int,pair<int,int>>>, greater<pair<int,pair<int,int>>>> dp;  // {time, {weight, i}}, working
-        int cur = 0;
-        vector<int> ans;
-        for (int i = 0; i < servers.size(); i ++) {
-            pq.push({servers[i], i});
+        int n = servers.size(), m = tasks.size(), i, j, cur = 0;
+        vector<int> ans(m);
+        priority_queue<pair<int,int>, vector<pair<int,int>>, greater<pair<int,int>>> work, free;
+        for (i = 0; i < n; i ++) {
+            free.push({servers[i], i});
         }
-        for (int i = 0; i < tasks.size(); i ++) {
-            cur = max(cur, i);
-            if (pq.empty()) {
-                pq.push(dp.top().second);
-                cur = max(cur, dp.top().first);
-                dp.pop();
+        for (j = 0; j < m; j ++) {
+            cur = max(cur, j);
+            while (work.size() && work.top().first <= cur) {
+                auto [t, i] = work.top();
+                work.pop();
+                free.push({servers[i], i});
             }
-            while (dp.size() && dp.top().first <= cur) {
-                auto [_, p] = dp.top();
-                dp.pop();
-                pq.push(p);
+            if (free.size() == 0) {
+                cur = work.top().first;
+                while (work.size() && work.top().first == cur) {
+                    auto [_, i2] = work.top();
+                    work.pop();
+                    free.push({servers[i2], i2});
+                }
             }
-            auto p = pq.top();
-            ans.push_back(p.second);
-            dp.push({cur + tasks[i], p});
-            pq.pop();
+            auto [_, i] = free.top();
+            free.pop();
+            work.push({cur+tasks[j], i});
+            ans[j] = i;
         }
         return ans;
     }
