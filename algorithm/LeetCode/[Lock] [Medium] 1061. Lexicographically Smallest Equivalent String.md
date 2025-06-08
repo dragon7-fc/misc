@@ -108,3 +108,43 @@ class Solution:
 
         return ans
 ```
+
+**Solution 3: (Union Find)**
+```
+Runtime: 0 ms, Beats 100.00%
+Memory: 8.68 MB, Beats 96.66%
+```
+```c++
+class Solution {
+    int p[26];
+    int find(int x) {
+        if (x != p[x]) {
+            p[x] = find(p[x]);
+        }
+        return p[x];
+    }
+    void uni(int x, int y) {
+        int xr = find(x), yr = find(y);
+        if (xr <= yr) {
+            p[yr] = xr;
+        } else {
+            p[xr] = yr;
+        }
+    }
+public:
+    string smallestEquivalentString(string s1, string s2, string baseStr) {
+        int n = s1.size(), i;
+        string ans;
+        for (i = 0; i < 26; i ++) {
+            p[i] = i;
+        }
+        for (i = 0; i < n; i ++) {
+            uni(s1[i] - 'a', s2[i] - 'a');
+        }
+        for (auto c: baseStr) {
+            ans += find(c - 'a') + 'a';
+        }
+        return ans;
+    }
+};
+```

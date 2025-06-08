@@ -74,3 +74,48 @@ public:
     }
 };
 ```
+
+**Solution 2: (Counter, Greedy)**
+
+    a a b a *
+            ^
+cnt
+            a:0,1,3
+                  x
+            b:2
+vis 0 0 0 1 1
+```
+Runtime: 73 ms, Beats 69.48%
+Memory: 35.10 MB, Beats 41.23%
+```
+```c++
+class Solution {
+public:
+    string clearStars(string s) {
+        int n = s.size(), i, j;
+        vector<vector<int>> dp(26);
+        vector<int> visited(n);
+        string ans;
+        for (i = 0; i < n; i ++) {
+            if (s[i] == '*') {
+                visited[i] = 1;
+                for (j = 0; j < 26; j ++) {
+                    if (dp[j].size()) {
+                        visited[dp[j].back()] = 1;
+                        dp[j].pop_back();
+                        break;
+                    }
+                }
+            } else {
+                dp[s[i] - 'a'].push_back(i);
+            }
+        }
+        for (i = 0; i < n; i ++) {
+            if (visited[i] == 0) {
+                ans += s[i];
+            }
+        }
+        return ans;
+    }
+};
+```

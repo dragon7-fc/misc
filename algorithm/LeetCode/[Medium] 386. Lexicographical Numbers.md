@@ -35,31 +35,31 @@ n = 130
         9
       3
       3 0
+    1 4
+    1 9
     2
-    2 0
-      9
-    3
-    3 0
+    9
 
 ```
-Runtime: 12 ms
+Runtime: 7 ms, Beats 27.30%
+Memory: 13.96 MB, Beats 83.88%
 ```
 ```c++
 class Solution {
-    void dfs(int v, vector<int> &ans, int n) {
-        if (v > n) {
+    void dfs(int cur, int n, vector<int> &ans) {
+        if (cur > n) {
             return;
         }
-        ans.push_back(v);
-        for (int i = 0; i <= 9; i ++) {
-            dfs(v*10 + i, ans, n);
+        ans.push_back(cur);
+        for (int j = 0; j < 10; j ++) {
+            dfs(cur*10 + j, n, ans);
         }
     }
 public:
     vector<int> lexicalOrder(int n) {
         vector<int> ans;
-        for (int v = 1; v <= 9; v ++) {
-            dfs(v, ans, n);
+        for (int i = 1; i < 10; i ++) {
+            dfs(i, n, ans);
         }
         return ans;
     }
@@ -67,37 +67,45 @@ public:
 ```
 
 **Solution 2: (Iterative, Time: O(n), Space: O(1))**
+
+192
+    1
+    1 0
+    1 0 0
+    1 0 9
+    1 1 0
+    1 1 9
+    1 9 0
+    1 9 2
+    2
+    2 0
+    2 9
+    9
+    9 0
+    9 9
+
 ```
-Runtime: 3 ms
-Memory: 12.45 MB
+Runtime: 0 ms, Beats 100.00%
+Memory: 14.06 MB, Beats 69.54%
 ```
 ```c++
 class Solution {
 public:
     vector<int> lexicalOrder(int n) {
+        int cur = 1, k = 0;
         vector<int> ans;
-        int cur = 1;
-
-        // Generate numbers from 1 to n
-        for (int i = 0; i < n; ++i) {
+        while (k < n) {
             ans.push_back(cur);
-
-            // If multiplying the current number by 10 is within the limit, do
-            // it
-            if (cur * 10 <= n) {
-                cur *= 10;
+            k += 1;
+            if (cur*10 <= n) {
+                cur = cur*10;
             } else {
-                // Adjust the current number by moving up one digit
-                while (cur % 10 == 9 || cur >= n) {
-//                    ^^^^^^^^^^^^^^
-//              ex. 18 -> 19 -> 2 -> 20
-//                        ^^^^^^^
-                    cur /= 10;  // Remove the last digit
+                while (cur%10 == 9 || cur == n) {
+                    cur /= 10;
                 }
-                cur += 1;  // Increment the number
+                cur += 1;
             }
         }
-
         return ans;
     }
 };

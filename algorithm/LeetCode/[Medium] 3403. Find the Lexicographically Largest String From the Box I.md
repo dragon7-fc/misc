@@ -50,6 +50,22 @@ The only possible split is: "g", "g", "g", and "g".
 # Submissions
 ---
 **Solution 1: (Brute Force)**
+
+n = 7
+numFriends = 5
+
+    0 1 2 3 4 5 6
+    x x x x x x x
+    x x x
+      x x x
+        x x x
+          x x x
+            x x x
+              x x
+                x
+    -----
+    n-numFriens+1
+
 ```
 Runtime: 72 ms
 Memory: 169.24 MB
@@ -67,6 +83,42 @@ public:
             res = max(res, word.substr(i, m));
         }
         return res;
+    }
+};
+```
+
+**Solution 2: (Two Pointers)**
+```
+Runtime: 4 ms, Beats 95.52%
+Memory: 11.03 MB, Beats 86.57%
+```
+```c++
+class Solution {
+    string lastSubstring(string s) {
+        int i = 0, j = 1, n = s.size();
+        while (j < n) {
+            int k = 0;
+            while (j + k < n && s[i + k] == s[j + k]) {
+                k++;
+            }
+            if (j + k < n && s[i + k] < s[j + k]) {
+                int t = i;
+                i = j;
+                j = max(j + 1, t + k + 1);
+            } else {
+                j = j + k + 1;
+            }
+        }
+        return s.substr(i, n - i);
+    }
+public:
+    string answerString(string word, int numFriends) {
+        if (numFriends == 1) {
+            return word;
+        }
+        string last = lastSubstring(word);
+        int n = word.size(), m = last.size();
+        return last.substr(0, min(m, n - numFriends + 1));
     }
 };
 ```

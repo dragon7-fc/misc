@@ -68,40 +68,97 @@ class Solution:
         return ''.join(ans)
 ```
 
-**Solution 2: (Stack, mono decreasing stack with future smallest character)**
+**Solution 2: (Counter, Stack, mono inc stack)**
+
+            v     z     h     o    f    n    p     o
+cnt  f:1<   f:1<  f:1<  f:1<  f:1< f:0  f:0  f:0   f:0
+     h:1    h:1   h:1   h:0   h:0  h:0  h:0  h:0   h:0
+     n:1    n:1   n:1   n:1   n:1  n:1< n:0  n:0   n:0
+     o:2    o:2   o:2   o:2   o:1  o:1  o:1< o:1<  o:0
+     p:1    p:1   p:1   p:1   p:1  p:1  p:1  p:0   p:0
+     v:1    v:0   v:0   v:0   v:0  v:0  v:0  v:0   v:0
+     z:1    z:1   z:0   z:0   z:0  z:0  z:0  z:0   z:0
+                                                     <
+stk         v     vz    vzh   vzho vzho vz   vzp
+ans                                f    fnoh fnoh fnohopzv
+    
+
 ```
-Runtime: 202 ms
-Memory: 29.7 MB
+Runtime: 107 ms, Beats 21.78%
+Memory: 33.72 MB, Beats 56.93%
 ```
 ```c++
 class Solution {
-    char low(vector<int> & freq){    // this function return the smallest char present
-        for(int i=0;i<26;i++){
-            if(freq[i]!=0)return 'a'+i;
-        } 
-        return 'a';   
-    }
 public:
     string robotWithString(string s) {
-        stack<char> t;
-        string ans="";  
-        vector<int> freq(26,0);
-        for(char c:s){
-            freq[c-'a']++;
+        unordered_map<char, int> cnt;
+        for (char c : s) {
+            cnt[c]++;
         }
-        
-        for(char c:s){
-            t.push(c);
-            freq[c-'a']--; 
-            while(t.size()>0 && t.top()<=low(freq)){
-                char x = t.top(); 
-                ans += x;
-                t.pop();  
-            }    
+
+        stack<char> stk;
+        string res;
+        char minCharacter = 'a';
+        for (char c : s) {
+            stk.emplace(c);
+            cnt[c]--;
+            while (minCharacter != 'z' && cnt[minCharacter] == 0) {
+                minCharacter++;
+            }
+            while (!stk.empty() && stk.top() <= minCharacter) {
+                res.push_back(stk.top());
+                stk.pop();
+            }
         }
-         while(t.size()>0){
-             ans += t.top();
-             t.pop();   
+
+        return res;
+    }
+};
+```
+
+**Solution 3: (Stack, mono inc stack)**
+
+    v z h o f n p o
+                ^
+stk f n o
+        ^
+dp  v z h o
+        ^
+ans f n o h o p z v
+        ^
+
+```
+Runtime: 68 ms, Beats 36.14%
+Memory: 35.56 MB, Beats 28.22%
+```
+```c++
+class Solution {
+public:
+    string robotWithString(string s) {
+        string stk, dp, ans;
+        int i;
+        for (auto c: s) {
+            while (stk.size() && stk.back() > c) {
+                stk.pop_back();
+            }
+            stk += c;
+        }
+        i = 0;
+        for (auto c: s) {
+            if (i < stk.size() && stk[i] == c) {
+                ans += c;
+                i += 1;
+                while (dp.size() && dp.back() <= stk[i]) {
+                    ans += dp.back();
+                    dp.pop_back();
+                }
+            } else {
+                dp += c;
+            }
+        }
+        while (dp.size()) {
+            ans += dp.back();
+            dp.pop_back();
         }
         return ans;
     }
