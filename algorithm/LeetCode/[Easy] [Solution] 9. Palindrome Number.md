@@ -130,3 +130,33 @@ class Solution:
         x = str(x)
         return True if x==x[::-1] else False
 ```
+
+**Solution 3: (Math, Two Pointers)**
+```
+Runtime: 0 ms, Beats 100.00%
+Memory: 8.65 MB, Beats 43.10%
+```
+```c++
+class Solution {
+public:
+    bool isPalindrome(int x) {
+        if (x < 0) {
+            return false;
+        } else if (x < 0) {
+            return true;
+        }
+        long long a = 1, b = 1;
+        while (a*10 <= x) {
+            a *= 10;
+        }
+        while (a > b) {
+            if ((x/a)%10 != (x/b)%10) {
+                return false;
+            }
+            a /= 10;
+            b *= 10;
+        }
+        return true;
+    }
+};
+```

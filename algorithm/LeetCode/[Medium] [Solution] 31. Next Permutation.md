@@ -175,6 +175,34 @@ void nextPermutation(int* nums, int numsSize){
 ```
 
 **Solution 2: (Two Pointers)**
+
+setp1: find next smaller from back
+5         x
+4           x
+3            (x) < current smallest
+2      (x)
+1     x
+      1 2 5 4 3 
+        ^i    ^j
+          <-----
+step2: swap
+5         x
+4           x
+3      (x)     
+2            (x)      
+1     x
+      1 3 5 4 2 
+        ^i    ^j
+          <-----
+step3: reverse i+1 to end
+5             x
+4           x
+3       x      
+2         x           
+1     x
+      1 3 2 4 5
+          -----> 
+        ^i    ^j
 ```
 Runtime: 15 ms
 Memory Usage: 11.9 MB

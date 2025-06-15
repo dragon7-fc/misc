@@ -357,3 +357,29 @@ int trap(int* height, int heightSize){
     return ans;
 }
 ```
+
+**Solution 7: (Two Pointers)**
+```
+Runtime: 0 ms, Beats 100.00%
+Memory: 25.97 MB, Beats 79.71%
+```
+```c++
+class Solution {
+public:
+    int trap(vector<int>& height) {
+        int left = 0, right = height.size()-1, a = 0, b = 0, ans = 0;
+        while (left <= right) {
+            if (height[left] <= height[right]) {
+                ans += max(0, a - height[left]);
+                a = max(a, height[left]);
+                left += 1;
+            } else {
+                ans += max(0, b - height[right]);
+                b = max(b, height[right]);
+                right -= 1;
+            }
+        }
+        return ans;
+    }
+};
+```

@@ -259,7 +259,43 @@ int numIslands(char** grid, int gridSize, int* gridColSize){
 }
 ```
 
-**Solution 7: (BFS)**
+**Solution 7: (DFS)**
+```
+Runtime: 27 ms, Beats 58.07%
+Memory: 17.29 MB, Beats 54.32%
+```
+```c++
+class Solution {
+    int dd[5] = {0, 1, 0, -1, 0};
+    void dfs(int i, int j, vector<vector<char>> &grid, vector<vector<int>> &visited) {
+        int d, ni, nj;
+        visited[i][j] = 1;
+        for (d = 0; d < 4; d ++) {
+            ni = i + dd[d];
+            nj = j + dd[d+1];
+            if (0 <= ni && ni < grid.size() && 0 <= nj && nj < grid[0].size() && grid[ni][nj] == '1' && !visited[ni][nj]) {
+                dfs(ni, nj, grid, visited);
+            }
+        }
+    }
+public:
+    int numIslands(vector<vector<char>>& grid) {
+        int m = grid.size(), n = grid[0].size(), i, j, ans = 0;
+        vector<vector<int>> visited(m, vector<int>(n));
+        for (i = 0; i < m; i ++) {
+            for (j = 0; j < n; j ++) {
+                if (grid[i][j] == '1' && !visited[i][j]) {
+                    ans += 1;
+                    dfs(i, j, grid, visited);
+                }
+            }
+        }
+        return ans;
+    }
+};
+```
+
+**Solution 8: (BFS)**
 ```
 Runtime: 32 ms
 Memory: 16.99 MB

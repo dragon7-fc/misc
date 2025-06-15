@@ -1211,25 +1211,25 @@ class Solution:
 ```
 * [Hard] [Solution] 798. Smallest Rotation with Highest Score
 
-### Append and Sort, Greedy
-```python
-class Solution:
-    def insert(self, intervals: List[List[int]], newInterval: List[int]) -> List[List[int]]:
-        intervals.append(newInterval)
-        intervals = sorted(intervals)
-        ans = [intervals[0]]
-
-        for s, e in intervals[1:]:
-            top = ans[-1]
-            if top[1] >= s:
-                # tops' end is earlier than the start
-                ans.pop()
-                top[1] = max(e, top[1])
-                ans.append(top)
-            else:
-                ans.append([s, e])
-
-        return ans
+### binary search and insert
+```c++
+class Solution {
+public:
+    vector<vector<int>> insert(vector<vector<int>>& intervals, vector<int>& newInterval) {
+        int n = intervals.size(), i = 0;
+        vector<vector<int>> ans;
+        auto it = lower_bound(intervals.begin(), intervals.end(), newInterval);
+        intervals.insert(it, newInterval);
+        for (auto interval: intervals) {
+            if (!ans.size() || ans.back()[1] < interval[0]) {
+                ans.push_back(interval);
+            } else {
+                ans.back()[1] = max(ans.back()[1], interval[1]);
+            }
+        }
+        return ans;
+    }
+};
 ```
 * [Hard] 57. Insert Interval
 
@@ -11518,26 +11518,25 @@ class Solution:
 * [Medium] 1498. Number of Subsequences That Satisfy the Given Sum Condition
 
 ### left right and current pointer
-```python
-class Solution:
-    def trap(self, height: List[int]) -> int:
-        left, right = 0, len(height) - 1;
-        ans = 0
-        left_max, right_max = 0, 0
-        while left < right: 
-            if height[left] < height[right]:
-                if height[left] >= left_max:
-                    left_max = height[left]
-                else:
-                    ans += (left_max - height[left])
-                left += 1
-            else:
-                if height[right] >= right_max:
-                    right_max = height[right]
-                else:
-                    ans += (right_max - height[right])
-                right -= 1
-        return ans
+```c++
+class Solution {
+public:
+    int trap(vector<int>& height) {
+        int left = 0, right = height.size()-1, a = 0, b = 0, ans = 0;
+        while (left <= right) {
+            if (height[left] <= height[right]) {
+                ans += max(0, a - height[left]);
+                a = max(a, height[left]);
+                left += 1;
+            } else {
+                ans += max(0, b - height[right]);
+                b = max(b, height[right]);
+                right -= 1;
+            }
+        }
+        return ans;
+    }
+};
 ```
 * [Hard] [Solution] 42. Trapping Rain Water
 

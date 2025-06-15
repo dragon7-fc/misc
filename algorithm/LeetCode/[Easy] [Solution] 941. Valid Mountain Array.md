@@ -139,3 +139,30 @@ bool validMountainArray(int* arr, int arrSize){
     return i == arrSize-1;
 }
 ```
+
+**Solution 4: (Array)**
+```
+Runtime: 21 ms, Beats 37.06%
+Memory: 26.20 MB, Beats 70.79%
+```
+```c++
+class Solution {
+public:
+    bool validMountainArray(vector<int>& arr) {
+        int n = arr.size(), i = 0;
+        while (i+1 < n && arr[i+1] > arr[i]) {
+            i += 1;
+        }
+        if (i && i+1 < n) {
+            if (arr[i+1] == arr[i]) {
+                return false;
+            }
+            while (i+1 < n && arr[i+1] < arr[i]) {
+                i += 1;
+            }
+            return i == n-1;
+        }
+        return false;
+    }
+};
+```

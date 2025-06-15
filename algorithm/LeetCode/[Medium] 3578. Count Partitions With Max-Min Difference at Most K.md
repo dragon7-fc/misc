@@ -85,6 +85,16 @@ public:
 ```
 
 **Solution 1: (Deque, DP)**
+
+                    vi
+        9   4   1   3   7
+                        ^j
+dp      1   1   1   2   4   6
+minq    9   94  41  413 437
+            x        x  xx
+maxq    9   4   1   13  137
+acc  1  1   1   2   4   8
+
 ```
 Runtime: 58 ms, Beats 87.50%
 Memory: 145.92 MB, Beats 87.50%

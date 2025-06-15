@@ -135,6 +135,12 @@ int maxArea(int* height, int heightSize){
 ```
 
 **Solution 3: (Two Pointers)**
+
+    Input: [1,8,6,2,5,4,8,3,7]
+            ^i              ^j
+              ^             ^
+              ^           ^
+              ^         ^
 ```
 Runtime: 174 ms
 Memory Usage: 58.9 MB

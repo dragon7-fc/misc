@@ -32,29 +32,45 @@ Explanation: Let the indices 1 and 3 form a pair. The difference of that pair is
 # Submissions
 ---
 **Solution 1: (Binary Search)**
+
+    .    .  .         .   .  .
+     ---- -- --------- --- --
+                max
+     <max <max        <max <max
+    ^----^           
+          ----
+           x ---- 
+            threshold ^---^
+                           ----
+                            x
 ```
-Runtime: 189 ms
-Memory: 81.2 MB
+Runtime: 27 ms, Beats 54.39%
+Memory: 86.57 MB, Beats 99.12%
 ```
 ```c++
 class Solution {
 public:
     int minimizeMax(vector<int>& nums, int p) {
-        sort(begin(nums), end(nums));
-        int l = 0, r = nums.back() - nums.front();
-        while (l < r) {
-            int m = (l + r) / 2, cnt = 0;
-            for (int i = 0; i + 1 < nums.size(); ++i)
-                if (m >= (nums[i + 1] - nums[i])) {
-                    ++cnt;
-                    ++i;
+        int n = nums.size(), i, ans, left, right, mid, cnt;
+        sort(nums.begin(), nums.end());
+        left = 0, right = nums.back() - nums[0];
+        while (left <= right) {
+            mid = left + (right - left)/2;
+            cnt = 0;
+            for (i = 0; i < n-1; i ++) {
+                if (nums[i+1] - nums[i] <= mid) {
+                    cnt += 1;
+                    i += 1;
                 }
-            if (cnt >= p)
-                r = m;
-            else
-                l = m + 1;
+            }
+            if (cnt >= p) {
+                ans = mid;
+                right = mid - 1;
+            } else {
+                left = mid + 1;
+            }
         }
-        return l;
+        return ans;
     }
 };
 ```

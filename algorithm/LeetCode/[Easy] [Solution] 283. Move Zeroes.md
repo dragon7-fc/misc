@@ -165,3 +165,27 @@ void moveZeroes(int* nums, int numsSize){
     }
 }
 ```
+
+**Solution 3: (Two Pointers)**
+```
+Runtime: 0 ms, Beats 100.00%
+Memory: 23.88 MB, Beats 49.80%
+```
+```c++
+class Solution {
+public:
+    void moveZeroes(vector<int>& nums) {
+        int n = nums.size(), i = 0, j;
+        for (j = 0; j < n; j ++) {
+            if (nums[j]) {
+                nums[i] = nums[j];
+                i += 1;
+            }
+        }
+        while (i < n) {
+            nums[i] = 0;
+            i += 1;
+        }
+    }
+};
+```

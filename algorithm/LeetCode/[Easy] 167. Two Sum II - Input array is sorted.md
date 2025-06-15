@@ -102,24 +102,24 @@ int* twoSum(int* numbers, int numbersSize, int target, int* returnSize){
 
 **Solution 5: (Two Pointers)**
 ```
-Runtime: 19 ms
-Memory Usage: 15.7 MB
+Runtime: 4 ms, Beats 4.98%
+Memory: 19.42 MB, Beats 64.00%
 ```
 ```c++
 class Solution {
 public:
     vector<int> twoSum(vector<int>& numbers, int target) {
-        int i=0, j= numbers.size()-1;
-        while(i<j)
-        {
-            if(numbers[i] + numbers[j] == target)
-                return {i+1,j+1};
-            else if(numbers[i] + numbers[j] < target)
-                i++;
-            else
-                j--;
+        int i = 0, j = numbers.size()-1;
+        while (i < j) {
+            if (numbers[i] + numbers[j] == target) {
+                break;
+            } else if (numbers[i] + numbers[j] > target) {
+                j -= 1;
+            } else {
+                i += 1;
+            }
         }
-        return {-1,-1};
+        return {i+1, j+1};
     }
 };
 ```

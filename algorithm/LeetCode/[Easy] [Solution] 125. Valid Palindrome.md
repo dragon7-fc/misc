@@ -263,3 +263,37 @@ class Solution:
         filter_str = [*filter(lambda c:c.isdigit() or c.isalpha(), s.lower())]  # list(filter(lambda c:c.isdigit() or c.isalpha(), s.lower()))
         return filter_str[::-1] == filter_str
 ```
+
+**Solution 6: (Two Ponters)**
+```
+Runtime: 3 ms, Beats 31.39%
+Memory: 9.84 MB, Beats 79.34%
+```
+```c++
+class Solution {
+public:
+    bool isPalindrome(string s) {
+        int n = s.size(), i = 0, j = n-1;
+        while (i < j) {
+            while (i < n && !isalnum(s[i])) {
+                i += 1;
+            }
+            while (j >= 0 && !isalnum(s[j])) {
+                j -= 1;
+            }
+            if (i >= j) {
+                break;
+            }
+            if (isalpha(s[i]) && isalpha(s[j]) && tolower(s[i]) == tolower(s[j]) 
+                    || isdigit(s[i]) && isdigit(s[j]) && s[i] == s[j]) {
+                i += 1;
+                j -= 1;
+                continue;
+            } else {
+                return false;
+            }
+        }
+        return true;
+    }
+};
+```

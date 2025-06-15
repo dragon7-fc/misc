@@ -141,3 +141,32 @@ class NumArray:
 # obj = NumArray(nums)
 # param_1 = obj.sumRange(i,j)
 ```
+
+**Solution 2: (Prefix Sum)**
+```
+Runtime: 0 ms, Beats 100.00%
+Memory: 23.98 MB, Beats 60.44%
+```
+```c++
+class NumArray {
+    vector<int> pre;
+public:
+    NumArray(vector<int>& nums) {
+        pre.push_back(0);
+        for (auto num: nums) {
+            pre.push_back(pre.back() + num);
+        }
+    }
+    
+    int sumRange(int left, int right) {
+        return pre[right+1] - pre[left];
+    }
+};
+
+/**
+ * Your NumArray object will be instantiated and called as such:
+ * NumArray* obj = new NumArray(nums);
+ * int param_1 = obj->sumRange(left,right);
+ */
+
+```

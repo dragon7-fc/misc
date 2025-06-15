@@ -271,7 +271,7 @@ int lengthOfLongestSubstring(char * s){
 }
 ```
 
-**Solution 4: (Sliding Window)**
+**Solution 4: (Sliding Window, set)**
 ```
 Runtime: 24 ms
 Memory Usage: 10.8 MB
@@ -295,7 +295,44 @@ public:
 };
 ```
 
-**Solution 5: (Sliding Window, Non-shrinkable)**
+**Solution 5: (Sliding Window, map)**
+```
+Runtime: 7 ms, Beats 68.22%
+Memory: 11.60 MB, Beats 78.72%
+```
+```c++
+class Solution {
+public:
+    int lengthOfLongestSubstring(string s) {
+        int n = s.size(), i = 0, j, ans = 0;
+        unordered_map<char,int> cnt;
+        for (j = 0; j < n; j ++) {
+            while (cnt[s[j]]) {
+                cnt[s[i]] -= 1;
+                i += 1;
+            }
+            cnt[s[j]] += 1;
+            ans = max(ans, j-i+1);
+        }
+        return ans;
+    }
+};
+```
+
+**Solution 6: (Sliding Window, Non-shrinkable)**
+
+      a b c a b c b b
+                    ^j
+                ^i
+curr
+  a   1     2
+            1
+  b     1     2   2 3
+              1     2
+  c       1     2
+                1
+dups        1 1 1 1 1
+            0 0 0
 ```
 Runtime: 0 ms
 Memory: 7.44 MB

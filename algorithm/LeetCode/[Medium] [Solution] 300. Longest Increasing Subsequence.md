@@ -420,22 +420,33 @@ public:
 ```
 
 **Solution 9: (Binary Search)**
+
+              
+        4     4
+      3     3
+          2
+    1
+   -------------
+    1 1 1 1 1 1
+      3 3 2 2 2
+        4 4 3 3
+              4
 ```
-Runtime: 10 ms
-Memory: 10.6 MB
+Runtime: 0 ms, Beats 100.00%
+Memory: 14.14 MB, Beats 78.71%
 ```
 ```c++
 class Solution {
 public:
     int lengthOfLIS(vector<int>& nums) {
-        int left, right, mid;
+        int n = nums.size(), i, j;
         vector<int> dp;
-        for (int num: nums) {
-            if (dp.empty() || num > dp.back()) {
-                dp.push_back(num);
+        for (i = 0; i < n; i ++) {
+            if (!dp.size() || dp.back() < nums[i]) {
+                dp.push_back(nums[i]);
             } else {
-                int i = lower_bound(dp.begin(), dp.end(), num) - dp.begin();
-                dp[i] = num;
+                j = lower_bound(dp.begin(), dp.end(), nums[i]) - dp.begin();
+                dp[j] = nums[i];
             }
         }
         return dp.size();

@@ -91,9 +91,9 @@ n = 13, k = 3
      10 11< 12 13 ...  19         <- 2
      ^l         n      ^r
      --------------->
-    |    a < k, a += 1
+    |    a < k, ans += 1
     |
-    v a *= 10
+    v ans *= 10
 ```
 Runtime: 0 ms, Beats 100.00%
 Memory: 7.82 MB, Beats 48.71%

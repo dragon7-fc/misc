@@ -277,3 +277,30 @@ int** merge(int** intervals, int intervalsSize, int* intervalsColSize, int* retu
     return ret;
 }
 ```
+
+**Solution 4: (Sort)**
+```
+Runtime: 4 ms, Beats 69.65%
+Memory: 23.88 MB, Beats 58.94%
+```
+```c++
+class Solution {
+public:
+    vector<vector<int>> merge(vector<vector<int>>& intervals) {
+        int n = intervals.size(), i, pre = -1;
+        sort(intervals.begin(), intervals.end());
+        vector<vector<int>> ans;
+        for (i = 0; i < n; i ++) {
+            if (intervals[i][0] > pre) {
+                ans.push_back(intervals[i]);
+                pre = intervals[i][1];
+            } else {
+                pre = max(pre, intervals[i][1]);
+                ans.back()[1] = pre;
+                
+            }
+        }
+        return ans;
+    }
+};
+```

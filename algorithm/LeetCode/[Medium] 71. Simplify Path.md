@@ -110,59 +110,82 @@ char * simplifyPath(char * path){
 
 **Solution 3: (Stack)**
 ```
-Runtime: 7 ms
-Memory Usage: 9.4 MB
+Runtime: 0 ms, Beats 100.00%
+Memory: 10.82 MB, Beats 61.53%
 ```
 ```c++
 class Solution {
 public:
     string simplifyPath(string path) {
-        vector<string> stk; 
-        istringstream iss(path); 
-        string buf; 
-        while (getline(iss, buf, '/')) 
-            if (buf == "..") {
-                if (stk.size()) stk.pop_back(); 
-            } else if (buf.size() && buf != ".") 
-                stk.push_back(buf); 
-        string ans; 
-        for (auto& x : stk) ans += "/" + x; 
-        return ans.size() ? ans : "/"; 
+        stringstream ss(path);
+        string s;
+        vector<string> dp;
+        int i;
+        while (getline(ss, s, '/')) {
+            if (s == "" || s == ".") {
+                continue;
+            } else if (s == "..") {
+                if (dp.size()) {
+                    dp.pop_back();
+                }
+            } else {
+                dp.push_back(s);
+            }
+        }
+        s = "";
+        for (i = 0; i < dp.size(); i ++) {
+            s += "/";
+            s += dp[i];
+        }
+        return s == "" ? "/" : s;
     }
 };
 ```
 
 **Solution 4: (String, Stack)**
 ```
-Runtime: 11 ms
-Memory: 9.5 MB
+Runtime: 3 ms, Beats 59.24%
+Memory: 10.37 MB, Beats 88.42%
 ```
 ```c++
 class Solution {
 public:
     string simplifyPath(string path) {
-        int N = path.size(), i = 1;
-        vector<string> stk;
-        while (i < N) {
-            string cur;
-            while (i < N && path[i] != '/') {
+        int n = path.size(), i;
+        vector<string> dp;
+        string cur;
+        i = 0;
+        while (i < n) {
+            while (i < n && path[i] == '/') {
+                i += 1;
+            }
+            if (i == n) {
+                break;
+            }
+            cur = "";
+            while (i < n && path[i] != '/') {
                 cur += path[i];
                 i += 1;
             }
-            if (cur == "..") {
-                if (!stk.empty()) {
-                    stk.pop_back();
+            if (cur == ".") {
+                continue;
+            } else if (cur == "..") {
+                if (dp.size()) {
+                    dp.pop_back();
                 }
-            } else if (cur != "" && cur != ".") {
-                stk.push_back(cur);
+            } else {
+                dp.push_back(cur);
             }
-            i += 1;
         }
-        string ans;
-        for (int i = 0; i < stk.size(); i ++) {
-            ans += "/" + stk[i];
+        cur = "";
+        for (i = 0; i < dp.size(); i ++) {
+            cur += "/";
+            cur += dp[i];
         }
-        return ans != "" ? ans : "/";
+        if (cur == "") {
+            cur = "/";
+        }
+        return cur;
     }
-};
+};;
 ```

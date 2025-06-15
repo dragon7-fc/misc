@@ -128,47 +128,53 @@ public:
 ```
 
 **Solution 4: (Two Deques)**
+
+    8  2  4  7, limit = 4
+             ^j
+          ^i
+    8  82 4  7
+       x
+    8  2  24 247
+       ^     x
+
+    10 1   2  4   7    2, limit = 5
+                  ^j
+           ^i
+    10 101 2  4   7    72
+        x
+    10 1   12 124 1247 22
+
 ```
-Runtime: 59 ms
-Memory: 54.44 MB
+Runtime: 27 ms, Beats 65.60%
+Memory: 77.49 MB, Beats 83.09%
 ```
 ```c++
 class Solution {
 public:
     int longestSubarray(vector<int>& nums, int limit) {
-        deque<int> maxDeque, minDeque;
-        int left = 0, right;
-        int maxLength = 0;
-
-        for (right = 0; right < nums.size(); ++right) {
-            // Maintain the maxDeque in decreasing order
-            while (!maxDeque.empty() && maxDeque.back() < nums[right]) {
-                maxDeque.pop_back();
+        int n = nums.size(), i = 0, j, ans = 0;
+        deque<int> maxq, minq;
+        for (j = 0; j < n; j ++) {
+            while (maxq.size() && nums[maxq.back()] < nums[j]) {
+                maxq.pop_back();
             }
-            maxDeque.push_back(nums[right]);
-
-            // Maintain the minDeque in increasing order
-            while (!minDeque.empty() && minDeque.back() > nums[right]) {
-                minDeque.pop_back();
+            maxq.push_back(j);
+            while (minq.size() && nums[minq.back()] > nums[j]) {
+                minq.pop_back();
             }
-            minDeque.push_back(nums[right]);
-
-            // Check if the current window exceeds the limit
-            while (maxDeque.front() - minDeque.front() > limit) {
-                // Remove the elements that are out of the current window
-                if (maxDeque.front() == nums[left]) {
-                    maxDeque.pop_front();
+            minq.push_back(j);
+            while (maxq.size() && minq.size() && nums[maxq.front()] - nums[minq.front()] > limit) {
+                if (maxq.front() == i) {
+                    maxq.pop_front();
                 }
-                if (minDeque.front() == nums[left]) {
-                    minDeque.pop_front();
+                if (minq.front() == i) {
+                    minq.pop_front();
                 }
-                ++left;
+                i += 1;
             }
-
-            maxLength = max(maxLength, right - left + 1);
+            ans = max(ans, j-i+1);
         }
-
-        return maxLength;
+        return ans;
     }
 };
 ```

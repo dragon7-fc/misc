@@ -308,3 +308,48 @@ public:
     }
 };
 ```
+
+**Solution 5: (Binary Search)**
+```
+Runtime: 0 ms, Beats 100.00%
+Memory: 17.48 MB, Beats 86.48%
+```
+```c++
+class Solution {
+    int bisect_left(vector<int> &nums, int target) {
+        int left = 0, right = nums.size()-1, mid, rst = -1;
+        while (left <= right) {
+            mid = left + (right - left)/2;
+            if (nums[mid] < target) {
+                left = mid + 1;
+            } else {
+                rst = mid;
+                right = mid - 1;
+            }
+        }
+        return rst != -1 && nums[rst] == target ? rst : -1;
+    }
+    int bisect_right(vector<int> &nums, int target) {
+        int left = 0, right = nums.size()-1, mid, rst = -1;
+        while (left <= right) {
+            mid = left + (right - left)/2;
+            if (nums[mid] > target) {
+                right = mid - 1;
+            } else {
+                rst = mid;
+                left = mid + 1;
+            }
+        }
+        return rst != -1 && nums[rst] == target ? rst: -1;
+    }
+public:
+    vector<int> searchRange(vector<int>& nums, int target) {
+        int i = bisect_left(nums, target);
+        if (i == -1) {
+            return {-1, -1};
+        }
+        int j = bisect_right(nums, target);
+        return {i, j};
+    }
+};
+```

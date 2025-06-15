@@ -278,8 +278,8 @@ public:
 
 **Solution 4: (Stack)**
 ```
-Runtime: 0 ms
-Memory Usage: 8.4 MB
+Runtime: 0 ms, Beats 100.00%
+Memory: 10.86 MB, Beats 65.12%
 ```
 ```c++
 /**
@@ -296,18 +296,18 @@ Memory Usage: 8.4 MB
 class Solution {
 public:
     vector<int> inorderTraversal(TreeNode* root) {
-        stack<TreeNode*> s;
+        stack<TreeNode*> stk;
+        TreeNode *cur = root;
         vector<int> ans;
-        while(root || !s.empty()) {
-            if(root) {
-                s.push(root);
-                root=root->left;
-            }
-            else {
-                root=s.top();
-                s.pop();
-                ans.push_back(root->val);
-                root=root->right;
+        while (cur || stk.size()) {
+            if (cur) {
+                stk.push(cur);
+                cur = cur->left;
+            } else {
+                cur = stk.top();
+                stk.pop();
+                ans.push_back(cur->val);
+                cur = cur->right;
             }
         }
         return ans;

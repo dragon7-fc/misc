@@ -302,3 +302,33 @@ public:
     }
 };
 ```
+
+**Solution 4: (Stack)**
+```
+Runtime: 0 ms, Beats 100.00%
+Memory: 8.90 MB, Beats 21.22%
+```
+```c++
+class Solution {
+public:
+    bool isValid(string s) {
+        unordered_map<char,char> m = {
+            {')', '('},
+            {']', '['},
+            {'}', '{'}
+        };
+        stack<char> stk;
+        for (auto c: s) {
+            if (c == '(' || c == '[' || c == '{') {
+                stk.push(c);
+            } else {
+                if (!stk.size() || stk.top() != m[c]) {
+                    return false;
+                }
+                stk.pop();
+            }
+        }
+        return stk.size() == 0;
+    }
+};
+```

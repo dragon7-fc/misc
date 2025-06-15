@@ -465,37 +465,38 @@ int* findOrder(int numCourses, int** prerequisites, int prerequisitesSize, int* 
 
 **Solution 5: (BFS, topological sort)**
 ```
-Runtime: 28 ms
-Memory Usage: 14.1 MB
+Runtime: 4 ms, Beats 57.58%
+Memory: 18.77 MB, Beats 38.06%
 ```
 ```c++
 class Solution {
 public:
     vector<int> findOrder(int numCourses, vector<vector<int>>& prerequisites) {
-        std::unordered_map<int, std::vector<int>> g;
-        std::vector<int> indegree(numCourses, 0), ans;
-        std::queue<int> q;
-        for (auto &vec: prerequisites) {
-            g[vec[1]].push_back(vec[0]);
-            indegree[vec[0]] += 1;
+        int i;
+        vector<vector<int>> g(numCourses);
+        vector<int> indeg(numCourses), ans;
+        queue<int> q;
+        for (auto p: prerequisites) {
+            g[p[1]].push_back(p[0]);
+            indeg[p[0]] += 1;
         }
-        for (int i = 0; i < numCourses; i ++) {
-            if (indegree[i] == 0)
+        for (i = 0; i < numCourses; i ++) {
+            if (indeg[i] == 0) {
                 q.push(i);
+            }
         }
-        while (!q.empty()) {
-            int u = q.front();
+        while (q.size()) {
+            auto u = q.front();
             q.pop();
             ans.push_back(u);
             for (auto v: g[u]) {
-                indegree[v] -= 1;
-                if (indegree[v] == 0)
+                indeg[v] -= 1;
+                if (indeg[v] == 0) {
                     q.push(v);
+                }
             }
         }
-        if (ans.size() != numCourses)
-            return std::vector<int>();
-        return ans;
+        return ans.size() == numCourses ? ans : vector<int>();
     }
 };
 ```

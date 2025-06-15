@@ -173,50 +173,85 @@ class Solution:
         return ans
 ```
 
-**Solution 5: (Binary Search)**
+**Solution 5: (Sort)**
 ```
-Runtime: 7 ms
-Memory: 20.43 MB
+Runtime: 4 ms, Beats 18.72%
+Memory: 22.89 MB, Beats 5.03%
 ```
 ```c++
 class Solution {
 public:
     vector<vector<int>> insert(vector<vector<int>>& intervals, vector<int>& newInterval) {
-        // If the intervals vector is empty, return a vector containing the newInterval
-        if (intervals.empty()) {
-            return {newInterval};
+        int n = intervals.size(), i, a = 0;
+        vector<vector<int>> ans, dp;
+        for (i = 0; i < n; i ++) {
+            dp.push_back(intervals[i]);
         }
-
-        int n = intervals.size();
-        int target = newInterval[0];
-        int left = 0, right = n - 1;
-
-        // Binary search to find the position to insert newInterval
-        while (left <= right) {
-            int mid = (left + right) / 2;
-            if (intervals[mid][0] < target) {
-                left = mid + 1;
+        dp.push_back(newInterval);
+        sort(dp.begin(), dp.end());
+        for (i = 0; i < n+1; i ++) {
+            if (ans.size() == 0 || ans.back()[1] < dp[i][0]) {
+                ans.push_back(dp[i]);
             } else {
-                right = mid - 1;
+                ans.back()[1] = max(ans.back()[1], dp[i][1]);
             }
         }
+        return ans;
+    }
+};
+```
 
-        // Insert newInterval at the found position
-        intervals.insert(intervals.begin() + left, newInterval);
+**Solution 6: (Greedy, Line Scan)**
+```
+Runtime: 4 ms, Beats 18.72%
+Memory: 21.62 MB, Beats 74.66%
+```
+```c++
+class Solution {
+public:
+    vector<vector<int>> insert(vector<vector<int>>& intervals, vector<int>& newInterval) {
+        int n = intervals.size(), i = 0;
+        vector<vector<int>> ans;
+        while (i < n && intervals[i][1] < newInterval[0]) {
+            ans.push_back(intervals[i]);
+            i += 1;
+        }
+        ans.push_back(newInterval);
+        while (i < n && intervals[i][0] <= ans.back()[1]) {
+            ans.back()[0] = min(ans.back()[0], intervals[i][0]);
+            ans.back()[1] = max(ans.back()[1], intervals[i][1]);
+            i += 1;
+        }
+        while (i < n) {
+            ans.push_back(intervals[i]);
+            i += 1;
+        }
+        return ans;
+    }
+};
+```
 
-        // Merge overlapping intervals
-        vector<vector<int>> res;
-        for (const auto& interval : intervals) {
-            // If res is empty or there is no overlap, add the interval to the result
-            if (res.empty() || res.back()[1] < interval[0]) {
-                res.push_back(interval);
-            // If there is an overlap, merge the intervals by updating the end of the last interval in res
+**Solution 6: (Binary Search)**
+```
+Runtime: 3 ms, Beats 31.95%
+Memory: 22.13 MB, Beats 10.94%
+```
+```c++
+class Solution {
+public:
+    vector<vector<int>> insert(vector<vector<int>>& intervals, vector<int>& newInterval) {
+        int n = intervals.size(), i = 0;
+        vector<vector<int>> ans;
+        auto it = lower_bound(intervals.begin(), intervals.end(), newInterval);
+        intervals.insert(it, newInterval);
+        for (auto interval: intervals) {
+            if (!ans.size() || ans.back()[1] < interval[0]) {
+                ans.push_back(interval);
             } else {
-                res.back()[1] = max(res.back()[1], interval[1]);
+                ans.back()[1] = max(ans.back()[1], interval[1]);
             }
         }
-
-        return res;
+        return ans;
     }
 };
 ```

@@ -117,13 +117,15 @@ void rotate(int** matrix, int matrixSize, int* matrixColSize){
 **Solution 4: (Rotate Groups of Four Cells)**
 
 
-      |r             |  
-    ---------      c |--
-        c            |r
-    --|              |
-    r |c
-      |   --------------
-      |          c   |r
+      r              |  
+      |              |-r 
+    ----c---x        c  
+                     | 
+    r-x              x
+      | 
+      c   x------c------
+      |              | 
+      |              r
 
 ```
 Runtime: 0 ms
@@ -146,4 +148,43 @@ public:
         }
     }
 };
+```
+
+**Solution 5: (Array)**
+        
+      i              |  
+      |              |-i 
+    ----j---x        j  
+                     | 
+    i-x              x
+      | 
+      j   x------j------
+      |              | 
+      |              i
+
+    0,1 -> 2,0   -> 3,2       -> 1,3      i = 0, j = 1
+    i,j    n-1-j,i  n-1-i,n-1-j  j,n-1-i
+
+```
+Runtime: 0 ms, Beats 100.00%
+Memory: 10.28 MB, Beats 34.99%
+```
+```c++
+class Solution {
+public:
+    void rotate(vector<vector<int>>& matrix) {
+        int n = matrix.size(), i = 0, j, a, b;
+        while (i < n-1-i) {
+            for (j = i; j < n-1-i; j ++) {
+                a = matrix[i][j];
+                matrix[i][j] = matrix[n-1-j][i];
+                matrix[n-1-j][i] = matrix[n-1-i][n-1-j];
+                matrix[n-1-i][n-1-j] = matrix[j][n-1-i];
+                matrix[j][n-1-i] = a;
+            }
+            i += 1;
+        }
+    }
+};
+
 ```

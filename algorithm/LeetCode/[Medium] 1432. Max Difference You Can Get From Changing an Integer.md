@@ -101,5 +101,55 @@ class Solution:
             lo = int(num.replace(num[i], "0") if i > 0 else num)
             
         return hi - lo
-            
+```
+
+**Solution 3: (String, Greedy)**
+```
+Runtime: 0 ms, Beats 100.00%
+Memory: 8.30 MB, Beats 43.13%
+```
+```c++
+class Solution {
+    string repl(string &s, char rs, char rt) {
+        string rst;
+        for (auto c: s) {
+            if (c == rs) {
+                rst += rt;
+            } else {
+                rst += c;
+            }
+        }
+        return rst;
+    }
+public:
+    int maxDiff(int num) {
+        string s = to_string(num), sa, sb;
+        char ca = 0, cb = 0;
+        int i, a, b;
+        for (i = 0; i < s.length(); i ++) {
+            if (s[i] != '9' && ca == 0) {
+                ca = s[i];
+            }
+            if (s[i] > '1' && cb == 0) {
+                cb = s[i];
+            }
+            if (ca != 0 && cb != 0) {
+                break;
+            }
+        }
+        sa = repl(s, ca, '9');
+        if (s[0] != '1') {
+            sb = repl(s, cb, '1');
+        } else {
+            if (cb) {
+                sb = repl(s, cb, '0');
+            } else {
+                sb = s;
+            }
+        }
+        a = stoi(sa);
+        b = stoi(sb);
+        return a - b;
+    }
+};
 ```

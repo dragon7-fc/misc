@@ -116,42 +116,43 @@ public:
 
 **Solution 4: (DFS)**
 ```
-Runtime: 21 ms
-Memory: 13.8 MB
+Runtime: 9 ms, Beats 31.66%
+Memory: 20.09 MB, Beats 42.50%
 ```
 ```c++
 class Solution {
-    bool dfs(int v, vector<vector<int>> &m, vector<int> &seen) {
-        if (seen[v] == -1) {
-            return false;
-        }
-        if (seen[v] == 1) {
+    bool dfs(int u, vector<vector<int>> &g, vector<int> &visited) {
+        if (visited[u] == -1) {
             return true;
         }
-        seen[v] = -1;
-        for (auto &nv: m[v]) {
-            if (!dfs(nv, m, seen)) {
+        if (visited[u] == 1) {
+            return false;
+        }
+        visited[u] = 1;
+        for (auto v: g[u]) {
+            if (!dfs(v, g, visited)) {
                 return false;
             }
         }
-        seen[v] = 1;
+        visited[u] = -1;
         return true;
     }
 public:
     bool canFinish(int numCourses, vector<vector<int>>& prerequisites) {
-        vector<vector<int>> m(numCourses);
-        for (int i = 0; i < prerequisites.size(); i ++) {
-            m[prerequisites[i][1]].push_back(prerequisites[i][0]);
+        vector<vector<int>> g(numCourses);
+        vector<int> visited(numCourses);
+        int i;
+        for (auto p: prerequisites) {
+            g[p[1]].push_back(p[0]);
         }
-        vector<int> seen(numCourses);
-        for (int i = 0; i < numCourses; i ++) {
-            if (!seen[i]) {
-                if (!dfs(i, m, seen)) {
+        for (i = 0; i < numCourses; i ++) {
+            if (!visited[i]) {
+                if (!dfs(i, g, visited)) {
                     return false;
                 }
             }
         }
-        return all_of(seen.begin(), seen.end(), [](int v){return v == 1;});
+        return true;
     }
 };
 ```

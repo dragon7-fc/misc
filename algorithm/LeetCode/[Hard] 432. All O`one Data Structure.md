@@ -283,135 +283,8 @@ public:
  */
 ```
 
-**Solution 3: (sorted set)**
-```
-Runtime: 114 ms
-Memory: 49.1 MB
-```
-```c++
-class AllOne {
-    unordered_map<string, set<pair<int,string>>::iterator> m;
-    set<pair<int,string>> st;
-public:
-    AllOne() {
-        
-    }
-    
-    void inc(string key) {
-        if (m.count(key)) {
-            auto [cnt, _] = *m[key];
-            st.erase(m[key]);
-            cnt += 1;
-            m[key] = st.insert({cnt, key}).first;
-        } else {
-            m[key] = st.insert({1, key}).first;
-        }
-    }
-    
-    void dec(string key) {
-        auto [cnt, _] = *m[key];
-        st.erase(m[key]);
-        cnt -= 1;
-        if (cnt) {
-            m[key] = st.insert({cnt, key}).first;
-        } else {
-            m.erase(key);
-        }
-    }
-    
-    string getMaxKey() {
-        if (m.size()) {
-            return st.rbegin()->second;
-        }
-        return "";
-    }
-    
-    string getMinKey() {
-        if (m.size()) {
-            return st.begin()->second;
-        }
-        return "";
-    }
-};
 
-/**
- * Your AllOne object will be instantiated and called as such:
- * AllOne* obj = new AllOne();
- * obj->inc(key);
- * obj->dec(key);
- * string param_3 = obj->getMaxKey();
- * string param_4 = obj->getMinKey();
- */
-```
-
-**Solution 4: (sorted map)**
-```
-Runtime: 113 ms
-Memory: 61.46 MB
-```
-```c++
-class AllOne {
-    unordered_map<string,int> cnt;
-    map<int, unordered_set<string>> cnt2;
-public:
-    AllOne() {
-        
-    }
-    
-    void inc(string key) {
-        if (!cnt.count(key)) {
-            cnt[key] = 1;
-            cnt2[1].insert(key);
-        } else {
-            if (cnt2[cnt[key]].size() > 1) {
-                cnt2[cnt[key]].erase(key);
-            } else {
-                cnt2.erase(cnt[key]);
-            }
-            cnt[key] += 1;
-            cnt2[cnt[key]].insert(key);
-        }
-    }
-    
-    void dec(string key) {
-        cnt2[cnt[key]].erase(key);
-        if (cnt2[cnt[key]].size() == 0) {
-            cnt2.erase(cnt[key]);
-        } 
-        cnt[key] -= 1;
-        if (cnt[key] == 0) {
-            cnt.erase(key);
-        } else {
-            cnt2[cnt[key]].insert(key);
-        }
-    }
-    
-    string getMaxKey() {
-        if (cnt2.size() && cnt2.rbegin()->second.size()) {
-            return *(cnt2.rbegin()->second.begin());
-        }
-        return "";
-    }
-    
-    string getMinKey() {
-        if (cnt2.size() && cnt2.begin()->second.size()) {
-            return *(cnt2.begin()->second.begin());
-        }
-        return "";
-    }
-};
-
-/**
- * Your AllOne object will be instantiated and called as such:
- * AllOne* obj = new AllOne();
- * obj->inc(key);
- * obj->dec(key);
- * string param_3 = obj->getMaxKey();
- * string param_4 = obj->getMinKey();
- */
-```
-
-**Solution 5: (Using Doubly Linked List)**
+**Solution 3: (Using Doubly Linked List)**
 ```
 Runtime: 97 ms
 Memory: 61.49 MB
@@ -549,6 +422,146 @@ public:
         return *(
             head->next->keys
                 .begin());  // Return one of the keys from the head's next node
+    }
+};
+
+/**
+ * Your AllOne object will be instantiated and called as such:
+ * AllOne* obj = new AllOne();
+ * obj->inc(key);
+ * obj->dec(key);
+ * string param_3 = obj->getMaxKey();
+ * string param_4 = obj->getMinKey();
+ */
+```
+
+**Solution 4: (Counter, sorted map)**
+```
+Runtime: 80 ms, Beats 56.85%
+Memory: 94.24 MB, Beats 40.74%
+```
+```c++
+class AllOne {
+    unordered_map<string, int> cnt;
+    map<int,unordered_set<string>> dp;
+public:
+    // Initialize your data structure here.
+    AllOne() {
+        
+    }
+    
+    // Inserts a new key <Key> with value 1. Or increments an existing key by 1.
+    void inc(string key) {
+        int a = cnt[key];
+        if (a != 0) {
+            dp[a].erase(key);
+            if (dp[a].size() == 0) {
+                dp.erase(a);
+            }
+        }
+        cnt[key] = a+1;
+        dp[a+1].insert(key);
+    }
+
+    // Decrements an existing key by 1. If Key's value is 1, remove it from the
+    // data structure.
+    void dec(string key) {
+        int a = cnt[key];
+        if (a > 1) {
+            dp[a].erase(key);
+            if (dp[a].size() == 0) {
+                dp.erase(a);
+            }
+            cnt[key] = a-1;
+            dp[a-1].insert(key);
+        } else {
+            cnt.erase(key);
+            dp[a].erase(key);
+            if (dp[a].size() == 0) {
+                dp.erase(a);
+            }
+        }
+    }
+    
+    // Returns one of the keys with maximal value.
+    string getMaxKey() {
+        if (dp.size() == 0) {
+            return "";
+        }
+        return *dp.rbegin()->second.begin();
+    }
+    
+    // Returns one of the keys with minimal value.
+    string getMinKey() {
+        if (dp.size() == 0) {
+            return "";
+        }
+        return *dp.begin()->second.begin();
+    }
+};
+
+/**
+ * Your AllOne object will be instantiated and called as such:
+ * AllOne* obj = new AllOne();
+ * obj->inc(key);
+ * obj->dec(key);
+ * string param_3 = obj->getMaxKey();
+ * string param_4 = obj->getMinKey();
+ */
+```
+
+**Solution 5: (Counter, sorted set)**
+```
+Runtime: 103 ms, Beats 20.83%
+Memory: 86.25 MB, Beats 79.54%
+```
+```c++
+class AllOne {
+    unordered_map<string, int> cnt;
+    set<pair<int,string>> dp;
+public:
+    // Initialize your data structure here.
+    AllOne() {
+        
+    }
+    
+    // Inserts a new key <Key> with value 1. Or increments an existing key by 1.
+    void inc(string key) {
+        int a = cnt[key];
+        if (a) {
+            dp.erase({a, key});
+        }
+        cnt[key] = a+1;
+        dp.insert({a+1, key});
+    }
+
+    // Decrements an existing key by 1. If Key's value is 1, remove it from the
+    // data structure.
+    void dec(string key) {
+        int a = cnt[key];
+        dp.erase({a, key});
+        if (a != 1) {
+            cnt[key] = a-1;
+            dp.insert({a-1, key});
+        } else {
+            cnt.erase(key);
+        }
+    }
+    
+    // Returns one of the keys with maximal value.
+    string getMaxKey() {
+        if (dp.size() == 0) {
+            return "";
+        }
+        return dp.rbegin()->second;
+    }
+    
+    // Returns one of the keys with minimal value.
+    string getMinKey() {
+        if (dp.size() == 0) {
+            return "";
+        }
+        return dp.begin()->second;
     }
 };
 

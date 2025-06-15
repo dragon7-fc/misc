@@ -76,12 +76,26 @@ class Solution:
 
 **Solution 2: (Heap, 2 heap)**
 
+server [3,1,2]
+
+          v ->  v
+t3        ----  ---- < s1
+           x
+t2      -----------  < s0
+t1    -----------    < s2
+t0  -----------      < s1
+    1 2 3 4 5 6 7 8
+sq  012         012
+     x          x x
+      012         012
+       xx         x 
+        012
+        xxx
+tq  
+s0      ----t2-----
+s1  ----t0----- -t3- 
+s2    ----t1-----
     
-    task [     t[j]         ]
-                ^time
-  queue        [    (time + t[j], i)        ] <- pq
-  server [(s[i],i)   ] <-  pq2
-              x
 
     servers = [3,3,2], n
              0    1    2    3    4    5    6    7

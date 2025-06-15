@@ -100,28 +100,25 @@ void sortColors(int* nums, int numsSize){
                 ^i
 
 ```
-Runtime: 0 ms
-Memory: 9.72 MB
+Runtime: 0 ms, Beats 100.00%
+Memory: 11.65 MB, Beats 49.29%
 ```
 ```c++
 class Solution {
 public:
     void sortColors(vector<int>& nums) {
-        int n = nums.size(), i = 0, j = 0;
-        while (j < n) {
+        int n = nums.size(), i = 0, j;
+        for (j = 0; j < n; j ++) {
             if (nums[j] == 0) {
                 swap(nums[i], nums[j]);
                 i += 1;
             }
-            j += 1;
         }
-        j = i;
-        while (j < n) {
+        for (j = i; j < n; j ++) {
             if (nums[j] == 1) {
                 swap(nums[i], nums[j]);
                 i += 1;
             }
-            j += 1;
         }
     }
 };
