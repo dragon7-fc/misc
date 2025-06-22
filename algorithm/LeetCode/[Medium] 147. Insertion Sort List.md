@@ -100,3 +100,48 @@ struct ListNode* insertionSortList(struct ListNode* head){
     return dummy->next;
 }
 ```
+
+**Solution 3: (Linked List)**
+
+    4 -> 2 -> 1 -> 3
+              ^h
+
+    d -> 2 -> 4
+    ^c
+
+```
+Runtime: 23 ms, Beats 50.53%
+Memory: 15.16 MB, Beats 15.81%
+```
+```c++
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode() : val(0), next(nullptr) {}
+ *     ListNode(int x) : val(x), next(nullptr) {}
+ *     ListNode(int x, ListNode *next) : val(x), next(next) {}
+ * };
+ */
+class Solution {
+public:
+    ListNode* insertionSortList(ListNode* head) {
+        ListNode *dummy = new ListNode(-10000), *pre, *cur, *ncur;
+        while (head) {
+            cur = dummy;
+            while (cur && cur->val < head->val) {
+                pre = cur;
+                cur = cur->next;
+            }
+            ncur = new ListNode(head->val);
+            pre->next = ncur;
+            if (cur) {
+                ncur->next = cur;
+            }
+            head = head->next;
+        }
+        return dummy->next;
+    }
+};
+```

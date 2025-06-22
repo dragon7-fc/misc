@@ -139,63 +139,35 @@ int maximalRectangle(char** matrix, int matrixSize, int* matrixColSize){
 }
 ```
 
-**Solution 4: (mono stack, histogram)**
+**Solution 4: (Stack, mono inc stack, area between current and second top stack element)**
 ```
-Runtime: 24 ms
-Memory: 17.53 MB
+Runtime: 15 ms, Beats 23.44%
+Memory: 18.56 MB, Beats 57.57%
 ```
 ```c++
 class Solution {
-    int largestArea(vector<int>& histogram){
-        int n = histogram.size(), area = 0;
-        stack<int> s;
-        for (int i = 0; i < n; i ++){
-            while (!s.empty() && histogram[s.top()] >= histogram[i]) {
-                int top = s.top();
-                s.pop();
-                int start;
-                if (s.empty())
-                    start = -1;
-                else
-                    start = s.top();
-
-                int curr_area = histogram[top] * (i - start -1);
-                area = max(area, curr_area);
-            }
-            s.push(i);
-        }
-        
-        while (!s.empty()){
-            int top = s.top();
-            s.pop();
-            int start;
-            if (s.empty())
-                start = -1;
-            else
-                start = s.top();
-            
-            int curr_area = histogram[top] * (n - start -1);
-            area = max(area, curr_area);
-        }
-        
-        return area;
-    }
 public:
     int maximalRectangle(vector<vector<char>>& matrix) {
-        int m = matrix.size();
-        if (m == 0) return 0;
-        int n = matrix[0].size(), result = 0;
-        vector<int> histogram(n, 0);
-        for (int i = 0; i < m; i ++){
-            for (int j = 0; j < n; j ++){
-                if (matrix[i][j] == '1')
-                    histogram[j] += 1;
-                else
-                    histogram[j] = 0;
-            }   
-            result = max(result, largestArea(histogram));
+        int m = matrix.size(), n = matrix[0].size(), i, j, ans = 0;
+        vector<int> dp(n+1);
+        for (i = 0; i < m; i ++) {
+            stack<pair<int,int>> stk;
+            stk.push({-1,-1});
+            for (j = 0; j < n+1; j ++) {
+                if (j == n || matrix[i][j] == '0') {
+                    dp[j] = 0;
+                } else {
+                    dp[j] += 1;
+                }
+                while (stk.size() > 1 && stk.top().first >= dp[j]) {
+                    auto [y, _] = stk.top();
+                    stk.pop();
+                    ans = max(ans, y * (j - stk.top().second - 1));
+                }
+                stk.push({dp[j], j});
+            }
         }
-        return result;
+        return ans;
     }
 };
 ```

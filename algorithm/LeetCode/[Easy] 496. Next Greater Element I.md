@@ -87,29 +87,37 @@ int* nextGreaterElement(int* nums1, int nums1Size, int* nums2, int nums2Size, in
 }
 ```
 
-**Solution 3: (Hash Table, Brute Force)**
+**Solution 3: (Hash Table, mono stack)**
+
+    nums1 = [4,1,2], 
+    nums2 = [1,3,4,2]
+    stk            
+                 4
+               43
+            431
+
 ```
-Runtime: 4 ms
-Memory Usage: 8.7 MB
+Runtime: 0 ms, Beats 100.00%
+Memory: 13.35 MB, Beats 15.06%
 ```
 ```c++
 class Solution {
 public:
     vector<int> nextGreaterElement(vector<int>& nums1, vector<int>& nums2) {
-        int m = nums1.size(), n = nums2.size();
-        vector<int> ans(m, -1);
-        unordered_map<int, int> mp;
-        for(int i=0; i<n; ++i)
-            mp[nums2[i]] = i;
-        for(int i=0; i<m; ++i){
-            int x = nums1[i];
-            int idx = mp[x];
-            for(int j=idx+1; j<n; ++j){
-                if(nums2[j] > x){
-                    ans[i] = nums2[j];
-                    break;
-                }
+        int m = nums1.size(), n = nums2.size(), i;
+        vector<int> dp(10001, -1), ans(m);
+        stack<int> stk;
+        for (i = n - 1; i >= 0; i --) {
+            while (stk.size() && stk.top() < nums2[i]) {
+                stk.pop();
             }
+            if (stk.size()) {
+                dp[nums2[i]] = stk.top();
+            }
+            stk.push(nums2[i]);
+        }
+        for (i = 0; i < m; i ++) {
+            ans[i] = dp[nums1[i]];
         }
         return ans;
     }

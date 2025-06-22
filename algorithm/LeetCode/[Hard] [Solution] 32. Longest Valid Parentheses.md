@@ -460,3 +460,32 @@ public:
     }
 };
 ```
+
+**Solution 8: (Stack, next top element)**
+```
+Runtime: 0 ms, Beats 100.00%
+Memory: 10.26 MB, Beats 76.10%
+```
+```c++
+class Solution {
+public:
+    int longestValidParentheses(string s) {
+        int n = s.length(), i, j, ans = 0;
+        stack<int> stk;
+        stk.push(-1);
+        for (j = 0; j < n; j ++) {
+            if (s[j] == '(') {
+                stk.push(j);
+            } else {
+                if (stk.size() > 1) {
+                    stk.pop();
+                    ans = max(ans, j - stk.top());
+                } else {
+                    stk.top() = j;
+                }
+            }
+        }
+        return ans;
+    }
+};
+```

@@ -150,3 +150,49 @@ public:
     }
 };
 ```
+
+**Solution 3: (Stack, mono dec stack, walk backward)**
+```
+Runtime: 2 ms, Beats 87.58%
+Memory: 42.10 MB, Beats 99.43%
+```
+```c++
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode() : val(0), next(nullptr) {}
+ *     ListNode(int x) : val(x), next(nullptr) {}
+ *     ListNode(int x, ListNode *next) : val(x), next(next) {}
+ * };
+ */
+class Solution {
+public:
+    vector<int> nextLargerNodes(ListNode* head) {
+        int n = 0;
+        ListNode *pre = nullptr, *cur = head, *ncur;
+        stack<int> stk;
+        while (cur) {
+            n += 1;
+            ncur = cur->next;
+            cur->next = pre;
+            pre = cur;
+            cur = ncur;
+        }
+        vector<int> ans(n);
+        while (pre) {
+            n -= 1;
+            while (stk.size() && stk.top() <= pre->val) {
+                stk.pop();
+            }
+            if (stk.size()) {
+                ans[n] = stk.top();
+            }
+            stk.push(pre->val);
+            pre = pre->next;
+        }
+        return ans;
+    }
+};
+```

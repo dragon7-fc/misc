@@ -34,30 +34,36 @@ class Solution:
         return max_area
 ```
 
-**Solution 2: (Stack, mono inc stack)**
+**Solution 2: (Stack, mono inc stack, area between current and second top stack element)**
+
+           2, 1, 5, 6, 2, 3
+                       ^
+ans      0    2        6
+                      10
+stk -1,-1 2,1
+          1,1 5,2 6,3
+              2,4 3,5
+
 ```
-Runtime: 105 ms
-Memory: 79.46 MB
+Runtime: 28 ms, Beats 40.77%
+Memory: 80.23 MB, Beats 86.76%
 ```
 ```c++
 class Solution {
 public:
     int largestRectangleArea(vector<int>& heights) {
-        int n = heights.size();
-        stack<int> stk;
-        int i, j, ans = INT_MIN;
+        int n = heights.size(), j, y, ans = 0;
+        stack<pair<int,int>> stk;
+        heights.push_back(0);
+        n += 1;
+        stk.push({-1, -1});
         for (j = 0; j < n; j ++) {
-            while (stk.size() && heights[stk.top()] > heights[j]) {
-                i = stk.top();
+            while (stk.size() && stk.top().first >= heights[j]) {
+                auto [y, _] = stk.top();
                 stk.pop();
-                ans = max(ans, heights[i]*(stk.empty() ? j : j-stk.top()-1));
+                ans = max(ans, y * (j - stk.top().second - 1));
             }
-            stk.push(j);
-        }
-        while (stk.size()) {
-            i = stk.top();
-            stk.pop();
-            ans = max(ans, heights[i]*(stk.empty() ? j : j-stk.top()-1));
+            stk.push({heights[j], j});
         }
         return ans;
     }

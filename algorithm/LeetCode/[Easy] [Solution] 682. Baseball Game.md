@@ -138,26 +138,26 @@ int calPoints(char ** ops, int opsSize){
 
 **Solution 3: (Stack)**
 ```
-Runtime: 0 ms
-Memory Usage: 8.3 MB
+Runtime: 3 ms, Beats 15.73%
+Memory: 11.92 MB, Beats 79.75%
 ```
 ```c++
 class Solution {
 public:
-    int calPoints(vector<string>& ops) {
-        vector<int> v;
-        for (auto& op: ops) {
+    int calPoints(vector<string>& operations) {
+        vector<int> ans;
+        for (auto op: operations) {
             if (op == "+") {
-                v.push_back(v.end()[-1] + v.end()[-2]);
-            } else if (op == "C")
-                v.pop_back();
-            else if (op == "D")
-                v.push_back(2 * v.back());
-            else
-                v.push_back(stoi(op));
+                ans.push_back(ans[ans.size()-1] + ans[ans.size()-2]);
+            } else if (op == "D") {
+                ans.push_back(2*ans.back());
+            } else if (op == "C") {
+                ans.pop_back();
+            } else {
+                ans.push_back(stoi(op));
+            }
         }
-        return accumulate(v.begin(), v.end(), 0);
-
+        return accumulate(ans.begin(), ans.end(), 0);
     }
 };
 ```

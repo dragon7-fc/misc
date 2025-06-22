@@ -177,8 +177,8 @@ bool hasCycle(struct ListNode *head) {
 
 **Solution 3: (Two Pointers)**
 ```
-Runtime: 11 ms
-Memory Usage: 8.1 MB
+Runtime: 8 ms, Beats 81.37%
+Memory: 11.84 MB, Beats 53.02%
 ```
 ```c++
 /**
@@ -192,13 +192,13 @@ Memory Usage: 8.1 MB
 class Solution {
 public:
     bool hasCycle(ListNode *head) {
-        struct ListNode *slow, *fast;
-        fast = slow = head;
+        ListNode *fast = head, *slow = head;
         while (fast && fast->next) {
             fast = fast->next->next;
             slow = slow->next;
-            if (fast == slow)
+            if (slow == fast) {
                 return true;
+            }
         }
         return false;
     }

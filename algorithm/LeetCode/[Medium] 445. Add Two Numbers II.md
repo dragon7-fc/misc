@@ -147,3 +147,51 @@ public:
     }
 };
 ```
+
+**Solution 4: (Linked List)**
+```
+Runtime: 0 ms, Beats 100.00%
+Memory: 76.74 MB, Beats 92.36%
+```
+```c++
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode() : val(0), next(nullptr) {}
+ *     ListNode(int x) : val(x), next(nullptr) {}
+ *     ListNode(int x, ListNode *next) : val(x), next(next) {}
+ * };
+ */
+class Solution {
+    ListNode *reverse(ListNode *node) {
+        ListNode *pre = nullptr, *cur = node, *ncur;
+        while (cur) {
+            ncur = cur->next;
+            cur->next = pre;
+            pre = cur;
+            cur = ncur;
+        }
+        return pre;
+    }
+public:
+    ListNode* addTwoNumbers(ListNode* l1, ListNode* l2) {
+        ListNode *nl1, *nl2, *dummy = new ListNode(), *pre;
+        int p = 0, a;
+        nl1 = reverse(l1);
+        nl2 = reverse(l2);
+        pre = dummy;
+        while (nl1 || nl2 || p) {
+            a = (nl1 ? nl1->val : 0) + (nl2 ? nl2->val : 0) + p;
+            pre->next = new ListNode(a%10);
+            pre = pre->next;
+            p = a/10;
+            nl1 = nl1 ? nl1->next : nullptr;
+            nl2 = nl2 ? nl2->next : nullptr;
+
+        }
+        return reverse(dummy->next);
+    }
+};
+```

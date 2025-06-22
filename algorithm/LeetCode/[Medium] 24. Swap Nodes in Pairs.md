@@ -100,8 +100,8 @@ struct ListNode* swapPairs(struct ListNode* head){
 
 **Solution 4: (Recursive, Linked List)**
 ```
-Runtime: 6 ms
-Memory: 7.6 MB
+Runtime: 0 ms, Beats 100.00%
+Memory: 11.24 MB, Beats 19.45%
 ```
 ```c++
 /**
@@ -120,18 +120,25 @@ public:
         if (!head || !head->next) {
             return head;
         }
-        ListNode *cur = head->next;
-        head->next = swapPairs(cur->next);
-        cur->next = head;
+        ListNode *pre = head, *cur = head->next;
+        pre->next = swapPairs(cur->next);
+        cur->next = pre;
         return cur;
     }
 };
 ```
 
 **Solution 5: (Linked List)**
+
+    d -> 1 -> 2 -> 3 -> 4 -> 5 -> 6
+         ^p   ^c   ^nc
+           <-        <-
+              ^h        ^         ^
+    ^st  ^st       ^st       ^st
+
 ```
-Runtime: 0 ms
-Memory: 7.4 MB
+Runtime: 0 ms, Beats 100.00%
+Memory: 11.14 MB, Beats 56.84%
 ```
 ```c++
 /**
@@ -147,26 +154,19 @@ Memory: 7.4 MB
 class Solution {
 public:
     ListNode* swapPairs(ListNode* head) {
-        if (!head || !head->next) {
-            return head;
+        ListNode *dummy = new ListNode(), *pre, *cur = head, *st, *ncur;
+        st = dummy;
+        while (cur && cur->next) {
+            pre = cur;
+            cur = cur->next;
+            ncur = cur->next;
+            cur->next = pre;
+            st->next = cur;
+            st = pre;
+            cur = ncur;
         }
-        ListNode* newHead = head->next;
-        ListNode* prev = nullptr;
-        ListNode* curr = head;
-        while (curr && curr->next) {
-            ListNode* next = curr->next;
-            curr->next = next->next;
-            next->next = curr;
-            
-            if (prev) {
-                prev->next = next;
-            }
-            
-            prev = curr;
-            curr = curr->next;
-        }
-        
-        return newHead;
+        st->next = cur;
+        return dummy->next;
     }
 };
 ```

@@ -451,8 +451,8 @@ public:
 
 **Solution 5: (Stack)**
 ```
-Runtime: 38 ms
-Memory Usage: 24 MB
+Runtime: 0 ms, Beats 100.00%
+Memory: 32.03 MB, Beats 36.35%
 ```
 ```c++
 /**
@@ -470,9 +470,10 @@ class BSTIterator {
     stack<TreeNode*> stk;
 public:
     BSTIterator(TreeNode* root) {
-        while (root) {
-            stk.push(root);
-            root = root->left;
+        TreeNode *cur = root;
+        while (cur) {
+            stk.push(cur);
+            cur = cur->left;
         }
     }
     
@@ -480,16 +481,18 @@ public:
         TreeNode *cur = stk.top();
         stk.pop();
         int rst = cur->val;
-        cur = cur->right;
-        while (cur) {
-            stk.push(cur);
-            cur = cur->left;
+        if (cur->right) {
+            cur = cur->right;
+            while (cur) {
+                stk.push(cur);
+                cur = cur->left;
+            }
         }
         return rst;
     }
     
     bool hasNext() {
-        return !stk.empty();
+        return stk.size() != 0;
     }
 };
 

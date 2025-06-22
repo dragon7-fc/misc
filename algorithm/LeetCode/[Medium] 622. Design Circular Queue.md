@@ -291,52 +291,141 @@ void myCircularQueueFree(MyCircularQueue* obj) {
 ```
 
 **Solution 4: (Array)**
+
+      -1 -1 -1
+       1  2  3
+             ^r
+       ^f
+
 ```
-Runtime: 60 ms
-Memory Usage: 16.9 MB
+Runtime: 3 ms, Beats 60.45%
+Memory: 23.50 MB, Beats 78.20%
 ```
 ```c++
 class MyCircularQueue {
-    vector<int> q;
-    int first;
-    int size;
+    vector<int> dp;
+    int n, f, r;
 public:
     MyCircularQueue(int k) {
-        q = vector<int>(k, 0);
-        first = 0;
-        size = 0;
+        dp.resize(k, -1);
+        n = k;
+        f = 0;
+        r = 0;
     }
     
     bool enQueue(int value) {
-        if(isFull()) return false;
-        q[(first + size) % q.size()] = value;
-        size++;
+        if (isFull()) {
+            return false;
+        }
+        dp[r] = value;
+        r = (r+1)%n;
         return true;
     }
     
     bool deQueue() {
-        if (isEmpty()) return false;
-        first = (first + 1) % q.size();
-        size--;
+        if (isEmpty()) {
+            return false;
+        }
+        dp[f] = -1;
+        f = (f+1)%n;
         return true;
     }
     
     int Front() {
-        if (isEmpty()) return -1;
-        return q[first];
+        if (isEmpty()) {
+            return -1;
+        }
+        return dp[f];
     }
     
     int Rear() {
-        if (isEmpty()) return -1;
-        return q[(first + size - 1) % q.size()];
+        if (isEmpty()) {
+            return -1;
+        }
+        return dp[(r-1+n)%n];
     }
     
     bool isEmpty() {
-        return size == 0;
+        return f == r && dp[r] == -1;
     }
     
     bool isFull() {
-        return size == q.size();
+        return f == r && dp[r] != -1;
+    }
+};
+
+/**
+ * Your MyCircularQueue object will be instantiated and called as such:
+ * MyCircularQueue* obj = new MyCircularQueue(k);
+ * bool param_1 = obj->enQueue(value);
+ * bool param_2 = obj->deQueue();
+ * int param_3 = obj->Front();
+ * int param_4 = obj->Rear();
+ * bool param_5 = obj->isEmpty();
+ * bool param_6 = obj->isFull();
+ */
+```
+
+**Solution 5: (Array)**
+
+    1 2 3
+    ^i
+ck  1 2 3
+
+```
+Runtime: 4 ms, Beats 45.27%
+Memory: 23.58 MB, Beats 42.76%
+```
+```c++
+class MyCircularQueue {
+    vector<int> dp;
+    int i, n, ck;
+public:
+    MyCircularQueue(int k) {
+        dp.resize(k);
+        n = k;
+        ck = 0;
+        i = 0;
+    }
+    
+    bool enQueue(int value) {
+        if (isFull()) {
+            return false;
+        }
+        dp[(i+ck)%n] = value;
+        ck += 1;
+        return true;
+    }
+    
+    bool deQueue() {
+        if (isEmpty()) {
+            return false;
+        }
+        i = (i+1)%n;
+        ck -= 1;
+        return true;
+    }
+    
+    int Front() {
+        if (isEmpty()) {
+            return -1;
+        }
+        return dp[i];
+    }
+    
+    int Rear() {
+        if (isEmpty()) {
+            return -1;
+        }
+        return dp[(i+ck-1)%n];
+    }
+    
+    bool isEmpty() {
+        return ck == 0;
+    }
+    
+    bool isFull() {
+        return ck == n;
     }
 };
 

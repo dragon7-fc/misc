@@ -165,3 +165,55 @@ public:
     }
 };
 ```
+
+**Solution 4: (Linked List, Two Pointers)**
+
+    d -> 1 -> 2 -> 3 -> 3 -> 4 -> 4 -> 5
+    ^p   ^c
+         ^P   ^c
+              ^p             ^c
+                                      ^c
+
+    d -> 1 -> 1 -> 1 -> 2 -> 3
+    ^p                  ^c
+                        ^p   ^c
+
+```
+Runtime: 0 ms, Beats 100.00%
+Memory: 15.56 MB, Beats 93.35%
+```
+```c++
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode() : val(0), next(nullptr) {}
+ *     ListNode(int x) : val(x), next(nullptr) {}
+ *     ListNode(int x, ListNode *next) : val(x), next(next) {}
+ * };
+ */
+class Solution {
+public:
+    ListNode* deleteDuplicates(ListNode* head) {
+        ListNode *dummy = new ListNode(), *pre, *cur;
+        dummy->next = head;
+        pre = dummy;
+        cur = pre->next;
+        while (cur && cur->next) {
+            if (cur->val != cur->next->val) {
+                pre->next = cur;
+                pre = cur;
+                cur = cur->next;
+            } else {
+                while (cur && cur->next && cur->val == cur->next->val) {
+                    cur = cur->next;
+                }
+                cur = cur->next;
+                pre->next = cur;
+            }
+        }
+        return dummy->next;
+    }
+};
+```

@@ -163,8 +163,8 @@ struct ListNode* addTwoNumbers(struct ListNode* l1, struct ListNode* l2){
 
 **Solution 3: (Elementary Math, Linked List)**
 ```
-Runtime: 60 ms
-Memory Usage: 71.4 MB
+Runtime: 3 ms, Beats 34.78%
+Memory: 77.12 MB, Beats 43.39%
 ```
 ```c++
 /**
@@ -180,27 +180,25 @@ Memory Usage: 71.4 MB
 class Solution {
 public:
     ListNode* addTwoNumbers(ListNode* l1, ListNode* l2) {
-        struct ListNode *prev, *cur, *dummy;
-        int sum = 0, carry = 0;
-        prev = dummy = new ListNode();
-        while (l1 || l2 || carry) {
-            sum = carry;
-            if (l1){
-                sum += l1->val;
+        int p = 0, a;
+        ListNode *dummy = new ListNode(), *pre, *cur, *ans;
+        pre = dummy;
+        while (l1 || l2 || p) {
+            a = (l1 ? l1->val : 0) + (l2 ? l2->val : 0) + p;
+            cur = new ListNode(a%10);
+            pre->next = cur;
+            pre = cur;
+            p = a/10;
+            if (l1) {
                 l1 = l1->next;
             }
             if (l2) {
-                sum += l2->val;
                 l2 = l2->next;
             }
-            cur = new ListNode();
-            cur->val = sum % 10;
-            prev->next = cur;
-            prev = prev->next;
-            carry = sum >= 10 ? 1 : 0;
         }
-        prev->next = nullptr;
-        return dummy->next;
+        ans = dummy->next;
+        delete dummy;
+        return ans;
     }
 };
 ```

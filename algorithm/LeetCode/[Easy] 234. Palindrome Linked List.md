@@ -103,8 +103,8 @@ bool isPalindrome(struct ListNode* head){
 
 **Solution 3: (Two Pointers)**
 ```
-Runtime: 297 ms
-Memory Usage: 110.4 MB
+Runtime: 0 ms, Beats 100.00%
+Memory: 114.06 MB, Beats 99.44%
 ```
 ```c++
 /**
@@ -120,25 +120,23 @@ Memory Usage: 110.4 MB
 class Solution {
 public:
     bool isPalindrome(ListNode* head) {
-        if (!head || !head->next)
-            return true;
-        ListNode *slow, *fast, *prev, *tmp;
-        slow = fast = head;
-        prev = nullptr;
+        ListNode *pre = nullptr, *slow = head, *ncur, *fast = head;
         while (fast && fast->next) {
             fast = fast->next->next;
-            tmp = slow->next;
-            slow->next = prev;
-            prev = slow;
-            slow = tmp;
+            ncur = slow->next;
+            slow->next = pre;
+            pre = slow;
+            slow = ncur;
         }
-        if (fast && !fast->next)
+        if (fast) {
             slow = slow->next;
-        while (prev && slow) {
-            if (prev->val != slow->val)
+        }
+        while (slow != nullptr) {
+            if (pre->val != slow->val) {
                 return false;
-            prev = prev->next;
+            }
             slow = slow->next;
+            pre = pre->next;
         }
         return true;
     }

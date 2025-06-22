@@ -190,24 +190,47 @@ int* nextGreaterElements(int* nums, int numsSize, int* returnSize){
 ```
 
 **Solution 3: (Stack, mono dec stack)**
+
+    1 2 1 1 2 1
+            2 1
+          21
+        21
+      2
+    21
+
+    1,2,3,4,3 1,2,3,4,3
+                      3
+                    4
+                  43
+                432
+              4321
+            43
+          4
+        43
+      432
+    4321
+
 ```
-Runtime: 32 ms
-Memory Usage: 24 MB
+Runtime: 9 ms, Beats 20.32%
+Memory: 28.59 MB, Beats 38.29%
 ```
 ```c++
 class Solution {
 public:
     vector<int> nextGreaterElements(vector<int>& nums) {
-        vector<int> res(nums.size());
+        int n = nums.size(), i;
         stack<int> stk;
-        for (int i = 2*nums.size(); i >= 0; i --) {
-             while (!stk.empty() && nums[stk.top()] <= nums[i % nums.size()]) {
+        vector<int> ans(n, -1);
+        for (i = 2*n-1; i >= 0; i --) {
+            while (stk.size() && stk.top() <= nums[i%n]) {
                 stk.pop();
             }
-            res[i % nums.size()] = stk.empty() ? -1 : nums[stk.top()];
-            stk.push(i % nums.size());
+            if (i < n && stk.size()) {
+                ans[i] = stk.top();
+            }
+            stk.push(nums[i%n]);
         }
-        return res;
+        return ans;
     }
 };
 ```

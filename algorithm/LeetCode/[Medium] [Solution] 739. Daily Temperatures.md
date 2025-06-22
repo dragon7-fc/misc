@@ -202,23 +202,37 @@ class Solution:
 ```
 
 **Solution 6: (Stack, mono dec)**
+
+    73,74,75,71,69,72,76,73
+                         73
+                      76
+                   76 72
+                76 72 69
+             76 72 71
+          76 75
+       76 75 74
+    76 75 74 73
+ans  1  1  4  2  1  1  0  0
+
 ```
-Runtime: 131 ms
-Memory: 105.51 MB
+Runtime: 14 ms, Beats 88.22%
+Memory: 102.79 MB, Beats 91.52%
 ```
 ```c++
 class Solution {
 public:
     vector<int> dailyTemperatures(vector<int>& temperatures) {
-        int n = temperatures.size();
+        int n = temperatures.size(), i;
+        stack<int> stk;
         vector<int> ans(n);
-        stack<int> dp;
-        for (int i = 0; i < n; i ++) {
-            while (dp.size() && temperatures[dp.top()] < temperatures[i]) {
-                ans[dp.top()] = i - dp.top();
-                dp.pop();
+        for (i = n-1; i >= 0; i --) {
+            while (stk.size() && temperatures[stk.top()] <= temperatures[i]) {
+                stk.pop();
             }
-            dp.push(i);
+            if (stk.size()) {
+                ans[i] = stk.top() - i;
+            }
+            stk.push(i);
         }
         return ans;
     }

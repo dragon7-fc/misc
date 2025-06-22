@@ -274,33 +274,82 @@ int* exclusiveTime(int n, char ** logs, int logsSize, int* returnSize){
 ```
 
 **Solution 3: (Stack)**
+
+            -------
+        ---         -
+        0 1 2 3 4 5 6
+        ^   ^       ^
+    n = 2, logs = ["0:start:0","1:start:2","1:end:5","0:end:6"]
+                                                       ^
+stk 0,0,0 1,2,0
+        2     4
+            x
+        3
+
+        --- ------- - - 
+        0 1 2 3 4 5 6 7 
+    n = 1, logs = ["0:start:0","0:start:2","0:end:5","0:start:6","0:end:6","0:end:7"]
+                                                                     ^
+cur                     0           2          5         6          6         7
+pre                     0           2          5         6          7         8
+stk 0,0,0 0,2,0
+        2     4
+            x
+          0,6,0
+          0,6,1
+           x
+        3
+    
+                    -
+        --- -------   -
+        0 1 2 3 4 5 6 7
+        ^   ^     ^ ^ ^
+    Input: n = 2, logs = ["0:start:0","0:start:2","0:end:5","1:start:6","1:end:6","0:end:7"]
+                                                                            ^
+cur                           0           2          5          6           6
+pre                           0           2          6          6           7
+stk  0,0,0 0,2,0
+         2     4
+             x
+           1,6,0
+               1
+            x
+         1
+
 ```
-Runtime: 34 ms
-Memory Usage: 13.2 MB
+Runtime: 13 ms, Beats 33.33%
+Memory: 19.26 MB, Beats 38.89%
 ```
 ```c++
 class Solution {
 public:
     vector<int> exclusiveTime(int n, vector<string>& logs) {
-        vector<int> res(n, 0);
-        stack<pair<int, int>> s;
-        for (string log : logs) {
-            int c1 = log.find(':'), c2 = log.find(':', c1 + 1);
-            int pid = stoi(log.substr(0, c1));
-            string state = log.substr(c1 + 1, c2 - c1 - 1);
-            int t = stoi(log.substr(c2 + 1, log.size()));
-            if (state == "start") {
-                s.emplace(pid, t);
-            } else {
-                auto [pid, tp] = s.top(); s.pop();
-                res[pid] += t - tp + 1;
-                if (!s.empty()) {
-					//  remove non exclusive time of previous process
-                    res[s.top().first] -= t - tp + 1;
+        int m = logs.size(), i, id, cur, pre;
+        string s, typ;
+        stack<vector<int>> stk;   // id, start, exec
+        vector<int> ans(n); 
+        for (i = 0; i < m; i ++) {
+            stringstream ss(logs[i]);
+            getline(ss, s, ':');
+            id = stoi(s);
+            getline(ss, s, ':');
+            typ = s;
+            getline(ss, s, ':');
+            cur = stoi(s);
+            if (typ == "start") {
+                if (stk.size()) {
+                    stk.top()[2] += cur - pre;
                 }
+                stk.push({id, cur, 0});
+                pre = cur;
+            } else {
+                stk.top()[2] += cur - pre + 1;
+                ans[stk.top()[0]] += stk.top()[2];
+                stk.pop();
+                pre = cur + 1;
             }
         }
-        return res;
+        return ans;
     }
 };
 ```

@@ -363,9 +363,20 @@ struct ListNode* reverseBetween(struct ListNode* head, int left, int right){
 }
 ```
 **Solution 4: (Iterative, Linked List)**
+
+k        1    2    3    4    5
+    d -> 1 -> 2 -> 3 -> 4 -> 5
+                        ^p   ^c
+         ^st    <-   <-
+
+k        1   2
+    d -> 1
+         ^p   ^c
+    ^st
+
 ```
-Runtime: 2 ms
-Memory Usage: 7.5 MB
+Runtime: 0 ms, Beats 100.00%
+Memory: 11.22 MB, Beats 37.70%
 ```
 ```c++
 /**
@@ -381,31 +392,30 @@ Memory Usage: 7.5 MB
 class Solution {
 public:
     ListNode* reverseBetween(ListNode* head, int left, int right) {
-        ListNode *pre = nullptr, *cur = head, *start, *end, *tmp;
-        int i = 1;
-        while (i < left) {
+        ListNode *dummy = new ListNode(), *pre = dummy, *cur = head, *ncur, *st;
+        int k = 1;
+        dummy->next = head;
+        while (k < left) {
             pre = cur;
             cur = cur->next;
-            i += 1;
+            k += 1;
         }
-        start = pre;
-        end = cur;
-        pre = cur;
-        cur = cur->next;
-        i += 1;
-        while (i <= right) {
-            tmp = cur->next;
+        st = pre;
+        if (cur) {
+            pre = cur;
+            cur = cur->next;
+            k += 1;
+        }
+        while (k <= right) {
+            ncur = cur->next;
             cur->next = pre;
             pre = cur;
-            cur = tmp;
-            i += 1;
+            cur = ncur;
+            k += 1;
         }
-        if (start)
-            start->next = pre;
-        else
-            head = pre;
-        end->next = cur;
-        return head;
+        st->next->next = cur;
+        st->next = pre;
+        return dummy->next;
     }
 };
 ```

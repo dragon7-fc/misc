@@ -227,8 +227,8 @@ class Solution:
 
 **Solution 6: (DFS)**
 ```
-Runtime: 7 ms
-Memory: 11.8 MB
+Runtime: 0 ms, Beats 100.00%
+Memory: 16.46 MB, Beats 70.74%
 ```
 ```c++
 /**
@@ -244,27 +244,89 @@ Memory: 11.8 MB
 class Solution {
 public:
     ListNode* reverseKGroup(ListNode* head, int k) {
-        int r = k;
-        ListNode *cur = head, *pre, *nxt;
-        while (r && cur) {
+        ListNode *cur = head, *pre, *ncur;
+        int ck = 0;
+        while (cur && ck < k) {
             cur = cur->next;
-            r -= 1;
+            ck += 1;
         }
-        if (r) {
+        if (ck < k) {
             return head;
         }
         pre = head;
-        cur = head->next;
-        r = k-1;
-        while (r) {
-            nxt = cur->next;
+        cur = pre->next;
+        ck = 1;
+        while (ck < k) {
+            ncur = cur->next;
             cur->next = pre;
             pre = cur;
-            cur = nxt;
-            r -= 1;
+            cur = ncur;
+            ck += 1;
         }
         head->next = reverseKGroup(cur, k);
         return pre;
+    }
+};
+```
+
+**Solution 7: (iterative)**
+
+ck       1    2    1
+    d -> 1 -> 2 -> 3 -> 4 -> 5
+              ^c
+              ^p   ^c   ^nc
+           <-        <-
+         ^ed       ^ed
+    ^st  ^st       ^st
+
+```
+Runtime: 0 ms, Beats 100.00%
+Memory: 16.36 MB, Beats 95.85%
+```
+```c++
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode() : val(0), next(nullptr) {}
+ *     ListNode(int x) : val(x), next(nullptr) {}
+ *     ListNode(int x, ListNode *next) : val(x), next(next) {}
+ * };
+ */
+class Solution {
+public:
+    ListNode* reverseKGroup(ListNode* head, int k) {
+        ListNode *dummy = new ListNode(), *pre, *cur = head, *st, *ncur, *ed;
+        int ck;
+        dummy->next = head;
+        st = dummy;
+        while (cur) {
+            ck = 1;
+            pre = cur;
+            while (ck < k && cur->next) {
+                ck += 1;
+                cur = cur->next;
+            }
+            if (ck < k) {
+                cur = pre;
+                break;
+            }
+            ed = pre;
+            cur = pre->next;
+            ck = 1;
+            while (ck < k) {
+                ncur = cur->next;
+                cur->next = pre;
+                pre = cur;
+                cur = ncur;
+                ck += 1;
+            }
+            st->next = pre;
+            st = ed;
+        }
+        st->next = cur;
+        return dummy->next;
     }
 };
 ```

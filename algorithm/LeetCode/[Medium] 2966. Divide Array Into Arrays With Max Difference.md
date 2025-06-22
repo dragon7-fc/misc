@@ -37,19 +37,52 @@ Explanation: It is not possible to divide the array satisfying all the condition
 
 # Submissions
 ---
-**Solution 1: (Sort)**
+**Solution 1: (Counter)**
 ```
-Runtime: 142 ms
-Memory: 115.2 MB
+Runtime: 224 ms, Beats 5.50%
+Memory: 135.65 MB, Beats 14.83%
 ```
 ```c++
 class Solution {
 public:
     vector<vector<int>> divideArray(vector<int>& nums, int k) {
-        sort(nums.begin(), nums.end());
+        int n = nums.size(), i, cnt[100001] = {0}, ck = 0;
         vector<vector<int>> ans;
-        for (int i = 0; i < nums.size(); i += 3) {
-            if (nums[i+2]-nums[i] > k) {
+        for (i = 0; i < n; i ++) {
+            cnt[nums[i]] += 1;
+        }
+        for (i = 1; i <= 100000; i ++) {
+            while (cnt[i]) {
+                if (ck == 0) {
+                    ans.push_back({});
+                }
+                ans.back().push_back(i);
+                if (ans.back().back() - ans.back()[0] > k) {
+                    return {};
+                }
+                cnt[i] -= 1;
+                ck = (ck+1)%3;
+            }
+        }
+        return ans;
+    }
+};
+```
+
+**Solution 2: (Sort)**
+```
+Runtime: 43 ms, Beats 84.69%
+Memory: 120.06 MB, Beats 64.59%
+```
+```c++
+class Solution {
+public:
+    vector<vector<int>> divideArray(vector<int>& nums, int k) {
+        int n = nums.size(), i;
+        vector<vector<int>> ans;
+        sort(nums.begin(), nums.end());
+        for (i = 0; i < n; i += 3) {
+            if (nums[i+2] - nums[i] > k) {
                 return {};
             }
             ans.push_back({nums[i], nums[i+1], nums[i+2]});

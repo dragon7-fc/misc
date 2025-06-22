@@ -133,45 +133,7 @@ class Solution:
         return None
 ```
 
-**Solution 4: (Linked List)**
-```
-Runtime: 15 ms
-Memory Usage: 7.7 MB
-```
-```c++
-/**
- * Definition for singly-linked list.
- * struct ListNode {
- *     int val;
- *     ListNode *next;
- *     ListNode(int x) : val(x), next(NULL) {}
- * };
- */
-class Solution {
-public:
-    ListNode *detectCycle(ListNode *head) {
-        struct ListNode *slow, *fast;
-        slow = fast = head;
-        while (fast && fast->next) {
-            fast = fast->next->next;
-            slow = slow->next;
-            if (fast == slow)
-                break;
-        }
-        if (!fast || !fast->next) {
-            return NULL;
-        }
-        fast = head;
-        while (fast != slow) {
-            slow = slow->next;
-            fast = fast->next;
-        }
-        return slow;
-    }
-};
-```
-
-**Solution 5: (Set)**
+**Solution 4: (Set)**
 ```
 Runtime: 16 ms
 Memory Usage: 9.6 MB
@@ -197,6 +159,47 @@ public:
             node = node->next;
         }
         return nullptr;
+    }
+};
+```
+
+**Solution 5: (Linked List)**
+```
+Runtime: 0 ms, Beats 100.00%
+Memory: 11.30 MB, Beats 83.28%
+```
+```c++
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode(int x) : val(x), next(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    ListNode *detectCycle(ListNode *head) {
+        ListNode *dummy = new ListNode(), *slow, *fast;
+        dummy->next = head;
+        slow = dummy;
+        fast = dummy;
+        while (fast && fast->next) {
+            slow = slow->next;
+            fast = fast->next->next;
+            if (slow == fast) {
+                break;
+            }
+        }
+        if (fast == nullptr || fast->next == nullptr) {
+            return nullptr;
+        }
+        fast = dummy;
+        while (slow != fast) {
+            slow = slow->next;
+            fast = fast->next;
+        }
+        return slow;
     }
 };
 ```

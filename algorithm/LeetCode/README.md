@@ -6341,6 +6341,36 @@ public:
 ```
 * [Medium] 1072. Flip Columns For Maximum Number of Equal Rows
 
+### Counter, assume target and try all solution
+```c++
+class Solution {
+public:
+    int minimumDeletions(string word, int k) {
+        int cnt[26] = {0}, i, j, cur = 0, ans = INT_MAX;
+        for (auto c: word) {
+            cnt[c-'a'] += 1;
+        }
+        for (i = 0; i < 26; i ++) {
+            if (cnt[i]) {
+                cur = 0;
+                for (j = 0; j < 26; j ++) {
+                    if (cnt[j] && j != i) {
+                        if (cnt[j] < cnt[i]) {
+                            cur += cnt[j];
+                        } else {
+                            cur += max(0, cnt[j] - cnt[i] - k);
+                        }
+                    }
+                }
+                ans = min(ans, cur);
+            }
+        }
+        return ans;
+    }
+};
+```
+* [Medium] 3085. Minimum Deletions to Make String K-Special
+
 ### Counter with order
 ```python
 class Solution:
@@ -11623,6 +11653,42 @@ return ans
 
 ## Stack <a name="stack"></a>
 ---
+### function call stack simulation
+```c++
+class Solution {
+public:
+    vector<int> exclusiveTime(int n, vector<string>& logs) {
+        int m = logs.size(), i, id, cur, pre;
+        string s, typ;
+        stack<vector<int>> stk;   // id, start, exec
+        vector<int> ans(n); 
+        for (i = 0; i < m; i ++) {
+            stringstream ss(logs[i]);
+            getline(ss, s, ':');
+            id = stoi(s);
+            getline(ss, s, ':');
+            typ = s;
+            getline(ss, s, ':');
+            cur = stoi(s);
+            if (typ == "start") {
+                if (stk.size()) {
+                    stk.top()[2] += cur - pre;
+                }
+                stk.push({id, cur, 0});
+                pre = cur;
+            } else {
+                stk.top()[2] += cur - pre + 1;
+                ans[stk.top()[0]] += stk.top()[2];
+                stk.pop();
+                pre = cur + 1;
+            }
+        }
+        return ans;
+    }
+};
+```
+* [Medium] 636. Exclusive Time of Functions
+
 ### 2 stack, matched index elimination, step by step
 ```c++
 class Solution {
@@ -12255,23 +12321,29 @@ class Solution:
 ```
 * [Hard] [Solution] 224. Basic Calculator
 
-### index stack
-```python
-class Solution:
-    def longestValidParentheses(self, s: str) -> int:
-        maxans = 0
-        stack = [-1]
-        for i in range(len(s)):
-            if s[i] == '(':
-                stack += [i]
-            else:
-                stack.pop()
-                if not stack:
-                    stack += [i]
-                else:
-                    maxans = max(maxans, i - stack[-1])
-
-        return maxans
+### second top element
+```c++
+class Solution {
+public:
+    int longestValidParentheses(string s) {
+        int n = s.length(), i, j, ans = 0;
+        stack<int> stk;
+        stk.push(-1);
+        for (j = 0; j < n; j ++) {
+            if (s[j] == '(') {
+                stk.push(j);
+            } else {
+                if (stk.size() > 1) {
+                    stk.pop();
+                    ans = max(ans, j - stk.top());
+                } else {
+                    stk.top() = j;
+                }
+            }
+        }
+        return ans;
+    }
+};
 ```
 * [Hard] [Solution] 32. Longest Valid Parentheses
 
@@ -12324,16 +12396,27 @@ class Solution:
 ```
 * [Lock] [Hard] 772. Basic Calculator III
 
-### stack maintain first and second hightest value index
-```python
-class Solution:
-    def largestRectangleArea(self, heights: List[int]) -> int:
-        stack, max_area = [-1], 0
-        for i, h in enumerate(heights + [-1]):
-            while stack and stack[-1] >= 0 and h <= heights[stack[-1]]:
-                max_area = max(heights[stack.pop()] * (i - stack[-1] - 1), max_area)
-            stack.append(i)
-        return max_area
+### area between current and second top stack element```c++
+```c++
+class Solution {
+public:
+    int largestRectangleArea(vector<int>& heights) {
+        int n = heights.size(), j, y, ans = 0;
+        stack<pair<int,int>> stk;
+        heights.push_back(0);
+        n += 1;
+        stk.push({-1, -1});
+        for (j = 0; j < n; j ++) {
+            while (stk.size() && stk.top().first >= heights[j]) {
+                auto [y, _] = stk.top();
+                stk.pop();
+                ans = max(ans, y * (j - stk.top().second - 1));
+            }
+            stk.push({heights[j], j});
+        }
+        return ans;
+    }
+};
 ```
 * [Hard] 84. Largest Rectangle in Histogram
 
@@ -12404,6 +12487,18 @@ for i in range(N):
     stack.append(i)
 
 return ans
+
+=
+
+for i in range(N-1,-1,-1):
+    while stack and arr[stack[-1]] > arr[i]:
+        stack.pop()
+    ...
+    if stack:
+        ans[i] = i ... stack[-1]
+    stack.append(i)
+
+return ans
 ```
 
 **Template 3: (Stack, max stack, mono dec, left to right)**
@@ -12417,6 +12512,18 @@ for i in range(N):
         ans[i] = i ... stack[-1]
         stack.pop()
     ...
+    stack.append(i)
+
+return ans
+
+=
+
+for i in range(N-1,-1,-1):
+    while stack and arr[stack[-1]] < arr[i]:
+        stack.pop()
+    ...
+    if stack:
+        ans[i] = i ... stack[-1]
     stack.append(i)
 
 return ans
@@ -14119,6 +14226,26 @@ public:
 
 ## Linked List <a name="ll"></a>
 ---
+### change pointer
+```c++
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode(int x) : val(x), next(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    void deleteNode(ListNode* node) {
+        node->val = node->next->val;
+        node->next = node->next->next;
+    }
+};
+```
+* Medium] [Solution] 237. Delete Node in a Linked List
+
 ### Two pointer, runner and walker
 ```python
 # Definition for singly-linked list.

@@ -87,3 +87,117 @@ public:
     }
 };
 ```
+
+**Solution 2: (Step-by-step Solution, math, case study)**
+
+    s = "NWSE", k = 1
+
+                 |
+          x   <  x  (0,1)
+          v      ^
+     -----x--->--x-----------
+        (-1,0) (0,0)
+n   1
+s   1
+e   1
+w   1
+t1  1
+t2  0
+ans 2
+
+    s = "NSWWEW", k = 3
+                   x (-4,2)
+                   |
+                   t1
+                   |
+                   -
+                   |                            x  | 1 |
+                   t1                          v^  |   t1
+                   |-t2----|-t2----x  <   x  <  x  | 0 |
+                                      >            |
+                                      <
+---------------------------------------------------
+     -6     -5     -4     -3      -2     -1     0
+                                  ----t2----       
+n   1
+s   1
+e   1
+w   3
+t1  1
+t2  1
+ans 6
+```
+Runtime: 143 ms, Beats 50.61%
+Memory: 38.17 MB, Beats 74.85%
+```
+```c++
+class Solution {
+    int count(int drt1, int drt2, int times) {
+        return abs(drt1 - drt2) + times * 2;
+    }  // Calculate modified Manhattan distance
+public:
+    int maxDistance(string s, int k) {
+        int ans = 0;
+        int north = 0, south = 0, east = 0, west = 0;
+        for (char it : s) {
+            switch (it) {
+                case 'N':
+                    north++;
+                    break;
+                case 'S':
+                    south++;
+                    break;
+                case 'E':
+                    east++;
+                    break;
+                case 'W':
+                    west++;
+                    break;
+            }
+            int times1 =
+                min({north, south, k});  // modification times for N and S
+            int times2 = min(
+                {east, west, k - times1});  // modification times for E and W
+            ans = max(ans,
+                      count(north, south, times1) + count(east, west, times2));
+        }
+        return ans;
+    }
+};
+```
+
+**Solution 3: (Overall Solution, math, case study)**
+```
+Runtime: 51 ms, Beats 91.52%
+Memory: 38.15 MB, Beats 74.85%
+```
+```C++
+class Solution {
+public:
+    int maxDistance(string s, int k) {
+        int latitude = 0, longitude = 0, ans = 0;
+        int n = s.size();
+        for (int i = 0; i < n; i++) {
+            switch (s[i]) {
+                case 'N':
+                    latitude++;
+                    break;
+                case 'S':
+                    latitude--;
+                    break;
+                case 'E':
+                    longitude++;
+                    break;
+                case 'W':
+                    longitude--;
+                    break;
+            }
+            ans = max(ans, min(abs(latitude) + abs(longitude) + k * 2, i + 1));
+//                         ------------------------------------------  -----
+// case                        less element > k                        less element <= k
+//                             NW / NE / SW / SE
+        }
+        return ans;
+    }
+};
+```

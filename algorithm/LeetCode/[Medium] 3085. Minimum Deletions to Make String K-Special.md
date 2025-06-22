@@ -46,27 +46,55 @@ Explanation: We can make word 2-special by deleting 1 occurrence of "b". Therefo
 
 # Submissions
 ---
-**Solution 1: (Counter, sort, Brute Force)**
+**Solution 1: (Counter, assume target and try all solution)**
+
+    a a b c a b a, k = 0
+
+            | d
+a: 4 > 2    | 3 <
+b: 2        | 3 <
+c: 1 > 0    | 4
+
+    d a b d c b d c d c d, k = 2
+
+          | d
+a: 1 > 0  | 2 <
+b: 2      | 2 <
+c: 3      | 3
+d: 5 > 4  | 6
+
+
+    a a a b a a a, k = 2
+          | d
+a: 6      | 1 <
+b: 1 > 0  | 3
+
 ```
-Runtime: 36 ms
-Memory: 17.36 MB
+Runtime: 0 ms, Beats 100.00%
+Memory: 19.35 MB, Beats 70.29%
 ```
 ```c++
 class Solution {
 public:
     int minimumDeletions(string word, int k) {
-        vector<int> freq(26, 0);
-        int deleted = 0, ans = word.size();
-        for(auto c: word) freq[c-'a']++;             // find frequency of each chars
-        sort(freq.begin(), freq.end());              // sort the freq array
-        for(int i = 0; i < freq.size(); ++i){        // Iterate over freq 
-            int res = deleted, minFreq = freq[i];    // consider the current freq as the min freq after deletion. Also add the already deleted freq to temporary result
-            for(int j = freq.size()-1; j > i; --j){  // iterate over freq array to evaluate the chars to be deleted from the higher freq side of the freq array
-                if(freq[j] - minFreq <= k) break;    // Once condition is satisfied then exit from the loop
-                res += freq[j] - minFreq - k;        // accumulate on the result - number of items to be deleted
+        int cnt[26] = {0}, i, j, cur = 0, ans = INT_MAX;
+        for (auto c: word) {
+            cnt[c-'a'] += 1;
+        }
+        for (i = 0; i < 26; i ++) {
+            if (cnt[i]) {
+                cur = 0;
+                for (j = 0; j < 26; j ++) {
+                    if (cnt[j] && j != i) {
+                        if (cnt[j] < cnt[i]) {
+                            cur += cnt[j];
+                        } else {
+                            cur += max(0, cnt[j] - cnt[i] - k);
+                        }
+                    }
+                }
+                ans = min(ans, cur);
             }
-            ans = min(ans, res);                     // keep tracking the min possible value
-            deleted += freq[i];                      // update the deleted freq with current freq
         }
         return ans;
     }

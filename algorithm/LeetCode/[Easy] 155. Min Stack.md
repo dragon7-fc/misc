@@ -144,3 +144,55 @@ void minStackFree(MinStack* obj) {
  * minStackFree(obj);
 */
 ```
+
+**Solution 3: (Stack)**
+
+              x
+stk    -2  0 -3
+dp     -2 -2 -3
+
+```
+Runtime: 1 ms, Beats 74.51%
+Memory: 23.36 MB, Beats 54.75%
+```
+```c++
+class MinStack {
+    vector<int> dp;
+    stack<int> stk;
+public:
+    MinStack() {
+        
+    }
+    
+    void push(int val) {
+        stk.push(val);
+        if (dp.size()) {
+            dp.push_back(min(dp.back(), val));
+        } else {
+            dp.push_back(val);
+        }
+    }
+    
+    void pop() {
+        stk.pop();
+        dp.pop_back();
+    }
+    
+    int top() {
+        return stk.top();
+    }
+    
+    int getMin() {
+        return dp.back();
+    }
+};
+
+/**
+ * Your MinStack object will be instantiated and called as such:
+ * MinStack* obj = new MinStack();
+ * obj->push(val);
+ * obj->pop();
+ * int param_3 = obj->top();
+ * int param_4 = obj->getMin();
+ */
+```

@@ -373,3 +373,73 @@ class Solution:
 
         return res + sign * operand
 ```
+
+**Solution 3: (Stack)**
+
+    1 + 1
+        ^
+op 1  1
+cur 1   1
+stk 1,1
+---------------
+     2-1 + 2
+           ^
+op 1  -1 1
+cur  201
+stk  1,3
+-------------------------
+    (1+(4+5+2)-3)+(6+8)
+                     ^
+op 1  11 1 1 -1  1
+cur  10 405 2  3   6
+stk 1,0 1,1 1,4
+              9
+              11
+            x
+          12
+          9
+         x
+      9
+        1,6
+
+```
+Runtime: 0 ms, Beats 100.00%
+Memory: 10.95 MB, Beats 36.50%
+```
+```c++
+class Solution {
+public:
+    int calculate(string s) {
+        int n = s.length(), i, op = 1;
+        long long cur = 0;
+        stack<pair<int, long long>> stk;
+        stk.push({1, 0});
+        for (i = 0; i < n; i ++) {
+            if (s[i] == ' ') {
+                stk.top().second += op*cur;
+                cur = 0;
+            } else if (s[i] == '+' || s[i] == '-') {
+                stk.top().second += op*cur;
+                cur = 0;
+                op = s[i] == '+' ? 1 : -1;
+            } else if (isdigit(s[i])) {
+                cur = cur*10 + s[i]-'0';
+                if (i == n-1) {
+                    stk.top().second += op*cur;
+                }
+            } else if (s[i] == '(') {
+                stk.push({op, 0});
+                op = 1;
+            } else {
+                auto [pop, pa] = stk.top();
+                pa += op*cur;
+                stk.pop();
+                stk.top().second += pop*pa;
+                op = 1;
+                cur = 0;
+            }
+        }
+        return stk.top().second;
+    }
+};
+```

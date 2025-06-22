@@ -91,3 +91,29 @@ public:
     }
 };
 ```
+
+**Solution 3: (Counter)**
+```
+Runtime: 14 ms, Beats 96.08%
+Memory: 87.45 MB, Beats 7.42%
+```
+```c++
+class Solution {
+public:
+    int partitionArray(vector<int>& nums, int k) {
+        int i, pre = -1000000, ans = 0, cnt[100001] = {0};
+        for (auto num: nums) {
+            cnt[num] += 1;
+        }
+        for (i = 0; i <= 100000; i ++) {
+            if (cnt[i]) {
+                if (i - pre > k) {
+                    ans += 1;
+                    pre = i;
+                }
+            }
+        }
+        return ans;
+    }
+};
+```

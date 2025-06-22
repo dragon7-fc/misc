@@ -202,3 +202,34 @@ public:
     }
 };
 ```
+
+**Solution 5: (Stack)**
+```
+Runtime: 1 ms, Beats 42.63%
+Memory: 21.46 MB, Beats 96.69%
+```
+```c++
+class Solution {
+public:
+    vector<int> asteroidCollision(vector<int>& asteroids) {
+        vector<int> ans;
+        for (auto asteroid: asteroids) {
+            if (!ans.size() || asteroid > 0) {
+                ans.push_back(asteroid);
+            } else {
+                while (ans.size() && ans.back() > 0 && ans.back() + asteroid < 0) {
+                    ans.pop_back();
+                }
+                if (ans.size() && ans.back() > 0) {
+                    if (ans.back() + asteroid == 0) {
+                        ans.pop_back();
+                    }
+                } else {
+                    ans.push_back(asteroid);
+                }
+            }
+        }
+        return ans;
+    }
+};
+```

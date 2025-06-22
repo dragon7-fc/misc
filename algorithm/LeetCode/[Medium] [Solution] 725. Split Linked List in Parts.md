@@ -384,9 +384,16 @@ public:
 ```
 
 **Solution 7: (Linked List)**
+
+d = 0
+r = 3
+    1 -> 2 -> 3
+              ^p  ^c
+ans ^    ^    ^   .    .
+
 ```
-Runtime: 0 ms Beats, 100.00%
-Memory: 13.68 MB, Beats 50.34%
+Runtime: 0 ms, Beats 100.00%
+Memory: 13.73 MB, Beats 16.47%
 ```
 ```c++
 /**
@@ -402,31 +409,29 @@ Memory: 13.68 MB, Beats 50.34%
 class Solution {
 public:
     vector<ListNode*> splitListToParts(ListNode* head, int k) {
-        int n = 0, d, r, i, cd;
-        ListNode *cur = head, *pre;
-        vector<ListNode*> ans(k);
+        int n = 0, d, r, i, ck;
+        ListNode *cur = head, *pre = nullptr;
         while (cur) {
             n += 1;
             cur = cur->next;
         }
+        vector<ListNode*> ans(k);
         d = n/k, r = n%k;
         cur = head;
         for (i = 0; i < k; i ++) {
+            ans[i] = cur;
+            ck = 0;
+            while (cur && ck < d + (i < r)) {
+                pre = cur;
+                cur = cur->next;
+                ck += 1;
+            }
+            if (pre) {
+                pre->next = nullptr;
+            }
             if (!cur) {
                 break;
             }
-            ans[i] = cur;
-            cd = 0;
-            while (cd < d) {
-                pre = cur;
-                cur = cur->next;
-                cd += 1;
-            }
-            if (i < r) {
-                pre = cur;
-                cur = cur->next;
-            }
-            pre->next = nullptr;
         }
         return ans;
     }

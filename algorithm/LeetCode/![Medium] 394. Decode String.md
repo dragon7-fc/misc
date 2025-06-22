@@ -225,33 +225,31 @@ char * decodeString(char * s){
         {0, ""}  -> {0, "accaccacc"}
 
 ```
-Runtime: 3 ms
-Memory Usage: 6.7 MB
+Runtime: 0 ms Beats, 100.00%
+Memory: 9.34 MB, Beats 63.57%
 ```
 ```c++
 class Solution {
 public:
     string decodeString(string s) {
-        stack<pair<int, string>> stk;
-        stk.push({-1, ""});
-        int n = 0;
+        stack<pair<int,string>> stk;
+        stk.push({0, ""});
+        int k = 0;
         for (auto c: s) {
-            if (isdigit(c)) {
-                n *= 10;
-                n += c-'0';
+            if (isalpha(c)) {
+                stk.top().second += c;
+            } else if (isdigit(c)) {
+                k = k*10 + c-'0';
             } else if (c == '[') {
-                stk.push({n, ""});
-                n = 0;
-            } else if (c == ']') {
-                auto [mul, str] = stk.top();
-                stk.pop();
-                string cur;
-                while (mul--) {
-                    cur += str;
-                }
-                stk.top().second += cur;
+                stk.push({k, ""});
+                k = 0;
             } else {
-                stk.top().second.push_back(c);
+                auto [k, s] = stk.top();
+                stk.pop();
+                while (k) {
+                    stk.top().second += s;
+                    k -= 1;
+                }
             }
         }
         return stk.top().second;

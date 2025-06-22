@@ -183,47 +183,45 @@ class MyQueue:
 ```
 
 **Solution 4: (Two Stacks)**
+
+           vpush
+stk    1 2 3
+stk2   3 2 1
+           ^pop
 ```
-Runtime: 0 ms
-Memory: 8.51 MB
+Runtime: 0 ms, Beats 100.00%
+Memory: 9.78 MB, Beats 26.42%
 ```
 ```c++
 class MyQueue {
-    stack<int> dp;
-    stack<int> dp2;
+    stack<int> stk, stk2;
 public:
     MyQueue() {
         
     }
     
     void push(int x) {
-        dp.push(x);
+        stk.push(x);
     }
     
     int pop() {
-        if (dp2.empty()) {
-            while(dp.size()) {
-                dp2.push(dp.top());
-                dp.pop();
-            }
-        }
-        int rst = dp2.top();
-        dp2.pop();
+        int rst = peek();
+        stk2.pop();
         return rst;
     }
     
     int peek() {
-        if (dp2.empty()) {
-            while(dp.size()) {
-                dp2.push(dp.top());
-                dp.pop();
+        if (stk2.empty()) {
+            while (stk.size()) {
+                stk2.push(stk.top());
+                stk.pop();
             }
         }
-        return dp2.top();
+        return stk2.top();
     }
     
     bool empty() {
-        return dp.empty() && dp2.empty();
+        return stk.size() == 0 && stk2.size() == 0;
     }
 };
 

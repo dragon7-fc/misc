@@ -158,3 +158,37 @@ class Solution:
                 stack.append(int(token))
         return stack.pop()
 ```
+
+**Solution 5: (Stack)**
+```
+Runtime: 0 ms, Beats 100.00%
+Memory: 17.08 MB, Beats 61.73%
+```
+```c++
+class Solution {
+public:
+    int evalRPN(vector<string>& tokens) {
+        stack<int> stk;
+        for (auto token: tokens) {
+            if (token == "+" || token == "-" || token == "*" || token == "/") {
+                auto b = stk.top();
+                stk.pop();
+                auto a = stk.top();
+                stk.pop();
+                if (token == "+") {
+                    stk.push(a+b);
+                } else if (token == "-") {
+                    stk.push(a-b);
+                } else if (token == "*") {
+                    stk.push(a*b);
+                } else {
+                    stk.push(a/b);
+                }
+            } else {
+                stk.push(stoi(token));
+            }
+        }
+        return stk.top();
+    }
+};
+```

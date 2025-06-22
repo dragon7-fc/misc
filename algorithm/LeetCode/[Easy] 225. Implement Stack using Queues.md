@@ -234,9 +234,14 @@ public:
 ```
 
 **Solution 4: (Queue)**
+
+    q 1
+      2 1
+      3 2 1
+
 ```
-Runtime: 3 ms
-Memory: 6.8 MB
+Runtime: 0 ms, Beats 100.00%
+Memory: 9.39 MB, Beats 86.27%
 ```
 ```c++
 class MyStack {
@@ -248,16 +253,18 @@ public:
     
     void push(int x) {
         q.push(x);
-        for (int i = 0; i < q.size() - 1; i ++) {
+        int k = q.size();
+        while (k > 1) {
             q.push(q.front());
             q.pop();
+            k -= 1;
         }
     }
     
     int pop() {
-        int val = q.front();
+        int rst = q.front();
         q.pop();
-        return val;
+        return rst;
     }
     
     int top() {

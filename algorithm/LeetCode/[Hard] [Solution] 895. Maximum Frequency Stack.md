@@ -431,35 +431,46 @@ void freqStackFree(FreqStack* obj) {
 */
 ```
 
-**Solution 4: (Stack of Stacks)**
+**Solution 4: (Counter, stack)**
+
+cnt
+    5,3
+    7,2
+    4,1
+g
+    1: 5,7,4
+    2: 5,7
+mx> 3: 5
+
 ```
-Runtime: 217 ms
-Memory Usage: 86.5 MB
+Runtime: 60 ms, Beats 45.45%
+Memory: 100.68 MB, Beats 78.46%
 ```
 ```c++
 class FreqStack {
-    unordered_map<int, int> freq;
-    unordered_map<int, stack<int>> group;
-    int maxfreq = 0;
+    unordered_map<int, int> cnt;
+    unordered_map<int,vector<int>> g;
+    int mx = 0;
 public:
     FreqStack() {
         
     }
     
     void push(int val) {
-        int f = freq[val] + 1;
-        freq[val] = f;
-        maxfreq = max(maxfreq, f);
-        group[f].push(val);
+        cnt[val] += 1;
+        g[cnt[val]].push_back(val);
+        mx = max(mx, cnt[val]);
     }
     
     int pop() {
-        int x = group[maxfreq].top();
-        group[maxfreq].pop();
-        freq[x] -= 1;
-        if (group[maxfreq].empty())
-            maxfreq -= 1;
-        return x;
+        int rst = g[mx].back();
+        g[mx].pop_back();
+        cnt[rst] -= 1;
+        if (g[mx].size() == 0) {
+            g.erase(mx);
+            mx -= 1;
+        }
+        return rst;
     }
 };
 
