@@ -264,3 +264,58 @@ public:
     }
 };
 ```
+
+**Solution 8: (Stack)**
+
+       >
+      > 1
+       /   \
+   > 2   p> 5
+   /  \      \
+> 3   > 4    > 6
+
+stk  5  4
+     x  x
+
+```
+Runtime: 0 ms, Beats 100.00%
+Memory: 17.74 MB, Beats 14.27%
+```
+```C++
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+class Solution {
+public:
+    void flatten(TreeNode* root) {
+        TreeNode *pre = nullptr;
+        stack<TreeNode*> stk;
+        if (root) {
+            stk.push(root);
+        }
+        while (stk.size()) {
+            auto node = stk.top();
+            stk.pop();
+            while (node) {
+                if (pre) {
+                    pre->left = nullptr;
+                    pre->right = node;
+                }
+                if (node->right) {
+                    stk.push(node->right);
+                }
+                pre = node;
+                node = node->left;
+            }
+        }
+    }
+};
+```

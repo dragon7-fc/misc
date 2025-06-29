@@ -197,3 +197,48 @@ int rob(struct TreeNode* root){
     return money.robMoney > money.notRobMoney ? money.robMoney : money.notRobMoney;
 }
 ```
+
+**Solution 5: (DP Bottom Up)**
+
+                    3 (8,9)
+                /        \
+              4  (4,4)    5 (5,1)
+           /    \        /
+         1       3     1
+        (1,0)   (3,0)  (1,0)
+
+```
+Runtime: 0 ms, Beats 100.00%
+Memory: 22.58 MB, Beats 64.05%
+```
+```c++
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+class Solution {
+    pair<int,int> dfs(TreeNode *node) {
+        if (!node) {
+            return {0, 0};
+        }
+        if (!node->left && !node->right) {
+            return {node->val, 0};
+        }
+        auto [al, bl] = dfs(node->left);
+        auto [ar, br] = dfs(node->right);
+        return {node->val + bl + br, max(al, bl) + max(ar, br)};
+    }
+public:
+    int rob(TreeNode* root) {
+        auto [a, b] = dfs(root);
+        return max(a, b);
+    }
+};
+```

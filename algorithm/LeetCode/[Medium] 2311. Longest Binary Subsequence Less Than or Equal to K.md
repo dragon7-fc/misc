@@ -102,3 +102,28 @@ public:
     }
 };
 ```
+
+**Solution 4: (Greedy)**
+```
+Runtime: 0 ms, Beats 100.00%
+Memory: 9.43 MB, Beats 73.55%
+```
+```c++
+class Solution {
+public:
+    int longestSubsequence(string s, int k) {
+        int n = s.length(), i, a = 0, ans = 0;
+        for (i = n-1; i >= 0; i --) {
+            if (s[i] == '1') {
+                if (n-1-i < 31 && a + (1<<(n-1-i)) <= k) {
+                    a += 1<<(n-1-i);
+                    ans = n-i;
+                }
+            } else {
+                ans += 1;
+            }
+        }
+        return ans;
+    }
+};
+```

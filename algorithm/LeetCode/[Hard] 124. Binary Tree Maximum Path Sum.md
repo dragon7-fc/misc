@@ -174,8 +174,8 @@ class Solution:
 
 **Solution 5: (DFS)**
 ```
-Runtime: 12 ms
-Memory: 27.9 MB
+Runtime: 0 ms, Beats 100.00%
+Memory: 29.28 MB, Beats 9.86%
 ```
 ```c++
 /**
@@ -190,15 +190,15 @@ Memory: 27.9 MB
  * };
  */
 class Solution {
-    int ans = 0;
-    int dfs(TreeNode* node, int &ans) {
+    int dfs(TreeNode *node, int &ans) {
         if (!node) {
             return 0;
         }
-        int left = dfs(node->left, ans);
-        int right = dfs(node->right, ans);
-        ans = max(ans, node->val + left + right);
-        return max(node->val + max(left, right), 0);
+        int left, right;
+        left = dfs(node->left, ans);
+        right = dfs(node->right, ans);
+        ans = max(ans, left + right + node->val);
+        return max({0, node->val, max(left, right) + node->val});
     }
 public:
     int maxPathSum(TreeNode* root) {

@@ -187,27 +187,30 @@ public:
 
 **Solution 4: (Heap)**
 ```
-Runtime: 56 ms
-Memory Usage: 19.8 MB
+Runtime: 3 ms, Beats 91.00%
+Memory: 32.96 MB, Beats 93.93%
 ```
 ```c++
 class KthLargest {
-    priority_queue<int> pq;
-    int k;
+    priority_queue<int,vector<int>,greater<int>> pq;
+    int sz;
 public:
     KthLargest(int k, vector<int>& nums) {
         for (auto num: nums) {
-            pq.push(-num);
-            if (pq.size() > k)
+            pq.push(num);
+            if (pq.size() > k) {
                 pq.pop();
+            }
         }
-        this->k = k;
+        sz = k;
     }
     
     int add(int val) {
-        pq.push(-val);
-        if(pq.size() > k) pq.pop();
-        return -pq.top();
+        pq.push(val);
+        if (pq.size() > sz) {
+            pq.pop();
+        }
+        return pq.top();
     }
 };
 
@@ -217,4 +220,3 @@ public:
  * int param_1 = obj->add(val);
  */
 ```
-

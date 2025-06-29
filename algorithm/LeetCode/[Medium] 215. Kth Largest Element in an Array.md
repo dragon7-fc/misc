@@ -193,3 +193,24 @@ public:
     }
 };
 ```
+
+**Solution 8: (Heap)**
+```
+Runtime: 36 ms, Beats 43.46%
+Memory: 61.45 MB, Beats 60.60%
+```
+```c++
+class Solution {
+public:
+    int findKthLargest(vector<int>& nums, int k) {
+        priority_queue<int, vector<int>, greater<int>> pq;
+        for (auto &num: nums) {
+            pq.push(num);
+            if (pq.size() > k) {
+                pq.pop();
+            }
+        }
+        return pq.top();
+    }
+};
+```

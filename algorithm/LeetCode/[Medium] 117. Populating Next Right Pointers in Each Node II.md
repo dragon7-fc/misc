@@ -161,8 +161,8 @@ struct Node* connect(struct Node* root) {
 
 **Solution 4: (BFS)**
 ```
-Runtime: 7 ms
-Memory: 18.76 MB
+Runtime: 4 ms, Beats 93.55%
+Memory: 18.88 MB, Beats 54.84%
 ```
 ```c++
 /*
@@ -186,20 +186,22 @@ public:
 class Solution {
 public:
     Node* connect(Node* root) {
-        if (!root) {
-            return nullptr;
-        }
+        int sz, i;
+        Node *pre;
         queue<Node*> q;
-        int sz;
-        q.push(root);
+        if (root) {
+            q.push(root);
+        }
         while (q.size()) {
             sz = q.size();
-            for (int i = 0; i < sz; i ++) {
+            pre = nullptr;
+            for (i = 0; i < sz; i ++) {
                 auto node = q.front();
                 q.pop();
-                if (i < sz-1) {
-                    node->next = q.front();
+                if (pre) {
+                    pre->next = node;
                 }
+                pre = node;
                 if (node->left) {
                     q.push(node->left);
                 }

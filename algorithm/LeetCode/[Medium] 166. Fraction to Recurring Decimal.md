@@ -227,35 +227,35 @@ char * fractionToDecimal(int numerator, int denominator){
 
 **Solution 4: (Hash Table)**
 ```
-Runtime: 0 ms
-Memory Usage: 6.3 MB
+Runtime: 0 ms, Beats 100.00%
+Memory: 9.52 MB, Beats 13.86%
 ```
 ```c++
 class Solution {
 public:
     string fractionToDecimal(int numerator, int denominator) {
-        if (numerator  == 0) return "0";
-        string ans ;
-        ans += ((numerator>0)^(denominator>0))?"-":"";
-        long n = abs(numerator), d = abs(denominator);
-        ans += to_string(n/d);
-        n = n%d;
-        if (!n) return ans;
-        ans += ".";
-        unordered_map<long ,int> mp;
-        mp[n] = ans.size();
-        while (n)
-        {
-            n *= 10;
-            ans += to_string(n/d);
-            n = n%d;
-            if (mp[n])
-            {
-                ans.insert(mp[n],"(");
-                ans += ")";
-                break;
+        if (numerator == 0) {
+            return "0";
+        } 
+        unordered_map<long long,int> m;
+        string ans = (numerator >= 0) ^ (denominator >= 0) ? "-":"";
+        long long r = abs((long long)numerator), d = abs((long long)denominator);
+        ans += to_string(r/d);
+        r %= d;
+        if (r) {
+            ans += ".";
+            while (r) {
+                r *= 10;
+                if (m.count(r)) {
+                    ans.insert(ans.begin() + m[r], "(");
+                    ans += ")";
+                    break;
+                } else {
+                    ans += to_string(r/d);
+                    m[r] = ans.length() - 1;
+                    r %= d;
+                }
             }
-            mp[n] = ans.size();
         }
         return ans;
     }

@@ -116,10 +116,10 @@ int** pathSum(struct TreeNode* root, int targetSum, int* returnSize, int** retur
 }
 ```
 
-**Solution 3: (DFS)**
+**Solution 3: (Backtracking)**
 ```
-Runtime: 20 ms
-Memory Usage: 19.9 MB
+Runtime: 0 ms, Beats 100.00%
+Memory: 21.02 MB, Beats 48.94%
 ```
 ```c++
 /**
@@ -134,21 +134,76 @@ Memory Usage: 19.9 MB
  * };
  */
 class Solution {
-    void dfs(TreeNode* root, int targetSum, vector<int>& path, vector<vector<int>>& ans) {
-        if (!root) return;
-        path.push_back(root->val);
-        if (!root->left && !root->right && targetSum == root->val) {
-            ans.push_back(path);
+    void bt(TreeNode *node, int targetSum, int a, vector<int> &p, vector<vector<int>> &ans) {
+        if (!node->left && !node->right) {
+            if (a == targetSum) {
+                ans.push_back(p);
+            }
+            return;
         }
-        dfs(root->left, targetSum - root->val, path, ans);
-        dfs(root->right, targetSum - root->val, path, ans);
-        path.pop_back();
+        if (node->left) {
+            p.push_back(node->left->val);
+            bt(node->left, targetSum, a + node->left->val, p, ans);
+            p.pop_back();
+        }
+        if (node->right) {
+            p.push_back(node->right->val);
+            bt(node->right, targetSum, a + node->right->val, p, ans);
+            p.pop_back();
+        }
+    }
+public:
+    vector<vector<int>> pathSum(TreeNode* root, int targetSum) {
+        if (!root) {
+            return {};
+        }
+        vector<vector<int>> ans;
+        vector<int> p;
+        p.push_back(root->val);
+        bt(root, targetSum, root->val, p, ans);
+        return ans;
+    }
+};
+```
+
+**Solution 4: (Backtracking)**
+```
+Runtime: 0 ms, Beats 100.00%
+Memory: 20.98 MB, Beats 68.67%
+```
+```c++
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+class Solution {
+    void bt(TreeNode *node, int targetSum, int a, vector<int> &p, vector<vector<int>> &ans) {
+        if (!node) {
+            return;
+        }
+        a += node->val;
+        p.push_back(node->val);
+        if (!node->left && !node->right) {
+            if (a == targetSum) {
+                ans.push_back(p);
+            }
+        }
+        bt(node->left, targetSum, a, p, ans);
+        bt(node->right, targetSum, a, p, ans);
+        p.pop_back();
     }
 public:
     vector<vector<int>> pathSum(TreeNode* root, int targetSum) {
         vector<vector<int>> ans;
-        vector<int> path;
-        dfs(root, targetSum, path, ans);
+        vector<int> p;
+        bt(root, targetSum, 0, p, ans);
         return ans;
     }
 };

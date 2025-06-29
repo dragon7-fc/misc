@@ -156,8 +156,8 @@ struct TreeNode* sortedArrayToBST(int* nums, int numsSize){
 
 **Solution 5: (DFS)**
 ```
-Runtime: 19 ms
-Memory Usage: 21.3 MB
+Runtime: 4 ms, Beats 36.08%
+Memory: 23.06 MB, Beats 23.38%
 ```
 ```c++
 /**
@@ -172,13 +172,14 @@ Memory Usage: 21.3 MB
  * };
  */
 class Solution {
-    TreeNode* dfs(int left, int right, vector<int>& nums) {
-        if (left > right)
+    TreeNode *dfs(int left, int right, vector<int> &nums) {
+        if (left == right) {
+            return new TreeNode(nums[left]);
+        } else if (left > right) {
             return nullptr;
-        int mid = (left + right) / 2;
-        TreeNode* node = new TreeNode(nums[mid]);
-        if (left == right)
-            return node;
+        }
+        int mid = left + (right-left)/2;
+        TreeNode *node = new TreeNode(nums[mid]);
         node->left = dfs(left, mid-1, nums);
         node->right = dfs(mid+1, right, nums);
         return node;

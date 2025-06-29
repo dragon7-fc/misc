@@ -129,3 +129,43 @@ struct TreeNode* buildTree(int* preorder, int preorderSize, int* inorder, int in
     return dfs(preorder, &p_index, preorderSize, inorder, 0, inorderSize-1);
 }
 ```
+
+**Solution 4: (DFS)**
+```
+Runtime: 6 ms, Beats 42.87%
+Memory: 27.05 MB, Beats 89.98%
+```
+```c++
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+class Solution {
+    TreeNode *dfs(int &i, int left, int right, vector<int> &preorder, vector<int> &inorder) {
+        if (left > right) {
+            return nullptr;
+        }
+        TreeNode *node = new TreeNode(preorder[i]);
+        i += 1;
+        if (left == right) {
+            return node;
+        }
+        int mid = find(inorder.begin() + left, inorder.end(), node->val) - inorder.begin();
+        node->left = dfs(i, left, mid-1, preorder, inorder);
+        node->right = dfs(i, mid+1, right, preorder, inorder);
+        return node;
+    }
+public:
+    TreeNode* buildTree(vector<int>& preorder, vector<int>& inorder) {
+        int i = 0;
+        return dfs(i, 0, inorder.size()-1, preorder, inorder);
+    }
+};
+```

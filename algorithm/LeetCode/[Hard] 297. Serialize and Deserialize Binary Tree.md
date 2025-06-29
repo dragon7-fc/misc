@@ -225,8 +225,8 @@ struct TreeNode* deserialize(char* data) {
 
 **Solution 4: (DFS)**
 ```
-Runtime: 30 ms
-Memory: 43.12 MB
+Runtime: 37 ms, Beats 19.08%
+Memory: 44.72 MB, Beats 15.39%
 ```
 ```c++
 /**
@@ -244,21 +244,20 @@ public:
     // Encodes a tree to a single string.
     string serialize(TreeNode* root) {
         if (!root) {
-            return "#:";
+            return ",";
         }
-        return to_string(root->val) + ":" + serialize(root->left) + serialize(root->right);
-
+        return to_string(root->val) + "," + serialize(root->left) + serialize(root->right);
     }
 
-    TreeNode *dfs(int &i, vector<string> &vals) {
-        if (vals[i] == "#") {
+    TreeNode *dfs(int &i, vector<string> &dp) {
+        if (dp[i] == "") {
             i += 1;
             return nullptr;
         }
-        TreeNode *node = new TreeNode(stoi(vals[i]));
+        TreeNode *node = new TreeNode(stoi(dp[i]));
         i += 1;
-        node->left = dfs(i, vals);
-        node->right = dfs(i, vals);
+        node->left = dfs(i, dp);
+        node->right = dfs(i, dp);
         return node;
     }
 
@@ -266,65 +265,17 @@ public:
     TreeNode* deserialize(string data) {
         stringstream ss(data);
         string s;
-        vector<string> vals;
-        while (getline(ss, s, ':')) {
-            vals.push_back(s);
-        }
+        vector<string> dp;
         int i = 0;
-        return dfs(i, vals);
-    }
-};
-```
-
-**Solution 5: (DFS)**
-```
-Runtime: 38 ms
-Memory: 38.7 MB
-```
-```c++
-/**
- * Definition for a binary tree node.
- * struct TreeNode {
- *     int val;
- *     TreeNode *left;
- *     TreeNode *right;
- *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
- * };
- */
-class Codec {
-public:
-
-    // Encodes a tree to a single string.
-    string serialize(TreeNode* root) {
-        if (!root) {
-            return "#:";
+        while (getline(ss, s, ',')) {
+            dp.push_back(s);
         }
-        return to_string(root->val) + ":" + serialize(root->left) + serialize(root->right);
-    }
-    TreeNode* dfs(int &i, string &data) {
-        if (data[i] == '#') {
-            i += 2;
-            return nullptr;
-        }
-        int k = 0;
-        while (data[i+k] != ':') {
-            k += 1;
-        }
-        TreeNode *node = new TreeNode(stoi(data.substr(i, k)));
-        i = i+k+1;
-        node->left = dfs(i, data);
-        node->right = dfs(i, data);
-        return node;
-    }
-
-    // Decodes your encoded data to tree.
-    TreeNode* deserialize(string data) {
-        int i = 0;
-        return dfs(i, data);
+        return dfs(i, dp);
     }
 };
 
 // Your Codec object will be instantiated and called as such:
 // Codec ser, deser;
 // TreeNode* ans = deser.deserialize(ser.serialize(root));
+/*
 ```

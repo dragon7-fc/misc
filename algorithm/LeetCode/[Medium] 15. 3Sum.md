@@ -1,21 +1,41 @@
 15. 3Sum
 
-Given an array `nums` of n integers, are there elements a, b, c in `nums` such that a + b + c = 0? Find all unique triplets in the array which gives the sum of zero.
+Given an integer array `nums`, return all the triplets `[nums[i], nums[j], nums[k]]` such that `i != j`, `i != k`, and `j != k`, and `nums[i] + nums[j] + nums[k] == 0`.
 
-Note:
+Notice that the solution set must not contain duplicate triplets.
 
-The solution set must not contain duplicate triplets.
+ 
 
-**Example:**
+**Example 1:**
 ```
-Given array nums = [-1, 0, 1, 2, -1, -4],
-
-A solution set is:
-[
-  [-1, 0, 1],
-  [-1, -1, 2]
-]
+Input: nums = [-1,0,1,2,-1,-4]
+Output: [[-1,-1,2],[-1,0,1]]
+Explanation: 
+nums[0] + nums[1] + nums[2] = (-1) + 0 + 1 = 0.
+nums[1] + nums[2] + nums[4] = 0 + 1 + (-1) = 0.
+nums[0] + nums[3] + nums[4] = (-1) + 2 + (-1) = 0.
+The distinct triplets are [-1,0,1] and [-1,-1,2].
+Notice that the order of the output and the order of the triplets does not matter.
 ```
+
+**Example 2:**
+```
+Input: nums = [0,1,1]
+Output: []
+Explanation: The only possible triplet does not sum up to 0.
+```
+
+**Example 3:**
+```
+Input: nums = [0,0,0]
+Output: [[0,0,0]]
+Explanation: The only possible triplet sums up to 0.
+```
+
+**Constraints:**
+
+* `3 <= nums.length <= 3000`
+* `-10^5 <= nums[i] <= 10^5`
 
 # Submissions
 ---
@@ -201,4 +221,48 @@ int** threeSum(int* nums, int numsSize, int* returnSize, int** returnColumnSizes
 
     return rst;
 }
+```
+
+**Solution 5: (Sort, Two Pointers)**
+
+    nums = [-1, 0, 1, 2, -1, -4]    
+            -4 -1 -1  0   1   2
+                ^  ^          ^
+                ^     ^   ^
+
+
+```
+Runtime: 47 ms, Beats 71.50%
+Memory: 29.02 MB, Beats 73.89%
+```
+```c++
+class Solution {
+public:
+    vector<vector<int>> threeSum(vector<int>& nums) {
+        int n = nums.size(), i, j, k;
+        sort(nums.begin(), nums.end());
+        vector<vector<int>> ans;
+        for (i = 0; i < n - 2; i ++) {
+            if (i && nums[i] == nums[i-1]) {
+                continue;
+            }
+            j = i+1, k = n-1;
+            while (j < k) {
+                if (nums[i] + nums[j] + nums[k] == 0) {
+                    ans.push_back({nums[i], nums[j], nums[k]});
+                    while (j < k && nums[j] == nums[j+1]) {
+                        j += 1;
+                    }
+                    j += 1;
+                    k -= 1;
+                } else if (nums[i] + nums[j] + nums[k] > 0) {
+                    k -= 1;
+                } else {
+                    j += 1;
+                }
+            }
+        }
+        return ans;
+    }
+};
 ```

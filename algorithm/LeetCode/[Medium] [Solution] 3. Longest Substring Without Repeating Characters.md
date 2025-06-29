@@ -295,23 +295,22 @@ public:
 };
 ```
 
-**Solution 5: (Sliding Window, map)**
+**Solution 5: (Sliding Window, Counter)**
 ```
-Runtime: 7 ms, Beats 68.22%
-Memory: 11.60 MB, Beats 78.72%
+Runtime: 0 ms, Beats 100.00%
+Memory: 11.34 MB, Beats 89.14%
 ```
 ```c++
 class Solution {
 public:
     int lengthOfLongestSubstring(string s) {
-        int n = s.size(), i = 0, j, ans = 0;
-        unordered_map<char,int> cnt;
+        int n = s.length(), i = 0, j, cnt[256] = {0}, ans = 0;
         for (j = 0; j < n; j ++) {
-            while (cnt[s[j]]) {
+            cnt[s[j]] += 1;
+            while (cnt[s[j]] > 1) {
                 cnt[s[i]] -= 1;
                 i += 1;
             }
-            cnt[s[j]] += 1;
             ans = max(ans, j-i+1);
         }
         return ans;

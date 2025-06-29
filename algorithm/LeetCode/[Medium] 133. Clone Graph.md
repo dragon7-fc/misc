@@ -216,8 +216,8 @@ public:
 
 **Solution 6: (BFS, Hash Table)**
 ```
-Runtime: 15 ms
-Memory Usage: 8.4 MB
+Runtime: 7 ms, Beats 22.32%
+Memory: 11.73, MB Beats 96.90%
 ```
 ```c++
 /*
@@ -247,24 +247,22 @@ public:
         if (!node) {
             return nullptr;
         }
-        unordered_map<Node*, Node*> seen;
+        unordered_map<Node*, Node*> m;
         queue<Node*> q;
         q.push(node);
-        seen[node] = new Node(node->val);
-        while (q.size() > 0) {
+        m[node] = new Node(node->val);
+        while (q.size()) {
             Node* cur = q.front();
             q.pop();
-            for (auto& node : cur->neighbors) {
-                // if the node has not been seen before, add it to the map and BFS queue
-                if (seen.find(node) == seen.end()) {
-                    seen[node] = new Node(node->val);
-                    q.push(node);
+            for (auto nei : cur->neighbors) {
+                if (!m.count(nei)) {
+                    m[nei] = new Node(nei->val);
+                    q.push(nei);
                 }
-                // construct neighbors
-                seen[cur]->neighbors.push_back(seen[node]);
+                m[cur]->neighbors.push_back(m[nei]);
             }
         }
-        return seen[node];
+        return m[node];
     }
 };
 ```

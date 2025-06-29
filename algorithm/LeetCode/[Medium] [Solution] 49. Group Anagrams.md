@@ -115,22 +115,22 @@ class Solution:
 
 **Solution 3: (Sort)**
 ```
-Runtime: 20 ms
-Memory: 24.53 MB
+Runtime: 17 ms, Beats 58.18%
+Memory: 26.11 MB, Beats 37.80%
 ```
 ```c++
 class Solution {
 public:
     vector<vector<string>> groupAnagrams(vector<string>& strs) {
-        unordered_map<string, vector<string>> dp;
-        string cur;
-        for (auto str: strs) {
-            cur = str;
-            sort(cur.begin(), cur.end());
-            dp[cur].push_back(str);
-        }
+        unordered_map<string, vector<string>> m;
+        string cs;
         vector<vector<string>> ans;
-        for (auto [k, v]: dp) {
+        for (auto s: strs) {
+            string cs = s;
+            sort(cs.begin(), cs.end());
+            m[cs].push_back(s);
+        }
+        for (auto [_, v]: m) {
             ans.push_back(v);
         }
         return ans;

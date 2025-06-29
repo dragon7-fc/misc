@@ -342,3 +342,95 @@ public:
     }
 };
 ```
+
+**Solution 5: (DFS, sorted map)**
+```
+Runtime: 3 ms, Beats 41.58%
+Memory: 17.26 MB, Beats 5.03%
+```
+```c++
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+class Solution {
+    map<int, map<int, multiset<int>>> m;
+    void dfs(TreeNode *node, int r, int c) {
+        if (!node) {
+            return;
+        }
+        m[c][r].insert(node->val);
+        dfs(node->left, r+1, c-1);
+        dfs(node->right, r+1, c+1);
+    }
+public:
+    vector<vector<int>> verticalTraversal(TreeNode* root) {
+        vector<vector<int>> ans;
+        dfs(root, 0, 0);
+        for (auto [_, cm]: m) {
+            ans.push_back({});
+            for (auto [r, rs]: cm) {
+                for (auto a: rs) {
+                    ans.back().push_back(a);
+                }
+            }
+        }
+        return ans;
+    }
+};
+```
+
+**Solution 6: (DFS, sorted map)**
+```
+Runtime: 4 ms, Beats 22.49%
+Memory: 16.40 MB, Beats 30.52%
+```
+```c++
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+class Solution {
+    map<pair<int,int>,  multiset<int>> m;
+    void dfs(TreeNode *node, int r, int c) {
+        if (!node) {
+            return;
+        }
+        m[{c, r}].insert(node->val);
+        dfs(node->left, r+1, c-1);
+        dfs(node->right, r+1, c+1);
+    }
+public:
+    vector<vector<int>> verticalTraversal(TreeNode* root) {
+        vector<vector<int>> ans;
+        dfs(root, 0, 0);
+        auto it = m.begin();
+        while (it != m.end()) {
+            ans.push_back({});
+            auto cit = it;
+            while (cit != m.end() && cit->first.first == it->first.first) {
+                for (auto a: cit->second) {
+                    ans.back().push_back(a);
+                }
+                cit++;
+            }
+            it = cit;
+        }
+        return ans;
+    }
+};
+```

@@ -144,20 +144,19 @@ class Solution:
 
 **Solution 5: (Hash Table, prefix sum)**
 ```
-Runtime: 29 ms
-Memory: 32.41 MB
+Runtime: 1 ms, Beats 92.92%
+Memory: 34.31 MB, Beats 97.40%
 ```
 ```c++
 class Solution {
 public:
     int subarraysDivByK(vector<int>& nums, int k) {
-        int cur = 0, ans = 0;
-        vector<int> cnt(k);
+        int n = nums.size(), i, a = 0, cnt[10001] = {0}, ans = 0;
         cnt[0] = 1;
-        for (auto num: nums) {
-            cur = (((cur+num) % k)+k) % k;
-            ans += cnt[cur];
-            cnt[cur] += 1;
+        for (i = 0; i < n; i ++) {
+            a = ((a + nums[i])%k + k)%k;
+            ans += cnt[a];
+            cnt[a] += 1;
         }
         return ans;
     }

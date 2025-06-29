@@ -268,11 +268,11 @@ public:
 
 **Solution 7: (DFS)**
 ```
-Runtime: 7 ms
-Memory: 9.7 MB
+Runtime: 0 ms, Beats 100.00%
+Memory: 12.60 MB, Beats 24.03%
 ```
 ```c++
-]/**
+/**
  * Definition for a binary tree node.
  * struct TreeNode {
  *     int val;
@@ -287,7 +287,7 @@ class Solution {
 public:
     TreeNode* invertTree(TreeNode* root) {
         if (!root) {
-            return NULL;
+            return nullptr;
         }
         swap(root->left, root->right);
         invertTree(root->left);

@@ -1,22 +1,32 @@
 18. 4Sum
 
-Given an array `nums` of n integers and an integer `target`, are there elements a, b, c, and d in `nums` such that `a + b + c + d = target`? Find all unique quadruplets in the array which gives the sum of `target`.
+Given an array nums of `n` integers, return an array of all the unique quadruplets `[nums[a], nums[b], nums[c], nums[d]]` such that:
 
-**Note:**
+* `0 <= a, b, c, d < n`
+* `a`, `b`, `c`, and `d` are distinct.
+* `nums[a] + nums[b] + nums[c] + nums[d] == target`
 
-The solution set must not contain duplicate quadruplets.
+You may return the answer in any order.
 
-**Example:**
+ 
+
+**Example 1:**
 ```
-Given array nums = [1, 0, -1, 0, -2, 2], and target = 0.
-
-A solution set is:
-[
-  [-1,  0, 0, 1],
-  [-2, -1, 1, 2],
-  [-2,  0, 0, 2]
-]
+Input: nums = [1,0,-1,0,-2,2], target = 0
+Output: [[-2,-1,1,2],[-2,0,0,2],[-1,0,0,1]]
 ```
+
+**Example 2:**
+```
+Input: nums = [2,2,2,2,2], target = 8
+Output: [[2,2,2,2]]
+```
+
+**Constraints:**
+
+* `1 <= nums.length <= 200`
+* `-10^9 <= nums[i] <= 10^9`
+* `-10^9 <= target <= 10^9`
 
 # Submissions
 ---
@@ -137,4 +147,48 @@ class Solution:
                         right -= 1
         ans = set([tuple(x) for x in ans])
         return ans
+```
+
+**Solution 4: (Two Pointers)**
+```
+Runtime: 24 ms, Beats 40.20%
+Memory: 17.48 MB, Beats 59.00%
+```
+```c++
+class Solution {
+public:
+    vector<vector<int>> fourSum(vector<int>& nums, int target) {
+        int n = nums.size(), i, j, k, l;
+        sort(nums.begin(), nums.end());
+        vector<vector<int>> ans;
+        for (i = 0; i < n-3; i ++) {
+            if (i && nums[i] == nums[i-1]) {
+                continue;
+            }
+            j = i+1;
+            while (j < n-2) {
+                k = j+1, l = n-1;
+                while (k < l) {
+                    if ((long long)nums[i] + nums[j] + nums[k] + nums[l] == target) {
+                        ans.push_back({nums[i], nums[j], nums[k], nums[l]});
+                        while (k < l && nums[k] == nums[k+1]) {
+                            k += 1;
+                        }
+                        k += 1;
+                        l -= 1;
+                    } else if ((long long)nums[i] + nums[j] + nums[k] + nums[l] > target) {
+                        l -= 1;
+                    } else {
+                        k += 1;
+                    }
+                }
+                while (j < n-2 && nums[j+1] == nums[j]) {
+                    j += 1;
+                }
+                j += 1;
+            }
+        }
+        return ans;
+    }
+};
 ```

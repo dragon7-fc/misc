@@ -132,55 +132,61 @@ class Solution:
 
 **Solution i: (Hash Table)**
 ```
-Runtime: 68 ms
-Memory Usage: 37 MB
+Runtime: 41 ms, Beats 59.41%
+Memory: 42.98 MB, Beats 27.65%
 ```
 ```c++
 class Solution {
 public:
     vector<string> spellchecker(vector<string>& wordlist, vector<string>& queries) {
-        auto devowel = [](string &word){
-            string s;
-            for (auto c: word) {
-                if (c == 'a' || c == 'e' || c == 'i' || c == 'o' || c == 'u')
-                    s += '*';
-                else
-                    s += c;
-            }
-            return s;
-        };
-        unordered_set<string> words_perfect;
-        for (auto &word: wordlist)
-            words_perfect.insert(word);
-        unordered_map<string, string> words_cap;
-        unordered_map<string, string> words_vow;
-
-        for (auto &word: wordlist) {
-            string wordlow;
-            for (auto c: word)
-                wordlow += tolower(c);
-            if (!words_cap.count(wordlow))
-                words_cap[wordlow] = word;
-            if (!words_vow.count(devowel(wordlow)))
-                words_vow[devowel(wordlow)] = word;
-        }
-        auto solve = [&](string &query) {
-            if (words_perfect.count(query))
-                return query;
-            string queryL;
-            for (auto c: query)
-                queryL += tolower(c);
-            if (words_cap.count(queryL))
-                return words_cap[queryL];
-
-            string queryLV = devowel(queryL);
-            if (words_vow.count(queryLV))
-                return words_vow[queryLV];
-            return string();
-        };
+        int i;
+        string wl, wlv, ql, qlv, VOWEL = "aeiou";
+        unordered_map<string,string> m, ml, mlv;
         vector<string> ans;
-        for (auto &query: queries)
-            ans.push_back(solve(query));
+        for (auto w: wordlist) {
+            m[w] = w;
+            wl = "";
+            for (auto c: w) {
+                wl += tolower(c);
+            }
+            if (!ml.count(wl)) {
+                ml[wl] = w;
+            }
+            wlv = wl;
+            for (i = 0; i < wlv.length(); i++) {
+                if (VOWEL.find(wlv[i]) != string::npos) {
+                    wlv[i] = '*';
+                }
+            }
+            if (!mlv.count(wlv)) {
+                mlv[wlv] = w;
+            }
+        }
+        for (auto q: queries) {
+            if (m.count(q)) {
+                ans.push_back(m[q]);
+                continue;
+            }
+            ql = "";
+            for (auto c: q) {
+                ql += tolower(c);
+            }
+            if (ml.count(ql)) {
+                ans.push_back(ml[ql]);
+                continue;
+            }
+            qlv = ql;
+            for (i = 0; i < qlv.length(); i ++) {
+                if (VOWEL.find(qlv[i]) != string::npos) {
+                    qlv[i] = '*';
+                }
+            }
+            if (mlv.count(qlv)) {
+                ans.push_back(mlv[qlv]);
+            } else {
+                ans.push_back("");
+            }
+        }
         return ans;
     }
 };

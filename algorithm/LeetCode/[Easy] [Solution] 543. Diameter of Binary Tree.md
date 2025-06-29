@@ -115,8 +115,8 @@ int diameterOfBinaryTree(struct TreeNode* root){
 
 **Solution 3: (DFS)**
 ```
-Runtime: 8 ms
-Memory: 18.94 MB
+Runtime: 0 ms, Beats 100.00%
+Memory: 23.68 MB, Beats 72.57%
 ```
 ```c++
 /**
@@ -131,15 +131,15 @@ Memory: 18.94 MB
  * };
  */
 class Solution {
-    int dfs(TreeNode* root, int &ans) {
-        if (!root) {
+    int dfs(TreeNode *node, int &ans) {
+        if (!node) {
             return 0;
         }
         int left, right;
-        left = dfs(root->left, ans);
-        right = dfs(root->right, ans);
+        left = dfs(node->left, ans);
+        right = dfs(node->right, ans);
         ans = max(ans, left + right);
-        return 1 + max(left, right);
+        return max(left, right) + 1;
     }
 public:
     int diameterOfBinaryTree(TreeNode* root) {

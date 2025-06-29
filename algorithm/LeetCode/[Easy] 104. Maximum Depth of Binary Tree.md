@@ -159,8 +159,8 @@ public:
 
 **Solution 6: (DFS)**
 ```
-Runtime: 10 ms
-Memory: 18.8 MB
+Runtime: 0 ms, Beats 100.00%
+Memory: 19.16 MB, Beats 13.85%
 ```
 ```c++
 /**
@@ -180,7 +180,10 @@ public:
         if (!root) {
             return 0;
         }
-        return 1 + max(maxDepth(root->left), maxDepth(root->right));
+        int left, right;
+        left = maxDepth(root->left);
+        right = maxDepth(root->right);
+        return max(left, right) + 1;
     }
 };
 ```

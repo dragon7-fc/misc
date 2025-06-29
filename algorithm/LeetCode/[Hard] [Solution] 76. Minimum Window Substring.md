@@ -298,28 +298,37 @@ char * minWindow(char * s, char * t){
 
 **Solution 3: (Sliding Window)**
 ```
-Runtime: 24 ms
-Memory: 7.7 MB
+Runtime: 14 ms, Beats 43.39%
+Memory: 12.23 MB, Beats 6.00%
 ```
 ```c++
 class Solution {
 public:
     string minWindow(string s, string t) {
-        vector<int> map(128,0);
-        for (auto c: t)
-            map[c]++;  // t only have positive count
-        int counter = t.size(), begin = 0, end = 0, d = INT_MAX, head = 0;
-        while (end < s.size()) {
-            if (map[s[end++]]-- > 0) 
-                counter--; //in t
-            while (counter == 0){ //valid
-                if (end-begin < d)
-                    d = end - (head = begin);
-                if (map[s[begin++]]++ == 0)
-                    counter++;  //make it invalid
-            }  
+        int n = s.size(), i = 0, j, k, ck = 0, mn = n+1;
+        string ans;
+        unordered_map<char,int> cnt, w;
+        for (auto c: t) {
+            cnt[c] += 1;
         }
-        return d == INT_MAX? "":s.substr(head, d);
+        k = cnt.size();
+        for (j = 0; j < n; j ++) {
+            w[s[j]] += 1;
+            if (cnt[s[j]] && w[s[j]] == cnt[s[j]]) {
+                ck += 1;
+            }
+            while (ck >= k && w[s[i]] > cnt[s[i]]) {
+                w[s[i]] -= 1;
+                i += 1;
+            }
+            if (ck >= k) {
+                if (j-i+1 < mn) {
+                    mn = j-i+1;
+                    ans = s.substr(i, j-i+1);
+                }
+            }
+        }
+        return ans;
     }
 };
 ```

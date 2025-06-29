@@ -171,3 +171,25 @@ int* twoSum(int* nums, int numsSize, int target, int* returnSize){
 	return res;
 }
 ```
+
+**Solution 4: (Hash Table)**
+```
+Runtime: 0 ms, Beats 100.00%
+Memory: 14.90 MB, Beats 21.63%
+```
+```c++
+class Solution {
+public:
+    vector<int> twoSum(vector<int>& nums, int target) {
+        int n = nums.size(), i;
+        unordered_map<int,int> m;
+        for (i = 0; i < n; i ++) {
+            if (m.count(target - nums[i])) {
+                return {m[target - nums[i]], i};
+            }
+            m[nums[i]] = i;
+        }
+        return {-1, -1};
+    }
+};
+```

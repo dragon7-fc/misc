@@ -175,3 +175,48 @@ int distributeCoins(struct TreeNode* root){
     return ans;
 }
 ```
+
+**Solution 4: (DFS)**
+
+                   16
+          0
+        /4  \ -3
+      0       0   
+    6 / \-1 -1/  \-1
+    7   0   0    0 
+
+```
+Runtime: 0 ms, Beats 100.00%
+Memory: 16.70 MB, Beats 29.16%
+```
+```c++
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+class Solution {
+    int dfs(TreeNode *node, int &ans) {
+        if (!node) {
+            return 0;
+        }
+        int left, right;
+        left = dfs(node->left, ans);
+        right = dfs(node->right, ans);
+        ans += abs(left) + abs(right);
+        return node->val + left + right - 1;
+    }
+public:
+    int distributeCoins(TreeNode* root) {
+        int ans = 0;
+        dfs(root, ans);
+        return ans;
+    }
+};
+```

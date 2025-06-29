@@ -332,35 +332,6 @@ public:
 };
 ```
 
-**Solution 5: (Sort)**
-```
-Runtime: 22 ms
-Memory: 12.6 MB
-```
-```c++
-class Solution {
-public:
-    vector<string> topKFrequent(vector<string>& words, int k) {
-        unordered_map<string, int> cnt;
-        for (string &word: words) {
-            cnt[word] += 1;
-        }
-        vector<string> keys;
-        for (auto &[key, val]: cnt) {
-            keys.push_back(key);
-        }
-        sort(keys.begin(), keys.end(), [&](string &w1, string &w2){
-            if (cnt[w1] != cnt[w2]) {
-                return cnt[w1] > cnt[w2];
-            } else {
-                return w1 < w2;
-            }
-        });
-        return vector(keys.begin(), keys.begin()+k);
-    }
-};
-```
-
 **Solution 5: (Heap)**
 ```
 Runtime: 34 ms
@@ -393,6 +364,40 @@ public:
             q.pop();
         }
         
+        return ans;
+    }
+};
+```
+
+**Solution 6: (Sort)**
+```
+Runtime: 0 ms, Beats 100.00%
+Memory: 17.22 MB, Beats 77.83%
+```
+```c++
+class Solution {
+public:
+    vector<string> topKFrequent(vector<string>& words, int k) {
+        unordered_map<string,int> cnt;
+        vector<pair<int,string>> dp;
+        vector<string> ans;
+        int i;
+        for (auto w: words) {
+            cnt[w] += 1;
+        }
+        for (auto [s, k]: cnt) {
+            dp.push_back({k, s});
+        }
+        sort(dp.begin(), dp.end(), [](auto &pa, auto &pb){
+            if (pa.first != pb.first) {
+                return pa.first > pb.first;
+            } else {
+                return pa.second < pb.second;
+            }
+        });
+        for (i = 0; i < k; i ++) {
+            ans.push_back(dp[i].second);
+        }
         return ans;
     }
 };

@@ -139,28 +139,26 @@ public:
 
 **Solution 4: (Sliding Window, Counter)**
 ```
-Runtime: 77 ms
-Memory Usage: 12.7 MB
+Runtime: 0 ms, Beats 100.00%
+Memory: 11.41 MB, Beats 84.52%
 ```
 ```c++
 class Solution {
 public:
     vector<int> findAnagrams(string s, string p) {
-        int M = s.size(), N = p.size();
-        unordered_map<char, int> t, cnt;
-        vector<int> ans;
-        for (int i = 0; i < N; i ++) {
-            t[p[i]] += 1;
+        int m = s.size(), n = p.size(), i = 0, j;
+        vector<int> cnt(26), w(26), ans;
+        for (auto c: p) {
+            cnt[c - 'a'] += 1;
         }
-        for (int i = 0; i < M; i ++) {
-            cnt[s[i]] += 1;
-            if (cnt == t)
-                ans.push_back(i-N+1);
-            if (i >= N-1) {
-                if (cnt[s[i-N+1]] > 1)
-                    cnt[s[i-N+1]] -= 1;
-                else
-                    cnt.erase(s[i-N+1]);
+        for (j = 0; j < m; j ++) {
+            w[s[j] - 'a'] += 1;
+            if (j >= n-1) {
+                if (w == cnt) {
+                    ans.push_back(j - n + 1);
+                }
+                w[s[i] - 'a'] -= 1;
+                i += 1;
             }
         }
         return ans;

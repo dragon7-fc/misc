@@ -201,10 +201,34 @@ struct TreeNode* deleteNode(struct TreeNode* root, int key){
 }
 ```
 
-**Solution 4: (DFS, Post Order)**
+**Solution 4: (DFS, Pre order, Early stop, binary search)**
+
+case 1:
+             1
+           /
+          2x
+        /
+       3
+
+case 2:
+             1
+              \
+               2x
+                \
+                 3
+case 3:
+
+             5
+           /   \
+      p> 3x <r  6
+        /  \     \
+   pn> 2 <  4x     7
+        \   v  
+       n> 4+
+
 ```
-Runtime: 28 ms
-Memory: 32.20 MB
+Runtime: 0 ms, Beats 100.00%
+Memory: 34.24 MB, Beats 62.89%
 ```
 ```c++
 /**

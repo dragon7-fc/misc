@@ -146,7 +146,7 @@ struct TreeNode* lcaDeepestLeaves(struct TreeNode* root){
 
 ```
 Runtime: 0 ms, Beats 100.00%
-Memory: 21.94 MB, Beats 87.17%
+Memory: 23.14 MB, Beats 16.07%
 ```
 ```c++
 /**
@@ -161,26 +161,26 @@ Memory: 21.94 MB, Beats 87.17%
  * };
  */
 class Solution {
-    pair<TreeNode*, int>dfs(TreeNode *node, int d) {
+    pair<int,TreeNode*> dfs(TreeNode *node, int d) {
         if (!node) {
-            return {nullptr, -1};
+            return {-1, nullptr};
         }
         if (!node->left && !node->right) {
-            return {node, d};
+            return {d, node};
         }
-        auto [left, dl] = dfs(node->left, d+1);
-        auto [right, dr] = dfs(node->right, d+1);
-        if (dl == dr) {
-            return {node, dl};
-        } else if (dl > dr) {
-            return {left, dl};
+        auto [left, lnode] = dfs(node->left, d+1);
+        auto [right, rnode] = dfs(node->right, d+1);
+        if (left == right) {
+            return {max(left, d), node};
+        } else if (left > right) {
+            return {left, lnode};
         } else {
-            return {right, dr};
+            return {right, rnode};
         }
     }
 public:
     TreeNode* lcaDeepestLeaves(TreeNode* root) {
-        return dfs(root, 0).first;
+        return dfs(root, 0).second;
     }
 };
 ```

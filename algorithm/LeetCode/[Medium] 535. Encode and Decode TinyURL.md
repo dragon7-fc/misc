@@ -154,28 +154,26 @@ char* decode(char* shortUrl) {
 
 **Solution 4: (Hash Table)**
 ```
-Runtime: 4 ms
-Memory Usage: 7.2 MB
+Runtime: 0 ms, Beats 100.00%
+Memory: 10.60 MB, Beats 30.61%
 ```
 ```c++
 class Solution {
-    unordered_map<string, string> mp;
-    int cnt = 0;
+    vector<string> dp;
+    unordered_map<string,int> m;
 public:
+
     // Encodes a URL to a shortened URL.
     string encode(string longUrl) {
-        mp[longUrl] = to_string(cnt);
-        cnt += 1;
-        return mp[longUrl];
+        m[longUrl] = dp.size();
+        string rst = to_string(dp.size());
+        dp.push_back(longUrl);
+        return rst;
     }
 
     // Decodes a shortened URL to its original URL.
     string decode(string shortUrl) {
-        for (auto [el_long, el_short]: mp) {
-            if (shortUrl == el_short)
-                return el_long;
-        }
-        return "";
+        return dp[stoi(shortUrl)];
     }
 };
 

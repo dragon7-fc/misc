@@ -119,3 +119,92 @@ bool isValidBST(struct TreeNode* root){
     return dfs(root, LLONG_MIN, LLONG_MAX);
 }
 ```
+
+**Solution 5: (DFS, postorder)**
+```
+Runtime: 0 ms, Beats 100.00%
+Memory: 23.09 MB, Beats 9.31%
+```
+```c++
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+class Solution {
+    pair<long long,long long> dfs(TreeNode *node, bool &ans) {
+        if (!node) {
+            return {LONG_LONG_MAX, LONG_LONG_MIN};
+        }
+        if (!node->left && !node->right) {
+            return {node->val, node->val};
+        } 
+        if (!ans) {
+            return {LONG_LONG_MAX, LONG_LONG_MIN};
+        }
+        long long lleft, lright, rleft, rright;
+        auto pa = dfs(node->left, ans);
+        lleft = pa.first;
+        lright = pa.second;
+        auto pb = dfs(node->right, ans);
+        rleft = pb.first;
+        rright = pb.second;
+        if (node->val <= lright || node->val >= rleft) {
+            ans = false;
+        } 
+        return {min({lleft, rleft, (long long)node->val}), max({lright, rright, (long long)node->val})};
+    }
+public:
+    bool isValidBST(TreeNode* root) {
+        bool ans = true;
+        dfs(root, ans);
+        return ans;
+    }
+};
+```
+
+**Solution 5: (DFS, preorder)**
+```
+Runtime: 0 ms, Beats 100.00%
+Memory: 21.94 MB, Beats 46.44%
+```
+```c++
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+class Solution {
+    bool dfs(TreeNode *node, long long left, long long right) {
+        if (!node) {
+            return true;
+        }
+        if (node->val <= left || node->val >= right) {
+            return false;
+        } 
+        if (node->left && !dfs(node->left, left, node->val)) {
+            return false;
+        }
+        if (node->right && !dfs(node->right, node->val, right) ) {
+            return false;
+        }
+        return true;
+    }
+public:
+    bool isValidBST(TreeNode* root) {
+        return dfs(root, LONG_LONG_MIN, LONG_LONG_MAX);
+    }
+};
+```

@@ -80,14 +80,25 @@ class RandomizedSet:
 ```
 
 **Solution 2: (Hash Table, Array)**
+
+m:
+    1,0
+    2,1x
+    3,2
+    4,3->1
+    ^    ^
+dp
+    1 2 3 4
+      4   x
+
 ```
-Runtime: 178 ms
-Memory: 97.34 MB
+Runtime: 45 ms, Beats 62.11%
+Memory: 113.21 MB, Beats 55.73%
 ```
 ```c++
 class RandomizedSet {
     vector<int> dp;
-    unordered_map<int, int> m;
+    unordered_map<int,int> m;
 public:
     RandomizedSet() {
         
@@ -97,8 +108,8 @@ public:
         if (m.count(val)) {
             return false;
         }
-        m[val] = dp.size();
         dp.push_back(val);
+        m[val] = dp.size()-1;
         return true;
     }
     
@@ -106,9 +117,8 @@ public:
         if (!m.count(val)) {
             return false;
         }
-        int i = m[val];
-        dp[i] = dp.back();
-        m[dp.back()] = i;
+        m[dp.back()] = m[val];
+        dp[m[val]] = dp.back();
         m.erase(val);
         dp.pop_back();
         return true;

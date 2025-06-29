@@ -6882,58 +6882,48 @@ class MagicDictionary:
 ```
 * [Medium] [Solution] 676. Implement Magic Dictionary
 
-### Random
-```python
-class RandomizedSet:
+### Random, when delete, swap with last element
+```c++
+class RandomizedSet {
+    vector<int> dp;
+    unordered_map<int,int> m;
+public:
+    RandomizedSet() {
+        
+    }
+    
+    bool insert(int val) {
+        if (m.count(val)) {
+            return false;
+        }
+        dp.push_back(val);
+        m[val] = dp.size()-1;
+        return true;
+    }
+    
+    bool remove(int val) {
+        if (!m.count(val)) {
+            return false;
+        }
+        m[dp.back()] = m[val];
+        dp[m[val]] = dp.back();
+        m.erase(val);
+        dp.pop_back();
+        return true;
+    }
+    
+    int getRandom() {
+        return dp[rand()%dp.size()];
+    }
+};
 
-    def __init__(self):
-        """
-        Initialize your data structure here.
-        """
-        self.dic = {}
-        self.list = []
-
-
-    def insert(self, val: int) -> bool:
-        """
-        Inserts a value to the set. Returns true if the set did not already contain the specified element.
-        """
-        if val in self.dic:
-            return False
-        self.list.append(val)
-        self.dic[val] = len(self.list) - 1
-        return True
-
-
-    def remove(self, val: int) -> bool:
-        """
-        Removes a value from the set. Returns true if the set contained the specified element.
-        """
-        if val not in self.dic:
-            return False
-        if self.dic[val] == len(self.list) - 1:
-            del self.dic[val]
-        else:
-            idx = self.dic[val] 
-            self.list[idx] = self.list[-1]
-            self.dic[self.list[idx]] = idx
-            del self.dic[val]
-        self.list.pop()
-        return True
-
-
-    def getRandom(self) -> int:
-        """
-        Get a random element from the set.
-        """
-        return self.list[random.randint(0, len(self.list) - 1)]
-
-
-# Your RandomizedSet object will be instantiated and called as such:
-# obj = RandomizedSet()
-# param_1 = obj.insert(val)
-# param_2 = obj.remove(val)
-# param_3 = obj.getRandom()
+/**
+ * Your RandomizedSet object will be instantiated and called as such:
+ * RandomizedSet* obj = new RandomizedSet();
+ * bool param_1 = obj->insert(val);
+ * bool param_2 = obj->remove(val);
+ * int param_3 = obj->getRandom();
+ */
 ```
 * [Medium] 380. Insert Delete GetRandom O(1)
 
@@ -7609,22 +7599,46 @@ class Solution:
 * [Medium] 1026. Maximum Difference Between Node and Ancestor
 
 ### Seen node hash table
-```python
-class Solution:
-    def cloneGraph(self, node: 'Node') -> 'Node':
-        seen = {}
+```c++
+/*
+// Definition for a Node.
+class Node {
+public:
+    int val;
+    vector<Node*> neighbors;
+    Node() {
+        val = 0;
+        neighbors = vector<Node*>();
+    }
+    Node(int _val) {
+        val = _val;
+        neighbors = vector<Node*>();
+    }
+    Node(int _val, vector<Node*> _neighbors) {
+        val = _val;
+        neighbors = _neighbors;
+    }
+};
+*/
 
-        def dfs(node):
-            if node in seen:
-                return seen[node]
-
-            new_node = Node(node.val, [])
-            seen[node] = new_node
-            for nei in node.neighbors:
-                new_node.neighbors.append(dfs(nei))
-            return new_node
-
-        return dfs(node)
+class Solution {
+    unordered_map<Node*, Node*> dp;
+public:
+    Node* cloneGraph(Node* node) {
+        if (!node) {
+            return nullptr;
+        }
+        if (dp.count(node)) {
+            return dp[node];
+        }
+        Node *cur = new Node(node->val);
+        dp[node] = cur;
+        for (auto c: node->neighbors) {
+            cur->neighbors.push_back(cloneGraph(c));
+        }
+        return cur;
+    }
+};
 ```
 * [Medium] 133. Clone Graph
 
@@ -7659,40 +7673,44 @@ class Solution:
 ```
 * [Medium] 399. Evaluate Division
 
-### Delete Node in a BST
-```python
-# Definition for a binary tree node.
-# class TreeNode:
-#     def __init__(self, x):
-#         self.val = x
-#         self.left = None
-#         self.right = None
-
-class Solution:
-    def findMin(self, node):
-        if node is None:
-            return
-        while node.left:
-            node = node.left
-        return node
-
-    def deleteNode(self, root: TreeNode, key: int) -> TreeNode:
-        if root is None:
-            return
-        if root.val == key:
-            if root.left is None:
-                return root.right
-            if root.right is None:
-                return root.left
-
-            temp = self.findMin(root.right)
-            root.val = temp.val
-            root.right = self.deleteNode(root.right, temp.val)
-        elif key < root.val:
-            root.left = self.deleteNode(root.left, key)
-        else:
-            root.right = self.deleteNode(root.right, key)
-        return root
+### DFS, Pre order, Early stop, binary search
+```c++
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+class Solution {
+public:
+    TreeNode* deleteNode(TreeNode* root, int key) {
+        if (!root) {
+            return nullptr;
+        }
+        if (root->val == key) {
+            if (!root->left || !root->right) {
+                return !root->left ? root->right : root->left;
+            }
+            TreeNode *node = root->left, *par = root;
+            while (node) {
+                par = node;
+                node = node->right;
+            }
+            par->right = root->right;
+            return root->left;
+        } else if (root->val < key) {
+            root->right = deleteNode(root->right, key);
+        } else {
+            root->left = deleteNode(root->left, key);
+        }
+        return root;
+    }
+};
 ```
 * [Medium] * 450. Delete Node in a BST
 
@@ -8334,7 +8352,26 @@ if XXX:
 return ans
 ```
 
-**Template 2: (DFS, Matrix)**
+**Template 2: (DFS, preorder)**
+```python
+ans = ...
+def dfs(.. a b):
+    if not ...:
+        return
+    if ... a || ... b:
+        return ...
+    a = ... a
+    b = ... b
+    return dfs(... a b)
+a = ...
+b = ...
+XXX = dfs(... a b)
+if XXX:
+    ans ...
+return ans
+```
+
+**Template 3: (DFS, Matrix)**
 ```python
 # 1. Check for an empty graph.
 if not matrix:
@@ -8365,7 +8402,7 @@ for i in range(rows):
         dfs(i, j)
 ```
 
-**Template 3: (DFS, Cycle)**
+**Template 4: (DFS, Cycle)**
 ```python
 seen = [0 for _ in range(N)]
 def is_cycle(i):
@@ -8385,7 +8422,7 @@ for i in range(N):
 return False
 ```
 
-**Template 4: (DFS, connected component)**
+**Template 5: (DFS, connected component)**
 ```python
 g = [set() for ...]
 for i, j in ...:
@@ -11592,65 +11629,6 @@ class Solution:
 ```
 * [Hard] 1537. Get the Maximum Score
 
-
-**Template 2: (Sliding window)**
-```python
-left, right = 0, N-1
-while left < right:
-    while ...:
-        left += 1
-    while ...:
-        right -= 1
-    ans = ...left...right...
-    
-return ans
-```
-
-**Template 3: (Sliding window)**
-```python
-i = 0
-count = collections.Counter(nums)
-for j, x in enumerate(N):
-    count[x] += 1
-    while ...:
-        count[nums[i]] -= 1
-        if count[nums[i]] == 0:
-            del count[i]
-        i += 1
-    ans = max(ans, j - i + 1)
-
-return ans
-```
-
-**Template 4: (Advanced Sliding Window, Non-shrinkable)**
-```python
-ans = []
-A.sort()
-i = 0
-for j in ragen(len(A)):
-    cur = ...
-    max_profix = ... cur ...
-    if max_profit > limit:
-        i += 1
-        
-return A.size() - i
-```
-
-**Template 4: (Two Pointers, Binary Search)**
-```python
-for i in range(N):
-    left, right = i+1, N-1
-    while left < right:
-        if ...[left] + ...[right] == target:
-            ans = max(ans, right - left + 1)
-        elif ...[left] + ...[right] < target:
-            left += 1
-        elif ...[left] + ...[right] > target:
-            right -= 1
-
-return ans
-```
-
 ## Stack <a name="stack"></a>
 ---
 ### function call stack simulation
@@ -13355,10 +13333,10 @@ def backtrack(index, path):
     if ...:
         ans.append(path)
         return
-    for i in range(index, N):
+    for i in range(index + 1, N):
         if ...:
             path.append(...)
-            backtrack(i+1, path + ...[i])
+            backtrack(i + 1, path)
             path.pop()
 backtrack(0, [])
 return ans
@@ -13367,17 +13345,17 @@ return ans
 **Template 2: (Backtracking)**
 ```python
 ans = []
-seen = [False]*N
-def backtrack(...):
+def backtrack(... a path ...):
     if ...:
-        ans.append(...)
         return
+    a += ...
+    path += [...]
+    if a == ...:
+        ans.append(path)
     for i in range(...):
-        if not seen[i]:
-            seen[i] = True
-            backtrack(...)
-            seen[i] = False
-backtrack(...)
+        backtrack(... a path ...)
+    path.pop()
+backtrack(... 0 path ...)
 return ans
 ```
 
@@ -14873,39 +14851,6 @@ class Solution:
         return convert(0, size - 1)
 ```
 * [Medium] [Solution] 109. Convert Sorted List to Binary Search Tree
-
-### Hash Table pointer
-```python
-"""
-# Definition for a Node.
-class Node:
-    def __init__(self, val, next, random):
-        self.val = val
-        self.next = next
-        self.random = random
-"""
-class Solution:
-    def copyRandomList(self, head: 'Node') -> 'Node':
-        if not head:
-            return None
-
-        copy_dict = {}
-        cur = head
-        while cur:
-            copy_dict[cur] = Node(cur.val, None, None)
-            cur = cur.next
-
-        cur = head
-        while cur:
-            if cur.next:
-                copy_dict[cur].next = copy_dict[cur.next]
-            if cur.random:
-                copy_dict[cur].random = copy_dict[cur.random]
-            cur = cur.next
-
-        return copy_dict[head]
-```
-* [Medium] 138. Copy List with Random Pointer
 
 ### Split Input List
 ```python
@@ -17234,7 +17179,76 @@ for j in range(N):
         i += 1
     max = j - i + 1
 ```
+**Template 2: (Sliding window)**
+```python
+left, right = 0, N-1
+while left < right:
+    if ... == False :
+        right -= 1
+    else:
+        ans = ...left...right...
+        left += 1
+    
+return ans
+```
 
+**Template 3: (Sliding window)**
+```python
+left, right = 0, N-1
+while left < right:
+    while ...:
+        left += 1
+    while ...:
+        right -= 1
+    ans = ...left...right...
+    
+return ans
+```
+
+**Template 4: (Sliding window)**
+```python
+i = 0
+count = collections.Counter(nums)
+for j, x in enumerate(N):
+    count[x] += 1
+    while ...:
+        count[nums[i]] -= 1
+        if count[nums[i]] == 0:
+            del count[i]
+        i += 1
+    ans = max(ans, j - i + 1)
+
+return ans
+```
+
+**Template 5: (Advanced Sliding Window, Non-shrinkable)**
+```python
+ans = []
+A.sort()
+i = 0
+for j in ragen(len(A)):
+    cur = ...
+    max_profix = ... cur ...
+    if max_profit > limit:
+        i += 1
+        
+return A.size() - i
+```
+
+**Template 6: (Sliding Window, Binary Search)**
+```python
+for i in range(N):
+    left, right = i+1, N-1
+    while left < right:
+        if ...[left] + ...[right] == target:
+            ans = max(ans, right - left + 1)
+        elif ...[left] + ...[right] < target:
+            left += 1
+        elif ...[left] + ...[right] > target:
+            right -= 1
+
+return ans
+```
 ## Divide and Conquer <a name="dc"></a>
 ---
 ### Merge Sort, Postorder

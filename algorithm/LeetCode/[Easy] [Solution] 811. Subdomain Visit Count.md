@@ -166,38 +166,35 @@ char ** subdomainVisits(char ** cpdomains, int cpdomainsSize, int* returnSize){
 }
 ```
 
-**Solution 3: (Hash Table)**
+**Solution 3: (Hash Table, String)**
 ```
-Runtime: 12 ms
-Memory Usage: 11.6 MB
+Runtime: 0 ms, Beats 100.00%
+Memory: 16.49 MB, Beats 30.51%
 ```
 ```c++
 class Solution {
 public:
     vector<string> subdomainVisits(vector<string>& cpdomains) {
-        unordered_map<string, int> umap;
-        int n = cpdomains.size();
-
-        for(int i=0; i<n; i++) {
-            size_t found = cpdomains[i].find(' ');
-           if(found != string::npos) {
-               int rep = stoi(cpdomains[i].substr(0, found));
-               string s = cpdomains[i].substr(found+1);
-               for(int j = s.size()-1; j>=0; j--) {
-                   if(s[j] == '.') {
-                       umap[s.substr(j+1)]+=rep;
-                   }
-                   if(j == 0) {
-                       umap[s.substr(j)]+=rep;
-                   }
-               }
-           }
+        int i, k;
+        string s;
+        unordered_map<string,int> cnt;
+        vector<string> ans;
+        for (auto domain: cpdomains) {
+            stringstream ss(domain);
+            getline(ss, s, ' ');
+            k = stoi(s);
+            getline(ss, s, ' ');
+            cnt[s] += k;
+            for (i = 1; i < s.length(); i ++) {
+                if (s[i] == '.') {
+                    cnt[s.substr(i+1)] += k;
+                }
+            }
         }
-        vector<string> result;
-        for(auto kv : umap) {
-            result.push_back(to_string(kv.second) + ' ' + kv.first);
+        for (auto [cs, ck]: cnt) {
+            ans.push_back(to_string(ck) + " " + cs);
         }
-        return result;
+        return ans;
     }
 };
 ```

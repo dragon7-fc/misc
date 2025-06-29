@@ -179,3 +179,30 @@ public:
     }
 };
 ```
+
+**Solution 4: (Counter)**
+```
+Runtime: 0 ms, Beats 100.00%
+Memory: 14.71 MB, Beats 8.53%
+```
+```c++
+class Solution {
+public:
+    vector<int> intersection(vector<int>& nums1, vector<int>& nums2) {
+        int i, cnt[1001] = {0}, cnt2[1001] = {0};
+        vector<int> ans;
+        for (auto num: nums1) {
+            cnt[num] += 1;
+        }
+        for (auto num: nums2) {
+            cnt2[num] += 1;
+        }
+        for (i = 0; i <= 1000; i ++) {
+            if (cnt[i] && cnt2[i]) {
+                ans.push_back(i);
+            }
+        }
+        return ans;
+    }
+};
+```

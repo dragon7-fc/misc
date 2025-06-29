@@ -69,3 +69,38 @@ bool hasPathSum(struct TreeNode* root, int targetSum){
     return hasPathSum(root->left, targetSum - root->val) || hasPathSum(root->right, targetSum - root->val);
 }
 ```
+
+**Solution 3: (DFS)**
+```
+Runtime: 0 ms, Beats 100.00%
+Memory: 21.54 MB, Beats 34.19%
+```
+```c++
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+class Solution {
+    bool dfs(TreeNode *node, int p, int target) {
+        if (!node) {
+            return false;
+        }
+        p += node->val;
+        if (!node->left && !node->right) {
+            return p == target;
+        }
+        return dfs(node->left, p, target) || dfs(node->right, p, target);
+    }
+public:
+    bool hasPathSum(TreeNode* root, int targetSum) {
+        return dfs(root, 0, targetSum);
+    }
+};
+```

@@ -365,3 +365,43 @@ int pathSum(struct TreeNode* root, int targetSum){
     return ans;
 }
 ```
+
+**Solution 5: (Backtracking, Counter)**
+```
+Runtime: 1 ms, Beats 94.04%
+Memory: 21.68 MB, Beats 25.19%
+```
+```c++
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+class Solution {
+    void bt(TreeNode *node, int targetSum, unordered_map<long long,int> &cnt, long long a, int &ans) {
+        if (!node) {
+            return;
+        }
+        a += node->val;
+        ans += cnt[a-targetSum];
+        cnt[a] += 1;
+        bt(node->left, targetSum, cnt, a, ans);
+        bt(node->right, targetSum, cnt, a, ans);
+        cnt[a] -= 1;
+    }
+public:
+    int pathSum(TreeNode* root, int targetSum) {
+        int ans = 0;
+        unordered_map<long long,int> cnt;
+        cnt[0] = 1;
+        bt(root, targetSum, cnt, 0LL, ans);
+        return ans;
+    }
+};
+```

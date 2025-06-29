@@ -308,8 +308,8 @@ public:
 ```
 **Solution 5: (DFS)**
 ```
-Runtime: 31 ms
-Memory: 31.81 MB
+Runtime: 19 ms, Beats 82.34%
+Memory: 33.40 MB, Beats 25.64%
 ```
 ```c++
 /**
@@ -322,26 +322,32 @@ Memory: 31.81 MB
  * };
  */
 class Codec {
-    TreeNode* decode(stringstream& take,string res = ""){
-        getline(take,res,'#');
-        if(res.empty())return NULL;
-        
-        TreeNode* root= new TreeNode(stoi(res));
-        root->left = decode(take), root->right = decode(take);
-        return root;
-    }
 public:
 
     // Encodes a tree to a single string.
     string serialize(TreeNode* root) {
-        if(!root)return "#";
-        return to_string(root->val)+"#"+serialize(root->left) + serialize(root->right);
+        if (!root) {
+            return ",";
+        }
+        return to_string(root->val) + "," + serialize(root->left) + serialize (root->right);
+    }
+
+    TreeNode *dfs(stringstream &ss) {
+        string s;
+        getline(ss, s, ',');
+        if (s == "") {
+            return nullptr;
+        }
+        TreeNode *node = new TreeNode(stoi(s));
+        node->left = dfs(ss);
+        node->right = dfs(ss);
+        return node;
     }
 
     // Decodes your encoded data to tree.
     TreeNode* deserialize(string data) {
-        stringstream take(data);
-        return decode(take);
+        stringstream ss(data);
+        return dfs(ss);
     }
 };
 

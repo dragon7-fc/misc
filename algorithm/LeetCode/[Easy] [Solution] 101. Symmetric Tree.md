@@ -235,8 +235,8 @@ bool isSymmetric(struct TreeNode* root){
 
 **Solution 5: (DFS)**
 ```
-Runtime: 3 ms
-Memory: 16.3 MB
+Runtime: 0 ms, Beats 100.00%
+Memory: 18.68 MB, Beats 11.25%
 ```
 ```c++
 /**
@@ -251,17 +251,21 @@ Memory: 16.3 MB
  * };
  */
 class Solution {
-    bool dfs(TreeNode* left, TreeNode* right) {
-        if (!left && !right) {
+    bool dfs(TreeNode *node1, TreeNode *node2) {
+        if (!node1 && !node2) {
             return true;
-        } else if (!left || !right) {
+        }
+        if (!node1 || !node2) {
             return false;
         }
-        return left->val == right->val && dfs(left->left, right->right) && dfs(left->right, right->left);
+        if (node1->val != node2->val) {
+            return false;
+        }
+        return dfs(node1->left, node2->right) && dfs(node1->right, node2->left);
     }
 public:
     bool isSymmetric(TreeNode* root) {
-        return dfs(root->left, root->right); 
+        return dfs(root->left, root->right);
     }
 };
 ```
@@ -304,6 +308,48 @@ public:
             }
             q.push({left->left, right->right});
             q.push({left->right, right->left});
+        }
+        return true;
+    }
+};
+```
+
+**Solution 7: (DFS)**
+```
+Runtime: 0 ms, Beats 100.00%
+Memory: 18.70 MB, Beats 11.25%
+```
+```c++
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+class Solution {
+public:
+    bool isSymmetric(TreeNode* root) {
+        stack<pair<TreeNode*, TreeNode*>> stk;
+        stk.push({root->left, root->right});
+        while (!stk.empty()) {
+            auto [left, right] = stk.top();
+            stk.pop();
+            if (!left && !right) {
+                continue;
+            }
+            if (!left || !right) {
+                return false;
+            }
+            if (left->val != right->val) {
+                return false;
+            }
+            stk.push({left->left, right->right});
+            stk.push({left->right, right->left});
         }
         return true;
     }

@@ -289,8 +289,8 @@ int** zigzagLevelOrder(struct TreeNode* root, int* returnSize, int** returnColum
 ```
 **Solution 5: (BFS)**
 ```
-Runtime: 5 ms
-Memory: 12.1 MB
+Runtime: 0 ms, Beats 100.00%
+Memory: 15.04 MB, Beats 76.18%
 ```
 ```c++
 /**
@@ -307,32 +307,32 @@ Memory: 12.1 MB
 class Solution {
 public:
     vector<vector<int>> zigzagLevelOrder(TreeNode* root) {
-        if (!root) return {};
-        vector<TreeNode*> q;
-        q.push_back(root);
-        TreeNode* node;
-        int sz, forward = 1;
+        int i, sz, rev = 0;
+        queue<TreeNode*> q;
+        vector<int> dp;
         vector<vector<int>> ans;
-        while (!q.empty()) {
+        if (root) {
+            q.push(root);
+        }
+        while (q.size()) {
             sz = q.size();
-            vector<int> cur(sz);
-            for (int i = 0; i < sz; i ++) {
-                node = q[0];
-                q.erase(q.begin());
-                if (forward == 1) {
-                    cur[i] = node->val;
-                } else {
-                    cur[sz-i-1] = node->val;
-                }
+            dp.clear();
+            for (i = 0; i < sz; i ++) {
+                auto node = q.front();
+                q.pop();
+                dp.push_back(node->val);
                 if (node->left) {
-                    q.push_back(node->left);
+                    q.push(node->left);
                 }
                 if (node->right) {
-                    q.push_back(node->right);
+                    q.push(node->right);
                 }
             }
-            forward ^= 1;
-            ans.push_back(cur);
+            if (rev) {
+                reverse(dp.begin(), dp.end());
+            }
+            ans.push_back(dp);
+            rev ^= 1;
         }
         return ans;
     }

@@ -150,3 +150,35 @@ public:
     }
 };
 ```
+
+**Solution 4: (Hash Table, word by word compare)**
+```
+Runtime: 0 ms, Beats 100.00%
+Memory: 12.72 MB, Beats 14.88%
+```
+```c++
+class Solution {
+public:
+    bool isAlienSorted(vector<string>& words, string order) {
+        int n = words.size(), i, j;
+        unordered_map<char,char> m;
+        for (i = 0; i < 26; i ++) {
+            m[order[i]] = i;
+        };
+        for (i = 0; i < n-1; i ++) {
+            for (j = 0; j < words[i].length(); j ++) {
+                if (j >= words[i+1].length()) {
+                    return false;
+                }
+                if (words[i][j] != words[i+1][j]) {
+                    if (m[words[i][j]] > m[words[i+1][j]]) {
+                        return false;
+                    }
+                    break;
+                }
+            }
+        }
+        return true;
+    }
+};
+```

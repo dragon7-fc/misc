@@ -304,8 +304,8 @@ public:
 
 **Solution 3: (DFS)**
 ```
-Runtime: 8 ms
-Memory: 24.5 MB
+Runtime: 4 ms, Beats 21.04%
+Memory: 23.58 MB, Beats 21.75%
 ```
 ```c++
 /**
@@ -320,30 +320,29 @@ Memory: 24.5 MB
  * };
  */
 class Solution {
-    void dfs(TreeNode* node, TreeNode *parent, unordered_map<TreeNode*,bool> &visited, int &ans) {
+    int dfs(TreeNode *node, TreeNode *p, unordered_set<TreeNode*> &visited) {
         if (!node) {
-            return;
+            return 0;
         }
-        dfs(node->left, node, visited, ans);
-        dfs(node->right, node, visited, ans);
-        if (node->left && !visited[node->left] || node->right && !visited[node->right] || !parent && !visited[node]) {
-            visited[node] = true;
-            if (node->left) {
-                visited[node->left] = true;
+        int left = dfs(node->left, node, visited);
+        int right = dfs(node->right, node, visited);
+        int rst = left + right;
+        if (node->left && !visited.count(node->left) || node->right && !visited.count(node->right) || !p && !visited.count(node)) {
+            visited.insert(node);
+            visited.insert(node->left);
+            visited.insert(node->right);
+            if (p) {
+                visited.insert(p);
             }
-            if (node->right) {
-                visited[node->right] = true;
-            }
-            visited[parent] = true;
-            ans += 1;
+            rst += 1;
         }
+        return rst;
     }
 public:
     int minCameraCover(TreeNode* root) {
-        int ans = 0;
-        unordered_map<TreeNode*,bool> visited;
-        dfs(root, nullptr, visited, ans);
-        return ans;
+        unordered_set<TreeNode*> visited;
+        int ans = dfs(root, nullptr, visited);
+        return ans + !visited.count(root);
     }
 };
 ```

@@ -112,3 +112,48 @@ int getKth(int lo, int hi, int k){
     return result[k-1].number;
 }
 ```
+
+**Solution 3: (Heap)**
+
+               /
+             /
+           /
+         /
+       /
+     /
+       ^k
+     ->       <-
+     max(k) = min(n-k)
+              greater<>
+```
+Runtime: 14 ms, Beats 76.08%
+Memory: 9.60 MB, Beats 99.06%
+```
+```c++
+class Solution {
+    int getpower(int x) {
+        int rst = 0;
+        while (x != 1) {
+            if (x%2 == 0) {
+                x /= 2;
+            } else {
+                x = 3*x + 1;
+            }
+            rst += 1;
+        }
+        return rst;
+    }
+public:
+    int getKth(int lo, int hi, int k) {
+        int a;
+        priority_queue<pair<int,int>> pq;
+        for (a = lo; a <= hi; a++) {
+            pq.push({getpower(a), a});
+            if (pq.size() > k) {
+                pq.pop();
+            }
+        }
+        return pq.top().second;
+    }
+};
+```

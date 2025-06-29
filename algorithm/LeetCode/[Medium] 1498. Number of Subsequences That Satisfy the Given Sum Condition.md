@@ -104,27 +104,53 @@ class Solution:
 ```
 
 **Solution 2: (Sort, Two Pointers)**
+
+    nums = [3,5,6,7], target = 9
+            ^i  ^j
+              0 0
+              1 1
+
+    nums = [3,3,6,8], target = 10
+            ^i  ^j
+              0 0
+              1 1
+              ^i^j
+                0
+                1
+
+    nums = [2, 3,3,4,6,7], target = 12
+            ^i         ^j
+               ^i      ^j
+                 ^i    ^j
+                   ^i  ^j
+                     ^ij
+           32 16 8 4 1
+
 ```
-Runtime: 340 ms
-Memory Usage: 49.8 MB
+Runtime: 34 ms, Beats 42.14%
 ```
 ```c++
 class Solution {
 public:
     int numSubseq(vector<int>& nums, int target) {
+        int n = nums.size(), i, j = n-1, MOD = 1e9 + 7, ans = 0;
         sort(nums.begin(), nums.end());
-        int res = 0, n = nums.size(), l = 0, r = n - 1, mod = 1e9 + 7;
-        vector<int> pows(n, 1);
-        for (int i = 1 ; i < n ; ++i)
-            pows[i] = pows[i - 1] * 2 % mod;
-        while (l <= r) {
-            if (nums[l] + nums[r] > target) {
-                r--;
+        vector<int> dp(n+1);
+        dp[0] = 1;
+        for (i = 0; i < n; i ++) {
+            dp[i+1] = (dp[i]*2) % MOD;
+        }
+        i = 0;
+        while (i <= j) {
+            if (nums[i] + nums[j] > target) {
+                j -= 1;
             } else {
-                res = (res + pows[r - l++]) % mod;
+                ans += dp[j-i];
+                ans %= MOD;
+                i += 1;
             }
         }
-        return res;
+        return ans;
     }
 };
 ```

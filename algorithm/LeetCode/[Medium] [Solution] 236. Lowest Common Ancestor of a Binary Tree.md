@@ -450,8 +450,8 @@ struct TreeNode* lowestCommonAncestor(struct TreeNode* root, struct TreeNode* p,
 
 **Solution 4: (DFS)**
 ```
-Runtime: 16 ms
-Memory Usage: 14.2 MB
+Runtime: 12 ms, Beats 64.56%
+Memory: 17.49 MB, Beats 42.81%
 ```
 ```c++
 /**
@@ -466,15 +466,21 @@ Memory Usage: 14.2 MB
 class Solution {
 public:
     TreeNode* lowestCommonAncestor(TreeNode* root, TreeNode* p, TreeNode* q) {
-        if (!root)
+        if (!root) {
             return nullptr;
-        TreeNode* left = lowestCommonAncestor(root->left, p, q);
-        TreeNode* right = lowestCommonAncestor(root->right, p, q);
-        if (left && right)
+        }
+        TreeNode *left, *right;
+        left = lowestCommonAncestor(root->left, p, q);
+        right = lowestCommonAncestor(root->right, p, q);
+        if (root->val == p->val || root->val == q->val || left && right) {
             return root;
-        if (root == p || root == q)
-            return root;
-        return left? left: right;
+        } else if (left) {
+            return left;
+        } else if (right) {
+            return right;
+        }
+        return nullptr;
     }
 };
+
 ```

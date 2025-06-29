@@ -184,25 +184,32 @@ int subarraySum(int* nums, int numsSize, int k){
 }
 ```
 
-**Solution 3: (Using hashmap)**
+**Solution 3: (Hash Table)**
+
+    nums = [1,2,3], k = 3
+ -------------------------
+a       0   1 3 6
+cnt     0,1
+            1,1
+              3,1
+                6,1
+ans           1 2
+
 ```
-Runtime: 75 ms
-Memory Usage: 35.9 MB
+Runtime: 52 ms, Beats 50.62%
+Memory: 50.94 MB, Beats 25.57%
 ```
 ```c++
 class Solution {
 public:
     int subarraySum(vector<int>& nums, int k) {
-        unordered_map<int,int> mp;
-        int sum=0,ans=0;
-        mp[sum] = 1;
-        for(auto it:nums){
-            sum += it;
-            int find = sum - k;
-            if(mp.find(find) != mp.end()){
-                ans += mp[find];
-            }
-            mp[sum]++;
+        int n = nums.size(), i, a = 0, ans = 0;
+        unordered_map<int,int> cnt;
+        cnt[0] = 1;
+        for (i = 0; i < n; i ++) {
+            a += nums[i];
+            ans += cnt[a - k];
+            cnt[a] += 1;
         }
         return ans;
     }
