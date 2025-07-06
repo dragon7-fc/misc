@@ -190,34 +190,42 @@ public:
 };
 ```
 
-**Solution u: (Math, shift left)**
+**Solution 7: (Math)**
+
+1010    = 10
+  2^2
+2^8
+2^8 * 2^4
+
+b   0 1  2    3
+a   2 4 16  256
+ans 1 4    1024
+
 ```
-Runtime: 0 ms
-Memory: 8.13 MB
+Runtime: 0 ms, Beats 100.00%
+Memory: 8.73 MB, Beats 13.04%
 ```
 ```c++
 class Solution {
 public:
     double myPow(double x, int n) {
-        if (x == 0) {
-            return 0;
-        }
-        if (n == 0) {
+        if (x == 1 || n == 0) {
             return 1;
         }
-        int i = 1;
-        long long ln = n;
-        double tmp = (ln > 0 ? x : 1.0/x), pre = (abs(ln)%2 ? tmp : 1), ans = pre;
-        while (i < 32 && (1<<i) <= abs(ln)) {
-            tmp *= tmp;
-            if ((1<<i) & abs(ln)) {
-                ans = tmp * pre;
-                pre = ans;
+        double a = x, ans = 1;
+        long long b = 0, cn = n;
+        if (cn < 0) {
+            a = 1/x;
+            cn *= -1;
+        }
+        while ((1LL<<b) <= cn) {
+            if ((1<<b) & cn) {
+                ans *= a;
             }
-            i += 1;
+            b += 1;
+            a *= a;
         }
         return ans;
     }
 };
-
 ```

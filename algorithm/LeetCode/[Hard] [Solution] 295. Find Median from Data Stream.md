@@ -502,34 +502,34 @@ class MedianFinder:
 
 **Solution 5: (Two Heaps)**
 ```
-Runtime: 108 ms
-Memory Usage: 46.8 MB
+Runtime: 87 ms, Beats 15.11%
+Memory: 125.08 MB, Beats 43.41%
 ```
 ```c++
 class MedianFinder {
-    priority_queue<int> lo;                              // max heap
-    priority_queue<int, vector<int>, greater<int>> hi;   // min heap
-    
+    priority_queue<int> lo;
+    priority_queue<int,vector<int>,greater<>> hi;
 public:
-    /** initialize your data structure here. */
     MedianFinder() {
         
     }
     
     void addNum(int num) {
-        lo.push(num);                                    // Add to max heap
-
-        hi.push(lo.top());                               // balancing step
+        lo.push(num);
+        hi.push(lo.top());
         lo.pop();
-
-        if (lo.size() < hi.size()) {                     // maintain size property
+        if (hi.size() - lo.size() > 1) {
             lo.push(hi.top());
             hi.pop();
         }
     }
     
     double findMedian() {
-        return lo.size() > hi.size() ? lo.top() : ((double) lo.top() + hi.top()) * 0.5;
+        if (lo.size() == hi.size()) {
+            return (lo.top() + hi.top())/2.0;
+        } else {
+            return hi.top();
+        }
     }
 };
 

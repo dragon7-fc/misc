@@ -69,50 +69,21 @@ class Solution:
                         
 ```
 
-**Solution 2: (BFS)**
-```
-Runtime: 77 ms
-Memory: 19.8 MB
-```
-```c++
-class Solution {
-public:
-    int maxDistance(vector<vector<int>>& grid) {
-        int N = grid.size(), sz, nr, nc, ans = -1;
-        int diff[] = {0, 1, 0, -1};
-        queue<tuple<int, int>> q;
-        for (int r = 0; r < N; r ++)
-            for (int c = 0; c < N; c ++)
-                if (grid[r][c]) {
-                    q.push({r, c});
-                }
-        if (q.size() == 0 || q.size() == N*N) {
-            return -1;
-        }
-        while (!q.empty()) {
-            sz = q.size();
-            for (int i = 0; i < sz; i ++) {
-                auto [r, c] = q.front();
-                q.pop();
-                for (int d = 0; d < 4; d ++) {
-                    nr = r + diff[d];
-                    nc = c + diff[(d+1)%4];
-                    if (0 <= nr && nr < N && 0 <= nc && nc < N) {
-                        if (grid[nr][nc] == 0) {
-                            grid[nr][nc] = 1;
-                            q.push({nr, nc});
-                        }
-                    }
-                }
-            }
-            ans += 1;
-        }
-        return ans;
-    }
-};
-```
+**Solution 2: (DP)**
 
-**Solution 3: (DP)**
+    [1,0,1],
+    [0,0,0],
+    [1,0,1]
+
+    ->
+   |[0,1,0]
+   v[1,2,3]
+    [0,1,0]
+
+    [0,1,0]
+    [1,2,1]^
+    [0,1,0]|
+        <-
 ```
 Runtime: 63 ms
 Memory: 16.6 MB
@@ -156,6 +127,51 @@ public:
         // If ans is 1, it means there is no water cell,
         // If ans is MAX_DISTANCE, it implies no land cell.
         return ans == 0 || ans == MAX_DISTANCE ? -1 : ans;
+    }
+};
+```
+
+**Solution 3: (BFS)**
+```
+Runtime: 23 ms, Beats 32.70%
+Memory: 25.62 MB, Beats 41.50%
+```
+```c++
+class Solution {
+    int dd[5] = {0, 1, 0, -1, 0};
+public:
+    int maxDistance(vector<vector<int>>& grid) {
+        int n = grid.size(), i, j, sz, d, nx, ny, k = 0;
+        vector<vector<int>> visited(n, vector<int>(n));
+        queue<array<int,2>> q;
+        for (i = 0; i < n; i ++) {
+            for (j = 0; j < n; j ++) {
+                if (grid[i][j]) {
+                    q.push({i, j});
+                    visited[i][j] = 1;
+                }
+            }
+        }
+        while (q.size()) {
+            sz = q.size();
+            for (i = 0; i < sz; i ++) {
+                auto [x, y] = q.front();
+                q.pop();
+                for (d = 0; d < 4; d ++) {
+                    nx = x + dd[d];
+                    ny = y + dd[d+1];
+                    if (0 <= nx && nx < n && 0 <= ny && ny < n && grid[nx][ny] == 0 && !visited[nx][ny]) {
+                        visited[nx][ny] = 1;
+                        q.push({nx, ny});
+                    }
+                }
+            }
+            if (!q.size()) {
+                break;
+            }
+            k += 1;
+        }
+        return k ? k : -1;
     }
 };
 ```

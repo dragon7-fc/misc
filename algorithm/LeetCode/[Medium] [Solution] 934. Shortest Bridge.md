@@ -322,3 +322,67 @@ public:
     }
 };
 ```
+
+**Solution 3: (DFS, BFS, locate one then try to find the other)**
+```
+Runtime: 5 ms, Beats 74.30%
+Memory: 24.75 MB, Beats 49.10%
+```
+```c++
+class Solution {
+    int dd[5] = {0, 1, 0, -1, 0};
+public:
+    int shortestBridge(vector<vector<int>>& grid) {
+        int n = grid.size(), i, j, d, nr, nc;
+        bool flag = false;
+        vector<vector<int>> visited(n, vector<int>(n));
+        queue<array<int,2>> gq;
+        queue<array<int,3>> q;
+        for (i = 0; i < n; i ++) {
+            for (j = 0; j < n; j ++) {
+                if (grid[i][j] == 1 && visited[i][j] == 0) {
+                    gq.push({i, j});
+                    visited[i][j] = 1;
+                    while (gq.size()) {
+                        auto [r, c] = gq.front();
+                        gq.pop();
+                        q.push({r, c, 0});
+                        for (d = 0; d < 4; d ++) {
+                            nr = r + dd[d];
+                            nc = c + dd[d+1];
+                            if (0 <= nr && nr < n && 0 <= nc && nc < n && grid[nr][nc] == 1 && visited[nr][nc] == 0) {
+                                visited[nr][nc] = 1;
+                                gq.push({nr, nc});
+                            }
+                        }
+                    }
+                    flag = true;
+                    break;
+                }
+            }
+            if (flag) {
+                break;
+            }
+        }
+        while (q.size()) {
+            auto [r, c, cd] = q.front();
+            q.pop();
+            for (d = 0; d < 4; d ++) {
+                nr = r + dd[d];
+                nc = c + dd[d+1];
+                if (0 <= nr && nr < n && 0 <= nc && nc < n) {
+                    if (visited[nr][nc] == 0) {
+                        if (grid[nr][nc] == 1) {
+                            return cd;
+                        } else {
+                            visited[nr][nc] = 1;
+                            q.push({nr, nc, cd+1});
+                        }
+                    }
+                }
+            }
+        }
+        return -1;
+    }
+};
+```

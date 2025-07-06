@@ -79,3 +79,31 @@ int mySqrt(int x){
     return right;
 }
 ```
+
+**Solution 3: (Binary Search, upper bound)**
+```
+Runtime: 0 ms, Beats 100.00%
+Memory: 8.66 MB, Beats 14.68%
+```
+```c++
+class Solution {
+public:
+    int mySqrt(int x) {
+        if (x == 0) {
+            return 0;
+        }
+        int left = 1, right = x/2, ans;
+        long long mid;
+        while (left <= right) {
+            mid = left + (right - left)/2;
+            if (mid*mid > x) {
+                right = mid - 1;
+            } else {
+                ans = mid;
+                left = mid + 1;
+            }
+        }
+        return ans;
+    }
+};
+```

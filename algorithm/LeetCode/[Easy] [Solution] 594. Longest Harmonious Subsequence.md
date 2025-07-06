@@ -260,3 +260,51 @@ class Solution:
                 max_seen = max(max_seen, seen_d[k] + seen_d[k + 1])
         return max_seen
 ```
+
+**Solution 2: (Sort, Sliding Window)**
+```
+Runtime: 9 ms, Beats 89.56%
+Memory: 36.11 MB, Beats 94.99%
+```
+```c++
+class Solution {
+public:
+    int findLHS(vector<int>& nums) {
+        int n = nums.size(), i = 0, j, ans = 0;
+        sort(nums.begin(), nums.end());
+        for (j = 0; j < n; j ++) {
+            while (nums[j]-nums[i] > 1) {
+                i += 1;
+            }
+            if (nums[j] - nums[i] == 1) {
+                ans = max(ans, j-i+1);
+            }
+        }
+        return ans;
+    }
+};
+```
+
+**Solution 3: (Counter)**
+```
+Runtime: 32 ms, Beats 38.66%
+Memory: 43.96 MB, Beats 29.65%
+```
+```c++
+class Solution {
+public:
+    int findLHS(vector<int>& nums) {
+        unordered_map<int,int> cnt;
+        int ans = 0;
+        for (auto num: nums) {
+            cnt[num] += 1;
+        }
+        for (auto [a, k]: cnt) {
+            if (cnt.count(a+1)) {
+                ans = max(ans, k + cnt[a+1]);
+            }
+        }
+        return ans;
+    }
+};
+```

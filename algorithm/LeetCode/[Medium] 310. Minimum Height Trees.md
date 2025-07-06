@@ -171,47 +171,46 @@ int* findMinHeightTrees(int n, int** edges, int edgesSize, int* edgesColSize, in
 
 **Solution 3: (Topological Sorting, level order)**
 ```
-Runtime: 116 ms
-Memory: 60.67 MB
+Runtime: 47 ms, Beats 53.40%
+Memory: 61.82 MB, Beats 32.56%
 ```
 ```c++
 class Solution {
 public:
     vector<int> findMinHeightTrees(int n, vector<vector<int>>& edges) {
-        if (n == 1) {
+        if (edges.size() == 0) {
             return {0};
         }
+        int i, sz;
         vector<vector<int>> g(n);
-        vector<int> indeg(n);
+        queue<int> q;
+        vector<int> indeg(n), ans;
         for (auto e: edges) {
             g[e[0]].push_back(e[1]);
             g[e[1]].push_back(e[0]);
             indeg[e[0]] += 1;
             indeg[e[1]] += 1;
         }
-        queue<int> q;
-        for (int i = 0; i < n; i ++) {
+        for (i = 0; i < n; i ++) {
             if (indeg[i] == 1) {
                 q.push(i);
             }
         }
-        int v, sz;
-        vector<int> ans;
         while (q.size()) {
             sz = q.size();
             ans.clear();
-            for (int i = 0; i < sz; i ++) {
-                v = q.front();
+            for (i = 0; i < sz; i ++) {
+                auto u = q.front();
                 q.pop();
-                ans.push_back(v);
-                indeg[v] -= 1;
-                for (auto nv: g[v]) {
-                    indeg[nv] -= 1;
-                    if (indeg[nv] == 1) {
-                        q.push(nv);
+                ans.push_back(u);
+                for (auto v: g[u]) {
+                    indeg[v] -= 1;
+                    if (indeg[v] == 1) {
+                        q.push(v);
                     }
-                }    
+                }
             }
+            
         }
         return ans;
     }

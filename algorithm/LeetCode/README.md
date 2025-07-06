@@ -4222,27 +4222,6 @@ class Solution:
 ```python
 class Solution:
     def nthUglyNumber(self, n: int) -> int:
-        uglyNumbers = [1]
-        p2 = p3 = p5 = 0
-
-        while len(uglyNumbers) < n:
-            #If a value lesser than latest was already added, try finding next least value.
-            while uglyNumbers[p2]*2 <= uglyNumbers[-1]:
-                p2 += 1
-
-            while uglyNumbers[p3]*3 <= uglyNumbers[-1]:
-                p3 += 1
-
-            while uglyNumbers[p5]*5 <= uglyNumbers[-1]:
-                p5 += 1
-
-            nextVal = min(uglyNumbers[p2]*2, uglyNumbers[p3]*3, uglyNumbers[p5]*5)
-            uglyNumbers.append(nextVal)
-
-        return uglyNumbers[-1]
-
-class Solution:
-    def nthUglyNumber(self, n: int) -> int:
         if n < 1: return 
         k = [1] * n
         p2 = p3 = p5 = 0
@@ -4253,20 +4232,6 @@ class Solution:
             if k[i] == k[p3] * 3: p3 += 1
             if k[i] == k[p5] * 5: p5 += 1
         return k[-1]
-
-class Solution:
-    def nthUglyNumber(self, n: int) -> int:
-        Set = {2,3,5}
-        q = [2,3,5]
-        heapq.heapify(q)
-        cur = 1
-        for i in range(2, n+1):
-            cur = heapq.heappop(q)
-            for x in [2*cur, 3*cur, 5*cur]:
-                if x not in Set:
-                    Set.add(x)
-                    heapq.heappush(q, x)
-        return cur
 ```
 * [Medium] 264. Ugly Number II
 
@@ -6371,9 +6336,47 @@ public:
 ```
 * [Medium] 3085. Minimum Deletions to Make String K-Special
 
+### Counter, scan small data and search large
+```c++
+class FindSumPairs {
+    vector<int> dp, dp2;
+    unordered_map<int,int> cnt;
+public:
+    FindSumPairs(vector<int>& nums1, vector<int>& nums2) {
+        dp = move(nums1);
+        dp2 = nums2;
+        for (auto &num: nums2) {
+            cnt[num] += 1;
+        }
+    }
+    
+    void add(int index, int val) {
+        cnt[dp2[index]] -= 1;
+        cnt[dp2[index] + val] += 1;
+        dp2[index] += val;
+    }
+    
+    int count(int tot) {
+        int ans = 0;
+        for (auto &num: dp) {
+            ans += cnt[tot - num];
+        }
+        return ans;
+    }
+};
+
+/**
+ * Your FindSumPairs object will be instantiated and called as such:
+ * FindSumPairs* obj = new FindSumPairs(nums1, nums2);
+ * obj->add(index,val);
+ * int param_2 = obj->count(tot);
+ */
+```
+* [Medium] 1865. Finding Pairs With a Certain Sum
+
 ### Counter with order
 ```python
-class Solution:
+clausrss Solution:
     def customSortString(self, order: str, str: str) -> str:
         cnt, ans = Counter(str), ""
         for c in order:
@@ -7387,31 +7390,6 @@ class Solution:
 ```
 * [Medium] [Solution] 695. Max Area of Island
 
-### Binary Search, 2 pointers, search from corner
-```c++
-class Solution {
-public:
-    bool searchMatrix(vector<vector<int>>& matrix, int target) {
-        int m = matrix.size();
-        int n = matrix[0].size();
-        
-        int i = m - 1;  // largest row
-        int j = 0;  // smallest col
-        
-        while (i>=0 && j<n){
-            
-            if (matrix[i][j] == target) return true;
-            
-            else if (matrix[i][j] < target) j++;
-            
-            else i--;
-        }
-        return false;
-    }
-};
-```
-* [Medium] 240. Search a 2D Matrix II
-
 ### DFS + Greedy
 ```python
 class Solution:
@@ -7933,46 +7911,64 @@ class Solution:
 ```
 * [Medium] [Solution] 987. Vertical Order Traversal of a Binary Tree
 
-### DFS, BFS
-```python
-class Solution(object):
-    def shortestBridge(self, A):
-        R, C = len(A), len(A[0])
-
-        def neighbors(r, c):
-            for nr, nc in ((r-1,c),(r,c-1),(r+1,c),(r,c+1)):
-                if 0 <= nr < R and 0 <= nc < C:
-                    yield nr, nc
-
-        def get_components():
-            done = set()
-            components = []
-            for r, row in enumerate(A):
-                for c, val in enumerate(row):
-                    if val and (r, c) not in done:
-                        # Start dfs
-                        stack = [(r, c)]
-                        seen = {(r, c)}
-                        while stack:
-                            node = stack.pop()
-                            for nei in neighbors(*node):
-                                if A[nei[0]][nei[1]] and nei not in seen:
-                                    stack.append(nei)
-                                    seen.add(nei)
-                        done |= seen
-                        components.append(seen)
-            return components
-
-        source, target = get_components()
-        queue = collections.deque([(node, 0) for node in source])
-        done = set(source)
-        while queue:
-            node, d = queue.popleft()
-            if node in target: return d-1
-            for nei in neighbors(*node):
-                if nei not in done:
-                    queue.append((nei, d+1))
-                    done.add(nei)
+### locate one then try to find the other
+```c++
+class Solution {
+    int dd[5] = {0, 1, 0, -1, 0};
+public:
+    int shortestBridge(vector<vector<int>>& grid) {
+        int n = grid.size(), i, j, d, nr, nc;
+        bool flag = false;
+        vector<vector<int>> visited(n, vector<int>(n));
+        queue<array<int,2>> gq;
+        queue<array<int,3>> q;
+        for (i = 0; i < n; i ++) {
+            for (j = 0; j < n; j ++) {
+                if (grid[i][j] == 1 && visited[i][j] == 0) {
+                    gq.push({i, j});
+                    visited[i][j] = 1;
+                    while (gq.size()) {
+                        auto [r, c] = gq.front();
+                        gq.pop();
+                        q.push({r, c, 0});
+                        for (d = 0; d < 4; d ++) {
+                            nr = r + dd[d];
+                            nc = c + dd[d+1];
+                            if (0 <= nr && nr < n && 0 <= nc && nc < n && grid[nr][nc] == 1 && visited[nr][nc] == 0) {
+                                visited[nr][nc] = 1;
+                                gq.push({nr, nc});
+                            }
+                        }
+                    }
+                    flag = true;
+                    break;
+                }
+            }
+            if (flag) {
+                break;
+            }
+        }
+        while (q.size()) {
+            auto [r, c, cd] = q.front();
+            q.pop();
+            for (d = 0; d < 4; d ++) {
+                nr = r + dd[d];
+                nc = c + dd[d+1];
+                if (0 <= nr && nr < n && 0 <= nc && nc < n) {
+                    if (visited[nr][nc] == 0) {
+                        if (grid[nr][nc] == 1) {
+                            return cd;
+                        } else {
+                            visited[nr][nc] = 1;
+                            q.push({nr, nc, cd+1});
+                        }
+                    }
+                }
+            }
+        }
+        return -1;
+    }
+};
 ```
 * [Medium] [Solution] 934. Shortest Bridge
 
@@ -8001,38 +7997,30 @@ class Solution:
 ```
 * [Medium] 207. Course Schedule
 
-### Reconstruct Itinerary
-```python
-class Solution:
-    def findItinerary(self, tickets: List[List[str]]) -> List[str]:
-        graph = collections.defaultdict(list)
-
-        for departure, arrival in tickets:
-             graph[departure].append(arrival)
-
-        for airport in graph:
-            graph[airport].sort()
-
-        total = len(tickets) + 1
-
-        def dfs(ticket, way):
-            if len(way) == total:
-                return way
-
-            for i in range(len(graph[ticket])):
-                if graph[ticket][i] == None:
-                    continue
-
-                arrival = graph[ticket][i]
-                graph[ticket][i] = None
-
-                reconstruction = dfs(arrival, way + [arrival])
-                if reconstruction:
-                    return reconstruction
-
-                graph[ticket][i] = arrival
-
-        return dfs('JFK', ['JFK'])
+### DFS, post order, Euler Path
+```c++
+class Solution {
+    void dfs(string u, vector<string> &ans, unordered_map<string,multiset<string>> &g) {
+        while (g[u].size()) {
+            auto it = g[u].begin();
+            auto v = *it;
+            g[u].erase(it);
+            dfs(v, ans, g);
+        }
+        ans.push_back(u);
+    }
+public:
+    vector<string> findItinerary(vector<vector<string>>& tickets) {
+        unordered_map<string,multiset<string>> g;
+        vector<string> ans;
+        for (auto &t: tickets) {
+            g[t[0]].insert(t[1]);
+        }
+        dfs("JFK", ans, g);
+        reverse(ans.begin(), ans.end());
+        return ans;
+    }
+};
 ```
 * [Medium] 332. Reconstruct Itinerary
 
@@ -8447,6 +8435,56 @@ return num_connected_components
 
 ## Binary Search <a name="bs"></a>
 ---
+### Binary Search over value
+```c++
+class Solution {
+public:
+    int kthSmallest(vector<vector<int>>& matrix, int k) {
+        int n = matrix.size(), i, left = matrix[0][0], right = matrix[n-1][n-1], mid, ck, ans;
+        while (left <= right) {
+            mid = left + (right-left)/2;
+            ck = 0;
+            for (i = 0; i < n; i ++) {
+                ck += upper_bound(matrix[i].begin(), matrix[i].end(), mid) - matrix[i].begin();
+            }
+            if (ck < k) {
+                left = mid + 1;
+            } else {
+                ans = mid;
+                right = mid - 1;
+            }
+        }
+        return ans;
+    }
+};
+```
+* [Medium] 378. Kth Smallest Element in a Sorted Matrix
+
+### Binary Search, 2 pointers, search from corner
+```c++
+class Solution {
+public:
+    bool searchMatrix(vector<vector<int>>& matrix, int target) {
+        int m = matrix.size();
+        int n = matrix[0].size();
+        
+        int i = m - 1;  // largest row
+        int j = 0;  // smallest col
+        
+        while (i>=0 && j<n){
+            
+            if (matrix[i][j] == target) return true;
+            
+            else if (matrix[i][j] < target) j++;
+            
+            else i--;
+        }
+        return false;
+    }
+};
+```
+* [Medium] 240. Search a 2D Matrix II
+
 ### search interval
 ```python
 class MyCalendar:
@@ -8568,45 +8606,34 @@ class Solution:
 * [Medium] 1760. Minimum Limit of Balls in a Bag
 
 ### Binary Search without diplicate
-```python
-class Solution:
-    def search(self, nums: List[int], target: int) -> int:
-        left, right = 0, len(nums)-1
-        ans = -1
-        
-        while left <= right:
-            mid = left + (right - left) // 2
-
-            if target == nums[mid]:
-                ans = mid
-                break
-            elif (nums[left] <= target < nums[mid] or
-                    target <= nums[mid] < nums[left] or
-                    nums[mid] < nums[left] <= target):
-                right = mid - 1
-            else:
-                left = mid + 1
-
-        return ans
-
-class Solution:
-    def search(self, nums: List[int], target: int) -> int:
-        
-        def binary_search(left, right, target):
-            if left > right:
-                return -1
-            
-            mid = left + (right - left) // 2
-            if target == nums[mid]:
-                return mid            
-            elif (nums[left] <= target < nums[mid] or
-                    target <= nums[mid] < nums[left] or
-                    nums[mid] < nums[left] <= target):
-                return binary_search(left, mid-1, target)
-            else:
-                return binary_search(mid+1, right, target)        
-            
-        return binary_search(0, len(nums)-1, target)
+```c++
+class Solution {
+public:
+    int search(vector<int>& nums, int target) {
+        int n = nums.size(), left = 0, right = n - 1, mid;
+        while (left <= right) {
+            mid = left + (right - left)/2;
+            if (nums[mid] == target) {
+                return mid;
+            } else if (nums[left] <= nums[mid]) {
+                                // ^ 2 element
+                if (nums[left] <= target && target <= nums[mid]) {
+                                                 // ^ 2 element
+                    right = mid - 1;
+                } else {
+                    left = mid + 1;
+                }
+            } else {
+                if (nums[mid] < target && target <= nums[right]) {
+                    left = mid + 1;
+                } else {
+                    right = mid - 1;
+                }
+            }
+        }
+        return -1;
+    }
+};
 ```
 * [Medium] 33. Search in Rotated Sorted Array
 
@@ -8616,34 +8643,27 @@ class Solution:
 class Solution {
 public:
     bool search(vector<int>& nums, int target) {
-        int l = 0;
-        int r = nums.size() - 1;
-        
-        while(l <= r)
-        {
-            int mid = l + (r-l) / 2;
-            if (nums[mid] == target)
+        int n = nums.size(), left = 0, right = n - 1, mid;
+        while (left <= right) {
+            mid = left + (right - left)/2;
+            if (nums[mid] == target) {
                 return true;
-			// with duplicates we can have this contdition, just update left & right
-            if((nums[l] == nums[mid]) && (nums[r] == nums[mid]))
-            {
-                l++;
-                r--;
             }
-            else if(nums[l] <= nums[mid])
-            {
-				// target is in first  half
-                if((nums[l] <= target) && (nums[mid] > target))
-                    r = mid - 1;
-                else
-                    l = mid + 1;
-            }
-            else
-            {
-                if((nums[mid] < target) && (nums[r]>= target))
-                    l = mid + 1;
-                else
-                    r = mid - 1;
+            if (nums[left] == nums[mid] && nums[mid] == nums[right]) {
+                left += 1;
+                right -= 1;
+            } else if (nums[left] <= nums[mid]) {
+                if (nums[left] <= target && target <= nums[mid]) {
+                    right = mid - 1;
+                } else {
+                    left = mid + 1;
+                }
+            } else {
+                if (nums[mid] < target && target <= nums[right]) {
+                    left = mid + 1;
+                } else {
+                    right = mid - 1;
+                }
             }
         }
         return false;
@@ -10012,34 +10032,38 @@ return ans
 
 ## Breadth-first Search <a name="bfs"></a>
 ---
-### expand from answer 
-```python
-class Solution:
-    def updateMatrix(self, matrix: List[List[int]]) -> List[List[int]]:
-        R, C = len(matrix), len(matrix[0])
-        ans = [[float("inf") if matrix[r][c] == 1 else 0 for c in range(C)] for r in range(R)]
-        
-        def neighbours(r, c):
-            directions = ((r-1, c),(r+1, c),(r, c+1),(r, c-1))
-            for nr, nc in directions:
-                if 0 <= nr < R and 0 <= nc < C:
-                    yield nr, nc
-        
-        queue = collections.deque([])
-        
-        for r in range(R):
-            for c in range(C):          
-                if matrix[r][c] == 0:
-                    queue.append((r, c))
-                    
-        while queue:
-            r, c = queue.popleft()
-            for nr, nc in neighbours(r, c):
-                if ans[nr][nc] > ans[r][c] + 1:
-                    ans[nr][nc] = ans[r][c] + 1
-                    queue.append((nr, nc))
- 
-        return ans
+### only distance, without visited 
+```c++
+class Solution {
+    int dd[5] = {0, 1, 0, -1, 0};
+public:
+    vector<vector<int>> updateMatrix(vector<vector<int>>& mat) {
+        int m = mat.size(), n = mat[0].size(), i, j, d, nr, nc;
+        vector<vector<int>> ans(m, vector<int>(n, INT_MAX));
+        queue<array<int,2>> q;
+        for (i = 0; i < m; i ++) {
+            for (j = 0; j < n; j ++) {
+                if (mat[i][j] == 0) {
+                    ans[i][j] = 0;
+                    q.push({i, j});
+                }
+            }
+        }
+        while (q.size()) {
+            auto [r, c] = q.front();
+            q.pop();
+            for (d = 0; d < 4; d ++) {
+                nr = r + dd[d];
+                nc = c + dd[d+1];
+                if (0 <= nr && nr < m && 0 <= nc && nc < n && ans[nr][nc] > ans[r][c] + 1) {
+                    ans[nr][nc] = ans[r][c] + 1;
+                    q.push({nr, nc});
+                }
+            }
+        }
+        return ans;
+    }
+};
 ```
 * [Medium] [Solution] 542. 01 Matrix
 
@@ -10333,84 +10357,44 @@ class Solution:
 ```
 * [Medium] 116. Populating Next Right Pointers in Each Node
 
-### Topological Sorting, BFS from leaf to centroid
-```python
-class Solution:
-    def findMinHeightTrees(self, n: int, edges: List[List[int]]) -> List[int]:
-
-        # base cases
-        if n <= 2:
-            return [i for i in range(n)]
-
-        # Build the graph with the adjacency list
-        neighbors = [set() for i in range(n)]
-        for start, end in edges:
-            neighbors[start].add(end)
-            neighbors[end].add(start)
-
-        # Initialize the first layer of leaves
-        leaves = []
-        for i in range(n):
-            if len(neighbors[i]) == 1:
-                leaves.append(i)
-
-        # Trim the leaves until reaching the centroids
-        remaining_nodes = n
-        while remaining_nodes > 2:
-            remaining_nodes -= len(leaves)
-            new_leaves = []
-            # remove the current leaves along with the edges
-            while leaves:
-                leaf = leaves.pop()
-                for neighbor in neighbors[leaf]:
-                    neighbors[neighbor].remove(leaf)
-                    if len(neighbors[neighbor]) == 1:
-                        new_leaves.append(neighbor)
-
-            # prepare for the next round
-            leaves = new_leaves
-
-        # The remaining nodes are the centroids of the graph
-        return leaves
-```
+### Topological Sorting, level order
 ```c++
 class Solution {
 public:
     vector<int> findMinHeightTrees(int n, vector<vector<int>>& edges) {
-        if (n == 1) {
+        if (edges.size() == 0) {
             return {0};
         }
+        int i, sz;
         vector<vector<int>> g(n);
-        vector<int> indeg(n);
+        queue<int> q;
+        vector<int> indeg(n), ans;
         for (auto e: edges) {
             g[e[0]].push_back(e[1]);
             g[e[1]].push_back(e[0]);
             indeg[e[0]] += 1;
             indeg[e[1]] += 1;
         }
-        queue<int> q;
-        for (int i = 0; i < n; i ++) {
+        for (i = 0; i < n; i ++) {
             if (indeg[i] == 1) {
                 q.push(i);
             }
         }
-        int v, sz;
-        vector<int> ans;
         while (q.size()) {
             sz = q.size();
             ans.clear();
-            for (int i = 0; i < sz; i ++) {
-                v = q.front();
+            for (i = 0; i < sz; i ++) {
+                auto u = q.front();
                 q.pop();
-                ans.push_back(v);
-                indeg[v] -= 1;
-                for (auto nv: g[v]) {
-                    indeg[nv] -= 1;
-                    if (indeg[nv] == 1) {
-                        q.push(nv);
+                ans.push_back(u);
+                for (auto v: g[u]) {
+                    indeg[v] -= 1;
+                    if (indeg[v] == 1) {
+                        q.push(v);
                     }
-                }    
+                }
             }
+            
         }
         return ans;
     }
@@ -10732,30 +10716,39 @@ class Solution:
 * [Medium] 529. Minesweeper
 
 ### 2 Direction
-```python
-class Solution:
-    def shortestAlternatingPaths(self, n: int, red_edges: List[List[int]], blue_edges: List[List[int]]) -> List[int]:
-        queue = [(0,0,0),(0,1,0)]
-        seen = set()
-        ans = [-1]*(n)
-
-        graph = collections.defaultdict(list)
-
-        for s,e in red_edges:
-            graph[s].append((e,0))
-        for s,e in blue_edges:
-            graph[s].append((e,1))
-
-        while queue:
-            cur, color,depth = queue.pop(0)
-            seen.add((cur, color))
-            if ans[cur] == -1:
-                ans[cur] = depth 
-            for nei, nei_color in graph[cur]:
-                if nei_color == (1-color):
-                    if (nei, nei_color) not in seen:
-                        queue.append((nei, nei_color, depth+1))
-        return ans`
+```c++
+class Solution {
+public:
+    vector<int> shortestAlternatingPaths(int n, vector<vector<int>>& redEdges, vector<vector<int>>& blueEdges) {
+        vector<vector<array<int,2>>> g(n);
+        vector<array<int,2>> visited(n);
+        queue<array<int,3>> q;
+        vector<int> ans(n, -1);
+        for (auto &e: redEdges) {
+            g[e[0]].push_back({e[1], 0});
+        }
+        for (auto &e: blueEdges) {
+            g[e[0]].push_back({e[1], 1});
+        }
+        q.push({0, 0, -1});
+        visited[0] = {1, 1};
+        ans[0] = 0;
+        while (q.size()) {
+            auto [u, d, c] = q.front();
+            q.pop();
+            for (auto &[v, ec]: g[u]) {
+                if (c != ec && !visited[v][ec]) {
+                    visited[v][ec] = 1;
+                    if (ans[v] == -1) {
+                        ans[v] = d + 1;
+                    }
+                    q.push({v, d+1, ec});
+                }
+            }
+        }
+        return ans;
+    }
+};
 ```
 * [Medium] * 1129. Shortest Path with Alternating Colors
 
@@ -15080,22 +15073,6 @@ return dummy.next
 
 ## Heap <a name="heap"></a>
 ---
-### Greedy add
-```
-import heapq
-class Solution:
-    def kthSmallest(self, matrix: List[List[int]], k: int) -> int:
-        res = []
-        for i in range(len(matrix)):
-            for j in range(len(matrix[i])):
-                if len(res) < k:
-                    heapq.heappush(res, -matrix[i][j]) 
-                else:
-                    heapq.heappushpop(res, -matrix[i][j])
-        return -(res[0])
-```
-* [Medium] 378. Kth Smallest Element in a Sorted Matrix
-
 ### Greedy, backward sliding window
 ```python
 class Solution:
@@ -15288,124 +15265,99 @@ public:
 * [Medium] 1631. Path With Minimum Effort
 
 ### Dijkstra's Algorithm, time O((V+E) * Log(V)) = O(E*log(V))
-```python
-class Solution:
-    def networkDelayTime(self, times: List[List[int]], N: int, K: int) -> int:
-        graph = collections.defaultdict(list)
-        for u, v, w in times:
-            graph[u].append((v, w))
-
-        pq = [(0, K)]  # distance, node
-        # heapq.heapify(pq)
-        dist = {}  # visited node -> distance
-        while pq:
-            ## E*log(E) = E*log(V^2) = 2*E*log(V) = E*log(V)
-            d, node = heapq.heappop(pq)  # get next smallest distance node
-            if node in dist: continue
-            dist[node] = d
-            ## V*Log(V)
-            for nei, d2 in graph[node]:
-                if nei not in dist:
-                    heapq.heappush(pq, (d+d2, nei))  # append neighbor un-visited node
-
-        return max(dist.values()) if len(dist) == N else -1
-```
 ```c++
 class Solution {
 public:
-    // Adjacency list, defined it as per the maximum number of nodes
-    // But can be defined with the input size as well
-    vector<pair<int, int>> adj[101];
-    
-    void dijkstra(vector<int>& signalReceivedAt, int source, int n) {
-        priority_queue<pair<int, int>, vector<pair<int, int>>, 
-        greater<pair<int, int>>> pq;
-        pq.push({0, source});
-        
-        // Time for starting node is 0
-        signalReceivedAt[source] = 0;
-        
-        while (!pq.empty()) {
-            int currNodeTime = pq.top().first;
-            int currNode = pq.top().second; 
+    int networkDelayTime(vector<vector<int>>& times, int n, int k) {
+        vector<vector<array<int,2>>> g(n+1);
+        priority_queue<array<int,2>, vector<array<int,2>>, greater<array<int,2>>> pq;
+        vector<int> dist(n+1, INT_MAX);
+        for (auto &t: times) {
+            g[t[0]].push_back({t[1], t[2]});
+        }
+        pq.push({0, k});
+        dist[k] = 0;
+        while (pq.size()) {
+            auto [d, u] = pq.top();
             pq.pop();
-            
-            if (currNodeTime > signalReceivedAt[currNode]) {
-                continue;
-            }
-            
-            // Broadcast the signal to adjacent nodes
-            for (pair<int, int> edge : adj[currNode]) {
-                int time = edge.first;
-                int neighborNode = edge.second;
-                
-                // Fastest signal time for neighborNode so far
-                // signalReceivedAt[currNode] + time : 
-                // time when signal reaches neighborNode
-                if (signalReceivedAt[neighborNode] > currNodeTime + time) {
-                    signalReceivedAt[neighborNode] = currNodeTime + time;
-                    pq.push({signalReceivedAt[neighborNode], neighborNode});
+            for (auto &[v, w]: g[u]) {
+                if (dist[v] > d + w) {
+                    dist[v] = d + w;
+                    pq.push({d + w, v});
                 }
             }
         }
-    }
-    
-    int networkDelayTime(vector<vector<int>>& times, int n, int k) {
-        // Build the adjacency list
-        for (vector<int> time : times) {
-            int source = time[0];
-            int dest = time[1];
-            int travelTime = time[2];
-            
-            adj[source].push_back({travelTime, dest});
-        }
-        
-        vector<int> signalReceivedAt(n + 1, INT_MAX);
-        dijkstra(signalReceivedAt, k, n);
-        
-        int answer = INT_MIN;
-        for (int i = 1; i <= n; i++) {
-            answer = max(answer, signalReceivedAt[i]);
-        }
-        
-        // INT_MAX signifies atleat one node is unreachable
-        return answer == INT_MAX ? -1 : answer;
+        int ans = *max_element(dist.begin()+1, dist.end());
+        return ans == INT_MAX ? -1 : ans;
     }
 };
 ```
 * [Medium] [Solution] 743. Network Delay Time
 
-### level based Dijkstra's Algorithm, BFS
+### Dijkstra with start end constraint 
+```c++
+class Solution {
+public:
+    int minTime(int n, vector<vector<int>>& edges) {
+        int nt;
+        vector<vector<array<int,3>>> g(n);
+        priority_queue<array<int,2>, vector<array<int,2>>, greater<>> pq;
+        vector<int> dist(n, INT_MAX);
+        for (auto &e: edges) {
+            g[e[0]].push_back({e[1], e[2], e[3]});
+        }
+        pq.push({0, 0});
+        dist[0] = 0;
+        while (pq.size()) {
+            auto [t, u] = pq.top();
+            pq.pop();
+            if (u == n-1) {
+                return t;
+            }
+            for (auto &[v, st, et]: g[u]) {
+                if (t <= et) {
+                    nt = max(t, st) + 1;
+                    if (dist[v] > nt) {
+                        dist[v] = nt;
+                        pq.push({nt, v});
+                    }
+                }
+            }
+            
+        }
+        return -1;
+    }
+};
+```
+* [Medium] 3604. Minimum Time to Reach Destination in Directed Graph
+
+### level BFS based Dijkstra's Algorithm, try every level
 ```c++
 class Solution {
 public:
     int findCheapestPrice(int n, vector<vector<int>>& flights, int src, int dst, int k) {
-        unordered_map<int, vector<pair<int, int>>> adj;
-        for (auto& flight : flights) {
-            adj[flight[0]].push_back({flight[1], flight[2]});
-        }
-
+        vector<vector<array<int,2>>> g(n);
+        queue<array<int,3>> q;
         vector<int> dist(n, INT_MAX);
+        for (auto &f: flights) {
+            g[f[0]].push_back({f[1], f[2]});
+        }
+        q.push({src, 0, 0});
         dist[src] = 0;
-
-        queue<pair<int, int>> q;
-        q.push({src, 0});
-        int stops = 0;
-
-        while (!q.empty() && stops <= k) {
-            int sz = q.size();
-            while (sz-- > 0) {
-                auto [node, distance] = q.front();
-                q.pop();
-                for (auto& [neighbour, price] : adj[node]) {
-                    if (price + distance >= dist[neighbour]) continue;
-                    dist[neighbour] = price + distance;
-                    q.push({neighbour, dist[neighbour]});
+        while (q.size()) {
+            auto [u, d, s] = q.front();
+            q.pop();
+            if (s > k) {
+                continue;
+            }
+            for (auto &[v, w]: g[u]) {
+                if (d + w < dist[v]) {
+                    dist[v] = d + w;
+                    q.push({v, d+w, s+1});
                 }
             }
-            stops++;
         }
-        return dist[dst] == INT_MAX ? -1 : dist[dst];
+        return dist[dst] != INT_MAX ? dist[dst] : -1;
     }
 };
 ```
@@ -15615,36 +15567,34 @@ class Solution:
 ### bfs from border with heap
 ```c++
 class Solution {
-    int dr[4] = {-1, 0, 1, 0};
-    int dc[4] = {0, -1, 0, 1};
+    int dd[5] = {0, 1, 0, -1, 0};
 public:
     int trapRainWater(vector<vector<int>>& heightMap) {
-        int m = heightMap.size(), n = heightMap[0].size();
-        priority_queue<tuple<int, int, int>, vector<tuple<int, int, int>>, greater<tuple<int, int, int>>> pq;
-        vector<vector<int>> vis(m, vector<int>(n));
-        for (int i = 0; i < m; i++){
-            vis[i][0] = 1;
-            vis[i][n-1] = 1;
+        int m = heightMap.size(), n = heightMap[0].size(), i, d, nr, nc, ans = 0;
+        priority_queue<array<int,3>,vector<array<int,3>>,greater<>> pq;
+        vector<vector<int>> visited(m, vector<int>(n));
+        for (i = 0; i < m; i ++) {
+            visited[i][0] = 1;
+            visited[i][n-1] = 1;
             pq.push({heightMap[i][0], i, 0});
             pq.push({heightMap[i][n-1], i, n-1});
         }
-        for (int  i = 0; i < n; i++){
-            vis[0][i] = 1;
-            vis[m-1][i] = 1;
+        for (i = 1; i < n-1; i ++) {
+            visited[0][i] = 1;
+            visited[m-1][i] = 1;
             pq.push({heightMap[0][i], 0, i});
             pq.push({heightMap[m-1][i], m-1, i});
         }
-        int ans = 0;
-        while (!pq.empty()) {
-            auto [h, r, c] = pq.top();
+        while (pq.size()) {
+            auto [a, r, c] = pq.top();
             pq.pop();
-            for (int i = 0; i < 4; i++) {
-                int nr = r + dr[i];
-                int nc = c + dc[i];
-                if (nr >= 0 && nr < m && nc >= 0 && nc < n && !vis[nr][nc]){
-                    ans += max(0, h-heightMap[nr][nc]);
-                    pq.push({max(h, heightMap[nr][nc]), nr, nc});
-                    vis[nr][nc] = 1;
+            for (d = 0; d < 4; d ++) {
+                nr = r + dd[d];
+                nc = c + dd[d+1];
+                if (0 <= nr && nr < m && 0 <= nc && nc < n && !visited[nr][nc]) {
+                    ans += max(0, a - heightMap[nr][nc]);
+                    visited[nr][nc] = 1;
+                    pq.push({max(a, heightMap[nr][nc]), nr, nc});
                 }
             }
         }

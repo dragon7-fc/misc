@@ -168,41 +168,7 @@ bool isBipartite(int** graph, int graphSize, int* graphColSize){
 }
 ```
 
-**Solution 5: (DFS)**
-```
-Runtime: 17 ms
-Memory: 16.02 MB
-```
-```c++
-class Solution {
-    bool dfs(int v, int c, vector<int>& color, vector<vector<int>>& graph) {
-        color[v] = c;
-        for (auto &nv: graph[v]) {
-            if (color[nv] == -1) {
-                if (!dfs(nv, c^1, color, graph))
-                    return false; 
-            } else if (color[nv] == color[v])
-                return false;
-        }
-        return true;
-    }
-
-public:
-    bool isBipartite(vector<vector<int>>& graph) {
-        int n = graph.size();
-        vector<int> color(n, -1);
-        for (int i = 0; i < n; i ++) {
-            if (color[i] == -1) {
-                if(!dfs(i, 0, color, graph))
-                    return false;
-            }
-        }
-        return true;
-    }
-};
-```
-
-**Solution 6: (BFS)**
+**Solution 5: (BFS)**
 ```
 Runtime: 30 ms
 Memory: 13.6 MB
@@ -234,6 +200,38 @@ public:
             }
         }
         
+        return true;
+    }
+};
+```
+
+**Solution 6: (DFS)**
+```
+Runtime: 0 ms, Beats 100.00%
+Memory: 17.38 MB, Beats 73.04%
+```
+```c++
+class Solution {
+    bool dfs(int u, int c, vector<vector<int>> &g, vector<int> &visited) {
+        visited[u] = c;
+        for (auto v: g[u]) {
+            if (visited[v] == c || visited[v] == -1 && !dfs(v, 1^c, g, visited)) {
+                return false;
+            }
+        }
+        return true;
+    }
+public:
+    bool isBipartite(vector<vector<int>>& graph) {
+        int n = graph.size(), i;
+        vector<int> visited(n, -1);
+        for (i = 0; i < n; i ++) {
+            if (visited[i] == -1) {
+                if (!dfs(i, 0, graph, visited)) {
+                    return false;
+                }
+            }
+        }
         return true;
     }
 };

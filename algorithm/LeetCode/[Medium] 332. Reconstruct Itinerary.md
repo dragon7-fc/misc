@@ -313,7 +313,7 @@ public:
 };
 ```
 
-**Solution 5: (DFS)**
+**Solution 5: (DFS, Euler Path)**
 ```
 Runtime: 11 ms
 Memory: 14.6 MB
@@ -347,6 +347,88 @@ public:
         reverse(itinerary.begin(), itinerary.end());
 
         return itinerary;
+    }
+};
+```
+
+**Solution 7: (DFS, Euler Path, post order, stack)**
+```
+Runtime: 4 ms, Beats 83.80%
+Memory: 19.64 MB, Beats 93.65%
+```
+```c++
+class Solution {
+public:
+    vector<string> findItinerary(vector<vector<string>>& tickets) {
+        unordered_map<string,multiset<string>> g;
+        vector<string> ans;
+        for (auto &t: tickets) {
+            g[t[0]].insert(t[1]);
+        }
+        stack<string> stk;
+        stk.push("JFK");
+        while (stk.size()) {
+            auto u = stk.top();
+            if (g[u].size()) {
+                stk.push(*g[u].begin());
+                g[u].erase(g[u].begin());
+            } else {
+                ans.push_back(u);
+                stk.pop();
+            }
+        }
+        reverse(ans.begin(), ans.end());
+        return ans;
+    }
+};
+```
+
+**Solution 7: (DFS, Euler Path, post order)**
+
+  tickets = [["MUC","LHR"],["JFK","MUC"],["SFO","SJC"],["LHR","SFO"]]
+
+    SFO
+     ^ \ ^ 
+     |   \ \
+     |    v \
+    JFK -> ATL
+        <-
+
+    JFK -> ATL -> FJK -> SFO -> ATL -> SFO
+stk                                    SFO
+                                SFO ATL
+                         SFO ATL SFO
+                  SFO ATL SFO FJK
+           SFO ATL SFO FJK ATL
+    SFO ATL SFO FJK ATL JFK
+           <-
+
+
+```
+Runtime: 5 ms, Beats 76.43%
+Memory: 20.46 MB, Beats 84.67%
+```
+```c++
+class Solution {
+    void dfs(string u, vector<string> &ans, unordered_map<string,multiset<string>> &g) {
+        while (g[u].size()) {
+            auto it = g[u].begin();
+            auto v = *it;
+            g[u].erase(it);
+            dfs(v, ans, g);
+        }
+        ans.push_back(u);
+    }
+public:
+    vector<string> findItinerary(vector<vector<string>>& tickets) {
+        unordered_map<string,multiset<string>> g;
+        vector<string> ans;
+        for (auto &t: tickets) {
+            g[t[0]].insert(t[1]);
+        }
+        dfs("JFK", ans, g);
+        reverse(ans.begin(), ans.end());
+        return ans;
     }
 };
 ```

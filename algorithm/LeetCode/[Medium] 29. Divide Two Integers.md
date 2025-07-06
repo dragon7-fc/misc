@@ -127,9 +127,16 @@ int divide(int dividend, int divisor){
 ```
 
 **Solution 3: (Math, Bit Manipulation)**
+
+    10 / 3 = 3.333
+             ^
+
+    3  2 1 0
+   24 12 6 3
+
 ```
-Runtime: 0 ms
-Memory Usage: 6 MB
+Runtime: 0 ms, Beats 100.00%
+Memory: 8.70 MB, Beats 37.69%
 ```
 ```c++
 class Solution {
@@ -138,18 +145,25 @@ public:
         if (dividend == INT_MIN && divisor == -1) {
             return INT_MAX;
         }
-        long dvd = labs(dividend), dvs = labs(divisor), ans = 0;
-        int sign = dividend > 0 ^ divisor > 0 ? -1 : 1;
-        while (dvd >= dvs) {
-            long temp = dvs, m = 1;
-            while (temp << 1 <= dvd) {
-                temp <<= 1;
-                m <<= 1;
+        long long r = labs(dividend), d = labs(divisor), a, c, ans = 0;
+        while (r >= d) {
+            a = d;
+            c = 1;
+            while ((a<<1) <= r) {
+                a <<= 1;
+                c <<= 1;
             }
-            dvd -= temp;
-            ans += m;
+            r -= a;
+            ans += c;
         }
-        return sign * ans;
+        ans = ans * (((dividend > 0)^(divisor > 0)) ? -1 : 1);
+        if (ans < INT_MIN) {
+            ans = INT_MIN;
+        }
+        if (ans > INT_MAX) {
+            ans = INT_MAX;
+        }
+        return ans;
     }
 };
 ```

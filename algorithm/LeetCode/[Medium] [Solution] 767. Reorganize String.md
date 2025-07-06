@@ -271,3 +271,47 @@ public:
     }
 };
 ```
+
+**Solution 4: (Heap)**
+```
+Runtime: 0 ms, Beats 100.00%
+Memory: 8.39 MB, Beats 70.55%
+```
+```c++
+class Solution {
+public:
+    string reorganizeString(string s) {
+        unordered_map<char,int> cnt;
+        priority_queue<pair<int,char>> pq;
+        string ans;
+        for (auto c: s) {
+            cnt[c] += 1;
+        }
+        for (auto [c, k]: cnt) {
+            pq.push({k, c});
+        }
+        while (pq.size() >= 2) {
+            auto [k1, c1] = pq.top();
+            pq.pop();
+            auto [k2, c2] = pq.top();
+            pq.pop();
+            ans += c1;
+            ans += c2;
+            if (k1 > 1) {
+                pq.push({k1-1, c1});
+            }
+            if (k2 > 1) {
+                pq.push({k2-1, c2});
+            }
+        }
+        if (pq.size()) {
+            auto [k, c] = pq.top();
+            if (k > 1) {
+                return "";
+            }
+            ans += c;
+        }
+        return ans;
+    }
+};
+```

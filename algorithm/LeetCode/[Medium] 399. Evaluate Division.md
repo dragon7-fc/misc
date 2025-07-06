@@ -129,47 +129,47 @@ class Solution:
         return ans
 ```
 
-**Solution 4: (Backtracking)**
+**Solution 4: (DFS)**
 ```
-Runtime: 0 ms
-Memory: 8.1 MB
+Runtime: 0 ms, Beats 100.00%
+Memory: 11.98 MB, Beats 55.67%
 ```
 ```c++
 class Solution {
-    bool bt(string s, string &t, double cur, double &rst, unordered_map<string, unordered_map<string, double>> &g,  unordered_set<string> &seen) {
-        if (s == t) {
-            rst = cur;
+    bool dfs(string u, string t, double p, double &rst, unordered_map<string, unordered_map<string, double>> &g, unordered_set<string> &visited) {
+        if (u == t) {
+            if (g.count(u)) {
+                rst = p;
+            }
             return true;
         }
-        seen.insert(s);
-        double ncur;
-        for (auto &[ns, nv]: g[s]) {
-            if (!seen.count(ns) && bt(ns, t, cur*nv, rst, g, seen)) {
-                return true;
+        visited.insert(u);
+        if (g.count(u)) {
+            for (auto &[v, w]: g[u]) {
+                if (!visited.count(v)) {
+                    if (dfs(v, t, p*w, rst, g, visited)) {
+                        return true;
+                    }
+                }
             }
         }
         return false;
     }
 public:
     vector<double> calcEquation(vector<vector<string>>& equations, vector<double>& values, vector<vector<string>>& queries) {
+        int m = equations.size(), n = queries.size(), i;
         unordered_map<string, unordered_map<string, double>> g;
-        for (int i = 0; i < equations.size(); i ++) {
-            g[equations[i][0]][equations[i][0]] = 1;
-            g[equations[i][1]][equations[i][1]] = 1;
+        vector<double> ans(n, -1);
+        unordered_set<string> visited;
+        for (i = 0; i < m; i ++) {
             g[equations[i][0]][equations[i][1]] = values[i];
             g[equations[i][1]][equations[i][0]] = 1/values[i];
+            g[equations[i][0]][equations[i][0]] = 1;
+            g[equations[i][1]][equations[i][1]] = 1;
         }
-        vector<double> ans;
-        unordered_set<string> seen;
-        double cur, rst;
-        for (int i = 0; i < queries.size(); i ++) {
-            cur = 1;
-            if (!g.count(queries[i][0]) || !g.count(queries[i][1]) || !bt(queries[i][0], queries[i][1], cur, rst, g, seen)) {
-                ans.push_back(-1);
-            } else {
-                ans.push_back(rst);
-            }
-            seen.clear();
+        for (i = 0; i < n; i ++) {
+            dfs(queries[i][0], queries[i][1], 1, ans[i], g, visited);
+            visited.clear();
         }
         return ans;
     }

@@ -74,3 +74,37 @@ class FindSumPairs:
 # obj.add(index,val)
 # param_2 = obj.count(tot)
 ```
+
+**Solution 2: (Hash Table)**
+```
+Runtime: 291 ms, Beats 34.03%
+Memory: 189.75 MB, Beats 19.00%
+```
+```c++
+class FindSumPairs {
+    vector<int> dp, dp2;
+    unordered_map<int,int> cnt;
+public:
+    FindSumPairs(vector<int>& nums1, vector<int>& nums2) {
+        dp = nums1;
+        dp2 = nums2;
+        for (auto &num: nums2) {
+            cnt[num] += 1;
+        }
+    }
+    
+    void add(int index, int val) {
+        cnt[dp2[index]] -= 1;
+        cnt[dp2[index] + val] += 1;
+        dp2[index] += val;
+    }
+    
+    int count(int tot) {
+        int ans = 0;
+        for (auto &num: dp) {
+            ans += cnt[tot - num];
+        }
+        return ans;
+    }
+};
+```

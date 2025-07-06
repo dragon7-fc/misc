@@ -332,3 +332,40 @@ public:
     }
 };
 ```
+
+**Solution 4: (DFS)**
+```
+Runtime: 43 ms, Beats 51.52%
+Memory: 69.05 MB, Beats 80.13%
+```
+```c++
+class Solution {
+    bool dfs(int u, int c, vector<vector<int>> &g, vector<int> &visited) {
+        visited[u] = c;
+        for (auto v: g[u]) {
+            if (visited[v] == c || visited[v] == -1 && !dfs(v, 1^c, g, visited)) {
+                return false;
+            }
+        }
+        return true;
+    }
+public:
+    bool possibleBipartition(int n, vector<vector<int>>& dislikes) {
+        int i;
+        vector<vector<int>> g(n+1);
+        vector<int> visited(n+1, -1);
+        for (auto &d: dislikes) {
+            g[d[0]].push_back(d[1]);
+            g[d[1]].push_back(d[0]);
+        }
+        for (i = 1; i <= n; i ++) {
+            if (visited[i] == -1) {
+                if (!dfs(i, 0, g, visited)) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+};
+```

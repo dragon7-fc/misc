@@ -363,8 +363,8 @@ public:
 
 **Solution 5: (Merge with Divide And Conquer)**
 ```
-Runtime: 26 ms
-Memory: 13.4 MB
+Runtime: 0 ms, Beats 100.00%
+Memory: 18.02 MB, Beats 97.66%
 ```
 ```c++
 /**
@@ -380,30 +380,36 @@ Memory: 13.4 MB
 class Solution {
 public:
     ListNode* mergeKLists(vector<ListNode*>& lists) {
-        int N = lists.size();
-        ListNode *dummy, *cur, *a, *b;
-        for (int k = 1; k < N; k *= 2) {
-            for (int i = 0; i < N-k; i += k*2) {
-                dummy = cur = new ListNode(0);
-                a = lists[i], b = lists[i+k];
-                while (a && b) {
-                    if (a->val <= b->val) {
-                        cur->next = a;
-                        a = a->next;
+        if (lists.size() == 0) {
+            return nullptr;
+        }
+        int n = lists.size(), i, k;
+        ListNode *dummy = new ListNode(), *pre, *node1, *node2;
+        for (k = 1; k < n; k *= 2) {
+            for (i = 0; i + k < n; i += 2*k) {
+                pre = dummy;
+                node1 = lists[i];
+                node2 = lists[i+k];
+                while (node1 != nullptr && node2 != nullptr) {
+                    if (node1->val <= node2->val) {
+                        pre->next = node1;
+                        pre = node1;
+                        node1 = node1->next;
                     } else {
-                        cur->next = b;
-                        b = b->next;
+                        pre->next = node2;
+                        pre = node2;
+                        node2 = node2->next;
                     }
-                    cur = cur->next;
                 }
-                if (a)
-                    cur->next = a;
-                else
-                    cur->next = b;
+                if (node1) {
+                    pre->next = node1;
+                } else {
+                    pre->next = node2;
+                }
                 lists[i] = dummy->next;
             }
         }
-        return N > 0 ? lists[0] : nullptr;
+        return lists[0];
     }
 };
 ```

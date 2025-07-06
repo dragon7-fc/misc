@@ -57,34 +57,33 @@ class Solution:
 
 **Solution 3: (Heap)**
 ```
-Runtime: 398 ms
-Memory: 110.1 MB
+Runtime: 72 ms, Beats 59.80%
+Memory: 142.10 MB, Beats 38.42%
 ```
 ```c++
 class Solution {
 public:
     vector<vector<int>> kSmallestPairs(vector<int>& nums1, vector<int>& nums2, int k) {
-        priority_queue<pair<int,pair<int,int>>> pq;
-        for (int i = 0; i < min((int)nums1.size(), k); i++) {
-            for (int j = 0; j < min((int)nums2.size(), k); j++) {
-                int sum = nums1[i]+nums2[j];
-                if (pq.size() < k) {
-                    pq.push({sum, {nums1[i], nums2[j]}});
-                } else if(sum < pq.top().first) {
-                    pq.pop();
-                    pq.push({sum, {nums1[i], nums2[j]}});
-                } else {
-                    break;
-                }
-            }
-        }
+        int m = nums1.size(), n = nums2.size();
+        priority_queue<tuple<int,int,int>,vector<tuple<int,int,int>>,greater<tuple<int,int,int>>> pq;
+        unordered_map<int,unordered_set<int>> visited;
         vector<vector<int>> ans;
-        while(!pq.empty())
-        {
-            ans.push_back({pq.top().second.first, pq.top().second.second});
+        pq.push({nums1[0] + nums2[0], 0, 0});
+        visited[0].insert(0);
+        while (k) {
+            auto [a, i, j] = pq.top();
             pq.pop();
+            ans.push_back({nums1[i], nums2[j]});
+            if (i+1 < m && !visited[i+1].count(j)) {
+                pq.push({nums1[i+1] + nums2[j], i+1, j});
+                visited[i+1].insert(j);
+            }
+            if (j+1 < n && !visited[i].count(j+1)) {
+                pq.push({nums1[i] + nums2[j+1], i, j+1});
+                visited[i].insert(j+1);
+            }
+            k -= 1;
         }
-        reverse(ans.begin(), ans.end());
         return ans;
     }
 };

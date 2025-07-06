@@ -266,41 +266,39 @@ int trapRainWater(int** heightMap, int heightMapSize, int* heightMapColSize){
 
 **Solution 3: (Heap, bfs from border with heap)**
 ```
-Runtime: 28 ms
-Memory: 19.31 MB
+Runtime: 39 ms, Beats 32.26%
+Memory: 19.31 MB, Beats 30.47%
 ```
 ```c++
 class Solution {
-    int dr[4] = {-1, 0, 1, 0};
-    int dc[4] = {0, -1, 0, 1};
+    int dd[5] = {0, 1, 0, -1, 0};
 public:
     int trapRainWater(vector<vector<int>>& heightMap) {
-        int m = heightMap.size(), n = heightMap[0].size();
-        priority_queue<tuple<int, int, int>, vector<tuple<int, int, int>>, greater<tuple<int, int, int>>> pq;
-        vector<vector<int>> vis(m, vector<int>(n));
-        for (int i = 0; i < m; i++){
-            vis[i][0] = 1;
-            vis[i][n-1] = 1;
+        int m = heightMap.size(), n = heightMap[0].size(), i, d, nr, nc, ans = 0;
+        priority_queue<array<int,3>,vector<array<int,3>>,greater<>> pq;
+        vector<vector<int>> visited(m, vector<int>(n));
+        for (i = 0; i < m; i ++) {
+            visited[i][0] = 1;
+            visited[i][n-1] = 1;
             pq.push({heightMap[i][0], i, 0});
             pq.push({heightMap[i][n-1], i, n-1});
         }
-        for (int  i = 0; i < n; i++){
-            vis[0][i] = 1;
-            vis[m-1][i] = 1;
+        for (i = 1; i < n-1; i ++) {
+            visited[0][i] = 1;
+            visited[m-1][i] = 1;
             pq.push({heightMap[0][i], 0, i});
             pq.push({heightMap[m-1][i], m-1, i});
         }
-        int ans = 0;
-        while (!pq.empty()) {
-            auto [h, r, c] = pq.top();
+        while (pq.size()) {
+            auto [a, r, c] = pq.top();
             pq.pop();
-            for (int i = 0; i < 4; i++) {
-                int nr = r + dr[i];
-                int nc = c + dc[i];
-                if (nr >= 0 && nr < m && nc >= 0 && nc < n && !vis[nr][nc]){
-                    ans += max(0, h-heightMap[nr][nc]);
-                    pq.push({max(h, heightMap[nr][nc]), nr, nc});
-                    vis[nr][nc] = 1;
+            for (d = 0; d < 4; d ++) {
+                nr = r + dd[d];
+                nc = c + dd[d+1];
+                if (0 <= nr && nr < m && 0 <= nc && nc < n && !visited[nr][nc]) {
+                    ans += max(0, a - heightMap[nr][nc]);
+                    visited[nr][nc] = 1;
+                    pq.push({max(a, heightMap[nr][nc]), nr, nc});
                 }
             }
         }

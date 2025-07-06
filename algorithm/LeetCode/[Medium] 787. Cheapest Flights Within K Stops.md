@@ -297,41 +297,37 @@ public:
 };
 ```
 
-**Solution 8: (BFS)**
+**Solution 8: (BFS, O(N*K + E))**
 ```
-Runtime: 20 ms
-Memory: 16.80 MB
+Runtime: 0 ms, Beats 100.00%
+Memory: 17.59 MB, Beats 89.75%
 ```
 ```c++
 class Solution {
 public:
     int findCheapestPrice(int n, vector<vector<int>>& flights, int src, int dst, int k) {
-        unordered_map<int, vector<pair<int, int>>> adj;
-        for (auto& flight : flights) {
-            adj[flight[0]].push_back({flight[1], flight[2]});
-        }
-
+        vector<vector<array<int,2>>> g(n);
+        queue<array<int,3>> q;
         vector<int> dist(n, INT_MAX);
+        for (auto &f: flights) {
+            g[f[0]].push_back({f[1], f[2]});
+        }
+        q.push({src, 0, 0});
         dist[src] = 0;
-
-        queue<pair<int, int>> q;
-        q.push({src, 0});
-        int stops = 0;
-
-        while (!q.empty() && stops <= k) {
-            int sz = q.size();
-            while (sz-- > 0) {
-                auto [node, distance] = q.front();
-                q.pop();
-                for (auto& [neighbour, price] : adj[node]) {
-                    if (price + distance >= dist[neighbour]) continue;
-                    dist[neighbour] = price + distance;
-                    q.push({neighbour, dist[neighbour]});
+        while (q.size()) {
+            auto [u, d, s] = q.front();
+            q.pop();
+            if (s > k) {
+                continue;
+            }
+            for (auto &[v, w]: g[u]) {
+                if (d + w < dist[v]) {
+                    dist[v] = d + w;
+                    q.push({v, d+w, s+1});
                 }
             }
-            stops++;
         }
-        return dist[dst] == INT_MAX ? -1 : dist[dst];
+        return dist[dst] != INT_MAX ? dist[dst] : -1;
     }
 };
 ```

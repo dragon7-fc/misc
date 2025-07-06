@@ -355,50 +355,7 @@ int** updateMatrix(int** mat, int matSize, int* matColSize, int* returnSize, int
 }
 ```
 
-**Solution 4: (BFS)**
-```
-Runtime: 178 ms
-Memory Usage: 30.3 MB
-```
-```c++
-class Solution {
-public:
-    vector<vector<int>> updateMatrix(vector<vector<int>>& mat) {
-        int rows = mat.size();
-        if (rows == 0)
-            return mat;
-        int cols = mat[0].size();
-        vector<vector<int>> dist(rows, vector<int> (cols, INT_MAX));
-        queue<pair<int, int>> q;
-        for (int i = 0; i < rows; i++) {
-            for (int j = 0; j < cols; j++) {
-                if (mat[i][j] == 0) {
-                    dist[i][j] = 0;
-                    q.push({ i, j }); //Put all 0s in the queue.
-                }
-            }
-        }
-
-        int dir[4][2] = { { -1, 0 }, { 1, 0 }, { 0, -1 }, { 0, 1 } };
-        while (!q.empty()) {
-            pair<int, int> curr = q.front();
-            q.pop();
-            for (int i = 0; i < 4; i++) {
-                int new_r = curr.first + dir[i][0], new_c = curr.second + dir[i][1];
-                if (new_r >= 0 && new_c >= 0 && new_r < rows && new_c < cols) {
-                    if (dist[new_r][new_c] > dist[curr.first][curr.second] + 1) {
-                        dist[new_r][new_c] = dist[curr.first][curr.second] + 1;
-                        q.push({ new_r, new_c });
-                    }
-                }
-            }
-        }
-        return dist;
-    }
-};
-```
-
-**Solution 5: (DP)**
+**Solution 4: (DP)**
 ```
 Runtime: 56 ms
 Memory Usage: 27.5 MB
@@ -437,6 +394,44 @@ public:
             }
         }
         return dist;
+    }
+};
+```
+
+**Solution 5: (BFS)**
+```
+Runtime: 11 ms, Beats 87.52%
+Memory: 34.62 MB, Beats 87.18%
+```
+```c++
+class Solution {
+    int dd[5] = {0, 1, 0, -1, 0};
+public:
+    vector<vector<int>> updateMatrix(vector<vector<int>>& mat) {
+        int m = mat.size(), n = mat[0].size(), i, j, d, nr, nc;
+        vector<vector<int>> ans(m, vector<int>(n, INT_MAX));
+        queue<array<int,2>> q;
+        for (i = 0; i < m; i ++) {
+            for (j = 0; j < n; j ++) {
+                if (mat[i][j] == 0) {
+                    ans[i][j] = 0;
+                    q.push({i, j});
+                }
+            }
+        }
+        while (q.size()) {
+            auto [r, c] = q.front();
+            q.pop();
+            for (d = 0; d < 4; d ++) {
+                nr = r + dd[d];
+                nc = c + dd[d+1];
+                if (0 <= nr && nr < m && 0 <= nc && nc < n && ans[nr][nc] > ans[r][c] + 1) {
+                    ans[nr][nc] = ans[r][c] + 1;
+                    q.push({nr, nc});
+                }
+            }
+        }
+        return ans;
     }
 };
 ```

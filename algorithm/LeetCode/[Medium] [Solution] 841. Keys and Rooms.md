@@ -160,3 +160,29 @@ public:
     }
 };
 ```
+
+**Solution4 : (DFS)**
+```
+Runtime: 0 ms, Beats 100.00%
+Memory: 14.76 MB, Beats 34.84%
+```
+```c++
+class Solution {
+    void dfs(int u, vector<vector<int>> &g, vector<int> &visited) {
+        visited[u] = 1;
+        for (auto v: g[u]) {
+            if (!visited[v]) {
+                dfs(v, g, visited);
+            }
+        }
+    }
+public:
+    bool canVisitAllRooms(vector<vector<int>>& rooms) {
+        int n = rooms.size();
+        vector<int> visited(n);
+        dfs(0, rooms, visited);
+        return count(visited.begin(), visited.end(), 1) == n;
+    }
+};
+
+```

@@ -139,22 +139,22 @@ int peakIndexInMountainArray(int* arr, int arrSize){
 
 **Solution 4: (Binary Search)**
 ```
-Runtime: 119 ms
-Memory: 59.7 MB
+Runtime: 0 ms, Beats 100.00%
+Memory: 63.40 MB, Beats 97.05%
 ```
 ```c++
 class Solution {
 public:
     int peakIndexInMountainArray(vector<int>& arr) {
-        int mid, left = 1, right = arr.size()-2;
+        int left = 1, right = arr.size()-2, mid;
         while (left <= right) {
             mid = left + (right-left)/2;
-            if (arr[mid-1] < arr[mid] && arr[mid] > arr[mid+1]) {
+            if (arr[mid - 1] < arr[mid] && arr[mid] > arr[mid + 1]) {
                 return mid;
-            } else if (arr[mid-1] < arr[mid] && arr[mid] < arr[mid+1]) {
-                left = mid + 1;
-            } else {
+            } else if (arr[mid - 1] > arr[mid]) {
                 right = mid - 1;
+            } else {
+                left = mid + 1;
             }
         }
         return -1;

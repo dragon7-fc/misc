@@ -297,17 +297,17 @@ public:
 
 **Solution 8: (BFS)**
 ```
-Runtime: 32 ms
-Memory: 16.99 MB
+Runtime: 23 ms, Beats 84.24%
+Memory: 18.66 MB, Beats 42.54%
 ```
 ```c++
 class Solution {
+    int dd[5] = {0, 1, 0, -1, 0};
 public:
     int numIslands(vector<vector<char>>& grid) {
-        int m = grid.size(), n = grid[0].size(), ans = 0, ni, nj;
+        int m = grid.size(), n = grid[0].size(), ans = 0, d, ni, nj;
         vector<vector<bool>> visited(m, vector<bool>(n));
-        queue<pair<int,int>> q;
-        int d[5] = {0, 1, 0, -1, 0};
+        queue<array<int,2>> q;
         for (int i = 0; i < m; i ++) {
             for (int j = 0; j < n; j ++) {
                 if (grid[i][j] == '1' && !visited[i][j]) {
@@ -317,9 +317,9 @@ public:
                     while (q.size()) {
                         auto [ci, cj] = q.front();
                         q.pop();
-                        for (int dd = 0; dd < 4; dd ++) {
-                            ni = ci + d[dd];
-                            nj = cj + d[dd+1];
+                        for (int d = 0; d < 4; d ++) {
+                            ni = ci + dd[d];
+                            nj = cj + dd[d+1];
                             if (0 <= ni && ni < m && 0 <= nj && nj < n && grid[ni][nj] == '1' && !visited[ni][nj]) {
                                 q.push({ni, nj});
                                 visited[ni][nj] = true;

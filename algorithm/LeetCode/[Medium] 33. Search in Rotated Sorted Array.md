@@ -187,26 +187,28 @@ class Solution:
 
 
 ```
-Runtime: 2 ms, Beats 3.07%
-Memory: 15.09 MB, Beats 95.16%
+Runtime: 0 ms, Beats 100.00%
+Memory: 15.25 MB, Beats 32.89%
 ```
 ```c++
 class Solution {
 public:
     int search(vector<int>& nums, int target) {
-        int n = nums.size(), left = 0, right = n-1, mid;
+        int n = nums.size(), left = 0, right = n - 1, mid;
         while (left <= right) {
-            mid = left + (right-left)/2;
+            mid = left + (right - left)/2;
             if (nums[mid] == target) {
                 return mid;
             } else if (nums[left] <= nums[mid]) {
-                if (target >= nums[left] && target < nums[mid]) {
+                                // ^ 2 element
+                if (nums[left] <= target && target <= nums[mid]) {
+                                                 // ^ 2 element
                     right = mid - 1;
                 } else {
                     left = mid + 1;
                 }
             } else {
-                if (target > nums[mid] && target <= nums[right]) {
+                if (nums[mid] < target && target <= nums[right]) {
                     left = mid + 1;
                 } else {
                     right = mid - 1;

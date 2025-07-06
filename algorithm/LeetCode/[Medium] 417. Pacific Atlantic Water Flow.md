@@ -191,68 +191,7 @@ int** pacificAtlantic(int** heights, int heightsSize, int* heightsColSize, int* 
 }
 ```
 
-**Solution 4: (DFS)**
-```
-Runtime: 69 ms
-Memory Usage: 17.4 MB
-```
-```c++
-class Solution {
-    void dfs(vector<vector<int>>& h, vector<vector<bool>>& vis, int i, int j) {
-        
-        int m = h.size();
-        int n = h[0].size();
-
-        vis[i][j] = true;
-        //up
-        if (i-1 >= 0 && vis[i-1][j] != true && h[i-1][j] >= h[i][j])
-            dfs(h, vis, i-1, j);
-        //down
-        if (i+1 < m && vis[i+1][j] != true && h[i+1][j] >= h[i][j])
-            dfs(h, vis, i+1, j);
-        //left
-        if (j-1 >= 0 && vis[i][j-1] != true && h[i][j-1] >= h[i][j])
-            dfs(h, vis, i, j-1);
-        //right
-        if (j+1 < n && vis[i][j+1] != true && h[i][j+1] >= h[i][j])
-            dfs(h, vis, i, j+1);
-    }
-public:
-    vector<vector<int>> pacificAtlantic(vector<vector<int>>& heights) {
-        vector<vector<int>>ans;
-        int m = heights.size();
-        int n = heights[0].size();
-        
-        vector<vector<bool>> pacific(m, vector<bool>(n));
-        vector<vector<bool>> atlantic(m, vector<bool>(n));
-        
-        for (int i = 0; i < m; i++) {
-            
-            dfs(heights, pacific, i, 0);
-            dfs(heights, atlantic, i, n-1);
-
-        }
-        
-        for (int j = 0; j < n; j++) {
-            
-            dfs(heights, pacific, 0, j);
-            dfs(heights, atlantic, m-1, j);
-        }
-
-        
-        for (int i = 0; i < m; i++) {
-            for (int j = 0; j < n; j++) {
-                
-                if (pacific[i][j] && atlantic[i][j]) // agar uss particular point se dono oceans mai jaa paa rahe hai
-                    ans.push_back({i,j});           // toh answer push kardo
-            }
-        }
-        return ans;
-    }
-};
-```
-
-**Solution 5: (BFS)**
+**Solution 4: (BFS)**
 ```
 Runtime: 44 ms
 Memory Usage: 20 MB
@@ -316,6 +255,58 @@ public:
                 
                 if(visp[i][j]==1 && visq[i][j]==1)
                     ans.push_back({i,j});
+            }
+        }
+        return ans;
+    }
+};
+```
+
+**Solution 5: (DFS)**
+```
+Runtime: 0 ms, Beats 100.00%
+Memory: 22.53 MB, Beats 75.72%
+```
+```c++
+class Solution {
+    int dd[5] = {0, 1, 0, -1, 0};
+    void dfs(int i, int j, int c, vector<vector<int>> &visited, vector<vector<int>> &heights) {
+        int d, ni, nj;
+        visited[i][j] |= c;
+        for (d = 0; d < 4; d ++) {
+            ni = i + dd[d];
+            nj = j + dd[d+1];
+            if (0 <= ni && ni < visited.size() && 0 <= nj && nj < visited[0].size() && heights[ni][nj] >= heights[i][j] && (visited[ni][nj]&c) == 0) {
+                dfs(ni, nj, c, visited, heights);
+            }
+        }
+    }
+public:
+    vector<vector<int>> pacificAtlantic(vector<vector<int>>& heights) {
+        int m = heights.size(), n = heights[0].size(), i, j;
+        vector<vector<int>> visited(m, vector<int>(n));
+        vector<vector<int>> ans;
+        for (i = 0; i < m; i ++) {
+            if (!(visited[i][0]&1)) {
+                dfs(i, 0, 1, visited, heights);
+            }
+            if (!(visited[i][n-1]&2)) {
+                dfs(i, n-1, 2, visited, heights);
+            }
+        }
+        for (i = 0; i < n; i ++) {
+            if (!(visited[0][i]&1)) {
+                dfs(0, i, 1, visited, heights);
+            }
+            if (!(visited[m-1][i]&2)) {
+                dfs(m-1, i, 2, visited, heights);
+            }
+        }
+        for (i = 0; i < m; i ++) {
+            for (j = 0; j < n; j ++) {
+                if (visited[i][j] == 3) {
+                    ans.push_back({i, j});
+                }
             }
         }
         return ans;

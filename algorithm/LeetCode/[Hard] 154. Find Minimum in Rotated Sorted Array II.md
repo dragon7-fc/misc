@@ -96,3 +96,30 @@ int findMin(int* nums, int numsSize){
     return nums[left];
 }
 ```
+
+**Solution 4: (Bionary Search)**
+```
+Runtime: 0 ms, Beats 100.00%
+Memory: 16.22 MB, Beats 28.32%
+```
+```c++
+class Solution {
+public:
+    int findMin(vector<int>& nums) {
+        int left = 0, right = nums.size() - 1, mid, ans = INT_MAX;
+        while (left <= right) {
+            mid = left + (right - left)/2;
+            if (right - left >= 2 && nums[mid] == nums[left] && nums[mid] == nums[right]) {
+                left += 1;
+                right -= 1;
+            } else if (nums[mid] > nums[right]) {
+                left = mid + 1;
+            } else {
+                ans = min(ans, nums[mid]);
+                right = mid - 1;
+            }
+        }
+        return ans;
+    }
+};
+```
