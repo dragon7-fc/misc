@@ -285,3 +285,64 @@ class Solution:
             sr, sc = tr, tc
         return ans
 ```
+
+**Solution 4: (BFS, Sort)**
+```
+Runtime: 716 ms, Beats 29.40%
+Memory: 173.56 MB, Beats 44.52%
+```
+```c++
+class Solution {
+    int dd[5] = {0, 1, 0, -1, 0};
+public:
+    int cutOffTree(vector<vector<int>>& forest) {
+        if (forest[0][0] == 0) {
+            return -1;
+        }
+        int m = forest.size(), n = forest[0].size(), i, j, d, nr, nc, ans = 0;
+        bool flag;
+        vector<array<int,3>> dp;
+        queue<array<int,3>> q;
+        vector<vector<int>> visited(m, vector<int>(n));
+        dp.push_back({0,0,0});
+        for (i = 0; i < m; i ++) {
+            for (j = 0; j < n; j ++) {
+                if (forest[i][j] > 1) {
+                    dp.push_back({forest[i][j], i, j});
+                }
+            }
+        }
+        sort(dp.begin(), dp.end());
+        for (i = 0; i < dp.size()-1; i ++) {
+            q.push({dp[i][1], dp[i][2], 0});
+            flag = false;
+            while (q.size()) {
+                auto [r, c, k] = q.front();
+                q.pop();
+                if (r == dp[i+1][1] && c == dp[i+1][2]) {
+                    ans += k;
+                    flag = true;
+                    break;
+                }
+                for (d = 0; d < 4; d ++) {
+                    nr = r + dd[d];
+                    nc = c + dd[d+1];
+                    if (0 <= nr && nr < m && 0 <= nc && nc < n && forest[nr][nc] && !visited[nr][nc]) {
+                        q.push({nr, nc, k+1});
+                        visited[nr][nc] = 1;
+                    }
+                }
+            }
+            if (!flag) {
+                return -1;
+            } else {
+                while (q.size()) {
+                    q.pop();
+                }
+                fill(visited.begin(), visited.end(), vector<int>(n));
+            }
+        }
+        return ans;
+    }
+};
+```

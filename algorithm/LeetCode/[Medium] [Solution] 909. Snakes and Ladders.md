@@ -323,3 +323,51 @@ public:
     }
 };
 ```
+
+**Solution 7: (BFS)**
+```
+Runtime: 0 ms, Beats 100.00%
+Memory: 17.24 MB, Beats 29.48%
+```
+```c++
+class Solution {
+    array<int,2> getrc(int num, int n) {
+        int d = (num-1)/n, r = (num-1)%n;
+        if (d%2 == 0) {
+            return {n-1-d, r};
+        } else {
+            return {n-1-d, n-1-r};
+        }
+    }
+public:
+    int snakesAndLadders(vector<vector<int>>& board) {
+        int n = board.size(), a, ncur;
+        queue<array<int,2>> q;
+        vector<int> visited(n*n+1);
+        q.push({1, 0});
+        visited[1] = 1;
+        while (q.size()) {
+            auto [cur, k] = q.front();
+            q.pop();
+            if (cur == n*n) {
+                return k;
+            }
+            for (a = 1; a <= 6; a ++) {
+                ncur = cur + a;
+                if (ncur > n*n) {
+                    break;
+                }
+                auto [nr, nc] = getrc(ncur, n);
+                if (board[nr][nc] != -1) {
+                    ncur = board[nr][nc];
+                }
+                if (!visited[ncur]) {
+                    q.push({ncur, k+1});
+                    visited[ncur] = 1;
+                }
+            }
+        }
+        return -1;
+    }
+};
+```

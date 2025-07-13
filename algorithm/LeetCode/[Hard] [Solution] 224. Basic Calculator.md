@@ -443,3 +443,50 @@ public:
     }
 };
 ```
+
+**Solution 4: (Stack)**
+```
+Runtime: 3 ms, Beats 45.05%
+Memory: 11.56 MB, Beats 23.88%
+```
+```c++
+class Solution {
+public:
+    int calculate(string s) {
+        int k = 1;
+        long long a = 0;
+        s += '#';
+        stack<array<int,2>> stk;
+        stk.push({0, 0});
+        for (auto &c: s) {
+            if (c == ' ') {
+                continue;
+            } else if (isdigit(c)) {
+                a = a*10 + c -'0';
+            } else if (c == '+' || c == '-') {
+                stk.top()[1] += k*a;
+                a = 0;
+                if (c == '+') {
+                    k = 1;
+                } else {
+                    k = -1;
+                }
+            } else if (c == '(') {
+                stk.push({k, 0});
+                k = 1;
+                a = 0;
+            } else if (c == ')') {
+                stk.top()[1] += k*a;
+                k = 1;
+                a = 0;
+                auto [ck, ca] = stk.top();
+                stk.pop();
+                stk.top()[1] += ck*ca;
+            } else {
+                stk.top()[1] += k*a;
+            }
+        }
+        return stk.top()[1];
+    }
+};
+```

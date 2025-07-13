@@ -54,40 +54,28 @@ class Solution:
         return match
 ```
 
-**Solution 2: (Binary Search)**
+**Solution 2: (Sort, Two Pointers)**
 ```
-Runtime: 232 ms
-Memory Usage: 76.5 MB
+Runtime: 27 ms, Beats 77.62%
+Memory: 80.14 MB, Beats 85.54%
 ```
 ```c++
 class Solution {
 public:
     int matchPlayersAndTrainers(vector<int>& players, vector<int>& trainers) {
-        sort(players.begin(),players.end());
-        sort(trainers.begin(),trainers.end());
-        int len1=players.size();
-        int len2=  trainers.size();
-        
-        int i=0;  //POINTER FOR PLAYERS
-        int j=0; //POINTER FOR TRAINERS
-        int count=0;
-        while(i<len1){
-            if(j==len2) break;
-            
-            int num=players[i]; 
-            // USE  LOWER BOUND TO KNOW THE INDEX VALUE OF THE TRAINER WHICH IS GREATER OR EQUAL TO             //THE  PLAYERS VALUE
-			
-             j=lower_bound(trainers.begin()+j,trainers.end(),num)-trainers.begin();
-             
-            if(j>=len2) break;
-            else if(trainers[j]>=num){
-                count++;
-                i++;
-                
+        sort(players.begin(), players.end());
+        sort(trainers.begin(), trainers.end());
+        int m = players.size(), n = trainers.size(), i, j, ans = 0;
+        for (i = 0, j = 0; i < m && j < n; i ++) {
+            while (j < n && players[i] > trainers[j]) {
+                j += 1;
             }
-            j++;
+            if (j < n) {
+                ans += 1;
+                j += 1;
+            }
         }
-        return count;
+        return ans;
     }
 };
 ```

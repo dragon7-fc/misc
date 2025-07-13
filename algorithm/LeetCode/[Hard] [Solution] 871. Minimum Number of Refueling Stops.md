@@ -196,30 +196,29 @@ int minRefuelStops(int target, int startFuel, int** stations, int stationsSize, 
 
 **Solution 4: (Heap)**
 ```
-Runtime: 42 ms
-Memory Usage: 16.2 MB
+Runtime: 0 ms, Beats 100.00%
+Memory: 20.34 MB, Beats 28.67%
 ```
 ```c++
 class Solution {
 public:
     int minRefuelStops(int target, int startFuel, vector<vector<int>>& stations) {
+        stations.push_back({target, 0});
+        int n = stations.size(), i, r = startFuel, pre = 0, d, ans = 0;
         priority_queue<int> pq;
-        stations.push_back({target, INT_MAX});
-        int ans = 0, prev = 0;
-        int location, capacity;
-        for (int i = 0; i < stations.size(); i ++) {
-            location = stations[i][0];
-            capacity = stations[i][1];
-            startFuel -= location - prev;
-            while (!pq.empty() && startFuel < 0) {
-                startFuel += pq.top();
+        for (i = 0; i < n; i ++) {
+            d = stations[i][0] - pre;
+            while (r < d && pq.size()) {
+                r += pq.top();
                 pq.pop();
                 ans += 1;
             }
-            if (startFuel < 0)
+            if (r < d) {
                 return -1;
-            pq.push(capacity);
-            prev = location;
+            }
+            r -= d;
+            pq.push(stations[i][1]);
+            pre = stations[i][0];
         }
         return ans;
     }

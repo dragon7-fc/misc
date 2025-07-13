@@ -167,3 +167,32 @@ public:
  * int param_1 = obj->pickIndex();
  */
 ```
+
+**Solution 4: (Random, Binary Search, upper bound)**
+```
+Runtime: 9 ms, Beats 89.37%
+Memory: 47.35 MB, Beats 13.32%
+```
+```c++
+class Solution {
+    vector<int> dp;
+public:
+    Solution(vector<int>& w) {
+        for (auto &cw: w) {
+            dp.push_back((dp.size() ? dp.back() : 0) + cw);
+        }
+    }
+    
+    int pickIndex() {
+        int a = rand()%dp.back();
+        return upper_bound(dp.begin(), dp.end(), a) - dp.begin();
+    }
+};
+
+/**
+ * Your Solution object will be instantiated and called as such:
+ * Solution* obj = new Solution(w);
+ * int param_1 = obj->pickIndex();
+ */
+ /*
+```

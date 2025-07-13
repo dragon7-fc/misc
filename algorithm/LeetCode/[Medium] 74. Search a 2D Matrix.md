@@ -165,30 +165,23 @@ bool searchMatrix(int** matrix, int matrixSize, int* matrixColSize, int target){
 
 **Solution 5: (Binary Search)**
 ```
-Runtime: 4 ms
-Memory Usage: 9.6 MB
+Runtime: 0 ms, Beats 100.00%
+Memory: 13.26 MB, Beats 75.95%
 ```
 ```c++
 class Solution {
 public:
     bool searchMatrix(vector<vector<int>>& matrix, int target) {
-        int row = matrix.size();
-        int col = matrix[0].size();
-        int s = 0 ;
-        int e = row * col - 1;
-        
-        while(s <= e){
-            int mid = s + (e-s)/2;
-            int element = matrix[mid/col][mid%col];
-            
-            if(element == target)
+        int m = matrix.size(), n = matrix[0].size(), left = 0, right = m*n-1, mid;
+        while (left <= right) {
+            mid = left + (right - left)/2;
+            if (matrix[mid/n][mid%n] == target) {
                 return true;
-            
-            else if(element < target)
-                s = mid + 1;
-            
-            else
-                e = mid - 1;
+            } else if (matrix[mid/n][mid%n] > target) {
+                right = mid - 1;
+            } else {
+                left = mid + 1;
+            }
         }
         return false;
     }

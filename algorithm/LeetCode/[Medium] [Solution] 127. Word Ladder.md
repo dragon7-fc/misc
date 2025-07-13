@@ -466,32 +466,88 @@ class Solution:
 
 **Solution 4: (BFS)**
 ```
-Runtime: 54 ms
-Memory: 19.18 MB
+Runtime: 95 ms, Beats 46.13%
+Memory: 57.13 MB, Beats 5.00%
 ```
 ```c++
 class Solution {
 public:
     int ladderLength(string beginWord, string endWord, vector<string>& wordList) {
-        int n = beginWord.size();
-        unordered_set<string> st(wordList.begin(), wordList.end());
-        queue<pair<string, int>> q;
-        q.push({beginWord, 1});
-        st.erase(beginWord);
-        string ns;
-        while (q.size()) {
-            auto [cs, s] = q.front();
-            q.pop();
-            if (cs == endWord) {
-                return s;
+        if (!count(wordList.begin(), wordList.end(), endWord)) {
+            return 0;
+        }
+        int n = beginWord.length(), i;
+        string cw;
+        unordered_map<string,unordered_set<string>> g;
+        queue<pair<string,int>> q;
+        unordered_set<string> visited;
+        for (auto &w: wordList) {
+            if (w != beginWord) {
+                cw = w;
+                for (i = 0; i < n; i ++) {
+                    cw[i] = '*';
+                    g[cw].insert(w);
+                    cw[i] = w[i];
+                }
             }
-            for (int i = 0; i < n; i ++) {
-                ns = cs;
-                for (int j = 0; j < 26; j ++) {
-                    ns[i] = 'a' + j;
-                    if (st.count(ns)) {
-                        st.erase(ns);
-                        q.push({ns, s+1});
+        }
+        q.push({beginWord, 1});
+        visited.insert(beginWord);
+        while (q.size()) {
+            auto [w, k] = q.front();
+            q.pop();
+            if (w == endWord) {
+                return k;
+            }
+            cw = w;
+            for (i = 0; i < n; i ++) {
+                cw[i] = '*';
+                for (auto nw: g[cw]) {
+                    if (!visited.count(nw)) {
+                        q.push({nw, k+1});
+                        visited.insert(nw);
+                    }
+                }
+                cw[i] = w[i];
+            }
+        }
+        return 0;
+    }
+};
+```
+
+**Solution 5: (BFS)**
+```
+Runtime: 50 ms, Beats 86.47%
+Memory: 20.55 MB, Beats 85.97%
+```
+```c++
+class Solution {
+public:
+    int ladderLength(string beginWord, string endWord, vector<string>& wordList) {
+        if (!count(wordList.begin(), wordList.end(), endWord)) {
+            return 0;
+        }
+        int n = beginWord.length(), i;
+        string cw;
+        char c;
+        queue<pair<string,int>> q;
+        unordered_set<string> visited(wordList.begin(), wordList.end());
+        q.push({beginWord, 1});
+        visited.insert(beginWord);
+        while (q.size()) {
+            auto [w, k] = q.front();
+            q.pop();
+            if (w == endWord) {
+                return k;
+            }
+            for (i = 0; i < n; i ++) {
+                cw = w;
+                for (c = 'a'; c <= 'z'; c ++) {
+                    cw[i] = c;
+                    if (visited.count(cw)) {
+                        q.push({cw, k+1});
+                        visited.erase(cw);
                     }
                 }
             }

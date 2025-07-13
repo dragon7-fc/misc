@@ -95,3 +95,42 @@ public:
     }
 };
 ```
+
+**Solution 2: (Sliding Window)**
+
+    eventTime = 10, k = 1, startTime = [0,2,9], endTime = [1,4,10]
+
+    [0,  2,  9, 10]
+    [1,  4, 10, 10]
+                 ^
+a    1   3   4   4
+ans  0   1   6   6
+
+
+    xx x   xxxx   xxx xx
+       ^i-k  ^i
+                   ^i
+
+```
+Runtime: 0 ms, Beats 100.00%
+Memory: 120.89 MB, Beats 99.52%
+```
+```c++
+class Solution {
+public:
+    int maxFreeTime(int eventTime, int k, vector<int>& startTime, vector<int>& endTime) {
+        startTime.push_back(eventTime);
+        endTime.push_back(eventTime);
+        int n = startTime.size(), i, a = 0, pre = 0, ans = 0;
+        for (i = 0; i < n; i ++) {
+            a += endTime[i] - startTime[i];
+            ans = max(ans, endTime[i] - pre - a);
+            if (i >= k) {
+                a -= endTime[i - k] - startTime[i - k];
+                pre = endTime[i-k];
+            }
+        }
+        return ans;
+    }
+};
+```

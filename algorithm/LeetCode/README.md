@@ -13609,6 +13609,29 @@ def binaryToGray(self, n: int) -> int:
 
 
 ## Sort <a name="sort"></a>
+---
+### Max Match, Sort, Two Pointers, not need try for binary search
+```c++
+class Solution {
+public:
+    int matchPlayersAndTrainers(vector<int>& players, vector<int>& trainers) {
+        sort(players.begin(), players.end());
+        sort(trainers.begin(), trainers.end());
+        int m = players.size(), n = trainers.size(), i, j, ans = 0;
+        for (i = 0, j = 0; i < m && j < n; i ++) {
+            while (j < n && players[i] > trainers[j]) {
+                j += 1;
+            }
+            if (j < n) {
+                ans += 1;
+                j += 1;
+            }
+        }
+        return ans;
+    }
+};
+```
+* [Medium] 2410. Maximum Matching of Players With Trainers
 
 ### Pass Through + Prefix Sum
 ```python
@@ -15424,6 +15447,36 @@ public:
 ```
 * [Medium] 1834. Single-Threaded CPU
 
+### one event at a time
+```c++
+class Solution {
+public:
+    int maxEvents(vector<vector<int>>& events) {
+        int n = events.size(), i, j = 0, mx = 0,ans = 0;
+        for (i = 0; i < n; i ++) {
+            mx = max(mx, events[i][1]);
+        }
+        priority_queue<int,vector<int>,greater<>> pq;
+        sort(events.begin(), events.end());
+        for (i = events[0][0]; i <= mx; i ++) {
+            while (j < n && events[j][0] <= i) {
+                pq.push(events[j][1]);
+                j += 1;
+            }
+            while (pq.size() && pq.top() < i) {
+                pq.pop();
+            }
+            if (pq.size()) {
+                pq.pop();
+                ans += 1;
+            }
+        }
+        return ans;
+    }
+};
+```
+* [Medium] 1353. Maximum Number of Events That Can Be Attended
+
 ### Greedy 2 heap, working and free queue
 ```c++
 class Solution {
@@ -16632,6 +16685,54 @@ class Solution:
 
 ## Sliding Window <a name="sw"></a>
 ---
+### Prefix Sum, left and right
+```c++
+class Solution {
+public:
+    int maxFreeTime(int eventTime, vector<int>& startTime, vector<int>& endTime) {
+        int n = startTime.size(), i, a, left = 0, ans = 0;
+        vector<int> right(n);
+        right[n-1] = eventTime - endTime[n-1];
+        for (i = n-2; i >= 0; i --) {
+            right[i] = max(right[i+1], startTime[i+1] - endTime[i]);
+        }
+        for (i = 0; i < n; i ++) {
+            a = endTime[i] - startTime[i];
+            if (i+1 < n && right[i+1] >= a || left >= a) {
+                ans = max(ans, (i + 1 < n ? startTime[i+1] : eventTime) - (i ? endTime[i-1]: 0));
+            } else {
+                ans = max(ans, (i + 1 < n ? startTime[i+1] : eventTime) - (i ? endTime[i-1] : 0) - a);
+            }
+            left = max(left, startTime[i] - (i ? endTime[i-1] : 0));
+        }
+        return ans;
+    }
+};
+```
+* [Medium] 3440. Reschedule Meetings for Maximum Free Time II
+
+### one event at a time, ordered
+```c++
+class Solution {
+public:
+    int maxFreeTime(int eventTime, int k, vector<int>& startTime, vector<int>& endTime) {
+        startTime.push_back(eventTime);
+        endTime.push_back(eventTime);
+        int n = startTime.size(), i, a = 0, pre = 0, ans = 0;
+        for (i = 0; i < n; i ++) {
+            a += endTime[i] - startTime[i];
+            ans = max(ans, endTime[i] - pre - a);
+            if (i >= k) {
+                a -= endTime[i - k] - startTime[i - k];
+                pre = endTime[i-k];
+            }
+        }
+        return ans;
+    }
+};
+```
+* [Medium] 3439. Reschedule Meetings for Maximum Free Time I
+
 ### maximum subarray
 ```python
 class Solution:

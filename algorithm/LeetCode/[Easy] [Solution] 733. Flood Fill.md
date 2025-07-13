@@ -157,32 +157,31 @@ int** floodFill(int** image, int imageSize, int* imageColSize, int sr, int sc, i
 
 **Solution 4: (DFS)**
 ```
-Runtime: 8 ms
-Memory Usage: 14 MB
+Runtime: 0 ms, Beats 100.00%
+Memory: 18.04 MB, Beats 77.73%
 ```
 ```c++
 class Solution {
-public:
-    void dfs(vector<vector<int>>& image, int sr,int sc, int newColor, int rows, int cols, int source){
-        if(sr<0 || sr>=rows || sc<0 || sc>=cols) return ;//checking boundary cases.
-        else if(image[sr][sc]!=source) return;//we can only change the cell val if the source val and adjacent cell's val is same 
-        image[sr][sc]=newColor; //other wise replace the adjacent cell with newColor
-        //call dfs 4 directionally recursively
-        dfs(image,sr-1,sc,newColor,rows,cols,source);//up
-        dfs(image,sr+1,sc,newColor,rows,cols,source);//down
-        dfs(image,sr,sc-1,newColor,rows,cols,source);//left
-        dfs(image,sr,sc+1,newColor,rows,cols,source);//right  
+    int dd[5] = {0, 1, 0, -1, 0};
+    void dfs(int i, int j, int ac, int bc, vector<vector<int>> &ans) {
+        ans[i][j] = bc;
+        int m = ans.size(), n = ans[0].size(), d, ni, nj;
+        for (d = 0; d < 4; d ++) {
+            ni = i + dd[d];
+            nj = j + dd[d+1];
+            if (0 <= ni && ni < m && 0 <= nj && nj < n && ans[ni][nj] == ac) {
+                dfs(ni, nj, ac, bc, ans);
+            }
+        } 
     }
-
-    vector<vector<int>> floodFill(vector<vector<int>>& image, int sr, int sc, int newColor) {
-        //if newcolor and the image[sr][sc]'s val is same, then no need to do anythings,just return the image matrix
-        if(newColor==image[sr][sc]) return image;
-        int rows=image.size();
-        int cols=image[0].size();
-        int source= image[sr][sc];
-        
-        dfs(image,sr,sc,newColor, rows, cols, source);
-        return image;
+public:
+    vector<vector<int>> floodFill(vector<vector<int>>& image, int sr, int sc, int color) {
+        vector<vector<int>> ans = image;
+        if (ans[sr][sc] == color) {
+            return ans;
+        }
+        dfs(sr, sc, ans[sr][sc], color, ans);
+        return ans;
     }
 };
 ```

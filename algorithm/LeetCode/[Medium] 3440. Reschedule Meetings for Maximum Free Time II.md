@@ -112,3 +112,44 @@ public:
     }
 };
 ```
+
+**Solution 2: (Prefix Sum, left and right)**
+
+    eventTime = 10, startTime = [0,3,7,9], endTime = [1,4,8,10]
+
+              v
+        --    --      --  --
+        0 1 2 3 4 5 6 7 8 9 10
+right      2      3      1   0
+           3      3      1   0
+                  ^
+left  0    2      3      3   3
+      ^
+
+```
+Runtime: 4 ms, Beats 94.42%
+Memory: 142.05 MB, Beats 86.45%
+```
+```c++
+class Solution {
+public:
+    int maxFreeTime(int eventTime, vector<int>& startTime, vector<int>& endTime) {
+        int n = startTime.size(), i, a, left = 0, ans = 0;
+        vector<int> right(n);
+        right[n-1] = eventTime - endTime[n-1];
+        for (i = n-2; i >= 0; i --) {
+            right[i] = max(right[i+1], startTime[i+1] - endTime[i]);
+        }
+        for (i = 0; i < n; i ++) {
+            a = endTime[i] - startTime[i];
+            if (i+1 < n && right[i+1] >= a || left >= a) {
+                ans = max(ans, (i + 1 < n ? startTime[i+1] : eventTime) - (i ? endTime[i-1]: 0));
+            } else {
+                ans = max(ans, (i + 1 < n ? startTime[i+1] : eventTime) - (i ? endTime[i-1] : 0) - a);
+            }
+            left = max(left, startTime[i] - (i ? endTime[i-1] : 0));
+        }
+        return ans;
+    }
+};
+```

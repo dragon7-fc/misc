@@ -300,18 +300,26 @@ public:
 
           
         1  2  3  4  5  6  7  8
-           ----------
+           leftA rightA
+           -----|----
            ^l       ^r
               ^maxLeftA
                  ^minRightA
-             
-              ----------
+              leftB rightB
+              -----|----
                  ^maxLeftB
                     ^minRightB 
 
+           -----|----
+                    ^lr
+                 ^maxLeftA
+                    ^minRightA
+              -----|----
+              ^maxLeftB
+                 ^minRightB
+
     2 3 3 4 4 5 5 6
           ^^^
-
 
 ```
 Runtime: 0 ms, Beats 100.00%

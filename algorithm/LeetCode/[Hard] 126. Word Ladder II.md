@@ -332,88 +332,71 @@ char *** findLadders(char * beginWord, char * endWord, char ** wordList, int wor
 
 **Solution 3: (BFS)**
 ```
-Runtime: 56 ms
-Memory Usage: 9.4 MB
+Runtime: 9 ms, Beats 86.98%
+Memory: 14.28 MB, Beats 26.29%
 ```
 ```c++
 class Solution {
-    bool able(string s,string t){
-        if(s.length()!=t.length())
-            return false;
-        int c=0;
-        for(int i=0;i<s.length();i++)
-            c+=(s[i]!=t[i]);
-        return c==1;
-    }
-    void bfs(vector<vector<int>> &g,vector<int> parent[],int n,int sr,int ds){
-        vector <int> dist(n,1005);
-        queue <int> q;
-        q.push(sr);
-        parent[sr]={-1};
-        dist[sr]=0;
-        while(!q.empty()){
-            int x=q.front();
-            q.pop();
-            for(int u:g[x]){
-                if(dist[u]>dist[x]+1){
-                    dist[u]=dist[x]+1;
-                    q.push(u);
-                    parent[u].clear();
-                    parent[u].push_back(x);
-                }
-                else if(dist[u]==dist[x]+1)
-                    parent[u].push_back(x);
-            }
+    void bt(string u, string &t, vector<string> &p, vector<vector<string>> &ans, unordered_map<string,unordered_set<string>> &g) {
+        if (u == t) {
+            ans.push_back(vector<string>(p.rbegin(), p.rend()));
+            return;
         }
-    }
-    void shortestPaths(vector<vector<int>> &Paths, vector<int> &path, vector<int> parent[],int node){
-        if(node==-1){
-            Paths.push_back(path);
-            return ;
-        }
-        for(auto u:parent[node]){
-            path.push_back(u);
-            shortestPaths(Paths,path,parent,u);
-            path.pop_back();
+        for (auto &v: g[u]) {
+            p.push_back(v);
+            bt(v, t, p, ans, g);
+            p.pop_back();
         }
     }
 public:
     vector<vector<string>> findLadders(string beginWord, string endWord, vector<string>& wordList) {
-        int n=wordList.size(),sr=-1,ds=-1;
-        vector<vector<string>> ANS;
-        for(int i=0;i<n;i++){
-            if(wordList[i]==beginWord)
-                sr=i;
-            if(wordList[i]==endWord)
-                ds=i;
+        if (!count(wordList.begin(), wordList.end(), endWord)) {
+            return {};
         }
-        if(ds==-1)
-            return ANS;
-        if(sr==-1){
-            wordList.emplace(wordList.begin(),beginWord);
-            sr=0;
-            ds++;
-            n++;
+        int n = beginWord.size(), sz, i, j, k = 1;
+        char c;
+        string nw;
+        queue<array<string,2>> q;
+        unordered_map<string,int> dist;
+        for (auto &w: wordList) {
+            dist[w] = INT_MAX;
         }
-        vector <vector<int>> g(n,vector<int>()),Paths;
-        vector <int> parent[n],path;
-        for(int i=0;i<n-1;i++)
-            for(int j=i+1;j<n;j++)
-                if(able(wordList[i],wordList[j])){
-                    g[i].push_back(j);
-                    g[j].push_back(i);
+        unordered_map<string,unordered_set<string>> g;
+        vector<vector<string>> ans;
+        vector<string> p;
+        q.push({beginWord, ""});
+        dist[beginWord] = 1;
+        g[beginWord].insert("");
+        while (q.size() && g[endWord].empty()) {
+            sz = q.size();
+            for (i = 0; i < sz; i ++) {
+                auto [w, p] = q.front();
+                q.pop();
+                if (w == endWord) {
+                    continue;
                 }
-        bfs(g,parent,n,sr,ds); 
-        shortestPaths(Paths,path,parent,ds);
-        for(auto u:Paths){
-            vector <string> now;
-            for(int i=0;i<u.size()-1;i++)
-                now.push_back(wordList[u[i]]);
-            reverse(now.begin(),now.end());
-            now.push_back(wordList[ds]);
-            ANS.push_back(now);
+                for (j = 0; j < n; j ++) {
+                    nw = w;
+                    for (c = 'a'; c <= 'z'; c ++) {
+                        nw[j] = c;
+                        if (dist.count(nw)) {
+                            if (k+1 < dist[nw]) {
+                                q.push({nw, w});
+                                dist[nw] = k+1;
+                                g[nw].clear();
+                                g[nw].insert(w);
+                            } else if (k+1 == dist[nw]) {
+                                g[nw].insert(w);
+                            }
+                        }
+                    }
+                }
+            }
+            k += 1;
         }
-        return ANS;
+        p.push_back(endWord);
+        bt(endWord, beginWord, p, ans, g);
+        return ans;
     }
 };
 ```

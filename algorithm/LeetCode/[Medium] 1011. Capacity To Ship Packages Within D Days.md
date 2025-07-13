@@ -117,44 +117,37 @@ int shipWithinDays(int* weights, int weightsSize, int days){
 
 **Solution 3: (Binary Search)**
 ```
-Runtime: 43 ms
-Memory: 26 MB
+Runtime: 11 ms, Beats 68.42%
+Memory: 34.90 MB, Beats 94.27%
 ```
 ```c++
 class Solution {
-public:
-    // Check whether the packages can be shipped in less than "days" days with
-    // "c" capacity.
-    bool feasible(vector<int>& weights, int c, int days) {
-        int daysNeeded = 1, currentLoad = 0;
-        for (int weight : weights) {
-            currentLoad += weight;
-            if (currentLoad > c) {
-                daysNeeded++;
-                currentLoad = weight;
-            }
-        }
-
-        return daysNeeded <= days;
-    }
-    int shipWithinDays(vector<int>& weights, int days) {
-        int totalLoad = 0, maxLoad = 0;
-        for (int weight : weights) {
-            totalLoad += weight;
-            maxLoad = max(maxLoad, weight);
-        }
-
-        int l = maxLoad, r = totalLoad;
-
-        while (l < r) {
-            int mid = (l + r) / 2;
-            if (feasible(weights, mid, days)) {
-                r = mid;
+    bool check(int mid, int days, vector<int> &weights) {
+        int a = 0, k = 0;
+        for (auto &w: weights) {
+            if (a + w > mid) {
+                k += 1;
+                a = w;
             } else {
-                l = mid + 1;
+                a += w;
             }
         }
-        return l;
+        k += a != 0;
+        return k <= days;
+    }
+public:
+    int shipWithinDays(vector<int>& weights, int days) {
+        int left = *max_element(weights.begin(), weights.end()), right = accumulate(weights.begin(), weights.end(), 0), mid, ans = INT_MAX;
+        while (left <= right) {
+            mid = left + (right - left)/2;
+            if (!check(mid, days, weights)) {
+                left = mid + 1;
+            } else {
+                ans = min(ans, mid);
+                right = mid - 1;
+            }
+        }
+        return ans;
     }
 };
 ```

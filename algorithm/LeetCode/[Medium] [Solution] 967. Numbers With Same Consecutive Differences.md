@@ -313,3 +313,42 @@ public:
     }
 };
 ```
+
+**Solution 8: (BFS)**
+```
+Runtime: 0 ms, Beats 100.00%
+Memory: 11.45 MB, Beats 39.05%
+```
+```c++
+class Solution {
+public:
+    vector<int> numsSameConsecDiff(int n, int k) {
+        int a;
+        queue<array<int,2>> q;
+        vector<int> ans;
+        for (a = 1; a <= 9; a ++) {
+            q.push({a, 1});
+        }
+        while (q.size()) {
+            auto [num, cn] = q.front();
+            q.pop();
+            if (cn == n) {
+                ans.push_back(num);
+                continue;
+            }
+            if (num%10 + k < 10) {
+                a = num*10 + num%10 + k;
+                q.push({a, cn + 1});
+            }
+            if (k == 0) {
+                continue;
+            }
+            if (num%10 - k >= 0) {
+                a = num*10 + num%10 - k;
+                q.push({a, cn + 1});
+            }
+        }
+        return ans;
+    }
+};
+```

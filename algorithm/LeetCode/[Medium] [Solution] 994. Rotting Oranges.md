@@ -417,3 +417,53 @@ class Solution:
             
         return ans if not fresh else -1
 ```
+
+**Solution 6: (BFS)**
+```
+Runtime: 0 ms, Beats 100.00%
+Memory: 17.16 MB, Beats 34.20%
+```
+```c++
+class Solution {
+    int dd[5] = {0, 1, 0, -1, 0};
+public:
+    int orangesRotting(vector<vector<int>>& grid) {
+        int m = grid.size(), n = grid[0].size(), i, j, k = 0, d, nr, nc, sz, ans = 0;
+        queue<array<int,2>> q;
+        vector<vector<int>> visited(m, vector<int>(n));
+        for (i = 0; i < m; i ++) {
+            for (j = 0; j < n; j ++) {
+                if (grid[i][j] == 2) {
+                    q.push({i, j});
+                    visited[i][j] = 1;
+                } else if (grid[i][j] == 1) {
+                    k += 1;
+                }
+            }
+        }
+        while (k && q.size()) {
+            ans += 1;
+            sz = q.size();
+            for (i = 0; i < sz; i ++) {
+                auto [r, c] = q.front();
+                q.pop();
+                for (d = 0; d < 4; d ++) {
+                    nr = r + dd[d];
+                    nc = c + dd[d+1];
+                    if (0 <= nr && nr < m && 0 <= nc && nc < n && grid[nr][nc] && !visited[nr][nc]) {
+                        q.push({nr, nc});
+                        visited[nr][nc] = 1;
+                        if (grid[nr][nc] == 1) {
+                            k -= 1;
+                        }
+                    }
+                }
+            }
+        }
+        if (k) {
+            return -1;
+        }
+        return ans;
+    }
+};
+```

@@ -319,3 +319,39 @@ int splitArray(int* nums, int numsSize, int m){
     return left;
 }
 ```
+
+**Solution 4: (Binary Search, lower bound)**
+```
+Runtime: 0 ms, Beats 100.00%
+Memory: 10.36 MB, Beats 87.25%
+```
+```c++
+class Solution {
+    bool check(int mid, int k, vector<int> &nums) {
+        int ck = 0, a = 0;
+        for (auto &num: nums) {
+            a += num;
+            if (a > mid) {
+                ck += 1;
+                a = num;
+            }
+        }
+        return ck + (a > 0) <= k;
+    }
+public:
+    int splitArray(vector<int>& nums, int k) {
+        int left = *max_element(nums.begin(), nums.end()), right = 1e9, mid, ans = INT_MAX;
+        while (left <= right) {
+            mid = left + (right - left)/2;
+            if (!check(mid, k, nums)) {
+                left = mid + 1;
+            } else {
+                ans = min(ans, mid);
+                right = mid - 1;
+            }
+        }
+        return ans;
+    }
+};
+
+```

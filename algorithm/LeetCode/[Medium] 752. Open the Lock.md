@@ -128,3 +128,47 @@ public:
     }
 };
 ```
+
+**Solution 3: (BFS)**
+```
+Runtime: 109 ms, Beats 82.96%
+Memory: 42.18 MB, Beats 49.51%
+```
+```c++
+class Solution {
+public:
+    int openLock(vector<string>& deadends, string target) {
+        unordered_set<string> visited(deadends.begin(), deadends.end());
+        if (visited.count("0000")) {
+            return -1;
+        }
+        int i;
+        string ns;
+        queue<pair<string,int>> q;
+        q.push({"0000", 0});
+        visited.insert("0000");
+        while (q.size()) {
+            auto [s, k] = q.front();
+            q.pop();
+            if (s == target) {
+                return k;
+            }
+            ns = s;
+            for (i = 0; i < 4; i ++) {
+                ns[i] = (s[i]+1 - '0')%10 + '0';
+                if (!visited.count(ns)) {
+                    q.push({ns, k+1});
+                    visited.insert(ns);
+                }
+                ns[i] = (s[i]-1 - '0' + 10)%10 + '0';
+                if (!visited.count(ns)) {
+                    q.push({ns, k+1});
+                    visited.insert(ns);
+                }
+                ns[i] = s[i];
+            }
+        }
+        return -1;
+    }
+};
+```

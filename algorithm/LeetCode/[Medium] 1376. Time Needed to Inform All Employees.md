@@ -128,3 +128,32 @@ public:
     }
 };
 ```
+
+**Solution 3: (DFS)**
+```
+Runtime: 94 ms, Beats 93.09%
+Memory: 126.38 MB, Beats 75.60%
+```
+```c++
+class Solution {
+    void dfs(int u, int p, vector<vector<int>> &g, vector<int> &informTime, int &ans) {
+        p += informTime[u];
+        ans = max(ans, p);
+        for (auto &v: g[u]) {
+            dfs(v, p, g, informTime, ans);
+        }
+    }
+public:
+    int numOfMinutes(int n, int headID, vector<int>& manager, vector<int>& informTime) {
+        int i, ans = 0;
+        vector<vector<int>> g(n);
+        for (i = 0; i < n; i ++) {
+            if (i != headID) {
+                g[manager[i]].push_back(i);
+            }
+        }
+        dfs(headID, 0, g, informTime, ans);
+        return ans;
+    }
+};
+```

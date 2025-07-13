@@ -167,30 +167,31 @@ public:
 
 **Solution 4: (Binary Search)**
 ```
-Runtime: 54 ms
-Memory: 18.8 MB
+Runtime: 11 ms, Beats 42.25%
+Memory: 22.89 MB, Beats 73.85%
 ```
 ```c++
 class Solution {
-    int check(int k, vector<int>& piles) {
-        int rst = 0;
-        for (int p: piles) {
-            rst += p/k + (p%k != 0); // rst += ceil((double)p / k);
+    bool check(int mid, int h, vector<int> &piles) {
+        long long k = 0;
+        for (auto &p: piles) {
+            k += p/mid + (p%mid > 0);
         }
-        return rst;
+        return k <= h;
     }
 public:
     int minEatingSpeed(vector<int>& piles, int h) {
-        int lo = 1, hi = *max_element(piles.begin(), piles.end()), mid;
-        while (lo < hi) {
-            mid = lo + (hi - lo) / 2;
-            if (check(mid, piles) > h) {
-                lo = mid + 1;
+        int left = 1, right = *max_element(piles.begin(), piles.end()), mid, ans = INT_MAX;
+        while (left <= right) {
+            mid = left + (right - left)/2;
+            if (!check(mid, h, piles)) {
+                left = mid + 1;
             } else {
-                hi = mid;
+                ans = min(ans, mid);
+                right = mid - 1;
             }
         }
-        return lo;
+        return ans;
     }
 };
 ```

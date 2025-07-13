@@ -312,3 +312,56 @@ public:
 };
 
 ```
+
+**Solution 7: (BFS, try all soltion)**
+```
+Runtime: 7 ms, Beats 59.04%
+Memory: 11.75 MB, Beats 57.51%
+```
+```c++
+class Solution {
+public:
+    int slidingPuzzle(vector<vector<int>>& board) {
+        int m = board.size(), n = board[0].size(), i, j, i2, d;
+        string s, t = "123450";
+        queue<tuple<string,int,int>> q;
+        unordered_set<string> visited;
+        vector<vector<int>> g = {
+            {1,3},
+            {0,2,4},
+            {1,5},
+            {0,4},
+            {1,3,5},
+            {2,4}
+        };
+        for (i = 0; i < m; i ++) {
+            for (j = 0; j < n; j ++) {
+                if (board[i][j] == 0) {
+                    i2 = i*n + j;
+                }
+                s += board[i][j] + '0';
+            }
+        }
+        q.push({s, i2, 0});
+        visited.insert(s);
+        while (q.size()) {
+            auto [cs, ci, k] = q.front();
+            q.pop();
+            if (cs == t) {
+                return k;
+            }
+            for (d = 0; d < 4; d ++) {
+                for (auto ni: g[ci]) {
+                    swap(cs[ci], cs[ni]);
+                    if (!visited.count(cs)) {
+                        q.push({cs, ni, k+1});
+                        visited.insert(cs);
+                    }
+                    swap(cs[ci], cs[ni]);
+                }
+            }
+        }
+        return -1;
+    }
+};
+```

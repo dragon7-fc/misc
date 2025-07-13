@@ -98,27 +98,65 @@ class Solution:
 
 **Solution 3: (Heap)**
 ```
-Runtime: 217 ms
-Memory: 74.49 MB
+Runtime: 59 ms, Beats 79.86%
+Memory: 75.03 MB, Beats 39.30%
 ```
 ```c++
 class Solution {
 public:
     int maxEvents(vector<vector<int>>& events) {
-        priority_queue <int, vector<int>, greater<int>> pq;
+        int n = events.size(), i, j = 0, mx = 0,ans = 0;
+        for (i = 0; i < n; i ++) {
+            mx = max(mx, events[i][1]);
+        }
+        priority_queue<int,vector<int>,greater<>> pq;
         sort(events.begin(), events.end());
-        int i = 0, res = 0, n = events.size();
-        for (int d = 1; d <= 100000; ++d) {
-            while (pq.size() && pq.top() < d)
+        for (i = events[0][0]; i <= mx; i ++) {
+            while (j < n && events[j][0] <= i) {
+                pq.push(events[j][1]);
+                j += 1;
+            }
+            while (pq.size() && pq.top() < i) {
                 pq.pop();
-            while (i < n && events[i][0] == d)
-                pq.push(events[i++][1]);
+            }
             if (pq.size()) {
                 pq.pop();
-                ++res;
+                ans += 1;
             }
         }
-        return res;
+        return ans;
+    }
+};
+```
+
+**Solution 4: (Heap)**
+```
+Runtime: 61 ms, Beats 64.28%
+Memory: 74.79 MB, Beats 98.35%
+```
+```c++
+class Solution {
+public:
+    int maxEvents(vector<vector<int>>& events) {
+        int n = events.size(), i, j = 0,ans = 0;
+        priority_queue<int,vector<int>,greater<>> pq;
+        sort(events.begin(), events.end());
+        while (pq.size() || j < n) {
+            if (pq.size() == 0) {
+                i = events[j][0];
+            }
+            while (j < n && events[j][0] == i) {
+                pq.push(events[j][1]);
+                j += 1;
+            }
+            pq.pop();
+            ans += 1;
+            i += 1;
+            while (pq.size() && pq.top() < i) {
+                pq.pop();
+            }
+        }
+        return ans;
     }
 };
 ```

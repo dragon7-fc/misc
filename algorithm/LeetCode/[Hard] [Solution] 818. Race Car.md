@@ -213,51 +213,54 @@ class Solution:
         return res
 ```
 
-**Solution 4: (BFS)**
+**Solution 4: (BFS, prune, O(n))**
+
+       A      A     A     R     A
+p    0 --> 1 --> 3 --> 7 --> 7 --> 6.
+s    1     2     4     8    -1     -2
+
+
+case1:
+        p     x      p2
+     -> R         -> R
+     <- R         <-
+     ->    
+
+case2:
+        p     x      p2
+     <- R         <- R
+     ->           -> R
+                  <-
 ```
-Runtime: 2 ms, Beats 82.30%
-Memory: 9.89 MB, Beats 72.08%
+Runtime: 1 ms, Beats 86.54%
+Memory: 9.77 MB, Beats 79.07%
 ```
 ```c++
 class Solution {
 public:
     int racecar(int target) {
-        queue<pair<int,pair<int,int>>> q; // (position, (speed, count of instructions))
-        q.push({0,{1,0}}); // Initial position = 0, speed = 1, instructions = 0
-        
-        while(!q.empty()){
-            int pos = q.front().first;       // Current position
-            int speed = q.front().second.first;  // Current speed
-            int count = q.front().second.second; // Instruction count so far
+        queue<array<int,3>> q;
+        q.push({0, 1, 0});
+        while (q.size()) {
+            auto [p, s, k] = q.front();
             q.pop();
-            
-            // If we reach the target, return the number of instructions
-            if(pos == target) {
-                return count;
+            if (p == target) {
+                return k;
             }
-            
-            // Pruning the state space
-            // If position is beyond 2*target and we're moving forward, skip this state
-            if(pos >= 2*target && pos > 0 && speed > 0) {
+            if (p >= 2*target && p > 0 && s > 0) {
                 continue;
             }
-            
-            // If position is too small (negative) and we're moving backward, skip this state
-            if(pos <= 2*target && pos < 0 && speed < 0) {
+            if (p <= 2*target && p < 0 && s < 0) {
                 continue;
             }
-
-            // Accelerate: Move position += speed, double speed, increment instruction count
-            q.push({pos + speed, {speed * 2, count + 1}});
-
-            // Reverse: Change direction, set speed to 1 or -1 depending on the sign of speed
-            if((pos + speed) < target && speed < 0) {
-                q.push({pos, {1, count + 1}}); // Reverse to go forward
-            } else if((pos + speed) > target && speed > 0) {
-                q.push({pos, {-1, count + 1}}); // Reverse to go backward
+            q.push({p + s, s*2, k+1});
+            if (p + s < target && s < 0) {
+                q.push({p, 1, k+1});
+            } else if (p + s > target && s > 0) {
+                q.push({p, -1, k+1});
             }
         }
-        return 0;
+        return -1;
     }
 };
 ```

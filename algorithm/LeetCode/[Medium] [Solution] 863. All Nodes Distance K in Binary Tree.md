@@ -331,8 +331,8 @@ public:
 
 **Solution 4: (BFS)**
 ```
-Runtime: 23 ms
-Memory Usage: 13.4 MB
+Runtime: 3 ms, Beats 81.76%
+Memory: 16.25 MB, Beats 11.61%
 ```
 ```c++
 /**
@@ -345,67 +345,58 @@ Memory Usage: 13.4 MB
  * };
  */
 class Solution {
-    unordered_map<int, vector<int>> adj;
-    void recur(TreeNode* root)
-    {
-        if(!root)
+    unordered_map<TreeNode*,TreeNode*> par;
+    void dfs(TreeNode *node, TreeNode *p) {
+        if (!node) {
             return;
-        
-        
-        if(root->left!=NULL)
-        {
-            adj[root->val].push_back(root->left->val);
-            adj[root->left->val].push_back(root->val);
         }
-        
-        if(root-> right!=NULL)
-        {
-            adj[root->val].push_back(root->right->val);
-            adj[root->right->val].push_back(root->val);
+        if (p) {
+            par[node] = p;
         }
-        
-        recur(root->left);
-        recur(root->right);
-        
+        dfs(node->left, node);
+        dfs(node->right, node);
     }
 public:
     vector<int> distanceK(TreeNode* root, TreeNode* target, int k) {
-        recur(root);
-        
-        queue<int> q;
-        q.push(target->val);
-        int level=0;
-        unordered_set<int> visited;
-        visited.insert(target->val);
-        
-        while(!q.empty())
-        {
-            int a = q.size();
-            
-            vector<int> temp;
-            while(a--)
-            {
-                int x = q.front();
+        if (k == 0) {
+            return {target->val};
+        }
+        int sz, i;
+        dfs(root, nullptr);
+        queue<TreeNode*> q;
+        vector<int> ans;
+        unordered_set<TreeNode*> visited;
+        q.push(target);
+        visited.insert(target);
+        while (q.size() && k) {
+            sz = q.size();
+            ans.clear();
+            for (i = 0; i < sz; i ++) {
+                auto node = q.front();
                 q.pop();
-                temp.push_back(x);
-                
-                for(int i=0;i<adj[x].size();i++)
-                {
-                    if(visited.find(adj[x][i])==visited.end())
-                    {
-                        q.push(adj[x][i]);
-                        visited.insert(adj[x][i]);
-                    }
+                if (node->left && !visited.count(node->left)) {
+                    q.push(node->left);
+                    visited.insert(node->left);
+                    ans.push_back(node->left->val);
+                }
+                if (node->right && !visited.count(node->right)) {
+                    q.push(node->right);
+                    visited.insert(node->right);
+                    ans.push_back(node->right->val);
+                }
+                if (par[node] && !visited.count(par[node])) {
+                    q.push(par[node]);
+                    visited.insert(par[node]);
+                    ans.push_back(par[node]->val);
                 }
             }
-            
-            if(level==k)
-                return temp;
-            
-            level++;
+            k -= 1;
         }
-        
+        if (k == 0) {
+            return ans;
+        }
         return {};
     }
 };
+
 ```

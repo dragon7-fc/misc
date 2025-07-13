@@ -83,3 +83,58 @@ class Solution:
 
         return max_square
 ```
+
+**Solution 2: (Prefix Sum, Binary Search, upper bound)**
+
+    mat = [[1,1,3,2,4,3,2],
+           [1,1,3,2,4,3,2],
+           [1,1,3,2,4,3,2]]
+    dp
+            0 0 0  0  0  0  0  0
+            0 1 2  5  7 11 14 16
+            0 2 4 10 14 22 28 32
+            0 3 6
+
+```
+Runtime: 12 ms Beats, 68.68%
+Memory: 32.73 MB, Beats 68.68%
+```
+```c++
+public:
+    int maxSideLength(vector<vector<int>>& mat, int threshold) {
+        int m = mat.size(), n = mat[0].size(), i, j, left = 1, right = min(m, n), mid, ans = 0;
+        vector<vector<int>> dp(m+1, vector<int>(n+1));
+        bool flag;
+        for (j = 0; j < n; j ++) {
+            dp[1][j+1] = dp[1][j] + mat[0][j];
+        }
+        for (i = 1; i < m; i ++) {
+            for (j = 0; j < n; j ++) {
+                dp[i+1][j+1] = dp[i+1][j] + dp[i][j+1] - dp[i][j] + mat[i][j];
+            }
+        }
+        while (left <= right) {
+            mid = left + (right - left)/2;
+            flag = false;
+            for (i = 0; i <= m - mid; i ++) {
+                for (j = 0; j <= n - mid; j ++) {
+                    if (dp[i+mid][j+mid] - dp[i+mid][j] - dp[i][j+mid] + dp[i][j] <= threshold) {
+                        flag = true;
+                        break;
+                    }
+                }
+                if (flag) {
+                    break;
+                }
+            }
+            if (!flag) {
+                right = mid - 1;
+            } else {
+                ans = max(ans, mid);
+                left = mid + 1;
+            }
+        }
+        return ans;
+    }
+};
+```
