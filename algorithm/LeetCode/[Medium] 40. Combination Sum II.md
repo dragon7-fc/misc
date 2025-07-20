@@ -157,31 +157,63 @@ int** combinationSum2(int* candidates, int candidatesSize, int target, int* retu
 ```
 
 **Solution 4: (Backtracking)**
+
+    candidates = [10,1,2,7,6,1,5], target = 8
+
+    1, 1, 2, 5, 6, 7, 10
+
+                    1
+                  /   \
+                1      1
+              /       /  \
+             2       2    2
+              \     / \  /
+               5   5<  5 5
+                \       \ \
+                 6<      6 6<
+                          \
+                           7<
+
+    candidates = [2,5,2,1,2], target = 5
+
+    1, 2, 2, 2, 5
+
+                1
+              /  \
+            2     2
+           /       \
+          2<        2
+                     \            
+                      2
+                       \
+                        5<
+
 ```
-Runtime: 4 ms
-Memory: 12.92 MB
+Runtime: 0 ms, Beats 100.00%
+Memory: 13.98 MB, Beats 82.87%
 ```
 ```c++
 class Solution {
-    void bt(int i, int cur, vector<int> &p, vector<vector<int>> &ans, vector<int> &candidates) {
-        if (cur == 0) {
-            ans.push_back(p);
+    void bt(int i, int r, vector<int> &p, vector<vector<int>> &ans, vector<int> &candidates) {
+        if (i >= candidates.size() || r <= 0) {
+            if (r == 0) {
+                ans.push_back(p);
+            }
             return;
         }
-        for (int j = i; j < candidates.size() && candidates[j] <= cur; j++) {
-            // skip duplicate
-            if (j == i || candidates[j] != candidates[j-1]) {
-                p.push_back(candidates[j]);
-                bt(j+1, cur-candidates[j], p, ans, candidates);
-                p.pop_back();
-            }
+        p.push_back(candidates[i]);
+        bt(i+1, r - candidates[i], p, ans, candidates);
+        p.pop_back();
+        while (i+1 < candidates.size() && candidates[i] == candidates[i+1]) {
+            i += 1;
         }
+        bt(i+1, r, p, ans, candidates);
     }
 public:
     vector<vector<int>> combinationSum2(vector<int>& candidates, int target) {
-        sort(candidates.begin(), candidates.end());
-        vector<int> p;
         vector<vector<int>> ans;
+        vector<int> p;
+        sort(candidates.begin(), candidates.end());
         bt(0, target, p, ans, candidates);
         return ans;
     }

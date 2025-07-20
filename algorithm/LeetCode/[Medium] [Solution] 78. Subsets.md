@@ -300,32 +300,28 @@ public:
 
 **Solution 5: (Backtracking)**
 ```
-Runtime: 4 ms
-Memory Usage: 10.8 MB
+Runtime: 2 ms Beats 41.58%
+Memory: 12.58 MB, Beats 32.14%
 ```
 ```c++
 class Solution {
-public:
-    vector<vector<int>> subsets(vector<int>& nums) {
-        vector<vector<int>> res;
-        vector<int> curr_vec;
-        bt(nums, 0, curr_vec, res);
-        return res;
-    }
-    
-    void bt(vector<int> &nums, int i, vector<int>& curr_vec, vector<vector<int>> &res){
-        
-        if(i == nums.size()){
-            res.push_back(curr_vec);
+    void bt(int i, int n, vector<int> &nums, vector<int> &p, vector<vector<int>> &ans) {
+        if (i == n) {
+            ans.push_back(p);
             return;
         }
-        
-        bt(nums, i + 1, curr_vec, res); // don't include curr element
-        
-        curr_vec.push_back(nums[i]);
-        bt(nums, i + 1, curr_vec, res); // include curr element
-        curr_vec.pop_back();
-        
+        bt(i+1, n, nums, p, ans);
+        p.push_back(nums[i]);
+        bt(i+1, n, nums, p, ans);
+        p.pop_back();
+    }
+public:
+    vector<vector<int>> subsets(vector<int>& nums) {
+        int n = nums.size();
+        vector<vector<int>> ans;
+        vector<int> p;
+        bt(0, n, nums, p, ans);
+        return ans;
     }
 };
 ```
@@ -359,24 +355,24 @@ public:
 
 **Solution 7: (bitmask)**
 ```
-Runtime: 4 ms
-Memory: 8.17 MB
+Runtime: 0 ms, Beats 100.00%
+Memory: 9.58 MB, Beats 99.96%
 ```
 ```c++
 class Solution {
 public:
     vector<vector<int>> subsets(vector<int>& nums) {
-        int n = nums.size();
+        int n = nums.size(), i, a;
         vector<vector<int>> ans;
-        vector<int> cur;
-        for (int m = 0; m < 1<<n; m++) {
-            cur.clear();
-            for (int i = 0; (1<<i) <= m; i++) {
-                if ((1<<i)&m) {
-                    cur.push_back(nums[i]);
+        vector<int> p;
+        for (a = 0; a < 1<<n; a ++) {
+            for (i = 0; (1<<i) <= a; i++) {
+                if ((1<<i)&a) {
+                    p.push_back(nums[i]);
                 }
             }
-            ans.push_back(cur);
+            ans.push_back(p);
+            p.clear();
         }
         return ans;
     }

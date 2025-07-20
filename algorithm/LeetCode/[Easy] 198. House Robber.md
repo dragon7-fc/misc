@@ -113,26 +113,23 @@ class Solution:
 **Solution 5: (DP Bottom-Up)**
 ```
 Runtime: 0 ms, Beats 100.00%
-Memory: 10.20 MB, Beats 72.03%
+Memory: 10.13 MB, Beats 80.12%
 ```
 ```c++
 class Solution {
 public:
     int rob(vector<int>& nums) {
-        int n = nums.size(), a, b, i;
-        if (n == 1) {
-            return nums[0];
-        } else if (n == 2) {
-            return max(nums[0], nums[1]);
+        int n = nums.size(), i, a, b, c;
+        if (n <= 2) {
+            return *max_element(nums.begin(), nums.end());
         }
-        a = nums[0];
-        b = max(nums[0], nums[1]);
+        a = nums[0], b = max(nums[0], nums[1]);
         for (i = 2; i < n; i ++) {
-            a += nums[i];
-            a = max(a, b);
-            swap(a, b);
+            c = max(b, a + nums[i]);
+            a = b;
+            b = c;
         }
-        return max(a, b);
+        return c;
     }
 };
 ```

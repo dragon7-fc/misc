@@ -99,3 +99,57 @@ class Solution:
         backtrack(0, [])
         return result
 ```
+
+**Solution 5: (Backtracking, Sort)**
+
+    1 2 2
+   -------
+    []
+    1
+      2
+         2x
+    1 2
+    1   2x
+      2 2
+    1 2 2
+
+
+        1,2,2
+              ^
+                      1
+                  /      \
+               2             2
+           /       \       /    \
+       2           [1]    2      []
+  /      \              /   \
+[1,2,2] [1,2]         [2,2] [2]
+```
+Runtime: 0 ms, Beats 100.00%
+Memory: 10.24 MB, Beats 96.83%
+```
+```c++
+class Solution {
+    void bt(int i, int n, vector<int> &nums, vector<int> &p, vector<vector<int>> &ans) {
+        if (i == n) {
+            ans.push_back(p);
+            return;
+        }
+        p.push_back(nums[i]);
+        bt(i+1, n, nums, p, ans);
+        p.pop_back();
+        while (i+1 < n && nums[i+1] == nums[i]) {
+            i += 1;
+        }
+        bt(i+1, n, nums, p, ans);
+    }
+public:
+    vector<vector<int>> subsetsWithDup(vector<int>& nums) {
+        int n = nums.size();
+        vector<int> p;
+        vector<vector<int>> ans;
+        sort(nums.begin(), nums.end());
+        bt(0, n, nums, p, ans);
+        return ans;
+    }
+};
+```

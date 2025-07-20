@@ -186,34 +186,42 @@ class Solution:
 
 **Solution 4: (Backtracking)**
 ```
-Runtime: 3 ms
-Memory: 7.24 MB
+Runtime: 0 ms, Beats 100.00%
+Memory: 9.10 MB, Beats 74.90%
 ```
 ```c++
 class Solution {
-    unordered_map<char, string>m = {
-        {'2', "abc"},
-        {'3', "def"},
-        {'4', "ghi"},
-        {'5', "jkl"},
-        {'6', "mno"},
-        {'7', "pqrs"},
-        {'8', "tuv"},
-        {'9', "wxyz"}
-    };
-    vector<string> ans;
-    void bt(int i, string &s, string p) {
-        if (i == s.size() && p != "") {
+    void bt(int i, vector<string> &dp, string &digits, string &p, vector<string> &ans) {
+        if (i == digits.size()) {
             ans.push_back(p);
             return;
         }
-        for (char nc: m[s[i]]) {
-            bt(i+1, s, p+nc);
+        for (auto &c: dp[digits[i]-'0']) {
+            p += c;
+            bt(i+1, dp, digits, p, ans);
+            p.pop_back();
         }
     }
 public:
     vector<string> letterCombinations(string digits) {
-        bt(0, digits, "");
+        if (digits == "") {
+            return {};
+        }
+        vector<string> dp = {
+            "",
+            "",
+            "abc",
+            "def",
+            "ghi",
+            "jkl",
+            "mno",
+            "pqrs",
+            "tuv",
+            "wxyz"
+        };
+        string p;
+        vector<string> ans;
+        bt(0, dp, digits, p, ans);
         return ans;
     }
 };

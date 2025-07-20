@@ -141,3 +141,34 @@ class Solution:
                 result.add(tuple(sequence))
         return result
 ```
+
+**Solution 6: (Backtracking, Set)**
+```
+Runtime: 37 ms, Beats 57.74%
+Memory: 25.41 MB, Beats 81.77%
+```
+```c++
+class Solution {
+    void bt(int i, vector<int> &nums, vector<int> &p, set<vector<int>> &ans) {
+        if (i == nums.size()) {
+            if (p.size() >= 2) {
+                ans.insert(p);
+            }
+            return;
+        }
+        if (p.size() == 0 || nums[i] >= p.back()) {
+            p.push_back(nums[i]);
+            bt(i+1, nums, p, ans);
+            p.pop_back();
+        }
+        bt(i+1, nums, p, ans);
+    }
+public:
+    vector<vector<int>> findSubsequences(vector<int>& nums) {
+        vector<int> p;
+        set<vector<int>> ans;
+        bt(0, nums, p, ans);
+        return vector<vector<int>>(ans.begin(), ans.end());
+    }
+};
+```

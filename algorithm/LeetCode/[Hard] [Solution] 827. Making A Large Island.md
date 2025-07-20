@@ -178,48 +178,114 @@ class Solution:
         return ans
 ```
 
-**Solution 2: (Union Find)**
+**Solution 2: (BFS)**
 ```
-Runtime: 295 ms, Beats 36.39%
-Memory: 159.23 MB, Beats 41.73%
+Runtime: 183 ms, Beats 68.52%
+Memory: 94.11 MB, Beats 95.91%
 ```
 ```c++
 class Solution {
     int dd[5] = {0, 1, 0, -1, 0};
-    int find(int x, vector<int> &p) {
-        if (p[x] != x) {
-            p[x] = find(p[x], p);
+public:
+    int largestIsland(vector<vector<int>>& grid) {
+        int n = grid.size(), i, j, a = 0, k, d, nr, nc, ans = 0;
+        vector<vector<int>> visited(n, vector<int>(n, -1));
+        vector<int> sz;
+        unordered_set<int> st;
+        queue<array<int,3>> q;
+        for (i = 0; i < n; i ++) {
+            for (j = 0; j < n; j ++) {
+                if (grid[i][j] && visited[i][j] == -1) {
+                    q.push({i, j, a});
+                    visited[i][j] = a;
+                    k = 1;
+                    while (q.size()) {
+                        auto [r, c, b] = q.front();
+                        q.pop();
+                        for (d = 0; d < 4; d ++) {
+                            nr = r + dd[d];
+                            nc = c + dd[d+1];
+                            if (0 <= nr && nr < n && 0 <= nc && nc < n && grid[nr][nc] && visited[nr][nc] == -1) {
+                                q.push({nr, nc, b});
+                                visited[nr][nc] = b;
+                                k += 1;
+                            }
+                        }
+                    }
+                    sz.push_back(k);
+                    a += 1;
+                }
+            }
+        }
+        for (i = 0; i < n; i ++) {
+            for (j = 0; j < n; j ++) {
+                if (grid[i][j] == 0) {
+                    for (d = 0; d < 4; d ++) {
+                        nr = i + dd[d];
+                        nc = j + dd[d+1];
+                        if (0 <= nr && nr < n && 0 <= nc && nc < n) {
+                            if (visited[nr][nc] != -1) {
+                                st.insert(visited[nr][nc]);
+                            }
+                        }
+                    }
+                    a = 1;
+                    for (auto c: st) {
+                        a += sz[c];
+                    }
+                    ans = max(ans, a);
+                    st.clear();
+                } else {
+                    ans = max(ans, sz[visited[i][j]]);
+                }
+            }
+        }
+        return ans;
+    }
+};
+```
+
+**Solution 3: (Union Find)**
+```
+Runtime: 183 ms, Beats 68.40%
+Memory: 91.34 MB, Beats 97.54%
+```
+```c++
+const int dd[5] = {0, 1, 0, -1, 0};
+class Solution {
+    vector<int> p, sz;
+    int find(int x) {
+        if (p[x] == -1) {
+            p[x] = x;
+        } else {
+            if (x != p[x]) {
+                p[x] = find(p[x]);
+            }
         }
         return p[x];
     }
-    void uni(int x, int y, vector<int> &p, vector<int> &sz) {
-        int xr = find(x, p), yr = find(y, p);
+    void uni(int x, int y) {
+        int xr = find(x), yr = find(y);
         if (xr == yr) {
             return;
         }
-        if (sz[xr] < sz[yr]) {
-            p[xr] = yr;
-            sz[yr] += sz[xr];
-        } else if (sz[yr] < sz[xr]) {
-            p[yr] = xr;
+        if (sz[xr] > sz[yr]) {
             sz[xr] += sz[yr];
-        } else {
-            p[xr] = yr;
+            p[yr] = xr;
+        } else if (sz[yr] > sz[xr]) {
             sz[yr] += sz[xr];
+            p[xr] = yr;
+        } else {
+            sz[xr] += sz[yr];
+            p[yr] = xr;
         }
     }
 public:
     int largestIsland(vector<vector<int>>& grid) {
-        int n = grid.size(), i, j, ni, nj, d, y, cur, ans = 0;
-        vector<int> p(n*n), sz(n*n);
-        for (i = 0; i < n; i ++) {
-            for (j = 0; j < n; j ++) {
-                p[i*n + j] = i*n + j;
-                if (grid[i][j]) {
-                    sz[i*n + j] = 1;
-                }
-            }
-        }
+        int n = grid.size(), i, j, d, ni, nj, a, ans = 0;
+        unordered_set<int> st;
+        p.resize(n*n, -1);
+        sz.resize(n*n, 1);
         for (i = 0; i < n; i ++) {
             for (j = 0; j < n; j ++) {
                 if (grid[i][j]) {
@@ -227,7 +293,7 @@ public:
                         ni = i + dd[d];
                         nj = j + dd[d+1];
                         if (0 <= ni && ni < n && 0 <= nj && nj < n && grid[ni][nj]) {
-                            uni(i*n + j, ni*n + nj, p, sz);
+                            uni(i*n + j, ni*n + nj);
                         }
                     }
                 }
@@ -236,22 +302,21 @@ public:
         for (i = 0; i < n; i ++) {
             for (j = 0; j < n; j ++) {
                 if (grid[i][j] == 0) {
-                    cur = 1;
-                    unordered_set<int> st;
                     for (d = 0; d < 4; d ++) {
                         ni = i + dd[d];
                         nj = j + dd[d+1];
                         if (0 <= ni && ni < n && 0 <= nj && nj < n && grid[ni][nj]) {
-                            y = find(ni*n + nj, p);
-                            if (!st.count(y)) {
-                                st.insert(y);
-                                cur += sz[y];
-                            }
+                            st.insert(find(ni*n + nj));
                         }
                     }
-                    ans = max(ans, cur);
+                    a = 1;
+                    for (auto &b: st) {
+                        a += sz[b];
+                    }
+                    ans = max(ans, a);
+                    st.clear();
                 } else {
-                    ans = max(ans, sz[i*n + j]);
+                    ans = max(ans, sz[find(i*n + j)]);
                 }
             }
         }
@@ -259,3 +324,4 @@ public:
     }
 };
 ```
+

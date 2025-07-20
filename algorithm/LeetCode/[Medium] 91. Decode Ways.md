@@ -192,3 +192,39 @@ public:
     }
 };
 ```
+
+**Solution 7: (DP Bottom-Up)**
+```
+Runtime: 0 ms, Beats 100.00%
+Memory: 8.16 MB, Beats 99.31%
+```
+```c++
+class Solution {
+public:
+    int numDecodings(string s) {
+        int n = s.length(), i, a, b, c;
+        if (s[0] == '0') {
+            return 0;
+        }
+        a = 0, b = 1, c = 1;
+        for (i = 1; i < n; i ++) {
+            c = 0;
+            if (s[i] != '0') {
+                c += b;
+            }
+            if (s[i-1] == '1' || s[i-1] == '2' && s[i] >= '0' && s[i] <= '6'){
+                c += a;
+                if (i == 1) {
+                    c += 1;
+                }
+            }
+            if (c == 0) {
+                return 0;
+            }
+            a = b;
+            b = c;
+        }
+        return c;
+    }
+};
+```

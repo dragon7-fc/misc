@@ -13352,6 +13352,26 @@ backtrack(... 0 path ...)
 return ans
 ```
 
+**Template 3: (Backtracking)**
+```python
+ans = []
+visited = []
+def backtrack(index, path):
+    if ...:
+        ans.append(path)
+        return True
+    for i in range(index + 1, N):
+        if not visited[i]:
+            visited[i] = True;
+            path.append(...)
+            if backtrack(i + 1, path):
+                return True
+            visited[i] = False;
+            path.pop()
+backtrack(0, [])
+return ans
+```
+
 ## Bit Manipulation <a name="bm"></a>
 ---
 ### Ascii to hash value

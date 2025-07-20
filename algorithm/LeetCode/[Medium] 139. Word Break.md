@@ -134,25 +134,27 @@ public:
 
 **Solution 5: (DP Bottom-Up)**
 ```
-Runtime: 14 ms
-Memory: 17.22 MB
+Runtime: 0 ms, Beats 100.00%
+Memory: 11.26 MB, Beats 75.65%
 ```
 ```c++
 class Solution {
 public:
     bool wordBreak(string s, vector<string>& wordDict) {
-        int n = s.size();
-        vector<bool> dp(n+1);
-        dp[0] = true;
+        int n = s.size(), i, k;
+        string cs;
+        vector<int> dp(n+1);
         unordered_set<string> st(wordDict.begin(), wordDict.end());
-        for (int j = 0; j < n; j ++) {
-            for (int i = 0; i <= j; i ++) {
-                if (st.count(s.substr(i, j-i+1))) {
-                    dp[j+1] = dp[j+1] | dp[i];
+        dp[0] = 1;
+        for (i = 0; i < n; i ++) {
+            for (k = 1; i-k+1 >= 0 && k <= 20; k ++) {
+                cs = s.substr(i-k+1, k);
+                if (st.count(cs)) {
+                    dp[i+1] |= dp[i-k+1];
                 }
             }
         }
-        return dp.back();
+        return dp[n];
     }
 };
 ```

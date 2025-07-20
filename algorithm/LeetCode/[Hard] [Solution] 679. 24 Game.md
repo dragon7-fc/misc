@@ -96,7 +96,7 @@ Memory Usage: 13.7 MB
 /*
 the idea is that
 1. it does not matter how the prethesis groups the operations
-2. the computation is alreasy between to operands
+2. the computation is alreasy between two operands
 example: input: [4,1,8,7]
 1. we could choose first 4 and 1 for any of the operations: *, /, +, -, to get a number say 5 from addition operation
 2. then we will do the next operation choosing oprands between 5 and other not used numbers in the input array
@@ -162,6 +162,62 @@ public:
     vector<double> compute(double& a, double& b){
         vector<double> res = {a+b,a-b,b-a,a*b,a/b,b/a};
         return res;
+    }
+};
+```
+
+**Solution 3: (Backtracking, try all solution)**
+
+    1  2  3  4
+        +
+       ----
+     /
+    -------
+            *
+    ----------
+
+```
+Runtime: 25 ms, Beats 40.60%
+Memory: 18.31 MB, Beats 36.60%
+```
+```c++
+class Solution {
+    bool bt(vector<double> arr) {
+        if (arr.size() == 1) {
+            if (abs(arr[0]-24) <= 0.001) {
+                return true;
+            }
+            return false;
+        }
+        int n = arr.size(), i, j, k;
+        vector<double> pre, cur;
+        for (i = 0; i < n; i ++) {
+            for (j = i+1; j < n; j ++) {
+                for (k = 0; k < n; k ++) {
+                    if (k != i && k != j) {
+                        cur.push_back(arr[k]);
+                    }
+                }
+                pre = getab(arr[i], arr[j]);
+                for (auto a: pre) {
+                    cur.push_back(a);
+                    if (bt(cur)) {
+                        return true;
+                    }
+                    cur.pop_back();
+                }
+                cur.clear();
+            }
+        }
+        return false;
+    }
+    vector<double> getab(double a, double b) {
+        return {a+b, a-b , b-a, a*b, a/b, b/a};
+    }
+public:
+    bool judgePoint24(vector<int>& cards) {
+        vector<double> dp(cards.begin(), cards.end());
+        return bt(dp);
     }
 };
 ```

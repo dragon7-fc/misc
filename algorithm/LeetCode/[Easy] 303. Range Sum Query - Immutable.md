@@ -145,21 +145,22 @@ class NumArray:
 **Solution 2: (Prefix Sum)**
 ```
 Runtime: 0 ms, Beats 100.00%
-Memory: 23.98 MB, Beats 60.44%
+Memory: 23.91 MB, Beats 60.92%
 ```
 ```c++
 class NumArray {
-    vector<int> pre;
+    vector<int> dp;
 public:
     NumArray(vector<int>& nums) {
-        pre.push_back(0);
-        for (auto num: nums) {
-            pre.push_back(pre.back() + num);
+        int n = nums.size(), i;
+        dp.resize(n+1);
+        for (i = 0; i < n; i ++) {
+            dp[i+1] = dp[i] + nums[i];
         }
     }
     
     int sumRange(int left, int right) {
-        return pre[right+1] - pre[left];
+        return dp[right+1] - dp[left];
     }
 };
 
@@ -168,5 +169,4 @@ public:
  * NumArray* obj = new NumArray(nums);
  * int param_1 = obj->sumRange(left,right);
  */
-
 ```

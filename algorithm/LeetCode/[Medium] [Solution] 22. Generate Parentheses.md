@@ -238,3 +238,36 @@ public:
     }
 };
 ```
+
+**Solution 2: (Backtracking)**
+```
+Runtime: 0 ms, Beats 100.00%
+Memory: 13.09 MB, Beats 83.74%
+```
+```c++
+class Solution {
+    void bt(int left, int right, int n, string &p, vector<string> &ans) {
+        if (left + right == 2*n) {
+            ans.push_back(p);
+            return;
+        }
+        if (left < n) {
+            p += '(';
+            bt(left+1, right, n, p, ans);
+            p.pop_back();
+        }
+        if (right < left) {
+            p += ')';
+            bt(left, right+1, n, p, ans);
+            p.pop_back();
+        }
+    }
+public:
+    vector<string> generateParenthesis(int n) {
+        vector<string> ans;
+        string p;
+        bt(0, 0, n, p, ans);
+        return ans;
+    }
+};
+```

@@ -54,31 +54,29 @@ class Solution:
 
 **Solution 3: (Backtracking)**
 ```
-Runtime: 24 ms
-Memory: 17.9 MB
+Runtime: 67 ms, Beats 45.57%
+Memory: 109.86 MB, Beats 30.67%
 ```
 ```c++
-[200~class Solution {
-    void bt(int i, int n, int k, vector<int> &cur, vector<vector<int>> &ans) {
-        if (i == n+1) {
-            if (k == 0) {
-                ans.push_back(cur);
-            }
+class Solution {
+    void bt(int i, int n, int r, vector<int> &p, vector<vector<int>> &ans) {
+        if (r == 0) {
+            ans.push_back(p);
             return;
         }
-        if (k < 0) {
+        if (i == n) {
             return;
         }
-        cur.push_back(i);
-        bt(i+1, n, k-1, cur, ans);
-        cur.pop_back();
-        bt(i+1, n, k, cur, ans);
+        p.push_back(i+1);
+        bt(i+1, n, r-1, p, ans);
+        p.pop_back();
+        bt(i+1, n, r, p, ans);
     }
 public:
     vector<vector<int>> combine(int n, int k) {
+        vector<int> p;
         vector<vector<int>> ans;
-        vector<int> cur;
-        bt(1, n, k, cur, ans);
+        bt(0, n, k, p, ans);
         return ans;
     }
 };

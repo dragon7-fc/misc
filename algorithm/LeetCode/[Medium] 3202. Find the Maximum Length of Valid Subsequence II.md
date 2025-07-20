@@ -61,3 +61,26 @@ public:
     }
 };
 ```
+
+**Solution 2: (DP Bottom-Up)**
+```
+Runtime: 111 ms, Beats 55.75%
+Memory: 90.15 MB, Beats 71.68%
+```
+```c++
+class Solution {
+public:
+    int maximumLength(vector<int>& nums, int k) {
+        int n = nums.size(), i, j, a, ans = 0;
+        vector<vector<int>> dp(n, vector<int>(k, 1));
+        for (j = 1; j < n; j ++) {
+            for (i = 0; i < j; i ++) {
+                a = (nums[i] + nums[j])%k;
+                dp[j][a] = max(dp[j][a], 1 + dp[i][a]);
+                ans = max(ans, dp[j][a]);
+            }
+        }
+        return ans;
+    }
+};
+```

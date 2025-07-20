@@ -159,3 +159,40 @@ class Solution:
 
         return "".join(ans) + "0" * (n-1)
 ```
+
+**Solution 3: (Backtracking, try Euler Path)**
+```
+Runtime: 10 ms, Beats 63.92%
+Memory: 12.73 MB, Beats 52.58%
+```
+```c++
+\class Solution {
+    bool bt(int n, int k, int r, unordered_set<string> &visited, string &ans) {
+        if (r == 0) {
+            return true;
+        }
+        string pre;
+        for (char a = '0'; a < '0' + k; a ++) {
+            pre = ans.substr(ans.length()-n+1) + a;
+            if (!visited.count(pre)) {
+                visited.insert(pre);
+                ans += a;
+                if (bt(n, k, r-1, visited, ans)) {
+                    return true;
+                }
+                ans.pop_back();
+                visited.erase(pre);
+            }
+            pre.pop_back();
+        }
+        return false;
+    }
+public:
+    string crackSafe(int n, int k) {
+        unordered_set<string> visited;
+        string ans(n-1, '0');
+        bt(n, k, pow(k,n), visited, ans);
+        return ans;
+    }
+};
+```

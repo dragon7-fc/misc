@@ -184,72 +184,71 @@ public:
 
 **Solution 4: (Trie, O(N * L))**
 ```
-Runtime: 370 ms
-Memory: 144.32 MB
+Runtime: 331 ms, Beats 5.80%
+Memory: 137.21 MB, Beats 11.61%
 ```
 ```c++
 class Solution {
     struct TrieNode {
-        string path;
-        unordered_map<string, TrieNode*> child;
-        bool is_end;
-        TrieNode(string p) {
-            path = p;
-            is_end = false;
-        }
+        unordered_map<string,TrieNode*> child;
+        bool isEnd = false;
     };
-    TrieNode *root = new TrieNode("/");;
-    void deleteTrie(TrieNode *node) {
-        if (node == nullptr) return;
-        for (auto& [_, nnode] : node->child) {
-            deleteTrie(nnode);
+    TrieNode *root;
+    void del_node(TrieNode* node) {
+        for (auto &[_, nnode]: node->child) {
+            del_node(nnode);
         }
         delete node;
     }
-    void insert(string s) {
-        TrieNode *node = root;
-        string cur = "/";
-        for (int i = 1; i < s.size(); i ++) {
-            if (s[i] == '/' && cur[i-1] != '/') {
-                if (!node->child.count(cur)) {
-                    node->child[cur] = new TrieNode(cur);
-                }
-                node = node->child[cur];
-            }
-            cur += s[i];
-        }
-        if (cur.back() != '/') {
-            if (!node->child.count(cur)) {
-                node->child[cur] = new TrieNode(cur);
-            }
-            node = node->child[cur];
-        }
-        node->is_end = true;
-    }
-    void dfs(TrieNode *node, vector<string> &ans) {
-        if (node->is_end) {
-            ans.push_back(node->path);
-            return;
-        }
-        for (auto [s, nnode]: node->child) {
-            dfs(nnode, ans);
-        }
-    }
-    void search(vector<string> &ans) {
-        TrieNode *node = root;
-        dfs(node, ans);
-    }
 public:
+    Solution(): root(new TrieNode()) {};
     ~Solution() {
-        deleteTrie(root);
+        del_node(root);
     }
     vector<string> removeSubfolders(vector<string>& folder) {
-        for (auto f: folder) {
-            insert(f);
+        string s;
+        stringstream ss;
+        vector<string> p, ans;
+        unordered_map<string,vector<string>> mp;
+        TrieNode *root = new TrieNode(), *node;
+        bool flag;
+        for (auto &f: folder) {
+            ss = stringstream(f);
+            while (getline(ss, s, '/')) {
+                if (s != "") {
+                    p.push_back(s);
+                }
+            }
+            mp[f] = p;
+            p.clear();
         }
-        vector<string> ans;
-        search(ans);
-
+        for (auto &f: folder) {
+            node = root;
+            for (auto &cs: mp[f]) {
+                if (!node->child.count(cs)) {
+                    node->child[cs] = new TrieNode();
+                }
+                node = node->child[cs];
+            }
+            node->isEnd = true;
+        }
+        for (auto &f: folder) {
+            node = root;
+            flag = true;
+            for (int i = 0; i < mp[f].size(); i ++) {
+                if (!node->child.count(mp[f][i])) {
+                    break;
+                }
+                node = node->child[mp[f][i]];
+                if (node->isEnd && i != mp[f].size() - 1) {
+                    flag = false;
+                    break;
+                }
+            }
+            if (flag) {
+                ans.push_back(f);
+            }
+        }
         return ans;
     }
 };

@@ -374,3 +374,26 @@ class Solution:
             one = cur
         return cur
 ```
+
+**Solution 4: (DP Bottom-Up)**
+```
+Runtime: 0 ms, Beats 100.00%
+Memory: 7.79 MB, Beats 87.75%
+```
+```c++
+class Solution {
+public:
+    int climbStairs(int n) {
+        if (n == 1) {
+            return 1;
+        }
+        int i, a = 1, b = 1, c;
+        for (i = 1; i < n; i ++) {
+            c = a + b;
+            a = b;
+            b = c;
+        }
+        return c;
+    }
+};
+```

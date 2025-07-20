@@ -94,3 +94,25 @@ class Solution:
             ans = max(ans, pre)
         return ans
 ```
+
+**Solution 5: (Greedy)**
+```
+Runtime: 0 ms, Beats 100.00%
+Memory: 71.77 MB, Beats 52.30%
+```
+```c++
+class Solution {
+public:
+    int maxSubArray(vector<int>& nums) {
+        int n = nums.size(), i, pre = nums[0], ans = pre;
+        for (i = 1; i < n; i ++) {
+            pre += nums[i];
+            if (pre < nums[i]) {
+                pre = nums[i];
+            }
+            ans = max(ans, pre);
+        }
+        return ans;
+    }
+};
+```

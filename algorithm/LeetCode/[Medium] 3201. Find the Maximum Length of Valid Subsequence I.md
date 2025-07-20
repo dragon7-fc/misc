@@ -80,3 +80,87 @@ public:
     }
 };
 ```
+
+**Solution 2: (Brute Force, Parity of Enumeration Elements)**
+```
+Runtime: 21 ms, Beats 19.12%
+Memory: 97.16 MB, Beats 25.00%
+```
+```c++
+class Solution {
+public:
+    int maximumLength(vector<int>& nums) {
+        int res = 0;
+        vector<vector<int>> patterns = {{0, 0}, {0, 1}, {1, 0}, {1, 1}};
+        for (auto& pattern : patterns) {
+            int cnt = 0;
+            for (int num : nums) {
+                if (num % 2 == pattern[cnt % 2]) {
+                    cnt++;
+                }
+            }
+            res = max(res, cnt);
+        }
+        return res;
+    }
+};
+```
+
+**Solution 3: (DP Bottom-Up)**
+
+      1,2,3,4
+00      1   2
+01      1 3
+10      2   4
+11      1 2
+
+              v 
+    1,2,1,1,2,1,2
+    ^ ^ ^   ^ ^ ^
+00    1     2   3
+01    1 3 3   5
+10    2     4   6
+11    1 2 3   4
+
+    1 3
+e     
+o   1 2
+    
+    1 1 3 9 5
+00
+01    1 1 1 1
+10   
+11    2 3 4 5
+
+```
+Runtime: 2 ms, Beats 77.94%
+Memory: 96.26 MB, Beats 40.00%
+```
+```c++
+class Solution {
+public:
+    int maximumLength(vector<int>& nums) {
+        int n = nums.size(), i;
+        vector<int> dp(4);
+        if (nums[0]%2 == 0 || nums[1]%2 == 0) {
+            dp[0] |= 1;
+            dp[2] |= 1;
+        }
+        if (nums[0]%2 || nums[1]%2) {
+            dp[1] |= 1;
+            dp[3] |= 1;
+        }
+        dp[((nums[0]%2)<<1) + nums[1]%2] += 1;
+        for (i = 2; i < n; i ++) {
+            if (nums[i]%2) {
+                dp[3] += 1;
+                dp[1] = max(dp[1], dp[2] + 1);
+            } else {
+                dp[0] += 1;
+                dp[2] = max(dp[2], dp[1] + 1);
+            }
+        }
+        return *max_element(dp.begin(), dp.end());
+    }
+};
+```
