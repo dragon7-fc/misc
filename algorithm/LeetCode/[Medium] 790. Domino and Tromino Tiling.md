@@ -188,3 +188,49 @@ public:
         return dp[n][0];
     }
 ```
+
+**Solution 6: (DP Bottom-Up)**
+
+      0  1  2  3  4  5
+     ------------------
+dp
+      1  1  2  5 11 24
+            1  2  4
+            1  2  4
+            
+         x |  x x x    | x
+         x |  x x      | x x
+         ^ |      ^i   |   ^
+           |    ^i-1   |
+
+    dp[i][0] = dp[i-1][0] + dp[i-2][0] + dp[i-1][1] + dp[i-1][2]
+    dp[i][1] = dp[i-2][0] + dp[i-1][2]
+    dp[i][2] = dp[i-2][0] + dp[i-1][1]
+
+
+```
+Runtime: 0 ms, Beats 100.00%
+Memory: 7.88 MB, Beats 89.34%
+```
+```c++
+class Solution {
+public:
+    int numTilings(int n) {
+        if (n <= 2) {
+            return n;
+        }
+        int MOD = 1e9 + 7, i;
+        array<long long,3> ppre, pre, dp;
+        ppre = {1, 0, 0};
+        pre = {1, 0, 0};
+        for (i = 2; i <= n; i ++) {
+            dp[0] = (pre[0] + ppre[0] + pre[1] + pre[2]) % MOD;
+            dp[1] = (ppre[0] + pre[2]) % MOD;
+            dp[2] = (ppre[0] + pre[1]) % MOD;
+            ppre = pre;
+            pre = dp;
+        }
+        return pre[0];
+    }
+};
+```

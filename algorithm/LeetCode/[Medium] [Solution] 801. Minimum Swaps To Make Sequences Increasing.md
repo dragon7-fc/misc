@@ -121,34 +121,66 @@ class Solution:
 ```
 
 **Solution 3: (DP Bottom-Up)**
+
+                   v
+    nums1 = [1,3,5,4],
+                   7 
+    nums2 = [1,2,3,7]
+                   4
+            {1,1,0}
+            {1,1,1}
+              {3,2,0}
+              {2,3,1}
+                {5,3,0}
+                {3,5,1}
+                   {4,7,1}
+                   {7,4,1}
+
+             v
+    nums1 = [0,3,5,8,9],
+             2
+    nums2 = [2,1,4,6,9]
+             0
+            {0,2,0}
+            {2,0.1}
+              {3,1,1}
+              {1,3,1}
+                {5,4,1}
+                {4,5,2}
+                  {8,6,1}
+                  {6,8,2}
+                    {9,9,1}
+                    {9,9,2}
+
 ```
-Runtime: 122 ms
-Memory: 92.66 MB
+Runtime: 11 ms, Beats 76.87%
+Memory: 94.07 MB, Beats 96.97%
 ```
 ```c++
 class Solution {
 public:
     int minSwap(vector<int>& nums1, vector<int>& nums2) {
-        int n = nums1.size(), c1 = 0, c2 = 1, nc1,nc2;
-        for (int i = 1; i < n; i ++) {
-            nc1 = INT_MAX;
-            if (nums1[i] > nums1[i-1] && nums2[i] > nums2[i-1]) {
-                nc1 = min(nc1, c1);
+        int n = nums1.size(), i, ans = 0;
+        vector<array<int,3>> pre(2), dp(2);
+        pre = {{nums1[0], nums2[0], 0}, {nums2[0], nums1[0], 1}};
+        for (i = 1; i < n; i ++) {
+            dp[0] = {nums1[i], nums2[i], INT_MAX};
+            dp[1] = {nums2[i], nums1[i], INT_MAX};
+            if (dp[0][0] > pre[0][0] && dp[0][1] > pre[0][1]) {
+                dp[0][2] = min(dp[0][2], pre[0][2]);
             }
-            if (nums1[i] > nums2[i-1] && nums2[i] > nums1[i-1]) {
-                nc1 = min(nc1, c2);
+            if (dp[0][0] > pre[1][0] && dp[0][1] > pre[1][1]) {
+                dp[0][2] = min(dp[0][2], pre[1][2]);
             }
-            nc2 = INT_MAX;
-            if (nums2[i] > nums1[i-1] && nums1[i] > nums2[i-1]) {
-                nc2 = min(nc2, c1+1);
+            if (dp[1][0] > pre[0][0] && dp[1][1] > pre[0][1]) {
+                dp[1][2] = min(dp[1][2], pre[0][2] + 1);
             }
-            if (nums2[i] > nums2[i-1] && nums1[i] > nums1[i-1]) {
-                nc2 = min(nc2, c2+1);
+            if (dp[1][0] > pre[1][0] && dp[1][1] > pre[1][1]) {
+                dp[1][2] = min(dp[1][2], pre[1][2] + 1);
             }
-            c1 = nc1;
-            c2 = nc2;
+            pre = dp;
         }
-        return min(c1, c2);
+        return min(pre[0][2], pre[1][2]);
     }
 };
 ```

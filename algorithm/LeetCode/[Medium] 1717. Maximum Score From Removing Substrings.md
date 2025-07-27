@@ -286,3 +286,38 @@ public:
     }
 };
 ```
+
+**Solution 7: (Greedy)**
+```
+Runtime: 30 ms, Beats 77.30%
+Memory: 19.83 MB, Beats 94.86%
+```
+```c++
+class Solution {
+    int check(string &s, string t, int a) {
+        int i = 0, j, rst = 0;
+        for (j = 1; j < s.size(); j ++) {
+            if (i >= 0 && s[i] == t[0] && s[j] == t[1]) {
+                i -= 1;
+                rst += a;
+            } else {
+                s[++i] = s[j];
+            }
+        }
+        s.resize(i+1);
+        return rst;
+    }
+public:
+    int maximumGain(string s, int x, int y) {
+        int ans = 0;
+        if (y > x) {
+            ans += check(s, "ba", y);
+            ans += check(s, "ab", x);
+        } else {
+            ans += check(s, "ab", x);
+            ans += check(s, "ba", y);
+        }
+        return ans;
+    }
+};
+```

@@ -75,25 +75,23 @@ class Solution:
 
 **Solution 3: (DP, Bottom-Up)**
 ```
-Runtime: 15 ms
-Memory: 9.6 MB
+Runtime: 0 ms, Beats 100.00%
+Memory: 15.35 MB, Beats 91.69%
 ```
 ```c++
 class Solution {
 public:
     int minPathSum(vector<vector<int>>& grid) {
-        int m = grid.size(), n = grid[0].size();
-        for (int i = 0; i < m; i ++) {
-            for (int j = 0; j < n; j ++) {
-                if (i == 0 && j == 0) {
-                    continue;
-                } else if (i == 0) {
-                    grid[i][j] += grid[i][j-1];
-                } else if (j == 0) {
-                    grid[i][j] += grid[i-1][j];
-                } else {
-                    grid[i][j] += min(grid[i-1][j], grid[i][j-1]);
-                }
+        int m = grid.size(), n = grid[0].size(), i, j;
+        for (i = 1; i < m; i ++) {
+            grid[i][0] += grid[i-1][0];
+        }
+        for (j = 1; j < n; j ++) {
+            grid[0][j] += grid[0][j-1];
+        }
+        for (i = 1; i < m; i ++) {
+            for (j = 1; j < n; j ++) {
+                grid[i][j] += min(grid[i-1][j], grid[i][j-1]);
             }
         }
         return grid[m-1][n-1];

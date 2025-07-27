@@ -81,29 +81,43 @@ class Solution:
         return rst
 ```
 
-**Solution 1: (DP Bottom-Up, Hash Table, Delete One at Once)**
+**Solution 1: (DP Bottom-Up)**
 ```
-Runtime: 80 ms
-Memory Usage: 17.3 MB
+Runtime: 13 ms, Beats 99.14%
+Memory: 18.72 MB, Beats 70.01%
 ```
 ```c++
 class Solution {
 public:
     int longestStrChain(vector<string>& words) {
-        unordered_map<string, int> dp;
-        int res = 1;
-        sort(words.begin(), words.end(), [](const string &l, const string &r) { return l.size() < r.size(); });
-        for (string word : words) {
-            dp[word] = 1;
-            for (int i = 0; i < word.size(); i++) {
-                string prev = word.substr(0, i) + word.substr(i + 1);
-                if (dp.find(prev) != dp.end()) {
-                    dp[word] = dp[prev] + 1;
-                    res = max(res, dp[word]);
+        int n = words.size(), i, j, ii, jj, d, ans = 1;
+        vector<int> dp(n, 1);
+        sort(words.begin(), words.end(), [](const auto &sa, const auto &sb){
+            return sa.length() < sb.length();
+        });
+        for (j = 1; j < n; j ++) {
+            for (i = 0; i < j; i ++) {
+                if (words[j].length() == words[i].length() + 1) {
+                    d = 0;
+                    ii = 0;
+                    for (jj = 0; jj < words[j].length(); jj ++) {
+                        if (ii == words[i].length() || words[j][jj] != words[i][ii])  {
+                            d += 1;
+                            if (d > 1) {
+                                break;
+                            }
+                        } else {
+                            ii += 1;
+                        }
+                    }
+                    if (d == 1) {
+                        dp[j] = max(dp[j], dp[i]+1);
+                        ans = max(ans, dp[j]);
+                    }
                 }
             }
         }
-        return res;
+        return ans;
     }
 };
 ```

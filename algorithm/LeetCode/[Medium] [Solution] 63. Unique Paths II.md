@@ -267,26 +267,40 @@ public:
 ```
 
 **Solution 5: (DP Bottom-Up 1D)**
+
+    0  0  0
+   [1  1  1]
+    0  1  0
+   [1  0  1]
+    0  0  0
+   [1  1  2]
+
 ```
-Runtime: 0 ms
-Memory: 7.8 MB
+Runtime: 0 ms, Beats 100.00%
+Memory: 11.51 MB, Beats 86.98%
 ```
 ```c++
 class Solution {
 public:
     int uniquePathsWithObstacles(vector<vector<int>>& obstacleGrid) {
-        if (obstacleGrid.empty() || obstacleGrid[0].empty() || obstacleGrid[0][0] == 1) {
+        int m = obstacleGrid.size(), n = obstacleGrid[0].size(), i, j;
+        if (obstacleGrid[0][0] == 1 || obstacleGrid[m-1][n-1] == 1) {
             return 0;
         }
-        int m = obstacleGrid.size(), n = obstacleGrid[0].size();
-        vector<int> pre(n), dp(n);
-        pre[0] = 1;
-        for (int i = 0; i < m; i ++) {
-            dp[0] = obstacleGrid[i][0] == 1 ? 0 : pre[0];
-            for (int j = 1; j < n; j ++) {
-                dp[j] = obstacleGrid[i][j] == 1 ? 0 : dp[j-1] + pre[j];
+        vector<int> dp(n);
+        for (j = 0; j < n && obstacleGrid[0][j] == 0; j ++) {
+            dp[j] = 1;
+        }
+        for (i = 1; i < m; i ++) {
+            for (j = 0; j < n; j ++) {
+                if (obstacleGrid[i][j] == 1) {
+                    dp[j] = 0;
+                } else {
+                    if (j) {
+                        dp[j] += dp[j-1];
+                    } 
+                }
             }
-            pre = dp;
         }
         return dp[n-1];
     }

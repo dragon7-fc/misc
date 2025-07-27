@@ -298,3 +298,43 @@ public:
     }
 };
 ```
+
+**Solution 7: (Backtracking)**
+```
+Runtime: 0, ms Beats 100.00%
+Memory: 9.88 MB, Beats 97.34%
+```
+```c++
+\class Solution {
+    void bt(int i, int n, string &s, string &w, unordered_set<string> &st, vector<string> &p, vector<string> &ans) {
+        if (i == n) {
+            if (w == "") {
+                ans.push_back("");
+                for (int i = 0; i < p.size(); i ++) {
+                    ans.back() += p[i] + " ";
+                }
+                ans.back().pop_back();
+            }
+            return;
+        }
+        w += s[i];
+        if (st.count(w)) {
+            p.push_back(w);
+            w.clear();
+            bt(i+1, n, s, w, st, p, ans);
+            w = p.back();
+            p.pop_back();
+        }
+        bt(i+1, n, s, w, st, p, ans);
+        
+    }
+public:
+    vector<string> wordBreak(string s, vector<string>& wordDict) {
+        unordered_set<string> st(wordDict.begin(), wordDict.end());
+        string w;
+        vector<string> p, ans;
+        bt(0, s.size(), s, w, st, p, ans);
+        return ans;
+    }
+};
+```

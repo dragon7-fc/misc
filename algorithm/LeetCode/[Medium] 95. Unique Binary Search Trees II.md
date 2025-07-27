@@ -102,8 +102,8 @@ public:
 
 **Solution 3: (DP, Top-Down)**
 ```
-Runtime: 8 ms
-Memory: 12.4 MB
+Runtime: 0 ms, Beats 100.00%
+Memory: 17.11 MB, Beats 79.63%
 ```
 ```c++
 /**
@@ -118,31 +118,32 @@ Memory: 12.4 MB
  * };
  */
 class Solution {
-    vector<TreeNode*> generateTrees(int end, int start, vector<vector<vector<TreeNode*>>> &dp) {      
-        // If start > end, then subtree will be empty so we will directly return null pointer
-        if (start > end)
+    vector<TreeNode*> dfs(int left, int right, vector<vector<vector<TreeNode*>>> &dp) {
+        if (left > right) {
             return {nullptr};
-        if (dp[start-1][end-1].size()) {
-            return dp[start-1][end-1];
         }
-        vector<TreeNode*> ans;
-        // Consider every number in range [start, end] as root
-        for (int i = start; i <= end; i++) {
-            // generate all possible trees in range [start, i)
-            for (auto left : generateTrees(i - 1, start, dp)) {
-                // generate all possible trees in range (i, end]
-                for (auto right : generateTrees(end, i + 1, dp))
-                    // make new trees with 'i' as the root
-                    ans.push_back(new TreeNode(i, left, right));
+        if (dp[left-1][right-1].size()) {
+            return dp[left-1][right-1];
+        }
+        vector<TreeNode*> rst;
+        TreeNode *node;
+        for (int a = left; a <= right; a ++) {
+            for (auto nl: dfs(left, a-1, dp)) {
+                for (auto nr: dfs(a+1, right, dp)) {
+                    node = new TreeNode(a);
+                    node->left = nl;
+                    node->right = nr;
+                    rst.push_back(node);
+                }
             }
         }
-        dp[start-1][end-1] = ans;
-        return ans;
+        dp[left-1][right-1] = rst;
+        return rst;
     }
 public:
     vector<TreeNode*> generateTrees(int n) {
-        vector<vector<vector<TreeNode*>>> dp(n, vector<vector<TreeNode*>>(n, vector<TreeNode*>()));
-        return generateTrees(n, 1, dp);
+        vector<vector<vector<TreeNode*>>> dp(n, vector<vector<TreeNode*>>(n));
+        return dfs(1, n, dp);
     }
 };
 ```

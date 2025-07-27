@@ -79,3 +79,28 @@ public:
     }
 };
 ```
+
+**Solution 4: (DP Bottom-Up)**
+```
+Runtime: 2 ms, Beats 14.17%
+Memory: 8.76 MB, Beats 19.75%
+```
+```c++
+class Solution {
+public:
+    int integerBreak(int n) {
+        int b, a;
+        vector<int> dp(n+1);
+        dp[1] = 1;
+        for (b = 2; b <= n; b ++) {
+            for (a = 1; a <= b - a; a ++) {
+                dp[b] = max(dp[b], a*dp[b-a]);
+            }
+            if (b != n) {
+                dp[b] = max(dp[b], b);
+            }
+        }
+        return dp[n];
+    }
+};
+```

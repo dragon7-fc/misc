@@ -113,21 +113,25 @@ public:
 ```
 
 **Solution 5: (DP Bottom-Up 1-D)**
+
+       0   1   2   3   4   5   6
+    0  1   1   1   1   1   1   1
+    1  1   2   3   4   5   6   7
+    2  1   3   6  10  15  21  28
+
 ```
-Runtime: 0 ms
-Memory Usage: 6.1 MB
+Runtime: 0 ms, Beats 100.00%
+Memory: 8.14 MB, Beats 84.51%
 ```
 ```c++
 class Solution {
 public:
     int uniquePaths(int m, int n) {
-        vector<int> dp(n);
-        for (int r = 0; r < m; r ++) {
-            for (int c = 0; c < n; c++) {
-                if (r == 0 || c == 0)
-                    dp[c] = 1;
-                else
-                    dp[c] += dp[c-1];       
+        int i, j;
+        vector<int> dp(n, 1);
+        for (i = 1; i < m; i ++) {
+            for (j = 1; j < n; j ++) {
+                dp[j] += dp[j-1];
             }
         }
         return dp[n-1];

@@ -100,3 +100,33 @@ class Solution:
             rst = max(rst, dp(i, True), dp(i, False))
         return rst
 ```
+
+**Solution 4: (DP Bottom-Up)**
+
+    1 -2 -2  3
+  -------------
+    1 -1 -2  3
+       1 -1  2
+*/
+
+```
+Runtime: 7 ms, Beats 19.09%
+Memory: 27.18 MB, Beats 88.64%
+```
+```c++
+class Solution {
+public:
+    int maximumSum(vector<int>& arr) {
+        int n = arr.size(), i, ans = arr[0];
+        vector<int> pre(2), cur(2);
+        pre[0] = arr[0];
+        for (i = 1; i < n; i ++) {
+            cur[0] = max(pre[0] + arr[i], arr[i]);
+            cur[1] = max(pre[0], pre[1] + arr[i]);
+            ans = max({ans, cur[0], cur[1]});
+            pre = cur;
+        }
+        return ans;
+    }
+};
+```

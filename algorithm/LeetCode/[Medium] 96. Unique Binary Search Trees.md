@@ -121,3 +121,30 @@ public:
     }
 };
 ```
+
+**Solution 5: (DP Bottom-Up)**
+```
+Runtime: 0 ms, Beats 100.00%
+Memory: 8.07 MB, Beats 38.66%
+```
+```c++
+class Solution {
+public:
+    int numTrees(int n) {
+        if (n <= 2) {
+            return n;
+        }
+        int i, j;
+        vector<int> dp(n+1);
+        dp[0] = 1;
+        dp[1] = 1;
+        dp[2] = 2;
+        for (i = 3; i <= n; i ++) {
+            for (j = 0; j < i; j ++) {
+                dp[i] += dp[j]*dp[i-j-1];
+            }
+        }
+        return dp[n];
+    }
+};
+```

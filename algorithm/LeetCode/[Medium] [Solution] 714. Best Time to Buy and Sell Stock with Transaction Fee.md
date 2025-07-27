@@ -166,22 +166,34 @@ class Solution:
 ```
 
 **Solution 6: (DP Bottom-Up)**
+
+    v        v  v  v
+    1, 3, 2, 8, 4, 9, fee = 2
+   -1 -1 -1 -1  1  1
+       0  0  5  5  8
+
+    v           v
+    1, 3, 7, 5,10, 3, fee = 3
+   -1 -1 -1 -1 -3  3
+       2  3  3  6  6
+
 ```
-Runtime: 116 ms
-Memory: 59.7 MB
+Runtime: 11 ms, Beats 77.95%
+Memory: 58.94 MB, Beats 78.91%
 ```
 ```c++
 class Solution {
 public:
     int maxProfit(vector<int>& prices, int fee) {
-        int n = prices.size();
-        vector<int> buy(n), sell(n);
-        buy[0] = -prices[0];
-        for (int i = 1; i < n; i ++) {
-            buy[i] = max(sell[i-1] - prices[i], buy[i-1]);
-            sell[i] = max(buy[i-1] + prices[i] - fee, sell[i-1]);
+        int n = prices.size(), i;
+        vector<int> pre(2), dp(2);
+        pre[0] = -prices[0];
+        for (i = 1; i < n; i ++) {
+            dp[0] = max(pre[0], pre[1] - prices[i]);
+            dp[1] = max(pre[1], prices[i] + pre[0] - fee);
+            pre = dp;
         }
-        return sell.back();
+        return pre[1];
     }
 };
 ```

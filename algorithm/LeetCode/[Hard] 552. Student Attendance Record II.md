@@ -258,3 +258,34 @@ public:
     }
 };
 ```
+
+**Solution 6: (DP Bottom-Up)**
+```
+Runtime: 7 ms, Beats 98.92%
+Memory: 7.81 MB, Beats 97.53%
+```
+```c++
+class Solution {
+public:
+    int checkRecord(int n) {
+        int i, MOD = 1e9 + 7;
+        long long pxa = 1, pxal = 1, pxall = 0, pa = 1, pal = 0, pall = 0, xa, xal, xall, a, al, all;
+        for (i = 1; i < n; i ++) {
+            xa = (pxa + pxal + pxall) % MOD;
+            xal = pxa;
+            xall = pxal;
+            a = (pxa + pxal + pxall + pa + pal + pall) % MOD;
+            al = pa;
+            all = pal;
+
+            pxa = xa;
+            pxal = xal;
+            pxall = xall;
+            pa = a;
+            pal = al;
+            pall = all;
+        }
+        return (pxa + pxal + pxall + pa + pal + pall) % MOD;
+    }
+};
+```

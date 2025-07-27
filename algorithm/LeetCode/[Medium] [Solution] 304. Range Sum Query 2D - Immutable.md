@@ -193,26 +193,26 @@ class NumMatrix:
 
 **Solution 2: (DP Bottom-Up)**
 ```
-Runtime: 677 ms
-Memory Usage: 148 MB
+Runtime: 12 ms, Beats 94.81%
+Memory: 149.20 MB, Beats 57.60%
 ```
 ```c++
 class NumMatrix {
-    vector<vector<int>> pre;
+    vector<vector<int>> dp;
 public:
     NumMatrix(vector<vector<int>>& matrix) {
-        int R = matrix.size()+1;
-        int C = matrix[0].size()+1;
-        pre = vector<vector<int>>(R, vector<int>(C));
-        for (int r = 1; r < R; r ++) {
-            for (int c = 1; c < C; c++) {
-                pre[r][c] = pre[r-1][c] + pre[r][c-1] - pre[r-1][c-1] + matrix[r-1][c-1];
+        int m = matrix.size(), n = matrix[0].size(), i, j;
+        vector<vector<int>> _dp(m+1, vector<int>(n+1));
+        for (i = 0; i < m; i ++) {
+            for (j = 0; j < n; j ++) {
+                _dp[i+1][j+1] = matrix[i][j] + _dp[i+1][j] + _dp[i][j+1] - _dp[i][j];
             }
         }
+        dp = move(_dp);
     }
     
     int sumRegion(int row1, int col1, int row2, int col2) {
-        return pre[row2+1][col2+1] - pre[row2+1][col1] - pre[row1][col2+1] + pre[row1][col1];
+        return dp[row2+1][col2+1] - dp[row2+1][col1] - dp[row1][col2+1] + dp[row1][col1];
     }
 };
 

@@ -130,22 +130,22 @@ public:
 ```
 **Solution 5: (DP Bottom-Up)**
 ```
-Runtime: 95 ms
-Memory: 10.35 MB
+Runtime: 87 ms, Beats 30.11%
+Memory: 13.21 MB, Beats 57.51%
 ```
 ```c++
 class Solution {
 public:
     int numSquares(int n) {
+        int i, j;
         vector<int> dp(n+1, INT_MAX);
         dp[0] = 0;
-        for (int i = 1; i <= n; i ++) {
-            for (int j = 1; j <= int(sqrt(i)); j ++) {
-                dp[i] = min(dp[i], dp[i-j*j]+1);
+        for (j = 1; j <= n; j ++) {
+            for (i = 1; i <= sqrt(j); i ++) {
+                dp[j] = min(dp[j], 1 + dp[j-i*i]);
             }
         }
         return dp[n];
     }
 };
 ```
-

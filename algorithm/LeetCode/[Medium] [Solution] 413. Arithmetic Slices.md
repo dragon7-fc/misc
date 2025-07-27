@@ -310,3 +310,29 @@ public:
     }
 };
 ```
+
+**Solution 4: (Sliding Window)**
+```
+Runtime: 0 ms, Beats 100.00%
+Memory: 10.80 MB, Beats 81.81%
+```
+```c++
+class Solution {
+public:
+    int numberOfArithmeticSlices(vector<int>& nums) {
+        int n = nums.size(), i = 0, k, d, a, ans = 0;
+        while (i < n-2) {
+            d = nums[i+1] - nums[i];
+            k = 2;
+            a = 0;
+            while (i+k < n && nums[i+k] - nums[i+k-1] == d) {
+                k += 1;
+                a += k-2;
+            }
+            ans += a;
+            i += k - 1;
+        }
+        return ans;
+    }
+};
+```

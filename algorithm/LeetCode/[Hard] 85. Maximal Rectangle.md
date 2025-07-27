@@ -139,10 +139,49 @@ int maximalRectangle(char** matrix, int matrixSize, int* matrixColSize){
 }
 ```
 
-**Solution 4: (Stack, mono inc stack, area between current and second top stack element)**
+**Solution 4: (Stack, mono inc stack, area cover by current stack stop element)**
+
+
+stk  
+              x    ^
+            xxx /  v
+          /     
+        /
+            <-->  
+
+            ["1",  "0",   "1",  "0",  "0"],
+dp            1     0      1     0     0
+stk  -1,-1  -1,-1 -1,-1 -1,-1 -1,-1  -1,-1
+             1,0   1,0x
+                   0,1   0,1   0,1x
+                         1,2   1,2x
+                                0,3    0,3x
+                                       0,4
+ans                 1           1
+            ["1",   "0",   "1",  "1",  "1"],
+dp            2      0      2     1     1
+stk  -1,-1 -1,-1  -1,-1 -1,-1   -1,-1 -1,-1
+            2,0    2,0x  0,1     0,1   0,1
+                   0,1   2,2    2,2x
+                                1,3    1,3x
+                                       1,4
+ans                 2            2     3
+            ["1",  "1",  "1",  "1",  "1"],
+dp            3     1     3     2     2
+stk  -1,-1 -1,-1 -1,-1 -1,-1 -1,-1 -1,-1 -1,-1
+            3,0   3,0x
+                  1,1   1,1   1,1   1,1   1,1
+                        3,2   3,2x
+                              2,3   2,3x
+                                    2,4   2,4x
+                                          0,5
+ans                                  4     6
+
+            ["1","0","0","1","0"]
+
 ```
-Runtime: 15 ms, Beats 23.44%
-Memory: 18.56 MB, Beats 57.57%
+Runtime: 0 ms, Beats 100.00%
+Memory: 17.42 MB, Beats 89.33%
 ```
 ```c++
 class Solution {
@@ -150,22 +189,25 @@ public:
     int maximalRectangle(vector<vector<char>>& matrix) {
         int m = matrix.size(), n = matrix[0].size(), i, j, ans = 0;
         vector<int> dp(n+1);
+        stack<array<int,2>> stk;
+        stk.push({-1, -1});
         for (i = 0; i < m; i ++) {
-            stack<pair<int,int>> stk;
-            stk.push({-1,-1});
-            for (j = 0; j < n+1; j ++) {
+            for (j = 0; j <= n; j ++) {
                 if (j == n || matrix[i][j] == '0') {
                     dp[j] = 0;
                 } else {
                     dp[j] += 1;
                 }
-                while (stk.size() > 1 && stk.top().first >= dp[j]) {
-                    auto [y, _] = stk.top();
+            }
+            for (j = 0; j <= n; j ++) {
+                while (stk.size() > 1 && stk.top()[0] >= dp[j]) {
+                    auto [a, _] = stk.top();
                     stk.pop();
-                    ans = max(ans, y * (j - stk.top().second - 1));
+                    ans = max(ans, a * (j - stk.top()[1] - 1));
                 }
                 stk.push({dp[j], j});
             }
+            stk.pop();
         }
         return ans;
     }

@@ -124,3 +124,29 @@ class Solution:
             buy[i] = max(buy[i-1], sell[i-2] - prices[i])
         return sell[-1]
 ```
+
+**Solution 5: (DP Bottom-Up)**
+```
+Runtime: 3 ms, Beats 35.45%
+Memory: 16.00 MB, Beats 71.19%
+```
+```c++
+class Solution {
+public:
+    int maxProfit(vector<int>& prices) {
+        int n = prices.size(), i;
+        vector<vector<int>> dp(n, vector<int>(2));
+        dp[0][0] = -prices[0];
+        for (i = 1; i < n; i ++) {
+            if (i > 1) {
+                dp[i][0] = max(dp[i-1][0], dp[i-2][1] - prices[i]);
+            } else {
+                dp[i][0] = max(dp[i-1][0], -prices[i]);
+            }
+            dp[i][1] = max(dp[i-1][1], prices[i] + dp[i-1][0]);
+        }
+        return dp[n-1][1];
+    }
+};
+
+```

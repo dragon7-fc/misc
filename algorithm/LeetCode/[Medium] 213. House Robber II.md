@@ -94,3 +94,38 @@ class Solution:
         #rob the first house, can't rob the last house
         return max(dfs(0, N-1), dfs(1, N))
 ```
+
+**Solution 4: (DP Bottom-Up, 2 step, split to 2 sub problem)**
+```
+Runtime: 0 ms, Beats 100.00%
+Memory: 10.92 MB, Beats 20.68%
+```
+```c++
+class Solution {
+public:
+    int rob(vector<int>& nums) {
+        int n = nums.size(), i, j, ans;
+        if (n == 1) {
+            return nums[0];
+        }
+        ans = max(nums[0], nums[1]);
+        if (n == 2) {
+            return ans;
+        }
+        vector<int> dp(n);
+        dp[0] = nums[0];
+        dp[1] = ans;
+        for (i = 2; i < n-1; i ++) {
+            dp[i] = max(dp[i-1], nums[i] + dp[i-2]);
+        }
+        ans = dp[n-2];
+        dp[0] = 0;
+        dp[1] = nums[1];
+        for (i = 2; i < n; i ++) {
+            dp[i] = max(dp[i-1], nums[i] + dp[i-2]);
+        }
+        ans = max(ans, dp[n-1]);
+        return ans;
+    }
+};
+```

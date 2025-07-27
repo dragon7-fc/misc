@@ -56,24 +56,23 @@ class Solution:
 
 **Solution 2: (Sliding Window)**
 ```
-Runtime: 488 ms
-Memory Usage: 127 MB
+Runtime: 4 ms, Beats 98.01%
+Memory: 93.62 MB, Beats 97.69%
 ```
 ```c++
 class Solution {
 public:
     int maximumUniqueSubarray(vector<int>& nums) {
-        unordered_set<int> st;
-        int i = 0, cur = 0, ans = 0;
-        for (int j = 0; j < nums.size(); j ++) {
-            while (st.count(nums[j])) {
-                cur -= nums[i];
-                st.erase(nums[i]);
+        int n = nums.size(), i = 0, j, a = 0, ans = 0, cnt[10001] = {0};
+        for (j = 0; j < n; j ++) {
+            cnt[nums[j]] += 1;
+            a += nums[j];
+            while (cnt[nums[j]] > 1) {
+                a -= nums[i];
+                cnt[nums[i]] -= 1;
                 i += 1;
             }
-            cur += nums[j];
-            st.insert(nums[j]);
-            ans = max(ans, cur);
+            ans = max(ans, a);
         }
         return ans;
     }

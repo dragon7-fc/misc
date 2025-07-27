@@ -120,3 +120,68 @@ class Solution:
         return ans
 
 ```
+
+**Solution 3: (Brute Force, try all solution)**
+```
+Runtime: 8 ms, Beats 19.48%
+Memory: 44.13 MB, Beats 61.66%
+```
+```c++
+class Solution {
+public:
+    int maxTurbulenceSize(vector<int>& arr) {
+        int n = arr.size(), i, a = 1, ans = 1;
+        for (i = 1; i < n; i ++) {
+            if (i%2 && arr[i] < arr[i-1] || i%2 == 0 && arr[i] > arr[i-1]) {
+                a += 1;
+            } else {
+                a = 1;
+            }
+            ans = max(ans, a);
+        }
+        a = 1;
+        for (i = 1; i < n; i ++) {
+            if (i%2 && arr[i] > arr[i-1] || i%2 == 0 && arr[i] < arr[i-1]) {
+                a += 1;
+            } else {
+                a = 1;
+            }
+            ans = max(ans, a);
+        }
+        return ans;
+    }
+};
+```
+
+**Solution 4: (DP Bottom-Up)**
+
+    9,4,2,10,7,8,8,1,9
+a   1 1 1  3 1 5 1 1 3
+b   1 2 2  1 4 1 1 2 1
+
+```
+Runtime: 0 ms, Beats 100.00%
+Memory: 44.25 MB, Beats 30.66%
+```
+```c++
+class Solution {
+public:
+    int maxTurbulenceSize(vector<int>& arr) {
+        int n = arr.size(), i, a = 1, b = 1, ans = 1;
+        for (i = 1; i < n; i ++) {
+            if (arr[i] > arr[i-1]) {
+                a = b + 1;
+                b = 1;
+            } else if (arr[i] < arr[i-1]) {
+                b = a + 1;
+                a = 1;
+            } else {
+                a = b = 1;
+            }
+            ans = max({ans, a, b});
+        }
+        return ans;
+    }
+};
+
+```

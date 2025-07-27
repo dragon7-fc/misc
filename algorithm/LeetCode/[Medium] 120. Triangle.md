@@ -180,20 +180,26 @@ class Solution:
 
 **Solution 8: (DP Bottom-Up)**
 ```
-Runtime: 8 ms
-Memory Usage: 8.6 MB
+Runtime: 0 ms, Beats 100.00%
+Memory: 12.37 MB, Beats 98.43%
 ```
 ```c++
 class Solution {
 public:
     int minimumTotal(vector<vector<int>>& triangle) {
-        int n = triangle.size();
-        for(int i=n-2;i>=0;i--){
-            for(int j=0;j< triangle[i].size();j++){
-                triangle[i][j] += min(triangle[i+1][j], triangle[i+1][j+1]);
+        int n = triangle.size(), i, j, ans = INT_MAX;
+        if (n == 1) {
+            return triangle[0][0];
+        }
+        for (i = 1; i < n; i ++) {
+            for (j = 0; j <= i; j ++) {
+                triangle[i][j] += min((j ? triangle[i-1][j-1] : INT_MAX), (j != i ? triangle[i-1][j] : INT_MAX));
+                if (i == n-1) {
+                    ans = min(ans, triangle[i][j]);
+                }
             }
         }
-        return triangle[0][0];
+        return ans;
     }
 };
 ```
