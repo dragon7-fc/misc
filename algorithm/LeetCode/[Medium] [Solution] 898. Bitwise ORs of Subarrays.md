@@ -92,22 +92,25 @@ class Solution:
         return len(ans)
 ```
 
-**Solution 2: (Frontier Set, DP Bottom-Up)**
+**Solution 2: (Frontier Set, DP Bottom-Up, O(N log W))**
 ```
-Runtime: 979 ms
-Memory: 212.96 MB
+Runtime: 971 ms, Beats 69.01%
+Memory: 334.86 MB, Beats 60.27%
 ```
 ```c++
 class Solution {
 public:
     int subarrayBitwiseORs(vector<int>& arr) {
-        unordered_set<int> res, cur, cur2;
-        for (int a: arr) {
-            cur2 = {a};
-            for (int b: cur) cur2.insert(a|b);
-            for (int c: cur = cur2) res.insert(c);
+        unordered_set<int> ans, cur, pre;
+        for (auto &a: arr){
+            cur.insert(a);
+            for (auto &b: pre) {
+                cur.insert(a|b);
+            }
+            pre = move(cur);
+            ans.insert(pre.begin(), pre.end());
         }
-        return res.size();
+        return ans.size();
     }
 };
 ```

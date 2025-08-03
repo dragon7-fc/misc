@@ -85,3 +85,29 @@ class Solution:
             
         return dfs(0, 0)
 ```
+
+**Solution 3: (DP Bottom-Up, 1-D)**
+```
+Runtime: 23 ms, Beats 79.81%
+Memory: 26.62 MB, Beats 80.20%
+```
+```c++
+class Solution {
+public:
+    int longestCommonSubsequence(string text1, string text2) {
+        int m = text1.size(), n = text2.size(), i, j;
+        vector<int> pre(n+1), cur(n+1);
+        for (i = m-1; i >= 0; i --) {
+            for (j = n-1; j >= 0; j --) {
+                cur[j] = max(pre[j], cur[j+1]);
+                if (text1[i] == text2[j]) {
+                    cur[j] = max(cur[j], pre[j+1] + 1);
+                }
+            }
+            pre = move(cur);
+            cur.resize(n+1);
+        }
+        return pre[0];
+    }
+};
+```

@@ -109,3 +109,42 @@ class Solution:
         
         return dp[0][n-1]
 ```
+
+**Solution 4: (DP, Bottom-up)**
+
+ 1  3  1  5  8  1
+    ^  x  ^
+    ---x--x---
+    ^     x  ^
+ ---x--x--x---
+ ^  x        ^
+ ---x--x--x--x---
+ ^l          xi ^r
+
+
+```
+Runtime: 87 ms, Beats 92.60%
+Memory: 13.95 MB, Beats 27.56%
+```
+```c++
+class Solution {
+public:
+    int maxCoins(vector<int>& nums) {
+        vector<int> pre;
+        pre.push_back(1);
+        pre.insert(pre.end(), nums.begin(), nums.end());
+        pre.push_back(1);
+        int n = pre.size(), left, right, i, k;
+        vector<vector<int>> dp(n, vector<int>(n));
+        for (k = 1; k <= n-2; k ++) {
+            for (left = 0; left < n-1-k; left ++) {
+                right = left + k + 1;
+                for (i = left+1; i < right; i ++) {
+                    dp[left][right] = max(dp[left][right], pre[left]*pre[i]*pre[right] + dp[left][i] + dp[i][right]);
+                }
+            }
+        }
+        return dp[0][n-1];
+    }
+};
+```

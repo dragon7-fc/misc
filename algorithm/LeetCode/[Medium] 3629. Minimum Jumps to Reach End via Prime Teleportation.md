@@ -61,60 +61,63 @@ Since no teleportation is possible, we move through 0 → 1 → 2 → 3. Thus, t
 
 # Submissions
 ---
-**Solution 1: (Math, BFS)**
+**Solution 1: (Math, BFS, O(n * sqrt(m)))**
 ```
-Runtime: 1155 ms, Beats 30.64%
-Memory: 371.54 MB, Beats 24.13%
+Runtime: 1163 ms, Beats 55.56%
+Memory: 371.58 MB, Beats 50.00%
 ```
 ```c++
 class Solution {
-    vector<int>factor(int x){
-        vector<int>res;
-        for(int d=2;d*d<=x;d++){
-            if(x%d==0){
+    vector<int> factor(int x){
+        vector<int> res;
+        for (int d = 2; d * d <= x; d++){
+            if (x%d == 0){
                 res.push_back(d);
-                while(x%d==0)x/=d;
+                while (x%d == 0) {
+                    x /= d;
+                }
             }
         }
-        if(x>1)res.push_back(x);
+        if (x > 1) {
+            res.push_back(x);
+        }
         return res;
     }
 public:
     int minJumps(vector<int>& nums) {
-        unordered_map<int,vector<int>>adj;
-        int n=nums.size(), ans = INT_MAX;
-        for(int i=0;i<n;i++){
-            vector<int>temp=factor(nums[i]);
-            for(int it:temp)adj[it].push_back(i);
+        unordered_map<int, vector<int>> g;
+        int n = nums.size(), i, ans = INT_MAX;
+        for (int i = 0; i < n; i++) {
+            for (auto &f: factor(nums[i])) {
+                g[f].push_back(i);
+            }
         }
-        // vector<int>vis(n,0);
-        queue<pair<int,int>>q;
+        queue<array<int,2>> q;
         vector<int> visited(n);
-        q.push({0,0});
+        q.push({0, 0});
         visited[0] = 1;
-        while(!q.empty()){
-            auto [dis,node]=q.front();
+        while (q.size()){
+            auto [j, s] = q.front();
             q.pop();
-            if (node == n-1) {
-                ans = min(ans, dis);
+            if (j == n-1) {
+                ans = min(ans, s);
                 continue;
             }
-
-            if(node+1<n && !visited[node+1]){
-                visited[node+1] = 1;
-                q.push({dis + 1, node+1});
+            if (j + 1 < n && !visited[j + 1]) {
+                visited[j + 1] = 1;
+                q.push({j + 1, s + 1});
             }
-            if(node-1>=0 && !visited[node-1]){
-                visited[node-1]=1;
-                q.push({dis + 1, node-1});
+            if (j - 1 >= 0 && !visited[j - 1]) {
+                visited[j - 1] = 1;
+                q.push({j - 1, s + 1});
             }
-            for(auto it:adj[nums[node]]){
-                if (!visited[it]){
-                    visited[it] = 1;
-                    q.push({dis + 1, it});
+            for (auto ni: g[nums[j]]){
+                if (!visited[ni]){
+                    visited[ni] = 1;
+                    q.push({ni,  s + 1});
                 }
             }
-            adj[nums[node]].clear(); 
+            g[nums[j]].clear(); 
         }
         return ans;
     }

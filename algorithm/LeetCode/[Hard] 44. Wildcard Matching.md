@@ -173,3 +173,34 @@ public:
     }
 };
 ```
+
+**Solution 4: (DP Bottom-Up)**
+```
+Runtime: 23 ms, Beats 87.39%
+Memory: 30.13 MB, Beats 48.92%
+```
+```c++
+class Solution {
+public:
+    bool isMatch(string s, string p) {
+        int m = s.size(), n = p.size(), i, j;
+        vector<int> pre(m+1), cur(m+1);
+        pre[0] = 1;
+        for (j = 0; j < n; j ++) {
+            if (p[j] == '*') {
+                cur[0] = pre[0];
+            }
+            for (i = 0; i < m; i ++) {
+                if (p[j] == '?' || s[i] == p[j]) {
+                    cur[i+1] = pre[i];
+                } else if (p[j] == '*') {
+                    cur[i+1] = cur[i] || pre[i+1] || pre[i]; 
+                }
+            }
+            pre = move(cur);
+            cur.resize(m+1);
+        }
+        return pre[m];
+    }
+};
+```

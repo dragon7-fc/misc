@@ -139,7 +139,7 @@ Memory: 8.9 MB
 ```c++
 class Solution {
 public:
-    int minDistance(string word1, string word2) {
+   int minDistance(string word1, string word2) {
         int M = word1.size(), N = word2.size();
         if (M == 0 && N == 0) return 0;
         vector<vector<int>> dp(M+1, vector<int>(N+1));
@@ -159,6 +159,49 @@ public:
             }
         }
         return dp[M][N];
+    }
+};
+```
+
+**Solution 6: (DP Bottom-Up)**
+
+    r   x   x
+    h o r s e
+  0 1 2 3 4 5
+  ^ ^
+r 1 1 2 3 4 5
+  ^ ^
+o 2 2 1 2 3 4
+      ^ ^
+s 3 3 2 2 2 3
+          ^ ^
+
+```
+Runtime: 4 ms, Beats 80.30%
+Memory: 12.42 MB, Beats 82.89%
+```
+```c++
+class Solution {
+public:
+    int minDistance(string word1, string word2) {
+        int m = word1.size(), n = word2.size(), i, j;
+        vector<int> pre(n+1), cur(n+1);
+        for (j = 0; j < n; j ++) {
+            pre[j+1] = j+1;
+        }
+        for (i = 0; i < m; i ++) {
+            cur[0] = i+1;
+            for (j = 0; j < n; j ++) {
+                if (word1[i] != word2[j]) {
+                    cur[j+1] = min({cur[j], pre[j+1], pre[j]}) + 1;
+                } else {
+                    cur[j+1] = pre[j];
+                }
+            }
+            pre = move(cur);
+            cur.resize(n+1);
+        }
+        return pre[n];
     }
 };
 ```

@@ -114,5 +114,87 @@ class Solution:
                     dp[i][j] = dp[i - 1][j]  # drop s[i]
                     
         return dp[-1][-1]
+```
+
+**Solution 4: (DP Bottom-Up)**
+
+    r  a  b  b  b  i  t
+f   3
+a      3
+b         3  1  
+b         3  2  1
+i                  1
+t                     1
+    1  1  1  1  1  1  1  1
+
+    b  a  b  g  b  a  g 
+b   5     2     1
+a      3           1
+g            2        1
+    1  1  1  1  1  1  1  1
+
+
+```
+Runtime: 29 ms, Beats 61.46%
+Memory: 44.09 MB, Beats 40.82%
+```
+```c++
+class Solution {
+public:
+    int numDistinct(string s, string t) {
+        int m = s.size(), n = t.size(), i, j;
+        vector<int> pre(m+1, 1), cur(m+1);
+        for (j = n-1; j >= 0; j --) {
+            for (i = m-1; i >= 0; i --) {
+                cur[i] += cur[i+1];
+                if (s[i] == t[j]) {
+                    cur[i] += (long long)pre[i+1];
+                }
+            }
+            pre = move(cur);
+            cur.resize(m+1);
+        }
+        return pre[0];
+    }
+};
+```
         
+**Solution 5: (DP Bottom-Up)**
+
+     b  a  g
+   1
+b  1 1 
+a  1 1  1
+b  1 2  1
+g  1 2  1  1 
+b    3  1  1
+a       4  1
+g          5
+
+```
+Runtime: 15 ms, Beats 84.30%
+Memory: 26.20 MB, Beats 76.89%
+```
+```c++
+class Solution {
+public:
+    int numDistinct(string s, string t) {
+        int m = s.size(), n = t.size(), i, j;
+        vector<int> pre(n+1), cur(n+1);
+        pre[0] = 1;
+        for (i = 0; i < m; i ++) {
+            cur[0] = 1;
+            for (j = 0; j < n; j ++) {
+                if (s[i] == t[j]) {
+                    cur[j+1] = (long long)pre[j] + pre[j+1];
+                } else {
+                    cur[j+1] = pre[j+1];
+                }
+            }
+            pre = move(cur);
+            cur.resize(n+1);
+        }
+        return pre[n];
+    }
+};
 ```

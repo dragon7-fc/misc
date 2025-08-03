@@ -63,25 +63,66 @@ class Solution:
         return res
 ```
 
-**±Solution 2: (Bit Manipulation, prefix sum)**
+**±Solution 2: (Bit Manipulation, Counter, Sliding Window)**
 ```
-Runtime: 433 ms
-Memory Usage: 56 MB
+Runtime: 154 ms Beats 20.69%
+Memory: 92.11 MB Beats 13.36%
+```
+```
+class Solution {
+public:
+    vector<int> smallestSubarrays(vector<int>& nums) {
+        int n = nums.size(), i, j = n-1, k;
+        vector<int> cnt(32), ans(n);
+        unordered_map<int, vector<int>> g;
+        for (i = 0; i < n; i ++) {
+            if (nums[i] && !g.count(nums[i])) {
+                for (k = 0; (1<<k) <= nums[i]; k ++) {
+                    if ((1<<k)&nums[i]) {
+                        g[nums[i]].push_back(k);
+                    }
+                }
+            }
+        }
+        for (i = n-1; i >= 0; i --) {
+            for (auto &bi: g[nums[i]]) {
+                cnt[bi] += 1;
+            }
+            while (i < j && all_of(g[nums[j]].begin(), g[nums[j]].end(), [&](auto &bi){
+                return cnt[bi] > 1;
+            })) {
+                for (auto &bi: g[nums[j]]) {
+                    cnt[bi] -= 1;
+                }
+                j -= 1;
+            }
+            ans[i] = j-i+1;
+        }
+        return ans;
+    }
+};
+```
+
+**±Solution 3: (Bit Manipulation, prefix sum)**
+```
+Runtime: 39 ms, Beats 39.66%
+Memory: 60.76 MB Beats 54.74%
 ```
 ```c++
 class Solution {
 public:
     vector<int> smallestSubarrays(vector<int>& nums) {
-        int last[30] = {}, n = nums.size();
-        vector<int> res(n, 1);
-        for (int i = n - 1; i >= 0; --i) {
-            for (int j = 0; j < 30; ++j) {
-                if (nums[i] & (1 << j))
-                    last[j] = i;
-                res[i] = max(res[i], last[j] - i + 1);
+        int n = nums.size(), i, k;
+        vector<int> pre(32), ans(n,1);
+        for (i = n-1; i >= 0; i --) {
+            for (k = 0; k < 31; k ++) {
+                if (nums[i]&(1<<k)) {
+                    pre[k] = i;
+                }
+                ans[i] = max(ans[i], pre[k]-i+1);
             }
         }
-        return res;
+        return ans;
     }
 };
 ```
