@@ -158,3 +158,39 @@ public:
     }
 };
 ```
+
+**Solution 5: (DP Bottom-Up)**
+
+
+    [1, 5, 11, 5]
+
+dp  0  1  2  3  4  5  6  7  8  9  10  11
+1   x  x
+5                  x  x
+11                                     x
+5                                  x    
+                                       ^
+```
+Runtime: 31 ms, Beats 97.53%
+Memory: 14.71 MB, Beats 81.82%
+```
+```c++
+class Solution {
+public:
+    bool canPartition(vector<int>& nums) {
+        int n = nums.size(), i, a, b, mx;
+        a = accumulate(nums.begin(), nums.end(), 0);
+        if (a%2) {
+            return false;
+        }
+        vector<int> dp(a/2 + 1);
+        dp[0] = 1;
+        for (i = 0; i < n; i ++) {
+            for (b = a/2; b - nums[i] >= 0; b --) {
+                dp[b] |= dp[b - nums[i]];
+            }
+        }
+        return dp[a/2];
+    }
+};
+```

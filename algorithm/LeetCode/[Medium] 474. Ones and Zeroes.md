@@ -132,26 +132,29 @@ public:
 
 **Solution 4: (DP Bottom-Up)**
 ```
-Runtime: 262 ms
-Memory Usage: 9.8 MB
+Runtime: 33 ms, Beats 98.77%
+Memory: 13.74 MB, Beats 85.00%
 ```
 ```c++
 class Solution {
 public:
     int findMaxForm(vector<string>& strs, int m, int n) {
-        vector<vector<int>> dp(m + 1, vector<int>(n + 1));
-        
-        for(auto& s : strs) { 
-            
-            int zeros = count(s.begin(), s.end(), '0');
-            int ones = s.size() - zeros;
-            
-            for(int i = m; i >= zeros; i--) 
-                for(int j = n; j >= ones; j--) 
-                    dp[i][j] = max(dp[i][j], 1 + dp[i - zeros][j - ones]);
+        int a, b, i, j, ans = 0;
+        vector<vector<int>> dp(m+1, vector<int>(n+1, -1));
+        dp[0][0] = 0;
+        for (auto &str: strs) {
+            a = count(str.begin(), str.end(), '0');
+            b = str.size() - a;
+            for (i = m; i >= 0; i --) {
+                for (j = n; j >= 0; j --) {
+                    if (dp[i][j] >= 0 && i + a <= m && j + b <= n) {
+                        dp[i+a][j+b] = max(dp[i+a][j+b], dp[i][j] + 1);
+                        ans = max(ans, dp[i+a][j+b]);
+                    }
+                }
+            }
         }
-        
-        return dp[m][n];
+        return ans;
     }
 };
 ```

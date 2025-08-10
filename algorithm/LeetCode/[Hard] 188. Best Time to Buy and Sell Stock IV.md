@@ -256,31 +256,38 @@ public:
 ```
 
 **Solution 7: (DP Bottom-Up 1-D)**
+
+        -----       -----
+    3,  2,  6,  5,  0,  3
+   -3  -2  -2  -2   0   0
+       -1   4   4   4   4
+           -7  -1   4   4
+               -2  -1   7
+
 ```
-Runtime: 3 ms
-Memory: 12.91 MB
+Runtime: 2 ms, Beats 88.77%
+Memory: 17.09 MB, Beats 65.50%
 ```
 ```c++
 class Solution {
 public:
     int maxProfit(int k, vector<int>& prices) {
-        int n = prices.size(), ans = 0;
-        vector<int> pre(2*k, INT_MIN), dp(2*k);
+        int n = prices.size(), i, j;
+        vector<int> pre(k*2, -1e5), cur(k*2, -1e5);
         pre[0] = -prices[0];
-        for (int i = 1; i < n; i ++) {
-            fill(dp.begin(),dp.end(), INT_MIN);
-            dp[0] = max(pre[0], -prices[i]);
-            for (int j = 1; j < 2*k && j <= i; j ++) {
+        for (i = 1; i < n; i ++) {
+            cur[0] = max(pre[0], -prices[i]);
+            for (j = 1; j < 2*k; j ++) {
                 if (j%2) {
-                    dp[j] = max(pre[j], pre[j-1]+prices[i]);
+                    cur[j] = max(pre[j], pre[j-1] + prices[i]);
                 } else {
-                    dp[j] = max(pre[j], pre[j-1]-prices[i]);
+                    cur[j] = max(pre[j], pre[j-1] - prices[i]);
                 }
             }
-            ans = max(ans, *max_element(dp.begin(), dp.end()));
-            pre = dp;
+            pre = move(cur);
+            cur.resize(2*k, -1e5);
         }
-        return ans;
+        return max(0, *max_element(pre.begin(), pre.end()));
     }
 };
 ```

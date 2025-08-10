@@ -156,3 +156,43 @@ public:
     }
 };
 ```
+
+**Solution 5: (Topological Sort)**
+```
+Runtime: 0 ms, Beats 100.00%
+Memory: 19.39 MB, Beats 64.11%
+```
+```c++
+class Solution {
+public:
+    bool canFinish(int numCourses, vector<vector<int>>& prerequisites) {
+        int i;
+        vector<vector<int>> g(numCourses);
+        queue<int> q;
+        vector<int> indeg(numCourses);
+        vector<int> visited(numCourses);
+        for (auto &p: prerequisites) {
+            g[p[1]].push_back(p[0]);
+            indeg[p[0]] += 1;
+        }
+        for (i = 0; i < numCourses; i ++) {
+            if (indeg[i] == 0) {
+                q.push(i);
+                visited[i] = 1;
+            }
+        }
+        while (q.size()) {
+            auto u = q.front();
+            q.pop();
+            for (auto v: g[u]) {
+                indeg[v] -= 1;
+                if (indeg[v] == 0) {
+                    q.push(v);
+                    visited[v] = 1;
+                }
+            }
+        }
+        return count(visited.begin(), visited.end(), 1) == numCourses;
+    }
+};
+```

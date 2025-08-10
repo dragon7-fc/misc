@@ -190,57 +190,49 @@ public:
 
 **Solution 3: (Trie)**
 ```
-Runtime: 48 ms
-Memory Usage: 35.4 MB
+Runtime: 4 ms, Beats 99.24%
+Memory: 34.88 MB, Beats 30.22%
 ```
 ```c++
-class Trie {
-public:
-    vector<Trie*> children;
-    string isEnd;                     //instead of storing bool, storing the whole string at the end
-
-    Trie() {
-        isEnd = "";
-        children = vector<Trie*>(26, nullptr);
-    }
-    
-};
-
 class Solution {
-    void insert(Trie* root, string s) {
-        if (s.size() == 0) return;
-        Trie* curr = root;
-        for(int i = 0; i < s.size(); i++) {
-            if(!(curr->children[s[i] - 'a'])) {
-                curr->children[s[i] - 'a'] = new Trie();
+    struct TrieNode {
+        vector<TrieNode*> child{size_t(26), nullptr};
+        bool is_end = false;
+    };
+    TrieNode *root;
+    void add(string &s) {
+        TrieNode *node = root;
+        for (auto &c: s) {
+            if (!node->child[c-'a']) {
+                node->child[c-'a'] = new TrieNode();
             }
-            curr = curr->children[s[i] - 'a'];
+            node = node->child[c-'a'];
         }
-        curr->isEnd = s;
+        node->is_end = true;
     }
-    void dfs(Trie* root, string& res) {
-        if(!root) return;
-        for(Trie* curr : root->children) {
-            if(curr && curr->isEnd != "") {
-                if(curr->isEnd.length() > res.length()) {
-                    res = curr->isEnd;
-                } 
-                dfs(curr, res);
+    void bt(TrieNode *node, string &cur, string &ans) {
+        for (int i = 0; i < 26; i ++) {
+            if (node->child[i] && node->child[i]->is_end) {
+                cur += i + 'a';
+                bt(node->child[i], cur, ans);
+                cur.pop_back();
+            }
+        }
+        if (node->is_end) {
+            if (cur.length() > ans.length()) {
+                ans = cur;
             }
         }
     }
 public:
     string longestWord(vector<string>& words) {
-        if (words.size() == 0) {
-            return "";
+        string cur, ans;
+        root = new TrieNode();
+        for (auto &w: words) {
+            add(w);
         }
-        Trie* root = new Trie();
-        for(int i = 0; i < words.size(); i++) {
-            insert(root, words[i]);
-        }
-        string res = "";
-        dfs(root, res);
-        return res;
+        bt(root, cur, ans);
+        return ans;
     }
 };
 ```

@@ -89,6 +89,12 @@ nmap <silent> <C-j> <Plug>(ale_next)
 "" OR map keys to use wrapping.
 nmap <silent> <C-k> <Plug>(ale_previous_wrap)
 nmap <silent> <C-j> <Plug>(ale_next_wrap)
+let g:ale_fixers = {
+ \   'c': ['clang-format'],
+ \   'cpp': ['clang-format'],
+ \}
+" autocmd FileType cpp let b:ale_cpp_clangd_options = '--std=c++17'
+" autocmd FileType cpp let b:ale_cpp_clangtidy_options = '--extra-arg=-std=c++17'
 
 " autotag settings
 let g:autotagStartMethod='fork'

@@ -70,27 +70,7 @@ class Solution:
         return dfs(target)
 ```
 
-**Solution 3: (DP Bottom-Up)**
-```
-Runtime: 0 ms
-Memory Usage: 6.7 MB
-```
-```c++
-class Solution {
-public:
-    int combinationSum4(vector<int>& nums, int target) {
-        vector<unsigned int> dp(target+1);
-        dp[0] = 1;
-        for (int n = 1; n <= target; n++)
-            for (int i = 0; i < nums.size(); i ++)
-                if (n-nums[i] >= 0)
-                    dp[n] += dp[n-nums[i]];
-        return dp[target];
-    }
-};
-```
-
-**Solution 4: (DP Top-Down)**
+**Solution 3: (DP Top-Down)**
 ```
 Runtime: 0 ms
 Memory Usage: 6.8 MB
@@ -121,6 +101,30 @@ public:
 		// resizing the dp array to store values from 0 to target
         dp.resize(target+1,-1);
         return help(nums, target, n);
+    }
+};
+```
+
+**Solution 4: (DP Bottom-Up)**
+```
+Runtime: 0 ms, Beats 100.00%
+Memory: 9.14 MB, Beats 68.42%
+```
+```c++
+class Solution {
+public:
+    int combinationSum4(vector<int>& nums, int target) {
+        int n = nums.size(), i, a;
+        vector<unsigned int> dp(target + 1);
+        dp[0] = 1;
+        for (a = 1; a <= target; a ++) {
+            for (i = 0; i < n; i ++) {
+                if (a - nums[i] >= 0) {
+                    dp[a] += dp[a - nums[i]];
+                }
+            }
+        }
+        return dp[target];
     }
 };
 ```

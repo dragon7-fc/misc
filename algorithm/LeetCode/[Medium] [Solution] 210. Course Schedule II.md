@@ -465,8 +465,8 @@ int* findOrder(int numCourses, int** prerequisites, int prerequisitesSize, int* 
 
 **Solution 5: (BFS, topological sort)**
 ```
-Runtime: 4 ms, Beats 57.58%
-Memory: 18.77 MB, Beats 38.06%
+Runtime: 3 ms, Beats 73.32%
+Memory: 18.12 MB, Beats 65.80%
 ```
 ```c++
 class Solution {
@@ -474,9 +474,9 @@ public:
     vector<int> findOrder(int numCourses, vector<vector<int>>& prerequisites) {
         int i;
         vector<vector<int>> g(numCourses);
-        vector<int> indeg(numCourses), ans;
         queue<int> q;
-        for (auto p: prerequisites) {
+        vector<int> indeg(numCourses), ans;
+        for (auto &p: prerequisites) {
             g[p[1]].push_back(p[0]);
             indeg[p[0]] += 1;
         }

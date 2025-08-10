@@ -236,3 +236,33 @@ public:
     }
 };
 ```
+
+**Solution 3: (Sliding Window, Counter)**
+```
+Runtime: 14 ms, Beats 92.85%
+Memory: 111.01 MB, Beats 8.05%
+```
+```c++
+class Solution {
+public:
+    int totalFruit(vector<int>& fruits) {
+        int n = fruits.size(), i = 0, j, a = 0, ans = 0;
+        vector<int> cnt(100001);
+        for (j = 0; j < n; j ++) {
+            cnt[fruits[j]] += 1;
+            if (cnt[fruits[j]] == 1) {
+                a += 1;
+            }
+            while (a > 2) {
+                cnt[fruits[i]] -= 1;
+                if (cnt[fruits[i]] == 0) {
+                    a -= 1;
+                }
+                i += 1;
+            }
+            ans = max(ans, j-i+1);
+        }
+        return ans;
+    }
+};
+```

@@ -97,48 +97,48 @@ class Solution:
 
 **Solution 3: (Union-Find)**
 ```
-Runtime: 28 ms
-Memory: 13.7 MB
+Runtime: 0 ms, Beats 100.00%
+Memory: 19.33 MB, Beats 83.35%
 ```
 ```c++
-class DSU {
-    vector<int> par;
-public:
-    DSU(int n) {
-        for (int i = 0; i < n; i ++) {
-            par.push_back(i);
-        }
-    }
-    int find(int x) {
-        if (x != par[x]) {
-            par[x] = find(par[x]);
-        }
-        return par[x];
-    }
-    void joint(int x, int y) {
-        int xr = find(x);
-        int yr = find(y);
-        par[xr] = yr;
-    }
-};
-
 class Solution {
+    vector<int> p ,r;
+    int find (int x) {
+        if (x != p[x]) {
+            p[x] = find(p[x]);
+        }
+        return p[x];
+    }
+    bool uni(int x, int y) {
+        int xr = find(p[x]), yr = find(p[y]);
+        if (xr == yr) {
+            return false;
+        }
+        if (r[xr] >= r[yr]) {
+            p[yr] = xr;
+            r[xr] += 1;
+        } else {
+            p[xr] = yr;
+            r[yr] += 1;
+        }
+        return true;
+    }
 public:
     int findCircleNum(vector<vector<int>>& isConnected) {
-        int n = isConnected.size();
-        DSU dsu(n);
-        for (int i = 0; i < n; i ++) {
-            for (int j = 0; j < n; j ++) {
-                if (isConnected[i][j]) {
-                    dsu.joint(i, j);
+        int n = isConnected.size(), i, j, ans = n;
+        p.resize(n);
+        r.resize(n, 1);
+        for (i = 0; i < n; i ++) {
+            p[i] = i;
+        }
+        for (i = 0; i < n; i ++) {
+            for (j = i+1; j < n; j ++) {
+                if (isConnected[i][j] && uni(i, j)) {
+                    ans -= 1;
                 }
             }
         }
-        unordered_set<int> st;
-        for (int i = 0; i < n; i ++) {
-            st.insert(dsu.find(i));
-        }
-        return st.size();
+        return ans;
     }
 };
 ```

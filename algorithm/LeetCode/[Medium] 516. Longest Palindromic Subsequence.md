@@ -207,3 +207,43 @@ public:
     }
 };
 ```
+
+**Solution 7: (DP Bottom-Up)**
+
+   b b b a b
+b  1 2 3 3 2
+b    1 2 2 3
+b      1 1 3
+a        1 
+b          1
+
+```
+Runtime: 81 ms, Beats 53.13%
+Memory: 75.88 MB, Beats 63.10%
+```
+```c++
+class Solution {
+public:
+    int longestPalindromeSubseq(string s) {
+        int n = s.size(), i, k, ans = 1;
+        vector<vector<int>> dp(n, vector<int>(n, 1));
+        for (i = 0; i < n; i ++) {
+            dp[i][i] = 1;
+            if (i+1 < n && s[i] == s[i+1]) {
+                dp[i][i+1] = 2;
+                ans = 2;
+            }
+        }
+        for (k = 3; k <= n; k ++) {
+            for (i = 0; i+k <= n; i ++) {
+                dp[i][i+k-1] = max(dp[i][i+k-2], dp[i+1][i+k-1]);
+                if (s[i] == s[i+k-1]) {
+                    dp[i][i+k-1] = max(dp[i][i+k-1], dp[i+1][i+k-2] + 2);
+                    ans = max(ans, dp[i][i+k-1]);
+                }
+            }
+        }
+        return ans;
+    }
+};
+```

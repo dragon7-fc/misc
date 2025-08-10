@@ -461,3 +461,53 @@ public:
     }
 };
 ```
+
+**Solution 9: (DP Bottom-Up)**
+
+    a a b c c
+  - --- --- -
+         
+    d b b c a
+    xxxxxxx x
+     
+    a a d b b c b c a c
+    --- xxxxxxx --- x -
+
+      0 1 2 3 4  vi
+      a a b c c
+    1 1 1 
+0 d     1 1
+1 b     1 1 1
+2 b     1   1
+3 c     1 1 1
+4 a         1 1
+
+```
+Runtime: 0 ms, Beats 100.00%
+Memory: 9.80 MB, Beats 46.55%
+```
+```c++
+class Solution {
+public:
+    bool isInterleave(string s1, string s2, string s3) {
+        int m = s1.size(), n = s2.size(), i, j;
+        if (m + n != s3.size()) {
+            return false;
+        }
+        vector<vector<int>> dp(m+1, vector<int>(n+1));
+        dp[0][0] = 1;
+        for (i = 0; i < m; i ++) {
+            dp[i+1][0] = dp[i][0] && s1[i] == s3[i];
+        }
+        for (j = 0; j < n; j ++) {
+            dp[0][j+1] = dp[0][j] && s2[j] == s3[j];
+        }
+        for (i = 0; i < m; i ++) {
+            for (j = 0; j < n; j ++) {
+                dp[i+1][j+1] = dp[i][j+1] && s1[i] == s3[i+j+1] || dp[i+1][j] && s2[j] == s3[i+j+1];
+            }
+        }
+        return dp[m][n];
+    }
+};
+```

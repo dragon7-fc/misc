@@ -448,51 +448,41 @@ public:
 **Solution 7: (Union Find)**
 ```
 Runtime: 0 ms, Beats 100.00%
-Memory: 13.06 MB, Beats 56.09%
+Memory: 13.01: MB, Beats 53.28%
 ```
 ```c++
 class Solution {
-    class DSU {
-        vector<int> p;
-        vector<int> r;
-    public:
-        DSU(int n) {
-            p.resize(n);
-            r.resize(n);
-            for (int i = 1; i < n; i ++) {
-                p[i] = i;
-                r[i] = 1;
-            }
-        }
-        int find (int x) {
-            if (p[x] == x) {
-                return p[x];
-            }
+    vector<int> p, r;
+    int find(int x) {
+        if (p[x] != x) {
             p[x] = find(p[x]);
-            return p[x];
         }
-        bool uni(int x, int y) {
-            int xr = find(x), yr = find(y);
-            if (xr == yr) {
-                return false;
-            }
-            if (r[xr] < r[yr]) {
-                p[xr] = p[yr];
-            } else if (r[yr] < r[xr]) {
-                p[yr] = p[xr];
-            } else {
-                p[yr] = xr;
-                r[xr] += 1;
-            }
-            return true;
+        return p[x];
+    }
+    bool uni(int x, int y) {
+        int xr = find(x), yr = find(y);
+        if (xr == yr) {
+            return false;
         }
-    };
+        if (r[xr] > r[yr]) {
+            p[yr] = xr;
+            r[xr] += 1;
+        } else {
+            p[xr] = yr;
+            r[yr] += 1;
+        }
+        return true;
+    }
 public:
     vector<int> findRedundantConnection(vector<vector<int>>& edges) {
-        int n = edges.size();
-        DSU dsu(n+1);
-        for (auto e: edges) {
-            if (!dsu.uni(e[0], e[1])) {
+        int n = edges.size(), i;
+        p.resize(n+1);
+        r.resize(n+1, 1);
+        for (i = 1; i <= n; i ++) {
+            p[i] = i;
+        }
+        for (auto &e: edges) {
+            if (!uni(e[0], e[1])) {
                 return e;
             }
         }

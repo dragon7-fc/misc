@@ -314,43 +314,38 @@ class Solution:
 
 **Solution 6: (DP Bottom-Up)**
 ```
-Runtime: 1040 ms
-Memory Usage: 387.1 MB
+Runtime: 162 ms, Beats 26.73%
+Memory: 291.90 MB, Beats 10.92%
 ```
 ```c++
 class Solution {
 public:
     string longestPalindrome(string s) {
-        int n = s.length();
-        vector<vector<int>> dp(n, vector<int>(n, 0));
-        
-        for(int i=n-1; i>=0; i--){
-            for(int j=i; j<n; j++){
-                if( i==j)
-                    dp[i][j] = 1;
-                
-                else if(s[i] == s[j]){
-                    if(i == j-1)
-                        dp[i][j] = 2;
-                    else
-                        dp[i][j] = dp[i+1][j-1] ? 2 + dp[i+1][j-1] : 0;
+        int n = s.size(), i, j = 0, mx = 1, k = 3;
+        vector<vector<int>> dp(n, vector<int>(n));
+        for (i = 0; i < n; i ++) {
+            dp[i][i] = 1;
+            if (i+1 < n && s[i] == s[i+1]) {
+                dp[i][i+1] = 1;
+                j = i;
+                mx = 2;
+            }
+        }
+        for (k = 3; k <= n; k ++) {
+            if (k > mx + 2) {
+                break;
+            }
+            for (i = 0; i <= n-k; i ++) {
+                if (s[i] == s[i+k-1] && dp[i+1][i+k-2]) {
+                    dp[i][i+k-1] = 1;
+                    if (k > mx) {
+                        mx = k;
+                        j = i;;
+                    }
                 }
             }
         }
-        
-        
-        int mx = 0, st=0, ed=0;
-        for(int i=0; i<n; i++){
-            for(int j=i; j<n; j++){
-                if(mx <dp[i][j]){
-                    mx = dp[i][j];
-                    st = i;
-                    ed = j;
-                }
-            }
-        }
-        
-        return s.substr(st, ed-st+1);
+        return s.substr(j, mx);
     }
 };
 ```

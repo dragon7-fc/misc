@@ -290,7 +290,7 @@ public:
 };
 ```
 
-**Solution 5: (Heap)**
+**Solution 6: (Heap)**
 ```
 Runtime: 972 ms
 Memory Usage: 14.9 MB
@@ -312,4 +312,28 @@ class Solution:
                     seen.add(currentAmount)
                     heapq.heappush(heap, (depth+1, currentAmount))
         return -1
+```
+
+**Solution 7: (DP Bottom-Up)**
+```
+Runtime: 23 ms, Beats 73.64%
+Memory: 18.01 MB, Beats 66.49%
+```
+```c++
+class Solution {
+public:
+    int coinChange(vector<int>& coins, int amount) {
+        int n = coins.size(), i, a;
+        vector<int> dp(amount+1, 1e5);
+        dp[0] = 0;
+        for (a = 1; a <= amount; a ++) {
+            for (i = 0; i < n; i ++) {
+                if (a - coins[i] >= 0) {
+                    dp[a] = min(dp[a], dp[a-coins[i]] + 1);
+                }
+            }
+        }
+        return dp[amount] != 1e5 ? dp[amount] : -1;
+    }
+};
 ```

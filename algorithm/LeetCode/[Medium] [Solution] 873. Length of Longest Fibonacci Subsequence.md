@@ -332,33 +332,43 @@ public:
 ```
 
 **Soluttion 9: (DP Bottom-Up)**
+
+        1, 2, 3, 4, 5, 6, 7, 8
+        0  1  2  3  4  5  6  7
+1  0       2                  
+2  1          3         
+3  2                4   
+4  3                         
+5  4                         5
+6  5 
+7  6 
+8  7 
+
 ```
-Runtime: 381 ms, Beats 22.86%
-Memory: 150.03 MB, Beats 13.25%
+Runtime: 205 ms, Beats 70.72%
+Memory: 149.87 MB, Beats 43.47%
 ```
 ```c++
 class Solution {
 public:
     int lenLongestFibSubseq(vector<int>& arr) {
-        int n = arr.size(), i, j, pi, a, ans = 0;
+        int n = arr.size(), i, j, d, pi, ans = 0;
         vector<vector<int>> dp(n, vector<int>(n));
         unordered_map<int,int> m;
         for (j = 0; j < n; j ++) {
             for (i = 0; i < j; i ++) {
-                a = arr[j] - arr[i];
-                pi = m.count(a) ? m[a] : -1;
-                if (a < arr[i] && pi >= 0) {
-                    dp[i][j] = dp[pi][i] + 1;
+                d = arr[j] - arr[i];
+                if (d < arr[i] && m.count(d)) {
+                    pi = m[d];
+                    dp[i][j] = max(dp[i][j], dp[pi][i] + 1);
                 } else {
                     dp[i][j] = 2;
                 }
-                if (dp[i][j] > 2) {
-                    ans = max(ans, dp[i][j]);
-                }
+                ans = max(ans, dp[i][j]);
             }
             m[arr[j]] = j;
         }
-        return ans;
+        return ans >= 3 ? ans : 0;
     }
 };
 ```

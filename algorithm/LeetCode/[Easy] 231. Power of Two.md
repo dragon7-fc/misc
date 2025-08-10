@@ -71,3 +71,17 @@ bool isPowerOfTwo(int n){
     return n && !(n & (long)n - 1);
 }
 ```
+
+**Solution 3: (Math)**
+```
+Runtime: 0 ms, Beats 100.00%
+Memory: 7.92 MB, Beats 17.71%
+```
+```c++
+class Solution {
+public:
+    bool isPowerOfTwo(int n) {
+        return n > 0 && (n & (n - 1)) == 0;
+    }
+};
+```

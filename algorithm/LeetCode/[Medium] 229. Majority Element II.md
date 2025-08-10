@@ -114,3 +114,59 @@ public:
     }
 };
 ```
+
+**Solution 4: (Boyer-Moore Voting Algorithm)**
+
+        1  2  3  4  1  2  2  1
+step1
+  ak  0 1     0  1     0  1
+  bk  0    1  0     1  0     1
+        {1,~}    {4,2}    {2,1}
+           {1,2}    {4,1}     {2,1}
+
+step2
+        1  2  3  4  1  2  2  1
+a  2       1           2  3 
+b  1    1           2        3
+```
+Runtime: 0 ms, Beats 100.00%
+Memory: 23.40 MB, Beats 99.70%
+```
+```c++
+class Solution {
+public:
+    vector<int> majorityElement(vector<int>& nums) {
+        int n = nums.size(), a = INT_MAX, b = INT_MAX, ak = 0, bk = 0;
+        vector<int> ans;
+        for (auto &num: nums) {
+            if (num == a) {
+                ak += 1;
+            } else if (num == b) {
+                bk += 1;
+            } else if (ak == 0) {
+                a = num;
+                ak += 1;
+            } else if (bk == 0) {
+                b = num;
+                bk += 1;
+            } else {
+                ak -= 1;
+                bk -= 1;
+            }
+        }
+        ak = 0;
+        bk = 0;
+        for (auto &num: nums) {
+            ak += a == num;
+            bk += b == num;
+        }
+        if (ak > n/3) {
+            ans.push_back(a);
+        }
+        if (bk > n/3) {
+            ans.push_back(b);
+        }
+        return ans;
+    }
+};
+```

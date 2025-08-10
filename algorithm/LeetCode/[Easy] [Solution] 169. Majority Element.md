@@ -344,3 +344,29 @@ public:
     }
 };
 ```
+
+**Solution 6: (Boyer-Moore Voting Algorithm)**
+```
+Runtime: 0 ms, Beats 100.00%
+Memory: 28.03 MB, Beats 86.69%
+```
+```c++
+class Solution {
+public:
+    int majorityElement(vector<int>& nums) {
+        int n = nums.size(), i, pre = nums[0], cnt = 1;
+        for (i = 1; i < n; i ++) {
+            if (nums[i] == pre) {
+                cnt += 1;
+            } else {
+                cnt -= 1;
+                if (cnt < 0) {
+                    pre = nums[i];
+                    cnt = 1;
+                }
+            }
+        }
+        return pre;
+    }
+};
+```

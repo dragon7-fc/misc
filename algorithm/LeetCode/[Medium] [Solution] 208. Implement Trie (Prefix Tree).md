@@ -284,50 +284,50 @@ class Trie:
 
 **Solution 2: (Hash Table)**
 ```
-Runtime: 55 ms
-Memory: 45.2 MB
+Runtime: 15 ms, Beats 86.24%
+Memory: 50.46 MB, Beats 75.06%
 ```
 ```c++
 class Trie {
     struct TrieNode {
-        struct TrieNode *child[26] = {nullptr};
-        bool isEnd = false;
+        TrieNode *child[26] = {nullptr};
+        bool is_end = false;  
     };
-    TrieNode *trie;
+    TrieNode *root;
 public:
     Trie() {
-        trie = new TrieNode();
+        root = new TrieNode();
     }
     
     void insert(string word) {
-        TrieNode *t = trie;
-        for (char &c: word) {
-            if (!t->child[c - 'a']) {
-                t->child[c - 'a'] = new TrieNode();
+        TrieNode *node = root;
+        for (auto &c: word) {
+            if (!node->child[c-'a']) {
+                node->child[c-'a'] = new TrieNode();
             }
-            t = t->child[c - 'a'];
+            node = node->child[c-'a'];
         }
-        t->isEnd = true;
+        node->is_end = true;
     }
     
     bool search(string word) {
-        TrieNode *t = trie;
-        for (char &c: word) {
-            if (!t->child[c - 'a']) {
-                return false;   
-            }
-            t = t->child[c - 'a'];
-        }
-        return t->isEnd;
-     }
-    
-    bool startsWith(string prefix) {
-        TrieNode *t = trie;
-        for (char &c: prefix) {
-            if (!t->child[c - 'a']) {
+        TrieNode *node = root;
+        for (auto &c: word) {
+            if (!node->child[c-'a']) {
                 return false;
             }
-            t = t->child[c - 'a'];
+            node = node->child[c-'a'];
+        }
+        return node->is_end;
+    }
+    
+    bool startsWith(string prefix) {
+        TrieNode *node = root;
+        for (auto &c: prefix) {
+            if (!node->child[c-'a']) {
+                return false;
+            }
+            node = node->child[c-'a'];
         }
         return true;
     }

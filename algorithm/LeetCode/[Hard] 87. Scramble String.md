@@ -213,33 +213,28 @@ public:
 
 **Solution 5: (DP Bottom-Up)**
 ```
-Runtime: 59 ms
-Memory: 14.4 MB
+Runtime: 12 ms, Beats 28.30%
+Memory: 19.76 MB, Beats 12.30%
 ```
 ```c++
 class Solution {
 public:
-    bool isScramble(string s1, string s2) {
-        int n = s1.size();
-        vector dp(n + 1, vector(n, vector<int>(n)));
-        for (int i = 0; i < n; i++) {
-            for (int j = 0; j < n; j++) {
-                dp[1][i][j] = s1[i] == s2[j];
-            }
+    bool stoneGame(vector<int>& piles) {
+        int n = piles.size(), i, k;
+        vector<vector<int>> dp(n, vector<int>(n));
+        for (i = 0; i < n; i ++) {
+            dp[i][i] = -piles[i];
         }
-        for (int length = 2; length <= n; length++) {
-            for (int i = 0; i < n + 1 - length; i++) {
-                for (int j = 0; j < n + 1 - length; j++) {
-                    for (int newLength = 1; newLength < length; newLength++) {
-                        const vector<int>& dp1 = dp[newLength][i];
-                        const vector<int>& dp2 = dp[length - newLength][i + newLength];
-                        dp[length][i][j] |= dp1[j] && dp2[j + newLength];
-                        dp[length][i][j] |= dp1[j + length - newLength] && dp2[j];
-                    }
+        for (k = 2; k <= n; k ++) {
+            for (i = 0; i <= n-k; i ++) {
+                if (k%2 == 0) {
+                    dp[i][i+k-1] = max(piles[i] + dp[i+1][i+k-1], piles[i+k-1] + dp[i][i+k-2]);
+                } else {
+                    dp[i][i+k-1] = max(-piles[i] + dp[i+1][i+k-1], -piles[i+k-1] + dp[i][i+k-2]);
                 }
             }
         }
-        return dp[n][0][0];
+        return dp[0][n-1] > 0;
     }
 };
 ````

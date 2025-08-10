@@ -6931,34 +6931,43 @@ public:
 * [Medium] 380. Insert Delete GetRandom O(1)
 
 ### Boyer-Moore Voting Algorithm
-```python
-if not nums:
-            return []
-
-        # 1st pass
-        count1, count2, candidate1, candidate2 = 0, 0, None, None
-        for n in nums:
-            if candidate1 == n:
-                count1 += 1
-            elif candidate2 == n:
-                count2 += 1
-            elif count1 == 0:
-                candidate1 = n
-                count1 += 1
-            elif count2 == 0:
-                candidate2 = n
-                count2 += 1
-            else:
-                count1 -= 1
-                count2 -= 1
-
-        # 2nd pass
-        result = []
-        for c in [candidate1, candidate2]:
-            if nums.count(c) > len(nums)//3:
-                result.append(c)
-
-        return result
+```c++
+class Solution {
+public:
+    vector<int> majorityElement(vector<int>& nums) {
+        int n = nums.size(), a = INT_MAX, b = INT_MAX, ak = 0, bk = 0;
+        vector<int> ans;
+        for (auto &num: nums) {
+            if (num == a) {
+                ak += 1;
+            } else if (num == b) {
+                bk += 1;
+            } else if (ak == 0) {
+                a = num;
+                ak += 1;
+            } else if (bk == 0) {
+                b = num;
+                bk += 1;
+            } else {
+                ak -= 1;
+                bk -= 1;
+            }
+        }
+        ak = 0;
+        bk = 0;
+        for (auto &num: nums) {
+            ak += a == num;
+            bk += b == num;
+        }
+        if (ak > n/3) {
+            ans.push_back(a);
+        }
+        if (bk > n/3) {
+            ans.push_back(b);
+        }
+        return ans;
+    }
+};
 ```
 * [Medium] 229. Majority Element II
 
@@ -16224,44 +16233,44 @@ while hq:
 ---
 ### Union-Find
 ```c++
-class DSU {
-    vector<int> par;
-public:
-    DSU(int n) {
-        for (int i = 0; i < n; i ++) {
-            par.push_back(i);
-        }
-    }
-    int find(int x) {
-        if (x != par[x]) {
-            par[x] = find(par[x]);
-        }
-        return par[x];
-    }
-    void joint(int x, int y) {
-        int xr = find(x);
-        int yr = find(y);
-        par[xr] = yr;
-    }
-};
-
 class Solution {
+    vector<int> p ,r;
+    int find (int x) {
+        if (x != p[x]) {
+            p[x] = find(p[x]);
+        }
+        return p[x];
+    }
+    bool uni(int x, int y) {
+        int xr = find(p[x]), yr = find(p[y]);
+        if (xr == yr) {
+            return false;
+        }
+        if (r[xr] >= r[yr]) {
+            p[yr] = xr;
+            r[xr] += 1;
+        } else {
+            p[xr] = yr;
+            r[yr] += 1;
+        }
+        return true;
+    }
 public:
     int findCircleNum(vector<vector<int>>& isConnected) {
-        int n = isConnected.size();
-        DSU dsu(n);
-        for (int i = 0; i < n; i ++) {
-            for (int j = 0; j < n; j ++) {
-                if (isConnected[i][j]) {
-                    dsu.joint(i, j);
+        int n = isConnected.size(), i, j, ans = n;
+        p.resize(n);
+        r.resize(n, 1);
+        for (i = 0; i < n; i ++) {
+            p[i] = i;
+        }
+        for (i = 0; i < n; i ++) {
+            for (j = i+1; j < n; j ++) {
+                if (isConnected[i][j] && uni(i, j)) {
+                    ans -= 1;
                 }
             }
         }
-        unordered_set<int> st;
-        for (int i = 0; i < n; i ++) {
-            st.insert(dsu.find(i));
-        }
-        return st.size();
+        return ans;
     }
 };
 ```
@@ -18244,6 +18253,125 @@ public:
  */
 ```
 * [Medium] [Solution] 307. Range Sum Query - Mutable
+
+### Square Root Decomposition
+```c++
+class Solution {
+public:
+    int numOfUnplacedFruits(vector<int>& fruits, vector<int>& baskets) {
+        int n = fruits.size(), m = sqrt(n+1), i, j, k = (n + m - 1)/m, ck, ans = 0;
+        bool flag;
+        vector<int> dp(k);
+        for (i = 0; i < n; i ++) {
+            dp[i/m] = max(dp[i/m], baskets[i]);
+        }
+        for (i = 0; i < n; i ++) {
+            flag = true;
+            for (ck = 0; ck < k; ck ++) {
+                if (fruits[i] <= dp[ck]) {
+                    dp[ck] = 0;
+                    for (j = ck*m; j < ck*m + m && j < n; j ++) {
+                        if (fruits[i] <= baskets[j] && flag) {
+                            baskets[j] = 0;
+                            flag = false;
+                        }
+                        dp[ck] = max(dp[ck], baskets[j]);
+                    }
+                }
+                if (!flag) {
+                    break;
+                }
+            }
+            if (flag) {
+                ans += 1;
+            }
+        }
+        return ans;
+    }
+};
+```
+* [Medium] 3479. Fruits Into Baskets III
+
+### Range max
+```c++
+class SGT {
+public:
+    vector<int> tree;
+    SGT(int n) {
+        tree.resize(4*n + 1);
+    }
+
+    void build(int pos, int left, int right, vector<int> &arr)  {
+        if (left == right) {
+            tree[pos] = arr[left];
+            return;
+        }
+        int mid = left + (right - left) / 2;
+        build(2*pos + 1, left, mid, arr);
+        build(2*pos + 2, mid + 1, right, arr);
+        tree[pos] = max(tree[2*pos + 1], tree[2*pos + 2]);
+    }
+
+    int query(int pos, int q_left, int q_right, int left, int right)  {
+        if (q_left <= left && q_right >= right) {
+            return tree[pos];
+        }
+        if (q_left > right || q_right < left) { 
+            return 0;
+        }
+        int mid = left + (right - left)/2;
+        return max(query(2*pos + 1, q_left, q_right, left, mid), query(2*pos + 2, q_left, q_right, mid + 1, right));
+    }
+
+    void update(int pos, int left, int right, int i, int val)  {
+        if (left == right) {
+            tree[pos] = val;
+            return;
+        }
+        int mid = left + (right - left)/2;
+        if (i <= mid) {
+            update(2*pos + 1, left, mid, i, val);
+        } else { 
+            update(2*pos + 2, mid + 1, right, i, val);
+        }
+        tree[pos] = max(tree[2*pos + 1], tree[2*pos + 2]);
+    }
+};
+
+void find(int val, SGT &sgt, int n, int &ans) {
+    int left = 0, right = n-1, mid, mx, i = -1;
+    while (left <= right) {
+        mid = left + (right - left)/2;
+        mx = sgt.query(0, 0, mid, 0, n-1);
+        if (mx >= val) {
+            i = mid; 
+            right = mid - 1; 
+        } else {
+            left = mid + 1;
+        }
+    }
+    if (i != -1) {
+        sgt.update(0, 0, n-1, i, 0);
+    } else {
+        ans += 1;
+    }
+    return;
+}
+
+class Solution {
+public:
+    int numOfUnplacedFruits(vector<int>& fruits, vector<int>& baskets) {
+        int n = fruits.size(), i, ans = 0;
+        SGT sgt(n);
+        sgt.build(0, 0, n-1, baskets);
+        for (i = 0; i < n; i ++) {
+            find(fruits[i], sgt, n, ans);
+        }
+        return ans;
+    }
+};
+```
+* [Medium] 3479. Fruits Into Baskets III
 
 ### Maintain Sorted Disjoint Intervals
 ```python

@@ -380,3 +380,32 @@ class Solution:
             sell2 = max(sell2, buy2 + prices[i])
         return sell2
 ```
+
+**Solution 5: (DP Bottom-Up)**
+```
+Runtime: 17 ms, Beats 80.84%
+Memory: 79.20 MB, Beats 97.17%
+```
+```c++
+class Solution {
+public:
+    int maxProfit(vector<int>& prices) {
+        int n = prices.size(), i, ans = 0;
+        vector<int> pre(4, INT_MIN), cur(4, INT_MIN);
+        pre[0] = -prices[0];
+        for (i = 1; i < n; i ++) {
+            cur[0] = max(pre[0], -prices[i]);
+            cur[1] = max(pre[1], pre[0] + prices[i]);
+            if (i >= 2) {
+                cur[2] = max(pre[2], pre[1] - prices[i]);
+            }
+            if (i >= 3) {
+                cur[3] = max(pre[3], pre[2] + prices[i]);
+            }
+            pre = cur;
+            cur.resize(4, INT_MIN);
+        }
+        return max(*max_element(pre.begin(), pre.end()), 0);
+    }
+};
+```

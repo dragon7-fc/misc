@@ -363,3 +363,67 @@ public:
     }
 };
 ```
+
+**Solution 5: (Union Find)**
+```
+Runtime: 25 ms, Beats 85.62%
+Memory: 36.83 MB, Beats 96.76%
+```
+```c++
+class Solution {
+    vector<int> p;
+    vector<int> r;
+    int find(int &x) {
+        if (p[x] != x) {
+            p[x] = find(p[x]);
+        }
+        return p[x];
+    }
+    void uni(int &x, int &y) {
+        int xr = find(x), yr = find(y);
+        if (xr == yr) {
+            return;
+        }
+        if (r[xr] > r[yr]) {
+            p[yr] = xr;
+            r[xr] += 1;
+        } else {
+            p[xr] = yr;
+            r[yr] += 1;
+        }
+    }
+public:
+    vector<vector<string>> accountsMerge(vector<vector<string>>& accounts) {
+        int n = accounts.size(), i, j;
+        unordered_map<string, int> g;
+        vector<vector<string>> dp(n);
+        vector<vector<string>> ans;
+        p.resize(n);
+        r.resize(n, 1);
+        for (i = 0; i < n; i ++) {
+            p[i] = i;
+        }
+        for (i = 0; i < n; i ++) {
+            for (j = 1; j < accounts[i].size(); j ++) {
+                if (!g.count(accounts[i][j])) {
+                    g[accounts[i][j]] = i;
+                } else {
+                    uni(i, g[accounts[i][j]]);
+                }
+            }
+        }
+        for (auto &[k, v]: g) {
+            dp[find(v)].push_back(k);
+        }
+        for (i = 0; i < dp.size(); i ++) {
+            if (dp[i].size()) {
+                ans.push_back({});
+                ans.back().push_back(accounts[i][0]);
+                sort(dp[i].begin(), dp[i].end());
+                ans.back().insert(ans.back().end(), dp[i].begin(), dp[i].end());
+            }
+        }
+        return ans;
+    }
+};
+```

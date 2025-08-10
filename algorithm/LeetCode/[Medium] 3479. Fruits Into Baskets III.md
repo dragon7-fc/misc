@@ -174,15 +174,59 @@ public:
 };
 ```
 
-**Solution 2: (Segment Tree, Binary Search)**
+**Solution 2: (Square Root Decomposition)**
+```
+Runtime: 409 ms, Beats 30.92%
+Memory: 176.08 MB, Beats 98.89%
+```
+```c++
+class Solution {
+public:
+    int numOfUnplacedFruits(vector<int>& fruits, vector<int>& baskets) {
+        int n = fruits.size(), m = sqrt(n+1), i, j, k = (n + m - 1)/m, ck, ans = 0;
+        bool flag;
+        vector<int> dp(k);
+        for (i = 0; i < n; i ++) {
+            dp[i/m] = max(dp[i/m], baskets[i]);
+        }
+        for (i = 0; i < n; i ++) {
+            flag = true;
+            for (ck = 0; ck < k; ck ++) {
+                if (fruits[i] <= dp[ck]) {
+                    dp[ck] = 0;
+                    for (j = ck*m; j < ck*m + m && j < n; j ++) {
+                        if (fruits[i] <= baskets[j] && flag) {
+                            baskets[j] = 0;
+                            flag = false;
+                        }
+                        dp[ck] = max(dp[ck], baskets[j]);
+                    }
+                }
+                if (!flag) {
+                    break;
+                }
+            }
+            if (flag) {
+                ans += 1;
+            }
+        }
+        return ans;
+    }
+};
+```
+
+**Solution 3: (Segment Tree, Binary Search)**
 
     fruits = [4,2,5], baskets = [3,5,4]
 
 sgt
-                   5
-               5       4
-            3    5
-
+        
+                   5 (0)
+                 [0,3]
+               5 (1)   4 (2)
+             [0,1]    [2,2]
+        (3) 3    5 (4)
+         [0,0]  [1,1]
 query 4
                    4
                3        4

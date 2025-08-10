@@ -285,3 +285,51 @@ public:
     }
 };
 ```
+
+**Solution 6: (Topological Sort)**
+```
+Runtime: 51 ms, Beats 43.30%
+Memory: 66.98 MB, Beats 9.04%
+```
+```c++
+class Solution {
+public:
+    vector<int> eventualSafeNodes(vector<vector<int>>& graph) {
+        int n = graph.size(), i;
+        vector<vector<int>> g(n);
+        queue<int> q;
+        vector<int> outdeg(n), visited(n);
+        vector<int> ans;
+        for (i = 0; i < n; i ++) {
+            outdeg[i] = graph[i].size();
+            for (auto j: graph[i]) {
+                g[j].push_back(i);
+            }
+        }
+        for (i = 0; i < n; i ++) {
+            if (outdeg[i] == 0) {
+                q.push(i);
+                visited[i] = 1;
+            }
+        }
+        while (q.size()) {
+            auto u = q.front();
+            q.pop();
+            for (auto v: g[u]) {
+                outdeg[v] -= 1;
+                if (outdeg[v] == 0) {
+                    q.push(v);
+                    visited[v] = 1;
+                }
+            }
+        }
+        for (i = 0; i < n; i ++) {
+            if (visited[i]) {
+                ans.push_back(i);
+            }
+        }
+        return ans;
+    }
+};
+
+```

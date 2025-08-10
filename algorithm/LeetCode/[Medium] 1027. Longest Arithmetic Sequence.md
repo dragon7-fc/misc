@@ -84,23 +84,22 @@ class Solution:
 
 **Solution 2: (DP Bottom-Up)**
 ```
-Runtime: 316 ms
-Memory: 141.5 MB
+Runtime: 128 ms, Beats 75.97%
+Memory: 145.69 MB, Beats 74.89%
 ```
 ```c++
 class Solution {
 public:
     int longestArithSeqLength(vector<int>& nums) {
-        int n = nums.size(), ans = 0, diff;
-        vector<vector<int>> dp(n, vector<int>(1001));
-        for (int j = 1; j < n; j ++) {
-            for (int i = 0; i < j; i ++) {
-                diff = nums[j] - nums[i];
-                dp[j][diff + 500] = dp[i][diff + 500] + 1;
-                ans = max(ans, dp[j][diff + 500]);
+        int n = nums.size(), i, j, ans = 0;
+        vector<vector<int>> dp(n, vector<int>(1001, 1));
+        for (j = 1; j < n; j ++) {
+            for (i = 0; i < j; i ++) {
+                dp[j][nums[j] - nums[i] + 500] = max(dp[j][nums[j] - nums[i] + 500], dp[i][nums[j] - nums[i] + 500] + 1);
+                ans = max(ans, dp[j][nums[j] - nums[i] + 500]);
             }
         }
-        return ans + 1;
+        return ans;
     }
 };
 ```

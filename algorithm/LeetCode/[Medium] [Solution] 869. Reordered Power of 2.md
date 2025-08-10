@@ -146,3 +146,38 @@ public:
     }
 };
 ```
+
+**Solution 2: (Counter, try all solution)**
+```
+Runtime: 0 ms, Beats 100.00%
+Memory: 8.03 MB, Beats 86.43%
+```
+```c++
+class Solution {
+    bool check(long long a, vector<int> &cnt) {
+        vector<int> cnta(10);
+        while (a) {
+            cnta[a%10] += 1;
+            a /= 10;
+        }
+        return cnta == cnt;
+    }
+public:
+    bool reorderedPowerOf2(int n) {
+        long long a = 1, mx = 1;
+        vector<int> cnt(10);
+        while (n) {
+            cnt[n%10] += 1;
+            mx *= 10;
+            n /= 10;
+        }
+        while (a <= mx) {
+            if (check(a, cnt)) {
+                return true;
+            }
+            a <<= 1;
+        }
+        return false;
+    }
+};
+```
