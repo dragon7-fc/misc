@@ -341,3 +341,64 @@ public:
  * bool param_3 = obj->startsWith(prefix);
  */
 ```
+
+**Solution 3: (shared_ptr)**
+```
+Runtime: 49 ms, Beats 10.39%
+Memory: 69.73 MB, Beats 8.12%
+```
+```c++
+class Trie {
+    struct TrieNode {
+        vector<shared_ptr<TrieNode>> child;
+        bool is_end;
+        TrieNode(): child(26), is_end(false) {}
+    };
+    shared_ptr<TrieNode> root;
+public:
+    Trie() {
+        root = make_shared<TrieNode>();
+    }
+    
+    void insert(string word) {
+        auto node = root;
+        for (auto &c: word) {
+            if (!node->child[c-'a']) {
+                node->child[c-'a'] = make_shared<TrieNode>();
+            }
+            node = node->child[c-'a'];
+        }
+        node->is_end = true;
+    }
+    
+    bool search(string word) {
+        auto node = root;
+        for (auto &c: word) {
+            if (!node->child[c-'a']) {
+                return false;
+            }
+            node = node->child[c-'a'];
+        }
+        return node->is_end;
+    }
+    
+    bool startsWith(string prefix) {
+        auto node = root;
+        for (auto &c: prefix) {
+            if (!node->child[c-'a']) {
+                return false;
+            }
+            node = node->child[c-'a'];
+        }
+        return true;
+    }
+};
+
+/**
+ * Your Trie object will be instantiated and called as such:
+ * Trie* obj = new Trie();
+ * obj->insert(word);
+ * bool param_2 = obj->search(word);
+ * bool param_3 = obj->startsWith(prefix);
+ */
+```

@@ -223,3 +223,47 @@ public:
     }
 };
 ```
+
+**Solution 5: (Hash Table, Sort, Counter, open close event)**
+```
+Runtime: 31 ms, Beats 20.89%
+Memory: 32.51 MB, Beats 16.13%
+```
+```c++
+class Solution {
+public:
+    vector<vector<int>> getSkyline(vector<vector<int>>& buildings) {
+        int n = buildings.size(), i, pre = 0, cur;
+        map<int,vector<pair<int,int>>> g;
+        map<int,int> cnt;
+        vector<vector<int>> ans;
+        for (i = 0; i < n; i ++) {
+            g[buildings[i][0]].push_back({buildings[i][2], 0});
+            g[buildings[i][1]].push_back({buildings[i][2], 1});
+        }
+        for (auto &[x, v]: g) {
+            for (auto &[h, t]: v) {
+                if (t == 0) {
+                    cnt[h] += 1;
+                } else {
+                    cnt[h] -= 1;
+                    if (cnt[h] == 0) {
+                        cnt.erase(h);
+                    }
+                }
+            }
+            cur = pre;
+            if (cnt.size() && cnt.rbegin()->first != pre) {
+                cur = cnt.rbegin()->first;
+            } else if (cnt.size() == 0) {
+                cur = 0;
+            }
+            if (cur != pre) {
+                pre = cur;
+                ans.push_back({x, cur});
+            }
+        }
+        return ans;
+    }
+};
+```

@@ -52,3 +52,45 @@ class Solution:
 
         return result
 ```
+
+**Solution 2: (multiset)**
+```
+Runtime: 122 ms, Beats 16.40%
+Memory: 61.63 MB, Beats 8.15%
+````
+```c++
+class Solution {
+public:
+    vector<double> medianSlidingWindow(vector<int>& nums, int k) {
+        int n = nums.size(), i, j = 0;
+        vector<double> ans(n-k+1);
+        multiset<double> lo;
+        multiset<double,greater<>> hi;
+        for (i = 0; i < n; i ++) {
+            lo.insert(nums[i]);
+            hi.insert(*lo.rbegin());
+            lo.erase(prev(lo.end()));
+            if (hi.size() - lo.size() > 1) {
+                lo.insert(*hi.rbegin());
+                hi.erase(prev(hi.end()));
+            }
+            if (lo.size() + hi.size() == k) {
+                if (k%2) {
+                    ans[j] = *hi.rbegin();
+                } else {
+                    ans[j] = (*lo.rbegin() + *hi.rbegin())/2;
+                }
+                j += 1;
+                auto it = lo.find(nums[i - k + 1]);
+                if (it != lo.end()) {
+                    lo.erase(it);
+                    continue;
+                }
+                it = hi.find(nums[i - k + 1]);
+                hi.erase(it);
+            }
+        }
+        return ans;
+    }
+};
+```

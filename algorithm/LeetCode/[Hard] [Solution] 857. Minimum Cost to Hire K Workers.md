@@ -181,3 +181,35 @@ public:
     }
 };
 ```
+
+**Solution 3: (Heap, sort by wage/quality and greedy over min amount)**
+```
+Runtime: 1 ms, Beats 98.97%
+Memory: 29.70 MB, Beats 87.84%
+```
+```c++
+class Solution {
+public:
+    double mincostToHireWorkers(vector<int>& quality, vector<int>& wage, int k) {
+        int n = quality.size(), i, a = 0;
+        double ans = LONG_LONG_MAX;
+        vector<pair<double,int>> dp(n);
+        for (i = 0; i < n; i ++) {
+            dp[i] = {1.0*wage[i]/quality[i], i};
+        }
+        sort(dp.begin(), dp.end());
+        priority_queue<int> pq;
+        for (i = 0; i < n; i ++) {
+            auto [b, j] = dp[i];
+            a += quality[j];
+            pq.push(quality[j]);
+            if (i >= k-1) {
+                ans = min(ans, b * a);
+                a -= pq.top();
+                pq.pop();
+            }
+        }
+        return ans;
+    }
+};
+```

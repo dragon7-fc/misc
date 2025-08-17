@@ -81,8 +81,6 @@ public:
 
 **Solution 3: (Greedy, heap)**
 ```
-Runtime: 139 ms
-Memory: 85.56 MB
 ```
 ```c++
 class Solution {
@@ -112,6 +110,44 @@ public:
                 pq.push(dp[i].second);
                 i += 1;
             }
+        }
+        return ans;
+    }
+};
+```
+
+**Solution 3: (Heap, 2 heap, min capital and max profit)**
+```
+Runtime: 111 ms, Beats 19.74%
+Memory: 131.46 MB, Beats 49.07%
+```
+```c++
+class Solution {
+public:
+    int findMaximizedCapital(int k, int w, vector<int>& profits, vector<int>& capital) {
+        int n = profits.size(), i, ans = w;
+        priority_queue<array<int,2>,vector<array<int,2>>,greater<>> pq;
+        priority_queue<int> pq2;
+        for (i = 0; i < n; i ++) {
+            pq.push({capital[i], i});
+        }
+        while (pq.size() && pq.top()[0] <= ans) {
+            pq2.push(profits[pq.top()[1]]);
+            pq.pop();
+        }
+        while (pq2.size()) {
+            auto p = pq2.top();
+            pq2.pop();
+            ans += p;
+            k -= 1;
+            if (k == 0) {
+                break;
+            }
+            while (pq.size() && pq.top()[0] <= ans) {
+                pq2.push(profits[pq.top()[1]]);
+                pq.pop();
+            }
+            
         }
         return ans;
     }

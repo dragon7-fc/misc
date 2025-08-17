@@ -185,31 +185,40 @@ public:
 ```
 
 **Solution 5: (Deque, mono stack)**
+
+             v
+    2 -1  2
+pre 0  2  1  3
+dq  0  01 02 023
+ans          3
+
+
 ```
-Runtime: 36 ms
-Memory: 107.60 MB
+Runtime: 30 ms, Beats 57.36%
+Memory: 109.18 MB, Beats 60.78%
 ``
 ```c++
 class Solution {
 public:
     int shortestSubarray(vector<int>& nums, int k) {
         int n = nums.size(), i, ans = INT_MAX;
-        vector<long long> pre(n + 1, 0);
-        for (i = 1; i <= n; i++) {
-            pre[i] = pre[i - 1] + nums[i - 1];
-        }
+        vector<long long> pre(n+1);
         deque<int> dq;
-        for (i = 0; i <= n; i++) {
-            while (!dq.empty() && pre[i] - pre[dq.front()] >= k) {
-                ans = min(ans, i - dq.front());
+        for (i = 0; i < n ; i ++) {
+            pre[i+1] = pre[i] + nums[i];
+        }
+        // greedy over pre
+        for (i = 0; i <= n; i ++) {
+            while (dq.size() && pre[i] - pre[dq[0]] >= k) {
+                ans = min(ans, i - dq[0]);
                 dq.pop_front();
             }
-            while (!dq.empty() && pre[i] <= pre[dq.back()]) {
+            while (dq.size() && pre[i] <= pre[dq.back()]) {
                 dq.pop_back();
             }
             dq.push_back(i);
         }
-        return ans == INT_MAX ? -1 : ans;
+        return ans != INT_MAX ? ans : -1;
     }
 };
 ```

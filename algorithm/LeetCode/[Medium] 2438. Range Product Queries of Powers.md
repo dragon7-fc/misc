@@ -99,3 +99,37 @@ public:
     }
 };
 ```
+
+**Solution 3: (Prefix Sum)**
+```
+Runtime: 0 ms, Beats 100.00%
+Memory: 144.88 MB, Beats 89.89%
+```
+```c++
+class Solution {
+public:
+    vector<int> productQueries(int n, vector<vector<int>>& queries) {
+        int m, a = 1, i, j, MOD = 1e9 + 7;
+        vector<int> pre, ans(queries.size());
+        vector<vector<int>> dp;
+        while (a <= n) {
+            if (a&n) {
+                pre.push_back(a);
+            }
+            a <<= 1;
+        }
+        m = pre.size();
+        dp.resize(m, vector<int>(m));
+        for (i = 0; i < m; i ++) {
+            dp[i][i] = pre[i];
+            for (j = i+1; j < m; j ++) {
+                dp[i][j] = (1LL*dp[i][j-1]*pre[j])%MOD;
+            }
+        }
+        for (i = 0; i < queries.size(); i ++) {
+            ans[i] = dp[queries[i][0]][queries[i][1]];
+        }
+        return ans;
+    }
+};
+```

@@ -381,3 +381,32 @@ class Solution:
                 time += nt
         return len(heap)
 ```
+
+**Soluttion 5: (Sort, Heap, sort by end time and drop longest duration)**
+```
+Runtime: 28 ms, Beats, 68.70%
+Memory: 60.39 MB, Beats 77.05%
+```
+```c++
+class Solution {
+public:
+    int scheduleCourse(vector<vector<int>>& courses) {
+        int n = courses.size(), i, k = 0, cur = 0;
+        priority_queue<int> pq;
+        sort(courses.begin(), courses.end(), [](auto &ca, auto &cb){
+            return ca[1] < cb[1];
+        });
+        for (i = 0; i < n; i ++) {
+            cur += courses[i][0];
+            pq.push(courses[i][0]);
+            while (pq.size() && cur > courses[i][1]) {
+                auto d = pq.top();
+                pq.pop();
+                cur -= d;
+                k += 1; 
+            }
+        }
+        return n - k;
+    }
+ };
+```

@@ -192,3 +192,60 @@ public:
     }
 };
 ```
+
+**Solution 4: (DP Bottom-Up, Sliding Window)**
+
+     0  1  2  3  4  5  6  7  8  9 10
+dp   1 .1 .1 .1 .1 .1 .1 .1 .1 .1 .1
+cur  1  1  1  1  1  1  1  1  1  1  1
+    
+
+     0  1  2  3  4  5  6
+dp   1 .1 .1 .1 .1 .1 .1
+cur  1  1  1  1  1  1  1
+
+
+                     ans
+                   ---------
+    0               k    n-1
+    1 x x x x x x x x
+            ^maxPtr ^i 
+                  ^maxPtr ^i
+
+
+maxPts = 4
+
+s   1 1+1/4
+          1+1/4 + (1+1/4)/4               k
+    0  1  2  3  4  5  6  7  8  9  10  11
+    -------------
+       -------------
+          -------------
+    1 1/4
+        (1+1/4)/4
+           (1+1/4 + (1+1/4)/4)/4
+
+```
+Runtime: 3 ms, Beats 61.18%
+Memory: 12.88 MB, Beats 26.82%
+```
+```c++
+class Solution {
+public:
+    double new21Game(int n, int k, int maxPts) {
+        vector<double> dp(n + 1);
+        dp[0] = 1;
+        double s = k > 0 ? 1 : 0;
+        for (int i = 1; i <= n; i++) {
+            dp[i] = s / maxPts;
+            if (i < k) {
+                s += dp[i];
+            }
+            if (i - maxPts >= 0 && i - maxPts < k) {
+                s -= dp[i - maxPts];
+            }
+        }
+        return accumulate(dp.begin() + k, dp.end(), 0.0);
+    }
+};
+```

@@ -71,34 +71,7 @@ class Solution:
         return ans[k-1:]
 ```
 
-**Solution 3: (Decreasing deque index)**
-```
-Runtime: 232 ma
-```
-```c++
-class Solution {
-public:
-    vector<int> maxSlidingWindow(vector<int>& nums, int k) {
-        vector<int> ans;
-        deque<int> q;
-        for (int i = 0; i < nums.size(); i ++) {
-            if (!q.empty() && i-q[0] >= k) {
-                q.pop_front();
-            }
-            while (!q.empty() && nums[q.back()] < nums[i]) {
-                q.pop_back();
-            }
-            q.push_back(i);
-            if (i >= k-1) {
-                ans.push_back(nums[q[0]]);
-            }
-        }
-        return ans;
-    }
-};
-```
-
-**Solution 4: (Heap)**
+**Solution 3: (Heap)**
 ```
 Runtime: 253 ms
 Memory: 144.1 MB
@@ -125,3 +98,60 @@ public:
     }
 };
 ```
+
+**Solution 4: (Hash Table, Sort, Counter)**
+```
+Runtime: 331 ms, Beats 9.30%
+Memory: 175.11 MB, Beats 9.53%
+```
+```c++
+class Solution {
+public:
+    vector<int> maxSlidingWindow(vector<int>& nums, int k) {
+        int n = nums.size(), i, j = 0;
+        vector<int> ans(n-k+1);
+        map<int,int> cnt;
+        for (i = 0; i < n; i ++) {
+            cnt[nums[i]] += 1;
+            if (i >= k-1) {
+                ans[j] = cnt.rbegin()->first;
+                j += 1;
+                cnt[nums[i-k+1]] -= 1;
+                if (cnt[nums[i-k+1]] == 0) {
+                    cnt.erase(nums[i-k+1]);
+                }
+            }
+        }
+        return ans;
+    }
+};
+```
+
+**Solution 5: (Deque)**
+```
+Runtime: 33 ms, Beats 30.91%
+Memory: 139.13 MB, Beats 60.18%
+```
+```c++
+class Solution {
+public:
+    vector<int> maxSlidingWindow(vector<int>& nums, int k) {
+        int n = nums.size(), i;
+        deque<int> dq;
+        vector<int> ans;
+        for (i = 0; i < n; i ++) {
+            while (dq.size() && nums[i] >= nums[dq.back()]) {
+                dq.pop_back();
+            }
+            dq.push_back(i);
+            if (i >= k-1) {
+                while (i - dq.front() >= k) {
+                    dq.pop_front();
+                }
+                ans.push_back(nums[dq.front()]);
+            }
+        }
+        return ans;
+    }
+};
+````

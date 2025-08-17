@@ -321,7 +321,7 @@ Memory: 180.2 MB
 class LFUCache {
     // key: frequency, value: list of original key-value pairs that have the same frequency.
     unordered_map<int, list<pair<int, int>>> frequencies;
-    // key: original key, value: pair of frequency and the iterator corresponding key int the
+    // key: original key, value: pair of frequency and the iterator corresponding key in the
     // frequencies map's list.
     unordered_map<int, pair<int, list<pair<int, int>>::iterator>> cache;
     int capacity;
@@ -376,6 +376,70 @@ public:
 
         minf = 1;
         insert(key, 1, value);
+    }
+};
+
+/**
+ * Your LFUCache object will be instantiated and called as such:
+ * LFUCache* obj = new LFUCache(capacity);
+ * int param_1 = obj->get(key);
+ * obj->put(key,value);
+ */
+```
+
+**Solution 6: (Hash Table, 2 Hash Table)**
+```
+Runtime: 113 ms, Beats 66.14%
+Memory: 187.73 MB, Beats 70.90%
+```
+```c++
+class LFUCache {
+    int n, mn = 0;
+    unordered_map<int,list<pair<int,int>>> cnt;
+    // f -> list{k, v}
+    unordered_map<int,pair<int,list<pair<int,int>>::iterator>> m;
+    // key -> f, list::it
+public:
+    LFUCache(int capacity) {
+        n = capacity;
+    }
+    
+    int get(int key) {
+        if (!m.count(key)) {
+            return -1;
+        }
+        auto [f, it] = m[key];
+        auto [_, v] = *it;
+        cnt[f].erase(it);
+        if (cnt[f].size() == 0) {
+            cnt.erase(f);
+            if (mn == f) {
+                mn += 1;
+            }
+        }
+        f += 1;
+        cnt[f].push_back({key, v});
+        m[key] = {f, prev(cnt[f].end())};
+        return v;
+    }
+    
+    void put(int key, int value) {
+        if (m.count(key)) {
+            m[key].second->second = value;
+            get(key);
+        } else {
+            if (m.size() == n) {
+                auto [k, _] = cnt[mn].front();
+                cnt[mn].pop_front();
+                if (cnt[mn].size() == 0) {
+                    cnt.erase(mn);
+                }
+                m.erase(k);
+            }
+            mn = 1;
+            cnt[mn].push_back({key, value});
+            m[key] = {mn, prev(cnt[mn].end())};
+        }
     }
 };
 

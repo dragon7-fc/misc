@@ -560,3 +560,36 @@ public:
     }
 };
 ```
+
+**Solution 7: (Heap, Sliding Window)**
+```
+Runtime: 112 ms, Beats 27.92%
+Memory: 37.82 MB, Beats 62.48%
+```
+```c++
+class Solution {
+public:
+    vector<int> smallestRange(vector<vector<int>>& nums) {
+        int n = nums.size(), i, right = INT_MIN, mn = INT_MAX;
+        priority_queue<array<int,3>,vector<array<int,3>>,greater<>> pq;
+        vector<int> ans;
+        for (i = 0; i < n; i ++) {
+            pq.push({nums[i][0], i, 0});
+            right = max(right, nums[i][0]);
+        }
+        while (pq.size() >= n) {
+            auto [left, j, k] = pq.top();
+            pq.pop();
+            if (right - left + 1 < mn) {
+                mn = right - left + 1;
+                ans = {left, right};
+            }
+            if (k + 1 < nums[j].size()) {
+                right = max(right, nums[j][k+1]);
+                pq.push({nums[j][k+1], j, k+1});
+            }
+        }
+        return ans;
+    }
+};
+```

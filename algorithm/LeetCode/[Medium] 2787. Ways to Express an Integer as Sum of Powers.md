@@ -55,3 +55,40 @@ public:
     }
 };
 ```
+
+**Solution 2: (DP Bottom-Up)**
+
+          v
+    0 1 2 3 4 5 6 7 8 9 10
+    1 1
+            1 1
+                      1  1
+            v
+    0 1 2 3 4
+    1 1
+        1 1
+            1
+          2
+            2
+
+```
+Runtime: 11 ms, Beats 98.04%
+Memory: 13.11 MB, Beats 68.85%
+```
+```c++
+class Solution {
+public:
+    int numberOfWays(int n, int x) {
+        int a, b, c, MOD = 1e9 + 7;
+        vector<long long> dp(n+1);
+        dp[0] = 1;
+        for (a = 1; pow(a,x) <= n; a ++) {
+            c = pow(a,x);
+            for (b = n; b - c >= 0; b --) {
+                dp[b] += dp[b - c];
+            }
+        }
+        return dp[n] % MOD;
+    }
+};
+```

@@ -64,3 +64,27 @@ public:
     }
 };
 ```
+
+**Solution 3: (Math)**
+
+
+         n = 3^x
+    log3(n) = log3(3^x) = x
+    log3(n) = x
+   ^^^^^^^^
+log(n)/log(3)
+
+```
+Runtime: 7 ms, Beats 23.24%
+Memory: 8.88 MB, Beats 76.82%
+```
+```c++
+class Solution {
+public:
+    bool isPowerOfThree(int n) {
+        int e = log(INT_MAX)/log(3);
+        int N = pow(3, e);
+        return n > 0 && N%n == 0;
+    }
+};
+```

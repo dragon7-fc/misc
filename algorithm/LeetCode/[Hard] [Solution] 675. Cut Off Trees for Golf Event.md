@@ -286,7 +286,96 @@ class Solution:
         return ans
 ```
 
-**Solution 4: (BFS, Sort)**
+**Solution 4: (Heap)**
+
+     [[4,2,3],
+       3 1 2
+      [0,0,1],
+      [7,6,5]]
+       6 5 4
+
+      1 + 1 + 2 + 4 + 1 + 1 
+
+```
+Runtime: 868 ms, Beats 17.20%
+Memory: 288.42 MB, Beats 18.25%
+```
+```c++
+class Solution {
+    int dd[5] = {0, 1, 0, -1, 0};
+public:
+    int cutOffTree(vector<vector<int>>& forest) {
+        if (forest[0][0] == 0) {
+            return -1;
+        }
+        int m = forest.size(), n = forest[0].size(), d, nr, nc, pr = 0, pc = 0, i, j, ans = 0;
+        priority_queue<array<int,3>,vector<array<int,3>>, greater<>> pq;
+        queue<array<int,3>> q;
+        vector<vector<int>> visited(m, vector<int>(n));
+        q.push({0, 0, forest[0][0]});
+        visited[0][0] = 1;
+        forest[0][0] = 1;
+        while (q.size()) {
+            auto [r, c, a] = q.front();
+            q.pop();
+            if (a > 1) {
+                pq.push({a, r, c});
+            }
+            for (d = 0; d < 4; d ++) {
+                nr = r + dd[d];
+                nc = c + dd[d+1];
+                if (0 <= nr && nr < m && 0 <= nc && nc < n && forest[nr][nc] && !visited[nr][nc]) {
+                    q.push({nr, nc, forest[nr][nc]});
+                    visited[nr][nc] = 1;
+                    forest[nr][nc] = 1;
+                }
+            }
+        }
+        for (i = 0; i < m; i ++) {
+            for (j = 0; j < n; j ++) {
+                if (forest[i][j] > 1) {
+                    return -1;
+                }
+            }
+        }
+        visited.clear();
+        visited.resize(m, vector<int>(n));
+        while (pq.size()) {
+            auto [_, tr, tc] = pq.top();
+            pq.pop();
+            q.push({pr, pc, 0});
+            visited[pr][pc] = 1;
+            while (q.size()) {
+                auto [r, c, s] = q.front();
+                q.pop();
+                if (r == tr && c == tc) {
+                    ans += s;
+                    break;
+                }
+                for (d = 0; d < 4; d ++) {
+                    nr = r + dd[d];
+                    nc = c + dd[d+1];
+                    if (0 <= nr && nr < m && 0 <= nc && nc < n && forest[nr][nc] && !visited[nr][nc]) {
+                        visited[nr][nc] = 1;
+                        q.push({nr, nc, s+1});
+                    }
+                }
+            }
+            while (q.size()) {
+                q.pop();
+            }
+            pr = tr;
+            pc = tc;
+            visited.clear();
+            visited.resize(m, vector<int>(n));
+        }
+        
+        return ans;
+    }
+};
+```
+
+**Solution 5: (BFS, Sort)**
 ```
 Runtime: 716 ms, Beats 29.40%
 Memory: 173.56 MB, Beats 44.52%
