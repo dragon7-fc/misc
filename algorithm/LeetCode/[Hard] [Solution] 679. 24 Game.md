@@ -166,7 +166,7 @@ public:
 };
 ```
 
-**Solution 3: (Backtracking, try all solution)**
+**Solution 3: (Backtracking, try all solution, O(C(4,2) * 6^3))**
 
     1  2  3  4
         +
@@ -177,29 +177,27 @@ public:
     ----------
 
 ```
-Runtime: 25 ms, Beats 40.60%
-Memory: 18.31 MB, Beats 36.60%
+Runtime: 11 ms, Beats 73.79%
+Memory: 12.84 MB, Beats 75.99%
 ```
 ```c++
 class Solution {
-    bool bt(vector<double> arr) {
-        if (arr.size() == 1) {
-            if (abs(arr[0]-24) <= 0.001) {
+    bool bt(vector<double> &dp) {
+        if (dp.size() == 1) {
+            if (abs(dp[0] - 24) <= 0.001) {
                 return true;
             }
             return false;
         }
-        int n = arr.size(), i, j, k;
-        vector<double> pre, cur;
-        for (i = 0; i < n; i ++) {
-            for (j = i+1; j < n; j ++) {
-                for (k = 0; k < n; k ++) {
+        vector<double> cur;
+        for (int i = 0; i < dp.size()-1; i ++) {
+            for (int j = i+1; j < dp.size(); j ++) {
+                for (int k = 0; k < dp.size(); k ++) {
                     if (k != i && k != j) {
-                        cur.push_back(arr[k]);
+                        cur.push_back(dp[k]);
                     }
                 }
-                pre = getab(arr[i], arr[j]);
-                for (auto a: pre) {
+                for (auto a: check(dp[i], dp[j])) {
                     cur.push_back(a);
                     if (bt(cur)) {
                         return true;
@@ -211,8 +209,8 @@ class Solution {
         }
         return false;
     }
-    vector<double> getab(double a, double b) {
-        return {a+b, a-b , b-a, a*b, a/b, b/a};
+    vector<double> check(double a, double b) {
+        return {a+b, a-b, b-a, a*b, a/b, b/a};
     }
 public:
     bool judgePoint24(vector<int>& cards) {

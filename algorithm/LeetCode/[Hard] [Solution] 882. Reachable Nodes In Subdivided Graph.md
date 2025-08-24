@@ -156,3 +156,129 @@ class Solution:
 
         return ans
 ```
+
+**Solution 2: (Dijkstra's)**
+```
+Runtime: 155 ms, Beats 16.86%
+Memory: 70.61 MB, Beats 21.75%
+```
+```c++
+#define pii pair<int, int>
+class Solution {
+public:
+    int reachableNodes(vector<vector<int>>& edges, int maxMoves, int n) {
+        vector<vector<pii>> graph(n);
+        for (vector<int> edge: edges) {
+            int u = edge[0], v = edge[1], w = edge[2];
+            graph[u].push_back({v, w});
+            graph[v].push_back({u, w});
+        }
+
+        map<int, int> dist;
+        dist[0] = 0;
+        for (int i = 1; i < n; ++i)
+            dist[i] = maxMoves+1;
+
+        map<pii, int> used;
+        int ans = 0;
+
+        priority_queue<pii, vector<pii>, greater<pii>> pq;
+        pq.push({0, 0});
+
+        while (!pq.empty()) {
+            pii top = pq.top();
+            pq.pop();
+            int d = top.first, node = top.second;
+            if (d > dist[node]) continue;
+
+            // Each node is only visited once.  We've reached
+            // a node in our original graph.
+            ans++;
+
+            for (auto pair: graph[node]) {
+                // M - d is how much further we can walk from this node;
+                // weight is how many new nodes there are on this edge.
+                // v is the maximum utilization of this edge.
+                int nei = pair.first;
+                int weight = pair.second;
+                used[{node, nei}] = min(weight, maxMoves - d);
+
+                // d2 is the total distance to reach 'nei' (neighbor) node
+                // in the original graph.
+                int d2 = d + weight + 1;
+                if (d2 < min(dist[nei], maxMoves+1)) {
+                    pq.push({d2, nei});
+                    dist[nei] = d2;
+                }
+            }
+        }
+
+        // At the end, each edge (u, v, w) can be used with a maximum
+        // of w new nodes: a max of used[u, v] nodes from one side,
+        // and used[v, u] nodes from the other.
+        for (vector<int> edge: edges) {
+            int u = edge[0], v = edge[1], w = edge[2];
+            ans += min(w, used[{u, v}] + used[{v, u}]);
+        }
+        return ans;
+    }
+};
+```
+
+**Solution 3: (Dijkstra's)**
+
+   0            5   7
+    .  . . . .  . . .
+    0  x x x x  1 x 3
+    .x         .x
+     .x        .x
+      .x       .x
+       .x      .x
+        .x     .x
+         .x     x.
+          .x x  2
+             .  .
+                9
+
+```
+Runtime: 83 ms, Beats 37.27%
+Memory: 65.17 MB, Beats 26.98%
+```
+```c++
+class Solution {
+public:
+    int reachableNodes(vector<vector<int>>& edges, int maxMoves, int n) {
+        int m = edges.size(), i, nw, ans = 0;
+        vector<vector<array<int,2>>> g(n);
+        for (auto &e: edges) {
+            g[e[0]].push_back({e[1], e[2]});
+            g[e[1]].push_back({e[0], e[2]});
+        }
+        vector<int> dist(n, INT_MAX);
+        priority_queue<array<int,2>, vector<array<int,2>>, greater<>> pq;
+        unordered_map<int, unordered_map<int,int>> cnt;
+        pq.push({0, 0});
+        dist[0] = 0;
+        while (pq.size()) {
+            auto [w, u] = pq.top();
+            pq.pop();
+            if (w > dist[u]) {
+                continue;
+            }
+            ans += 1;
+            for (auto &[v, dw]: g[u]) {
+                cnt[u][v] = min(dw, maxMoves - w);
+                nw = w + dw + 1;
+                if (nw < dist[v] && nw < maxMoves + 1) {
+                    dist[v] = nw;
+                    pq.push({nw, v});
+                }
+            }
+        }
+        for (auto &e: edges) {
+            ans += min(e[2], cnt[e[0]][e[1]] + cnt[e[1]][e[0]]);
+        }
+        return ans;
+    }
+};
+```

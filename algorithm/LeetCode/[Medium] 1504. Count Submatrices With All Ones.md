@@ -140,3 +140,72 @@ public:
     }
 };
 ```
+
+**Solution 3: (Enumeration, DP Bottom-Up, O(m^2 * n))**
+```
+Runtime: 11 ms, Beats 57.45%
+Memory: 19.59 MB, Beats 47.76%
+```
+```c++
+class Solution {
+public:
+    int numSubmat(vector<vector<int>>& mat) {
+        int m = mat.size(), n = mat[0].size();
+        int res = 0;
+        vector<vector<int>> row(m, vector<int>(n, 0));
+
+        for (int i = 0; i < m; ++i) {
+            for (int j = 0; j < n; ++j) {
+                if (j == 0) {
+                    row[i][j] = mat[i][j];
+                } else {
+                    row[i][j] = (mat[i][j] == 0) ? 0 : row[i][j - 1] + 1;
+                }
+                int cur = row[i][j];
+                for (int k = i; k >= 0; --k) {
+                    cur = min(cur, row[k][j]);
+                    if (cur == 0) {
+                        break;
+                    }
+                    res += cur;
+                }
+            }
+        }
+        return res;
+    }
+};
+```
+
+**Solution 4: (Enumeration)**
+```
+Runtime: 21 ms, Beats 29.26%
+Memory: 19.60 MB, Beats 35.37%
+```
+```c++
+class Solution {
+public:
+    int numSubmat(vector<vector<int>>& mat) {
+        int m = mat.size(), n = mat[0].size(), i, j, k, a, ans = 0;
+        vector<vector<int>> dp(m, vector<int>(n));
+        for (i = 0; i < m; i ++) {
+            for (j = 0; j < n; j ++) {
+                if (mat[i][j]) {
+                    if (j == 0) {
+                        dp[i][j] = 1;
+                    } else {
+                        dp[i][j] = 1 + dp[i][j-1];
+                    }
+                    k = i;
+                    a = INT_MAX;
+                    while (k >= 0 && dp[k][j]) {
+                        a = min(a, dp[k][j]);
+                        ans += a;
+                        k -= 1;
+                    }
+                }
+            }
+        }
+        return ans;
+    }
+};
+```

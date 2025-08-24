@@ -89,3 +89,34 @@ public:
     }
 };
 ```
+
+**Solution 3: (Sliding Window)**
+```
+Runtime: 0 ms, Beats 100.00%
+Memory: 60.10 MB, Beats 23.29%
+```
+```c++
+class Solution {
+public:
+    int longestSubarray(vector<int>& nums) {
+        int n = nums.size(), i = 0, j, one = 0, zero = 0, ans = 0;
+        for (j = 0; j < n; j ++) {
+            if (nums[j]) {
+                one += 1;
+            } else {
+                zero += 1;
+            }
+            while (zero > 1) {
+                if (nums[i]) {
+                    one -= 1;
+                } else {
+                    zero -= 1;
+                }
+                i += 1;
+            }
+            ans = max(ans, one);
+        }
+        return min(n-1, ans);
+    }
+};
+```

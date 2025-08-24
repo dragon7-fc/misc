@@ -116,3 +116,32 @@ public:
     }
 };
 ```
+
+**Solution 4: (DP Bottom-Up)**
+```
+Runtime: 3 ms, Beats 82.96%
+Memory: 30.14 MB, Beats 82.73%
+```
+```c++
+class Solution {
+public:
+    int countSquares(vector<vector<int>>& matrix) {
+        int m = matrix.size(), n = matrix[0].size(), i, j, ans;
+        vector<int> pre = matrix[0], cur;
+        ans = accumulate(pre.begin(), pre.end(), 0);
+        for (i = 1; i < m; i ++) {
+            cur.resize(n);
+            cur[0] = matrix[i][0];
+            ans += cur[0];
+            for (j = 1; j < n; j ++) {
+                if (matrix[i][j]) {
+                    cur[j] = min({cur[j-1], pre[j], pre[j-1]}) + 1;
+                }
+                ans += cur[j];
+            }
+            pre = move(cur);
+        }
+        return ans;
+    }
+};
+```

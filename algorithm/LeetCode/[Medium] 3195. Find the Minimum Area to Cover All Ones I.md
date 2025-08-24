@@ -47,30 +47,25 @@ The smallest rectangle has both height and width 1, so its area is 1 * 1 = 1.
 ---
 **Solution 1: (Greedy)**
 ```
-Runtime: 258 ms
-Memory: 132.18 MB
+Runtime: 265 ms, Beats 38.98%
+Memory: 133.36 MB, Beats 86.90%
 ```
 ```c++
 class Solution {
 public:
     int minimumArea(vector<vector<int>>& grid) {
-        int m = grid.size();
-        int n = grid[0].size();
-        int l = INT_MAX, u = INT_MAX;
-        int r = INT_MIN, d = INT_MIN;
-
-        for (int i = 0; i < m; ++i) {
-            for (int j = 0; j < n; ++j) {
-                if (grid[i][j] == 1) {
-                    l = min(l, j);
-                    u = min(u, i);
-                    r = max(r, j);
-                    d = max(d, i);
+        int m = grid.size(), n = grid[0].size(), x, y, left_x = m-1, left_y = n-1, right_x = 0, right_y = 0;
+        for (x = 0; x < m; x ++) {
+            for (y = 0; y < n; y ++) {
+                if (grid[x][y]) {
+                    left_x = min(left_x, x);
+                    right_x = max(right_x, x);
+                    left_y = min(left_y, y);
+                    right_y = max(right_y, y);
                 }
             }
         }
-
-        return (r - l + 1) * (d - u + 1);
+        return (right_x - left_x + 1) * (right_y - left_y + 1);
     }
 };
 ```

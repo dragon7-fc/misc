@@ -81,15 +81,15 @@ public:
 
 **Solution 3: (Greedy)**
 ```
-Runtime: 155 ms
-Memory: 107.6 MB
+Runtime: 0 ms, Beats 100.00%
+Memory: 111.30 MB, Beats 40.61%
 ```
 ```c++
 class Solution {
 public:
     long long zeroFilledSubarray(vector<int>& nums) {
-        long long ans = 0, cur = 0;
-        for (int &num: nums) {
+        long long cur = 0, ans = 0;
+        for (auto &num: nums) {
             if (num == 0) {
                 cur += 1;
                 ans += cur;
