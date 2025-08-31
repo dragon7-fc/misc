@@ -93,3 +93,42 @@ public:
     }
 };
 ```
+
+**Solution 2: (Hash Table)**
+```
+Runtime: 2 ms, Beats 94.03%
+Memory: 43.58 MB, Beats 65.43%
+```
+```c++
+class Solution {
+public:
+    vector<vector<int>> sortMatrix(vector<vector<int>>& grid) {
+        int n = grid.size(), i, j, i2, j2;
+        vector<int> dp;
+        vector<vector<int>> ans(n, vector<int>(n));
+        for (i = n-1; i >= 0; i --) {
+            dp.resize(n-i);
+            for (i2 = i, j = 0; i2 < n; i2 += 1, j += 1) {
+                dp[i2 - i] = grid[i2][j];
+            }
+            sort(dp.begin(), dp.end());
+            for (i2 = i, j = 0; i2 < n; i2 += 1, j += 1) {
+                ans[i2][j] = dp.back();
+                dp.pop_back();
+            }
+        }
+        for (j = 1; j < n; j ++) {
+            dp.resize(n - j);
+            for (i = 0, j2 = j; j2 < n; i += 1, j2 += 1) {
+                dp[j2 - j] = grid[i][j2];
+            }
+            sort(dp.rbegin(), dp.rend());
+            for (i = 0, j2 = j; j2 < n; i += 1, j2 += 1) {
+                ans[i][j2] = dp.back();
+                dp.pop_back();
+            }
+        }
+        return ans;
+    }
+};
+```

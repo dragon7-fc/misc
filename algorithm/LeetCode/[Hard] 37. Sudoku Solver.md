@@ -92,65 +92,59 @@ class Solution:
         solve(board, positions)
 ```
 
-**Solution 2: (Backtracking)**
+**Solution 2: (Backtracking, try all value in all cell, O(9! * 9))**
 ```
-Runtime: 40 ms
-Memory Usage: 6.4 MB
+Runtime: 311 ms, Beats 63.81%
+Memory: 8.86 MB, Beats 27.06%
 ```
 ```c++
 class Solution {
-public:
-    bool isSafe(char num, vector<vector<char>>& board, int row, int col) {
-        // check if num exist in row
-        for (int j=0; j < 9; j++) {
-            if (board[row][j]==num)
+    bool check(int i2, int j2, char a, vector<vector<char>> &board) {
+        int r, c, i = i2 / 3 * 3, j = j2 / 3 * 3;
+        for (r = 0; r < 9; r++) {
+            if (board[r][j2] == a) {
                 return false;
+            }
         }
-
-        // check if num exist in col
-        for (int i=0; i < 9; i++) {
-            if (board[i][col]==num)
+        for (c = 0; c < 9; c++) {
+            if (board[i2][c] == a) {
                 return false;
+            }
         }
-
-        // check if num exist in subgrid
-        int R= row - row % 3;
-        int C= col - col % 3;
-
-        for (int r=R; r < R+3; r++) {
-            for (int c=C; c < C+3; c++) {
-                if (board[r][c]==num)
+        for (r = i; r < i + 3; r++) {
+            for (c = j; c < j + 3; c++) {
+                if (board[r][c] == a) {
                     return false;
+                }
             }
         }
         return true;
     }
-    bool sudokuSolver(vector<vector<char>>& board, int row, int col) {
-        if (row == 9) {
+    bool bt(int i, int j, vector<vector<char>> &board) {
+        if (i == 9) {
             return true;
         }
-
-        if (col == 9) {
-            return sudokuSolver(board, row + 1, 0);
+        if (j == 9) {
+            return bt(i + 1, 0, board);
         }
-
-        if (board[row][col] != '.') {
-            return sudokuSolver(board, row, col + 1);
+        if (board[i][j] != '.') {
+            return bt(i, j + 1, board);
         }
-
-        for (char num = '1'; num <= '9'; num++) {
-            if (isSafe(num, board, row, col)) {
-                board[row][col] = num;
-                bool sudokuCanBeSolvedFurther = sudokuSolver(board, row, col + 1);
-                if (sudokuCanBeSolvedFurther) 
+        for (char a = '1'; a <= '9'; a ++) {
+            if (check(i, j, a, board)) {
+                board[i][j] = a;
+                if (bt(i, j + 1, board)){
                     return true;
+                }
+                
             }
         }
-        board[row][col] = '.';
+        board[i][j] = '.';
         return false;
     }
+public:
     void solveSudoku(vector<vector<char>>& board) {
-        bool isSolved = sudokuSolver(board, 0, 0);
+        bt(0, 0, board);
     }
 };
 ```

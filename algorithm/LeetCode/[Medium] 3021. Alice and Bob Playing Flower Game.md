@@ -47,8 +47,8 @@ Alice wins when x + y is odd. This happens when either:
 
 We can compute the number of such combinations in O(1):
 
-* x is odd n / 2 + n % 2 times, and even n / 2 times.
-* y is odd m / 2 + m % 2 times, and even m / 2 times.
+* x is odd n / 2 + n % 2 times, and even m / 2 times.
+* y is odd m / 2 + m % 2 times, and even n / 2 times.
 
 So, the formula is m / 2 * (n / 2 + n % 2) + n / 2 * (m / 2 + m % 2), which (thanks heizit) is reduced to m * n / 2.
 
@@ -61,6 +61,23 @@ class Solution {
 public:
     long long flowerGame(int n, int m) {
         return (long long)m * n / 2;
+    }
+};
+```
+
+**Solution 2: (Math)**
+
+There are n * m total possible pairs. Exactly half of them will have different parity (one odd, one even). Therefore the answer is n * m / 2.
+
+```
+Runtime: 0 ms, Beats 100.00%
+Memory: 8.42 MB, Beats 48.89%
+```
+```c++
+class Solution {
+public:
+    long long flowerGame(int n, int m) {
+        return (long long)n*m/2;
     }
 };
 ```

@@ -161,3 +161,57 @@ public:
     }
 };
 ```
+
+**Solution 4: (Brute Force)**
+```
+Runtime: 0 ms, Beats 100.00%
+Memory: 21.51 MB, Beats 91.85%
+```
+```c++
+class Solution {
+public:
+    bool isValidSudoku(vector<vector<char>>& board) {
+        int i, j, i2, j2;
+        vector<bool> cnt(10);
+        for (i = 0; i < 9; i ++) {
+            for (j = 0; j < 9; j ++) {
+                if (board[i][j] != '.') {
+                    if (cnt[board[i][j] - '0']) {
+                        return false;
+                    }
+                    cnt[board[i][j] - '0'] = true;
+                }
+            }
+            fill(cnt.begin(), cnt.end(), 0);
+        }
+        for (j = 0; j < 9; j ++) {
+            for (i = 0; i < 9; i ++) {
+                if (board[i][j] != '.') {
+                    if (cnt[board[i][j] - '0']) {
+                        return false;
+                    }
+                    cnt[board[i][j] - '0'] = true;
+                }
+            }
+            fill(cnt.begin(), cnt.end(), 0);
+        }
+        for (i = 0; i < 9; i += 3 ) {
+            for (j = 0; j < 9; j += 3) {
+                for (i2 = i; i2 < i + 3; i2 ++) {
+                    for (j2 = j; j2 < j + 3; j2 ++) {
+                        if (board[i2][j2] != '.') {
+                            if (cnt[board[i2][j2] - '0']) {
+                                return false;
+                            }
+                            cnt[board[i2][j2] - '0'] = true;
+                        }
+                    }
+                }
+                fill(cnt.begin(), cnt.end(), 0);
+            }
+        }
+        return true;
+    }
+};
+
+```

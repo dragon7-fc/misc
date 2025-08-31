@@ -13377,6 +13377,7 @@ def backtrack(index, path):
                 return True
             visited[i] = False;
             path.pop()
+    return False
 backtrack(0, [])
 return ans
 ```

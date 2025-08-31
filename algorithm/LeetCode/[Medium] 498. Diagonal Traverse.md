@@ -209,3 +209,46 @@ public:
     }
 };
 ```
+
+**Solution 3: (Simulation)**
+````
+Runtime: 0 ms, Beats 100.00%
+Memory: 22.67 MB, Beats 81.55%
+```
+```c++
+class Solution {
+public:
+    vector<int> findDiagonalOrder(vector<vector<int>>& mat) {
+        int m = mat.size(), n = mat[0].size(), i = 0, j = 0, ni, nj, k = 0, d = -1;
+        vector<int> ans;
+        i = 0;
+        j = 0;
+        while (k < m*n) {
+            ans.push_back(mat[i][j]);
+            ni = i + d;
+            nj = j + d*(-1);
+            if (ni < 0 || nj < 0 || ni == m || nj == n) {
+                d *= -1;
+                if (ni < 0) {
+                    ni = 0;
+                }
+                if (nj == n) {
+                    ni = i + 1;
+                    nj = n-1;
+                }
+                if (nj < 0) {
+                    nj = 0;
+                }
+                if (ni == m) {
+                    ni = m-1;
+                    nj = j + 1;
+                }
+            }
+            i = ni;
+            j = nj;
+            k += 1;
+        }
+        return ans;
+    }
+};
+```
