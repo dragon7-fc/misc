@@ -61,29 +61,33 @@ Note that it does not matter if the fence encloses any area, the first and secon
 ---
 **Solution 1: (Brute Force, Sort)**
 ```
-Runtime: 29 ms
-Memory: 32.01 MB
+Runtime: 5 ms, Beats 67.41%
+Memory: 32.55 MB, Beats 74.81%
 ```
 ```c++
 class Solution {
 public:
     int numberOfPairs(vector<vector<int>>& points) {
-        auto comp = [](vector<int>& a, vector<int>& b){
-            if (a[0] == b[0]) return a[1] > b[1];
-            return a[0] < b[0];
-        };
-        sort(points.begin(), points.end(), comp);
-        int ans = 0;
-        for (int i = 0; i < points.size(); ++i){
-            for (int j = i+1; j < points.size(); ++j){
+        int n = points.size(), i, j, k, ans = 0;
+        bool flag;
+        sort(points.begin(), points.end(), [](auto &pa, auto &pb){
+            if (pa[0] != pb[0]) {
+                return pa[0] < pb[0];
+            }
+            return pa[1] > pb[1];
+        });
+        for (i = 0; i < n; i++) {
+            for (j = i + 1; j < n; j++) {
                 if (points[i][1] >= points[j][1]) {
-                    int flag = 1;
-                    for (int k = i+1; k < j; ++k){
+                    flag = true;
+                    for (k = i + 1; k < j; k++) {
                         if (points[k][1] <= points[i][1] && points[k][1] >= points[j][1]) {
-                            flag = 0;
+                            flag = false;
                         }
                     }
-                    if (flag) ans++;
+                    if (flag) {
+                        ans += 1;
+                    }
                 }
             }
         }

@@ -75,28 +75,30 @@ pq: [3/5-2/4,             4/10-3/9,            5/6-4/5,              3/11-2/10]
     [0.06666666666666665, 0.05454545454545451, 0.033333333333333326, 0.06060606060606061]
         ^
 ```
-Runtime: 322 ms
-Memory: 98.90 MB
+Runtime: 325 ms, Beats 38.89%
+Memory: 99.12 MB, Beats 28.95%
 ```
 ```c++
 class Solution {
 public:
     double maxAverageRatio(vector<vector<int>>& classes, int extraStudents) {
-        int n = classes.size(), i, k = extraStudents;
-        priority_queue<tuple<double,int,int>> pq;
+        int n = classes.size(), i, a, b, r;
         double ans = 0;
-        for (i = 0; i < n; i ++) {
-            ans += (double)classes[i][0]/classes[i][1];
-            pq.push({((double)classes[i][0]+1)/(classes[i][1]+1) - (double)classes[i][0]/classes[i][1], classes[i][0]+1, classes[i][1]+1});
+        priority_queue<tuple<double, int, int>> pq;
+        for (i = 0; i < n; i++) {
+            a = classes[i][0];
+            b = classes[i][1];
+            ans += 1.0 * a / b;
+            pq.push({1.0 * (a + 1) / (b + 1) - (1.0 * a / b), a + 1, b + 1});
         }
-        while (k) {
-            auto [r, c, p] = pq.top();
+        while (extraStudents) {
+            auto [r, ca, cb] = pq.top();
             pq.pop();
             ans += r;
-            pq.push({((double)c+1)/(p+1)-(double)c/p, c+1, p+1});
-            k -= 1;
+            pq.push({(1.0 * ca + 1) / (cb + 1) - (1.0 * ca / cb), ca + 1, cb + 1});
+            extraStudents--;
         }
-        return ans/n;
+        return ans / n;
     }
 };
 ```
