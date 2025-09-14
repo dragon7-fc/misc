@@ -354,6 +354,7 @@ A playground to note something.
     - CONFIG_IPMI_PANIC_EVENT
 
         `Device Drivers > Character devices > IPMI top-level message handler > Generate a panic event to all BMCs on a panic`
+    - [NVMe Fault Injection](https://docs.kernel.org/fault-injection/nvme-fault-injection.html)
 
     - Rebuild kernel
 

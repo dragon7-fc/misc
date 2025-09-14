@@ -16715,6 +16715,40 @@ class Solution:
 
 ## Sliding Window <a name="sw"></a>
 ---
+### DP Bottom-Up with Sliding Window
+```c++
+class Solution {
+public:
+    int peopleAwareOfSecret(int n, int delay, int forget) {
+        if (n == 1) {
+            return 1;
+        }
+        int enter, exit, MOD = 1e9 + 7, i, start;
+        vector<long long> dp(n+1);
+        dp[1] = 1;
+        long long window = 0;
+        for (int i = 2; i <= n; ++i) {
+            enter = i - delay;
+            exit  = i - forget;
+            if (enter >= 1) {
+                window = (window + dp[enter]) % MOD;
+            }
+            if (exit >= 1) {
+                window = (window - dp[exit] + MOD) % MOD;
+            }
+            dp[i] = window;
+        }
+        long long ans = 0;
+        start = max(1, n - forget + 1);
+        for (i = start; i <= n; ++i) {
+            ans = (ans + dp[i]) % MOD;
+        }
+        return (int)ans;
+    }
+};
+```
+* {Medium} 2327. Number of People Aware of a Secret
+
 ### Prefix Sum, left and right
 ```c++
 class Solution {

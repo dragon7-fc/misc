@@ -102,3 +102,38 @@ public:
     }
 };
 ```
+
+**Solution 3: (Counting Sort)**
+```
+Runtime: 29 ms, Beats 11.13%
+Memory: 17.54 MB, Beats 19.94%
+```
+```c++
+class Solution {
+public:
+    string sortVowels(string s) {
+        int n = s.size(), i, j = 0;
+        unordered_map<char, int> cnt;
+        unordered_set<char> st = {
+            'A', 'E', 'I', 'O', 'U', 'a', 'e', 'i', 'o', 'u'
+        };
+        string vowels = "AEIOUaeiou";
+        for (i = 0; i < n; i ++) {
+            if (st.count(tolower(s[i]))) {
+                cnt[s[i]] += 1;
+                s[i] = '.';
+            }
+        }
+        for (i = 0; i < n; i ++) {
+            if (s[i] == '.') {
+                while (cnt[vowels[j]] == 0) {
+                    j += 1;
+                }
+                s[i] = vowels[j];
+                cnt[vowels[j]] -= 1;
+            }
+        }
+        return s;
+    }
+};
+```

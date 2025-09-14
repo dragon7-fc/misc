@@ -130,7 +130,7 @@ class Solution:
         return map(solve, queries)
 ```
 
-**Solution i: (Hash Table)**
+**Solution 1: (Hash Table)**
 ```
 Runtime: 41 ms, Beats 59.41%
 Memory: 42.98 MB, Beats 27.65%
@@ -185,6 +185,60 @@ public:
                 ans.push_back(mlv[qlv]);
             } else {
                 ans.push_back("");
+            }
+        }
+        return ans;
+    }
+};
+```
+
+**Solution 2: (Hash Table)**
+```
+Runtime: 37 ms, Beats 71.52%
+Memory: 41.38 MB, Beats 67.09%
+```
+```c++
+class Solution {
+public:
+    vector<string> spellchecker(vector<string>& wordlist, vector<string>& queries) {
+        int n = wordlist.size(), i, j;
+        unordered_map<string, int> word_m, word_low_m, word_vowel_m;
+        string w, w2;
+        vector<string> ans;
+        for (i = n - 1; i >= 0; i --) {
+            w = w2 = wordlist[i];
+            word_m[wordlist[i]] = i;
+            for (j = 0; j < w.size(); j ++) {
+                w[j] = tolower(w[j]);
+                w2[j] = w[j];
+                if (w[j] == 'a' || w[j] == 'e' || w[j] == 'i' || w[j] == 'o' || w[j] == 'u') {
+                    w2[j] = '.';
+                }
+            }
+            word_low_m[w] = i;
+            word_vowel_m[w2] = i;
+        }
+        for (auto &query: queries) {
+            auto it = word_m.find(query);
+            if (it != word_m.end()) {
+                ans.push_back(wordlist[it->second]);
+            } else {
+                w = w2 = query;
+                for (j = 0; j < w.size(); j ++) {
+                    w[j] = tolower(w[j]);
+                    w2[j] = w[j];
+                    if (w[j] == 'a' || w[j] == 'e' || w[j] == 'i' || w[j] == 'o' || w[j] == 'u') {
+                        w2[j] = '.';
+                    }
+                }
+                it = word_low_m.find(w);
+                if (it != word_low_m.end()) {
+                    ans.push_back(wordlist[it->second]);
+                } else if ((it = word_vowel_m.find(w2)) != word_vowel_m.end()) {
+                    ans.push_back(wordlist[it->second]);
+                } else {
+                    ans.push_back("");
+                }
             }
         }
         return ans;

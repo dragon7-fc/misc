@@ -75,3 +75,102 @@ public:
     }
 };
 ```
+
+**Solution 3: (Simulation + Deque)**
+```
+Runtime: 3ms, Beats 55.20%
+Memory: 9.81 MB, Beats 24.51%
+````
+```c++
+class Solution {
+    static constexpr int mod = 1000000007;
+public:
+    int peopleAwareOfSecret(int n, int delay, int forget) {
+        deque<pair<int, int>> know, share;
+        know.emplace_back(1, 1);
+        int know_cnt = 1, share_cnt = 0;
+        for (int i = 2; i <= n; ++i) {
+            if (!know.empty() && know[0].first == i - delay) {
+                know_cnt = (know_cnt - know[0].second + mod) % mod;
+                share_cnt = (share_cnt + know[0].second) % mod;
+                share.push_back(know[0]);
+                know.pop_front();
+            }
+            if (!share.empty() && share[0].first == i - forget) {
+                share_cnt = (share_cnt - share[0].second + mod) % mod;
+                share.pop_front();
+            }
+            if (!share.empty()) {
+                know_cnt = (know_cnt + share_cnt) % mod;
+                know.emplace_back(i, share_cnt);
+            }
+        }
+        return (know_cnt + share_cnt) % mod;
+    }
+};
+```
+
+**Solution 4: (DP Bottom-Up)**
+```
+Runtime: 4 ms, Beats 46.04%
+Memory: 9.41 MB, Beats 53.22%
+```
+```c++
+class Solution {
+public:
+    int peopleAwareOfSecret(int n, int delay, int forget) {
+        int i, j, MOD = 1e9 + 7;
+        vector<long long> dp(n+1);
+        dp[1] = 1;
+        for (i = 2; i <= n; i++) {
+            for (j = max(i - forget + 1, 1); j <= i - delay; j ++) {
+                dp[i] += dp[j];
+            }
+            dp[i] %= MOD;
+        }
+        return accumulate(dp.begin() + n - forget + 1, dp.end(), 0LL) % MOD;
+    }
+};
+```
+
+
+**Solution 5: (DP Bottom-Up)**
+
+dp  0 1     vexit      venter
+            xxxxxxxxxxxx
+               window
+```
+Runtime: 0 ms, Beats 100.00%
+Memory: 9.53 MB, Beats 39.85%
+```
+```c++
+class Solution {
+public:
+    int peopleAwareOfSecret(int n, int delay, int forget) {
+        if (n == 1) {
+            return 1;
+        }
+        int enter, exit, MOD = 1e9 + 7, i, start;
+        vector<long long> dp(n+1);
+        dp[1] = 1;
+        long long window = 0;
+        for (int i = 2; i <= n; ++i) {
+            enter = i - delay;
+            exit  = i - forget;
+            if (enter >= 1) {
+                window = (window + dp[enter]) % MOD;
+            }
+            if (exit >= 1) {
+                window = (window - dp[exit] + MOD) % MOD;
+            }
+            dp[i] = window;
+        }
+        long long ans = 0;
+        start = max(1, n - forget + 1);
+        for (i = start; i <= n; ++i) {
+            ans = (ans + dp[i]) % MOD;
+        }
+        return (int)ans;
+    }
+};
+```
