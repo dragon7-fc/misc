@@ -225,32 +225,34 @@ public:
  */
 ```
 
-**Solution 4: (2 Maps)**
+**Solution 4: (Hash Table, Set, sort)**
 ```
-Runtime: 379 ms
-Memory: 156 MB
+Runtime: 160 ms, Beats 38.23%
+Memory: 162.62 MB, Beats 86.70%
 ```
 ```c++
 class FoodRatings {
-    unordered_map<string, pair<string, int>> m_food;
-    unordered_map<string, set<pair<int, string>>> m_cuisine;
+    unordered_map<string, pair<string, int>> m;
+    unordered_map<string, set<pair<int, string>>> r;
 public:
     FoodRatings(vector<string>& foods, vector<string>& cuisines, vector<int>& ratings) {
-        for (int i = 0; i < foods.size(); i ++) {
-            m_food[foods[i]] = {cuisines[i], -ratings[i]};
-            m_cuisine[cuisines[i]].insert({-ratings[i], foods[i]}); 
+        int n = foods.size(), i;
+        for (i = 0; i < n; i ++) {
+            m[foods[i]] = {cuisines[i], ratings[i]};
+            r[cuisines[i]].insert({-ratings[i], foods[i]});
         }
+
     }
     
     void changeRating(string food, int newRating) {
-        auto [cuisine, rating] = m_food[food];
-        m_cuisine[cuisine].erase({rating, food});
-        m_cuisine[cuisine].insert({-newRating, food});
-        m_food[food].second = -newRating;
+        auto [cuisine, rating] = m[food];
+        r[cuisine].erase({-rating, food});
+        m[food] = {cuisine, newRating};
+        r[cuisine].insert({-newRating, food});
     }
     
     string highestRated(string cuisine) {
-        return m_cuisine[cuisine].begin()->second;
+        return r[cuisine].begin()->second;
     }
 };
 

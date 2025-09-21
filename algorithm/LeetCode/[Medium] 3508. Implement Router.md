@@ -82,16 +82,16 @@ router.forwardPacket(); // There are no packets left, return [].
 
 # Submissions
 ---
-**Solution 1: (Queue, Set, Deque, Binary Search)**
+**Solution 1: (Queue, Set, Deque, Binary Search, key encode)**
 ```
-Runtime: 400 ms, Beats 30.34%
-Memory: 466.51 MB, Beats 6.40%
+Runtime: 230: ms Beats, 78.72%
+Memory: 430.14 MB, Beats 77.03%
 ```
 ```c++
 class Router {
     int sz;
-    queue<tuple<int,int,int>> q;
-    unordered_set<string> st;
+    queue<array<int, 3>> q;
+    unordered_set<long long> st;
     unordered_map<int, deque<int>> dp;
 public:
     Router(int memoryLimit) {
@@ -99,20 +99,19 @@ public:
     }
     
     bool addPacket(int source, int destination, int timestamp) {
-        tuple<int,int,int> cur = {source, destination, timestamp};
-        string curs = to_string(source) + "-" + to_string(destination) + "-" + to_string(timestamp);
-        if (st.count(curs)) {
+        long long key = ((long long)source << 40) + ((long long)destination << 20) + timestamp;
+        if (st.count(key)) {
             return false;
         }
-        q.push(cur);
-        st.insert(curs);
+        q.push({source, destination, timestamp});
+        st.insert(key);
         dp[destination].push_back(timestamp);
-        if (st.size() > sz) {
-            auto [src, dst, t] = q.front();
-            string fs = to_string(src) + "-" + to_string(dst) + "-" + to_string(t);
-            st.erase(fs);
+        if (q.size() > sz) {
+            auto [psource, pdestination, ptimestamp] = q.front();
             q.pop();
-            dp[dst].pop_front();
+            key = ((long long)psource << 40) + ((long long)pdestination << 20) + ptimestamp;
+            st.erase(key);
+            dp[pdestination].pop_front();
         }
         return true;
     }
@@ -121,17 +120,18 @@ public:
         if (q.size() == 0) {
             return {};
         }
-        auto [src, dst, t] = q.front();
-        st.erase(to_string(src) + "-" + to_string(dst) + "-" + to_string(t));
+        auto [source, destination, timestamp] = q.front();
         q.pop();
-        dp[dst].pop_front();
-        return {src, dst, t};
+        long long key = ((long long)source << 40) + ((long long)destination << 20) + timestamp;
+        st.erase(key);
+        dp[destination].pop_front();
+        return {source, destination, timestamp};
     }
     
     int getCount(int destination, int startTime, int endTime) {
-        auto it = lower_bound(dp[destination].begin(), dp[destination].end(), startTime);
-        auto it2 = upper_bound(dp[destination].begin(), dp[destination].end(), endTime);
-        return it2 - it;
+        auto left = lower_bound(dp[destination].begin(), dp[destination].end(), startTime);
+        auto right = upper_bound(dp[destination].begin(), dp[destination].end(), endTime);
+        return right - left;
     }
 };
 

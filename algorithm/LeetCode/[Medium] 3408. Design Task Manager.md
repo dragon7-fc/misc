@@ -49,47 +49,112 @@ taskManager.execTop(); // return 5. Executes task 105 for User 5.
 
 # Submissions
 ---
-**Solution 1: (Heap, Hash Table)**
+**Solution 1: (Hash Table, Set, sorted set)**
 ```
-Runtime: 151 ms
-Memory: 347.66 MB
+Runtime: 318 ms, Beats 59.69%
+Memory: 370.49 MB, Beats 49.69%
 ```
 ```c++
 class TaskManager {
-unordered_map<int,pair<int,int>> m;
-priority_queue<pair<int,int>> pq;
+    unordered_map<int, array<int, 2>> m;
+    set<array<int, 2>> st;
 public:
     TaskManager(vector<vector<int>>& tasks) {
-        int n = tasks.size(), i;
-        for (i = 0; i < n; i ++) {
-            m[tasks[i][1]] = {tasks[i][2], tasks[i][0]};
-            pq.push({tasks[i][2], tasks[i][1]});
+        int userId, taskId, priority;
+        for (auto &task: tasks) {
+            userId = task[0];
+            taskId = task[1];
+            priority = task[2];
+            m[taskId] = {userId, priority};
+            st.insert({priority, taskId});
         }
     }
     
     void add(int userId, int taskId, int priority) {
-        m[taskId] = {priority, userId};
+        m[taskId] = {userId, priority};
+        st.insert({priority, taskId});
+    }
+    
+    void edit(int taskId, int newPriority) {
+        auto [userId, oldPriority] = m[taskId];
+        st.erase({oldPriority, taskId});
+        m[taskId] = {userId, newPriority};
+        st.insert({newPriority, taskId});
+    }
+    
+    void rmv(int taskId) {
+        auto [_, priority] = m[taskId];
+        st.erase({priority, taskId});
+    }
+    
+    int execTop() {
+        if (st.size()) {
+            auto [_, taskId] = *st.rbegin();
+            st.erase(prev(st.end()));
+            auto [userId, __] = m[taskId];
+            m.erase(taskId);
+            return userId;
+        } else {
+            return -1;
+        }
+    }
+};
+
+/**
+ * Your TaskManager object will be instantiated and called as such:
+ * TaskManager* obj = new TaskManager(tasks);
+ * obj->add(userId,taskId,priority);
+ * obj->edit(taskId,newPriority);
+ * obj->rmv(taskId);
+ * int param_4 = obj->execTop();
+ */
+```
+
+**Solution 2: (Heap, Hash Table)**
+```
+Runtime: 173 ms, Beats 97.12%
+Memory: 347.72 MB, Beats 91.05%
+```
+```c++
+class TaskManager {
+    unordered_map<int, array<int, 2>> m;
+    priority_queue<array<int, 2>> pq;
+public:
+    TaskManager(vector<vector<int>>& tasks) {
+        int userId, taskId, priority;
+        for (auto &task: tasks) {
+            userId = task[0];
+            taskId = task[1];
+            priority = task[2];
+            m[taskId] = {userId, priority};
+            pq.push({priority, taskId});
+        }
+    }
+    
+    void add(int userId, int taskId, int priority) {
+        m[taskId] = {userId, priority};
         pq.push({priority, taskId});
     }
     
     void edit(int taskId, int newPriority) {
-        m[taskId].first = newPriority;
+        auto [userId, _] = m[taskId];
+        m[taskId] = {userId, newPriority};
         pq.push({newPriority, taskId});
     }
     
     void rmv(int taskId) {
-        m[taskId].first = -1;
+        m[taskId][0] = -1;
     }
     
     int execTop() {
         while (pq.size()) {
-            auto [p, id] = pq.top();
+            auto [priority, taskId] = pq.top();
             pq.pop();
-            if (m[id].first != p || m[id].first == -1) {
+            if (m[taskId][0] == -1 || m[taskId][1] != priority) {
                 continue;
             }
-            m[id].first = -1;
-            return m[id].second;
+            m[taskId][1] = -1;
+            return m[taskId][0];
         }
         return -1;
     }

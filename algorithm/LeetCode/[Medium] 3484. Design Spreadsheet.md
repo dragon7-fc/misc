@@ -95,3 +95,56 @@ public:
  * int param_3 = obj->getValue(formula);
  */
 ```
+
+**Solution 2: (Hash Table)**
+```
+Runtime: 129 ms, Beats 33.78%
+Memory: 191.73 MB, Beats 42.02%
+```
+```c++
+class Spreadsheet {
+    vector<vector<int>> dp;
+public:
+    Spreadsheet(int rows) {
+        dp.resize(rows, vector<int>(26));
+    }
+    
+    void setCell(string cell, int value) {
+        int row, col;
+        row = stoi(cell.substr(1)) - 1;
+        col = cell[0] - 'A';
+        dp[row][col] = value;
+    }
+    
+    void resetCell(string cell) {
+        int row, col;
+        row = stoi(cell.substr(1)) - 1;
+        col = cell[0] - 'A';
+        dp[row][col] = 0;
+    }
+    
+    int getValue(string formula) {
+        stringstream ss(formula.substr(1));
+        string s;
+        int row, col, rst = 0;
+        while (getline(ss, s, '+')) {
+            if (isalpha(s[0])) {
+                col = s[0] - 'A';
+                row = stoi(s.substr(1)) - 1;
+                rst += dp[row][col];
+            } else {
+                rst += stoi(s);
+            }
+        }
+        return rst;
+    }
+};
+
+/**
+ * Your Spreadsheet object will be instantiated and called as such:
+ * Spreadsheet* obj = new Spreadsheet(rows);
+ * obj->setCell(cell,value);
+ * obj->resetCell(cell);
+ * int param_3 = obj->getValue(formula);
+ */
+```
