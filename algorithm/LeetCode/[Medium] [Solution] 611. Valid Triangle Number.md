@@ -176,3 +176,28 @@ class Solution:
                     count += k - j - 1
         return count
 ```
+
+**Solution 2: (Sort, Two Pointers, loop over same direction)**
+```
+Runtime: 23 ms, Beats 98.13%
+Memory: 16.53 MB, Beats 74.70%
+```
+```c++
+class Solution {
+public:
+    int triangleNumber(vector<int>& nums) {
+        int n = nums.size(), i, j, k, ans = 0;
+        sort(nums.begin(), nums.end());
+        for (j = 2; j < n; j ++) {
+            i = 0;
+            for (k = j - 1; k >= 1 && i < k; k --) {
+                while (i < k && nums[i] + nums[k] <= nums[j]) {
+                    i += 1;
+                }
+                ans += k - i;
+            }
+        }
+        return ans;
+    }
+};
+```

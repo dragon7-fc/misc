@@ -203,3 +203,29 @@ public:
     }
 };
 ```
+
+**Solution 9: (DP Bottom-Up)**
+```
+Runtime: 0 ms, Beats 100.00%
+Memory: 12.47 MB, Beats 97.14%
+```
+```c++
+class Solution {
+public:
+    int minimumTotal(vector<vector<int>>& triangle) {
+        int i, j;
+        for (i = 1; i < triangle.size(); i ++) {
+            for (j = 0; j <= i; j ++) {
+                if (j == 0) {
+                    triangle[i][j] += triangle[i - 1][0];
+                } else if (j == i) {
+                    triangle[i][j] += triangle[i - 1][j - 1];
+                } else {
+                    triangle[i][j] += min(triangle[i - 1][j - 1], triangle[i - 1][j]);
+                }
+            }
+        }
+        return *min_element(triangle.back().begin(), triangle.back().end());
+    }
+};
+```

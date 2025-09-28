@@ -31,6 +31,13 @@ cache.get(3);       // returns 3
 cache.get(4);       // returns 4
 ```
 
+**Constraints:**
+
+* `1 <= capacity <= 10^4`
+* `0 <= key <= 10^5`
+* `0 <= value <= 10^9`
+* At most `2 * 10^5` calls will be made to `get` and `put`.
+
 # Submissions
 ---
 **Solution 1: (OrderedDict, Hash Table)**

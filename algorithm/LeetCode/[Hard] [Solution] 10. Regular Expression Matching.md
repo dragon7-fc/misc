@@ -293,6 +293,23 @@ public:
 ```
 
 **Solution 6: (DP Bottom-Up)**
+
+    a
+  1
+a   1
+a
+
+    a a
+  1
+a   1
+a     1
+
+
+    . *
+  1   1
+a   1 1
+b     1
+
 ```
 Runtime: 2 ms, Beats 62.11%
 Memory: 9.62 MB, Beats 23.67%
@@ -302,21 +319,21 @@ class Solution {
 public:
     bool isMatch(string s, string p) {
         int m = s.size(), n = p.size(), i, j;
-        vector<vector<int>> dp(m+1, vector<int>(n+1));
+        vector<vector<int>> dp(m + 1, vector<int>(n + 1));
         dp[0][0] = 1;
         for (j = 0; j < n; j ++) {
             if (p[j] == '*') {
-                dp[0][j+1] = dp[0][j-1];
+                dp[0][j + 1] = dp[0][j] | dp[0][j - 1];
             }
         }
         for (j = 0; j < n; j ++) {
             for (i = 0; i < m; i ++) {
                 if (p[j] == '.' || s[i] == p[j]) {
-                    dp[i+1][j+1] = dp[i][j];
+                    dp[i + 1][j + 1] = dp[i][j];
                 } else if (p[j] == '*') {
-                    dp[i+1][j+1] = dp[i+1][j-1];
-                    if (p[j-1] == '.' || s[i] == p[j-1]) {
-                        dp[i+1][j+1] |= dp[i][j+1];
+                    dp[i + 1][j + 1] = dp[i + 1][j] | dp[i + 1][j - 1];
+                    if (p[j - 1] == '.' || s[i] == p[j - 1]) {
+                        dp[i + 1][j + 1] |= dp[i][j + 1];
                     }
                 }
             }

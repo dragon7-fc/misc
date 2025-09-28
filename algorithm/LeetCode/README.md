@@ -617,7 +617,7 @@ class Solution:
 ```
 * [Medium] [Solution] 238. Product of Array Except Self
 
-Prefix Sum, try all possible solution
+### Prefix Sum, try all possible solution
 ```c++
 class Solution {
 public:
@@ -8647,7 +8647,6 @@ public:
 * [Medium] 33. Search in Rotated Sorted Array
 
 ### Binary Search with duplicate
-
 ```c++
 class Solution {
 public:

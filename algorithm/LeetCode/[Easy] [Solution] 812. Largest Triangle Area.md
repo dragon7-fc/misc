@@ -78,3 +78,28 @@ class Solution:
 
         return max(area(*triangle) for triangle in itertools.combinations(points, 3))
 ```
+
+**Solution 2: (Brute FOrce, Math)**
+
+Area = 1/2 |AB X AC|
+     = 1/2 |(xb - xa, yb - ya) X (xc - xa, yc - ya)|
+     = 1/2 |(xb - xa)(yc - ya) - (xc - xa)(yb - ya)|
+     = 1/2 |xayb + xbyc + xcya - xayc - xcyb - xbya||
+
+```
+Runtime: 4 ms, Beats 21.96%
+Memory: 10.40 MB, Beats 86.95%
+```
+```c++
+class Solution {
+public:
+    double largestTriangleArea(vector<vector<int>>& points) {
+        double res = 0;
+        for (auto &i : points)
+            for (auto &j : points)
+                for (auto &k : points)
+            res = max(res, 0.5 * abs(i[0] * j[1] + j[0] * k[1] + k[0] * i[1]- j[0] * i[1] - k[0] * j[1] - i[0] * k[1]));
+        return res;
+    }
+};
+```

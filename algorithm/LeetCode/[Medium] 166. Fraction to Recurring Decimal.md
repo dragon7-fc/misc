@@ -228,7 +228,7 @@ char * fractionToDecimal(int numerator, int denominator){
 **Solution 4: (Hash Table)**
 ```
 Runtime: 0 ms, Beats 100.00%
-Memory: 9.52 MB, Beats 13.86%
+Memory: 9.31 MB, Beats 63.79%
 ```
 ```c++
 class Solution {
@@ -237,21 +237,21 @@ public:
         if (numerator == 0) {
             return "0";
         } 
-        unordered_map<long long,int> m;
+        unordered_map<long long, int> m;
         string ans = (numerator >= 0) ^ (denominator >= 0) ? "-":"";
         long long r = abs((long long)numerator), d = abs((long long)denominator);
-        ans += to_string(r/d);
+        ans += to_string(r / d);
         r %= d;
         if (r) {
             ans += ".";
             while (r) {
                 r *= 10;
                 if (m.count(r)) {
-                    ans.insert(ans.begin() + m[r], "(");
+                    ans.insert(m[r], "(");
                     ans += ")";
                     break;
                 } else {
-                    ans += to_string(r/d);
+                    ans += to_string(r / d);
                     m[r] = ans.length() - 1;
                     r %= d;
                 }
