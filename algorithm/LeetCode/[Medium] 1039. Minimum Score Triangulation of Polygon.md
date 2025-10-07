@@ -78,3 +78,62 @@ class Solution:
 
         return dfs(0, len(A) - 1)
 ```
+
+**Solution 3: (DP Top-Down)**
+```
+Runtime: 3 ms, Beats 57.27%
+Memory: 11.23 MB, Beats 44.38%
+```
+```c++
+class Solution {
+    int dfs(int i, int j, vector<vector<int>> &dp, vector<int> &values) {
+        if (j - i == 1) {
+            return 0;
+        }
+        if (j - i == 2) {
+            return values[i] * values[i + 1] * values[j];
+        }
+        if (dp[i][j] != INT_MAX) {
+            return dp[i][j];
+        }
+        int rst = INT_MAX;
+        for (int k = i + 1; k < j; k ++) {
+            rst = min(rst, values[i] * values[j] * values[k] + dfs(i, k, dp, values) + dfs(k, j, dp, values));
+        }
+        dp[i][j] = rst;
+        return rst;
+    }
+public:
+    int minScoreTriangulation(vector<int>& values) {
+        int n = values.size();
+        vector<vector<int>> dp(n, vector<int>(n, INT_MAX));
+        return dfs(0, n - 1, dp, values);
+    }
+};
+```
+
+**Solution 4: (DP Bottom-Up)**
+```
+Runtime: 2 ms, Beats 66.77%
+Memory: 11.35 MB, Beats 15.48%
+```
+```c++
+class Solution {
+public:
+    int minScoreTriangulation(vector<int>& values) {
+        int n = values.size(), i, j, k;
+        vector<vector<int>> dp(n, vector<int>(n, INT_MAX));
+        for (i = 0; i < n - 1; i ++) {
+            dp[i][i + 1] = 0;
+        }
+        for (k = 2; k < n; k ++) {
+            for (i = 0; i < n - k; i ++) {
+                for (j = i + 1; j < i + k; j ++) {
+                    dp[i][i + k] = min(dp[i][i + k], values[i] * values[j] * values[i + k] + dp[i][j] + dp[j][i + k]);
+                }
+            }
+        }
+        return dp[0][n - 1];
+    }
+};
+```

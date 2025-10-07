@@ -138,35 +138,39 @@ int swimInWater(int** grid, int gridSize, int* gridColSize){
 
 **Solution 3: (BFS, Heap)**
 ```
-Runtime: 3 ms, Beats 87.68%
-Memory: 13.90 MB, Beats 53.44%
+Runtime: 0 ms, Beats 100.00%
+Memory: 13.89 MB, Beats 57.21%
 ```
 ```c++
 class Solution {
     int dd[5] = {0, 1, 0, -1, 0};
 public:
     int swimInWater(vector<vector<int>>& grid) {
-        int n = grid.size(), d, ni, nj;
-        priority_queue<array<int,3>, vector<array<int,3>>, greater<>> pq;
-        vector<vector<int>> visited(n, vector<int>(n));
+        int n = grid.size(), d, nr, nc, ans = 1;
+        if (n == 1) {
+            return grid[0][0];
+        }
+        priority_queue<array<int, 3>, vector<array<int, 3>>, greater<>> pq;
+        vector<vector<bool>> visited(n, vector<bool>(n));
         pq.push({grid[0][0], 0, 0});
-        visited[0][0] = 1;
+        visited[0][0] = true;
         while (pq.size()) {
-            auto [a, i, j]= pq.top();
+            auto [h, r, c] = pq.top();
             pq.pop();
-            if (i == n-1 && j == n-1) {
-                return a;
+            ans = max(ans, h);
+            if (r == n - 1 && c == n - 1) {
+                break;
             }
             for (d = 0; d < 4; d ++) {
-                ni = i + dd[d];
-                nj = j + dd[d+1];
-                if (0 <= ni && ni < n && 0 <= nj && nj < n && !visited[ni][nj]) {
-                    pq.push({max(a, grid[ni][nj]), ni, nj});
-                    visited[ni][nj] = 1;
+                nr = r + dd[d];
+                nc = c + dd[d + 1];
+                if (0 <= nr && nr < n && 0 <= nc && nc < n && !visited[nr][nc]) {
+                    visited[nr][nc] = true;
+                    pq.push({grid[nr][nc], nr, nc});
                 }
             }
         }
-        return -1;
+        return ans;
     }
 };
 ```

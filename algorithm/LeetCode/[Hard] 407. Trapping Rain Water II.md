@@ -266,8 +266,8 @@ int trapRainWater(int** heightMap, int heightMapSize, int* heightMapColSize){
 
 **Solution 3: (Heap, bfs from border with heap)**
 ```
-Runtime: 39 ms, Beats 32.26%
-Memory: 19.31 MB, Beats 30.47%
+Runtime: 35 ms, Beats 40.31%
+Memory: 18.45 MB, Beats 54.11%
 ```
 ```c++
 class Solution {
@@ -275,29 +275,29 @@ class Solution {
 public:
     int trapRainWater(vector<vector<int>>& heightMap) {
         int m = heightMap.size(), n = heightMap[0].size(), i, d, nr, nc, ans = 0;
-        priority_queue<array<int,3>,vector<array<int,3>>,greater<>> pq;
-        vector<vector<int>> visited(m, vector<int>(n));
+        priority_queue<array<int, 3>, vector<array<int, 3>>, greater<>> pq;
+        vector<vector<bool>> visited(m, vector<bool>(n));
         for (i = 0; i < m; i ++) {
-            visited[i][0] = 1;
-            visited[i][n-1] = 1;
+            visited[i][0] = true;
+            visited[i][n - 1] = true;
             pq.push({heightMap[i][0], i, 0});
-            pq.push({heightMap[i][n-1], i, n-1});
+            pq.push({heightMap[i][n - 1], i, n - 1});
         }
-        for (i = 1; i < n-1; i ++) {
-            visited[0][i] = 1;
-            visited[m-1][i] = 1;
+        for (i = 1; i < n - 1; i ++) {
+            visited[0][i] = true;
+            visited[m - 1][i] = true;
             pq.push({heightMap[0][i], 0, i});
-            pq.push({heightMap[m-1][i], m-1, i});
+            pq.push({heightMap[m - 1][i], m - 1, i});
         }
         while (pq.size()) {
             auto [a, r, c] = pq.top();
             pq.pop();
             for (d = 0; d < 4; d ++) {
                 nr = r + dd[d];
-                nc = c + dd[d+1];
+                nc = c + dd[d + 1];
                 if (0 <= nr && nr < m && 0 <= nc && nc < n && !visited[nr][nc]) {
                     ans += max(0, a - heightMap[nr][nc]);
-                    visited[nr][nc] = 1;
+                    visited[nr][nc] = true;
                     pq.push({max(a, heightMap[nr][nc]), nr, nc});
                 }
             }

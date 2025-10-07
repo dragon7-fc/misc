@@ -66,24 +66,24 @@ The optimal path is 0 → 3 with total cost = costs[3] + (3 - 0)2 = 3 + 9 = 12
 ---
 **Solution 1: (DP Bottom-Up)**
 ```
-Runtime: 23 ms, Beats 50.60%
-Memory: 184.51 MB, Beats 12.50%
+Runtime: 17 ms, Beats 37.50%
+Memory: 177.54 MB, Beats 96.48%
 ```
 ```c++
 class Solution {
 public:
     int climbStairs(int n, vector<int>& costs) {
         int i, j;
-        vector<int> ext_costs = {0};
-        ext_costs.insert(ext_costs.end(), costs.begin(), costs.end());
+        costs.insert(costs.begin(), 0);
         vector<int> dp(n + 1, INT_MAX);
         dp[0] = 0;
         for (i = 1; i <= n; i ++) {
             for (j = i-1; j >= 0 && i - j <= 3; j --) {
-                dp[i] = min(dp[i], dp[j] + ext_costs[i] + (i - j) * (i - j));
+                dp[i] = min(dp[i], dp[j] + costs[i] + (i - j) * (i - j));
             }
         }
         return dp.back();
+
     }
 };
 ```

@@ -332,3 +332,59 @@ public:
     }
 };
 ```
+
+**Solution 3: (Backtrackingr)**
+```
+Runtime: 145 ms, Beats 87.88%
+Memory: 15.63 MB, Beats 96.07%
+```
+```c++
+class Solution {
+    void bt(int i, string &path, long long res, long long cur, long long pre, vector<string> &ans, string &num, int target) {
+        if (i == num.size()) {
+            if (res == target && cur == 0) {
+                ans.push_back(path);
+            }
+            return;
+        }
+        cur = cur * 10 + num[i] - '0';
+        if (cur) {
+            bt(i + 1, path, res, cur, pre, ans, num, target);
+        }
+        string s = to_string(cur);
+        int n = s.size(), k;
+        if (path == "") {
+            bt(i + 1, s, res + cur, 0, cur, ans, num, target);
+        } else {
+            path += "+" + s;
+            bt(i + 1, path, res + cur, 0, cur, ans, num, target);
+            for (k = 0; k < n; k ++) {
+                path.pop_back();
+            }
+            path.pop_back();
+
+            path += "-" + s;
+            bt(i + 1, path, res - cur, 0, -cur, ans, num, target);
+            for (k = 0; k < n; k ++) {
+                path.pop_back();
+            }
+            path.pop_back();
+
+            path += "*" + s;
+            bt(i + 1, path, res - pre + cur * pre, 0, cur * pre, ans, num, target);
+            for (k = 0; k < n; k ++) {
+                path.pop_back();
+            }
+            path.pop_back();
+        }
+
+    }
+public:
+    vector<string> addOperators(string num, int target) {
+        vector<string> ans;
+        string path;
+        bt(0, path, 0, 0, 0, ans, num, target);
+        return ans;
+    }
+};
+```

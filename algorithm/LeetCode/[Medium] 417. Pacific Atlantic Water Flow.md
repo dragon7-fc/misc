@@ -193,68 +193,47 @@ int** pacificAtlantic(int** heights, int heightsSize, int* heightsColSize, int* 
 
 **Solution 4: (BFS)**
 ```
-Runtime: 44 ms
-Memory Usage: 20 MB
+Runtime: 3 ms, Beats 88.33%
+Memory: 23.33 MB, Beats 57.33%
 ```
 ```c++
 class Solution {
-    int m,n;
-    vector<int>dir={0,1,0,-1,0};
-    queue<pair<int,int>> pac;
-    queue<pair<int,int>> atl;
-    
-    bool isValid(int x, int y){
-        return x>=0 && x<m && y>=0 && y<n;
-    }
-    
-    // andar se bahar ki taraf jaa rahe hai
-    void bfs(queue<pair<int,int>> &q, vector<vector<int>> &vis, vector<vector<int>>& matrix)
-    {
-        while(!q.empty())
-        {
-            int x=q.front().first;
-            int y=q.front().second;
-            vis[x][y]=1;
+    int dd[5] = {0, 1, 0, -1, 0};
+public:
+    vector<vector<int>> pacificAtlantic(vector<vector<int>>& heights) {
+        int m = heights.size(), n = heights[0].size(), i, j, d, nr, nc;
+        queue<array<int, 3>> q;
+        vector<vector<int>> visited(m, vector<int>(n));
+        vector<vector<int>> ans;
+        for (i = 0; i < m; i ++) {
+            q.push({i, 0, 1});
+            visited[i][0] |= 1;
+            q.push({i, n - 1, 2});
+            visited[i][n - 1] |= 2;
+        }
+        for (j = 0; j < n; j ++) {
+            q.push({0, j, 1});
+            visited[0][j] |= 1;
+            q.push({m - 1, j, 2});
+            visited[m - 1][j] |= 2;
+        }
+        while (q.size()) {
+            auto [r, c, g] = q.front();
             q.pop();
-            for(int k=0;k<4;k++)
-            {
-                int xx = x+dir[k];
-                int yy = y+dir[k+1];
-                if(isValid(xx,yy) && matrix[x][y] <= matrix[xx][yy] && vis[xx][yy]==0) // greater equal 
-                {
-                    q.push({xx,yy});
+            for (d = 0; d < 4; d ++) {
+                nr = r + dd[d];
+                nc = c + dd[d + 1];
+                if (0 <= nr && nr < m && 0 <= nc && nc < n && (visited[nr][nc] & g) == 0 && heights[nr][nc] >= heights[r][c]) {
+                    q.push({nr, nc, g});
+                    visited[nr][nc] |= g;
                 }
             }
         }
-    }
-public:
-    vector<vector<int>> pacificAtlantic(vector<vector<int>>& heights) {
-        vector<vector<int>> ans;
-        m=heights.size();
-        n=heights[0].size();
- 
-        vector<vector<int>> visp(m, vector<int>(n,0));
-        vector<vector<int>> visq(m, vector<int>(n,0));
-        // push boundaries of pacific ocean
-        for(int i=m-1;i>=0;i--)
-            pac.push({i,0});
-        for(int i=n-1;i>=0;i--)
-            pac.push({0,i});
-        
-        // push boundaries of atlantic ocean
-        for(int i=m-1;i>=0;i--)
-            atl.push({i,n-1});
-        for(int i=n-1;i>=0;i--)
-            atl.push({m-1,i});
-        
-        bfs(pac, visp, heights);
-        bfs(atl, visq, heights);
-        
-        for(int i=0;i<m;i++){
-            for(int j=0;j<n;j++){
-                
-                if(visp[i][j]==1 && visq[i][j]==1)
-                    ans.push_back({i,j});
+        for (i = 0; i < m; i ++) {
+            for (j = 0; j < n; j ++) {
+                if (visited[i][j] == 3) {
+                    ans.push_back({i, j});
+                }
             }
         }
         return ans;

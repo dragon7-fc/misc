@@ -151,3 +151,45 @@ public:
     }
 };
 ```
+
+**Solution 3: (Greedy + Binary Search)**
+
+rains    [  1,  2,  0,  2,  3,  0,  1]
+st                  2           5
+m         1:0                     1:6
+              2:1     2:3
+                          3:4
+ans      [ -1, -1,  2, -1, -1,  1, -1]
+
+```
+Runtime: 128 ms, Beats 42.09%
+Memory: 114.74 MB, Beats 36.16%
+```
+```c++
+class Solution {
+public:
+    vector<int> avoidFlood(vector<int>& rains) {
+        int n = rains.size(), i;
+        unordered_map<int, int> m;
+        set<int> st;
+        vector<int> ans(n, 1);
+        for (i = 0; i < n; i ++) {
+            if (rains[i] == 0) {
+                st.insert(i);
+            } else {
+                ans[i] = -1;
+                if (m.count(rains[i])) {
+                    auto it = st.lower_bound(m[rains[i]]);
+                    if (it == st.end()) {
+                        return {};
+                    }
+                    ans[*it] = rains[i];
+                    st.erase(it);
+                }
+                m[rains[i]] = i;
+            }
+        }
+        return ans;
+    }
+};
+```

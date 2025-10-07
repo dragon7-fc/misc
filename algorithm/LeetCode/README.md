@@ -1231,7 +1231,7 @@ public:
     }
 };
 ```
-* [Hard] 57. Insert Interval
+* [Medium] 57. Insert Interval
 
 ## Dynamic Programming <a name="dp"></a>
 ---
@@ -8031,7 +8031,7 @@ public:
     }
 };
 ```
-* [Medium] 332. Reconstruct Itinerary
+* [Hard] 332. Reconstruct Itinerary
 
 ### All Path
 ```python
@@ -9548,7 +9548,6 @@ public:
             v1.push_back(stoi(str));
         }
         ss = stringstream(version2);
-        str.erase();
         while (getline(ss, str, '.')) {
             v2.push_back(stoi(str));
         }
@@ -11753,7 +11752,7 @@ class Solution {
 public:
     int maxWidthRamp(vector<int>& nums) {
         int n = nums.size();
-        vector<int> dp;  // prefix mono inc stack from back
+        vector<int> dp;  // prefix mono inc like stack from back
         dp.push_back(n-1);
         for (int i = n-1; i >= 0; i --) {
             if (nums[i] > nums[dp.back()]) {
@@ -12094,7 +12093,7 @@ class StockSpanner:
 ```
 * [Medium] [Solution] 901. Online Stock Span
 
-### Maintain Stack of Minimums
+### Maintain Stack of Minimums, mono dec stack
 ```python
 class Solution:
     def sumSubarrayMins(self, A: List[int]) -> int:
@@ -12375,7 +12374,7 @@ class Solution:
 ```
 * [Lock] [Hard] 772. Basic Calculator III
 
-### area between current and second top stack element```c++
+### area between current and second top stack element, mono inc stack
 ```c++
 class Solution {
 public:
@@ -13709,7 +13708,7 @@ public:
 ```
 * [Medium] 2611. Mice and Cheese
 ---
-### left right area sum
+### Prefix sum, Binary Search, Math
 ```c++
 class Solution {
 public:
@@ -14267,7 +14266,7 @@ public:
     }
 };
 ```
-* Medium] [Solution] 237. Delete Node in a Linked List
+* [Medium] [Solution] 237. Delete Node in a Linked List
 
 ### Two pointer, runner and walker
 ```python
@@ -15415,7 +15414,6 @@ public:
 ```
 * [Medium] 787. Cheapest Flights Within K Stops
 
-
 ### Greedy with Heap
 ```python
 class Solution:
@@ -15653,29 +15651,29 @@ class Solution {
 public:
     int trapRainWater(vector<vector<int>>& heightMap) {
         int m = heightMap.size(), n = heightMap[0].size(), i, d, nr, nc, ans = 0;
-        priority_queue<array<int,3>,vector<array<int,3>>,greater<>> pq;
-        vector<vector<int>> visited(m, vector<int>(n));
+        priority_queue<array<int, 3>, vector<array<int, 3>>, greater<>> pq;
+        vector<vector<bool>> visited(m, vector<bool>(n));
         for (i = 0; i < m; i ++) {
-            visited[i][0] = 1;
-            visited[i][n-1] = 1;
+            visited[i][0] = true;
+            visited[i][n - 1] = true;
             pq.push({heightMap[i][0], i, 0});
-            pq.push({heightMap[i][n-1], i, n-1});
+            pq.push({heightMap[i][n - 1], i, n - 1});
         }
-        for (i = 1; i < n-1; i ++) {
-            visited[0][i] = 1;
-            visited[m-1][i] = 1;
+        for (i = 1; i < n - 1; i ++) {
+            visited[0][i] = true;
+            visited[m - 1][i] = true;
             pq.push({heightMap[0][i], 0, i});
-            pq.push({heightMap[m-1][i], m-1, i});
+            pq.push({heightMap[m - 1][i], m - 1, i});
         }
         while (pq.size()) {
             auto [a, r, c] = pq.top();
             pq.pop();
             for (d = 0; d < 4; d ++) {
                 nr = r + dd[d];
-                nc = c + dd[d+1];
+                nc = c + dd[d + 1];
                 if (0 <= nr && nr < m && 0 <= nc && nc < n && !visited[nr][nc]) {
                     ans += max(0, a - heightMap[nr][nc]);
-                    visited[nr][nc] = 1;
+                    visited[nr][nc] = true;
                     pq.push({max(a, heightMap[nr][nc]), nr, nc});
                 }
             }
@@ -15900,37 +15898,34 @@ class Solution:
 ```
 * [Medium] 1405. Longest Happy String
 
-### Nearest Future Location Heap
-```python
-class Solution:
-    def avoidFlood(self, rains: List[int]) -> List[int]:
-        seen = set()
-        closest = []
-        locs = collections.defaultdict(collections.deque)
-        for i, lake in enumerate(rains):
-            locs[lake].append(i)
-        ret = []
-        for lake in rains:
-            if lake in seen:
-                return []
-            if not lake:
-                # get closest that's already seen
-                if not closest:
-                    # there's nothing filled that will be filled again later
-                    ret.append(1) 
-                    continue
-                nxt = heapq.heappop(closest)
-                ret.append(rains[nxt])
-                seen.remove(rains[nxt])
-            else:
-                seen.add(lake)
-                l = locs[lake]
-                l.popleft()
-                if l:
-                    nxt = l[0]
-                    heapq.heappush(closest, nxt)
-                ret.append(-1)
-        return ret
+### Greedy over most recent profit, binary search
+```c++
+class Solution {
+public:
+    vector<int> avoidFlood(vector<int>& rains) {
+        int n = rains.size(), i;
+        unordered_map<int, int> m;
+        set<int> st;
+        vector<int> ans(n, 1);
+        for (i = 0; i < n; i ++) {
+            if (rains[i] == 0) {
+                st.insert(i);
+            } else {
+                ans[i] = -1;
+                if (m.count(rains[i])) {
+                    auto it = st.lower_bound(m[rains[i]]);
+                    if (it == st.end()) {
+                        return {};
+                    }
+                    ans[*it] = rains[i];
+                    st.erase(it);
+                }
+                m[rains[i]] = i;
+            }
+        }
+        return ans;
+    }
+};
 ```
 * [Medium] 1488. Avoid Flood in The City
 
@@ -16746,7 +16741,7 @@ public:
     }
 };
 ```
-* {Medium} 2327. Number of People Aware of a Secret
+* [Medium] 2327. Number of People Aware of a Secret
 
 ### Prefix Sum, left and right
 ```c++

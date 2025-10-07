@@ -70,12 +70,12 @@ class Solution:
 
 **Solution 1: (Prefix Sum, try all possible solution)**
 
-             max
-            -----    
-    x x x x . . . (>0)
-    . . . x x x x
-    ----- 
-     max
+             max ------|
+            -----      |
+    x x x x . . . (>0) |
+    . . . x x x x      |
+    -----              + = min
+     max---------------
 
 ```
 Runtime: 0 ms

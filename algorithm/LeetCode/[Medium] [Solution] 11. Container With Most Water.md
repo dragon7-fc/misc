@@ -142,20 +142,21 @@ int maxArea(int* height, int heightSize){
               ^           ^
               ^         ^
 ```
-Runtime: 174 ms
-Memory Usage: 58.9 MB
+Runtime: 0 ms, Beats 100.00%
+Memory: 62.98 MB, Beats 48.17%
 ```
 ```c++
 class Solution {
 public:
     int maxArea(vector<int>& height) {
-        int i = 0, j = height.size()-1, ans = 0;
+        int i = 0, j = height.size() - 1, ans = 0;
         while (i < j) {
-            ans = max(ans, (j-i)*min(height[i], height[j]));
-            if (height[i] < height[j])
+            ans = max(ans, (j - i) * min(height[i], height[j]));
+            if (height[i] < height[j]) {
                 i += 1;
-            else
+            } else {
                 j -= 1;
+            }
         }
         return ans;
     }

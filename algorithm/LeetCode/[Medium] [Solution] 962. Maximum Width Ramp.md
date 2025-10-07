@@ -198,7 +198,7 @@ public:
         ------------ \
                        \
           -------------- \
-        ^ 
+          ^ 
 
 * Time: O(N) 
 * Space: O(N)
@@ -212,7 +212,7 @@ class Solution {
 public:
     int maxWidthRamp(vector<int>& nums) {
         int n = nums.size();
-        vector<int> dp;  // prefix mono inc stack from back
+        vector<int> dp;  // prefix mono inc like stack from back
         dp.push_back(n-1);
         for (int i = n-1; i >= 0; i --) {
             if (nums[i] > nums[dp.back()]) {

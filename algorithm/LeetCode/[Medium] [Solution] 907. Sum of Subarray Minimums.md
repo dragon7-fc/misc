@@ -185,7 +185,7 @@ public:
 };
 ```
 
-**Solution 2: (Mono increasing stack, left and right)**
+**Solution 2: (Mono dec stack, left and right)**
 
 
                Y      
@@ -198,6 +198,16 @@ public:
          mid-left
                 -------
                  right-mid
+
+              4
+        3 
+            2
+          1
+      ^l^m^r
+            ^l^m^r
+          ^l^m  ^r
+      ^l  ^m    ^r  
+
 ```
 Runtime: 65 ms
 Memory: 41.82 MB

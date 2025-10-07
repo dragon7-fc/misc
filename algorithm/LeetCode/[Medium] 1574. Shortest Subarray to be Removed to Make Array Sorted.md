@@ -102,10 +102,10 @@ public:
 
 **Solution 3: (Two Pointers)**
 
-                    /
-                  / 
-                /  
-       / 
+                      /
+                    / 
+                  /  
+       /        /
      /
     ^i          ^j  ^n-1
         ^left   ^right

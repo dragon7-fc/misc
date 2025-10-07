@@ -57,17 +57,17 @@ class Solution:
 
 **Solution 2: (DP Bottom-Up)**
 ```
-Runtime: 503 ms
-Memory Usage: 18.5 MB
+Runtime: 51 ms, Beats 85.15%
+Memory: 22.13 MB, Beats 97.83%
 ```
 ```c++
 class Solution {
 public:
     int triangularSum(vector<int>& nums) {
-        int n=nums.size();
-        for(int i=n-1;i>=1;i--){
-            for(int j=0;j<i;j++){
-                nums[j]=(nums[j]+nums[j+1])%10;                
+        int n = nums.size(), i, k;
+        for (k = n - 1; k > 0; k --) {
+            for (i = 0; i < k; i ++) {
+                nums[i] = (nums[i] + nums[i + 1]) % 10;
             }
         }
         return nums[0];

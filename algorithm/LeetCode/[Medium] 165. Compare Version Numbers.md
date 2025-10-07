@@ -111,7 +111,6 @@ public:
             v1.push_back(stoi(str));
         }
         ss = stringstream(version2);
-        str.erase();
         while (getline(ss, str, '.')) {
             v2.push_back(stoi(str));
         }

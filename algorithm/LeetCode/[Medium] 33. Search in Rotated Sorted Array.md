@@ -182,7 +182,7 @@ class Solution:
                                    ^lrm
 
             v
-        3   1
+        3   1,      target = 1
         ^lm ^r
 
 
