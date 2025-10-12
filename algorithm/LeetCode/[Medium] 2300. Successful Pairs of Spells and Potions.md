@@ -54,42 +54,21 @@ class Solution:
 
 **Solution 2: (Binary Search)**
 ```
-Runtime: 455 ms
-Memory Usage: 99.9 MB
+Runtime: 34 ms, Beats 95.71%
+Memory: 124.98 MB, Beats 94.62%
 ```
 ```c++
 class Solution {
 public:
     vector<int> successfulPairs(vector<int>& spells, vector<int>& potions, long long success) {
-        sort(potions.begin(), potions.end());
-        vector<int> res;
-        for (int a: spells) {
-            long need = (success + a - 1) / a;
-            auto it = lower_bound(potions.begin(), potions.end(), need);
-            res.push_back(potions.end() - it);
-        }
-        return res;
-    }
-};
-```
-
-**Solution 3: (Binary Search)**
-```
-Runtime: 173 ms
-Memory: 97.6 MB
-```
-```c++
-class Solution {
-public:
-    vector<int> successfulPairs(vector<int>& spells, vector<int>& potions, long long success) {
-        int N = spells.size(), M = potions.size(), spell, left, right, mid;
+        int n = spells.size(), m = potions.size(), spell, left, right, mid;
         long long product;
-        vector<int> ans(N);
+        vector<int> ans(n);
         sort(potions.begin(), potions.end());
-        for (int i = 0; i < N; i++) {
+        for (int i = 0; i < n; i++) {
             spell = spells[i];
             left = 0;
-            right = M - 1;
+            right = m - 1;
             while (left < right) {
                 mid = left + (right - left) / 2;
                 product = (long long)spell * (long long)potions[mid];
@@ -99,7 +78,30 @@ public:
                     right = mid;
                 }
             }
-            ans[i] = M - left - ((long long)spell * (long long)potions[left] < success);
+            ans[i] = m - left - ((long long)spell * (long long)potions[left] < success);
+        }
+        return ans;
+
+    }
+};
+```
+
+**Solution 3: (Binary Search)**
+```
+Runtime: 35 ms, Beats 95.05%
+Memory: 125.19 MB, Beats 65.71%
+```
+```c++
+class Solution {
+public:
+    vector<int> successfulPairs(vector<int>& spells, vector<int>& potions, long long success) {
+        int n = spells.size(), m = potions.size(), i;
+        long long a;
+        sort(potions.begin(), potions.end());
+        vector<int> ans(n);
+        for (i = 0; i < n; i ++) {
+            a = ceil(((double)success) / spells[i]);
+            ans[i] = m - (lower_bound(potions.begin(), potions.end(), a) - potions.begin());
         }
         return ans;
     }

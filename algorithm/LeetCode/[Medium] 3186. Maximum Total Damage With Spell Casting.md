@@ -75,3 +75,41 @@ public:
     }
 };
 ```
+
+**Solution 2: (DP Bottom-Up, Sliding Window, taken not-taken)**
+```
+Runtime: 288 ms, Beats 67.42%
+Memory: 218.27 MB, Beats 30.85%
+```
+```c++
+class Solution {
+public:
+    long long maximumTotalDamage(vector<int>& power) {
+        int i = 0, j;
+        long long ans = 0;
+        unordered_map<int, int> cnt;
+        vector<array<long long, 2>> dp;
+        for (auto &p: power) {
+            cnt[p] += 1;
+        }
+        for (auto &[p, c]: cnt) {
+            dp.push_back({p, 1LL * p * c});
+        }
+        sort(dp.begin(), dp.end());
+        for (j = 0; j < dp.size(); j ++) {
+            while (i < j && dp[j][0] > dp[i][0] + 2) {
+                i += 1;
+            }
+            if (i - 1 >= 0) {
+                dp[j][1] = max(dp[j][1], dp[j][1] + dp[i - 1][1]);
+            }
+            if (j) {
+                dp[j][1] = max(dp[j][1], dp[j - 1][1]);
+            }
+            ans = max(ans, dp[j][1]);
+        }
+        return ans;
+    }
+};
+
+```

@@ -37,7 +37,7 @@ Explanation: We can gain a total energy of -1 by starting from magician 2.
 
 # Submissions
 ---
-**Solution 1: (Greedy)**
+**Solution 1: (Greedy, DP Bottom-Up)**
 ```
 Runtime: 132 ms
 Memory: 143.68 MB

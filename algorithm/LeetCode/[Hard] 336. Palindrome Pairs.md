@@ -179,3 +179,59 @@ public:
     }
 };
 ```
+
+**Solution 4: (Hash Table)**
+```
+Runtime: 893 ms, Beats 70.47%
+Memory: 61.78 MB, Beats 97.98%
+```
+```c++
+class Solution {
+    bool check(string &word) {
+        int i = 0, j = word.size() - 1;
+        while (i < j) {
+            if (word[i] != word[j]) {
+                return false;
+            }
+            i += 1;
+            j -= 1;
+        }
+        return true;
+    }
+public:
+    vector<vector<int>> palindromePairs(vector<string>& words) {
+        int n = words.size(), i, j;
+        unordered_map<string, int> m;
+        string pre, suf, rev;
+        vector<vector<int>> ans;
+        for (i = 0; i < n; i ++) {
+            m[words[i]] = i;
+        }
+        for (i = 0; i < n; i ++) {
+            pre = "";
+            suf = words[i];
+            for (j = 0; j <= words[i].length(); j ++) {
+                if (check(pre)) {
+                    rev = suf;
+                    reverse(rev.begin(), rev.end());
+                    if (rev != words[i] && m.count(rev)) {
+                        ans.push_back({m[rev], i});
+                    }
+                }
+                if (j != words[i].length() && check(suf)) {
+                    rev = pre;
+                    reverse(rev.begin(), rev.end());
+                    if (rev != words[i] && m.count(rev)) {
+                        ans.push_back({i, m[rev]});
+                    }
+                }
+                if (suf.length()) {
+                    pre += *suf.begin();
+                    suf.erase(suf.begin());
+                }
+            }
+        }
+        return ans;
+    }
+};
+```

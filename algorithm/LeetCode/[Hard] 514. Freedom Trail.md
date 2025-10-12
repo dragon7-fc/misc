@@ -131,7 +131,7 @@ public:
 };
 ```
 
-**Solution 3: (Dijkstra)**
+**Solution 3: (Dijkstra, O(RK * log(RK)))**
 ```
 Runtime: 17 ms
 Memory: 12.04 MB
@@ -172,3 +172,40 @@ public:
     }
 };
 ```
+
+**Solution 4: (Dijkstra, O(RK * log(RK)))**
+```
+Runtime: 27 ms, Beats 37.18%
+Memory: 18.38 MB, Beats 26.44%
+```
+```c++
+class Solution {
+public:
+    int findRotateSteps(string ring, string key) {
+        int n = key.size(), m = ring.size(), i;
+        unordered_map<char, vector<int>> g;
+        for (i = 0; i < m; i ++) {
+            g[ring[i]].push_back(i);
+        }
+        vector<vector<int>> dist(n, vector<int>(m, INT_MAX));
+        priority_queue<array<int, 3>, vector<array<int, 3>>, greater<>> pq;
+        for (auto j: g[key[0]]) {
+            pq.push({1 + min(j, m - j), j, 0});
+        }
+        while (pq.size()) {
+            auto [w, ri, kj] = pq.top();
+            pq.pop();
+            if (kj == n - 1) {
+                return w;
+            }
+            for (auto nri: g[key[kj + 1]]) {
+                int dw = 1 + min({abs(ri - nri), ri + m - nri, m - ri + nri});
+                if (w + dw < dist[kj + 1][nri]) {
+                    dist[kj + 1][nri] = w + dw;
+                    pq.push({w + dw, nri, kj + 1});
+                }
+            }
+        }
+        return -1;
+    }
+};```
