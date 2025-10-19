@@ -143,6 +143,13 @@ public:
 ```
 
 **Solution 4: (DP Bottom-Up)**
+
+
+        i     k         j
+        x     x         .
+        ------ ----------
+        ^i   ^k-1       ^j
+               ^k+1       
 ```
 Runtime: 34 ms
 Memory: 9.5 MB
@@ -294,6 +301,40 @@ public:
 
         // Return the minimum turns needed to print the entire string
         return minTurns[0][n - 1];
+    }
+};
+```
+
+**Solution 7: (DP Bottom-Up)**
+
+    
+     .      x      x
+     ^i     ^k     ^j
+             ^k+1 ^j-1
+
+```
+Runtime: 20 ms, Beats 44.05%
+Memory: 12.45 MB, Beats 27.38%
+```
+```c++
+class Solution {
+public:
+    int strangePrinter(string s) {
+        int n = s.size();
+        vector<vector<int>> dp(n, vector<int>(n, 0));
+        
+        for (int i = n-1; i >= 0; --i) {
+            dp[i][i] = 1;
+            for (int j = i+1; j < n; ++j) {
+                dp[i][j] = dp[i][j-1] + 1;
+                for (int k = i; k < j; ++k) {
+                    if (s[k] == s[j]) {
+                        dp[i][j] = min(dp[i][j], dp[i][k] + (k+1<=j-1 ? dp[k+1][j-1] : 0));
+                    }
+                }
+            }
+        }
+        return dp[0][n-1];
     }
 };
 ```

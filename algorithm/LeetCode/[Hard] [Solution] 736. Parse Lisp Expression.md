@@ -177,3 +177,65 @@ class Solution:
         if buf:
             yield " ".join(buf)
 ```
+
+**Solution 2: (String)**
+```
+Runtime: 45 ms, Beats 23.33%
+Memory: 39.02 MB, Beats 17.50%
+```
+```c++
+class Solution {
+    //function to seperate each expression
+    string parse(string &s, int &start) {
+        int end = start + 1, temp = start, count = 1;
+        if (s[start] == '(') {
+            while (count != 0) {
+                if (s[end] == '(') {
+                    count += 1;
+                } else if (s[end] == ')') {
+                    count -= 1;
+                }
+                end += 1;
+            }
+        } else {
+            while (end < s.size() && s[end] != ' ') {
+                end += 1;
+            }
+        }
+        start = end + 1;
+        return s.substr(temp, end - temp);
+    }
+    int help(string expression, unordered_map<string,int> m) {
+        if ((expression[0] == '-') || (expression[0] >= '0' && expression[0] <= '9')) {
+            return stoi(expression);
+        } else if (expression[0] != '(') {
+            return m[expression];
+        }
+        //to get rid of the first '(' and the last ')'
+        string s = expression.substr(1,expression.size() - 2);
+        int start = 0;
+        string word = parse(s, start);
+        if (word == "let") {
+            while (true) {
+                string variable = parse(s,start);
+                //if there is no more expression, simply evaluate the variable
+                if (start > s.size()) {
+                    return help(variable, m);
+                }
+                string temp = parse(s, start);
+                m[variable] = help(temp, m);                    
+            }
+        } else if (word == "add") {
+            return help(parse(s, start), m) + help(parse(s, start), m);
+        } else if (word == "mult") {
+            return help(parse(s, start), m) * help(parse(s, start), m);
+        }
+        return 0;
+    }
+public:
+    int evaluate(string expression) {
+        unordered_map<string,int> m;
+        return help(expression, m);
+    }
+};
+```

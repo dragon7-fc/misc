@@ -337,3 +337,68 @@ public:
  * int param_1 = obj->f(prefix,suffix);
  */
 ```
+
+**Solution 4: (Trie)**
+
+"apple"
+build:  "apple{apple", "pple{apple", "ple{apple", "le{apple", "e{apple", "{apple"
+search:                                                        ^^^
+
+```
+Runtime: 383 ms, Beats 55.38%
+Memory: 566.82 MB, Beats 19.22%
+```
+```c++
+class WordFilter {
+    struct TrieNode {
+        TrieNode *child[27] = {nullptr};
+        int idx = -1;
+    };
+    TrieNode *root;
+    void build(vector<string> &words, int i) {
+        TrieNode *node;
+        int n = words[i].length(), j, k;
+        string s;
+        for (j = 0; j < n; j ++) {
+            node = root;
+            s = words[i].substr(j) + "{" + words[i];
+            for (k = 0; k < s.length(); k ++) {
+                if (!node->child[s[k] - 'a']) {
+                    node->child[s[k] - 'a'] = new TrieNode();
+                }
+                node = node->child[s[k] - 'a'];
+                node->idx = i;  
+            }  
+        }
+    }
+    int search(string &s) {
+        TrieNode *node = root;
+        for (int i = 0; i < s.size(); i ++) {
+            if (!node->child[s[i] - 'a']) {
+                return -1;
+            }
+            node = node->child[s[i] - 'a'];
+        }
+        return node->idx;
+    }
+public:
+    WordFilter(vector<string>& words) {
+        int n = words.size(), i;
+        root = new TrieNode();
+        for (i = 0; i < n; i++) {
+            build(words, i);
+        }
+    }
+    
+    int f(string pref, string suff) {
+        string s = suff + "{" + pref;
+        return search(s);
+    }
+};
+
+/**
+ * Your WordFilter object will be instantiated and called as such:
+ * WordFilter* obj = new WordFilter(words);
+ * int param_1 = obj->f(pref,suff);
+ */
+```

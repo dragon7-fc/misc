@@ -119,3 +119,82 @@ class Solution:
         dfs(s)
         return min(rec)
 ```
+
+**Solution 3: (BFS, Brute Force, O(n^2 * d^2))**
+```
+Runtime: 171 ms, Beats 75.22%
+Memory: 90.84 MB, Beats 50.88%
+```
+```c++
+class Solution {
+public:
+    string findLexSmallestString(string s, int a, int b) {
+        int n = s.size(), i;
+        queue<string> q;
+        unordered_set<string> st;
+        string ns, ans = s;
+        q.push(s);
+        st.insert(s);
+        while (q.size()) {
+            auto cs = q.front();
+            q.pop();
+            ns = cs.substr(n - b) + cs.substr(0, n - b);
+            if (!st.count(ns)) {
+                q.push(ns);
+                st.insert(ns);
+                ans = min(ans, ns);
+            }
+            for (i = 1; i < n; i += 2) {
+                cs[i] = (cs[i] + a - '0') % 10 + '0';
+            }
+            if (!st.count(cs)) {
+                q.push(cs);
+                st.insert(cs);
+                ans = min(ans, cs);
+            }
+        }
+        return ans;
+    }
+};
+```
+
+**Solution 4: (Enumeration, better brute force, O(n^2 * d^2))**
+```
+Runtime: 3 ms, Beats 94.69%
+Memory: 9.05 MB, Beats 92.92%
+```
+```c++
+class Solution {
+public:
+    string findLexSmallestString(string s, int a, int b) {
+        int n = s.size();
+        string res = s;
+        s = s + s;
+        int g = gcd(b, n);
+
+        auto add = [&](string& t, int start) {
+            int minVal = 10, times = 0;
+            for (int i = 0; i < 10; i++) {
+                int added = ((t[start] - '0') + i * a) % 10;
+                if (added < minVal) {
+                    minVal = added;
+                    times = i;
+                }
+            }
+            for (int i = start; i < n; i += 2) {
+                t[i] = '0' + ((t[i] - '0') + times * a) % 10;
+            }
+        };
+
+        for (int i = 0; i < n; i += g) {
+            string t = s.substr(i, n);
+            add(t, 1);
+            if (b % 2) {
+                add(t, 0);
+            }
+            res = min(res, t);
+        }
+        return res;
+    }
+};
+```

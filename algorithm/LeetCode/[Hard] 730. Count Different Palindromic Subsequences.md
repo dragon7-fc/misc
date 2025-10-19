@@ -47,8 +47,8 @@ So for any Palindrom subsequence, it must be 'a*a', 'b*b', 'c*c', 'd*d', 'a', 'b
 For a given string, the total of different Palindrom subsequence is the total count of each type of Palindrom subsequence: 
 count of 'a*a' + count of 'b*b' + count of 'c*c' + count of 'd*d' + count of 'a' + count of 'b' + count of 'c' + count of 'd'
 Take calculating count of 'a*a' as an example, we need find the index of beginning 'a' and the index of ending 'a'.
-If the beining index is euqal to ending index, the count is 1.
-Else plus 2 to the total different Palindrom subsequence of the subsequence * between the beining 'a' and the ending 'a'.
+If the begining index is euqal to ending index, the count is 1.
+Else plus 2 to the total different Palindrom subsequence of the subsequence * between the begining 'a' and the ending 'a'.
 Here plus 2 means 'a' and 'aa' are two new Palindrom subsequences.
 'cacc': a->1; b->0; d->0; c-> diff Palindrom of 'ac' + 2 = 4, so total is 5.
 Use bottom up DP to calculate short substring and then longer substring.

@@ -112,3 +112,27 @@ public:
     }
 };
 ```
+
+**Solution 3: (Prefix Sum)**
+```
+Runtime: 244 ms, Beats 25.56%
+Memory: 173.64 MB, Beats 81.58%
+```
+```c++
+class Solution {
+public:
+    int maxIncreasingSubarrays(vector<int>& nums) {
+        int n = nums.size(), i, pre = 0, a = 1, ans = 0;
+        for (i = 1; i < n; i ++) {
+            if (nums[i] > nums[i - 1]) {
+                a += 1;
+            } else {
+                pre = a;
+                a = 1;
+            }
+            ans = max({ans, a / 2, min(pre, a)});
+        }
+        return ans;
+    }
+};
+```

@@ -320,3 +320,44 @@ class Solution:
                 queue.append((newState, level+1))
         return -1
 ```
+
+**Solution 4: (DP Bottom-Up, O(2^T * S * T), S: the total number of letters in all stickers, T: is the number of letters in the target word)**
+```
+Runtime: 168 ms, Beats 52.49%
+Memory: 12.63 MB, Beats 91.90%
+```
+```c++
+class Solution {
+public:
+    int minStickers(vector<string>& stickers, string target) {
+        int n = target.length(), i, state;
+        vector<int> dp(1 << n);
+        for (i = 1; i < (1 << n); i++) {
+            dp[i] = -1;
+        }
+        for (state = 0; state < (1 << n); state ++) {
+            if (dp[state] == -1) {
+                continue;
+            }
+            for (auto &sticker: stickers) {
+                int now = state;
+                for (auto &letter: sticker) {
+                    for (i = 0; i < n; i++) {
+                        if (((now >> i) & 1) == 1) {
+                            continue;
+                        }
+                        if (target[i] == letter) {
+                            now |= (1 << i);
+                            break;
+                        }
+                    }
+                }
+                if (dp[now] == -1 || dp[now] > dp[state] + 1) {
+                    dp[now] = dp[state] + 1;
+                }
+            }
+        }
+        return dp[(1 << n) - 1];
+    }
+};
+```

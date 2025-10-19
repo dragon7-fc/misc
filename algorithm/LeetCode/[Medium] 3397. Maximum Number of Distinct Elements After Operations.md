@@ -65,3 +65,25 @@ public:
     }
 };
 ```
+
+**Solution 2: (Sort)**
+```
+Runtime: 112 ms, Beats 85.80%
+Memory: 97.52 MB, Beats 88.33%
+```
+```c++
+class Solution {
+public:
+    int maxDistinctElements(vector<int>& nums, int k) {
+        sort(nums.begin(), nums.end());
+        int n = nums.size(), i, pre = nums[0] - k, ans = 1;
+        for (i = 1; i < n; i ++) {
+            if (nums[i] + k > pre) {
+                pre = max(pre + 1, nums[i] - k);
+                ans += 1;
+            }
+        }
+        return ans;
+    }
+};
+```
