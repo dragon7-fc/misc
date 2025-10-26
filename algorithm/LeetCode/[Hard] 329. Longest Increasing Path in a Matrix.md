@@ -60,45 +60,7 @@ class Solution:
         return res
 ```
 
-**Solution 2: (DP Top-Down)**
-```
-Runtime: 33 ms
-Memory Usage: 16.4 MB
-```
-```c++
-int dd[5] = {0, 1, 0, -1, 0};
-class Solution {
-    int dfs(int r, int c, vector<vector<int>> &dp, vector<vector<int>> &matrix) {
-        if (dp[r][c]) {
-            return dp[r][c];
-        }
-        int rst = 0, nr, nc;
-        for (int d = 0; d < 4; d ++) {
-            nr = r + dd[d];
-            nc = c + dd[d+1];
-            if (0 <= nr && nr < matrix.size() && 0 <= nc && nc < matrix[0].size() && matrix[nr][nc] > matrix[r][c]) {
-                rst = max(rst, dfs(nr, nc, dp, matrix));
-            }
-        }
-        dp[r][c] = rst+1;
-        return dp[r][c];
-    }
-public:
-    int longestIncreasingPath(vector<vector<int>>& matrix) {
-        int m = matrix.size(), n = matrix[0].size();
-        vector<vector<int>> dp(m, vector<int>(n));
-        int ans = 0;
-        for (int i = 0; i < m; i ++) {
-            for (int j = 0; j < n; j ++) {
-                ans = max(ans, dfs(i, j, dp, matrix));
-            }
-        }
-        return ans;
-    }
-};
-```
-
-**Solution 3: (DP Bottom-Up)**
+**Solution 2: (DP Bottom-Up)**
 ```
 Runtime: 67 ms
 Memory: 16 MB
@@ -125,6 +87,45 @@ public:
                 }
             }
             ans = max(++dp[x][y], ans);
+        }
+        return ans;
+    }
+};
+```
+
+**Solution 3: (DP Top-Down)**
+```
+Runtime: 8 ms, Beats 77.87%
+Memory: 20.91 MB, Beats 54.82%
+```
+```c++
+class Solution {
+    int dd[5] = {0, 1, 0, -1, 0};
+    int dfs(int r, int c, vector<vector<int>> &dp, vector<vector<int>> &matrix) {
+        if (dp[r][c]) {
+            return dp[r][c];
+        }
+        int rst = 0, nr, nc;
+        for (int d = 0; d < 4; d ++) {
+            nr = r + dd[d];
+            nc = c + dd[d + 1];
+            if (0 <= nr && nr < matrix.size() && 0 <= nc && nc < matrix[0].size() && matrix[nr][nc] > matrix[r][c]) {
+                rst = max(rst, dfs(nr, nc, dp, matrix));
+            }
+        }
+        dp[r][c] = rst + 1;
+        return dp[r][c];
+    }
+
+public:
+    int longestIncreasingPath(vector<vector<int>>& matrix) {
+        int m = matrix.size(), n = matrix[0].size();
+        vector<vector<int>> dp(m, vector<int>(n));
+        int ans = 0;
+        for (int i = 0; i < m; i ++) {
+            for (int j = 0; j < n; j ++) {
+                ans = max(ans, dfs(i, j, dp, matrix));
+            }
         }
         return ans;
     }

@@ -47,10 +47,10 @@ Adding 0 to nums[1].
 
 # Submissions
 ---
-**Solution 1: (Binary Search)**
+**Solution 1: (Binary Search, brute force all possible)**
 ```
-Runtime: 323 ms
-Memory: 153.50 MB
+Runtime: 276 ms, Beats 41.75%
+Memory: 153.35 MB, Beats 36.41%
 ```
 ```c++
 class Solution {
@@ -58,14 +58,14 @@ public:
     int maxFrequency(vector<int>& nums, int k, int numOperations) {
         int n = nums.size(), i, j, a, b = *max_element(nums.begin(), nums.end()), ans = 0;
         sort(nums.begin(), nums.end());
-        unordered_map<int,int> cnt;
+        unordered_map<int, int> cnt;
         for (auto num: nums) {
             cnt[num] += 1;
         }
         for (a = 1; a <= b; a ++) {
-            i = lower_bound(nums.begin(), nums.end(), a-k) - nums.begin();
-            j = lower_bound(nums.begin(), nums.end(), a+k+1) - nums.begin();
-            ans = max(ans, min(j-i-cnt[a], numOperations) + cnt[a]);
+            i = lower_bound(nums.begin(), nums.end(), a - k) - nums.begin();
+            j = lower_bound(nums.begin(), nums.end(), a + k + 1) - nums.begin();
+            ans = max(ans, min(j - i - cnt[a], numOperations) + cnt[a]);
         }
         return ans;
     }
@@ -74,8 +74,8 @@ public:
 
 **Solution 2: (Sliding Window)**
 ```
-Runtime: 154 ms
-Memory: 122.33 MB
+Runtime: 164 ms, Beats 55.83%
+Memory: 122.25 MB, Beats 65.29%
 ```c++
 class Solution {
 public:

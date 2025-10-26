@@ -197,3 +197,65 @@ class Solution:
         else:
             return unionCandidate
 ```
+
+**Solution 3: (Union Find)**
+```
+Runtime: 0 ms, Beats 100.00%
+Memory: 13.56 MB, Beats 93.35%
+```
+```c++
+class Solution {
+    vector<int> p;
+    bool isLoop(int u, vector<int> &g) {
+        int v = u;
+        while (g[v] != -1) {
+            v = g[v];
+            if (v == u) {
+                return true;
+            }
+        }
+        return false;
+    }
+    int find(int x) {
+        if (p[x] != x) {
+            p[x] = find(p[x]);
+        }
+        return p[x];
+    }
+    void uni(int x, int y) {
+        int rx = find(x), ry = find(y);
+        p[rx] = p[ry];
+    }
+public:
+    vector<int> findRedundantDirectedConnection(vector<vector<int>>& edges) {
+        int n = edges.size(), i;
+        p.resize(n + 1);
+        for (i = 1; i < n; i ++) {
+            p[i] = i;
+        }
+        vector<int> g(n + 1, -1);
+        vector<vector<int>> candidates;
+        vector<int> unionCandidate;
+        for (auto &e: edges) {
+            if (g[e[1]] == -1) {
+                g[e[1]] = e[0];
+            } else {
+                candidates = {{g[e[1]], e[1]}, {e[0], e[1]}};
+            }
+            if (find(e[0]) == find(e[1])) {
+                unionCandidate = {e[0], e[1]};
+            } else {
+                uni(e[0], e[1]);
+            }
+        }
+        if (candidates.size()) {
+            if (isLoop(candidates[0][1], g)) {
+                return candidates[0];
+            } else {
+                return candidates[1];
+            }
+        }
+        return unionCandidate;
+    }
+};
+```

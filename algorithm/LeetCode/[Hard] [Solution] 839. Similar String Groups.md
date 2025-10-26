@@ -229,3 +229,51 @@ public:
     }
 };
 ```
+
+**Solution 4: (Union Find)**
+```
+Runtime: 14 ms, Beats 78.57%
+Memory: 14.19 MB, Beats 64.29%
+```
+```c++
+class Solution {
+    vector<int> p;
+    int find(int x) {
+        if (x != p[x]) {
+            p[x] = find(p[x]);
+        }
+        return p[x];
+    }
+    void uni(int x, int y) {
+        int rx = find(x), ry = find(y);
+        p[rx] = ry;
+    }
+public:
+    int numSimilarGroups(vector<string>& strs) {
+        int m = strs.size(), n = strs[0].size(), i, j, k, diff;
+        p.resize(m);
+        for (i = 0; i < m; i ++) {
+            p[i] = i;
+        }
+        for (i = 0; i < m; i ++) {
+            for (j = i+1; j < m; j ++) {
+                diff = 0;
+                for (k = 0; k < n; k ++) {
+                    diff += (strs[i][k] != strs[j][k] ? 1 : 0);
+                    if (diff > 2) {
+                        break;
+                    }
+                }
+                if (diff <= 2) {
+                    uni(i, j);
+                }
+            }
+        }
+        unordered_set<int> st;
+        for (i = 0; i < m; i ++) {
+            st.insert(find(i));
+        }
+        return st.size();
+    }
+};
+```

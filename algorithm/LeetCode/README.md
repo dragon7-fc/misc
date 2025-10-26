@@ -8444,6 +8444,28 @@ return num_connected_components
 
 ## Binary Search <a name="bs"></a>
 ---
+### Counter, try all solution between min and max
+```c++
+class Solution {
+public:
+    int maxFrequency(vector<int>& nums, int k, int numOperations) {
+        int n = nums.size(), i, j, a, b = *max_element(nums.begin(), nums.end()), ans = 0;
+        sort(nums.begin(), nums.end());
+        unordered_map<int, int> cnt;
+        for (auto num: nums) {
+            cnt[num] += 1;
+        }
+        for (a = 1; a <= b; a ++) {
+            i = lower_bound(nums.begin(), nums.end(), a - k) - nums.begin();
+            j = lower_bound(nums.begin(), nums.end(), a + k + 1) - nums.begin();
+            ans = max(ans, min(j - i - cnt[a], numOperations) + cnt[a]);
+        }
+        return ans;
+    }
+};
+```
+* [Medium] 3346. Maximum Frequency of an Element After Performing Operations I
+
 ### Binary Search over value
 ```c++
 class Solution {

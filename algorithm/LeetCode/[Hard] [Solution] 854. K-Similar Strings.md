@@ -287,3 +287,43 @@ public:
     }
 };
 ```
+
+**Solution 4: (BFS, Pruned)**
+```
+Runtime: 215 ms, Beats 26.47%
+Memory: 77.87 MB, Beats 22.06%
+```
+```c++
+class Solution {
+public:
+    int kSimilarity(string s1, string s2) {
+        int n = s1.length(), i, j;
+        queue<pair<string, int>> q;
+        unordered_set<string> visited;
+        q.push({s1, 0});
+        visited.insert(s1);
+        while (q.size()) {
+            auto [s, step] = q.front();
+            q.pop();
+            if (s == s2) {
+                return step;
+            }
+            i = 0;
+            while (s[i] == s2[i]) {
+                i += 1;
+            }
+            for (j = i + 1; j < n; j ++) {
+                if (s[j] == s2[i]) {
+                    swap(s[i], s[j]);
+                    if (!visited.count(s)) {
+                        q.push({s, step + 1});
+                        visited.insert(s);
+                    }
+                    swap(s[i], s[j]);
+                }
+            }
+        }
+        return -1;
+    }
+};
+```

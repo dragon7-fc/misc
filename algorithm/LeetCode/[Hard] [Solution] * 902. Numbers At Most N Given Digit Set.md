@@ -307,3 +307,42 @@ int atMostNGivenDigitSet(char ** digits, int digitsSize, int n){
     return dp[0];
 }
 ```
+
+**Solution 6: (DP Bottom-Up)**
+
+    digits = ["1","3","5","7"], n = 100
+         0  1  2  3
+         ----------
+    s = "1  0  0"
+    a    1  0  0
+    dp  20        1
+
+```
+Runtime: 0 ms, Beats 100.00%
+Memory: 10.83 MB, Beats 21.93%
+```
+```c++
+class Solution {
+public:
+    int atMostNGivenDigitSet(vector<string>& digits, int n) {
+        string s = to_string(n);
+        int k = s.length(), m = digits.size(), i, a;
+        vector<int> dp(k + 1);
+        dp[k] = 1;
+        for (i = k - 1; i >= 0; i--) {
+            a = s[i] - '0';
+            for (auto d: digits) {
+                if (stoi(d) < a) {
+                    dp[i] += pow(m, k - i - 1);
+                } else if (stoi(d) == a) {
+                    dp[i] += dp[i+1];
+                }
+            }
+        }
+        for (i = 1; i < k; i++) {
+            dp[0] += pow(m, i);
+        }
+        return dp[0];
+    }
+};
+```

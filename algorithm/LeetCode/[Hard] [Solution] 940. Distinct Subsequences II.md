@@ -100,3 +100,59 @@ class Solution:
 
         return (dp[-1] - 1) % (10**9 + 7)
 ```
+
+**Solution 2: (DP Bottom-Up)**
+
+    a b a
+a   1   4
+b     2
+
+
+__Explanation__
+Init an array endswith[26]
+endswith[i] to count how many sub sequence that ends with ith character.
+
+Now we have N = sum(endswith) different sub sequence,
+add a new character c to each of them,
+then we have N different sub sequence that ends with c.
+
+With this idea, we loop on the whole string S,
+and we update end[c] = sum(end) + 1 for each character.
+
+We need to plus one here, because "c" itself is also a sub sequence.
+
+__Example__
+Input: "aba"
+Current parsed: "ab"
+
+endswith 'a': ["a"]
+endswith 'b': ["ab","b"]
+
+"a" -> "aa"
+"ab" -> "aba"
+"b" -> "ba"
+"" -> "a"
+
+endswith 'a': ["aa","aba","ba","a"]
+endswith 'b': ["ab","b"]
+result: 6
+
+__Complexity__
+Time O(26N)
+Space O(1).
+
+```
+Runtime: 0 ms, Beats 100.00%
+Memory: 8.87 MB, Beats 87.29%
+```
+```c++
+class Solution {
+public:
+    int distinctSubseqII(string s) {
+        long endsWith[26] = {}, mod = 1e9 + 7;
+        for (char &c : s)
+            endsWith[c - 'a'] = accumulate(begin(endsWith), end(endsWith), 1L) % mod;
+        return accumulate(begin(endsWith), end(endsWith), 0L) % mod;
+    }
+};
+```

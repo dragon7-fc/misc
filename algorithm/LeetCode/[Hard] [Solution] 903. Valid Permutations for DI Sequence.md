@@ -241,3 +241,72 @@ class Solution:
 
         return dp(0, len(S) - 1)
 ```
+
+**Solution 4: (DP Bottom-Up)**
+
+
+        vi
+    D I D
+    0 1 3 3
+3   1
+2   1 1
+1   1 2 5
+0   1 3 3 5
+
+__Intuition__
+dp[i][j] means the number of possible permutations of first i + 1 digits,
+where the i + 1th digit is j + 1th smallest in the rest of unused digits.
+
+Ok, may not make sense ... Let's see the following diagram.
+image
+
+I take the example of S = "DID".
+In the parenthesis, I list all possible permutations.
+
+The permutation can start from 1, 2, 3, 4.
+So dp[0][0] = dp[0][1] = dp[0][2] = dp[0][3] = 1.
+
+We decrese from the first digit to the second,
+the down arrow show the all possibile decresing pathes.
+
+The same, because we increase from the second digit to the third,
+the up arrow show the all possibile increasing pathes.
+
+dp[2][1] = 5, mean the number of permutations
+where the third digitis the second smallest of the rest.
+We have 413,314,214,423,324.
+Fow example 413, where 2,3 are left and 3 the second smallest of them.
+
+
+__Explanation__
+As shown in the diagram,
+for "I", we calculate prefix sum of the array,
+for "D", we calculate sufixsum of the array.
+
+
+_Complexity_
+Time O(N^2)
+Space O(N^2)
+
+```
+Runtime: 0 ms, Beats 100.00%
+Memory: 9.76 MB, Beats 58.89%
+```
+```c++
+class Solution {
+public:
+    int numPermsDISequence(string s) {
+        int n = s.length(), mod = 1e9 + 7;
+        vector<vector<int>> dp(n + 1, vector<int>(n + 1));
+        for (int j = 0; j <= n; j++) dp[0][j] = 1;
+        for (int i = 0; i < n; i++)
+            if (s[i] == 'I')
+                for (int j = 0, cur = 0; j < n - i; j++)
+                    dp[i + 1][j] = cur = (cur + dp[i][j]) % mod;
+            else
+                for (int j = n - i - 1, cur = 0; j >= 0; j--)
+                    dp[i + 1][j] = cur = (cur + dp[i][j + 1]) % mod;
+        return dp[n][0];
+    }
+};
+```

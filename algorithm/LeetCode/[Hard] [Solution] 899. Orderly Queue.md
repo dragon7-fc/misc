@@ -82,26 +82,27 @@ class Solution:
 ```
 
 **Solution 2: (sorting)**
+
 ```
-Runtime: 5 ms
-Memory: 8.8 MB
+Runtime: 0 ms, Beats 100.00%
+Memory: 10.47 MB, Beats 82.91%
 ```
 ```c++
 class Solution {
 public:
     string orderlyQueue(string s, int k) {
-        string ans;
-        ans = s;
+        int n = s.length(), i;
+        string ans = s, tmp;
         if (k > 1) {
-            sort(s.begin(), s.end());
-            return (s);
+            ans = s;
+            sort(ans.begin(), ans.end());
         } else {
-            string temp = s + s;
-            for (int i = 0; i + s.length() <= temp.length(); i++) {
-                ans = min(ans, temp.substr(i, s.length()));
+            tmp = s + s;
+            for (i = 0; i < n; i ++) {
+                ans = min(ans, tmp.substr(i, n));
             }
-            return ans;
         }
+        return ans;
     }
 };
 ```
