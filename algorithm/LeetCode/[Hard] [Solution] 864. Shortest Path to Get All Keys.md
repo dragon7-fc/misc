@@ -300,52 +300,59 @@ class Solution:
         return -1
 ```
 
-**Solution 3: (BFS with current key recorded visited map)**
+**Solution 3: (BFS with current key recorded visited map, O(k! * k * R * C))**
 ```
-Runtime: 38 ms
-Memory: 9.8 MB
+Runtime: 15 ms, Beats 86.72%
+Memory: 13.69 MB, Beats 94.05%
 ```
 ```c++
 class Solution {
+    int dd[5] = {0, 1, 0, -1, 0};
 public:
     int shortestPathAllKeys(vector<string>& grid) {
-        int m = grid.size(), n = m ? grid[0].size(): 0;
-        if (!m || !n) return 0;
-        int path = 0, K = 0;
-        vector<int> dirs={0, -1, 0, 1, 0};
-        vector<vector<vector<bool>>> visited(m,vector<vector<bool>>(n,vector<bool>(64,0))); //at most 6 keys, using bitmap 111111
-        queue<pair<int,int>> q; //<postion, hold keys mapping>
-        for (int i = 0; i < m; i++){
-            for (int j = 0; j < n; j++) {
+        int m = grid.size(), n = grid[0].size(), i, j, k = 0, sz, r, c, nr, nc, nmask, ans = 0;
+        vector<vector<vector<bool>>> visited(m, vector<vector<bool>>(n, vector<bool>(64))); //at most 6 keys, using bitmap 111111
+        queue<pair<int, int>> q; //<postion, hold keys mask>
+        for (i = 0; i < m; i++){
+            for (j = 0; j < n; j++) {
                 if (grid[i][j] == '@') {
-                    q.push({i*n+j, 0});
-                    visited[i][j][0] = 1;                    
+                    q.push({i * n + j, 0});
+                    visited[i][j][0] = true;                    
                 }
-                if (grid[i][j] >= 'A' && grid[i][j] <= 'F') K++; //total alpha number
+                if (grid[i][j] >= 'A' && grid[i][j] <= 'F') {
+                    k += 1; //total alpha number
+                }
             }
         }
-        while (!q.empty()) {
-            int size = q.size();
-            for (int i = 0; i < size; i++){
-                int a = q.front().first/n, b = q.front().first%n;
-                int carry = q.front().second;
-                q.pop();        
-                if (carry == ((1<<K) - 1)) return path; //if all keys hold, just return 
-                for (int j = 0; j < 4; j++){
-                    int x = a+dirs[j], y = b+dirs[j+1], k = carry;
-                    if (x < 0 || x >= m || y < 0 || y >= n || grid[x][y] == '#') continue;
-                    if (grid[x][y] >= 'a' && grid[x][y] <= 'f') {
-                        k = carry|(1<<(grid[x][y] - 'a')); //update hold keys
-                    } else if (grid[x][y] >= 'A' && grid[x][y] <= 'F') {
-                        if (!(carry & (1<<(grid[x][y] - 'A')))) continue;
-                    }
-                    if (!visited[x][y][k]) {
-                        visited[x][y][k] = 1;
-                        q.push({x*n+y, k});
-                    }                
+        while (q.size()) {
+            sz = q.size();
+            for (i = 0; i < sz; i ++) {
+                auto [pos, mask] = q.front();
+                q.pop();
+                r = pos / n, c = pos % n;
+                if (mask == ((1 << k) - 1)) {
+                    return ans;
+                }
+                for (j = 0; j < 4; j++) {
+                    nr = r + dd[j];
+                    nc = c + dd[j + 1];
+                    nmask = mask;
+                    if (nr >= 0 && nr < m && nc >= 0 && nc < n && grid[nr][nc] != '#') {
+                        if (grid[nr][nc] >= 'a' && grid[nr][nc] <= 'f') {
+                            nmask = mask | (1 << (grid[nr][nc] - 'a')); //update hold keys
+                        } else if (grid[nr][nc] >= 'A' && grid[nr][nc] <= 'F') {
+                            if (!(mask & (1 << (grid[nr][nc] - 'A')))) {
+                                continue;
+                            }
+                        }
+                        if (!visited[nr][nc][nmask]) {
+                            visited[nr][nc][nmask] = true;
+                            q.push({nr * n + nc, nmask});
+                        }
+                    }         
                 }
             }
-            path++;
+            ans += 1;
         }
         return -1;
     }

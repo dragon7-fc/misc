@@ -19075,6 +19075,63 @@ return dfs(0, N-1)
 
 ## Line Sweep <a name="ls"></a>
 ---
+### patten mask, close area
+```c++
+class Solution {
+public:
+    int countUnguarded(int m, int n, vector<vector<int>>& guards, vector<vector<int>>& walls) {
+        int i, j, k, r, c, ans = 0;
+        vector<vector<int>> g(m, vector<int>(n));
+        k = walls.size();
+        for (i = 0; i < k; i ++){
+            r = walls[i][0], c = walls[i][1];
+            g[r][c] = -2;
+        }
+        k = guards.size();
+        for (i = 0; i < k; i ++) {
+            r = guards[i][0], c = guards[i][1];
+            g[r][c] = 2;
+        }
+        for (j = 0; j < k; j ++) {
+            r = guards[j][0], c = guards[j][1];
+            for (i = r - 1; i >= 0; i --) { // up
+                if (g[i][c] == -2 || g[i][c] == 2) {
+                    break;
+                }
+                g[i][c] = 1;
+            }
+            for (i = r + 1; i < m; i ++) { // down
+                if (g[i][c] == -2 || g[i][c] == 2) {
+                    break;
+                }
+                g[i][c] = 1;
+            }
+            for (i = c - 1; i >= 0; i --) { // left
+                if (g[r][i] == -2 || g[r][i] == 2) {
+                    break;
+                }
+                g[r][i] = 1;
+            }
+            for (i = c + 1; i < n; i ++) { // right
+                if (g[r][i] == -2 || g[r][i] == 2) {
+                    break;
+                }
+                g[r][i] = 1;
+            }
+        }
+        for (i = 0; i < m; i ++) {
+            for (j = 0; j < n; j ++) {
+                if (g[i][j] == 0)  {
+                    ans += 1;
+                }
+            }
+        }
+        return ans;
+    }
+};
+```
+* [Medium] 2257. Count Unguarded Cells in the Grid
+
 ### Prefix Sum, Sort
 ```python
 class Solution:

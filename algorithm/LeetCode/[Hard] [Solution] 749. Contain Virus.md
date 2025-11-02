@@ -283,3 +283,87 @@ public:
     }
 };
 ```
+
+**Solution 3: (BFS, Simulation)**
+```
+Runtime: 11 ms, Beats 84.58%
+Memory: 16.64 MB, Beats 85.98%
+```
+```c++
+class Solution {
+    int dd[5] = {0, 1, 0, -1, 0};
+public:
+    int containVirus(vector<vector<int>>& isInfected) {
+        int m = isInfected.size(), n = isInfected[0].size(), i, j, k, mx, d, nr, nc, ans = 0;
+        vector<pair<pair<set<pair<int, int>>, set<pair<int, int>>>, int>> dp; // {{region, frontier}, perimeter}
+        vector<vector<bool>> visited(m, vector<bool>(n));
+        queue<array<int, 2>> q;
+        while (1) {
+            for (i = 0; i < m; i ++) {
+                for (j = 0; j < n; j ++) {
+                    if (isInfected[i][j] == 1 && !visited[i][j]) {
+                        q.push({i, j});
+                        visited[i][j] = true;
+                        dp.push_back({{{}, {}}, 0});
+                        dp.back().first.first.insert({i, j});
+                        while (q.size()) {
+                            auto [r, c] = q.front();
+                            q.pop();
+                            for (d = 0; d < 4; d ++) {
+                                nr = r + dd[d];
+                                nc = c + dd[d + 1];
+                                if (0 <= nr && nr < m && 0 <= nc && nc < n && !visited[nr][nc]) {
+                                    if (isInfected[nr][nc] == 1) {
+                                        q.push({nr, nc});
+                                        dp.back().first.first.insert({nr, nc});
+                                        visited[nr][nc] = 1;
+                                    } else if (isInfected[nr][nc] == 0) {
+                                        dp.back().first.second.insert({nr, nc});
+                                        dp.back().second += 1;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            if (dp.size() == 0) {
+                break;
+            }
+            mx = dp[0].first.second.size();
+            k = dp[0].second;
+            j = 0;
+            for (i = 1; i < dp.size(); i ++) {
+                if (dp[i].first.second.size() > mx) {
+                    mx = dp[i].first.second.size();
+                    k = dp[i].second;
+                    j = i;
+                }
+            }
+            ans += k;   
+            for (i = 0; i < dp.size(); i ++) {
+                if (i == j) {
+                    for (auto [r, c]: dp[i].first.first) {
+                        isInfected[r][c] = -1;
+                    }
+                } else {
+                    for (auto [r, c]: dp[i].first.first) {
+                        for (d = 0; d < 4; d ++) {
+                            nr = r + dd[d];
+                            nc = c + dd[d + 1];
+                            if (0 <= nr && nr < m && 0 <= nc && nc < n && isInfected[nr][nc] == 0) {
+                                isInfected[nr][nc] = 1;
+                            }
+                        }
+                    }
+                }
+            }
+            dp.clear();
+            for (i = 0; i < m; i ++) {
+                fill(visited[i].begin(), visited[i].end(), 0);
+            }
+        }
+        return ans;
+    }
+};
+```

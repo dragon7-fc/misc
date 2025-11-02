@@ -169,36 +169,37 @@ class Solution:
         return min(dist[2**N - 1])
 ```
 
-**Solution 3: (Breadth First Search, Brute Force)**
+**Solution 3: (Breadth First Search, Brute Force, Bitmask, O(n!))**
 ```
-Runtime: 187 ms
-Memory Usage: 17.5 MB
+Runtime: 43 ms, Beats 46.11%
+Memory: 21.78 MB, Beats 27.65%
 ```
 ```c++
 class Solution {
 public:
-    struct Node {
-        int value = INT_MAX;
-    };
     int shortestPathLength(vector<vector<int>>& graph) {
-        int N = graph.size(), d, cover2;
-        queue<pair<int,int>> q;
-        for (int x = 0; x < N; x ++)
-            q.push({1<<x, x});
-        map<pair<int,int>,Node> dist;
-        for (int x = 0; x < N; x ++)
-            dist[{x, 1<<x}].value = 0;
+        int n = graph.size(), i, nmask;
+        queue<array<int, 3>> q;
+        for (i = 0; i < n; i ++) {
+            q.push({1 << i, i, 0});
+        }
+        unordered_set<int> visited;
+        //  15 ...    4 3 .. 0
+        //  ---mask---- --u---
+        for (i = 0; i < n; i ++) {
+            visited.insert((1 << i) * 16 + i);
+        }
         while (!q.empty()) {
-            auto [cover, head] = q.front();
+            auto [mask, u, d] = q.front();
             q.pop();
-            d = dist[{head, cover}].value;
-            if (cover == pow(2, N) -1)
+            if (mask == (1 << n) - 1) {
                 return d;
-            for (auto child: graph[head]) {
-                cover2 = cover | (1 << child);
-                if (d+1 < dist[{child, cover2}].value) {
-                    dist[{child, cover2}].value = d+1;
-                    q.push({cover2, child});
+            }
+            for (auto v: graph[u]) {
+                nmask = mask | (1 << v);
+                if (!visited.count(nmask * 16 + v)) {
+                    visited.insert(nmask * 16 + v);
+                    q.push({nmask, v, d + 1});
                 }
                     
             }

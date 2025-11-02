@@ -56,8 +56,8 @@ No node has value 5.
 ---
 **Solution 1: (Linked List)**
 ```
-Runtime: 463 ms
-Memory: 258.58 MB
+Runtime: 95 ms, Beats 71.38%
+Memory: 263.23 MB, Beats 76.09%
 ```
 ```c++
 /**

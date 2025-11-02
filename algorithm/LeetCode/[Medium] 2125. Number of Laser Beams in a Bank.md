@@ -95,3 +95,27 @@ public:
     }
 };
 ```
+
+**Solution 3: (Greedy)**
+```
+Runtime: 1 ms Beats, 88.98%
+Memory: 27.32 MB, Beats 68.24%
+```
+```c++
+class Solution {
+public:
+    int numberOfBeams(vector<string>& bank) {
+        int m = bank.size(), i = 0, j = 0, a = 0, b, ans = 0;
+        while (j < m) {
+            while (j < m && (b = count(bank[j].begin(), bank[j].end(), '1')) == 0) {
+                j += 1;
+            }
+            ans += a * b;
+            i = j;
+            a = b;
+            j += 1;
+        }
+        return ans;
+    }
+};
+```

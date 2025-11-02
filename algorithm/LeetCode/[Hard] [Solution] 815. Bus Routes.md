@@ -169,7 +169,7 @@ public:
 };
 ```
 
-**Solution 3: (BFS, stop as key)**
+**Solution 3: (BFS, stop as key, O(N^2 * K))**
 ```
 Runtime: 280 ms
 Memory: 121.1 MB

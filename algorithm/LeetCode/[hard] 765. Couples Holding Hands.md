@@ -88,3 +88,41 @@ class Solution:
         
         return N//2 - dsu.count
 ```
+
+**Solution 3: (Union Find)**
+```
+Runtime: 0 ms, Beats 100.00%
+Memory: 9.66 MB, Beats 97.29%
+```
+```c++
+class Solution {
+    vector<int> p;
+    int find (int x) {
+        if (p[x] != x) {
+            p[x] = find(p[x]);
+        }
+        return p[x];
+    }
+    void uni(int x, int y) {
+        int xr = find(x), yr = find(y);
+        p[xr] = yr;
+    }
+public:
+    int minSwapsCouples(vector<int>& row) {
+        int n =row.size() / 2, i, k = 0;
+        p.resize(n);
+        for (i = 0; i < n; i ++) {
+            p[i] = i;
+        }
+        for (i = 0; i < 2 * n; i += 2) {
+            uni(row[i] / 2, row[i + 1] / 2);
+        }
+        for (i = 0; i < n; i ++) {
+            if (i == find(i)) {
+                k += 1;
+            }
+        }
+        return n - k;
+    }
+};
+```
