@@ -65,71 +65,71 @@ Query [1,1]: Station 1 is offline and there are no other stations in its grid, s
 ---
 **Solution 1: (Union Find)**
 ```
-Runtime: 252 ms, Beats 70.34%
-Memory: 485.43 MB, Beats 5.04%
+Runtime: 243 ms, Beats 76.51%
+Memory: 479.13 MB, Beats 5.02%
 ```
 ```c++
 class Solution {
     vector<int> p, r;
     int find(int x) {
-        if (p[x] != x) {
+        if (x != p[x]) {
             p[x] = find(p[x]);
         }
         return p[x];
     }
     void uni(int x, int y) {
         int xr = find(x), yr = find(y);
-        if (xr == yr) {
-            return;
-        }
-        if (r[xr] < r[yr]) {
-            p[yr] = p[xr];
-        } else if (r[yr] < r[xr]) {
-            p[xr] = p[yr];
-        } else {
-            p[xr] = p[yr];
-            r[yr] += 1;
+        if (xr != yr) {
+            if (r[xr] > r[yr]) {
+                p[yr] = xr;
+            } else if (r[xr] < r[yr]) {
+                p[xr] = yr;
+            } else {
+                p[xr] = yr;
+                r[yr] += 1;
+            }
         }
     }
 public:
     vector<int> processQueries(int c, vector<vector<int>>& connections, vector<vector<int>>& queries) {
+        int i, t, u, v, ur;
         unordered_map<int, queue<int>> m;
-        vector<int> visited(c+1);
+        vector<bool> visited(c + 1);
         vector<int> ans;
-        p.resize(c+1);
-        r.resize(c+1, 1);
-        int i, pi;
+        p.resize(c + 1);
+        r.resize(c + 1, 1);
         for (i = 1; i <= c; i ++) {
             p[i] = i;
         }
-        for (auto &c: connections) {
-            uni(c[0], c[1]);
+        for (auto &conn: connections) {
+            uni(conn[0], conn[1]);
         }
         for (i = 1; i <= c; i ++) {
-            pi = find(i);
-            m[pi].push(i);
+            m[find(i)].push(i);
         }
-        for (auto &q: queries) {
-            pi = find(q[1]);
-            if (q[0] == 1) {
-                if (!visited[q[1]]) {
-                    ans.push_back(q[1]);
+        for (i = 0; i < queries.size(); i ++) {
+            t = queries[i][0];
+            u = queries[i][1];
+            if (t == 1) {
+                if (!visited[u]) {
+                    ans.push_back(u);
                 } else {
-                    while (m[pi].size()) {
-                        auto j = m[pi].front();
-                        if (!visited[j]) {
+                    ur = p[u];
+                    while (m[ur].size()) {
+                        v = m[ur].front();
+                        if (!visited[v]) {
                             break;
                         }
-                        m[pi].pop();
+                        m[ur].pop();
                     }
-                    if (m[pi].size()) {
-                        ans.push_back(m[pi].front());
+                    if (m[ur].size()) {
+                        ans.push_back(v);
                     } else {
                         ans.push_back(-1);
                     }
                 }
             } else {
-                visited[q[1]] = 1;
+                visited[u] = true;
             }
         }
         return ans;

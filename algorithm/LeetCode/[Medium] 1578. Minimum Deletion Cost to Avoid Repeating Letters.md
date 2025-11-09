@@ -122,3 +122,30 @@ class Solution:
         
         return dp[-1]
 ```
+
+**Solution 5: (Greedy, Two Pointers)**
+```
+Runtime: 4 ms, Beats 59.28%
+Memory: 99.84 MB, Beats 65.59%
+```
+```c++
+class Solution {
+public:
+    int minCost(string colors, vector<int>& neededTime) {
+        int n = colors.size(), i = 0, j, ans = 0;
+        for (j = 1; j < n; j ++) {
+            if (colors[i] == colors[j]) {
+                if (neededTime[j] > neededTime[i]) {
+                    ans += neededTime[i];
+                    i = j;
+                } else {
+                    ans += neededTime[j];
+                }
+            } else {
+                i = j;
+            }
+        }
+        return ans;
+    }
+};
+```
