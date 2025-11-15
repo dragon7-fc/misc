@@ -53,3 +53,36 @@ class Solution:
                 dp[r][col2+1] -= 1        
         return [list(accumulate(r))[:-1] for r in dp]
 ```
+
+**Solution 2: (Prefix Sum, mask every row)**
+```
+Runtime: 51 ms, Beats 38.56%
+Memory: 86.20 MB, Beats 100.00%
+```
+```c++
+class Solution {
+public:
+    vector<vector<int>> rangeAddQueries(int n, vector<vector<int>>& queries) {
+        int i, j, row1, col1, row2, col2;
+        vector<vector<int>> ans(n, vector<int>(n));
+        for (auto &q: queries) {
+            row1 = q[0];
+            col1 = q[1];
+            row2 = q[2];
+            col2 = q[3];
+            for (i = row1; i <= row2; i ++) {
+                ans[i][col1] += 1;
+                if (col2 + 1 < n) {
+                    ans[i][col2 + 1] -= 1;
+                }
+            }
+        }
+        for (i = 0; i < n; i ++) {
+            for (j = 1; j < n; j ++) {
+                ans[i][j] += ans[i][j - 1];
+            }
+        }
+        return ans;
+    }
+};
+```

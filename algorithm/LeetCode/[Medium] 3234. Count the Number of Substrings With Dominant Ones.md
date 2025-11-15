@@ -152,3 +152,37 @@ public:
     }
 };
 ```
+
+**Solution 3: (Sliding Window, Brute Force, O(n sqrt(n)))**
+
+       0   0   0   1   1
+cnt 0
+    0
+
+```
+Runtime: 471 ms, Beats 38.93%
+Memory: 13.98 MB, Beats 88.59%
+```
+```c++
+class Solution {
+public:
+    int numberOfSubstrings(string s) {
+        int n = s.size(), z, p, i, j, cnt[2], ans = 0;
+        for (z = 0; z + z * z <= n; z ++) {
+            cnt[0] = 0, cnt[1] = 0, p = 0;
+            for (i = 0, j = 0; j < n; j ++) {
+                cnt[s[j] == '1'] += 1;
+                while (cnt[0] > z) {
+                    cnt[s[i] == '1'] -= 1;
+                    i += 1;
+                }
+                if (cnt[0] == z && cnt[1] && cnt[1] >= z * z) {
+                    for (p = max(p, i); p < j && s[p] == '1'; p ++);
+                    ans += 1 + min(p - i, cnt[1] - z * z);
+                }
+            }
+        }
+        return ans;
+    }
+};
+```

@@ -35,7 +35,7 @@ Explanation: It can be shown that it is impossible to make all the elements equa
 
 # Submissions
 ---
-**Solution 1: (Math, Greedy, Minimum size subarray with gcd =1)**
+**Solution 1: (Math, Greedy, Minimum size subarray with gcd = 1)**
 ```
 Runtime: 3 ms
 Memory: 27.7 MB
@@ -77,6 +77,44 @@ public:
             return -1;
         }
         return n+minop-2;
+    }
+};
+```
+
+**Solution 2: (Math, Greedy, Brute Froce, Minimum size subarray with gcd = 1, gcd(0, a) = a)**
+```
+Runtime: 0 ms, Beats 100.00%
+Memory: 31.56 MB, Beats 93.06%
+```
+```c++
+class Solution {
+public:
+    int minOperations(vector<int>& nums) {
+        int n = nums.size(), i, j, k = 0, g = 0;
+        for (auto &x : nums) {
+            if (x == 1) {
+                k += 1;
+            }
+            g = gcd(g, x);
+        }
+        if (k > 0) {
+            return n - k;
+        }
+        if (g > 1) {
+            return -1;
+        }
+        int min_len = n;
+        for (i = 0; i < n; i++) {
+            int g = 0;
+            for (j = i; j < n; j++) {
+                g = gcd(g, nums[j]);
+                if (g == 1) {
+                    min_len = min(min_len, j - i + 1);
+                    break;
+                }
+            }
+        }
+        return min_len + n - 2;
     }
 };
 ```

@@ -81,3 +81,32 @@ public:
     }
 };
 ```
+
+**Solution 2: (Mono Stack)**
+```
+Runtime: 39 ms, Beats 63.48%
+Memory: 222.52 MB, Beats 43.82%
+```
+```c++
+class Solution {
+public:
+    int minOperations(vector<int>& nums) {
+        int ans = 0;
+        stack<int> stk;
+        for (auto &num: nums) {
+            while (stk.size() && stk.top() >= num) {
+                if (stk.top() > num) {
+                    ans += 1;
+                }
+                stk.pop();
+            }
+            stk.push(num);
+        }
+        while (stk.size() && stk.top()) {
+            ans += 1;
+            stk.pop();
+        }
+        return ans;
+    }
+};
+```

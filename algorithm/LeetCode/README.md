@@ -617,6 +617,36 @@ class Solution:
 ```
 * [Medium] [Solution] 238. Product of Array Except Self
 
+### Prefix Sum, mask every row
+```c++
+class Solution {
+public:
+    vector<vector<int>> rangeAddQueries(int n, vector<vector<int>>& queries) {
+        int i, j, row1, col1, row2, col2;
+        vector<vector<int>> ans(n, vector<int>(n));
+        for (auto &q: queries) {
+            row1 = q[0];
+            col1 = q[1];
+            row2 = q[2];
+            col2 = q[3];
+            for (i = row1; i <= row2; i ++) {
+                ans[i][col1] += 1;
+                if (col2 + 1 < n) {
+                    ans[i][col2 + 1] -= 1;
+                }
+            }
+        }
+        for (i = 0; i < n; i ++) {
+            for (j = 1; j < n; j ++) {
+                ans[i][j] += ans[i][j - 1];
+            }
+        }
+        return ans;
+    }
+};
+```
+* [Medium] 2536. Increment Submatrices by One
+
 ### Prefix Sum, try all possible solution
 ```c++
 class Solution {
@@ -16730,7 +16760,33 @@ class Solution:
 ```
 
 ## Sliding Window <a name="sw"></a>
----
+
+### Brute Foce
+```c++
+class Solution {
+public:
+    int numberOfSubstrings(string s) {
+        int n = s.size(), z, p, i, j, cnt[2], ans = 0;
+        for (z = 0; z + z * z <= n; z ++) {
+            cnt[0] = 0, cnt[1] = 0, p = 0;
+            for (i = 0, j = 0; j < n; j ++) {
+                cnt[s[j] == '1'] += 1;
+                while (cnt[0] > z) {
+                    cnt[s[i] == '1'] -= 1;
+                    i += 1;
+                }
+                if (cnt[0] == z && cnt[1] && cnt[1] >= z * z) {
+                    for (p = max(p, i); p < j && s[p] == '1'; p ++);
+                    ans += 1 + min(p - i, cnt[1] - z * z);
+                }
+            }
+        }
+        return ans;
+    }
+};
+```
+* [Medium] 3234. Count the Number of Substrings With Dominant Ones
+
 ### DP Bottom-Up with Sliding Window
 ```c++
 class Solution {

@@ -69,3 +69,59 @@ public:
     }
 };
 ```
+
+**Solution 2: (Greedy + Counting)**
+```
+Runtime: 4 ms, Beats 71.38%
+Memory: 15.93 MB, Beats 26.09%
+```
+```c++
+class Solution {
+public:
+    int maxOperations(string s) {
+        int countOne = 0;
+        int ans = 0;
+        for (int i = 0; i < s.length(); i++) {
+            if (s[i] == '0') {
+                while ((i + 1) < s.length() && s[i + 1] == '0') {
+                    i++;
+                }
+                ans += countOne;
+            } else {
+                countOne++;
+            }
+        }
+        return ans;
+    }
+};
+```
+
+**Solution 3: (Greedy + Counting)**
+```
+Runtime: 7 ms, Beats 43.12%
+Memory: 15.76 MB, Beats 75.00%
+```
+```c++
+class Solution {
+public:
+    int maxOperations(string s) {
+        int n = s.size(), i, one = 0, ans = 0;
+        bool z = false;
+        for (i = 0; i < n; i ++) {
+            if (s[i] == '1') {
+                if (z) {
+                    ans += one;
+                }
+                one += 1;
+                z = false;
+            } else {
+                z = true;
+            }
+            if (i == n - 1 && z) {
+                ans += one;
+            }
+        }
+        return ans;
+    }
+};
+```
