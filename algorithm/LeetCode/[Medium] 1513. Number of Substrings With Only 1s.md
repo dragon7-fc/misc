@@ -81,3 +81,26 @@ public:
     }
 };
 ```
+
+**Solution 2: (Greedy)**
+```
+Runtime: 0 ms, Beats 100.00%
+Memory: 11.78 MB, Beats 11.57%
+```
+```c++
+class Solution {
+public:
+    int numSub(string s) {
+        int a = 0, ans = 0, MOD = 1e9 + 7;
+        for (auto c: s) {
+            if (c == '1') {
+                a += 1;
+            } else {
+                a = 0;
+            }
+            ans = (ans + a) % MOD;
+        }
+        return ans;
+    }
+};
+```

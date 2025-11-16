@@ -122,7 +122,6 @@ Consider this example when z == 2:
 * 1101011: +2 substrings (1101011 and 1101011)
 * 11010111: +3 substrings (11010111, 11010111, and 11010111)
 * 110101111: +3 substrings (110101111, 110101111, and 110101111)
-
 As you can see, we need to track the position of the first zero in the window (p).
 
 Every time we extend our window, it generates 1 + min(p - j, cnt[1] - z * z) additional substrings.
@@ -155,10 +154,13 @@ public:
 
 **Solution 3: (Sliding Window, Brute Force, O(n sqrt(n)))**
 
-       0   0   0   1   1
-cnt 0
-    0
 
+        ...   0  ...   x
+        ^i    ^p       ^j
+          -----    ----
+           p-j      cnt[1]-z^2   
+cnt[0]                z
+cnt[1]                >= z^2
 ```
 Runtime: 471 ms, Beats 38.93%
 Memory: 13.98 MB, Beats 88.59%
@@ -170,6 +172,7 @@ public:
         int n = s.size(), z, p, i, j, cnt[2], ans = 0;
         for (z = 0; z + z * z <= n; z ++) {
             cnt[0] = 0, cnt[1] = 0, p = 0;
+                                    ^first zero after i
             for (i = 0, j = 0; j < n; j ++) {
                 cnt[s[j] == '1'] += 1;
                 while (cnt[0] > z) {
@@ -179,10 +182,49 @@ public:
                 if (cnt[0] == z && cnt[1] && cnt[1] >= z * z) {
                     for (p = max(p, i); p < j && s[p] == '1'; p ++);
                     ans += 1 + min(p - i, cnt[1] - z * z);
+                                          ^^^^^^^^^^^^^^
+                                            1s >= 0s^2
                 }
             }
         }
         return ans;
+    }
+};
+```
+
+**Solution 4: (Sliding Window, Brute Force, Enumeration, O(n sqrt(n)))**
+```
+Runtime: 155 ms, Beats 87.92%
+Memory: 18.26 MB, Beats 35.57%
+```
+```c++
+class Solution {
+public:
+    int numberOfSubstrings(string s) {
+        int n = s.size();
+        vector<int> pre(n + 1);
+        pre[0] = -1;
+        for (int i = 0; i < n; i++) {
+            if (i == 0 || (i > 0 && s[i - 1] == '0')) {
+                pre[i + 1] = i;
+            } else {
+                pre[i + 1] = pre[i];
+            }
+        }
+        int res = 0;
+        for (int i = 1; i <= n; i++) {
+            int cnt0 = s[i - 1] == '0';
+            int j = i;
+            while (j > 0 && cnt0 * cnt0 <= n) {
+                int cnt1 = (i - pre[j]) - cnt0;
+                if (cnt0 * cnt0 <= cnt1) {
+                    res += min(j - pre[j], cnt1 - cnt0 * cnt0 + 1);
+                }
+                j = pre[j];
+                cnt0++;
+            }
+        }
+        return res;
     }
 };
 ```

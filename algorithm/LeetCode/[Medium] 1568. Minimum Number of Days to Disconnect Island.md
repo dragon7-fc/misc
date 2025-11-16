@@ -331,3 +331,62 @@ public:
     }
 };
 ```
+
+**Solution 4: (BFS, Brute Force)**
+```
+Runtime: 95 ms, Beats 21.19%
+Memory: 35.52 MB, Beats 18.81%
+```
+```c++
+class Solution {
+    int dd[5] = {0, 1, 0, -1, 0};
+    int bfs(vector<vector<int>> &grid) {
+        int m = grid.size(), n = grid[0].size(), i, j, d, ni, nj, rst = 0;
+        vector<vector<bool>> visited(m, vector<bool>(n));
+        for (i = 0; i < m; i ++) {
+            for (j = 0; j < n; j ++) {
+                if (grid[i][j] == 1 && !visited[i][j]) {
+                    rst += 1;
+                    visited[i][j] = true;
+                    queue<array<int, 2>> q;
+                    q.push({i, j});
+                    while (q.size()) {
+                        auto [ci, cj] = q.front();
+                        q.pop();
+                        for (d = 0; d < 4; d ++) {
+                            ni = ci + dd[d];
+                            nj = cj + dd[d + 1];
+                            if (0 <= ni && ni < m && 0 <= nj && nj < n && grid[ni][nj] == 1 && !visited[ni][nj]) {
+                                visited[ni][nj] = true;
+                                q.push({ni, nj});
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        return rst;
+    }
+public:
+    int minDays(vector<vector<int>>& grid) {
+        int m = grid.size(), n = grid[0].size(), i, j, k;
+        k = bfs(grid);
+        if (k != 1) {
+            return 0;
+        }
+        for (i = 0; i < m; i ++) {
+            for (j = 0; j < n; j ++) {
+                if (grid[i][j] == 1) {
+                    grid[i][j] = 0;
+                    k = bfs(grid);
+                    if (k != 1) {
+                        return 1;
+                    }
+                    grid[i][j] = 1;
+                }
+            }
+        }
+        return 2;
+    }
+};
+```
