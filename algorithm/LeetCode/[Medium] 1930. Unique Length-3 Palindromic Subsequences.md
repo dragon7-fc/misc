@@ -134,7 +134,49 @@ public:
 };
 ```
 
-**Solution 4: (Pre-Compute First and Last Indices)**
+**Solution 4: (Prefix Sum, Counter)**
+```
+Runtime: 215 ms, Beats 26.52%
+Memory: 21.10 MB, Beats 14.16%
+```
+```c++
+class Solution {
+public:
+    int countPalindromicSubsequence(string s) {
+        int n = s.size(), i, j, pj, ci, ans = 0;
+        char c;
+        vector<vector<bool>> visited(26, vector<bool>(26));
+        vector<deque<int>> pre(26);
+        for (i = 0; i < n; i ++) {
+            c = s[i];
+            ci = c - 'a';
+            if (pre[ci].size()) {
+                if (pre[ci].size() == 2) {
+                    visited[ci][ci] = true;
+                }
+                pj = pre[ci].back();
+                for (j = 0; j < 26; j ++) {
+                    if (ci != j && pre[j].size() && pre[j].back() > pj) {
+                        visited[ci][j] = true;
+                    }
+                }
+            }
+            if (pre[ci].size() == 2) {
+                pre[ci].pop_front();
+            }
+            pre[ci].push_back(i);
+        }
+        for (i = 0; i < 26; i ++) {
+            for (j = 0; j < 26; j ++) {
+                ans += visited[i][j];
+            }
+        }
+        return ans;
+    }
+};
+```
+
+**Solution 5: (Pre-Compute First and Last Indices)**
 
     a a b c a
    -----------
@@ -148,8 +190,8 @@ a           ^ . ^
 b   ^ . .   . ^
 
 ```
-Runtime: 275 ms
-Memory: 13.3 MB
+Runtime: 143 ms, Beats 77.75%
+Memory: 15.91 MB, Beats 58.20%
 ```
 ```c++
 class Solution {

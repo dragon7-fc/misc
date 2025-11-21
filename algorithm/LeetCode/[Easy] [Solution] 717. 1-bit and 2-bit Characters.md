@@ -84,3 +84,23 @@ class Solution:
         while bits and bits.pop(): parity ^= 1
         return parity == 0
 ```
+
+**Solution 1: (Greedy)**
+```
+Runtime: 0 ms, Beats 100.00%
+Memory: 12.93 MB, Beats 94.78%
+```
+```c++
+class Solution {
+public:
+    bool isOneBitCharacter(vector<int>& bits) {
+        int n = bits.size(), i;
+        for (i = 0; i < n - 1; i ++) {
+            if (bits[i] == 1) {
+                i += 1;
+            }
+        }
+        return i == n - 1 ? true : false;
+    }
+};
+```

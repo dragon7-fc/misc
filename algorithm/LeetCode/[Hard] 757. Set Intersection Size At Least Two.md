@@ -153,3 +153,47 @@ class Solution:
                 ans += 1
         return ans
 ```
+
+**Solution 4: (Sort, Greedy, sort by smallest end then largest start, only care about right most 2 point)**
+
+      v v
+              v v
+                v v
+    1 2 3 4 5 6 7 8, ans = 5
+    xxxxx
+            xxxxx
+        xxxxxxxxx
+                xxx
+
+```
+Runtime: 4 ms, Beats 65.43%
+Memory: 21.66 MB, Beats 90.12%
+```
+```c++
+class Solution {
+public:
+    int intersectionSizeTwo(vector<vector<int>>& intervals) {
+        sort(intervals.begin(), intervals.end(), [](auto &ia, auto &ib){
+            if (ia[1] != ib[1]) {
+                return ia[1] < ib[1];
+            }
+            return ia[0] > ib[0];
+        });
+        int n = intervals.size(), i, pst = intervals[0][1] - 1, ped = intervals[0][1], st, ed, ans = 2;
+        for (i = 1; i < n; i ++) {
+            st = intervals[i][0];
+            ed = intervals[i][1];
+            if (ped < st) {
+                pst = ed - 1;
+                ped = ed;
+                ans += 2;
+            } else if (pst < st) {
+                pst = ped;
+                ped = ed;
+                ans += 1;
+            }
+        }
+        return ans;
+    }
+};
+```

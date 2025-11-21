@@ -163,3 +163,26 @@ class Solution:
 
         return True
 ```
+
+**Solution 6: (Greedy)**
+```
+Runtime: 0 ms, Beats 100.00%
+Memory: 61.47 MB, Beats 47.64%
+```
+```c++
+class Solution {
+public:
+    bool kLengthApart(vector<int>& nums, int k) {
+        int n = nums.size(), i = -1, j;
+        for (j = 0; j < n; j ++) {
+            if (nums[j] == 1) {
+                if (i >= 0 && j - i - 1 < k) {
+                    return false;
+                }
+                i = j;
+            }
+        }
+        return true;
+    }
+};
+```

@@ -128,3 +128,61 @@ class Solution:
         
         return dp(0, 0)
 ```
+
+**Solution 4: (DP Bottom-Up)**
+
+    3 6  5  1  8
+0   3 9    15 18
+1        5 10 22
+2       14 14 23
+
+```
+Runtime: 3 ms, Beats 86.49%
+Memory: 28.80 MB, Beats 93.32%
+```
+```c++
+class Solution {
+public:
+    int maxSumDivThree(vector<int>& nums) {
+        int i, j;
+        vector<int> pre(3), cur(3);
+        for (auto &num: nums) {
+            for (i = 0; i < 3; i ++) {
+                j = ((i - (num % 3)) + 3) % 3;
+                if (pre[j]) {
+                    cur[i] = max(cur[i], pre[j] + num);
+                }
+            }
+            cur[num % 3] = max(cur[num % 3], num);
+            pre = cur;
+        }
+        return pre[0];
+    }
+};
+```
+
+**Solution 5: (DP Bottom-Up)**
+```
+Runtime: 19 ms, Beats 56.28%
+Memory: 28.87 MB, Beats 84.90%
+```
+```c++
+class Solution {
+public:
+    int maxSumDivThree(vector<int>& nums) {
+        int i, j;
+        vector<int> pre(3), cur(3);
+        for (auto &num: nums) {
+            for (i = 0; i < 3; i ++) {
+                j = (i + num) % 3;
+                if (pre[i]) {
+                    cur[j] = max(cur[j], pre[i] + num);
+                }
+            }
+            cur[num % 3] = max(cur[num % 3], num);
+            pre = cur;
+        }
+        return pre[0];
+    }
+};
+```
