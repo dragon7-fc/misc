@@ -117,3 +117,30 @@ public:
     }
 };
 ```
+
+**Solution 5: (Math, (a + b) % k = a % k + b % k, at most r kind remainder or it will loop)**
+
+    ((a + r) * 10 + 1) % k
+    = (a * 10) % k + (r * 10 + 1) % k
+      ------------   ----------------
+             0               0
+
+```
+Runtime: 0 ms, Beats 100.00%
+Memory: 7.73 MB, Beats 81.50%
+```
+```c++
+class Solution {
+public:
+    int smallestRepunitDivByK(int k) {
+        int a = 0, ans;
+        for (ans = 1; ans <= k; ans ++) {
+            a = (a * 10 + 1) % k;
+            if (a == 0) {
+                return ans;
+            } 
+        }
+        return -1;
+    }
+};
+```

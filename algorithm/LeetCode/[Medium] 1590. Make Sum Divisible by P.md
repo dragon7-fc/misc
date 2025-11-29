@@ -70,30 +70,36 @@ class Solution:
         return res if res < n else -1
 ```
 
-**Solution 1: (Prefix Sum, Hash Table, Prefix sum Hash Table index)**
+**Solution 1: (Prefix Sum, Hash Table, Prefix sum Hash Table index, find previous complementary element)**
 ```
-Runtime: 124 ms
-Memory: 70.48 MB
+Runtime: 70 ms, Beats 83.15%
+Memory: 87.74 MB, Beats 74.34%
 ```
 ```c++
 class Solution {
 public:
     int minSubarray(vector<int>& nums, int p) {
-        unordered_map<int, int> dp;
-        dp[0] = -1;
-        long long cur = 0;
-        int d = accumulate(nums.begin(), nums.end(), 0L)%p, n = nums.size(), ans = n;
-        if (d == 0) {
+        int n = nums.size(), i;
+        long long a = 0, b = accumulate(nums.begin(), nums.end(), 0LL);
+        int t = b % p, rt, mn = n;
+        if (b % p == 0) {
             return 0;
         }
-        for (int i = 0; i < n; i ++) {
-            cur +=  nums[i];
-            if (dp.count(((cur-d)%p + p)%p)) {
-                ans = min(ans, i - dp[((cur-d)%p + p)%p]);
+        unordered_map<int, int> mp;
+        mp[0] = -1;
+        for (i = 0; i < n; i ++) {
+            a += nums[i];
+            rt = (((a - t) % p) + p) % p;
+            if (mp.count(rt)) {
+                mn = min(mn, i - mp[rt]);
             }
-            dp[cur%p] = i;
+            a %= p;
+            mp[a] = i;
         }
-        return ans == n ? -1 : ans;
+        if (mn == n) {
+            return -1;
+        }
+        return mn;
     }
 };
 ```

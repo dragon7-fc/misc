@@ -80,8 +80,14 @@
 ### bisect
 * `bisect.bisect_left(a, x, lo=0, hi=len(a))`
     * ex. li = [1, 3, 4, 4, 4, 6, 7], bisect.bisect_left(li, 4) = 2
+                      ^
+    * ex. li = [1, 3, 5], bisect.bisect_left(li, 4) = 2
+                      ^
 * `bisect.bisect_right(a, x, lo=0, hi=len(a))` = `bisect.bisect(a, x, lo=0, hi=len(a))`
     * ex. li = [1, 3, 4, 4, 4, 6, 7], bisect.bisect(li, 4) = 5
+                               ^
+    * ex. li = [1, 3, 5], bisect.bisect_right(li, 4) = 2
+                      ^
 
 ### heapq
 

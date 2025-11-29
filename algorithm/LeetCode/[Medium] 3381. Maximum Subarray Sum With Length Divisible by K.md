@@ -50,26 +50,33 @@ The maximum sum subarray is [1, 2, -3, 4] which has length equal to 4 which is d
 # Submissions
 ---
 **Solution 1: (Hash Table, Prefix Sum)**
+
+       9  -11   15
+a   0  9   -2   13
+pre
+0          -2
+1      9  
+ans        -2    4
+
 ```
-Runtime: 8 ms
-Memory: 162.36 MB
+Runtime: 4 ms, Beats 91.47%
+Memory: 162.30 MB, Beats 90.10%
 ```
 ```c++
 class Solution {
 public:
     long long maxSubarraySum(vector<int>& nums, int k) {
         int n = nums.size(), i;
-        long long cur = 0, ans = LONG_LONG_MIN;
-        vector<long long> dp(k);
+        long long a = 0, ans = LONG_LONG_MIN;
+        vector<long long> pre(k);
         for (i = 0; i < n; i ++) {
-            cur += nums[i];
-            if (i >= k-1) {
-                ans = max(ans, cur-dp[(i+1)%k]);
-                dp[(i+1)%k] = min(dp[(i+1)%k], cur);
+            a += nums[i];
+            if (i >= k - 1) {
+                ans = max(ans, a - pre[(i + 1) % k]);
+                pre[(i + 1) % k] = min(pre[(i + 1) % k], a);
             } else {
-                dp[(i+1)%k] = cur;
+                pre[(i + 1) % k] = a;
             }
-            
         }
         return ans;
     }

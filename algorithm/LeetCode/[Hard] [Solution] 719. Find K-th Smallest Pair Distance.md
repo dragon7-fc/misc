@@ -239,3 +239,38 @@ public:
     }
 };
 ```
+
+**Solution 3: (Binary Search + Sliding Window)**
+```
+Runtime: 6 ms, Beats 35.32%
+Memory: 14.04 MB, Beats 33.30%
+```
+```c++
+class Solution {
+    bool check(int mid, int k, vector<int> &nums) {
+        int n = nums.size(), i = 0, j, ck = 0;
+        for (j = 1; j < n; j ++) {
+            while (nums[j] - nums[i] > mid) {
+                i += 1;
+            }
+            ck += j - i;
+        }
+        return ck >= k;
+    }
+public:
+    int smallestDistancePair(vector<int>& nums, int k) {
+        sort(nums.begin(), nums.end());
+        int left = 0, right = nums.back() - nums[0], mid, ans;
+        while (left <= right) {
+            mid = left + (right - left) / 2;
+            if (!check(mid, k, nums)) {
+                left = mid + 1;
+            } else {
+                ans = mid;
+                right = mid - 1;
+            }
+        }
+        return ans;
+    }
+};
+```

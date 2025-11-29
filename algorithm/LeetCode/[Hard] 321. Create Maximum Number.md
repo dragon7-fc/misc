@@ -117,3 +117,70 @@ class Solution:
                 res = max(res, dfs(i, k - i))
         return [int(x) for x in str(res)]
 ```
+
+**Solution 2: (Brute Force, mono stack, try all valid splits of digits between nums1 and nums2. O(k * (m + n)))**
+```
+Runtime: 24 ms, Beats 64.19%
+Memory: 27.00 MB, Beats 88.06%
+```
+```c++
+class Solution {
+    bool greater(vector<int> &a, int i, vector<int> &b, int j) {
+        int m = a.size(), n = b.size();
+        while (i < m && j < n) {
+            if (a[i] != b[j]) {
+                return a[i] > b[j];
+            }
+            i += 1;
+            j += 1;
+        }
+        return (m - i) > (n - j);//else the one with the more length will be considered as greater 
+    }
+    vector<int> merge(vector<int> &a, vector<int> &b, int k) {
+        vector<int> rst(k);
+        int i = 0, j = 0, r = 0;
+        while (r < k) {
+            if (greater(a, i, b, j)) {
+                rst[r++] = a[i++];
+            } else {
+                rst[r++] = b[j++];
+            }
+        }
+        return rst;
+    }
+    vector<int> get_max_k(vector<int> &nums, int k) {
+        if (k == 0) {
+            return {0};
+        }
+        deque<int> dq; 
+        int i, toRemove = nums.size() - k; // how many elements we can drop
+        for (auto &x: nums) {
+            while (dq.size() && dq.back() < x && toRemove > 0) {
+                dq.pop_back();
+                toRemove -= 1;
+            }
+            dq.push_back(x);
+        }
+        vector<int> rst(k);
+        for (i = 0; i < k; i ++) {
+            rst[i] = dq.front();
+            dq.pop_front();
+        }
+        return rst;
+    }
+public:
+    vector<int> maxNumber(vector<int>& nums1, vector<int>& nums2, int k) {
+        int m = nums1.size(), n = nums2.size(), i;
+        vector<int> a, b, c, ans;
+        for (i = max(0, k - n); i <= min(k, m); i ++) {
+            a = get_max_k(nums1, i); 
+            b = get_max_k(nums2, k - i);
+            c = merge(a, b, k);
+            if (greater(c, 0, ans, 0)) {
+                ans = c;
+            }
+        }
+        return ans;
+    }
+};
+```
