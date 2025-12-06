@@ -110,3 +110,52 @@ class Solution:
 
         return ans
 ```
+
+**Solution 2: (Counter)**
+
+
+ 0 1 2 3 4 5 6 7 8 9
+     5
+ x x x           x x invalid
+
+              v
+nums = [2,3,1,4,0]
+
+        2
+          -----  
+          3
+            ---  
+            1
+        ---   ---
+              4
+                -
+                0
+        ---------
+```
+Runtime: 0 ms, Beats 100.00%
+Memory: 78.54 MB, Beats 19.62%
+```
+```c++
+class Solution {
+public:
+    int bestRotation(vector<int>& nums) {
+        int n = nums.size();
+        vector<int> cnt(n);
+        for (int i = 0; i < n; i ++) {
+            cnt[(i + 1) % n] += 1;             // interval start
+            cnt[(i + 1 - nums[i] + n) % n] -= 1;  // interval end
+        }
+        int count = 0;
+        int maxCount = -1;
+        int ans = 0;
+        for (int i = 0; i < n; i ++) {  // find most overlap interval
+            count += cnt[i];
+            if (count > maxCount) {
+                ans = i;
+                maxCount = count;
+            }
+        }
+        return ans;
+    }
+};
+```

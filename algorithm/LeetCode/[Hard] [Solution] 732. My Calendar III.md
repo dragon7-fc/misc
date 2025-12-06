@@ -158,3 +158,43 @@ public:
  * int param_1 = obj->book(start,end);
  */
 ```
+
+**Solution 4: (Hash Table, Counter, sort, event)**
+
+    5  10  15  20  25  30  35  40  45  50  55  60
+       --------                        --------
+       ------------------------
+    -------
+    ---
+                   ------------------------
+
+```
+Runtime: 41 ms, Beats 66.61%
+Memory: 32.92 MB, Beats 61.46%
+```
+```c++
+class MyCalendarThree {
+    map<int, int> mp;
+public:
+    MyCalendarThree() {
+        
+    }
+    
+    int book(int startTime, int endTime) {
+        mp[startTime] += 1;
+        mp[endTime] -= 1;
+        int k = 0, ans = 0;
+        for (auto &[_, ck]: mp) {
+            k += ck;
+            ans = max(ans, k);
+        }
+        return ans;
+    }
+};
+
+/**
+ * Your MyCalendarThree object will be instantiated and called as such:
+ * MyCalendarThree* obj = new MyCalendarThree();
+ * int param_1 = obj->book(startTime,endTime);
+ */
+```

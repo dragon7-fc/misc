@@ -262,7 +262,51 @@ public:
 };
 ```
 
-**Solution 4: (Two Pointers, left right)**
+**Solution 4: (DP Bottom-Up)**
+```
+Runtime: 4 ms, Beats 55.81%
+Memory: 31.38 MB, Beats 34.29%
+```
+```c++
+class Solution {
+public:
+    vector<int> maxSumOfThreeSubarrays(vector<int>& nums, int k) {
+        int n = nums.size();
+
+        vector<int> pre(n + 1);
+        for (int i = 0; i < n; i ++) {
+            pre[i + 1] = pre[i] + nums[i];
+        }
+
+        vector<vector<int>> dp(4, vector<int>(n + 1)), dpi(4, vector<int>(n + 1));
+
+        for (int ck = 1; ck <= 3; ck ++) {
+            for (int i = k * ck; i <= n; i ++) {
+                int cur = pre[i] - pre[i - k] + dp[ck - 1][i - k];
+
+                if (cur > dp[ck][i - 1]) {
+                    dp[ck][i] = cur;
+                    dpi[ck][i] = i - k;
+                } else {
+                    dp[ck][i] = dp[ck][i - 1];
+                    dpi[ck][i] = dpi[ck][i - 1];
+                }
+            }
+        }
+
+        vector<int> ans(3);
+        int i = n;
+        for (int ck = 3; ck >= 1; ck --) {
+            ans[ck - 1] = dpi[ck][i];
+            i = ans[ck - 1];
+        }
+
+        return ans;
+    }
+};
+```
+
+**Solution 5: (Two Pointers, left right)**
 
        0  1  2              7
        1, 2, 1, 2, 6, 7, 5, 1

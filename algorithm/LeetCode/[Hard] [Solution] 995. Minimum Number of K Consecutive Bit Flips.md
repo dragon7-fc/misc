@@ -236,3 +236,34 @@ public:
     }
 };
 ```
+
+**Solution 5: (Greedy, prefix sum, greedy min index element = 0)**
+```
+Runtime: 0 ms, Beats 100.00%
+Memory: 114.76 MB, Beats 40.30%
+```
+```c++
+class Solution {
+public:
+    int minKBitFlips(vector<int>& nums, int k) {
+        int n = nums.size(), i, a = 0, ans = 0;
+        vector<int> dp(n + 1);
+        for (i = 0; i <= n - k; i ++) {
+            a += dp[i];
+            if ((a + nums[i]) % 2 == 0) {
+                ans += 1;
+                a += 1;
+                dp[i] += 1;
+                dp[i + k] -= 1;
+            }
+        }
+        for (i = n - k + 1; i < n; i ++) {
+            a += dp[i];
+            if ((a + nums[i]) % 2 == 0) {
+                return -1;
+            }
+        }
+        return ans;
+    }
+};
+```

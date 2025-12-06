@@ -80,3 +80,109 @@ public:
     }
 };
 ```
+
+**Solution 3: (left and right)**
+```
+Runtime: 28 ms, Beats 41.45%
+Memory: 19.13 MB, Beats 84.64%
+```
+```c++
+class Solution {
+public:
+    int countCollisions(string directions) {
+        int n = directions.length(), i, ans = 0;
+        for (i = 0; i < n - 1; i ++) {
+            if (directions[i] == 'R' && directions[i + 1] == 'S') {
+                directions[i] = 'S';
+                ans += 1;
+            } else if (directions[i] == 'R' && directions[i + 1] == 'L') {
+                directions[i] = 'S';
+                directions[i + 1] = 'S';
+                ans += 2;
+            } else if (directions[i] == 'S' && directions[i + 1] == 'L') {
+                directions[i + 1] = 'S';
+                ans += 1;
+            }
+        }
+        for (i = n - 2; i >= 0; i --) {
+            if (directions[i] == 'R' && directions[i + 1] == 'S') {
+                directions[i] = 'S';
+                ans += 1;
+            } else if (directions[i] == 'R' && directions[i + 1] == 'L') {
+                directions[i] = 'S';
+                directions[i + 1] = 'S';
+                ans += 2;
+            } else if (directions[i] == 'S' && directions[i + 1] == 'L') {
+                directions[i + 1] = 'S';
+                ans += 1;
+            }
+        }
+        return ans;
+    }
+};
+```
+
+**Solution 4: (Counting)**
+
+    LLLRLRRSLLRRR
+       1234 56
+
+```
+Runtime: 12 ms, Beats 62.32%
+Memory: 19.31 MB, Beats 50.72%
+```
+```c++
+class Solution {
+public:
+    int countCollisions(string directions) {
+        int n = directions.size();
+        int l = 0, r = n - 1;
+
+        while (l < n && directions[l] == 'L') {
+            l++;
+        }
+
+        while (r >= l && directions[r] == 'R') {
+            r--;
+        }
+
+        int res = 0;
+        for (int i = l; i <= r; i++) {
+            if (directions[i] != 'S') {
+                res++;
+            }
+        }
+        return res;
+    }
+};
+```
+
+**Solution 5: (Greedy, buffered right value)**
+```
+Runtime: 8 ms, Beats 78.26%
+Memory: 19.30 MB, Beats 64.06%
+```
+```c++
+class Solution {
+public:
+    int countCollisions(string directions) {
+        int n = directions.size(), i = 0, right = 0, ans = 0;
+        while (i < n && directions[i] == 'L') {
+            i += 1;
+        }
+        while (i < n) {
+            if (directions[i] == 'R') {
+                right += 1;
+            } else {
+                if (directions[i] == 'L') {
+                    right += 1;
+                }
+                ans += right;
+                right = 0;
+            }
+            i += 1;
+        }
+        return ans;
+    }
+};
+```

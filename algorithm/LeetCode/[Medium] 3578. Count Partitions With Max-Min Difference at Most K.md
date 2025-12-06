@@ -50,7 +50,6 @@ There are 2 valid partitions that satisfy the given conditions:
 ---
 **Solution 1: (multiset, DP)**
 
-                     vi
      9   4   1   3   7
 ws 0 1   2   2   4   8
          1   
@@ -86,6 +85,16 @@ public:
 
 **Solution 1: (Deque, DP)**
 
+dp[j + 1] = sim(1 * dp[i] + 1 * dp[i + 1] + ... + 1 * dp[j])
+
+        9   4   1   3   7
+        -   -   -   -   -  | dp[0] dp[1] dp[2] |       |       |
+            -----                              | dp[3] |       |
+            ---------                                  | dp[4] |
+                -----                                  |       | dp[5]
+            -----   -----                                      |
+                    -----                                      |
+
                     vi
         9   4   1   3   7
                         ^j
@@ -103,29 +112,36 @@ Memory: 145.92 MB, Beats 87.50%
 class Solution {
 public:
     int countPartitions(vector<int>& nums, int k) {
-        int n = nums.size(), mod = 1e9 + 7, acc = 1;
-        vector<int> dp(n + 1, 0);
+        int n = nums.size(), i, j, MOD = 1e9 + 7;
+        long long a = 1;
+        vector<long long> dp(n + 1), pre(n + 1);
+        deque<int> minQ, maxQ;
         dp[0] = 1;
-
-        deque<int> minq, maxq;
-        for (int i = 0, j = 0; j < n; ++j) {
-            while (!maxq.empty() && nums[j] > nums[maxq.back()])
-                maxq.pop_back();
-            maxq.push_back(j);
-            while (!minq.empty() && nums[j] < nums[minq.back()])
-                minq.pop_back();
-            minq.push_back(j);
-            while (nums[maxq.front()] - nums[minq.front()] > k) {
-                acc = (acc - dp[i++] + mod) % mod;
-                if (minq.front() < i)
-                    minq.pop_front();
-                if (maxq.front() < i)
-                    maxq.pop_front();
+        for (i = 0, j = 0; j < n; j ++) {
+            while (!maxQ.empty() && nums[maxQ.back()] <= nums[j]) {
+                maxQ.pop_back();
+            }
+            maxQ.push_back(j);
+            while (!minQ.empty() && nums[minQ.back()] >= nums[j]) {
+                minQ.pop_back();
+            }
+            minQ.push_back(j);
+            while (!maxQ.empty() && !minQ.empty() &&
+                   nums[maxQ.front()] - nums[minQ.front()] > k) {
+                a = (a - dp[i] + MOD) % MOD;
+                i += 1;
+                if (maxQ.front() < i) {
+                    maxQ.pop_front();
+                }
+                if (minQ.front() < i) {
+                    minQ.pop_front();
+                }
             }
 
-            dp[j + 1] = acc;
-            acc = (acc + dp[j + 1]) % mod;
+            dp[j + 1] = a;
+            a = (a + dp[j + 1]) % MOD;
         }
+
         return dp[n];
     }
 };

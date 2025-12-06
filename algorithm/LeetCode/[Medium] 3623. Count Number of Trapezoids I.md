@@ -82,3 +82,27 @@ public:
     }
 };
 ```
+
+**Solution 2: (Counter)**
+```
+Runtime: 64 ms, Beats 68.68%
+Memory: 191.67 MB, Beats 82.89%
+```
+```c++
+class Solution {
+public:
+    int countTrapezoids(vector<vector<int>>& points) {
+        int MOD = 1e9 + 7;
+        long long pre = 0, ans = 0;
+        unordered_map<int, int> cnt;
+        for (auto &point: points) {
+            cnt[point[1]] += 1;
+        }
+        for (auto &[y, c]: cnt) {
+            ans += pre * c * (c - 1) / 2;
+            pre += 1LL * c * (c - 1) / 2;
+        }
+        return ans % MOD;
+    }
+};
+```

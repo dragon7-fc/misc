@@ -12493,6 +12493,47 @@ class Solution:
 ```
 * [Medium] [Solution] 503. Next Greater Element II
 
+# Deque bounded min and max range, prefix sum, DP Bottom-Up
+```c++
+class Solution {
+public:
+    int countPartitions(vector<int>& nums, int k) {
+        int n = nums.size(), i, j, MOD = 1e9 + 7;
+        long long a = 1;
+        vector<long long> dp(n + 1), pre(n + 1);
+        deque<int> minQ, maxQ;
+        dp[0] = 1;
+        for (i = 0, j = 0; j < n; j ++) {
+            while (!maxQ.empty() && nums[maxQ.back()] <= nums[j]) {
+                maxQ.pop_back();
+            }
+            maxQ.push_back(j);
+            while (!minQ.empty() && nums[minQ.back()] >= nums[j]) {
+                minQ.pop_back();
+            }
+            minQ.push_back(j);
+            while (!maxQ.empty() && !minQ.empty() &&
+                   nums[maxQ.front()] - nums[minQ.front()] > k) {
+                a = (a - dp[i] + MOD) % MOD;
+                i += 1;
+                if (maxQ.front() < i) {
+                    maxQ.pop_front();
+                }
+                if (minQ.front() < i) {
+                    minQ.pop_front();
+                }
+            }
+
+            dp[j + 1] = a;
+            a = (a + dp[j + 1]) % MOD;
+        }
+
+        return dp[n];
+    }
+};
+```
+* [Medium] 3578. Count Partitions With Max-Min Difference at Most K
+
 **Template 1: (Stack)**
 ```python
 stack = []

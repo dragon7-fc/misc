@@ -184,7 +184,7 @@ public:
 };
 ```
 
-**Solution 5: (Deque, mono stack)**
+**Solution 5: (Deque, mono stack, prefix sum)**
 
              v
     2 -1  2

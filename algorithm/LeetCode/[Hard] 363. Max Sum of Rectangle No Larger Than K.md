@@ -77,3 +77,35 @@ public:
     }
 };
 ```
+
+**Solution 3: (Prefix Sum, Binary Search, O(n^3 log n))**
+```
+Runtime: 669 ms, Beats 62.53%
+Memory: 241.68 MB, Beats 50.63%
+```
+```c++
+class Solution {
+public:
+    int maxSumSubmatrix(vector<vector<int>>& matrix, int k) {
+        int m = matrix.size(), n = matrix[0].size(), i, l, r, ans = INT_MIN;
+        for (l = 0; l < n; ++l) {
+            vector<int> sums(m);
+            for (r = l; r < n; ++r) {
+                for (int i = 0; i < m; ++i) 
+                    sums[i] += matrix[i][r];
+                set<int> st = {0};
+                int run_sum = 0;
+                for (int sum : sums) {
+                    run_sum += sum;
+                    auto it = st.lower_bound(run_sum - k);
+                    if (it != end(st)) {
+                        ans = max(ans, run_sum - *it);
+                    }
+                    st.insert(run_sum);
+                }
+            }
+        }
+        return ans;
+    }
+};
+```

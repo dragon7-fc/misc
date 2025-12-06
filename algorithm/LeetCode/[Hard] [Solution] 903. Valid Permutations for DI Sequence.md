@@ -244,15 +244,21 @@ class Solution:
 
 **Solution 4: (DP Bottom-Up)**
 
+dp[i + 1][j]
+ith digit is the jth smallest unused 
 
         vi
-    D I D
-    0 1 3 3
-3   1
-2   1 1
-1   1 2 5
-0   1 3 3 5
-
+    0   1          3                     3
+    D   I          D
+3   1     a = 0
+    {3}
+2   1   1
+    {2} {32}
+1   1   2          5                       a = 0
+    {1} {31,21}    {302,203,103,312,213}
+0   1   3          3                     5
+    {0} {30,20,10} {301,201,102}         {3021,2031,1032,3120,2130}
+                     a = 0
 __Intuition__
 dp[i][j] means the number of possible permutations of first i + 1 digits,
 where the i + 1th digit is j + 1th smallest in the rest of unused digits.
@@ -296,17 +302,28 @@ Memory: 9.76 MB, Beats 58.89%
 class Solution {
 public:
     int numPermsDISequence(string s) {
-        int n = s.length(), mod = 1e9 + 7;
+        int n = s.length(), i, j, a, MOD = 1e9 + 7;
         vector<vector<int>> dp(n + 1, vector<int>(n + 1));
-        for (int j = 0; j <= n; j++) dp[0][j] = 1;
-        for (int i = 0; i < n; i++)
-            if (s[i] == 'I')
-                for (int j = 0, cur = 0; j < n - i; j++)
-                    dp[i + 1][j] = cur = (cur + dp[i][j]) % mod;
-            else
-                for (int j = n - i - 1, cur = 0; j >= 0; j--)
-                    dp[i + 1][j] = cur = (cur + dp[i][j + 1]) % mod;
+        for (j = 0; j <= n; j++) {
+            dp[0][j] = 1;
+        }
+        for (i = 0; i < n; i ++) {
+            if (s[i] == 'I') {
+                a = 0;
+                for (j = 0; j < n - i; j ++) {
+                    a = (a + dp[i][j]) % MOD; 
+                    dp[i + 1][j] = a;
+                }
+            } else {
+                a = 0;
+                for (j = n - i - 1; j >= 0; j --) {
+                    a = (a + dp[i][j + 1]) % MOD;
+                    dp[i + 1][j] = a;
+                }
+            }
+        }
         return dp[n][0];
+
     }
 };
 ```
