@@ -64,6 +64,13 @@ Enter room 2. Your health points are now 2 - 1 = 1. You get 1 point because 1 >=
 hp - (pref[j] - pref[i-1]) >= requirement[j].
 -> pref[i-1] >= requirement[j] - hp + pref[j]
 
+can't use sliding window
+
+           vj
+   / \     /
+  /   \   /< 0
+  ^j   \/ < negative (should stop)
+
 ```
 Runtime: 47 ms, Beats 52.10%
 Memory: 254.12 MB, Beats 78.92%

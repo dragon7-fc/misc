@@ -86,54 +86,64 @@ At timestamp 12, "HERE" is mentioned. Because id0 is still offline, they will no
 ---
 **Solution 1: (Sort)**
 ```
-Runtime: 151 ms
-Memory: 99.69 MB
+Runtime: 19 ms, Beats 90.78%
+Memory: 42.29 MB, Beats 65.96%
 ```
 ```c++
 class Solution {
 public:
     vector<int> countMentions(int numberOfUsers, vector<vector<string>>& events) {
-        int n = events.size(), i, j, id, time;
-        vector<int> ans(numberOfUsers);
-        unordered_set<int> st;
-        for (i = 0; i < numberOfUsers; i ++) {
-            st.insert(i);
-        }
-        sort(events.begin(), events.end(), [](auto a, auto b){
-            if (stoi(a[1]) != stoi(b[1])) {
-                return stoi(a[1]) < stoi(b[1]);
+        string type, timestamp, content, s;
+        vector<bool> online(numberOfUsers, 1);
+        queue<pair<int, int>> q;  // timestamp, user
+        int t, user;
+        vector<int> users, ans(numberOfUsers);
+        sort(events.begin(), events.end(), [](auto &ea, auto &eb){
+            int ta = stoi(ea[1]);
+            int tb = stoi(eb[1]);
+            if (ta != tb) {
+                return ta < tb;
+            } else {
+                return ea[0] > eb[0];  // "OFFLINE" > "MESSAGE"
             }
-            return a[0] > b[0];
         });
-        queue<pair<int,int>> q;
-        for (i = 0; i < n; i ++) {
-            time = stoi(events[i][1]);
-            while (q.size() && q.front().first <= time) {
-                st.insert(q.front().second);
+        for (auto &event: events) {
+            type = event[0];
+            timestamp = event[1];
+            content = event[2];
+            t = stoi(timestamp);
+            while (q.size() && q.front().first <= t) {
+                auto [_, user] = q.front();
                 q.pop();
+                online[user] = true;
             }
-            if (events[i][0] == "MESSAGE") {
-                if (events[i][2] == "ALL") {
-                    for (j = 0; j < numberOfUsers; j ++) {
-                        ans[j] += 1;
+            if (type == "MESSAGE") {
+                if (content == "ALL") {
+                    for (user = 0; user < numberOfUsers; user ++) {
+                        ans[user] += 1;
                     }
-                } else if (events[i][2] == "HERE") {
-                    for (auto a: st) {
-                        ans[a] += 1;
+                } else if (content == "HERE") {
+                    for (user = 0; user < numberOfUsers; user ++) {
+                        if (online[user]) {
+                            ans[user] += 1;
+                        }
                     }
                 } else {
-                    stringstream ss(events[i][2]);
-                    string s;
+                    users.clear();
+                    stringstream ss(content);
                     while (getline(ss, s, ' ')) {
-                        id = stoi(s.substr(2));
-                        ans[id] += 1;
+                        s = s.substr(2);
+                        user = stoi(s);
+                        users.push_back(user);
                     }
-                    
+                    for (auto &u: users) {
+                        ans[u] += 1;
+                    }
                 }
             } else {
-                id = stoi(events[i][2]);
-                st.erase(id);
-                q.push({stoi(events[i][1])+60, id});
+                user = stoi(content);
+                q.push({t + 60, user});
+                online[user] = false;
             }
         }
         return ans;

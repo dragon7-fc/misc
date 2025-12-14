@@ -59,25 +59,21 @@ There are no possible permutations which can unlock all computers.
 **Solution 1: (Math, factorial(n - 1))**
 ```
 Runtime: 0 ms, Beats 100.00%
-Memory: 92.90 MB, Beats 29.26%
+Memory: 92.75 MB, Beats 71.00%
 ```
 ```c++
 class Solution {
 public:
     int countPermutations(vector<int>& complexity) {
-        int n = complexity.size(), a, i, k = 0, MOD = 1e9+7;
-        a = *min_element(complexity.begin(), complexity.end());
-        for (i = 0; i < n; i ++) {
-            k += complexity[i] == a;
-        }
-        if (complexity[0] != a || k != 1) {
-            return 0;
+        int n = complexity.size(), i, MOD = 1e9 + 7;
+        for (i = 1; i < n; i ++) {
+            if (complexity[i] <= complexity[0]) {
+                return 0;
+            }
         }
         long long ans = 1;
-        while (n-1) {
-            ans *= n-1;
-            ans %= MOD;
-            n -= 1;
+        for (i = n - 1; i >= 1; i --) {
+            ans = (ans * i) % MOD;
         }
         return ans;
     }

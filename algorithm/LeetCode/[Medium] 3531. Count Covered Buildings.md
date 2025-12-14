@@ -118,3 +118,32 @@ public:
     }
 };
 ```
+
+**Solution 2: (Counter)**
+```
+Runtime: 20 ms, Beats 93.92%
+Memory: 283.72 MB, Beats 91.71%
+```
+```c++
+class Solution {
+public:
+    int countCoveredBuildings(int n, vector<vector<int>>& buildings) {
+        int x, y, ans = 0;
+        vector<int> left(n + 1, INT_MAX), right(n + 1), bottom(n + 1, INT_MAX), top(n + 1);
+        for (auto &build: buildings) {
+            x = build[0];
+            y = build[1];
+            bottom[x] = min(bottom[x], y);
+            top[x] = max(top[x], y);
+            left[y] = min(left[y], x);
+            right[y] = max(right[y], x);
+        }
+        for (auto &build: buildings) {
+            x = build[0];
+            y = build[1];
+            ans += bottom[x] < y && y < top[x] && left[y] < x && x < right[y];
+        }
+        return ans;
+    }
+};
+```

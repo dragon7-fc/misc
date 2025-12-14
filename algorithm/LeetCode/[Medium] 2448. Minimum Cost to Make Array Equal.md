@@ -93,7 +93,7 @@ public:
 };
 ```
 
-**Solution3 : (Weighted Median)**
+**Solution 3: (Weighted Median)**
 ```
 Runtime: 969 ms
 Memory: 38.7 MB
@@ -109,4 +109,36 @@ class Solution:
                 target = num
                 break
         return sum(c * abs(num - target) for num, c in arr)
+```
+
+**Solution 4: (Binary Search, compare cost difference between mid and mid + 1)**
+```
+Runtime: 11 ms, Beats 71.83%
+Memory: 42.40 MB, Beats 56.11%
+```
+```c++
+class Solution {
+    long long getCost(int mid, vector<int> &nums, vector<int> &cost) {
+        int n = nums.size(), i;
+        long long rst = 0;
+        for (i = 0; i < n; i ++) {
+            rst += 1LL * abs(nums[i] - mid) * cost[i];
+        }
+        return rst;
+    }
+public:
+    long long minCost(vector<int>& nums, vector<int>& cost) {
+        int left = *min_element(nums.begin(), nums.end()), right = *max_element(nums.begin(), nums.end()), mid;
+        long long ans = LONG_LONG_MAX;
+        while (left < right) {
+            mid = left + (right - left) / 2;
+            if (getCost(mid, nums, cost) > getCost(mid + 1, nums, cost)) {
+                left = mid + 1;
+            } else {
+                right = mid;
+            }
+        }
+        return getCost(left, nums, cost);
+    }
+};
 ```

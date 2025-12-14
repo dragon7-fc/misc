@@ -73,8 +73,8 @@ nums[4] = nums[2] * 2 = 2 * 2 = 4
 ---
 **Solution 1: (Prefix Sum, Counter, left and right)**
 ```
-Runtime: 54 ms, Beats 81.82%
-Memory: 198.80 MB, Beats 81.82%
+Runtime: 57 ms, Beats 98.54%
+Memory: 198.96 MB, Beats 97.81%
 ```
 ```c++
 class Solution {
@@ -87,8 +87,8 @@ public:
         }
         for (i = 0; i < n-1; i ++) {
             right[nums[i]] -= 1;
-            if (nums[i]*2 <= 100000) {
-                ans += left[nums[i]*2] * right[nums[i]*2];
+            if (nums[i] * 2 <= 100000) {
+                ans += left[nums[i] * 2] * right[nums[i] * 2];
             }
             ans %= MOD;
             left[nums[i]] += 1;
