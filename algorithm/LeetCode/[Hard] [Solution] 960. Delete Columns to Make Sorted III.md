@@ -160,3 +160,35 @@ class Solution:
 
         return dp(-1, 0)
 ```
+
+**Solution 5: (DP Bottom-Up, LIS)**
+
+    x x     x
+      x x   x
+    x   x   x
+    x   x x
+    b a b c a
+    b b a z b
+dp  1 1 1 2 2
+
+```
+Runtime: 7 ms, Beats 33.85%
+Memory: 13.51 MB, Beats 34.36%
+```
+```c++
+class Solution {
+public:
+    int minDeletionSize(vector<string>& strs) {
+        int n = strs[0].length(), i, j;
+        vector<int> dp(n, 1);
+        for (j = 1; j < n; j ++) {
+            for (i = 0; i < j; i ++) {
+                if (all_of(strs.begin(), strs.end(), [&](auto &s){return s[i] <= s[j];})) {
+                    dp[j] = max(dp[j], dp[i] + 1);
+                }
+            }
+        }
+        return n - *max_element(dp.begin(), dp.end());
+    }
+};
+```
