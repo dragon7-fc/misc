@@ -501,71 +501,161 @@ Memory: 178.22 MB
 ```c++
 class SegmentTree {
 public:
-    vector<int> tree;
+    vector<int> dp;
 
     SegmentTree() {}
-
+    
     SegmentTree(vector<int>& nums) {
         int n = nums.size();
-        tree.resize(4 * n, 0);
-        buildTree(nums, 0, 0, n - 1);
+        dp.resize(4 * n, 0);
+        build(nums, 0, 0, n - 1);
     }
 
-    void buildTree(vector<int>& nums, int pos, int left, int right) {
+    // O(n)
+    void build(vector<int>& nums, int pos, int left, int right) {
         if (left == right) {
-            tree[pos] = nums[left];
+            dp[pos] = nums[left];
             return;
         }
         int mid = left + (right - left) / 2;
-        buildTree(nums, 2 * pos + 1, left, mid);
-        buildTree(nums, 2 * pos + 2, mid + 1, right);
-        tree[pos] = tree[2 * pos + 1] + tree[2 * pos + 2];
+        build(nums, 2 * pos + 1, left, mid);
+        build(nums, 2 * pos + 2, mid + 1, right);
+        dp[pos] = dp[2 * pos + 1] + dp[2 * pos + 2];
     }
 
-    void updateTree(int pos, int left, int right, int idx, int val) {
+    // O(log(n))
+    void update(int pos, int left, int right, int idx, int val) {
         if (idx < left || idx > right) {
             return;
         }
         if (left == right) {
             if (left == idx) {
-                tree[pos] = val;
+                dp[pos] = val;
             }
             return;
         }
         int mid = left + (right - left) / 2;
-        updateTree(2 * pos + 1, left, mid, idx, val);
-        updateTree(2 * pos + 2, mid + 1, right, idx, val);
-        tree[pos] = tree[2 * pos + 1] + tree[2 * pos + 2];
+        update(2 * pos + 1, left, mid, idx, val);
+        update(2 * pos + 2, mid + 1, right, idx, val);
+        dp[pos] = dp[2 * pos + 1] + dp[2 * pos + 2];
     }
 
-    int queryTree(int q_left, int q_right, int left, int right, int pos) {
+    // O(log(n))
+    int query(int q_left, int q_right, int left, int right, int pos) {
         if (q_left <= left && q_right >= right) {
-            return tree[pos];
+            return dp[pos];
         }
         if (q_left > right || q_right < left) {
             return 0;
         }
         int mid = left + (right - left) / 2;
-        return queryTree(q_left, q_right, left, mid, 2 * pos + 1) + 
-               queryTree(q_left, q_right, mid + 1, right, 2 * pos + 2);
+        return query(q_left, q_right, left, mid, 2 * pos + 1) + 
+               query(q_left, q_right, mid + 1, right, 2 * pos + 2);
     }
 };
 
 class NumArray {
-    SegmentTree tree_;
-    int n_;
+    SegmentTree sgt;
+    int n;
 public:
     NumArray(vector<int>& nums) {
-        tree_ = SegmentTree(nums);
-        n_ = nums.size();
+        sgt = SegmentTree(nums);
+        n = nums.size();
     }
     
     void update(int index, int val) {
-        tree_.updateTree(0, 0, n_ - 1, index, val);
+        sgt.update(0, 0, n - 1, index, val);
     }
     
     int sumRange(int left, int right) {
-        return tree_.queryTree(left, right, 0, n_ - 1, 0);
+        return sgt.query(left, right, 0, n - 1, 0);
+    }
+};
+
+/**
+ * Your NumArray object will be instantiated and called as such:
+ * NumArray* obj = new NumArray(nums);
+ * obj->update(index,val);
+ * int param_2 = obj->sumRange(left,right);
+ */
+```
+
+**Solution 6: (BIT, Prefix Sum)**
+
+nums: 2  4  5  7
+bit
+0 0000b       0
+1       0001b 2
+              v
+2       0010b 2 + 4
+              v   v
+3       0011b         5
+              v   v   v
+4       0100b 2 + 4 + 5 + 7
+
+nums: 1  2  3  4  5  6  7  8
+bit                 1 2 3 4 5 6 7 8
+0 0000b           0
+1          0001b    x                 update
+2        0010b      x x                  v
+3          0011b        x
+4      0100b        a x x x            
+5          0101b            x         
+6        0110b              x x          ^
+7          0111b                x      query
+8   1000b           x x x x x x x x
+
+```
+Runtime: 47 ms, Beats 80.34%
+Memory: 180.45 MB, Beats 66.53%
+```
+```c++
+class BIT {
+    vector<int> dp;
+public:
+    BIT() {}
+    void build(vector<int> &nums) {
+        int n = nums.size(), i; 
+        dp.resize(n + 1);
+        for (i = 0; i < n; i ++) {
+            update(i + 1, nums[i]);
+        }
+    }
+    void update(int i, int val) {
+        int j = i;
+        while (j < dp.size()) {
+            dp[j] += val;
+            j += j & (-j);
+        }
+    }
+    int query(int i) {
+        int rst = 0;
+        int j = i;
+        while (j > 0) {
+            rst += dp[j];
+            j -= j & (-j);
+        }
+        return rst;
+    }
+};
+
+class NumArray {
+    BIT bit;
+    vector<int> dp;
+public:
+    NumArray(vector<int>& nums) {
+        bit.build(nums);
+        dp = nums;
+    }
+    
+    void update(int index, int val) {
+        int diff = val - dp[index];
+        dp[index] = val;
+        bit.update(index + 1, diff);
+    }
+    
+    int sumRange(int left, int right) {
+        return bit.query(right + 1) - bit.query(left);
     }
 };
 

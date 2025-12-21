@@ -437,3 +437,108 @@ class Solution:
             bit_tree.update(rank+1, 1)
         return ret    
 ```
+
+**Solution 4: (BIT, greater, data transfer to sorted index)**
+
+             0  1  2  3  4
+    nums = [ 1, 3, 2, 3, 1]
+    dp     [ 1, 1, 2, 3, 3]
+    bit    [ 0, 0, 0, 0, 0, 0]
+---------------------------------
+             v
+             0  1  2  3  4
+    nums = [ 1, 3, 2, 3, 1]
+             vju         vjq
+    dp     [ 1, 1, 2, 3, 3]
+    bit    [ 0, 1, 0, 0, 0, 0]
+---------------------------------
+                v
+             0  1  2  3  4
+    nums = [ 1, 3, 2, 3, 1]
+                      vju      vjq
+    dp     [ 1, 1, 2, 3, 3]
+    bit    [ 0, 1, 0, 0, 1, 0]
+---------------------------------
+                   v
+             0  1  2  3  4
+    nums = [ 1, 3, 2, 3, 1]
+                   vju         vjq
+    dp     [ 1, 1, 2, 3, 3]
+    bit    [ 0, 1, 1, 1, 1, 0]
+---------------------------------
+                      v
+             0  1  2  3  4
+    nums = [ 1, 3, 2, 3, 1]
+                      vju      vjq
+    dp     [ 1, 1, 2, 3, 3]
+    bit    [ 0, 1, 1, 1, 2, 0]
+---------------------------------
+                         v
+             0  1  2  3  4
+    nums = [ 1, 3, 2, 3, 1]
+             vju         vjq   
+    dp     [ 1, 1, 2, 3, 3]
+    bit    [ 0, 2, 1, 1, 2, 0]
+               <-        ->
+    ans                  2
+
+
+nums: 1  2  3  4  5  6  7  8
+bit                 1 2 3 4 5 6 7 8
+0 0000b           0
+1          0001b    x                  query
+2        0010b        x x                v
+3          0011b        x
+4      0100b              x x x x      
+5          0101b            x         
+6        0110b                x x        ^
+7          0111b                x      update
+8   1000b                         x
+
+```
+Runtime: 71 ms, Beats 94.54%
+Memory: 52.50 MB, Beats 94.52%
+```
+```c++
+class BIT {
+    vector<int> pre;
+public:
+    BIT() {};
+    void build(int n) {
+        pre.resize(n + 1);
+    }
+    void update(int i, int val) {
+        int j = i + 1;
+        while (j > 0) {
+            pre[j] += val;
+            j -= j & (-j);
+        }
+    }
+    int query(int i) {
+        int rst = 0, j = i;
+        while (j < pre.size()) {
+            rst += pre[j];
+            j += j & (-j);
+        }
+        return rst;
+    }
+};
+
+class Solution {
+public:
+    int reversePairs(vector<int>& nums) {
+        int n = nums.size(), i, j, ans = 0;
+        BIT bit;
+        bit.build(n);
+        vector<int> dp = nums;
+        sort(dp.begin(), dp.end());
+        for (i = 0; i < n; i ++) {
+            j = lower_bound(dp.begin(), dp.end(), nums[i] * 2LL + 1) - dp.begin() + 1;
+            ans += bit.query(j);
+            j = lower_bound(dp.begin(), dp.end(), nums[i]) - dp.begin();
+            bit.update(j, 1);
+        }
+        return ans;
+    }
+};
+```

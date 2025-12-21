@@ -164,6 +164,18 @@ class Solution:
 ```
 
 **Solution 1: (Brute Force)**
+
+    0 vim
+  0 c a
+    b b
+    a c
+  ^jn
+
+vec
+0  c a
+1  b b
+2  a c
+   x
 ```
 Runtime: 4 ms
 Memory Usage: 10.4 MB
@@ -207,6 +219,92 @@ public:
         
         
         return m-vec[0].size();
+    }
+};
+```
+
+**Solution 2: (Greedy, try every column from column 0)**
+
+strs[0] <= strs[1] <= strs[2] <= ... <= strs[n - 1]).
+-> first character bigger
+-> if s[i][j] < s[i + 1][j] -> delete column j
+-> greedy
+
+```
+Runtime: 3 ms, Beats 20.79%
+Memory: 13.39 MB, Beats 15.17%
+````
+```c++
+class Solution {
+public:
+    int minDeletionSize(vector<string>& strs) {
+        int m = strs.size(), n = strs[0].size(), i, j, k, ans = 0;
+        vector<string> dp(m);
+        bool flag;
+        for (j = 0; j < n; j ++) {
+            flag = true;
+            for (i = 0; i < m; i ++) {
+                dp[i] += strs[i][j];
+                if (i && dp[i] < dp[i - 1]) {
+                    flag = false;
+                    break;
+                }
+            }
+            if (!flag) {
+                ans += 1;
+                for (k = 0; k <= i; k ++) {
+                    dp[k].pop_back();
+                }
+            }
+        }
+        return ans;
+    }
+};
+```
+
+**Solution 3: (Greedy, optimized)**
+
+str[i] <= str[i + 1]
+-> str[i][j] == str[i + 1][j]
+   str[i][j] < str[i + 1][j]: sorted 
+
+str 0               vjn
+0   c   a   c   a 1
+1   b   a 1 b   b
+2   a   c   a   a
+    x       x
+^i        ^isSorted
+
+```
+Runtime: 0 ms Beats, 100.00%
+Memory: 12.90 MB, Beats 62.92%
+```
+```c++
+class Solution {
+public:
+    int minDeletionSize(vector<string>& strs) {
+        int m = strs.size(), n = strs[0].size(), i, j, k, ans = 0;
+        vector<bool> isSorted(m);
+        bool needDelete;
+        for (j = 0; j < n; j ++) {
+            needDelete = false;
+            for (i = 0; i < m - 1; i ++) {
+                 if (!isSorted[i] && strs[i][j] > strs[i + 1][j]) {
+                    needDelete = true;
+                    break;
+                }
+            }
+            if (needDelete) {
+                ans += 1;
+                continue;
+            }
+            for (int i = 0; i < m - 1; i ++) {
+                if (!isSorted[i] && strs[i][j] < strs[i + 1][j]) {
+                    isSorted[i] = true;
+                }
+            }
+        }
+        return ans;
     }
 };
 ```

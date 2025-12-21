@@ -56,3 +56,27 @@ class Solution:
                 cur = 1
         return ans
 ```
+
+**Solution 2: (Prefix Sum)**
+```
+Runtime: 0 ms, Beats 100.00%
+Memory: 107.00 MB, Beats 81.41%
+```
+```c++
+class Solution {
+public:
+    long long getDescentPeriods(vector<int>& prices) {
+        int n = prices.size(), i, pre = 1;
+        long long ans = 1;
+        for (i = 1; i < n; i ++) {
+            if (prices[i] == prices[i - 1] - 1) {
+                pre += 1;
+            } else {
+                pre = 1;
+            }
+            ans += pre;
+        }
+        return ans;
+    }
+};
+```

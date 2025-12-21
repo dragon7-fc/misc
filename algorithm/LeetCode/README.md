@@ -18328,74 +18328,74 @@ class Solution:
 ```c++
 class SegmentTree {
 public:
-    vector<int> tree;
+    vector<int> dp;
 
     SegmentTree() {}
 
     SegmentTree(vector<int>& nums) {
         int n = nums.size();
-        tree.resize(4 * n, 0);
-        buildTree(nums, 0, 0, n - 1);
+        dp.resize(4 * n, 0);
+        build(nums, 0, 0, n - 1);
     }
 
     // O(n)
-    void buildTree(vector<int>& nums, int pos, int left, int right) {
+    void build(vector<int>& nums, int pos, int left, int right) {
         if (left == right) {
-            tree[pos] = nums[left];
+            dp[pos] = nums[left];
             return;
         }
         int mid = left + (right - left) / 2;
-        buildTree(nums, 2 * pos + 1, left, mid);
-        buildTree(nums, 2 * pos + 2, mid + 1, right);
-        tree[pos] = tree[2 * pos + 1] + tree[2 * pos + 2];
+        build(nums, 2 * pos + 1, left, mid);
+        build(nums, 2 * pos + 2, mid + 1, right);
+        dp[pos] = dp[2 * pos + 1] + dp[2 * pos + 2];
     }
 
     // O(log(n))
-    void updateTree(int pos, int left, int right, int idx, int val) {
+    void update(int pos, int left, int right, int idx, int val) {
         if (idx < left || idx > right) {
             return;
         }
         if (left == right) {
             if (left == idx) {
-                tree[pos] = val;
+                dp[pos] = val;
             }
             return;
         }
         int mid = left + (right - left) / 2;
-        updateTree(2 * pos + 1, left, mid, idx, val);
-        updateTree(2 * pos + 2, mid + 1, right, idx, val);
-        tree[pos] = tree[2 * pos + 1] + tree[2 * pos + 2];
+        update(2 * pos + 1, left, mid, idx, val);
+        update(2 * pos + 2, mid + 1, right, idx, val);
+        dp[pos] = dp[2 * pos + 1] + dp[2 * pos + 2];
     }
 
     // O(log(n))
-    int queryTree(int q_left, int q_right, int left, int right, int pos) {
+    int query(int q_left, int q_right, int left, int right, int pos) {
         if (q_left <= left && q_right >= right) {
-            return tree[pos];
+            return dp[pos];
         }
         if (q_left > right || q_right < left) {
             return 0;
         }
         int mid = left + (right - left) / 2;
-        return queryTree(q_left, q_right, left, mid, 2 * pos + 1) + 
-               queryTree(q_left, q_right, mid + 1, right, 2 * pos + 2);
+        return query(q_left, q_right, left, mid, 2 * pos + 1) + 
+               query(q_left, q_right, mid + 1, right, 2 * pos + 2);
     }
 };
 
 class NumArray {
-    SegmentTree tree_;
-    int n_;
+    SegmentTree sgt;
+    int n;
 public:
     NumArray(vector<int>& nums) {
-        tree_ = SegmentTree(nums);
-        n_ = nums.size();
+        sgt = SegmentTree(nums);
+        n = nums.size();
     }
     
     void update(int index, int val) {
-        tree_.updateTree(0, 0, n_ - 1, index, val);
+        sgt.update(0, 0, n - 1, index, val);
     }
     
     int sumRange(int left, int right) {
-        return tree_.queryTree(left, right, 0, n_ - 1, 0);
+        return sgt.query(left, right, 0, n - 1, 0);
     }
 };
 
@@ -18407,6 +18407,69 @@ public:
  */
 ```
 * [Medium] [Solution] 307. Range Sum Query - Mutable
+
+### BIT, sort by height and find first unoccupied position
+```c++
+class BIT {
+public:
+    vector<int> dp;
+    BIT() {}
+    void build(int n) {
+        dp.resize(n + 1);
+        for (int i = 1; i < n; i ++) {
+            update(i, 1);
+        }
+    }
+    void update(int i, int val) {
+        int j = i + 1;
+        while (j < dp.size()) {
+            dp[j] += val;
+            j += j & (-j);
+        }
+    }
+    int query(int i) {
+        int rst = 0;
+        int j = i;
+        while (j > 0) {
+            rst += dp[j];
+            j -= j & (-j);
+        }
+        return rst;
+    }
+};
+
+class Solution {
+public:
+    vector<vector<int>> reconstructQueue(vector<vector<int>>& people) {
+        int n = people.size(), left, right, mid;
+        sort(people.begin(), people.end(), [](vector<int> &pa, vector<int> &pb){
+            if (pa[0] != pb[0]) {
+                return pa[0] < pb[0];
+            } else {
+                return pa[1] > pb[1];
+            }
+        });
+        BIT bit;
+        bit.build(n);
+        vector<vector<int>> ans(n);
+        for (auto &p: people) {
+            left = 0, right = n - 1;
+            while (left < right) {
+                mid = left + (right - left) / 2;
+                if (bit.query(mid + 1) < p[1]) {
+                    left = mid + 1;
+                } else {
+                    right = mid;
+                }
+            }
+            ans[left] = p;
+            bit.update(left, -1);
+        }
+        return ans;
+    }
+};
+```
+* [Medium] 406. Queue Reconstruction by Height
 
 ### Square Root Decomposition
 ```c++

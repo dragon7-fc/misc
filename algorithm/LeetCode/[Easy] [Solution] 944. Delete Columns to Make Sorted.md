@@ -83,3 +83,26 @@ class Solution:
                 ans += 1
         return ans
 ```
+
+**Solution 2: (Brute Force)**
+```
+Runtime: 0 ms, Beats 100.00%
+Memory: 15.57 MB, Beats 45.93%
+```
+```c++
+class Solution {
+public:
+    int minDeletionSize(vector<string>& strs) {
+        int m = strs.size(), n = strs[0].size(), i, j, ans = 0;
+        for (j = 0; j < n; j ++) {
+            for (i = 1; i < m; i ++) {
+                if (strs[i][j] < strs[i - 1][j]) {
+                    ans += 1;
+                    break;
+                }
+            }
+        }
+        return ans;
+    }
+};
+```

@@ -105,3 +105,83 @@ public:
     }
 };
 ```
+
+**Solution 2: (Prefix Sum, Sliding WIndow)**
+
+    prices   = [ 4, 2, 8],
+    strategy = [-1, 0, 1], k = 2
+    pre        [ 4, 8, 8, 0]
+                 ----
+                 0  1
+                    ----
+                    0  1
+    left            2  4
+
+```
+Runtime: 12 ms, Beats 61.10%
+Memory: 316.06 MB, Beats 52.22%
+```
+```c++
+class Solution {
+public:
+    long long maxProfit(vector<int>& prices, vector<int>& strategy, int k) {
+        int n = prices.size(), i;
+        long long left = 0, ans;
+        vector<long long> right(n + 1);
+        for (i = n - 1; i >= 0; i --) {
+            right[i] = right[i + 1] + strategy[i] * prices[i];
+        }
+        ans = right[0];
+        for (i = 0; i < n; i ++) {
+            if (i < k / 2) {
+                continue;
+            } else {
+                left += prices[i];
+                if (i >= k) {
+                    left -= prices[i - k / 2];
+                    left += strategy[i - k] * prices[i - k];
+                }
+                if (i >= k - 1) {
+                    ans = max(ans, left + right[i + 1]);
+                }
+            }
+        }
+        return ans;
+    }
+};
+```
+
+**Solution 3: (Prefix Sum, Sliding WIndow, left right, space: O(1))**
+```
+Runtime: 3 ms, Beats 96.87%
+Memory: 302.61 MB, Beats 86.68%
+```
+```c++
+class Solution {
+public:
+    long long maxProfit(vector<int>& prices, vector<int>& strategy, int k) {
+        int n = prices.size(), i;
+        long long left = 0, right = 0, ans;
+        for (i = n - 1; i >= 0; i --) {
+            right += strategy[i] * prices[i];
+        }
+        ans = right;
+        for (i = 0; i < n; i ++) {
+            right -= strategy[i] * prices[i];
+            if (i < k / 2) {
+                continue;
+            } else {
+                left += prices[i];
+                if (i >= k) {
+                    left -= prices[i - k / 2];
+                    left += strategy[i - k] * prices[i - k];
+                }
+                if (i >= k - 1) {
+                    ans = max(ans, left + right);
+                }
+            }
+        }
+        return ans;
+    }
+};
+```

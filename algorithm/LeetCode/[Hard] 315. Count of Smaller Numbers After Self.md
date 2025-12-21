@@ -222,3 +222,51 @@ public:
     }
 };
 ```
+
+**Solution 6: (BIT)**
+```
+Runtime: 19 ms, Beats 98.47%
+Memory: 91.65 MB, Beats 90.00%
+```
+```c++
+class BIT {
+    vector<int> pre;
+public:
+    BIT() {}
+    void build(int n) {
+        pre.resize(n + 1);
+    }
+    void update(int i, int val) {
+        int j = i + 1;
+        while (j < pre.size()) {
+            pre[j] += val;
+            j += j & (-j);
+        }
+    }
+    int query(int i) {
+        int rst = 0;
+        int j = i;
+        while (j > 0) {
+            rst += pre[j];
+            j -= j & (-j);
+        }
+        return rst;
+    }
+};
+
+class Solution {
+public:
+    vector<int> countSmaller(vector<int>& nums) {
+        int n = nums.size(), i;
+        BIT bit;
+        bit.build(20001);
+        vector<int> ans(n);
+        bit.update(nums[n - 1] + 10000, 1);
+        for (i = n - 2; i >= 0; i --) {
+            ans[i] = bit.query(nums[i] + 10000); // smaller elements to the right
+            bit.update(nums[i] + 10000, 1);
+        }
+        return ans;
+    }
+};
+```

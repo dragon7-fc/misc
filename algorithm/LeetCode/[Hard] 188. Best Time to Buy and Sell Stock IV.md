@@ -257,6 +257,7 @@ public:
 
 **Solution 7: (DP Bottom-Up 1-D)**
 
+
         -----       -----
     3,  2,  6,  5,  0,  3
    -3  -2  -2  -2   0   0
@@ -288,6 +289,41 @@ public:
             cur.resize(2*k, -1e5);
         }
         return max(0, *max_element(pre.begin(), pre.end()));
+    }
+};
+```
+
+**Solution 8: (DP Bottom-Up)**
+
+* dp[i][j][0] (complete)
+maximum profit after day i if exactly j transactions have been completed and we end the day holding no stock
+* dp[i][j][1] (buy)
+maximum profit after day i with exactly j completed transactions while holding one stock
+
+```
+Runtime: 51 ms, Beats 11.47%
+Memory: 32.19 MB, Beats 9.57%
+```
+```c++
+class Solution {
+public:
+    int maxProfit(int k, vector<int>& prices) {
+        int n = prices.size();
+        vector<vector<vector<long long>>> dp(
+            n, vector<vector<long long>>(k + 1, vector<long long>(2)));
+        // initialize the state on day 0
+        for (int j = 1; j <= k; j++) {
+            dp[0][j][1] = -prices[0];
+        }
+        for (int i = 1; i < n; i++) {
+            for (int j = 1; j <= k; j++) {
+                dp[i][j][0] =
+                    max(dp[i - 1][j][0], dp[i - 1][j][1] + prices[i]);
+                dp[i][j][1] =
+                    max(dp[i - 1][j][1], dp[i - 1][j - 1][0] - prices[i]);
+            }
+        }
+        return dp[n - 1][k][0];
     }
 };
 ```
