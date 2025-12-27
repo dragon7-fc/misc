@@ -75,7 +75,17 @@ class Solution:
         return ans
 ```
 
-**Solution 2: (Two Pass)**
+**Solution 2: (Two Pass, Prefix Sum)**
+
+    0 1 2 3
+    Y Y N Y
+    1 1 0 1
+         <-
+    0 1 0 1
+    0 0 0 1 <
+    0 0 1 1
+    0 0 1 0 <
+    ->
 ```
 Runtime: 26 ms
 Memory: 10.7 MB
@@ -97,3 +107,30 @@ public:
 };
 ```
 
+**Solution 3: (Two Pass, Prefix Sum, One Pass)**
+
+      0 1 2 3
+      Y Y N Y
+a   0 1 2 1 2
+mx  ~   2
+ans     x
+```
+Runtime: 0 ms, Beats 100.00%
+Memory: 13.34 MB, Beats 81.20%
+```
+```c++
+class Solution {
+public:
+    int bestClosingTime(string customers) {
+        int n = customers.size(), i, a = 0, mx = 0, ans = 0;
+        for (i = 0; i < n; i ++) {
+            a += customers[i] == 'Y' ? 1 : -1;
+            if (a > mx) {
+                mx = a;
+                ans = i + 1;
+            }
+        }
+        return ans;
+    }
+};
+```

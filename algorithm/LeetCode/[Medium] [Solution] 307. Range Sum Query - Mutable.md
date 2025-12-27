@@ -495,8 +495,8 @@ public:
 
 
 ```
-Runtime: 337 ms
-Memory: 178.22 MB
+Runtime: 72 ms, Beats 33.82%
+Memory: 182.15 MB, Beats 54.35%
 ```
 ```c++
 class SegmentTree {

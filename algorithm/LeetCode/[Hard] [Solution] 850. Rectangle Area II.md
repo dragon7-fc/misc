@@ -512,8 +512,8 @@ w         e0  e0  e0        e4
               e1
 
 ```
-Runtime: 3 ms, Beats 64.06%
-Memory: 12.36 MB, Beats 65.10%
+Runtime: 1 ms, Beats 68.53%
+Memory: 12.77 MB, Beats 45.00%
 ```
 ```c++
 class Solution {
@@ -521,21 +521,21 @@ public:
     int rectangleArea(vector<vector<int>>& rectangles) {
         int n = rectangles.size(), i, MOD = 1e9 + 7, px, cur;
         long long dy, ans = 0;
-        vector<tuple<int,int,int,int,int>> dp;
+        vector<array<int, 5>> dp;
         for (i = 0; i < n; i ++) {
             dp.push_back({rectangles[i][0], 0, rectangles[i][1], rectangles[i][3], i});
             dp.push_back({rectangles[i][2], 1, rectangles[i][1], rectangles[i][3], i});
         }
         sort(dp.begin(), dp.end());
         vector<pair<int,int>> w;
-        px = get<0>(dp[0]);
+        px = dp[0][0];
         for (auto [x, t, y1, y2, i]: dp) {
             dy = 0;
             cur = -1;
-            for (auto [cy1, cy2]: w) {
-                cur = max(cur, cy1);
-                dy += max(0, cy2 - cur);
-                cur = max(cur, cy2);
+            for (auto [py1, py2]: w) {
+                cur = max(cur, py1);
+                dy += max(0, py2 - cur);
+                cur = max(cur, py2);
             }
             ans += dy * (x - px);
             ans %= MOD;
@@ -549,35 +549,105 @@ public:
             px = x;
         }
         return ans;
+
     }
 };
 ```
 
-**Solution 6: (Segment Tree)**
+**Solution 6: (Segment Tree, create segment tree from x and iterate through y)**
 
     rectangles = [[0,0,2,2],[1,0,2,3],[1,0,3,1]]
 
-       3      |--x data[5]
-       2   ------x data[4]
-       1   |  |--|--x data[3]
-       0   x--x-----|
-           0  1  2  3
-                      
-data                    y  t
-> 0        x     x      0  1
-  1           x  x      0  1
-  2           x     x   0  1
-  3           x     x   1 -1
-  4        x     x      2 -1
-  5           x  x      3 -1
+          |    ___
+        3 |___|_1_|        ^
+        2 |   |01_|___     | answer
+        1 |0  |012|  2|    |
+          x------------
+        0     1   2   3
 
 dp  {0, 1 ,2 ,3}
-        root  ->   [0, 1, 2, 3] 0 2
+     ^s       ^e
+     ^s ^ex
+        ^s    ^e
+        ^s ^ex
+           ^s ^ex
+        root  ->      [0, 3]
                    /           \
-            [0, 1] 1 1          [1, 2, 3] 0 1
+            [0, 1]               [1, 3]    
                                 /       \
-                            [1, 2] 1 1  [2, 3] 0 0
+                            [1, 2]      [2, 3]    
 
+                        --------> sort
+              x            y
+data    | 0  1  2  3 | 0  1  2  3 |   t     ans
+  0       x     x      x              1
+  1          x  x      x              1
+  2          x     x   x   |          1     
+  3          x     x      x|h |      -1     +3
+         -----w-----
+  4       x     x            x|h |   -1     +2
+         ----w---
+  5          x  x               x|h  -1     +1
+             -w--
+
+data[0]
+     x  0  1  2  3
+        ^s    ^e
+        root  ->      [0, 3] 0 2
+                   /           \
+            [0, 1] 1 1           [1, 3] 0 1
+                                /       \
+                            [1, 2] 1 1  [2, 3]    
+                                   ^cnt
+                                     ^area
+
+data[1]
+     x  0  1  2  3
+           ^s ^e
+        root  ->      [0, 3] 0 2 
+                   /           \
+            [0, 1] 1 1           [1, 3] 0 1  
+                                /       \  
+                            [1, 2] 2 1  [2, 3]    
+                                   ^  
+
+data[2]
+     x  0  1  2  3
+           ^s    ^e
+        root  ->      [0, 3] 0 3
+                   /           \        vvv
+            [0, 1] 1 1           [1, 3] 1 2
+                                /       \
+                            [1, 2] 2 1  [2, 3]    
+
+data[3]
+     x  0  1  2  3
+           ^s    ^e
+        root  ->      [0, 3] 0 2
+                   /           \        vvv
+            [0, 1] 1 1           [1, 3] 0 1
+                                /       \
+                            [1, 2] 2 1  [2, 3]       
+
+data[4]
+     x  0  1  2  3
+        ^s    ^e               v
+        root  ->      [0, 3] 0 1
+                   /           \           
+            [0, 1] 0 0           [1, 3] 0 1
+                   ^^^          /       \
+                            [1, 2] 1 1  [2, 3]       
+                                   ^
+
+data[5]
+     x  0  1  2  3
+           ^s ^e               v
+        root  ->      [0, 3] 0 0
+                   /           \          v
+            [0, 1] 0 0           [1, 3] 0 0
+                   ^^^          /       \
+                            [1, 2] 0 0  [2, 3]       
+                                   ^^^
 ```
 Runtime: 3 ms, Beats 63.78%
 Memory: 14.63 MB, Beats 20.73%

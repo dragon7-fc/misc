@@ -18324,78 +18324,54 @@ class Solution:
 
 ## Segment Tree <a name="st"></a>
 ---
-### Range Sum, array to tree simulation
+### BIT, Range sum, single point update
 ```c++
-class SegmentTree {
-public:
+class BIT {
     vector<int> dp;
-
-    SegmentTree() {}
-
-    SegmentTree(vector<int>& nums) {
-        int n = nums.size();
-        dp.resize(4 * n, 0);
-        build(nums, 0, 0, n - 1);
+public:
+    BIT() {}
+    void build(vector<int> &nums) {
+        int n = nums.size(), i; 
+        dp.resize(n + 1);
+        for (i = 0; i < n; i ++) {
+            update(i + 1, nums[i]);
+        }
     }
-
-    // O(n)
-    void build(vector<int>& nums, int pos, int left, int right) {
-        if (left == right) {
-            dp[pos] = nums[left];
-            return;
+    void update(int i, int val) {
+        int j = i;
+        while (j < dp.size()) {
+            dp[j] += val;
+            j += j & (-j);
         }
-        int mid = left + (right - left) / 2;
-        build(nums, 2 * pos + 1, left, mid);
-        build(nums, 2 * pos + 2, mid + 1, right);
-        dp[pos] = dp[2 * pos + 1] + dp[2 * pos + 2];
     }
-
-    // O(log(n))
-    void update(int pos, int left, int right, int idx, int val) {
-        if (idx < left || idx > right) {
-            return;
+    int query(int i) {
+        int rst = 0;
+        int j = i;
+        while (j > 0) {
+            rst += dp[j];
+            j -= j & (-j);
         }
-        if (left == right) {
-            if (left == idx) {
-                dp[pos] = val;
-            }
-            return;
-        }
-        int mid = left + (right - left) / 2;
-        update(2 * pos + 1, left, mid, idx, val);
-        update(2 * pos + 2, mid + 1, right, idx, val);
-        dp[pos] = dp[2 * pos + 1] + dp[2 * pos + 2];
-    }
-
-    // O(log(n))
-    int query(int q_left, int q_right, int left, int right, int pos) {
-        if (q_left <= left && q_right >= right) {
-            return dp[pos];
-        }
-        if (q_left > right || q_right < left) {
-            return 0;
-        }
-        int mid = left + (right - left) / 2;
-        return query(q_left, q_right, left, mid, 2 * pos + 1) + 
-               query(q_left, q_right, mid + 1, right, 2 * pos + 2);
+        return rst;
     }
 };
 
 class NumArray {
-    SegmentTree sgt;
-    int n;
+    BIT bit;
+    vector<int> dp;
 public:
     NumArray(vector<int>& nums) {
-        sgt = SegmentTree(nums);
-        n = nums.size();
+        bit.build(nums);
+        dp = nums;
     }
     
     void update(int index, int val) {
-        sgt.update(0, 0, n - 1, index, val);
+        int diff = val - dp[index];
+        dp[index] = val;
+        bit.update(index + 1, diff);
     }
     
     int sumRange(int left, int right) {
-        return sgt.query(left, right, 0, n - 1, 0);
+        return bit.query(right + 1) - bit.query(left);
     }
 };
 
@@ -18408,7 +18384,7 @@ public:
 ```
 * [Medium] [Solution] 307. Range Sum Query - Mutable
 
-### BIT, sort by height and find first unoccupied position
+### BIT, range sum, reverse count, sort by height and find first unoccupied position
 ```c++
 class BIT {
 public:
@@ -18509,80 +18485,55 @@ public:
 ```
 * [Medium] 3479. Fruits Into Baskets III
 
-### Range max
+### Segment Tree, Range max, conbined update and binary search
 ```c++
-class SGT {
+class SegmentTree {
 public:
-    vector<int> tree;
-    SGT(int n) {
-        tree.resize(4*n + 1);
+    vector<int> dp;
+    SegmentTree(int n) {
+        dp.resize(4 * n);
     }
 
-    void build(int pos, int left, int right, vector<int> &arr)  {
+    void build(int ti, int left, int right, vector<int> &arr)  {
         if (left == right) {
-            tree[pos] = arr[left];
+            dp[ti] = arr[left];
             return;
         }
         int mid = left + (right - left) / 2;
-        build(2*pos + 1, left, mid, arr);
-        build(2*pos + 2, mid + 1, right, arr);
-        tree[pos] = max(tree[2*pos + 1], tree[2*pos + 2]);
+        build(2 * ti + 1, left, mid, arr);
+        build(2 * ti + 2, mid + 1, right, arr);
+        dp[ti] = max(dp[2 * ti + 1], dp[2 * ti + 2]);
     }
 
-    int query(int pos, int q_left, int q_right, int left, int right)  {
-        if (q_left <= left && q_right >= right) {
-            return tree[pos];
+    bool place(int ti, int left, int right, int val) {
+        if (dp[ti] < val) {
+            return false;
         }
-        if (q_left > right || q_right < left) { 
-            return 0;
-        }
-        int mid = left + (right - left)/2;
-        return max(query(2*pos + 1, q_left, q_right, left, mid), query(2*pos + 2, q_left, q_right, mid + 1, right));
-    }
-
-    void update(int pos, int left, int right, int i, int val)  {
         if (left == right) {
-            tree[pos] = val;
-            return;
+            dp[ti] = -1;
+            return true;
         }
-        int mid = left + (right - left)/2;
-        if (i <= mid) {
-            update(2*pos + 1, left, mid, i, val);
-        } else { 
-            update(2*pos + 2, mid + 1, right, i, val);
-        }
-        tree[pos] = max(tree[2*pos + 1], tree[2*pos + 2]);
+        int mid = left + (right - left) / 2;
+        bool placed = place(2 * ti + 1, left, mid, val);
+        if (!placed)
+            placed = place(2 * ti + 2, mid + 1, right, val);
+        dp[ti] = max(dp[2 * ti + 1], dp[2 * ti + 2]);
+        return placed;
     }
 };
-
-void find(int val, SGT &sgt, int n, int &ans) {
-    int left = 0, right = n-1, mid, mx, i = -1;
-    while (left <= right) {
-        mid = left + (right - left)/2;
-        mx = sgt.query(0, 0, mid, 0, n-1);
-        if (mx >= val) {
-            i = mid; 
-            right = mid - 1; 
-        } else {
-            left = mid + 1;
-        }
-    }
-    if (i != -1) {
-        sgt.update(0, 0, n-1, i, 0);
-    } else {
-        ans += 1;
-    }
-    return;
-}
 
 class Solution {
 public:
     int numOfUnplacedFruits(vector<int>& fruits, vector<int>& baskets) {
         int n = fruits.size(), i, ans = 0;
-        SGT sgt(n);
-        sgt.build(0, 0, n-1, baskets);
+        SegmentTree sgt(n);
+        sgt.build(0, 0, n - 1, baskets);
         for (i = 0; i < n; i ++) {
-            find(fruits[i], sgt, n, ans);
+            if (sgt.dp[0] < fruits[i]) {
+                ans += 1;
+                continue;
+            }
+            sgt.place(0, 0, n - 1, fruits[i]);
         }
         return ans;
     }
@@ -18664,89 +18615,91 @@ class MyCalendarThree:
 ```
 * [Hard] [Solution] 732. My Calendar III
 
-### Segment Tree with Lazy Propagation
-```python
-class SegmentTree(object):
-    def __init__(self, N, update_fn, query_fn):
-        self.N = N
-        self.H = 1
-        while 1 << self.H < N:
-            self.H += 1
+### Segment Tree with Lazy Propagation, Range max
+```c++
+class SegmentTree{
+    vector<int> dp, lazy;
+public:
+    SegmentTree(int n) { 
+        dp.resize(4 * n);
+        lazy.resize(4 * n);
+    }
+    void update(int ti, int left, int right, int u_left, int u_right, int val) {
+        if (lazy[ti] != 0) {
+            dp[ti] = max(dp[ti], lazy[ti]);
+            if (left != right){
+                lazy[2 * ti + 1] = max(lazy[2 * ti + 1], dp[ti]);
+                lazy[2 * ti + 2] = max(lazy[2 * ti + 2], dp[ti]);
+            }
+            lazy[ti] = 0;
+        }
+        if (u_left > right || u_right < left) {
+            return;
+        }
+        if (u_left <= left && right <= u_right) {
+            dp[ti] = val;
+            if (left != right) {
+                lazy[2 * ti + 1] = max(lazy[2 * ti + 1], dp[ti]);
+                lazy[2 * ti + 2] = max(lazy[2 * ti + 2], dp[ti]);
+            }
+            return;
+        }
+        int mid = left + (right - left) / 2;
+        update(2 * ti + 1, left, mid, u_left, u_right, val);
+        update(2 * ti + 2, mid + 1, right, u_left, u_right, val);
+        dp[ti] = max(dp[2 * ti + 1], dp[2 * ti + 2]);
+    }
+    int query(int ti, int left, int right, int& q_left, int& q_right) {
+        if (lazy[ti] != 0) {
+            dp[ti] = max(dp[ti], lazy[ti]);
+            if (left != right) {
+                lazy[2 * ti + 1] = max(lazy[2 * ti + 1], dp[ti]);
+                lazy[2 * ti + 2] = max(lazy[2 * ti + 2], dp[ti]);
+            }
+            lazy[ti] = 0;
+        }
+        if (q_left > right || q_right < left) {
+            return 0;
+        }
+        if (q_left <= left && right <= q_right) {
+            return dp[ti];
+        }
+        int mid = left + (right - left) / 2;
+        return max(query(2 * ti + 1, left, mid, q_left, q_right),
+                    query(2 * ti + 2, mid + 1, right, q_left, q_right));
+    }
+};
 
-        self.update_fn = update_fn
-        self.query_fn = query_fn
-        self.tree = [0] * (2 * N)
-        self.lazy = [0] * N
-
-    def _apply(self, x, val):
-        self.tree[x] = self.update_fn(self.tree[x], val)
-        if x < self.N:
-            self.lazy[x] = self.update_fn(self.lazy[x], val)
-
-    def _pull(self, x):
-        while x > 1:
-            x //= 2
-            self.tree[x] = self.query_fn(self.tree[x*2], self.tree[x*2 + 1])
-            self.tree[x] = self.update_fn(self.tree[x], self.lazy[x])
-
-    def _push(self, x):
-        for h in range(self.H, 0, -1):
-            y = x >> h
-            if self.lazy[y]:
-                self._apply(y * 2, self.lazy[y])
-                self._apply(y * 2+ 1, self.lazy[y])
-                self.lazy[y] = 0
-
-    def update(self, L, R, h):
-        L += self.N
-        R += self.N
-        L0, R0 = L, R
-        while L <= R:
-            if L & 1:
-                self._apply(L, h)
-                L += 1
-            if R & 1 == 0:
-                self._apply(R, h)
-                R -= 1
-            L //= 2; R //= 2
-        self._pull(L0)
-        self._pull(R0)
-
-    def query(self, L, R):
-        L += self.N
-        R += self.N
-        self._push(L); self._push(R)
-        ans = 0
-        while L <= R:
-            if L & 1:
-                ans = self.query_fn(ans, self.tree[L])
-                L += 1
-            if R & 1 == 0:
-                ans = self.query_fn(ans, self.tree[R])
-                R -= 1
-            L //= 2; R //= 2
-        return ans
-
-class Solution:
-    def fallingSquares(self, positions: List[List[int]]) -> List[int]:
-        #Coordinate Compression
-        coords = set()
-        for left, size in positions:
-            coords.add(left)
-            coords.add(left + size - 1)
-        index = {x: i for i, x in enumerate(sorted(coords))}
-
-        tree = SegmentTree(len(index), max, max)
-        best = 0
-        ans = []
-        for left, size in positions:
-            L, R = index[left], index[left + size - 1]
-            h = tree.query(L, R) + size
-            tree.update(L, R, h)
-            best = max(best, h)
-            ans.append(best)
-
-        return ans
+class Solution {
+public:
+    vector<int> fallingSquares(vector<vector<int>>& positions) {
+        set<int> st;
+        for (auto &pos : positions) {
+            st.insert(pos[0]);
+            st.insert(pos[0] + pos[1] - 1);
+        }
+        unordered_map<int, int> mp;
+        int i = 0, n, left, right, cur;
+        for (auto x : st){
+            mp[x] = i;
+            i += 1;
+        }
+        n = i;
+        SegmentTree sgt(n);
+        int mx = 0;
+        vector<int> ans;
+        for (auto &pos : positions) {
+            left = mp[pos[0]];
+            right = mp[pos[0] + pos[1] - 1];
+            cur = sgt.query(0, 0, n, left, right);
+            cur += pos[1];
+            sgt.update(0, 0, n, left, right, cur);
+            mx = max(mx, cur);
+            ans.push_back(mx);
+        }
+        return ans;
+    }
+};
 ```
 * [Hard] [Solution] 699. Falling Squares
 
@@ -18817,19 +18770,48 @@ class Solution:
 ```
 * [Hard] [Solution] 850. Rectangle Area II
 
-### Binary Search, Insertion Sort
-```python
-class Solution:
-    def countSmaller(self, nums: List[int]) -> List[int]:
-        if not nums:
-            return []
-        sortedNums = [nums[-1]]
-        ans = [0 for _ in range(len(nums))]
-        for i in range(len(nums) -2, -1, -1):
-            index = bisect.bisect_left(sortedNums, nums[i])
-            ans[i] = index
-            sortedNums.insert(index, nums[i])
-        return ans
+### BIT, Range sum
+```c++
+class BIT {
+    vector<int> pre;
+public:
+    BIT() {}
+    void build(int n) {
+        pre.resize(n + 1);
+    }
+    void update(int i, int val) {
+        int j = i + 1;
+        while (j < pre.size()) {
+            pre[j] += val;
+            j += j & (-j);
+        }
+    }
+    int query(int i) {
+        int rst = 0;
+        int j = i;
+        while (j > 0) {
+            rst += pre[j];
+            j -= j & (-j);
+        }
+        return rst;
+    }
+};
+
+class Solution {
+public:
+    vector<int> countSmaller(vector<int>& nums) {
+        int n = nums.size(), i;
+        BIT bit;
+        bit.build(20001);
+        vector<int> ans(n);
+        bit.update(nums[n - 1] + 10000, 1);
+        for (i = n - 2; i >= 0; i --) {
+            ans[i] = bit.query(nums[i] + 10000); // smaller elements to the right
+            bit.update(nums[i] + 10000, 1);
+        }
+        return ans;
+    }
+};
 ```
 * [Hard] 315. Count of Smaller Numbers After Self
 
@@ -19315,6 +19297,31 @@ class Solution:
         return res % (10**9 + 7)
 ```
 * [Medium] 1589. Maximum Sum Obtained of Any Permutation
+
+### Greedy, open close event
+```c++
+class Solution {
+public:
+    int maxTwoEvents(vector<vector<int>>& events) {
+        int ans = 0, cur = 0;
+        vector<tuple<int,int,int>> dp;
+        for (auto e: events) {
+            dp.push_back({e[0], 1, e[2]});
+            dp.push_back({e[1] + 1, 0, e[2]});
+        }
+        sort(dp.begin(), dp.end());
+        for (auto [_, t, v]: dp) {
+            if (t == 1) {
+                ans = max(ans, v + cur);
+            } else {
+                cur = max(cur, v);
+            }
+        }
+        return ans;
+    }
+};
+```
+* [Medium] 2054. Two Best Non-Overlapping Events
 
 ### Greedy
 ```python

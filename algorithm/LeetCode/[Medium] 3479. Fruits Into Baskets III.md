@@ -215,81 +215,160 @@ public:
 };
 ```
 
-**Solution 3: (Segment Tree, Binary Search)**
+**Solution 3: (Segment Tree, Binary Search, O(n logn logn))**
 
     fruits = [4,2,5], baskets = [3,5,4]
 
 sgt
         
-                   5 (0)
-                 [0,3]
-               5 (1)   4 (2)
-             [0,1]    [2,2]
-        (3) 3    5 (4)
-         [0,0]  [1,1]
-query 4
-                   4
-               3        4
-            3    0
-query 2
-                   4
-               0       4
-            0    0
+                   0 (5)
+                 /    \
+               1 (5)   2 (4)
+            /    \
+         3 (3)   4 (5)
+buskets    3     5     4
+          0  1  2  3  4
+tree      5  5  4  3  5
+
+find 4
+query
+          0  1  2  3  4
+          ql qr
+          p
+          l     r
+             p
+          l  rx
+    i        x
+        ----------------
+          qlr
+          p
+          l    r
+             p
+          l  r
+                    p
+          lrx
+update
+             vi
+          0  1  2  3  4
+          p
+          l     r
+             p
+          l  r
+                p
+                lrx
+                   p
+          lr
+                      p
+             lrx
+tree      4  3  4  3  0
+
+find 2
+query
+          0  1  2  3  4
+          ql qr
+          p
+          l     r
+             p
+          l  rx
+    i        x
+        ----------------
+          qlr
+          p
+          l    r
+             p
+          l  r
+                    p
+          lrx
+    i     x
+update
+          vi
+          0  1  2  3  4
+          p
+          l     r
+             p
+          l  r
+                p
+                lrx
+                   p
+          lr
+tree      4  0  4  0  0
+
+find 5
+query
+          0  1  2  3  4
+          ql qr
+          p
+          l     r
+             p
+          l  rx
+          ---------------
+                qlr
+           p
+           l    r
+              p
+           l  r
+                   p
+           lr
+                      p
+              lr
+              p
+                lr
 
 ```
-Runtime: 607 ms, Beats 21.13%
-Memory: 189.37 MB, Beats 30.91%
+Runtime: 644 ms, Beats 16.54%
+Memory: 204.76 MB, Beats 33.27%
 ```
 ```c++
-class SGT {
+class SegmentTree {
 public:
-    vector<int> tree;
-    SGT(int n) {
-        tree.resize(4*n + 1);
+    vector<int> dp;
+    SegmentTree(int n) {
+        dp.resize(4 * n);
     }
 
     void build(int pos, int left, int right, vector<int> &arr)  {
         if (left == right) {
-            tree[pos] = arr[left];
+            dp[pos] = arr[left];
             return;
         }
         int mid = left + (right - left) / 2;
-        build(2*pos + 1, left, mid, arr);
-        build(2*pos + 2, mid + 1, right, arr);
-        tree[pos] = max(tree[2*pos + 1], tree[2*pos + 2]);
+        build(2 * pos + 1, left, mid, arr);
+        build(2 * pos + 2, mid + 1, right, arr);
+        dp[pos] = max(dp[2 * pos + 1], dp[2 * pos + 2]);
     }
 
-    int query(int pos, int q_left, int q_right, int left, int right)  {
+    int query(int pos, int left, int right, int q_left, int q_right)  {
         if (q_left <= left && q_right >= right) {
-            return tree[pos];
+            return dp[pos];
         }
         if (q_left > right || q_right < left) { 
             return 0;
         }
-        int mid = left + (right - left)/2;
-        return max(query(2*pos + 1, q_left, q_right, left, mid), query(2*pos + 2, q_left, q_right, mid + 1, right));
+        int mid = left + (right - left) / 2;
+        return max(query(2 * pos + 1, left, mid, q_left, q_right),
+                    query(2 * pos + 2, mid + 1, right, q_left, q_right));
     }
 
     void update(int pos, int left, int right, int i, int val)  {
         if (left == right) {
-            tree[pos] = val;
+            dp[pos] = val;
             return;
         }
-        int mid = left + (right - left)/2;
+        int mid = left + (right - left) / 2;
         if (i <= mid) {
-            update(2*pos + 1, left, mid, i, val);
+            update(2 * pos + 1, left, mid, i, val);
         } else { 
-            update(2*pos + 2, mid + 1, right, i, val);
+            update(2 * pos + 2, mid + 1, right, i, val);
         }
-        tree[pos] = max(tree[2*pos + 1], tree[2*pos + 2]);
+        dp[pos] = max(dp[2 * pos + 1], dp[2 * pos + 2]);
     }
 };
 
-void find(int val, SGT &sgt, int n, int &ans) {
+void find(int val, SegmentTree &sgt, int n, int &ans) {
     int left = 0, right = n-1, mid, mx, i = -1;
     while (left <= right) {
-        mid = left + (right - left)/2;
-        mx = sgt.query(0, 0, mid, 0, n-1);
+        mid = left + (right - left) / 2;
+        mx = sgt.query(0, 0, n - 1, 0, mid);
         if (mx >= val) {
             i = mid; 
             right = mid - 1; 
@@ -297,11 +376,7 @@ void find(int val, SGT &sgt, int n, int &ans) {
             left = mid + 1;
         }
     }
-    if (i != -1) {
-        sgt.update(0, 0, n-1, i, 0);
-    } else {
-        ans += 1;
-    }
+    sgt.update(0, 0, n - 1, i, 0);
     return;
 }
 
@@ -309,10 +384,73 @@ class Solution {
 public:
     int numOfUnplacedFruits(vector<int>& fruits, vector<int>& baskets) {
         int n = fruits.size(), i, ans = 0;
-        SGT sgt(n);
-        sgt.build(0, 0, n-1, baskets);
+        SegmentTree sgt(n);
+        sgt.build(0, 0, n - 1, baskets);
         for (i = 0; i < n; i ++) {
+            if (sgt.dp[0] < fruits[i]) {
+                ans += 1;
+                continue;
+            }
             find(fruits[i], sgt, n, ans);
+        }
+        return ans;
+    }
+};
+```
+
+**Solution 3: (Segment Tree, Binary Search, O(n logn))**
+```
+Runtime: 80 ms, Beats 88.80%
+Memory: 204.79 MB, Beats 33.59%
+```
+```c++
+class SegmentTree {
+public:
+    vector<int> dp;
+    SegmentTree(int n) {
+        dp.resize(4 * n);
+    }
+
+    void build(int ti, int left, int right, vector<int> &arr)  {
+        if (left == right) {
+            dp[ti] = arr[left];
+            return;
+        }
+        int mid = left + (right - left) / 2;
+        build(2 * ti + 1, left, mid, arr);
+        build(2 * ti + 2, mid + 1, right, arr);
+        dp[ti] = max(dp[2 * ti + 1], dp[2 * ti + 2]);
+    }
+
+    bool place(int ti, int left, int right, int val) {
+        if (dp[ti] < val) {
+            return false;
+        }
+        if (left == right) {
+            dp[ti] = -1;
+            return true;
+        }
+        int mid = left + (right - left) / 2;
+        bool placed = place(2 * ti + 1, left, mid, val);
+        if (!placed)
+            placed = place(2 * ti + 2, mid + 1, right, val);
+        dp[ti] = max(dp[2 * ti + 1], dp[2 * ti + 2]);
+        return placed;
+    }
+};
+
+class Solution {
+public:
+    int numOfUnplacedFruits(vector<int>& fruits, vector<int>& baskets) {
+        int n = fruits.size(), i, ans = 0;
+        SegmentTree sgt(n);
+        sgt.build(0, 0, n - 1, baskets);
+        for (i = 0; i < n; i ++) {
+            if (sgt.dp[0] < fruits[i]) {
+                ans += 1;
+                continue;
+            }
+            sgt.place(0, 0, n - 1, fruits[i]);
         }
         return ans;
     }

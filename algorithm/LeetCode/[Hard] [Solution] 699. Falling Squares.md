@@ -517,3 +517,236 @@ class Solution:
 
         return ans
 ```
+
+**Solution 5: (Segment Tree with Lazy Propagation, range max)**
+
+6  |      _______
+5  |     |       |
+4  |     |   2   |
+3  |   __|__ ____|
+2  |  |     |         __
+1  |  |  1  |        |3 |
+---x-----------------------------
+   0  1  2  3  4  5  6  7  8  9
+
+                   0 (5)
+              /         \
+            1 (5)         2 (1)
+          /    \        /    \
+        3 (5)   4 (5)  5 (1)  6
+      /   \         
+     7 (2) 8 (5)        
+x    1     2    4      6
+
+st   1   2   4   6
+mp
+1:  0
+2:  1
+4:  2
+6:  3
+
+============================================
+u0:   
+    0  1  2  3  4  5  6  7  8
+    ul ur
+------------------------------
+    p
+    l           r
+------------------------------
+       p
+    l     r
+------------------------------
+             p
+    l  r
+------------------------------
+                         p
+    lrx
+------------------------------
+       lrx
+
+     0  1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16 17 18 19
+dp   2  2     2                                                            
+Lazy                      2  2
+
+============================================
+q1:
+    0  1  2  3  4  5  6  7  8  9  10
+       ql qr
+----------------------------------
+    p
+    l           r
+----------------------------------
+       p
+    l     r
+-----------------------------------
+             p
+    l  r
+-----------------------------------
+                         p
+    lr
+-----------------------------------
+       lrx                  p
+-----------------------------------
+                p
+          lrx
+
+     0  1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16 17 18 19
+dp   2  2     2           2  2                                             
+Lazy                          
+
+============================================
+u1:
+    0  1  2  3  4  5  6  7  8  9  10
+       ul ur
+----------------------------------------
+    p
+    l          r
+-----------------------------------------
+       p
+    l     r
+-----------------------------------------
+             p
+    l  r
+-----------------------------------------
+                         p
+    lr
+-----------------------------------------
+                            p
+       lrx
+-----------------------------------
+                p
+          lrx
+    
+
+     0  1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16 17 18 19
+dp   5  5     5  5        2  5                                             
+Lazy                          
+
+============================================
+q2:
+     0  1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16 17 18 19
+dp   5  5     5  5        2  5                                             
+Lazy                          
+
+============================================
+u2:
+    0  1  2  3  4  5  6  7  8  9  10
+             ulr
+--------------------------------------
+    p
+    l           r
+--------------------------------------
+       p
+    l     r
+--------------------------------------
+             p
+    l  r
+---------------------------------------
+                          p
+    lr
+---------------------------------------
+                             p
+       lr
+---------------------------------------
+                p
+          lr
+----------------------------------------
+          p
+             l  r
+----------------------------------------
+                   p
+             lrx
+
+     0  1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16 17 18 19
+dp   5  5  1  5  5  1     2  5                                             
+Lazy                          
+
+```
+Runtime: 16  ms, Beats 41.50%
+Memory: 18.96 MB, Beats 33.72%
+```
+```c++
+class SegmentTree{
+    vector<int> dp, lazy;
+public:
+    SegmentTree(int n) { 
+        dp.resize(4 * n);
+        lazy.resize(4 * n);
+    }
+    void update(int ti, int left, int right, int u_left, int u_right, int val) {
+        if (lazy[ti] != 0) {
+            dp[ti] = max(dp[ti], lazy[ti]);
+            if (left != right){
+                lazy[2 * ti + 1] = max(lazy[2 * ti + 1], dp[ti]);
+                lazy[2 * ti + 2] = max(lazy[2 * ti + 2], dp[ti]);
+            }
+            lazy[ti] = 0;
+        }
+        if (u_left > right || u_right < left) {
+            return;
+        }
+        if (u_left <= left && right <= u_right) {
+            dp[ti] = val;
+            if (left != right) {
+                lazy[2 * ti + 1] = max(lazy[2 * ti + 1], dp[ti]);
+                lazy[2 * ti + 2] = max(lazy[2 * ti + 2], dp[ti]);
+            }
+            return;
+        }
+        int mid = left + (right - left) / 2;
+        update(2 * ti + 1, left, mid, u_left, u_right, val);
+        update(2 * ti + 2, mid + 1, right, u_left, u_right, val);
+        dp[ti] = max(dp[2 * ti + 1], dp[2 * ti + 2]);
+    }
+    int query(int ti, int left, int right, int& q_left, int& q_right) {
+        if (lazy[ti] != 0) {
+            dp[ti] = max(dp[ti], lazy[ti]);
+            if (left != right) {
+                lazy[2 * ti + 1] = max(lazy[2 * ti + 1], dp[ti]);
+                lazy[2 * ti + 2] = max(lazy[2 * ti + 2], dp[ti]);
+            }
+            lazy[ti] = 0;
+        }
+        if (q_left > right || q_right < left) {
+            return 0;
+        }
+        if (q_left <= left && right <= q_right) {
+            return dp[ti];
+        }
+        int mid = left + (right - left) / 2;
+        return max(query(2 * ti + 1, left, mid, q_left, q_right),
+                    query(2 * ti + 2, mid + 1, right, q_left, q_right));
+    }
+};
+
+class Solution {
+public:
+    vector<int> fallingSquares(vector<vector<int>>& positions) {
+        set<int> st;
+        for (auto &pos : positions) {
+            st.insert(pos[0]);
+            st.insert(pos[0] + pos[1] - 1);
+        }
+        unordered_map<int, int> mp;
+        int i = 0, n, left, right, cur;
+        for (auto x : st){
+            mp[x] = i;
+            i += 1;
+        }
+        n = i;
+        SegmentTree sgt(n);
+        int mx = 0;
+        vector<int> ans;
+        for (auto &pos : positions) {
+            left = mp[pos[0]];
+            right = mp[pos[0] + pos[1] - 1];
+            cur = sgt.query(0, 0, n, left, right);
+            cur += pos[1];
+            sgt.update(0, 0, n, left, right, cur);
+            mx = max(mx, cur);
+            ans.push_back(mx);
+        }
+        return ans;
+    }
+};
+```

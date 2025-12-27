@@ -262,7 +262,7 @@ public:
 };
 ```
 
-**Solution 6: (Binary Indexed Tree (Fenwick Tree))**
+**Solution 6: (Binary Indexed Tree (Fenwick Tree), left right)**
 ```
 Runtime: 8 ms
 Memory: 21.25 MB

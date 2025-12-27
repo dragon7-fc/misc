@@ -61,19 +61,21 @@ class RangeFreqQuery:
 
 **Solution 2: (Binary Search)**
 ```
-Runtime: 548 ms
-Memory Usage: 251.7 MB
+Runtime: 73 ms, Beats 37.99%
+Memory: 242.48 MB, Beats 49.82%
 ```
 ```c++
 class RangeFreqQuery {
-public:
     unordered_map<int, vector<int>> mp;
+public:
     RangeFreqQuery(vector<int>& arr) {
-        for(int i = 0; i < size(arr); i++) mp[arr[i]].push_back(i);
+        for (int i = 0; i < size(arr); i++) {
+            mp[arr[i]].push_back(i);
+        }
     }
     
     int query(int left, int right, int value) {
-        return upper_bound(begin(mp[value]), end(mp[value]), right) - lower_bound(begin(mp[value]), end(mp[value]), left); 
+        return upper_bound(begin(mp[value]), end(mp[value]), right) - lower_bound(begin(mp[value]), end(mp[value]), left);
     }
 };
 

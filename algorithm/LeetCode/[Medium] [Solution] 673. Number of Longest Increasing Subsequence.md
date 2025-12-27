@@ -203,3 +203,71 @@ public:
     }
 };
 ```
+
+**Solution 3: (BIT)**
+```
+Runtime: 2 ms, Beats 99.20%
+Memory: 18.96 MB, Beats 5.49%
+```
+```c++
+class BIT {
+    vector<array<int, 2>> pre;
+public:
+    BIT() {} 
+    void build(int n) {
+        pre.resize(n + 1, {0, 0});
+    }
+    array<int, 2> query(int i) {
+        int len = 0, k = 0, j = i;
+        while (j > 0) {
+            if (pre[j][0] > len) {
+                len = pre[j][0]; 
+                k = pre[j][1]; 
+            } else if (pre[j][0] == len) {
+                k += pre[j][1]; 
+            }
+            j -= j & (-j); 
+        }
+        if (len == 0) {
+            return {0, 1}; 
+        }
+        return {len, k}; 
+    }
+    void update(int i) {
+        auto [len, k] = query(i); 
+        int j = i + 1;
+        len += 1;
+        while (j < pre.size()) {
+            if (pre[j][0] < len) {
+                pre[j][0] = len; 
+                pre[j][1] = k; 
+            } else if (pre[j][0] == len) {
+                pre[j][1] += k; 
+            }
+            j += j & (-j); 
+        }
+    }
+};
+
+class Solution {
+public:
+    int findNumberOfLIS(vector<int>& nums) {
+        int i;
+        set<int> st(nums.begin(), nums.end());
+        unordered_map<int, int> mp;
+        i = 0;
+        for (auto it = st.begin(); it != st.end(); it++) {
+            mp[*it] = i;
+            i += 1;
+        }
+        int n = i;
+        BIT bit;
+        bit.build(n);
+        for (i = 0; i < nums.size(); i ++) {
+            bit.update(mp[nums[i]]);
+        }
+        auto [_, ans] = bit.query(n); 
+        return ans;
+    }
+};
+```

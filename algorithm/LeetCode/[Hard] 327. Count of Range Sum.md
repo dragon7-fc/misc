@@ -96,6 +96,7 @@ class Solution:
 ```
 
 **Solution 4: (Binary Indexed Tree)**
+
 ```
 Runtime: 252 ms
 Memory Usage: 13.2 MB
@@ -131,4 +132,104 @@ class Solution:
         while i < self.len:
             self.BIT[i] += 1
             i += i & -i
+```
+
+**Solution 5: (Binary Indexed Tree, Prefix Sum)**
+
+    nums           = [-2, 5,-1], lower = -2, upper = 2
+                      ^^
+                            ^^
+                      ^^^^^^^^
+---------------------------------------
+                       v
+    preSums        = [ 0,-2, 3, 2]    ans
+    3                        x      |<r
+    2                           x < |  +2
+    1                               |
+    0                  x      |<r   |<l
+   -1                         |
+   -2                     x < |<l      +1
+                          v
+    sorted_preSums = [-2, 0, 2, 3]
+                       ^l       ^r
+    bit              [ 0, 0, 1, 0, 1]
+---------------------------------------
+                          v
+    preSums        = [ 0,-2, 3, 2]
+                       v
+    sorted_preSums = [-2, 0, 2, 3]
+                       ^l    ^r
+    ans                      +1
+    BIT              [ 0, 1, 2, 0, 2]
+---------------------------------------
+                             v
+    preSums        = [ 0,-2, 3, 2]
+                                v
+    sorted_preSums = [-2, 0, 2, 3]
+                             ^l    ^r
+    BIT              [ 0, 1, 2, 0, 3]
+---------------------------------------
+                                v
+    preSums        = [ 0,-2, 3, 2]
+                             v
+    sorted_preSums = [-2, 0, 2, 3]
+                          ^l       ^r
+    ans                      +2 
+    BIT              [ 0, 1, 2, 0, 3]
+
+```
+Runtime: 163 ms, Beats 95.04%
+Memory: 74.40 MB, Beats 94.31%
+```
+```c++
+class BIT {
+public:
+    vector<int> pre;
+    BIT() {};
+    void build(int n) {
+        pre.resize(n + 1);
+    }
+    void update(int i, int val) {
+        int j = i;
+        while (j < pre.size()) {
+            pre[j] += val;
+            j += j & (-j);
+        }
+    }
+    int query(int i) {
+        int rst = 0, j = i;
+        while (j) {
+            rst += pre[j];
+            j -= j & (-j);
+        }
+        return rst;
+    }
+};
+
+
+class Solution {
+public:
+    int countRangeSum(vector<int>& nums, int lower, int upper) {
+        int n = nums.size(), i, j, k, ans = 0;
+        long long left, right;
+        vector<long long> psum(1 + n, 0);
+        for (i = 0; i < n; i ++) {
+            psum[i + 1] = psum[i] + nums[i];
+        }
+        vector<long long> sorted_psum(psum);
+        sort(sorted_psum.begin(), sorted_psum.end());
+        BIT bit;
+        bit.build(n + 1);
+        for (i = 0; i <= n ; i ++) {
+            left = psum[i] - upper;
+            right = psum[i] - lower;
+            j = lower_bound(sorted_psum.begin(), sorted_psum.end(), left) - sorted_psum.begin();
+            k = upper_bound(sorted_psum.begin(), sorted_psum.end(), right) - sorted_psum.begin();
+            ans += bit.query(k) - bit.query(j);
+            j = upper_bound(sorted_psum.begin(), sorted_psum.end(), psum[i]) - sorted_psum.begin();
+            bit.update(j, 1);
+        }
+        return ans;
+    }
+};
 ```

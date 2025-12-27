@@ -46,27 +46,23 @@ The sum of the happiness values of the selected children is 5.
 
 # Submissions
 ---
-**Solution 1: (Sort)**
+**Solution 1: (Sort, Greedy)**
 ```
-Runtime: 147 ms
-Memory: 107.20 MB
+Runtime: 140 ms, Beats 90.78%
+Memory: 107.93 MB, Beats 47.16%
 ```
 ```c++
 class Solution {
 public:
     long long maximumHappinessSum(vector<int>& happiness, int k) {
-        sort(happiness.begin(), happiness.end(), greater<int>());
-        long long cur, ans = 0;
-        for (int i = 0; i < happiness.size(); i ++) {
-            cur = happiness[i]-i;
-            if (cur <= 0) {
+        int n = happiness.size(), i;
+        long long ans = 0;
+        sort(begin(happiness), end(happiness), greater<>());
+        for (i = 0; i < k; i ++) {
+            if (happiness[i] - i < 0) {
                 break;
             }
-            ans += cur;
-            k -= 1;
-            if (k == 0) {
-                break;
-            }
+            ans += happiness[i] - i;
         }
         return ans;
     }
