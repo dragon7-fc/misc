@@ -93,3 +93,47 @@ class Solution:
         dfs(root, 1)
         return ans
 ```
+
+**Solution 3: (DFS)**
+```
+Runtime: 0 ms, Beats 100.00%
+Memory: 32.95 MB, Beats 50.48%
+```
+```c++
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+class Solution {
+    int dfs(TreeNode *node, int &ans) {
+        int rst = 1, left, right;
+        if (node->left) {
+            left = dfs(node->left, ans);
+            if (node->val == node->left->val - 1) {
+                rst = max(rst, 1 + left);
+            }
+        }
+        if (node->right) {
+            right = dfs(node->right, ans);
+            if (node->val == node->right->val - 1) {
+                rst = max(rst, 1 + right);
+            }
+        }
+        ans = max(ans, rst);
+        return rst;
+    }
+public:
+    int longestConsecutive(TreeNode* root) {
+        int ans = 0;
+        dfs(root, ans);
+        return ans;
+    }
+};
+```

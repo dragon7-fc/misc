@@ -73,30 +73,43 @@ class Solution:
         return max_len
 ```
 
-**Solution 2: (Two Pointers, Sliding Window, max count in sliding window)**
+**Solution 2: (Two Pointers, Sliding Window, inverse increasing max count in sliding window)**
+
+         0 1 2 3 4 5 6
+    s = "A A B A B B A", k = 1
+         i       j
+           i     j 
+           i       j
+             i     j
+             i       j
+               i     j
+cnt
+A        1 2   3 2 1 2
+B            1   2 3 2
+mx    0  1 2   3      
+ans   0  1 2 3 4 4 4 4
+
 ```
-Runtime: 32 ms
-Memory Usage: 6.9 MB
+Runtime: 0 ms, Beats 100.00%
+Memory: 10.80 MB, Beats 69.00%
 ```
 ```c++
 class Solution {
 public:
     int characterReplacement(string s, int k) {
-        int n = s.size();
-        unordered_map<char,int>m;
-        int i = 0,j = 0,mx = 0,c = 0;
-        while(j<n){
-            m[s[j]]++;
-            mx = max(mx,m[s[j]]);
-
-            while(j-i+1-mx>k){
-                m[s[i]]--;
-                i++;
+        int n = s.size(), i = 0, j = 0, mx = 0, ans = 0;
+        vector<int> cnt(26);
+        while (j < n) {
+            cnt[s[j] - 'A'] += 1;
+            mx = max(mx , cnt[s[j] - 'A']);
+            if (j - i + 1 - mx > k) {
+                cnt[s[i] - 'A'] -= 1;
+                i += 1;
             }
-            c = max(c,j-i+1);
-            j++;
+            ans = max(ans, j - i + 1);
+            j += 1;
         }
-        return c;
+        return ans;
     }
 };
 ```

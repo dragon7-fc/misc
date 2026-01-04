@@ -94,59 +94,71 @@ class Solution:
         return quickSort(nums, 0, len(nums)-1)
 ```
 
-> **Solution 3: (Merge Sort)**
+> **Solution 3: (Merge Sort, TC: O(n log n), SC: O(n))**
 ```
-Runtime: 196 ms
-Memory Usage: 90.1 MB
+Runtime: 49 ms, Beats 72.51%
+Memory: 72.99 MB, Beats 65.82%
 ```
 ```c++
 class Solution {
-    void mergeSortTwoVec(vector<int>& subVec1, vector<int>& subVec2, vector<int>& vec) {
-        int i = 0;
-        int j = 0;
-        while (i < subVec1.size() && j < subVec2.size()) {
-            if (subVec1[i] <= subVec2[j]) {
-                vec.push_back(subVec1[i]);
-                i++;
+    // Function to merge two sub-arrays in sorted order.
+    void merge(vector<int> &arr, int left, int mid, int right, vector<int> &tempArr) {
+        // Calculate the start and sizes of two halves.
+        int start1 = left;
+        int start2 = mid + 1;
+        int n1 = mid - left + 1;
+        int n2 = right - mid;
+        
+        // Copy elements of both halves into a temporary array.
+        for (int i = 0; i < n1; i++) {
+            tempArr[start1 + i] = arr[start1 + i];
+        }
+        for (int i = 0; i < n2; i++) {
+            tempArr[start2 + i] = arr[start2 + i];
+        }
+
+        // Merge the sub-arrays 'in tempArray' back into the original array 'arr' in sorted order.
+        int i = 0, j = 0, k = left;
+        while (i < n1 && j < n2) {
+            if (tempArr[start1 + i] <= tempArr[start2 + j]) {
+                arr[k] = tempArr[start1 + i];
+                i += 1;
             } else {
-                vec.push_back(subVec2[j]);
-                j++;
+                arr[k] = tempArr[start2 + j];
+                j += 1;
             }
+            k += 1;
         }
-        while (i < subVec1.size()) {
-            vec.push_back(subVec1[i]);
-            i++;
+
+        // Copy remaining elements
+        while (i < n1) {
+            arr[k] = tempArr[start1 + i];
+            i += 1;
+            k += 1;
         }
-        while (j < subVec2.size()) {
-            vec.push_back(subVec2[j]);
-            j++;
+        while (j < n2) {
+            arr[k] = tempArr[start2 + j];
+            j += 1;
+            k += 1;
         }
     }
 
-    void mergeSort(vector<int>& vec) {
-        if (vec.size() < 2) {
-            return; // When the vec size less than 2, jump out of recursion and solve directly.
+    // Recursive function to sort an array using merge sort
+    void mergeSort(vector<int> &arr, int left, int right, vector<int> &tempArr) {
+        if (left >= right) {
+            return;
         }
-
-        vector<int> sub1;
-        vector<int> sub2;
-        int mid = vec.size() / 2;
-        for (int i = 0; i < mid; i++) {
-            sub1.push_back(vec[i]);
-        }
-
-        for (int i = mid; i < vec.size(); i++) {
-            sub2.push_back(vec[i]);
-        }
-
-        mergeSort(sub1);
-        mergeSort(sub2);
-        vec.clear();
-        mergeSortTwoVec(sub1, sub2, vec);
+        int mid = (left + right) / 2;
+        // Sort first and second halves recursively.
+        mergeSort(arr, left, mid, tempArr);
+        mergeSort(arr, mid + 1, right, tempArr);
+        // Merge the sorted halves.
+        merge(arr, left, mid, right, tempArr);
     }
 public:
     vector<int> sortArray(vector<int>& nums) {
-        mergeSort(nums);
+        vector<int> temporaryArray(nums.size());
+        mergeSort(nums, 0, nums.size() - 1, temporaryArray);
         return nums;
     }
 };
@@ -191,69 +203,164 @@ public:
 };
 ```
 
-**Solution 5: (Heap sort)**
+**Solution 5: (Heap sort, max heap, TC: O(n log n), SC: O(log n))**
 ```
-Memory Usage: 30336000
+Runtime: 59 ms, Beats 64.09%
+Memory: 70.80 MB, Beats 92.93%
 ```
 ```c++
 class Solution {
-    vector<int> inplaceHeapSort(vector<int> arr, int n)
-    {
-        for(int i=0;i<n;i++)
-        {
-            int childIndex = i;
-            int parentIndex = (i-1)/2;
-            while(parentIndex>=0)
-            {
-                if(arr[parentIndex]>arr[childIndex])
-                {
-                    swap(arr[parentIndex],arr[childIndex]);
-                }
-                else
-                {
-                    break;
-                }
-                childIndex = parentIndex;
-                parentIndex = (childIndex-1)/2;
-            }
-        }
-        vector<int> ans;
-        int lastIndex = n-1;
-        for(int i=0;i<n;i++)
-        {
-            swap(arr[lastIndex],arr[0]);
-            ans.push_back(arr[lastIndex]);
-            int parentIndex = 0;
-            int lChild = 2*parentIndex + 1;
-            int rChild = 2*parentIndex + 2;
-            lastIndex--;
-            while(lChild<lastIndex+1)
-            {
+    // Function to heapify a subtree (in top-down order) rooted at index i.
+    void heapify(vector<int>& arr, int n, int i) {
+        // Initialize largest as root 'i'.
+        int largest = i; 
+        int left = 2 * i + 1;
+        int right = 2 * i + 2; 
 
-                int minIndex = parentIndex;
-                if(arr[minIndex]>arr[lChild])
-                {
-                    minIndex = lChild;
-                }
-                if(rChild<lastIndex + 1 and arr[minIndex]>arr[rChild])
-                {
-                    minIndex = rChild;
-                }
-                if(minIndex==parentIndex)
-                {
-                    break;
-                }
-                swap(arr[parentIndex],arr[minIndex]);
-                parentIndex = minIndex;
-                lChild = 2*parentIndex + 1;
-                rChild = 2*parentIndex + 2;
-            }
+        // If left child is larger than root.
+        if (left < n && arr[left] > arr[largest]) {
+            largest = left;
         }
-        return ans;
+
+        // If right child is larger than largest so far.
+        if (right < n && arr[right] > arr[largest]) {
+            largest = right;
+        }
+
+        // If largest is not root swap root with largest element
+        // Recursively heapify the affected sub-tree (i.e. move down).
+        if (largest != i) {
+            swap(arr[i], arr[largest]); 
+            heapify(arr, n, largest);
+        }
+    }
+
+    void heapSort(vector<int>& arr) {
+        int n = arr.size();
+        // Build heap; heapify (top-down) all elements except leaf nodes.
+        for (int i = n / 2 - 1; i >= 0; i--) {
+            heapify(arr, n, i);
+        }
+
+        // Traverse elements one by one, to move current root to end, and
+        for (int i = n - 1; i >= 0; i--) {
+            swap(arr[0], arr[i]);
+            // call max heapify on the reduced heap.
+            heapify(arr, i, 0);
+        }
     }
 public:
     vector<int> sortArray(vector<int>& nums) {
-        return inplaceHeapSort(nums,nums.size());
+        heapSort(nums);
+        return nums;
+    }
+};
+```
+
+**Solution 6: (Counting Sort, TC: O(n + k), SC: O(n))**
+```
+Runtime: 87 ms, Beats 58.38%
+Memory: 96.48 MB, Beats 48.35%
+```
+```c++
+class Solution {
+    void countingSort(vector<int> &arr) {
+        // Create the counting hash map.
+        unordered_map<int, int> counts;
+        // Find the minimum and maximum values in the array.
+        int minVal = *min_element(arr.begin(), arr.end());
+        int maxVal = *max_element(arr.begin(), arr.end());
+
+        // Update element's count in the hash map.
+        for (auto& val : arr) {
+            counts[val]++;
+        }
+        
+        int index = 0;
+        // Place each element in its correct position in the array.
+        for (int val = minVal; val <= maxVal; ++val) {
+            // Append all 'val's together if they exist.
+            if (counts.find(val) != counts.end()) {
+                while (counts[val] > 0) {
+                    arr[index] = val;
+                    index += 1;
+                    counts[val] -= 1;
+                }
+            }
+        }
+    }
+public:
+    vector<int> sortArray(vector<int>& nums) {
+        countingSort(nums);
+        return nums;
+    }
+};
+```
+
+**Solution 7: (Radix Sort, TC: O(d * (n + k)), SC: O(n + k))**
+```
+Runtime: 35 ms, Beats 78.87%
+Memory: 103.92, MB Beats 46.56%
+```
+```c++
+class Solution {
+    // Bucket sort function for each place value digit.
+    void bucketSort(vector<int>& arr, int placeValue) {
+        vector<vector<int>> buckets(10, vector<int>());
+        // Store the respective number based on its digit.
+        for (int& val : arr) {
+            int digit = abs(val) / placeValue;
+            digit = digit % 10;
+            buckets[digit].push_back(val);
+        }
+
+        // Overwrite 'arr' in sorted order of current place digits.
+        int index = 0;
+        for (int digit = 0; digit < 10; ++digit) {
+            for (int& val : buckets[digit]) {
+                arr[index] = val;
+                index++;
+            }
+        }
+    }
+    
+    // Radix sort function.
+    void radixSort(vector<int>& arr) {
+        // Find the absolute maximum element to find max number of digits.
+        int maxElement = arr[0];
+        for (int& val : arr) {
+            maxElement = max(abs(val), maxElement);
+        }
+        int maxDigits = 0;
+        while (maxElement > 0) {
+            maxDigits += 1;
+            maxElement /= 10;
+        }
+
+        // Radix sort, least significant digit place to most significant.
+        int placeValue = 1;
+        for (int digit = 0; digit < maxDigits; ++digit) {
+            bucketSort(arr, placeValue);
+            placeValue *= 10;
+        }
+
+        // Seperate out negatives and reverse them. 
+        vector<int> negatives, positives;
+        for (int& val : arr) {
+            if (val < 0) {
+                negatives.push_back(val);
+            } else {
+                positives.push_back(val);
+            }
+        }
+        reverse(negatives.begin(), negatives.end());
+        // Final 'arr' will be 'negative' elements, then 'positive' elements.
+        merge(negatives.begin(), negatives.end(), positives.begin(), positives.end(), arr.begin());
+    }
+public:
+    vector<int> sortArray(vector<int>& nums) {
+        radixSort(nums);
+        return nums;
     }
 };
 ```

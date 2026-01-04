@@ -133,3 +133,60 @@ public:
     }
 };
 ```
+
+**Solution 3: (DFS)**
+```
+Runtime: 0 ms, Beats 100.00%
+Memory: 22.63 MB, Beats 78.98%
+```
+```c++
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+class Solution {
+    array<int, 2> dfs(TreeNode *root, int &ans) {
+        int left = 0, right = 0, inc = 1, dec = 1;
+        array<int, 2> rst = {1, 1};
+        if (root->left) {
+            auto [left_inc, left_dec] = dfs(root->left, ans);
+            if (root->val - root->left->val == 1) {
+                rst[0] = max(rst[0], 1 + left_inc);
+                inc += left_inc;
+            }
+            if (root->val - root->left->val == -1) {
+                rst[1] = max(rst[1], 1 + left_dec);
+                dec += left_dec;
+            }
+        }
+        if (root->right) {
+            auto [right_inc, right_dec] = dfs(root->right, ans);
+            if (root->val - root->right->val == 1) {
+                rst[0] = max(rst[0], 1 + right_inc);
+                dec += right_inc;
+            }
+            if (root->val - root->right->val == -1) {
+                rst[1] = max(rst[1], 1 + right_dec);
+                inc += right_dec;
+            }
+        }
+        ans = max(ans, max(rst[0], rst[1]));
+        ans = max(ans, inc);
+        ans = max(ans, dec);
+        return rst;
+    }
+public:
+    int longestConsecutive(TreeNode* root) {
+        int ans = 0;
+        dfs(root, ans);
+        return ans;
+    }
+};
+```

@@ -156,42 +156,39 @@ class Solution:
 
 **Solution 4: (DFS)**
 ```
-Runtime: 23 ms
-Memory Usage: 9.9 MB
+Runtime: 0 ms, Beats 100.00%
+Memory: 13.72 MB, Beats 95.56%
 ```
 ```c++
 class Solution {
-public:
-    void DFS(vector<vector<char>>& board,int r,int c)
-    {
-        if(r<0 || r>=board.size() || c<0 || c>=board[0].size() || board[r][c]=='#' || board[r][c]=='X')
-            return ;
+    void dfs(int r, int c, vector<vector<char>> &board) {
+        if (r < 0 || r >= board.size() || c < 0 || c >= board[0].size() || board[r][c]=='#' || board[r][c]=='X') {
+            return;
+        }
         board[r][c]='#';
-        DFS(board,r+1,c);
-        DFS(board,r-1,c);
-        DFS(board,r,c+1);
-        DFS(board,r,c-1);
+        dfs(r + 1,c, board);
+        dfs(r - 1,c, board);
+        dfs(r, c + 1, board);
+        dfs(r, c - 1, board);
     }
+public:
     void solve(vector<vector<char>>& board) {
-        for(int i=0;i<board.size();i++)
-        {
-            for(int j=0;j<board[0].size();j++)
-            {
-                if((i==0 || j==0 || j==board[0].size()-1 || i==board.size()-1) && (board[i][j]=='O'))
-                {
-                    DFS(board,i,j);
+        int m = board.size(), n = board[0].size(), i, j;
+        for (i = 0; i < m; i ++) {
+            for (j = 0; j < n;j ++) {
+                if ((i == 0 || j == 0 || i == m - 1 || j == n - 1) && (board[i][j]=='O')) {
+                    dfs(i, j, board);
                 }
             }
         }
-        
-        for(int i=0;i<board.size();i++)
-        {
-            for(int j=0;j<board[0].size();j++)
-            {
-               if(board[i][j]=='O')
+        for (i = 0; i < m; i ++) {
+            for (j = 0; j < n; j ++) {
+               if (board[i][j]=='O') {
                    board[i][j]='X';
-               if(board[i][j]=='#')
+               }
+               if (board[i][j]=='#') {
                    board[i][j]='O';
+               }
             }
         }
     }

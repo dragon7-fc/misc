@@ -302,3 +302,52 @@ public:
     }
 };
 ```
+
+**Solution 1: (Using Constant Space)**
+
+             0  1  2  3
+    nums = [ 1, 2, 2, 4]
+             ^
+            -1 -2    -4
+dup     -1         2
+
+             0  1  2  3
+    nums = [-1,-2, 2,-4]
+missing  1         3
+
+----------------------------
+             0  1
+    nums = [ 2, 2]
+             ^
+               -2
+dup     -1      2
+
+             0  1
+    nums = [ 2,-2]
+missing  1   1
+
+```
+Runtime: 0 ms, Beats 100.00%
+Memory: 25.08 MB, Beats 89.56%
+```
+```c++
+class Solution {
+public:
+    vector<int> findErrorNums(vector<int>& nums) {
+        int dup = -1, missing = 1;
+        for (auto &num: nums) {
+            if (nums[abs(num) - 1] < 0) {
+                dup = abs(num);
+            } else {
+                nums[abs(num) - 1] *= -1;
+            }
+        }
+        for (int i = 1; i < nums.size(); i ++) {
+            if (nums[i] > 0) {
+                missing = i + 1;
+            }
+        }
+        return {dup, missing};
+    }
+};
+```

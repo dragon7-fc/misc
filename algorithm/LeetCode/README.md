@@ -1839,34 +1839,23 @@ class Solution:
 ```
 * [Lock] [Medium] 1066. Campus Bikes II
 
-### 2 state array
-```python
-class Solution:
-    def maxProduct(self, nums: List[int]) -> int:
-        res1 = [0 for i in range(len(nums))]
-        res2 = [0 for i in range(len(nums))]
-        if len(nums) == 0:
-            return 0
-        for i in range(len(nums)):
-            if i == 0:
-                res1[i] = nums[i]
-                res2[i] = nums[i]
-            else:
-                res1[i] = max(nums[i], nums[i]*res1[i-1], nums[i]*res2[i-1])
-                res2[i] = min(nums[i], nums[i]*res1[i-1], nums[i]*res2[i-1])
-
-        return max(max(res1), max(res2))
-
-class Solution:
-    def maxProduct(self, nums: List[int]) -> int:
-        ans = max_so_far = min_so_far = nums[0]
-        for i in range(1, len(nums)):
-            candidates = (nums[i], max_so_far*nums[i], min_so_far*nums[i])
-            max_so_far = max(candidates)
-            min_so_far = min(candidates)
-            ans = max(ans, max_so_far)
-
-        return ans   
+### block min max
+```c++
+class Solution {
+public:
+    int maxProduct(vector<int>& nums) {
+        int n = nums.size(), i, ans, max_so_far, min_so_far;
+        array<int, 3> candidates;
+        ans = max_so_far = min_so_far = nums[0];
+        for (i = 1; i < n; i ++) {
+            candidates = {nums[i], max_so_far * nums[i], min_so_far * nums[i]};
+            max_so_far = *max_element(begin(candidates), end(candidates));
+            min_so_far = *min_element(begin(candidates), end(candidates));
+            ans = max(ans, max_so_far);
+        }
+        return ans;
+    }
+};
 ```
 * [Medium] 152. Maximum Product Subarray
 
@@ -6925,34 +6914,34 @@ class MagicDictionary:
 ```c++
 class RandomizedSet {
     vector<int> dp;
-    unordered_map<int,int> m;
+    unordered_map<int,int> mp;
 public:
     RandomizedSet() {
         
     }
     
     bool insert(int val) {
-        if (m.count(val)) {
+        if (mp.count(val)) {
             return false;
         }
         dp.push_back(val);
-        m[val] = dp.size()-1;
+        mp[val] = dp.size() - 1;
         return true;
     }
     
     bool remove(int val) {
-        if (!m.count(val)) {
+        if (!mp.count(val)) {
             return false;
         }
-        m[dp.back()] = m[val];
-        dp[m[val]] = dp.back();
-        m.erase(val);
+        mp[dp.back()] = mp[val];
+        dp[mp[val]] = dp.back();
+        mp.erase(val);
         dp.pop_back();
         return true;
     }
     
     int getRandom() {
-        return dp[rand()%dp.size()];
+        return dp[rand() % dp.size()];
     }
 };
 
@@ -7225,29 +7214,27 @@ class Solution:
 ```
 * [Medium] [Solution] 835. Image Overlap
 
-### HashSet and Intelligent Sequence Building
-```python
-class Solution:
-    def longestConsecutive(self, nums):
-        """
-        :type nums: List[int]
-        :rtype: int
-        """
-        longest_streak = 0
-        num_set = set(nums)
-
-        for num in num_set:
-            if num - 1 not in num_set:
-                current_num = num
-                current_streak = 1
-
-                while current_num + 1 in num_set:
-                    current_num += 1
-                    current_streak += 1
-
-                longest_streak = max(longest_streak, current_streak)
-
-        return longest_streak
+### longest non overlap interval, check interval start
+```c++
+class Solution {
+public:
+    int longestConsecutive(vector<int>& nums) {
+        unordered_set<int> st(nums.begin(), nums.end());
+        int cur, k, ans = 0;
+        for (auto num: st) {
+            if (!st.count(num - 1)) {
+                cur = num;
+                k = 1;
+                while (st.count(cur + 1)) {
+                    cur += 1;
+                    k += 1;
+                }
+                ans = max(ans, k);
+            }
+        }
+        return ans;
+    }
+};
 ```
 * [Hard] [Solution] 128. Longest Consecutive Sequence
 
@@ -8154,33 +8141,40 @@ class Solution:
 ```
 * [Medium] 1343. Maximum Product of Splitted Binary Tree
 
-### Level DFS
-```python
-class Solution:
-    def pyramidTransition(self, bottom: str, allowed: List[str]) -> bool:
-        T = collections.defaultdict(set)
-        for u, v, w in allowed:
-            T[u, v].add(w)
-
-        #Comments can be used to cache intermediate results
-        #seen = set()
-        def solve(A):
-            if len(A) == 1: return True
-            #if A in seen: return False
-            #seen.add(A)
-            return any(solve(cand) for cand in build(A, []))
-
-        def build(A, ans, i = 0):
-            if i + 1 == len(A):
-                yield "".join(ans)
-            else:
-                for w in T[A[i], A[i+1]]:
-                    ans.append(w)
-                    for result in build(A, ans, i+1):
-                        yield result
-                    ans.pop()
-
-        return solve(bottom)
+### DP Top-Down, Backtracking, index i + 1 depends on index i
+```c++
+class Solution {
+    unordered_map<string, bool> dp;
+    bool dfs(string pre, string cur, int i, int level, unordered_map<string, vector<char>> &mp) {
+        if (level == 0) {
+            return true;
+        }
+        if (i == pre.length()) {
+            if (dp.count(cur)) {
+                return dp[cur];
+            }
+            bool rst = dfs(cur, "", 1, level - 1, mp);
+            return dp[cur] = rst;
+        }
+        string prefix = pre.substr(i - 1, 2);
+        for (char &c: mp[prefix]) {
+            cur += c;
+            if (dfs(pre, cur, i + 1, level, mp)) {
+                return true;
+            }
+            cur.pop_back();
+        }
+        return false;
+    }
+public:
+    bool pyramidTransition(string bottom, vector<string>& allowed) {
+        unordered_map<string, vector<char>> mp;
+        for (auto &s : allowed) {
+            mp[s.substr(0, 2)].push_back(s[2]);
+        }
+        return dfs(bottom, "", 1, bottom.length() - 1, mp);
+    }
+};
 ```
 * [Medium] [Solution] 756. Pyramid Transition Matrix
 
@@ -9101,38 +9095,56 @@ class Solution:
 ```
 * [Medium] 30day. Leftmost Column with at Least a One
 
-### Rabin-Karp Algorithm
-```python
-class Solution:
-    def longestDupSubstring(self, S: str) -> str:
-        
-        def RabinKarp(M, q):
-            if M == 0: return True
-            h, t, d = (1<<(8*M-8))%q, 0, 256
-            dic = defaultdict(list)
-            for i in range(M): 
-                t = (d * t + ord(S[i]))% q
-            dic[t].append(i-M+1)
-            for i in range(len(S) - M):
-                t = (d*(t-ord(S[i])*h) + ord(S[i + M]))% q
-                for j in dic[t]:
-                    if S[i+1:i+M+1] == S[j:j+M]:
-                        return (True, S[j:j+M])
-                dic[t].append(i+1)
-            return (False, "")
-        
-        beg, end = 0, len(S)
-        q = (1<<31) - 1 
-        Found = ""
-        while beg + 1 < end:
-            mid = (beg + end)//2
-            isFound, candidate = RabinKarp(mid, q)
-            if isFound:
-                beg, Found = mid, candidate
-            else:
-                end = mid
-
-        return Found
+### Rabin-Karp Algorithm, custom hash function, hash table with start index to match, binary search, upper bound
+```c++
+class Solution {
+    int MOD = 1e9 + 7;
+    pair<bool, string> check(int mid, string &s, vector<int> &power) {
+        int n = s.size(), i;
+        unordered_map<int, vector<int>> mp;
+        long long h = 0;
+        string cs, ns;
+        for (i = 0; i < mid ; i ++) {
+            h = (h * 26 + s[i] - 'a') % MOD;
+        }
+        mp[h].push_back(0);
+        for (i = mid; i < n; i ++) {
+            h = (((h * 26 - 1LL * (s[i - mid] - 'a') * power[mid]) % MOD + MOD) % MOD + s[i] - 'a') % MOD;
+            if (mp.count(h)) {
+                cs = s.substr(i - mid + 1, mid);
+                for (auto j: mp[h]) {
+                    ns = s.substr(j, mid);
+                    if (ns == cs) {
+                        return {true, cs};
+                    }
+                }
+            }
+            mp[h].push_back(i - mid + 1);
+        }
+        return {false, ""};
+    }
+public:
+    string longestDupSubstring(string s) {
+        int i, n = s.length(), left = 1, right = n - 1, mid;
+        string ans = "";
+        vector<int> power(n + 1);
+        power[0] = 1;
+        for (i = 1; i <= n; i ++) {
+            power[i] = (1LL * power[i - 1] * 26) % MOD;
+        }
+        while (left <= right) {
+            mid = left + (right - left) / 2;
+            auto [possible, cs] = check(mid, s, power);
+            if (!possible) {
+                right = mid - 1;
+            } else {
+                ans = cs;
+                left = mid + 1;
+            }
+        }
+        return ans;
+    }
+};
 ```
 * [Hard] 1044. Longest Duplicate Substring
 
@@ -11397,29 +11409,29 @@ class Solution:
 ```
 * [Medium] 220. Contains Duplicate III
 
-### Cycle entrance
-```python
-class Solution:
-    def findDuplicate(self, nums):
-        """
-        :type nums: List[int]
-        :rtype: int
-        """
-        # Find the intersection point of the two runners.
-        tortoise = hare = nums[0]
-        while True:
-            tortoise = nums[tortoise]
-            hare = nums[nums[hare]]
-            if tortoise == hare:
-                break
-
-        # Find the "entrance" to the cycle.
-        tortoise = nums[0]
-        while tortoise != hare:
-            tortoise = nums[tortoise]
-            hare = nums[hare]
-
-        return hare
+### Cycle entrance = duplicate number on array
+```c++
+class Solution {
+public:
+    int findDuplicate(vector<int>& nums) {
+        int i = nums[0], j = nums[0];
+        // int i = 0, j = 0;
+        while (1) {
+            i = nums[i];
+            j = nums[nums[j]];
+            if (i == j) {
+                break;
+            }
+        }
+        i = nums[0];
+        // i = 0;
+        while (i != j) {
+            i = nums[i];
+            j = nums[j];
+        }
+        return i;
+    }
+};
 ```
 * [Medium] [Solution] 287. Find the Duplicate Number
 
@@ -11696,7 +11708,7 @@ public:
     vector<int> exclusiveTime(int n, vector<string>& logs) {
         int m = logs.size(), i, id, cur, pre;
         string s, typ;
-        stack<vector<int>> stk;   // id, start, exec
+        stack<array<int, 3>> stk;   // id, start, exec
         vector<int> ans(n); 
         for (i = 0; i < m; i ++) {
             stringstream ss(logs[i]);
@@ -11704,7 +11716,7 @@ public:
             id = stoi(s);
             getline(ss, s, ':');
             typ = s;
-            getline(ss, s, ':');
+            getline(ss, s);
             cur = stoi(s);
             if (typ == "start") {
                 if (stk.size()) {
@@ -14858,44 +14870,51 @@ class Solution:
 * [Medium] 24. Swap Nodes in Pairs
 
 ### Two Pointers
-```python
-# Definition for singly-linked list.
-# class ListNode:
-#     def __init__(self, x):
-#         self.val = x
-#         self.next = None
-
-class Solution:
-    def partition(self, head: ListNode, x: int) -> ListNode:
-
-        # before and after are the two pointers used to create two list
-        # before_head and after_head are used to save the heads of the two lists.
-        # All of these are initialized with the dummy nodes created.
-        before = before_head = ListNode(0)
-        after = after_head = ListNode(0)
-
-        while head:
-            # If the original list node is lesser than the given x,
-            # assign it to the before list.
-            if head.val < x:
-                before.next = head
-                before = before.next
-            else:
-                # If the original list node is greater or equal to the given x,
-                # assign it to the after list.
-                after.next = head
-                after = after.next
-
-            # move ahead in the original list
-            head = head.next
-
-        # Last node of "after" list would also be ending node of the reformed list
-        after.next = None
-        # Once all the nodes are correctly assigned to the two lists,
-        # combine them to form a single list which would be returned.
-        before.next = after_head.next
-
-        return before_head.next
+```c++
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode() : val(0), next(nullptr) {}
+ *     ListNode(int x) : val(x), next(nullptr) {}
+ *     ListNode(int x, ListNode *next) : val(x), next(next) {}
+ * };
+ */
+class Solution {
+public:
+    ListNode* partition(ListNode* head, int x) {
+        ListNode *small = nullptr, *big = nullptr;
+        ListNode *small_head = small, *big_head = big;
+        while (head) {
+            if (head->val < x) {
+                if (small) {
+                    small->next = head;
+                    small = small->next;
+                } else {
+                    small = head;
+                    small_head = small;
+                }
+            } else {
+                if (big) {
+                    big->next = head;
+                    big = big->next;
+                } else {
+                    big = head;
+                    big_head = big;
+                }
+            }
+            head = head->next;
+        }
+        if (small) {
+            small->next = big_head;
+        }
+        if (big) {
+            big->next = nullptr;
+        }
+        return small_head ? small_head : big_head;
+    }
+};
 ```
 * [Medium] [Solution] 86. Partition List
 
@@ -16808,6 +16827,29 @@ class Solution:
 
 ## Sliding Window <a name="sw"></a>
 
+### inverse increasing max count in sliding window
+```c++
+class Solution {
+public:
+    int characterReplacement(string s, int k) {
+        int n = s.size(), i = 0, j = 0, mx = 0, ans = 0;
+        vector<int> cnt(26);
+        while (j < n) {
+            cnt[s[j] - 'A'] += 1;
+            mx = max(mx , cnt[s[j] - 'A']);
+            if (j - i + 1 - mx > k) {
+                cnt[s[i] - 'A'] -= 1;
+                i += 1;
+            }
+            ans = max(ans, j - i + 1);
+            j += 1;
+        }
+        return ans;
+    }
+};
+```
+* [Medium] 424. Longest Repeating Character Replacement
+
 ### Brute Foce
 ```c++
 class Solution {
@@ -17458,12 +17500,11 @@ return ans
 **Template 5: (Advanced Sliding Window, Non-shrinkable)**
 ```python
 ans = []
-A.sort()
 i = 0
 for j in ragen(len(A)):
-    cur = ...
-    max_profix = ... cur ...
-    if max_profit > limit:
+    cur = ... A[j]
+    if cur > limit:
+        cur = ... A[i]
         i += 1
         
 return A.size() - i

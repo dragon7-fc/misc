@@ -130,3 +130,58 @@ public:
     }
 };
 ```
+
+**Solution 3: (Backtracking)**
+```
+Runtime: 1 ms, Beats 78.51%
+Memory: 10.16 MB, Beats 75.54%
+```
+```c++
+class Solution {
+    bool check(int i, int j, vector<string> &path, int n) {
+        int r, c;
+        for (r = i - 1; r >= 0; r--) {
+            if (path[r][j] == 'Q') {
+                return false;
+            }
+        }
+        r = i - 1, c = j + 1;
+        while (r >= 0 && c < n) {
+            if (path[r][c] == 'Q') {
+                return false;
+            }
+            r -= 1;
+            c += 1;
+        }
+        r = i - 1, c = j - 1;
+        while (r >= 0 && c >= 0) {
+            if (path[r][c] == 'Q') {
+                return false;
+            }
+            r -= 1;
+            c -= 1;
+        }
+        return true;
+    }
+    void bt (int r, vector<string> &path, vector<vector<string>> &ans, int n) {
+        if (r == n) {
+            ans.push_back(path);
+            return;
+        }
+        for (int c = 0; c < n; c ++) {
+            if (check(r, c, path, n)) {
+                path[r][c] = 'Q';
+                bt(r + 1, path, ans, n);
+                path[r][c] = '.';
+            }
+        }
+    }
+public:
+    vector<vector<string>> solveNQueens(int n) {
+        vector<vector<string>> ans;
+        vector<string> path(n, string(n, '.'));
+        bt(0, path, ans, n);
+        return ans;
+    }
+};
+```

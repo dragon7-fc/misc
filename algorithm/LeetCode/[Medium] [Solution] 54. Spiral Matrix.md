@@ -311,36 +311,43 @@ public:
 ```
 
 **Solution 6: (Set Up Boundaries)**
+
+       vi
+       vl       vr
+    [[ 1, 2, 3, 4], <u <j
+     [ 5, 6, 7, 8],
+     [ 9,10,11,12]] <d
+
 ```
-Runtime: 0 ms
-Memory: 8.10 MB
+Runtime: 0 ms, Beats 100.00%
+Memory: 9.28 MB, Beats 79.75%
 ```
 ```c++
 class Solution {
 public:
     vector<int> spiralOrder(vector<vector<int>>& matrix) {
-        int top = 0, bottom = matrix.size()-1, left = 0, right = matrix[0].size()-1;
+        int m = matrix.size(), n = matrix[0].size(), up = 0, down = m - 1, left = 0, right = n - 1, i, j;
         vector<int> ans;
-        while (top <= bottom && left <= right) {
-            for (int i = left; i <= right; i ++) {
-                ans.push_back(matrix[top][i]);
+        while (up <= down && left <= right) {
+            for (j = left; j <= right; j ++) {
+                ans.push_back(matrix[up][j]);
             }
-            top += 1;
-            if (top > bottom) {
+            up += 1;
+            if (up > down) {
                 break;
             }
-            for (int i = top; i <= bottom; i ++) {
+            for (i = up; i <= down; i ++) {
                 ans.push_back(matrix[i][right]);
             }
             right -= 1;
             if (right < left) {
                 break;
             }
-            for (int i = right; i >= left; i --) {
-                ans.push_back(matrix[bottom][i]);
+            for (j = right; j >= left; j --) {
+                ans.push_back(matrix[down][j]);
             }
-            bottom -= 1;
-            for (int i = bottom; i >= top; i --) {
+            down -= 1;
+            for (i = down; i >= up; i --) {
                 ans.push_back(matrix[i][left]);
             }
             left += 1;

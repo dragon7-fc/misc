@@ -65,11 +65,14 @@ dp[i][j][1] = max(dp[i−1][j][1], dp[i−1][j−1][0] − prices[i])
 dp[i][j][2] = max(dp[i−1][j][2], dp[i−1][j−1][0] + prices[i])
 
 
+dp[i][j][0]:
     dp[i-1][j]   dp[i][j]
 0       x        dp[i][j][0]    (same transaction)
 1       x
 2       x
 ----------------------------------
+
+dp[i][j][1]:
     dp[i-1][j-1]
 0       x
 1      
@@ -80,6 +83,8 @@ dp[i][j][2] = max(dp[i−1][j][2], dp[i−1][j−1][0] + prices[i])
 1       x        dp[i][j][1]     (new transaction)
 2
 --------------------------------
+
+dp[i][j][2]:
     dp[i-1][j-1]
 0       x
 1      

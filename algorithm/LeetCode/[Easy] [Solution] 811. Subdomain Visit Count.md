@@ -183,7 +183,7 @@ public:
             stringstream ss(domain);
             getline(ss, s, ' ');
             k = stoi(s);
-            getline(ss, s, ' ');
+            getline(ss, s);
             cnt[s] += k;
             for (i = 1; i < s.length(); i ++) {
                 if (s[i] == '.') {
@@ -195,6 +195,7 @@ public:
             ans.push_back(to_string(ck) + " " + cs);
         }
         return ans;
+
     }
 };
 ```

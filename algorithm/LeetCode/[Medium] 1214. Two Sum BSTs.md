@@ -80,8 +80,8 @@ class Solution:
 
 **Solution 3: (Set)**
 ```
-Runtime: 28 ms
-Memory: 36.7 MB
+Runtime: 15 ms, Beats 23.64%
+Memory: 34.21 MB, Beats 11.16%
 ```
 ```c++
 /**
@@ -96,25 +96,30 @@ Memory: 36.7 MB
  * };
  */
 class Solution {
-    void dfs(TreeNode *node, unordered_set<int> &st) {
+    bool dfs(TreeNode *node, unordered_set<int> &st, int target, bool check) {
         if (!node) {
-            return;
+            return false;
         }
-        st.insert(node->val);
-        dfs(node->left, st);
-        dfs(node->right, st);
-    }
-public:
-    bool twoSumBSTs(TreeNode* root1, TreeNode* root2, int target) {
-        unordered_set<int> st, st2;
-        dfs(root1, st);
-        dfs(root2, st2);
-        for (int a: st) {
-            if (st2.count(target-a)) {
+        if (!check) {
+            st.insert(node->val);
+        } else {
+            if (st.count(target - node->val)) {
                 return true;
             }
         }
+        if (dfs(node->left, st, target, check)) {
+            return true;
+        }
+        if (dfs(node->right, st, target, check)) {
+            return true;
+        }
         return false;
+    }
+public:
+    bool twoSumBSTs(TreeNode* root1, TreeNode* root2, int target) {
+        unordered_set<int> st;
+        dfs(root1, st, target, false);
+        return dfs(root2, st, target, true);
     }
 };
 ```

@@ -279,6 +279,13 @@ int** merge(int** intervals, int intervalsSize, int* intervalsColSize, int* retu
 ```
 
 **Solution 4: (Sort)**
+    
+    intervals = [[1,3],[2,6],[8,10],[15,18]]
+    sort         [1,3] [2,6] [8,10] [15,18]
+                                      ^
+    ans          [1,3]
+                 [1,      6] [8,10] [15,18]
+
 ```
 Runtime: 4 ms, Beats 69.65%
 Memory: 23.88 MB, Beats 58.94%

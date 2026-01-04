@@ -142,15 +142,15 @@ public:
     bool isPalindrome(int x) {
         if (x < 0) {
             return false;
-        } else if (x < 0) {
+        } else if (x < 10) {
             return true;
         }
         long long a = 1, b = 1;
-        while (a*10 <= x) {
+        while (a * 10 <= x) {
             a *= 10;
         }
         while (a > b) {
-            if ((x/a)%10 != (x/b)%10) {
+            if ((x / a) % 10 != (x / b) % 10) {
                 return false;
             }
             a /= 10;

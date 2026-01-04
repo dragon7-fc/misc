@@ -93,3 +93,38 @@ public:
     }
 };
 ```
+
+**Solution 3: (Sliding Window, non-shrinkable)**
+
+            0 1 2 3 4 5 6 7 8 9 10
+    nums = [1,1,1,0,0,0,1,1,1,1,0], k = 2
+            i         j
+              i       j
+                i       j
+                  i       j
+                    i       j
+                    i         j
+                      i         j
+                      i           j
+ck                1 2 3 3 3 2 2 3
+
+```
+Runtime: 0 ms, Beats 100.00%
+Memory: 69.66 MB, Beats 24.95%
+```
+```c++
+class Solution {
+public:
+    int longestOnes(vector<int>& nums, int k) {
+        int n = nums.size(), i = 0, j, ck = 0, ans = 0;
+        for (j = 0; j < n; j ++) {
+            ck += nums[j] == 0;
+            if (ck > k) {
+                ck -= nums[i] == 0;
+                i += 1;
+            }
+        }
+        return j - i;
+    }
+};
+```

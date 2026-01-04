@@ -329,3 +329,35 @@ class Solution:
                 last_pos = i
         return last_pos == 0
 ```
+
+**Solution 5: (Greedy)**
+
+             0  1  2  3  4
+    nums = [ 2, 3, 1, 1, 4]
+             ^
+last_pos     0  1  2  3  4  4
+
+
+             0  1  2  3  4
+    nums = [ 3, 2, 1, 0, 4]
+     
+last_pos                 4  4      
+
+```
+Runtime: 0, ms Beats 100.00%
+Memory: 52.28 MB, Beats 66.17%
+```
+```c++
+class Solution {
+public:
+    bool canJump(vector<int>& nums) {
+        int n = nums.size(), last_pos = n - 1, i;
+        for (i = n - 1; i >= 0; i --) {
+            if (i + nums[i] >= last_pos) {
+                last_pos = i;
+            }
+        }
+        return last_pos == 0;
+    }
+};
+```

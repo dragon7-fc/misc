@@ -296,31 +296,84 @@ public:
 };
 ```
 
-**Solution 3: (Binary Search, O(log (min(m, n))))**
+**Solution 3: (Binary Search, O(log (min(m, n))), binary search smaller array and search possible median element)**
 
-          
-        1  2  3  4  5  6  7  8
+           v((l + r) / 2)
+       l   m   r
+A      x x x x               m
+         ^^^    <--------------------
+       --- ---                       |
+       Al  Ar                        | compare
+             v((m + n + 1) / 2 - m)  |
+B      x x x x x             n       |
+           ^^^ <--------------------
+       ----- ---
+       Bl    Br
+               v
+A + b  x x x x x x x x x     m + n
+       ---------  
+       (m + n + 1) / 2
+B      x x x x x x           n
+               vvv
+A + b  x x x x x x x x x x   m + n
+       ---------  
+       (m + n + 1) / 2
+       
+
+case 1: (m + n) % 2 == 0
+           ----A-----
+              ----B-----
+           2  3  4  5  6      
+           ----A-----
            leftA rightA
            -----|----
-           ^l       ^r
-              ^maxLeftA
-                 ^minRightA
-              leftB rightB
-              -----|----
-                 ^maxLeftB
-                    ^minRightB 
+           ^l          ^r
+              ^maxLeftA     <--|
+                 ^minRightA  <-|-----|
+              ----B-----       |     |
+              leftB rightB   (max + min) / 2
+              -----|----       |     |
+                 ^maxLeftB  <--|     |
+                    ^minRightB <-----|
 
-           -----|----
-                    ^lr
-                 ^maxLeftA
-                    ^minRightA
-              -----|----
-              ^maxLeftB
-                 ^minRightB
-
+    l     m      r
+      mxL mnR
+      v   v
+A   - -   -   -
+            mxL mnR
+            v   v
+B       -   -   - -
     2 3 3 4 4 5 5 6
           ^^^
 
+case 1: (m + n) % 2 == 1
+           ----B-----
+                 -A-----
+           2  3  4  5  6      
+                 leftA rightA
+                 --|----
+                 ^l    ^r
+                 ^maxLeftA
+                    ^minRightA
+           leftB  rightB
+           ----|----
+              ^maxLeftB
+                 ^minRightB
+
+        mxL
+        v mnR
+          v
+          vmxL
+          v
+              mnR
+              v
+B     - - -   -
+            l   m    r
+            mxL mnR
+            lrm
+A           -   - -
+      2 3 4 4 5 5 6
+            ^
 ```
 Runtime: 0 ms, Beats 100.00%
 Memory: 95.02 MB, Beats 80.09%

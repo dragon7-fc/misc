@@ -193,15 +193,39 @@ class Solution:
 ```
 
 **Solution 2: (Two Pointers, detect cycle entry point)**
+
+             0  1  2  3  4
+    nums = [ 1, 3, 4, 2, 2]
+                   i
+                   j
+            
+
+             0  1  2  3  4
+    nums = [ 1, 3, 4, 2, 2]
+                i
+                j
+                      i
+                   j
+                   i
+                   j
+          -----------------
+                   i
+                j
+                         i
+                   j
+                   i
+                   jx
+
 ```
-Runtime: 82 ms
-Memory: 63.50 MB
+Runtime: 0 ms, Beats 100.00%
+Memory: 65.14 MB, Beats 40.92%
 ```
 ```c++
 class Solution {
 public:
     int findDuplicate(vector<int>& nums) {
         int i = nums[0], j = nums[0];
+        // int i = 0, j = 0;
         while (1) {
             i = nums[i];
             j = nums[nums[j]];
@@ -210,6 +234,7 @@ public:
             }
         }
         i = nums[0];
+        // i = 0;
         while (i != j) {
             i = nums[i];
             j = nums[j];

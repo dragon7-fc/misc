@@ -100,3 +100,57 @@ class Solution:
         recurse(creditors, debtors)
         return self.ansr;    
 ```
+
+**Solution 2: (Backtracking)**
+
+    transactions = [[0,1,10],[2,0,5]]
+bal
+     0   1   2
+   -10  10
+     5      -5
+    ----------
+dp  -5  10  -5
+     ^   ^
+         ^   ^
+         5   0
+                ^
+ans     +1  +1  0
+     2
+
+```
+Runtime: 7 ms, Beats 59.64%
+Memory: 9.22 MB, Beats 80.00%
+```
+```c++
+class Solution {
+    vector<long> dp; // all non-zero debts
+    int bt(int i) { // min number of transactions to settle starting from debt[i] 
+    	while (i < dp.size() && !dp[i]) { // get next non-zero debt
+            i += 1;
+        }
+    	int rst = INT_MAX;
+    	for (int j = i + 1; j < dp.size(); j ++) {
+    	    if (dp[j] * dp[i] < 0) { // skip same sign debt
+                dp[j] += dp[i]; 
+			    rst = min(rst, 1 + bt(i + 1)); 
+			    dp[j] -= dp[i];
+		    }
+        }
+    	return rst < INT_MAX ? rst : 0;
+    }
+public:
+    int minTransfers(vector<vector<int>>& transactions) {
+        unordered_map<int, long> bal; // each person's overall balance
+        for (auto &t: transactions) {
+		    bal[t[0]] -= t[2];
+		    bal[t[1]] += t[2];
+		}
+        for (auto &[_, b]: bal) {// only deal with non-zero debts
+		    if (b) {
+                dp.push_back(b);
+            }
+        }
+        return bt(0);
+    }
+};
+```

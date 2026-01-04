@@ -213,6 +213,17 @@ int findPeakElement(int* nums, int numsSize){
 ```
 
 **Solution 3: (Binary Search)**
+
+            0 1 2 3
+    nums = [1,2,3,1]
+            l m   r
+                lm^r
+
+            0 1 2 3 4 5 6
+    nums = [1,2,1,3,5,6,4]
+            l     m     r
+                    l m r
+
 ```
 Runtime: 0 ms, Beats 100.00%
 Memory: 12.60 MB, Beats 4.38%

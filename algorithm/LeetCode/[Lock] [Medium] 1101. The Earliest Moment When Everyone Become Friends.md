@@ -102,3 +102,63 @@ class Solution:
         #  i.e. not everyone is connected.
         return -1
 ```
+
+**Solution 2: (Union-Find)**
+
+    logs = [[20190101,0,1],[20190104,3,4],[20190107,2,3],[20190211,1,5],[20190224,2,4],[20190301,0,3],[20190312,1,2],[20190322,4,5]], n = 6
+                                                                                             v
+    sort   [[20190101,0,1],[20190104,3,4],[20190107,2,3],[20190211,1,5],[20190224,2,4],[20190301,0,3],[20190312,1,2],[20190322,4,5]], n = 6
+
+    0  1  2  3  4  5
+p   0  1  2  3  4  5
+    1
+             4
+          4
+       5
+                   4
+k 6 5  2  3  4     1
+                   ^
+```
+Runtime: 0 ms, Beats 100.00%
+Memory: 17.02 MB, Beats 83.44%
+```
+```c++
+class Solution {
+    vector<int> p;
+    int find(int x) {
+        if (x != p[x]) {
+            p[x] = find(p[x]);
+        }
+        return p[x];
+    }
+    bool uni(int x, int y) {
+        int xr = find(x), yr = find(y);
+        if (xr == yr) {
+            return false;
+        }
+        p[xr] = yr;
+        return true;
+    }
+public:
+    int earliestAcq(vector<vector<int>>& logs, int n) {
+        int i, t, a, b, k = n;
+        p.resize(n);
+        for (i = 0; i < n; i ++) {
+            p[i] = i;
+        }
+        sort(logs.begin(), logs.end());
+        for (auto &log: logs) {
+            t = log[0];
+            a = log[1];
+            b = log[2];
+            if (uni(a, b)) {
+                k -= 1;
+                if (k == 1) {
+                    return t;
+                }
+            }
+        }
+        return -1;
+    }
+};
+```

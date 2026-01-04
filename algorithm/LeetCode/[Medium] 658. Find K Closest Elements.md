@@ -269,7 +269,14 @@ public:
 };
 ```
 
-**Solution 9: (Binary Search for start pointer)**
+**Solution 9: (Binary Search for start pointer, lower bound)**
+
+                  x
+    arr = [ 1, 2, 3, 4, 5], k = 4, x = 3
+               ----k-----
+            lm h   
+               lhx
+
 ```
 Runtime: 34 ms
 Memory: 31.5 MB

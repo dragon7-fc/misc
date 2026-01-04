@@ -362,6 +362,13 @@ public:
 ```
 
 **Solution 5: (Merge with Divide And Conquer)**
+
+     [[1,4,5],[1,3,4],[2,6]]
+        ^       ^
+       1,1,3,4,4,5
+        ^               ^
+       1,1,2,3,4,4,5,6
+
 ```
 Runtime: 0 ms, Beats 100.00%
 Memory: 18.02 MB, Beats 97.66%

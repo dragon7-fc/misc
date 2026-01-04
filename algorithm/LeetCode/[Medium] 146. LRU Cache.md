@@ -157,6 +157,53 @@ public:
 ```
 
 **Solution 3: (List, queue, not deque)**
+
+LRUCache lRUCache = new LRUCache(2);
+lRUCache.put(1, 1); // cache is {1=1}
+m:  1
+    |
+    v   
+q: (1,1)
+
+lRUCache.put(2, 2); // cache is {1=1, 2=2}
+m:  2     1
+    |     |
+    v     v 
+q: (2,2) (1,1)
+
+lRUCache.get(1);    // return 1
+m:  1     2
+    |     |
+    v     v 
+q: (1,1) (2,2)
+
+lRUCache.put(3, 3); // LRU key was 2, evicts key 2, cache is {1=1, 3=3}
+                x
+m:  3     1     2
+    |     |     |
+    V     v     v 
+q: (3,3) (1,1) (2,2)
+lRUCache.get(2);    // returns -1 (not found)
+lRUCache.put(4, 4); // LRU key was 1, evicts key 1, cache is {4=4, 3=3}
+                x 
+m:  4     3     1
+    |     |     |
+    V     V     v 
+q: (4,4) (3,3) (1,1)
+
+lRUCache.get(1);    // return -1 (not found)
+lRUCache.get(3);    // return 3
+m:  3     4
+    |     |
+    V     V 
+q: (3,3) (4,4)
+
+lRUCache.get(4);    // return 4
+m:  4     3
+    |     |
+    V     V 
+q: (4,4) (3,3)
+
 ```
 Runtime: 445 ms
 Memory: 183.3 MB

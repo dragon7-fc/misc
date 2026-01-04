@@ -225,16 +225,51 @@ public:
 ```
 
 **Solution 5: (Hash Table, Sort, Counter, open close event)**
+
+    buildings = [[2,9,10],[3,7,15],[5,12,12],[15,20,10],[19,24,8]]
+
+16
+15        x-----------.
+14        |           |
+13        |           |
+12        |     .-----x--------------.
+11        |     |                    |
+10        |     |                    |        x--------------.
+9         |     |                    |        |              |
+8         |     |                    |        |           .--x-----------.
+7      x--------------------.        |        |           |              |
+6      |                    |        |        |           |              |
+5      |                    |        |        |           |              |
+4      |                    |        |        |           |              |
+3      |                    |        |        |           |              |
+2      |                    |        |        |           |              |
+1      |                    |        |        |           |              |
+0      |                    |        x        |           |              x
+    1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 
+g      {7,0}                (7,1)   (12,1)   (10,0)      (8,0)          (8,1)
+          (15,0)      (15,1)                                (10,1)
+                (12,0)
+cnt
+15        1           0x
+12              1                    0x
+10                                            1              0x
+8                                                         1             0x
+7      1                    0x
+
+pre 0  7 15           12             0       10              8           0
+cur    7 15           12             0       10              8           0
+ans    [2,7]          [7,12]         [12,0]  [15,10]         [20,8]      [24,0]
+          [3,15]
 ```
-Runtime: 31 ms, Beats 20.89%
-Memory: 32.51 MB, Beats 16.13%
+Runtime: 29 ms, Beats 25.78%
+Memory: 32.51 MB, Beats 22.84%
 ```
 ```c++
 class Solution {
 public:
     vector<vector<int>> getSkyline(vector<vector<int>>& buildings) {
         int n = buildings.size(), i, pre = 0, cur;
-        map<int,vector<pair<int,int>>> g;
+        map<int,vector<array<int, 2>>> g;
         map<int,int> cnt;
         vector<vector<int>> ans;
         for (i = 0; i < n; i ++) {

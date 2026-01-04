@@ -211,3 +211,66 @@ public:
     }
 };
 ```
+
+**Solution 4: (Brute Force)**
+```
+Runtime: 0 ms, Beats 100.00%
+Memory: 11.22 MB, Beats 95.14%
+```
+```c++
+class Solution {
+    bool check(int i, int j, vector<vector<int>> &grid) {
+        vector<bool> visited(10);
+        int ci, cj, a, b;
+        for (ci = i - 1; ci <= i + 1; ci ++) {
+            for (cj = j - 1; cj <= j + 1; cj ++) {
+                if (grid[ci][cj] < 1 || grid[ci][cj] > 9 || visited[grid[ci][cj]]) {
+                    return false;
+                }
+                visited[grid[ci][cj]] = true;
+            }
+        }
+        a = grid[i - 1][j - 1] + grid[i - 1][j] + grid[i - 1][j + 1];
+        for (ci = i; ci <= i + 1; ci ++) {
+            b = 0;
+            for (cj = j - 1; cj <= j + 1; cj ++) {
+                b += grid[ci][cj];
+            }
+            if (a != b) {
+                return false;
+            }
+        }
+        for (cj = j - 1; cj <= j + 1; cj ++) {
+            b = 0;
+            for (ci = i - 1; ci <= i + 1; ci ++) {
+                b += grid[ci][cj];
+            }
+            if (a != b) {
+                return false;
+            }
+        }
+        a = grid[i - 1][j] + grid[i + 1][j];
+        if (grid[i][j - 1] + grid[i][j + 1] != a
+            || grid[i - 1][j - 1] + grid[i + 1][j + 1] != a
+            || grid[i - 1][j + 1] + grid[i + 1][j - 1] != a) {
+            return false;
+        }
+        return true;
+    }
+public:
+    int numMagicSquaresInside(vector<vector<int>>& grid) {
+        int m = grid.size(), n = grid[0].size(), i, j, ans = 0;
+        if (m < 3 || n < 3) {
+            return 0;
+        }
+        for (i = 1; i < m - 1; i ++) {
+            for (j = 1; j < n - 1; j ++) {
+                if (check(i, j, grid)) {
+                    ans += 1;
+                }
+            }
+        }
+        return ans;
+    }
+};
+```

@@ -40,3 +40,58 @@ class Solution:
             else:
                 seen.add(v)
 ```
+
+**Solution 2: (Greedy, Hash Table)**
+```
+Runtime: 2 ms, Beats 25.23%
+Memory: 8.35 MB, Beats 35.30%
+```
+```c++
+class Solution {
+public:
+    bool isHappy(int n) {
+        int a, d;
+        unordered_set<int> st;
+        while (!st.count(n)) {
+            st.insert(n);
+            a = 0;
+            while (n) {
+                d = n % 10;
+                a += d * d;
+                n /= 10;
+            }
+            if (a == 1) {
+                return true;
+            }
+            n = a;
+        }
+        return false;
+    }
+};
+```
+
+**Solution 3: (Hardcoding the Only Cycle (Advanced))**
+```
+Runtime: 0 ms, Beats 100.00%
+Memory: 7.83 MB, Beats 67.98%
+```
+```c++
+class Solution {
+    int getNext(int n) {
+        int totalSum = 0;
+        while (n > 0) {
+            int d = n % 10;
+            n = n / 10;
+            totalSum += d * d;
+        }
+        return totalSum;
+    }
+public:
+    bool isHappy(int n) {
+        while (n != 1 && n != 4) {
+            n = getNext(n);
+        }
+        return n == 1;
+    }
+};
+```

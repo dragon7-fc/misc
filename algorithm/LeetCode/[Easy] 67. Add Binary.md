@@ -106,3 +106,27 @@ char * addBinary(char * a, char * b){
     return res;
 }
 ```
+
+**Solution 5: (Math)**
+```
+Runtime: 0 ms, Beats 100.00%
+Memory: 8.75 MB, Beats 95.82%
+```
+```c++
+class Solution {
+public:
+    string addBinary(string a, string b) {
+        int m = a.length(), n = b.length(), i = m - 1, j = n - 1, c, p = 0;
+        string ans;
+        while (i >= 0 || j >= 0 || p) {
+            c = (i >= 0 ? a[i] - '0': 0) + (j >= 0 ? b[j] - '0' : 0) + p;
+            ans += c % 2 + '0';
+            p = c / 2;
+            i -= 1;
+            j -= 1;
+        }
+        reverse(ans.begin(), ans.end());
+        return ans;
+    }
+};
+```

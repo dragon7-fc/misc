@@ -167,6 +167,12 @@ void moveZeroes(int* nums, int numsSize){
 ```
 
 **Solution 3: (Two Pointers)**
+
+                vj
+    nums = [0,1,0,3,12]
+                    ^j
+    ans    [1,3,12,0,0]
+
 ```
 Runtime: 0 ms, Beats 100.00%
 Memory: 23.88 MB, Beats 49.80%

@@ -44,3 +44,47 @@ class Solution:
         
         return sum(four_divisors(num) for num in nums)
 ```
+
+**Solution 2: (Math)**
+
+divisor
+-> 2 factor
+-> left and right
+-> left < sqrt(num) < right
+   ^^^^               ^^^^^
+    d                 num / d
+
+```
+Runtime: 3 ms, Beats 95.07%
+Memory: 16.22 MB, Beats 48.28%
+```
+```c++
+class Solution {
+public:
+    int sumFourDivisors(vector<int>& nums) {
+        int d, k, a, ans = 0;
+        for (auto &num: nums) {
+            k = 2;
+            a = 1 + num;
+            for (d = 2; d * d <= num; d ++) {
+                if ((num % d) == 0) {
+                    if (d * d != num) {
+                        a += d + num / d;
+                        k += 2;
+                    } else {
+                        a += d;
+                        k += 1;
+                    }
+                    if (k > 4) {
+                        break;
+                    }
+                }
+            }
+            if (k == 4) {
+                ans += a;
+            }
+        }
+        return ans;
+    }
+};
+```

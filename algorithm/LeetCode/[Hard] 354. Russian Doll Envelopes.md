@@ -108,6 +108,17 @@ class Solution:
 ```
 
 **Solution 4: (Sort, Binary Search)**
+
+    envelopes = [[5,4],[6,4],[6,7],[2,3]]
+    sort      =  [2,3] [5,4] [6,7] [6,4]
+    (x, -y)
+    inc dec
+                    y
+                    3     4     7    4
+                                     ^
+    ans          [2,3] [5,4] [6,7]
+                             [6,4]
+    LIS on y
 ```
 Runtime: 518 ms
 Memory Usage: 77.6 MB

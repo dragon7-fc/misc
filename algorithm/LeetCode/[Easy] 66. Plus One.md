@@ -103,3 +103,27 @@ public:
     }
 };
 ```
+
+**Solution 5: (Math)**
+```
+Runtime: 0 ms, Beats 100.00%
+Memory: 11.57 MB, Beats 50.17%
+```
+```c++
+class Solution {
+public:
+    vector<int> plusOne(vector<int>& digits) {
+        int c = 1;
+        vector<int> ans = digits;
+        for (int i = ans.size() - 1; i >= 0; i --) {
+            ans[i] += c;
+            c = ans[i] / 10;
+            ans[i] %= 10;
+        }
+        if (c) {
+            ans.insert(ans.begin(), c);
+        }
+        return ans;
+    }
+};
+```

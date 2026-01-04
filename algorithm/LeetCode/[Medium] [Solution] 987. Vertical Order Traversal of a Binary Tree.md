@@ -389,8 +389,8 @@ public:
 
 **Solution 6: (DFS, sorted map)**
 ```
-Runtime: 4 ms, Beats 22.49%
-Memory: 16.40 MB, Beats 30.52%
+Runtime: 4 ms, Beats 21.60%
+Memory: 16.56 MB, Beats 15.40%
 ```
 ```c++
 /**
@@ -405,7 +405,7 @@ Memory: 16.40 MB, Beats 30.52%
  * };
  */
 class Solution {
-    map<pair<int,int>,  multiset<int>> m;
+    map<array<int, 2>,  multiset<int>> m;
     void dfs(TreeNode *node, int r, int c) {
         if (!node) {
             return;
@@ -422,7 +422,7 @@ public:
         while (it != m.end()) {
             ans.push_back({});
             auto cit = it;
-            while (cit != m.end() && cit->first.first == it->first.first) {
+            while (cit != m.end() && cit->first[0] == it->first[0]) {
                 for (auto a: cit->second) {
                     ans.back().push_back(a);
                 }

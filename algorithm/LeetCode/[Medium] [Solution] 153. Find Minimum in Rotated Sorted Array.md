@@ -259,7 +259,14 @@ public:
 };
 ```
 
-**Solution 5: (Binary Search)**
+**Solution 5: (Binary Search, lower bound)**
+
+             0  1  2  3  4
+    nums = [ 3, 4, 5, 1, 2]
+             l     m     r
+                      lm r
+                    r lx
+
 ```
 Runtime: 0 ms, Beats 100.00%
 Memory: 14.06 MB, Beats 79.25%

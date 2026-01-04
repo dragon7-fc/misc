@@ -305,7 +305,7 @@ public:
             return dp[node];
         }
         Node *cur = new Node(node->val);
-        dp[node] = cur;
+        dp[node] = cur;  // prevent infinite loop
         for (auto c: node->neighbors) {
             cur->neighbors.push_back(cloneGraph(c));
         }

@@ -58,7 +58,29 @@ It can be shown that there are no other paths with a higher safeness factor.
 
 # Submissions
 ---
-**Solution 1: (BFS + Binary Search, O(N^2 * Log(N)))**
+**Solution 1: (BFS + Binary Search, O(N^2 * Log(N)), upper bound)**
+
+    grid = [[0,0,0,1],
+            [0,0,0,0],
+            [0,0,0,0],
+            [1,0,0,0]]
+    ->      [4,3,2,1]
+            [3,4,3,2]
+            [2,3,4,3]
+            [1,2,3,4]
+        1 2 3 4
+        l m   r
+    ->      [x,x,x, ]
+            [x,x,x,x]
+            [x,x,x,x]
+            [ ,x,x,x]
+        1 2 3 4
+            lm^r
+    ->      [x,x, , ]
+            [x,x,x, ]
+            [ ,x,x,x]
+            [ , ,x,x]
+
 ```
 Runtime: 511 ms
 Memory: 155.21 MB
@@ -179,6 +201,42 @@ public:
 ```
 
 **Solution 1: (BFS + MST Prime, O(N^2 * Log(N)))**
+
+    grid = [[1,0,0],
+            [0,0,0],
+            [0,0,1]]
+    ->      [1,2,3]
+      pq     1 1 1
+      max   [2,3,2]
+             1 1 1
+            [3,2,1]
+             1 1 1
+
+
+    grid = [[0,0,1],
+            [0,0,0],
+            [0,0,0]]
+    ->      [3,2,1]
+      pq     3
+            [4,3,2]
+             3 3
+            [5,4,3]
+             3 3 3
+
+
+    grid = [[0,0,0,1],
+            [0,0,0,0],
+            [0,0,0,0],
+            [1,0,0,0]]
+    ->      [4,3,2,1]
+       pq    4 3
+            [3,4,3,2]
+             3 3 3
+            [2,3,4,3]
+               3 3
+            [1,2,3,4]
+                 3 3
+
 ```
 Runtime: 353 ms
 Memory: 114.67 MB

@@ -223,3 +223,22 @@ class Solution:
         return max_profit;
 ```
 
+**Solution 1: (Greedy)**
+```
+Runtime: 0 ms, Beats 100.00%
+Memory: 17.22 MB, Beats 38.97%
+```
+```c++
+class Solution {
+public:
+    int maxProfit(vector<int>& prices) {
+        int ans = 0;
+        for (int i = 1; i < prices.size(); i ++) {
+            if (prices[i] > prices[i - 1]) {
+                ans += prices[i] - prices[i-1];
+            }
+        }
+        return ans;
+    }
+};
+```

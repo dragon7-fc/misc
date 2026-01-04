@@ -195,6 +195,19 @@ int minRefuelStops(int target, int startFuel, int** stations, int stationsSize, 
 ```
 
 **Solution 4: (Heap)**
+
+    target = 100, startFuel = 10, stations = [[10,60],[20,30],[30,30],[60,40]]
+
+                                                            target
+position    0    10    20    30                60           100
+fuel       10    60    30    30                40             0
+pre         0    10    20    30                60           100
+d                10    10    10                30            40
+r          10     0    50    40                10             0
+pq               60    60,20 30,20             30,20         30,20
+                        x                                     x
+ans                    +1                                    +1
+
 ```
 Runtime: 0 ms, Beats 100.00%
 Memory: 20.34 MB, Beats 28.67%

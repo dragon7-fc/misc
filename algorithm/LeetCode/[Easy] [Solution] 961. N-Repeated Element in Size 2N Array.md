@@ -69,3 +69,37 @@ class Solution:
             if count[k] > 1:
                 return k
 ```
+
+**Solution 1: (Compare, try all solution)**
+
+    a b c x x x
+case 1: k = 1
+    a x
+    |-|
+case 2: k = 2
+    a b x
+    |---|
+case 3: k = 3
+    a b c x
+    |-----|
+
+```
+Runtime: 0 ms, Beats 100.00%
+Memory: 28.21 MB, Beats 97.60%
+```
+```c++
+class Solution {
+public:
+    int repeatedNTimes(vector<int>& nums) {
+        int n = nums.size(), i, k;
+        for (k = 1; k <= 3; k ++) {
+            for (i = 0; i < n - k; ++i) {
+                if (nums[i] == nums[i + k]) {
+                    return nums[i];
+                }
+            }
+        }
+        throw -1;
+    }
+};
+```

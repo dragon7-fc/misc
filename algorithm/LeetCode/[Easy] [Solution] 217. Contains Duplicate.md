@@ -164,3 +164,18 @@ class Solution:
             return True
         return False
 ```
+
+**Solution 2: (Hash Table)**
+````
+Runtime: 51 ms, Beats 54.85%
+Memory: 93.01 MB, Beats 9.24%
+```
+```c++
+class Solution {
+public:
+    bool containsDuplicate(vector<int>& nums) {
+        unordered_set<int> st(nums.begin(), nums.end());
+        return st.size() != nums.size();
+    }
+};
+```

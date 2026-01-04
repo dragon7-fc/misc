@@ -73,3 +73,31 @@ class Solution:
                 
         return ans
 ```
+
+**Solution 2: (Sliding Window)**
+```
+Runtime: 0 ms, Beats 100.00%
+Memory: 26.98 MB, Beats 45.90%
+```
+```c++
+class Solution {
+public:
+    int dietPlanPerformance(vector<int>& calories, int k, int lower, int upper) {
+        int n = calories.size(), i, a = 0, ans = 0;
+        for (i = 0; i < n; i ++) {
+            if (i >= k) {
+                a -= calories[i - k];
+            }
+            a += calories[i];
+            if (i >= k - 1) {
+                if (a > upper) {
+                    ans += 1;
+                } else if (a < lower) {
+                    ans -= 1;
+                }
+            }
+        }
+        return ans;
+    }
+};
+```

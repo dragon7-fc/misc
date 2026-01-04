@@ -275,50 +275,67 @@ int* exclusiveTime(int n, char ** logs, int logsSize, int* returnSize){
 
 **Solution 3: (Stack)**
 
-            -------
-        ---         -
-        0 1 2 3 4 5 6
-        ^   ^       ^
     n = 2, logs = ["0:start:0","1:start:2","1:end:5","0:end:6"]
-                                                       ^
-stk 0,0,0 1,2,0
-        2     4
-            x
-        3
 
-        --- ------- - - 
-        0 1 2 3 4 5 6 7 
+function
+1           ------|
+0       ---         |
+        0 1 2 3 4 5 6
+        ^p  ^cur
+        ===
+        cur - pre
+            ^p    ^cur
+            =======
+            cur - pre + 1
+stk                             // id, start, exec
+1           1,2,0 1,2,4x
+0       0,0,0          
+            2     0,0,3x
+pre     0   2     6 7
+cur     0   2     5 6
+ans
+0                   3
+1                 4 
+----------------------------------------------------------------------------------------
     n = 1, logs = ["0:start:0","0:start:2","0:end:5","0:start:6","0:end:6","0:end:7"]
-                                                                     ^
-cur                     0           2          5         6          6         7
-pre                     0           2          5         6          7         8
-stk 0,0,0 0,2,0
-        2     4
-            x
-          0,6,0
-          0,6,1
-           x
-        3
+
+function
+0                   |
+            ------|
+        ---           | 
+        0 1 2 3 4 5 6 7 
+stk
+1           0,2,0 0,2.4x
+                    0,6,1x
+0       0,0,0         
+            2         0,0,3x
+pre     0   2     6 7 8
+cur     0   2     5 6 7
+ans
+0                 4 5 8  
     
-                    -
-        --- -------   -
-        0 1 2 3 4 5 6 7
-        ^   ^     ^ ^ ^
+----------------------------------------------------------------------------------------
     Input: n = 2, logs = ["0:start:0","0:start:2","0:end:5","1:start:6","1:end:6","0:end:7"]
-                                                                            ^
-cur                           0           2          5          6           6
-pre                           0           2          6          6           7
-stk  0,0,0 0,2,0
-         2     4
-             x
-           1,6,0
-               1
-            x
-         1
+
+function
+1                   |
+0           ------| 
+        ---           |
+        0 1 2 3 4 5 6 7
+stk
+1           0,2,0 0,2,4x
+                    1,6,1x
+0       0,0,0         0,0,3x
+            2
+pre     0   2     6 7 8
+cur     0   2     5 6 7
+ans
+0                 4   7
+1                   1
 
 ```
-Runtime: 13 ms, Beats 33.33%
-Memory: 19.26 MB, Beats 38.89%
+Runtime: 4 ms, Beats 55.87%
+Memory: 18.54 MB, Beats 25.19%
 ```
 ```c++
 class Solution {
@@ -326,7 +343,7 @@ public:
     vector<int> exclusiveTime(int n, vector<string>& logs) {
         int m = logs.size(), i, id, cur, pre;
         string s, typ;
-        stack<vector<int>> stk;   // id, start, exec
+        stack<array<int, 3>> stk;   // id, start, exec
         vector<int> ans(n); 
         for (i = 0; i < m; i ++) {
             stringstream ss(logs[i]);
@@ -334,7 +351,7 @@ public:
             id = stoi(s);
             getline(ss, s, ':');
             typ = s;
-            getline(ss, s, ':');
+            getline(ss, s);
             cur = stoi(s);
             if (typ == "start") {
                 if (stk.size()) {

@@ -140,3 +140,51 @@ class Solution:
                     ans = min(ans, abs(p2[0] - p1[0]) * abs(p2[1] - p1[1]))
         return ans if ans < float('inf') else 0
 ```
+
+**Solution 1: (Hash Table, brute force over every point pair)**
+
+case 1:
+    p0[0],p1[1]
+    x       .
+         /  p1
+       /
+    .       x
+    p0      p1[0],p0[1]
+ -> ^^
+      
+case 2:
+            p0[0],p1[1]
+    .       x 
+    p1 \
+         \
+    x       .
+p1[0],p0[1] p0
+         -> ^^
+```
+Runtime: 155 ms, Beats 81.23%
+Memory: 25.87 MB, Beats 55.96%
+```
+```c++
+class Solution {
+public:
+    int minAreaRect(vector<vector<int>>& points) {
+        int n = points.size(), i, j, ans = INT_MAX;
+        unordered_map<int, unordered_set<int>> mp;
+        for (i = 0; i < n; i ++) {
+            mp[points[i][0]].insert(points[i][1]);
+        }
+        for (j = 1; j < n; j ++) {
+            vector<int> &p0 = points[j];
+            for (i = 0; i < j; i ++) {
+                vector<int> &p1 = points[i];
+                if (p0[0] != p1[0] && p0[1] != p1[1]) {
+                    if (mp[p0[0]].count(p1[1]) && mp[p1[0]].count(p0[1])) {
+                        ans = min(ans, abs(p0[0] - p1[0]) * abs(p0[1] - p1[1]));
+                    }
+                }
+            }
+        }
+        return ans != INT_MAX ? ans : 0;
+    }
+};
+```

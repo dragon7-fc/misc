@@ -44,18 +44,31 @@ class Solution:
 ```
 
 **Solution 3: (Bit Manipulation**
+
+a = 2 = 0b   1 0
+b = 3 = 0b   1 1
+-----------------
+carry   0b   1 0  (a & b)
+a       0b   0 1  (a ^ b) = sum
+b       0b 1 0 0  (carry << 1)
+-----------------
+carry   0b 0 0 0
+a       0b 1 0 1
+b       0b 0 0 0
+
 ```
-Runtime: 0 ms
-Memory: 7.17 MB
+Runtime: 0 ms, Beats 100.00%
+Memory: 7.91 MB, Beats 1.96%
 ```
 ```c++
 class Solution {
 public:
     int getSum(int a, int b) {
-        while(b!=0){
-            int carry = a&b;
-            a = a^b;
-            b = carry<<1;
+        int carry;
+        while (b){
+            carry = a & b;
+            a = a ^ b;
+            b = carry << 1;
         }
         return a;
     }

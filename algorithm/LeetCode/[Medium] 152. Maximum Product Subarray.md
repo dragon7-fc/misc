@@ -59,7 +59,22 @@ class Solution:
         return max(max(res1), max(res2))
 ```
 
-**Solution 3: (DP Dottom-Up)**
+**Solution 3: (DP Dottom-Up, block min max)**
+
+                  v
+    nums = [  2,  3, -2,  4]
+dp_max        2   6  -2   4
+dp_min        2   3 -12 -48
+tmp_dp_max        6  -2   4
+ans           2   6
+
+                  v
+    nums = [ -2,  0, -1]
+dp_max       -2   0   0
+dp_min       -2   0  -1
+tmp_dp_max        0   0
+ans          -2   0
+
 ```
 Runtime: 4 ms
 Memory Usage: 6.5 MB
@@ -83,4 +98,39 @@ int maxProduct(int* nums, int numsSize){
     }
     return ans;
 }
+```
+
+**Solution 4: (DP Dottom-Up, block min max)**
+
+    nums = [  2,    3,       -2,       4]
+candidates    2 3,6,6 -2,-12,-4 4,-8,-48
+max           2     6        -2        4
+min           2     2       -12      -48
+ans           2     6
+
+    nums = [ -2,    0,    -1]
+candidates   -2 0,0,0 -1,0,0
+max          -2     0      0
+min          -2     0     -1
+ans          -2     0
+```
+Runtime: 0 ms, Beats 100.00%
+Memory: 17.88 MB, Beats 23.73%
+```
+```c++
+class Solution {
+public:
+    int maxProduct(vector<int>& nums) {
+        int n = nums.size(), i, ans, max_so_far, min_so_far;
+        array<int, 3> candidates;
+        ans = max_so_far = min_so_far = nums[0];
+        for (i = 1; i < n; i ++) {
+            candidates = {nums[i], max_so_far * nums[i], min_so_far * nums[i]};
+            max_so_far = *max_element(begin(candidates), end(candidates));
+            min_so_far = *min_element(begin(candidates), end(candidates));
+            ans = max(ans, max_so_far);
+        }
+        return ans;
+    }
+};
 ```

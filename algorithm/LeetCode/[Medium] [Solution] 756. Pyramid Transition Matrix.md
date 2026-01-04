@@ -155,58 +155,77 @@ class Solution:
         return solve(bottom)
 ```
 
-**Solution 1: (DFS)**
+**Solution 2: (DP Top-Down, Backtracking, level by level try solution)**
+
+    bottom = "BCD", allowed = ["BCC","CDE","CEA","FFF"]
+mp
+B C -> C
+C D -> E
+C E -> A
+F F -> F
+
+BCD,"",1,2
+BCD,C,2,2
+BCD,CE,3,2
+CE,"",1,1
+CE,A,2,1
+A,"",1,0
+       ^
+
+    bottom = "AAAA", allowed = ["AAB","AAC","BCD","BBE","DEF"]
+
+mp
+A A -> B
+       C
+B B -> E
+B C -> D
+D E -> F
+
+AAAA,"",1,3  // pre, cur, i, level
+AAAA,B,2,3
+AAAA,BB,3,3                      
+AAAA,BBB,4,3  AAAA,BBC,4,3
+BBB,"",1,2    BBC,"",1,2
+BBB,E,2,2     BBC,E,2,2
+BBB,EE,3,2    BBC,ED,3,2
+EE,"",1,1x    ED,"",1,1x       ...x
+
+
 ```
-Runtime: 0 ms
-Memory Usage: 8.1 MB
+Runtime: 126 ms, Beats 86.49%
+Memory: 16.15 MB, Beats 35.68%
 ```
 ```c++
 class Solution {
-    unordered_map<string, bool> memo;
-    bool dfs(string bottom, string top, unordered_map<string, vector<char>>& mapping)
-    {
-        if (bottom.size() == 2 && top.size() == 1)
-        {
+    unordered_map<string, bool> dp;
+    bool dfs(string pre, string cur, int i, int level, unordered_map<string, vector<char>> &mp) {
+        if (level == 0) {
             return true;
         }
-        
-        if (memo.count(bottom))
-            return memo[bottom];
-        
-        if (bottom.size() - top.size() == 1)
-        {
-            bool result = dfs(top, "", mapping);
-            memo[top] = result;
-            return result;
+        if (i == pre.length()) {
+            if (dp.count(cur)) {
+                return dp[cur];
+            }
+            bool rst = dfs(cur, "", 1, level - 1, mp);
+            return dp[cur] = rst;
         }
-        
-        string sub = bottom.substr(top.size(), 2);
-        if (mapping.count(sub) == 0)
-            return false;
-        
-        for (char c : mapping[sub])
-        {
-            bool result = dfs(bottom, top + c, mapping);
-            if (result)
-            {
-                memo[bottom] = true;
+        string prefix = pre.substr(i - 1, 2);
+        for (char &c: mp[prefix]) {
+            cur += c;
+            if (dfs(pre, cur, i + 1, level, mp)) {
                 return true;
             }
-                
+            cur.pop_back();
         }
-        
-        memo[bottom] = false;
         return false;
     }
 public:
     bool pyramidTransition(string bottom, vector<string>& allowed) {
-        unordered_map<string, vector<char>> mapping;
-        for (const string& s : allowed)
-        {
-            mapping[s.substr(0, 2)].push_back(s[2]);
+        unordered_map<string, vector<char>> mp;
+        for (auto &s : allowed) {
+            mp[s.substr(0, 2)].push_back(s[2]);
         }
-
-        return dfs(bottom, "", mapping);
+        return dfs(bottom, "", 1, bottom.length() - 1, mp);
     }
 };
 ```

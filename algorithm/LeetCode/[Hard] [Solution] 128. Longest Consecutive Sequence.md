@@ -233,27 +233,29 @@ class Solution:
         return max(dp)
 ```
 
-**Solution 3: (Set)**
+**Solution 3: (Set, check interval start)**
 ```
-Runtime: 119 ms
-Memory Usage: 30.9 MB
+Runtime: 79 ms, Beats 72.06%
+Memory: 88.81 MB, Beats 60.41%
 ```
 ```c++
 class Solution {
 public:
     int longestConsecutive(vector<int>& nums) {
-        unordered_set<int> s;
-        for(int i = 0; i< nums.size(); i++) {
-            s.insert(nums[i]);
+        unordered_set<int> st(nums.begin(), nums.end());
+        int cur, k, ans = 0;
+        for (auto num: st) {
+            if (!st.count(num - 1)) {
+                cur = num;
+                k = 1;
+                while (st.count(cur + 1)) {
+                    cur += 1;
+                    k += 1;
+                }
+                ans = max(ans, k);
+            }
         }
-	    int longest = 0;
-	    for(int num : s) {
-            if (s.count(num - 1)) continue;//t.c is O(N) bcoz just for one element while loop is running so t.c O(N)+O(N)
-            int j = 1;
-            while (s.count(num + j)) j++; 
-            longest = max(longest, j);
-        }
-        return longest;
+        return ans;
     }
 };
 ```

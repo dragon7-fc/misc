@@ -40,3 +40,23 @@ class Solution:
     def minProductSum(self, nums1: List[int], nums2: List[int]) -> int:
         return sum([a*b for a, b in zip(sorted(nums1,reverse=True), sorted(nums2))])
 ```
+
+**Solution 2: (Sort)**
+```
+Runtime: 106 ms, Beats 84.00%
+Memory: 109.13 MB, Beats 90.00%
+```
+```c++
+class Solution {
+public:
+    int minProductSum(vector<int>& nums1, vector<int>& nums2) {
+        int i, n = nums1.size(), ans = 0;
+        sort(begin(nums1), end(nums1));
+        sort(begin(nums2), end(nums2), greater<int>());
+        for (i = 0; i < n; i ++) {
+            ans += nums1[i] * nums2[i];
+        }
+        return ans;
+    }
+};
+```

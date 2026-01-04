@@ -132,3 +132,55 @@ class Solution:
             if int(revst) >= 2**31-1 or int(revst) <= -2**31: return 0
             else: return int(revst)
 ```
+
+**Solution 3: (Math)**
+```
+Runtime: 0 ms, Beats 100.00%
+Memory: 8.53 MB, Beats 53.63%
+```
+```c++
+class Solution {
+public:
+    int reverse(int x) {
+        long long y = labs(x), ans = 0;
+        while (y) {
+            ans = ans * 10 + y % 10;
+            if (ans > INT_MAX) {
+                return 0;
+            }
+            y /= 10;
+        }
+        if (x < 0) {
+            ans = -ans;
+        }
+        if (ans < INT_MIN) {
+            return 0;
+        }
+        return ans;
+    }
+};
+```
+
+**Solution 4: (Math)**
+```
+Runtime: 0 ms, Beats 100.00%
+Memory: 8.68 MB, Beats 20.06%
+```
+```c++
+class Solution {
+public:
+    int reverse(int x) {
+        int rev = 0;
+        while (x != 0) {
+            int pop = x % 10;
+            x /= 10;
+            if (rev > INT_MAX / 10 || (rev == INT_MAX / 10 && pop > 7))
+                return 0;
+            if (rev < INT_MIN / 10 || (rev == INT_MIN / 10 && pop < -8))
+                return 0;
+            rev = rev * 10 + pop;
+        }
+        return rev;
+    }
+};
+```

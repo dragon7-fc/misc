@@ -62,6 +62,11 @@ public:
 ```
 
 **Solution 4: (String)**
+
+    s = "   fly me   to   the moon  "
+count                        f   t
+ans                          x4321   
+
 ```
 Runtime: 0 ms
 Memory: 7.69 MB

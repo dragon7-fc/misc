@@ -229,8 +229,8 @@ public:
 
 **Solution 5: (Iterative)**
 ```
-Runtime: 0 ms
-Memory: 7.79 MB
+Runtime: 0 ms, Beats 100.00%
+Memory: 9.48 MB, Beats 23.04%
 ```
 ```c++
 class Solution {
@@ -239,21 +239,22 @@ public:
         if (digits == "") {
             return {};
         }
-        vector<string> m = {
+        vector<string> mp = {
             "", "", "abc", "def", "ghi", "jkl", "mno", "pqrs", "tuv", "wxyz"
         };
-        vector<string> ans = {""};
+        deque<string> ans = {""};
         int sz;
         for (int i = 0; i < digits.size(); i ++) {
             sz = ans.size();
             for (int j = 0; j < sz; j ++) {
-                for (int k = 0; k < m[digits[i]-'0'].size(); k ++) {
-                    ans.push_back(*ans.begin() + m[digits[i]-'0'][k]);
+                for (int k = 0; k < mp[digits[i] - '0'].size(); k ++) {
+                    ans.push_back(ans.front() + mp[digits[i] - '0'][k]);
                 }
-                ans.erase(ans.begin());
+                ans.pop_front();
             }
         }
-        return ans;
+        return vector<string>(ans.begin(), ans.end());
+
     }
 };
 ```

@@ -129,6 +129,10 @@ public:
 ```
 
 **Solution 5: (Iterativa, Linked List)**
+
+        1 -> 2 -> 3 -> 4 -> 5
+     <- 1 <- 2 <- 3 <- 4 <- 5
+
 ```
 Runtime: 6 ms
 Memory Usage: 6.3 MB

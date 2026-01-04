@@ -176,33 +176,54 @@ void nextPermutation(int* nums, int numsSize){
 
 **Solution 2: (Two Pointers)**
 
-setp1: find next smaller from back
-5         x
-4           x
-3            (x) < current smallest
-2      (x)
-1     x
-      1 2 5 4 3 
-        ^i    ^j
-          <-----
-step2: swap
-5         x
-4           x
-3      (x)     
-2            (x)      
-1     x
-      1 3 5 4 2 
-        ^i    ^j
-          <-----
-step3: reverse i+1 to end
-5             x
-4           x
-3       x      
-2         x           
-1     x
-      1 3 2 4 5
-          -----> 
-        ^i    ^j
+setp 1: find next valley x from back
+8         .
+7             . 
+6               .
+5       .         .
+4          [x]
+3                   .
+2       
+1     .               .
+      1 5 8 4 7 6 5 3 1
+            ^i
+                 <-----
+step 2: find first y greater thant x from back
+8         .
+7             . 
+6               .
+5       .        [y]
+4          [x]
+3                   . 
+2       
+1     .               .
+      1 5 8 4 7 6 5 3 1
+            ^i    ^j
+                  <-----
+step 3: swap
+8         .
+7             . 
+6               .
+5       .  [y]
+4                [x]
+3                   . 
+2       
+1     .               .
+      1 5 8 5 7 6 4 3 1
+            ^i    ^j
+
+step 4: reverse i+1 to end
+8         .
+7                     .
+6                   .
+5       .   y      
+4                 x
+3               .     
+2       
+1     .       .
+      1 5 8 5 1 3 4 6 7
+            ^i
+              --------->
 ```
 Runtime: 15 ms
 Memory Usage: 11.9 MB

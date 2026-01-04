@@ -67,3 +67,103 @@ class Leaderboard:
 # param_2 = obj.top(K)
 # obj.reset(playerId)
 ```
+
+**Solution 2: (multiset)**
+```
+Runtime: 7 ms, Beats 36.57%
+Memory: 17.44 MB, Beats 65.74%
+```
+```c++
+class Leaderboard {
+    unordered_map<int, int> cnt;
+    multiset<int> st;
+public:
+    Leaderboard() {
+    }
+    
+    void addScore(int playerId, int score) {
+        if (cnt.count(playerId)) {
+            score += cnt[playerId];
+            auto it = st.find(cnt[playerId]);
+            st.erase(it);
+            cnt.erase(playerId);
+        }
+        cnt[playerId] = score;
+        st.insert(score);
+    }
+    
+    int top(int K) {
+        int rst = 0;
+        auto it = st.rbegin();
+        while (K) {
+            rst += *it;
+            it++;
+            K -= 1;
+        }
+        return rst;
+    }
+    
+    void reset(int playerId) {
+        auto it = st.find(cnt[playerId]);
+        st.erase(it);
+        cnt.erase(playerId);
+    }
+};
+
+/**
+ * Your Leaderboard object will be instantiated and called as such:
+ * Leaderboard* obj = new Leaderboard();
+ * obj->addScore(playerId,score);
+ * int param_2 = obj->top(K);
+ * obj->reset(playerId);
+ */
+```
+
+**Solution 3: (Set)**
+```
+Runtime=: 3 ms, Beats 66.20%
+Memory: 17.51 MB, Beats 51.39%
+```
+```c++
+class Leaderboard {
+    unordered_map<int, set<pair<int, int>>::iterator> mp;
+    set<pair<int, int>> st;
+public:
+    Leaderboard() {
+    }
+    
+    void addScore(int playerId, int score) {
+        if (mp.count(playerId)) {
+            score += mp[playerId]->first;
+            st.erase(mp[playerId]);
+            mp.erase(playerId);
+        }
+        auto [it, _] = st.insert({score, playerId});
+        mp[playerId] = it;
+    }
+    
+    int top(int K) {
+        int rst = 0;
+        auto it = st.rbegin();
+        while (K) {
+            rst += it->first;
+            it++;
+            K -= 1;
+        }
+        return rst;
+    }
+    
+    void reset(int playerId) {
+        st.erase(mp[playerId]);
+        mp.erase(playerId);
+    }
+};
+
+/**
+ * Your Leaderboard object will be instantiated and called as such:
+ * Leaderboard* obj = new Leaderboard();
+ * obj->addScore(playerId,score);
+ * int param_2 = obj->top(K);
+ * obj->reset(playerId);
+ */
+```
