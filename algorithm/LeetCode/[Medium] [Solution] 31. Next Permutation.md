@@ -176,7 +176,7 @@ void nextPermutation(int* nums, int numsSize){
 
 **Solution 2: (Two Pointers)**
 
-setp 1: find next valley x from back
+setp 1: find first valley x from back
 8         .
 7             . 
 6               .

@@ -4235,11 +4235,22 @@ class Solution:
 ```
 * [Medium] 60. Permutation Sequence
 
-### Single Number
-```python
-class Solution:
-    def singleNumber(self, nums: List[int]) -> int:
-        return int((3*sum(set(nums)) - sum(nums)) // 2)
+### count bit
+```c++
+class Solution {
+public:
+    int singleNumber(vector<int>& nums) {
+        int ans = 0;
+        for (int i = 0; i < 32; ++i) {
+            int sum = 0;
+            for (const int num : nums)
+                sum += num >> i & 1;
+            sum %= 3;
+            ans |= sum << i;
+        }
+        return ans;
+    }
+};
 ```
 * [Medium] 137. Single Number II
 
@@ -11286,29 +11297,25 @@ class Solution:
 ```
 * [Medium] [Solution] 11. Container With Most Water
 
-### first decreasing element from right
-```python
-class Solution:
-    def nextPermutation(self, nums: List[int]) -> None:
-        """
-        Do not return anything, modify nums in-place instead.
-        """
-        # first decreasing element from right
-        i = len(nums) - 2
-        while (i >= 0 and nums[i+1] <= nums[i]):
-            i -= 1
-
-        # nums[j] = element just greater than nums[i]
-        if i >= 0:
-            j = len(nums)-1
-            while (j >= 0 and nums[j] <= nums[i]):
-                j -= 1
-
-            # swap nums[i], nums[j]
-            nums[i], nums[j] = nums[j], nums[i]
-
-        # reverse nums[i+1],...
-        nums[i+1:] = nums[i+1:][::-1]
+### first valley from back
+```c++
+class Solution {
+public:
+    void nextPermutation(vector<int>& nums) {
+        int i = nums.size() - 2;
+        while (i >= 0 && nums[i + 1] <= nums[i]) {
+            i--;
+        }
+        if (i >= 0) {
+            int j = nums.size() - 1;
+            while (nums[j] <= nums[i]) {
+                j--;
+            }
+            swap(nums[i], nums[j]);
+        }
+        reverse(nums.begin() + i + 1, nums.end());
+    }
+};
 ```
 * [Medium] [Solution] 31. Next Permutation
 

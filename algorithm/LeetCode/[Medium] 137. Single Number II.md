@@ -47,6 +47,18 @@ class Solution:
 ```
 
 **Solution 3: (Bit Manipulation, count every bit)**
+
+    nums = [2, 2, 3, 2]
+
+           v   
+     3  2  1  0   <- bit
+2          1  
+2          1
+3          1  1
+2          1
+sum        4  1
+           1
+ans       +2 +1
 ```
 Runtime: 9 ms
 Memory: 9.3 MB

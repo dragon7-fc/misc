@@ -172,6 +172,16 @@ public:
 ```
 
 **Solution 4: (Two Pointer)**
+
+    nums = [ -4, -1,  0,  3, 10]
+             16   1   0   9 100
+              l               r
+              l           r
+                  l       r
+                  l   r
+                      lr
+    ans       0   1   9  10 100
+
 ```
 Runtime: 17 ms
 Memory: 28.48 MB

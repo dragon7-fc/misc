@@ -97,3 +97,28 @@ char * addStrings(char * num1, char * num2){
     return ret;
 }
 ```
+
+**Solution 3: (String)**
+```
+Runtime: 0 ms, Beats 100.00%
+Memory: 9.11 MB, Beats 57.77%
+```
+```c++
+class Solution {
+public:
+    string addStrings(string num1, string num2) {
+        int i = num1.size() - 1, j = num2.size() - 1, a, b, p = 0;
+        string ans;
+        while (i >= 0 || j >= 0 || p) {
+            a = i >= 0 ? num1[i] - '0' : 0;
+            b = j >= 0 ? num2[j] - '0' : 0;
+            ans += (a + b + p) % 10 + '0';
+            p = (a + b + p) / 10;
+            i -= 1;
+            j -= 1;
+        }
+        reverse(begin(ans), end(ans));
+        return ans;
+    }
+};
+```
