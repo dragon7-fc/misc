@@ -156,26 +156,31 @@ public:
 
 **Solution 4: (DP Bottom-Up)**
 
+* s[i] != t[j]
+    dp[i][j] = min(s[i] + dp[i-1][j], t[j] + dp[i][j-1])
+* s[i] == t[j]
+    dp[i][j] = dp[i-1][j-1]
+
            s    e    a
            x
            s    se   sea
-e     e    es   s    se
-a     ea   ess  sa   s 
-t  x  eat  eatt sat  st   
+e     e    es   s    sa
+a     ea   eas  sa   s 
+t  x  eat  east sat  st < 
 
 ```
-Runtime: 7 ms, Beats 97.28%
-Memory: 17.74 MB, Beats 80.62%
+Runtime: 6 ms, Beats 97.09%
+Memory: 9.72 MB, Beats 88.82%
 ```
 ```c++
 class Solution {
 public:
     int minimumDeleteSum(string s1, string s2) {
         int m = s1.size(), n = s2.size(), i, j;
-        vector<int> pre(n+1), cur(n+1);
+        vector<int> pre(n + 1), cur(n + 1);
         pre[0] = 0;
         for (j = 0; j < n; j ++) {
-            pre[j+1] = pre[j] + s2[j];
+            pre[j + 1] = pre[j] + s2[j];
         }
         for (i = 0; i < m; i ++) {
             cur[0] = pre[0] + s1[i];
@@ -186,8 +191,7 @@ public:
                     cur[j+1] = pre[j];
                 }
             }
-            pre = move(cur);
-            cur.resize(n+1);
+            swap(pre, cur);
         }
         return pre[n];
     }

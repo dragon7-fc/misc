@@ -42,6 +42,13 @@ class Solution:
 ```
 
 **Solution 2: (Two Pointers)**
+
+    s = "I c e C r e A m"
+         l           r
+         A c e C r e I m
+             l     r
+         A c e C r e I m
+               l r
 ```
 Runtime: 17 ms
 Memory: 8.2 MB

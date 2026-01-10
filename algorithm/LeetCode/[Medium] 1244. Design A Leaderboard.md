@@ -120,6 +120,65 @@ public:
 ```
 
 **Solution 3: (Set)**
+
+Leaderboard leaderboard = new Leaderboard ();
+leaderboard.addScore(1,73);   // leaderboard = [[1,73]];
+mp    1
+      |
+st    v
+    {73,1}
+leaderboard.addScore(2,56);   // leaderboard = [[1,73],[2,56]];
+mp      2      1 
+        |      | 
+st      v      v 
+    (56,2) {73,1}
+leaderboard.addScore(3,39);   // leaderboard = [[1,73],[2,56],[3,39]];
+mp      3     2      1 
+        |     |      | 
+st      v     v      v 
+    (39,3)(56,2) {73,1}
+leaderboard.addScore(4,51);   // leaderboard = [[1,73],[2,56],[3,39],[4,51]];
+mp      3      4      2      1 
+        |      |      |      | 
+st      v      v      v      v 
+    (39,3) (51,4) (56,2) {73,1}
+leaderboard.addScore(5,4);    // leaderboard = [[1,73],[2,56],[3,39],[4,51],[5,4]];
+mp     5      3      4      2      1 
+       |      |      |      |      | 
+st     v      v      v      v      v 
+    (4,5) (39,3) (51,4) (56,2) {73,1}
+leaderboard.top(1);           // returns 73;
+mp     5      3      4      2      1 
+       |      |      |      |      | 
+st     v      v      v      v      v 
+    (4,5) (39,3) (51,4) (56,2) {73,1}
+                                ^^   
+leaderboard.reset(1);         // leaderboard = [[2,56],[3,39],[4,51],[5,4]];
+                                   x
+mp     5      3      4      2      1 
+       |      |      |      |      | 
+st     v      v      v      v      v 
+    (4,5) (39,3) (51,4) (56,2) {73,1}
+                                  x
+leaderboard.reset(2);         // leaderboard = [[3,39],[4,51],[5,4]];
+                            x
+mp     5      3      4      2 
+       |      |      |      | 
+st     v      v      v      v 
+    (4,5) (39,3) (51,4) (56,2)
+                           x
+leaderboard.addScore(2,51);   // leaderboard = [[2,51],[3,39],[4,51],[5,4]];
+mp     5      3      2      4 
+       |      |      |      | 
+st     v      v      v      v 
+    (4,5) (39,3) (51,2) (51,4)
+leaderboard.top(3);           // returns 141 = 51 + 51 + 39;
+mp     5      3      2      4 
+       |      |      |      | 
+st     v      v      v      v 
+    (4,5) (39,3) (51,2) (51,4)
+           ^^     ^^     ^^
+
 ```
 Runtime=: 3 ms, Beats 66.20%
 Memory: 17.51 MB, Beats 51.39%

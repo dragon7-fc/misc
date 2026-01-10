@@ -175,3 +175,37 @@ class MovingAverage:
 # obj = MovingAverage(size)
 # param_1 = obj.next(val)
 ```
+
+**Solution 2: (Deque)**
+```
+Runtime: 4 ms, Beats 34.08%
+Memory: 20.91 MB, Beats 14.81%
+```
+```c++
+class MovingAverage {
+    deque<int> dq;
+    int sz;
+    double a;
+public:
+    MovingAverage(int size) {
+        sz = size;
+        a = 0;
+    }
+    
+    double next(int val) {
+        a += val;
+        dq.push_back(val);
+        if (dq.size() > sz) {
+            a -= dq.front();
+            dq.pop_front();
+        }
+        return a / dq.size();
+    }
+};
+
+/**
+ * Your MovingAverage object will be instantiated and called as such:
+ * MovingAverage* obj = new MovingAverage(size);
+ * double param_1 = obj->next(val);
+ */
+```

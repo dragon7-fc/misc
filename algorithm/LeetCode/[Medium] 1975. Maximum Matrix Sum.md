@@ -80,8 +80,8 @@ odd: can turn every number to positive except smallest
     +   +  -  +  +
 
 ```
-Runtime: 0 ms
-Memory: 38.39 MB
+Runtime: 0 ms, Beats 100.00%
+Memory: 39.28 MB, Beats 25.94%
 ```
 ```c++
 class Solution {

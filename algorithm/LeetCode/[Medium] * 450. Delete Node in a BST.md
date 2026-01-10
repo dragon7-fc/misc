@@ -203,20 +203,19 @@ struct TreeNode* deleteNode(struct TreeNode* root, int key){
 
 **Solution 4: (DFS, Pre order, Early stop, binary search)**
 
-case 1:
-             1
+case 1: 1 child
+             4
            /
-          2x
+          3x
         /
-       3
+       2
 
-case 2:
              1
               \
-               2x
+               3x
                 \
-                 3
-case 3:
+                 4
+case 2: 2 child
 
              5
            /   \

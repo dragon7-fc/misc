@@ -67,31 +67,48 @@ class Solution:
 ```
 
 **Solution 2: (Dijkstra)**
+
+    grid = [[ 5, 4, 5],
+pq           (5) (4) (4)
+              x   x   x
+            [ 1, 2, 6],
+             (1) (2) (4)
+              1   2   4
+                      x
+            [ 7, 4, 6]]
+                    (4)x
+
 ```
-Runtime: 224 ms
-Memory Usage: 33.4 MB
+Runtime: 118 ms, Beats 73.26%
+Memory: 40.23 MB, Beats 74.42%
 ```
 ```c++
 class Solution {
+    int dd[5] = {0, 1, 0, -1, 0};
 public:
-    int maximumMinimumPath(vector<vector<int>>& A) {
-        int R{(int)A.size()},  C{(int)A[0].size()};
-        auto Cmp = [](const auto& a, const auto& b) {return a.first < b.first;};
-        std::priority_queue<std::pair<int,int>, std::vector<std::pair<int,int>>, decltype(Cmp)> pq(Cmp);
-        pq.emplace(A[0][0], 0);
-        std::vector<std::vector<bool>> visited(R, std::vector<bool>(C, false));
-        while(1) {
-            auto [min_, s]{pq.top()}; pq.pop();
-            int i{s/1000}, j{s%1000};
-            if(visited[i][j]) continue;
-            if(i == R-1 && j == C-1) return min_;
-            visited[i][j] = true;
-            if(i > 0 && !visited[i-1][j]) pq.emplace(std::min(min_, A[i-1][j]), s-1000);
-            if(i < R-1 && !visited[i+1][j]) pq.emplace(std::min(min_, A[i+1][j]), s+1000);
-            if(j > 0 && !visited[i][j-1]) pq.emplace(std::min(min_, A[i][j-1]), s-1);
-            if(j < C-1 && !visited[i][j+1]) pq.emplace(std::min(min_, A[i][j+1]), s+1);
+    int maximumMinimumPath(vector<vector<int>>& grid) {
+        int m = grid.size(), n = grid[0].size(), d, nr, nc, nw;
+        priority_queue<array<int, 3>> pq;
+        vector<vector<int>> dist(m, vector<int>(n, INT_MIN));
+        pq.push({grid[0][0], 0, 0});
+        dist[0][0] = grid[0][0];
+        while (pq.size()) {
+            auto [w, r, c] = pq.top();
+            pq.pop();
+            if (r == m - 1 && c == n - 1) {
+                return w;
+            }
+            for (d = 0; d < 4; d ++) {
+                nr = r + dd[d];
+                nc = c + dd[d + 1];
+                if (0 <= nr && nr < m && 0 <= nc && nc < n && w > dist[nr][nc]) {
+                    nw = min(w, grid[nr][nc]);
+                    pq.push({nw, nr, nc});
+                    dist[nr][nc] = nw;
+                }
+            }
         }
-        return 69.420;
+        return -1;
     }
 };
 ```

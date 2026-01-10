@@ -72,6 +72,20 @@ public:
 ```
 
 **Solution 3: (Binary Search)**
+
+            0 1 2 3 4 5 6 7 8
+    nums = [1,1,2,3,3,4,4,8,8]
+            l       m       r
+            l   m   r
+            lm  r
+                lr
+
+             0  1  2  3  4  5  6
+    nums = [ 3, 3, 7, 7,10,11,11]
+             l        m        r
+                         lm    r
+                         lr
+
 ```
 Runtime: 25 ms
 Memory: 22.3 MB

@@ -141,7 +141,18 @@ int compress(char* chars, int charsSize){
 }
 ```
 
-**Solution 3: (sliding window)**
+**Solution 3: (Sliding window)**
+
+              0   1   2   3   4   5   6
+    chars = ["a","a","b","b","c","c","c"]
+              ij      k
+              a   2   
+                      ij      k
+                      b   2
+                              ij          k
+                              c   3
+                                      i
+
 ```
 Runtime: 5 ms
 Memory: 9.1 MB

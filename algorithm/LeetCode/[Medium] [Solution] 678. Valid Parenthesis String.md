@@ -340,3 +340,47 @@ public:
     }
 };
 ```
+
+**Solution 7: (Greedy, open parentheses count range)**
+
+         0  1  2  3
+    s = "(  *  )  )"
+cnt
+2           x          < hi
+1        x  x  x
+0     x  x  x  x  x    < lo
+-1
+
+hi       1  2  1  0
+lo       1  0 -1 -1
+               0  0
+```
+Runtime: 0 ms, Beats 100.00%
+Memory: 8.18 MB, Beats 47.15%
+```
+```c++
+class Solution {
+public:
+    bool checkValidString(string s) {
+        int lo = 0, hi = 0; // open parentheses count in range [lo, hi]
+        for (char &c: s) {
+            if (c == '(') {
+                hi += 1;
+                lo += 1;
+            } else if (c == ')') {
+                hi -= 1;
+                lo -= 1;
+            } else if (c == '*') {
+                hi += 1; // if `*` become `(` then openCount++
+                lo -= 1; // if `*` become `)` then openCount--
+                // if `*` become `` then nothing happens
+                // So openCount will be in new range [lo - 1, hi + 1]
+            }
+            if (hi < 0) return false; // Currently, don't have enough open parentheses to match close parentheses-> Invalid
+                                        // For example: ())(
+            lo = max(lo, 0);   // It's invalid if open parentheses count < 0 that's why lo can't be negative
+        }
+        return lo == 0; // Return true if can found `openCount == 0` in range [lo, hi]
+    }
+};
+```

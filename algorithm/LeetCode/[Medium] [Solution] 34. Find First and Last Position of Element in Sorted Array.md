@@ -310,6 +310,23 @@ public:
 ```
 
 **Solution 5: (Binary Search)**
+
+            0  1  3  4  5
+    nums = [5, 7, 7, 8, 8,10], target = 8
+            l     m        r
+                     l  m  r
+                     lmr
+                  r  l
+    ans              x
+
+            0  1  2  3  4  5
+    nums = [5, 7, 7, 8, 8,10], target = 8
+            l     m        r
+                     l  m  r
+                           lmr
+                        r  l
+    ans                 x
+                    
 ```
 Runtime: 0 ms, Beats 100.00%
 Memory: 17.71 MB, Beats, 17.40%

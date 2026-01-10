@@ -103,23 +103,29 @@ class Solution:
 
 **Solution 3: (Sort, Counter, Line Sweep)**
 
+    schedule = [[[1,2],[5,6]],[[1,3]],[[4,10]]]
+
     1 2 3 4 5 6 7 8 9 10
     -       -
     ---
           -----------
+   >    [>            [
     2 1 0 1 2 1       0
         x             
+--------------------------------
+    schedule = [[[1,3],[6,7]],[[2,4]],[[2,5],[9,12]]]
 
-    1 2 3 4 5 6 7 8 9 10 11 
+    1 2 3 4 5 6 7 8 9 10 11 12 
     ---       -
       ---
       -----         -------
+   >        [>  [  >        [
 cnt 1 3 2 1 0 1 0   1
             x   xxx
 
 ```
-Runtime: 27 ms, Beats 28.45%
-Memory: 16.81 MB, Beats 21.97%
+Runtime: 19 ms, Beats 75.26%
+Memory: 16.47 MB, Beats 37.11%
 ```
 ```c++
 /*
@@ -144,8 +150,8 @@ public:
         map<int,int> cnt;
         vector<Interval> ans;
         int cur;
-        for (auto s: schedule) {
-            for (auto [st, e]: s) {
+        for (auto &s: schedule) {
+            for (auto &[st, e]: s) {
                 cnt[st] += 1;
                 cnt[e] -= 1;
             }

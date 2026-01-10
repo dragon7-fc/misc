@@ -302,7 +302,11 @@ public:
 };
 ```
 
-**Solution 7: (String)**
+**Solution 7: (String, sort)**
+
+result = string
+-> sort with string compare
+
 ```
 Runtime: 12 ms
 Memory Usage: 11.2 MB

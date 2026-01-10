@@ -238,3 +238,64 @@ public:
     }
 };
 ```
+
+**Solution 5: (Union Find)**
+```
+Runtime: 79 ms, Beats 67.33%
+Memory: 70.34 MB, Beats 65.35%
+```
+```c++
+class Solution {
+    unordered_map<string, string> p;
+    unordered_map<string, int> r;
+    void add(string &x) {
+        if (!p.count(x)) {
+            p[x] = x;
+            r[x] = 0;
+        }
+    }
+    string find(string &x) {
+        if (p[x] != x) {
+            p[x] = find(p[x]);
+        }
+        return p[x];
+    }
+    void uni(string &x, string &y) {
+        string &&xr = find(x), &&yr = find(y);
+        if (xr == yr) {
+            return;
+        } else if (r[xr] < r[yr]) {
+            p[xr] = yr;
+        } else if (r[xr] > r[yr]) {
+            p[yr] = xr;
+        } else {
+            p[yr] = xr;
+            r[xr] += 1;
+        }
+    }
+public:
+    bool areSentencesSimilarTwo(vector<string>& sentence1, vector<string>& sentence2, vector<vector<string>>& similarPairs) {
+        if (sentence1.size() != sentence2.size()) {
+            return false;
+        }
+        for (auto &pair: similarPairs) {
+            // Create the graph using the hashed values of the similarPairs.
+            add(pair[0]);
+            add(pair[1]);
+            uni(pair[0], pair[1]);
+        }
+
+        for (int i = 0; i < sentence1.size(); i++) {
+            if (sentence1[i] == sentence2[i]) {
+                continue;
+            }
+            if (p.count(sentence1[i]) && p.count(sentence2[i]) &&
+                find(sentence1[i]) == find(sentence2[i])) {
+                continue;
+            }
+            return false;
+        }
+        return true;
+    }
+};
+```

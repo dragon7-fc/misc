@@ -36,13 +36,17 @@ class Solution:
 
 **Solution 2: (Stack, mono inc stack, area between current and second top stack element)**
 
+           0  1  2  3  4  5
            2, 1, 5, 6, 2, 3
                        ^
 ans      0    2        6
-                      10
-stk -1,-1 2,1
-          1,1 5,2 6,3
-              2,4 3,5
+                      10 <
+stk -1     2
+    -1        1        
+    -1           1 5
+    -1              1 5 6
+    -1                 1 2
+    -1                    1 2 3
 
 ```
 Runtime: 28 ms, Beats 40.77%

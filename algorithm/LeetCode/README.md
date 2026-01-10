@@ -8786,27 +8786,38 @@ class Solution:
 ```
 * [Medium] 74. Search a 2D Matrix
 
-### Greedy, Binary Search
-```python
-class Solution:
-    def shortestWay(self, source: str, target: str) -> int:
-        h = collections.defaultdict(list)
-        for i, ch in enumerate(source):
-            h[ch].append(i)        
-        i, j = -1, 0
-        count = 1
-        while j < len(target):
-            if target[j] not in h:
-                return -1
-            idx = bisect.bisect(h[target[j]], i) 
-            if idx == len(h[target[j]]):
-                i = -1
-                count += 1
-                continue
-            i = h[target[j]][idx]
-            j += 1
-        return count
-```
+### Greedy, Hash Table, Prefix Sum
+```c++
+class Solution {
+public:
+    int shortestWay(string source, string target) {
+        int n = source.length(), i, j, dp[n][26], ans;
+        for (j = 0; j < 26; j++) {
+            dp[n - 1][j] = -1;
+        }
+        dp[n - 1][source[n - 1] - 'a'] = n - 1;
+        for (i = n - 2; i >= 0; i--) {
+            for (j = 0; j < 26; j++) {
+                dp[i][j] = dp[i + 1][j];
+            }
+            dp[i][source[i] - 'a'] = i;
+        }
+        j = 0;
+        ans = 1;
+        for (auto &c: target) {
+            if (dp[0][c - 'a'] == -1) {
+                return -1;
+            }
+            if (j == n || dp[j][c - 'a'] == -1) {
+                ans += 1;
+                j = 0;
+            }
+            j = dp[j][c - 'a'] + 1;
+        }
+        return ans;
+    }
+};
+````
 * [Lock] [Medium] 1055. Shortest Way to Form String
 
 ### Random
@@ -9852,18 +9863,29 @@ class Solution:
 ```
 * [Medium] [Solution] 954. Array of Doubled Pairs
 
-### Valid Parenthesis
-```python
-class Solution:
-    def checkValidString(self, s: str) -> bool:
-        lo = hi = 0  # [lower, upper bound]
-        for c in s:
-            lo += 1 if c == '(' else -1
-            hi += 1 if c != ')' else -1
-            if hi < 0: break
-            lo = max(lo, 0)
-
-        return lo == 0
+### valid open parentheses count range
+```c++
+class Solution {
+public:
+    bool checkValidString(string s) {
+        int lo = 0, hi = 0;
+        for (char &c: s) {
+            if (c == '(') {
+                hi += 1;
+                lo += 1;
+            } else if (c == ')') {
+                hi -= 1;
+                lo -= 1;
+            } else if (c == '*') {
+                hi += 1;
+                lo -= 1;
+            }
+            if (hi < 0) return false;
+            lo = max(lo, 0);
+        }
+        return lo == 0;
+    }
+};
 ```
 * [Medium] [Solution] 678. Valid Parenthesis String
 

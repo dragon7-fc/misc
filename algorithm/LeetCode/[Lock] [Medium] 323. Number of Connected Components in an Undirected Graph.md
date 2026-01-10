@@ -164,11 +164,15 @@ public:
 
 **Solution 3: (Union-Find)**
 
-p
-    0  1  2  3  4
-    1  2     4
-    2  
-
+    0  1  2  3  4 
+p   0  1  2  3  4
+edge: 0,1
+    1
+edge: 1,2
+          1
+edge: 3,4
+             4  
+    1  1  1  4  4
 ```
 Runtime: 0 ms, Beats 100.00%
 Memory: 16.35 MB, Beats 80.29%

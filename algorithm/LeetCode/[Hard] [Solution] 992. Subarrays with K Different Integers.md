@@ -139,6 +139,28 @@ class Solution:
 ```
 
 **Solution 1: (Sliding Window, exactly k = (at most k) - (at most k-1))**
+
+    nums = [1,2,1,2,3], k = 2
+at most 2:              12
+            -
+              -
+            - -
+                -
+              - -
+            - - -
+                  -
+                - -
+              - - -
+            - - - -
+                    -
+                  - -
+at most 1:              5
+            -
+              -
+                -
+                  -
+                    -
+exactly 2:              12 - 5 = 7
 ```
 Runtime: 83 ms
 Memory: 48.76 MB

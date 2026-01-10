@@ -36,3 +36,36 @@ class Solution:
         ret = [x+1 for x in ret if x != None]
         return ret
 ```
+
+**Solution 1: (value as index)**
+
+             0  1  2  3  4  5  6  7
+    nums = [ 4, 3, 2, 7, 8, 2, 3, 1]
+                                  ^
+            -4 -3 -2 -7       -3 -1
+
+```
+Runtime: 0 ms, Beats 100.00%
+Memory: 52.95 MB, Beats 89.42%
+```
+```c++
+class Solution {
+public:
+    vector<int> findDisappearedNumbers(vector<int>& nums) {
+        int n = nums.size(), i, j;
+        for (i = 0; i < n; i ++) {
+            j = abs(nums[i]) - 1;
+            if (nums[j] > 0) {
+                nums[j] *= -1;
+            }
+        }
+        vector<int> ans;
+        for (i = 0; i < n; i ++) {
+            if (nums[i] > 0) {
+                ans.push_back(i + 1);
+            }
+        }
+        return ans;
+    }
+};
+```

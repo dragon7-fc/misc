@@ -176,6 +176,16 @@ public:
 ```
 
 **Solution 4: (Union Find)**
+
+    0 2
+    1 3
+
+    0 1 2 3
+p   0 1 2 3
+    1
+        1  
+          1
+
 ```
 Runtime: 3 ms, Beats 87.63%
 Memory: 12.94 MB, Beats 71.26%

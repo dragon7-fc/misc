@@ -153,3 +153,31 @@ class Solution:
         # reverse each word
         self.reverse_each_word(s)
 ```
+
+**Solution 2: (String)**
+
+    s = ["t","h","e"," ","s","k","y"," ","i","s"," ","b","l","u","e"]
+         "e","u","l","b"," ","s","i"," ","y","k","s"," ","e","h","t"
+         "b","l","u","e"," ","i","s"," ","s","k","y"," ","t","h","e"
+
+```
+Runtime: 0 ms, Beats 100.00%
+Memory: 19.96 MB, Beats 88.40%
+```
+```c++
+class Solution {
+public:
+    void reverseWords(vector<char>& s) {
+        reverse(s.begin(), s.end());
+        int n = s.size(), i = 0, j = 0;
+        while (j < n) {
+            if (s[j] == ' ') {
+                reverse(begin(s) + i, begin(s) + j);
+                i = j + 1;
+            }
+            j += 1;
+        }
+        reverse(begin(s) + i, begin(s) + j);
+    }
+};
+```

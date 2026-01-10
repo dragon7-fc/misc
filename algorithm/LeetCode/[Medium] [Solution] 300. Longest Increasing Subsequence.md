@@ -388,6 +388,18 @@ public:
 ```
 
 **Solution 8: (Binary Search)**
+
+    nums = [  10,  9,  2,  5,  3,  7,101, 18]
+                                           ^
+    dp        10
+               9
+               2
+               2   5
+               2   3
+               2   3   7
+               2   3   7 101
+               2   3   7  18
+
 ```
 Runtime: 6 ms
 Memory: 10.5 MB

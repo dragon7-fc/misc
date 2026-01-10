@@ -360,6 +360,25 @@ public:
 ```
 
 **Solution 4: (DP Bottom-Up)**
+
+    dp[currentNumber][visitedNumbers]
+
+                          1                           2                           3
+dp 256 128 64 32 16 8 4 2 1    256 128 64 32 16 8 4 2 1    256 128 64 32 16 8 4 2 1
+0                         1
+1                                                   1
+2                                                                             1
+                          4                           5                           6
+dp 256 128 64 32 16 8 4 2 1    256 128 64 32 16 8 4 2 1    256 128 64 32 16 8 4 2 1
+3                   1      
+4                                             1      
+2                                                                      1
+                          7                           8                           9
+dp 256 128 64 32 16 8 4 2 1    256 128 64 32 16 8 4 2 1    256 128 64 32 16 8 4 2 1
+6           1              
+7                                    1               
+8                                                            1          
+
 ```
 Runtime: 0 ms, Beats 100.00%
 Memory: 8.75 MB, Beats 30.60%
@@ -368,44 +387,43 @@ Memory: 8.75 MB, Beats 30.60%
 class Solution {
 public:
     int numberOfPatterns(int m, int n) {
-        int i, a, b, d, mid, cnt, ans;
+        int i, j, a, d, mid, cnt, ans;
         vector<vector<int> > dp(9, vector<int>(1 << 9, 0));
-        for (a = 0; a < 9; a++) {
-            dp[a][1 << a] = 1;
+        for (i = 0; i < 9; i++) {
+            dp[i][1 << i] = 1;
         }
-        for (i = 0; i < (1 << 9); i ++) {
-            for (a = 0; a < 9; a ++) {
-                if (i & (1 << a)) {
-                    for (b = 0; b < 9; b ++) {
-                        if ((i & (1 << b))) {
+        for (a = 0; a < (1 << 9); a ++) {
+            for (i = 0; i < 9; i ++) {
+                if (a & (1 << i)) {
+                    for (j = 0; j < 9; j ++) {
+                        if ((a & (1 << j))) {
                             continue;
                         }
-                        d = max(abs(a/3 - b/3), abs(a%3 - b%3));
+                        d = max(abs(i / 3 - j / 3), abs(i % 3 - j % 3));
                         if (d > 1) {
-                            if ((a + b) % 2 == 0) {
-                                mid = (a + b) / 2;
-                                if (!(i & (1 << mid))) {
+                            if ((i + j) % 2 == 0) {
+                                mid = (i + j) / 2;
+                                if (!(a & (1 << mid))) {
                                     continue;
                                 }
                             }
                         }
-                        dp[b][i | (1 << b)] += dp[a][i];
+                        dp[j][a | (1 << j)] += dp[i][a];
                     }
                 }
             }
         }
-        
         ans = 0;
-        for (i = 0; i < (1 << 9); i++) {
+        for (a = 0; a < (1 << 9); a++) {
             cnt = 0;
-            for (a = 0; a < 9; a++) {
-                if (i & (1 << a)) {
+            for (i = 0; i < 9; i++) {
+                if (a & (1 << i)) {
                     cnt += 1;
                 }
             }
             if (cnt >= m && cnt <= n) {
-                for (a = 0; a < 9; a ++) {
-                    ans += dp[a][i];
+                for (i = 0; i < 9; i ++) {
+                    ans += dp[i][a];
                 }
             }
         }

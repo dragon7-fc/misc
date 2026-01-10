@@ -226,29 +226,37 @@ class Solution:
 ```
 
 **Solution 6: (DP Bottom-Up)**
+
+    costs = [[1,5,3],[2,9,4]]
+
+costs    0      1
+0        1 <1   2<2
+1        5      9
+2        3 <2   4<1
+
 ```
-Runtime: 15 ms
-Memory: 11.2 MB
+Runtime: 0 ms, Beats 100.00%
+Memory: 14.49 MB, Beats 87.61%
 ```
 ```c++
 class Solution {
 public:
     int minCostII(vector<vector<int>>& costs) {
-        int n = costs.size(), k = costs[0].size();
+        int n = costs.size(), k = costs[0].size(), i, j, pj, a;
         if (n == 1) {
             return *min_element(costs[0].begin(), costs[0].end());
         }
         int ans = INT_MAX;
-        for (int i = 1; i < n; i ++) {
-            for (int j = 0; j < k; j ++) {
-                int c = INT_MAX;
-                for (int j2 = 0; j2 < k; j2++) {
-                    if (j2 == j) {
+        for (i = 1; i < n; i ++) {
+            for (j = 0; j < k; j ++) {
+                a = INT_MAX;
+                for (int pj = 0; pj < k; pj++) {
+                    if (pj == j) {
                         continue;
                     }
-                    c = min(c, costs[i-1][j2]);
+                    a = min(a, costs[i - 1][pj]);
                 }
-                costs[i][j] += c;
+                costs[i][j] += a;
                 if (i == n-1) {
                     ans = min(ans, costs[i][j]);
                 }

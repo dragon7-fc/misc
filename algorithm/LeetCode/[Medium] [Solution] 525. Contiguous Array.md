@@ -157,6 +157,20 @@ class Solution:
 ```
 
 **Solution 2: (Using HashMap, equal = sum to 0)**
+
+            0 1 2 3 4 5 6 7 8
+    nums = [0,1,1,1,1,1,0,0,0]
+    cur    -1 0 1 2 3 4 3 2 1
+    ans       2         2 4 6
+mp
+0  -1
+-1  0
+0   1
+1   2
+2   3
+3   4
+
+
 ```
 Runtime: 88 ms
 Memory: 87.81 MB

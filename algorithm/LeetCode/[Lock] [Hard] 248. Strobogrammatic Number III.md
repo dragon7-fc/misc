@@ -47,3 +47,45 @@ class Solution:
                     dfs(start, l)
         return cnt
 ```
+
+**Solution 2: (DFS, try possible solution)**
+```
+Runtime: 640 ms, Beats 9.52%
+Memory: 265.45 MB, Beats 9.52%
+```
+```c++
+class Solution {
+    void dfs(string s, string& low, string& high, unordered_set <long long int> &st) {
+        if ((int)s.size() != 0) {
+            long long int s_num = stoll(s);
+            long long int low_num = stoll(low);
+            long long int high_num = stoll(high);
+
+            if (high_num < s_num || high.size() < s.size())
+                return;
+
+            if (low_num <= s_num && high_num >= s_num) {
+                if (s[0] != '0') {
+                    st.insert(s_num);
+                } else if (s_num == 0) {
+                    st.insert(s_num);
+                }
+            }
+        }
+        dfs('8' + s + '8', low, high, st);
+        dfs('6' + s + '9', low, high, st);
+        dfs('9' + s + '6', low, high, st);
+        dfs('0' + s + '0', low, high, st);
+        dfs('1' + s + '1', low, high, st);
+    }
+public:
+    int strobogrammaticInRange(string low, string high) {
+        unordered_set <long long int> st;
+        dfs("", low, high, st);
+        dfs("8", low, high, st);
+        dfs("0", low, high, st);
+        dfs("1", low, high, st);
+        return st.size();
+    }
+};
+```

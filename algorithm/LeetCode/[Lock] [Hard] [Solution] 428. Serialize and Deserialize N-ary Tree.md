@@ -397,3 +397,257 @@ class Codec:
 # codec = Codec()
 # codec.deserialize(codec.serialize(root))
 ```
+
+**Solution 5: (DFS, deque)**
+
+            1
+      /     |     \
+    3       2      4
+   /  \   
+  5    6
+
+    1,3,5,#,6,#,#,2,#,4,#,#
+        --- ---   --- ---
+      -----------
+    -----------------------
+            1
+           / \ \
+         3    2  4
+        / \
+        5  6
+
+```
+Runtime: 31 ms, Beats 64.12%
+Memory: 186.64 MB, Beats 16.03%
+```
+```c++
+/*
+// Definition for a Node.
+class Node {
+public:
+    int val;
+    vector<Node*> children;
+
+    Node() {}
+
+    Node(int _val) {
+        val = _val;
+    }
+
+    Node(int _val, vector<Node*> _children) {
+        val = _val;
+        children = _children;
+    }
+};
+*/
+
+class Codec {
+public:
+    // Encodes a tree to a single string.
+    string serialize(Node* root) {
+        if (!root) {
+            return "";
+        }
+        string rst = to_string(root->val);
+        rst += ",";
+        for (auto &child: root->children) {
+            rst += serialize(child);
+            rst += ",";
+        }
+        rst += "#";
+        return rst;
+    }
+	
+    Node *dfs(deque<int> &dq) {
+        if (dq.front() == -1) {
+            dq.pop_front();
+            return nullptr;
+        }
+        auto a = dq.front();
+        dq.pop_front();
+        Node *node = new Node(a), *child;
+        while ((child = dfs(dq)) != nullptr) {
+            node->children.push_back(child);
+        }
+        return node;
+    }
+
+    // Decodes your encoded data to tree.
+    Node* deserialize(string data) {
+        if (data == "") {
+            return nullptr;
+        }
+        deque<int> dq;
+        stringstream ss(data);
+        string s;
+        while (getline(ss, s, ',')) {
+            if (s != "#") {
+                dq.push_back(stoi(s));
+            } else {
+                dq.push_back(-1);
+            }
+        }
+        return dfs(dq);
+    }
+};
+
+// Your Codec object will be instantiated and called as such:
+// Codec codec;
+// codec.deserialize(codec.serialize(root));
+```
+
+**Solution 6: (DFS)**
+```
+Runtime: 32 ms, Beats 56.49%
+Memory: 186.74 MB, Beats 16.03%
+```
+```c++
+/*
+// Definition for a Node.
+class Node {
+public:
+    int val;
+    vector<Node*> children;
+
+    Node() {}
+
+    Node(int _val) {
+        val = _val;
+    }
+
+    Node(int _val, vector<Node*> _children) {
+        val = _val;
+        children = _children;
+    }
+};
+*/
+
+class Codec {
+public:
+    // Encodes a tree to a single string.
+    string serialize(Node* root) {
+        if (!root) {
+            return "";
+        }
+        string rst = to_string(root->val);
+        rst += ",";
+        for (auto &child: root->children) {
+            rst += serialize(child);
+            rst += ",";
+        }
+        rst += "#";
+        return rst;
+    }
+	
+    Node *dfs(int &i, vector<int> &dp) {
+        if (dp[i] == -1) {
+            i += 1;
+            return nullptr;
+        }
+        Node *node = new Node(dp[i]), *child;
+        i += 1;
+        while ((child = dfs(i, dp)) != nullptr) {
+            node->children.push_back(child);
+        }
+        return node;
+    }
+
+    // Decodes your encoded data to tree.
+    Node* deserialize(string data) {
+        if (data == "") {
+            return nullptr;
+        }
+        vector<int> dp;
+        stringstream ss(data);
+        string s;
+        while (getline(ss, s, ',')) {
+            if (s != "#") {
+                dp.push_back(stoi(s));
+            } else {
+                dp.push_back(-1);
+            }
+        }
+        int i = 0;
+        return dfs(i, dp);
+    }
+};
+
+// Your Codec object will be instantiated and called as such:
+// Codec codec;
+// codec.deserialize(codec.serialize(root));
+```
+
+**Solution 7: (DFS, Two Pointes)**
+```
+Runtime: 30 ms, Beats 67.18%
+Memory: 183.60 MB, Beats 22.90%
+```
+```c++
+/*
+// Definition for a Node.
+class Node {
+public:
+    int val;
+    vector<Node*> children;
+
+    Node() {}
+
+    Node(int _val) {
+        val = _val;
+    }
+
+    Node(int _val, vector<Node*> _children) {
+        val = _val;
+        children = _children;
+    }
+};
+*/
+
+class Codec {
+public:
+    // Encodes a tree to a single string.
+    string serialize(Node* root) {
+        if (!root) {
+            return "";
+        }
+        string rst = to_string(root->val);
+        rst += ",";
+        for (auto &child: root->children) {
+            rst += serialize(child);
+            rst += ",";
+        }
+        rst += "#";
+        return rst;
+    }
+	
+    Node *dfs(int &i, string &data) {
+        if (i == data.size()) {
+            return nullptr;
+        }
+        int j = i;
+        while (j < data.size() && data[j] != ',') {
+            j += 1;
+        }
+        string s = data.substr(i, j - i);
+        i = j + 1;
+        if (s == "#") {
+            return nullptr;
+        }
+        Node *node = new Node(stoi(s)), *child;
+        while ((child = dfs(i, data)) != nullptr) {
+            node->children.push_back(child);
+        }
+        return node;
+    }
+
+    // Decodes your encoded data to tree.
+    Node* deserialize(string data) {
+        int i = 0;
+        return dfs(i, data);
+    }
+};
+
+// Your Codec object will be instantiated and called as such:
+// Codec codec;
+// codec.deserialize(codec.serialize(root));
+```

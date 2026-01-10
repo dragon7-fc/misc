@@ -311,3 +311,30 @@ public:
     }
 };
 ```
+
+**Solution 4: (Sliding Window, Hash Table)**
+```
+Runtime: 7 ms, Beats 52.59%
+Memory: 10.74 MB, Beats 29.09%
+```
+```c++
+class Solution {
+public:
+    int lengthOfLongestSubstringKDistinct(string s, int k) {
+        unordered_map<char, int> cnt;
+        int n = s.size(), i = 0, j, ans = 0;
+        for (j = 0; j < n; j ++) {
+            cnt[s[j]] += 1;
+            while (cnt.size() > k) {
+                cnt[s[i]] -= 1;
+                if (cnt[s[i]] == 0) {
+                    cnt.erase(s[i]);
+                }
+                i += 1;
+            }
+            ans = max(ans, j - i + 1);
+        }
+        return ans;
+    }
+};
+```

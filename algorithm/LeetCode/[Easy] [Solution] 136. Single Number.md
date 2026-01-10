@@ -160,6 +160,10 @@ public:
 ```
 
 **Solution 3: (Bit Manipulation)**
+
+    nums = [4,1,2,1,2]
+    xor  0  4 5 7 6 4
+
 ```
 Runtime: 17 ms
 Memory Usage: 17 MB

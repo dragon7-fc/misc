@@ -357,3 +357,105 @@ public:
     }
 };
 ```
+
+**Solution 3: (Topological Sort, get letter order between word)**
+
+    words = ["wrt","wrf","er","ett","rftt"]
+                t  <  f   
+                    w  <  e
+                           r <  t
+                               e  <  r
+
+indeg
+w   
+r   1   0
+f   1
+e   1   0
+t   1   0
+
+g
+t   f
+w   e
+r   t
+e   r
+
+      w ->  e -> r -> t -> f
+
+q:   w
+     x
+       e
+       x   
+         r
+         x
+           t
+           x
+             f
+
+ans  w e r t f
+```
+Runtime: 3 ms, Beats 41.05%
+Memory: 12.00 MB, Beats 88.53%
+```
+```c++
+class Solution {
+public:
+    string alienOrder(vector<string>& words) {
+        int i, j, n1, n2, i1, i2;
+        char a;
+        unordered_map<char, int> indeg;
+        unordered_map<char, vector<char>> g;
+        for (i = 0; i < words.size(); i++) {
+            for (j = 0; j < words[i].size(); j++) {
+                indeg[words[i][j]] = 0;
+            }
+        }
+        for (i = 0; i < words.size() - 1; i++) {
+            string &s1 = words[i];
+            string &s2 = words[i+1];
+            n1 = s1.size();
+            n2 = s2.size();
+            i1 = 0, i2 = 0;
+            while (i1 < n1 && i2 < n2 && s1[i1] == s2[i2]) {
+                i1 += 1;
+                i2 += 1;
+            }
+            if (i1 < n1 && i2 == n2) {
+                return "";
+            }
+            if (i1 < n1 && i2 < n2) {
+                g[s1[i1]].push_back(s2[i2]);
+                indeg[s2[i2]] += 1;
+            }
+        }
+        queue<char> q;
+        auto it = indeg.begin();
+        while (it != indeg.end()) {
+            if (it->second == 0) {
+                q.push(it->first);
+            }
+            it++;
+        }
+        string ans = "";
+        if (q.size() == 0) {
+            return ans;
+        }
+        while( q.size()) {
+            char node = q.front();
+            ans.push_back(node);
+            q.pop();
+            for (i = 0; i < g[node].size(); i++) {
+                a = g[node][i];
+                indeg[a] -= 1;
+                if (indeg[a] == 0) {
+                    q.push(a);
+                }
+            }
+        }
+        if (ans.size() == indeg.size()) {
+            return ans;
+        }
+        ans.clear();
+        return ans;
+    }
+};
+```

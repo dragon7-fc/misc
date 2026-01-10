@@ -421,3 +421,43 @@ class Solution:
 
         return left - 1
 ```
+
+**Solution 3: (DP Bottom-Up)**
+
+s =   "a  b  b  a  b  a"
+dp  0  1  2  3  4  5  6 j
+0
+1               1     1
+2            1     2
+3                  1
+4                     2
+5
+6
+i
+
+```
+Runtime: 18 ms, Beats 69.44%
+Memory: 37.33 MB, Beats 49.07%
+```
+```c++
+class Solution {
+public:
+    int longestRepeatingSubstring(string s) {
+        int n = s.length(), i, j;
+        vector<vector<int>> dp(n + 1, vector<int>(n + 1));
+        int maxLength = 0;
+
+        // Populate the DP array
+        for (i = 1; i <= n; i++) {
+            for (j = i + 1; j <= n; j++) {
+                // Check if the characters match and update the DP value
+                if (s[i - 1] == s[j - 1]) {
+                    dp[i][j] = dp[i - 1][j - 1] + 1;
+                    maxLength = max(maxLength, dp[i][j]);  // Update maxLength
+                }
+            }
+        }
+        return maxLength;
+    }
+};
+```

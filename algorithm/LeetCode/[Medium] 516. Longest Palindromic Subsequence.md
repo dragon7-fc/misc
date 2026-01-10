@@ -153,6 +153,15 @@ public:
 ```
 
 **Solution 5: (DP Bottom-Up)**
+
+    s = "b b b a b"
+dp       0 1 2 3 4  j
+b 0      1 2 3 3 4 <
+b 1        1 2 2 3
+b 2          1 1 3
+a 3            1 1
+b 4              1
+i
 ```
 Runtime: 144 ms
 Memory: 73 MB
@@ -214,7 +223,7 @@ public:
 b  1 2 3 3 2
 b    1 2 2 3
 b      1 1 3
-a        1 
+a        1 1
 b          1
 
 ```

@@ -60,3 +60,35 @@ class Solution:
         dfs(0)
         return len(visited) == n
 ```
+
+**Solution 2: (DFS)**
+```
+Runtime: 0 ms, Beats 100.00%
+Memory: 16.83 MB, Beats 57.43%
+```
+```c++
+class Solution {
+    void dfs(int u, vector<bool> &visited, vector<vector<int>> &g) {
+        visited[u] = true;
+        for (auto &v: g[u]) {
+            if (!visited[v]) {
+                dfs(v, visited, g);
+            }
+        }
+    }
+public:
+    bool validTree(int n, vector<vector<int>>& edges) {
+        if (edges.size() > n - 1){
+            return false;
+        }
+        vector<vector<int>> g(n);
+        for (auto &e: edges) {
+            g[e[0]].push_back(e[1]);
+            g[e[1]].push_back(e[0]);
+        }
+        vector<bool> visited(n);
+        dfs(0, visited, g);
+        return count(begin(visited), end(visited), true) == n;
+    }
+};
+```

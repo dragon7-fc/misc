@@ -136,7 +136,7 @@ class MaxStack:
 # param_5 = obj.popMax()
 ```
 
-**Solution 2: (Two Stacks)**
+**Solution 2: (Two Stacks, TLE)**
 ```
 Runtime: 156 ms
 Memory Usage: 36.3 MB
@@ -197,6 +197,124 @@ public:
         }
 
         return res;
+    }
+};
+
+/**
+ * Your MaxStack object will be instantiated and called as such:
+ * MaxStack* obj = new MaxStack();
+ * obj->push(x);
+ * int param_2 = obj->pop();
+ * int param_3 = obj->top();
+ * int param_4 = obj->peekMax();
+ * int param_5 = obj->popMax();
+ */
+```
+
+**Solution 3: (Heap + Lazy Update)**
+
+MaxStack stk = new MaxStack();
+cnt: 0
+stk.push(5);   // [5] the top of the stack and the maximum number is 5.
+stk: (5,0)
+heap: (5,0)
+cnt: 1
+stk.push(1);   // [5, 1] the top of the stack is 1, but the maximum is 5.
+stk: (5,0) (1,1)
+heap: (1,1) (5,0)
+cnt: 2
+stk.push(5);   // [5, 1, 5] the top of the stack is 5, which is also the maximum, because it is the top most one.
+stk: (5,0) (1,1) (5,2)
+                  ^top
+heap: (5,2) (1,1) (5,0)
+cnt: 3
+stk.top();     // return 5, [5, 1, 5] the stack did not change.
+stk.popMax();  // return 5, [5, 1] the stack is changed now, and the top is different from the max.
+stk: (5,0) (1,1) (5,2)
+heap: (5,0) (1,1) (5,2)
+                   ^x
+removed: 2
+cnt: 3
+stk.top();     // return 1, [5, 1] the stack did not change.
+stk: (5,0) (1,1) (5,2)
+            ^      x
+heap: (1,1) (5,0)
+removed: 2
+cnt: 3
+stk.peekMax(); // return 5, [5, 1] the stack did not change.
+stk: (5,0) (1,1)
+heap: (1,1) (5,0)
+             ^
+removed: 2
+cnt: 3
+stk.pop();     // return 1, [5] the top of the stack and the max element is now 5.
+stk: (5,0) (1,1)
+            ^x
+heap: (1,1) (5,0)
+             ^
+removed: 2,1
+cnt: 3
+stk.top();     // return 5, [5] the stack did not change.
+stk: (5,0)
+      ^
+heap: (1,1) (5,0)
+             ^
+removed: 2,1
+cnt: 3
+
+```
+Runtime: 77 ms, Beats 86.07%
+Memory: 139.30 MB, Beats 93.19%
+```
+```c++
+class MaxStack {
+    stack<pair<int, int>> stk;  // element, index
+    priority_queue<pair<int, int>> heap;  // element, index
+    unordered_set<int> removed;  // index
+    int cnt;
+public:
+    MaxStack() {
+        cnt = 0;
+    }
+    
+    void push(int x) {
+        stk.push({x, cnt});
+        heap.push({x, cnt});
+        cnt++;
+    }
+    
+    int pop() {
+        while (removed.count(stk.top().second)) {
+            stk.pop();
+        }
+        const pair<int, int> p = stk.top();
+        stk.pop();
+        removed.insert(p.second);
+        return p.first;
+    }
+    
+    int top() {
+        while (removed.count(stk.top().second)) {
+            stk.pop();
+        }
+        return stk.top().first;
+    }
+    
+    int peekMax() {
+        while (removed.count(heap.top().second)) {
+            heap.pop();
+        }
+        return heap.top().first;
+    }
+    
+    int popMax() {
+        while (removed.count(heap.top().second)) {
+            heap.pop();
+        }
+        const pair<int, int> p = heap.top();
+        heap.pop();
+        removed.insert(p.second);
+        return p.first;
     }
 };
 

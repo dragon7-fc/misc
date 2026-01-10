@@ -232,6 +232,12 @@ public:
 ```
 
 **Solution 6: (Binary Search)**
+
+    intervals = [[1,2],[3,5],[6,7],[8,10],[12,16]], newInterval = [4,8]
+                            [4,8]
+                [1,2],[3,5],[4,8],[6,7],[8,10],[12,16]
+                [1,2] [3,                  10] [12,16]
+
 ```
 Runtime: 3 ms, Beats 31.95%
 Memory: 22.13 MB, Beats 10.94%

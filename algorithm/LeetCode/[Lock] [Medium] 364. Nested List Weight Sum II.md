@@ -96,9 +96,31 @@ class Solution:
 ```
 
 **Solution 2: (BFS)**
+            pre  ans
+          a+b+c  ((a+a + b) + a+b) + c = 3*a + 2*b + c
+      pre   ans               ^^^
+      a+b   (a+a) + b         pre
+  pre ans      ^
+   a   a       pre
+3      a     b    c   <- 3*a + 2*b + c
+2      a     b        <- 2*a + b       
+1      a      
+depth
+ans   3*a + 2*b + c
+ 
+
+    nestedList = [[ 1, 1], 2,[ 1, 1]]
+                   ------     -----
+                 --------------------
+ans                       +2            
+pre                       +2
+--------------------------------------
+ans         +2    +1 +1       +1 +1    8x
+pre               +1 +1       +1 +1
+
 ```
-Runtime: 4 ms
-Memory Usage: 9.3 MB
+Runtime: 0 ms, Beats 100.00%
+Memory: 12.78 MB, Beats 53.96%
 ```
 ```c++
 /**
@@ -134,32 +156,33 @@ class Solution {
 public:
     int depthSumInverse(vector<NestedInteger>& nestedList) {
         queue<NestedInteger> q;
-        int res = 0;
-        int update = 0;
-        for(auto& n : nestedList){
-            if(n.isInteger()) {
-                res += n.getInteger();
-                update += n.getInteger();
+        int sz, ans = 0, pre = 0;
+        for (auto &el : nestedList){
+            if (el.isInteger()) {
+                ans += el.getInteger();
+                pre += el.getInteger();
+            } else {
+                q.push(el);
             }
-            else q.push(n);
         }
-        while(!q.empty()){
-            res += update;
-            int l = q.size();
-            for(int k = 0; k < l; k++){
+        while (!q.empty()){
+            ans += pre;
+            sz = q.size();
+            while (sz--) {
                 NestedInteger cur = q.front();
                 q.pop();
                 vector<NestedInteger> nlist = cur.getList();
-                for(auto n: nlist){
-                    if(n.isInteger()) {
-                        res += n.getInteger();
-                        update += n.getInteger();
+                for (auto &el: nlist){
+                    if (el.isInteger()) {
+                        ans += el.getInteger();
+                        pre += el.getInteger();
+                    } else {
+                        q.push(el);
                     }
-                    else q.push(n);
                 }
             }
         }
-        return res;
+        return ans;
     }
 };
 ```

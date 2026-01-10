@@ -128,3 +128,51 @@ class Solution:
 
         return "".join(res)
 ```
+
+**Solution 3: (Mark Bold Characters)**
+
+    s = "a a a b b b", words = ["aa","b"]
+ bold    t t t t t t
+
+```
+Runtime: 0 ms, Beats 100.00%
+Memory: 13.75 MB, Beats 65.85%
+```
+```c++
+class Solution {
+public:
+    string addBoldTag(string s, vector<string>& words) {
+        int n = s.size();
+        vector<bool> bold(n);
+        
+        for (string word: words) {
+            int start = s.find(word);
+            while (start != -1) {
+                for (int i = start; i < start + word.size(); i++) {
+                    bold[i] = true;
+                }
+                
+                start = s.find(word, start + 1);
+            }
+        }
+        
+        string openTag = "<b>";
+        string closeTag = "</b>";
+        string ans = "";
+        
+        for (int i = 0; i < n; i++) {
+            if (bold[i] && (i == 0 || !bold[i - 1])) {
+                ans += openTag;
+            }
+            
+            ans += s[i];
+            
+            if (bold[i] && (i == n - 1 || !bold[i + 1])) {
+                ans += closeTag;
+            }
+        }
+        
+        return ans;
+    }
+};
+```

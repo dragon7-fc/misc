@@ -164,6 +164,29 @@ bool searchMatrix(int** matrix, int matrixSize, int* matrixColSize, int target){
 ```
 
 **Solution 5: (Binary Search)**
+
+    matrix = [[ 1, 3, 5, 7],
+                l
+              [10,11,16,20],
+                   m
+              [23,30,34,60]], target = 3
+                         r
+
+    matrix = [[ 1, 3, 5, 7],
+                l     m
+              [10,11,16,20],
+                r   
+              [23,30,34,60]], target = 3
+
+    matrix = [[ 1, 3, 5, 7],
+                lm r   
+              [10,11,16,20],
+              [23,30,34,60]], target = 3
+
+    matrix = [[ 1, 3, 5, 7],
+                   lrm   
+              [10,11,16,20],
+              [23,30,34,60]], target = 3
 ```
 Runtime: 0 ms, Beats 100.00%
 Memory: 13.26 MB, Beats 75.95%

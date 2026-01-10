@@ -108,6 +108,15 @@ class Solution:
 ```
 
 **Solution 2: (DP Bottom-Up)**
+
+0       [1],
+        [1, 1],
+        [1, 2, 1],
+        [1, 3, 3, 1],
+        [1, 4, 6, 4, 1]
+numRows  0              numRows
+
+
 ```
 Runtime: 0 ms, Beats 100.00%
 Memory: 9.68 MB, Beats 62.59%

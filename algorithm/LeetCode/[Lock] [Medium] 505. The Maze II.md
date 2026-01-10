@@ -122,16 +122,30 @@ public:
 ```
 
 **Solution 3: (Dijkstra)**
+
+    maze = [[0,  0,  1,  0,  0],
+pq           6   7   x   1   0
+                             S
+            [0,  0,  0,  0,  0],
+             5   8   9   2   3
+            [0,  0,  0,  1,  0],
+             6   9   8   x   2
+            [1,  1,  0,  1,  1],
+                         x   x
+            [0,  0,  0,  0,  0]], start = [0,4], destination = [4,4]
+                    10      12
+                             D
+
 ```
-Runtime: 32 ms
-Memory: 20.2 MB
+Runtime: 0 ms, Beats 100.00%
+Memory: 25.13 MB, Beats 39.23%
 ```
 ```c++
 class Solution {
     int dd[5] = {0, 1, 0, -1, 0};
 public:
     int shortestDistance(vector<vector<int>>& maze, vector<int>& start, vector<int>& destination) {
-        int m = maze.size(), n = maze[0].size(), nr, nc, nw;
+        int m = maze.size(), n = maze[0].size(), nr, nc, nw, d;
         priority_queue<tuple<int, int, int>, vector<tuple<int, int, int>>, greater<tuple<int, int, int>>> pq;
         pq.push({0, start[0], start[1]});
         vector<vector<int>> dist(m, vector<int>(n, INT_MAX));
@@ -142,13 +156,13 @@ public:
             if (r == destination[0] && c == destination[1]) {
                 return w;
             }
-            for (int i = 0; i < 4; i ++) {
+            for (d = 0; d < 4; d ++) {
                 nr = r;
                 nc = c;
                 nw = 0;
-                while (0 <= nr+dd[i] && nr+dd[i] < m && 0 <= nc+dd[i+1] && nc+dd[i+1] < n && maze[nr+dd[i]][nc+dd[i+1]] == 0) {
-                    nr += dd[i];
-                    nc += dd[i+1];
+                while (0 <= nr + dd[d] && nr + dd[d] < m && 0 <= nc + dd[d + 1] && nc + dd[d + 1] < n && maze[nr + dd[d]][nc + dd[d + 1]] == 0) {
+                    nr += dd[d];
+                    nc += dd[d + 1];
                     nw += 1;
                 }
                 if (dist[r][c] + nw < dist[nr][nc]) {

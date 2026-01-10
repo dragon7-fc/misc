@@ -37,6 +37,21 @@ Explanation:
 # Submissions
 ---
 **Solution 1: (Greedy, Math)**
+
+Consider the sidelegth * sidelegth square submatrix in the upper left. If we select the (i,j) position to be one, where i <sidelegth && j < sidelegth, all the other cells in the big matrix with position (p,q) where p%sidelegth == i % sidelegth && q%sidelegth == j%sidelength can be set to one without increasing the number of ones in the upper left submatrix. The point (p,q) shares similar position with (i,j) respect to sidelegth.
+
+Thus, to get most ones out of the big matrix, for each (i,j) in the sub matrix, we calculate the number of points that share similar position with (i,j) respect to sidelegth. Then, we select the maxOnes points with largest number of points at similar position; the answer is the sum of the number of points. 
+
+    width = 3, height = 3, sideLength = 2, maxOnes = 2
+
+    [1, 0, 1]
+    [1, 0, 1]
+    [1, 0, 1]
+
+res  4 2 2 1
+         ^maxOnes
+
+
 ```
 Runtime: 5 ms
 Memory: 7.7 MB

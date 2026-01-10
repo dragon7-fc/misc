@@ -191,3 +191,42 @@ public:
     }
 };
 ```
+
+**Solution 3: (Sliding Window)**
+
+         0 1 2 3 4
+    s = "e c e b a"
+                   j
+             i
+cnt
+a                1
+b              1
+c             
+e            1  
+
+ans      1 2 3
+
+```
+Runtime: 120 ms, Beats 70.41%
+Memory: 34.97 MB, Beats 73.47%
+```
+```c++
+class Solution {
+public:
+    int lengthOfLongestSubstringTwoDistinct(string s) {
+        int n = s.size(), i = 0, j;
+        unordered_map<char,int> cnt;
+        for (j = 0; j < n; j ++) {
+            cnt[s[j]] += 1;
+            if (cnt.size() > 2) {
+                cnt[s[i]] -= 1;
+                if (cnt[s[i]] == 0) {
+                    cnt.erase(s[i]);
+                }
+                i += 1;
+            }
+        }
+        return j - i;
+    }
+};
+```

@@ -95,3 +95,41 @@ class Solution:
             
         return graph
 ```
+
+**SOlution 1: (DP Top-Down, cycle detection)**
+```
+Runtime: 8 ms, Beats 83.85%
+Memory: 36.24 MB, Beats 70.00%
+```
+```c++
+class Solution {
+    int dfs(int u, int t, vector<int> &dp, vector<vector<int>> &g) {
+        if (g[u].size() == 0) {
+            if (u == t) {
+                return 2;
+            }
+            return 1;
+        }
+        if (dp[u]) {
+            return dp[u];
+        }
+        dp[u] = 1;
+        for (auto &v: g[u]) {
+            if (dfs(v, t, dp, g) == 1) {
+                return 1;
+            }
+        }
+        dp[u] = 2;
+        return 2;
+    }
+public:
+    bool leadsToDestination(int n, vector<vector<int>>& edges, int source, int destination) {
+        vector<vector<int>> g(n);
+        for (auto &e: edges) {
+            g[e[0]].push_back(e[1]);
+        }
+        vector<int> dp(n);
+        return dfs(source, destination, dp, g) == 2;
+    }
+};
+```

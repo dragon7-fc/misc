@@ -240,3 +240,61 @@ public:
     }
 };
 ```
+
+**Solution 4: (DFS, post order)**
+
+              v
+             (2,3) 3 <0
+                /         \
+            5 (2,3)         1
+        /      \          /        \
+      6 <2      2 (2,3)  0          8
+              /   \
+             7     4 <3
+           (7,3)  (4,3)
+
+              v
+             (2,2) 0 <0
+                /     \
+        (2,2) 1          3
+                \
+                 2 <2
+                (2,2)
+```
+Runtime: 0 ms, Beats 100.00%
+Memory: 16.06 MB, Beats 95.87%
+```
+```c++
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+class Solution {
+    pair<TreeNode*, int> dfs(TreeNode *node, int d) {
+        if (!node) {
+            return {nullptr, d - 1};
+        }
+        auto &&[node_left, d_left] = dfs(node->left, d + 1);
+        auto &&[node_right, d_right] = dfs(node->right, d + 1);
+        if (d_left == d_right) {
+            return {node, d_left};
+        } else if (d_left > d_right) {
+            return {node_left, d_left};
+        } else {
+            return {node_right, d_right};
+        }
+
+    }
+public:
+    TreeNode* subtreeWithAllDeepest(TreeNode* root) {
+        return dfs(root, 0).first;
+    }
+};
+```

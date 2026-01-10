@@ -101,6 +101,17 @@ class Solution:
 ```
 
 **Solution4 4: (DP Bottom-Up)**
+
+    amount = 5, coins = [1,2,5]
+
+      i
+   dp 0 1 2 3 4 5 amount
+   0  1
+1 j1  1 1 1 1 1 1 
+2  2  1 1 2 2 3 3 
+5  3  1 1 2 2 3 4 ans
+coin
+
 ```
 Runtime: 43 ms
 Memory: 18.6 MB
@@ -122,31 +133,6 @@ public:
             }
         }
         return dp[coins.size()][amount];
-    }
-};
-```
-
-**Solution 5: (DP Bottom-Up 1D)**
-```
-Runtime: 7 ms
-Memory: 7.2 MB
-```
-```c++
-class Solution {
-public:
-    int numRollsToTarget(int n, int k, int target) {
-        int MOD = 1e9 + 7;
-        int dp[n+1][target+1];
-        memset(dp, 0, sizeof(dp));
-        dp[0][0] = 1;
-        for (int i = 1; i <= n; i++) {
-            for (int j = 1; j <= min(i*k, target); j++) {
-                for (int f = 1; f <= min(k, j); f++) {
-                    dp[i][j] = (dp[i][j] + dp[i-1][j-f]) % MOD;
-                }
-            }
-        }
-        return dp[n][target];
     }
 };
 ```

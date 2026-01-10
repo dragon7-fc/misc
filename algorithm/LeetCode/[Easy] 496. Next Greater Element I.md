@@ -93,8 +93,13 @@ int* nextGreaterElement(int* nums1, int nums1Size, int* nums2, int nums2Size, in
     nums2 = [1,3,4,2]
     stk            
                  4
-               43
-            431
+               34
+            134
+    dp
+    4 -1
+    3  4
+    2 -1
+    1  3
 
 ```
 Runtime: 0 ms, Beats 100.00%

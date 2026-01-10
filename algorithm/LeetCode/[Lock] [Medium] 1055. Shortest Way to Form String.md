@@ -254,3 +254,92 @@ public:
     }
 };
 ```
+
+**Solution 3: (Greedy, Hash Table, Binary Search)**
+
+    source = "x y z",
+    target = "x z y x z"
+j       0     1 3 2 1 3
+mp
+x: 0          
+y: 1
+z: 2
+ans     1         2 3
+
+```
+Runtime: 0 ms, Beats 100.00%
+Memory: 9.24 MB, Beats 36.56%
+```
+```c++
+class Solution {
+public:
+    int shortestWay(string source, string target) {
+        int n = source.size(), i, j, ans;
+        vector<vector<int>> mp(26);
+        for (i = 0; i < n; i ++) {
+            mp[source[i] - 'a'].push_back(i);
+        }
+        j = 0;
+        ans = 1;
+        for (auto &c: target) {
+            if (mp[c - 'a'].size() == 0) {
+                return -1;
+            }
+            auto it = lower_bound(begin(mp[c - 'a']), end(mp[c - 'a']), j);
+            if (it == end(mp[c - 'a'])) {
+                ans += 1;
+                j = mp[c - 'a'][0] + 1;
+            } else {
+                j = *it + 1;
+            }
+        }
+        return ans;
+    }
+};
+```
+
+**Solution 4: (Greedy, Hash Table, Prefix Sum)**
+
+    source = "  x   y   z", target = "x z y x z"
+dp              0   1   2
+x               0      -1
+y                   1  -1
+z                       2
+
+j                                  0  1 3 2 1 3
+ans                                1      2 3
+```
+Runtime: 0 ms, Beats 100.00%
+Memory: 8.94 MB, Beats 76.34%
+```
+```c++
+class Solution {
+public:
+    int shortestWay(string source, string target) {
+        int n = source.length(), i, j, dp[n][26], ans;
+        for (j = 0; j < 26; j++) {
+            dp[n - 1][j] = -1;
+        }
+        dp[n - 1][source[n - 1] - 'a'] = n - 1;
+        for (i = n - 2; i >= 0; i--) {
+            for (j = 0; j < 26; j++) {
+                dp[i][j] = dp[i + 1][j];
+            }
+            dp[i][source[i] - 'a'] = i;
+        }
+        j = 0;
+        ans = 1;
+        for (auto &c: target) {
+            if (dp[0][c - 'a'] == -1) {
+                return -1;
+            }
+            if (j == n || dp[j][c - 'a'] == -1) {
+                ans += 1;
+                j = 0;
+            }
+            j = dp[j][c - 'a'] + 1;
+        }
+        return ans;
+    }
+};
+````

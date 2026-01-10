@@ -141,3 +141,64 @@ class Solution:
         
         return dfs(nestedList, 1)
 ```
+
+**Solution 2: (DFS)**
+
+    nestedList = [[1, 1], 2,[ 1, 1]]
+        d        1 2      1   2  
+       rst        +2 +2  +2   2 +2
+       ans            4   6     10
+
+
+```
+Runtime: 0 ms, Beats 100.00%
+Memory: 11.77 MB, Beats 80.61%
+```
+```c++
+/**
+ * // This is the interface that allows for creating nested lists.
+ * // You should not implement it, or speculate about its implementation
+ * class NestedInteger {
+ *   public:
+ *     // Constructor initializes an empty nested list.
+ *     NestedInteger();
+ *
+ *     // Constructor initializes a single integer.
+ *     NestedInteger(int value);
+ *
+ *     // Return true if this NestedInteger holds a single integer, rather than a nested list.
+ *     bool isInteger() const;
+ *
+ *     // Return the single integer that this NestedInteger holds, if it holds a single integer
+ *     // The result is undefined if this NestedInteger holds a nested list
+ *     int getInteger() const;
+ *
+ *     // Set this NestedInteger to hold a single integer.
+ *     void setInteger(int value);
+ *
+ *     // Set this NestedInteger to hold a nested list and adds a nested integer to it.
+ *     void add(const NestedInteger &ni);
+ *
+ *     // Return the nested list that this NestedInteger holds, if it holds a nested list
+ *     // The result is undefined if this NestedInteger holds a single integer
+ *     const vector<NestedInteger> &getList() const;
+ * };
+ */
+class Solution {
+    int dfs(int d, vector<NestedInteger> &nestedList) {
+        int rst = 0;
+        for (auto &el: nestedList) {
+            if (el.isInteger()) {
+                rst += d * el.getInteger();
+            } else {
+                rst += dfs(d + 1, el.getList());
+            }
+        }
+        return rst;
+    }
+public:
+    int depthSum(vector<NestedInteger>& nestedList) {
+        return dfs(1, nestedList);
+    }
+};
+```

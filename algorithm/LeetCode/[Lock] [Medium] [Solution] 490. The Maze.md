@@ -254,28 +254,37 @@ class Solution:
 ```
 
 **Solution 3: (DFS)**
+
+    maze = [[  0,  0,  1,  0,S>0],
+visited        x   x       x   x
+            [  0,  0,  0,  0,  0],
+               x           x    
+            [  0,  0,  0,  1,  0],
+                   x   x        
+            [  1,  1,  0,  1,  1],
+            [  0,  0,  0,  0,D>0]], start = [0,4], destination = [4,4]
+                       x       x <true
 ```
 Runtime: 20 ms
 Memory: 19.7 MB
 ```
 ```c++
-int d[5] = {0, 1, 0, -1, 0};
+int dd[5] = {0, 1, 0, -1, 0};
 class Solution {
     bool dfs(int r, int c, int dr, int dc, vector<vector<int>> &maze, vector<vector<bool>> &visited) {
         if (r == dr && c == dc) {
             return true;
         }
         visited[r][c] = true;
-        int nr, nc;
-        for (int i = 0; i < 4; i ++) {
-            nr = r + d[i], nc = c + d[i+1];
-            while (nr >= 0 && nr < maze.size() && nc >= 0 && nc < maze[0].size() && maze[nr][nc] == 0) {
-                nr += d[i];
-                nc += d[i+1];
+        int nr, nc, d;
+        for (d = 0; d < 4; d ++) {
+            nr = r;
+            nc = c;
+            while (0 <= nr + dd[d] && nr + dd[d] < maze.size() && 0 <= nc + dd[d + 1] && nc + dd[d + 1] < maze[0].size() && maze[nr + dd[d]][nc + dd[d + 1]] == 0) {
+                nr += dd[d];
+                nc += dd[d + 1];
             }
-            nr -= d[i];
-            nc -= d[i+1];
-            if (!visited[nr][nc] && dfs(nr, nc ,dr, dc, maze, visited)) {
+            if (!visited[nr][nc] && dfs(nr, nc, dr, dc, maze, visited)) {
                 return true;
             }
         }

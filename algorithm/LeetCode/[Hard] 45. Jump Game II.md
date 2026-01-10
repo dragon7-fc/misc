@@ -124,6 +124,23 @@ public:
 ```
 
 **Solution 5: (Greedy)**
+
+            0 1 2 3 4
+    nums = [2,3,1,1,4]
+       i    ^
+  curEnd        ^
+  curFar        ^
+     ans    1
+--------------------------
+       i      ^
+  curEnd        ^
+  curFar            ^
+---------------------------
+       i        ^
+  curEnd            ^
+  curFar            ^
+    ans         2
+
 ```
 Runtime: 16 ms
 Memory: 16.6 MB

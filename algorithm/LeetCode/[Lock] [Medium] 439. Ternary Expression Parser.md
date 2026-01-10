@@ -194,6 +194,114 @@ public:
         return std::string{rec(index)};
     }
 };
-Console
+```
 
+**Solution 6: (DFS, post order)**
+
+                  0 1 2 3 4 5 6 7 8
+    expression = "F ? 1 : T ? 4 : 5"
+                          ---------
+                  -----------------
+
+                F <0
+              /   \
+         2> 1       T <4
+         ("1",4)  /   \
+              6> 4      5 <8
+               ("4",8) ("5",10)
+                 ^
+
+                  0 1 2 3 4 5 6 7 8
+    expression = "T ? T ? F : 5 : 3"
+                      ---------
+                  -----------------
+
+                 T <0
+               /   \
+              T <2  3 <8
+            /  \   ("3",10)
+        4> F    5 <6
+       ("F",6) ("5",8)
+         ^
+```
+Runtime: 3 ms, Beats 36.07%
+Memory: 10.30 MB, Beats 11.48%
+```
+```c++
+class Solution {
+    pair<string, int> dfs(int i, string &expression) {
+        if (i + 1 >= expression.size() || expression[i + 1] == ':') {
+            return {string(1, expression[i]), i + 2};
+        }
+        auto &&[left, k] = dfs(i + 2, expression);
+        auto &&[right, j] = dfs(k, expression);
+        if (expression[i] == 'T') {
+            return {left, j};
+        }
+        return {right, j};
+    }
+public:
+    string parseTernary(string expression) {
+        return dfs(0, expression).first;
+    }
+};
+```
+
+**Solution 7: (DFS, post order)**
+
+                  0 1 2 3 4 5 6 7 8
+    expression = "F ? 1 : T ? 4 : 5"
+                          ---------
+                  -----------------
+
+                F <0
+              /   \
+         2> 1       T <4
+           "1"     /   \
+              6> 4      5 <8
+                "4"     "5"    
+                 ^
+
+                  0 1 2 3 4 5 6 7 8
+    expression = "T ? T ? F : 5 : 3"
+                      ---------
+                  -----------------
+
+                 T <0
+               /   \
+              T <2  3 <8
+            /  \   "3"
+        4> F    5 <6
+          "F"  "5"
+           ^
+
+```
+Runtime: 0 ms, Beats 100.00%
+Memory: 9.06 MB, Beats 37.70%
+```
+```c++
+class Solution {
+    char dfs(int &i, string &expression) {
+        if (i == expression.size() - 1) {
+            return expression[i];
+        }
+        if (expression[i + 1] == '?') {
+            int j = i;
+            i += 2;
+            char expr1 = dfs(i, expression);
+            i += 1;
+            char expr2 = dfs(i, expression);
+            if (expression[j] == 'T') {
+                return expr1;
+            }
+            return expr2;
+        }
+        return expression[i++];
+    };
+public:
+    string parseTernary(string expression) {
+        int i = 0;
+        return string{dfs(i, expression)};
+    }
+};
 ```

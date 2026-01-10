@@ -125,3 +125,95 @@ class Solution:
 
         return ansguess
 ```
+
+**Solution 2: (Mastermind Strategy)**
+
+This is one of the most interesting Google HARD problems — a pure Mastermind-style deduction puzzle.
+I solved it in C++ with a clean elimination strategy that consistently Beats 100%.
+
+The key idea is simple:
+Use the feedback from each guess to eliminate all invalid words and shrink the search space fast.
+
+Short, intuitive, and highly effective. Here's the approach 👇
+
+__Approach:__
+We treat the problem like Mastermind.
+For every guessed word, the Master returns how many characters match in the same position.
+We use this feedback to eliminate all words that don't have the same match count.
+
+Steps:
+Pick any word from the candidate list.
+Call master.guess() on it.
+Filter out words that don't match the returned similarity.
+Repeat until only one valid word remains.
+Why this works:
+Each guess dramatically shrinks the search space.
+The elimination is deterministic, simple, and extremely efficient.
+That's why this strategy beats 100%.
+
+__COMPLEXITY__
+Time Complexity: O(N² * L)
+Space Complexity: O(N)
+
+
+secret = "acckzz", words = ["acckzz","ccbazz","eiowzz","abcczz"], allowedGuesses = 10
+
+                          case 1:                   |      case 2:
+                          guessWord == secret       |      guessWord != secret
+                    guessWord                       | guessWord  
+----------------------------------------------------|----------------------------------
+                               match      match     |            match     match
+                               secret     guessWord |            secret    guessWord
+secret =  "acckzz"                                  |
+words  = ["acckzz",     x        6          6       |                          3
+          "ccbazz",                         3       |     x        3           6
+          "eiowzz",                         2       |                          2
+          "abcczz"]                         4       |                          2
+
+```
+Runtime: 4 ms, Beats 48.60%
+Memory: 8.74 MB, Beats 98.73%
+```
+```c++
+/**
+ * // This is the Master's API interface.
+ * // You should not implement it, or speculate about its implementation
+ * class Master {
+ *   public:
+ *     int guess(string word);
+ * };
+ */
+class Solution {
+    // Count matching characters at the same positions
+    int matchCount(const string &a, const string &b) {
+        int cnt = 0;
+        for (int i = 0; i < a.size(); i++) {
+            if (a[i] == b[i]) cnt++;
+        }
+        return cnt;
+    }
+public:
+    void findSecretWord(vector<string>& words, Master& master) {
+        unordered_set<string> candidates(words.begin(), words.end());
+
+        while (!candidates.empty()) {
+            // Pick an arbitrary word from the set
+            string guessWord = *candidates.begin();
+
+            // Make a guess using Master's API
+            int matched = master.guess(guessWord);
+
+            // Filter words that have the same match count
+            for (auto it = candidates.begin(); it != candidates.end();) {
+                if (matchCount(*it, guessWord) != matched)
+                    it = candidates.erase(it);
+                else
+                    ++it;
+            }
+
+            // Remove the used word
+            candidates.erase(guessWord);
+        }
+    }
+};
+```

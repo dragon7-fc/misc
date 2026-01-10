@@ -33,10 +33,26 @@ Explanation: The same letters are at least a distance of 2 from each other.
 
 # Submissions
 ---
-**Solution 1: (Heap, greedy queue element in buffer)**
+**Solution 1: (Heap, greedy queue element in sized k buffer)**
+
+    s = "a a b b c c", k = 3
+pq
+    2,a 2,b 2,c 
+     x   x   x  1,a
+                 x  1,b
+                     x  1,c
+                         x
+q
+    1,a 1,b 1,c
+     x   x   x  0,a
+                    0,b
+                        0,c
+
+ans 
+     a   b   c   a   b   c
 ```
-Runtime: 10 ms
-Memory: 10.7 MB
+Runtime: 3 ms, Beats 97.30%
+Memory: 13.92 MB, Beats 40.54%
 ```
 ```c++
 class Solution {
@@ -58,7 +74,7 @@ public:
             auto [f, c] = pq.top();
             pq.pop();
             ans += 'a' + c;
-            q.push({f-1, c});
+            q.push({f - 1, c});
             if (q.size() >= k) {
                 auto [nf, nc] = q.front();
                 q.pop();

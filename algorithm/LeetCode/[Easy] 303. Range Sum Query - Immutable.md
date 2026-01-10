@@ -143,6 +143,14 @@ class NumArray:
 ```
 
 **Solution 2: (Prefix Sum)**
+
+      0  1  2   3  4   5   6
+    [-2, 0, 3, -5, 2, -1]
+pre   0 -2 -2   1 -4  -2  -3
+      l         r+1
+            l             r+1
+      l                   r+1
+
 ```
 Runtime: 0 ms, Beats 100.00%
 Memory: 23.91 MB, Beats 60.92%

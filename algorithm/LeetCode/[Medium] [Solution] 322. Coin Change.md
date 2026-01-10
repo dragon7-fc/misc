@@ -315,6 +315,13 @@ class Solution:
 ```
 
 **Solution 7: (DP Bottom-Up)**
+
+    coins = [1,2,5], amount = 11
+
+a    1 2 3 4 5 6 7 8 9 10 11
+dp 1 1 1 2 2 1 2 2 3 3  2  3
+
+
 ```
 Runtime: 23 ms, Beats 73.64%
 Memory: 18.01 MB, Beats 66.49%

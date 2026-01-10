@@ -111,6 +111,14 @@ class Solution:
 ```
 
 **Solution 5: (DP Bottom-Up)**
+
+            0  1  2  3  4
+    nums = [2, 7, 9, 3, 1]
+            -     -     -
+       a    2     7 11 11
+       b       7 11 11 12
+       c         11 11 12
+
 ```
 Runtime: 0 ms, Beats 100.00%
 Memory: 10.13 MB, Beats 80.12%

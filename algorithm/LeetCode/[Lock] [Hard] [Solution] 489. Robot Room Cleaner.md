@@ -291,3 +291,83 @@ public:
     }
 };
 ```
+
+**Solution 3: (Backtracking)**
+
+         3
+         ^
+     2 < d > 0
+         v
+         1
+
+              0  1  2  3  4  5  6  7
+    room = [[ 1, 1, 1, 1, 1, 0, 1, 1],  0
+             27 26 25 24 23  x 21  20
+            [ 1, 1, 1, 1, 1, 0, 1, 1],  1
+             28  S  1  2  3  x 22  19
+            [ 1, 0, 1, 1, 1, 1, 1, 1],  2
+             29  x  6  5  4 16  17 18
+            [ 0, 0, 0, 1, 0, 0, 0, 0],  3
+              x  x  x  7  x  x  x  x
+            [ 1, 1, 1, 1, 1, 1, 1, 1]], row = 1, col = 3
+             11 10  9  8  12 13 14 15
+```
+Runtime: 7 ms, Beats 81.26%
+Memory: 11.48 MB, Beats 92.51%
+```
+```C++
+/**
+ * // This is the robot's control interface.
+ * // You should not implement it, or speculate about its implementation
+ * class Robot {
+ *   public:
+ *     // Returns true if the cell in front is open and robot moves into the cell.
+ *     // Returns false if the cell in front is blocked and robot stays in the current cell.
+ *     bool move();
+ *
+ *     // Robot will stay in the same cell after calling turnLeft/turnRight.
+ *     // Each turn will be 90 degrees.
+ *     void turnLeft();
+ *     void turnRight();
+ *
+ *     // Clean the current cell.
+ *     void clean();
+ * };
+ */
+
+class Solution {
+    int dd[5] = {0, 1, 0, -1, 0};
+    set<pair<int, int>> st;
+    //
+    //     ^
+    //   robot  ->    ^
+    //              robot
+    void goBack(Robot& robot) {
+        robot.turnRight();
+        robot.turnRight();
+        robot.move();
+        robot.turnRight();
+        robot.turnRight();
+    }
+
+    void bt(int r, int c, int d, Robot &robot) {
+        st.insert({r, c});
+        robot.clean();
+        int i, nr, nc, nd;
+        for (i = 0; i < 4; i++) {
+            nd = (d + i) % 4;
+            nr = r + dd[nd];
+            nc = c + dd[nd + 1];       
+            if (!st.count({nr, nc}) && robot.move()) {
+                bt(nr, nc, nd, robot);
+                goBack(robot);
+            }
+            robot.turnRight();
+        }
+    }
+public:
+    void cleanRoom(Robot& robot) {
+        bt(0, 0, 0, robot);
+    }
+};
+```

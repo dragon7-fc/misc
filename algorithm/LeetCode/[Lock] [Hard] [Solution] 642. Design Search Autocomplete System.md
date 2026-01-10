@@ -536,22 +536,45 @@ trie
     >{2, "i love leetcode"}
           ^    
 
+root -> 'i'             
+cur    "i love you"    
+       "island"
+       "ironman"
+       "i love leetcode"
+            -> ' '
+               "i love you"    
+               "i love leetcode"
+                    -> ... -> 'y' -> ... -> 'u'
+                              "i love you"    
+                    -> ... -> 'l' -> ...          -> 'e'
+                              "i love leetcode"
+            -> 's'
+               "island"
+            -> 'r'
+               "ironman"
+
+cnt
+"i love you"     : 1 
+"island"         : 1
+"ironman"        : 1
+"i love leetcode": 1
+
 ```
-Runtime: 284 ms, Beats 20.59%
-Memory: 298.78 MB, Beats 44.12%
+Runtime: 301 ms, Beats 22.89%
+Memory: 298.50 MB, Beats 38.56%
 ```
 ```c++
 class AutocompleteSystem {
     struct TrieNode {
-        unordered_map<char,TrieNode*> child;
+        unordered_map<char, TrieNode*> child;
         unordered_set<string> st;
     };
     TrieNode *root, *cur, *dead = new TrieNode;
     unordered_map<string,int> cnt;
     string cs;
-    void build(string s) {
+    void build(string &s) {
         TrieNode *node = root;
-        for (auto c: s) {
+        for (auto &c: s) {
             if (!node->child.count(c)) {
                 node->child[c] = new TrieNode();
             }
@@ -609,10 +632,4 @@ public:
         return rst;
     }
 };
-
-/**
- * Your AutocompleteSystem object will be instantiated and called as such:
- * AutocompleteSystem* obj = new AutocompleteSystem(sentences, times);
- * vector<string> param_1 = obj->input(c);
- */
 ```

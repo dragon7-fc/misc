@@ -149,3 +149,32 @@ class Solution:
 
         return min(previous_row)
 ```
+
+**Solution 6: (DP Bottom-Up 1D)**
+
+     0     1     2
+R   17    16    14
+B    2<   16     3<
+G   17     5<   19
+
+```
+Runtime: 0 ms, Beats 100.00%
+Memory: 13.24 MB, Beats 67.88%
+```
+```c++
+class Solution {
+public:
+    int minCost(vector<vector<int>>& costs) {
+        int n = costs.size(), i;
+        vector<int> pre, dp(3);
+        pre = costs[0];
+        for (i = 1; i < n; i ++) {
+            dp[0] = costs[i][0] + min(pre[1], pre[2]);
+            dp[1] = costs[i][1] + min(pre[0], pre[2]);
+            dp[2] = costs[i][2] + min(pre[0], pre[1]);
+            swap(pre, dp);
+        }
+        return *min_element(begin(pre), end(pre));
+    }
+};
+```

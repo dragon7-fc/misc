@@ -170,54 +170,52 @@ class Solution:
         return len(shapes)
 ```
 
-**Solution 3: (DFS)**
+**Solution 3: (DFS, set, dfs path as string)**
+
+     grid = [[1,1,0,0,0],
+             [1,1,0,0,0],
+             [0,0,0,1,1],
+             [0,0,0,1,1]]
+    st      "s11010010000e0e00e000e"
+
 ```
-Runtime: 64 ms
-Memory Usage: 32.5 MB
+Runtime: 8 ms, Beats 82.32%
+Memory: 32.58 MB, Beats 89.71%
 ```
 ```c++
 class Solution {
-public:
-    void dfs(vector<vector<int>>& grid, int r,int c,string &s)
-    {
-        if(r<0 || r>=grid.size() || c<0 || c>= grid[0].size() || grid[r][c]==0)
-        {
-            s+="0";
+    int dd[5] = {0, 1, 0, -1, 0};
+    void dfs(int r, int c, string &s, vector<vector<int>> &grid) {
+        if (r < 0 || r >= grid.size() || c < 0 || c >= grid[0].size() || grid[r][c] == 0) {
+            s += "0";
             return;
         }
-        s+="1";
-        grid[r][c]=0;
-        
-        
-        dfs(grid,r+1,c,s);
-        dfs(grid,r-1,c,s);
-        dfs(grid,r,c+1,s);
-        dfs(grid,r,c-1,s);
-        
-        s+="e";
-        
-        
+        s += "1";
+        grid[r][c] = 0;
+        int d, nr, nc;
+        for (d = 0; d < 4; d ++) {
+            nr = r + dd[d];
+            nc = c + dd[d + 1];
+            dfs(nr, nc, s, grid);
+        }
+        s += "e";
     }
+public:
     int numDistinctIslands(vector<vector<int>>& grid) {
-        int rows = grid.size();
-        int columns = grid[0].size();
-        
-        unordered_set<string> uset;
-        
-        for(int i=0;i<rows;i++)
-            for(int j=0;j<columns;j++)
-            {
-                if(grid[i][j]==1)
-                {
-                    string s = "s";
-                    
-                    dfs(grid,i,j,s);
-                    
-                    uset.insert(s);
+        int m = grid.size(), n = grid[0].size(), i, j;
+        unordered_set<string> st;
+        string s;
+        for (i = 0; i < m; i++) {
+            for (j = 0; j < n; j++) {
+                if (grid[i][j] == 1) {
+                    s = "s";
+                    dfs(i, j, s, grid);
+                    st.insert(s);
                 }
             }
+        }
         
-        return uset.size();
+        return st.size();
     }
 };
 ```

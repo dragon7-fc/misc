@@ -34,6 +34,13 @@ Output: -1
 # Submissions
 ---
 **Solution 1: (Set, sorted set)**
+
+              0  1  2
+    bulbs = [ 1, 3, 2], k = 1
+                    i
+st            1     3
+                    ^it
+
 ```
 Runtime: 40 ms, Beats 62.22%
 Memory: 94.48 MB, Beats 36.67%
@@ -57,24 +64,39 @@ public:
 ```
 
 **Solution 2: (Sliding Window)**
+
+              0  1  2
+    bulbs = [ 1, 3, 2], k = 1
+                    ^ \
+                       day
+days          1  3  2 <- index
+                    i
+              l -k- r
+ans                 2
+
 ```
-Runtime: 4 ms, Beats 94.44%
-Memory: 88.34 MB, Beats 70.00%
+Runtime: 8 ms, Beats 73.97%
+Memory: 88.30 MB Beats, 69.86%
 ```
 ```c++
 class Solution {
 public:
     int kEmptySlots(vector<int>& bulbs, int k) {
-        vector<int> days(bulbs.size());
-        for(int i=0; i<bulbs.size();i++)days[bulbs[i] - 1] = i + 1;
-        int left = 0, right = k + 1, res = INT_MAX;
-        for(int i = 0; right < days.size(); i++){
-            if(days[i] < days[left] || days[i] <= days[right]){   
-                if(i == right)res = min(res, max(days[left], days[right]));    //we get a valid subarray
+        int n = bulbs.size(), i, left, right, ans;
+        vector<int> days(n);
+        for (i = 0; i < n; i++) {
+            days[bulbs[i] - 1] = i + 1;
+        }
+        left = 0, right = k + 1, ans = INT_MAX;
+        for (i = 0; right < n; i++) {
+            if (days[i] < days[left] || days[i] <= days[right]) {   
+                if (i == right) {
+                    ans = min(ans, max(days[left], days[right]));
+                }
                 left = i, right = k + 1 + i;
             }
         }
-        return (res == INT_MAX)?-1:res;
+        return (ans == INT_MAX) ? -1 : ans;
     }
 };
 ```

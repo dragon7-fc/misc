@@ -55,21 +55,31 @@ Output: "dldr"
 # Submissions
 ---
 **Solution 1: (Dijkstra)**
+
+    maze = [[    0,H   0,    0,    0,    0],
+                    6,ul         4,u
+                   6,lul< 5,lu
+            [    1,    1,    0,    0,    1],
+                                         x
+            [    0,    0,    0,    0,    0],
+            [    0,    1,    0,    0,    1],
+            [    0,    1,    0,B   0,    0]], ball = [4,3], hole = [0,1]
+                       x   1,l  0      1,r 
+
 ```
-Runtime: 10 ms
-Memory: 11.5 MB
+Runtime: 2 ms, Beats 79.35%
+Memory: 15.73 MB, Beats 95.65%
 ```
 ```c++
 class Solution {
-    int dr[4] = {0, 1,  0, -1};
-    int dc[4] = {1, 0, -1,  0};
+    int dd[5] = {0, 1, 0, -1, 0};
     string ds = "rdlu";
 public:
     string findShortestWay(vector<vector<int>>& maze, vector<int>& ball, vector<int>& hole) {
         int m = maze.size(), n = maze[0].size();
-        priority_queue<tuple<int,string,int,int>, vector<tuple<int,string,int,int>>, greater<tuple<int,string,int,int>>> pq;
+        priority_queue<tuple<int, string, int, int>, vector<tuple<int, string, int, int>>, greater<tuple<int, string,int,int>>> pq;
         vector<vector<int>> dist(m, vector<int>(n, INT_MAX));
-        int nr, nc, dw;
+        int d, nr, nc, dw;
         pq.push({0, "", ball[0], ball[1]});
         dist[ball[0]][ball[1]] = 0;
         while (pq.size()) {
@@ -78,20 +88,20 @@ public:
             if (r == hole[0] && c == hole[1]) {
                 return p;
             }
-            for (int i = 0; i < 4; i ++) {
+            for (d = 0; d < 4; d ++) {
                 dw = 0;
                 nr = r;
                 nc = c;
-                while (0 <= nr+dr[i] && nr+dr[i] < m && 0 <= nc+dc[i] && nc+dc[i] < n && maze[nr+dr[i]][nc+dc[i]] == 0) {
-                    nr += dr[i];
-                    nc += dc[i];
+                while (0 <= nr + dd[d] && nr + dd[d] < m && 0 <= nc + dd[d + 1] && nc + dd[d + 1] < n && maze[nr + dd[d]][nc + dd[d + 1]] == 0) {
+                    nr += dd[d];
+                    nc += dd[d + 1];
                     dw += 1;
                     if (nr == hole[0] && nc == hole[1]) {
                         break;
                     }
                 }
-                if ((nr != r || nc!= c) && dist[nr][nc] >= dist[r][c] + dw) {
-                    pq.push({dist[r][c]+dw, p+ds[i],nr, nc});
+                if ((nr != r || nc != c) && dist[nr][nc] >= dist[r][c] + dw) {
+                    pq.push({dist[r][c] + dw, p + ds[d], nr, nc});
                     dist[nr][nc] = dist[r][c] + dw;
                 }
             }

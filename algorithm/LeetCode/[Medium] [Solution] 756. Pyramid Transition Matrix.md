@@ -192,13 +192,13 @@ EE,"",1,1x    ED,"",1,1x       ...x
 
 
 ```
-Runtime: 126 ms, Beats 86.49%
-Memory: 16.15 MB, Beats 35.68%
+Runtime: 92 ms, Beats 82.35%
+Memory: 15.80 MB, Beats 60.81%
 ```
 ```c++
 class Solution {
     unordered_map<string, bool> dp;
-    bool dfs(string pre, string cur, int i, int level, unordered_map<string, vector<char>> &mp) {
+    bool dfs(string &pre, string &cur, int i, int level, unordered_map<string, vector<char>> &mp) {
         if (level == 0) {
             return true;
         }
@@ -206,7 +206,8 @@ class Solution {
             if (dp.count(cur)) {
                 return dp[cur];
             }
-            bool rst = dfs(cur, "", 1, level - 1, mp);
+            string ncur = "";
+            bool rst = dfs(cur, ncur, 1, level - 1, mp);
             return dp[cur] = rst;
         }
         string prefix = pre.substr(i - 1, 2);
@@ -225,7 +226,8 @@ public:
         for (auto &s : allowed) {
             mp[s.substr(0, 2)].push_back(s[2]);
         }
-        return dfs(bottom, "", 1, bottom.length() - 1, mp);
+        string cur = "";
+        return dfs(bottom, cur, 1, bottom.length() - 1, mp);
     }
 };
 ```

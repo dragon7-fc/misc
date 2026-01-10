@@ -55,9 +55,17 @@ class Solution:
 ```
 
 **Solution 2: (BFS, Level-order, Tree)**
+                   
+                q     a    level   ans
+        1       1     1     1
+     /     \
+    7       0   7 0   7 <   2       2  
+  /   \
+7     -8        7 -8  -1    3
+
 ```
-Runtime: 206 ms
-Memory: 107.2 MB
+Runtime: 0 ms, Beats 100.00%
+Memory: 109.38 MB, Beats 79.94%
 ```
 ```c++
 /**
@@ -75,14 +83,14 @@ class Solution {
 public:
     int maxLevelSum(TreeNode* root) {
         queue<TreeNode*> q;
-        int ans = 0, cur = 0, mx = INT_MIN, vals, sz;
+        int i, a = 0, mx = INT_MIN, k, cur = 0, ans = 0;
         q.push(root);
         while (!q.empty()) {
-            sz = q.size();
-            vals = 0;
+            k = q.size();
+            a = 0;
             cur += 1;
-            for (int i = 0; i < sz; i ++) {
-                vals += q.front()->val;
+            for (i = 0; i < k; i ++) {
+                a += q.front()->val;
                 if (q.front()->left) {
                     q.push(q.front()->left);
                 }
@@ -91,8 +99,8 @@ public:
                 }
                 q.pop();
             }
-            if (vals > mx) {
-                mx = vals;
+            if (a > mx) {
+                mx = a;
                 ans = cur;
             }
         }

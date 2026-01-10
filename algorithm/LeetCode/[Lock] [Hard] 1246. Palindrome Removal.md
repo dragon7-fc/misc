@@ -66,3 +66,43 @@ class Solution:
         
         return dp(0, len(arr) - 1)
 ```
+
+**Solution 3: (DP Bottom-Up)**
+
+    arr = [ 1, 3, 4, 1, 5]
+dp          0  1  2  3  4  5
+1 0         1             <
+3 1            1
+4 2               1
+1 3                  1
+5 4                     1
+  5
+
+```
+Runtime: 35 ms, Beats 100.00%
+Memory: 19.43 MB, Beats 15.38%
+```
+```c++
+class Solution {
+public:
+    int minimumMoves(vector<int>& arr) {
+        int N = arr.size();
+        vector<vector<int>> dp(N + 1, vector<int>(N + 1));
+        for (int len = 1; len <= N; len++) {
+            for (int i = 0, j = len - 1; j < N; i++, j++) {
+                if (len == 1)
+                    dp[i][j] = 1;
+                else {
+                    dp[i][j] = 1 + dp[i + 1][j];
+                    if (arr[i] == arr[i + 1])
+                        dp[i][j] = min(1 + dp[i + 2][j], dp[i][j]);
+                    for (int K = i + 2; K <= j; K++)
+                        if (arr[i] == arr[K])
+                            dp[i][j] = min(dp[i + 1][K - 1] + dp[K + 1][j], dp[i][j]);
+                }
+            }
+        }
+        return dp[0][N - 1];
+    }
+};
+```

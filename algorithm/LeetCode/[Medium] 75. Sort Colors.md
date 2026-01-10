@@ -92,12 +92,13 @@ void sortColors(int* nums, int numsSize){
 **Solution 3: (Two Pointers)**
 
     2, 0, 2, 1, 1, 0
+step 1: swap 0
     0  2
        0           2
+step 2: swap 1
           1  2
              1  2
-                      ^j
-                ^i
+    0  0  1  1  2  2
 
 ```
 Runtime: 0 ms, Beats 100.00%

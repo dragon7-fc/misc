@@ -145,3 +145,50 @@ class Solution:
             ans = max(ans, (total-v)*v)
         return ans%(10**9 + 7)
 ```
+
+**Solution 4: (DFS)**
+```
+Runtime: 3 ms, Beats 74.88%
+Memory: 78.82 MB, Beats 32.16%
+```
+```c++
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+class Solution {
+    void dfs(TreeNode *node, int &a) {
+        if (!node) {
+            return;
+        }
+        a += node->val;
+        dfs(node->left, a);
+        dfs(node->right, a);
+    }
+    int dfs2(TreeNode *node, int right, long long &ans) {
+        if (!node) {
+            return 0;
+        }
+        long long rst = node->val;
+        rst += dfs2(node->left, right, ans);
+        rst += dfs2(node->right, right, ans);
+        ans = max(ans, (rst * (right - rst)));
+        return rst;
+    }
+public:
+    int maxProduct(TreeNode* root) {
+        int right = 0, MOD = 1e9 + 7;
+        long long ans = 0;
+        dfs(root, right);
+        dfs2(root, right, ans);
+        return ans % MOD;
+    }
+};
+```
