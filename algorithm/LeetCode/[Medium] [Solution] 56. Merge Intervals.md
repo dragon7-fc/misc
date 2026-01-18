@@ -285,7 +285,7 @@ int** merge(int** intervals, int intervalsSize, int* intervalsColSize, int* retu
                                       ^
     ans          [1,3]
                  [1,      6] [8,10] [15,18]
-
+    pre       ^     ^     ^      ^       ^
 ```
 Runtime: 4 ms, Beats 69.65%
 Memory: 23.88 MB, Beats 58.94%

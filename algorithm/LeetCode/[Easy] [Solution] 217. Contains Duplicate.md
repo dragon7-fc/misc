@@ -166,6 +166,10 @@ class Solution:
 ```
 
 **Solution 2: (Hash Table)**
+
+    nums = [1,2,3,1]
+st          x x x
+
 ````
 Runtime: 51 ms, Beats 54.85%
 Memory: 93.01 MB, Beats 9.24%

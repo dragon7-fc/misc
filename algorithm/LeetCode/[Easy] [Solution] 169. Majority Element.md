@@ -346,6 +346,12 @@ public:
 ```
 
 **Solution 6: (Boyer-Moore Voting Algorithm)**
+
+    nums = [2,2,1,1,1,2,2]
+                        ^
+pre         2       1   2 < ans
+cnt         1 2 1 0 1 0 1
+
 ```
 Runtime: 0 ms, Beats 100.00%
 Memory: 28.03 MB, Beats 86.69%

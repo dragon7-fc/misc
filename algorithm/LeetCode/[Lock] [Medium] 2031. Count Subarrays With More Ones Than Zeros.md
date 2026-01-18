@@ -64,3 +64,75 @@ class Solution:
         
         return res % MOD
 ```
+
+**Solution 2: (BIT, DP)**
+
+
+                               v
+             0           i-1   i
+nums         0  1              1
+prefixSum 0 -1 +1         a  a+1
+bit                       ka
+ans                          +ka
+
+             0  1  2  3  4
+    nums = [ 0, 1, 1, 0, 1]
+prefix   0  -1  0  1  0  1
+bit
+0  0000
+1  0001
+2  0010
+3  0011
+4  0100
+5  0101      1                < -1
+6  0110  1   2  3     4       < 0
+7  0111            1          < 1
+8  1000  1   2  3  4  5
+9  1001
+10 1010
+ans            +1 +3 +1 +4
+
+```
+Runtime: 31 ms, Beats 84.21%
+Memory: 86.74 MB, Beats 86.84%
+```
+```c++
+class BIT {
+    int n;
+    vector<int> dp;
+public:
+    BIT(int n): n(n), dp(2 * n + 1) {}
+    void update(int i, int delta) {
+        i += n + 1;  // re-mapping
+        while (i < dp.size()) {
+            dp[i] += delta;
+            i += i & -i;
+        }
+    }
+    int query(int i) {
+        i += n + 1;  // re-mapping
+        int rst = 0;
+        while (i > 0) {
+            rst += dp[i];
+            i -= i & -i;
+        }
+        return rst;
+    }
+};
+
+class Solution {
+public:
+    int subarraysWithMoreOnesThanZeroes(vector<int>& nums) {
+        int n = nums.size(), prefix = 0, ans = 0, MOD = 1e9 + 7;
+        BIT bit(n);
+        bit.update(0, 1);
+        for (auto &num: nums) {
+            prefix += num == 0 ? -1 : 1;
+            ans += bit.query(prefix - 1);
+            ans %= MOD;
+            bit.update(prefix, 1);
+        }
+        return ans;
+    }
+};
+```

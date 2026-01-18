@@ -76,3 +76,101 @@ class Solution:
         splitEncoded = [self.encode(s[:i]) + self.encode(s[i:]) for i in range(1,len(s))]
         return min(splitEncoded + [encoded], key=len)
 ```
+
+**Solution 2: (DP Bottom-Up)**
+```
+Runtime: 87 ms, Beats 20.00%
+Memory: 29.30 MB, Beats 33.33%
+```
+```c++
+class Solution {
+    vector<vector<string>> dp;
+	string collapse(string& s, int i, int j) {
+	    string temp = s.substr(i, j - i + 1);
+		auto pos = (temp+temp).find(temp, 1);
+		if (pos >= temp.size()) {
+		    return temp;
+		}
+		return to_string(temp.size()/pos) + '['+ dp[i][i+pos-1]+']';
+	}
+public:
+    string encode(string s) {
+        int n = s.size();
+		dp = vector<vector<string>>(n, vector<string>(n, ""));
+		for (int step = 1; step <= n; step++) {
+			for (int i = 0; i + step - 1 < n; i++) {
+				int j = i + step - 1;
+				dp[i][j] = s.substr(i, step);
+				for (int k = i; k < j; k++) {
+					auto left = dp[i][k];
+					auto right = dp[k + 1][j];
+					if (left.size() + right.size() < dp[i][j].size()) {
+						dp[i][j] = left + right;
+					}
+				}
+				string replace = collapse(s, i, j);
+				if (replace.size() < dp[i][j].size()) {
+					dp[i][j] = replace;
+				}
+			}
+		}
+		return dp[0][n - 1];
+    }
+};
+```
+
+**Solution 3: (DP Top-Down)**
+
+    "aaaaaaaaaa"
+    -> a9[a]
+
+```
+Runtime: 59 ms, Beats 33.33%
+Memory: 26.20 MB, Beats 33.33%
+```
+```c++
+class Solution {
+    int numRepetition(string &s, string &t) {
+        int cnt = 0, i = 0;
+        while (i < s.length()) {
+            if (s.substr(i, t.length()) != t) {
+                break;
+            }
+            cnt += 1;
+            i += t.length();
+        }
+        return cnt;
+    }
+    string dfs(string s, unordered_map<string,string> &mp) {
+        if (s.length() < 5) {
+            return s;
+        }
+        if (mp.count(s)) {
+            return mp[s];
+        }
+        string res = s;
+        for (int i = 0; i < s.length(); i++) {
+            string s1 = s.substr(0, i+1);
+            int cnt = numRepetition(s, s1);
+            string t;
+            for (int k = 1; k <= cnt; k++) {
+                if (k == 1) {
+                    t = s1 + dfs(s.substr(i + 1), mp);
+                } else {
+                    t = to_string(k) + "[" + dfs(s1, mp) + "]" + dfs(s.substr(k * s1.length()), mp);
+                }
+                if (t.length() < res.length()) {
+                    res = t;
+                }            
+            }
+        }
+        mp[s] = res;
+        return res;        
+    }
+public:
+    string encode(string s) {
+        unordered_map<string,string> mp;
+        return dfs(s, mp);
+    }
+};
+```

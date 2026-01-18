@@ -35,6 +35,7 @@ The output consists of two word squares. The order of output does not matter (ju
 ---
 **Solution 1: (Backtracking with Trie, O(N * 26^L * L))**
 
+        0      1      2      3      4
     ["area","lead","wall","lady","ball"]
          ^    ^             ^       ^
          ^    ^      ^      ^
@@ -52,9 +53,27 @@ The output consists of two word squares. The order of output does not matter (ju
     "lead",
     "lady"
 
+
+       'a'        'r'         'e'        'a'
+root   ->    0    ->     0    ->    0    ->    0
+       'b'        'a'         'l'        'l'   
+       ->    4    ->     4    ->    4    ->    4
+       'l'        'a'         'd'        'y'   
+       ->    1    ->     3    ->    3    ->    3
+             3    'e'         'a'        'd'   
+                  ->     1    ->    1    ->    1
+       'w'        'a'         'l'        'l'   
+       ->    2    ->     2    ->    2    ->    2 
+
+
+     v            v            v
+    ball   ->   ball   ->   ball   ->   ball
+          area  area  lead  area  lady  area
+          ^           ^^    lead  ^^^   lead
+                                        ladyx
 ```
-Runtime: 123 ms, Beats 48.41%
-Memory: 102.51, MB Beats 34.92%
+Runtime: 68 ms, Beats 81.63%
+Memory: 67.63 MB, Beats 66.33%
 ```
 ```c++
 class Solution {
@@ -65,9 +84,9 @@ class Solution {
     vector<string> dp;
     TrieNode *root;
     int k;
-    void build(string s, int i) {
+    void build(string &s, int i) {
         TrieNode *node = root;
-        for (auto c: s) {
+        for (auto &c: s) {
             if (!node->child[c-'a']) {
                 node->child[c-'a'] = new TrieNode();
             }
@@ -75,34 +94,30 @@ class Solution {
             node->dpi.push_back(i);
         }
     }
-    vector<string> query(string s) {
+    vector<int> query(string &s) {
         TrieNode *node = root;
-        for (auto c: s) {
+        for (auto &c: s) {
             if (node->child[c-'a']) {
                 node = node->child[c-'a'];
             } else {
                 return {};
             }
         }
-        vector<string> rst;
-        for (auto i: node->dpi) {
-            rst.push_back(dp[i]);
-        }
-        return rst;
+        return node->dpi;
     }
-    void bt(int i, vector<string> &cur, vector<vector<string>> &ans) {
+    void bt(int i, vector<string> &path, vector<vector<string>> &ans) {
         if (i == k) {
-            ans.push_back(cur);
+            ans.push_back(path);
             return;
         }
         string prefix;
-        for (auto s: cur) {
+        for (auto &s: path) {
             prefix += s[i];
         }
-        for (auto s: query(prefix)) {
-            cur.push_back(s);
-            bt(i+1, cur, ans);
-            cur.pop_back();
+        for (auto &&j: query(prefix)) {
+            path.push_back(dp[j]);
+            bt(i + 1, path, ans);
+            path.pop_back();
         }
     }
 public:
@@ -114,12 +129,12 @@ public:
         for (i = 0; i < words.size(); i ++) {
             build(words[i], i);
         }
-        vector<string> cur;
+        vector<string> path;
         vector<vector<string>> ans;
         for (i = 0; i < words.size(); i ++) {
-            cur.push_back(words[i]);
-            bt(1, cur, ans);
-            cur.pop_back();
+            path.push_back(words[i]);
+            bt(1, path, ans);
+            path.pop_back();
         }
         return ans;
     }

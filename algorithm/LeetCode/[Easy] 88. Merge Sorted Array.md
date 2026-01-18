@@ -126,6 +126,14 @@ void merge(int* nums1, int nums1Size, int m, int* nums2, int nums2Size, int n){
 ```
 
 **Solution 5: (Two Pointers, walk backward)**
+
+    nums1 = [1,2,3,0,0,0], m = 3, nums2 = [2,5,6], n = 3
+                 i                             j
+    ans     [1,2,2,3,5,6]
+                       k 
+            -------------
+               m + n
+
 ```
 Runtime: 0 ms, Beats 100.00%
 Memory: 12.36 MB, Beats 38.83%

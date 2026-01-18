@@ -264,3 +264,79 @@ class Solution:
                     ans[index] = word
         return ans
 ```
+
+**Solution 2: (Trie, group)**
+
+    words = ["like","god","internal","me","internet","interval","intension","face","intrusion"]
+    l2e: like
+    god: god
+    i6l: i n t e r n a l, 
+         i n t e r v a l
+           ^       ^    
+    me: me
+    i6t: internet
+    i7n: intension, intrusion
+         inte 4  n  intr 4  n
+
+query 1     2    3    4    5    6x
+    root -> n -> t -> e -> r -> n -> a -> l
+cnt   1     1    1    1    1    1    1
+      2     2    2    2    2 -> v -> a -> l
+                                1    1
+
+```
+Runtime: 170 ms, Beats 12.90%
+Memory: 332.26 MB, Beats 6.45%
+```
+```c++
+class Solution {
+    struct TrieNode {
+        TrieNode *child[26] = {nullptr};
+        int cnt = 0;
+    };
+public:
+    vector<string> wordsAbbreviation(vector<string>& words) {
+        int n = words.size(), i;
+        string s;
+        unordered_map<string, vector<pair<string, int>>> mp;  // pattern, {word, index}
+        vector<string> ans(n);
+        for (i = 0; i < n; i ++) {
+            if (words[i].length() > 3) {
+                s = words[i][0] + to_string(words[i].length() - 2) + words[i].back();
+                mp[s].push_back({words[i], i});
+            } else {
+                ans[i] = words[i];
+            }
+        }
+        for (auto &[p, wv]: mp) {
+            TrieNode *root = new TrieNode(), *node;
+            for (auto &[w, wi]: wv) {
+                node = root;
+                for (i = 1; i < w.size(); i ++) {
+                    node->cnt += 1;
+                    if (!node->child[w[i] - 'a']) {
+                        node->child[w[i] - 'a'] = new TrieNode();
+                    }
+                    node = node->child[w[i] - 'a'];
+                }
+            }
+            for (auto &[w, wi]: wv) {
+                node = root;
+                for (i = 1; i < w.length(); i ++) {
+                    if (node->cnt == 1) {
+                        break;
+                    }
+                    node = node->child[w[i] - 'a'];
+                }
+                if (w.length() - i - 1 > 1) {
+                    s = w.substr(0, i) + to_string(w.length() - i - 1) + p.back();
+                    ans[wi] = s;
+                } else {
+                    ans[wi] = words[wi];
+                }
+            }
+        }
+        return ans;
+    }
+};
+```

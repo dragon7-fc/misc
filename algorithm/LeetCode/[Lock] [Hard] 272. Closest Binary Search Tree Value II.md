@@ -85,6 +85,23 @@ public:
 ```
 
 **Solution 2: (Binary Search)**
+
+    root = [4,2,5,1,3], target = 3.714286, k = 2
+
+            4
+          /   \
+        2       5
+      /   \
+     1     3
+
+         t
+    0 1 2 3 4
+dp: 1 2 3 4 5
+    l m   r
+        lm^r
+      r lx
+st      ^
+ans     x x
 ```
 Runtime: 0 ms, Beats 100.00%
 Memory: 22.35 MB, Beats 48.98%

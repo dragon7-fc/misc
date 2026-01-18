@@ -139,7 +139,97 @@ int maximalRectangle(char** matrix, int matrixSize, int* matrixColSize){
 }
 ```
 
-**Solution 4: (Stack, mono inc stack, area cover by current stack stop element)**
+**Solution 4: (Prefix Sum, left right)**
+
+                1  ^
+          1     1  h  1  ^
+    0     1    [1] v [1] v  0
+  ->    <      < w >    >  
+          ^cur_left
+                                 <-
+                      ^cur_right
+
+
+
+                0   1   2   3   4
+    matrix = [["1","0","1","0","0"],
+height          1       1
+left            0   0   2   0   0
+cur_left    0       2       4   5
+right           1   5   3   5   5
+cur_right       0   1   2   3   4   5
+cur             1       1
+              ["1","0","1","1","1"],
+height          2       2   1   1
+left            0   0   2   2   2
+cur_left    0       2
+right           1   5   3   5   5
+cur_right           1               5
+cur             2       2   3   3 
+              ["1","1","1","1","1"],
+height          3   1   3   2   2
+left            0   0   2   2   2
+cur_left    0   1   2
+right           1   5   3   5   5
+cur_right                           5
+cur             3   5   3   6   6
+                            ^   ^
+              ["1","0","0","1","0"]]
+height          4           3
+left            0   0   0   3   0
+cur_left     0      2   3       5
+right           1   5   5   4   5
+cur_right           2   3       4   5
+cur             4           3
+
+```
+Runtime: 2 ms, Beats 87.21%
+Memory: 16.17 MB, Beats 97.94%
+```
+```c++
+class Solution {
+public:
+    int maximalRectangle(vector<vector<char>>& matrix) {
+        if (matrix.empty()) return 0;
+        int m = matrix.size();
+        int n = matrix[0].size();
+        vector<int> left(n), right(n), height(n);
+        fill(right.begin(), right.end(), n);
+        int maxarea = 0;
+        for (int i = 0; i < m; i++) {
+            int cur_left = 0, cur_right = n;
+            for (int j = 0; j < n; j++) {
+                if (matrix[i][j] == '1')
+                    height[j]++;
+                else
+                    height[j] = 0;
+            }
+            for (int j = 0; j < n; j++) {
+                if (matrix[i][j] == '1')
+                    left[j] = max(left[j], cur_left);
+                else {
+                    left[j] = 0;
+                    cur_left = j + 1;  // shrink
+                }
+            }
+            for (int j = n - 1; j >= 0; j--) {
+                if (matrix[i][j] == '1')
+                    right[j] = min(right[j], cur_right);
+                else {
+                    right[j] = n;
+                    cur_right = j;  // shrink
+                }
+            }
+            for (int j = 0; j < n; j++) {
+                maxarea = max(maxarea, (right[j] - left[j]) * height[j]);
+            }
+        }
+        return maxarea;
+    }
+};
+```
+
+**Solution 5: (Stack, mono inc stack, area cover by current stack stop element)**
 
 
 stk  
@@ -214,117 +304,3 @@ public:
 };
 ```
 
-**Solution 5: (Prefix Sum, left right)**
-
-                0   1   2   3   4
-    matrix = [["1","0","1","0","0"],
-height          1       1
-left            0       2
-right           1       3        
-cur             1       1
-              ["1","0","1","1","1"],
-height          2       2   1   1
-left            0       2   2   2
-right           1       3   5   5
-cur             2       2   3   3 
-              ["1","1","1","1","1"],
-height          3   1   3   2   2
-left            0   0   2   2   2
-right           1   5   3   5   5
-cur             3   5   3   6   6
-                            ^   ^
-              ["1","0","0","1","0"]]
-height          4           3
-left            0           3
-right           1           4    
-cur             4           3
-
-```
-Runtime: 2 ms, Beats 87.21%
-Memory: 16.17 MB, Beats 97.94%
-```
-```c++
-class Solution {
-public:
-    int maximalRectangle(vector<vector<char>>& matrix) {
-        if (matrix.empty()) return 0;
-        int m = matrix.size();
-        int n = matrix[0].size();
-        vector<int> left(n), right(n), height(n);
-        fill(right.begin(), right.end(), n);
-        int maxarea = 0;
-        for (int i = 0; i < m; i++) {
-            int cur_left = 0, cur_right = n;
-            for (int j = 0; j < n; j++) {
-                if (matrix[i][j] == '1')
-                    height[j]++;
-                else
-                    height[j] = 0;
-            }
-            for (int j = 0; j < n; j++) {
-                if (matrix[i][j] == '1')
-                    left[j] = max(left[j], cur_left);
-                else {
-                    left[j] = 0;
-                    cur_left = j + 1;
-                }
-            }
-            for (int j = n - 1; j >= 0; j--) {
-                if (matrix[i][j] == '1')
-                    right[j] = min(right[j], cur_right);
-                else {
-                    right[j] = n;
-                    cur_right = j;
-                }
-            }
-            for (int j = 0; j < n; j++) {
-                maxarea = max(maxarea, (right[j] - left[j]) * height[j]);
-            }
-        }
-        return maxarea;
-    }
-};
-```
-
-**Solution 6: (DP Bottom-Up)**
-```
-Runtime: 7 ms, Beats 58.75%
-Memory: 16.26 MB, Beats 96.92%
-```
-```c++
-class Solution {
-public:
-    int maximalRectangle(vector<vector<char>>& matrix) {
-        int m = matrix.size(), n = matrix[0].size(), i, j, j0, left = 0, ans = 0;
-        vector<int> dp(n);
-        for (j = 0; j < n; j ++) {
-            if (matrix[0][j] == '1') {
-                dp[j] = 1;
-                left += 1;
-                ans = max(ans, left);
-            } else {
-                left = 0;
-            }
-        }
-        for (i = 1; i < m; i ++) {
-            for (j = 0; j < n; j ++) {
-                if (matrix[i][j] == '1') {
-                    dp[j] += 1;
-                    ans = max(ans, dp[j]);
-                    left = dp[j];
-                    for (j0 = j - 1; j0 >= 0; j0 --) {
-                        left = min(left, dp[j0]);
-                        if (left == 0) {
-                            break;
-                        }
-                        ans = max(ans, left * (j - j0 + 1));
-                    }
-                } else {
-                    dp[j] = 0;
-                }
-            }
-        }
-        return ans;
-    }
-};
-```

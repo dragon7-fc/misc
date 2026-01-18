@@ -77,3 +77,54 @@ public:
     }
 };
 ```
+
+**Solution 2: (Brute Force)**
+
+    bottomLeft = [[1,1],[2,2],[3,1]], topRight = [[3,3],[4,4],[6,6]]
+
+
+6         .--------x
+5         |        |  
+4      .--|--x     |      |
+3   .--|--x  |     | |h | |
+2   |  x--|---     |    | |
+1   x-----x---------
+    1  2  3  4  5  6
+       -w--
+          |
+          ---
+    i  j  j
+w      1  0
+h      1  2
+side   1  0
+       i  j
+w         1
+h         2
+side      1
+
+```
+Runtime: 86 ms, Beats 73.14%
+Memory: 59.41 MB, Beats 56.20%
+```
+```c++
+class Solution {
+public:
+    long long largestSquareArea(vector<vector<int>>& bottomLeft, vector<vector<int>>& topRight) {
+        int n = bottomLeft.size();
+        int maxSide = 0;
+
+        for (int i = 0; i < n; i++) {
+            for (int j = i + 1; j < n; j++) {
+                int w = min(topRight[i][0], topRight[j][0]) -
+                        max(bottomLeft[i][0], bottomLeft[j][0]);
+                int h = min(topRight[i][1], topRight[j][1]) -
+                        max(bottomLeft[i][1], bottomLeft[j][1]);
+
+                maxSide = max(maxSide, min(w, h));
+            }
+        }
+
+        return 1LL * maxSide * maxSide;
+    }
+};
+```

@@ -196,3 +196,111 @@ public:
     }
 };
 ```
+
+**Solution 3: (DP Bottom-Up)**
+
+    s1 = "abcdebdde", s2 = "bde"
+dp      b  d  e
+     0  1  2  3 j
+  0  0         
+a 1  0         
+b 2  0  1      
+c 3  0  2      
+d 4  0     3   
+e 5  0        4 < length
+  ^end
+b 6  0
+d 7  0
+d 8  0
+e 9  0
+  i
+
+```
+Runtime: 127 ms, Beats 37.07%
+Memory: 93.32 MB, Beats 18.97%
+```
+```c++
+class Solution {
+public:
+    string minWindow(string s1, string s2) {
+        int n = s1.size(), m = s2.size();
+        // declare the DP table and initialize it with large values
+        vector dp(n + 1, vector<int>(m + 1, 1000000000));
+        // the base case of DP
+        dp[0][0] = 0;
+        int end = 0, length = n + 1;
+        for (int i = 1; i <= n; i++) {
+            // the base of DP
+            dp[i][0] = 0;
+            // DP transitions
+            for (int j = 1; j <= m; j++) {
+                // different transitions depending on whether or not s1[i - 1] == s2[j - 1]
+                dp[i][j] = 1 + (s1[i - 1] == s2[j - 1] ? dp[i - 1][j - 1] : dp[i - 1][j]);
+            }
+            // update the answer
+            if (dp[i][m] < length) {
+                length = dp[i][m];
+                end = i;
+            }
+        }
+        // return the answer
+        return length > n ? "" : s1.substr(end - length, length);
+    }
+};
+```
+
+**Solution 4: (Greedy, Prefix Sum)**
+
+          0 1 2 3 4 5 6 7 8         0 1 2
+    s1 = "a b c d e b d d e", s2 = "b d e"
+            ^s                            ^j
+prev      ^ ^   ^ ^                  
+indices:    curIndices                 
+b:          1 5                          
+            ^ind[j]
+c:          2
+d:          3 6 7
+            ^
+e:          4 8
+            ^
+ind                                  0 0 0
+
+```
+Runtime: 354 ms, Beats 11.21%
+Memory: 474.72 MB, Beats 6.03%
+```
+```c++
+class Solution {
+public:
+    string minWindow(string s1, string s2) {
+        int n = s1.size(), m = s2.size();
+        string answer;
+        unordered_map<char, vector<int>> indices;
+        for (int i = 0; i < n; i++) {
+            indices[s1[i]].push_back(i);
+        }
+        vector<int> ind(m);
+        for (int start = 0; start < n; start++) {
+            int prev = start - 1;
+            bool notFound = false;
+            for (int j = 0; j < m; j++) {
+                if (!indices.count(s2[j])) {
+                    return "";
+                }
+                const vector<int>& curIndices = indices[s2[j]];
+                while (ind[j] < curIndices.size() && curIndices[ind[j]] <= prev) {
+                    ind[j]++;
+                }
+                if (ind[j] == curIndices.size()) {
+                    return answer;
+                }
+                prev = curIndices[ind[j]];
+            }
+            if (answer == "" || prev - start + 1 < answer.size()) {
+                answer = s1.substr(start, prev - start + 1);
+            }
+        }
+        return answer;
+    }
+};
+````

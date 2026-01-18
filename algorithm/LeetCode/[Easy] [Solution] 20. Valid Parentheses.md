@@ -304,6 +304,15 @@ public:
 ```
 
 **Solution 4: (Stack)**
+
+     s = "( [ ] )"
+stk       {
+            {[
+              {[
+               x
+                {
+                x
+
 ```
 Runtime: 0 ms, Beats 100.00%
 Memory: 8.90 MB, Beats 21.22%

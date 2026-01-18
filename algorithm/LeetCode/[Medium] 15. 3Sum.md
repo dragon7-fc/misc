@@ -227,8 +227,8 @@ int** threeSum(int* nums, int numsSize, int* returnSize, int** returnColumnSizes
 
     nums = [-1, 0, 1, 2, -1, -4]    
             -4 -1 -1  0   1   2
-                ^  ^          ^
-                ^     ^   ^
+                i  j          k
+                i     j   k
 
 
 ```

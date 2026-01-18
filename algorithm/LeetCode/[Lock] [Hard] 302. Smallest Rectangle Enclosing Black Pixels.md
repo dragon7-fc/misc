@@ -40,13 +40,13 @@ Output: 1
 **Solution 1: (Binary Search, O(mlogn + nlogm))**
 
 
-        . . x . . <t
-        . x x x .
-        . x x x .
-        . . x . .
+      ^ . . 1 . . <t
+      x . 1 1 1 .
+      v . 1 1 1 .
+        . . 1 . .
         . . . . . <b
           ^l    ^r
-
+        < y >
 
 ```
 Runtime: 0 ms, Beats 100.00%

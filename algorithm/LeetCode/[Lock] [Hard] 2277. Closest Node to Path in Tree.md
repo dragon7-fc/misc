@@ -106,20 +106,20 @@ public:
 
 **Solution 2: (DFS, BFS)**
 ```
-Runtime: 125 ms, Beats 45.45%
-Memory: 46.05 MB, Beats 60.00%
+Runtime: 123 ms, Beats 52.38%
+Memory: 45.69 MB, Beats 66.67%
 ```
 ```c++
 class Solution {
-    bool dfs(int u, int e, vector<int> &visited, vector<int> &p, vector<vector<int>> &g) {
-        visited[u] = 1;
+    bool dfs(int u, int t, vector<bool> &visited, vector<int> &p, vector<vector<int>> &g) {
+        visited[u] = true;
         p.push_back(u);
-        if (u == e) {
+        if (u == t) {
             return true;
         }
-        for (auto v: g[u]) {
+        for (auto &v: g[u]) {
             if (!visited[v]) {
-                if (dfs(v, e, visited, p, g)) {
+                if (dfs(v, t, visited, p, g)) {
                     return true;
                 }
             }
@@ -130,30 +130,34 @@ class Solution {
 public:
     vector<int> closestNode(int n, vector<vector<int>>& edges, vector<vector<int>>& query) {
         vector<vector<int>> g(n);
-        vector<int> p, visited(n), ans;
-        queue<pair<int,int>> q;
-        for (auto v: edges) {
-            g[v[0]].push_back(v[1]);
-            g[v[1]].push_back(v[0]);
+        vector<int> p, ans;
+        vector<bool> visited(n);
+        queue<array<int, 2>> q;
+        for (auto &e: edges) {
+            g[e[0]].push_back(e[1]);
+            g[e[1]].push_back(e[0]);
         }
         for (auto qv: query) {
-            dfs(qv[0], qv[1], visited, p, g);
-            fill(visited.begin(), visited.end(), 0);
-            for (auto v: p) {
+            int &start = qv[0];
+            int &end = qv[1];
+            int &node = qv[2];
+            dfs(start, end, visited, p, g);
+            fill(visited.begin(), visited.end(), false);
+            for (auto &v: p) {
                 q.push({v, v});
-                visited[v] = 1;
+                visited[v] = true;
             }
             p.clear();
             while (q.size()) {
                 auto [u, s] = q.front();
                 q.pop();
-                if (u == qv[2]) {
+                if (u == node) {
                     ans.push_back(s);
                     break;
                 }
-                for (auto v: g[u]) {
+                for (auto &v: g[u]) {
                     if (!visited[v]) {
-                        visited[v] = 1;
+                        visited[v] = true;
                         q.push({v, s});
                     }
                 }
@@ -161,7 +165,7 @@ public:
             while (q.size()) {
                 q.pop();
             }
-            fill(visited.begin(), visited.end(), 0);
+            fill(visited.begin(), visited.end(), false);
         }
         return ans;
     }

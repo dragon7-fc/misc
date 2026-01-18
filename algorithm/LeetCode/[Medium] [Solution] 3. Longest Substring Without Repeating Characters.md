@@ -321,10 +321,12 @@ public:
 **Solution 6: (Sliding Window, Non-shrinkable)**
 
       a b c a b c b b
-                    ^j
+                      ^j
                 ^i
+                =======
+                  ans
 curr
-  a   1     2
+  a   1     2     0
             1
   b     1     2   2 3
               1     2

@@ -313,6 +313,16 @@ class Solution:
 ```
 
 **Solution 6: (DP Bottom-Up)**
+
+         0 1 2 3 4  j
+    s = "b a b a d"
+0 b      1   1
+1 a        1   1
+2 b          1
+3 a            1
+4 d              1
+i
+
 ```
 Runtime: 162 ms, Beats 26.73%
 Memory: 291.90 MB, Beats 10.92%
@@ -340,7 +350,7 @@ public:
                     dp[i][i+k-1] = 1;
                     if (k > mx) {
                         mx = k;
-                        j = i;;
+                        j = i;
                     }
                 }
             }
@@ -351,6 +361,21 @@ public:
 ```
 
 **Solution 7: (Expand Around Center)**
+
+    s = "b a b a d"
+         i
+        lh
+           i
+         l   h
+         ^^^^^
+          ans
+             i
+           l   h     
+               i
+               lh
+                 i
+                 lh
+
 ```
 Runtime: 20 ms
 Memory Usage: 7.1 MB

@@ -234,6 +234,13 @@ class Solution:
 ```
 
 **Solution 3: (Set, check interval start)**
+
+    nums = [100,4,200,1,3,2]
+
+    0 1 2 3 4 ... 99 100 ... 199 200
+st    x x x x          x           x
+      ^^^^^^^
+        ans
 ```
 Runtime: 79 ms, Beats 72.06%
 Memory: 88.81 MB, Beats 60.41%

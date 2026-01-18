@@ -101,6 +101,11 @@ int* twoSum(int* numbers, int numbersSize, int target, int* returnSize){
 ```
 
 **Solution 5: (Two Pointers)**
+
+    numbers = [2,7,11,15], target = 9
+               i     
+                 j
+
 ```
 Runtime: 4 ms, Beats 4.98%
 Memory: 19.42 MB, Beats 64.00%

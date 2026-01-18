@@ -219,6 +219,13 @@ char * decodeString(char * s){
 **Solution 6: (Stack)**
 
      "3 [ a 2 [ c ] ]"
+                    ^
+k  0  3 0   2 0
+                          ans
+stk                    vvvvvvvvvv
+{0,""}              {0,"accaccacc"}
+         {3,"a"}  {3,"acc"}x
+                {2,"c"}x
 
         {2, "c"}     
         {3, "a"} -> {3, "acc"} 

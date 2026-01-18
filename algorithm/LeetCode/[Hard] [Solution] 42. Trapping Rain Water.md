@@ -359,6 +359,16 @@ int trap(int* height, int heightSize){
 ```
 
 **Solution 7: (Two Pointers)**
+
+3                           x
+2                   x . . . x x . x
+1               x . x x . x x x x x x
+    height = [0,1,0,2,1,0,1,3,2,1,2,1]
+                            l
+                            r
+a             1     2        
+ans               1   2 4 5     6
+
 ```
 Runtime: 0 ms, Beats 100.00%
 Memory: 25.97 MB, Beats 79.71%
@@ -368,7 +378,7 @@ class Solution {
 public:
     int trap(vector<int>& height) {
         int left = 0, right = height.size()-1, a = 0, b = 0, ans = 0;
-        while (left <= right) {
+        while (left < right) {
             if (height[left] <= height[right]) {
                 ans += max(0, a - height[left]);
                 a = max(a, height[left]);

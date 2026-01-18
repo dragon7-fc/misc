@@ -132,6 +132,12 @@ public:
 ```
 
 **Solution 4: (Two Pointers)**
+
+             0  1  2  3  4  5  6  7  8  9
+    nums = [ 0, 0, 1, 1, 1, 2, 2, 3, 3, 4]
+                            i
+                                           j  
+             0  1  2  3  4
 ```
 Runtime: 0 ms, Beats 100.00%
 Memory: 22.64 MB, Beats 51.15%

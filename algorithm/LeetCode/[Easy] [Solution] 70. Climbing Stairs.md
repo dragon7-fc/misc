@@ -386,9 +386,11 @@ public:
     int climbStairs(int n) {
         if (n == 1) {
             return 1;
+        } else if (n == 2) {
+            return 2;
         }
-        int i, a = 1, b = 1, c;
-        for (i = 1; i < n; i ++) {
+        int i, a = 1, b = 2, c;
+        for (i = 2; i < n; i ++) {
             c = a + b;
             a = b;
             b = c;

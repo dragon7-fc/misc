@@ -299,26 +299,18 @@ public:
 **Solution 3: (Binary Search, O(log (min(m, n))), binary search smaller array and search possible median element)**
 
            v((l + r) / 2)
-       l   m   r
-A      x x x x               m
-         ^^^    <--------------------
+       l   mi  r
+A      x x x x                
+       ---m---
+         ^^^    <---------------------
        --- ---                       |
        Al  Ar                        | compare
-             v((m + n + 1) / 2 - m)  |
-B      x x x x x             n       |
-           ^^^ <--------------------
+             v((m + n + 1) / 2 - mi) |
+B      x x x x x                     |
+       ----n----                     |
+           ^^^ <----------------------
        ----- ---
        Bl    Br
-               v
-A + b  x x x x x x x x x     m + n
-       ---------  
-       (m + n + 1) / 2
-B      x x x x x x           n
-               vvv
-A + b  x x x x x x x x x x   m + n
-       ---------  
-       (m + n + 1) / 2
-       
 
 case 1: (m + n) % 2 == 0
            ----A-----
@@ -329,14 +321,14 @@ case 1: (m + n) % 2 == 0
            -----|----
            ^l          ^r
               ^maxLeftA     <--|
-                 ^minRightA  <-|-----|
+                 ^minRightA  <-------|
               ----B-----       |     |
               leftB rightB   (max + min) / 2
               -----|----       |     |
                  ^maxLeftB  <--|     |
                     ^minRightB <-----|
 
-    l     m      r
+    l     m   r
       mxL mnR
       v   v
 A   - -   -   -
@@ -353,22 +345,22 @@ case 1: (m + n) % 2 == 1
                  leftA rightA
                  --|----
                  ^l    ^r
-                 ^maxLeftA
-                    ^minRightA
-           leftB  rightB
-           ----|----
-              ^maxLeftB
+                 ^maxLeftA <--------
+                    ^minRightA     |
+           leftB  rightB          max
+           ----|----               |
+              ^maxLeftB <-----------
                  ^minRightB
 
         mxL
         v mnR
           v
-          vmxL
+          mxL
           v
               mnR
               v
 B     - - -   -
-            l   m    r
+            l   m   r
             mxL mnR
             lrm
 A           -   - -

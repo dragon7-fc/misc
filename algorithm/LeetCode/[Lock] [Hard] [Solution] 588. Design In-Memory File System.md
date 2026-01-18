@@ -359,3 +359,89 @@ class FileSystem:
 # obj.addContentToFile(filePath,content)
 # param_4 = obj.readContentFromFile(filePath)
 ```
+
+**Solution 2: (Trie)**
+```
+Runtime: 4 ms, Beats 67.97%
+Memory: 23.31 MB, Beats 20.61%
+```
+```c++
+class FileSystem {
+    struct TrieNode {
+        bool isFile;
+        string content;
+        unordered_map<string, TrieNode *> children;
+        TrieNode() : isFile(false) {}
+    };
+
+    TrieNode *root;
+    vector<string> getStrs(string &path) {
+        vector<string> rst;
+        stringstream ss(path.substr(1));
+        string s;
+        while (getline(ss, s, '/')) {
+            rst.push_back(s);
+        }
+        return rst;
+    }
+public:
+    FileSystem() {
+        root = new TrieNode();
+    }
+    
+    vector<string> ls(string path) {
+        vector<string> &&strs = getStrs(path);
+        TrieNode *curr = root;
+        for (string &str : strs)
+            curr = curr->children[str];
+        
+        if (curr->isFile)
+            return {strs.back()};
+        
+        vector<string> ans;
+        for (auto &p : curr->children)
+            ans.push_back(p.first);
+        sort(ans.begin(), ans.end());
+        return ans;
+    }
+    
+    void mkdir(string path) {
+        vector<string> &&strs = getStrs(path);
+        TrieNode *curr = root;
+        for (string &str : strs) {
+            if (!curr->children.count(str))
+                curr->children[str] = new TrieNode();
+            curr = curr->children[str];
+        }
+    }
+    
+    void addContentToFile(string filePath, string content) {
+        vector<string> &&strs = getStrs(filePath);
+        TrieNode *curr = root;
+        for (string &str : strs) {
+            if (!curr->children.count(str))
+                curr->children[str] = new TrieNode();
+            curr = curr->children[str];
+        }
+        curr->isFile = true;
+        curr->content += content;
+    }
+    
+    string readContentFromFile(string filePath) {
+        vector<string> &&strs = getStrs(filePath);
+        TrieNode *curr = root;
+        for (string &str : strs)
+            curr = curr->children[str];
+        return curr->content;
+    }
+};
+
+/**
+ * Your FileSystem object will be instantiated and called as such:
+ * FileSystem* obj = new FileSystem();
+ * vector<string> param_1 = obj->ls(path);
+ * obj->mkdir(path);
+ * obj->addContentToFile(filePath,content);
+ * string param_4 = obj->readContentFromFile(filePath);
+ */
+```

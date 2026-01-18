@@ -109,3 +109,86 @@ class Excel:
 # param_2 = obj.get(r,c)
 # param_3 = obj.sum(r,c,strs)
 ```
+
+**Solution 2: (DFS)**
+```
+Runtime: 0 ms, Beats 100.00%
+Memory: 15.74 MB, Beats 97.44%
+```
+```c++
+class Excel {
+    vector<vector<int>> grid;
+    unordered_map<int, unordered_map<int, vector<pair<int,int>>>> sums;
+    void removeReferences(int row, int col) {
+        for (auto r = sums.begin(); r != sums.end(); r++) {
+            for (auto c = r->second.begin(); c != r->second.end(); c++) {
+                auto &refs = c->second;
+                for (auto itr = refs.begin(); itr != refs.end(); ) {
+                    auto &[ref_r, ref_c] = *itr;
+                    if (ref_r == row && ref_c == col) {
+                        itr = refs.erase(itr);
+                    } else {
+                        itr++;
+                    }
+                }
+            }
+        }
+    }
+    void dfs(int row, int col, int val) {
+        int diff = val - grid[row][col];
+        grid[row][col] = val;
+        if (sums.count(row) && sums[row].count(col)) {
+            auto &refs = sums[row][col];
+            for (auto &[ref_r, ref_c]: refs) {
+                dfs(ref_r, ref_c, grid[ref_r][ref_c] + diff);
+            }
+        }
+    }
+public:
+    Excel(int height, char width) {
+        grid.assign(height, vector<int>(width - 'A' + 1));
+    }
+    
+    void set(int row, char column, int val) {
+        removeReferences(row - 1, column - 'A');
+        dfs(row - 1, column - 'A', val);
+    }
+    
+    int get(int row, char column) {
+        return grid[row - 1][column - 'A'];
+    }
+    
+    int sum(int row, char column, vector<string> numbers) {
+        int val = 0, col = column - 'A';
+        
+        removeReferences(row - 1, col);
+        for (int i = 0, r = 0, c = 0, n = numbers.size(); i < n; i++) {
+            auto& str = numbers[i];
+            auto pos = str.find(':');
+            if (pos == string::npos) {
+                r = stoi(str.substr(1)) - 1;
+                c = str[0] - 'A';
+                val += grid[r][c];
+                sums[r][c].push_back({row - 1, col});
+            } else {
+                for (r = stoi(str.substr(1, pos - 1)) - 1; r <= stoi(str.substr(pos + 2)) - 1; r++) {
+                    for (c = str[0] - 'A'; c <= str[pos+1] - 'A'; c++) {
+                        val += grid[r][c];
+                        sums[r][c].push_back({row - 1, col});
+                    }
+                }
+            }
+        }
+        dfs(row - 1, col, val);
+        return val;
+    }
+};
+
+/**
+ * Your Excel object will be instantiated and called as such:
+ * Excel* obj = new Excel(height, width);
+ * obj->set(row,column,val);
+ * int param_2 = obj->get(row,column);
+ * int param_3 = obj->sum(row,column,numbers);
+ */
+```

@@ -120,3 +120,83 @@ class Solution:
         res,_ = dfs(0, s)        
         return res
 ```
+
+**Solution 3: (Stack)**
+
+         0  1  2  3  4  5  6  7  8     9 10 11 12 13 14 15 16 17 18
+    s = "2  *  (  5  +  5  *  2  )     /  3  +  (  6  /  2  +  8  )"
+                  ----------------                 ----------------
+                                                                  i
+sign   +    *   [+   +     *      ]    /     +   [+  /     +       ]
+number   2      [ 5     5     2   ]15     3      [ 6    2      8   ] 11
+stk         2   [    5     5    10]   30    10   [   6     3     11]
+                           5     5
+sum             [               15]              [               11] 21x
+
+```
+Runtime: 7 ms, Beats 27.93%
+Memory: 17.71 MB, Beats 13.97%
+```
+```c++
+class Solution {
+public:
+    int calculate(string s) {
+        if (s.size() == 0) {
+            return 0;
+        }
+        stack<int> stk;
+        char sign = '+';
+        long long number = 0;
+        for (int i = 0; i< s.size(); i++) {
+            if (isdigit(s[i])) {
+                number = number * 10 + s[i] - '0';
+            } else if (s[i] == '(') {
+                int j = i + 1; 
+                int braces = 1;
+                while (braces > 0) {
+                    if (s[j] == '(') {
+                        braces++;
+                    } else if (s[j] ==')') {
+                        braces--;
+                    }
+                    j++;
+                }
+                int length = (j - 1) -i;
+                number = calculate(s.substr(i + 1, length));
+                i = j - 1;
+            }
+            if (s[i] == '+' || s[i] == '-' || s[i] == '*' || s[i] == '/' || i == s.size() - 1) {
+                switch (sign) {
+                    case '+':
+                        stk.push(number);
+                        break;
+                    case '-':
+                        stk.push(-number);
+                        break;
+                    case '*': {
+                        int top = stk.top();
+                        stk.pop();
+                        stk.push(top * number);
+                        break;                        
+                    }
+                    case '/': {
+                        int top = stk.top();
+                        stk.pop();
+                        stk.push(top / number);
+                        break;                        
+                    }
+                }
+
+                sign = s[i];
+                number = 0; 
+            }
+        }
+        int sum = 0;
+        while (!stk.empty()) {
+            sum += stk.top();
+            stk.pop();
+        }
+        return sum;
+    }
+};
+```

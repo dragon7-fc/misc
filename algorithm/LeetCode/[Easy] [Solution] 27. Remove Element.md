@@ -130,6 +130,12 @@ class Solution:
 ```
 
 **Solution 2: (Two Pointers)**
+
+    nums = [3,2,2,3], val = 3
+                i
+                  j
+           [2,2,_,_]
+
 ```
 Runtime: 0 ms, Beats 100.00%
 Memory: 11.78 MB, Beats 41.30%

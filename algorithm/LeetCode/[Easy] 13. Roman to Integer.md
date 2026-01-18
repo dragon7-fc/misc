@@ -86,6 +86,21 @@ class Solution:
 ```
 
 **Solution 2: (Math, Hash Table)**
+
+            0     1     2     3     4     5     6
+    s = "   M     C     M     X     C     I     V"
+ans     +1000  -100 +1000   -10  +100    -1    +5
+               ----------- ----------   ---------
+mp
+I: 1
+V: 5
+X: 10
+L: 50
+C: 100
+D: 500
+M: 1000
+
+
 ```
 Runtime: 37 ms
 Memory Usage: 8.9 MB
@@ -95,22 +110,23 @@ class Solution {
 public:
     int romanToInt(string s) {
         unordered_map<char,int> mp{
-        {'I',1},
-        {'V',5},
-        {'X',10},
-        {'L',50},
-        {'C',100},
-        {'D',500},
-        {'M',1000},
-    };
-    int ans = 0;
-    for(int i=0; i < s.size(); i++){
-        if(mp[s[i]]<mp[s[i+1]])
-            ans -= mp[s[i]];
-        else
-            ans += mp[s[i]];
-    }
-    return ans;
+            {'I',1},
+            {'V',5},
+            {'X',10},
+            {'L',50},
+            {'C',100},
+            {'D',500},
+            {'M',1000},
+        };
+        int ans = 0;
+        for(int i=0; i < s.size(); i++){
+            if(mp[s[i]] < mp[s[i + 1]])
+                ans -= mp[s[i]];
+            else
+                ans += mp[s[i]];
+        }
+        return ans;
+
     }
 };
 ```

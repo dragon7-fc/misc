@@ -118,3 +118,51 @@ public:
     }
 };
 ```
+
+**Solution 1: (max continuous subarray)**
+
+    hole = max continuous subarray
+
+    n = 2, m = 3, hBars = [2,3], vBars = [2,4]
+
+          v   v
+        1 2 3 4 5
+    1   x-x-x---x
+  > 2   x-x-x---x
+  > 3   | | |   |
+    4   x-x-x---x
+
+```
+Runtime: 0 ms, Beats 100.00%
+Memory: 31.96 MB, Beats 45.22%
+```
+```c++
+class Solution {
+public:
+    int maximizeSquareHoleArea(int n, int m, vector<int>& hBars, vector<int>& vBars) {
+        int i, a = 2, b = 2, c, cur;
+        sort(begin(hBars), end(hBars));
+        sort(begin(vBars), end(vBars));
+        cur = 2;
+        for (i = 1; i < hBars.size(); i ++) {
+            if (hBars[i] == hBars[i - 1] + 1) {
+                cur += 1;
+                a = max(a, cur);
+            } else {
+                cur = 2;
+            }
+        }
+        cur = 2;
+        for (i = 1; i < vBars.size(); i ++) {
+            if (vBars[i] == vBars[i - 1] + 1) {
+                cur += 1;
+                b = max(b, cur);
+            } else {
+                cur = 2;
+            }
+        }
+        c = min(a, b);
+        return c * c;
+    }
+};
+```

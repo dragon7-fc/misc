@@ -169,3 +169,42 @@ public:
     }
 };
 ```
+
+**Solution 4: (Sort, Binary Search)**
+    envelopes = [[1,3],[3,5],[6,7],[6,8],[8,4],[9,5]]
+    sort         [1,3] [3,5] [6,8] [6,7] [8,4] [9,5]
+                                            ^
+    dp             3     5     8
+                         4     7
+                         5
+                   ^^^^^^^^^^^^^
+                        ans
+```
+Runtime: 39 ms, Beats 71.70%
+Memory: 81.57 MB, Beats 91.98%
+```
+```c++
+class Solution {
+public:
+    int maxEnvelopes(vector<vector<int>>& envelopes) {
+        int n = envelopes.size(), i, j;
+        sort(envelopes.begin(), envelopes.end(), [](auto &ea, auto &eb){
+            if (ea[0] != eb[0]) {
+                return ea[0] < eb[0];
+            }
+            return ea[1] > eb[1];
+        });
+        vector<int> dp;
+        for (i = 0; i < n; i++){
+            auto &h = envelopes[i][1];
+            j = lower_bound(dp.begin(), dp.end(), h) - dp.begin();
+            if (j == dp.size()) {
+                dp.push_back(h);
+            } else {
+                dp[j] = h;
+            }
+        }
+        return dp.size();
+    }
+};
+```

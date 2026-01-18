@@ -162,6 +162,10 @@ public:
 ```
 
 **Solution 4: (Math)**
+
+INT_MAX = 2147483647 = 2^31 - 1
+INT_MIN = -2147483648 = - 2^31
+
 ```
 Runtime: 0 ms, Beats 100.00%
 Memory: 8.68 MB, Beats 20.06%

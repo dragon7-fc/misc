@@ -72,3 +72,54 @@ public:
     }
 };
 ```
+
+**Solution 2: (max common difference)**
+
+    m = 6, n = 7, hFences = [2], vFences = [4]
+
+    1 2 3 4 5 6 7  diff
+1   x-----x-----x
+2   x-----x-----x   1
+3   |     |     |
+4   |     |     |
+5   |     |     |
+6   x-----x-----x   4 5
+diff      3     3
+                6
+
+```
+Runtime: 944 ms, Beats 88.35%
+Memory: 267.17 MB, Beats 55.34%
+```
+```c++
+class Solution {
+public:
+    int maximizeSquareArea(int m, int n, vector<int>& hFences, vector<int>& vFences) {
+        hFences.push_back(1);
+        hFences.push_back(m);
+        vFences.push_back(1);
+        vFences.push_back(n);
+        sort(begin(hFences), end(hFences));
+        sort(begin(vFences), end(vFences));
+        int i, j, d, mx = 0, MOD = 1e9 + 7;
+        unordered_set<int> st;
+        for (j = 1; j < hFences.size(); j ++) {
+            for (i = j - 1; i >= 0; i --) {
+                st.insert(hFences[j] - hFences[i]);
+            }
+        }
+        for (j = 1; j < vFences.size(); j ++) {
+            for (i = j - 1; i >= 0; i --) {
+                d = vFences[j] - vFences[i];
+                if (st.count(d)) {
+                    mx = max(mx, d);
+                }
+            }
+        }
+        if (mx == 0) {
+            return -1;
+        }
+        return (1LL * mx * mx) % MOD;
+    }
+};
+```

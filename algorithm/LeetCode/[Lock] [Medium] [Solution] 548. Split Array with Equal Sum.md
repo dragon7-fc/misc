@@ -321,3 +321,52 @@ class Solution:
         
         return False
 ```
+
+**Solution 2: (Using Cumulative Sum and HashSet)**
+
+             0  1  2  3  4  5  6
+    nums = [ 1, 2, 1, 2, 1, 2, 1]
+    pre      0  1  3  4  6  7  9 10
+            --------> j
+                     [=]
+            --------> | ----------->
+                i           k 
+               [=]         [=]
+               
+
+```
+Runtime: 78 ms, Beats 62.50%
+Memory: 15.48 MB, Beats 87.50%
+```
+```c++
+class Solution {
+public:
+    bool splitArray(vector<int>& nums) {
+        int n = nums.size(), i, j, k;
+        if (n < 7) { 
+            return false;
+        }
+        vector<int> pre(n + 1);
+        for (i = 0; i < n; i ++) {
+            pre[i + 1] = pre[i] + nums[i];
+        }
+        unordered_set<int> st;
+        for (j = 3; j < n - 3; j ++) {
+            st.clear();
+            for (i = 1; i < j - 1; i ++) {
+                if (pre[i] == pre[j] - pre[i + 1]) {
+                    st.insert(pre[i]);
+                }
+            }
+            for (k = j + 2; k < n - 1; k ++) {
+                if (pre[k] - pre[j + 1] == pre[n] - pre[k + 1]) {
+                    if (st.count(pre[k] - pre[j + 1])) {
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
+    }
+};
+```

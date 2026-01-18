@@ -198,26 +198,39 @@
 ## Array <a name="array"></a>
 ---
 ### Simulation
-```python
-class Solution:
-    def spiralOrder(self, matrix: List[List[int]]) -> List[int]:
-        if not matrix: return []
-        R, C = len(matrix), len(matrix[0])
-        seen = [[False] * C for _ in matrix]
-        ans = []
-        dr = [0, 1, 0, -1]
-        dc = [1, 0, -1, 0]
-        r = c = di = 0
-        for _ in range(R * C):
-            ans.append(matrix[r][c])
-            seen[r][c] = True
-            cr, cc = r + dr[di], c + dc[di]
-            if 0 <= cr < R and 0 <= cc < C and not seen[cr][cc]:
-                r, c = cr, cc
-            else:
-                di = (di + 1) % 4
-                r, c = r + dr[di], c + dc[di]
-        return ans
+```c++
+class Solution {
+public:
+    vector<int> spiralOrder(vector<vector<int>>& matrix) {
+        int m = matrix.size(), n = matrix[0].size(), up = 0, down = m - 1, left = 0, right = n - 1, i, j;
+        vector<int> ans;
+        while (up <= down && left <= right) {
+            for (j = left; j <= right; j ++) {
+                ans.push_back(matrix[up][j]);
+            }
+            up += 1;
+            if (up > down) {
+                break;
+            }
+            for (i = up; i <= down; i ++) {
+                ans.push_back(matrix[i][right]);
+            }
+            right -= 1;
+            if (right < left) {
+                break;
+            }
+            for (j = right; j >= left; j --) {
+                ans.push_back(matrix[down][j]);
+            }
+            down -= 1;
+            for (i = down; i >= up; i --) {
+                ans.push_back(matrix[i][left]);
+            }
+            left += 1;
+        }
+        return ans;
+    }
+};
 ```
 * [Medium] [Solution] 54. Spiral Matrix
 
@@ -2374,6 +2387,7 @@ public:
 };
 ```
 * [Hard] [Solution] 135. Candy
+
 
 ### Brute Force, Backtracking
 ```python
@@ -8898,24 +8912,31 @@ class Solution:
 ```
 * [Medium] [Solution] 153. Find Minimum in Rotated Sorted Array
 
-### Sort, Binary Search, insert
-```python
-class Solution:
-    def maxEnvelopes(self, envelopes: List[List[int]]) -> int:
-        # sort increasing in first dimension and decreasing on second
-        envelopes.sort(key=lambda x: (x[0], -x[1]))
-
-        def lis(nums):
-            dp = []
-            for i in range(len(nums)):
-                idx = bisect_left(dp, nums[i])
-                if idx == len(dp):
-                    dp.append(nums[i])
-                else:
-                    dp[idx] = nums[i]
-            return len(dp)
-        # extract the second dimension and run the LIS
-        return lis([e[1] for e in envelopes])
+### Sort (inc x and dec y), Binary Search, insert over y
+```c++
+class Solution {
+public:
+    int maxEnvelopes(vector<vector<int>>& envelopes) {
+        int n = envelopes.size(), i, j;
+        sort(envelopes.begin(), envelopes.end(), [](auto &ea, auto &eb){
+            if (ea[0] != eb[0]) {
+                return ea[0] < eb[0];
+            }
+            return ea[1] > eb[1];
+        });
+        vector<int> dp;
+        for (i = 0; i < n; i++){
+            auto &h = envelopes[i][1];
+            j = lower_bound(dp.begin(), dp.end(), h) - dp.begin();
+            if (j == dp.size()) {
+                dp.push_back(h);
+            } else {
+                dp[j] = h;
+            }
+        }
+        return dp.size();
+    }
+};
 ```
 * [Hard] 354. Russian Doll Envelopes
 
@@ -12496,6 +12517,39 @@ public:
 };
 ```
 * [Hard] 84. Largest Rectangle in Histogram
+
+### Stack, mono inc stack, area cover by current stack stop element
+```c++
+class Solution {
+public:
+    int maximalRectangle(vector<vector<char>>& matrix) {
+        int m = matrix.size(), n = matrix[0].size(), i, j, ans = 0;
+        vector<int> dp(n+1);
+        stack<array<int,2>> stk;  // element, j
+        stk.push({-1, -1});
+        for (i = 0; i < m; i ++) {
+            for (j = 0; j <= n; j ++) {
+                if (j == n || matrix[i][j] == '0') {
+                    dp[j] = 0;
+                } else {
+                    dp[j] += 1;
+                }
+            }
+            for (j = 0; j <= n; j ++) {
+                while (stk.size() > 1 && stk.top()[0] >= dp[j]) {
+                    auto [a, _] = stk.top();
+                    stk.pop();
+                    ans = max(ans, a * (j - stk.top()[1] - 1));
+                }
+                stk.push({dp[j], j});
+            }
+            stk.pop();
+        }
+        return ans;
+    }
+};
+```
+* [Hard] 85. Maximal Rectangle
 
 ### Index Stack
 ```python
