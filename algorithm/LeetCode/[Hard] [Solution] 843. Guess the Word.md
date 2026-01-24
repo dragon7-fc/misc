@@ -166,9 +166,9 @@ secret = "acckzz", words = ["acckzz","ccbazz","eiowzz","abcczz"], allowedGuesses
                                secret     guessWord |            secret    guessWord
 secret =  "acckzz"                                  |
 words  = ["acckzz",     x        6          6       |                          3
-          "ccbazz",                         3       |     x        3           6
-          "eiowzz",                         2       |                          2
-          "abcczz"]                         4       |                          2
+          "ccbazz",                         3x      |     x        3           6x
+          "eiowzz",                         2x      |                          2x
+          "abcczz"]                         4x      |                          2x
 
 ```
 Runtime: 4 ms, Beats 48.60%

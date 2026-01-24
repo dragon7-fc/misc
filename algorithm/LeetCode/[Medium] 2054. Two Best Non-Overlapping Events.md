@@ -95,6 +95,17 @@ public:
 ```
 
 **Solution 3: (Greedy)**
+
+    events = [[1,3,2],[4,5,2],[2,4,3]]
+
+        1  2  3  4  5  6
+        ---2---
+                 -2--
+           --3----
+
+cur  0       2   3 
+ans     2  3     4 < ans
+
 ```
 Runtime: 107 ms
 Memory: 155.24 MB

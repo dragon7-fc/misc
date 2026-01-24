@@ -83,3 +83,45 @@ public:
     }
 };
 ```
+
+**Solution 2: (Bit Manipulation, try unset a bit before first zero for even number)**
+
+ans[i] OR (ans[i] + 1) == nums[i]
+-> unset a bit beofre first zero
+
+    nums = [   2,   3,   5,   7]
+                        v
+                   11  101  111
+                   x     x  x
+    ans       -1    1  100   11
+
+
+     nums = [11,  13,   31]
+            v     v
+           1011 1101 11111
+             x     x x
+     ans   1001 1100  1111
+
+```
+Runtime: 0 ms, Beats 100.00%
+Memory: 28.27 MB, Beats 61.17%
+```
+```c++
+class Solution {
+public:
+    vector<int> minBitwiseArray(vector<int>& nums) {
+        int n = nums.size(), a;
+        vector<int> ans(n, -1);
+        for (int i = 0; i < n; i ++) {
+            if (nums[i] % 2) {
+                a = 1;
+                while (a & nums[i]) {
+                    ans[i] = nums[i] - a;
+                    a <<= 1;
+                }
+            }
+        }
+        return ans;
+    }
+};
+```

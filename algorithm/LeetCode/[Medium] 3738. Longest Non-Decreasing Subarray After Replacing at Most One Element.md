@@ -43,6 +43,12 @@ All elements in nums are equal, so it is already non-decreasing and the entire n
 # Submissions
 ---
 **Solution 1: (Prefix Sum, left and right)**
+
+     nums = [ 1, 2, 3, 1, 2]
+    left      1  2  3  1  2
+    right     3  2  1  2  1
+    ans     4           
+
 ```
 Runtime: 35 ms, Beats 25.00%
 Memory: 190.31 MB, Beats 25.00%

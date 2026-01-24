@@ -578,6 +578,23 @@ public:
 ```
 
 **Solution 7: (DFS, Two Pointes)**
+
+            1
+      /     |     \
+    3       2      4
+   /  \   
+  5    6
+
+serialize:    1,3,5,#,6,#,#,2,#,4,#,#
+deserialize:
+                                      i
+
+              1
+            / |  \
+          3   2   4
+        /  \  x   x
+       5    6
+       x    x
 ```
 Runtime: 30 ms, Beats 67.18%
 Memory: 183.60 MB, Beats 22.90%

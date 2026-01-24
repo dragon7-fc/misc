@@ -473,14 +473,14 @@ public:
     a a d b b c b c a c
     --- xxxxxxx --- x -
 
-      0 1 2 3 4  vi
+    0 1 2 3 4 5 vi
       a a b c c
-    1 1 1 
-0 d     1 1
-1 b     1 1 1
-2 b     1   1
-3 c     1 1 1
-4 a         1 1
+0   1 1 1 
+1 d     1 1
+2 b     1 1 1
+3 b     1   1
+4 c     1 1 1
+5 a         1 1
 
 ```
 Runtime: 0 ms, Beats 100.00%

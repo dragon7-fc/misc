@@ -224,6 +224,26 @@ struct TreeNode* deserialize(char* data) {
 ```
 
 **Solution 4: (DFS)**
+
+            1
+          /    \
+        2        3
+               /   \
+              4     5
+            
+
+serialize:     1,2,,,3,4,,,5,,,
+               0   1   2   3   4   5   6   7   8   9  10
+dp:            1   2  ""  ""   3   4  ""   ""  5  ""  ""
+                   i
+
+                1
+              /   \
+            2       3
+          /   \    /  \
+         x     x  4    5
+                 / \  /  \
+                 x x  x  x
 ```
 Runtime: 37 ms, Beats 19.08%
 Memory: 44.72 MB, Beats 15.39%

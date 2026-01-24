@@ -149,7 +149,16 @@ class Solution:
         return ans
 ```
 
-**Solution 4: (Two Pointers)**
+**Solution 4: (Two Pointers, O(n^3))**
+
+             0  1  2  3  4  5
+    nums = [ 1, 0,-1, 0,-2, 2], target = 0
+            -2 -1  0  0  1  2
+             i  ->
+                j ->
+                   k ->      
+                         <- l
+
 ```
 Runtime: 24 ms, Beats 40.20%
 Memory: 17.48 MB, Beats 59.00%

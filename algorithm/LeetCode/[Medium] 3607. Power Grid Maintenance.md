@@ -63,7 +63,7 @@ Query [1,1]: Station 1 is offline and there are no other stations in its grid, s
 
 # Submissions
 ---
-**Solution 1: (Union Find)**
+**Solution 1: (Union Find, queue)**
 ```
 Runtime: 243 ms, Beats 76.51%
 Memory: 479.13 MB, Beats 5.02%

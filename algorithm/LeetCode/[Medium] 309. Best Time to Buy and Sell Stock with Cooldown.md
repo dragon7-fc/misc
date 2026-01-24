@@ -126,6 +126,13 @@ class Solution:
 ```
 
 **Solution 5: (DP Bottom-Up)**
+
+               v
+prices   1, 2, 3, 0, 2
+b       -1 -1 -1  1  
+s           1  2  2  3
+                     ^ans
+
 ```
 Runtime: 3 ms, Beats 35.45%
 Memory: 16.00 MB, Beats 71.19%

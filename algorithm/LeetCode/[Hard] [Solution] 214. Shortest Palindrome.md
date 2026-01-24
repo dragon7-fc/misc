@@ -312,6 +312,22 @@ public:
 ```
 
 **Solution 7: (KMP, O(n))**
+
+    s       = "a a c e c a a a"
+    reverse    a[a a c e c a a]
+                 -------------
+                 palindromeLength
+                        vreplace
+               a        s
+               --------------
+                   ans
+    
+    combine    a a c e c a a a # a a a c e c a a
+               ---------------   ---------------
+                      s             reverse
+    prefix     0 1 0 0 0 1 2 1 0 1 2 2 3 4 5 6 7
+                                               ^palindromeLength 
+
 ```
 Runtime: 6 ms
 Memory: 11.77 MB
@@ -358,6 +374,24 @@ public:
 ```
 
 **Solution 8: (Rolling Hash Based Algorithm, O(n))**
+
+                           vpalindromeEndIndex
+    s       = "a a c e c a a a"
+               <============
+               ============>
+               forwared = reverse
+                            ---
+                            suffix
+forward        1
+                 1*29 + 1 
+                   (1*29 + 1)*29 + 3
+                     ((1*29 + 1)*29 + 3)*29 + 5
+reverse        1*1 
+                 1*1 + 1*29
+                    1*1 + 1*29 + 3*29^2
+                      1*1 + 1*29 + 3*29^2 + 5*29^3
+                
+
 ```
 Runtime: 4 ms
 Memory: 9.53 MB

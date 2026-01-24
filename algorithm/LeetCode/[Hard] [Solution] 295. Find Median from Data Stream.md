@@ -501,6 +501,21 @@ class MedianFinder:
 ```
 
 **Solution 5: (Two Heaps)**
+
+MedianFinder medianFinder = new MedianFinder();
+medianFinder.addNum(1);    // arr = [1]
+lo:
+hi:  1
+medianFinder.addNum(2);    // arr = [1, 2]
+lo:  1
+hi:  2
+medianFinder.findMedian(); // return 1.5 (i.e., (1 + 2) / 2)
+medianFinder.addNum(3);    // arr[1, 2, 3]
+lo:  1
+hi:  2 3
+     ^
+medianFinder.findMedian(); // return 2.0
+
 ```
 Runtime: 87 ms, Beats 15.11%
 Memory: 125.08 MB, Beats 43.41%

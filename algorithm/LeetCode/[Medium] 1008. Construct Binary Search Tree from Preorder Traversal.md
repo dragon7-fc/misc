@@ -141,6 +141,16 @@ struct TreeNode* bstFromPreorder(int* preorder, int preorderSize){
 ```
 
 **Solution 4: (DFS)**
+
+    preorder = [8,5,1,7,10,12]
+                ^[     ][    ]
+                  ^[ ][ ] [][ ]
+                    ^  ^ ^   ^
+                8
+             /    \
+            5     10
+           / \      \
+          1   7     12
 ```
 Runtime: 0 ms, Beats 100.00%
 Memory: 16.28 MB, Beats 83.50%

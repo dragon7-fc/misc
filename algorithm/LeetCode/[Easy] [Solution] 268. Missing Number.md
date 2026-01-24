@@ -206,6 +206,14 @@ class Solution:
 ```
 
 **Solution 4: (Bit Manipulation)**
+
+            0 1 2
+    nums = [3,0,1]
+missing
+0           x x
+1             x x
+2               x < ans
+3        x  x
 ```
 Runtime: 19 ms
 Memory Usage: 17.8 MB

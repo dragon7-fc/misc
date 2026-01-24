@@ -94,6 +94,14 @@ public:
 ```
 
 **Solution 3: (DP Top-Down)**
+
+    matrix = [[ 9, 9, 4],
+dp              1  1  2
+              [ 6, 6, 8],
+dp              2  2  1
+              [ 2, 1, 1]]
+dp              3  4  1
+
 ```
 Runtime: 8 ms, Beats 77.87%
 Memory: 20.91 MB, Beats 54.82%
@@ -102,7 +110,7 @@ Memory: 20.91 MB, Beats 54.82%
 class Solution {
     int dd[5] = {0, 1, 0, -1, 0};
     int dfs(int r, int c, vector<vector<int>> &dp, vector<vector<int>> &matrix) {
-        if (dp[r][c]) {
+        if (dp[r][c] != INT_MIN) {
             return dp[r][c];
         }
         int rst = 0, nr, nc;
@@ -120,7 +128,7 @@ class Solution {
 public:
     int longestIncreasingPath(vector<vector<int>>& matrix) {
         int m = matrix.size(), n = matrix[0].size();
-        vector<vector<int>> dp(m, vector<int>(n));
+        vector<vector<int>> dp(m, vector<int>(n, INT_MIN));
         int ans = 0;
         for (int i = 0; i < m; i ++) {
             for (int j = 0; j < n; j ++) {
@@ -128,6 +136,7 @@ public:
             }
         }
         return ans;
+
     }
 };
 ```

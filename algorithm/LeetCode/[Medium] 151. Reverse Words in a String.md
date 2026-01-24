@@ -198,6 +198,14 @@ public:
 ```
 
 **Solution 7: (String, space: O(1))**
+
+    s = "t h e   s k y   i s   b l u e"
+reverse  e u l b   s i   y k s   e h t
+                                       i
+                                       r
+                                       l
+ans      b l u e   i s   s k y   t h e
+
 ```
 Runtime: 3 ms
 Memory: 7.2 MB

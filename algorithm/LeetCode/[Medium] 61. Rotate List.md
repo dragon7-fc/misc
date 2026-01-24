@@ -90,6 +90,13 @@ class Solution:
 ```
 
 **Solution 3: (Linked List)**
+
+    head = [ 1, 2, 3, 4, 5], k = 2
+
+               vd
+    1 -> 2 - > 3 -> 4 -> 5
+    ^            x  ^nh  |
+    ---------------------|
 ```
 Runtime: 6 ms
 Memory Usage: 11.7 MB

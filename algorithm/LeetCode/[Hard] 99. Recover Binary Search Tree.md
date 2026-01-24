@@ -83,7 +83,7 @@ class Solution:
         self.first.val, self.second.val = self.second.val, self.first.val
 ```
 
-**Solution 2: (DFS)**
+**Solution 2: (DFS, in-order)**
 ```
 Runtime: 52 ms
 Memory Usage: 53.6 MB

@@ -117,15 +117,15 @@ void rotate(int** matrix, int matrixSize, int* matrixColSize){
 **Solution 4: (Rotate Groups of Four Cells)**
 
 
-      r              |  
-      |              |-r 
-    ----c---x        c  
+           r         |  
+           |         |   
+    ----c--x         c  
                      | 
-    r-x              x
+    r-x              x-r
       | 
-      c   x------c------
-      |              | 
-      |              r
+      c         x--c----
+      |         |      
+      |         r     
 
 ```
 Runtime: 0 ms

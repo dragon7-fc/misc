@@ -196,12 +196,6 @@ class Solution:
 
              0  1  2  3  4
     nums = [ 1, 3, 4, 2, 2]
-                   i
-                   j
-            
-
-             0  1  2  3  4
-    nums = [ 1, 3, 4, 2, 2]
                 i
                 j
                       i

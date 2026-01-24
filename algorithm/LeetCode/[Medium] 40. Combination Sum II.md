@@ -156,37 +156,37 @@ int** combinationSum2(int* candidates, int candidatesSize, int target, int* retu
 }
 ```
 
-**Solution 4: (Backtracking)**
+**Solution 4: (Backtracking, taken not-taken)**
 
     candidates = [10,1,2,7,6,1,5], target = 8
 
     1, 1, 2, 5, 6, 7, 10
 
                     1
-                  /   \
+                x /   \
                 1      1
-              /       /  \
+            x /     xx/  \
              2       2    2
-              \     / \  /
-               5   5<  5 5
+              \   x / \ x/  
+               5  x5<  5 5
                 \       \ \
-                 6<      6 6<
+                x6<      6x6<
                           \
-                           7<
+                          x7<
 
     candidates = [2,5,2,1,2], target = 5
 
     1, 2, 2, 2, 5
 
                 1
-              /  \
+            x /  \
             2     2
-           /       \
-          2<        2
+         x /       \
+         x2<        2
                      \            
                       2
                        \
-                        5<
+                       x5<
 
 ```
 Runtime: 0 ms, Beats 100.00%
@@ -201,12 +201,14 @@ class Solution {
             }
             return;
         }
+        // taken
         p.push_back(candidates[i]);
         bt(i+1, r - candidates[i], p, ans, candidates);
         p.pop_back();
         while (i+1 < candidates.size() && candidates[i] == candidates[i+1]) {
             i += 1;
         }
+        // not-taken
         bt(i+1, r, p, ans, candidates);
     }
 public:

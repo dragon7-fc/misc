@@ -67,3 +67,53 @@ class Solution:
             best -= 1
         return best
 ```
+
+**Solution 2: (Sort, Greedy)**
+
+                                                 v
+    1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16 17 18 19 20
+b                              x                             x
+p      x                                            x  x  x
+      ^^^                                        ^^^^^    
+
+                                                             v
+    1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30
+b                              x                             x                             x
+p            x                    x     x                 x     x              x
+            ^^^                  ^^^^^^^^^               ^^^^^
+
+```
+Runtime: 31 ms, Beats 81.91%
+Memory: 80.42 MB, Beats 96.25%
+```
+```c++
+class Solution {
+public:
+    int latestTimeCatchTheBus(vector<int>& buses, vector<int>& passengers, int capacity) {
+        int n = buses.size(), m = passengers.size(), i, j = 0, k, ans;
+        sort(begin(buses), end(buses));
+        sort(begin(passengers), end(passengers));
+        for (i = 0; i < n; i ++) {
+            k = 0;
+            while (j < m && passengers[j] <= buses[i] && k < capacity) {
+                j += 1;
+                k += 1;
+            }
+            if (i == n - 1) { // the last bus
+                if (k < capacity) { // still have seats
+                    ans = buses[i]; // can be as late as the bus arrive time
+                } else { // full of passegers
+                    j -= 1;
+                    ans = passengers[j] - 1; // should arrive earlier than last passenger aboard
+                }
+                j -= 1;
+                while (j >= 0 && passengers[j] == ans) {
+                    j -= 1;
+                    ans -= 1;
+                }
+            }
+        }
+        return ans;
+    }
+};
+```

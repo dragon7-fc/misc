@@ -171,6 +171,14 @@ public:
 ```
 
 **Solution 5: (Sliding Window)**
+
+             0  1  2  3
+    nums = [ 1, 4, 8,13], k = 5
+                   i
+                         j
+cur      0      3 11 14
+                   4  5
+
 ```
 Runtime: 161 ms
 Memory: 99.5 MB

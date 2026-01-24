@@ -89,6 +89,28 @@ class Solution:
 ```
 
 **Solution 2: (Linked List)**
+
+    head = [1,2,3,4,5]
+
+                        vo
+    vh   veven_h
+    1 -> 2 -> 3 -> 4 -> 5
+cnt:2    
+    ^p   ^c
+    --------->
+cnt:3
+         ^p   ^c
+         ---------->
+cnt:4
+              ^p   ^c
+              ---------->
+cnt:5
+                   ^p   ^c
+                   ---------->
+cnt:6
+                        ^p   ^cx
+         <---------------
+
 ```
 Runtime: 4 ms
 Memory Usage: 6.8 MB

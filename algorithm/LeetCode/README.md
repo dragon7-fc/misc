@@ -264,20 +264,23 @@ class Solution:
 * [Medium] 36. Valid Sudoku
 
 ### Rotate Groups of Four Cells
-```python
-class Solution:
-    def rotate(self, matrix: List[List[int]]) -> None:
-        """
-        Do not return anything, modify matrix in-place instead.
-        """
-        n = len(matrix[0])
-        for i in range(n // 2 + n % 2):
-            for j in range(n // 2):
-                tmp = matrix[n - 1 - j][i]
-                matrix[n - 1 - j][i] = matrix[n - 1 - i][n - j - 1]
-                matrix[n - 1 - i][n - j - 1] = matrix[j][n - 1 -i]
-                matrix[j][n - 1 - i] = matrix[i][j]
-                matrix[i][j] = tmp
+```c++
+class Solution {
+public:
+    void rotate(vector<vector<int>>& matrix) {
+        int n = matrix.size(), i = 0, j, a, b;
+        while (i < n-1-i) {
+            for (j = i; j < n-1-i; j ++) {
+                a = matrix[i][j];
+                matrix[i][j] = matrix[n-1-j][i];
+                matrix[n-1-j][i] = matrix[n-1-i][n-1-j];
+                matrix[n-1-i][n-1-j] = matrix[j][n-1-i];
+                matrix[j][n-1-i] = a;
+            }
+            i += 1;
+        }
+    }
+};
 ```
 * [Medium] 48. Rotate Image
 
@@ -1852,7 +1855,7 @@ class Solution:
 ```
 * [Lock] [Medium] 1066. Campus Bikes II
 
-### block min max
+### block min max, limited candidate
 ```c++
 class Solution {
 public:
@@ -5301,31 +5304,41 @@ class Solution:
 * [Medium] 151. Reverse Words in a String
 
 ### Stack, previous operator
-```python
-class Solution:
-    def calculate(self, s: str) -> int:
-        num = 0
-        pre_op = '+'
-        s += '#'
-        stack = []
-        for c in s:
-            if c.isdigit():
-                num = num*10 + int(c)
-            elif c == ' ': continue
-            else:
-                if pre_op == '+':
-                    stack.append(num)
-                elif pre_op == '-':
-                    stack.append(-num)
-                elif pre_op == '*':
-                    operant = stack.pop()
-                    stack.append((operant*num))
-                elif pre_op == '/':
-                    operant = stack.pop()
-                    stack.append(int(operant/num))
-                num = 0
-                pre_op = c
-        return sum(stack)
+```c++
+class Solution {
+public:
+    int calculate(string s) {
+        int n = s.size(), ans = 0;
+        long long cur = 0;
+        char op = '+';
+        stack<int> stk;
+        s += '#';
+        for (auto c: s) {
+            if (c >= '0' && c <= '9') {
+                cur = cur*10 + c -'0';
+            } else if (c == ' ') {
+                continue;
+            } else {
+                if (op == '+') {
+                    stk.push(cur);
+                } else if (op == '-') {
+                    stk.push(-cur);
+                } else if (op == '*') {
+                    stk.top() *= cur;
+                } else {
+                    stk.top() /= cur;
+                }
+                cur = 0;
+                op = c;
+            }
+        }
+        while (stk.size()) {
+            ans += stk.top();
+            stk.pop();
+        }
+        return ans;
+    }
+};
 ```
 * [Medium] 227. Basic Calculator II
 
@@ -5515,21 +5528,55 @@ class Solution:
 ```
 * [Medium] [Solution] 966. Vowel Spellchecker
 
-### break string, stack, divide and conquer
-```python
-class Solution:
-    def longestSubstring(self, s: str, k: int) -> int:
-        stack = [s]
-        ans = 0
-        while stack:
-            string = stack.pop()
-            for char in set(string):
-                if string.count(char) < k:
-                    stack.extend(substring for substring in string.split(char))
-                    break
-            else:
-                ans = max(ans, len(string))
-        return ans
+### Sliding Window, brute force over uniq char
+```c++
+class Solution {
+    // get the maximum number of unique letters in the string s
+    int getMaxUniqueLetters(string s) {
+        bool map[26] = {0};
+        int maxUnique = 0;
+        for (int i = 0; i < s.length(); i++) {
+            if (!map[s[i] - 'a']) {
+                maxUnique++;
+                map[s[i] - 'a'] = true;
+            }
+        }
+        return maxUnique;
+    }
+public:
+    int longestSubstring(string s, int k) {
+        int countMap[26];
+        int maxUnique = getMaxUniqueLetters(s);
+        int result = 0;
+        for (int currUnique = 1; currUnique <= maxUnique; currUnique++) {
+            // reset countMap
+            memset(countMap, 0, sizeof(countMap));
+            int windowStart = 0, windowEnd = 0, idx = 0, unique = 0, countAtLeastK = 0;
+            while (windowEnd < s.size()) {
+                // expand the sliding window
+                if (unique <= currUnique) {
+                    idx = s[windowEnd] - 'a';
+                    if (countMap[idx] == 0) unique++;
+                    countMap[idx]++;
+                    if (countMap[idx] == k) countAtLeastK++;
+                    windowEnd++;
+                }
+                // shrink the sliding window
+                else {
+                    idx = s[windowStart] - 'a';
+                    if (countMap[idx] == k) countAtLeastK--;
+                    countMap[idx]--;
+                    if (countMap[idx] == 0) unique--;
+                    windowStart++;
+                }
+                if (unique == currUnique && unique == countAtLeastK)
+                    result = max(windowEnd - windowStart, result);
+            }
+        }
+
+        return result;
+    }
+};
 ```
 * [Medium] 395. Longest Substring with At Least K Repeating Characters
 
@@ -5587,6 +5634,59 @@ class Solution:
         return dp(0, 0)
 ```
 * [Hard] 72. Edit Distance
+
+### Two Strings
+```c++
+class TextEditor {
+    string before, after;
+public:
+    TextEditor() {
+        
+    }
+    
+    void addText(string text) {
+        before += text;
+    }
+    
+    int deleteText(int k) {
+        int rst = 0;
+        while (before.size() && k) {
+            before.pop_back();
+            k -= 1;
+            rst += 1;
+        }
+        return rst;
+    }
+    
+    string cursorLeft(int k) {
+        while (before.size() && k) {
+            after += before.back();
+            before.pop_back();
+            k -= 1;
+        }
+        return before.substr(max(0, (int)before.size() - 10));
+    }
+    
+    string cursorRight(int k) {
+        while (after.size() && k) {
+            before += after.back();
+            after.pop_back();
+            k -= 1;
+        }
+        return before.substr(max(0, (int)before.size() - 10));
+    }
+};
+
+/**
+ * Your TextEditor object will be instantiated and called as such:
+ * TextEditor* obj = new TextEditor();
+ * obj->addText(text);
+ * int param_2 = obj->deleteText(k);
+ * string param_3 = obj->cursorLeft(k);
+ * string param_4 = obj->cursorRight(k);
+ */
+```
+* [Hard] 2296. Design a Text Editor
 
 ## Tree <a name="tree"></a>
 ---
@@ -6831,45 +6931,11 @@ class Solution:
 ```
 * [Medium] 15. 3Sum
 
-### OrderedDict
-```python
-class LRUCache:
-
-    def __init__(self, capacity: int):
-        self.max_capacity = capacity
-        self.lru_cache = collections.OrderedDict()
-
-    def get(self, key: int) -> int:
-        key = str(key)
-        if(key not in self.lru_cache):
-            return -1
-        value = self.lru_cache[key]
-        del self.lru_cache[key]
-        self.lru_cache[key] = value
-        return value
-
-    def put(self, key: int, value: int) -> None:
-        key = str(key)
-        if key not in self.lru_cache:
-            if len(self.lru_cache) < self.max_capacity:
-                self.lru_cache[key] = value
-            else:
-                self.lru_cache.popitem(last=False)
-                self.lru_cache[key] = value
-        else:
-            del self.lru_cache[key]
-            self.lru_cache[key] = value
-
-
-# Your LRUCache object will be instantiated and called as such:
-# obj = LRUCache(capacity)
-# param_1 = obj.get(key)
-# obj.put(key,value)
-```
+### hash table + list
 ```c++
 class LRUCache {
-    list<pair<int,int>> q;
-    unordered_map<int, list<pair<int,int>>::iterator> m;
+    list<pair<int,int>> q;  // list(k, v)
+    unordered_map<int, list<pair<int,int>>::iterator> m;  // k, list(k, v)->
     int n;
 public:
     LRUCache(int capacity) {
@@ -6908,6 +6974,67 @@ public:
  */
 ```
 * [Medium] 146. LRU Cache
+
+### hash table + list + frequency
+```c++
+class LFUCache {
+    int n, mn = 0;
+    unordered_map<int,list<pair<int,int>>> cnt;
+    // f -> list{k, v}
+    unordered_map<int,pair<int,list<pair<int,int>>::iterator>> m;
+    // k -> f, list{k, v}->
+public:
+    LFUCache(int capacity) {
+        n = capacity;
+    }
+    
+    int get(int key) {
+        if (!m.count(key)) {
+            return -1;
+        }
+        auto [f, it] = m[key];
+        auto [_, v] = *it;
+        cnt[f].erase(it);
+        if (cnt[f].size() == 0) {
+            cnt.erase(f);
+            if (mn == f) {
+                mn += 1;
+            }
+        }
+        f += 1;
+        cnt[f].push_front({key, v});
+        m[key] = {f, cnt[f].begin()};
+        return v;
+    }
+    
+    void put(int key, int value) {
+        if (m.count(key)) {
+            m[key].second->second = value;
+            get(key);
+        } else {
+            if (m.size() == n) {
+                auto [k, _] = cnt[mn].back();
+                cnt[mn].pop_back();
+                if (cnt[mn].size() == 0) {
+                    cnt.erase(mn);
+                }
+                m.erase(k);
+            }
+            mn = 1;
+            cnt[mn].push_front({key, value});
+            m[key] = {mn, cnt[mn].begin()};
+        }
+    }
+};
+
+/**
+ * Your LFUCache object will be instantiated and called as such:
+ * LFUCache* obj = new LFUCache(capacity);
+ * int param_1 = obj->get(key);
+ * obj->put(key,value);
+ */
+```
+* [Hard] 460. LFU Cache
 
 ### Generalized Neighbors
 ```python
@@ -7262,6 +7389,37 @@ public:
 };
 ```
 * [Hard] [Solution] 128. Longest Consecutive Sequence
+
+### Sort, Greedy, sort by smallest end then largest start, only care about right most 2 point
+```c++
+class Solution {
+public:
+    int intersectionSizeTwo(vector<vector<int>>& intervals) {
+        sort(intervals.begin(), intervals.end(), [](auto &ia, auto &ib){
+            if (ia[1] != ib[1]) {
+                return ia[1] < ib[1];
+            }
+            return ia[0] > ib[0];
+        });
+        int n = intervals.size(), i, pst = intervals[0][1] - 1, ped = intervals[0][1], st, ed, ans = 2;
+        for (i = 1; i < n; i ++) {
+            st = intervals[i][0];
+            ed = intervals[i][1];
+            if (ped < st) {
+                pst = ed - 1;
+                ped = ed;
+                ans += 2;
+            } else if (pst < st) {
+                pst = ped;
+                ped = ed;
+                ans += 1;
+            }
+        }
+        return ans;
+    }
+};
+```
+* [Hard] 757. Set Intersection Size At Least Two
 
 ### Reverse location list
 ```python
@@ -7838,35 +7996,39 @@ class Solution:
 * [Medium] [Solution] 967. Numbers With Same Consecutive Differences
 
 ### Prefix Sum
-```python
-# Definition for a binary tree node.
-# class TreeNode:
-#     def __init__(self, x):
-#         self.val = x
-#         self.left = None
-#         self.right = None
-
-class Solution:
-
-    def pathSum(self, root: TreeNode, sum: int) -> int:
-        target = sum
-        prev_sum = collections.defaultdict(int)
-        prev_sum[0] = 1
-        cnt = 0
-
-        def dfs(node, curr_sum):
-            nonlocal cnt, prev_sum
-            if node is not None:
-                curr_sum += node.val
-                cnt += prev_sum[curr_sum - target]
-                prev_sum[curr_sum] += 1
-
-                dfs(node.left, curr_sum)
-                dfs(node.right, curr_sum)
-                prev_sum[curr_sum] -= 1
-
-        dfs(root, 0)
-        return cnt
+```c++
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+class Solution {
+    void bt(TreeNode *node, int targetSum, unordered_map<long long,int> &cnt, long long a, int &ans) {
+        if (!node) {
+            return;
+        }
+        a += node->val;
+        ans += cnt[a-targetSum];
+        cnt[a] += 1;
+        bt(node->left, targetSum, cnt, a, ans);
+        bt(node->right, targetSum, cnt, a, ans);
+        cnt[a] -= 1;
+    }
+public:
+    int pathSum(TreeNode* root, int targetSum) {
+        int ans = 0;
+        unordered_map<long long,int> cnt;
+        cnt[0] = 1;
+        bt(root, targetSum, cnt, 0LL, ans);
+        return ans;
+    }
+};
 ```
 * [Medium] [Solution] 437. Path Sum III
 
@@ -9053,35 +9215,29 @@ class Solution:
 ```
 * [Medium] 1300. Sum of Mutated Array Closest to Target
 
-### Range Sum Search
-```python
-class Solution:
-    def maxSideLength(self, mat: List[List[int]], threshold: int) -> int:
-        m, n = len(mat), len(mat[0])
-        #build prefix sum 
-        prefix = [[0]*(n+1) for _ in range(m+1)]
-
-        for i, j in itertools.product(range(m), range(n)):
-            prefix[i+1][j+1] = prefix[i+1][j] + prefix[i][j+1] - prefix[i][j] + mat[i][j]
-
-        def below(k): 
-            """reture true if there is such a sub-matrix of length k"""
-            for i, j in itertools.product(range(m+1-k), range(n+1-k)):
-                if prefix[i+k][j+k] - prefix[i][j+k] - prefix[i+k][j] + prefix[i][j] <= threshold: return True
-            return False 
-
-        #binary search
-        max_square = 0
-        lo, hi = 1, min(m, n)
-        while lo <= hi: 
-            mi = lo + (hi - lo)//2
-            if below(mi):
-                max_square = max(max_square, mi)
-                lo = mi + 1
-            else:
-                hi = mi - 1
-
-        return max_square
+### Range Sum Search, Enumeration, gradually decreasing search space
+```c++
+class Solution {
+public:
+    int maxSideLength(vector<vector<int>>& mat, int threshold) {
+        int m = mat.size(), n = mat[0].size(), i, j, left = 1, right = min(m, n);
+        vector<vector<int>> pre(m + 1, vector<int>(n + 1));
+        bool flag;
+        for (i = 0; i < m; i ++) {
+            for (j = 0; j < n; j ++) {
+                pre[i + 1][j + 1] = pre[i + 1][j] + pre[i][j + 1] - pre[i][j] + mat[i][j];
+            }
+        }
+        for (i = 0; i < m; i ++) {
+            for (j = 0; j < n; j ++) {
+                while (left <= right && i + left <= m && j + left <= n && pre[i + left][j + left] - pre[i][j + left] - pre[i + left][j] + pre[i][j] <= threshold) {
+                    left += 1;
+                }
+            }
+        }
+        return left - 1;
+    }
+};
 ```
 * [Medium] 1292. Maximum Side Length of a Square with Sum Less than or Equal to Threshold
 
@@ -9242,6 +9398,48 @@ class MajorityChecker:
 ```
 * [Hard] 1157. Online Majority Element In Subarray
 
+### split to half then sort and binary search all possibility
+```c++
+class Solution {
+    void gen_subset(int i, int j, vector<int> &nums, vector<vector<int>> &rst) {
+        int k, c;
+        for (auto a = 0; a < (1 << (j - i + 1)); a ++) {
+            k = 0, c = 0;
+            for (auto b = 0; (1 << b) <= a; b ++) {
+                if ((1 << b) & a) {
+                    k += 1;
+                    c += nums[i + b];
+                }
+            }
+            rst[k].push_back(c);
+        }
+    }
+public:
+    int minimumDifference(vector<int>& nums) {
+        int n = nums.size() / 2, total = accumulate(nums.begin(), nums.end(), 0), i, ans = INT_MAX;
+        vector<vector<int>> left(n + 1), right(n + 1);
+        gen_subset(0, n - 1, nums, left);
+        gen_subset(n, 2 * n - 1, nums, right);
+        for (i = 0; i <= n; i ++) {
+            sort(right[i].begin(), right[i].end());
+        }
+        for (i = 0; i <= n / 2; i ++) {
+            for (auto a: left[i]) {
+                auto it = lower_bound(right[n - i].begin(), right[n - i].end(), (total - 2 * a) / 2);
+                if (it != right[n - i].end()) {                             // ^^^^^^^^^^^^^^^^^^^^^
+                    ans = min(ans, abs(a + (*it) - (total - a - *it)));     //    total / 2 - a  = half - a
+                }
+                if (it != right[n - i].begin()) {
+                    ans = min(ans, abs(a + *prev(it) - (total - a - *prev(it))));
+                }
+            }
+        }
+        return ans;
+    }
+};
+```
+* [Hard] 2035. Partition Array Into Two Arrays to Minimize Sum Difference
+
 **Template 1: (Binary Search, lower bound)**
 ```python
 def is_XXX(...):
@@ -9312,7 +9510,7 @@ return ans
 
 ## Greedy <a name="greedy"></a>
 ---
-### Journey From Minus to Plus
+### Journey From Minus to Plus, add first then substract corner case
 ```c++
 class Solution {
 public:
@@ -9617,23 +9815,28 @@ class Solution:
 ```
 * [Medium] 452. Minimum Number of Arrows to Burst Balloons
 
-### First match
-```python
-class Solution:
-    def canCompleteCircuit(self, gas: List[int], cost: List[int]) -> int:
-        if (sum(gas) - sum(cost) < 0):
-            return -1
-
-        gas_tank, start_index = 0, 0
-
-        for i in range(len(gas)):
-            gas_tank += gas[i] - cost[i]
-
-            if gas_tank < 0:
-                start_index = i+1
-                gas_tank = 0
-
-        return start_index
+### First match, find first stations with positive gas
+```c++
+class Solution {
+public:
+    int canCompleteCircuit(vector<int>& gas, vector<int>& cost) {
+        int n = gas.size(), i, j = 0, a, b, cur;
+        a = accumulate(gas.begin(), gas.end(), 0);
+        b = accumulate(cost.begin(), cost.end(), 0);
+        if (a < b) {
+            return -1;
+        }
+        cur = 0;
+        for (i = 0; i < n; i ++) {
+            cur += gas[i] - cost[i];
+            if (cur < 0) {
+                cur = 0;
+                j = i+1;
+            }
+        }
+        return j;
+    }
+};
 ```
 * [Medium] 134. Gas Station
 
@@ -10135,14 +10338,18 @@ class Solution:
 * [Hard] 316. Remove Duplicate Letters
 
 ### Minimum Number of Increments
-```python
-class Solution:
-    def minNumberOperations(self, target: List[int]) -> int:
-        res = pre = 0
-        for a in target:
-            res += max(a - pre, 0)
-            pre = a
-        return res
+```c++
+class Solution {
+public:
+    int minNumberOperations(vector<int>& target) {
+        int n = target.size();
+        int ans = target[0];
+        for (int i = 1; i < n; ++i) {
+            ans += max(target[i] - target[i - 1], 0);
+        }
+        return ans;
+    }
+};
 ```
 * [Hard] 1526. Minimum Number of Increments on Subarrays to Form a Target Array
 
@@ -11704,6 +11911,29 @@ class Solution:
 ```
 * [Medium] 1498. Number of Subsequences That Satisfy the Given Sum Condition
 
+### prefix suffix sum, left and right, try every position
+```c++
+class Solution {
+public:
+    int longestSubarray(vector<int>& nums) {
+        int n = nums.size(), i, ans;
+        vector<int> left(n, 1), right(n, 1);
+        for (i = 1; i < n; i++)
+            if (nums[i - 1] <= nums[i])
+                left[i] = left[i - 1] + 1;
+        for (i = n - 2; i >= 0; i--)
+            if (nums[i] <= nums[i + 1])
+                right[i] = right[i + 1] + 1;
+        ans = min(n, *max_element(left.begin(), left.end()) + 1);
+        for (i = 1; i < n - 1; i++)
+            if (nums[i - 1] <= nums[i + 1])
+                ans = max(ans, left[i - 1] + 1 + right[i + 1]);
+        return ans;
+    }
+};
+```
+* [Medium] 3542. Minimum Operations to Convert All Elements to Zero
+
 ### left right and current pointer
 ```c++
 class Solution {
@@ -12051,27 +12281,26 @@ class Solution:
 ```
 * [Medium] 2104. Sum of Subarray Ranges
 
-### Fix one direction and use decreasing stack to filter element in the other side
-```python
-class Solution:
-    def find132pattern(self, nums: List[int]) -> bool:
-        N = len(nums)
-        if N < 3:
-            return False
-        stack = []
-        mi = [None]*N
-        mi[0] = nums[0]
-        for i in range(1, N):
-            mi[i] = min(mi[i-1], nums[i])
-        for j in range(N-1, -1, -1):
-            if nums[j] > mi[j]:
-                while stack and stack[-1] <= mi[j]:
-                    stack.pop()
-                if stack and stack[-1] < nums[j]:
-                    return True
-                stack.append(nums[j])
-
-        return False
+### backward mono dec stack
+```c++
+class Solution {
+public:
+    bool find132pattern(vector<int>& nums) {
+        stack<int> st;
+        int pre = INT_MIN, n = nums.size();
+        for(int i=n-1;i>-1;i--)
+        {
+            if (nums[i] < pre) return true;
+            while (!st.empty() && st.top() < nums[i])
+            {
+                pre = st.top();
+                st.pop();
+            }
+            st.push(nums[i]);
+        }
+        return false;
+    }
+};
 ```
 * [Medium] [Solution] 456. 132 Pattern
 
@@ -13798,25 +14027,23 @@ class Solution:
 * [Medium] 1177. Can Make Palindrome from Substring
 
 ### expand from internal
-```python
-class Solution:
-    def grayCode(self, n: int) -> List[int]:
-        return [i ^ (i >> 1) for i in range(2**n)]
-
-class Solution:
-    def grayCode(self, n: int) -> List[int]:
-        if n == 0:
-            return [0]
-        
-        def recursion(n):
-            if n == 1:
-                return ['0','1']
-            else:
-                return ['0' + i for i in recursion(n - 1)] + ['1' + i for i in recursion(n - 1)[::-1]]
-            
-        return [int(i,2) for i in recursion(n)]
+```c++
+class Solution {
+public:
+    vector<int> grayCode(int n) {
+        vector<int> result;
+        // there are 2 ^ n numbers in the Gray code sequence.
+        int sequenceLength = 1 << n;
+        for (int i = 0; i < sequenceLength; i++) {
+            int num = i ^ i >> 1;
+            result.push_back(num);
+        }
+        return result;
+    }
+};
 ```
-[Medium] 89. Gray Code
+* [Medium] 89. Gray Code
+
 ---
 **Template 1: (Negative binary, 2's complement representation)**
 ```python
@@ -14224,16 +14451,22 @@ class Solution:
 ```
 * [Lock] [Medium] [Solution] 253. Meeting Rooms II
 
-### Sorting via Custom Comparator
-```python
-class LargerNumKey(str):
-    def __lt__(x, y):
-        return x+y > y+x
-
-class Solution:
-    def largestNumber(self, nums: List[int]) -> str:
-        largest_num = ''.join(sorted(map(str, nums), key=LargerNumKey))
-        return '0' if largest_num[0] == '0' else largest_num
+### Sorting via Custom Comparator, convert to answer space
+```c++
+class Solution {
+public:
+    string largestNumber(vector<int>& nums) {
+        sort(nums.begin(), nums.end(), [](int a, int b){
+            string s1 = to_string(a), s2 = to_string(b);
+            return s1+s2 > s2+s1;
+        });
+        string ans;
+        for (auto num: nums) {
+            ans += to_string(num);
+        }
+        return ans[0] == '0' ? "0" : ans;
+    }
+};
 ```
 * [Medium] [Solution] 179. Largest Number
 
@@ -16245,85 +16478,39 @@ class Solution:
 ```
 * [Hard] [Solution] 864. Shortest Path to Get All Keys
 
-### Scan X axis, and heapify Y axis
-```python
-class Solution:
-    def getSkyline(self, buildings: List[List[int]]) -> List[List[int]]:
-        """ https://leetcode.com/problems/the-skyline-problem/
-        General approach: scan the X positions where anything happened, maintaining a heap
-        of active buildings and noting when the max height changes.
-        """
-        if not buildings:
-            return []
-
-        # left and right edges are where all the action happens, so collect these.
-        # These will look like {x position: [height of each building starting or ending here]}
-        building_left_edges = collections.defaultdict(list)
-        building_right_edges = collections.defaultdict(list)
-        for building in buildings:
-            left_index, right_index, height = building
-            building_left_edges[left_index].append(height)
-            building_right_edges[right_index].append(height)
-
-        x_positions_of_interest = sorted(
-            set(building_left_edges.keys()).union(building_right_edges.keys())
-        )
-
-        # Heap will contain heights of all buildings present at the current x value.
-        # Heights will be stored as negative values since heapq only supports min heaps,
-        # and at any point we want the maximum height.
-        active_buildings_heap = []
-        last_skyline_height = 0
-        skyline = []
-        for x in x_positions_of_interest:
-            for height in building_left_edges[x]:
-                heapq.heappush(active_buildings_heap, -height)
-            if building_right_edges[x]:
-                for height in building_right_edges[x]:
-                    active_buildings_heap.remove(-height)
-                heapq.heapify(active_buildings_heap)
-
-            skyline_here = -active_buildings_heap[0] if active_buildings_heap else 0
-
-            if skyline_here != last_skyline_height:
-                last_skyline_height = skyline_here
-                skyline.append((x, skyline_here))
-
-        return skyline
-```
+### Hash Table, Sort by x and filter by sorted y, Counter, open close event
 ```c++
 class Solution {
 public:
     vector<vector<int>> getSkyline(vector<vector<int>>& buildings) {
-        map<int,vector<pair<int,int>>> m;
-        for (int i = 0; i < buildings.size(); i ++) {
-            m[buildings[i][0]].push_back({buildings[i][2], 0});
-            m[buildings[i][1]].push_back({buildings[i][2], 1});
-        }
-        multiset<int> st;
-        int cur = 0, ncur;
+        int n = buildings.size(), i, pre = 0, cur;
+        map<int,vector<array<int, 2>>> g;
+        map<int,int> cnt;
         vector<vector<int>> ans;
-        for (auto [x, v]: m) {
-            sort(v.begin(), v.end(), [](auto &pa, auto &pb){
-                return pa.second < pb.second;
-            });
-            for (auto [y, t]: v) {
+        for (i = 0; i < n; i ++) {
+            g[buildings[i][0]].push_back({buildings[i][2], 0});
+            g[buildings[i][1]].push_back({buildings[i][2], 1});
+        }
+        for (auto &[x, v]: g) {
+            for (auto &[h, t]: v) {
                 if (t == 0) {
-                    st.insert(y);
+                    cnt[h] += 1;
                 } else {
-                    auto it = st.find(y);
-                    st.erase(it);
+                    cnt[h] -= 1;
+                    if (cnt[h] == 0) {
+                        cnt.erase(h);
+                    }
                 }
             }
-            ncur = cur;
-            if (st.size() && ncur != *st.rbegin()) {
-                ncur = *st.rbegin(); 
-            } else if (st.size() == 0 && ncur != 0) {
-                ncur = 0;
+            cur = pre;
+            if (cnt.size() && cnt.rbegin()->first != pre) {
+                cur = cnt.rbegin()->first;
+            } else if (cnt.size() == 0) {
+                cur = 0;
             }
-            if (ncur != cur) {
-                ans.push_back({x, ncur});
-                cur = ncur;
+            if (cur != pre) {
+                pre = cur;
+                ans.push_back({x, cur});
             }
         }
         return ans;
@@ -16378,6 +16565,45 @@ class Solution:
         return ans
 ```
 * [Hard] [Solution] 675. Cut Off Trees for Golf Event
+
+### earliest unoccupied meeting room 
+```c++
+class Solution {
+public:
+    int mostBooked(int n, vector<vector<int>>& meetings) {
+        int m = meetings.size(), i, d, mx = 0, ans = n - 1;
+        long long t = -1;
+        vector<int> cnt(n);
+        priority_queue<pair<long long, int>, vector<pair<long long, int>>, greater<>> pq;
+        for (i = 0; i < n; i ++) {
+            pq.push({-1, i});
+        }
+        sort(begin(meetings), end(meetings));
+        for (i = 0; i < m; i ++) {
+            t = max(t, (long long)meetings[i][0]);
+            t = max(t, pq.top().first);
+            while (pq.top().first < t) {
+                auto [_, cj] = pq.top();
+                pq.pop();
+                pq.push({t, cj});
+            }
+            auto [ct, j] = pq.top();
+            pq.pop();
+            d = meetings[i][1] - meetings[i][0];
+            cnt[j] += 1;
+            if (cnt[j] > mx) {
+                mx = cnt[j];
+                ans = j;
+            } else if (cnt[j] == mx) {
+                ans = min(ans, j);
+            }
+            pq.push({ct + d, j});
+        }
+        return ans;
+    }
+};
+```
+* [Hard] 2402. Meeting Rooms III
 
 **Template 1: (Heap)**
 ```python
@@ -16933,27 +17159,35 @@ public:
 ```
 * [Medium] 424. Longest Repeating Character Replacement
 
-### Brute Foce
+### Prefix Sum, Brute Foce, try all solution
 ```c++
 class Solution {
 public:
     int numberOfSubstrings(string s) {
-        int n = s.size(), z, p, i, j, cnt[2], ans = 0;
-        for (z = 0; z + z * z <= n; z ++) {
-            cnt[0] = 0, cnt[1] = 0, p = 0;
-            for (i = 0, j = 0; j < n; j ++) {
-                cnt[s[j] == '1'] += 1;
-                while (cnt[0] > z) {
-                    cnt[s[i] == '1'] -= 1;
-                    i += 1;
-                }
-                if (cnt[0] == z && cnt[1] && cnt[1] >= z * z) {
-                    for (p = max(p, i); p < j && s[p] == '1'; p ++);
-                    ans += 1 + min(p - i, cnt[1] - z * z);
-                }
+        int n = s.size();
+        vector<int> pre(n + 1);  // position of the nearest zero before
+        pre[0] = -1;
+        for (int i = 0; i < n; i++) {
+            if (i == 0 || (i > 0 && s[i - 1] == '0')) {
+                pre[i + 1] = i;
+            } else {
+                pre[i + 1] = pre[i];
             }
         }
-        return ans;
+        int res = 0;
+        for (int i = 1; i <= n; i++) {
+            int cnt0 = s[i - 1] == '0';
+            int j = i;
+            while (j > 0 && cnt0 * cnt0 <= n) {
+                int cnt1 = (i - pre[j]) - cnt0;
+                if (cnt0 * cnt0 <= cnt1) {
+                    res += min(j - pre[j], cnt1 - cnt0 * cnt0 + 1);
+                }
+                j = pre[j];
+                cnt0++;
+            }
+        }
+        return res;
     }
 };
 ```
@@ -17580,7 +17814,7 @@ for j, x in enumerate(N):
 return ans
 ```
 
-**Template 5: (Advanced Sliding Window, Non-shrinkable)**
+**Template 5: (Advanced Sliding Window, max length, Non-shrinkable)**
 ```python
 ans = []
 i = 0

@@ -96,6 +96,14 @@ class Solution:
 ```
 
 **Solution 4: (DP Bottom-Up, 2 step, split to 2 sub problem)**
+
+             0  1  2  3
+    nums = [ 1, 2, 3, 1]
+dpx:        [1  2  4]     
+                   ^---------|
+------------------------    max = 4
+dp0:           [2  3  3]     |
+                      ^------|
 ```
 Runtime: 0 ms, Beats 100.00%
 Memory: 10.92 MB, Beats 20.68%

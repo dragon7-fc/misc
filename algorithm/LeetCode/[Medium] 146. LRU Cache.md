@@ -210,8 +210,8 @@ Memory: 183.3 MB
 ```
 ```c++
 class LRUCache {
-    list<pair<int,int>> q;
-    unordered_map<int, list<pair<int,int>>::iterator> m;
+    list<pair<int,int>> q;  // list(k, v)
+    unordered_map<int, list<pair<int,int>>::iterator> m;  // k, list(k, v)->
     int n;
 public:
     LRUCache(int capacity) {

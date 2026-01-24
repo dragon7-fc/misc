@@ -130,11 +130,16 @@ public:
 
 **Solution 5: (Linked List)**
 
+              v
     d -> 1 -> 2 -> 3 -> 4 -> 5 -> 6
+    ^st  ^c
          ^p   ^c   ^nc
-           <-        <-
-              ^h        ^         ^
-    ^st  ^st       ^st       ^st
+           <--
+     --------->
+         ^st       ^c
+                   ^p   ^c   ^nc 
+                     <--
+         ---------------->      
 
 ```
 Runtime: 0 ms, Beats 100.00%

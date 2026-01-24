@@ -330,3 +330,53 @@ public:
     }
 };
 ```
+
+**Solution 5: (String, encode string with "size + '#' + word" block)**
+
+    dummy_input = ["Hello","World"]
+encode       5 # H e l l o 5 # W o r l d
+decode       i             i
+               j             j
+             -             -
+             k = 5         k = 5
+
+    dummy_input = [""]
+encode       0 #
+decode       i
+               j
+             -
+             k = 0
+
+
+```
+Runtime: 38 ms, Beats 25.46%
+Memory: 26.77 MB, Beats 54.26%
+```
+```c++
+class Codec {
+public:
+
+    // Encodes a list of strings to a single string.
+    string encode(vector<string>& strs) {
+        string rst;
+        for (string &s : strs) {
+            rst += to_string(s.length()) + "#" + s;
+        }
+        return rst;
+    }
+
+    // Decodes a single string to a list of strings.
+    vector<string> decode(string s) {
+        vector<string> rst;
+        int n = s.size(), i = 0, j, k;
+        j = s.find('#');
+        while (j != -1) {
+            k = stoi(s.substr(i, j - i));
+            rst.push_back(s.substr(j + 1, k));
+            i = j + k + 1;
+            j = s.find('#', i);
+        }
+        return rst;
+    }
+};
+```

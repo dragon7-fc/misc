@@ -359,7 +359,7 @@ public:
 };
 ```
 
-**Solution 4: (DP Bottom-Up)**
+**Solution 4: (DP Bottom-Up, O(2^9 * 9 * 9))**
 
     dp[currentNumber][visitedNumbers]
 

@@ -78,3 +78,22 @@ int minPairSum(int* nums, int numsSize){
     return ans;
 }
 ```
+
+**Solution 3: (Sort)**
+```
+Runtime: 166 ms, Beats 76.78%
+Memory: 100.04 MB, Beats 30.18%
+```
+```c++
+class Solution {
+public:
+    int minPairSum(vector<int>& nums) {
+        int n = nums.size(), i, ans = 0;
+        sort(begin(nums), end(nums));
+        for (i = 0; i < n / 2; i ++) {
+            ans = max(ans, nums[i] + nums[n - 1 - i]);
+        }
+        return ans;
+    }
+};
+```

@@ -324,6 +324,12 @@ class Solution:
 ```
 
 **Solution 2; (Prefix sum, Stack)**
+
+    nums = [-1, 3, 2, 0]
+                   i
+pre         -1 -1 -1 -1
+stk                   0
+ans                x
 ```
 Runtime: 65 ms
 Memory Usage: 38.8 MB
@@ -354,6 +360,12 @@ public:
 ```
 
 **Solution 3: (Prefix sum, Stack, space: O(1))**
+
+    nums = [-1,3, 2, 0]
+             i
+stk            3  1  0
+pre            2  0  ~
+ans          x  
 ```
 Runtime: 114 ms
 Memory: 66.8 MB

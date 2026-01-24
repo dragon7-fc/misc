@@ -312,6 +312,17 @@ public:
 ```
 
 **Solution 4: (Sliding Window)**
+
+             0  1  2  3
+    nums = [ 1, 2, 3, 4]
+-------------------------
+             i
+d            1
+k                  3  4
+ans               +1 +2
+--------------------------
+                      i
+
 ```
 Runtime: 0 ms, Beats 100.00%
 Memory: 10.80 MB, Beats 81.81%

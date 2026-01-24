@@ -156,6 +156,7 @@ class Solution:
 
 **Solution 4: (Sort, Greedy, sort by smallest end then largest start, only care about right most 2 point)**
 
+                                ans
       v v
               v v
                 v v
@@ -164,6 +165,22 @@ class Solution:
             xxxxx
         xxxxxxxxx
                 xxx
+pst   x
+ped     x
+                                  2
+------------------------
+st          x
+ed              x
+pst           x
+ped             x
+                                 +2
+-------------------------
+st      x
+ed              x
+-------------------------
+st              x
+ed                x
+                                 +1
 
 ```
 Runtime: 4 ms, Beats 65.43%

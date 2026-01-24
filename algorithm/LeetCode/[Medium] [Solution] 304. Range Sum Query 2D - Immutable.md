@@ -191,28 +191,28 @@ class NumMatrix:
 # param_1 = obj.sumRegion(row1,col1,row2,col2)
 ```
 
-**Solution 2: (DP Bottom-Up)**
+**Solution 2: (Prefix Sum)**
 ```
 Runtime: 12 ms, Beats 94.81%
 Memory: 149.20 MB, Beats 57.60%
 ```
 ```c++
 class NumMatrix {
-    vector<vector<int>> dp;
+    vector<vector<int>> pre;
 public:
     NumMatrix(vector<vector<int>>& matrix) {
         int m = matrix.size(), n = matrix[0].size(), i, j;
-        vector<vector<int>> _dp(m+1, vector<int>(n+1));
+        vector<vector<int>> dp(m + 1, vector<int>(n + 1));
         for (i = 0; i < m; i ++) {
             for (j = 0; j < n; j ++) {
-                _dp[i+1][j+1] = matrix[i][j] + _dp[i+1][j] + _dp[i][j+1] - _dp[i][j];
+                dp[i + 1][j + 1] = matrix[i][j] + dp[i + 1][j] + dp[i][j + 1] - dp[i][j];
             }
         }
-        dp = move(_dp);
+        pre = move(dp);
     }
     
     int sumRegion(int row1, int col1, int row2, int col2) {
-        return dp[row2+1][col2+1] - dp[row2+1][col1] - dp[row1][col2+1] + dp[row1][col1];
+        return pre[row2 + 1][col2 + 1] - pre[row2 + 1][col1] - pre[row1][col2 + 1] + pre[row1][col1];
     }
 };
 

@@ -89,47 +89,48 @@ class Solution:
 
 **Solution 2: (Topological Sort)**
 ```
-Runtime: 72 ms
-Memory Usage: 46.3 MB
+Runtime: 26 ms, Beats 72.24%
+Memory: 50.37 MB, Beats 66.92%
 ```
 ```c++
 class Solution {
 public:
     bool sequenceReconstruction(vector<int>& nums, vector<vector<int>>& sequences) {
-        int n = nums.size();
+        int n = nums.size(), m, i, sz, u;
         vector<int> indeg(n + 1);
         vector<vector<int>> g(n + 1);
-        for(auto &seq : sequences){
-            int m = seq.size();
-            for(int i = 0; i < m - 1; i++){
-                indeg[seq[i + 1]]++;
+        for (auto &seq : sequences){
+            m = seq.size();
+            for (i = 0; i < m - 1; i ++){
+                indeg[seq[i + 1]] += 1;
                 g[seq[i]].push_back(seq[i + 1]);
             }
         }
-        
-        
         queue<int> q;
-        for(int i = 1; i <= n; i++){
-            if(indeg[i] == 0){
+        for (i = 1; i <= n; i++){
+            if (indeg[i] == 0) {
                 q.push(i);
             }
         }
-        vector<int> top;
-        while(q.size()){
-            int lvl = q.size();
-            if(lvl > 1) return false;;
-            for(int i = 0; i < lvl; i++){
-                int u = q.front(); q.pop();
-                top.push_back(u);
-                for(auto &v : g[u]){
-                    indeg[v]--;
-                    if(indeg[v] == 0){
+        vector<int> ans;
+        while (q.size()) {
+            sz = q.size();
+            if (sz > 1) {
+                return false;
+            }
+            for (i = 0; i < sz; i ++) {
+                u = q.front();
+                q.pop();
+                ans.push_back(u);
+                for (auto &v : g[u]){
+                    indeg[v] -= 1;
+                    if (indeg[v] == 0){
                         q.push(v);
                     }
                 }
             }
         }
-        return top.size() == nums.size();
+        return ans.size() == nums.size();
     }
 };
 ```

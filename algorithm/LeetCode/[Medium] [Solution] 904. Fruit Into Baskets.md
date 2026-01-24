@@ -238,6 +238,18 @@ public:
 ```
 
 **Solution 3: (Sliding Window, Counter)**
+
+              0 1 2 3
+    fruits = [0,1,2,2]
+                    j
+                i
+a             1 2 2 2
+cnt
+0             1   0
+1               1
+2                 1
+
+
 ```
 Runtime: 14 ms, Beats 92.85%
 Memory: 111.01 MB, Beats 8.05%

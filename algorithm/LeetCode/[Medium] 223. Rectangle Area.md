@@ -19,6 +19,15 @@ Assume that the total area is never beyond the maximum possible value of int.
 # Submissions
 ---
 **Solution 1: (Math)**
+
+
+D     --------x
+H     |    ---x---------x
+      |    |  |< max(min(D,H) - max(B, F), 0)
+B     x----x---         |
+           | ^max(min(G, C) - max(A, E),0)
+F          --------------
+      A    E  C         G 
 ```
 Runtime: 48 ms
 Memory Usage: 12.6 MB

@@ -114,6 +114,10 @@ class Solution:
 ```
 
 **Solution 5: (Greedy)**
+
+    nums = [-2, 1,-3, 4,-1, 2, 1,-5, 4]
+    pre     -2  1 -2  4  3  5  6  1  5
+    ans     -2  1     4     5  6
 ```
 Runtime: 0 ms, Beats 100.00%
 Memory: 71.77 MB, Beats 52.30%

@@ -77,3 +77,32 @@ class RecentCounter:
 # obj = RecentCounter()
 # param_1 = obj.ping(t)
 ```
+
+**Solution 2: (Deque)**
+```
+Runtime: 15 ms, Beats 68.95%
+Memory: 64.09 MB, Beats 93.28%
+```
+```c++
+class RecentCounter {
+    deque<int> dq;
+public:
+    RecentCounter() {
+        
+    }
+    
+    int ping(int t) {
+        dq.push_back(t);
+        while (dq.size() && dq[0] < t - 3000) {
+            dq.pop_front();
+        }
+        return dq.size();
+    }
+};
+
+/**
+ * Your RecentCounter object will be instantiated and called as such:
+ * RecentCounter* obj = new RecentCounter();
+ * int param_1 = obj->ping(t);
+ */
+```

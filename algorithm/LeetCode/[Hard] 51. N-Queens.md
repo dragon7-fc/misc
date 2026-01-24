@@ -131,7 +131,7 @@ public:
 };
 ```
 
-**Solution 3: (Backtracking)**
+**Solution 3: (Backtracking, level by level)**
 ```
 Runtime: 1 ms, Beats 78.51%
 Memory: 10.16 MB, Beats 75.54%

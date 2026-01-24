@@ -402,6 +402,26 @@ class Solution:
 ```
 
 **Solution 2: (Sum the products from all pairs of digits)**
+
+            0 1 2           0 1 2
+    num1 = "1 2 3", num2 = "4 5 6"
+reverse     3 2 1           6 5 4
+            ^p1             ^p2
+            d1            d2
+
+            0 1 2 3 4 5
+ans        "8 1 1        "
+              3 7
+              8 8
+                  1
+                  6
+                0 8
+                  6 1
+                    5
+           ----------------
+            8 8 0 6 5
+
+reverse     5 6 0 8 8
 ```
 Runtime: 0 ms
 Memory: 6.7 MB

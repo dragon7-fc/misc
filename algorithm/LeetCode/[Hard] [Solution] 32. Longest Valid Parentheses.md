@@ -462,6 +462,11 @@ public:
 ```
 
 **Solution 8: (Stack, next top element)**
+         0  1  2  3  4  5
+    s = ")  (  )  (  )  )"
+            1  1x 3  3x
+stk -1   0              5
+ans            2     4
 ```
 Runtime: 0 ms, Beats 100.00%
 Memory: 10.26 MB, Beats 76.10%

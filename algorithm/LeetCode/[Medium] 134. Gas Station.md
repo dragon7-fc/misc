@@ -202,6 +202,18 @@ class Solution:
 ```
 
 **Solution 7: (Greedy)**
+
+to stationi
+-> gas[i - 1] - cost[i - 1]
+-> find first gas[i - 1] - cost[i - 1] >= 0
+
+    gas =  [ 1, 2, 3, 4, 5], 
+    cost = [ 3, 4, 5, 1, 2]
+a                           15
+b                           15
+cur         -2 -2 -2  3  6
+             0  0  0
+ans                   x
 ```
 Runtime: 0 ms, Beats 100.00%
 Memory: 112.26 MB, Beats 94.29%

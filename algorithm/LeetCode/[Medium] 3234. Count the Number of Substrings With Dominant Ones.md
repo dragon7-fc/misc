@@ -154,13 +154,34 @@ public:
 
 **Solution 3: (Sliding Window, Brute Force, O(n sqrt(n)))**
 
+dominant ones
+-> cnt[1] >= cnt[0]^2
+  -------    ------
+   >= z^2       z
+
 
         ...   0  ...   x
         ^i    ^p       ^j
-          -----    ----
-           p-j      cnt[1]-z^2   
-cnt[0]                z
-cnt[1]                >= z^2
+        ------     ----
+           p-i      cnt[1]-z^2   
+cnt[0]                 z
+cnt[1]                 >= z^2
+
+          0  1  2  3  4
+     s = "0  0  0  1  1"
+cnt
+0         1  2  3
+1                  1  2
+z: 0
+                   i
+                      j
+                      p
+ans               +1 +2
+z: 1
+                i
+                      j
+                p
+ans               +1 +1
 ```
 Runtime: 471 ms, Beats 38.93%
 Memory: 13.98 MB, Beats 88.59%
@@ -170,6 +191,9 @@ class Solution {
 public:
     int numberOfSubstrings(string s) {
         int n = s.size(), z, p, i, j, cnt[2], ans = 0;
+        //          cnt[0]
+        //              cnt[1]
+        //          v   vvvvv
         for (z = 0; z + z * z <= n; z ++) {
             cnt[0] = 0, cnt[1] = 0, p = 0;
                                     ^first zero after i
@@ -193,6 +217,21 @@ public:
 ```
 
 **Solution 4: (Sliding Window, Brute Force, Enumeration, O(n sqrt(n)))**
+
+          0  1  2  3  4  5
+     s = "0  0  0  1  1"
+pre      -1  0  1  2  2  2
+                         i
+                j
+cnt0      1  1  1  0  0
+                1
+             2
+                      1
+cnt1      0  0  0  2  3
+                2
+             2
+res    0          +2 +3
+                  
 ```
 Runtime: 155 ms, Beats 87.92%
 Memory: 18.26 MB, Beats 35.57%
@@ -202,7 +241,7 @@ class Solution {
 public:
     int numberOfSubstrings(string s) {
         int n = s.size();
-        vector<int> pre(n + 1);
+        vector<int> pre(n + 1);  // position of the nearest zero before
         pre[0] = -1;
         for (int i = 0; i < n; i++) {
             if (i == 0 || (i > 0 && s[i - 1] == '0')) {

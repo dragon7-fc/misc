@@ -51,3 +51,23 @@ class Solution:
     def canWinNim(self, n: int) -> bool:
         return (n % 4 != 0)
 ```
+
+**Solution 2: (DP Bottom-Up)**
+
+          v v
+    1 2 3 4 5 6 7 8
+dp  1 1 1 0 1 1 1 0
+    -----
+      -----
+```
+Runtime: 0 ms, Beats 100.00%
+Memory: 7.67 MB, Beats 85.22%
+```
+```c++
+class Solution {
+public:
+    bool canWinNim(int n) {
+        return (n % 4) != 0;
+    }
+};
+```

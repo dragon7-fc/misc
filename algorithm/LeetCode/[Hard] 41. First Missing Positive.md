@@ -166,6 +166,20 @@ int firstMissingPositive(int* nums, int numsSize){
 ```
 
 **Solution 6: (value as index)**
+
+             0  1  2  3
+    nums = [ 3, 4,-1, 1]
+             ^
+            -1     3
+                ^
+                1     4
+                ^
+             1 -1
+    ---------------------
+             1 -1  3  4
+                ^
+                ans 
+            
 ```
 Runtime: 47 ms
 Memory: 43.49 MB

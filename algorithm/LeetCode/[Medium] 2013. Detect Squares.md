@@ -79,42 +79,74 @@ class DetectSquares:
 ```
 
 **Solution 2: (Hash Table)**
+
+10       x                        . < 11,10
+9                                      x  y
+8
+7
+6
+5
+4
+3
+2         x                       x
+1                        
+    1  2  3  4  5  6  7  8  9 10 11
+
+sum:
+5:  3,2
+13: 11,2 11,2
+
+diff:
+1:  3,2  < (px,py)
+-7: 3,10
+9:  11,2
+
+cnt:
+3,2: 1
+3,10: 1 < (px,y)
+11,2: 1 < (x,py)
+
 ```
 Runtime: 216 ms
 Memory Usage: 145 MB
 ```
 ```c++
+Runtime: 81 ms, Beats 31.29%
+Memory: 202.37 MB, Beats 5.45%
+```
+```c++
 class DetectSquares {
+    unordered_map<int, vector<pair<int, int>>> sum, diff;
+    vector<vector<int>> cnt;
 public:
-    map<int,vector<pair<int,int>>>sum,diff;
-    int arr[1002][1002];
     DetectSquares() {
-        sum.clear();
-        diff.clear();
-        memset(arr, 0, sizeof(arr[0][0]) * 1002 * 1002);
+        cnt.resize(1002, vector<int>(1002));
     }
     
     void add(vector<int> point) {
-        sum[point[0]+point[1]].push_back({point[0],point[1]});
-        diff[point[0]-point[1]].push_back({point[0],point[1]});
-        arr[point[0]][point[1]]++;
+        sum[point[0] + point[1]].push_back({point[0], point[1]});
+        diff[point[0] - point[1]].push_back({point[0], point[1]});
+        cnt[point[0]][point[1]] += 1;
+
     }
     
     int count(vector<int> point) {
-        int x=point[0];
-        int y=point[1];
-        int ans=0;
-        for(auto temp:sum[x+y]){
-            if(temp.first==x&&temp.second==y)
+        int x = point[0], y = point[1], ans = 0;
+        for (auto &[px, py]: sum[x + y]){
+            if (px == x && py == y) {
                 continue;
-           if(abs(temp.first-x)==abs(temp.second-y))
-                ans+= (arr[temp.first][y]*arr[x][temp.second]);
+            }
+            if (abs(px - x) == abs(py - y)) {
+                ans += (cnt[px][y] * cnt[x][py]);
+            }
         }
-        for(auto temp:diff[x-y]){
-            if(temp.first==x&&temp.second==y)
+        for (auto &[px, py]: diff[x - y]) {
+            if (px == x && py == y) {
                 continue;
-            if(abs(temp.first-x)==abs(temp.second-y))
-                ans+= (arr[temp.first][y]*arr[x][temp.second]);
+            }
+            if (abs(px - x) == abs(py - y)) {
+                ans += (cnt[px][y] * cnt[x][py]);
+            }
         }
         return ans;
     }

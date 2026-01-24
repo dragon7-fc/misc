@@ -195,6 +195,15 @@ char ** fullJustify(char ** words, int wordsSize, int maxWidth, int* returnSize)
 ```
 
 **Solution 3: (String)**
+
+                 0     1     2          3     4       5                6
+    words = ["This", "is", "an", "example", "of", "text", "justification."], maxWidth = 16
+
+                                                    rem  extra space  r
+    0  1  2  3  4  5  6  7  8  9 10 11 12 13 14 15
+    T  h  i  s              i  s              a  n    6      2     4
+    e  x  a  m  p  l  e        o  f     t  e  x  t    1      2     1  1
+    j  u  s  t  i  f  i  c  a  t  i  o  n  .          2
 ```
 Runtime: 0 ms
 Memory: 7.4 MB

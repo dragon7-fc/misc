@@ -87,27 +87,38 @@ class Solution:
 ```
 
 **Solution 3: (DP Bottom-Up, 1-D)**
+
+    text1 = "abcde", text2 = "ace"
+
+      a  c  e
+   0
+a     1  1  1
+b     1  1  1
+c     1  2  2
+d     2  2  2
+e     2  2  3 < ans
+
 ```
-Runtime: 23 ms, Beats 79.81%
-Memory: 26.62 MB, Beats 80.20%
+Runtime: 19 ms, Beats 86.18%
+Memory: 9.11 MB, Beats 92.95%
 ```
 ```c++
 class Solution {
 public:
     int longestCommonSubsequence(string text1, string text2) {
         int m = text1.size(), n = text2.size(), i, j;
-        vector<int> pre(n+1), cur(n+1);
-        for (i = m-1; i >= 0; i --) {
-            for (j = n-1; j >= 0; j --) {
-                cur[j] = max(pre[j], cur[j+1]);
+        vector<int> pre(n + 1), cur(n + 1);
+        for (i = 0; i < m; i ++) {
+            for (j = 0; j < n; j ++) {
+                cur[j + 1] = max(pre[j + 1], cur[j]);
                 if (text1[i] == text2[j]) {
-                    cur[j] = max(cur[j], pre[j+1] + 1);
+                    cur[j + 1] = max(cur[j + 1], pre[j] + 1);
                 }
             }
-            pre = move(cur);
-            cur.resize(n+1);
+            swap(pre, cur);
+            fill(cur.begin(), cur.end(), 0);
         }
-        return pre[0];
+        return pre[n];
     }
 };
 ```

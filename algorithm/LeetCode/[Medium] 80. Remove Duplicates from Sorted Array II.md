@@ -143,6 +143,13 @@ public:
 ```
 
 **Solution 5: (Two Pointers)**
+
+             0  1  2  3  4  5
+    nums = [ 1, 1, 1, 2, 2, 3]
+                            i
+                               j
+                   2  2  3x
+
 ```
 Runtime: 15 ms, Beats 14.57%
 Memory: 19.54 MB, Beats 56.40%

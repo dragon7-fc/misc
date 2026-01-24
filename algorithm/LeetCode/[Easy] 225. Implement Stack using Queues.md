@@ -236,9 +236,10 @@ public:
 **Solution 4: (Queue)**
 
     q 1
-      2 1
-      3 2 1
-
+      1 2   -> 2 1
+      x
+      2 1 3 -> 3 2 1
+      x x
 ```
 Runtime: 0 ms, Beats 100.00%
 Memory: 9.39 MB, Beats 86.27%

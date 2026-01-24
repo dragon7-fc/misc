@@ -97,6 +97,12 @@ public:
 ```
 
 **Solution 3: (Greedy + Counting)**
+
+          0  1  2  3  4  5  6
+    s = " 1  0  0  1  1  0  1"
+one       1        2  3     4
+z         f  t     f  f  t
+ans               +1       +3
 ```
 Runtime: 7 ms, Beats 43.12%
 Memory: 15.76 MB, Beats 75.00%

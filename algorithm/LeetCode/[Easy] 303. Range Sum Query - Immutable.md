@@ -157,18 +157,18 @@ Memory: 23.91 MB, Beats 60.92%
 ```
 ```c++
 class NumArray {
-    vector<int> dp;
+    vector<int> pre;
 public:
     NumArray(vector<int>& nums) {
         int n = nums.size(), i;
-        dp.resize(n+1);
+        pre.resize(n + 1);
         for (i = 0; i < n; i ++) {
-            dp[i+1] = dp[i] + nums[i];
+            pre[i + 1] = pre[i] + nums[i];
         }
     }
     
     int sumRange(int left, int right) {
-        return dp[right+1] - dp[left];
+        return pre[right + 1] - pre[left];
     }
 };
 

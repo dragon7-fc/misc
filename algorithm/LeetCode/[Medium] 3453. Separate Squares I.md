@@ -99,14 +99,16 @@ public:
 
 **Solution 2: (Scanning Line)**
 
-               events               diff area curr_erea y pre_height covered_width
-2  ----------x ^ (2,2,-1) (2,1,-1)   1    3       5     2     2            2
+                 events
+                       --->         diff area curr_erea y pre_height covered_width
+2  ----------x ^ (2,1,-1) (2,2,-1)   1    3       5     2     2            2
    |    |    | |
 1  |    x----| | (1,1,1)             1    2       2     1     1            3
    |         | |                    
 0  x---------- | (0,2,1)                                0                  2
    0    1    2
 
+    total_area: 5
 ```
 Runtime: 76 ms, Beats 86.71%
 Memory: 232.34 MB, Beats 15.90%

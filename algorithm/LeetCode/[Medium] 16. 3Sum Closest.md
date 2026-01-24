@@ -122,3 +122,33 @@ public:
     }
 };
 ```
+
+**Solution4: (Sort, Binary Search)**
+```
+Runtime: 66 ms, Beats 8.96%
+Memory: 14.01 MB, Beats 28.58%
+```
+```c++
+class Solution {
+public:
+    int threeSumClosest(vector<int>& nums, int target) {
+        int n = nums.size(), i, j, diff = INT_MAX, a, lo, hi;
+        sort(begin(nums), end(nums));
+        for (i = 0; i < n && diff != 0; i ++) {
+            for (j = i + 1; j < n - 1; j ++) {
+                a = target - nums[i] - nums[j];
+                auto it =
+                    upper_bound(begin(nums) + j + 1, end(nums), a);
+                hi = it - begin(nums), lo = hi - 1;
+                if (hi < n && abs(a - nums[hi]) < abs(diff)) {
+                    diff = a - nums[hi];
+                }
+                if (lo > j && abs(a - nums[lo]) < abs(diff)) {
+                    diff = a - nums[lo];
+                }
+            }
+        }
+        return target - diff;
+    }
+};
+```

@@ -103,15 +103,15 @@ dp      v
 remove:
 mp
   a-----|
-  x-|   |
+  b-|   |
 dp  v   v
-  . x . a|
+  . b . a|
 
 mp
   a-|
-    |
+ xb-|
 dp  v
-  . a .|x
+  . a .|a
 
 ```
 Runtime: 45 ms, Beats 62.11%

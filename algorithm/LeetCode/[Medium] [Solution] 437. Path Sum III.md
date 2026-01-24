@@ -366,7 +366,39 @@ int pathSum(struct TreeNode* root, int targetSum){
 }
 ```
 
-**Solution 5: (Backtracking, Counter)**
+**Solution 5: (Backtracking, Counter, Prefix Sum, preorder)**
+
+    root = [10,5,-3,3,2,null,11,3,-2,null,1], targetSum = 8
+
+                    10
+                    a: 10
+                    cnt
+                    10: 1
+                /        \
+             5             -3
+            a: 15         a: 7
+            cnt           cnt
+            10:1          10:1
+            15:0          15:0
+                          18:0
+                          17:0
+                          7:1
+          /     \              \
+        3         2              11
+       a: 18    a:17            a: 18
+       cnt      cnt             cnt
+      >10:1     10:1           >10:1
+       15:1     15:1            15:0
+       18:0     18:0            18:0
+                17:0            17:0
+      /   \     /               7:1
+    3     -2   1
+  a: 21  a:16  a: 18
+  cnt    cnt   cnt 
+  10:1   10:1 >10:1
+  15:1   15:1  15:1
+  18:1   18:1  18:0
+  21:0   16:0  17:1
 ```
 Runtime: 1 ms, Beats 94.04%
 Memory: 21.68 MB, Beats 25.19%

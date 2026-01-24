@@ -73,7 +73,7 @@ public:
 };
 ```
 
-**Solution 2: (max common difference)**
+**Solution 2: (max common difference, brute force)**
 
     m = 6, n = 7, hFences = [2], vFences = [4]
 

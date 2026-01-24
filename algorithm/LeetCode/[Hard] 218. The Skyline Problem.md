@@ -224,7 +224,7 @@ public:
 };
 ```
 
-**Solution 5: (Hash Table, Sort, Counter, open close event)**
+**Solution 5: (Hash Table, Sort by x and filter by sorted y, Counter, open close event)**
 
     buildings = [[2,9,10],[3,7,15],[5,12,12],[15,20,10],[19,24,8]]
 

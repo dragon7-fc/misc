@@ -73,7 +73,7 @@ Space complexity: O(1)
 Runtime: 135 ms, Beats 100.00%
 Memory: 21.80 MB, Beats 36.36%
 ```
-```python3
+```python
 class Solution:
     def answerString(self, word: str, numFriends: int) -> str:
         if numFriends==1:

@@ -121,7 +121,7 @@ class Solution {
 public:
     int change(int amount, vector<int>& coins) {
         vector<vector<int>> dp(coins.size() + 1, vector<int>(amount + 1, 0));
-        dp[0][0] = 1;//1 comb: no coins for no amount 
+        dp[0][0] = 1;   //1 comb: no coins for no amount 
 
         for (int j = 1; j <= coins.size(); j++) {
             for (int i = 0; i <= amount; i++) {

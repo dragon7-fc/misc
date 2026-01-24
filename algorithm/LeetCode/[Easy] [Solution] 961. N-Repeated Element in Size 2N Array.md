@@ -77,10 +77,10 @@ case 1: k = 1
     a x
     |-|
 case 2: k = 2
-    a b x
+    a b a
     |---|
 case 3: k = 3
-    a b c x
+    a b c a
     |-----|
 
 ```

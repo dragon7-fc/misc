@@ -100,17 +100,15 @@ Runtime: 12 ms Beats, 68.68%
 Memory: 32.73 MB, Beats 68.68%
 ```
 ```c++
+class Solution {
 public:
     int maxSideLength(vector<vector<int>>& mat, int threshold) {
         int m = mat.size(), n = mat[0].size(), i, j, left = 1, right = min(m, n), mid, ans = 0;
-        vector<vector<int>> dp(m+1, vector<int>(n+1));
+        vector<vector<int>> pre(m + 1, vector<int>(n + 1));
         bool flag;
-        for (j = 0; j < n; j ++) {
-            dp[1][j+1] = dp[1][j] + mat[0][j];
-        }
-        for (i = 1; i < m; i ++) {
+        for (i = 0; i < m; i ++) {
             for (j = 0; j < n; j ++) {
-                dp[i+1][j+1] = dp[i+1][j] + dp[i][j+1] - dp[i][j] + mat[i][j];
+                pre[i + 1][j + 1] = pre[i + 1][j] + pre[i][j + 1] - pre[i][j] + mat[i][j];
             }
         }
         while (left <= right) {
@@ -118,7 +116,7 @@ public:
             flag = false;
             for (i = 0; i <= m - mid; i ++) {
                 for (j = 0; j <= n - mid; j ++) {
-                    if (dp[i+mid][j+mid] - dp[i+mid][j] - dp[i][j+mid] + dp[i][j] <= threshold) {
+                    if (pre[i + mid][j + mid] - pre[i + mid][j] - pre[i][j + mid] + pre[i][j] <= threshold) {
                         flag = true;
                         break;
                     }
@@ -130,11 +128,40 @@ public:
             if (!flag) {
                 right = mid - 1;
             } else {
-                ans = max(ans, mid);
+                ans = mid;
                 left = mid + 1;
             }
         }
         return ans;
+    }
+};
+```
+
+**Solution 3: (Prefix Sum, Enumeration, O(min(M, N) + MN))**
+```
+Runtime: 6 ms, Beats 88.18%
+Memory: 32.63 MB, Beats 78.18%
+```
+```c++
+class Solution {
+public:
+    int maxSideLength(vector<vector<int>>& mat, int threshold) {
+        int m = mat.size(), n = mat[0].size(), i, j, left = 1, right = min(m, n);
+        vector<vector<int>> pre(m + 1, vector<int>(n + 1));
+        bool flag;
+        for (i = 0; i < m; i ++) {
+            for (j = 0; j < n; j ++) {
+                pre[i + 1][j + 1] = pre[i + 1][j] + pre[i][j + 1] - pre[i][j] + mat[i][j];
+            }
+        }
+        for (i = 0; i < m; i ++) {
+            for (j = 0; j < n; j ++) {
+                while (left <= right && i + left <= m && j + left <= n && pre[i + left][j + left] - pre[i][j + left] - pre[i + left][j] + pre[i][j] <= threshold) {
+                    left += 1;
+                }
+            }
+        }
+        return left - 1;
     }
 };
 ```

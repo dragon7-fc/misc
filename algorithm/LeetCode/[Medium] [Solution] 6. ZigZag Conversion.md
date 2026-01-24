@@ -294,6 +294,27 @@ public:
 ```
 
 **Solution 4: (String Traversal)**
+
+
+         0  1  2  3  4  5  6  7  8  9 10 11 12 13
+    s = "P  A  Y  P  A  L  I  S  H  I  R  I  N  G", numRows = 4
+         -charsInSection-
+row 0    x                 x                 x
+row 1       x           x     x           x    x
+            ----------  ----  
+            charsInBetween
+                         2*currRow
+            -charsInSection-
+row 2           x    x           x     x
+ro2 3             x                 x
+
+          charsInSection = 2 * (numRows - 1) = 2 * (4 - 1) = 6
+         ------
+         P     I     N
+         A    LS    IG            
+         Y   A H   R
+         P     I
+
 ```
 Runtime: 11 ms
 Memory: 8.4 MB

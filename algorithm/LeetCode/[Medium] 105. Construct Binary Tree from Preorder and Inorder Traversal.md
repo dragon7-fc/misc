@@ -131,6 +131,19 @@ struct TreeNode* buildTree(int* preorder, int preorderSize, int* inorder, int in
 ```
 
 **Solution 4: (DFS)**
+
+    preorder = [ 3, 9,20,15, 7], inorder = [9,3,15,20,7]
+                 ^                         [ ]m[       ]
+                    ^                      [ ]
+                      ^                        [   ]m[ ]
+                         ^                     [   ]
+                            ^                        [ ]
+                    3
+                  /    \
+                 9     20
+                      /  \
+                    15    7
+
 ```
 Runtime: 6 ms, Beats 42.87%
 Memory: 27.05 MB, Beats 89.98%

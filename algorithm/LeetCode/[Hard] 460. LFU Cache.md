@@ -395,6 +395,78 @@ public:
 ```
 
 **Solution 6: (Hash Table, 2 Hash Table)**
+
+LFUCache lfu = new LFUCache(2);
+lfu.put(1, 1);   // cache=[1,_], cnt(1)=1
+m:   (1,1)  // k,f
+       |
+cnt:   v
+1:   (1,1) // f: (key, value)
+
+lfu.put(2, 2);   // cache=[2,1], cnt(2)=1, cnt(1)=1
+m:   (1,1) (2,1)  // k,f
+       |     |
+cnt:   v     v
+1:   (1,1) (2,2) // f: (key, value)
+lfu.get(1);      // return 1
+                 // cache=[1,2], cnt(2)=1, cnt(1)=2
+m:   (1,2) (2,1) // k,f
+       |     |
+cnt:   |     v
+1:   (1|1)x(2,2) // f: (key, value)
+       v
+2:   (1,1)
+lfu.put(3, 3);   // 2 is the LFU key because cnt(2)=1 is the smallest, invalidate 2.
+                 // cache=[3,1], cnt(3)=1, cnt(1)=2
+m:   (1,2) (2,1)x (3,1) // k,f
+       |     |      |
+cnt:   |     v      v
+1:     |   (2,2)x (3,3) // f: (key, value)
+       v
+2:   (1,1)
+lfu.get(2);      // return -1 (not found)
+lfu.get(3);      // return 3
+                 // cache=[3,1], cnt(3)=2, cnt(1)=2
+m:   (1,2) (3,2) // k,f
+       |     |
+cnt:   |     |
+1:     |   (3|3)x// f: (key, value)
+       v     v
+2:   (1,1) (3,3)
+lfu.put(4, 4);   // Both 1 and 3 have the same cnt, but 1 is LRU, invalidate 1.
+   (4,1)         // cache=[4,3], cnt(4)=1, cnt(3)=2
+m:   |1,2)x(3,2) // k,f
+     | |     |
+cnt: v |     |
+1: (4,4)     |   // f: (key, value)
+       v     v
+2:   (1,1)x(3,3)
+lfu.get(1);      // return -1 (not found)
+m:  (4,1)  (3,2) // k,f
+      |      |
+cnt:  v      |
+1:  (4,4)    |   // f: (key, value)
+             v
+2:         (3,3)
+lfu.get(3);      // return 3
+                 // cache=[3,4], cnt(4)=1, cnt(3)=3
+m:  (4,1)  (3,3) // k,f
+      |      |
+cnt:  v      |
+1:  (4,4)    |   // f: (key, value)
+             |
+2:         (3v3)x
+3:         (3,3)
+lfu.get(4);      // return 4
+                 // cache=[4,3], cnt(4)=2, cnt(3)=3
+m:  (4,2)  (3,3) // k,f
+      |      |
+cnt:  |      |
+1:  (4|4)x   |   // f: (key, value)
+      v      |
+2:  (4,4)    v
+3:         (3,3)
+
 ```
 Runtime: 113 ms, Beats 66.14%
 Memory: 187.73 MB, Beats 70.90%
@@ -405,7 +477,7 @@ class LFUCache {
     unordered_map<int,list<pair<int,int>>> cnt;
     // f -> list{k, v}
     unordered_map<int,pair<int,list<pair<int,int>>::iterator>> m;
-    // key -> f, list::it
+    // k -> f, list{k, v}->
 public:
     LFUCache(int capacity) {
         n = capacity;
@@ -425,8 +497,8 @@ public:
             }
         }
         f += 1;
-        cnt[f].push_back({key, v});
-        m[key] = {f, prev(cnt[f].end())};
+        cnt[f].push_front({key, v});
+        m[key] = {f, cnt[f].begin()};
         return v;
     }
     
@@ -436,16 +508,16 @@ public:
             get(key);
         } else {
             if (m.size() == n) {
-                auto [k, _] = cnt[mn].front();
-                cnt[mn].pop_front();
+                auto [k, _] = cnt[mn].back();
+                cnt[mn].pop_back();
                 if (cnt[mn].size() == 0) {
                     cnt.erase(mn);
                 }
                 m.erase(k);
             }
             mn = 1;
-            cnt[mn].push_back({key, value});
-            m[key] = {mn, prev(cnt[mn].end())};
+            cnt[mn].push_front({key, value});
+            m[key] = {mn, cnt[mn].begin()};
         }
     }
 };

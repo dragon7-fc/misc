@@ -155,7 +155,7 @@ class Solution:
         return solve(bottom)
 ```
 
-**Solution 2: (DP Top-Down, Backtracking, level by level try solution)**
+**Solution 2: (DP Top-Down, Backtracking, pair by pair and level by level try solution)**
 
     bottom = "BCD", allowed = ["BCC","CDE","CEA","FFF"]
 mp

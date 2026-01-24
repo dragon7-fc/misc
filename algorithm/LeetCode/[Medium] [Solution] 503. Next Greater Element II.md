@@ -191,6 +191,12 @@ int* nextGreaterElements(int* nums, int numsSize, int* returnSize){
 
 **Solution 3: (Stack, mono dec stack)**
 
+mono dec
+    \
+      \
+        \ < next greater
+          < cur
+
     1 2 1 1 2 1
             2 1
           21

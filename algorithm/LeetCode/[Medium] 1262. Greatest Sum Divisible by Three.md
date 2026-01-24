@@ -132,7 +132,7 @@ class Solution:
 **Solution 4: (DP Bottom-Up)**
 
     3 6  5  1  8
-0   3 9    15 18
+0   3 9    15 18 < ans
 1        5 10 22
 2       14 14 23
 
