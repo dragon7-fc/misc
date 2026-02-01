@@ -51,8 +51,8 @@ Memory: 362.19 MB, Beats 42.45%
 ```
 ```c++
 class AuctionSystem {
-    unordered_map<int, unordered_map<int, int>> mp;
-    unordered_map<int, set<array<int, 2>>> st;
+    unordered_map<int, unordered_map<int, int>> mp; // item -> user -> amount
+    unordered_map<int, set<array<int, 2>>> st;  // item -> (amount, user)
 public:
     AuctionSystem() {
         

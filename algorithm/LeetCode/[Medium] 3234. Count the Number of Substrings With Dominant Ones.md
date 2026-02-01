@@ -216,22 +216,74 @@ public:
 };
 ```
 
-**Solution 4: (Sliding Window, Brute Force, Enumeration, O(n sqrt(n)))**
+**Solution 4: (Sliding Window, Prefix Sum, Brute Force, Enumeration, O(n sqrt(n)))**
+
+        0    i
+s      [ ... 0  ...]
+pre            i       // position of the nearest zero before
+
+             vpre[j]
+        j2   j   i
+s    [..0....0.......]
+pre          j2  j
+             ----^
+        ------
+                  cnt0
+                  = s[i] == '0'
+                  cnt1
+                  = i - pre[i] - cnt0
+             cnt0
+             = cnt0 + 1
+             cnt
+             i - pre[j2] - cnt0
+
 
           0  1  2  3  4  5
-     s = "0  0  0  1  1"
-pre      -1  0  1  2  2  2
-                         i
-                j
-cnt0      1  1  1  0  0
-                1
-             2
-                      1
-cnt1      0  0  0  2  3
-                2
-             2
-res    0          +2 +3
+s            0  0  0  1  1 
+pre      -1  0  1  2  3  3
+         xxxxx 
+          1-base
+                          
+    i  j  pre[j]  cnt0  cnt1  res
+    1  1      0      1     0
+       0
+    2  2      1      1     0
+       1      0      2     0
+       0
+    3  3      2      1     0
+       2      1      2     0
+       1      0      3     0
+       0
+    4  4      3      0     1   +1
+       3      2      1     1   +1
+       2      1      2     1
+       1      0      3     1
+       0
+    5  5      3      0     2   +2
+       3      2      1     2   +1
+       2      1      2     2
+       1      0      3     2
+       0
                   
+              v
+s     0 1 2 3 4 5
+        0 0 0 1 1
+pre  -1 0 1 2 3 3
+              -  
+cnt0          0
+cbt1          1
+ans        j - pre[j] = 1
+                v
+      0 1 2 3 4 5
+s       1 0 1 1 0 1 
+pre  -1 0 0 2 2 2 5
+              ---
+           ------
+
+cnt0            1
+cnt1            2
+ans        cnt1 - cnt0*cnt0 + 1 = 2
+
 ```
 Runtime: 155 ms, Beats 87.92%
 Memory: 18.26 MB, Beats 35.57%
@@ -242,7 +294,7 @@ public:
     int numberOfSubstrings(string s) {
         int n = s.size();
         vector<int> pre(n + 1);  // position of the nearest zero before
-        pre[0] = -1;
+        pre[0] = -1;  // 1-base
         for (int i = 0; i < n; i++) {
             if (i == 0 || (i > 0 && s[i - 1] == '0')) {
                 pre[i + 1] = i;

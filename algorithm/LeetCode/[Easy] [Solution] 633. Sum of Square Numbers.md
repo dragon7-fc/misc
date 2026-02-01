@@ -227,3 +227,28 @@ class Solution:
             
         return False
 ```
+
+**Solution 3: (Two Pointers)**
+```
+Runtime: 0 ms, Beats 100.00%
+Memory: 7.70 MB, Beats 55.63%
+```
+```c++
+class Solution {
+public:
+    bool judgeSquareSum(int c) {
+        long long a = 0, b = sqrt(c), d;
+        while (a <= b) {
+            d = a * a + b * b;
+            if (d == c) {
+                return true;
+            } else if (d < c) {
+                a += 1;
+            } else {
+                b -= 1;
+            }
+        }
+        return false;
+    }
+};
+```

@@ -156,6 +156,13 @@ public:
 };
 ```
 **Solution 2: (Sort)**
+
+             0  1  2  3  4  5
+    nums = [ 6, 0, 8, 2, 1, 5]
+sort        (0,1) (1,4) (2,3) (5,5) (6,0) (8,2) // value, index
+                                            ^
+maxWIdth  0   0     3           4 < ans
+minIndex  6   1                       0
 ``
 Runtime: 96 ms
 Memory: 48.48 MB
@@ -192,20 +199,57 @@ public:
 };
 ```
 
-**Solution 3: (Stack, prefix sum)**
+**Solution 3: (prefix sum)**
 
                    \
         ------------ \
-                       \
+        ^              \
           -------------- \
           ^ 
+        ->
 
 * Time: O(N) 
 * Space: O(N)
 
+
+8                  x
+7
+6            x
+5                           x
+4
+3
+2                     x
+1                        x
+0               x
+    nums = [ 6, 0, 8, 2, 1, 5]
+                   8        
+dp                          5  <-
+------------------------------
+          ->    i
+             8x
+dp           5  5x
+ans          2  4 < ans
+
+-----------------------------------------
+    nums = [ 9, 8, 1, 0, 1, 9, 4, 0, 4, 1]
+                            9 
+                                     4 
+dp                                      1 
+------------------------------------------ 
+                            9x
+                                     4 
+dp                                      1 
+                i
+ans             4
+------------------------------------------ 
+                                     4x
+dp                                      1x
+                   i
+ans                7
+
 ```
-Runtime: 47 ms
-Memory: 47.83 MB
+Runtime: 0 ms, Beats 100.00%
+Memory: 48.91 MB, Beats 17.44%
 ```
 ```c++
 class Solution {

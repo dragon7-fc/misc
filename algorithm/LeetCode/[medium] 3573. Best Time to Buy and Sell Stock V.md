@@ -148,14 +148,18 @@ public:
 **Solution 2: (DP Bottom-Up)**
 
     prices = [1,       7,      9,        8,       2], k = 2
+
+        res   0        0       0         0        0
+      bought -1       -1      -1        -1       -1
+        sold  1        7       9         9        9
             ------------------------------------------
         res   0        6       8         8        8
-      bought -1       -1      -1        -1       -1     k = 1
-        sold  1        7       9         9        9
+      bought -1       -1      -1         0        6     k = 1
+        sold  1        7      15        16       16
        ----------------------------------------------
-        res    0       6       8         8       14
-      bought  -1      -1      -1         0        6     k = 2
-        sold   1       6      15        16       10
+        res   0        6       8         8       14  < ans
+      bought  ~        ~       ~         ~        ~     k = 2
+        sold  0        0       0         0        0
 
 ```
 Runtime: 51 ms, Beats 100.00%

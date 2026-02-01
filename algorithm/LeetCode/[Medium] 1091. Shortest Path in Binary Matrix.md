@@ -74,32 +74,39 @@ class Solution:
 ```
 
 **Solution 2: (BFS)**
+
+
+        -1,-1  -1,0   -1,1
+         0,-1          0,1
+         1,-1   1,0    1,1
+
 ```
 Runtime: 81 ms
 Memory Usage: 20.2 MB
 ```
 ```c++
 class Solution {
-    int dr[8] = {0, 1, 1, 1, 0, -1, -1, -1};
-    int dc[8] = {1, 1, 0, -1, -1, -1, 0, 1};
+    int dr[8] = {0, 1, 1,  1,  0, -1, -1, -1};
+    int dc[8] = {1, 1, 0, -1, -1, -1,  0, 1};
 public:
     int shortestPathBinaryMatrix(vector<vector<int>>& grid) {
-        int N = grid.size();
-        queue<tuple<int,int,int>> q;
-        if (grid[0][0] == 0)
+        int n = grid.size(), d, nr, nc;
+        queue<array<int, 3>> q;
+        if (grid[0][0] == 0) {
             q.push({0,0,1});
-        int nr, nc;
+        }
         while (!q.empty()) {
-            auto [r, c, p] = q.front();
+            auto [r, c, k] = q.front();
             q.pop();
-            if (r == N-1 && c == N-1)
-                return p;
-            for (int i = 0; i < 8; i ++) {
-                nr = r + dr[i];
-                nc = c + dc[i];
-                if (0 <= nr && nr < N && 0 <= nc && nc < N && grid[nr][nc] == 0) {
+            if (r == n - 1 && c == n - 1) {
+                return k;
+            }
+            for (d = 0; d < 8; d ++) {
+                nr = r + dr[d];
+                nc = c + dc[d];
+                if (0 <= nr && nr < n && 0 <= nc && nc < n && grid[nr][nc] == 0) {
                     grid[nr][nc] = 1;
-                    q.push({nr, nc, p+1});
+                    q.push({nr, nc, k + 1});
                 }
             }
         }

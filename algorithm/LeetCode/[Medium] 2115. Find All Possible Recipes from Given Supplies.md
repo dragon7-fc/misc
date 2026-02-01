@@ -379,6 +379,49 @@ public:
 ```
 
 **Solution 8: (Topological Sort)**
+
+
+    recipes = ["bread"], ingredients = [["yeast","flour"]], supplies = ["yeast","flour","corn"]
+
+                      supplies
+                yeast  flour  corn
+bread             x      x
+
+    recipes = ["bread","sandwich"], ingredients = [["yeast","flour"],["bread","meat"]], supplies = ["yeast","flour","meat"]
+
+                      supplies     | recipes
+                yeast  flour  meat   bread
+bread             x      x
+sandwich                       x      x
+
+
+    recipes = ["bread","sandwich","burger"], ingredients = [["yeast","flour"],["bread","meat"],["sandwich","meat","bread"]], supplies = ["yeast","flour","meat"]
+
+                      supplies     | recipes
+                yeast  flour  meat   bread  sandwich
+bread             x      x
+sandwich                       x      x
+burger                         x      x         x
+
+
+mp:                indeg
+bread     0          0
+sandwich  1          1
+burger    2          1
+
+st: yeast, flour, meat
+
+
+        yeast  flour  meat
+           \    /      / |    
+            bread (r) /  |
+             |  v    /   |
+             |  sandwich (r)
+             |     v     |
+                burger (r)
+
+q: bread -> sandwich -> burger
+
 ```
 Runtime: 35 ms, Beats 93.87%
 Memory: 102.41 MB, Beats 84.57%

@@ -103,3 +103,26 @@ class Solution:
             max_sum = max(max_sum, sub_sum)
         return max_sum/k
 ```
+
+**Solution 2: (Sliding Window)**
+```
+Runtime: 0 ms, Beats 100.00%
+Memory: 113.65 MB, Beats 84.86%
+```
+```c++
+class Solution {
+public:
+    double findMaxAverage(vector<int>& nums, int k) {
+        int n = nums.size(), i;
+        double a = 0, ans = LONG_LONG_MIN;
+        for (i = 0; i < n; i ++) {
+            a += nums[i];
+            if (i >= k - 1) {
+                ans = max(ans, a / k);
+                a -= nums[i - k + 1];
+            }
+        }
+        return ans;
+    }
+};
+```

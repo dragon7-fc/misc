@@ -152,6 +152,16 @@ public:
 ```
 
 **Solution 3: (Stack, mono dec stack, walk backward)**
+
+    head = [2,7,4,3,5]
+
+        2 -> 7 -> 4 -> 3 -> 5
+reverse 2 <- 7 <- 4 <- 3 <- 5
+                              <-
+             4x   3x
+stk     7    5x   5    5
+ans     7    0    5    5    0
+
 ```
 Runtime: 2 ms, Beats 87.58%
 Memory: 42.10 MB, Beats 99.43%

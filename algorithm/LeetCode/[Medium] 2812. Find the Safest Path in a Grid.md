@@ -211,7 +211,7 @@ public:
              1 1 1
             [3,2,1]
              1 1 1
-
+                 ^ ans
 
     grid = [[0,0,1],
             [0,0,0],
@@ -222,7 +222,7 @@ public:
              3 3
             [5,4,3]
              3 3 3
-
+                 ^ ans
 
     grid = [[0,0,0,1],
             [0,0,0,0],
@@ -274,6 +274,59 @@ public:
             }
         }
         return pq.top()[0] - 1;
+    }
+};
+```
+
+**Solution 2: (BFS + MST Prime, O(N^2 * Log(N)))**
+```
+Runtime: 337 ms, Beats 76.27%
+Memory: 116.47 MB, Beats 96.25%
+```
+```c++
+class Solution {
+    int dd[5] = {0, 1, 0, -1, 0};
+public:
+    int maximumSafenessFactor(vector<vector<int>>& grid) {
+        int n = grid.size(), i, j, d, nr, nc;
+        queue<array<int, 2>> q;
+        for (i = 0; i < n; i ++) {
+            for (j = 0; j < n; ++j) {
+                if (grid[i][j]) {
+                    q.push({i, j});
+                }
+            }
+        }
+        while (q.size()) {
+            auto [r, c] = q.front();
+            q.pop();
+            for (d = 0; d < 4; d ++) {
+                nr = r + dd[d];
+                nc = c + dd[d + 1];
+                if (nr >= 0 && nr < n && nc >= 0 && nc < n && grid[nr][nc] == 0) {
+                    grid[nr][nc] = grid[r][c] + 1;
+                    q.push({nr, nc});
+                }
+            }
+        }
+        priority_queue<array<int, 3>> pq;
+        pq.push({grid[0][0], 0, 0});
+        while (pq.size()) {
+            auto [w, r, c] = pq.top();
+            pq.pop();
+            if (r == n - 1 && c == n - 1) {
+                return w - 1;
+            }
+            for (d = 0; d < 4; ++d) {
+                nr = r + dd[d];
+                nc = c + dd[d + 1];
+                if (0 <= nr && nr < n && 0 <= nc && nc < n && grid[nr][nc] != -1) {
+                    pq.push({min(w, grid[nr][nc]), nr, nc});
+                    grid[nr][nc] = -1; 
+                }
+            }
+        }
+        return -1;
     }
 };
 ```

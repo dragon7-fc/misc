@@ -47,21 +47,25 @@ Total cost is 1 + 1 + 1 = 3.
 
 # Submissions
 ---
-**Solution 1: (Dijkstra)**
+**Solution 1: (Dijkstra, every node walk once)**
+
+every node walk once
+-> add reverse edge for each node
+
 ```
-Runtime: 321 ms, Beats 51.85%
-Memory: 315.83 MB, Beats 54.51%
+Runtime: 204 ms, Beats 91.83%
+Memory: 289.94 MB, Beats 87.98%
 ```
 ```c++
 class Solution {
 public:
     int minCost(int n, vector<vector<int>>& edges) {
-        vector<vector<array<int,2>>> g(n);
-        priority_queue<array<int,2>, vector<array<int,2>>, greater<>> pq;
+        vector<vector<array<int, 2>>> g(n);
+        priority_queue<array<int, 2>, vector<array<int, 2>>, greater<>> pq;
         vector<int> dist(n, INT_MAX);
-        for (auto e: edges) {
+        for (auto &e: edges) {
             g[e[0]].push_back({e[1], e[2]});
-            g[e[1]].push_back({e[0], 2*e[2]});
+            g[e[1]].push_back({e[0], 2 * e[2]});
         }
         pq.push({0, 0});
         dist[0] = 0;
@@ -71,10 +75,10 @@ public:
             if (u == n-1) {
                 return w;
             }
-            for (auto [v, dw]: g[u]) {
+            for (auto &[v, dw]: g[u]) {
                 if (w + dw < dist[v]) {
                     dist[v] = w + dw;
-                    pq.push({w+dw, v});
+                    pq.push({w + dw, v});
                 } 
             }
         }

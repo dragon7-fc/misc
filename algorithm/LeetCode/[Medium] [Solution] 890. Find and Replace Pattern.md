@@ -109,6 +109,22 @@ class Solution:
 ```
 
 **Solution 1: (Hash Table)**
+
+    words = ["a b c","d e q","m e e","a q q","d k d","c c c"], pattern = "abb"
+m:
+a             a       d       m       a       d
+b               b x     e x     e e<    q q<    k x
+                                
+seen:
+a             x                       x
+b               x
+c
+d                     x                       x
+e                       x       x
+q                                       x 
+m                             x
+k                                               x
+
 ```
 Runtime: 3 ms
 Memory Usage: 8.3 MB

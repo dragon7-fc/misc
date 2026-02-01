@@ -202,9 +202,26 @@ class Solution:
 ```
 
 **Solution 4: (Knapsack)**
+
+case      g0  g1
+1    rod   x
+2    rod       x
+3    rod           
+      
+
+    rods = [1,2,3,6]
+
+dp    0  1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24
+  0                                       0
+1 1                                    0  0  1
+2 2                              0  0  1  0  2  2  3
+3 3                     0  0  1  0  2  2  3  3  4  3  5  5  6
+6 4   0  0  1  0  2  2  3  3  4  3  5  5  6  6  7  6  8  8  9  9 10  9 11 11 12 
+                                          ^ans
+
 ```
-Runtime: 468 ms
-Memory: 45.7 MB
+Runtime: 63 ms, Beats 70.08%
+Memory: 48.84 MB, Beats 50.77%
 ```
 ```c++
 class Solution {
@@ -229,6 +246,53 @@ public:
             }
         }
         return dp[n][sum];
+    }
+};
+```
+
+**Solution 4: (DP)**
+```
+Runtime: 459 ms, Beats 11.00%
+Memory: 101.15 MB, Beats 15.44%
+```
+```c++
+class Solution {
+public:
+    int tallestBillboard(vector<int>& rods) {
+        // dp[taller - shorter] = taller
+        map<int, int> dp;
+        dp[0] = 0;
+
+        for (int r : rods) {
+            // Creating a copy of dp (new_dp) means we don't add r to these
+            // stands.
+            map<int, int> new_dp(dp);
+
+            for (auto entry : dp) {
+                int diff = entry.first;
+                int taller = entry.second;
+                int shorter = taller - diff;
+
+                // Add r to the taller stand, thus the height difference is
+                // increased to diff + r.
+                int new_taller =
+                    new_dp.count(diff + r) > 0 ? new_dp[diff + r] : 0;
+                new_dp[diff + r] = max(new_taller, taller + r);
+
+                // Add r to the shorter stand, the height difference is
+                // expressed as abs(shorter + r - taller).
+                int new_diff = abs(shorter + r - taller);
+                int new_taller2 = max(shorter + r, taller);
+                new_dp[new_diff] =
+                    max(new_taller2,
+                        new_dp.count(new_diff) > 0 ? new_dp[new_diff] : 0);
+            }
+
+            dp = new_dp;
+        }
+
+        // Return the maximum height with 0 difference.
+        return dp.count(0) > 0 ? dp[0] : 0;
     }
 };
 ```

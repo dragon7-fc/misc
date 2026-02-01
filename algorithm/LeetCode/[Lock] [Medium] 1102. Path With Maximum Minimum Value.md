@@ -69,14 +69,14 @@ class Solution:
 **Solution 2: (Dijkstra)**
 
     grid = [[ 5, 4, 5],
-pq           (5) (4) (4)
-              x   x   x
+pq            5  4  5 
+              x  x  x 
             [ 1, 2, 6],
-             (1) (2) (4)
-              1   2   4
-                      x
+              1  2  6
+                    x
             [ 7, 4, 6]]
-                    (4)x
+                    6
+                    x
 
 ```
 Runtime: 118 ms, Beats 73.26%

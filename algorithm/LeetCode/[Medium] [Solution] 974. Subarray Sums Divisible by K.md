@@ -143,6 +143,15 @@ class Solution:
 ```
 
 **Solution 5: (Hash Table, prefix sum)**
+
+    nums = [ 4, 5, 0,-2,-3, 1], k = 5
+a        0   4  4  4  2  4  0
+cnt:
+4            1  2  3     4
+2                     1
+0        1                  2
+ans            +1 +2    +3 +1
+
 ```
 Runtime: 1 ms, Beats 92.92%
 Memory: 34.31 MB, Beats 97.40%

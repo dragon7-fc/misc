@@ -172,6 +172,27 @@ public:
 ```
 
 **Solution 3: (Greedy)**
+
+    arrays = [[1,2,3],[4,5],[1,2,3]]
+
+arrays 1  2  3  4  5 
+0      x  x  x
+       mn    mx
+-------------------------
+1      x  x  x
+                x  x
+ans          mx-|
+       mn----------|  < ans
+
+       mn          mx
+-------------------------
+2      x  x  x  x  x
+       x  x  x
+ans    |-----------mx
+       mn----|
+
+       mn          mx
+
 ```
 Runtime: 220 ms
 Memory: 107.91 MB

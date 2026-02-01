@@ -311,6 +311,24 @@ public:
 ```
 
 **Solution 7: (Segment Tree)**
+
+MyCalendar myCalendar = new MyCalendar();
+        root [0,0]
+myCalendar.book(10, 20); // return True
+        root [0,0]
+             \
+             [10,20]
+myCalendar.book(15, 25); // return False, It can not be booked because time 15 is already booked by another event.
+        root [0,0]
+             \
+             [10,20]
+myCalendar.book(20, 30); // return True, The event can be booked, as the first event takes every time less than 20, but not including 20.
+        root [0,0]
+             \
+             [10,20]
+                \
+                [20,30]
+
 ```
 Runtime: 66 ms
 Memory: 42.18 MB

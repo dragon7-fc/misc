@@ -338,7 +338,7 @@ B       -   -   - -
     2 3 3 4 4 5 5 6
           ^^^
 
-case 1: (m + n) % 2 == 1
+case 2: (m + n) % 2 == 1
            ----B-----
                  -A-----
            2  3  4  5  6      
@@ -352,20 +352,25 @@ case 1: (m + n) % 2 == 1
               ^maxLeftB <-----------
                  ^minRightB
 
-        mxL
-        v mnR
-          v
-          mxL
-          v
-              mnR
-              v
+          mxL mnR
 B     - - -   -
             l   m   r
             mxL mnR
-            lrm
 A           -   - -
       2 3 4 4 5 5 6
             ^
+
+        mxL mnR
+            mxL mnR
+B   -   -   -   -
+            l       m      r
+                mxL mnR
+            lm  r
+ mxL        mnR 
+A           -   -   -   - 
+    1   3   5 5 7 7 9   10
+              ^^^
+             
 ```
 Runtime: 0 ms, Beats 100.00%
 Memory: 95.02 MB, Beats 80.09%

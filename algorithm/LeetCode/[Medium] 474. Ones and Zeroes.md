@@ -133,9 +133,23 @@ public:
 **Solution 4: (DP Bottom-Up)**
 
     strs = ["10","0001","111001","1"      ,"0"], m = 5, n = 3
-0        0    1   3 4           0 1 3 4     1 2 4 5 1 2 4 5
-1        0    1   1 2           1 2 2 3     0 1 1 2 1 2 2 3
-         0    1   1 2           1 2 2 3     1 2 2 3 2 3 3 4
+cm (#0)      1    3      2        0         1
+cn (#1)      1    1      4        1         0
+
+dp[i + cm][j + cn] = max(dp[i + cm][j + cn], dp[i][j] + 1)
+
+        i
+    <-------
+dp  0  1  2  3n   ^
+0   0  1          |
+1   1  1  2       |
+2      2  3       |j
+3      1  2       |
+4      2  2  3
+5         3  4 < ans
+m
+
+
 
 ```
 Runtime: 39 ms, Beats 96.59%
@@ -146,16 +160,16 @@ class Solution {
 public:
     int findMaxForm(vector<string>& strs, int m, int n) {
         int i, j, cm, cn, ans = 0;
-        vector<vector<int>> pre(m + 1, vector<int>(n + 1, -1));
-        pre[0][0] = 0;
+        vector<vector<int>> dp(m + 1, vector<int>(n + 1, -1));
+        dp[0][0] = 0;
         for (auto &str: strs) {
             cm = count(str.begin(), str.end(), '0');
             cn = str.length() - cm;
             for (i = m - cm; i >= 0; i --) {
                 for (j = n - cn; j >= 0; j --) {
-                    if (pre[i][j] >= 0) {
-                        pre[i + cm][j + cn] = max(pre[i + cm][j + cn], pre[i][j] + 1);
-                        ans = max(ans, pre[i + cm][j + cn]);
+                    if (dp[i][j] >= 0) {
+                        dp[i + cm][j + cn] = max(dp[i + cm][j + cn], dp[i][j] + 1);
+                        ans = max(ans, dp[i + cm][j + cn]);
                     }
                 }
             }

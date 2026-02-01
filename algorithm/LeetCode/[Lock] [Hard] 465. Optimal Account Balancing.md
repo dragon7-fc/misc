@@ -132,9 +132,9 @@ class Solution {
     	for (int j = i + 1; j < dp.size(); j ++) {
     	    if (dp[j] * dp[i] < 0) { // skip same sign debt
                 dp[j] += dp[i]; 
-			    rst = min(rst, 1 + bt(i + 1)); 
-			    dp[j] -= dp[i];
-		    }
+		rst = min(rst, 1 + bt(i + 1)); 
+		dp[j] -= dp[i];
+	    }
         }
     	return rst < INT_MAX ? rst : 0;
     }
@@ -142,11 +142,11 @@ public:
     int minTransfers(vector<vector<int>>& transactions) {
         unordered_map<int, long> bal; // each person's overall balance
         for (auto &t: transactions) {
-		    bal[t[0]] -= t[2];
-		    bal[t[1]] += t[2];
-		}
+	    bal[t[0]] -= t[2];
+	    bal[t[1]] += t[2];
+	}
         for (auto &[_, b]: bal) {// only deal with non-zero debts
-		    if (b) {
+	    if (b) {
                 dp.push_back(b);
             }
         }

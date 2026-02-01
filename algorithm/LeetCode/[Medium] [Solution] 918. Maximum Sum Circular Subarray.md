@@ -403,3 +403,52 @@ class Solution:
             sum += num
         return max_sum if sum == min_sum else max(max_sum, sum - min_sum)
 ```
+
+**Solution 5: (Calculate the "Minimum Subarray")**
+
+case 1:
+------[ max aubarray ]---
+                       min
+case 2:
+subarray ]----------[ max
+             min
+= total - min subarry
+
+10
+9
+8
+7                 x < total
+6
+5            x       ^
+4                    | minSum
+3                    |
+2               x    v
+1
+0
+    nums = [ 5,-3, 5]
+curMax       5  2  7
+maxSum    5        7
+curMin       5 -3  2
+minSum    5    -3      <-|
+total        5  2  7   <-| total - minSum
+
+```
+Runtime: 0 ms, Beats 100.00%
+Memory: 43.44 MB, Beats 96.37%
+```
+```c++
+class Solution {
+public:
+    int maxSubarraySumCircular(vector<int>& nums) {
+        int total = 0, maxSum = nums[0], curMax = 0, minSum = nums[0], curMin = 0;
+        for (int &a : nums) {
+            curMax = max(curMax + a, a);
+            maxSum = max(maxSum, curMax);
+            curMin = min(curMin + a, a);
+            minSum = min(minSum, curMin);
+            total += a;
+        }
+        return maxSum > 0 ? max(maxSum, total - minSum) : maxSum;
+    }
+};
+```

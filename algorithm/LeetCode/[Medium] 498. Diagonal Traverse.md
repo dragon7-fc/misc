@@ -211,6 +211,22 @@ public:
 ```
 
 **Solution 3: (Simulation)**
+
+    1  2  3
+    4  5  6
+    7  8  7
+
+case 1:
+     ^  
+    / 
+    nr = r - 1
+    nc = c + 1
+case 2:
+     /
+    v
+    nr = r + 1
+    nc = c - 1
+
 ````
 Runtime: 0 ms, Beats 100.00%
 Memory: 22.67 MB, Beats 81.55%

@@ -438,7 +438,7 @@ class Solution:
         return ret    
 ```
 
-**Solution 4: (BIT, greater, data transfer to sorted index)**
+**Solution 4: (BIT, greater, data transfer to sorted index, reverse query and update direction, prefix sum over index)**
 
              0  1  2  3  4
     nums = [ 1, 3, 2, 3, 1]
@@ -533,8 +533,8 @@ public:
         vector<int> dp = nums;
         sort(dp.begin(), dp.end());
         for (i = 0; i < n; i ++) {
-            j = lower_bound(dp.begin(), dp.end(), nums[i] * 2LL + 1) - dp.begin() + 1;
-            ans += bit.query(j);
+            j = lower_bound(dp.begin(), dp.end(), nums[i] * 2LL + 1) - dp.begin();
+            ans += bit.query(j + 1);
             j = lower_bound(dp.begin(), dp.end(), nums[i]) - dp.begin();
             bit.update(j, 1);
         }

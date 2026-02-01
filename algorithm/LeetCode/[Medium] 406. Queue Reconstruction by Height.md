@@ -87,18 +87,18 @@ Memory: 16.10 MB, Beats 61.80%
 ```c++
 class BIT {
 public:
-    vector<int> dp;
+    vector<int> pre;
     BIT() {}
     void build(int n) {
-        dp.resize(n + 1);
+        pre.resize(n + 1);
         for (int i = 1; i < n; i ++) {
             update(i, 1);
         }
     }
     void update(int i, int val) {
         int j = i + 1;
-        while (j < dp.size()) {
-            dp[j] += val;
+        while (j < pre.size()) {
+            pre[j] += val;
             j += j & (-j);
         }
     }
@@ -106,7 +106,7 @@ public:
         int rst = 0;
         int j = i;
         while (j > 0) {
-            rst += dp[j];
+            rst += pre[j];
             j -= j & (-j);
         }
         return rst;

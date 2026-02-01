@@ -86,6 +86,24 @@ class Solution:
 ```
 
 **Solution 1: (Greedy)**
+
+   n n+1 n+2
+   0   x
+   -+1--
+   1       x
+   -+2------
+
+             0  1  2
+    bits = [ 1, 0, 0]
+             i
+                   i
+
+             0  1  2  3
+    bits = [ 1, 1, 1, 0]
+             i
+                   i
+                         i
+
 ```
 Runtime: 0 ms, Beats 100.00%
 Memory: 12.93 MB, Beats 94.78%

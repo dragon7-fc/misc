@@ -225,3 +225,88 @@ public:
     }
 };
 ```
+
+**Solution 5: (Floyd-Warshall, all source shortest path, O(m + n))**
+```
+Runtime: 67 ms, Beats 27%
+Memory: 100.26 MB, Beats 57.74%
+```
+```c++
+class Solution {
+    
+public:
+    long long minimumCost(string source, string target, vector<char>& original, vector<char>& changed, vector<int>& cost) {
+        int m = original.size(), n = source.size(), i, j, k;
+        vector<vector<long long>> dp(26, vector<long long>(26, INT_MAX));
+        for (i = 0; i < m; i ++) {
+            dp[original[i] - 'a'][changed[i] - 'a'] = min(dp[original[i] - 'a'][changed[i] - 'a'], (long long)cost[i]);
+        }
+        for (k = 0; k < 26; k ++) {
+            for (i = 0; i < 26; i ++) {
+                for (j = 0; j < 26; j ++) {
+                    dp[i][j] = min(dp[i][j], dp[i][k] + dp[k][j]);
+                }
+            }
+        }
+        long long ans = 0;
+        for (i = 0; i < n; i ++) {
+            if (source[i] == target[i]) {
+                continue;
+            }
+            if (dp[source[i] - 'a'][target[i] - 'a'] == INT_MAX) {
+                return -1;
+            }
+            ans += dp[source[i] - 'a'][target[i] - 'a'];
+        }
+        return ans;
+    }
+};
+```
+
+**Solution 6: (Dijkstra, every character dijkstra)**
+```
+Runtime: 49 ms, Beats 41.57%
+Memory: 108.52 MB, Beats 22.63%
+```
+```c++
+class Solution {
+    
+public:
+    long long minimumCost(string source, string target, vector<char>& original, vector<char>& changed, vector<int>& cost) {
+        int m = original.size(), n = source.size(), i, j, k, a, b;
+        vector<vector<int>> g(26, vector<int>(26, INT_MAX));
+        vector<vector<long long>> dist(26, vector<long long>(26, LONG_LONG_MAX));
+        for (i = 0; i < m; i ++) {
+            g[original[i] - 'a'][changed[i] - 'a'] = min(g[original[i] - 'a'][changed[i] - 'a'], cost[i]);
+        }
+        long long nw, ans = 0;
+        for (i = 0; i < n; i ++) {
+            a = source[i] - 'a';
+            b = target[i] - 'a';
+            if (dist[a][a] == LONG_LONG_MAX) {
+                dist[a][a] = 0;
+                priority_queue<pair<long long, int>, vector<pair<long long, int>>, greater<>> pq;
+                pq.push({0, a});
+                while (pq.size()) {
+                    auto [w, c] = pq.top();
+                    pq.pop();
+                    for (j = 0; j < 26; j ++) {
+                        if (g[c][j] != INT_MAX) {
+                            nw = w + g[c][j];
+                            if (nw < dist[a][j]) {
+                                dist[a][j] = nw;
+                                pq.push({nw, j});
+                            }
+                        }
+                    }
+                }
+            }
+            if (dist[a][b] == LONG_LONG_MAX) {
+                return -1;
+            }
+            ans += dist[a][b];
+        }
+        return ans;
+    }
+};
+```

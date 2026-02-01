@@ -55,6 +55,11 @@ No node has value 5.
 # Submissions
 ---
 **Solution 1: (Linked List)**
+
+       --------->
+       vp       vh
+         -> x -> 
+
 ```
 Runtime: 95 ms, Beats 71.38%
 Memory: 263.23 MB, Beats 76.09%

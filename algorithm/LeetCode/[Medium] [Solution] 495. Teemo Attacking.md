@@ -83,3 +83,24 @@ class Solution:
             total += min(timeSeries[i + 1] - timeSeries[i], duration)
         return total + duration
 ```
+
+**Solution 2: (Greedy)**
+```
+Runtime: 0 ms, Beats 100.00%
+Memory: 29.56 MB, Beats 92.98%
+```
+```c++
+class Solution {
+public:
+    int findPoisonedDuration(vector<int>& timeSeries, int duration) {
+        int n = timeSeries.size(), i, a = 0;
+        if (n == 0) {
+            return 0;
+        }
+        for (i = 0; i < n - 1; i ++) {
+            a += min(timeSeries[i + 1] - timeSeries[i], duration);
+        }
+        return a + duration;
+    }
+};
+```

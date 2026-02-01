@@ -176,3 +176,52 @@ public:
     }
 };
 ```
+
+**Solution 6: (Hash Table, Binary Search)**
+
+                           0   0 1   0 1 2   0 1 2
+    s = "abcde", words = ["a","b b","a c d","a c e"]
+g                                            
+a: 0                       0         0       0
+b: 1                           1 2x
+c: 2                                   2       2
+d: 3                                     3
+e: 4                                             4
+
+ans                         1            2       3
+
+```
+Runtime: 51 ms, Beats 88.93%
+Memory: 55.44 MB, Beats 63.91%
+```
+```c++
+class Solution {
+public:
+    int numMatchingSubseq(string s, vector<string>& words) {
+        int m = s.length(), n = words.size(), i, j, j0, ans = 0;
+        bool flag;
+        vector<vector<int>> pre(26);
+        for (i = 0; i < m; i ++) {
+            pre[s[i] - 'a'].push_back(i);
+        }
+        for (i = 0; i < n; i ++) {
+            j0 = -1;
+            flag = true;
+            for (j = 0; j < words[i].length(); j ++) {
+                auto a = words[i][j] - 'a';
+                auto it = upper_bound(pre[a].begin(), pre[a].end(), j0);
+                if (it == pre[a].end()) {
+                    flag = false;
+                    break;
+                } else {
+                    j0 = *it;
+                }
+            }
+            if (flag) {
+                ans += 1;
+            }
+        }
+        return ans;
+    }
+};
+```

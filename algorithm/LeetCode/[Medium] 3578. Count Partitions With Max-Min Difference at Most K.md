@@ -83,9 +83,29 @@ public:
 };
 ```
 
-**Solution 1: (Deque, DP)**
+**Solution 1: (Deque, Prefix Sum, DP)**
 
-dp[j + 1] = sim(1 * dp[i] + 1 * dp[i + 1] + ... + 1 * dp[j])
+dp[i + 1] = the number of valid partitions for nums[0 ⋯ i]
+dp[0] = 1
+
+     0       j-1 j        i
+nums[.....................]
+     -----------
+        dp[j]
+     ---------------------- 
+        dp[i+1]
+                 j         i
+                [...........]          dp[i + 1]
+                  j_0 .... i = dp[j_0]   +
+                    j_1 ...i = dp[j_1]   +
+                             ....
+                      j_m .i = dp[j_m]   +
+
+dp[i + 1] = dp[L] ... + dp[i]
+
+prefix[i + 1] = dp[0] + dp[1] + ... + dp[i]
+
+-> dp[i + 1] = prefix[i] - pre[L - 1]
 
         9   4   1   3   7
         -   -   -   -   -  | dp[0] dp[1] dp[2] |       |       |
@@ -95,14 +115,20 @@ dp[j + 1] = sim(1 * dp[i] + 1 * dp[i + 1] + ... + 1 * dp[j])
             -----   -----                                      |
                     -----                                      |
 
-                    vi
+                            vi
         9   4   1   3   7
-                        ^j
-dp      1   1   1   2   4   6
-minq    9   94  41  413 437
-            x        x  xx
-maxq    9   4   1   13  137
-acc  1  1   1   2   4   8
+        i   j
+            i       j
+                    i   j
+dp      1   1   1   2   4   6 
+minq    9   4   1   13  137
+                        x  
+maxq    9   94  41  43  7
+            x
+acc     1   2   2   4   8    
+            1           7
+                        6
+         
 
 ```
 Runtime: 58 ms, Beats 87.50%

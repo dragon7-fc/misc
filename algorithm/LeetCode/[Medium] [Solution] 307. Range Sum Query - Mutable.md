@@ -611,20 +611,20 @@ Memory: 180.45 MB, Beats 66.53%
 ```
 ```c++
 class BIT {
-    vector<int> dp;
+    vector<int> pre;
 public:
     BIT() {}
     void build(vector<int> &nums) {
         int n = nums.size(), i; 
-        dp.resize(n + 1);
+        pre.resize(n + 1);
         for (i = 0; i < n; i ++) {
-            update(i + 1, nums[i]);
+            update(i, nums[i]);
         }
     }
     void update(int i, int val) {
-        int j = i;
-        while (j < dp.size()) {
-            dp[j] += val;
+        int j = i + 1;
+        while (j < pre.size()) {
+            pre[j] += val;
             j += j & (-j);
         }
     }
@@ -632,12 +632,13 @@ public:
         int rst = 0;
         int j = i;
         while (j > 0) {
-            rst += dp[j];
+            rst += pre[j];
             j -= j & (-j);
         }
         return rst;
     }
 };
+
 
 class NumArray {
     BIT bit;
@@ -651,7 +652,7 @@ public:
     void update(int index, int val) {
         int diff = val - dp[index];
         dp[index] = val;
-        bit.update(index + 1, diff);
+        bit.update(index, diff);
     }
     
     int sumRange(int left, int right) {

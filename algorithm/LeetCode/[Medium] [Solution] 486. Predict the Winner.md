@@ -286,6 +286,20 @@ public:
 ```
 
 **Solution 5: (DP Bottom-Up)**
+
+    nums = [1,5,233,7]
+
+dp[i][i] = nums[i]
+dp[i][j] = max(nums[i] - dp[i-1][j], nums[j] - dp[i][j-1])
+
+dp    1    5       233               7
+1     1  5-1 233-(5-1)         1-(-221) = 222 > 0
+                   229
+5          5     233-5       5-(233-7)
+                                  -221
+233                233           233-7
+7                                    7
+
 ```
 Runtime: 0 ms
 Memory: 7.4 MB

@@ -729,44 +729,40 @@ class Solution:
 ```
 * [Medium] [Solution] 73. Set Matrix Zeroes
 
-### Balanced Tree
-```python
-class Node:
-    __slots__ = 'start', 'end', 'left', 'right'
-    def __init__(self, start, end):
-        self.start = start
-        self.end = end
-        self.left = self.right = None
+### Set, Binary Search
 
-    def insert(self, node):
-        if node.start >= self.end:
-            if not self.right:
-                self.right = node
-                return True
-            return self.right.insert(node)
-        elif node.end <= self.start:
-            if not self.left:
-                self.left = node
-                return True
-            return self.left.insert(node)
-        else:
-            return False
+          vprev     vit
+        [    ]      [    ]
+            s        f
+q:
+case 1           [   ]
+case 2        [   ] 
+               s e
 
-class MyCalendar:
+```c++
+class MyCalendar {
+    set<pair<int,int>> st;
+public:
+    MyCalendar() {
 
-    def __init__(self):
-        self.root = None
+    }
+    
+    bool book(int start, int end) {
+        auto it = st.lower_bound({start, end});
+        if ((it == st.begin() || prev(it)->second <= start) && (it == st.end() || end <= it->first)) {
+            st.insert({start, end});
+            return true;
+        } else {
+            return false;
+        }
+    }
+};
 
-    def book(self, start: int, end: int) -> bool:
-        if self.root is None:
-            self.root = Node(start, end)
-            return True
-        return self.root.insert(Node(start, end))
-
-
-# Your MyCalendar object will be instantiated and called as such:
-# obj = MyCalendar()
-# param_1 = obj.book(start,end)
+/**
+ * Your MyCalendar object will be instantiated and called as such:
+ * MyCalendar* obj = new MyCalendar();
+ * bool param_1 = obj->book(start,end);
+ */
 ```
 * [Medium] [Solution] 729. My Calendar I
 
@@ -844,33 +840,25 @@ class Solution:
 ```
 * [Medium] [Solution] 915. Partition Array into Disjoint Intervals
 
-### Kadane's (Min Variant)
-```python
-class Solution:
-    def maxSubarraySumCircular(self, A: List[int]) -> int:
-        # ans1: answer for one-interval subarray  -> A[:]
-        ans1 = cur = float('-inf')
-        for x in A:
-            cur = x + max(cur, 0)
-            ans1 = max(ans1, cur)
-
-        # ans2: answer for two-interval subarray, interior in A[1:]  -> [A[0], [A[1:x], A[x:]]]
-        ans2 = cur = float('inf')
-        for i in range(1, len(A)):
-            cur = A[i] + min(cur, 0)
-            ans2 = min(ans2, cur)
-        ans2 = sum(A) - ans2
-
-        # ans3: answer for two-interval subarray, interior in A[:-1]  -> [[A[:x], A[x:-1]], A[-1]]
-        ans3 = cur = float('inf')
-        for i in range(len(A)-1):
-            cur = A[i] + min(cur, 0)
-            ans3 = min(ans3, cur)
-        ans3 = sum(A) - ans3
-
-        return max(ans1, ans2, ans3)
+### max subarry = total - "Minimum Subarray"
+```c++
+class Solution {
+public:
+    int maxSubarraySumCircular(vector<int>& nums) {
+        int total = 0, maxSum = nums[0], curMax = 0, minSum = nums[0], curMin = 0;
+        for (int &a : nums) {
+            curMax = max(curMax + a, a);
+            maxSum = max(maxSum, curMax);
+            curMin = min(curMin + a, a);
+            minSum = min(minSum, curMin);
+            total += a;
+        }
+        return maxSum > 0 ? max(maxSum, total - minSum) : maxSum;
+    }
+};
 ```
 * [Medium] [Solution] 918. Maximum Sum Circular Subarray
+* [Easy] 53. Maximum Subarray
 
 ### Prefix Sums, count min wrong position
 ```python
@@ -923,16 +911,29 @@ class Solution:
 ```
 * [Medium] [Solution] 950. Reveal Cards In Increasing Order
 
-### Sort
-```python
-class Solution:
-    def maxWidthRamp(self, A: List[int]) -> int:
-        ans = 0
-        m = float('inf')
-        for i in sorted(range(len(A)), key = A.__getitem__):
-            ans = max(ans, i - m)
-            m = min(m, i)
-        return ans
+### Prefix Sum
+```c++
+class Solution {
+public:
+    int maxWidthRamp(vector<int>& nums) {
+        int n = nums.size();
+        vector<int> dp;  // prefix mono inc like stack from back
+        dp.push_back(n-1);
+        for (int i = n-1; i >= 0; i --) {
+            if (nums[i] > nums[dp.back()]) {
+                dp.push_back(i);
+            }
+        }
+        int ans = 0;
+        for (int i = 0; i < n; i ++) {
+            while (dp.size() && nums[i] <= nums[dp.back()]) {
+                ans = max(ans, dp.back()-i);
+                dp.pop_back();
+            }
+        }
+        return ans;
+    }
+};
 ```
 * [Medium] [Solution] 962. Maximum Width Ramp
 
@@ -1437,24 +1438,41 @@ class Solution:
 ```
 * [Medium] 1690. Stone Game VII
 
-### Think backward
-```python
-class Solution:
-    def longestStrChain(self, words: List[str]) -> int:
-
-        @functools.lru_cache(None)
-        def dfs(word):
-            count = 0
-            for i in range(len(word)):
-                cur = word[:i] + word[i+1:]  # Delete One at Once
-                if cur in s: 
-                    count = max(count, dfs(cur))
-            return count + 1
-
-        rst, s, history = 1, set(words), {}
-        for word in words:
-            rst = max(rst, dfs(word))
-        return rst
+### sort by length then DP to try all solution
+```c++
+class Solution {
+public:
+    int longestStrChain(vector<string>& words) {
+        int n = words.size(), i, j, ii, jj, d, ans = 1;
+        vector<int> dp(n, 1);
+        sort(words.begin(), words.end(), [](const auto &sa, const auto &sb){
+            return sa.length() < sb.length();
+        });
+        for (j = 1; j < n; j ++) {
+            for (i = 0; i < j; i ++) {
+                if (words[j].length() == words[i].length() + 1) {
+                    d = 0;
+                    ii = 0;
+                    for (jj = 0; jj < words[j].length(); jj ++) {
+                        if (ii == words[i].length() || words[j][jj] != words[i][ii])  {
+                            d += 1;
+                            if (d > 1) {
+                                break;
+                            }
+                        } else {
+                            ii += 1;
+                        }
+                    }
+                    if (d == 1) {
+                        dp[j] = max(dp[j], dp[i]+1);
+                        ans = max(ans, dp[j]);
+                    }
+                }
+            }
+        }
+        return ans;
+    }
+};
 ```
 * [Medium] 1048. Longest String Chain
 
@@ -7323,20 +7341,37 @@ class Solution:
 ```
 * [Hard] 1316. Distinct Echo Substrings
 
-### Brute Force
-```python
-class Solution:
-    def numMatchingSubseq(self, s: str, words: List[str]) -> int:
-        ans = 0
-        for word in words:
-            i = -1
-            for c in word:
-                i = s.find(c, i+1)
-                if i < 0:
-                    break
-            if i >= 0:
-                ans += 1
-        return ans
+### precompute location graph and binary search
+```c++
+class Solution {
+public:
+    int numMatchingSubseq(string s, vector<string>& words) {
+        int m = s.length(), n = words.size(), i, j, j0, ans = 0;
+        bool flag;
+        vector<vector<int>> pre(26);
+        for (i = 0; i < m; i ++) {
+            pre[s[i] - 'a'].push_back(i);
+        }
+        for (i = 0; i < n; i ++) {
+            j0 = -1;
+            flag = true;
+            for (j = 0; j < words[i].length(); j ++) {
+                auto a = words[i][j] - 'a';
+                auto it = upper_bound(pre[a].begin(), pre[a].end(), j0);
+                if (it == pre[a].end()) {
+                    flag = false;
+                    break;
+                } else {
+                    j0 = *it;
+                }
+            }
+            if (flag) {
+                ans += 1;
+            }
+        }
+        return ans;
+    }
+};
 ```
 * [Medium] 792. Number of Matching Subsequences
 
@@ -9440,6 +9475,52 @@ public:
 ```
 * [Hard] 2035. Partition Array Into Two Arrays to Minimize Sum Difference
 
+### Greedy, upper bound, set power statation as far as possible
+```c++
+class Solution {
+    bool check(long long mid, vector<int> dp, int r, long long k) {
+        int n = dp.size(), i; 
+        long long a = 0, d;
+        for (i = 0; i < r; i ++) {
+            a += dp[i];
+        }
+        for (i = 0; i < n; i ++) {
+            if (i + r < n) {
+                a += dp[i + r];
+            }
+            if (a < mid) {
+                d = mid - a;
+                if (k < d) {
+                    return false;
+                }
+                dp[min(i + r, n - 1)] += d;
+                a += d;
+                k -= d;
+            }
+            if (i - r >= 0) {
+                a -= dp[i - r];
+            }
+        }
+        return true;
+    }
+public:
+    long long maxPower(vector<int>& stations, int r, int k) {
+        long long left = *min_element(stations.begin(), stations.end()), right = accumulate(stations.begin(), stations.end(), 0LL) + k, mid, ans;
+        while (left <= right) {
+            mid = left + (right - left) / 2;
+            if (!check(mid, stations, r, k)) {
+                right = mid - 1;
+            } else {
+                ans = mid;
+                left = mid + 1;
+            }
+        }
+        return ans;
+    }
+};
+```
+* [Hard] 2528. Maximize the Minimum Powered City
+
 **Template 1: (Binary Search, lower bound)**
 ```python
 def is_XXX(...):
@@ -10352,6 +10433,39 @@ public:
 };
 ```
 * [Hard] 1526. Minimum Number of Increments on Subarrays to Form a Target Array
+
+### max continuous subarray
+```c++
+class Solution {
+public:
+    int maximizeSquareHoleArea(int n, int m, vector<int>& hBars, vector<int>& vBars) {
+        int i, a = 2, b = 2, c, cur;
+        sort(begin(hBars), end(hBars));
+        sort(begin(vBars), end(vBars));
+        cur = 2;
+        for (i = 1; i < hBars.size(); i ++) {
+            if (hBars[i] == hBars[i - 1] + 1) {
+                cur += 1;
+                a = max(a, cur);
+            } else {
+                cur = 2;
+            }
+        }
+        cur = 2;
+        for (i = 1; i < vBars.size(); i ++) {
+            if (vBars[i] == vBars[i - 1] + 1) {
+                cur += 1;
+                b = max(b, cur);
+            } else {
+                cur = 2;
+            }
+        }
+        c = min(a, b);
+        return c * c;
+    }
+};
+```
+* [Medium] 2943. Maximize Area of Square Hole in Grid
 
 **Template 1: (Greedy)**
 ```python
@@ -11435,6 +11549,54 @@ return ans if len(ans) == N else []
 
 ## Two Pointers <a name="tp"></a>
 ---
+### check left and right limit
+```c++
+class Solution {
+public:
+    bool canTransform(string start, string result) {
+        int n = start.length(), i, j, k;
+        k = 0;
+        for (i = 0; i < n; ++i) {
+            if (start[i] == 'X') {
+                k += 1;
+            }
+            if (result[i] == 'X') {
+                k -= 1;
+            }
+        }
+        if (k != 0) {
+            return false;
+        }
+        i = 0;
+        j = 0;
+        while (i < n && j < n) {
+            while (i < n && start[i] == 'X') {
+                i += 1;
+            }
+            while (j < n && result[j] == 'X') {
+                j += 1;
+            }
+            if (i == n || j == n) {
+                return i == n && j == n;
+            }
+            if (start[i] != result[j]) {
+                return false;
+            }
+            if (start[i] == 'L' && i < j) {
+                return false;
+            }
+            if (start[i] == 'R' && i > j) {
+                return false;
+            }
+            i += 1;
+            j += 1;
+        }
+        return true;
+    }
+};
+```
+* [Medium] 777. Swap Adjacent in LR String
+
 ### fix one and slide over the other two
 ```python
 class Solution:
@@ -11833,19 +11995,27 @@ class Solution:
 * [Medium] [Solution] 904. Fruit Into Baskets
 
 ### Interval intersection
-```python
-class Solution:
-    def intervalIntersection(self, A: List[List[int]], B: List[List[int]]) -> List[List[int]]:
-        i, j, res = 0, 0, []
-        la, lb = len(A), len(B)
-        while i < la and j < lb:
-            if A[i][1] >= B[j][0] and A[i][0] <= B[j][1]:
-                res += [[max(A[i][0], B[j][0]), min(A[i][1], B[j][1])]]
-            if A[i][1] >= B[j][1]:
-                j += 1
-            else:
-                i += 1
-        return res
+```c++
+class Solution {
+public:
+    vector<vector<int>> intervalIntersection(vector<vector<int>>& firstList, vector<vector<int>>& secondList) {
+        int n = secondList.size(), j = 0;
+        vector<vector<int>> ans;
+        for (int i = 0; i < firstList.size(); i ++) {
+            while (j < n && secondList[j][1] < firstList[i][0]) {
+                j += 1;
+            }
+            while (j < n && secondList[j][0] <= firstList[i][1]) {
+                ans.push_back({max(firstList[i][0], secondList[j][0]), min(firstList[i][1], secondList[j][1])});
+                if (secondList[j][1] > firstList[i][1]) {
+                    break;
+                }
+                j += 1;
+            }
+        }
+        return ans;
+    }
+};
 ```
 * [Medium] [Solution] 986. Interval List Intersections
 
@@ -12817,7 +12987,7 @@ class Solution:
 ```
 * [Medium] [Solution] 503. Next Greater Element II
 
-# Deque bounded min and max range, prefix sum, DP Bottom-Up
+### Deque bounded min and max range, prefix sum, DP Bottom-Up
 ```c++
 class Solution {
 public:
@@ -14044,6 +14214,49 @@ public:
 ```
 * [Medium] 89. Gray Code
 
+### binary lifting, DP Bottom-Up
+```c++
+class TreeAncestor {
+    vector<vector<int>> dp;
+public:
+    TreeAncestor(int n, vector<int>& parent) {
+        vector<vector<int>> par(n, vector<int>(20));
+        for (int i = 0; i < n; i++) {
+            par[i][0] = parent[i];
+        }
+        for (int j = 1; j < 20; j++) {
+            for (int i = 0; i < n; i++) {
+                if (par[i][j - 1] == -1) {
+                    par[i][j] = -1;
+                } else {
+                    par[i][j] = par[par[i][j - 1]][j - 1];
+                }
+            }
+        }
+        dp = move(par);
+    }
+    
+    int getKthAncestor(int node, int k) {
+        for (int i = 0; i < 20; i++) {
+            if ((k >> i) & 1) {
+                node = dp[node][i];
+                if (node == -1) {
+                    return -1;
+                }
+            }
+        }
+        return node;
+    }
+};
+
+/**
+ * Your TreeAncestor object will be instantiated and called as such:
+ * TreeAncestor* obj = new TreeAncestor(n, parent);
+ * int param_1 = obj->getKthAncestor(node,k);
+ */
+```
+* [Hard] 1483. Kth Ancestor of a Tree Node
+
 ---
 **Template 1: (Negative binary, 2's complement representation)**
 ```python
@@ -14631,43 +14844,27 @@ class Solution:
 ```
 * [Hard] 41. First Missing Positive
 
-### DP Bottom-Up, Binary Search, Insertion Sort
-```python
-class Solution:
-    def jobScheduling(self, startTime: List[int], endTime: List[int], profit: List[int]) -> int:
-        jobs = sorted(zip(startTime, endTime, profit), key=lambda v: v[1])
-        dp = [[0, 0]]
-        for s, e, p in jobs:
-            i = bisect.bisect(dp, [s + 1]) - 1
-            if dp[i][1] + p > dp[-1][1]:
-                dp.append([e, dp[i][1] + p])
-        return dp[-1][1]
-```
+### DP Bottom-Up, Binary Search, sort by end time and search by start
 ```c++
 class Solution {
 public:
     int jobScheduling(vector<int>& startTime, vector<int>& endTime, vector<int>& profit) {
-        int numJobs = profit.size(); // Number of jobs
-        vector<tuple<int, int, int>> jobs(numJobs);
-      
-        for (int i = 0; i < numJobs; ++i) {
+        int n = profit.size(), i, j;
+        vector<array<int, 3>> jobs(n);
+        for (int i = 0; i < n; ++i) {
             jobs[i] = {endTime[i], startTime[i], profit[i]};
         }
-      
         sort(jobs.begin(), jobs.end());
-        vector<int> dp(numJobs + 1);
-      
-        for (int i = 0; i < numJobs; ++i) {
-            auto [endTime, startTime, profit] = jobs[i];
-          
-            int latestNonConflictJobIndex = upper_bound(jobs.begin(), jobs.begin() + i, startTime, [&](int time, const auto& job) -> bool {
-                return time < get<0>(job);
+        vector<int> dp(n + 1);
+        for (i = 0; i < n; ++i) {
+            auto &[_, __, p] = jobs[i];
+            j = upper_bound(jobs.begin(), jobs.begin() + i, jobs[i], [](auto &qa, auto &a) -> bool {
+                return qa[1] < a[0];
             }) - jobs.begin();
           
-            dp[i + 1] = max(dp[i], dp[latestNonConflictJobIndex] + profit);
+            dp[i + 1] = max(dp[i], dp[j] + p);
         }
-      
-        return dp[numJobs];
+        return dp[n];
     }
 };
 ```
@@ -15388,35 +15585,46 @@ class Solution:
 ```
 * [Medium] [Solution] 817. Linked List Components
 
-### Stack
-```python
-# Definition for singly-linked list.
-# class ListNode:
-#     def __init__(self, x):
-#         self.val = x
-#         self.next = None
-
-class Solution:
-    def nextLargerNodes(self, head: ListNode) -> List[int]:
-        stack = []
-        cur = head
-        while cur:
-            while stack and cur.val > stack[-1].val:
-                node = stack.pop()
-                node.val = cur.val
-            stack.append(cur)
-            cur = cur.next
-
-        for node in stack:
-            node.val = 0
-
-        res = []
-        cur = head
-        while cur:
-            res.append(cur.val)
-            cur = cur.next
-
-        return res
+### reverse list then mono dec stack
+```c++
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode() : val(0), next(nullptr) {}
+ *     ListNode(int x) : val(x), next(nullptr) {}
+ *     ListNode(int x, ListNode *next) : val(x), next(next) {}
+ * };
+ */
+class Solution {
+public:
+    vector<int> nextLargerNodes(ListNode* head) {
+        int n = 0;
+        ListNode *pre = nullptr, *cur = head, *ncur;
+        stack<int> stk;
+        while (cur) {
+            n += 1;
+            ncur = cur->next;
+            cur->next = pre;
+            pre = cur;
+            cur = ncur;
+        }
+        vector<int> ans(n);
+        while (pre) {
+            n -= 1;
+            while (stk.size() && stk.top() <= pre->val) {
+                stk.pop();
+            }
+            if (stk.size()) {
+                ans[n] = stk.top();
+            }
+            stk.push(pre->val);
+            pre = pre->next;
+        }
+        return ans;
+    }
+};
 ```
 * [Medium] 1019. Next Greater Node In Linked List
 
@@ -15748,6 +15956,56 @@ public:
 };
 ```
 * [Medium] 1631. Path With Minimum Effort
+
+### BFS + MST Prime, O(N^2 * Log(N))
+```c++
+class Solution {
+    int dd[5] = {0, 1, 0, -1, 0};
+public:
+    int maximumSafenessFactor(vector<vector<int>>& grid) {
+        int n = grid.size(), i, j, d, nr, nc;
+        queue<array<int, 2>> q;
+        for (i = 0; i < n; i ++) {
+            for (j = 0; j < n; ++j) {
+                if (grid[i][j]) {
+                    q.push({i, j});
+                }
+            }
+        }
+        while (q.size()) {
+            auto [r, c] = q.front();
+            q.pop();
+            for (d = 0; d < 4; d ++) {
+                nr = r + dd[d];
+                nc = c + dd[d + 1];
+                if (nr >= 0 && nr < n && nc >= 0 && nc < n && grid[nr][nc] == 0) {
+                    grid[nr][nc] = grid[r][c] + 1;
+                    q.push({nr, nc});
+                }
+            }
+        }
+        priority_queue<array<int, 3>> pq;
+        pq.push({grid[0][0], 0, 0});
+        while (pq.size()) {
+            auto [w, r, c] = pq.top();
+            pq.pop();
+            if (r == n - 1 && c == n - 1) {
+                return w - 1;
+            }
+            for (d = 0; d < 4; ++d) {
+                nr = r + dd[d];
+                nc = c + dd[d + 1];
+                if (0 <= nr && nr < n && 0 <= nc && nc < n && grid[nr][nc] != -1) {
+                    pq.push({min(w, grid[nr][nc]), nr, nc});
+                    grid[nr][nc] = -1; 
+                }
+            }
+        }
+        return -1;
+    }
+};
+```
+* [Medium] 2812. Find the Safest Path in a Grid
 
 ### Dijkstra's Algorithm, time O((V+E) * Log(V)) = O(E*log(V))
 ```c++
@@ -16395,24 +16653,30 @@ class Solution:
 * [Hard] 1606. Find Servers That Handled Most Number of Requests
 
 ### Greedy with Max-Heap
-```python
-class Solution:
-    def minRefuelStops(self, target: int, startFuel: int, stations: List[List[int]]) -> int:
-        pq = []  # A maxheap is simulated using negative values
-        stations.append((target, float('inf')))
-
-        ans = prev = 0
-        tank = startFuel
-        for location, capacity in stations:
-            tank -= location - prev
-            while pq and tank < 0:  # must refuel in past
-                tank += -heapq.heappop(pq)
-                ans += 1
-            if tank < 0: return -1
-            heapq.heappush(pq, -capacity)
-            prev = location
-
-        return ans
+```c++
+class Solution {
+public:
+    int minRefuelStops(int target, int startFuel, vector<vector<int>>& stations) {
+        stations.push_back({target, 0});
+        int n = stations.size(), i, r = startFuel, pre = 0, d, ans = 0;
+        priority_queue<int> pq;
+        for (i = 0; i < n; i ++) {
+            d = stations[i][0] - pre;
+            while (r < d && pq.size()) {
+                r += pq.top();
+                pq.pop();
+                ans += 1;
+            }
+            if (r < d) {
+                return -1;
+            }
+            r -= d;
+            pq.push(stations[i][1]);
+            pre = stations[i][0];
+        }
+        return ans;
+    }
+};
 ```
 * [Hard] [Solution] 871. Minimum Number of Refueling Stops
 
@@ -17166,7 +17430,7 @@ public:
     int numberOfSubstrings(string s) {
         int n = s.size();
         vector<int> pre(n + 1);  // position of the nearest zero before
-        pre[0] = -1;
+        pre[0] = -1;  // 1-base
         for (int i = 0; i < n; i++) {
             if (i == 0 || (i > 0 && s[i - 1] == '0')) {
                 pre[i + 1] = i;
@@ -18685,20 +18949,20 @@ class Solution:
 ### BIT, Range sum, single point update
 ```c++
 class BIT {
-    vector<int> dp;
+    vector<int> pre;
 public:
     BIT() {}
     void build(vector<int> &nums) {
         int n = nums.size(), i; 
-        dp.resize(n + 1);
+        pre.resize(n + 1);
         for (i = 0; i < n; i ++) {
-            update(i + 1, nums[i]);
+            update(i, nums[i]);
         }
     }
     void update(int i, int val) {
-        int j = i;
-        while (j < dp.size()) {
-            dp[j] += val;
+        int j = i + 1;
+        while (j < pre.size()) {
+            pre[j] += val;
             j += j & (-j);
         }
     }
@@ -18706,12 +18970,13 @@ public:
         int rst = 0;
         int j = i;
         while (j > 0) {
-            rst += dp[j];
+            rst += pre[j];
             j -= j & (-j);
         }
         return rst;
     }
 };
+
 
 class NumArray {
     BIT bit;
@@ -18725,7 +18990,7 @@ public:
     void update(int index, int val) {
         int diff = val - dp[index];
         dp[index] = val;
-        bit.update(index + 1, diff);
+        bit.update(index, diff);
     }
     
     int sumRange(int left, int right) {
@@ -18746,18 +19011,18 @@ public:
 ```c++
 class BIT {
 public:
-    vector<int> dp;
+    vector<int> pre;
     BIT() {}
     void build(int n) {
-        dp.resize(n + 1);
+        pre.resize(n + 1);
         for (int i = 1; i < n; i ++) {
             update(i, 1);
         }
     }
     void update(int i, int val) {
         int j = i + 1;
-        while (j < dp.size()) {
-            dp[j] += val;
+        while (j < pre.size()) {
+            pre[j] += val;
             j += j & (-j);
         }
     }
@@ -18765,7 +19030,7 @@ public:
         int rst = 0;
         int j = i;
         while (j > 0) {
-            rst += dp[j];
+            rst += pre[j];
             j -= j & (-j);
         }
         return rst;

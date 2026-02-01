@@ -78,7 +78,33 @@ class Solution:
 
 # Submissions
 ---
-**Solution 1: (Sliding Window)**
+**Solution 1: (Two Pointers)**
+```
+Runtime: 172 ms
+Memory Usage: 14.4 MB
+```
+```python
+class Solution:
+    def intervalIntersection(self, A: List[List[int]], B: List[List[int]]) -> List[List[int]]:
+        i, j, res = 0, 0, []
+        la, lb = len(A), len(B)
+        while i < la and j < lb:
+            if A[i][1] >= B[j][0] and A[i][0] <= B[j][1]:
+                res += [[max(A[i][0], B[j][0]), min(A[i][1], B[j][1])]]
+            if A[i][1] >= B[j][1]:
+                j += 1
+            else:
+                i += 1
+        return res
+```
+
+**Solution 2: (Sliding Window)**
+
+                  i
+firstList:     [         ]
+secondList:  [   ]     [   ]
+               j          break
+
 ```
 Runtime: 20 ms
 Memory: 22.09 MB
@@ -104,24 +130,4 @@ public:
         return ans;
     }
 };
-```
-
-**Solution 2: (Two Pointers)**
-```
-Runtime: 172 ms
-Memory Usage: 14.4 MB
-```
-```python
-class Solution:
-    def intervalIntersection(self, A: List[List[int]], B: List[List[int]]) -> List[List[int]]:
-        i, j, res = 0, 0, []
-        la, lb = len(A), len(B)
-        while i < la and j < lb:
-            if A[i][1] >= B[j][0] and A[i][0] <= B[j][1]:
-                res += [[max(A[i][0], B[j][0]), min(A[i][1], B[j][1])]]
-            if A[i][1] >= B[j][1]:
-                j += 1
-            else:
-                i += 1
-        return res
 ```

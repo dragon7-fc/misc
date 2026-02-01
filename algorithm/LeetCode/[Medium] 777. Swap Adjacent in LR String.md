@@ -23,6 +23,7 @@ XRLXXRRLX
 # Submissions
 ---
 **Solution 1: (Brainteaser, Two Pointers)**
+
 ```
 Runtime: 40 ms
 Memory Usage: 12.9 MB
@@ -36,7 +37,7 @@ class Solution:
         
         while i < n and j < n:
             while i < n - 1 and (start[i] == 'X'): i += 1
-            while j < n -1 and (end[j] == 'X'): j += 1
+            while j < n - 1 and (end[j] == 'X'): j += 1
             
             if (start[i] != end[j]): 
                 return False
@@ -49,4 +50,79 @@ class Solution:
             
         return True
         
+```
+
+**Solution 2: (Two Pointers)**
+
+XL -> LX
+=> L to left
+=> start       XXXL
+   result      L
+
+RX -> XR
+=> R to right
+=> start    RXXX
+   result      R
+
+    start  = "R X X L R X R X L", 
+              i
+                    i
+                      i
+                          i
+                              i
+    result = "X R L X X R R L X"
+                j
+                  j
+                        j
+                          j
+                            j
+
+```
+Runtime: 0 ms, Beats 100.00%
+Memory: 9.75 MB, Beats 59.79%
+```
+```c++
+class Solution {
+public:
+    bool canTransform(string start, string result) {
+        int n = start.length(), i, j, k;
+        k = 0;
+        for (i = 0; i < n; ++i) {
+            if (start[i] == 'X') {
+                k += 1;
+            }
+            if (result[i] == 'X') {
+                k -= 1;
+            }
+        }
+        if (k != 0) {
+            return false;
+        }
+        i = 0;
+        j = 0;
+        while (i < n && j < n) {
+            while (i < n && start[i] == 'X') {
+                i += 1;
+            }
+            while (j < n && result[j] == 'X') {
+                j += 1;
+            }
+            if (i == n || j == n) {
+                return i == n && j == n;
+            }
+            if (start[i] != result[j]) {
+                return false;
+            }
+            if (start[i] == 'L' && i < j) {
+                return false;
+            }
+            if (start[i] == 'R' && i > j) {
+                return false;
+            }
+            i += 1;
+            j += 1;
+        }
+        return true;
+    }
+};
 ```

@@ -253,6 +253,18 @@ class MyCalendarTwo:
 ```
 
 **Solution 4: (event point, bucket sort)**
+
+cnt:
+    5  10  15  20  25  30  35  40  45  50  55  60
+        1      -1    
+                                        1      -1
+        1                       -1
+    1      -1
+k   1   3x
+    1  -1
+                    1                      -1
+                        
+
 ```
 Runtime: 197 ms
 Memory: 38.9 MB

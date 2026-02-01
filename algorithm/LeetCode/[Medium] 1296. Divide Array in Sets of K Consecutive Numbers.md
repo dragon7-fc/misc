@@ -59,3 +59,31 @@ class Solution:
                     count[i] -= minus
         return True
 ```
+
+**Solution 2: (Greedy, Counter)**
+```
+Runtime: 168 ms, Beats 16.60%
+Memory: 72.86 MB, Beats 32.15%
+```
+```c++
+class Solution {
+public:
+    bool isPossibleDivide(vector<int>& nums, int k) {
+        map<int, int> cnt;
+        for (auto &num: nums) {
+            cnt[num] += 1;
+        }
+        for (auto &[a, ck]: cnt) {
+            if (ck) {
+                for (int i = k - 1; i >= 0; i --) {
+                    if (cnt[a + i] < ck) {
+                        return false;
+                    }
+                    cnt[a + i] -= ck;
+                }
+            }
+        }
+        return true;
+    }
+};
+```

@@ -127,22 +127,43 @@ class Solution:
 
 **Solution 2: (Binary Search)**
 ```
-Runtime: 26 ms
-Memory: 15.9 MB
+Runtime: 0 ms, Beats 100.00%
+Memory: 19.80 MB, Beats 62.61%
 ```
 ```c++
 class Solution {
 public:
     char nextGreatestLetter(vector<char>& letters, char target) {
-        int lo = 0, hi = letters.size()-1, mid;
-        while (lo < hi) {
-            mid = lo + (hi-lo)/2;
+        int left = 0, right = letters.size() - 1, mid;
+        char ans = letters[0];
+        while (left <= right) {
+            mid = left + (right - left) / 2;
             if (letters[mid] <= target) {
-                lo = mid+1;
+                left = mid + 1;
             } else {
-                hi = mid;
+                ans = letters[mid];
+                right = mid - 1;
             }
         }
-        return letters[lo] > target ? letters[lo] : letters[0];    }
+        return ans;
+    }
+};
+```
+
+**Solution 3: (Binary Search)**
+```
+Runtime: 0 ms, Beats 100.00%
+Memory: 19.67 MB, Beats 88.80%
+```
+```c++
+class Solution {
+public:
+    char nextGreatestLetter(vector<char>& letters, char target) {
+        auto it = upper_bound(begin(letters), end(letters), target);
+        if (it == end(letters)) {
+            return letters[0];
+        }
+        return *it;
+    }
 };
 ```

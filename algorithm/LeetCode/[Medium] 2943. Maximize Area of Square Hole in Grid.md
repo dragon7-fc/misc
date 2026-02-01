@@ -124,6 +124,10 @@ public:
     hole = max continuous subarray
 
     n = 2, m = 3, hBars = [2,3], vBars = [2,4]
+cur                     2    3        2
+a                       2    3
+b                                     2
+c                                                2     
 
           v   v
         1 2 3 4 5

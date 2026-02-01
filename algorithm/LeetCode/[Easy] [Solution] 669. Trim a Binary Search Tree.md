@@ -141,3 +141,39 @@ public:
     }
 };
 ```
+
+**Solution 2: (DFS, postorder)**
+```
+Runtime: 0 ms, Beats 100.00%
+Memory: 21.32 MB, Beats 95.91%
+```
+```c++
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+class Solution {
+public:
+    TreeNode* trimBST(TreeNode* root, int low, int high) {
+        if (!root) {
+            return nullptr;
+        }
+        root->left = trimBST(root->left, low, high);
+        root->right = trimBST(root->right, low, high);
+        if (root->val < low || root->val > high) {
+            if (root->left) {
+                return root->left;
+            }
+            return root->right;
+        }
+        return root;
+    }
+};
+```
