@@ -365,10 +365,11 @@ int trap(int* height, int heightSize){
 1               x . x x . x x x x x x
     height = [0,1,0,2,1,0,1,3,2,1,2,1]
                             l
-                            r
-a             1     2        
+                              r
+a          0    1   2        
+b                                 2 1  0
 ans               1   2 4 5     6
-
+                                ^
 ```
 Runtime: 0 ms, Beats 100.00%
 Memory: 25.97 MB, Beats 79.71%

@@ -265,6 +265,18 @@ int trapRainWater(int** heightMap, int heightMapSize, int* heightMapColSize){
 ```
 
 **Solution 3: (Heap, bfs from border with heap)**
+
+    heightMap = [[1,4,3,1,3,2],
+pq                1 4 3 1 3 2
+                  x x x x x x
+                 [3,2,1,3,2,4],
+pq                3 x x x x 4
+                    3 3   3
+                  x         x
+ans                +1+2  +1  
+                 [2,3,3,2,3,1]]
+pq                2 3 3 2 3 1 
+                  x x x x x x
 ```
 Runtime: 35 ms, Beats 40.31%
 Memory: 18.45 MB, Beats 54.11%

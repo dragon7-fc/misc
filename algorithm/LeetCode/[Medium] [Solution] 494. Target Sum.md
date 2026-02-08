@@ -254,29 +254,46 @@ class Solution:
 ```
 
 **Solution 4: (DP Bottom-Up, 1-D)**
+
+    nums = [1,1,1,1,1], target = 3        
+pre
+
+1005                1
+1004              1
+1003            1   5 < ans
+1002          1   4
+1001        1   3   10
+1000          2   6
+999         1   3   10
+998           1   4
+997             1    5
+996               1
+995                  1
+
 ```
-Runtime: 23 ms
-Memory: 11.67 MB
+Runtime: 3 ms, Beats 85.91%
+Memory: 12.49 MB, Beats 65.90%
 ```
 ```c++
 class Solution {
 public:
     int findTargetSumWays(vector<int>& nums, int target) {
-        int n = nums.size(), i, j;
-        int dp[20001], pre[20001] = {0};
-        pre[10000+nums[0]] += 1;
-        pre[10000-nums[0]] += 1;
+        int n = nums.size(), i, a;
+        int dp[2001], pre[2001] = {0};
+        pre[1000 + nums[0]] += 1;
+        pre[1000 - nums[0]] += 1;
         for (i = 1; i < n; i ++) {
             memset(dp, 0, sizeof(dp));
-            for (j = 0; j <= 20000; j ++) {
-                if (pre[j]) {
-                    dp[j+nums[i]] += pre[j];
-                    dp[j-nums[i]] += pre[j];
+            for (a = 0; a <= 2000; a ++) {
+                if (pre[a]) {
+                    dp[a + nums[i]] += pre[a];
+                    dp[a - nums[i]] += pre[a];
                 }
             }
             memcpy(pre, dp, sizeof(dp));
         }
-        return pre[target+10000];
+        return pre[target + 1000];
+
     }
 };
 ```

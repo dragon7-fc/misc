@@ -68,3 +68,36 @@ class Solution:
         height(root)
         return self.isBalanced
 ```
+
+**Solution 2: (DFS)**
+```
+Runtime: 0 ms, Beats 100.00%
+Memory: 23.07 MB, Beats 54.19%
+```
+```c++
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+class Solution {
+    pair<bool, int> dfs(TreeNode *node) {
+        if (!node) {
+            return {true, 0};
+        }
+        auto [is_left, left] = dfs(node->left);
+        auto [is_right, right] = dfs(node->right);
+        return {is_left && is_right && abs(left - right) <= 1, 1 + max(left, right)};
+    }
+public:
+    bool isBalanced(TreeNode* root) {
+        return dfs(root).first;
+    }
+};
+```

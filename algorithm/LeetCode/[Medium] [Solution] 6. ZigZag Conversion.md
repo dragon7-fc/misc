@@ -301,10 +301,11 @@ public:
          -charsInSection-
 row 0    x                 x                 x
 row 1       x           x     x           x    x
+            -charsInSection-
             ----------  ----  
             charsInBetween
-                         2*currRow
-            -charsInSection-
+                        2*currRow
+            ^index      ^secondIndex
 row 2           x    x           x     x
 ro2 3             x                 x
 

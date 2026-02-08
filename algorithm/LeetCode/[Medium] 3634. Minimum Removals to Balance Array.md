@@ -72,3 +72,32 @@ public:
     }
 };
 ```
+
+**Solution 2: (Sort, Sliding Window)**
+
+    nums = [1,6,2,9], k = 3
+            1 2 6 9
+            i   j
+              i   j
+                i   j
+
+```
+Runtime: 31 ms, Beats 67.44%
+Memory: 105.05 MB, Beats 52.91%
+```
+```c++
+class Solution {
+public:
+    int minRemoval(vector<int>& nums, int k) {
+        int n = nums.size(), i, j = 0, ans = n;
+        sort(nums.begin(), nums.end());
+        for (i = 0; i < n; i ++) {
+            while (j < n && nums[j] <= 1LL * nums[i] * k) {
+                j += 1;
+            }
+            ans = min(ans, n - (j - i));
+        }
+        return ans;
+    }
+};
+```

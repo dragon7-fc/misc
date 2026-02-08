@@ -203,10 +203,10 @@ class Solution:
                    i
                    j
           -----------------
-                   i
-                j
-                         i
+                i
                    j
+                      i
+                         j
                    i
                    jx
 

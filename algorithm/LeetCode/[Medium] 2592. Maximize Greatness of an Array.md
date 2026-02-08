@@ -55,6 +55,15 @@ class Solution:
 ```
 
 **Solution 2: (Sort, Two Pointers)**
+
+    nums = [1,3,5,2,1,3,1]    ans
+            1 1 1 2 3 3 5
+            i     j            +1
+              i     j          +1
+                i     j        +1
+                  i     j      +1
+                    i     j
+
 ```
 Runtime: 135 ms
 Memory: 75.8 MB

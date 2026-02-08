@@ -6404,34 +6404,44 @@ class Solution:
 ```
 * [Hard] [Solution] 834. Sum of Distances in Tree
 
-### DFS with pre node pointer
-```python
-# Definition for a binary tree node.
-# class TreeNode:
-#     def __init__(self, val=0, left=None, right=None):
-#         self.val = val
-#         self.left = left
-#         self.right = right
-class Solution:
-    def recoverTree(self, root: TreeNode) -> None:
-        """
-        Do not return anything, modify root in-place instead.
-        """
-
-        def inorder(node):
-            if not node: return
-            inorder(node.left)
-            #spot node which is out of order
-            #the first appearing swaped node must be greater than the next node 
-            if not self.first and node.val < self.pre.val: self.first = self.pre
-            #the second appearing swaped node must be smaller than the pre node
-            if self.first and node.val < self.pre.val: self.second = node
-            self.pre = node
-            inorder(node.right)
-
-        self.pre, self.first, self.second = TreeNode(-float('inf')), None, None
-        inorder(root)
-        self.first.val, self.second.val = self.second.val, self.first.val
+### DFS with pre node pointer, inorder
+```c++
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+class Solution {
+    TreeNode *first, *second, *prev;
+    void traverse(TreeNode* root)
+    {
+        if (root == nullptr)
+            return;
+        traverse(root->left);
+        
+        if (first == nullptr && prev->val > root->val)
+            first = prev;
+        if (first != nullptr && prev->val > root->val)
+            second = root;
+        prev = root;
+        traverse(root->right);
+        
+    }
+public:
+    void recoverTree(TreeNode* root) {
+        first = nullptr;
+        second = nullptr;
+        prev = new TreeNode(INT_MIN);
+        traverse(root);
+        swap(first->val, second->val);
+    }
+};
 ```
 * [Hard] 99. Recover Binary Search Tree
 
@@ -12612,7 +12622,7 @@ class StockSpanner:
 ```
 * [Medium] [Solution] 901. Online Stock Span
 
-### Maintain Stack of Minimums, mono dec stack
+### mono inc stack
 ```python
 class Solution:
     def sumSubarrayMins(self, A: List[int]) -> int:
@@ -16295,7 +16305,7 @@ public:
 ```
 * [Medium] 1942. The Number of the Smallest Unoccupied Chair
 
-### heap with event
+### heap with event, least elements cover all range
 ```c++
 class Solution {
 public:
@@ -19670,21 +19680,28 @@ class Solution:
 * [Hard] [Solution] 862. Shortest Subarray with Sum at Least K
 
 ### Decreasing deque index
-```python
-class Solution:
-    def maxSlidingWindow(self, nums: List[int], k: int) -> List[int]:
-        deq, n, ans = deque([0]), len(nums), []
-
-        for i in range (n):
-            while deq and deq[0] <= i - k:
-                deq.popleft()
-            while deq and nums[i] >= nums[deq[-1]] :
-                deq.pop()
-            deq.append(i)
-
-            ans.append(nums[deq[0]])
-
-        return ans[k-1:]
+```c++
+class Solution {
+public:
+    vector<int> maxSlidingWindow(vector<int>& nums, int k) {
+        int n = nums.size(), i;
+        deque<int> dq;
+        vector<int> ans;
+        for (i = 0; i < n; i ++) {
+            while (dq.size() && nums[dq.back()] <= nums[i]) {
+                dq.pop_back();
+            }
+            dq.push_back(i);
+            if (i >= k-1) {
+                while (i - dq.front() >= k) {
+                    dq.pop_front();
+                }
+                ans.push_back(nums[dq.front()]);
+            }
+        }
+        return ans;
+    }
+};
 ```
 * [Hard] 239. Sliding Window Maximum
 

@@ -157,12 +157,14 @@ class Solution:
 
 **Solution 6: (Binary Search)**
 
+case1:
          /
       /   
    /  
            /
    ^l   ^m  ^r  
- 
+
+case2:
    /     
           / 
         / 

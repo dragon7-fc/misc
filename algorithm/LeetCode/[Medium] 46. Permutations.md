@@ -66,7 +66,7 @@ class Solution:
         return ans
 ```
 
-**Solution 3: (Backtracking)**
+**Solution 3: (Backtracking, O(n!))**
 ```
 Runtime: 0 ms, Beats 100.00%
 Memory: 10.54 MB, Beats 69.19%

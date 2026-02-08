@@ -55,3 +55,89 @@ class Solution:
             res += 1
         return res
 ```
+
+**Solution 2: (Bit Manipulation)**
+
+
+Code
+Testcase
+Testcase
+Test Result
+All Solutions
+
+
+[Java/C++/Python] 1-line Solution
+
+lee
+365 Days Badge
+20813
+Feb 19, 2023
+C
+Python
+Java
+Intuition
+Take a look at the binary of n:
+
+If there is an alone 1, like ..00001,
+it takes at leat one operation to remove.
+and we can remove it in one operation.
+So we do res++ and n >>= 2,
+remove two last bits.
+
+If there are multiple 1s, like ..0000111,
+we can't remove them in one single operation,
+so it takes at least two operation to remove,
+For example of ..0000111
+we can add 1 and then remove 1000.
+So we do n++ and remove the last bit 0.
+
+
+Explanation
+By this stratagy in intuition,
+we only need to take care of the the continuous 1 in binary of n.
+If it's single 1, res += 1
+If it's multiple 1s, res += 2
+
+
+Complexity
+Time O(logn)
+Space O(1)
+
+
+    n = 54
+
+    n           res
+    54           0
+1 1   0 1 1 0
+0 1   1 0 1 1   +1
+  1   1 1 0 0
+  0   1 1 1 0
+      0 1 1 1   +1
+      1 0 0 0
+      0 1 0 0
+      0 0 1 0
+      0 0 0 1   +1
+      0 0 0 0
+
+```
+Runtime: 0 ms, Beats 100.00%
+Memory: 7.87 MB, Beats 54.01%
+```
+```c=+
+class Solution {
+public:
+    int minOperations(int n) {
+        int res = 0;
+        while (n > 0) {
+            if ((n & 3) == 3) {
+                n++;
+                res++;
+            } else {
+                res += n & 1;
+                n >>= 1;
+            }
+        }
+        return res;
+    }
+};
+```

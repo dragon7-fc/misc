@@ -261,6 +261,20 @@ public:
 
 **Solution 5: (Binary Search, lower bound)**
 
+case 1:
+                 /
+              /
+           /
+        /
+        l    m    r 
+
+case 2:
+        /          
+                /
+             /
+          /
+        l    m    r 
+
              0  1  2  3  4
     nums = [ 3, 4, 5, 1, 2]
              l     m     r

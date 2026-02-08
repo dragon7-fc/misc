@@ -363,6 +363,12 @@ public:
 
 **Solution 5: (Merge with Divide And Conquer)**
 
+k=8   v               .
+k=4   v       .       v
+k=2   v   .   v   .   v
+k=1   v . v . v . v . v
+list  0 1 2 3 4 5 6 7 8 ...
+
      [[1,4,5],[1,3,4],[2,6]]
         ^       ^
        1,1,3,4,4,5

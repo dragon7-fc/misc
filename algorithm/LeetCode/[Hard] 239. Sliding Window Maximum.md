@@ -127,7 +127,7 @@ public:
 };
 ```
 
-**Solution 5: (Deque)**
+**Solution 5: (Deque, mono dec stack)**
 
     nums = [  1,  3, -1, -3,  5,  3,  6,  7], k = 3
 dq            1
@@ -152,7 +152,7 @@ public:
         deque<int> dq;
         vector<int> ans;
         for (i = 0; i < n; i ++) {
-            while (dq.size() && nums[i] >= nums[dq.back()]) {
+            while (dq.size() && nums[dq.back()] <= nums[i]) {
                 dq.pop_back();
             }
             dq.push_back(i);

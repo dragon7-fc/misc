@@ -152,15 +152,15 @@ public:
 
 **Solution 5: (Array)**
         
-      i              |  
-      |              |-i 
+            i        |  
+            |        | 
     ----j---x        j  
                      | 
-    i-x              x
+    i-x              x-i
       | 
       j   x------j------
-      |              | 
-      |              i
+      |   |            
+      |   i           
 
     0,1 -> 2,0   -> 3,2       -> 1,3      i = 0, j = 1
     i,j    n-1-j,i  n-1-i,n-1-j  j,n-1-i

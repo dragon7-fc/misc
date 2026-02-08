@@ -100,7 +100,7 @@ struct ListNode *getIntersectionNode(struct ListNode *headA, struct ListNode *he
 }
 ```
 
-**Solution 3: (Linked List, check self is null and loop on another line)**
+**Solution 3: (Linked List, check self is null and loop on another line, 3 + 2 = 5 and 2 + 3 = 5)**
 ```
 Runtime: 53 ms
 Memory Usage: 14.6 MB

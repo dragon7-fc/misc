@@ -137,10 +137,15 @@ int maxArea(int* height, int heightSize){
 **Solution 3: (Two Pointers)**
 
     Input: [1,8,6,2,5,4,8,3,7]
-            ^i              ^j
-              ^             ^
-              ^           ^
-              ^         ^
+            i               j
+              i             j
+              i           j
+              i         j
+              i       j
+              i     j
+              i   j
+              i j
+             
 ```
 Runtime: 0 ms, Beats 100.00%
 Memory: 62.98 MB, Beats 48.17%

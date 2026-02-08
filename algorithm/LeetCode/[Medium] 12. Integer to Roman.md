@@ -91,7 +91,7 @@ class Solution:
         return ans
 ```
 
-**Solution 2: (Brute Force)**
+**Solution 2: (Hash Table)**
 ```
 Runtime: 26 ms
 Memory: 9.5 MB

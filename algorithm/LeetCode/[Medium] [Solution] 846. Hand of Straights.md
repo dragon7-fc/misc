@@ -224,6 +224,18 @@ public:
 ```
 
 **Solution 6: (Counter)**
+
+    hand = [1,2,3,6,2,3,4,7,8], groupSize = 3
+cnt
+   v v v
+1: *
+2: * *
+3: * *
+4:   *
+6:     *
+7:     *
+8:     *
+
 ```
 untime: 39 ms
 Memory: 30.40 MB

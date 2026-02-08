@@ -94,7 +94,7 @@ class DetectSquares:
 
 sum:
 5:  3,2
-13: 11,2 11,2
+13: 11,2 3,10
 
 diff:
 1:  3,2  < (px,py)

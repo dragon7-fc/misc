@@ -201,6 +201,14 @@ public:
 ```
 
 **Solution 5: (Using stack (one pass))**
+
+    s = "a a b a b b a b"
+                   b   b
+             b   b b b b
+           a a a a a a a
+stk      a a a a a a a a 
+ans         +1      +1
+
 ```
 Runtime: 111 ms
 Memory: 24.48 MB
@@ -231,6 +239,12 @@ public:
 ```
 
 **Solution 6: (Using DP (One Pass))**
+
+           0 1 2 3 4 5 6 7
+    s =   "a a b a b b a b"
+b_count  0     1   2 3   4
+dp       0 0 0 0 1 1 1 2 2
+
 ```
 Runtime: 76 ms
 Memory: 38.40 MB
@@ -287,4 +301,101 @@ public:
     }
 };
 
+```
+
+**Solution 8: (DP Bottom-Up)**
+```
+Runtime: 607 ms, Beats 5.03%
+Memory: 251.88 MB, Beats 5.03%
+```
+```c++
+class Solution {
+public:
+    int minimumDeletions(string s) {
+        int n = s.size();
+        vector<vector<int>> dp(n, vector<int>(2, 0));
+
+        // Initialize the first character
+        if (s[0] == 'a') {
+            dp[0][1] = 1; // 1 deletion to change 'a' to 'b'
+        } else {
+            dp[0][0] = 1; // 1 deletion to change 'b' to 'a'
+        }
+
+        // Fill the dp table
+        for (int i = 1; i < n; ++i) {
+            if (s[i] == 'a') {
+                dp[i][0] = dp[i - 1][0]; // No deletion needed for 'a' ending
+                dp[i][1] = dp[i - 1][1] + 1; // Deletion needed to change 'a' to 'b'
+            } else {
+                dp[i][0] = dp[i - 1][0] + 1; // Deletion needed to change 'b' to 'a'
+                dp[i][1] = min(dp[i - 1][0], dp[i - 1][1]); // No deletion needed for 'b' ending
+            }
+        }
+
+        // The answer is the minimum deletions needed to make the whole string balanced
+        return min(dp[n - 1][0], dp[n - 1][1]);
+    }
+};
+```
+
+**Solution 9: (Prefix Sum)**
+
+     s =  "a a b a b b a b"
+right        3   2     1   0
+left     0     1   2
+ans        3 2 2 2 2 3 2 
+
+```
+Runtime: 15 ms, Beats 82.84%
+Memory: 25.44 MB, Beats 87.57%
+```
+```c++
+class Solution {
+public:
+    int minimumDeletions(string s) {
+        int n = s.length(), i, left, right, ans = n;
+        right = 0;
+        for (i = n - 1; i >= 1; i --) {
+            right += s[i] != 'b';
+        }
+        left = 0;
+        for (i = 0; i < n; i ++) {
+            ans = min(ans, left + right);
+            if (i + 1 < n) {
+                right -= s[i + 1] != 'b';
+            }
+            left += s[i] != 'a';
+        }
+        return ans;
+    }
+};
+```
+
+**Solution 10: (Optimized DP)**
+
+           0 1 2 3 4 5 6 7
+    s =   "a a b a b b a b"
+b_count  0     1   2 3   4
+ans      0 0 0   1     2  
+
+```
+Runtime: 12 ms, Beats 88.17%
+Memory: 25.58 MB, Beats 72.34%
+```
+```c++
+class Solution {
+public:
+    int minimumDeletions(string s) {
+        int n = s.length(), i, b_count = 0, ans = 0;
+        for (i = 0; i < n; i ++) {
+            if (s[i] == 'b') {
+                b_count += 1;
+            } else {
+                ans = min(ans + 1, b_count);
+            }
+        }
+        return ans;
+    }
+};
 ```
