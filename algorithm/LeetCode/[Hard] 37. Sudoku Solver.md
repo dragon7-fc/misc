@@ -92,7 +92,7 @@ class Solution:
         solve(board, positions)
 ```
 
-**Solution 2: (Backtracking, try all value in all cell, O(9! * 9))**
+**Solution 2: (Backtracking, row by row try all value in all cell, O(9! * 9))**
 ```
 Runtime: 311 ms, Beats 63.81%
 Memory: 8.86 MB, Beats 27.06%

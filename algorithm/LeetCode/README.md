@@ -602,6 +602,76 @@ class Solution:
 ```
 * [Medium] [Solution] 565. Array Nesting
 
+### Prefix Sum, try all posssible solution
+```c++
+class Solution {
+public:
+    int longestBalanced(string s) {
+        int n = s.size(), i, j, ka, kb, kc, ans = 0;
+        i = 0;
+        while (i < n) {
+            j = i;
+            while (j < n && s[j] == s[i]) {
+                j += 1;
+            }
+            ans = max(ans, j - i);
+            i = j;
+        }
+        auto best_2 = [&](char x, char _, char third) {
+            int best = 0, bal;
+            i = 0;
+            while (i < n) {
+                if (s[i] == third) {
+                    i += 1;
+                    continue; 
+                }
+                j = i;
+                bal = 0;
+                unordered_map<int, int> pre;
+                pre[0] = j - 1;
+                while (j < n && s[j] != third) {
+                    bal += (s[j] == x ? 1 : -1);
+                    if (!pre.count(bal)) {
+                        pre[bal] = j;
+                    } else {
+                        best = max(best, j - pre[bal]);
+                    }
+                    j += 1;
+                }
+                i = j;
+            }
+            return best;
+        };
+        ans = max(ans, best_2('a', 'b', 'c'));
+        ans = max(ans, best_2('a', 'c', 'b'));
+        ans = max(ans, best_2('b', 'c', 'a'));
+        ka = 0;
+        kb = 0;
+        kc = 0;
+        map<pair<int, int>, int> pre2;
+        pair<int, int> p;
+        pre2[{0, 0}] = -1;
+        for (i = 0; i < n; i ++){
+            if (s[i] == 'a') {
+                ka += 1;
+            } else if (s[i] == 'b') {
+                kb += 1;
+            } else {
+                kc += 1;
+            }
+            p = {kb - ka, kc - ka};
+            if (pre2.count(p)) {
+                ans = max(ans, i - pre2[p]);
+            } else {
+                pre2[p] = i;
+            }
+        }
+        return ans;
+    }
+};
+```
+* [Medium] 3714. Longest Balanced Substring II
+
 ### Left/Right Prefix Sum
 ```python
 class Solution:
@@ -1621,47 +1691,25 @@ class Solution:
 * [Medium] [Solution] 322. Coin Change
 
 ### Try every sum for each number
-```python
-class Solution:
-    def canPartition(self, nums: List[int]) -> bool:
-        if not nums:
-            return True
-
-        # in case total is odd, then there is no way for us to evenly divide the sum
-        total = sum(nums)
-
-        if total & 1:
-            return False
-
-        total >>= 1
-
-        dp = [False] * (total + 1)
-        dp[0] = True
-
-        for num in nums:
-            for s in range(total, num - 1, -1):
-                dp[s] = dp[s] or dp[s - num]
-
-        return dp[-1]
-    
-class Solution:
-    def canPartition(self, nums: List[int]) -> bool:
-        N = len(nums)
-        sm = sum(nums)
-        if sm%2: return False
-        target = sm//2
-
-        @functools.lru_cache(None)
-        def dfs(i, g1):
-            if i == N:
-                if g1 == 0:
-                    return True
-                else:
-                    return False
-            if dfs(i+1, g1-nums[i]) or dfs(i+1, g1):
-                return True
-            else:
-                return False
+```c++
+class Solution {
+public:
+    bool canPartition(vector<int>& nums) {
+        int n = nums.size(), i, a, b, mx;
+        a = accumulate(nums.begin(), nums.end(), 0);
+        if (a%2) {
+            return false;
+        }
+        vector<int> dp(a/2 + 1);
+        dp[0] = 1;
+        for (i = 0; i < n; i ++) {
+            for (b = a/2; b - nums[i] >= 0; b --) {
+                dp[b] |= dp[b - nums[i]];
+            }
+        }
+        return dp[a/2];
+    }
+};
 ```
 * [Medium] 416. Partition Equal Subset Sum
 
@@ -1767,20 +1815,23 @@ class Solution:
 ```
 * [Medium] 337. House Robber III
 
-### Simulation, child = (current - 1) // 2
-```python
-class Solution:
-    def champagneTower(self, poured: int, query_row: int, query_glass: int) -> float:
-        A = [[0] * k for k in range(1, 102)]
-        A[0][0] = poured
-        for r in range(query_row + 1):
-            for c in range(r+1):
-                q = (A[r][c] - 1.0) / 2.0
-                if q > 0:
-                    A[r+1][c] += q
-                    A[r+1][c+1] += q
-
-        return min(1, A[query_row][query_glass])
+### DP Bottom-Up 1-D
+```c++
+class Solution {
+public:
+    double champagneTower(int poured, int query_row, int query_glass) {
+        int i, j;
+        vector<double> dp(101);
+        dp[0] = poured;
+        for (i = 1; i <= query_row; i ++) {
+            for (j = i; j >= 0; j --) {
+                dp[j] = max(0.0, (dp[j] - 1) / 2);
+                dp[j + 1] += dp[j];
+            }
+        }
+        return min(dp[query_glass], 1.0);
+    }
+};
 ```
 * [Medium] [Solution] 799. Champagne Tower
 
@@ -10010,20 +10061,25 @@ class Solution:
 ```
 * [Medium] [Solution] 435. Non-overlapping Intervals
 
-### Greedy check expected position
-```python
-class Solution:
-    def increasingTriplet(self, nums: List[int]) -> bool:
-        if not nums: return False
-        mi, mi2 = nums[0], float('inf')
-        for num in nums[1:]:
-            if num <= mi:
-                mi = num
-            elif num <= mi2:
-                mi2 = num
-            else:
-                return True
-        return False
+### Greedy check every position then update to expected status
+```c++
+class Solution {
+public:
+    bool increasingTriplet(vector<int>& nums) {
+        long long a = 1e10, b = 1e10;
+        for (auto &num : nums) {
+            if (num > b) {
+                return true;
+            }
+            if (num > a) {
+                b = min((long long)num, b);
+            }
+            a = min((long long)num, a);
+        }
+        return false;
+
+    }
+};
 ```
 * [Medium] 334. Increasing Triplet Subsequence
 
@@ -10148,18 +10204,31 @@ class Solution:
 ```
 * [Medium] [Solution] 55. Jump Game
 
-### Maximum Swap
-```python
-class Solution:
-    def maximumSwap(self, num: int) -> int:
-        A = list(map(int, str(num)))
-        last = {x: i for i, x in enumerate(A)}
-        for i, x in enumerate(A):
-            for d in range(9, x, -1):
-                if last.get(d, None) != None and last.get(d, None) > i:
-                    A[i], A[last[d]] = A[last[d]], A[i]
-                    return int("".join(map(str, A)))
-        return num
+### Prefix Sum, try every element with largest possible future value
+```c++
+class Solution {
+public:
+    int maximumSwap(int num) {
+        string s = to_string(num);
+        int n = s.size();
+        vector<int> dp(n);
+        dp[n-1] = n-1;
+        for (int i = n-2; i >= 0; i --) {
+            if (s[i] > s[dp[i+1]]) {
+                dp[i] = i;
+            } else {
+                dp[i] = dp[i+1];
+            }
+        }
+        for (int i = 0; i < s.size(); i ++) {
+            if (s[i] < s[dp[i]]) {
+                swap(s[i], s[dp[i]]);
+                break;
+            }
+        }
+        return stoi(s);
+    }
+};
 ```
 * [Medium] [Solution] 670. Maximum Swap
 
@@ -16137,7 +16206,7 @@ class Solution:
 ```
 * [Medium] [Solution] 767. Reorganize String
 
-### sort then greedy over min heap with current time
+### sort then greedy over min task heap with current time
 ```c++
 class Solution {
 public:

@@ -100,7 +100,16 @@ class Solution:
         return num
 ```
 
-**Solution 2: (Prefix Sum)**
+**Solution 2: (Prefix Sum, try every element with largest possible future value)**
+
+    num = 2 7 3 6
+
+          0 1 2 3
+      s = 2 7 3 6
+dp        1 1 3 3
+          ^
+          7 2
+
 ```
 Runtime: 0 ms
 Memory: 7.56 MB

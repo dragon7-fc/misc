@@ -204,7 +204,7 @@ public:
             } else if (nums[left] <= nums[mid]) {
                                 // ^ 2 element
                 if (nums[left] <= target && target <= nums[mid]) {
-                                                 // ^ 2 element
+                             // ^ 2 element
                     right = mid - 1;
                 } else {
                     left = mid + 1;

@@ -104,7 +104,7 @@ class Solution:
 firstList:     [         ]
 secondList:  [   ]     [   ]
                j          break
-
+ans            [ ]     [ ]
 ```
 Runtime: 20 ms
 Memory: 22.09 MB

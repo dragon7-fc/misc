@@ -365,6 +365,31 @@ public:
 ```
 
 **Solution 5: (Union Find)**
+
+    accounts = [["John","johnsmith@mail.com","john_newyork@mail.com"],["John","johnsmith@mail.com","john00@mail.com"],["Mary","mary@mail.com"],["John","johnnybravo@mail.com"]]
+
+    John John Marry John
+p   0    1    2     3
+    1
+
+g
+johnsmith@mail.com: 0
+john_newyork@mail.com: 0
+john00@mail.com: 1
+mary@mail.com: 2
+johnnybravo@mail.com: 3
+
+dp
+0: 
+1: johnsmith@mail.com, john_newyork@mail.com, john00@mail.com
+2: mary@mail.com
+3: johnnybravo@mail.com
+
+ans
+0: John, john00@mail.com, john_newyork@mail.com, johnsmith@mail.com
+1: Mary, mary@mail.com 
+2: John, johnnybravo@mail.com
+
 ```
 Runtime: 25 ms, Beats 85.62%
 Memory: 36.83 MB, Beats 96.76%

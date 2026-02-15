@@ -108,6 +108,14 @@ char * addBinary(char * a, char * b){
 ```
 
 **Solution 5: (Math)**
+
+               i
+    a = "1 0 1 0",
+               j
+    b = "1 0 1 1"
+p      1   1   
+ans    1 0 1 0 1
+
 ```
 Runtime: 0 ms, Beats 100.00%
 Memory: 8.75 MB, Beats 95.82%

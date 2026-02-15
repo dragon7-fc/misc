@@ -102,56 +102,85 @@ Step 3: O(n)
 Space Complexity: O(n)
 For the dictionaries used in two-character and three-character balance tracking
 
+    s = "a a b c c"
+case1
+a        ---
+b            -
+c              ---
+case2:
+ab         ---
+ac
+bc           ---
+case3:
+abc        -----
+
 ```
-Runtime: 1182 ms, Beats 75.00%
-Memory: 370.52 MB, Beats 56.25%
+Runtime: 1170 ms Beats, 79.06%
+Memory: 370.40 MB, Beats 23.07%
 ```
 ```c++
 class Solution {
 public:
     int longestBalanced(string s) {
-        int n = s.size(), ans = 0;
-        int i = 0;
+        int n = s.size(), i, j, ka, kb, kc, ans = 0;
+        i = 0;
         while (i < n) {
-            int j = i;
-            while (j < n && s[j] == s[i]) j++;
+            j = i;
+            while (j < n && s[j] == s[i]) {
+                j += 1;
+            }
             ans = max(ans, j - i);
             i = j;
         }
-
-        auto best_2 = [&](char x, char y, char third) {
-            int best = 0, i = 0;
+        auto best_2 = [&](char x, char _, char third) {
+            int best = 0, bal;
+            i = 0;
             while (i < n) {
-                if (s[i] == third) { i++; continue; }
-                int st = i, bal = 0;
-                unordered_map<int,int> fst; fst[0] = st;
-                int j = st;
+                if (s[i] == third) {
+                    i += 1;
+                    continue; 
+                }
+                j = i;
+                bal = 0;
+                unordered_map<int, int> pre;
+                pre[0] = j - 1;
                 while (j < n && s[j] != third) {
                     bal += (s[j] == x ? 1 : -1);
-                    if (!fst.count(bal)) fst[bal] = j+1;
-                    else best = max(best, j+1 - fst[bal]);
-                    j++;
+                    if (!pre.count(bal)) {
+                        pre[bal] = j;
+                    } else {
+                        best = max(best, j - pre[bal]);
+                    }
+                    j += 1;
                 }
                 i = j;
             }
             return best;
         };
-
-        ans = max(ans, best_2('a','b','c'));
-        ans = max(ans, best_2('a','c','b'));
-        ans = max(ans, best_2('b','c','a'));
-
-        int ca=0, cb=0, cc=0;
-        map<pair<int,int>,int> mp; mp[{0,0}] = -1;
-        for(int i=0;i<n;i++){
-            if(s[i]=='a') ca++;
-            else if(s[i]=='b') cb++;
-            else cc++;
-            pair<int,int> k = {ca-cb, ca-cc};
-            if(mp.count(k)) ans = max(ans, i - mp[k]);
-            else mp[k] = i;
+        ans = max(ans, best_2('a', 'b', 'c'));
+        ans = max(ans, best_2('a', 'c', 'b'));
+        ans = max(ans, best_2('b', 'c', 'a'));
+        ka = 0;
+        kb = 0;
+        kc = 0;
+        map<pair<int, int>, int> pre2;
+        pair<int, int> p;
+        pre2[{0, 0}] = -1;
+        for (i = 0; i < n; i ++){
+            if (s[i] == 'a') {
+                ka += 1;
+            } else if (s[i] == 'b') {
+                kb += 1;
+            } else {
+                kc += 1;
+            }
+            p = {kb - ka, kc - ka};
+            if (pre2.count(p)) {
+                ans = max(ans, i - pre2[p]);
+            } else {
+                pre2[p] = i;
+            }
         }
-
         return ans;
     }
 };

@@ -129,7 +129,9 @@ public:
 };
 ```
 
-**Solution 2: (Heap, 1 heap)**
+**Solution 2: (Heap, 1 heap, open close event, least elements cover all range)**
+
+    nums = [1,1,1,1], queries = [[1,3],[0,2],[1,3],[1,2]]
 
        0   1   2   3    4
 nums   1   1   1   1
@@ -139,9 +141,9 @@ nums   1   1   1   1
            ------
        ^
 dp                 -1   -1
-pq     3   4433    4433
-       x           x   
-k      1           2
+pq     3   4433    4433 433
+       x           x    x
+k      1           1    1
 ```
 Runtime: 85 ms, Beats 89.64%
 Memory: 224.00 MB, Beats 94.94%

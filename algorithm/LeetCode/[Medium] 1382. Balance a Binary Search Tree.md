@@ -250,3 +250,50 @@ public:
     }
 };
 ```
+
+**Solution 5: (DFS)**
+```
+Runtime: 15 ms, Beats 51.89%
+Memory: 66.06 MB, Beats 17.72%
+```
+```c++
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+class Solution {
+    void dfs(TreeNode *node, vector<int> &dp) {
+        if (!node) {
+            return;
+        }
+        dfs(node->left, dp);
+        dp.push_back(node->val);
+        dfs(node->right, dp);
+    }
+    TreeNode *dfs2(int i, int j, vector<int> &dp) {
+        if (i > j) {
+            return nullptr;
+        } else if (i == j) {
+            return new TreeNode(dp[i]);
+        }
+        int mid = (i + j) / 2;
+        TreeNode *node = new TreeNode(dp[mid]);
+        node->left = dfs2(i, mid - 1, dp);
+        node->right = dfs2(mid + 1, j, dp);
+        return node;
+    }
+public:
+    TreeNode* balanceBST(TreeNode* root) {
+        vector<int> dp;
+        dfs(root, dp);
+        return dfs2(0, dp.size() - 1, dp);
+    }
+};
+```

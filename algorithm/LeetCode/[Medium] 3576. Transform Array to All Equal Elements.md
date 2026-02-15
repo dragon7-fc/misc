@@ -46,7 +46,7 @@ It is not possible to make all array elements equal in at most 5 operations.
 
 # Submissions
 ---
-**Solution 1: (Brute Force, try all solution)**
+**Solution 1: (Brute Force, try all solution, look forward)**
 ```
 Runtime: 15 ms, Beats 53.13%
 Memory: 158.10 MB, Beats 81.47%

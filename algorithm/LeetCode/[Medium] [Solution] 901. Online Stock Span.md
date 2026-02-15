@@ -101,7 +101,7 @@ class StockSpanner:
 # param_1 = obj.next(price)
 ```
 
-**Solution 1: (Stack)**
+**Solution 1: (Stack, mono dec stack)**
 ```
 Runtime: 273 ms
 Memory Usage: 84.3 MB

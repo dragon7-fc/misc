@@ -73,6 +73,12 @@ public:
 
 **Solution 3: (Binary Search)**
 
+            0 1 2 3 4 5
+                x x
+                ---
+                m   l r
+                  m l r
+
             0 1 2 3 4 5 6 7 8
     nums = [1,1,2,3,3,4,4,8,8]
             l       m       r
@@ -94,12 +100,12 @@ Memory: 22.3 MB
 class Solution {
 public:
     int singleNonDuplicate(vector<int>& nums) {
-        int left = 0, right = nums.size()-1, mid;
+        int left = 0, right = nums.size() - 1, mid;
         while (left < right) {
-            mid = left + (right-left)/22;
-            if (mid%2 && nums[mid-1] == nums[mid]) {
+            mid = left + (right - left) / 2;
+            if (mid%2 && nums[mid - 1] == nums[mid]) {
                 left = mid + 1;
-            } else if (mid%2 == 0 && nums[mid+1] == nums[mid]) {
+            } else if (mid%2 == 0 && nums[mid + 1] == nums[mid]) {
                 left = mid + 2;
             } else {
                 right = mid;

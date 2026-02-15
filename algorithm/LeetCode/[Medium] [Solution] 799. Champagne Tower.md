@@ -219,3 +219,33 @@ class Solution:
                 res[i] = max(res[i] - 1, 0) / 2.0 + max(res[i - 1] - 1, 0) / 2.0
         return min(res[query_glass], 1)
 ```
+
+**Solution 8: (DP Bottom-Up)**
+
+0           4
+1       1.5    1.5
+2   0.25    0.5    0.25  < query_row
+i            ^query_glass
+              j
+
+```
+Runtime: 0 ms, Beats 100.00%
+Memory: 8.88 MB, Beats 81.36%
+```
+```c++
+class Solution {
+public:
+    double champagneTower(int poured, int query_row, int query_glass) {
+        int i, j;
+        vector<double> dp(101);
+        dp[0] = poured;
+        for (i = 1; i <= query_row; i ++) {
+            for (j = i; j >= 0; j --) {
+                dp[j] = max(0.0, (dp[j] - 1) / 2);
+                dp[j + 1] += dp[j];
+            }
+        }
+        return min(dp[query_glass], 1.0);
+    }
+};
+```

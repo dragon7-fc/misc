@@ -53,8 +53,8 @@ It has 1 distinct even number [2] and 1 distinct odd number [3]. Thus, the answe
 ---
 **Solution 1: (Brute Force)**
 ```
-Runtime: 1669 ms, Beats 45.00%
-Memory: 426.86 MB, Beats 65.00%
+Runtime: 1577 ms, Beats 90.36%
+Memory: 426.93 MB, Beats 85.54%
 ```
 ```c++
 class Solution {
@@ -66,11 +66,8 @@ public:
             st_odd.clear();
             st_even.clear();
             for (j = i; j < n; j ++) {
-                if (nums[j]%2) {
-                    st_odd.insert(nums[j]);
-                } else {
-                    st_even.insert(nums[j]);
-                }
+                auto &st = nums[j] % 2 ? st_odd : st_even;
+                st.insert(nums[j]);
                 if (st_odd.size() == st_even.size()) {
                     ans = max(ans, j - i + 1);
                 }

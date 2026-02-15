@@ -27,7 +27,7 @@ Output: 4
 
 Explanation:
 
-The longest balanced substring is "zabc" because the distinct characters 'z', 'a', 'b', and 'c' each appear exactly 1 time.​​​​​​​
+The longest balanced substring is "zabc" because the distinct characters 'z', 'a', 'b', and 'c' each appear exactly 1 time.​
 ```
 
 **Example 3:**
@@ -51,8 +51,8 @@ One of the longest balanced substrings is "ab" because both distinct characters 
 ---
 **Solution 1: (Counter)**
 ```
-Runtime: 392 ms, Beats 12.50%
-Memory: 11.59 MB, Beats 75.00%
+Runtime: 152 ms, Beats 73.98%
+Memory: 11.35 MB, Beats 96.34%
 ```
 ```c++
 class Solution {
@@ -60,11 +60,19 @@ public:
     int longestBalanced(string s) {
         int n = s.size(), i, j, ans = 0;
         vector<int> cnt(26);
+        bool flag;
         for (i = 0; i < n; i ++) {
             fill(cnt.begin(), cnt.end(), 0);
             for (j = i; j < n; j ++) {
                 cnt[s[j] - 'a'] += 1;
-                if (all_of(cnt.begin(), cnt.end(), [&](auto c){return c == 0 || c == cnt[s[j] - 'a'];})) {
+                flag = true;
+                for (auto &x : cnt) {
+                    if (x > 0 && x != cnt[s[j] - 'a']) {
+                        flag = false;
+                        break;
+                    }
+                }
+                if (flag) {
                     ans = max(ans, j - i + 1);
                 }
             }
