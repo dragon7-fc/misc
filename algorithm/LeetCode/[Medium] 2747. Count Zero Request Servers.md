@@ -41,7 +41,43 @@ For queries[1]: Only server with id 3 gets no request in the duration [2,4].
 
 # Submissions
 ---
-**Solution 1: (Sort, Sliding Window)**
+**Solution 1: (Sort, Sliding Window, prefix sum, counter element in range)**
+
+    n = 3, logs = [[1,3],[2,6],[1,5]], x = 5, queries = [10,11]
+
+
+server    0  1  2  3  4  5  6  7  8  9  10
+1                  x     x
+2                           x
+3
+                         [------q0-------]
+cnt
+1                        1
+2                           1
+3
+                            [----q1------]
+cnt
+1
+2                          1
+3
+
+---------------------------------------------------------------------
+    n = 3, logs = [[2,4],[2,1],[1,2],[3,1]], x = 2, queries = [3,4]
+server    0  1  2  3  4  5
+1               x     
+2            x        x  
+3            x           
+             [--q0-]
+cnt
+1               1
+2            1
+3            1
+                [--q1-]
+cnt
+1               1
+2                     1
+3
+
 ```
 Runtime: 573 ms
 Memory: 191.7 MB

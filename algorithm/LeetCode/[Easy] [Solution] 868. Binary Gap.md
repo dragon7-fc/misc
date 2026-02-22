@@ -123,3 +123,26 @@ class Solution:
                 last = i
         return ans
 ```
+
+**Solution 1: (One Pass)**
+```
+Runtime: 0 ms, Beats 100.00%
+Memory: 8.08 MB, Beats 44.66%
+```
+```c++
+class Solution {
+public:
+    int binaryGap(int n) {
+        int i = -1, j, ans = 0;
+        for (j = 0; j < 30; j ++) {
+            if ((1 << j) & n) {
+                if (i >= 0) {
+                    ans = max(ans, j - i);
+                }
+                i = j;
+            }
+        }
+        return ans;
+    }
+};
+```

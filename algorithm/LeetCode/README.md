@@ -1181,29 +1181,39 @@ class Solution:
 ```
 * [Medium] 1442. Count Triplets That Can Form Two Arrays of Equal XOR
 
-### Expand Around Center
-```python
-class Solution:
-    def longestPalindrome(self, s: str) -> str:
-        if not s: return ''
+### Expand From Centers
+```c++
+class Solution {
+    string expand(int i, int j, string s) {
+        int left = i;
+        int right = j;
 
-        def expandAroundCenter(left, right):
-            L, R = left, right
-            while L >= 0 and R < len(s) and s[L] == s[R]:
-                L -= 1
-                R += 1
-            return R - L - 1
+        while (left >= 0 && right < s.size() && s[left] == s[right]) {
+            left -= 1;
+            right += 1;
+        }
 
-        start, end = 0, 0
-        for i in range(len(s)):
-            len1 = expandAroundCenter(i, i);
-            len2 = expandAroundCenter(i, i + 1);
-            max_len = max(len1, len2)
-            if max_len > end - start:
-                start = i - (max_len - 1) // 2;
-                end = i + max_len // 2;
+        return s.substr(left + 1, right - left - 1);
+    }
+public:
+    string longestPalindrome(string s) {
+        string ans = "";
 
-        return s[start:end + 1]
+        for (int i = 0; i < s.size(); i++) {
+            string odd = expand(i, i, s);
+            if (odd.size() > ans.size()) {
+                ans = odd;
+            }
+
+            string even = expand(i, i + 1, s);
+            if (even.size() > ans.size()) {
+                ans = even;
+            }
+        }
+
+        return ans;
+    }
+};
 ```
 * [Medium] [Solution] 5. Longest Palindromic Substring
 
@@ -6496,8 +6506,45 @@ public:
 ```
 * [Hard] 99. Recover Binary Search Tree
 
-## Hash Table <a name='ht'></a>
+## Hash Table <a name="ht"></a>
 ---
+### Pick a subarray, find out the biggest gap between the most frequent element and k 
+```c++
+class Solution {
+public:
+    int maxFrequency(vector<int>& nums, int k) {
+        unordered_map<int, int> count;
+        for (int a : nums) {
+            count[a]++;
+        }
+
+        auto kadane = [&](int b) {
+            int res = 0, cur = 0;
+            for (int a : nums) {
+                if (a == k) {
+                    cur--;
+                }
+                if (a == b) {
+                    cur++;
+                }
+                if (cur < 0) {
+                    cur = 0;
+                }
+                res = max(res, cur);
+            }
+            return res;
+        };
+
+        int res = 0;
+        for (const auto& [b, _] : count) {
+            res = max(res, kadane(b));
+        }
+        return count[k] + res;
+    }
+};
+```
+* [Medium] 3434. Maximum Frequency After Subarray Operation
+
 ### Counter
 ```c++
 class Solution {
@@ -17478,6 +17525,51 @@ class Solution:
 ```
 
 ## Sliding Window <a name="sw"></a>
+---
+### sort, prefix sum, count range pair
+```c++
+class Solution {
+    long long countLess(vector<int>& nums, int val) {
+        long long res = 0;
+        for (int i = 0, j = nums.size() - 1; i < j; i ++) {
+            while (i < j && nums[i] + nums[j] > val) {
+                j -= 1;
+            }
+            res += j - i;
+        }        
+        return res;
+}
+public:
+    long long countFairPairs(vector<int>& nums, int lower, int upper) {
+        sort(nums.begin(), nums.end());
+        return countLess(nums, upper) - countLess(nums, lower - 1);
+    }
+};
+```
+* [Medium] 2563. Count the Number of Fair Pairs
+
+### sort, prefix sum, count element in range
+```c++
+class Solution {
+public:
+    vector<int> countServers(int n, vector<vector<int>>& logs, int x, vector<int>& queries) {
+        sort(begin(logs), end(logs), [](const auto &l1, const auto &l2){ return l1[1] < l2[1]; });
+        vector<int> ids(queries.size()), res(queries.size()), cnt(n + 1);
+        iota(begin(ids), end(ids), 0);
+        sort(begin(ids), end(ids), [&](int i, int j){ return queries[i] < queries[j]; });
+        int i = 0, j = 0, used = 0;
+        for (int id : ids) {
+            for (; i < logs.size() && logs[i][1] <= queries[id]; ++i)
+                used += (++cnt[logs[i][0]] == 1);
+            for (; j < logs.size() && logs[j][1] < queries[id] - x; ++j)
+                used -= (--cnt[logs[j][0]] == 0);
+            res[id] = n - used;
+        }
+        return res;
+    }
+};
+```
+* [Medium] 2747. Count Zero Request Servers
 
 ### inverse increasing max count in sliding window
 ```c++
@@ -19643,82 +19735,69 @@ class Solution:
 ## Queue <a name="queue"></a>
 ---
 ### head, tail pointer, size and filled
-```python
-class MyCircularQueue:
+```c++
+class MyCircularQueue {
+    vector<int> dp;
+    int i, n, ck;
+public:
+    MyCircularQueue(int k) {
+        dp.resize(k);
+        n = k;
+        ck = 0;
+        i = 0;
+    }
+    
+    bool enQueue(int value) {
+        if (isFull()) {
+            return false;
+        }
+        dp[(i+ck)%n] = value;
+        ck += 1;
+        return true;
+    }
+    
+    bool deQueue() {
+        if (isEmpty()) {
+            return false;
+        }
+        i = (i+1)%n;
+        ck -= 1;
+        return true;
+    }
+    
+    int Front() {
+        if (isEmpty()) {
+            return -1;
+        }
+        return dp[i];
+    }
+    
+    int Rear() {
+        if (isEmpty()) {
+            return -1;
+        }
+        return dp[(i+ck-1)%n];
+    }
+    
+    bool isEmpty() {
+        return ck == 0;
+    }
+    
+    bool isFull() {
+        return ck == n;
+    }
+};
 
-    def __init__(self, k: int):
-        """
-        Initialize your data structure here. Set the size of the queue to be k.
-        """
-        self.size = k
-        self.filled = 0
-        self.q = [0]*self.size
-        self.head = self.tail = None
-
-    def enQueue(self, value: int) -> bool:
-        """
-        Insert an element into the circular queue. Return true if the operation is successful.
-        """
-        if self.isFull():
-            return False
-        else:
-            # no elements yet
-            if self.head is None and self.tail is None:
-                self.head = self.tail = 0
-
-            else: # some elements
-                self.tail = (self.tail+1) % self.size
-            self.q[self.tail] = value    
-            self.filled += 1
-        return True
-
-    def deQueue(self) -> bool:
-        """
-        Delete an element from the circular queue. Return true if the operation is successful.
-        """
-        if self.isEmpty():
-            return False
-
-        if self.head == self.tail:
-            self.head = self.tail = None
-        else:
-            self.head = (self.head+1)% self.size
-        self.filled -= 1
-        return True
-
-    def Front(self) -> int:
-        """
-        Get the front item from the queue.
-        """
-        return self.q[self.head] if not self.isEmpty() else -1
-
-    def Rear(self) -> int:
-        """
-        Get the last item from the queue.
-        """
-        return self.q[self.tail] if not self.isEmpty() else -1
-
-    def isEmpty(self) -> bool:
-        """
-        Checks whether the circular queue is empty or not.
-        """
-        return self.filled == 0
-
-    def isFull(self) -> bool:
-        """
-        Checks whether the circular queue is full or not.
-        """
-        return self.filled == self.size
-
-
-# Your MyCircularQueue object will be instantiated and called as such:
-# obj = MyCircularQueue(k)
-# param_1 = obj.enQueue(value)
-# param_2 = obj.deQueue()
-# param_3 = obj.Front()
-# param_4 = obj.Rear()
-# param_5 = obj.isEmpty()
-# param_6 = obj.isFull()
+/**
+ * Your MyCircularQueue object will be instantiated and called as such:
+ * MyCircularQueue* obj = new MyCircularQueue(k);
+ * bool param_1 = obj->enQueue(value);
+ * bool param_2 = obj->deQueue();
+ * int param_3 = obj->Front();
+ * int param_4 = obj->Rear();
+ * bool param_5 = obj->isEmpty();
+ * bool param_6 = obj->isFull();
+ */
 ```
 * [Medium] 622. Design Circular Queue
 

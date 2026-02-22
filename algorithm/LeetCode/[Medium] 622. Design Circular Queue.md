@@ -368,9 +368,64 @@ public:
 
 **Solution 5: (Array)**
 
-    1 2 3
-    ^i
-ck  1 2 3
+MyCircularQueue myCircularQueue = new MyCircularQueue(3);
+
+     0  1  2
+dp [        ]
+     i
+ck 0
+
+myCircularQueue.enQueue(1); // return True
+
+     0  1  2
+dp [ 1      ]
+     i
+ck 1
+
+myCircularQueue.enQueue(2); // return True
+
+     0  1  2
+dp [ 1  2   ]
+     i
+ck 2
+
+myCircularQueue.enQueue(3); // return True
+
+     0  1  2
+dp [ 1  2  3]
+     i
+ck 3
+
+myCircularQueue.enQueue(4); // return False
+myCircularQueue.Rear();     // return 3
+
+     0  1  2
+dp [ 1  2  3]
+     i     ^ans
+ck 3
+
+myCircularQueue.isFull();   // return True
+myCircularQueue.deQueue();  // return True
+
+     0  1  2
+dp [ 1  2  3]
+        i
+ck 2
+
+myCircularQueue.enQueue(4); // return True
+
+     0  1  2
+dp [ 4  2  3]
+        i
+ck 3
+
+myCircularQueue.Rear();     // return 4
+
+     0  1  2
+dp [ 4  2  3]
+        i
+     ^abs
+ck 3
 
 ```
 Runtime: 4 ms, Beats 45.27%

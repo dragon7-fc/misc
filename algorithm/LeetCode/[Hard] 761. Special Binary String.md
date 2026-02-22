@@ -66,33 +66,64 @@ class Solution:
 ```
 
 **Solution 2: (DFS, Sort)**
+
+__Explanation:__
+Just 4 steps:
+
+Split S into several special strings (as many as possible).
+Special string starts with 1 and ends with 0. Recursion on the middle part.
+Sort all special strings in lexicographically largest order.
+Join and output all strings.
+
+__Update__
+The middle part of a special string may not be another special string. But in my recursion it is.
+For example, 1M0 is a splitted special string. M is its middle part and it must be another special string.
+
+Because:
+
+The number of 0's is equal to the number of 1's in M
+If there is a prefix P of Mwhich has one less 1's than 0's, 1P will make up a special string. 1P will be found as special string before 1M0 in my solution.
+It means that every prefix of M has at least as many 1's as 0's.
+Based on 2 points above, M is a special string.
+                               
+            s = "11011000"
+                 /11100100  < ans
+                   ^^^^
+                       ^^
+                    sort
+        1 + 101100 + 0
+            /10   \1100
+         1 + 0   1 + 10 + 0
+                     /10
+                  1 + 0
+
 ```
 Runtime: 0 ms, Beats 100.00%
-Memory: 9.16 MB, Beats 94.14%
+Memory: 9.19 MB, Beats 90.83%
 ```
 ```c++
 class Solution {
 public:
     string makeLargestSpecial(string s) {
-        int count = 0, i = 0;
-        vector<string> res;
-        for (int j = 0; j < s.size(); ++j) {
+        int count = 0, i = 0, j;
+        vector<string> dp;
+        for (j = 0; j < s.size(); ++j) {
             if (s[j] == '1') {
-                count++;
+                count += 1;
             } else {
-                count--;
+                count -= 1;
             }
             if (count == 0) {
-                res.push_back('1' + makeLargestSpecial(s.substr(i + 1, j - i - 1)) + '0');
+                dp.push_back('1' + makeLargestSpecial(s.substr(i + 1, j - i - 1)) + '0');
                 i = j + 1;
             }
         }
-        sort(res.begin(), res.end(), greater<string>());
-        string res2 = "";
-        for (int i = 0; i < res.size(); ++i) {
-            res2 += res[i];
+        sort(dp.begin(), dp.end(), greater<string>());
+        string ans = "";
+        for (i = 0; i < dp.size(); i ++) {
+            ans += dp[i];
         }
-        return res2;
+        return ans;
     }
 };
 ```

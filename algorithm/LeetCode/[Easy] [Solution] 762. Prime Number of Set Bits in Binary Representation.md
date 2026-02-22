@@ -68,3 +68,29 @@ class Solution:
         return sum(bin(x).count('1') in primes
                    for x in range(L, R+1))
 ```
+
+**Solution 2: (Bit Manipulation)**
+```
+Runtime: 0 ms, Beats 100.00%
+Memory: 8.02 MB, Beats 35.12%
+````
+```c++
+class Solution {
+public:
+    int countPrimeSetBits(int left, int right) {
+        int a, b, c, ans = 0;
+        int prime[] = {2, 3, 5, 7, 11, 13, 17, 19};
+        c = 0;
+        for (auto &p: prime) {
+            c |= (1 << p);
+        }
+        for (a = left; a <= right; a ++) {
+            b = __builtin_popcount(a);
+            if (c & (1 << b)) {
+                ans += 1;
+            }
+        }
+        return ans;
+    }
+};
+````

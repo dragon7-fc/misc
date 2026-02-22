@@ -429,3 +429,28 @@ int** kClosest(int** points, int pointsSize, int* pointsColSize, int k, int* ret
     return points;
 }
 ```
+
+**Solution 3: (Heap)**
+```
+Runtime: 48 ms, Beats 55.56%
+Memory: 76.93 MB, Beats 38.24%
+```
+```c++
+class Solution {
+public:
+    vector<vector<int>> kClosest(vector<vector<int>>& points, int k) {
+        priority_queue<array<int,3>,vector<array<int,3>>,greater<>> pq;
+        vector<vector<int>> ans;
+        for (auto p: points) {
+            pq.push({p[0]*p[0] + p[1]*p[1], p[0], p[1]});
+        }
+        while (k) {
+            auto [d, x, y] = pq.top();
+            pq.pop();
+            ans.push_back({x, y});
+            k -= 1;
+        }
+        return ans;
+    }
+};
+```

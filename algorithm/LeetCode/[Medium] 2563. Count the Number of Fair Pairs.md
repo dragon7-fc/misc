@@ -130,45 +130,47 @@ public:
 };
 ```
 
-**Solution 5: (Binary Search)**
+**Solution 5: (Two Pointer, Sliding Window, Prefix Sumj)**
 
- x + 4 >= 3
- x >= -1
- x + 4 <= 7
- x <= 3
-lower 3
-upper 6
-    0, 1, 7, 4, 4, 5
-    0  1  4  4  5  7
-       ^
-    ----  ^
-    ----     ^
-    ----        ^
-                   ^
-    -----------------
-    ^     ^
-    ^        ^
-    ^           ^
-       ^  ^
-       ^     ^
-       ^        ^
 
+                  [lower ... upper]
+= 
+[0  ...                      upper] = lower_bound(upper + 1)
+-
+[0  ...   lower-1]                  = lower_bound(lower)
+
+
+            0  1  2  3  4  5
+    nums = [0, 1, 7, 4, 4, 5], lower = 3, upper = 6
+            ^        ^
+            ^           ^
+            ^              ^
+               ^     ^
+               ^        ^
+               ^           ^
+lower_bound: 7
+sort        0  1  4  4  5  7
+            l              r
+            l---------- r
+                window
+               l------- r
+                   l    r
+                   l  r
+                   lr
+lower_bound: 3
+sort        0  1  4  4  5  7
+            l              r
+            l           r
+            l        r
+            l     r
+            l- r
+               lr
+
+-----------------------------------------------------------
+            0  1  2  3  4
     nums = [1, 7, 9, 2, 5], lower = 11, upper = 11
-           [1, 2, 5, 7, 9]
-               ^                    [4, 4]
-                  ^                 [6, 6]
-                     ^              [4, 4]
-                        ^           [2, 2]
+                  ^  ^
 
-```
-Runtime: 59 ms, Beats 46.51%
-Memory: 60.33 MB, Beats 73.14%
-```
-```c++
-
-```
-
-**Solution 6: (Two Pointers)**
 ```
 Runtime: 30 ms, Beats 84.91%
 Memory: 60.35 MB, Beats 73.14%
@@ -193,6 +195,31 @@ public:
     long long countFairPairs(vector<int>& nums, int lower, int upper) {
         sort(nums.begin(), nums.end());
         return lower_bound(nums, upper + 1) - lower_bound(nums, lower);
+    }
+};
+```
+
+**Solution 6: (Two Pointer, Sliding Window, Prefix Sumj)**
+```
+Runtime: 39 ms, Beats 70.74%
+Memory: 71.64 MB, Beats 71.83%
+```
+```c++
+class Solution {
+    long long countLess(vector<int>& nums, int val) {
+        long long res = 0;
+        for (int i = 0, j = nums.size() - 1; i < j; i ++) {
+            while (i < j && nums[i] + nums[j] > val) {
+                j -= 1;
+            }
+            res += j - i;
+        }        
+        return res;
+}
+public:
+    long long countFairPairs(vector<int>& nums, int lower, int upper) {
+        sort(nums.begin(), nums.end());
+        return countLess(nums, upper) - countLess(nums, lower - 1);
     }
 };
 ```

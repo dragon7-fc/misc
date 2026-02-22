@@ -313,6 +313,44 @@ class Solution:
 ```
 
 **Solution 6: (DP Bottom-Up)**
+```
+Runtime: 169 ms, Beats 22.39%
+Memory: 291.91 MB, Beats 7.24%
+```
+```c++
+class Solution {
+public:
+    string longestPalindrome(string s) {
+        int n = s.size(), i, j, i0 = 0, mx = 1;
+        vector<vector<int>> dp(n, vector<int>(n));
+        for (i = 0; i < n; i ++) {
+            dp[i][i] = 1;
+            if (i + 1 < n && s[i] == s[i + 1]) {
+                dp[i][i + 1] = 2;
+                mx = 2;
+                i0 = i;
+            }
+        }
+        for (i = n - 3; i >= 0; i --) {
+            for (j = i + 2; j < n; j ++) {
+                if (j - i + 1 > mx + 2) {
+                    break;
+                }
+                if (s[i] == s[j] && dp[i + 1][j - 1]) {
+                    dp[i][j] = 2 + dp[i + 1][j - 1];
+                    if (dp[i][j] > mx) {
+                        mx = dp[i][j];
+                        i0 = i;
+                    }
+                }
+            }
+        }
+        return s.substr(i0, mx);
+    }
+};
+```
+
+**Solution 7: (DP Bottom-Up)**
 
          0 1 2 3 4  j
     s = "b a b a d"
@@ -360,7 +398,7 @@ public:
 };
 ```
 
-**Solution 7: (Expand Around Center)**
+**Solution 8: (Expand Around Center)**
 
     s = "b a b a d"
          i
@@ -404,6 +442,102 @@ public:
         }
         
         return s.substr(st, mx);
+    }
+};
+```
+
+**Solution 9: (Manacher's Algorithm)**
+```
+Runtime: 0 ms, Beats 100.00%
+Memory: 11.31 MB, Beats 52.48%
+```
+```c++
+class Solution {
+public:
+    string longestPalindrome(string s) {
+        string s_prime = "#";
+        for (char c : s) {
+            s_prime += c;
+            s_prime += "#";
+        }
+
+        int n = s_prime.length();
+        vector<int> palindrome_radii(n, 0);
+        int center = 0;
+        int radius = 0;
+
+        for (int i = 0; i < n; i++) {
+            int mirror = 2 * center - i;
+
+            if (i < radius) {
+                palindrome_radii[i] = min(radius - i, palindrome_radii[mirror]);
+            }
+
+            while (i + 1 + palindrome_radii[i] < n &&
+                   i - 1 - palindrome_radii[i] >= 0 &&
+                   s_prime[i + 1 + palindrome_radii[i]] ==
+                       s_prime[i - 1 - palindrome_radii[i]]) {
+                palindrome_radii[i]++;
+            }
+
+            if (i + palindrome_radii[i] > radius) {
+                center = i;
+                radius = i + palindrome_radii[i];
+            }
+        }
+
+        int max_length = 0;
+        int center_index = 0;
+        for (int i = 0; i < n; i++) {
+            if (palindrome_radii[i] > max_length) {
+                max_length = palindrome_radii[i];
+                center_index = i;
+            }
+        }
+
+        int start_index = (center_index - max_length) / 2;
+        string longest_palindrome = s.substr(start_index, max_length);
+
+        return longest_palindrome;
+    }
+};
+```
+
+**Solution 10: (Expand From Centers)**
+```
+Runtime: 91 ms, Beats 31.09%
+Memory: 174.15 MB, Beats 12.61%
+```
+```c++
+class Solution {
+    string expand(int i, int j, string s) {
+        int left = i;
+        int right = j;
+
+        while (left >= 0 && right < s.size() && s[left] == s[right]) {
+            left -= 1;
+            right += 1;
+        }
+
+        return s.substr(left + 1, right - left - 1);
+    }
+public:
+    string longestPalindrome(string s) {
+        string ans = "";
+
+        for (int i = 0; i < s.size(); i++) {
+            string odd = expand(i, i, s);
+            if (odd.size() > ans.size()) {
+                ans = odd;
+            }
+
+            string even = expand(i, i + 1, s);
+            if (even.size() > ans.size()) {
+                ans = even;
+            }
+        }
+
+        return ans;
     }
 };
 ```

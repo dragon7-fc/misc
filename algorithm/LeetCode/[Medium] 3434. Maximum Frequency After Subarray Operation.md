@@ -44,9 +44,48 @@ After adding 8 to nums[1..9], 10 has a frequency of 4 in [10, 10, 11, 12, 13, 13
 ---
 **Solution 1: (Kadane)**
 
+Not sure if it's appropriate to name it as Kadane.
+
+Pick a subarray, count the biggest frequency of any value.
+For the rest part of this subarray, count the frequency of k.
+
+This equals to:
+Pick a subarray, find out the biggest gap between
+the most frequent element and k.
+
+The values range is small,
+we can check the every element with kadane alogorithm.
+
+Time O(50n)
+Space O(50)
+
+
 nums = [10,2,3,4,5,5,4,3,2,2], k = 10
-b          ^
+--------------------------------------
+b       10
+cur      0
+--------------------------------------
+b          2
 cur      0 1             2 3
+           ^^^^^^^^^^^^^^^^^
+--------------------------------------
+b            3
+cur      0   1         2
+             ^^^^^^^^^^^
+--------------------------------------
+b              4
+cur      0     1     2
+---------------------------------------
+b                5
+cur      0       1 2
+                 ^^^
+
+count       cur  res
+10; 1 <       0
+2:  3         3    3 <
+3:  2         2
+4:  2         2
+5:  2         2
 
 ```
 Runtime: 47 ms, Beats 72.22%

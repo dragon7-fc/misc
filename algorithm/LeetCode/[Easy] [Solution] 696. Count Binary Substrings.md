@@ -119,3 +119,28 @@ class Solution:
 
         return ans + min(prev, cur)
 ```
+
+**Solution 2: (Greedy)**
+```
+Runtime: 3 ms, Beats 67.83%
+Memory: 13.08 MB, Beats 61.91%
+```
+```c++
+class Solution {
+public:
+    int countBinarySubstrings(string s) {
+        int n = s.length(), i, pre = 0, cur = 1, ans = 0;
+        for (i = 1; i < n; i ++) {
+            if (s[i] == s[i - 1]) {
+                cur += 1;
+            } else {
+                ans += min(pre, cur);
+                pre = cur;
+                cur = 1;
+            }
+        }
+        ans += min(pre, cur);
+        return ans;
+    }
+};
+```

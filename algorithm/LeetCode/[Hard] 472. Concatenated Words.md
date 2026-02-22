@@ -167,6 +167,13 @@ public:
 ```
 
 **Solution 4: (Sort, DP Bottom-Up)**
+
+    words = ["cat","cats","catsdogcats","dog","dogcatsdog","hippopotamuses","rat","ratcatdogcat"]
+sort          cat dog rat cats dogcatsdog catsdogcats ratcatdogcat hippopotamuses 
+                                  ^
+st            cat dog rat cats
+dp                            [10010001001]
+                               i
 ```
 Runtime: 276 ms, Beats 20.81%
 Memory: 47.11 MB, Beats 98.09%

@@ -60,7 +60,77 @@ Therefore, "zabba" is almost-palindromic.
 
 # Submissions
 ---
-**Solution 1: (Center Expansion)**
+**Solution 1: (DP Bottom-Up, LPS)**
+```
+Runtime: 769 ms, Beats 59.19%
+Memory: 553.62 MB, Beats 12.02%
+```
+```c++
+class Solution {
+public:
+    int almostPalindromic(string s) {
+        int n = s.size(), i, j, k, ans = 1;
+        vector<vector<int>> dp(n, vector<int>(n));
+        for (i = 0; i < n; i ++) {
+            dp[i][i] = 1;
+            if (i + 1 < n) {
+                if (s[i] == s[i + 1]) {
+                    dp[i][i + 1] = 2;
+                } else {
+                    dp[i][i + 1] = 1;
+                }
+                ans = 2;
+            }
+        }
+        for (i = n - 3; i >= 0; i --) {
+            for (j = i + 2; j < n; j ++) {
+                if (s[i] == s[j] && dp[i + 1][j - 1]) {
+                    dp[i][j] = 2 + dp[i + 1][j - 1];
+                } else {
+                    dp[i][j] = max(dp[i + 1][j], dp[i][j - 1]);
+                }
+                k = j - i + 1;
+                if (dp[i][j] >= k - 1) {
+                    ans = max(ans, k);
+                }
+            }
+        }
+        return ans;
+    }
+};
+```
+
+**Solution 2: (DP Bottom-Up, LPS)**
+```
+Runtime: 575 ms, Beats 62.43%
+Memory: 553.48 MB, Beats 15.64%
+```
+```c++
+class Solution {
+public:
+    int almostPalindromic(string s) {
+        int n = s.size(), i, j, k, ans = 1;
+        vector<vector<int>> dp(n, vector<int>(n));
+        for (i = n - 1; i >= 0; i --) {
+            dp[i][i] = 1;
+            for (j = i + 1; j < n; j ++) {
+                if (s[i] == s[j]) {
+                    dp[i][j] = 2 + dp[i + 1][j - 1];
+                } else {
+                    dp[i][j] = max(dp[i + 1][j], dp[i][j - 1]);
+                }
+                k = j - i + 1;
+                if (dp[i][j] >= k - 1) {
+                    ans = max(ans, k);
+                }
+            }
+        }
+        return ans;
+    }
+};
+```
+
+**Solution 3: (Center Expansion)**
 ```
 Runtime: 22 ms, Beats 88.21%
 Memory: 10.25 MB, Beats 93.70%
