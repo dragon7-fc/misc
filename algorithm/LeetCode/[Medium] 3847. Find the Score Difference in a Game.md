@@ -64,28 +64,19 @@ The score difference is 0 - 1 = -1.
 ---
 **Solution 1: (Greedy)**
 ```
-Runtime: 3 ms, Beats 17.78%
-Memory: 40.94 MB, Beats 42.23%
+Runtime: 0 ms, Beats 100.00%
+Memory: 41.02 MB, Beats 5.88%
 ```
 ```c++
 class Solution {
 public:
     int scoreDifference(vector<int>& nums) {
-        int i, n = nums.size(), cur = 0, ans = 0;
+        int i, n = nums.size(), cur = 0, dp[2] = {0};
         for (i = 0; i < n; i ++) {
-            if (nums[i] % 2) {
-                cur ^= 1;
-            }
-            if ((i + 1) % 6 == 0) {
-                cur ^= 1;
-            }
-            if (cur == 0) {
-                ans += nums[i];
-            } else {
-                ans -= nums[i];
-            }
+            cur ^= (nums[i] % 2) ^ ((i + 1) % 6 == 0);
+            dp[cur] += nums[i];
         }
-        return ans;
+        return dp[0] - dp[1];
     }
 };
 ```

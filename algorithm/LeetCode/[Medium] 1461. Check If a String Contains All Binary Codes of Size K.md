@@ -58,7 +58,7 @@ class Solution:
         return len({s[i:i + k] for i in range(len(s) - k + 1)}) == 2 ** k
 ```
 
-**Solution 1: (Sliding Window, Set)**
+**Solution 2: (Sliding Window, Set)**
 ```
 Runtime: 648 ms
 Memory Usage: 71.6 MB
@@ -78,6 +78,39 @@ public:
 
         //Comparing res with 2^k
         return res_set.size() == pow(2,k);
+    }
+};
+```
+
+**Solution 2: (Sliding Window, Bit Manipulation)**
+
+    s = "0 0 1 1 0 1 1 0", k = 2
+a        0 0 1 
+           0
+visited
+0      t
+1      t
+2
+3
+
+```
+Runtime: 10 ms, Beats 95.29%
+Memory: 23.43 MB, Beats 91.49%
+```
+```c++
+class Solution {
+public:
+    bool hasAllCodes(string s, int k) {
+        int n = s.length(), i, a = 0;
+        vector<bool> visited(1 << k);
+        for (i = 0; i < n; i ++) {
+            a = (a << 1) + s[i] - '0';
+            if (i >= k - 1) {
+                a = a % (1 << k);
+                visited[a] = true;
+            }
+        }
+        return all_of(visited.begin(), visited.end(), [](auto b){return b == true;});
     }
 };
 ```

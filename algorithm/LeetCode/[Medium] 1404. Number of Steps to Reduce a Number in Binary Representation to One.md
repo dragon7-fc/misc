@@ -112,3 +112,40 @@ public:
     }
 };
 ```
+
+**Solution 4: (Greedy)**
+
+      1 1 0 1
+p     1 1 1 0
+d       1 0 1
+np        1 1
+ans   6 5 4 2
+
+      1 1 1 0 1
+p     1 1 1 1 0
+d       1 1 0 1
+np          1 1
+ans   7 6 5 4 2
+
+```
+Runtime: 0 ms, Beats 100.00%
+Memory: 8.84 MB, Beats 58.55%
+```
+```c++
+class Solution {
+public:
+    int numSteps(string s) {
+        int n = s.length(), i, p = 0, d, ans = 0;
+        for (i = n - 1; i > 0; i --) {
+            d = s[i] - '0' + p;
+            if (d % 2) {
+                p = 1;
+                ans += 2;
+            } else {
+                ans += 1;
+            }
+        }
+        return ans + p;
+    }
+};
+```

@@ -14395,6 +14395,17 @@ def binaryToGray(self, n: int) -> int:
     return n ^ (n >> 1)
 ```
 
+**Template 3: (remove LSB)**
+```c++
+    x &= (x - 1);
+    // x -= x & (-x);
+```
+
+**Template 4: (check power of 2)**
+```c++
+    (x & (x - 1)) == 0;
+    // (x & -x) == x;
+```
 
 ## Sort <a name="sort"></a>
 ---

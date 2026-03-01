@@ -57,3 +57,24 @@ public:
     }
 };
 ```
+
+**Solution 3: (Greedy)**
+```
+Runtime: 3 ms, Beats 41.68%
+Memory: 16.50 MB, Beats 53.96%
+```
+```c++
+class Solution {
+public:
+    int minPartitions(string n) {
+        int ans = 0;
+        for (auto &c: n){
+            ans = max(ans, c - '0');
+            if (ans == 9) {
+                break;
+            }
+        }
+        return ans;
+    }
+};
+```

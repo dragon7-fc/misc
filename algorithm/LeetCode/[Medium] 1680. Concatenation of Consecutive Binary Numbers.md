@@ -64,3 +64,26 @@ public:
     }
 };
 ```
+
+**Solution 2: (Math, Bit Manipulation, simulation)**
+```
+Runtime: 19 ms, Beats 98.66%
+Memory: 8.10 MB, Beats 69.80%
+```
+```c++
+class Solution {
+public:
+    int concatenatedBinary(int n) {
+        int k = 0, a, MOD = 1e9 + 7;
+        long long ans = 0;
+        for (a = 1; a <= n; a ++) {
+            if ((a & (a - 1)) == 0) {
+                k += 1;
+            }
+            ans = (ans << k) + a;
+            ans %= MOD;
+        }
+        return ans;
+    }
+};
+```
