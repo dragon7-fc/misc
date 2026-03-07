@@ -9699,6 +9699,42 @@ return ans
 
 ## Greedy <a name="greedy"></a>
 ---
+### try swap nearest target row
+```c++
+class Solution {
+public:
+    int minSwaps(vector<vector<int>>& grid) {
+        int n = grid.size(), i, j, ans = 0;
+        vector<int> right(n);
+        for (i = 0; i < n; i ++) {
+            right[i] = -1;
+            for (j = n - 1; j >= 0; j --) {
+                if (grid[i][j]) {
+                    right[i] = j;
+                    break;
+                }
+            }
+        }     
+        for (i = 0; i < n; i ++) {
+            j = i;
+            while (j < n && right[j] > i) {
+                j += 1;
+            }
+            if (j == n) {
+                return -1;
+            }
+            ans += j - i;
+            while (j > i) {
+                right[j] = right[j - 1];
+                j -= 1;
+            }
+        }
+        return ans;
+    }
+};
+```
+* [Medium] 1536. Minimum Swaps to Arrange a Binary Grid
+
 ### Journey From Minus to Plus, add first then substract corner case
 ```c++
 class Solution {
@@ -17537,6 +17573,29 @@ class Solution:
 
 ## Sliding Window <a name="sw"></a>
 ---
+### remove start and append end = bounded rotate = fixed length = Sliding WIndow, flip = DP Bottom-Up = brute force
+```c++
+class Solution {
+public:
+    int minFlips(string s) {
+        int res = INT_MAX, s0 = 0, s1 = 0, sz = s.size();
+        for (int i = 0; i < 2 * sz; ++i) {
+            s0 += s[i % sz] != '0' + i % 2;
+            s1 += s[i % sz] != '0' + (1 - i % 2);
+            if (i >= sz - 1) {
+                if (i >= sz) {
+                    s0 -= s[i - sz] != '0' + (i - sz) % 2;
+                    s1 -= s[i - sz] != '0' + (1 - (i - sz) % 2);
+                }
+                res = min(res, min(s0, s1));
+            }
+        }
+        return res;
+    }
+};
+```
+* [Medium] 1888. Minimum Number of Flips to Make the Binary String Alternating
+
 ### sort, prefix sum, count range pair
 ```c++
 class Solution {

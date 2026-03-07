@@ -146,6 +146,17 @@ public:
 ```
 
 **Solution 5: (Cantor's Diagonal Argument, O(n))**
+
+    nums = ["111","011","001"]
+
+        1 1 1
+        ^
+        0 1 1
+          ^
+        0 0 1
+            ^
+ans     0 0 0
+
 ```
 Runtime: 0 ms, Beats 100.00%
 Memory: 12.35 MB, Beats 99.65%
@@ -163,4 +174,36 @@ public:
         return ans;
     }
 };
+```
+
+**Solution 6: (Hash Table)**
+```
+Runtime: 0 ms, Beats 100.00%
+Memory: 13.53 MB, Beats 22.74%
+```
+```c++
+class Solution {
+public:
+    string findDifferentBinaryString(vector<string>& nums) {
+        int n = nums.size(), i, j;
+        vector<bool> visited(1 << n);
+        for (auto num: nums) {
+            visited[stoi(num, 0, 2)] = true;
+        }
+        i = 0;
+        while (visited[i]) {
+            i += 1;
+        }
+        string ans;
+        for (j = n - 1; j >= 0; j --) {
+            if ((1 << j) & i) {
+                ans += "1";
+            } else {
+                ans += "0";
+            }
+        }
+        return ans;
+    }
+};
+
 ```

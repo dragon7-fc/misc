@@ -140,3 +140,42 @@ public:
     }
 };
 ```
+
+**Solution 3: (Greedy, try swap nearest target row)**
+```
+Runtime: 0 ms, Beats 100.00%
+Memory: 30.04 MB, Beats 41.46%
+```
+```c++
+class Solution {
+public:
+    int minSwaps(vector<vector<int>>& grid) {
+        int n = grid.size(), i, j, ans = 0;
+        vector<int> right(n);
+        for (i = 0; i < n; i ++) {
+            right[i] = -1;
+            for (j = n - 1; j >= 0; j --) {
+                if (grid[i][j]) {
+                    right[i] = j;
+                    break;
+                }
+            }
+        }     
+        for (i = 0; i < n; i ++) {
+            j = i;
+            while (j < n && right[j] > i) {
+                j += 1;
+            }
+            if (j == n) {
+                return -1;
+            }
+            ans += j - i;
+            while (j > i) {
+                right[j] = right[j - 1];
+                j -= 1;
+            }
+        }
+        return ans;
+    }
+};
+```

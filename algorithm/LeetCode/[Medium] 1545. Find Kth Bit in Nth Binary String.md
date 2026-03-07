@@ -131,40 +131,6 @@ class Solution:
         return "0" if self.findKthBit(n-1, 2**n-k) == "1" else "1"
 ```
 
-**Solution 3: (Bit Manipulation)**
-
-S4 = "011100110110001"
-             |  ^
-S3 = "0111001"
-         |^
-S2 = "011"
-       |^
-S1 = "0"
-      ^
-
-```
-Runtime: 0 ms
-Memory: 7.34 MB
-```
-```c++
-class Solution {
-public:
-    char findKthBit(int n, int k) {
-        int ans = 0;
-        while (k > 1) {
-            if (k >= (1<<(n-1))) {
-                ans ^= 1;
-                if (k == 1<<(n-1)) {
-                    break;
-                }
-                k = (1<<(n-1)) - (k - (1<<(n-1)));
-            }
-            n -= 1;
-        }
-        return ans + '0';
-    }
-};
-```
 
 **Solution 4: (Bit Manipulation)**
 
@@ -207,6 +173,105 @@ public:
             // If we're not in the inverted part, return the original bit
             return originalBitIsOne ? '1' : '0';
         }
+    }
+};
+```
+**Solution 5: (DFS)**
+```
+Runtime: 0 ms, Beats 100.00%
+Memory: 7.75 MB, Beats 80.15%
+```
+```c++
+class Solution {
+public:
+    char findKthBit(int n, int k) {
+        if (k == 1) {
+            return '0';
+        }
+        if (k == (1 << (n - 1))) {
+            return '1';
+        } else if (k < (1 << (n - 1))) {
+            return findKthBit(n - 1, k);
+        } else {
+            return findKthBit(n - 1, (1 << (n - 1)) - (k - (1 << (n - 1)))) == '0' ? '1' : '0';
+        }
+    }
+};
+```
+
+**Solution 6: (Iterative Divide and Conquer)**
+
+    n = 4, k = 11
+
+                            len n  inverse
+    0                        1  1
+    ^
+    011                      3  2     1
+      ^
+       
+    011 1 001                7  3     1
+          ^
+    0111001 1 0110001       15  4     1
+                ^                
+
+```
+Runtime: 0 ms, Beats 100.00%
+Memory: 7.71 MB, Beats 80.15%
+```
+```c++
+class Solution {
+public:
+    char findKthBit(int n, int k) {
+        int invertCount = 0, len = (1 << n) - 1;  // Length of Sn is 2^n - 1
+
+        while (k > 1) {
+            if (k == len / 2 + 1) {
+                return invertCount % 2 == 0 ? '1' : '0';
+            }
+            if (k > len / 2 + 1) {
+                k = len + 1 - k;
+                invertCount += 1;
+            }
+
+            len /= 2;
+        }
+        return invertCount % 2 == 0 ? '0' : '1';
+    }
+};
+```
+
+**Solution 7: (Bit Manipulation)**
+
+                            invert
+S4 = "011100110110001"         1
+             |  ^
+S3 = "0111001"                 1
+         |^
+S2 = "011"                     1
+       |^
+S1 = "0"
+      ^
+
+```
+Runtime: 0 ms, Beats 100.00%
+Memory: 7.71 MB, Beats 80.15%
+```
+```c++
+class Solution {
+public:
+    char findKthBit(int n, int k) {
+        int ans = 0;
+        while (k > 1) {
+            if (k >= (1 << (n - 1))) {
+                ans ^= 1;
+                if (k == 1 << (n-1)) {
+                    break;
+                }
+                k = (1 << (n - 1)) - (k - (1 << (n - 1)));
+            }
+            n -= 1;
+        }
+        return ans + '0';
     }
 };
 ```
