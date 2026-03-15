@@ -17508,6 +17508,84 @@ public:
 ```
 * [Hard] 1579. Remove Max Number of Edges to Keep Graph Fully Traversable
 
+### MST Kruskalover max edge
+```c++
+lass Solution {
+    int find(int x, vector<int> &p) {
+        if (x != p[x]) {
+            p[x] = find(p[x], p);
+        }
+        return p[x];
+    }
+    void uni(int x, int y, vector<int> &p) {
+        int rx = find(x, p), ry = find(y, p);
+        p[rx] = ry;
+    }
+public:
+    int maxStability(int n, vector<vector<int>>& edges, int k) {
+        if (edges.size() < n - 1) {
+            return -1;
+        }
+        int ru, rv, r, pk = 0, ck, left = 1, right = 2e5, mid, ans = -1;
+        vector<int> p(n), cp;
+        vector<array<int, 3>> dp;
+        iota(p.begin(), p.end(), 0);
+        for (auto &e: edges) {
+            auto u = e[0];
+            auto v = e[1];
+            auto w = e[2];
+            if (e[3]) {
+                ru = find(u, p);
+                rv = find(v, p);
+                if (ru == rv) {
+                    return -1;
+                }
+                uni(ru, rv, p);
+                right = min(right, w);
+                pk += 1;
+            } else {
+                dp.push_back({u, v, w});
+            }
+        }
+        sort(dp.begin(), dp.end(), [](auto &a, auto &b){
+            return a[2] > b[2];
+        });
+        while (left <= right) {
+            mid = left + (right - left) / 2;
+            cp = p;
+            r = k;
+            ck = pk;
+            for (auto &[u, v, w]: dp) {
+                if (find(u, cp) == find(v, cp)) {
+                    continue;
+                }
+                if (w >= mid) {
+                    uni(u, v, cp);
+                    ck += 1;
+                } else if (w * 2 >= mid && r) {
+                    uni(u, v, cp);
+                    ck += 1;
+                    r -= 1;
+                } else {
+                    break;
+                }
+                if (ck == n - 1) {
+                    break;
+                }
+            }
+            if (ck != n - 1) {
+                right = mid - 1;
+            } else {
+                ans = mid;
+                left = mid + 1;
+            }
+        }
+        return ans;
+    }
+};
+```
+* [Hard] 3600. Maximize Spanning Tree Stability with Upgrades
+
 **Template 1: (Union-Find with rank)**
 ```python
 class DSU(object):
@@ -18348,6 +18426,7 @@ return ans
 ```
 ## Divide and Conquer <a name="dc"></a>
 ---
+### Divide and Conquer = DP Top-Down without memory
 ### Merge Sort, Postorder
 ```python
 class Solution:

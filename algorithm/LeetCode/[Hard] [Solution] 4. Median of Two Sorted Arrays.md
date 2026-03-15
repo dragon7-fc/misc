@@ -298,19 +298,19 @@ public:
 
 **Solution 3: (Binary Search, O(log (min(m, n))), binary search smaller array and search possible median element)**
 
-           v((l + r) / 2)
+           i((l + r) / 2)
        l   mi  r
 A      x x x x                
        ---m---
-         ^^^    <---------------------
-       --- ---                       |
-       Al  Ar                        | compare
-             v((m + n + 1) / 2 - mi) |
-B      x x x x x                     |
-       ----n----                     |
-           ^^^ <----------------------
-       ----- ---
-       Bl    Br
+       --x x--                       
+       L1  R1                        
+             j((m + n + 1) / 2 - mi) 
+B      x x x x x                     
+       ----n----                     
+       ----x x--
+       L2    R2
+* i + j = (m + n + 1) / 2
+* A[i - 1] <= B[j] && B[j - 1] <= A[i]
 
 case 1: (m + n) % 2 == 0
            ----A-----
@@ -328,15 +328,32 @@ case 1: (m + n) % 2 == 0
                  ^maxLeftB  <--|     |
                     ^minRightB <-----|
 
-    l     m   r
-      mxL mnR
-      v   v
-A   - -   -   -
-            mxL mnR
-            v   v
-B       -   -   - -
+case 1.1:
+    l       m   r
+      mxL   mnR
+      v     v
+A   - -     - -
+          mxL   mnR
+          v     v
+B       - -     - -
     2 3 3 4 4 5 5 6
           ^^^
+                                          loop
+case 1.2:
+        mxL   mnR                          1
+                  mxL          mnR         2
+              mxL mnR                      3
+B   -   -     -   -
+            l       m      r
+                mxL mnR                    1
+            lm  r
+ mxL        mnR                            2
+                lmr
+            mxL mnR                        3
+A           -   -   -   - 
+    1   3   5 5 7 7 9   10
+              ^^^
+              (5 + 7) / 2 = 6
 
 case 2: (m + n) % 2 == 1
            ----B-----
@@ -351,7 +368,6 @@ case 2: (m + n) % 2 == 1
            ----|----               |
               ^maxLeftB <-----------
                  ^minRightB
-
           mxL mnR
 B     - - -   -
             l   m   r
@@ -359,17 +375,6 @@ B     - - -   -
 A           -   - -
       2 3 4 4 5 5 6
             ^
-
-        mxL mnR
-            mxL mnR
-B   -   -   -   -
-            l       m      r
-                mxL mnR
-            lm  r
- mxL        mnR 
-A           -   -   -   - 
-    1   3   5 5 7 7 9   10
-              ^^^
              
 ```
 Runtime: 0 ms, Beats 100.00%

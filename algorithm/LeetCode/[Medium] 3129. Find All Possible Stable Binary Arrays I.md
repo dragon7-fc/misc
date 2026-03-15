@@ -77,10 +77,10 @@ class Solution:
         return (dp[one][zero][0] + dp[one][zero][1]) % M
 ```
 
-**Solution 1: (DP Top-Down, 3D DP)**
+**Solution 2: (DP Top-Down, 3D DP)**
 ```
-Runtime: 184 ms
-Memory: 7.68 MB
+Runtime: 242 ms, Beats 61.79%
+Memory: 8.71 MB, Beats 84.55%
 ```
 ```c++
 class Solution {
@@ -95,15 +95,15 @@ class Solution {
         }
         int rst = 0;
         if (cur == 1) {
-            for (int k = 1; k <=min(one, limit); k ++){
-                rst = (rst + dfs(one-k, zero, 0, limit)%mod)%mod;
+            for (int k = 1; k <= min(one, limit); k ++) {
+                rst = (rst + dfs(one - k, zero, 0, limit) % mod) % mod;
             }
         } else { 
             for (int k = 1; k <= min(zero, limit); k ++) {
-                rst = (rst + dfs(one, zero-k, 1, limit)%mod)%mod;
+                rst = (rst + dfs(one, zero - k, 1, limit) % mod) % mod;
             }
         }
-        return dp[one][zero][cur] = rst%mod; 
+        return dp[one][zero][cur] = rst % mod; 
     }
 public:
     int numberOfStableArrays(int zero, int one, int limit) {
@@ -111,6 +111,93 @@ public:
         int a = dfs(one, zero, 1, limit)%mod;
         int b = dfs(one, zero, 0, limit)%mod;
         return (a+b)%mod; 
+    }
+};
+```
+
+**Solution 3: (DP Top-Down, 3D DP, Sliding Window, state transition, constraint)**
+
+dp[i][j][0] = number of valid arrays using i zeros and j ones, ending in 0
+
+dp[i][j][1] = number of valid arrays using i zeros and j ones, ending in 1
+
+        --zero-       -zero-
+
+  -one-         -one-
+        limit+1
+        -------
+    . 1 0 ... 0 1 ... 0 ....
+        -----                          
+        limit
+          -----                      
+          limit 
+              ^dp[i][j][0] 
+            ^dp[i-1][j][0] + dp[i-1][j][1]
+      ^dp[i-limit-1][j][1]
+
+    zero = 1, one = 1, limit = 2
+dp  0   1    j
+    0 1 0 1 
+0   1 1   1
+1   1   1 1
+i       ^^^
+        ans
+
+    zero = 1, one = 2, limit = 1
+dp  0   1   2
+    0 1 0 1 0 1
+0   1 1   1
+1   1   1 1   1
+            ^^^
+            ans
+
+    zero = 3, one = 3, limit = 2
+
+dp  0   1   2   3     one
+    0 1 0 1 0 1 0 1
+0   1 1   1   1
+1   1   1 1 1 2   2
+2   1   2 1 3 3 2 5
+3       2   5 2 7 7
+zero            ^^^
+                ans
+
+```
+Runtime: 115 ms, Beats 79.67%
+Memory: 51.10 MB, Beats 34.15%
+```
+```c++
+class Solution {
+public:
+    int numberOfStableArrays(int zero, int one, int limit) {
+        vector<vector<vector<long long>>> dp(
+            zero + 1, vector<vector<long long>>(one + 1, vector<long long>(2)));
+        long long mod = 1e9 + 7;
+        for (int i = 0; i <= min(zero, limit); i++) {
+            dp[i][0][0] = 1;
+        }
+        for (int j = 0; j <= min(one, limit); j++) {
+            dp[0][j][1] = 1;
+        }
+        for (int i = 1; i <= zero; i++) {
+            for (int j = 1; j <= one; j++) {
+                if (i > limit) {
+                    dp[i][j][0] = dp[i - 1][j][0] + dp[i - 1][j][1] -
+                                  dp[i - limit - 1][j][1];
+                } else {
+                    dp[i][j][0] = dp[i - 1][j][0] + dp[i - 1][j][1];
+                }
+                dp[i][j][0] = (dp[i][j][0] % mod + mod) % mod;
+                if (j > limit) {
+                    dp[i][j][1] = dp[i][j - 1][1] + dp[i][j - 1][0] -
+                                  dp[i][j - limit - 1][0];
+                } else {
+                    dp[i][j][1] = dp[i][j - 1][1] + dp[i][j - 1][0];
+                }
+                dp[i][j][1] = (dp[i][j][1] % mod + mod) % mod;
+            }
+        }
+        return (dp[zero][one][0] + dp[zero][one][1]) % mod;
     }
 };
 ```

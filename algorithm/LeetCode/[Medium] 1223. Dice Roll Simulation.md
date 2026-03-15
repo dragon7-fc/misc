@@ -112,3 +112,63 @@ class Solution:
         
         return dfs(None, 0, 0) % MOD
 ```
+
+**Solution 3: (DP Bottom-Up)**
+
+rolMax  2 3             j
+        1 2 3 4 5 6
+1       x . . . . .
+2       x . . . . .
+3       . x . . . .
+4       . x . . . .
+5       . x . . . .
+i         ^dp[i][j] = dp[i-1][^j] + ... + dp[i-rolMax[j]][^j]
+                      ^^^^^^^^^^^
+                      sum[i-1] - dp[i-1][j]
+
+                      1  2  3  4  5  6
+    n = 2, rollMax = [1, 1, 2, 2, 2, 3]
+dp                    0  1  2  3  4  5    sum
+0                                          1
+1                     1  1  1  1  1  1     6
+2                     5  5  6  6  6  6    34
+
+                      1  2  3  4  5  6
+    n = 2, rollMax = [1, 1, 1, 1, 1, 1]
+dp                    0  1  2  3  4  5    sum
+0                                          1
+1                     1  1  1  1  1  1     6
+2                     5  5  5  5  5  5    30
+
+                      1  2  3  4  5  6
+    n = 3, rollMax = [1, 1, 1, 2, 2, 3]
+dp                    0  1  2  3  4  5    sum
+0                                          1
+1                     1  1  1  1  1  1     6
+2                     5  5  5  6  6  6    33
+3                    28 28 28 32 32 33   181
+
+```
+Runtime: 15 ms, Beats 86.51%
+Memory: 12.71 MB, Beats 56.35%
+```
+```c++
+class Solution {
+public:
+    int dieSimulator(int n, vector<int>& rollMax) {
+        int MOD = 1e9 + 7, i, j, k;
+        vector<vector<long long>> dp(n + 1, vector<long long>(6));
+        vector<long long> sum(n + 1, 0);
+        sum[0] = 1;
+        for (i = 1; i <= n; i ++) {
+            for (j = 0; j < 6; j ++) {
+                for (k = 1; k <= rollMax[j] && i - k >= 0; k ++) {
+                    dp[i][j] = (dp[i][j] + sum[i-k] - dp[i-k][j] + MOD) % MOD;
+                }
+                sum[i] = (sum[i] + dp[i][j]) % MOD;
+            }                
+        }
+        return sum[n];
+    }
+};
+```

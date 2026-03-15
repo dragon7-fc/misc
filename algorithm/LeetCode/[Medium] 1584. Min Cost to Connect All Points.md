@@ -519,3 +519,62 @@ public:
     }
 };
 ```
+
+**Solution 5: (MST, Kruskal)**
+```
+Runtime: 301 ms, Beats 54.19%
+Memory: 63.85 MB, Beats 49.27%
+```
+```c++
+class Solution {
+    vector<int> par, rnk;
+    int find(int x) {
+        if (x != par[x]) {
+            par[x] = find(par[x]);
+        }
+        return par[x];
+    }
+    void uni(int x, int y) {
+        int xr = find(x), yr = find(y);
+        if (par[xr] != par[yr]) {
+            if (rnk[xr] < rnk[yr]) {
+                par[xr] = yr;
+            } else if (rnk[xr] > rnk[yr]) {
+                par[yr] = xr;
+            } else {
+                par[xr] = yr;
+                rnk[yr] += 1;
+            }
+        }
+    }
+
+public:
+    int minCostConnectPoints(vector<vector<int>>& points) {
+        int n = points.size(), i, j, k, ans = 0;
+        par.resize(n);
+        rnk.resize(n);
+        iota(par.begin(), par.end(), 0);
+        vector<array<int, 3>> dp;
+        for (i = 0; i < n; i ++) {
+            for (j = i + 1; j < n; j ++) {
+                dp.push_back({abs(points[i][0] - points[j][0]) + abs(points[i][1] - points[j][1]), i, j});
+            }
+        }
+        sort(dp.begin(), dp.end());
+        i = 0;
+        k = 0;
+        while (k < n - 1) {
+            auto &u = dp[i][1];
+            auto &v = dp[i][2];
+            auto &w = dp[i][0];
+            if (find(u) != find(v)) {
+                ans += w;
+                uni(u, v);
+                k += 1;
+            }
+            i += 1;
+        }
+        return ans;
+    }
+};
+```

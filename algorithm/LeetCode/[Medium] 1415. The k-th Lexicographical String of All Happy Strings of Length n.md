@@ -81,29 +81,71 @@ class Solution:
         return ''
 ```
 
-**Solution 2: (Backtracking, O(n * 2^n))**
+**Solution 2: (Backtracking, enumerate and sort, O(2^(n - 1) * 3) = O(2^n))**
 ```
-Runtime: 0 ms, Beats 100.00%
-Memory: 7.90 MB, Beats 95.26%
+Runtime: 43 ms, Beats 16.40%
+Memory: 26.80 MB, Beats 10.90%
 ```
 ```c++
 class Solution {
-    bool bt(int n, int &k, string &cur) {
-        if (cur.size() == n) {
+    void bt(int n, string &path, vector<string> &ans) {
+        if (path.length() == n) {
+            ans.push_back(path);
+            return;
+        }
+        if (path.length() == 0) {
+            path = "a";
+            bt(n, path, ans);
+            path = "b";
+            bt(n, path, ans);
+            path = "c";
+            bt(n, path, ans);
+        } else {
+            for (auto &c: {'a', 'b', 'c'}) {
+                if (c != path.back()) {
+                    path.push_back(c);
+                    bt(n, path, ans);
+                    path.pop_back();
+                }
+            }
+        }
+    }
+public:
+    string getHappyString(int n, int k) {
+        vector<string> ans;
+        string path;
+        bt(n, path, ans);
+        if (ans.size() < k) {
+            return "";
+        }
+        sort(ans.begin(), ans.end());
+        return ans[k - 1];
+    }
+};
+```
+
+**Solution 3: (Backtracking, Optimized, O(k * n) = O(2^n))**
+```
+Runtime: 2 ms, Beats 63.03%
+Memory: 8.87 MB, Beats 70.11%
+```
+```c++
+class Solution {
+    bool dfs(int n, int &k, string &ans) {
+        if (ans.size() == n) {
             k -= 1;
             if (k == 0) {
                 return true;
-            } else {
-                return false;
             }
+            return false;
         }
-        for (int i = 0; i < 3; i ++) {
-            if (cur == "" || i != cur.back()-'a') {
-                cur += i+'a';
-                if (bt(n, k, cur)) {
+        for (auto &c: {'a', 'b', 'c'}) {
+            if (ans == "" || c != ans.back()) {
+                ans += c;
+                if (dfs(n, k, ans)) {
                     return true;
                 }
-                cur.pop_back();
+                ans.pop_back();
             }
         }
         return false;
@@ -111,24 +153,45 @@ class Solution {
 public:
     string getHappyString(int n, int k) {
         string ans;
-        bt(n, k, ans);
+        dfs(n, k, ans);
         return ans;
     }
 };
 ```
 
-**Solution 3: (Math, O(n))**
+**Solution 4: (Math, O(n))**
 
        n = 3, k = 9
 ---------------------
+       "aba", "abc", "aca", "acb", "bab", "bac", "bca", "bcb", "cab", "cac", "cba", "cbc"
+         1                           5                           9
+        startA                      startB                      startC
+       ^^^^^^^^^^^^^^^^^^^^^^^^^^^                              ans
+                4 = 1 << (n - 1)
+
+1  aba
+   -
+2         |
+3         |4 = 1 << (n - 1)
+4         |
+5  bab    |
+   -=
+6             |2 = 1 << (n - 1 - 1)
+7  bca        |
+    = 
+8  bcb        |1 = 1 << (n - 1 - 2)
+     -
+9  c
+    
+
 total  12
 startA  1
 startB  1 + 4 = 5
 startC  5 + 4 = 9
 
-k       9 0 0 0
-mid         2 1
-result    c a b
+k       9 0 0
+mid       2 1
+result  c a b  
 
 ```
 Runtime: 0 ms, Beats 100.00%
@@ -140,6 +203,8 @@ public:
     string getHappyString(int n, int k) {
         // Calculate the total number of happy strings of length n
         int total = 3 * (1 << (n - 1));
+        //          ^first char
+        //              ^^^^^^^^^^^^^^remainder char
 
         // If k is greater than the total number of happy strings, return an
         // empty string

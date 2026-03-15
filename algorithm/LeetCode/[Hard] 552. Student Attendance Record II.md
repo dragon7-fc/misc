@@ -8,7 +8,12 @@ A student attendance record is a string that only contains the following three c
 1. '**L**' : Late.
 1. '**P**' : Present.
 
-A record is regarded as rewardable if it doesn't contain **more than one 'A' (absent)** or **more than two continuous 'L' (late)**.
+Any student is eligible for an attendance award if they meet both of the following criteria:
+
+* The student was absent (`'A'`) for **strictly** fewer than 2 days total.
+* The student was never late (`'L'`) for 3 or more **consecutive** days.
+
+Given an integer `n`, return the number of possible attendance records of length `n` that make a student eligible for an attendance award. The answer may be very large, so return it modulo `10^9 + 7`.
 
 **Example 1:**
 ```
@@ -20,7 +25,21 @@ There are 8 records with length 2 will be regarded as rewardable:
 Only "AA" won't be regarded as rewardable owing to more than one absent times. 
 ```
 
-**Note:** The value of **n** won't exceed `100,000`.
+**Example 2:**
+```
+Input: n = 1
+Output: 3
+```
+
+**Example 3:**
+```
+Input: n = 10101
+Output: 183236316
+```
+
+**Constraints:**
+
+* `1 <= n <= 10^5`
 
 # Submissions
 ---
@@ -260,6 +279,58 @@ public:
 ```
 
 **Solution 6: (DP Bottom-Up)**
+```
+Runtime: 1511 ms, Beats 18.69%
+Memory: 421.02 MB, Beats 23.60%
+```
+```c++
+class Solution {
+public:
+    int checkRecord(int n) {
+        int MOD = 1e9 + 7, totalAbsences, consecutiveLates;
+        vector<vector<int>> dp = vector<vector<int>>(2, vector<int>(3)), pre = vector<vector<int>>(2, vector<int>(3));
+        pre[0][0] = 1;
+        for (int _ = 1; _ <= n; _ ++) {
+            for (totalAbsences = 0; totalAbsences <= 1; totalAbsences ++) {
+                for (consecutiveLates = 0; consecutiveLates <= 2; consecutiveLates ++) {
+                    // 'P'
+                    dp[totalAbsences][0] = (
+                        dp[totalAbsences][0] + 
+                        pre[totalAbsences][consecutiveLates]
+                    ) % MOD;
+                    // 'A'
+                    if (totalAbsences < 1) {
+                        dp[totalAbsences + 1][0] = (
+                            dp[totalAbsences + 1][0] + 
+                            pre[totalAbsences][consecutiveLates]
+                        ) % MOD;
+                    }
+                    // 'L'
+                    if (consecutiveLates < 2) {
+                        dp[totalAbsences][consecutiveLates + 1] = (
+                            dp[totalAbsences][consecutiveLates + 1] + 
+                            pre[totalAbsences][consecutiveLates]
+                        ) % MOD;
+                    }
+                }
+            }
+            
+            pre = move(dp);
+            dp = vector<vector<int>>(2, vector<int>(3, 0));
+        }
+
+        int ans = 0;
+        for (totalAbsences = 0; totalAbsences <= 1; totalAbsences ++) {
+            for (consecutiveLates = 0; consecutiveLates <= 2; consecutiveLates ++) {
+                ans = (ans + pre[totalAbsences][consecutiveLates]) % MOD;
+            }
+        }
+        return ans;
+    }
+};
+```
+
+**Solution 7: (DP Bottom-Up)**
 ```
 Runtime: 7 ms, Beats 98.92%
 Memory: 7.81 MB, Beats 97.53%
