@@ -263,7 +263,7 @@ class Solution:
 ```
 * [Medium] 36. Valid Sudoku
 
-### Rotate Groups of Four Cells
+### right rotate = iterative left rotate
 ```c++
 class Solution {
 public:
@@ -800,15 +800,6 @@ class Solution:
 * [Medium] [Solution] 73. Set Matrix Zeroes
 
 ### Set, Binary Search
-
-          vprev     vit
-        [    ]      [    ]
-            s        f
-q:
-case 1           [   ]
-case 2        [   ] 
-               s e
-
 ```c++
 class MyCalendar {
     set<pair<int,int>> st;
@@ -910,7 +901,7 @@ class Solution:
 ```
 * [Medium] [Solution] 915. Partition Array into Disjoint Intervals
 
-### max subarry = total - "Minimum Subarray"
+### max circular = max(max local, total - min local)
 ```c++
 class Solution {
 public:
@@ -981,7 +972,7 @@ class Solution:
 ```
 * [Medium] [Solution] 950. Reveal Cards In Increasing Order
 
-### Prefix Sum
+### buffer greedy max from end then filter from start
 ```c++
 class Solution {
 public:
@@ -1085,9 +1076,9 @@ public:
         cnt[0] = 1;
         for (auto c: word) {
             cur ^= 1<<(c-'a');
-            ans += cnt[cur];
+            ans += cnt[cur];    // [0000000000]: all even
             for (int i = 0; i < 10; i ++) {
-                ans += cnt[cur ^ (1<<i)];
+                ans += cnt[cur ^ (1<<i)];    // [...1......]: one odd
             }
             cnt[cur] += 1;
         }
@@ -2119,21 +2110,38 @@ class NumMatrix:
 ```
 * [Medium] [Solution] 304. Range Sum Query 2D - Immutable
 
-### submatrix rearrangement, prefix sum
-```python
-class Solution:
-    def largestSubmatrix(self, matrix: List[List[int]]) -> int:
-        ans = 0
-        for row in range(len(matrix)):
-            for col in range(len(matrix[0])):
-                if matrix[row][col] != 0 and row > 0:
-                    matrix[row][col] += matrix[row - 1][col]
-
-            curr = sorted(matrix[row], reverse=True) 
-            for i in range(len(matrix[0])):
-                ans = max(ans, curr[i] * (i + 1))
-        
-        return ans
+### Prefix Sum, accumulate height from previous row, try every cell
+```c++
+class Solution {
+public:
+    int largestSubmatrix(vector<vector<int>>& matrix) {
+        int m = matrix.size(), n = matrix[0].size(), i, j, ans = 0;
+        vector<bool> seen(n);
+        vector<pair<int,int>> pre, cur;
+        for (i = 0; i < m; i ++) {
+            fill(seen.begin(), seen.end(), false);
+            // most high column rearrange to first
+            for (auto &[height, col]: pre) {
+                if (matrix[i][col] == 1) {
+                    cur.push_back({height + 1, col});
+                    seen[col] = true;
+                }
+            }
+            // rearrange to last column
+            for (j = 0; j < n; j ++) {
+                if (seen[j] == false && matrix[i][j] == 1) {
+                    cur.push_back({1, j});
+                }
+            }
+            for (j = 0; j < cur.size(); j ++) {
+                ans = max(ans, cur[j].first * (j + 1));
+            }
+            pre = move(cur);
+        }
+        return ans;
+    }
+};
+;
 ```
 * [Medium] 1727. Largest Submatrix With Rearrangements
 

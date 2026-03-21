@@ -180,3 +180,73 @@ public:
     }
 };
 ```
+
+**Solution 5: (Prefix Sum, accumulate height from previous row, try every cell)**
+
+
+    area = width * height
+           ^^^^^   ^^^^^^
+                   prefix sum
+           rearrange column (sort)
+
+          >  . . 1
+             1 1 1
+             1 . 1
+
+             1 . .
+          >  1 1 1
+             1 1 .
+
+             1 . .
+             1 1 1
+          >  1 1 .
+
+                     0    1    2
+          matrix = [[0,   0,   1],
+pre
+height                         (1,2)
+ans                             1
+                    [1,   1,   1],
+pre                            (1,2)
+height                         (2,2) (1,0) (1,1)
+ans                             2     2     3
+                    [1,   0,   1]]
+pre                            (2,2) (1,0) (1,1)
+height                         (3,2) (2,0)
+ans                             3     4
+
+```
+Runtime: 47 ms, Beats 31.38%
+Memory: 105.46 MB, Beats 10.11%
+```
+```c++
+class Solution {
+public:
+    int largestSubmatrix(vector<vector<int>>& matrix) {
+        int m = matrix.size(), n = matrix[0].size(), i, j, ans = 0;
+        vector<bool> seen(n);
+        vector<pair<int,int>> pre, cur;
+        for (i = 0; i < m; i ++) {
+            fill(seen.begin(), seen.end(), false);
+            // most high column rearrange to first
+            for (auto &[height, col]: pre) {
+                if (matrix[i][col] == 1) {
+                    cur.push_back({height + 1, col});
+                    seen[col] = true;
+                }
+            }
+            // rearrange to last column
+            for (j = 0; j < n; j ++) {
+                if (seen[j] == false && matrix[i][j] == 1) {
+                    cur.push_back({1, j});
+                }
+            }
+            for (j = 0; j < cur.size(); j ++) {
+                ans = max(ans, cur[j].first * (j + 1));
+            }
+            pre = move(cur);
+        }
+        return ans;
+    }
+};
+```

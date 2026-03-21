@@ -151,7 +151,14 @@ public:
 ```
 
 **Solution 5: (Array)**
-        
+      
+         j
+i      x ->      x n-1-i
+       | x------x
+       | |      |
+       v x------x
+n-1-i  x         x
+
             i        |  
             |        | 
     ----j---x        j  

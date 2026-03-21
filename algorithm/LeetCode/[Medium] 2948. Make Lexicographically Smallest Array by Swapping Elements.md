@@ -98,6 +98,27 @@ public:
 ```
 
 **Solution 2: (sort by group)**
+
+     sort
+    (value, index) -> group -> value
+         dp ^^^^^^^^^^^^^^^ 
+                 dp2  ^^^^^^^^^^^^^^
+                            dp3
+
+                0     1     2     3     4
+    nums = [    1,    5,    3,    9,    8], limit = 2
+
+                                 v       
+dp          (1,0) (5,1) (3,2) (9,3) (8.4)
+sort        (1,0) (3,2) (5,1) (8,4) (9.3)
+dp2            0      0    0     1     1
+do3
+0    1,3,3
+     x
+1    8,9
+     x
+ans             1      3     5    8     9
+
 ```
 Runtime: 351 ms
 Memory: 458.98 MB

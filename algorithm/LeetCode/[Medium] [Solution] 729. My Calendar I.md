@@ -21,10 +21,10 @@ The first event can be booked.  The second can't because time 15 is already book
 The third event can be booked, as the first event takes every time less than 20, but not including 20.
 ```
 
-**Note:**
+**Constraints:**
 
-* The number of calls to `MyCalendar.book` per test case will be at most `1000`.
-* In calls to `MyCalendar.book(start, end)`, `start` and `end` are integers in the range [0, $10^9$].
+* `0 <= start < end <= 10^9`
+* At most `1000` calls will be made to `book`.
 
 # Solution
 ---

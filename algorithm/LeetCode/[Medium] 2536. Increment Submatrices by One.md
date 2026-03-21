@@ -55,6 +55,16 @@ class Solution:
 ```
 
 **Solution 2: (Prefix Sum, mask every row)**
+    n = 3, queries = [[1,1,2,2],[0,0,1,1]]
+
+    0  1  2
+0   1    -1
+       1  0
+1   1  1 -1 -1
+       2  1
+2      1    -1
+       1  1
+
 ```
 Runtime: 51 ms, Beats 38.56%
 Memory: 86.20 MB, Beats 100.00%

@@ -85,3 +85,73 @@ public:
     }
 };
 ```
+
+**Solution 2: (Prefix Sum, DP Bottom-Up)**
+```
+Runtime: 35 ms, Beats 89.43%
+Memory: 100.90 MB, Beats 95.12%
+```
+```c++
+class Solution {
+public:
+    int numberOfSubmatrices(vector<vector<char>>& grid) {
+        int m = grid.size(), n = grid[0].size(), i, j, x, y, ans = 0;
+        vector<array<int, 2>> pre(n), dp(n);
+        for (i = 0; i < m; i ++) {
+            x = 0;
+            y = 0;
+            for (j = 0; j < n; j ++) {
+                if (grid[i][j] == 'X') {
+                    x += 1;
+                } else if (grid[i][j] == 'Y') {
+                    y += 1;
+                }
+                dp[j] = {x, y};
+                if (i) {
+                    dp[j][0] += pre[j][0];
+                    dp[j][1] += pre[j][1];
+                }
+                if (dp[j][0] == dp[j][1] && dp[j][0]) {
+                    ans += 1;
+                }
+            }
+            pre = dp;
+        }
+        return ans;
+    }
+};
+```
+
+**Solution 3: (Prefix Sum, DP Bottom-Up, optimized)**
+```
+Runtime: 20 ms, Beats 95.93%
+Memory: 100.94 MB, Beats 93.50%
+```
+```c++
+class Solution {
+public:
+    int numberOfSubmatrices(vector<vector<char>>& grid) {
+        int m = grid.size(), n = grid[0].size(), i, j, k, ans = 0;
+        bool is_x;
+        vector<pair<bool, int>> dp(n);
+        for (i = 0; i < m; i ++) {
+            k = 0;
+            is_x = false;
+            for (j = 0; j < n; j ++) {
+                if (grid[i][j] == 'X') {
+                    is_x = true;
+                    k += 1;
+                } else if (grid[i][j] == 'Y') {
+                    k -= 1;
+                }
+                dp[j].first = dp[j].first | is_x;
+                dp[j].second += k;
+                if (dp[j].first && dp[j].second == 0) {
+                    ans += 1;
+                }
+            }
+        }
+        return ans;
+    }
+};
+```

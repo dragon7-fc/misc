@@ -131,7 +131,7 @@ class Solution:
         return ans
 ```
 
-**Solution 1: (Binary Search Candidates, Insertion Sort)**
+**Solution 1: (Binary Search Candidates, Greedy max)**
 
 * Time: Nlog(N)
 * Space: O(N)
@@ -199,13 +199,13 @@ public:
 };
 ```
 
-**Solution 3: (prefix sum)**
+**Solution 3: (prefix sum, buffer greedy max from end then filter from start)**
 
-                   \
-        ------------ \
-        ^              \
-          -------------- \
-          ^ 
+                   \x
+        ------------ \x
+        ^              \ xx
+          -------------- \ xx
+          ^^ 
         ->
 
 * Time: O(N) 

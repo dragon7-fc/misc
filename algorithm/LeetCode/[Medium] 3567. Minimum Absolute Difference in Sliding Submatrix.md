@@ -158,3 +158,83 @@ public:
     }
 };
 ```
+
+**Solution 3: (Brute Force, Set)**
+```
+Runtime: 55 ms, Beats 34.82%
+Memory: 46.98 MB, Beats 22.96%
+````
+```c++
+class Solution {
+public:
+    vector<vector<int>> minAbsDiff(vector<vector<int>>& grid, int k) {
+        int m = grid.size(), n = grid[0].size(), i, j, ni, nj, d;
+        set<int> st;
+        vector<vector<int>> ans(m - k + 1, vector<int>(n - k + 1));
+        for (i = 0; i < ans.size(); i ++) {
+            for (j = 0; j < ans[0].size(); j ++) {
+                st.clear();
+                for (ni = i; ni < i + k; ni ++) {
+                    for (nj = j; nj < j + k; nj ++) {
+                        st.insert(grid[ni][nj]);
+                    }
+                }
+                if (st.size() == 1) {
+                    ans[i][j] = 0;
+                } else {
+                    auto it = ++st.begin();
+                    d = INT_MAX;
+                    while (it != st.end()) {
+                        d = min(d, *it - *prev(it));
+                        it++;
+                    }
+                    ans[i][j] = d;
+                }
+            }
+        }
+        return ans;
+    }
+};
+````
+
+**Solution 3: (Brute Force, Sort)**
+
+       prefix sum     brute force
+time      x              x
+space                    x
+
+
+```
+Runtime: 9 ms, Beats 88.89%
+Memory: 28.30 MB, Beats 100.00%
+```
+```c++
+class Solution {
+public:
+    vector<vector<int>> minAbsDiff(vector<vector<int>>& grid, int k) {
+        int m = grid.size(), n = grid[0].size(), i, j, ni, nj, d;
+        vector<int> dp;
+        vector<vector<int>> ans(m - k + 1, vector<int>(n - k + 1));
+        for (i = 0; i < ans.size(); i ++) {
+            for (j = 0; j < ans[0].size(); j ++) {
+                dp.clear();
+                for (ni = i; ni < i + k; ni ++) {
+                    for (nj = j; nj < j + k; nj ++) {
+                        dp.push_back(grid[ni][nj]);
+                    }
+                }
+                sort(dp.begin(), dp.end());
+                d = INT_MAX;
+                for (ni = 1; ni < dp.size(); ni ++) {
+                    if (dp[ni] == dp[ni - 1]) {
+                        continue;
+                    }
+                    d = min(d, dp[ni] - dp[ni - 1]);
+                }
+                ans[i][j] = d == INT_MAX ? 0 : d;
+            }
+        }
+        return ans;
+    }
+};
+```

@@ -57,3 +57,67 @@ public:
     }
 };
 ```
+
+**Solution 2: (Prefix sum)**
+```
+Runtime: 15 ms, Beats 61.24%
+Memory: 91.54 MB, Beats 55.06%
+```
+````c++
+class Solution {
+public:
+    int countSubmatrices(vector<vector<int>>& grid, int k) {
+        int m = grid.size(), n = grid[0].size(), i, j, ans = 0;
+        vector<int> pre(n), cur(n);
+        for (i = 0; i < m; i ++) {
+            for (j = 0; j < n; j ++) {
+                cur[j] = grid[i][j];
+                if (i) {
+                    cur[j] += pre[j];
+                }
+                if (j) {
+                    cur[j] += cur[j - 1];
+                }
+                if (i && j) {
+                    cur[j] -= pre[j - 1];
+                }
+                if (cur[j] > k) {
+                    break;
+                }
+                ans += 1;
+            }
+            if (j == 0) {
+                break;
+            }
+            pre = cur;
+        }
+        return ans;
+    }
+};
+```
+
+**Solution 3: (Prefix Sum, optimized)**
+```
+Runtime: 7 ms, Beats 95.00%
+Memory: 91.00 MB, Beats 58.33%
+```
+```c++
+class Solution {
+public:
+    int countSubmatrices(vector<vector<int>>& grid, int k) {
+        int m = grid.size(), n = grid[0].size(), i, j, ck, ans = 0;
+        vector<int> dp(n);
+        for (i = 0; i < m; i ++) {
+            ck = 0;
+            for (j = 0; j < n; j ++) {
+                dp[j] += grid[i][j];
+                ck += dp[j];
+                if (ck <= k) {
+                    ans += 1;
+                }
+            }
+        }
+        return ans;
+    }
+};
+```

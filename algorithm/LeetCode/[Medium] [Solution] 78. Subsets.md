@@ -327,28 +327,42 @@ public:
 ```
 
 **Solution 6: (DP Bottom-Up)**
+
+                   vnot_taken
+                     vtaken
+ans        1   2   3
+{     } x  x   x   x
+{1    }      x x   x
+{  2  }          x x
+{1,2  }          x x
+{    3}              x
+{1,  3}              x
+{  2,3}              x
+{1,2,3}              x
+   
+   
+
 ```
-Runtime: 0 ms
-Memory Usage: 7.1 MB
+Runtime: 0 ms, Beats 100.00%
+Memory: 9.75 MB, Beats 95.55%
 ```
 ```c++
 class Solution {
 public:
     vector<vector<int>> subsets(vector<int>& nums) {
-        vector<vector<int>> res;
-		res.push_back(vector<int>());
-        for (int i = 0; i < nums.size(); ++i) {
-		    // Number of the existing combinations.
-            int k = res.size();
-			// Generate new combinations 
-			// by adding the next element to existing ones.
-            for (int j = 0; j < k; ++j) {
-                vector<int> temp = res[j];
-                temp.push_back(nums[i]);
-                res.push_back(temp);
+        int n = nums.size(), i, j, k;
+        vector<vector<int>> ans;
+        vector<int> cur;
+		ans.push_back({});
+        for (i = 0; i < nums.size(); i ++) {
+            k = ans.size();
+            for (j = 0; j < k; j ++) {
+                cur = ans[j];
+                cur.push_back(nums[i]);
+                ans.push_back(cur);
             }
         }
-        return res;
+        return ans;
     }
 };
 ```

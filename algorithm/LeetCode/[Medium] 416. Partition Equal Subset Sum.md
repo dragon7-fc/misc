@@ -1,12 +1,6 @@
 416. Partition Equal Subset Sum
 
-Given a **non-empty** array containing only positive integers, find if the array can be partitioned into two subsets such that the sum of elements in both subsets is equal.
-
-**Note:**
-
-* Each of the array element will not exceed 100.
-* The array size will not exceed 200.
- 
+Given an integer array `nums`, return `true` if you can partition the array into two subsets such that the sum of the elements in both subsets is equal or `false` otherwise. 
 
 **Example 1:**
 ```
@@ -25,6 +19,11 @@ Output: false
 
 Explanation: The array cannot be partitioned into equal sum subsets.
 ```
+
+**Constraints:**
+
+* `1 <= nums.length <= 200`
+* `1 <= nums[i] <= 100`
 
 # Submissions
 ---

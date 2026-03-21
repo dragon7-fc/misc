@@ -70,13 +70,18 @@ class Solution:
 
 **Solution 1: (Prefix Sum, try all possible solution)**
 
-             max ------|
+            
+            right -----|
             -----      |
-    x x x x . . . (>0) |
-    . . . x x x x      |
-    -----              + = min
-     max---------------
-
+    . . . . x x x (>0) |
+    x x x . . . .      |
+    -----              |- max |
+    left --------------|      |
+                              |- min
+                 ------|      |
+    . . . . . x x      |      |
+    x x x x . . .      |- max |
+            -----------|
 ```
 Runtime: 0 ms
 Memory: 66.68 MB
