@@ -152,10 +152,10 @@ public:
 };
 ```
 
-**Solution 3: (Greedy + Binary Search)**
+**Solution 3: (Greedy + Binary Search, Hash Table, cache dry index, try binary search to dry previous flooded lake)**
 
 rains    [  1,  2,  0,  2,  3,  0,  1]
-st                  2           5
+st                  2x          5x
 m         1:0                     1:6
               2:1     2:3
                           3:4
@@ -170,8 +170,8 @@ class Solution {
 public:
     vector<int> avoidFlood(vector<int>& rains) {
         int n = rains.size(), i;
-        unordered_map<int, int> m;
-        set<int> st;
+        unordered_map<int, int> m;  // flood lake, index
+        set<int> st;    // drain index
         vector<int> ans(n, 1);
         for (i = 0; i < n; i ++) {
             if (rains[i] == 0) {
@@ -179,7 +179,7 @@ public:
             } else {
                 ans[i] = -1;
                 if (m.count(rains[i])) {
-                    auto it = st.lower_bound(m[rains[i]]);
+                    auto it = st.lower_bound(m[rains[i]]);  // previous flood lake nearest drain index
                     if (it == st.end()) {
                         return {};
                     }

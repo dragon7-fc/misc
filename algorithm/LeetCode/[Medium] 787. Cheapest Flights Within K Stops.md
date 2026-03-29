@@ -40,7 +40,7 @@ The cheapest price from city 0 to city 2 with at most 0 stop costs 500, as marke
 * The size of flights will be in range `[0, n * (n - 1) / 2]`.
 * The format of each flight will be `(src, dst, price)`.
 * The price of each flight will be in the range `[1, 10000]`.
-k is in the range of `[0, n - 1]`.
+* `k` is in the range of `[0, n - 1]`.
 * There will not be any duplicated flights or self cycles.
 
 # Submissions

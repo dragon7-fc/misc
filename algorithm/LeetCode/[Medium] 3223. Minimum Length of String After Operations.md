@@ -43,7 +43,7 @@ We cannot perform any operations, so we return the length of the original string
 
 # Submissions
 ---
-**Solution 1: (Prefix sum)**
+**Solution 1: (Prefix sum, simulation)**
 ```
 Runtime: 136 ms
 Memory: 87.76 MB
@@ -81,7 +81,7 @@ public:
 
 min length -> remove max -> remove method
 
-remove method:
+remove method:                            vcenter
 1)    a .. a .. a                   -> .. a ..
 2)    a .. a .. a .. a              -> .. a .. .. a
 3)    a .. a .. a .. a .. a         -> .. .. a .. ..

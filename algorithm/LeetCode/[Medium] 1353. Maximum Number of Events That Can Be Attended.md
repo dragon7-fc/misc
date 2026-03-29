@@ -129,7 +129,16 @@ public:
 };
 ```
 
-**Solution 4: (Heap)**
+**Solution 4: (Heap, sort by start and use min heap to get min end day event)**
+
+    events= [[1,2],[2,3],[3,4],[1,2]]
+
+    1  2  3  4 
+    x----
+    ---x-
+       ---x-
+          ---x-
+
 ```
 Runtime: 61 ms, Beats 64.28%
 Memory: 74.79 MB, Beats 98.35%
@@ -138,21 +147,21 @@ Memory: 74.79 MB, Beats 98.35%
 class Solution {
 public:
     int maxEvents(vector<vector<int>>& events) {
-        int n = events.size(), i, j = 0,ans = 0;
-        priority_queue<int,vector<int>,greater<>> pq;
+        int n = events.size(), t, i = 0, ans = 0;
+        priority_queue<int, vector<int>, greater<>> pq;
         sort(events.begin(), events.end());
-        while (pq.size() || j < n) {
+        while (pq.size() || i < n) {
             if (pq.size() == 0) {
-                i = events[j][0];
+                t = events[i][0];
             }
-            while (j < n && events[j][0] == i) {
-                pq.push(events[j][1]);
-                j += 1;
+            while (i < n && events[i][0] == t) {
+                pq.push(events[i][1]);
+                i += 1;
             }
             pq.pop();
             ans += 1;
-            i += 1;
-            while (pq.size() && pq.top() < i) {
+            t += 1;
+            while (pq.size() && pq.top() < t) {
                 pq.pop();
             }
         }

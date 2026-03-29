@@ -107,8 +107,14 @@ public:
                   /  
        /        /
      /
-    ^i          ^j  ^n-1
+    ^i          ^j   ^n-1
         ^left   ^right
+        ----------------   remove right  = n - left - 1
+    -------------          remove left   = right
+    x-----------x          remove middle = j - i  - 1
+    i           j                       
+      x---------x
+      i         j
 ```
 Runtime: 0 ms
 Memory: 69.58 MB

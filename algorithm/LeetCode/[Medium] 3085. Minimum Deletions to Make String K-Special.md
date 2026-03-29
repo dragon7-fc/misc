@@ -46,7 +46,20 @@ Explanation: We can make word 2-special by deleting 1 occurrence of "b". Therefo
 
 # Submissions
 ---
-**Solution 1: (Counter, assume target and try all solution)**
+**Solution 1: (Counter, try all possible min_freq)**
+
+The "minimum deletions" can be found by iterating through every possible frequency that could serve as our minimum frequency.
+
+all within {min_freq, min_freq + k}
+
+
+a: freq(a) < min_freq
+b: freq(b)
+
+if freq(b) < freq(a)
+-> delete freq(b)
+else
+-> delete max(0, freq(b) - freq(a) - k)
 
     a a b c a b a, k = 0
 

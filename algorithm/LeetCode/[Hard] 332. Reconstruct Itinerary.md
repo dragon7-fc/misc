@@ -385,7 +385,7 @@ public:
 
 **Solution 7: (DFS, Euler Path, post order)**
 
-  tickets = [["MUC","LHR"],["JFK","MUC"],["SFO","SJC"],["LHR","SFO"]]
+  tickets = [["JFK","SFO"],["JFK","ATL"],["SFO","ATL"],["ATL","JFK"],["ATL","SFO"]]
 
     SFO
      ^ \ ^ 
@@ -394,13 +394,13 @@ public:
     JFK -> ATL
         <-
 
-    JFK -> ATL -> FJK -> SFO -> ATL -> SFO
+    JFK -> ATL -> JFK -> SFO -> ATL -> SFO
 stk                                    SFO
                                 SFO ATL
                          SFO ATL SFO
-                  SFO ATL SFO FJK
-           SFO ATL SFO FJK ATL
-    SFO ATL SFO FJK ATL JFK
+                  SFO ATL SFO JFK
+           SFO ATL SFO JFK ATL
+    SFO ATL SFO JFK ATL JFK
            <-
 
 

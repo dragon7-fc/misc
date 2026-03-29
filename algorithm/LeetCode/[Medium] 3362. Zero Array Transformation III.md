@@ -9,7 +9,7 @@ Each `queries[i]` represents the following action on `nums`:
 
 A **Zero Array** is an array with all its elements equal to `0`.
 
-Return the **maximum** number of elements that can be removed from `queries`, such that `nums` can still be converted to a **zero array** using the remaining queries. If it is not possible to convert nums to a **zero array**, return `-1`.
+Return the **maximum** number of elements that can be removed from `queries`, such that `nums` can still be converted to a **zero array** using the remaining queries. If it is not possible to convert `nums` to a **zero array**, return `-1`.
 
  
 
@@ -129,7 +129,10 @@ public:
 };
 ```
 
-**Solution 2: (Heap, 1 heap, open close event, least elements cover all range)**
+**Solution 2: (Heap, 1 heap, open close event, least query cover all range, sort query then try get largest covery range with max heap for each position as possible)**
+
+least query cover all array
+-> get largest query cover range as possible
 
     nums = [1,1,1,1], queries = [[1,3],[0,2],[1,3],[1,2]]
 
@@ -141,9 +144,11 @@ nums   1   1   1   1
            ------
        ^
 dp                 -1   -1
-pq     3   4433    4433 433
-       x           x    x
-k      1           1    1
+                        v ans = pq.size()
+pq     3   344     344  34
+       x             x   x
+k      0           0    0
+       1           1    1
 ```
 Runtime: 85 ms, Beats 89.64%
 Memory: 224.00 MB, Beats 94.94%
@@ -154,11 +159,8 @@ public:
     int maxRemoval(vector<int>& nums, vector<vector<int>>& queries) {
         int m = nums.size(), n = queries.size(), i, j = 0, k = 0;
         priority_queue<int> pq;
-        vector<int> dp(m+1);
-        sort(queries.begin(), queries.end(),
-             [](const vector<int>& a, const vector<int>& b) {
-                 return a[0] < b[0];
-             });
+        vector<int> dp(m + 1);
+        sort(queries.begin(), queries.end());
         for (i = 0; i < m; i ++) {
             k += dp[i];
             while (j < n && queries[j][0] == i) {

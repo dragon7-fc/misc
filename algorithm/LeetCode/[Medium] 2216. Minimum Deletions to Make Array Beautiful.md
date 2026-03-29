@@ -34,7 +34,12 @@ Explanation: You can delete nums[0] and nums[5] to make nums = [1,2,2,3] which i
 
 # Submissions
 ---
-**Solution 1: (Greedy)**
+**Solution 1: (Greedy, Effective Index)**
+
+if use dp will need to maintain dp[i][is_odd][last_val]
+                                              ^^^^^^^^^
+                                                10^5   
+
 ```
 Runtime: 231 ms
 Memory Usage: 121.2 MB

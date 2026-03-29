@@ -193,3 +193,40 @@ public:
     }
 };
 ```
+
+**Solution 6: (DP Bottom-Up, bitset)**
+
+                    [       1,       5,       11,       5]
+        bitset
+       9876543210
+     000000000001
+1    000000000011
+6    000001100011
+11   100001100011
+5    100001100011
+
+
+```
+Runtime: 3 ms, Beats 99.38%
+Memory: 14.41 MB, Beats 77.46%
+```
+```c++
+class Solution {
+public:
+    bool canPartition(vector<int>& nums) {
+        int sum = accumulate(nums.begin(), nums.end(), 0);
+        if (sum % 2 != 0) return false;
+        int target = sum / 2;
+
+        // A bitset where bit 'i' is 1 if sum 'i' is possible
+        // Max sum is 200 * 100 = 20,000. Half is 10,000.
+        bitset<10001> dp(1); // bit 0 is initialized to 1 (sum 0 is always possible)
+
+        for (int num : nums) {
+            dp |= (dp << num); // "Cascade" the possible sums using bitwise OR
+        }
+
+        return dp[target];
+    }
+};
+```

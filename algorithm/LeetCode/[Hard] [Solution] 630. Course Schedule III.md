@@ -382,7 +382,7 @@ class Solution:
         return len(heap)
 ```
 
-**Soluttion 5: (Sort, Heap, sort by end time and drop longest duration)**
+**Soluttion 5: (Sort, Heap, sort by end time and try not drop or drop largest duration courses as possible)**
 ```
 Runtime: 28 ms, Beats, 68.70%
 Memory: 60.39 MB, Beats 77.05%
@@ -403,7 +403,7 @@ public:
                 auto d = pq.top();
                 pq.pop();
                 cur -= d;
-                k += 1; 
+                k += 1;  // # drop
             }
         }
         return n - k;

@@ -127,7 +127,7 @@ public:
 };
 ```
 
-**Solution 5: (Binary Serach)**
+**Solution 5: (Binary Serach, binary Search mid value and binary search to count on each row)**
 ```
 Runtime: 0 ms, Beats 100.00%
 Memory: 17.12 MB, Beats 62.99%

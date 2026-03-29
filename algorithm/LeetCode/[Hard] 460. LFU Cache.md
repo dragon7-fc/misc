@@ -474,10 +474,10 @@ Memory: 187.73 MB, Beats 70.90%
 ```c++
 class LFUCache {
     int n, mn = 0;
-    unordered_map<int,list<pair<int,int>>> cnt;
+    unordered_map<int, list<pair<int, int>>> cnt;
     // f -> list{k, v}
-    unordered_map<int,pair<int,list<pair<int,int>>::iterator>> m;
-    // k -> f, list{k, v}->
+    unordered_map<int, pair<int, list<pair<int, int>>::iterator>> m;
+    // k -> (f, list{k, v}->)
 public:
     LFUCache(int capacity) {
         n = capacity;

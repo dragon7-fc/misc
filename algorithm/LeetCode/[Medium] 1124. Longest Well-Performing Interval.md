@@ -73,7 +73,7 @@ class Solution:
         return res
 ```
 
-**Solution 2: (Greedy, Hash Table)**
+**Solution 2: (Tracking the "Score", Greedy, Hash Table, Prefix Sum)**
 
 __Intuition__
 If working hour > 8 hours, yes it's tiring day.

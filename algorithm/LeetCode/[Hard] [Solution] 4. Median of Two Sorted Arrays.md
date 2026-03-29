@@ -303,14 +303,15 @@ public:
 A      x x x x                
        ---m---
        --x x--                       
-       L1  R1                        
+        L1 R1                        
              j((m + n + 1) / 2 - mi) 
 B      x x x x x                     
        ----n----                     
        ----x x--
-       L2    R2
+          L2 R2
 * i + j = (m + n + 1) / 2
 * A[i - 1] <= B[j] && B[j - 1] <= A[i]
+     L1        R2        L2        R1
 
 case 1: (m + n) % 2 == 0
            ----A-----
@@ -415,6 +416,49 @@ public:
             }
         }
 
+        return 0.0;
+    }
+};
+```
+
+**Solution 4: (Binary Search, O(log (min(m, n))), partition arrays and binary search smaller then check median through partition)**
+```
+Runtime: 0 ms, Beats 100.00%
+Memory: 95.18 MB, Beats 62.42%
+```
+```c++
+class Solution {
+public:
+    double findMedianSortedArrays(vector<int>& nums1, vector<int>& nums2) {
+        if (nums1.size() > nums2.size()) {
+            return findMedianSortedArrays(nums2, nums1);
+        }
+
+        int m = nums1.size(), n = nums2.size(), left = 0, right = m, i, j, L1, R1, L2, R2;
+
+        while (left <= right) {
+            i = (left + right) / 2;
+            j = (m + n + 1) / 2 - i;
+
+            L1 = (i == 0) ? INT_MIN : nums1[i - 1];
+            R1 = (i == m) ? INT_MAX : nums1[i];
+            L2 = (j == 0) ? INT_MIN : nums2[j - 1];
+            R2 = (j == n) ? INT_MAX : nums2[j];
+
+            if (L1 <= R2 && L2 <= R1) {
+                if ((m + n) % 2 == 0) {
+                    return (max(L1, L2) +
+                            min(R1, R2)) /
+                           2.0;
+                } else {
+                    return max(L1, L2);
+                }
+            } else if (L1 > R2) {
+                right = i - 1;
+            } else {
+                left = i + 1;
+            }
+        }
         return 0.0;
     }
 };

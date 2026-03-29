@@ -100,11 +100,11 @@ class Solution:
 
 **Solution 2: (Sliding Window)**
 
-                  i
-firstList:     [         ]
-secondList:  [   ]     [   ]
-               j          break
-ans            [ ]     [ ]
+                      i
+firstList:     x------------x  x-------
+secondList:  ---x x-- x-  x---x  ---
+               j             break
+ans            -- --- --  ---
 ```
 Runtime: 20 ms
 Memory: 22.09 MB

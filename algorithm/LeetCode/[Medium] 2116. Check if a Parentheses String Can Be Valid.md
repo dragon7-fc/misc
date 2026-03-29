@@ -212,8 +212,8 @@ step1: forward try 0 = '('
 step2: backward try 0 = ')'
 
 ```
-Runtime: 20 ms
-Memory: 30.08 MB
+Runtime: 17 ms, Beats 29.41%
+Memory: 30.12 MB, Beats 58.64%
 ```
 ```c++
 class Solution {

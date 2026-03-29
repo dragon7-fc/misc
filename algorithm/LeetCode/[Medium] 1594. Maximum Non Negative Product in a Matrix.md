@@ -107,3 +107,47 @@ class Solution:
                     Min[i][j] = max(Max[i - 1][j], Max[i][j - 1]) * grid[i][j]
         return Max[-1][-1] % int(1e9 + 7) if Max[-1][-1] >= 0 else -1
 ```
+
+**Solution 3: (DP Bottom-Up, current max only rekated to previous max or min)**
+```
+Runtime: 0 ms, Beats 100.00%
+Memory: 13.80 MB, Beats 93.05%
+```
+````c++
+class Solution {
+public:
+    int maxProductPath(vector<vector<int>>& grid) {
+        int m = grid.size(), n = grid[0].size(), i, j, MOD = 1e9 + 7;
+        long long ans;
+        vector<vector<long long>> pre(n, vector<long long>(2)), dp(n, vector<long long>(2));
+        for (j = 0; j < n; j ++) {
+            if (j == 0) {
+                pre[j] = {grid[0][j], grid[0][j]};
+            } else {
+                pre[j] = {pre[j - 1][0] * grid[0][j], pre[j - 1][0] * grid[0][j]};
+            }
+        }
+        for (i = 1; i < m; i ++) {
+            for (j = 0; j < n; j ++) {
+                dp[j] = {LONG_LONG_MAX, LONG_LONG_MIN};
+                if (j == 0) {
+                    dp[j][0] = min(pre[j][0] * grid[i][j], pre[j][1] * grid[i][j]);
+                    dp[j][1] = max(pre[j][0] * grid[i][j], pre[j][1] * grid[i][j]);
+                } else {
+                    dp[j][0] = min(dp[j][0], pre[j][0] * grid[i][j]);
+                    dp[j][1] = max(dp[j][1], pre[j][0] * grid[i][j]);
+                    dp[j][0] = min(dp[j][0], pre[j][1] * grid[i][j]);
+                    dp[j][1] = max(dp[j][1], pre[j][1] * grid[i][j]);
+                    dp[j][0] = min(dp[j][0], dp[j - 1][0] * grid[i][j]);
+                    dp[j][1] = max(dp[j][1], dp[j - 1][0] * grid[i][j]);
+                    dp[j][0] = min(dp[j][0], dp[j - 1][1] * grid[i][j]);
+                    dp[j][1] = max(dp[j][1], dp[j - 1][1] * grid[i][j]);
+                }
+            }
+            pre = dp;
+        }
+        ans = pre[n - 1][1];
+        return ans >= 0 ? ans % MOD : -1;
+    }
+};
+```

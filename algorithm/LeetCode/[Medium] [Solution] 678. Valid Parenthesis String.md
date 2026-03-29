@@ -341,7 +341,19 @@ public:
 };
 ```
 
-**Solution 7: (Greedy, open parentheses count range)**
+**Solution 7: (Greedy, Tracking the "Possible" Range, valid open parentheses count range)**
+
+                v
+    ------------x->
+               check
+          hi hi   < all * as (
+       hi
+    hi   
+0   lo lo lo lo   < all * as )
+    lo       lo
+
+        
+
 
          0  1  2  3
     s = "(  *  )  )"
@@ -362,7 +374,7 @@ Memory: 8.18 MB, Beats 47.15%
 class Solution {
 public:
     bool checkValidString(string s) {
-        int lo = 0, hi = 0; // open parentheses count in range [lo, hi]
+        int lo = 0, hi = 0; // possible open parentheses count in range [lo, hi]
         for (char &c: s) {
             if (c == '(') {
                 hi += 1;

@@ -177,13 +177,13 @@ public:
 
 **Solution 3: (Two Pointers)**
 
-              vbvb  vb
-    head = [1,4,3,2,5,2], x = 3
-            ^s    ^s  s
-small_head  1 -> 2 ->  2
-            -----------|
-            v    
-big_head    4 -> 3 -> 5
+                vb vb    vb
+    head = [ 1, 4, 3, 2, 5, 2], x = 3
+            ^s        ^s    ^s
+small_head   1   ->   2  -> 2
+             ---------------|
+             v    
+big_head        4->3  -> 5
 
 ```
 Runtime: 4 ms

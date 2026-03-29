@@ -1,32 +1,42 @@
 757. Set Intersection Size At Least Two
 
-An integer interval `[a, b]` (for integers `a < b`) is a set of all consecutive integers from `a` to `b`, including `a` and `b`.
+You are given a 2D integer array `intervals` where `intervals[i] = [starti, endi]` represents all the integers from starti to endi inclusively.
 
-Find the minimum size of a set S such that for every integer interval A in `intervals`, the intersection of S with A has size at least 2.
+A **containing set** is an array `nums` where each interval from `intervals` has at least two integers in `nums`.
+
+* For example, if `intervals = [[1,3], [3,7], [8,9]]`, then `[1,2,4,7,8,9]` and `[2,3,4,8,9]` are containing sets.
+
+Return the minimum possible size of a containing set.
 
 **Example 1:**
 ```
-Input: intervals = [[1, 3], [1, 4], [2, 5], [3, 5]]
-Output: 3
-Explanation:
-Consider the set S = {2, 3, 4}.  For each interval, there are at least 2 elements from S in the interval.
-Also, there isn't a smaller size set that fulfills the above condition.
-Thus, we output the size of this set, which is 3.
+Input: intervals = [[1,3],[3,7],[8,9]]
+Output: 5
+Explanation: let nums = [2, 3, 4, 8, 9].
+It can be shown that there cannot be any containing array of size 4.
 ```
 
 **Example 2:**
 ```
-Input: intervals = [[1, 2], [2, 3], [2, 4], [4, 5]]
-Output: 5
-Explanation:
-An example of a minimum sized set is {1, 2, 3, 4, 5}.
+Input: intervals = [[1,3],[1,4],[2,5],[3,5]]
+Output: 3
+Explanation: let nums = [2, 3, 4].
+It can be shown that there cannot be any containing array of size 2.
 ```
 
-**Note:**
+**Example 3:**
+```
+Input: intervals = [[1,2],[2,3],[2,4],[4,5]]
+Output: 5
+Explanation: let nums = [1, 2, 3, 4, 5].
+It can be shown that there cannot be any containing array of size 4.
+```
 
-* `intervals` will have length in range `[1, 3000]`.
-* `intervals[i]` will have length `2`, representing some integer interval.
-* `intervals[i][j]` will be an integer in `[0, 10^8]`.
+**Constraints:**
+
+* `1 <= intervals.length <= 3000`
+* `intervals[i].length == 2`
+* `0 <= starti < endi <= 108`
 
 # Solution
 ---
@@ -154,33 +164,48 @@ class Solution:
         return ans
 ```
 
-**Solution 4: (Sort, Greedy, sort by smallest end then largest start, only care about right most 2 point)**
+**Solution 4: (Sort, Greedy, sort by smallest end then largest start, only care about right most 2 point, greedy compare current start with previous end then start)**
+
+case 1: not overlap, ans + 2
+    pst   ped
+              st     ed
+                 pst ped
+
+case 2: overlap, ans + 1
+    pst   ped
+       st            ed
+          pst        ped
+
+case 3: overap, do nothing
+    pst   ped
+ st                  ed
+    pst   ped
+
+    
+
+    intervals = [[1,3],[3,7],[8,9]]
 
                                 ans
       v v
               v v
                 v v
-    1 2 3 4 5 6 7 8, ans = 5
+    1 2 3 4 5 6 7 8 9, ans = 5
     xxxxx
-            xxxxx
         xxxxxxxxx
-                xxx
-pst   x
+                  xxx
+pst       x
 ped     x
                                   2
 ------------------------
-st          x
+st      x    
 ed              x
-pst           x
+pst     x          
 ped             x
-                                 +2
--------------------------
-st      x
-ed              x
--------------------------
-st              x
-ed                x
                                  +1
+-------------------------
+st                x
+ed                  x
+                                 +2
 
 ```
 Runtime: 4 ms, Beats 65.43%

@@ -219,7 +219,7 @@ case 2: 2 child
 
              5
            /   \
-      p> 3x <r  6
+         3x <r  6
         /  \     \
    pn> 2 <  4x     7
         \   v  

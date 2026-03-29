@@ -185,12 +185,17 @@ public:
 };
 ```
 
-**Solution 2: (Mono dec stack, left and right)**
+**Solution 2: (Mono dec stack, mono inc stack track range and min)**
 
-                      x
+    stack
+---------------------
+                    .
+            .       
+          .       .
+    .          Y       
         x      
-               Y
-    x
+                      x
+ x   
         ---------------
         ^left  ^mid   ^right
                       ^i
@@ -283,6 +288,36 @@ public:
         }
 
         return static_cast<int>(sumOfMinimums);
+    }
+};
+```
+
+**Solution 3: (Mono dec stack, expand around center, mono inc stack track local range and min)**
+```
+Runtime: 9 ms, Beats 90.95%
+Memory: 43.35 MB, Beats 98.72%
+```
+```c++
+class Solution {
+public:
+    int sumSubarrayMins(vector<int>& arr) {
+        const int MOD = 1e9 + 7;
+        int n = arr.size(), i, k, left, right, mid;
+        stack<int> stk;
+        long long ans = 0;
+        for (i = 0; i <= n; i ++) {
+            while (!stk.empty() && (i == arr.size() || arr[stk.top()] >= arr[i])) {
+                mid = stk.top();
+                stk.pop();
+                left = stk.empty() ? -1 : stk.top();
+                right = i;
+                k = (mid - left) * (right - mid) % MOD;
+                ans += ((long long)k * arr[mid]) % MOD;
+                ans %= MOD;
+            }
+            stk.push(i);
+        }
+        return ans % MOD;
     }
 };
 ```

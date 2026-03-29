@@ -64,7 +64,32 @@ class Solution:
         return ans
 ```
 
-**Solution 2: (Prefix sum, Binary Search, Math)**
+**Solution 2: (Prefix sum, Binary Search, Math, left sum + right sum)**
+
+ans[i] = sum(abs(nums[i] - q))
+=   sum(q - nums[i]),   if q >= nums[i]
+  + sum(nums[i] - q),   if q < nums[i]
+ 
+    nums = [ 3, 1, 6, 8], queries = [1,5]
+sort         1  3  6  8
+pre          1  4 10 18
+------------------------------------------
+             q
+             i
+leftCnt      0
+rightCnt     4
+left         0
+right       14 
+ans         14
+------------------------------------------
+                 q
+                   i
+leftCnt            2
+rightCnt           2
+left               6
+right              4
+ans               10
+
 ```
 Runtime: 283 ms
 Memory: 78.1 MB
@@ -87,6 +112,81 @@ public:
                 ? 0 
                 : prefix.back() - (i > 0 ? prefix[i - 1] : 0) - rightCnt * q;
             ans[k] = left + right;
+        }
+        return ans;
+    }
+};
+```
+
+**Solution 3: (Prefix sum, Binary Search, Math, left sum + right sum)**
+
+               x
+q            x x
+           x x x
+         x x x x
+         - -----
+pre      0       x
+           i     n
+         q * i - left_sum
+                --------
+                pre[i]
+           right_sum - q * (n - i)
+           ---------
+           pre[n] - pre[i]
+
+    nums = [ 3, 1, 6, 8], queries = [1,5]
+sort         1  3  6  8
+pre          0  1  4 10 18
+-----------------------------
+             q
+left_k       0
+right_k      4
+left         0
+right       14
+ans         14
+-----------------------------
+                  q
+left_k             2
+right_k            2
+left               6
+right              4
+ans               10
+
+
+    nums = [ 2, 9, 6, 3], queries = [10]
+sort         2  3  6  9
+pre          0  2  5 11 20
+------------------------------
+                        q
+left_k                  4
+right_k                 0
+left                   20
+right                   0
+ans                    20
+
+```
+Runtime: 152 ms, Beats 87.25%
+Memory: 83.40 MB, Beats 99.02%
+```
+```c++
+class Solution {
+public:
+    vector<long long> minOperations(vector<int>& nums, vector<int>& queries) {   
+        int m = nums.size(), n = queries.size(), i, j;
+        long long left, right, left_k, right_k;
+        vector<long long> pre(m + 1), ans(n);
+        sort(nums.begin(), nums.end());
+        for (i = 0; i < m; i ++) {
+            pre[i + 1] = nums[i] + pre[i];
+        }
+        for (i = 0; i < n; i ++) {
+            auto &q = queries[i];
+            j = lower_bound(nums.begin(), nums.end(), q) - nums.begin();
+            left_k = j;
+            right_k = m - j;
+            left = left_k * q - pre[j];
+            right = pre[m] - pre[j] - right_k * q;
+            ans[i] = left + right;
         }
         return ans;
     }

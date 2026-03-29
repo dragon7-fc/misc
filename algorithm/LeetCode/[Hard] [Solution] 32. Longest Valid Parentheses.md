@@ -1,20 +1,33 @@
 32. Longest Valid Parentheses
 
-Given a string containing just the characters '(' and ')', find the length of the longest valid (well-formed) parentheses substring.
+Given a string containing just the characters `'('` and `')'`, return the length of the longest valid (well-formed) parentheses **substring**.
+
+ 
 
 **Example 1:**
 ```
-Input: "(()"
+Input: s = "(()"
 Output: 2
-Explanation: The longest valid parentheses substring is "()"
+Explanation: The longest valid parentheses substring is "()".
 ```
 
 **Example 2:**
 ```
-Input: ")()())"
+Input: s = ")()())"
 Output: 4
-Explanation: The longest valid parentheses substring is "()()"
+Explanation: The longest valid parentheses substring is "()()".
 ```
+
+**Example 3:**
+```
+Input: s = ""
+Output: 0
+```
+
+**Constraints:**
+
+* `0 <= s.length <= 3 * 10^4`
+* `s[i]` is `'('`, or `')'`.
 
 # Summary
 ---
@@ -461,7 +474,7 @@ public:
 };
 ```
 
-**Solution 8: (Stack, next top element)**
+**Solution 8: (Stack, Prefix Sum, stack to track previous base index)**
          0  1  2  3  4  5
     s = ")  (  )  (  )  )"
             1  1x 3  3x

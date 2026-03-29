@@ -2,7 +2,7 @@
 
 You are given an array `nums` of length `n`. You are also given an integer `k`.
 
-You perform the following operation on nums once:
+You perform the following operation on `nums` once:
 
 * Select a **subarray**`nums[i..j]` where `0 <= i <= j <= n - 1`.
 * Select an integer `x` and add `x` to all the elements in `nums[i..j]`.
@@ -42,7 +42,7 @@ After adding 8 to nums[1..9], 10 has a frequency of 4 in [10, 10, 11, 12, 13, 13
 
 # Submissions
 ---
-**Solution 1: (Kadane)**
+**Solution 1: (max freq element in one subarray, Kadane)**
 
 Not sure if it's appropriate to name it as Kadane.
 

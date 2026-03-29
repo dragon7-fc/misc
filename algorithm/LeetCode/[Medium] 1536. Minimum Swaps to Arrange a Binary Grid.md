@@ -4,7 +4,7 @@ Given an `n x n` binary `grid`, in one step you can choose two **adjacent rows**
 
 A `grid` is **said** to be **valid** if all the cells above the main diagonal are zeros.
 
-Return the minimum number of steps needed to make the `grid` valid, or **-1** if the `grid` cannot be valid.
+Return the minimum number of steps needed to make the `grid` valid, or `-1` if the `grid` cannot be valid.
 
 The main diagonal of a `grid` is the diagonal that starts at cell `(1, 1)` and ends at cell `(n, n)`.
 
@@ -142,6 +142,24 @@ public:
 ```
 
 **Solution 3: (Greedy, try swap nearest target row)**
+
+x...
+xx..
+x... < nearsest satisfy row
+xxx. < original row can still serve future requirement
+
+if a row can satisfy row i
+-> it can satisfy row i + 1
+-> greedy
+
+i                           0   1   2
+                      right
+    grid = [[0,0,1],    2    
+            [1,1,0],    1   2
+            [1,0,0]]    0   1   2
+
+ans                         2  +1
+
 ```
 Runtime: 0 ms, Beats 100.00%
 Memory: 30.04 MB, Beats 41.46%

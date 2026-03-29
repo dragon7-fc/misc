@@ -52,7 +52,7 @@ class Solution:
         
 ```
 
-**Solution 2: (Two Pointers)**
+**Solution 2: (Two Pointers, linear scan and check relative position)**
 
 XL -> LX
 => L to left

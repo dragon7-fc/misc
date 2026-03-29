@@ -125,30 +125,27 @@ class Solution:
         return False
 ```
 
-**Solution 5: (Binary Search, two pointes)**
+**Solution 5: (Binary Search, two pointes, search from corner)**
 ```
-Runtime: 196 ms
-Memory Usage: 14.8 MB
+Runtime: 46 ms, Beats 84.77%
+Memory: 18.69 MB, Beats 67.36%
 ```
 ```c++
 class Solution {
 public:
     bool searchMatrix(vector<vector<int>>& matrix, int target) {
-        int m = matrix.size();
-        int n = matrix[0].size();
-        
-        int i = m - 1;
-        int j = 0;
-        
-        while (i>=0 && j<n){
-            
-            if (matrix[i][j] == target) return true;
-            
-            else if (matrix[i][j] < target) j++;
-            
-            else i--;
+        int m = matrix.size(), n = matrix[0].size(), i = m - 1, j = 0;
+        while (i >= 0 && j < n) {
+            if (matrix[i][j] == target) {
+                return true;
+            } else if (matrix[i][j] < target) {
+                j += 1;
+            } else {
+                i -= 1;
+            }
         }
         return false;
+
     }
 };
 ```

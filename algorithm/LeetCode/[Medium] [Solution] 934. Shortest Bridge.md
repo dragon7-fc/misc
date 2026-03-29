@@ -1,11 +1,14 @@
 934. Shortest Bridge
 
-n a given 2D binary array `A`, there are two islands.  (An island is a 4-directionally connected group of 1s not connected to any other 1s.)
+You are given an `n x n` binary matrix `grid` where 1 represents land and `0` represents water.
 
-Now, we may change `0`s to `1`s so as to connect the two islands together to form 1 island.
+An island is a 4-directionally connected group of `1`'s not connected to any other `1`'s. There are exactly two islands in `grid`.
 
-Return the smallest number of `0`s that must be flipped.  (It is guaranteed that the answer is at least `1`.)
+You may change `0`'s to `1`'s to connect the two islands to form one island.
 
+Return the smallest number of `0`'s you must flip to connect the two islands.
+
+ 
  
 
 **Example 1:**

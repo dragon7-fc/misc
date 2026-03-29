@@ -112,9 +112,30 @@ public:
 
 **Solution 3: (Hash Table)**
 
-equal row
--> all element equal to row[0]
+question:
+0 0 0
+0 0 1
+1 1 0
+
+v vflip
+1 1 0
+1 1 1 < all equal
+0 0 0 < all equal
+
+max row same value
+-> pick col[0] as reference, convert every row to pattern
 -> row pattern match
+
+
+    Input: [[0,0,0],
+             T T T
+            [0,0,1],
+             T T F
+            [1,1,0]]
+             T T F
+patternFrequency
+T T T: 1
+T T F: 2 < ans
 
 ```
 Runtime: 20 ms

@@ -323,7 +323,7 @@ class Solution:
         return False
 ```
 
-**Solution 2; (Prefix sum, Stack)**
+**Solution 2; (Prefix sum, Stack, previous left min to filter backward mono dec stack)**
 
     nums = [-1, 3, 2, 0]
                    i
@@ -359,28 +359,28 @@ public:
 };
 ```
 
-**Solution 3: (Prefix sum, Stack, space: O(1))**
+**Solution 3: (Prefix sum, Stack, space: O(1), current value to filer backward mono dec stack and track right min)**
 
     nums = [-1,3, 2, 0]
              i
-stk            3  1  0
+stk            3  2  0
 pre            2  0  ~
 ans          x  
 ```
-Runtime: 114 ms
-Memory: 66.8 MB
+Runtime: 5 ms, Beats 93.36%
+Memory: 70.82 MB, Beats 21.59%
 ```
 ```c++
 class Solution {
 public:
     bool find132pattern(vector<int>& nums) {
         stack<int> st;
-        int pre = INT_MIN, n = nums.size();
-        for(int i=n-1;i>-1;i--)
-        {
-            if (nums[i] < pre) return true;
-            while (!st.empty() && st.top() < nums[i])
-            {
+        int n = nums.size(), i, pre = INT_MIN;
+        for (i = n - 1; i >= 0; i --) {
+            if (nums[i] < pre) {
+                return true;
+            }
+            while (!st.empty() && st.top() < nums[i]) {
                 pre = st.top();
                 st.pop();
             }

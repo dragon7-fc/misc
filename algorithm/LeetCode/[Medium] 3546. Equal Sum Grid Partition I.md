@@ -45,39 +45,44 @@ No horizontal or vertical cut results in two non-empty sections with equal sums.
 ---
 **Solution 1: (Prefix Sum)**
 ```
-Runtime: 10 ms, Beats 54.06%
-Memory: 130.52 MB, Beats 46.62%
+Runtime: 4 ms, Beats 91.73%
+Memory: 126.43 MB, Beats 85.61%
 ```
 ```c++
 class Solution {
 public:
     bool canPartitionGrid(vector<vector<int>>& grid) {
         int m = grid.size(), n = grid[0].size(), i, j;
-        long long a = 0, left, right;
-        vector<long long> dpr(m), dpc(n);
+        long long left, right = 0, target;
         for (i = 0; i < m; i ++) {
             for (j = 0; j < n; j ++) {
-                a += grid[i][j];
-                dpr[i] += grid[i][j];
-                dpc[j] += grid[i][j];
+                right += grid[i][j];
+            }
+        }
+        if (right % 2) {
+            return false;
+        }
+        target = right / 2;
+        left = 0;
+        for (i = 0; i < m - 1; i ++) {
+            for (j = 0; j < n; j ++) {
+                left += grid[i][j];
+            }
+            if (left == target) {
+                return true;
+            } else if (left > target) {
+                break;
             }
         }
         left = 0;
-        right = a;
-        for (i = 0; i < m-1; i ++) {
-            left += dpr[i];
-            right -= dpr[i];
-            if (left == right) {
-                return true;
+        for (j = 0; j < n - 1; j ++) {
+            for (i = 0; i < m; i ++) {
+                left += grid[i][j];
             }
-        }
-        left = 0;
-        right = a;
-        for (j = 0; j < n-1; j ++) {
-            left += dpc[j];
-            right -= dpc[j];
-            if (left == right) {
+            if (left == target) {
                 return true;
+            } else if (left > target) {
+                break;
             }
         }
         return false;

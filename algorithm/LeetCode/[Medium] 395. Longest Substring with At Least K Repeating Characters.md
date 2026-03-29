@@ -24,6 +24,12 @@ Output:
 The longest substring is "ababb", as 'a' is repeated 2 times and 'b' is repeated 3 times.
 ```
 
+**Constraints:**
+
+* `1 <= s.length <= 10^4`
+* `s` consists of only lowercase English letters.
+* `1 <= k <= 10^5`
+
 # Submissions
 ---
 **Solution: (Sliding Window)**
@@ -154,6 +160,9 @@ public:
 
 **Solution 4: (Sliding Window, brute force over uniq char)**
 
+    every character in **T** appears no less than k times
+-> brute force substring uniq char
+
                      0 1 2 3 4 5
                 s = "a b a b b c", k = 2
 -------------------------------------------
@@ -177,7 +186,7 @@ b                      1   2 3
 c                              1
 unique:              1 2       3
 countAtLeastK:           1 2
-ans                      3 4 5
+ans                        4 5
 -------------------------------------------
 currUnique: 3
 windowStart:         x

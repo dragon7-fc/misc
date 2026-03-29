@@ -279,12 +279,12 @@ int* exclusiveTime(int n, char ** logs, int logsSize, int* returnSize){
 
 function
 1           [------]
-0       [----]      []
+0       [--->       []
         0 1 2 3 4 5 6
-        ^p  ^cur
+        ^p  ^cur: start
         ===
         cur - pre
-            ^p    ^cur
+            ^p    ^cur: end
             =======
             cur - pre + 1
 stk                             // id, start, exec
@@ -302,7 +302,7 @@ ans
 function
 0                   []
             [------]
-        [--]          [] 
+        [--->         [] 
         0 1 2 3 4 5 6 7 
 stk
             0,2,0 0,2.4x
@@ -315,12 +315,12 @@ ans
 0                 4 5 8  
     
 ----------------------------------------------------------------------------------------
-    Input: n = 2, logs = ["0:start:0","0:start:2","0:end:5","1:start:6","1:end:6","0:end:7"]
+    n = 2, logs = ["0:start:0","0:start:2","0:end:5","1:start:6","1:end:6","0:end:7"]
 
 function
 1                   []
 0           [------]
-        [--]          []
+        [--->         []
         0 1 2 3 4 5 6 7
 stk
 1           1,2,0 1,2,4x
