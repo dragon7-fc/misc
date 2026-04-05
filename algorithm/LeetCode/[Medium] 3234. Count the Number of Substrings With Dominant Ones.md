@@ -311,6 +311,8 @@ public:
                 if (cnt0 * cnt0 <= cnt1) {
                     res += min(j - pre[j], cnt1 - cnt0 * cnt0 + 1);
                 }
+                //            -----------  ------------------
+                //                all         dominant one               
                 j = pre[j];
                 cnt0++;
             }

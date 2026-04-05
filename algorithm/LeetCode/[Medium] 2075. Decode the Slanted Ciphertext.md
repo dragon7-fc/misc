@@ -87,3 +87,27 @@ class Solution:
                 i += cols + 1
         return ''.join(res).rstrip()
 ```
+
+**Solution 2: (Array)**
+```
+Runtime: 27 ms, Beats 71.19%
+Memory: 41.61 MB, Beats 70.34%
+```
+```c++
+class Solution {
+public:
+    string decodeCiphertext(string encodedText, int rows) {
+        int m = rows, n = encodedText.size() / rows, i, j, j0;
+        string ans;
+        for (j0 = 0; j0 < n; j0++) {
+            for (i = 0, j = j0; i < m && j < n; i++, j++) {
+                ans += encodedText[i * n + j];
+            }
+        }
+        while (ans.size() && ans.back() == ' ') {
+            ans.pop_back();
+        }
+        return ans;
+    }
+};
+```

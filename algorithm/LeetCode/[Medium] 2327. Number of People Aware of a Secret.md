@@ -134,11 +134,47 @@ public:
 ```
 
 
-**Solution 5: (DP Bottom-Up)**
+**Solution 5: (DP Bottom-Up, prefix sum from a range)**
 
-dp  0 1     vexit      venter
-            xxxxxxxxxxxx
+dp[i] = sum(dp[i - forget + 1] + ... + dp[i - delay])
+            
+dp  0 1     vexit      venter     i
+                       ----------
+                          delay
+            ---------------------
+                    forget
+            xxxxxxxxxxx
                window
+
+    n = 6, delay = 2, forget = 4
+
+        1 2 3 4 5 6   from
+A       x
+B           x         A
+C             x       A
+D               x     B
+E                 x   B
+F                 x   C
+ans   0 1 0 1 1 1 2
+            -------
+              ans
+
+
+----------------------------------
+    n = 4, delay = 1, forget = 3
+
+        1 2 3 4       from
+A       x
+B         x           A
+C           x         A
+D           x         B
+E             x       B 
+F             x       C
+G             x       D
+ans   0 1 1 2 3
+          -----
+           ans
+
 ```
 Runtime: 0 ms, Beats 100.00%
 Memory: 9.53 MB, Beats 39.85%

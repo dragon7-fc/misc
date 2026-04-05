@@ -63,3 +63,29 @@ class Solution:
         c = collections.Counter(moves)
         return True if c['U'] == c['D'] and c['L'] == c['R'] else False
 ```
+
+**Solution 2: (Counter)**
+```
+Runtime: 0 ms, Beats 100.00%
+Memory: 10.29 MB, Beats 76.78%
+```
+```c++
+class Solution {
+public:
+    bool judgeCircle(string moves) {
+        int cnt = 0;
+        for (auto &c: moves) {
+            if (c == 'L') {
+                cnt += 1;
+            } else if (c == 'R') {
+                cnt -= 1;
+            } else if (c == 'U') {
+                cnt += (1 << 20);
+            } else {
+                cnt -= (1 << 20);
+            }
+        }
+        return cnt == 0;
+    }
+};
+```

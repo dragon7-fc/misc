@@ -113,17 +113,17 @@ public:
 };
 ```
 
-**Solution 2: (Prefix Sum, left and right)**
+**Solution 2: (Prefix Sum, left and right, try fill current duration to previous or future capable slot)**
 
     eventTime = 10, startTime = [0,3,7,9], endTime = [1,4,8,10]
 
               v
-        --    --      --  --
+        ---   ---     --- ----
         0 1 2 3 4 5 6 7 8 9 10
-right      2      3      1   0
-           3      3      1   0
+right      2      3     1   0
+           3      3     1   0
                   ^
-left  0    2      3      3   3
+left  0    2      3     3   3
       ^
 
 ```

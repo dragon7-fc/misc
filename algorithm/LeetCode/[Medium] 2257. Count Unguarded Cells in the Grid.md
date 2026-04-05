@@ -328,6 +328,15 @@ public:
 ```
 
 **Solution 6: (Graph, pattern mask)**
+
+    m = 4, n = 6, guards = [[ 0, 0],[1,1],[2,3]], walls = [[0,1],[2,2],[1,4]]
+
+g   0  1  2  3  4  5
+0  x2 -2     .
+1   . x2  .  . -2
+2   .  . -2 x2  .  .
+3   .  .     .
+
 ````
 Runtime: 48 ms, Beats 87.16%
 Memory: 173.24 MB, Beats 48.17%

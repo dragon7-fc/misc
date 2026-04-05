@@ -200,6 +200,15 @@ public:
 ```
 
 **Solution 6: (Two Pointer, Sliding Window, Prefix Sumj)**
+
+xxxxxxxxxxxxxxxa         a + b <= upper
+xxxxxxxx                 a + b <= lower - 1
+0       lower  upper
+        --------
+        lower <= a + b <= upper
+        = (a + b <= upper) - (a + b <= lower - 1)
+
+
 ```
 Runtime: 39 ms, Beats 70.74%
 Memory: 71.64 MB, Beats 71.83%

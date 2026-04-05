@@ -263,7 +263,7 @@ class Solution:
 ```
 * [Medium] 36. Valid Sudoku
 
-### right rotate = iterative left rotate
+### right rotate = iterative left rotate update
 ```c++
 class Solution {
 public:
@@ -14441,6 +14441,12 @@ def binaryToGray(self, n: int) -> int:
     // (x & -x) == x;
 ```
 
+**Template 5: (modular multiplicative inverse)**
+```
+    p = 1e9 + 7  // prime
+    a^(-1) (mod p) = a^(p - 2)
+```
+
 ## Sort <a name="sort"></a>
 ---
 ### Max Match, Sort, Two Pointers, not need try for binary search
@@ -16356,7 +16362,7 @@ public:
 ```
 * [Medium] 1353. Maximum Number of Events That Can Be Attended
 
-### Greedy 2 heap, working and free queue
+### Greedy 2 heap, iterate every task then working heap track earlest free time server and free heap track smallest weight server
 ```c++
 class Solution {
 public:
@@ -16533,7 +16539,7 @@ public:
 ```
 * [Hard] 407. Trapping Rain Water II
 
-### Two Heaps, Min and Max Heap
+### Two Heaps, max -> min -> max hep
 ```python
 class MedianFinder:
 
@@ -16899,7 +16905,7 @@ class Solution:
 ```
 * [Hard] [Solution] 864. Shortest Path to Get All Keys
 
-### Hash Table, Sort by x and filter by sorted y, Counter, open close event
+### Hash Table, Sort by x and filter by sorted y, Counter, open close event, sequencially scan x and add point when y changed
 ```c++
 class Solution {
 public:
@@ -16987,7 +16993,7 @@ class Solution:
 ```
 * [Hard] [Solution] 675. Cut Off Trees for Golf Event
 
-### earliest unoccupied meeting room 
+### earliest unoccupied meeting room, min heap track earlest free and smallest meeting room
 ```c++
 class Solution {
 public:
@@ -17492,7 +17498,7 @@ public:
 ```
 * [Hard] 1579. Remove Max Number of Edges to Keep Graph Fully Traversable
 
-### MST Kruskalover max edge
+### MST Kruskal over max edge
 ```c++
 lass Solution {
     int find(int x, vector<int> &p) {
@@ -17658,7 +17664,7 @@ public:
 ```
 * [Medium] 1888. Minimum Number of Flips to Make the Binary String Alternating
 
-### sort, prefix sum, count range pair
+### sort, prefix sum, count range pair = prefix count upper range - lower range
 ```c++
 class Solution {
     long long countLess(vector<int>& nums, int val) {
@@ -17680,7 +17686,7 @@ public:
 ```
 * [Medium] 2563. Count the Number of Fair Pairs
 
-### sort, prefix sum, count element in range
+### sort, prefix sum, count element in range = prefix right - prefix (right - x)
 ```c++
 class Solution {
 public:
@@ -17760,7 +17766,7 @@ public:
 ```
 * [Medium] 3234. Count the Number of Substrings With Dominant Ones
 
-### DP Bottom-Up with Sliding Window
+### DP Bottom-Up with Sliding Window, prefix sum from a range
 ```c++
 class Solution {
 public:
@@ -17794,7 +17800,7 @@ public:
 ```
 * [Medium] 2327. Number of People Aware of a Secret
 
-### Prefix Sum, left and right
+### Prefix Sum, left and right, try fill current duration to previous or future capable slot
 ```c++
 class Solution {
 public:
@@ -17820,7 +17826,7 @@ public:
 ```
 * [Medium] 3440. Reschedule Meetings for Maximum Free Time II
 
-### one event at a time, ordered
+### one event at a time, ordered, max(local range - occupied duration)
 ```c++
 class Solution {
 public:
@@ -18244,7 +18250,7 @@ class Solution:
 ```
 * [Medium] 1358. Number of Substrings Containing All Three Characters
 
-### Deque, mono stack
+### Deque, mono inc stack, prefix sum, try every position with deqeue to bound range sum and mono inc stack for prefix sum
 ```c++
 class Solution {
 public:
@@ -18271,7 +18277,7 @@ public:
 ```
 * [Hard] 862. Shortest Subarray with Sum at Least K
 
-### Two Deques
+### Two Deques, try every position with mono inc and dec stack bounded range
 ```c++
 class Solution {
 public:
@@ -19960,7 +19966,7 @@ class Solution:
 ```
 * [Hard] [Solution] 862. Shortest Subarray with Sum at Least K
 
-### Decreasing deque index
+### Decreasing deque index, try every index through mono dec deque
 ```c++
 class Solution {
 public:
@@ -20144,7 +20150,7 @@ return dfs(0, N-1)
 
 ## Line Sweep <a name="ls"></a>
 ---
-### patten mask, close area
+### patten mask, simulation, expand from center
 ```c++
 class Solution {
 public:
@@ -20219,7 +20225,7 @@ class Solution:
 ```
 * [Medium] 1589. Maximum Sum Obtained of Any Permutation
 
-### Greedy, open close event
+### Greedy, open close event, prefix sum, sequencially check open event to update answer or close event to update prefix max
 ```c++
 class Solution {
 public:

@@ -94,7 +94,7 @@ public:
 };
 ```
 
-**Solution 3: (Greedy)**
+**Solution 3: (Greedy, open close event, sequencially check open event to update answer or close event to update prefix max)**
 
     events = [[1,3,2],[4,5,2],[2,4,3]]
 
@@ -102,9 +102,13 @@ public:
         ---2---
                  -2--
            --3----
+dp
+2       1        0
+3          1        0
+2                1     0
 
-cur  0       2   3 
-ans     2  3     4 < ans
+cur  0           2  3
+ans     2  3     4 <ans    
 
 ```
 Runtime: 107 ms

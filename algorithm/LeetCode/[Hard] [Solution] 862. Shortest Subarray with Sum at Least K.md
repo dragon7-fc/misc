@@ -184,7 +184,9 @@ public:
 };
 ```
 
-**Solution 5: (Deque, mono stack, prefix sum)**
+**Solution 5: (Deque, mono inc stack, prefix sum)**
+
+    A = [2,-1,2], K = 3
 
              v
     2 -1  2

@@ -96,7 +96,7 @@ public:
 };
 ```
 
-**Solution 2: (Sliding Window)**
+**Solution 2: (Sliding Window, max(local range - occupied duration))**
 
     eventTime = 10, k = 1, startTime = [0,2,9], endTime = [1,4,10]
 

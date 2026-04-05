@@ -74,3 +74,32 @@ public:
     }
 };
 ```
+
+**Solution 2: (Counter, counting sort)**
+```
+Runtime: 0 ms, Beats 100.00%
+Memory: 19.57 MB, Beats 84.48%
+```
+```c++
+class Solution {
+public:
+    bool checkStrings(string s1, string s2) {
+        int n = s1.size(), i;
+        vector<int> pre(26), dp(26);
+        for (i = 0; i < n; i += 2) {
+            pre[s1[i] - 'a'] += 1;
+            dp[s2[i] - 'a'] += 1;
+        }
+        if (pre != dp) {
+            return false;
+        }
+        fill(pre.begin(), pre.end(), 0);
+        fill(dp.begin(), dp.end(), 0);
+        for (i = 1; i < n; i += 2) {
+            pre[s1[i] - 'a'] += 1;
+            dp[s2[i] - 'a'] += 1;
+        }
+        return pre == dp;
+    }
+};
+```

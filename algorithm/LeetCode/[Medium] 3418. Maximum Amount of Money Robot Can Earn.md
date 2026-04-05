@@ -59,11 +59,39 @@ Move to (1, 2), gaining the final 10 coins (total coins = 30 + 10 = 40).
 ---
 **Solution 1: (DP Bottom-Up)**
 
+             j-1          j
+
+           
+i-1,k=0                   x
+    k=1                   x+
+    k=2
+  i,k=0       x
+    k=1       x+     dp[i][j][k]
+    k=2
+  
+
 dp[i][j][k] = max(dp[i][j][k], 
                 dp[i-1][j][k] + coins[i][j], 
                 dp[i][j-1][k] + coins[i][j])
                 dp[i-1][][k-1],
                 dp[i][j-1][k-1])
+
+
+    coins = [[ 0, 1,-1],
+               0  1 -1
+               ^  ^
+               0  1  1
+               0  1  1
+             [ 1,-2, 3],
+               1 -1  2
+               0  1  4
+                  ^  ^
+               0  1  4
+             [ 2,-3, 4]]
+               3  0  6
+               2  3  8 
+               0  2  8
+                     ^
 
 ```
 Runtime: 420 ms
@@ -74,10 +102,10 @@ class Solution {
 public:
     int maximumAmount(vector<vector<int>>& coins) {
         int m = coins.size(), n = coins[0].size(), i, j, k;
-        vector<vector<vector<int>>> dp(m, vector<vector<int>>(n, vector<int>(3, INT_MIN)));
+        vector<vector<vector<int>>> dp(m, vector<vector<int>>(n, vector<int>(3, INT_MIN / 2)));
         dp[0][0][0] = coins[0][0];
-        dp[0][0][1] = 0;
-        dp[0][0][2] = 0;
+        dp[0][0][1] = max(coins[0][0], 0);
+        dp[0][0][2] = max(coins[0][0], 0);
         for (i = 1; i < m; i ++) {
             for (k = 0; k <= 2; k ++) {
                 dp[i][0][k] = dp[i-1][0][k] + coins[i][0];
@@ -106,7 +134,74 @@ public:
                 }
             }
         }
-        return *max_element(dp[m-1][n-1].begin(), dp[m-1][n-1].end());
+        return dp[m-1][n-1][2];
+    }
+};
+```
+
+**Solution 2: (DP Bottom-Up, 1-D)**
+```
+Runtime: 143 ms, Beats 81.70%
+Memory: 107.34 MB, Beats 92.34%
+```
+```c++
+class Solution {
+public:
+    int maximumAmount(vector<vector<int>>& coins) {
+        int m = coins.size(), n = coins[0].size(), i, j, k, x;
+        vector<vector<int>> pre(n + 1, vector<int>(3, INT_MIN / 2)), dp(n + 1, vector<int>(3, INT_MIN / 2));
+        pre[0][0] = 0;
+        pre[0][1] = 0;
+        pre[0][2] = 0;
+        for (j = 0; j < n; j ++) {
+            for (k = 0; k <= 2; k ++) {
+                pre[j + 1][k] = pre[j][k] + coins[0][j];
+                if (k) {
+                    pre[j + 1][k] = max(pre[j + 1][k], pre[j][k - 1]);
+                }
+            }
+        }
+        for (i = 1; i < m; i ++) {
+            for (j = 0; j < n; j ++) {
+                x = coins[i][j];
+                dp[j + 1][0] = max(pre[j + 1][0] + x, dp[j][0] + x);
+                dp[j + 1][1] = max({pre[j + 1][1] + x, dp[j][1] + x, pre[j + 1][0], dp[j][0]});
+                dp[j + 1][2] = max({pre[j + 1][2] + x, dp[j][2] + x, pre[j + 1][1], dp[j][1]});
+            }
+            pre = dp;
+        }
+        return pre[n][2];
+    }
+};
+```
+
+**Solution 3: (DP Bottom-Up, 1-D optimized)**
+```
+Runtime: 76 ms, Beats 89.36%
+Memory: 106.53 MB, Beats 96.17%
+```
+```c++
+class Solution {
+public:
+    int maximumAmount(vector<vector<int>>& coins) {
+        int n = coins[0].size();
+        vector dp(n + 1, vector<int>(3, INT_MIN / 2));
+
+        for (int i = 0; i < 3; i++) {
+            dp[1][i] = 0;
+        }
+        for (auto &row : coins) {
+            for (int j = 1; j <= n; j++) {
+                int x = row[j - 1];
+                dp[j][2] = max(
+                    {dp[j - 1][2] + x, dp[j][2] + x, dp[j - 1][1], dp[j][1]});
+                dp[j][1] = max(
+                    {dp[j - 1][1] + x, dp[j][1] + x, dp[j - 1][0], dp[j][0]});
+                dp[j][0] = max(dp[j - 1][0], dp[j][0]) + x;
+            }
+        }
+
+        return dp[n][2];
     }
 };
 ```
