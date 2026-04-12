@@ -149,7 +149,7 @@ public:
  */
 ```
 
-**Solution 3: (Hash Table)**
+**Solution 3: (Counter)**
 ```
 Runtime: 21 ms
 Memory: 19.5 MB

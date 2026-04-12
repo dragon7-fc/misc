@@ -53,19 +53,19 @@ Finally, the XOR of all elements is 4 ^ 18 ^ 2 ^ 15 ^ 4 = 31.
 ---
 **Solution 1: (Brute Force)**
 ```
-Runtime: 63 ms, Beats 68.19%
-Memory: 158.20 MB, Beats 56.87%
+Runtime: 59 ms, Beats 68.90%
+Memory: 158.02 MB, Beats 73.21%
 ```
 ```c++
 class Solution {
 public:
     int xorAfterQueries(vector<int>& nums, vector<vector<int>>& queries) {
-        int n = nums.size(), i, l, r, k, v, MOD = 1e9 + 7;
+        int n = nums.size(), i, MOD = 1e9 + 7;
         for (auto &q: queries) {
-            l = q[0];
-            r = q[1];
-            k = q[2];
-            v = q[3];
+            int &l = q[0];
+            int &r = q[1];
+            int &k = q[2];
+            int &v = q[3];
             i = l;
             while (i <= r) {
                 nums[i] = (1LL * nums[i] * v) % MOD;

@@ -80,7 +80,20 @@ class Solution:
         return left + 1
 ```
 
-**Solution 2: (Binary Search)**
+**Solution 2: (Math, Binary Search)**
+
+num                  x
+num-1             x  x  x
+                  x  x  x
+num-index   x     x  x  x      
+            x     x  x  x      x < num - n + index + 1
+            x     x  x  x      x
+            0 1 ...  index ... n-1
+            -----------
+                left
+                    -------------
+                        right
+
 ```
 Runtime: 0 ms
 Memory: 6.1 MB

@@ -145,42 +145,36 @@ class Solution:
 
 **Solution 3: (Simulation)**
 ```
-Runtime: 68 ms
-Memory: 38.89 MB
+Runtime: 19 ms, Beats 83.47% 
+Memory: 36.80 MB, Beats 87.20%
 ```
 ```c++
 class Solution {
-    int d[5] = {0, 1, 0, -1, 0};
-    int cd;
+    const int dd[5] = {0, 1, 0, -1, 0};
 public:
     int robotSim(vector<int>& commands, vector<vector<int>>& obstacles) {
         unordered_set<int> visited;
-        for (auto v: obstacles) {
-            visited.insert(v[0]*60001 + v[1]);
+        for (auto &obs: obstacles) {
+            visited.insert(obs[0] * 60001 + obs[1]);
         }
-        int cx = 0, cy = 0, nx, ny, ans = 0;
-        cd = 0;
-        for (auto  c: commands) {
+        int d = 0, x = 0, y = 0, nx, ny, ans = 0;
+        for (auto  &c: commands) {
             if (c == -1) {
-                cd = (cd+1)%4;
-                nx = cx + d[cd];
-                ny = cy + d[cd+1];
+                d = (d + 1) % 4;
             } else if (c == -2) {
-                cd = (cd-1+4)%4;
-                nx = cx + d[cd];
-                ny = cy + d[cd+1];
+                d = (d - 1 + 4) % 4;
             } else {
                 while (c) {
-                    nx = cx + d[cd];
-                    ny = cy + d[cd+1];
-                    if (visited.count(60001*nx + ny)) {
+                    nx = x + dd[d];
+                    ny = y + dd[d + 1];
+                    if (visited.count(nx * 60001 + ny)) {
                         break;
                     }
-                    ans = max(ans, nx*nx + ny*ny);
-                    cx = nx;
-                    cy = ny;
+                    x = nx;
+                    y = ny;
                     c -= 1;
                 }
+                ans = max(ans, x * x + y * y);
             }
         }
         return ans;

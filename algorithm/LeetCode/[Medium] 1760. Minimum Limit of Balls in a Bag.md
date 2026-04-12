@@ -67,6 +67,16 @@ class Solution:
 ```
 
 **Solution 2: (Binary Search)**
+
+    nums = [9], maxOperations = 2
+
+    1 2 3 4 5 6 7 8 9
+    l       m       h
+    l m   h               x
+        lmh
+          lhm             x
+        h l
+
 ```
 Runtime: 27 ms
 Memory: 59.79 MB

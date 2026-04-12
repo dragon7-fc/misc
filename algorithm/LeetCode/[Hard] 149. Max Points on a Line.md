@@ -97,3 +97,42 @@ class Solution:
             result = max(result, max(cnt.values()) + 1)
         return result
 ```
+
+**Solution 3: (Brute Force, Hash Table)**
+```
+Runtime: 32 ms, Beats 50.12%
+Memory: 19.69 MB, Beats 41.58%
+```
+```c++
+class Solution {
+public:
+    int maxPoints(vector<vector<int>>& points) {
+        int n = points.size(), i, j, xi, xj, yi, yj, ans = 2;
+        double slope;
+        if (n == 1) {
+            return 1;
+        }
+        unordered_map<double, int> cnt;
+        for (i = 0; i < n; i++) {
+            xi = points[i][0];
+            yi = points[i][1];
+            cnt.clear();
+            for (j = 0; j < n; j++) {
+                if (j == i) {
+                    continue;
+                }
+                xj = points[j][0];
+                yj = points[j][1];
+                if (xj == xi) {
+                    slope = 100000;
+                } else {
+                    slope = (double)(yj - yi) / (xj - xi);
+                }
+                cnt[slope] += 1;
+                ans = max(ans, cnt[slope] + 1);
+            }
+        }
+        return ans;
+    }
+};
+```

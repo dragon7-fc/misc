@@ -143,7 +143,22 @@ public:
 };
 ```
 
-**Solution 2: (BFS)**
+**Solution 2: (BFS, try bfs from every building, O(B * M * N), building << empty cell)**
+
+    grid = [[ B . x . B],
+total           1   5    < sum of all building to each empty cell
+                7   6
+               10   9
+            [ . . . . .],
+              1 2 3 4 5
+              6 6 6 6 6
+              9 8 7 8 9
+                  ^ans
+            [ . . B . .]]
+              2 3   5 6
+              8 8   8 8
+             10 9   9 10
+
 ```
 Runtime: 151 ms, Beats 95.15%
 Memory: 48.82 MB, Beats 86.69%

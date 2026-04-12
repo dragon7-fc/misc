@@ -83,3 +83,128 @@ class Robot:
 # param_2 = obj.getPos()
 # param_3 = obj.getDir()
 ```
+
+**Solution 2: (Simulation)**
+
+
+h-1 W W . W N
+h-2 S       N 
+    S       .
+1   .       N
+0   S E E . E
+    0      w-1
+
+```
+Runtime: 72 ms, Beats 18.10%
+Memory: 127.39 MB, Beats 93.10%
+```
+```c++
+class Robot {
+    vector<tuple<int, int, string>> dd = {{1, 0, "East"}, {0, 1, "North"}, {-1, 0, "West"}, {0, -1, "South"}};
+    int w, h, x, y, d;
+public:
+    Robot(int width, int height) {
+        w = width;
+        h = height;
+        x = 0;
+        y = 0;
+        d = 0;
+    }
+    
+    void step(int num) {
+        int nx, ny;
+        num %= (w + h) * 2 - 4;
+        while (num) {
+            nx = x + get<0>(dd[d]);
+            ny = y + get<1>(dd[d]);
+            if (nx < 0 || nx >= w || ny < 0 || ny >= h) {
+                d = (d + 1) % 4;
+                continue;
+            }
+            num -= 1;
+            x = nx;
+            y = ny;
+        }
+        // special case
+        if (x == 0 && y == 0) {
+            d = 3;
+        }
+    }
+    
+    vector<int> getPos() {
+        return {x, y};
+    }
+    
+    string getDir() {
+        return get<2>(dd[d]);
+    }
+};
+
+/**
+ * Your Robot object will be instantiated and called as such:
+ * Robot* obj = new Robot(width, height);
+ * obj->step(num);
+ * vector<int> param_2 = obj->getPos();
+ * string param_3 = obj->getDir();
+ */
+```
+
+**Solution 3: (Prefix Sum, 1D)**
+```
+Runtime: 31 ms, Beats 62.07%
+Memory: 128.12 MB, Beats 41.38%
+```
+```c++
+class Robot {
+    bool moved = false;
+    int idx = 0;
+    vector<pair<int, int>> pos;
+    vector<int> dir;
+    unordered_map<int, string> to_dir = {
+        {0, "East"}, {1, "North"}, {2, "West"}, {3, "South"}};
+public:
+    Robot(int width, int height) {
+        for (int i = 0; i < width; ++i) {
+            pos.emplace_back(i, 0);
+            dir.emplace_back(0);
+        }
+        for (int i = 1; i < height; ++i) {
+            pos.emplace_back(width - 1, i);
+            dir.emplace_back(1);
+        }
+        for (int i = width - 2; i >= 0; --i) {
+            pos.emplace_back(i, height - 1);
+            dir.emplace_back(2);
+        }
+        for (int i = height - 2; i > 0; --i) {
+            pos.emplace_back(0, i);
+            dir.emplace_back(3);
+        }
+        dir[0] = 3;
+    }
+    
+    void step(int num) {
+        moved = true;
+        idx = (idx + num) % pos.size();
+    }
+    
+    vector<int> getPos() {
+        return {pos[idx].first, pos[idx].second};
+    }
+    
+    string getDir() {
+        if (!moved) {
+            return "East";
+        }
+        return to_dir[dir[idx]];
+    }
+};
+
+/**
+ * Your Robot object will be instantiated and called as such:
+ * Robot* obj = new Robot(width, height);
+ * obj->step(num);
+ * vector<int> param_2 = obj->getPos();
+ * string param_3 = obj->getDir();
+ */
+```

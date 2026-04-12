@@ -55,7 +55,7 @@ There are no good tuples. Therefore, the answer is -1.
 
 # Submissions
 ---
-**Solution 1: (Counter)**
+**Solution 1: (Counter, bucket sort)**
 ```
 Runtime: 1520 ms, Beats 7.14%
 Memory: 330.19 MB, Beats 85.71%
@@ -73,6 +73,64 @@ public:
             if (dp[i].size() >= 3) {
                 for (j = 2; j < dp[i].size(); j ++) {
                     ans = min(ans, 2 * (dp[i][j] - dp[i][j - 2]));
+                }
+            }
+        }
+        return ans != INT_MAX ? ans : -1;
+    }
+};
+```
+
+**Solution 2: (Counter, Hash Table)**
+```
+Runtime: 371 ms, Beats 65.50%
+Memory: 343.44 MB, Beats 65.00%
+```
+```c++
+class Solution {
+public:
+    int minimumDistance(vector<int>& nums) {
+        int n = nums.size(), i, j, ans = INT_MAX;
+        unordered_map<int, vector<int>> mp;
+        for (i = 0; i < n; i ++) {
+            mp[nums[i]].push_back(i);
+        }
+        for (auto &[_, dp]: mp) {
+            if (dp.size() >= 3) {
+                for (j = 2; j < dp.size(); j ++) {
+                    ans = min(ans, 2 * (dp[j] - dp[j - 2]));
+                }
+            }
+        }
+        return ans != INT_MAX ? ans : -1;
+    }
+};
+```
+
+**Solution 3: (Prefix Sum)**
+```
+Runtime: 197 ms, Beats 91.00%
+Memory: 272.78 MB, Beats 90.00%
+```
+```c++
+class Solution {
+public:
+    int minimumDistance(vector<int>& nums) {
+        int n = nums.size(), i, j, k, ans = INT_MAX;
+        vector<int> pre(n, -1);
+        unordered_map<int, int> mp;
+        for (i = n - 1; i >= 0; i --) {
+            if (mp.count(nums[i])) {
+                pre[i] = mp[nums[i]];
+            }
+            mp[nums[i]] = i;
+        }
+        for (i = 0; i < n; i ++) {
+            j = pre[i];
+            if (j != -1) {
+                k = pre[j];
+                if (k != -1) {
+                    ans = min(ans, 2 * (k - i));
                 }
             }
         }
