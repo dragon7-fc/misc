@@ -104,3 +104,40 @@ public:
     }
 };
 ```
+
+**Solution 4: (Two Pointers)**
+
+    nums1 = [ 55, 30,  5,  4,  2]
+               i
+                       i
+                       i
+                       i
+    nums2 = [100, 20, 10, 10,  5]
+               j
+                       j
+                           j
+                               j
+
+```
+Runtime: 0 ms, Beats 100.00%
+Memory: 102.11 MB, Beats 74.44%
+```
+```c++
+class Solution {
+public:
+    int maxDistance(vector<int>& nums1, vector<int>& nums2) {
+        int m = nums1.size(), n = nums2.size(), i = 0, j = 0, ans = 0;
+        while (i < m && j < n) {
+            if (i <= j && nums1[i] <= nums2[j]) {
+                ans = max(ans, j - i);
+                j += 1;
+            } else if (i > j) {
+                j += 1;
+            } else {
+                i += 1;
+            }
+        }
+        return ans;
+    }
+};
+```

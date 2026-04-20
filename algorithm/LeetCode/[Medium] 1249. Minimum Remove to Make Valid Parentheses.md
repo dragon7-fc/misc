@@ -175,6 +175,7 @@ char * minRemoveToMakeValid(char * s){
 dp             1   1   1   1
 stk            3   5   3           12 
                    3
+ans      l e e ( t ( c ) o )  d  e
 
 ```
 Runtime: 4 ms, Beats 84.32%

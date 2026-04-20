@@ -125,7 +125,7 @@ public:
 };
 ```
 
-**Solution 3: (Prefix Sum)**
+**Solution 3: (Prefix Sum, try to find min prevous then get max difference)**
 ```
 Runtime: 0 ms, Beats 100.00%
 Memory: 97.17 MB, Beats 99.10%

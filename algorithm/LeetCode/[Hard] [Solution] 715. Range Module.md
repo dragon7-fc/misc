@@ -220,3 +220,204 @@ class RangeModule:
 # param_2 = obj.queryRange(left,right)
 # obj.removeRange(left,right)
 ```
+
+**Solution 2: (Maintain Sorted Disjoint Intervals)**
+
+RangeModule rangeModule = new RangeModule();
+rangeModule.addRange(10, 20);
+st
+[10, 20]
+rangeModule.removeRange(14, 16);
+st
+[10,          20]
+      l_it            r_it
+  l            r
+[10, 14] [16, 20]
+rangeModule.queryRange(10, 14); // return True,(Every number in [10, 14) is being tracked)
+st
+[10, 14] [16, 20]
+            it
+rangeModule.queryRange(13, 15); // return False,(Numbers like 14, 14.03, 14.17 in [13, 15) are not being tracked)
+st
+[10, 14] [16, 20]
+            it
+rangeModule.queryRange(16, 17); // return True, (The number 16 in [16, 17) is still being tracked, despite the remove operation)
+st
+[10, 14] [16, 20]
+                    it
+```
+Runtime: 16 ms, Beats 95.69%
+Memory: 77.85 MB, Beats 51.40%
+```
+```c++
+class RangeModule {
+    set<pair<int, int>> st;
+public:
+    RangeModule() {
+        
+    }
+    
+    void addRange(int left, int right) {
+        auto l_it = st.upper_bound({left, INT_MAX});
+        auto r_it = st.upper_bound({right, INT_MAX});
+        if (l_it != st.begin()) {
+            l_it--;
+            if (l_it->second < left) {
+                l_it++;
+            }
+        }
+        if (l_it != r_it) {
+            left = min(left, l_it->first);
+            right = max(right, (--r_it)->second);
+            st.erase(l_it, ++r_it);
+        }
+        st.insert({left, right});
+    }
+    
+    bool queryRange(int left, int right) {
+        auto it = st.upper_bound({left, INT_MAX});
+        if (it == st.begin() || (--it)->second < right) {
+            return false;
+        }
+        return true;
+    }
+    
+    void removeRange(int left, int right) {
+        auto l_it = st.upper_bound({left, INT_MAX});
+        auto r_it = st.upper_bound({right, INT_MAX});
+        if (l_it != st.begin()) {
+            l_it--;
+            if (l_it->second < left) l_it++;
+        }
+        if (l_it == r_it) {
+            return;
+        }
+        int l = min(left, l_it->first);
+        int r = max(right, (--r_it)->second);
+        st.erase(l_it, ++r_it);
+        if (l < left) {
+            st.insert({l, left});
+        }
+        if (r > right) {
+            st.insert({right, r});
+        }
+    }
+};
+
+/**
+ * Your RangeModule object will be instantiated and called as such:
+ * RangeModule* obj = new RangeModule();
+ * obj->addRange(left,right);
+ * bool param_2 = obj->queryRange(left,right);
+ * obj->removeRange(left,right);
+ */
+```
+
+**Solution 2: (Maintain Sorted Disjoint Intervals, Hash Table)**
+```
+Runtime: 16 ms, Beats 95.69%
+Memory: 77.13 MB, Beats 79.19%
+```
+```c++
+class RangeModule {
+    map<int, int> mp;
+public:
+    RangeModule() {
+        
+    }
+    
+    //     ----------------
+    //     left            right
+    //  xxxxxxxx   xxxx xx
+    //  pre_it     it
+    //  -------------------
+    //  left               right
+    //
+    void addRange(int left, int right) {
+        // 1. Find the first interval starting >= left
+        auto it = mp.lower_bound(left);
+        
+        // 2. Check the interval before it for overlap
+        if (it != mp.begin()) {
+            auto pre_it = prev(it);
+            if (pre_it->second >= left) {
+                left = pre_it->first;
+                right = max(right, pre_it->second);
+                it = mp.erase(pre_it); // Start merging from here
+            }
+        }
+        
+        // 3. Merge all subsequent overlapping intervals
+        while (it != mp.end() && it->first <= right) {
+            right = max(right, it->second);
+            it = mp.erase(it);
+        }
+        
+        mp[left] = right;
+    }
+    
+    //    -------
+    //    left  right
+    // ------------ ----
+    // pre_it       it
+    //
+    bool queryRange(int left, int right) {
+        // Find the first interval starting AFTER 'left'
+        auto it = mp.upper_bound(left);
+        
+        // If there are no intervals, or the first potential candidate starts after 'left'
+        if (it == mp.begin()) {
+            return false;
+        }
+        
+        // Look at the interval immediately before it
+        auto pre_it = prev(it);
+        
+        // Check if this interval fully covers [left, right)
+        return pre_it->first <= left && pre_it->second >= right;
+    }
+    
+    //     ------------------------------ 
+    //     left                          right
+    //  ---xxxxxxxxxxx           xxx   xx--------
+    //  pre_it        pre_right  it      right   pre_right
+    //
+    void removeRange(int left, int right) {
+        auto it = mp.lower_bound(left);
+        
+        // Check the interval before to see if it needs shrinking or splitting
+        if (it != mp.begin()) {
+            auto pre_it = prev(it);
+            if (pre_it->second > left) {
+                int pre_right = pre_it->second;
+                pre_it->second = left; // Shrink the left piece
+                if (pre_right > right) {
+                    // Split case: current interval was so big it survives the removal
+                    mp[right] = pre_right;
+                }
+            }
+        }
+        
+        // Remove or shrink intervals that start within the removal range
+        while (it != mp.end() && it->first < right) {
+            if (it->second > right) {
+                // Shrink the right side of the last overlapping interval
+                int pre_right = it->second;
+                mp.erase(it);
+                mp[right] = pre_right;
+                break;
+            } else {
+                it = mp.erase(it);
+            }
+        }
+    }
+};
+
+/**
+ * Your RangeModule object will be instantiated and called as such:
+ * RangeModule* obj = new RangeModule();
+ * obj->addRange(left,right);
+ * bool param_2 = obj->queryRange(left,right);
+ * obj->removeRange(left,right);
+ */
+```

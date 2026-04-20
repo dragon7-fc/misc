@@ -192,6 +192,11 @@ public:
 
 **Solution 7: (Math)**
 
+x^n
+= (x^2)^(n/2), n is even
+  x * (x^2)^((n-1)/2), n is odd
+
+
     x = 2.00000, n = 10
 1010    = 10
         = 2^3 * 2^1

@@ -126,7 +126,7 @@ class Solution:
         return ansguess
 ```
 
-**Solution 2: (Mastermind Strategy)**
+**Solution 2: (Mastermind Strategy, pick a word and guess then filter out not matched similarity till only one word)**
 
 This is one of the most interesting Google HARD problems — a pure Mastermind-style deduction puzzle.
 I solved it in C++ with a clean elimination strategy that consistently Beats 100%.

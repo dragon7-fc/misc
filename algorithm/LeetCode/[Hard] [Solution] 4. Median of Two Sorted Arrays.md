@@ -298,13 +298,13 @@ public:
 
 **Solution 3: (Binary Search, O(log (min(m, n))), binary search smaller array and search possible median element)**
 
-           i((l + r) / 2)
+           i((l + r) / 2): mid or after mid
        l   mi  r
 A      x x x x                
        ---m---
        --x x--                       
         L1 R1                        
-             j((m + n + 1) / 2 - mi) 
+             j((m + n + 1) / 2 - mi): after mid
 B      x x x x x                     
        ----n----                     
        ----x x--
@@ -365,10 +365,10 @@ case 2: (m + n) % 2 == 1
                  ^l    ^r
                  ^maxLeftA <--------
                     ^minRightA     |
-           leftB  rightB          max
-           ----|----               |
-              ^maxLeftB <-----------
-                 ^minRightB
+           leftB   rightB         max
+           -------|--              |
+                 ^maxLeftB <--------
+                    ^minRightB
           mxL mnR
 B     - - -   -
             l   m   r

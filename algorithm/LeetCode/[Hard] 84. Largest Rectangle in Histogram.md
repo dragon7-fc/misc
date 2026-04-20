@@ -34,7 +34,7 @@ class Solution:
         return max_area
 ```
 
-**Solution 2: (Stack, mono inc stack, area between current and second top stack element)**
+**Solution 2: (Stack, mono inc stack, mono inc stack track local range and height)**
 
            0  1  2  3  4  5
            2, 1, 5, 6, 2, 3

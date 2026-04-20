@@ -292,7 +292,7 @@ public:
 };
 ```
 
-**Solution 3: (Mono dec stack, expand around center, mono inc stack track local range and min)**
+**Solution 3: (expand around center, mono inc stack track local range and min)**
 ```
 Runtime: 9 ms, Beats 90.95%
 Memory: 43.35 MB, Beats 98.72%

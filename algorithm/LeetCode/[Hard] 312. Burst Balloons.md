@@ -122,15 +122,26 @@ class Solution:
 
 **Solution 4: (DP, Bottom-up)**
 
- 1  3  1  5  8  1
-    ^  x  ^
-    ---x--x---
-    ^     x  ^
- ---x--x--x---
- ^  x        ^
- ---x--x--x--x---
- ^l          xi ^r
+     1  3  1  5  8  1
+        ^  x  ^
+        ---x--x---
+        ^     x  ^
+     ---x--x--x---
+     ^  x        ^
+     ---x--x--x--x---
+     ^l          xi ^r
 
+pre a       x       b
+dp[l][r]:
+    l  ...  i  ...  r
+      -------------
+            k
+    ---------
+            ----------
+    dp[l][i] dp[i][r]
+    
+dp[l][r]
+= max(pre[l]*pre[i]*pre[r] + dp[l][i] + dp[i][r])
 
 ```
 Runtime: 87 ms, Beats 92.60%

@@ -110,7 +110,50 @@ class Excel:
 # param_3 = obj.sum(r,c,strs)
 ```
 
-**Solution 2: (DFS)**
+**Solution 2: (DFS, track affected cell, current grid value = sum of affected cell)**
+
+Excel(3,"C"); 
+// construct a 3*3 2D array with all zero.
+  A         B           C
+1 0         0           0
+                                    sum (be affected cell)
+2 0         0           0
+
+3 0         0           0
+
+
+Set(1, "A", 2);
+// set C(1,"A") to be 2.
+grid:
+  A         B           C
+1 2         0           0
+                                    sum
+2 0         0           0
+
+3 0         0           0
+
+
+Sum(3, "C", ["A1", "A1:B2"]);
+// set C(3,"C") to be the sum of value at C(1,"A") and the values sum of the rectangle range whose top-left cell is C(1,"A") and bottom-right cell is C(2,"B"). Return 4. 
+grid:
+  A         B           C
+1 2         0           0
+  {3C,C3}   {3C}                   sum
+2 0         0           0
+  {3C}      {3C}
+3 0         0           4
+
+Set(2, "B", 2);
+// set C(2,"B") to be 2. Note C(3, "C") should also be changed.
+grid:
+  A         B           C
+1 2         0           0
+  {3C,3C}   {3C}                   sum 
+2 0         2           0
+  {3C}      {3C}
+3 0         0           4
+
+```
 ```
 Runtime: 0 ms, Beats 100.00%
 Memory: 15.74 MB, Beats 97.44%
@@ -150,6 +193,7 @@ public:
     }
     
     void set(int row, char column, int val) {
+        // new value will not affect any previous cell
         removeReferences(row - 1, column - 'A');
         dfs(row - 1, column - 'A', val);
     }

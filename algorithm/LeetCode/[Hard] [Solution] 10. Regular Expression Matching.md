@@ -324,16 +324,20 @@ public:
         for (j = 0; j < n; j ++) {
             if (p[j] == '*') {
                 dp[0][j + 1] = dp[0][j] | dp[0][j - 1];
+                               // match previous pattern
+                                          // not match
             }
         }
         for (j = 0; j < n; j ++) {
             for (i = 0; i < m; i ++) {
                 if (p[j] == '.' || s[i] == p[j]) {
-                    dp[i + 1][j + 1] = dp[i][j];
+                    dp[i + 1][j + 1] = dp[i][j];    // match one
                 } else if (p[j] == '*') {
                     dp[i + 1][j + 1] = dp[i + 1][j] | dp[i + 1][j - 1];
+                                    // match previous pattern
+                                                      // not match
                     if (p[j - 1] == '.' || s[i] == p[j - 1]) {
-                        dp[i + 1][j + 1] |= dp[i][j + 1];
+                        dp[i + 1][j + 1] |= dp[i][j + 1];   // match previous text
                     }
                 }
             }

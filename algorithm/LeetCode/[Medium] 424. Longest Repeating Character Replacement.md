@@ -103,6 +103,7 @@ public:
             cnt[s[j] - 'A'] += 1;
             mx = max(mx , cnt[s[j] - 'A']);
             if (j - i + 1 - mx > k) {
+            // while (j - i + 1 - mx > k) {   // shrink
                 cnt[s[i] - 'A'] -= 1;
                 i += 1;
             }

@@ -5301,21 +5301,31 @@ class Solution:
 * [Lock] [Medium] [Solution] 186. Reverse Words in a String II
 
 ### Visit by Row
-```python
-class Solution:
-    def convert(self, s: str, numRows: int) -> str:
-        rows = [[] for _ in range(numRows)]
-        curRow = 0
-        goingDown = False
-        ret = []
-        for c in s:
-            rows[curRow].append(c)
-            if numRows == 1: continue
-            if curRow == 0 or curRow == numRows - 1:
-                goingDown = not goingDown
-            curRow += 1 if goingDown else -1
-        ret = ''.join([c for r in rows for c in r])
-        return ret
+```c++
+class Solution {
+public:
+    string convert(string s, int numRows) {
+        if (numRows == 1) {
+            return s;
+        }
+        int n = s.length(), i, j, nj, k = numRows * 2 - 2;
+        string ans;
+        for (i = 0; i < min(n, numRows); i ++) {
+            j = i;
+            while (j < n) {
+                ans += s[j];
+                if (i && i != numRows - 1) {
+                    nj = j + k - 2 * i;
+                    if (nj < n) {
+                        ans += s[nj];
+                    }
+                }
+                j += k;
+            }
+        }
+        return ans;
+    }
+};
 ```
 * [Medium] [Solution] 6. ZigZag Conversion
 
@@ -8026,7 +8036,7 @@ class Solution:
 ```
 * [Medium] 399. Evaluate Division
 
-### DFS, Pre order, Early stop, binary search, mov right child to right descendant and return left child
+### DFS, Pre order, Early stop, binary search, move right child to left child's right descendant and return left child
 ```c++
 /**
  * Definition for a binary tree node.
@@ -8843,7 +8853,7 @@ public:
 ```
 * [Medium] 3346. Maximum Frequency of an Element After Performing Operations I
 
-### binary Search mid value and binary search to count on each row
+### binary search to count on each row then binary Search mid value
 ```c++
 class Solution {
 public:
@@ -13052,7 +13062,7 @@ class Solution:
 ```
 * [Lock] [Hard] 772. Basic Calculator III
 
-### mono inc stack track local range and min
+### mono inc stack track local range and height
 ```c++
 class Solution {
 public:
@@ -13982,71 +13992,61 @@ class Solution:
 * [Hard] 52. N-Queens II
 
 ### Spiral Backtracking
-```python
-# """
-# This is the robot's control interface.
-# You should not implement it, or speculate about its implementation
-# """
-#class Robot:
-#    def move(self):
-#        """
-#        Returns true if the cell in front is open and robot moves into the cell.
-#        Returns false if the cell in front is blocked and robot stays in the current cell.
-#        :rtype bool
-#        """
-#
-#    def turnLeft(self):
-#        """
-#        Robot will stay in the same cell after calling turnLeft/turnRight.
-#        Each turn will be 90 degrees.
-#        :rtype void
-#        """
-#
-#    def turnRight(self):
-#        """
-#        Robot will stay in the same cell after calling turnLeft/turnRight.
-#        Each turn will be 90 degrees.
-#        :rtype void
-#        """
-#
-#    def clean(self):
-#        """
-#        Clean the current cell.
-#        :rtype void
-#        """
+```C++
+/**
+ * // This is the robot's control interface.
+ * // You should not implement it, or speculate about its implementation
+ * class Robot {
+ *   public:
+ *     // Returns true if the cell in front is open and robot moves into the cell.
+ *     // Returns false if the cell in front is blocked and robot stays in the current cell.
+ *     bool move();
+ *
+ *     // Robot will stay in the same cell after calling turnLeft/turnRight.
+ *     // Each turn will be 90 degrees.
+ *     void turnLeft();
+ *     void turnRight();
+ *
+ *     // Clean the current cell.
+ *     void clean();
+ * };
+ */
 
-class Solution:
-    def cleanRoom(self, robot):
-        """
-        :type robot: Robot
-        :rtype: None
-        """
-        def go_back():
-            robot.turnRight()
-            robot.turnRight()
-            robot.move()
-            robot.turnRight()
-            robot.turnRight()
+class Solution {
+    int dd[5] = {0, 1, 0, -1, 0};
+    set<pair<int, int>> st;
+    //
+    //     ^
+    //   robot  ->    ^
+    //              robot
+    void goBack(Robot& robot) {
+        robot.turnRight();
+        robot.turnRight();
+        robot.move();
+        robot.turnRight();
+        robot.turnRight();
+    }
 
-        def backtrack(cell = (0, 0), d = 0):
-            visited.add(cell)
-            robot.clean()
-            # going clockwise : 0: 'up', 1: 'right', 2: 'down', 3: 'left'
-            for i in range(4):
-                new_d = (d + i) % 4
-                new_cell = (cell[0] + directions[new_d][0], \
-                            cell[1] + directions[new_d][1])
-
-                if not new_cell in visited and robot.move():
-                    backtrack(new_cell, new_d)
-                    go_back()
-                # turn the robot following chosen direction : clockwise
-                robot.turnRight()
-
-        # going clockwise : 0: 'up', 1: 'right', 2: 'down', 3: 'left'
-        directions = [(-1, 0), (0, 1), (1, 0), (0, -1)]
-        visited = set()
-        backtrack()
+    void bt(int r, int c, int d, Robot &robot) {
+        st.insert({r, c});
+        robot.clean();
+        int i, nr, nc, nd;
+        for (i = 0; i < 4; i++) {
+            nd = (d + i) % 4;
+            nr = r + dd[nd];
+            nc = c + dd[nd + 1];       
+            if (!st.count({nr, nc}) && robot.move()) {
+                bt(nr, nc, nd, robot);
+                goBack(robot);
+            }
+            robot.turnRight();
+        }
+    }
+public:
+    void cleanRoom(Robot& robot) {
+        bt(0, 0, 0, robot);
+    }
+};
 ```
 * [Lock] [Hard] [Solution] 489. Robot Room Cleaner
 
@@ -16124,7 +16124,7 @@ public:
 ```
 * [Medium] 1631. Path With Minimum Effort
 
-### BFS + MST Prime, O(N^2 * Log(N)), BMC fill min distance for each cell then priority queue to find max distance path from start
+### BFS + MST Prime, O(N^2 * Log(N)), BFS fill min distance for each cell then priority queue to find max distance path from start
 ```c++
 class Solution {
     int dd[5] = {0, 1, 0, -1, 0};
@@ -17709,7 +17709,7 @@ public:
 ```
 * [Medium] 2747. Count Zero Request Servers
 
-### inverse increasing max count in sliding window
+### try currently max frequency, inverse increasing max count in sliding window
 ```c++
 class Solution {
 public:
@@ -18335,7 +18335,7 @@ class Solution:
 ```
 * [Medium] 1493. Longest Subarray of 1's After Deleting One Element
 
-**Template 1: (Sliding Window)**
+**Template 1: (Sliding Window, greedy expand right pointer and shrink left)**
 ```python
 i = 0
 for j in range(N):
@@ -18345,7 +18345,7 @@ for j in range(N):
         i += 1
     max = j - i + 1
 ```
-**Template 2: (Sliding window)**
+**Template 2: (Two Pointers)**
 ```python
 left, right = 0, N-1
 while left < right:
@@ -18358,7 +18358,7 @@ while left < right:
 return ans
 ```
 
-**Template 3: (Sliding window)**
+**Template 3: (Two Pointers)**
 ```python
 left, right = 0, N-1
 while left < right:
@@ -18387,7 +18387,7 @@ for j, x in enumerate(N):
 return ans
 ```
 
-**Template 5: (Advanced Sliding Window, max length, Non-shrinkable)**
+**Template 5: (Advanced Sliding Window, max length, Non-shrinkable, greedy expand right pointer and try shrink left once at a time)**
 ```python
 ans = []
 i = 0
@@ -18400,7 +18400,7 @@ for j in ragen(len(A)):
 return A.size() - i
 ```
 
-**Template 6: (Sliding Window, Binary Search)**
+**Template 6: (Greedy, Two Pointers)**
 ```python
 for i in range(N):
     left, right = i+1, N-1

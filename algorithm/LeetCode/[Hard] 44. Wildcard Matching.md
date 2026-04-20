@@ -159,12 +159,12 @@ public:
         for (j = n-1; j >= 0; j --) {
             for (i = m; i >= 0; i --) {
                 if (i < m && (s[i] == p[j] || p[j] == '?')) {
-                    dp[i][j] = dp[i+1][j+1];
+                    dp[i][j] = dp[i+1][j+1];                    // match one
                 } else if (p[j] == '*') {
-                    dp[i][j] = dp[i][j+1];
+                    dp[i][j] = dp[i][j+1];                      // not match
                     if (i < m) {
-                        dp[i][j] |= dp[i+1][j];
-                        dp[i][j] |= dp[i+1][j+1];
+                        dp[i][j] |= dp[i+1][j];                 // match previous
+                        dp[i][j] |= dp[i+1][j+1];               // match one
                     }
                 }
             }

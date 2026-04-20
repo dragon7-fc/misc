@@ -229,7 +229,7 @@ public:
 };
 ```
 
-**Solution 5: (Stack, mono inc stack, area cover by current stack stop element)**
+**Solution 5: (Stack, mono inc stack, get height through prefix sum and mono inc stack to track local width and height)**
 
 
 stk  
@@ -279,7 +279,7 @@ public:
     int maximalRectangle(vector<vector<char>>& matrix) {
         int m = matrix.size(), n = matrix[0].size(), i, j, ans = 0;
         vector<int> dp(n+1);
-        stack<array<int,2>> stk;  // element, j
+        stack<array<int,2>> stk;  // cnt 1, j col
         stk.push({-1, -1});
         for (i = 0; i < m; i ++) {
             for (j = 0; j <= n; j ++) {

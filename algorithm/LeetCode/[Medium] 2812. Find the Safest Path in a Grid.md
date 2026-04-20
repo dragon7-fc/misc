@@ -278,7 +278,7 @@ public:
 };
 ```
 
-**Solution 2: (BFS + MST Prime, O(N^2 * Log(N)))**
+**Solution 2: (BFS + MST Prime, O(N^2 * Log(N)), BFS fill min distance for each cell then priority queue to find max distance path from start)**
 ```
 Runtime: 337 ms, Beats 76.27%
 Memory: 116.47 MB, Beats 96.25%

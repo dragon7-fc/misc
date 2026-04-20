@@ -88,10 +88,10 @@ class DetectSquares:
 5
 4
 3
-2         x                       x
+2 py      x                       x
 1                        
     1  2  3  4  5  6  7  8  9 10 11
-
+          px
 sum:
 5:  3,2
 13: 11,2 3,10

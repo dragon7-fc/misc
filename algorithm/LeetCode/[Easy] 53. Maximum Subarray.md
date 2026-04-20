@@ -113,7 +113,7 @@ class Solution:
         return ans
 ```
 
-**Solution 5: (Greedy)**
+**Solution 5: (Greedy, kadane)**
 
     nums = [-2, 1,-3, 4,-1, 2, 1,-5, 4]
     pre     -2  1 -2  4  3  5  6  1  5

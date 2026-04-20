@@ -259,7 +259,7 @@ public:
 };
 ```
 
-**Solution 5: (Binary Search, lower bound)**
+**Solution 5: (Binary Search, lower bound, compare with right)**
 
 case 1:
                  /

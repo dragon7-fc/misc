@@ -60,7 +60,7 @@ There are no mirror pairs in the array.
 
 # Submissions
 ---
-**Solution 1: (Hash Table)**
+**Solution 1: (Hash Table, Prefix Sum)**
 ```
 Runtime: 102 ms, Beats 100.00%
 Memory: 131.83 MB, Beats 44.44%
@@ -70,10 +70,10 @@ class Solution {
 public:
     int minMirrorPairDistance(vector<int>& nums) {
         int n = nums.size(), i, a, rev, ans = INT_MAX;
-        unordered_map<int, int> mp;
+        unordered_map<int, int> pre;
         for (i = 0; i < n; i ++) {
-            if (mp.count(nums[i])) {
-                ans = min(ans, i - mp[nums[i]]);
+            if (pre.count(nums[i])) {
+                ans = min(ans, i - pre[nums[i]]);
             }
             rev = 0;
             a = nums[i];
@@ -81,7 +81,7 @@ public:
                 rev = rev * 10 + a % 10;
                 a /= 10;
             }
-            mp[rev] = i;
+            pre[rev] = i;
         }
         return ans != INT_MAX ? ans : -1;
     }

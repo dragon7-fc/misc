@@ -54,7 +54,7 @@ class Solution:
         return i
 ```
 
-**Solution 2: (Sort, Two Pointers)**
+**Solution 2: (Sort, Two Pointers, try match smallest number with smallest available)**
 
     nums = [1,3,5,2,1,3,1]    ans
             1 1 1 2 3 3 5

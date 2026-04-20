@@ -357,3 +357,45 @@ public:
     }
 };
 ```
+
+**Solution 4: (String Traversal)**
+
+    s = "PAYPALISHIRING", numRows = 4
+
+     k = 2*numRows - 2
+     ------
+0   P     I     N
+1   A   L S   I G
+2   Y A   H R
+3   P     I
+
+```
+Runtime: 0 ms, Beats 100.00%
+Memory: 10.94 MB, Beats 91.06%
+```
+```c++
+class Solution {
+public:
+    string convert(string s, int numRows) {
+        if (numRows == 1) {
+            return s;
+        }
+        int n = s.length(), i, j, nj, k = numRows * 2 - 2;
+        string ans;
+        for (i = 0; i < min(n, numRows); i ++) {
+            j = i;
+            while (j < n) {
+                ans += s[j];
+                if (i && i != numRows - 1) {
+                    nj = j + k - 2 * i;
+                    if (nj < n) {
+                        ans += s[nj];
+                    }
+                }
+                j += k;
+            }
+        }
+        return ans;
+    }
+};
+```
