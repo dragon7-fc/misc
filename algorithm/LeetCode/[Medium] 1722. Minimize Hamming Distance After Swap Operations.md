@@ -94,3 +94,51 @@ class Solution:
             res -= sum((count1 & count2).values())
         return res
 ```
+
+**Solution 2: (Union Find, Hash Table, group swapable index then check each element in their index group)**
+```
+Runtime: 115 ms, Beats 90.58%
+Memory: 148.68 MB, Beats 74.87%
+```
+```c++
+class Solution {
+    vector<int> p;
+    int find(int x) {
+        if (p[x] != x) {
+            p[x] = find(p[x]);
+        }
+        return p[x];
+    }
+    void uni(int x, int y) {
+        int xr = find(x), yr = find(y);
+        p[xr] = yr;
+    }
+public:
+    int minimumHammingDistance(vector<int>& source, vector<int>& target, vector<vector<int>>& allowedSwaps) {
+        int n = source.size(), i, j, ans = 0;
+        vector<unordered_map<int, int>> g(n);
+        p.resize(n);
+        for (i = 0; i < n; i ++) {
+            p[i] = i;
+        }
+        for (auto &allow: allowedSwaps) {
+            int &ai = allow[0];
+            int &aj = allow[1];
+            uni(ai, aj);
+        }
+        for (i = 0; i < n; i ++) {
+            j = find(i);
+            g[j][source[i]] += 1;
+        }
+        for (i = 0; i < n; i ++) {
+            j = find(i);
+            if (g[j][target[i]] == 0) {
+                ans += 1;
+            } else {
+                g[j][target[i]] -= 1;
+            }
+        }
+        return ans;
+    }
+};
+```

@@ -74,3 +74,104 @@ public:
     }
 };
 ```
+
+**Solution 3: (Brute Force, O(qkn), k: dictionary length)**
+```
+Runtime: 4 ms, Beats 71.12%
+Memory: 12.43 MB, Beats 88.24%
+```
+```c++
+class Solution {
+    unordered_set<string> st;
+public:
+    vector<string> twoEditWords(vector<string>& queries, vector<string>& dictionary) {
+        int n = queries[0].length(), i, k;
+        vector<string> ans;
+        for (auto &q : queries) {
+            for (auto &d : dictionary) {
+                k = 0;
+                for (i = 0; i < n; i++) {
+                    if (q[i] != d[i]) {
+                        k += 1;
+                    }
+                }
+                if (k <= 2) {
+                    ans.push_back(q);
+                    break;
+                }
+            }
+        }
+        return ans;
+    }
+};
+```
+
+**Solution 4: (Trie, O(k⋅n + q⋅n^2⋅25^2), k: dictionary length)**
+```
+Runtime: 15 ms, Beats 39.04%
+Memory: 34.45 MB, Beats 10.16%
+```
+```c++
+struct TrieNode {
+    TrieNode* child[26];
+    bool isEnd;
+    TrieNode() {
+        memset(child, 0, sizeof(child));
+        isEnd = false;
+    }
+};
+
+class Solution {
+    TrieNode* root = new TrieNode();
+
+    void insert(string& word) {
+        TrieNode* node = root;
+        for (char c : word) {
+            int idx = c - 'a';
+            if (!node->child[idx]) node->child[idx] = new TrieNode();
+            node = node->child[idx];
+        }
+        node->isEnd = true;
+    }
+
+    bool dfs(string& word, int i, TrieNode* node, int cnt) {
+        if (cnt > 2) return false;
+        if (!node) return false;
+
+        if (i == word.size()) {
+            return node->isEnd;
+        }
+
+        int idx = word[i] - 'a';
+
+        // no changes made
+        if (node->child[idx]) {
+            if (dfs(word, i + 1, node->child[idx], cnt)) return true;
+        }
+
+        // made changes
+        if (cnt < 2) {
+            for (int c = 0; c < 26; c++) {
+                if (c == idx) continue;
+                if (node->child[c]) {
+                    if (dfs(word, i + 1, node->child[c], cnt + 1)) return true;
+                }
+            }
+        }
+
+        return false;
+    }
+public:
+    vector<string> twoEditWords(vector<string>& queries, vector<string>& dictionary) {
+        for (auto& w : dictionary) insert(w);
+
+        vector<string> res;
+        for (auto& q : queries) {
+            if (dfs(q, 0, root, 0)) {
+                res.push_back(q);
+            }
+        }
+        return res;
+    }
+};
+```

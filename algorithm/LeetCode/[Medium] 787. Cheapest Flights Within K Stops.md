@@ -297,7 +297,7 @@ public:
 };
 ```
 
-**Solution 8: (BFS, O(N*K + E))**
+**Solution 8: (BFS, pruning, O(N*K + E))**
 ```
 Runtime: 0 ms, Beats 100.00%
 Memory: 17.59 MB, Beats 89.75%

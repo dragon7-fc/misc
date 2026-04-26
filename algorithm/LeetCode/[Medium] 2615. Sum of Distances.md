@@ -62,3 +62,53 @@ public:
     }
 };
 ```
+
+**Solution 2: (Hash Table, Sliding Window)**
+
+              .
+            . .
+            . .
+      . . x . .   
+      . .        d
+      . x          
+      .
+
+          i        ->
+      --- ------
+       i   n-i
+    left   right
+```
+Runtime: 47 ms, Beats 94.25%
+Memory: 109.42 MB, Beats 92.00%
+```
+```c++
+class Solution {
+public:
+    vector<long long> distance(vector<int>& nums) {
+        int n = nums.size(), i;
+        long long left, right, d;
+        unordered_map<int, vector<int>> mp;
+        vector<long long> ans(n);
+        for (i = 0; i < n; i ++) {
+            mp[nums[i]].push_back(i);
+        }
+        for (auto &[_, dp]: mp) {
+            if (dp.size() > 1) {
+                left = 0;
+                right = 0;
+                for (i = 1; i < dp.size(); i ++) {
+                    right += dp[i] - dp[0];
+                }
+                ans[dp[0]] = right;
+                for (i = 1; i < dp.size(); i ++) {
+                    d = dp[i] - dp[i - 1];
+                    right -= d * (dp.size() - i);
+                    left += d * i;
+                    ans[dp[i]] = left + right;
+                }
+            }
+        }
+        return ans;
+    }
+};
+```

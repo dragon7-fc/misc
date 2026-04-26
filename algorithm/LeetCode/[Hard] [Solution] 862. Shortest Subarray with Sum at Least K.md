@@ -184,7 +184,7 @@ public:
 };
 ```
 
-**Solution 5: (Deque, mono inc stack, prefix sum)**
+**Solution 5: (Deque, mono inc stack, prefix sum, sliding over accumulate prefix sum mono inc stack)**
 
     A = [2,-1,2], K = 3
 

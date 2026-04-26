@@ -358,7 +358,7 @@ public:
 };
 ```
 
-**Solution 3: (Topological Sort, get letter order between word)**
+**Solution 3: (Topological Sort, get letter order between word not inside word)**
 
     words = ["wrt","wrf","er","ett","rftt"]
                 t  <  f   

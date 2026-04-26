@@ -163,7 +163,7 @@ class Solution:
         return disconected
 ```
 
-**Solution 4: (DFS)**
+**Solution 4: (DFS, number of connected component - 1)**
 ```
 Runtime: 133 ms
 Memory: 51.6 MB

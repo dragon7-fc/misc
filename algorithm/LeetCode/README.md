@@ -8362,27 +8362,42 @@ public:
 * [Medium] [Solution] 934. Shortest Bridge
 
 ### Cycle
-```python
-class Solution:
-    def canFinish(self, numCourses: int, prerequisites: List[List[int]]) -> bool:
-        seen = [0 for _ in range(numCourses)]
-        graph = [[] for i in range(numCourses)]
-        for course, pre_course in prerequisites:
-            graph[pre_course].append(course)
-
-        def dfs(course: int) -> bool:
-            if seen[course] == -1:
-                return False
-            if seen[course] == 1:
-                return True
-            seen[course] = -1
-            for target in graph[course]:
-                if not dfs(target):
-                    return False
-            seen[course] = 1
-            return True
-
-        return all(dfs(course) for course in range(numCourses))
+```c++
+class Solution {
+    bool dfs(int u, vector<vector<int>> &g, vector<int> &visited) {
+        if (visited[u] == -1) {  // previous state
+            return true;
+        }
+        if (visited[u] == 1) {  // current state, cycle found
+            return false;
+        }
+        visited[u] = 1;
+        for (auto v: g[u]) {
+            if (!dfs(v, g, visited)) {
+                return false;
+            }
+        }
+        visited[u] = -1;
+        return true;
+    }
+public:
+    bool canFinish(int numCourses, vector<vector<int>>& prerequisites) {
+        vector<vector<int>> g(numCourses);
+        vector<int> visited(numCourses);
+        int i;
+        for (auto p: prerequisites) {
+            g[p[1]].push_back(p[0]);
+        }
+        for (i = 0; i < numCourses; i ++) {
+            if (!visited[i]) {
+                if (!dfs(i, g, visited)) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+};
 ```
 * [Medium] 207. Course Schedule
 
@@ -8790,15 +8805,15 @@ for i in range(rows):
 ```python
 seen = [0 for _ in range(N)]
 def is_cycle(i):
-    if seen[i] == -1:
+    if seen[i] == 1:  ## visiting, cycle
         return True
-    if seen[i] == i:
+    if seen[i] == 2:  ## visited
         return False
-    seen[i] = -1
+    seen[i] = 1  ## visiting
     for j in in i's neighbours:
         if is cycle(j):
             return True
-    seen[i] = 1
+    seen[i] = 2  ## visited
     return False
 for i in range(N):
     if is_cycle(i):
@@ -13231,7 +13246,7 @@ return ans
 =
 
 for i in range(N-1,-1,-1):
-    while stack and arr[stack[-1]] > arr[i]:
+    while stack and arr[stack[-1]] < arr[i]:
         stack.pop()
     ...
     if stack:
@@ -13259,7 +13274,7 @@ return ans
 =
 
 for i in range(N-1,-1,-1):
-    while stack and arr[stack[-1]] < arr[i]:
+    while stack and arr[stack[-1]] > arr[i]:
         stack.pop()
     ...
     if stack:
@@ -13269,7 +13284,7 @@ for i in range(N-1,-1,-1):
 return ans
 ```
 
-**Template 4: (Stack, reverse mono inc, simulate linear search)**
+**Template 4: (Stack, buffer greedy max from end then filter from start)**
 ```pytho
 N = len(arr)
 stack = [N-1]
@@ -16241,7 +16256,7 @@ public:
 ```
 * [Medium] 3604. Minimum Time to Reach Destination in Directed Graph
 
-### level BFS based Dijkstra's Algorithm, try every level
+### level BFS based Dijkstra's Algorithm, try every level with pruning
 ```c++
 class Solution {
 public:
