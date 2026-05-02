@@ -366,3 +366,173 @@ public:
     }
 };
 ```
+
+**Solution 8: (Sort, find median)**
+```
+Runtime: 44 ms, Beats 41.98%
+Memory: 87.16 MB, Beats 71.19%
+```
+```c++
+class Solution {
+public:
+    int minOperations(vector<vector<int>>& grid, int x) {
+        int m = grid.size(), n = grid[0].size(), i, j, r, median, ans = 0;
+        vector<int> dp;
+        for (i = 0; i < m; i ++) {
+            for (j = 0; j < n; j ++) {
+                if (dp.size() == 0) {
+                    r = grid[i][j] % x;
+                } else {
+                    if ((grid[i][j] % x) != r) {
+                        return -1;
+                    }
+                }
+                dp.push_back(grid[i][j]);
+            }
+        }
+        sort(dp.begin(), dp.end());
+        median = dp[m * n / 2];
+        for (i = 0; i < m * n; i ++) {
+            ans += abs(dp[i] - median) / x;
+        }
+        return ans;
+    }
+};
+```
+
+**Solution 9: (Sort, prefix sum, try all solution)**
+```
+Runtime: 43 ms, Beats 46.50%
+Memory: 87.23 MB, Beats 62.96%
+```
+```c++
+class Solution {
+public:
+    int minOperations(vector<vector<int>>& grid, int x) {
+        int m = grid.size(), n = grid[0].size(), i, j, r, left = 0, right = 0, ans = INT_MAX;
+        vector<int> dp;
+        for (i = 0; i < m; i ++) {
+            for (j = 0; j < n; j ++) {
+                if (dp.size() == 0) {
+                    r = grid[i][j] % x;
+                } else {
+                    if ((grid[i][j] % x) != r) {
+                        return -1;
+                    }
+                }
+                dp.push_back(grid[i][j]);
+            }
+        }
+        sort(dp.begin(), dp.end());
+        for (i = 1; i < m * n; i ++) {
+            right += dp[i] - dp[0];
+        }
+        for (i = 0; i < m * n; i ++) {
+            if (i) {
+                left += i * (dp[i] - dp[i - 1]);
+                right -= (m * n - i) * (dp[i] - dp[i - 1]);
+            }
+            ans = min(ans, left / x + right / x);
+        }
+        return ans;
+    }
+};
+```
+
+**Solution 10: (Sort, Two Pointers)**
+
+        i + 1                m*n - 1 - (j - 1) = m*n - j
+     ---------            ------------
+     0       i i+1    j-1 j      m*n-1
+dp   
+            ------    ----- 
+              d         d2
+     -------------    ----------------
+           a                 b
+
+```
+Runtime: 35 ms, Beats 66.67%
+Memory: 87.08 MB, Beats 78.60%
+```
+```c++
+class Solution {
+public:
+    int minOperations(vector<vector<int>>& grid, int x) {
+        int m = grid.size(), n = grid[0].size(), i, j, r, a, b, ans = 0;
+        vector<int> dp;
+        for (i = 0; i < m; i ++) {
+            for (j = 0; j < n; j ++) {
+                if (dp.size() == 0) {
+                    r = grid[i][j] % x;
+                } else {
+                    if ((grid[i][j] % x) != r) {
+                        return -1;
+                    }
+                }
+                dp.push_back(grid[i][j]);
+            }
+        }
+        sort(dp.begin(), dp.end());
+        i = 0;
+        j = m * n - 1;
+        while (i < j) {
+            if (i <= m * n - 1 - j) {
+                a = (i + 1) * (dp[i + 1] - dp[i]) / x;
+                ans += a;
+                i += 1;
+            } else {
+                b = (m * n - j) * (dp[j] - dp[j - 1]) / x;
+                ans += b;
+                j -= 1;
+            }
+        }
+
+        return ans;
+    }
+};
+```
+
+**Solution 11: (Sorting and Median, O(m* n))**
+```
+Runtime: 23 ms, Beats 78.60%
+Memory: 90.14 MB, Beats 34.57%
+```
+```c++
+class Solution {
+public:
+    int minOperations(vector<vector<int>>& grid, int x) {
+        vector<int> numsArray;
+        int result = 0;
+
+        // Flatten the grid into numsArray
+        for (int row = 0; row < grid.size(); row++) {
+            for (int col = 0; col < grid[0].size(); col++) {
+                numsArray.push_back(grid[row][col]);
+            }
+        }
+
+        int length = numsArray.size();
+
+        // Partially sorts the array so that the median element is placed at the
+        // middle index
+        // O(m * n)
+        nth_element(numsArray.begin(), numsArray.begin() + length / 2,
+                    numsArray.end());
+
+        // Store the median element as the final common value to make all
+        // elements equal to
+        int finalCommonNumber = numsArray[length / 2];
+
+        for (int number : numsArray) {
+            // If the remainder when divided by x is different for any number,
+            // return -1
+            if (number % x != finalCommonNumber % x) return -1;
+            // Add the number of operations required to make the current number
+            // equal to finalCommonNumber
+            result += abs(finalCommonNumber - number) / x;
+        }
+
+        return result;
+    }
+};
+```

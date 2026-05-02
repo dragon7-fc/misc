@@ -47,7 +47,33 @@ The array becomes non-decreasing, and the total sum of chosen x values is 4.
 
 # Submissions
 ---
-**Solution 1: (Greedy)**
+**Solution 1: (Greedy, simulation, try to increase every element)**
+```
+Runtime: 4 ms, Beats 44.44%
+Memory: 136.78 MB, Beats 88.89%
+```
+```c++
+class Solution {
+public:
+    long long minOperations(vector<int>& nums) {
+        int n = nums.size(), i;
+        long long pre = nums[0], d = 0, dd, ans = 0;
+        for (i = 1; i < n; i ++) {
+            if (nums[i] + d < pre) {
+                dd = pre - nums[i] - d;
+                ans += dd;
+                d += dd;
+            } else if (nums[i] >= pre + d) {
+                d = 0;
+            }
+            pre = max(pre, nums[i] + d);
+        }
+        return ans;
+    }
+};
+```
+
+**Solution 2: (Greedy, try to remove every drop, increase at index i "carries over" to all indices > i)**
 ```
 Runtime: 0 ms, Beats 100.00%
 Memory: 136.99 MB, Beats 34.15%

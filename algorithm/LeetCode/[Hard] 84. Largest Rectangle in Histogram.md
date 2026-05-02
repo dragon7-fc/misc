@@ -73,3 +73,29 @@ public:
     }
 };
 ```
+
+**Solution 3: (Stack, mono inc stack)**
+```
+Runtime: 28 ms, Beats 32.94%
+Memory: 79.58 MB, Beats 89.27%
+```
+```c++
+class Solution {
+public:
+    int largestRectangleArea(vector<int>& heights) {
+        heights.push_back(0);
+        int n = heights.size(), i, ans = 0;
+        stack<int> stk;
+        stk.push(-1);
+        for (i = 0; i < n; i ++) {
+            while (stk.size() && stk.top() >= 0 && heights[stk.top()] >= heights[i]) {
+                auto j = stk.top();
+                stk.pop();
+                ans = max(ans, heights[j] * (i - stk.top() - 1));
+            }
+            stk.push(i);
+        }
+        return ans;
+    }
+};
+```

@@ -88,3 +88,47 @@ class Solution:
                         heapq.heappush(pq, (cost + graph[city][nxt]//2, discounts - 1, nxt))
         return -1
 ```
+
+**Solution 2: (Dijkstra, try to use discount for every reached point)**
+```c++
+class Solution {
+public:
+    int getMinCost(int n, vector<vector<int>> &roads, int distcount) {
+        vector<vector<array<int, 2>>> g(n);
+        vector<vector<int>> dist(n, vector<int>(distcount + 1, INT_MAX));
+        for (auto &road: roads) {
+            g[road[0]].push_back({road[1], road[2]});
+            g[road[1]].push_back({road[0], road[2]});
+        }
+        priority_queue<array<int, 3>, vector<array<int, 3>>, greater<array<int, 3>>> pq;  // cost, discount, node
+        pq.push({0, distcount, 0});
+        dist[0][distcount] = 0;
+        while (pq.size()) {
+            auto [c, d, u] = pq.top();
+            pq.pop();
+            // pruning
+            if (c > dist[u][d]) {
+                continue;
+            }
+            if (u == n - 1) {
+                return c;
+            }
+            for (auto &[v, dc]: g[u]) {
+                int nc = c + dc;
+                if (nc < dist[v][d]) {
+                    dist[v][d] = nc;
+                    pq.push({nc, d, v});
+                }
+                if (d) {
+                    nc = c + dc / 2;
+                    if (nc < dist[v][d - 1]) {
+                        dist[v][d - 1] = nc;
+                        pq.push({nc, d - 1, v});
+                    }
+                }
+            }
+        }
+        return -1;
+    } 
+};
+```

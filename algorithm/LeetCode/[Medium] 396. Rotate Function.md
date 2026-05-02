@@ -43,7 +43,7 @@ class Solution:
         return largest
 ```
 
-**Solution 1: (Math, prefix sum)**
+**Solution 2: (Math, prefix sum)**
 ```
 Runtime: 85 ms
 Memory: 98.16 MB
@@ -64,6 +64,30 @@ public:
             res = max(res, prev);
         }
         return res;
+    }
+};
+```
+
+**Solution 3: (Math, prefix sum)**
+```
+Runtime: 4 ms, Beats 40.21%
+Memory: 99.67 MB, Beats 51.69%
+```
+```c++
+class Solution {
+public:
+    int maxRotateFunction(vector<int>& nums) {
+        int n = nums.size(), i, left = 0, right = 0, ans;
+        for (i = 0; i < n; i ++) {
+            left += i * nums[i];
+            right += nums[i];
+        }
+        ans = left;
+        for (i = 0; i < n - 1; i ++) {
+            left = left + right - nums[n - 1 - i] - nums[n - 1 - i] * (n - 1);
+            ans = max(ans, left);
+        }
+        return ans;
     }
 };
 ```

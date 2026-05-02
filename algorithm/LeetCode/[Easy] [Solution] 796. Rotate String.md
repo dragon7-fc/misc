@@ -316,45 +316,75 @@ public:
 };
 ```
 
-**Solution 6: (KMP)**
+**Solution 6: (Brute Force)**
 ```
-Runtime: 0 ms
-Memory: 7.73 MB
+Runtime: 0 ms, Beats 100.00%
+Memory: 8.22 MB, Beats  36.38%
 ```
 ```c++
 class Solution {
 public:
     bool rotateString(string s, string goal) {
-        int m = s.size(), n = goal.size(), i, j;
-        if (m > n) {
+        int m = s.length(), n = goal.length(), i, j, k;
+        if (m != n) {
             return false;
         }
-        vector<int> dp(n, -1);
-        dp[0] = -1;
-        for (j = 1; j < n; j ++) {
-            i = dp[j-1];
-            while (i >= 0 && s[i+1] != s[j]) {
-                i = dp[i];
-            }
-            if (s[i+1] == s[j]) {
-                dp[j] = i+1;
-            } else {
-                dp[j] = i;
+        for (i = 0; i < m; i ++) {
+            for (j = 0; j < n; j ++) {
+                for (k = 0; k < n; k ++) {
+                    if (s[(i + k) % n] != goal[(j + k) % n]) {
+                        break;
+                    }
+                    if (k == n - 1) {
+                        return true;
+                    }
+                }
             }
         }
-        i = -1;
-        for (j = 0; j < 2*n; j ++) {
-            while (i >= 0 && s[i+1] != goal[j%n]) {
-                i = dp[i];
+        return false;
+    }
+};
+```
+
+**Solution 7: (KMP)**
+```
+Runtime: 0 ms, Beats 100.00%
+Memory: 8.60 MB, Beats 19.23%
+```
+```c++
+class Solution {
+public:
+    bool rotateString(string s, string goal) {
+        int m = s.size(), n = goal.size(), i, k;
+        if (m != n) {
+            return false;
+        }
+        vector<int> pre(n);
+        for (i = 1; i < n; i ++) {
+            k = pre[i - 1];
+            while (k && s[k] != s[i]) {
+                k = pre[k - 1];
             }
-            if (s[i+1] == goal[j%n]) {
-                i += 1;
-                if (i == m-1) {
+            if (s[k] == s[i]) {
+                pre[i] = k + 1;
+            } else {
+                pre[i] = 0;
+            }
+        }
+        k = 0;
+        for (i = 0; i < 2 * n; i ++) {
+            while (k && s[k] != goal[i % n]) {
+                k = pre[k - 1];
+            }
+            if (s[k] == goal[i % n]) {
+                k += 1;
+                if (k == m) {
                     return true;
                 }
             }
         }
         return false;
+
     }
 };
 ```

@@ -11134,71 +11134,47 @@ class Solution:
 ```
 * [Medium] 1625. Lexicographically Smallest String After Applying Operations
 
-### Bidirectional BFS
-```python
-class Solution:
-    def __init__(self):
-        self.length = 0
-        # Dictionary to hold combination of words that can be formed,
-        # from any given word. By changing one letter at a time.
-        self.all_combo_dict = collections.defaultdict(list)
+### Bidirectional BFS, try change one char at a time to find next word
+```c++
+class Solution {
+public:
+    int ladderLength(string beginWord, string endWord, vector<string>& wordList) {
+        unordered_set<string> ust(begin(wordList), end(wordList));
+        if (ust.find(endWord) == ust.end()) {
+            return 0;
+        }
+        unordered_set<string> w1{beginWord};
+        unordered_set<string> w2{endWord};
+        int level = 1;
+        while (!w1.empty() && !w2.empty()) {
+            // to alternate turns
+            if (w1.size() > w2.size()) {
+                swap(w1, w2);
+            }
 
-    def visitWordNode(self, queue, visited, others_visited):
-        current_word, level = queue.popleft()
-        for i in range(self.length):
-            # Intermediate words for current word
-            intermediate_word = current_word[:i] + "*" + current_word[i+1:]
-
-            # Next states are all the words which share the same intermediate state.
-            for word in self.all_combo_dict[intermediate_word]:
-                # If the intermediate state/word has already been visited from the
-                # other parallel traversal this means we have found the answer.
-                if word in others_visited:
-                    return level + others_visited[word]
-                if word not in visited:
-                    # Save the level as the value of the dictionary, to save number of hops.
-                    visited[word] = level + 1
-                    queue.append((word, level + 1))
-        return None
-
-    def ladderLength(self, beginWord: str, endWord: str, wordList: List[str]) -> int:
-
-        if endWord not in wordList or not endWord or not beginWord or not wordList:
-            return 0
-
-        # Since all words are of same length.
-        self.length = len(beginWord)
-
-        for word in wordList:
-            for i in range(self.length):
-                # Key is the generic word
-                # Value is a list of words which have the same intermediate generic word.
-                self.all_combo_dict[word[:i] + "*" + word[i+1:]].append(word)
-
-
-        # Queues for birdirectional BFS
-        queue_begin = collections.deque([(beginWord, 1)]) # BFS starting from beginWord
-        queue_end = collections.deque([(endWord, 1)]) # BFS starting from endWord
-
-        # Visited to make sure we don't repeat processing same word
-        visited_begin = {beginWord: 1}
-        visited_end = {endWord: 1}
-        ans = None
-
-        # We do a birdirectional search starting one pointer from begin
-        # word and one pointer from end word. Hopping one by one.
-        while queue_begin and queue_end:
-
-            # One hop from begin word
-            ans = self.visitWordNode(queue_begin, visited_begin, visited_end)
-            if ans:
-                return ans
-            # One hop from end word
-            ans = self.visitWordNode(queue_end, visited_end, visited_begin)
-            if ans:
-                return ans
-
-        return 0
+            // can avoid making another list by using normal for loop
+            unordered_set<string> w;
+            for(auto word: w1) {
+                int wordSize = word.size();
+                for(int i = 0; i < wordSize; i++) {
+                    auto ch = word[i];
+                    for(char c = 'a'; c <= 'z'; c++) {
+                        word[i] = c;
+                        if (w2.count(word)) return level + 1;
+                        if (!ust.count(word)) continue;
+                        ust.erase(word);
+                        w.insert(word);
+                    }
+                    word[i] = ch;
+                }
+            }
+            // we exhausted the list we were searching, but we built the next level
+            swap(w, w1);
+            level++;
+        }
+        return 0;
+    }
+};
 ```
 * [Medium] [Solution] 127. Word Ladder
 
@@ -11473,43 +11449,71 @@ class Solution:
 ```
 * [Hard] 1293. Shortest Path in a Grid with Obstacles Elimination
 
-### BFS, level-order with decreasing candidate set
-```python
-    def findLadders(self, beginWord: str, endWord: str, wordList: List[str]) -> List[List[str]]:
-        wordSet = set(wordList)
-        if endWord not in wordSet:
-            return []
-        if beginWord == endWord:
-            return [beginWord]
-
-        g = collections.defaultdict(list)
-        N = len(beginWord)
-        wordList.append(beginWord)
-        for w in wordList:
-            for i in range(N):
-                wildcast = w[:i] + '*' + w[i+1:]
-                g[wildcast].append(w)
-                
-        path_dict = collections.defaultdict(list)
-        path_dict[beginWord] = [[beginWord]]
-        level = {beginWord}
-        while level:
-            next_level = set()
-            new_path_dict = collections.defaultdict(list)
-            for cur in level:
-                wordSet.discard(cur)
-                for i in range(N):
-                    wildcast = cur[:i] + '*' + cur[i+1:]
-                    for nei in g[wildcast]:
-                        if nei in wordSet:
-                            next_level.add(nei)
-                            for pre_path in path_dict[cur]:
-                                new_path_dict[nei].append(pre_path+[nei])
-            if endWord in new_path_dict:
-                return new_path_dict[endWord]
-            level = next_level
-            path_dict = new_path_dict
-        return []
+### level bfs to collect possible parent for each word then backtrack to find all path
+```c++
+class Solution {
+    void bt(string u, string &t, vector<string> &p, vector<vector<string>> &ans, unordered_map<string,unordered_set<string>> &parent) {
+        if (u == t) {
+            ans.push_back(vector<string>(p.rbegin(), p.rend()));
+            return;
+        }
+        for (auto &v: parent[u]) {
+            p.push_back(v);
+            bt(v, t, p, ans, parent);
+            p.pop_back();
+        }
+    }
+public:
+    vector<vector<string>> findLadders(string beginWord, string endWord, vector<string>& wordList) {
+        if (!count(wordList.begin(), wordList.end(), endWord)) {
+            return {};
+        }
+        int n = beginWord.size(), sz, i, j, k = 1;
+        char c;
+        string nw;
+        queue<array<string,2>> q;
+        unordered_map<string,int> dist;
+        for (auto &w: wordList) {
+            dist[w] = INT_MAX;
+        }
+        unordered_map<string,unordered_set<string>> parent;
+        vector<vector<string>> ans;
+        vector<string> p;
+        q.push({beginWord, ""});
+        dist[beginWord] = 1;
+        parent[beginWord].insert("");
+        while (q.size() && parent[endWord].empty()) {
+            sz = q.size();
+            for (i = 0; i < sz; i ++) {
+                auto [w, p] = q.front();
+                q.pop();
+                if (w == endWord) {
+                    continue;
+                }
+                for (j = 0; j < n; j ++) {
+                    nw = w;
+                    for (c = 'a'; c <= 'z'; c ++) {
+                        nw[j] = c;
+                        if (dist.count(nw)) {
+                            if (k+1 < dist[nw]) {
+                                q.push({nw, w});
+                                dist[nw] = k+1;
+                                parent[nw].clear();
+                                parent[nw].insert(w);
+                            } else if (k+1 == dist[nw]) {
+                                parent[nw].insert(w);
+                            }
+                        }
+                    }
+                }
+            }
+            k += 1;
+        }
+        p.push_back(endWord);
+        bt(endWord, beginWord, p, ans, parent);
+        return ans;
+    }
+};
 ```
 * [Hard] 126. Word Ladder II
 
@@ -13082,18 +13086,17 @@ class Solution:
 class Solution {
 public:
     int largestRectangleArea(vector<int>& heights) {
-        int n = heights.size(), j, y, ans = 0;
-        stack<pair<int,int>> stk;
         heights.push_back(0);
-        n += 1;
-        stk.push({-1, -1});
-        for (j = 0; j < n; j ++) {
-            while (stk.size() && stk.top().first >= heights[j]) {
-                auto [y, _] = stk.top();
+        int n = heights.size(), i, ans = 0;
+        stack<int> stk;
+        stk.push(-1);
+        for (i = 0; i < n; i ++) {
+            while (stk.size() && stk.top() >= 0 && heights[stk.top()] >= heights[i]) {
+                auto j = stk.top();
                 stk.pop();
-                ans = max(ans, y * (j - stk.top().second - 1));
+                ans = max(ans, heights[j] * (i - stk.top() - 1));
             }
-            stk.push({heights[j], j});
+            stk.push(i);
         }
         return ans;
     }
@@ -15014,26 +15017,27 @@ class Solution:
 ```
 * [Hard] [Solution] 164. Maximum Gap
 
-### value to correct index, bucket sort
-```python
-class Solution:
-    def firstMissingPositive(self, nums: List[int]) -> int:
-        N = len(nums)
-        i = 0
-        while i < N:
-            if nums[i] <= 0 or nums[i] > N:
-                i += 1
-                continue
-            j = nums[i]
-            if nums[j-1] != nums[i]:
-                nums[j-1], nums[i] = nums[i], nums[j-1]
-            else:
-                i += 1
-
-        for i in range(N):
-            if i + 1 != nums[i]:
-                return i + 1
-        return N + 1
+### index as value, try to make nums[i] = i + 1
+```c++
+class Solution {
+public:
+    int firstMissingPositive(vector<int>& nums) {
+        int n = nums.size(), i;
+        for (i = 0; i < n; i ++) {
+            while (nums[i] >= 1 && 
+                nums[i] <= n &&
+                nums[i] != nums[nums[i]-1]) {
+                swap(nums[i], nums[nums[i]-1]);
+            }
+        }
+        for (i = 0; i < n; i ++) {
+            if (nums[i] != i + 1) {
+                return i + 1;
+            }
+        }
+        return n + 1;
+    }
+};
 ```
 * [Hard] 41. First Missing Positive
 
@@ -16619,30 +16623,32 @@ public:
 ```
 * [Hard] [Solution] 295. Find Median from Data Stream
 
-### Sort by efficiency, and greedy over max speed with heap
-```python
-class Solution:
-    def maxPerformance(self, n: int, speed: List[int], efficiency: List[int], k: int) -> int:
-        modulo = 10 ** 9 + 7
-
-        # build tuples of (efficiency, speed)
-        candidates = zip(efficiency, speed)
-        # sort the candidates by their efficiencies
-        candidates = sorted(candidates, key=lambda t:t[0], reverse=True)
-
-        speed_heap = []
-        speed_sum, perf = 0, 0
-        for curr_efficiency, curr_speed in candidates:
-            # maintain a heap for the fastest (k-1) speeds
-            if len(speed_heap) > k-1:
-                speed_sum -= heapq.heappop(speed_heap)
-            heapq.heappush(speed_heap, curr_speed)
-
-            # calcuslate the maximum performance with the current member as the least efficient one in the team
-            speed_sum += curr_speed
-            perf = max(perf, speed_sum * curr_efficiency)
-
-        return perf % modulo
+### sort by efficiency then greedily keep largest speeds with min-heap and try every solution
+```c++
+class Solution {
+public:
+    int maxPerformance(int n, vector<int>& speed, vector<int>& efficiency, int k) {
+        int i, MOD = 1e9 + 7;
+        long long a = 0, ans = 0;
+        vector<array<int,2>> dp(n);
+        priority_queue<int, vector<int>, greater<>> pq;
+        for (i = 0; i < n; i ++) {
+            dp[i] = {efficiency[i], speed[i]};
+        }
+        sort(dp.begin(), dp.end());
+        for (i = n-1; i >= 0; i --) {
+            a += dp[i][1];
+            pq.push(dp[i][1]);
+            ans = max(ans, a * dp[i][0]);
+            if (pq.size() == k) {
+                auto b = pq.top();
+                a -= b;
+                pq.pop();
+            }
+        }
+        return ans % MOD;
+    }
+};
 ```
 * [Hard] 1383. Maximum Performance of a Team
 

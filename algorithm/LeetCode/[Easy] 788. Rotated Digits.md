@@ -40,3 +40,38 @@ class Solution:
                 result += 1
         return result
 ```
+
+**Solution 2: (Brute Force)**
+```
+Runtime: 0 ms, Beats 100.00%
+Memory: 7.85 MB, Beats 66.14%
+```
+```c++
+class Solution {
+public:
+    int rotatedDigits(int n) {
+        int a, b, e, d, nd, ans = 0;
+        bool flag;
+        vector<int> mp = {0,1,5,-1,-1,2,9,-1,8,6};
+        for (a = 1; a <= n; a ++) {
+            b = 0;
+            e = 1;
+            flag = true;
+            while (e <= a) {
+                d = (a / e) % 10;
+                nd = mp[d];
+                if (nd < 0) {
+                    flag = false;
+                    break;
+                }
+                b += nd * e;
+                e *= 10;
+            }
+            if (flag && b != a) {
+                ans += 1;
+            }
+        }
+        return ans;
+    }
+};
+```

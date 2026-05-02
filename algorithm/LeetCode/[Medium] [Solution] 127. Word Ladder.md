@@ -556,3 +556,77 @@ public:
     }
 };
 ```
+
+**Solution 6: (Bidirectional BFS)**
+
+    beginWord = "hit",
+    endWord = "cog",
+    wordList = ["hot","dot","dog","lot","log","cog"]
+ust:              x     x     x     x     x     x
+level: 1
+w1: hit
+w2: cog
+w:  hot           .
+--------
+level: 2
+w1: hot
+w2: cog
+w:  dot,lot             .           .
+--------
+level: 3
+w1: cog
+w2: dot,lot
+w:  dog,log,cog               .           .     .
+-------
+level: 4
+     vans
+w1: dot,lot
+      -
+w2: dog,log,cog
+      -
+w: 
+```
+Runtime: 13 ms, Beats 99.86%
+Memory: 19.26 MB, Beats 95.03%
+```
+```c++
+class Solution {
+public:
+    int ladderLength(string beginWord, string endWord, vector<string>& wordList) {
+        unordered_set<string> ust(begin(wordList), end(wordList));
+        if (ust.find(endWord) == ust.end()) {
+            return 0;
+        }
+        unordered_set<string> w1{beginWord};
+        unordered_set<string> w2{endWord};
+        int level = 1;
+        while (!w1.empty() && !w2.empty()) {
+            // to alternate turns
+            if (w1.size() > w2.size()) {
+                swap(w1, w2);
+            }
+
+            // can avoid making another list by using normal for loop
+            unordered_set<string> w;
+            for(auto word: w1) {
+                int wordSize = word.size();
+                for(int i = 0; i < wordSize; i++) {
+                    auto ch = word[i];
+                    for(char c = 'a'; c <= 'z'; c++) {
+                        word[i] = c;
+                        if(w2.count(word)) return level + 1;
+                        if(!ust.count(word)) continue;
+                        ust.erase(word);
+                        w.insert(word);
+                    }
+                    word[i] = ch;
+                }
+            }
+            // we exhausted the list we were searching, but we built the next level
+            swap(w, w1);
+            level++;
+        }
+        return 0;
+    }
+};
+```

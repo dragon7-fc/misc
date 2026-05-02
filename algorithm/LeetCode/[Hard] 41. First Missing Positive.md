@@ -165,7 +165,7 @@ int firstMissingPositive(int* nums, int numsSize){
 }
 ```
 
-**Solution 6: (value as index)**
+**Solution 6: (index as value, try to make nums[i] = i + 1)**
 
              0  1  2  3
     nums = [ 3, 4,-1, 1]
@@ -183,29 +183,27 @@ int firstMissingPositive(int* nums, int numsSize){
                 ans 
             
 ```
-Runtime: 47 ms
-Memory: 43.49 MB
+Runtime: 0 ms, Beats 100.00%
+Memory: 54.97 MB, Beats 84.73%
 ```
 ```c++
 class Solution {
 public:
     int firstMissingPositive(vector<int>& nums) {
-        int i = 0, j, n = nums.size();
-        while (i < n) {
-            if (nums[i] <= 0 || nums[i] > n) {
-                i += 1;
-                continue;
+        int n = nums.size(), i;
+        for (i = 0; i < n; i ++) {
+            while (nums[i] >= 1 && 
+                nums[i] <= n &&
+                nums[i] != nums[nums[i]-1]) {
+                swap(nums[i], nums[nums[i]-1]);
             }
-            j = nums[i];
-            if (nums[j-1] != nums[i]) {
-                swap(nums[i], nums[j-1]);
-            } else
-                i += 1;
         }
-        for (i = 0; i < n; i ++)
-            if (i+1 != nums[i])
-                return i+1;
-        return nums.size()+1;
+        for (i = 0; i < n; i ++) {
+            if (nums[i] != i + 1) {
+                return i + 1;
+            }
+        }
+        return n + 1;
     }
 };
 ```

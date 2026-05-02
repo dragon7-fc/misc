@@ -330,21 +330,21 @@ char *** findLadders(char * beginWord, char * endWord, char ** wordList, int wor
 }
 ```
 
-**Solution 3: (BFS)**
+**Solution 3: (BFS, Backtracking, bfs to collect possible parent for each word then backtrack to find all path)**
 ```
 Runtime: 9 ms, Beats 86.98%
 Memory: 14.28 MB, Beats 26.29%
 ```
 ```c++
 class Solution {
-    void bt(string u, string &t, vector<string> &p, vector<vector<string>> &ans, unordered_map<string,unordered_set<string>> &g) {
+    void bt(string u, string &t, vector<string> &p, vector<vector<string>> &ans, unordered_map<string,unordered_set<string>> &parent) {
         if (u == t) {
             ans.push_back(vector<string>(p.rbegin(), p.rend()));
             return;
         }
-        for (auto &v: g[u]) {
+        for (auto &v: parent[u]) {
             p.push_back(v);
-            bt(v, t, p, ans, g);
+            bt(v, t, p, ans, parent);
             p.pop_back();
         }
     }
@@ -361,13 +361,13 @@ public:
         for (auto &w: wordList) {
             dist[w] = INT_MAX;
         }
-        unordered_map<string,unordered_set<string>> g;
+        unordered_map<string,unordered_set<string>> parent;
         vector<vector<string>> ans;
         vector<string> p;
         q.push({beginWord, ""});
         dist[beginWord] = 1;
-        g[beginWord].insert("");
-        while (q.size() && g[endWord].empty()) {
+        parent[beginWord].insert("");
+        while (q.size() && parent[endWord].empty()) {
             sz = q.size();
             for (i = 0; i < sz; i ++) {
                 auto [w, p] = q.front();
@@ -383,10 +383,10 @@ public:
                             if (k+1 < dist[nw]) {
                                 q.push({nw, w});
                                 dist[nw] = k+1;
-                                g[nw].clear();
-                                g[nw].insert(w);
+                                parent[nw].clear();
+                                parent[nw].insert(w);
                             } else if (k+1 == dist[nw]) {
-                                g[nw].insert(w);
+                                parent[nw].insert(w);
                             }
                         }
                     }
@@ -395,7 +395,7 @@ public:
             k += 1;
         }
         p.push_back(endWord);
-        bt(endWord, beginWord, p, ans, g);
+        bt(endWord, beginWord, p, ans, parent);
         return ans;
     }
 };
