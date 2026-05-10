@@ -73,7 +73,13 @@ class Solution:
         return max_len
 ```
 
-**Solution 2: (Two Pointers, Sliding Window, inverse increasing max count in sliding window)**
+**Solution 2: (Two Pointers, Sliding Window, all non-majority chars must be replaced, try to maintain upper bound on max frequency not exact value)**
+
+    window size - max frequency <= k
+    -----------   -------------    -
+     increase           ?          fixed
+                        increase to max windwo size
+
 
          0 1 2 3 4 5 6
     s = "A A B A B B A", k = 1

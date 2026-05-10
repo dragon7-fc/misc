@@ -138,3 +138,31 @@ public:
     }
 };
 ```
+
+**Solution 3:(Array, row by row scan)**
+```
+Runtime: 4 ms, Beats 95.33%
+Memory: 56.74 MB, Beats 69.53%
+```
+```c++
+class Solution {
+public:
+    vector<vector<char>> rotateTheBox(vector<vector<char>>& boxGrid) {
+        int m = boxGrid.size(), n = boxGrid[0].size(), i, j, j0;
+        vector<vector<char>> ans(n, vector<char>(m, '.'));
+        for (i = m - 1; i >= 0; i --) {
+            j0 = n - 1;
+            for (j = n - 1; j >= 0; j --) {
+                if (boxGrid[i][j] == '*') {
+                    ans[j][m - 1 - i] = '*';
+                    j0 = j - 1;
+                } else if (boxGrid[i][j] == '#') {
+                    ans[j0][m - 1 - i] = '#';
+                    j0 -= 1;
+                }
+            }
+        }
+        return ans;
+    }
+};
+```

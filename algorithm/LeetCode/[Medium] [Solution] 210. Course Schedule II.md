@@ -465,38 +465,41 @@ int* findOrder(int numCourses, int** prerequisites, int prerequisitesSize, int* 
 
 **Solution 5: (BFS, topological sort)**
 ```
-Runtime: 3 ms, Beats 73.32%
-Memory: 18.12 MB, Beats 65.80%
+Runtime: 0 ms, Beats 100.00%
+Memory: 18.33 MB, Beats 55.22%
 ```
 ```c++
 class Solution {
 public:
     vector<int> findOrder(int numCourses, vector<vector<int>>& prerequisites) {
-        int i;
         vector<vector<int>> g(numCourses);
-        queue<int> q;
-        vector<int> indeg(numCourses), ans;
-        for (auto &p: prerequisites) {
-            g[p[1]].push_back(p[0]);
-            indeg[p[0]] += 1;
+        vector<int> indeg(numCourses);
+        for (auto &pre: prerequisites) {
+            g[pre[1]].push_back(pre[0]);
+            indeg[pre[0]] += 1;
         }
-        for (i = 0; i < numCourses; i ++) {
+        queue<int> q;
+        vector<int> ans;
+        for (int i = 0; i < numCourses; i++) {
             if (indeg[i] == 0) {
                 q.push(i);
+                ans.push_back(i);
             }
         }
-        while (q.size()) {
-            auto u = q.front();
+        while (!q.empty()) {
+            int u = q.front();
             q.pop();
-            ans.push_back(u);
-            for (auto v: g[u]) {
+            for (auto &v: g[u]) {
                 indeg[v] -= 1;
                 if (indeg[v] == 0) {
                     q.push(v);
+                    ans.push_back(v);
                 }
             }
         }
-        return ans.size() == numCourses ? ans : vector<int>();
+        return ans.size() == numCourses
+               ? ans
+               : vector<int>{};
     }
 };
 ```

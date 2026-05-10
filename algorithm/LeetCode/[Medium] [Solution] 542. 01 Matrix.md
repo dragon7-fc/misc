@@ -435,3 +435,44 @@ public:
     }
 };
 ```
+
+**Solution 6: (BFS, reverse thinking, instead of bfs from all 1 at O(m * n * m * n) go bfs from all 0 at O(m * n))**
+```
+Runtime: 55 ms, Beats 9.96%
+Memory: 34.77 MB, Beats 72.64%
+```
+```c++
+class Solution {
+    int dd[5] = {0, 1, 0, -1, 0};
+public:
+    vector<vector<int>> updateMatrix(vector<vector<int>>& mat) {
+        int m = mat.size();
+        int n = mat[0].size();
+        queue<pair<int,int>> q;
+        for (int r = 0; r < m; r++) {
+            for (int c = 0; c < n; c++) {
+                if (mat[r][c] == 0) {
+                    q.push({r, c});
+                } else {
+                    mat[r][c] = -1;
+                }
+            }
+        }
+        while (!q.empty()) {
+            auto [r, c] = q.front();
+            q.pop();
+            for (int d = 0; d < 4; d++) {
+                int nr = r + dd[d];
+                int nc = c + dd[d + 1];
+                if (0 <= nr && nr < m &&
+                    0 <= nc && nc < n &&
+                    mat[nr][nc] == -1) {
+                    mat[nr][nc] = mat[r][c] + 1;
+                    q.push({nr, nc});
+                }
+            }
+        }
+        return mat;
+    }
+};
+```

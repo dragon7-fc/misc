@@ -171,3 +171,61 @@ class Solution:
                         return True
         return False
 ```
+
+**Solution 5: (DFS)**
+```
+Runtime: 35 ms, Beats 97.16%
+Memory: 10.68 MB, Beats 57.48%
+```
+```c++
+class Solution {
+    int dd[5] = {0, 1, 0, -1, 0};
+    bool dfs(int i, int j, int j0, vector<vector<char>> &board, string &word, vector<vector<bool>> &visited) {
+        if (j0 == word.length() - 1) {
+            return true;
+        }
+        visited[i][j] = true;
+        int d, ni, nj;
+        for (d = 0; d < 4; d ++) {
+            ni = i + dd[d];
+            nj = j + dd[d + 1];
+            if (0 <= ni && ni < board.size() && 0 <= nj && nj < board[0].size()) {
+                if (!visited[ni][nj] && board[ni][nj] == word[j0 + 1]) {
+                    if (dfs(ni, nj, j0 + 1, board, word, visited)) {
+                        return true;
+                    }
+                }
+            }
+        }
+        visited[i][j] = false;
+        return false;
+    }
+public:
+    bool exist(vector<vector<char>>& board, string word) {
+        int m = board.size(), n = board[0].size(), len = word.length(), i, j;
+        vector<int> cnt(128);
+        vector<vector<bool>> visited(m, vector<bool>(n));
+        for (i = 0; i < m; i ++) {
+            for (j = 0; j < n; j ++) {
+                cnt[board[i][j]] += 1;
+            }
+        }
+        for (i = 0; i < len; i ++) {
+            cnt[word[i]] -= 1;
+        }
+        if (any_of(cnt.begin(), cnt.end(), [](const auto a){return a < 0;})) {
+            return false;
+        }
+        for (i = 0; i < m; i ++) {
+            for (j = 0; j < n; j ++) {
+                if (board[i][j] == word[0]) {
+                    if (dfs(i, j, 0, board, word, visited)) {
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
+    }
+};
+```

@@ -268,16 +268,15 @@ class Solution:
 class Solution {
 public:
     void rotate(vector<vector<int>>& matrix) {
-        int n = matrix.size(), i = 0, j, a, b;
-        while (i < n-1-i) {
-            for (j = i; j < n-1-i; j ++) {
+        int n = matrix.size(), i, j, a;
+        for (i = 0; i < n / 2; i ++) {
+            for (j = i; j < n - 1 - i; j ++) {
                 a = matrix[i][j];
-                matrix[i][j] = matrix[n-1-j][i];
-                matrix[n-1-j][i] = matrix[n-1-i][n-1-j];
-                matrix[n-1-i][n-1-j] = matrix[j][n-1-i];
-                matrix[j][n-1-i] = a;
+                matrix[i][j] = matrix[n - 1 - j][i];
+                matrix[n - 1 - j][i] = matrix[n - 1 - i][n - 1 - j];
+                matrix[n - 1 - i][n - 1 - j] = matrix[j][n - 1 - i];
+                matrix[j][n - 1 - i] = a;
             }
-            i += 1;
         }
     }
 };
@@ -4288,22 +4287,27 @@ class Solution:
 ```
 * [Medium] 858. Mirror Reflection
 
-### Task Scheduler
-```python
-class Solution:
-    def leastInterval(self, tasks, n):
-        """
-        :type tasks: List[str]
-        :type n: int
-        :rtype: int
-        """
-        d = collections.Counter(tasks)
-        counts = d.values()
-        longest = max(counts)
-        ans = (longest - 1) * (n + 1)
-        for count in counts:
-            ans += count == longest and 1 or 0
-        return max(len(tasks), ans)
+### try fill max frequency element
+```c++
+class Solution {
+public:
+    int leastInterval(vector<char>& tasks, int n) {
+        int i, cnt[26] = {0}, mx_f = 0, ans;
+        for (auto &c: tasks) {
+            cnt[c - 'A'] += 1;
+        }
+        for (i = 0; i < 26; i ++) {
+            mx_f = max(mx_f, cnt[i]);
+        }
+        ans = (mx_f - 1) * (n + 1);
+        for (i = 0; i < 26; i ++) {
+            ans += (cnt[i] == mx_f ? 1 : 0);
+        }
+        return max((int)tasks.size(), ans);
+                //^^^^^^^^^^^^^^^^^^
+                // enough other tasks fill idle slots
+    }
+};
 ```
 * [Medium] [Solution] 621. Task Scheduler
 
@@ -5867,91 +5871,31 @@ class Solution:
 ```
 * [Medium] 814. Binary Tree Pruning
 
-### Postorder, parent pointer
-```python
-# Definition for a binary tree node.
-# class TreeNode:
-#     def __init__(self, x):
-#         self.val = x
-#         self.left = None
-#         self.right = None
-
-class Solution:
-    
-    def __init__(self):
-        # Variable to store LCA node.
-        self.ans = None
-    
-    def lowestCommonAncestor(self, root: 'TreeNode', p: 'TreeNode', q: 'TreeNode') -> 'TreeNode':
-        def recurse_tree(current_node):
-            
-            # If reached the end of a branch, return False.
-            if not current_node:
-                return False
-
-            # Left Recursion
-            left = recurse_tree(current_node.left)
-
-            # Right Recursion
-            right = recurse_tree(current_node.right)
-
-            # If the current node is one of p or q
-            mid = current_node == p or current_node == q
-
-            # If any two of the three flags left, right or mid become True.
-            if mid + left + right >= 2:
-                self.ans = current_node
-
-            # Return True if either of the three bool values is True.
-            return mid or left or right
-
-        # Traverse the tree
-        recurse_tree(root)
-        return self.ans
-
-# Definition for a binary tree node.
-# class TreeNode:
-#     def __init__(self, x):
-#         self.val = x
-#         self.left = None
-#         self.right = None
-
-class Solution:
-    
-    def lowestCommonAncestor(self, root: 'TreeNode', p: 'TreeNode', q: 'TreeNode') -> 'TreeNode':
-        
-        # Stack for tree traversal
-        stack = [root]
-
-        # Dictionary for parent pointers
-        parent = {root: None}
-
-        # Iterate until we find both the nodes p and q
-        while p not in parent or q not in parent:
-
-            node = stack.pop()
-
-            # While traversing the tree, keep saving the parent pointers.
-            if node.left:
-                parent[node.left] = node
-                stack.append(node.left)
-            if node.right:
-                parent[node.right] = node
-                stack.append(node.right)
-
-        # Ancestors set() for node p.
-        ancestors = set()
-
-        # Process all ancestors for node p using parent pointers.
-        while p:
-            ancestors.add(p)
-            p = parent[p]
-
-        # The first ancestor of q which appears in
-        # p's ancestor set() is their lowest common ancestor.
-        while q not in ancestors:
-            q = parent[q]
-        return q
+### Postorder
+```c++
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    TreeNode* lowestCommonAncestor(TreeNode* root, TreeNode* p, TreeNode* q) {
+        if (!root) {
+            return nullptr;
+        }
+        TreeNode *left = lowestCommonAncestor(root->left, p, q);
+        TreeNode *right = lowestCommonAncestor(root->right, p, q);
+        if ((root == p || root == q) || (left && right)) {
+            return root;
+        }
+        return left ? left : right;
+    }
+};
 ```
 * [Medium] [Solution] 236. Lowest Common Ancestor of a Binary Tree
 
@@ -8361,41 +8305,38 @@ public:
 ```
 * [Medium] [Solution] 934. Shortest Bridge
 
-### Cycle
+### topological sort
 ```c++
 class Solution {
-    bool dfs(int u, vector<vector<int>> &g, vector<int> &visited) {
-        if (visited[u] == -1) {  // previous state
-            return true;
-        }
-        if (visited[u] == 1) {  // current state, cycle found
-            return false;
-        }
-        visited[u] = 1;
-        for (auto v: g[u]) {
-            if (!dfs(v, g, visited)) {
-                return false;
-            }
-        }
-        visited[u] = -1;
-        return true;
-    }
 public:
     bool canFinish(int numCourses, vector<vector<int>>& prerequisites) {
+        int i, k;
         vector<vector<int>> g(numCourses);
+        queue<int> q;
+        vector<int> indeg(numCourses);
         vector<int> visited(numCourses);
-        int i;
-        for (auto p: prerequisites) {
+        for (auto &p: prerequisites) {
             g[p[1]].push_back(p[0]);
+            indeg[p[0]] += 1;
         }
         for (i = 0; i < numCourses; i ++) {
-            if (!visited[i]) {
-                if (!dfs(i, g, visited)) {
-                    return false;
+            if (indeg[i] == 0) {
+                q.push(i);
+            }
+        }
+        k = 0;
+        while (q.size()) {
+            auto u = q.front();
+            q.pop();
+            k += 1;
+            for (auto v: g[u]) {
+                indeg[v] -= 1;
+                if (indeg[v] == 0) {
+                    q.push(v);
                 }
             }
         }
-        return true;
+        return k == numCourses;
     }
 };
 ```
@@ -10186,40 +10127,24 @@ public:
 ```
 * [Medium] 165. Compare Version Numbers
 
-### Greedy over sorted intervals
-```python
-class Solution:
-    def eraseOverlapIntervals(self, intervals: List[List[int]]) -> int:
-        if not intervals:
-            return 0
-        intervals.sort(key=lambda x: x[1])
-        prev_end = intervals[0][1]
-        ans = 0
-        for start, end in intervals[1:]:
-            if prev_end > start:
-                ans += 1
-            else:
-                prev_end = end
-        return ans
-
-class Solution:
-    def eraseOverlapIntervals(self, intervals: List[List[int]]) -> int:
-        if not intervals: 
-            return 0
-        N = len(intervals)
-        intervals.sort(key=lambda x: x[0])
-        prev_end = intervals[0][1]
-        count = 0
-        for start, end in intervals[1:]:
-            if start < prev_end <= end:
-                count += 1
-            elif prev_end > end:
-                count += 1
-                prev_end = end
-            else:
-                prev_end = end
-
-        return count
+### sort by end time, earliest end time give more space for future event no matter what start time, if overlap -> remove current interval to preserve small end time
+```c++
+class Solution {
+public:
+    int eraseOverlapIntervals(vector<vector<int>>& intervals) {
+        sort(intervals.begin(), intervals.end(), [](vector<int> &a, vector<int> &b){return a[1] < b[1];});
+        int pre_end = intervals[0][1];
+        int ans = 0;
+        for (int i = 1; i < intervals.size(); i ++) {
+            if (pre_end > intervals[i][0]) {
+                ans += 1;
+            } else {
+                pre_end = intervals[i][1];
+            }
+        }
+        return ans;
+    }
+};
 ```
 * [Medium] [Solution] 435. Non-overlapping Intervals
 
@@ -10638,26 +10563,36 @@ class Solution:
 ```
 * [Hard] [Solution] 936. Stamping The Sequence
 
-### Greedy add with count and visited
-```python
-class Solution:
-    def removeDuplicateLetters(self, s: str) -> str:
-        N = len(s)
-        cnt = collections.Counter(s)
-        visited = collections.defaultdict(int)
-        ans = "0"
-        for i in range(N):
-            cnt[s[i]] -= 1
-            if visited[s[i]]: continue
-            while s[i] < ans[-1] and cnt[ans[-1]]:
-                visited[ans[-1]] = 0
-                ans = ans[:-1]
-            ans += s[i]
-            visited[s[i]] = 1
-
-        return ans[1:]
+### try pop previous element if appear later and larger than current and current not visited
+```c++
+class Solution {
+public:
+    string removeDuplicateLetters(string s) {
+        vector<int> cnt(26);
+        vector<bool> visited(26);
+        for (auto &c: s) {
+            cnt[c - 'a'] += 1;
+        }
+        string ans;
+        for (char &c: s) {
+            cnt[c - 'a'] -= 1;
+            if (visited[c - 'a']) {
+                continue;
+            }
+            while (!ans.empty() &&
+                   ans.back() > c &&
+                   cnt[ans.back() - 'a'] > 0) {
+                visited[ans.back() - 'a'] = false;
+                ans.pop_back();
+            }
+            ans.push_back(c);
+            visited[c - 'a'] = true;
+        }
+        return ans;
+    }
+};
 ```
-* [Hard] 316. Remove Duplicate Letters
+* [Medium] 316. Remove Duplicate Letters
 
 ### Minimum Number of Increments
 ```c++
@@ -10725,36 +10660,39 @@ return ans
 
 ## Breadth-first Search <a name="bfs"></a>
 ---
-### expand around zero, only distance, without visited 
+### reverse thinking, instead of bfs from all 1 at O(m * n * m * n) go bfs from all 0 at O(m * n) 
 ```c++
 class Solution {
     int dd[5] = {0, 1, 0, -1, 0};
 public:
     vector<vector<int>> updateMatrix(vector<vector<int>>& mat) {
-        int m = mat.size(), n = mat[0].size(), i, j, d, nr, nc;
-        vector<vector<int>> ans(m, vector<int>(n, INT_MAX));
-        queue<array<int,2>> q;
-        for (i = 0; i < m; i ++) {
-            for (j = 0; j < n; j ++) {
-                if (mat[i][j] == 0) {
-                    ans[i][j] = 0;
-                    q.push({i, j});
+        int m = mat.size();
+        int n = mat[0].size();
+        queue<pair<int,int>> q;
+        for (int r = 0; r < m; r++) {
+            for (int c = 0; c < n; c++) {
+                if (mat[r][c] == 0) {
+                    q.push({r, c});
+                } else {
+                    mat[r][c] = -1;
                 }
             }
         }
-        while (q.size()) {
+        while (!q.empty()) {
             auto [r, c] = q.front();
             q.pop();
-            for (d = 0; d < 4; d ++) {
-                nr = r + dd[d];
-                nc = c + dd[d+1];
-                if (0 <= nr && nr < m && 0 <= nc && nc < n && ans[nr][nc] > ans[r][c] + 1) {
-                    ans[nr][nc] = ans[r][c] + 1;
+            for (int d = 0; d < 4; d++) {
+                int nr = r + dd[d];
+                int nc = c + dd[d + 1];
+                if (0 <= nr && nr < m &&
+                    0 <= nc && nc < n &&
+                    mat[nr][nc] == -1) {
+                    mat[nr][nc] = mat[r][c] + 1;
                     q.push({nr, nc});
                 }
             }
         }
-        return ans;
+        return mat;
     }
 };
 ```
@@ -11178,35 +11116,46 @@ public:
 ```
 * [Medium] [Solution] 127. Word Ladder
 
-### BFS
-```python
-class Solution:
-    def orangesRotting(self, grid: List[List[int]]) -> int:
-        R, C = len(grid), len(grid[0])
-
-        # queue - all starting cells with rotting oranges
-        queue = collections.deque()
-        for r, row in enumerate(grid):
-            for c, val in enumerate(row):
-                if val == 2:
-                    queue.append((r, c, 0))
-
-        def neighbors(r, c):
-            for nr, nc in ((r-1,c),(r,c-1),(r+1,c),(r,c+1)):
-                if 0 <= nr < R and 0 <= nc < C:
-                    yield nr, nc
-
-        d = 0
-        while queue:
-            r, c, d = queue.popleft()
-            for nr, nc in neighbors(r, c):
-                if grid[nr][nc] == 1:
-                    grid[nr][nc] = 2
-                    queue.append((nr, nc, d+1))
-
-        if any(1 in row for row in grid):
-            return -1
-        return d
+### BFS, simulation
+```c++
+class Solution {
+  int dd[5] = {0, 1, 0, -1, 0};
+public:
+    int orangesRotting(vector<vector<int>>& grid) {
+        int m = grid.size(), n = grid[0].size(), i, j, k = 0, d, nr, nc;
+        queue<array<int, 3>> q;
+        for (i = 0; i < m; i ++) {
+            for (j = 0; j < n; j ++) {
+                if (grid[i][j] == 1) {
+                    k += 1;
+                } else if (grid[i][j] == 2) {
+                    q.push({i, j, 0});
+                }
+            }
+        }
+        // no fresh oranges initially
+        if (k == 0) {
+            return 0;
+        }
+        while (!q.empty()) {
+            auto [r, c, t] = q.front();
+            q.pop();
+            for (d = 0; d < 4; d ++) {
+                nr = r + dd[d];
+                nc = c + dd[d + 1];
+                if (0 <= nr && nr < m && 0 <= nc && nc < n && grid[nr][nc] == 1) {
+                    grid[nr][nc] = 2;
+                    k -= 1;
+                    if (k == 0) {
+                        return t + 1;
+                    }
+                    q.push({nr, nc, t + 1});
+                }
+            }
+        }
+        return -1;
+    }
+};
 ```
 * [Medium] [Solution] 994. Rotting Oranges
 
@@ -11421,31 +11370,42 @@ public:
 ```
 * [Medium] * 1129. Shortest Path with Alternating Colors
 
-### Level-order shortest path
-```python
-class Solution:
-    def shortestPath(self, grid: List[List[int]], k: int) -> int:
-        m, n = len(grid), len(grid[0])
-        q = collections.deque([[0, 0, 0]])    # row, col, num of obstables met so far
-        visited = {(0, 0): 0}                 # row, col   =>   num of obstables met so far
-        steps = 0
-        
-        while q:
-            size = len(q)
-            for _ in range(size):
-                r, c, obs = q.popleft()
-                if obs > k: continue
-                if r == m - 1 and c == n - 1: 
-                    return steps
-                for r2, c2 in [[r+1, c], [r-1, c], [r, c+1], [r, c-1]]:
-                    if 0 <= r2 < m and 0 <= c2 < n:
-                        next_obs = obs + 1 if grid[r2][c2] == 1 else obs
-                        if next_obs < visited.get((r2, c2), float('inf')):
-                            visited[(r2, c2)] = next_obs
-                            q.append([r2, c2, next_obs])
-            steps += 1
-        
-        return -1
+### track remain obstacle for each cell and pruning with min remain obstacle
+```c++
+class Solution {
+class Solution {
+  int dd[5] = {0, 1, 0, -1, 0};
+public:
+    int shortestPath(vector<vector<int>>& grid, int k) {
+        int m = grid.size(), n = grid[0].size(), d, nr, nc, no;
+        if (k >= m + n - 2) {
+            return m + n - 2;
+        }
+        vector<vector<int>> visited(m, vector<int>(n, -1));  // max remain obstacle for each cell
+        queue<array<int, 4>> q;
+        q.push({0, 0, 0, k});
+        visited[0][0] = k;
+        while (!q.empty()) {
+            auto [r, c, s, o] = q.front();
+            q.pop();
+            if (r == m - 1 && c == n - 1) {
+                return s;
+            }
+            for (d = 0; d < 4; d ++) {
+                nr = r + dd[d];
+                nc = c + dd[d + 1];
+                if (0 <= nr && nr < m && 0 <= nc && nc < n) {
+                    no = o - (grid[nr][nc] == 1);
+                    if (no >= 0 && visited[nr][nc] < no) {
+                        visited[nr][nc] = no;
+                        q.push({nr, nc, s + 1, no});
+                    }
+                }
+            }
+        }
+        return -1;
+    }
+};
 ```
 * [Hard] 1293. Shortest Path in a Grid with Obstacles Elimination
 
@@ -11518,111 +11478,40 @@ public:
 * [Hard] 126. Word Ladder II
 
 ### Topological Sort
-```python
-class Solution:
-
-    WHITE = 1
-    GRAY = 2
-    BLACK = 3
-
-    def findOrder(self, numCourses: int, prerequisites: List[List[int]]) -> List[int]:
-        # Create the adjacency list representation of the graph
-        adj_list = defaultdict(list)
-
-        # A pair [a, b] in the input represents edge from b --> a
-        for dest, src in prerequisites:
-            adj_list[src].append(dest)
-
-        topological_sorted_order = []
-        is_possible = True
-
-        # By default all vertces are WHITE
-        color = {k: Solution.WHITE for k in range(numCourses)}
-        def dfs(node):
-            nonlocal is_possible
-
-            # Don't recurse further if we found a cycle already
-            if not is_possible:
-                return
-
-            # Start the recursion
-            color[node] = Solution.GRAY
-
-            # Traverse on neighboring vertices
-            if node in adj_list:
-                for neighbor in adj_list[node]:
-                    if color[neighbor] == Solution.WHITE:
-                        dfs(neighbor)
-                    elif color[neighbor] == Solution.GRAY:
-                         # An edge to a GRAY vertex represents a cycle
-                        is_possible = False
-
-            # Recursion ends. We mark it as black
-            color[node] = Solution.BLACK
-            topological_sorted_order.append(node)
-
-        for vertex in range(numCourses):
-            # If the node is unprocessed, then call dfs on it.
-            if color[vertex] == Solution.WHITE:
-                dfs(vertex)
-
-        return topological_sorted_order[::-1] if is_possible else [] 
-
-class Solution:
-    def findOrder(self, numCourses: int, prerequisites: List[List[int]]) -> List[int]:
-        graph = collections.defaultdict(list)
-        indegree = [0] * numCourses
-        ans = []
-
-        for course, pre in prerequisites:
-            graph[pre].append(course)
-            indegree[course] += 1
-
-        q = collections.deque([i for i in range(numCourses) if indegree[i] == 0])
-        while q:
-            pre = q.popleft()
-            ans.append(pre)
-            for course in graph[pre]:
-                indegree[course] -= 1
-                if indegree[course] == 0:
-                    q.append(course)
-
-        return ans if len(ans) == numCourses else []
-
-class Solution:
-
-    def findOrder(self, numCourses: int, prerequisites: List[List[int]]) -> List[int]:
-        # Prepare the graph
-        adj_list = defaultdict(list)
-        indegree = {}
-        for dest, src in prerequisites:
-            adj_list[src].append(dest)
-
-            # Record each node's in-degree
-            indegree[dest] = indegree.get(dest, 0) + 1
-
-        # Queue for maintainig list of nodes that have 0 in-degree
-        zero_indegree_queue = deque([k for k in range(numCourses) if k not in indegree])
-
-        topological_sorted_order = []
-
-        # Until there are nodes in the Q
-        while zero_indegree_queue:
-
-            # Pop one node with 0 in-degree
-            vertex = zero_indegree_queue.popleft()
-            topological_sorted_order.append(vertex)
-
-            # Reduce in-degree for all the neighbors
-            if vertex in adj_list:
-                for neighbor in adj_list[vertex]:
-                    indegree[neighbor] -= 1
-
-                    # Add neighbor to Q if in-degree becomes 0
-                    if indegree[neighbor] == 0:
-                        zero_indegree_queue.append(neighbor)
-
-        return topological_sorted_order if len(topological_sorted_order) == numCourses else []
+```c++
+class Solution {
+public:
+    vector<int> findOrder(int numCourses, vector<vector<int>>& prerequisites) {
+        vector<vector<int>> g(numCourses);
+        vector<int> indeg(numCourses);
+        for (auto &pre: prerequisites) {
+            g[pre[1]].push_back(pre[0]);
+            indeg[pre[0]] += 1;
+        }
+        queue<int> q;
+        vector<int> ans;
+        for (int i = 0; i < numCourses; i++) {
+            if (indeg[i] == 0) {
+                q.push(i);
+                ans.push_back(i);
+            }
+        }
+        while (!q.empty()) {
+            int u = q.front();
+            q.pop();
+            for (auto &v: g[u]) {
+                indeg[v] -= 1;
+                if (indeg[v] == 0) {
+                    q.push(v);
+                    ans.push_back(v);
+                }
+            }
+        }
+        return ans.size() == numCourses
+               ? ans
+               : vector<int>{};
+    }
+};
 ```
 * [Medium] [Solution] 210. Course Schedule II
 
@@ -12373,6 +12262,45 @@ class Solution:
 
 ## Stack <a name="stack"></a>
 ---
+### convert to one direction and use mono inc stack to track and merge value range
+```c++
+class Solution {
+    struct Item {
+        int value;
+        int left;
+        int right;
+    };
+public:
+    vector<int> maxValue(vector<int>& nums) {
+        int n = nums.size();
+        vector<int> ans(n, 0);
+
+        vector<Item> stack;
+
+        for (int i = 0; i < n; ++i) {
+            Item curr = {nums[i], i, i};
+
+            while (!stack.empty() && stack.back().value > nums[i]) {
+                Item top = stack.back();
+                stack.pop_back();
+                curr.value = max(curr.value, top.value);
+                curr.left = top.left;
+            }
+
+            stack.push_back(curr);
+        }
+
+        for (size_t i = 0; i < stack.size(); ++i) {
+            for (int j = stack[i].left; j <= stack[i].right; ++j) {
+                ans[j] = stack[i].value;
+            }
+        }
+
+        return ans;
+    }
+};
+```
+
 ### function call stack simulation
 ```c++
 class Solution {
@@ -13087,14 +13015,15 @@ class Solution {
 public:
     int largestRectangleArea(vector<int>& heights) {
         heights.push_back(0);
-        int n = heights.size(), i, ans = 0;
+        int n = heights.size(), i, h, w, ans = 0;
         stack<int> stk;
         stk.push(-1);
         for (i = 0; i < n; i ++) {
-            while (stk.size() && stk.top() >= 0 && heights[stk.top()] >= heights[i]) {
-                auto j = stk.top();
+            while (stk.top() >= 0 && heights[stk.top()] >= heights[i]) {
+                h = heights[stk.top()];
                 stk.pop();
-                ans = max(ans, heights[j] * (i - stk.top() - 1));
+                w = i - stk.top() - 1;
+                ans = max(ans, h * w);
             }
             stk.push(i);
         }
@@ -15069,6 +14998,32 @@ public:
 
 ## Linked List <a name="ll"></a>
 ---
+### intersect, check self is null and loop on another line, 3 + 2 = 5 and 2 + 3 = 5
+```c++
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode(int x) : val(x), next(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    ListNode *getIntersectionNode(ListNode *headA, ListNode *headB) {
+        if (!headA || !headB)
+            return nullptr;
+        struct ListNode *pa = headA, *pb = headB;
+        while (pa != pb) {
+            pa = (!pa) ? headB : pa->next;
+            pb = (!pb) ? headA : pb->next;
+        }
+        return pa;
+    }
+};
+```
+* [Easy] 160. Intersection of Two Linked Lists
+
 ### change pointer
 ```c++
 /**
@@ -15261,29 +15216,42 @@ class Solution:
 * [Medium] 142. Linked List Cycle II
 
 ### Rotate List
-```python
-# Definition for singly-linked list.
-# class ListNode:
-#     def __init__(self, val=0, next=None):
-#         self.val = val
-#         self.next = next
-class Solution:
-    def rotateRight(self, head: ListNode, k: int) -> ListNode:
-        dummy = ListNode(0)
-        dummy.next = head
-        n = 0
-        while dummy.next:
-            dummy = dummy.next
-            n += 1
-        if n == 0: return None
-        r = n - k%n
-        dummy.next = head
-        while r > 0:
-            dummy = dummy.next
-            r -= 1
-        nh = dummy.next
-        dummy.next = None
-        return nh
+```c++
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode() : val(0), next(nullptr) {}
+ *     ListNode(int x) : val(x), next(nullptr) {}
+ *     ListNode(int x, ListNode *next) : val(x), next(next) {}
+ * };
+ */
+class Solution {
+public:
+    ListNode* rotateRight(ListNode* head, int k) {
+        if (head == nullptr) {
+            return head;
+        }
+        ListNode *cur = head, *pre;
+        int n = 0, r;
+        while (cur) {
+            n += 1;
+            pre = cur;
+            cur = cur->next;
+        }
+        pre->next = head;
+        r = n - k % n;
+        cur = head;
+        while (r) {
+            r -= 1;
+            pre = cur;
+            cur = cur->next;
+        }
+        pre->next = nullptr;
+        return cur;
+    }
+};
 ```
 * [Medium] 61. Rotate List
 
@@ -16193,30 +16161,38 @@ public:
 ```
 * [Medium] 2812. Find the Safest Path in a Grid
 
-### Dijkstra's Algorithm, time O((V+E) * Log(V)) = O(E*log(V))
+### Dijkstr's Algorithm, time O((V+E) * Log(V)) = O(E*log(V)), verify dist to check element visited, can't count visited node because heap may have duplicate weight
 ```c++
 class Solution {
 public:
     int networkDelayTime(vector<vector<int>>& times, int n, int k) {
-        vector<vector<array<int,2>>> g(n+1);
-        priority_queue<array<int,2>, vector<array<int,2>>, greater<array<int,2>>> pq;
-        vector<int> dist(n+1, INT_MAX);
-        for (auto &t: times) {
-            g[t[0]].push_back({t[1], t[2]});
+        int nw, ans;
+        vector<vector<array<int, 2>>> g(n + 1);
+        priority_queue<array<int, 2>, vector<array<int, 2>>, greater<array<int, 2>>> pq;
+        vector<int> dist(n + 1, INT_MAX);
+        for (auto &time: times) {
+            auto &u = time[0];
+            auto &v = time[1];
+            auto &w = time[2];
+            g[u].push_back({v, w});
         }
         pq.push({0, k});
         dist[k] = 0;
-        while (pq.size()) {
-            auto [d, u] = pq.top();
+        while (!pq.empty()) {
+            auto [w, u] = pq.top();
             pq.pop();
-            for (auto &[v, w]: g[u]) {
-                if (dist[v] > d + w) {
-                    dist[v] = d + w;
-                    pq.push({d + w, v});
+            if (w > dist[u]) {
+                continue;
+            }
+            for (auto &[v, dw]: g[u]) {
+                nw = w + dw;
+                if (nw < dist[v]) {
+                    dist[v] = nw;
+                    pq.push({nw, v});
                 }
             }
         }
-        int ans = *max_element(dist.begin()+1, dist.end());
+        ans = *max_element(dist.begin()+1, dist.end());
         return ans == INT_MAX ? -1 : ans;
     }
 };
@@ -17730,7 +17706,7 @@ public:
 ```
 * [Medium] 2747. Count Zero Request Servers
 
-### try currently max frequency, inverse increasing max count in sliding window
+### window size - max frequency <= k, all non-majority chars must be replaced, try to maintain upper bound on max frequency not exact value
 ```c++
 class Solution {
 public:
@@ -17739,6 +17715,10 @@ public:
         vector<int> cnt(26);
         while (j < n) {
             cnt[s[j] - 'A'] += 1;
+            // add current character to window
+            // try to maintain upper bound on max frequency not exact value
+            // when meet limit, only when current char contribute to max frequency then window size will grows
+            // not update max frequency for s[i]
             mx = max(mx , cnt[s[j] - 'A']);
             if (j - i + 1 - mx > k) {
                 cnt[s[i] - 'A'] -= 1;
@@ -18097,60 +18077,46 @@ class Solution:
 * [Medium] 1423. Maximum Points You Can Obtain from Cards
 
 ### slide right and try best to shrink the window from left
-```python
-class Solution:
-    def minWindow(self, s: str, t: str) -> str:
-        if not t or not s:
-            return ""
-
-        # Dictionary which keeps a count of all the unique characters in t.
-        dict_t = collections.Counter(t)
-
-        # Number of unique characters in t, which need to be present in the desired window.
-        required = len(dict_t)
-
-        # left and right pointer
-        l, r = 0, 0
-
-        # formed is used to keep track of how many unique characters in t are present in the current window in its desired frequency.
-        # e.g. if t is "AABC" then the window must have two A's, one B and one C. Thus formed would be = 3 when all these conditions are met.
-        formed = 0
-
-        # Dictionary which keeps a count of all the unique characters in the current window.
-        window_counts = {}
-
-        # ans tuple of the form (window length, left, right)
-        ans = float("inf"), None, None
-
-        while r < len(s):
-
-            # Add one character from the right to the window
-            character = s[r]
-            window_counts[character] = window_counts.get(character, 0) + 1
-
-            # If the frequency of the current character added equals to the desired count in t then increment the formed count by 1.
-            if character in dict_t and window_counts[character] == dict_t[character]:
-                formed += 1
-
-            # Try and contract the window till the point where it ceases to be 'desirable'.
-            while l <= r and formed == required:
-                character = s[l]
-
-                # Save the smallest window until now.
-                if r - l + 1 < ans[0]:
-                    ans = (r - l + 1, l, r)
-
-                # The character at the position pointed by the `left` pointer is no longer a part of the window.
-                window_counts[character] -= 1
-                if character in dict_t and window_counts[character] < dict_t[character]:
-                    formed -= 1
-
-                # Move the left pointer ahead, this would help to look for a new window.
-                l += 1    
-
-            # Keep expanding the window once we are done contracting.
-            r += 1    
-        return "" if ans[0] == float("inf") else s[ans[1] : ans[2] + 1]
+```c++
+class Solution {
+public:
+    string minWindow(string s, string t) {
+        int n = s.length(), i = 0, j, k = 0, ck, minLen = INT_MAX, start;
+        char ic, jc;
+        vector<int> cnt(128), w(128);
+        for (char &c : t) {
+            cnt[c] += 1;
+        }
+        for (auto &f: cnt) {
+            if (f > 0) {
+                k += 1;
+            }
+        }
+        ck = 0;
+        for (j = 0; j < n; j ++) {
+            jc = s[j];
+            w[jc] += 1;
+            if (w[jc] == cnt[jc]) {
+                ck += 1;
+            }
+            while (ck == k) {
+                if (j - i + 1 < minLen) {
+                    minLen = j - i + 1;
+                    start = i;
+                }
+                ic = s[i];
+                w[ic] -= 1;
+                if (w[ic] == cnt[ic] - 1) {
+                    ck -= 1;
+                }
+                i += 1;
+            }
+        }
+        return minLen == INT_MAX
+            ? ""
+            : s.substr(start, minLen);
+    }
+};
 ```
 * [Hard] [Solution] 76. Minimum Window Substring
 

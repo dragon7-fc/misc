@@ -186,3 +186,67 @@ public:
     }
 };
 ```
+
+**Solution 4: (Trie)**
+```
+Runtime: 314 ms, Beats 63.40%
+Memory: 18.60 MB, Beats 93.89%
+```
+```c++
+class Solution {
+    int dd[5] = {0, 1, 0, -1, 0};
+    struct TrieNode {
+        TrieNode* child[26] = {};
+        string word = "";
+    };
+    TrieNode* root;
+    void build(vector<string> &words) {
+        for (auto &w: words) {
+            TrieNode* node = root;
+            for (char &c: w) {
+                if (!node->child[c - 'a']) {
+                    node->child[c - 'a'] = new TrieNode();
+                }
+                node = node->child[c - 'a'];
+            }
+            node->word = w;
+        }
+    }
+    void dfs(int r, int c, TrieNode *node, vector<vector<char>> &board, vector<string> &ans) {
+        char ch = board[r][c];
+        if (ch == '.') {
+            return;
+        }
+        if (!node->child[ch - 'a']) {
+            return;
+        }
+        node = node->child[ch - 'a'];
+        if (node->word != "") {
+            ans.push_back(node->word);
+            node->word = "";
+        }
+        board[r][c] = '.';
+        for (int d = 0; d < 4; d++) {
+            int nr = r + dd[d];
+            int nc = c + dd[d + 1];
+            if (0 <= nr && nr < board.size() && 0 <= nc && nc < board[0].size()) {
+                dfs(nr, nc, node, board, ans);
+            }
+        }
+        board[r][c] = ch;
+    }
+public:
+    vector<string> findWords(vector<vector<char>>& board, vector<string>& words) {
+        root = new TrieNode();
+        build(words);
+        vector<string> ans;
+        int m = board.size(), n = board[0].size();
+        for (int r = 0; r < m; r++) {
+            for (int c = 0; c < n; c++) {
+                dfs(r, c, root, board, ans);
+            }
+        }
+        return ans;
+    }
+};
+```

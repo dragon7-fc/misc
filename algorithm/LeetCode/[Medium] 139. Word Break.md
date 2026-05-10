@@ -158,3 +158,37 @@ public:
     }
 };
 ```
+
+**Solution 6: (DP Bottom-Up)**
+```
+Runtime: 0 ms, Beats 100.00%
+Memory: 10.42 MB, Beats 90.03%
+```
+```c++
+class Solution {
+public:
+    bool wordBreak(string s, vector<string>& wordDict) {
+        int n = s.length(), i, j, mxLen = 0;
+        unordered_set<string> st;
+        for (auto &w: wordDict) {
+            mxLen = max(mxLen, (int)w.length());
+            st.insert(w);
+        }
+        vector<bool> dp(n + 1, false);
+        dp[0] = true;
+        for (i = 0; i < n; i ++) {
+            if (!dp[i]) {
+                continue;
+            }
+            string cur;
+            for (j = i; j < min(n, i + mxLen); j ++) {
+                cur += s[j];
+                if (st.count(cur)) {
+                    dp[j + 1] = true;
+                }
+            }
+        }
+        return dp[n];
+    }
+};
+```

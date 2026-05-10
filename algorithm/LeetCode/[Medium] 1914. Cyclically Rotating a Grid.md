@@ -71,3 +71,179 @@ class Solution:
             for ii in range(m-i-1, i, -1): grid[ii][j] = vals[x]; x += 1
         return grid
 ```
+
+**Solution 2: (Brute Force, translate each layer to 1d array)**
+
+k = 5
+
+    . . . . . .
+    . x * * * .
+    . * * x * .
+    . . . . . . 
+
+layer:1
+               k
+     i         kk    
+r    1 1 1 1 2 2 2 2
+c    1 2 3 4 4 3 2 1
+val  x x x x x x x x
+       i         (i + kk) % total
+                 idx
+     ---------------
+          total
+     --- --- --- ---
+     up  right   left
+             down
+
+```
+Runtime: 24 ms, Beats 6.62%
+Memory: 20.16 MB, Beats 5.88%
+```
+```c++
+class Solution {
+public:
+    vector<vector<int>> rotateGrid(vector<vector<int>>& grid, int k) {
+        int m = grid.size();
+        int n = grid[0].size();
+        int nlayer = min(m / 2, n / 2);  // level count
+        // enumerate each layer counterclockwise starting from the top-left
+        // corner
+        for (int layer = 0; layer < nlayer; ++layer) {
+            vector<int> r, c,
+                val;  // each element's row index, column index, and value
+            for (int j = layer; j < n - layer - 1; ++j) {  // up
+                r.push_back(layer);
+                c.push_back(j);
+                val.push_back(grid[layer][j]);
+            }
+            for (int i = layer; i < m - layer - 1; ++i) {  // right
+                r.push_back(i);
+                c.push_back(n - layer - 1);
+                val.push_back(grid[i][n - layer - 1]);
+            }
+            for (int j = n - layer - 1; j > layer; --j) {  // down
+                r.push_back(m - layer - 1);
+                c.push_back(j);
+                val.push_back(grid[m - layer - 1][j]);
+            }
+            for (int i = m - layer - 1; i > layer; --i) {  // left
+                r.push_back(i);
+                c.push_back(layer);
+                val.push_back(grid[i][layer]);
+            }
+
+
+
+            int total = val.size();  // total number of elements in each layer
+            int kk = k % total;      // equivalent number of rotations
+            // find the value at each index after rotation
+            for (int i = 0; i < total; ++i) {
+                int idx =
+                    (i + kk) % total;  // the index corresponding to the
+                                               // value after rotation
+                grid[r[i]][c[i]] = val[idx];
+            }
+        }
+        return grid;
+    }
+};
+```
+
+**Solution 3: (Brute Force, translate each layer to 1d array)**
+
+
+      layer n-lyaer-1
+      left  right
+    . . . . . .
+    . x * * * .  top    layer
+    . * * x * .  bottom m-layer-1
+    . . . . . . 
+
+               idx
+val  * * * * * x * *
+
+```
+Runtime: 11 ms, Beats 80.15%
+Memory: 17.91 MB, Beats 34.56%
+```
+```c++
+class Solution {
+public:
+    vector<vector<int>> rotateGrid(vector<vector<int>>& grid, int k) {
+        int m = grid.size();
+        int n = grid[0].size();
+
+        int layers = min(m, n) / 2;
+
+        for (int layer = 0; layer < layers; layer++) {
+            vector<int> vals;
+            int top = layer;
+            int left = layer;
+            int bottom = m - layer - 1;
+            int right = n - layer - 1;
+
+            // top row
+            for (int j = left; j < right; j++) {
+                vals.push_back(grid[top][j]);
+            }
+
+            // right column
+            for (int i = top; i < bottom; i++) {
+                vals.push_back(grid[i][right]);
+            }
+
+            // bottom row
+            for (int j = right; j > left; j--) {
+                vals.push_back(grid[bottom][j]);
+            }
+
+            // left column
+            for (int i = bottom; i > top; i--) {
+                vals.push_back(grid[i][left]);
+            }
+
+            int sz = vals.size();
+            int start = k % sz;
+            int idx = start;
+
+            // top row
+            for (int j = left; j < right; j++) {
+                grid[top][j] = vals[idx];
+                idx++;
+                if (idx == sz){
+                    idx = 0;
+                }
+            }
+
+            // right column
+            for (int i = top; i < bottom; i++) {
+                grid[i][right] = vals[idx];
+                idx++;
+                if (idx == sz){
+                    idx = 0;
+                }
+            }
+
+            // bottom row
+            for (int j = right; j > left; j--) {
+                grid[bottom][j] = vals[idx];
+                idx++;
+                if (idx == sz){
+                    idx = 0;
+                }
+            }
+
+            // left column
+            for (int i = bottom; i > top; i--) {
+                grid[i][left] = vals[idx];
+                idx++;
+                if (idx == sz){
+                    idx = 0;
+                }
+            }
+        }
+
+        return grid;
+    }
+};
+```

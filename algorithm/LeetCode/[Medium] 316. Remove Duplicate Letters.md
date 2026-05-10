@@ -73,3 +73,39 @@ class Solution:
 
         return ans[1:]
 ```
+
+**Solution 1: (Greedy, Stack, try pop previous element if appear later and larger than current and current not visited)**
+```
+Runtime: 0 ms, Beats 100.00%
+Memory: 9.11 MB, Beats 84.44%
+```
+```c++
+class Solution {
+public:
+    string removeDuplicateLetters(string s) {
+        vector<int> cnt(26);
+        vector<bool> visited(26);
+        for (auto &c: s) {
+            cnt[c - 'a'] += 1;
+        }
+        string ans;
+        for (char &c: s) {
+            cnt[c - 'a'] -= 1;
+            if (visited[c - 'a']) {
+                continue;
+            }
+            while (!ans.empty() &&
+                   ans.back() > c &&
+                   cnt[ans.back() - 'a'] > 0) {
+
+                visited[ans.back() - 'a'] = false;
+
+                ans.pop_back();
+            }
+            ans.push_back(c);
+            visited[c - 'a'] = true;
+        }
+        return ans;
+    }
+};
+```

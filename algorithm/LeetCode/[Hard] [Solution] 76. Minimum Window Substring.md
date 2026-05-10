@@ -298,37 +298,47 @@ char * minWindow(char * s, char * t){
 
 **Solution 3: (Sliding Window)**
 ```
-Runtime: 14 ms, Beats 43.39%
-Memory: 12.23 MB, Beats 6.00%
+Runtime: 7 ms, Beats 61.50%
+Memory: 11.53 MB, Beats 40.77%
 ```
 ```c++
 class Solution {
 public:
     string minWindow(string s, string t) {
-        int n = s.size(), i = 0, j, k, ck = 0, mn = n+1;
-        string ans;
-        unordered_map<char,int> cnt, w;
-        for (auto c: t) {
+        int n = s.length(), i = 0, j, k = 0, ck, minLen = INT_MAX, start;
+        char ic, jc;
+        vector<int> cnt(128), w(128);
+        for (char &c : t) {
             cnt[c] += 1;
         }
-        k = cnt.size();
-        for (j = 0; j < n; j ++) {
-            w[s[j]] += 1;
-            if (cnt[s[j]] && w[s[j]] == cnt[s[j]]) {
-                ck += 1;
-            }
-            while (ck >= k && w[s[i]] > cnt[s[i]]) {
-                w[s[i]] -= 1;
-                i += 1;
-            }
-            if (ck >= k) {
-                if (j-i+1 < mn) {
-                    mn = j-i+1;
-                    ans = s.substr(i, j-i+1);
-                }
+        for (auto &f: cnt) {
+            if (f > 0) {
+                k += 1;
             }
         }
-        return ans;
+        ck = 0;
+        for (j = 0; j < n; j ++) {
+            jc = s[j];
+            w[jc] += 1;
+            if (w[jc] == cnt[jc]) {
+                ck += 1;
+            }
+            while (ck == k) {
+                if (j - i + 1 < minLen) {
+                    minLen = j - i + 1;
+                    start = i;
+                }
+                ic = s[i];
+                w[ic] -= 1;
+                if (w[ic] == cnt[ic] - 1) {
+                    ck -= 1;
+                }
+                i += 1;
+            }
+        }
+        return minLen == INT_MAX
+            ? ""
+            : s.substr(start, minLen);
     }
 };
 ```

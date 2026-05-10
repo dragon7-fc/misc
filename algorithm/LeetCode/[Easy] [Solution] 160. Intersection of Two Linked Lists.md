@@ -101,6 +101,36 @@ struct ListNode *getIntersectionNode(struct ListNode *headA, struct ListNode *he
 ```
 
 **Solution 3: (Linked List, check self is null and loop on another line, 3 + 2 = 5 and 2 + 3 = 5)**
+
+case 1 intersect:
+A:     4 > 1 >
+               8
+B: 5 > 6 > 1 >
+
+A: 4 > 1 > 8
+B: 5 > 6 > 1 > 8
+
+A: 4 > 1 > 8 > n > 5 → 6 → 1 → 8
+                   -------------
+                         B     ^             
+                               intersect
+                               v
+B: 5 > 6 > 1 > 8 > n > 4 → 1 → 8
+                       ---------
+                          A
+
+case 2: not intersect
+A: 2 > 6 > 4
+B:     1 > 5
+
+A: 2 > 6 > 4 > n > 1 > 5 > n
+                   ---------
+                       B   ^
+                           not intersect
+                           v
+B: 1 > 5 > n > 2 > 6 > 4 > n
+               -------------
+                    A 
 ```
 Runtime: 53 ms
 Memory Usage: 14.6 MB

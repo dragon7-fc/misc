@@ -180,18 +180,16 @@ Memory: 10.28 MB, Beats 34.99%
 class Solution {
 public:
     void rotate(vector<vector<int>>& matrix) {
-        int n = matrix.size(), i = 0, j, a, b;
-        while (i < n-1-i) {
-            for (j = i; j < n-1-i; j ++) {
+        int n = matrix.size(), i, j, a;
+        for (i = 0; i < n / 2; i ++) {
+            for (j = i; j < n - 1 - i; j ++) {
                 a = matrix[i][j];
-                matrix[i][j] = matrix[n-1-j][i];
-                matrix[n-1-j][i] = matrix[n-1-i][n-1-j];
-                matrix[n-1-i][n-1-j] = matrix[j][n-1-i];
-                matrix[j][n-1-i] = a;
+                matrix[i][j] = matrix[n - 1 - j][i];
+                matrix[n - 1 - j][i] = matrix[n - 1 - i][n - 1 - j];
+                matrix[n - 1 - i][n - 1 - j] = matrix[j][n - 1 - i];
+                matrix[j][n - 1 - i] = a;
             }
-            i += 1;
         }
     }
 };
-
 ```

@@ -214,34 +214,7 @@ class Solution:
         return ans
 ```
 
-**Solution 3: (Calculating Idle slots)**
-```
-Runtime: 44 ms
-Memory: 37.95 MB
-```
-```c++
-class Solution {
-public:
-    int leastInterval(vector<char>& tasks, int n) {
-        int cnt[26] = {0};
-        int mx = 0, ans;
-        for (auto c: tasks) {
-            cnt[c-'A'] += 1;
-        }
-        for (int i = 0; i < 26; i ++) {
-            mx = max(mx, cnt[i]);
-        }
-        ans = (mx-1)*(n+1);
-        for (int i = 0; i < 26; i ++) {
-            ans += (cnt[i] == mx ? 1 : 0);
-        }
-        return max((int)tasks.size(), ans);
-
-    }
-};
-```
-
-**Solution 4: (Heap)**
+**Solution 3: (Heap, simulation)**
 ```
 Runtime: 84 ms
 Memory: 34.9 MB
@@ -273,6 +246,33 @@ public:
             cur += 1;
         }
         return cur;
+    }
+};
+```
+
+**Solution 4: (Calculating Idle slots)**
+```
+Runtime: 0 ms, Beats 100.00%
+Memory: 38.20 MB, Beats 94.77%
+```
+```c++
+class Solution {
+public:
+    int leastInterval(vector<char>& tasks, int n) {
+        int i, cnt[26] = {0}, mx_f = 0, ans;
+        for (auto &c: tasks) {
+            cnt[c - 'A'] += 1;
+        }
+        for (i = 0; i < 26; i ++) {
+            mx_f = max(mx_f, cnt[i]);
+        }
+        ans = (mx_f - 1) * (n + 1);
+        for (i = 0; i < 26; i ++) {
+            ans += (cnt[i] == mx_f ? 1 : 0);
+        }
+        return max((int)tasks.size(), ans);
+                //^^^^^^^^^^^^^^^^^^
+                // enough other tasks fill idle slots
     }
 };
 ```

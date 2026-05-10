@@ -221,3 +221,49 @@ public:
     }
 };
 ```
+
+**Solution 4: (Union Find, ChatGPT)**
+```c++
+class Solution {
+    vector<int> p, r;
+    int find(int x) {
+        if (x != p[x]) {
+            p[x] = find(p[x]);
+        }
+        return p[x];
+    }
+    bool unionSet(int x, int y) {
+        int xr = find(x);
+        int yr = find(y);
+        if (xr == yr) {
+            return false;
+        }
+        if (r[xr] > r[yr]) {
+            p[yr] = xr;
+        } else if (r[xr] < r[yr]) {
+            p[xr] = yr;
+        } else {
+            p[xr] = yr;
+            r[yr]++;
+        }
+        return true;
+    }
+public:
+    int getConnectedComponent(int n, vector<vector<int>> &edges) {
+        p.resize(n);
+        r.resize(n);
+        for (int i = 0; i < n; i++) {
+            p[i] = i;
+        }
+        int ans = n;
+        for (auto &e : edges) {
+            int u = e[0];
+            int v = e[1];
+            if (unionSet(u, v)) {
+                ans--;
+            }
+        }
+        return ans;
+    }
+};
+```

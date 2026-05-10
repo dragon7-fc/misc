@@ -84,14 +84,15 @@ class Solution {
 public:
     int largestRectangleArea(vector<int>& heights) {
         heights.push_back(0);
-        int n = heights.size(), i, ans = 0;
+        int n = heights.size(), i, h, w, ans = 0;
         stack<int> stk;
         stk.push(-1);
         for (i = 0; i < n; i ++) {
-            while (stk.size() && stk.top() >= 0 && heights[stk.top()] >= heights[i]) {
-                auto j = stk.top();
+            while (stk.top() >= 0 && heights[stk.top()] >= heights[i]) {
+                h = heights[stk.top()];
                 stk.pop();
-                ans = max(ans, heights[j] * (i - stk.top() - 1));
+                w = i - stk.top() - 1;
+                ans = max(ans, h * w);
             }
             stk.push(i);
         }

@@ -49,7 +49,18 @@ Thus, ans = [3, 3, 3].
 
 # Submissions
 ---
-**Solution 1: (Prefix Sum)**
+**Solution 1: (Prefix Sum, If a bigger value exists on the left and a smaller value exists on the right then those indices become connected and can reach the same maximum value)**
+
+                <---
+ans             i i+1
+pre     ---x------------->
+                ^ ^
+                x ^
+                  x
+                ---
+                connect
+suff    <---------------x-
+
 
           v  v
     5  2  1  8  3
@@ -58,6 +69,33 @@ Thus, ans = [3, 3, 3].
     ------------>
              <---
 
+3      x
+2    x
+1        x
+pre  2 3 3
+suff 1 1 1
+ans  3 3 3
+    
+case1: pre[i] <= suff[i+1]
+
+suff       .
+           <-
+res    x
+       i
+       <- 
+
+pre    .
+      ->
+
+case 2: pre[i] > suff[i+1]
+pre      .
+        ->
+res      x x
+         i i+1
+        <-
+
+suff       .
+           <-
 ```
 Runtime: 6 ms, Beats 87.50%
 Memory: 227.33 MB, Beats 12.50%
@@ -81,11 +119,104 @@ public:
         res[n - 1] = pre[n - 1];
         for (int i = n - 2; i >= 0; i--) {
             res[i] = pre[i];
+            // merge segment
             if (pre[i] > suff[i + 1]) {
                 res[i] = res[i + 1];
             }
         }
         return res;
+    }
+};
+```
+
+**Solution 2: (Interval Divide and Conquer)**
+```
+Runtime: 16 ms, Beats 43.09%
+Memory: 225.38 MB, Beats 70.75%
+```
+```c++
+class Solution {
+public:
+    vector<int> maxValue(vector<int>& nums) {
+        int n = nums.size();
+        vector<int> ans(n, 0);
+
+        // [value, index]
+        using Item = pair<int, int>;
+        vector<Item> prevMax(n);
+
+        Item prev = {INT_MIN, -1};
+        for (int i = 0; i < n; ++i) {
+            if (nums[i] > prev.first) {
+                prev = {nums[i], i};
+            }
+            prevMax[i] = prev;
+        }
+
+        auto process = [&](auto& self, int r, int rightMin,
+                           int rightMax) -> void {
+            auto [pMax, pivotIndex] = prevMax[r];
+            int currMax = pMax <= rightMin ? pMax : rightMax;
+
+            int nextRightMin = min(pMax, rightMin);
+            for (int i = pivotIndex; i <= r; ++i) {
+                ans[i] = currMax;
+                nextRightMin = min(nextRightMin, nums[i]);
+            }
+
+            if (pivotIndex == 0) {
+                return;
+            }
+
+            self(self, pivotIndex - 1, nextRightMin, currMax);
+        };
+
+        process(process, n - 1, INT_MAX, 0);
+
+        return ans;
+    }
+};
+```
+
+**Solution 3: (Stack, convert to one direction and use mono inc stack to track and merge value range)**
+```
+Runtime: 15 ms, Beats 47.34%
+Memory: 221.74 MB, Beats 76.60%
+```
+```c++
+class Solution {
+    struct Item {
+        int value;
+        int left;
+        int right;
+    };
+public:
+    vector<int> maxValue(vector<int>& nums) {
+        int n = nums.size();
+        vector<int> ans(n, 0);
+
+        vector<Item> stack;
+
+        for (int i = 0; i < n; ++i) {
+            Item curr = {nums[i], i, i};
+
+            while (!stack.empty() && stack.back().value > nums[i]) {
+                Item top = stack.back();
+                stack.pop_back();
+                curr.value = max(curr.value, top.value);
+                curr.left = top.left;
+            }
+
+            stack.push_back(curr);
+        }
+
+        for (size_t i = 0; i < stack.size(); ++i) {
+            for (int j = stack[i].left; j <= stack[i].right; ++j) {
+                ans[j] = stack[i].value;
+            }
+        }
+
+        return ans;
     }
 };
 ```

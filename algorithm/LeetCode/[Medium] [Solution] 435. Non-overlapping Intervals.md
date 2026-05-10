@@ -458,7 +458,7 @@ class Solution:
         return count
 ```
 
-**Solution 5: (Sort, Greedy)**
+**Solution 5: (Sort, Greedy, earliest finish event give more space for future event no matter what start time)**
 ```
 Runtime: 414 ms
 Memory: 89.7 MB

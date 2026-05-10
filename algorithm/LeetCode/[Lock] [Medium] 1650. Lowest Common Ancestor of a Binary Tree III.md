@@ -76,3 +76,67 @@ class Solution:
                 return q
             q = q.parent
 ```
+
+**Solution 2: (Tree, ChatGPT, finding intersection of two singly linked lists)**
+
+case1:
+        3 <ans
+       / \
+   p> 5   1 <q
+     / \ / \
+    6  2 0  8
+      / \
+     7   4
+
+p = 5
+q = 1
+
+answer: 3
+
+case2:
+        3
+       / \
+      5   1 <q
+     /
+ p> 6
+
+p = 6
+q = 1
+
+a: 6 -> 5 ->    3 -> null -> 1 -> 3
+                                  ^
+                                  v
+b: 1 -> 3 -> null ->    6 -> 5 -> 3
+
+
+general:
+p -> ... -> LCA -> ... -> root
+  ------------- ----------------
+       la             c
+q -> ... -> LCA -> ... -> root
+  ------------- ----------------
+       lb             c
+
+la + c + lb + c = lb + c + la + c
+-> intersect
+
+
+```c++
+class Solution {
+public:
+
+    Node* lowestCommonAncestor(Node* p, Node* q) {
+
+        Node* a = p;
+        Node* b = q;
+
+        while (a != b) {
+
+            a = (a == nullptr) ? q : a->parent;
+            b = (b == nullptr) ? p : b->parent;
+        }
+
+        return a;
+    }
+};
+```

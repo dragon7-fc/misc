@@ -221,3 +221,39 @@ public:
     }
 };
 ```
+
+**Solution 5: (Backtracking, sort then try to pick distinct element from current level, O(2^n))**
+```
+Runtime: 0 ms, Beats 100.00%
+Memory: 13.96 MB, Beats 81.51%
+```
+```c++
+class Solution {
+    void bt( int start, int r, vector<int>& path, vector<vector<int>>& ans, vector<int>& nums) {
+        if (r == 0) {
+            ans.push_back(path);
+            return;
+        }
+        for (int i = start; i < nums.size(); i ++) {
+            if (i > start && nums[i] == nums[i - 1]) {
+                continue;
+            }
+            // prune
+            if (nums[i] > r) {
+                break;
+            }
+            path.push_back(nums[i]);
+            bt(i + 1, r - nums[i], path, ans, nums);
+            path.pop_back();
+        }
+    }
+public:
+    vector<vector<int>> combinationSum2(vector<int>& candidates, int target) {
+        sort(candidates.begin(), candidates.end());
+        vector<vector<int>> ans;
+        vector<int> path;
+        bt(0, target, path, ans, candidates);
+        return ans;
+    }
+};
+```

@@ -419,25 +419,33 @@ Memory: 44.37, MB Beats 65.97%
 class Solution {
 public:
     int networkDelayTime(vector<vector<int>>& times, int n, int k) {
-        vector<vector<array<int,2>>> g(n+1);
-        priority_queue<array<int,2>, vector<array<int,2>>, greater<array<int,2>>> pq;
-        vector<int> dist(n+1, INT_MAX);
-        for (auto &t: times) {
-            g[t[0]].push_back({t[1], t[2]});
+        int nw, ans;
+        vector<vector<array<int, 2>>> g(n + 1);
+        priority_queue<array<int, 2>, vector<array<int, 2>>, greater<array<int, 2>>> pq;
+        vector<int> dist(n + 1, INT_MAX);
+        for (auto &time: times) {
+            auto &u = time[0];
+            auto &v = time[1];
+            auto &w = time[2];
+            g[u].push_back({v, w});
         }
         pq.push({0, k});
         dist[k] = 0;
-        while (pq.size()) {
-            auto [d, u] = pq.top();
+        while (!pq.empty()) {
+            auto [w, u] = pq.top();
             pq.pop();
-            for (auto &[v, w]: g[u]) {
-                if (dist[v] > d + w) {
-                    dist[v] = d + w;
-                    pq.push({d + w, v});
+            if (w > dist[u]) {
+                continue;
+            }
+            for (auto &[v, dw]: g[u]) {
+                nw = w + dw;
+                if (nw < dist[v]) {
+                    dist[v] = nw;
+                    pq.push({nw, v});
                 }
             }
         }
-        int ans = *max_element(dist.begin()+1, dist.end());
+        ans = *max_element(dist.begin()+1, dist.end());
         return ans == INT_MAX ? -1 : ans;
     }
 };

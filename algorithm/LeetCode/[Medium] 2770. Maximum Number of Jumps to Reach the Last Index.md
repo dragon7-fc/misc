@@ -75,3 +75,28 @@ class Solution:
         ans = dp(0)
         return ans if ans != float('-inf') else -1
 ```
+
+**Solution 2: (DP Bottom-Up)**
+```
+Runtime: 16 ms, Beats 72.67%
+Memory: 68.52 MB, Beats 40.06%
+```
+```c++
+class Solution {
+public:
+    int maximumJumps(vector<int>& nums, int target) {
+        int n = nums.size(), i, j, d;
+        vector<int> dp(n, -1000);
+        dp[0] = 0;
+        for (j = 1; j < n; j ++) {
+            for (i = 0; i < j; i ++) {
+                d = nums[j] - nums[i];
+                if (-target <= d && d <= target) {
+                    dp[j] = max(dp[j], dp[i] + 1);
+                }
+            }
+        }
+        return dp[n - 1] <= 0 ? -1 : dp[n - 1];
+    }
+};
+```
