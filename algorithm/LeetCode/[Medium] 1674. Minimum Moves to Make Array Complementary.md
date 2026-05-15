@@ -86,3 +86,107 @@ class Solution:
             res = min(res, curr)
         return res   
 ```
+
+**Solution 2: (Binary Search)**
+```
+Runtime: 444 ms, Beats 11.50%
+Memory: 210.74 MB, Beats 16.81%
+```
+```c++
+class Solution {
+public:
+    int minMoves(vector<int>& nums, int limit) {
+        int n = nums.size();
+        unordered_map<int, int> sum_count;
+        vector<int> min_arr, max_arr;
+        min_arr.reserve(n / 2);
+        max_arr.reserve(n / 2);
+
+        for (int i = 0; i < n / 2; ++i) {
+            int a = std::min(nums[i], nums[n - 1 - i]);
+            int b = std::max(nums[i], nums[n - 1 - i]);
+
+            sum_count[a + b]++;
+            min_arr.push_back(a);
+            max_arr.push_back(b);
+        }
+
+        std::sort(min_arr.begin(), min_arr.end());
+        std::sort(max_arr.begin(), max_arr.end());
+
+        int min_ops = n;
+
+        for (int c = 2; c <= 2 * limit; ++c) {
+            int add_left =
+                n / 2 - (lower_bound(min_arr.begin(), min_arr.end(), c) -
+                         min_arr.begin());
+            int add_right =
+                lower_bound(max_arr.begin(), max_arr.end(), c - limit) -
+                max_arr.begin();
+
+            int current_ops = n / 2 + add_left + add_right - sum_count[c];
+            min_ops = min(min_ops, current_ops);
+        }
+
+        return min_ops;
+    }
+};
+```
+
+**Solution 3: (Prefix Sum, Math, summarize all possible modification)**
+
+          (1,1)   (a,1)   (a,b)         (b,limit)          (limit,limit) (limit,limit+1)
+        1 2 ...   a+1 ... a+b a+b+1 ... b+limit  b+limit+1...                          
+          ------- -------     -----------------  ---------------------------------------
+             2       1     0          1                 2
+diff  0   +2      -1      -1  +1                  +1
+
+       nums = [1,2,4,3], limit = 4
+        
+        a   b
+        1 2 3 4 5 6 7 8 9
+diff     +2
+         -1  -1+1    +1
+          1 1 0 1 1 1 2
+          a   b
+        1 2 3 4 5 6 7 8 9
+diff     +2
+           -1    -1+1  +1
+          2 1 1 1 0 1 1 2
+
+current   3 2 1 2 1 2 3 
+              min
+```
+Runtime: 3 ms, Beats 87.61%
+Memory: 93.42 MB, Beats 61.06%
+```
+```c++
+class Solution {
+public:
+    int minMoves(vector<int>& nums, int limit) {
+        int n = nums.size();
+        vector<int> diff(2 * limit + 2, 0);
+
+        for (int i = 0; i < n / 2; ++i) {
+            int a = min(nums[i], nums[n - 1 - i]);
+            int b = max(nums[i], nums[n - 1 - i]);
+
+            diff[2] += 2;
+            diff[a + 1] -= 1;
+            diff[a + b] -= 1;
+            diff[a + b + 1] += 1;
+            diff[b + limit + 1] += 1;
+        }
+
+        int min_ops = n;
+        int current_ops = 0;
+
+        for (int c = 2; c <= 2 * limit; ++c) {
+            current_ops += diff[c];
+            min_ops = min(min_ops, current_ops);
+        }
+
+        return min_ops;
+    }
+};
+```

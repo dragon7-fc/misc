@@ -148,3 +148,60 @@ public:
     }
 };
 ```
+
+**Solution 3: (Backtracking, Try 0-9 for each unvisited cell)**
+```
+Runtime: 122 ms, Beats 88.56%
+Memory: 9.01 MB, Beats 5.55%
+```
+```c++
+class Solution {
+    vector<vector<bool>> visited_r, visited_c, visited_b;
+    bool bt(int r, int c, vector<vector<char>> &board) {
+        if (r == 9) {
+            return true;
+        }
+        if (c == 9) {
+            return bt(r + 1, 0, board);
+        }
+        if (board[r][c] != '.') {
+            return bt(r, c + 1, board);
+        }
+        int b = (r / 3) * 3 + (c / 3);
+        for (int d = 1; d <= 9; d ++) {
+            board[r][c] = '0' + d;
+            if (!visited_r[r][d] && !visited_c[c][d] && !visited_b[b][d]) {
+                visited_r[r][d] = true;
+                visited_c[c][d] = true;
+                visited_b[b][d] = true;
+                if (bt(r, c + 1, board)) {
+                    return true;
+                }
+                visited_r[r][d] = false;
+                visited_c[c][d] = false;
+                visited_b[b][d] = false;
+            }
+        }
+        board[r][c] = '.';
+        return false;
+    }
+public:
+    void solveSudoku(vector<vector<char>>& board) {
+        visited_r.resize(9, vector<bool>(10));
+        visited_c.resize(9, vector<bool>(10));
+        visited_b.resize(9, vector<bool>(10));
+        for (int r = 0; r < 9; r ++) {
+            for (int c = 0; c < 9; c ++) {
+                if (board[r][c] != '.') {
+                    int d = board[r][c] - '0';
+                    int b = (r / 3) * 3 + (c / 3);
+                    visited_r[r][d] = true;
+                    visited_c[c][d] = true;
+                    visited_b[b][d] = true;
+                }
+            }
+        }
+        bt(0, 0, board);
+    }
+};
+```

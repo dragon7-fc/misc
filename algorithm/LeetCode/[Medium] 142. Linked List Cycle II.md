@@ -203,3 +203,91 @@ public:
     }
 };
 ```
+
+**Solution y: (Linked List)**
+
+* Why Must They Meet?
+
+Inside cycle:
+
+    * fast gains:
+
+        1 node per iteration
+
+    relative to slow.
+
+Eventually:
+
+    fast laps slow
+
+Exactly like circular track runners.
+
+* Why Entry Node Found?
+
+    head  entry   meeting
+       a  
+     ------
+               b
+           --------
+    x-----x-------x--
+          ^         |
+          |         |
+          -----------
+
+cycle length: c
+
+
+Slow traveled: a + b
+
+Fast traveled: 2(a + b)
+
+Difference must be whole cycles:
+
+2(a + b) − (a + b) = nc
+
+Therefore:
+
+a + b = nc
+
+Rearrange:
+
+a = nc − b
+
+Meaning:
+distance from head to entry
+=
+distance from meeting point to entry
+
+```
+Runtime: 5 ms, Beats 83.22%
+Memory: 11.40 MB, Beats 53.37%
+```
+```c++
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode(int x) : val(x), next(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    ListNode *detectCycle(ListNode *head) {
+        ListNode *slow = head, *fast = head;
+        while (fast && fast->next) {
+            slow = slow->next;
+            fast = fast->next->next;
+            if (slow == fast) {
+                fast = head;
+                while (fast != slow) {
+                    fast = fast->next;
+                    slow = slow->next;
+                }
+                return slow;
+            }
+        }
+        return nullptr;
+    }
+};
+```

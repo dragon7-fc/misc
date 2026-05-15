@@ -367,3 +367,28 @@ public:
     }
 };
 ```
+
+**Solution 6: (Heap, ChatGPT)**
+```c++
+class Solution {
+
+public:
+
+    int getMinMeetingRoom(vector<vector<int>>& intervals) {
+        sort(intervals.begin(), intervals.end());
+        priority_queue<int, vector<int>, greater<int>> pq;
+        int ans = 0;
+        for (auto &interval : intervals) {
+            int start = interval[0];
+            int end = interval[1];
+            while (!pq.empty()
+                   && pq.top() <= start) {
+                pq.pop();
+            }
+            pq.push(end);
+            ans = max(ans, (int)pq.size());
+        }
+        return ans;
+    }
+};
+```

@@ -445,7 +445,7 @@ public:
 };
 ```
 
-**Solution 7: (Union Find)**
+**Solution 7: (Union Find, try to union each edge node till find cycle)**
 ```
 Runtime: 0 ms, Beats 100.00%
 Memory: 13.01: MB, Beats 53.28%

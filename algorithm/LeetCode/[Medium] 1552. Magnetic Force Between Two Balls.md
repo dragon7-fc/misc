@@ -147,34 +147,37 @@ public:
 };
 ```
 
-**Solution 3: (Binary Search, upper bound)**
+**Solution 3: (Binary Search, upper bound, try binary search max distance to place m ball)**
 ```
-Runtime: 116 ms
-Memory: 61.52 MB
+Runtime: 47 ms, Beats 68.03%
+Memory: 61.63 MB, Beats 67.40%
 ```
 ```c++
 class Solution {
+    bool check(int mid, vector<int> &position, int m) {
+        int pre = position[0], k = 1;
+        for (int i = 1; i < position.size(); i ++) {
+            if (position[i] - pre >= mid) {
+                pre = position[i];
+                k += 1;
+            }
+        }
+        return k >= m;
+    }
 public:
     int maxDistance(vector<int>& position, int m) {
         sort(position.begin(), position.end());
-        int n = position.size(), lo = 1, hi = ceil(position[n-1]/(m-1.0)), mid, cnt, pre;
-        while (lo < hi) {
-            mid = hi - (hi-lo)/2;
-            cnt = 1;
-            pre = position[0];
-            for (int i = 1; i < n; i ++) {
-                if (position[i]-pre >= mid) {
-                    cnt += 1;
-                    pre = position[i];
-                }
-            }
-            if (cnt < m) {
-                hi = mid - 1;
+        int n = position.size(), left = 1, right = position[n - 1] - position[0], mid, ans;
+        while (left <= right) {
+            mid = left + (right - left) / 2;
+            if (!check(mid, position, m)) {
+                right = mid - 1;
             } else {
-                lo = mid;
+                ans = mid;
+                left = mid + 1;
             }
         }
-        return lo;
+        return ans;
     }
 };
 ```

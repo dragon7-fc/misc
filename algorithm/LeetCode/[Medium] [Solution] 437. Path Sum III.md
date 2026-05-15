@@ -416,23 +416,23 @@ Memory: 21.68 MB, Beats 25.19%
  * };
  */
 class Solution {
-    void bt(TreeNode *node, int targetSum, unordered_map<long long,int> &cnt, long long a, int &ans) {
+    void dfs(TreeNode* node, int targetSum, long long pre, unordered_map<long long, int> &cnt, int& ans) {
         if (!node) {
             return;
         }
-        a += node->val;
-        ans += cnt[a-targetSum];
-        cnt[a] += 1;
-        bt(node->left, targetSum, cnt, a, ans);
-        bt(node->right, targetSum, cnt, a, ans);
-        cnt[a] -= 1;
+        pre += node->val;
+        ans += cnt[pre - targetSum];
+        cnt[pre] += 1;
+        dfs(node->left, targetSum, pre, cnt, ans);
+        dfs(node->right, targetSum, pre, cnt, ans);
+        cnt[pre] -= 1;
     }
 public:
     int pathSum(TreeNode* root, int targetSum) {
-        int ans = 0;
-        unordered_map<long long,int> cnt;
+        unordered_map<long long, int> cnt;
         cnt[0] = 1;
-        bt(root, targetSum, cnt, 0LL, ans);
+        int ans = 0;
+        dfs(root, targetSum, 0, cnt, ans);
         return ans;
     }
 };

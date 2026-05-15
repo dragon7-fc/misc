@@ -273,3 +273,42 @@ public:
     }
 };
 ```
+
+**Solution 7: (Counter, unordered_map, try to find segment begin and subtract group same count)**
+```
+Runtime: 30 ms, Beats 80.30%
+Memory: 31.21 MB, Beats 77.77%
+```
+```c++
+class Solution {
+public:
+    bool isNStraightHand(vector<int>& hand, int groupSize) {
+        int n = hand.size();
+        if (n % groupSize != 0) {
+            return false;
+        }
+        unordered_map<int, int> cnt;
+        for (auto &num: hand) {
+            cnt[num] += 1;
+        }
+        for (auto [a, k]: cnt) {
+            int b = a;
+            while (cnt[b - 1]) {
+                b -= 1;
+            }
+            while (b <= a) {
+                if (cnt[b]) {
+                    for (int c = b + groupSize - 1; c >= b; c --) {
+                        if (cnt[c] < cnt[b]) {
+                            return false;
+                        }
+                        cnt[c] -= cnt[b];
+                    }
+                }
+                b += 1;
+            }
+        }
+        return true;
+    }
+};
+```

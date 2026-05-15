@@ -167,28 +167,29 @@ public:
 
 **Solution 4: (Binary Search)**
 ```
-Runtime: 11 ms, Beats 42.25%
-Memory: 22.89 MB, Beats 73.85%
+Runtime: 7 ms, Beats 69.59%
+Memory: 22.99 MB, Beats 44.69%
 ```
 ```c++
 class Solution {
-    bool check(int mid, int h, vector<int> &piles) {
-        long long k = 0;
+    bool check(int speed, vector<int> &piles, int h) {
+        long long hours = 0;
         for (auto &p: piles) {
-            k += p/mid + (p%mid > 0);
+            hours += (p + speed - 1) / speed;
         }
-        return k <= h;
+        return hours <= h;
     }
 public:
     int minEatingSpeed(vector<int>& piles, int h) {
-        int left = 1, right = *max_element(piles.begin(), piles.end()), mid, ans = INT_MAX;
+        int left = 1, right = *max_element(piles.begin(), piles.end());
+        int ans = right;
         while (left <= right) {
-            mid = left + (right - left)/2;
-            if (!check(mid, h, piles)) {
-                left = mid + 1;
-            } else {
-                ans = min(ans, mid);
+            int mid = left + (right - left) / 2;
+            if (check(mid, piles, h)) {
+                ans = mid;
                 right = mid - 1;
+            } else {
+                left = mid + 1;
             }
         }
         return ans;

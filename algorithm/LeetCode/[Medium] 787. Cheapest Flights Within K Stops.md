@@ -297,7 +297,52 @@ public:
 };
 ```
 
-**Solution 8: (BFS, pruning, O(N*K + E))**
+**Solution 8: (BFS)**
+```
+Runtime: 3 ms, Beats 64.38%
+Memory: 18.94 MB, Beats 22.55%
+```
+```c++
+class Solution {
+public:
+    int findCheapestPrice(int n, vector<vector<int>>& flights, int src, int dst, int k) {
+        vector<vector<int>> dist(n, vector<int>(k + 1, INT_MAX));
+        vector<vector<array<int, 2>>> g(n);
+        for (int i = 0; i < flights.size(); i ++) {
+            auto &u = flights[i][0];
+            auto &v = flights[i][1];
+            auto &w = flights[i][2];
+            g[u].push_back({v, w});
+        }
+        queue<array<int, 3>> q;
+        q.push({0, src, 0});  // weight, node, stop
+        dist[src][0] = 0;
+        int ans = INT_MAX;
+        while (!q.empty()) {
+            auto [w, u, stop] = q.front();
+            q.pop();
+            if (w > dist[u][stop]) {
+                continue;
+            }
+            int nstop = stop + 1;
+            for (auto &[v, dw]: g[u]) {
+                int nw = w + dw;
+                if (v == dst) {
+                    ans = min(ans, nw);
+                    continue;
+                }
+                if (nstop <= k && dist[v][nstop] > nw) {
+                    dist[v][nstop] = nw;
+                    q.push({nw, v, nstop});
+                }
+            }
+        }
+        return ans == INT_MAX ? -1 : ans;
+    }
+};
+```
+
+**Solution 9: (BFS, pruning, O(N*K + E), not need dist[node][stop] only dist[node] because larger stop alwarys appear latter)**
 ```
 Runtime: 0 ms, Beats 100.00%
 Memory: 17.59 MB, Beats 89.75%
@@ -321,6 +366,8 @@ public:
                 continue;
             }
             for (auto &[v, w]: g[u]) {
+                // larger stop appear later
+                // larger stop with cheaper cost
                 if (d + w < dist[v]) {
                     dist[v] = d + w;
                     q.push({v, d+w, s+1});

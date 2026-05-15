@@ -593,38 +593,39 @@ Memory: 19.26 MB, Beats 95.03%
 class Solution {
 public:
     int ladderLength(string beginWord, string endWord, vector<string>& wordList) {
-        unordered_set<string> ust(begin(wordList), end(wordList));
-        if (ust.find(endWord) == ust.end()) {
+        unordered_set<string> visited(begin(wordList), end(wordList));
+        if (!visited.count(endWord)) {
             return 0;
         }
-        unordered_set<string> w1{beginWord};
-        unordered_set<string> w2{endWord};
+        unordered_set<string> st1{beginWord}, st2{endWord};
         int level = 1;
-        while (!w1.empty() && !w2.empty()) {
+        while (!st1.empty() && !st2.empty()) {
             // to alternate turns
-            if (w1.size() > w2.size()) {
-                swap(w1, w2);
+            if (st1.size() > st2.size()) {
+                swap(st1, st2);
             }
 
             // can avoid making another list by using normal for loop
-            unordered_set<string> w;
-            for(auto word: w1) {
-                int wordSize = word.size();
-                for(int i = 0; i < wordSize; i++) {
-                    auto ch = word[i];
-                    for(char c = 'a'; c <= 'z'; c++) {
-                        word[i] = c;
-                        if(w2.count(word)) return level + 1;
-                        if(!ust.count(word)) continue;
-                        ust.erase(word);
-                        w.insert(word);
+            unordered_set<string> st;
+            for (auto s: st1) {
+                for (int i = 0; i < s.length(); i++) {
+                    auto ch = s[i];
+                    for (char c = 'a'; c <= 'z'; c++) {
+                        s[i] = c;
+                        if(st2.count(s)) {
+                            return level + 1;
+                        }
+                        if (visited.count(s)) {
+                            visited.erase(s);
+                            st.insert(s);
+                        }
                     }
-                    word[i] = ch;
+                    s[i] = ch;
                 }
             }
             // we exhausted the list we were searching, but we built the next level
-            swap(w, w1);
-            level++;
+            swap(st, st1);
+            level += 1;
         }
         return 0;
     }

@@ -138,3 +138,37 @@ bool canReach(int* arr, int arrSize, int start){
     return dfs(arr, arrSize, visited, start);
 }
 ```
+
+**Solution 5: (BFS)**
+```
+Runtime: 0 ms, Beats 100.00%
+Memory: 35.01 MB, Beats 92.52%
+```
+```c++
+class Solution {
+public:
+    bool canReach(vector<int>& arr, int start) {
+        if (arr[start] == 0) {
+            return true;
+        }
+        int n = arr.size();
+        queue<int> q;
+        arr[start] *= -1;
+        q.push(start);
+        while (!q.empty()) {
+            auto i = q.front();
+            q.pop();
+            if (arr[i] == 0) {
+                return true;
+            }
+            for (auto j: {i + arr[i], i - arr[i]}) {
+                if (0 <= j && j < n && arr[j] >= 0) {
+                    arr[j] *= -1;
+                    q.push(j);
+                }
+            }
+        }
+        return false;
+    }
+};
+```

@@ -517,33 +517,33 @@ hi:  2 3
 medianFinder.findMedian(); // return 2.0
 
 ```
-Runtime: 87 ms, Beats 15.11%
-Memory: 125.08 MB, Beats 43.41%
+Runtime: 84 ms, Beats 44.94%
+Memory: 148.67 MB, Beats 27.75%
 ```
 ```c++
 class MedianFinder {
-    priority_queue<int> lo;
-    priority_queue<int,vector<int>,greater<>> hi;
+    priority_queue<int> left;
+    priority_queue<int, vector<int>, greater<int>> right;
 public:
     MedianFinder() {
         
     }
     
     void addNum(int num) {
-        lo.push(num);
-        hi.push(lo.top());
-        lo.pop();
-        if (hi.size() - lo.size() > 1) {
-            lo.push(hi.top());
-            hi.pop();
+        left.push(num);
+        right.push(left.top());
+        left.pop();
+        if (right.size() > left.size() + 1) {
+            left.push(right.top());
+            right.pop();
         }
     }
     
     double findMedian() {
-        if (lo.size() == hi.size()) {
-            return (lo.top() + hi.top())/2.0;
+        if (left.size() == right.size()) {
+            return (1.0 * left.top() + right.top()) / 2;
         } else {
-            return hi.top();
+            return 1.0 * right.top();
         }
     }
 };

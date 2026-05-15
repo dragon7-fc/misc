@@ -122,16 +122,28 @@ class Solution:
 
 **Solution 4: (DP, Bottom-up)**
 
-     1  3  1  5  8  1
-        ^  x  ^
-        ---x--x---
-        ^     x  ^
-     ---x--x--x---
-     ^  x        ^
-     ---x--x--x--x---
-     ^l          xi ^r
+                               k
+pre  1  3  1  5  8  1     
+        ^  x  ^                1
+     ---.---                    
+        [--x--]            15
+           ---.---
+              ---.---
 
-pre a       x       b
+        ^     x  ^             2
+     ---.--.---                
+        [--.--x--]        120
+           ---.--.---
+
+     ^  x        ^             3
+     [--x--.--.--]         24
+        ---.--.--.---
+
+     ^           x  ^          4
+     [--.--.--.--x--]       8
+     ^l          ^i ^r
+ans                       167
+
 dp[l][r]:
     l  ...  i  ...  r
       -------------
@@ -141,7 +153,7 @@ dp[l][r]:
     dp[l][i] dp[i][r]
     
 dp[l][r]
-= max(pre[l]*pre[i]*pre[r] + dp[l][i] + dp[i][r])
+= max(dp[l][r], pre[l]*pre[i]*pre[r] + dp[l][i] + dp[i][r])
 
 ```
 Runtime: 87 ms, Beats 92.60%
@@ -155,17 +167,17 @@ public:
         pre.push_back(1);
         pre.insert(pre.end(), nums.begin(), nums.end());
         pre.push_back(1);
-        int n = pre.size(), left, right, i, k;
+        int n = pre.size();
         vector<vector<int>> dp(n, vector<int>(n));
-        for (k = 1; k <= n-2; k ++) {
-            for (left = 0; left < n-1-k; left ++) {
-                right = left + k + 1;
-                for (i = left+1; i < right; i ++) {
-                    dp[left][right] = max(dp[left][right], pre[left]*pre[i]*pre[right] + dp[left][i] + dp[i][right]);
+        for (int k = 1; k < n; k ++) {
+            for (int left = 0; left < n - k - 1; left ++) {
+                int right = left + k + 1;
+                for (int i = left + 1; i < right; i ++) {
+                    dp[left][right] = max(dp[left][right], dp[left][i] + dp[i][right] + pre[left] * pre[i] * pre[right]);
                 }
             }
         }
-        return dp[0][n-1];
+        return dp[0][n - 1];
     }
 };
 ```

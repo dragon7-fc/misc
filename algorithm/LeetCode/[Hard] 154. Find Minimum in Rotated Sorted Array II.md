@@ -123,3 +123,61 @@ public:
     }
 };
 ```
+
+**Solution 5: (Binary Search, transfer to unique element case)**
+```
+Runtime: 0 ms, Beats 100.00%
+Memory: 16.14 MB, Beats 63.69%
+```
+```c++
+class Solution {
+public:
+    int findMin(vector<int>& nums) {
+        int n = nums.size(), left = 0, right = n - 1, mid;
+        while (left < right) {
+
+            // remove duplicate
+            if (nums[left] == nums[mid]) {
+                left = mid;
+            }
+            while (mid < right && nums[right] == nums[mid]) {
+                right -= 1;
+            }
+
+            mid = left + (right - left) / 2;
+            if (nums[right] < nums[mid]) {
+                left = mid + 1;
+            } else {
+                right = mid;
+            }
+        }
+        return nums[left];
+    }
+};
+```
+
+**Solution 5: (Binary Search, if left and right not match then left mid right should have duplicate)**
+```
+Runtime: 0 ms, Beats 100.00%
+Memory: 16.04 MB, Beats 90.00%
+````
+```c++
+class Solution {
+public:
+    int findMin(vector<int>& nums) {
+        int n = nums.size(), left = 0, right = n - 1, mid;
+        while (left < right) {
+            mid = left + (right - left) / 2;
+            if (nums[right] < nums[mid]) {
+                left = mid + 1;
+            } else if (nums[left] < nums[mid]) {
+                right = mid;
+            } else {
+                // duplicate
+                right -= 1;
+            }
+        }
+        return nums[left];
+    }
+};
+```

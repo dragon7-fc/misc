@@ -169,42 +169,48 @@ class Solution:
         return min(dist[2**N - 1])
 ```
 
-**Solution 3: (Breadth First Search, Brute Force, Bitmask, O(n!))**
+**Solution 3: (multi-state BFS, Brute Force, Bitmask, try each node with every visited state, O(N * 2^N))**
 ```
-Runtime: 43 ms, Beats 46.11%
-Memory: 21.78 MB, Beats 27.65%
+Runtime: 11 ms, Beats 57.36%
+Memory: 14.44 MB, Beats 55.10%
 ```
 ```c++
 class Solution {
 public:
     int shortestPathLength(vector<vector<int>>& graph) {
-        int n = graph.size(), i, nmask;
-        queue<array<int, 3>> q;
-        for (i = 0; i < n; i ++) {
-            q.push({1 << i, i, 0});
+        int n = graph.size();
+        int full = (1 << n) - 1;
+
+        vector<vector<char>> visited(n, vector<char>(1 << n));
+
+        queue<array<int, 3>> q; // node, dist, mask
+
+        for (int i = 0; i < n; i++) {
+            q.push({i, 0, 1 << i});
+            visited[i][1 << i] = 1;
         }
-        unordered_set<int> visited;
-        //  15 ...    4 3 .. 0
-        //  ---mask---- --u---
-        for (i = 0; i < n; i ++) {
-            visited.insert((1 << i) * 16 + i);
-        }
+
         while (!q.empty()) {
-            auto [mask, u, d] = q.front();
+
+            auto [u, dist, mask] = q.front();
             q.pop();
-            if (mask == (1 << n) - 1) {
-                return d;
+
+            if (mask == full) {
+                return dist;
             }
-            for (auto v: graph[u]) {
-                nmask = mask | (1 << v);
-                if (!visited.count(nmask * 16 + v)) {
-                    visited.insert(nmask * 16 + v);
-                    q.push({nmask, v, d + 1});
+
+            for (int v : graph[u]) {
+
+                int nextMask = mask | (1 << v);
+
+                if (!visited[v][nextMask]) {
+                    visited[v][nextMask] = 1;
+                    q.push({v, dist + 1, nextMask});
                 }
-                    
             }
         }
-        return 0;
+
+        return -1;
     }
 };
 ```

@@ -311,3 +311,32 @@ public:
     }
 };
 ```
+
+**Solution 5: (Sort)**
+```
+Runtime: 3 ms, Beats 89.35%
+Memory: 23.59 MB, Beats 96.65%
+```
+```c++
+class Solution {
+public:
+    vector<vector<int>> merge(vector<vector<int>>& intervals) {
+        if (intervals.empty()) {
+            return {};
+        }
+        sort(intervals.begin(), intervals.end());
+        vector<vector<int>> ans;
+        ans.push_back(intervals[0]);
+        for (int i = 1; i < intervals.size(); i++) {
+            auto &last = ans.back();
+            auto &cur = intervals[i];
+            if (cur[0] <= last[1]) {
+                last[1] = max(last[1], cur[1]);
+            } else {
+                ans.push_back(cur);
+            }
+        }
+        return ans;
+    }
+};
+```

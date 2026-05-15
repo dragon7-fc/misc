@@ -255,7 +255,7 @@ int calculate(char * s){
 }
 ```
 
-**Solution 4: (Stack, previous operator and append magic end signature)**
+**Solution 4: (Stack, previous operator and append magic to handle space special case)**
 ```
 Runtime: 20 ms
 Memory: 14.37 MB
@@ -289,6 +289,50 @@ public:
             }
         }
         while (stk.size()) {
+            ans += stk.top();
+            stk.pop();
+        }
+        return ans;
+    }
+};
+```
+
+**Solution 5: (String, stack, deferred or immedidate handle previous operator and try to skip space until last character)**
+```
+Runtime: 5 ms, Beats 70.71%
+Memory: 15.22 MB, Beats 42.40%
+```
+```c++
+class Solution {
+public:
+    int calculate(string s) {
+        stack<int> stk;
+        char op = '+';
+        int n = s.length(), i, num = 0;
+        for (i = 0; i < n; i++) {
+            if (isdigit(s[i])) {
+                num = num * 10 + (s[i] - '0');
+            }
+            if ((!isdigit(s[i]) && s[i] != ' ') || i == n - 1) {
+                if (op == '+') {
+                    stk.push(num);
+                } else if (op == '-') {
+                    stk.push(-num);
+                } else if (op == '*') {
+                    int t = stk.top();
+                    stk.pop();
+                    stk.push(t * num);
+                } else if (op == '/') {
+                    int t = stk.top();
+                    stk.pop();
+                    stk.push(t / num);
+                }
+                op = s[i];
+                num = 0;
+            }
+        }
+        int ans = 0;
+        while (!stk.empty()) {
             ans += stk.top();
             stk.pop();
         }

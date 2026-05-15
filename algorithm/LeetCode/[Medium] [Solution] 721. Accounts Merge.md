@@ -197,7 +197,7 @@ class Solution:
         
 ```
 
-**Solution 3: (DFS)**
+**Solution 3: (DFS, build adjacny list then try to visit each unvisited email)**
 ```
 Runtime: 96 ms
 Memory Usage: 46.2 MB
@@ -364,7 +364,7 @@ public:
 };
 ```
 
-**Solution 5: (Union Find)**
+**Solution 5: (Union Find, treat each accout as group then try to union by email)**
 
     accounts = [["John","johnsmith@mail.com","john_newyork@mail.com"],["John","johnsmith@mail.com","john00@mail.com"],["Mary","mary@mail.com"],["John","johnnybravo@mail.com"]]
 
@@ -391,61 +391,63 @@ ans
 2: John, johnnybravo@mail.com
 
 ```
-Runtime: 25 ms, Beats 85.62%
-Memory: 36.83 MB, Beats 96.76%
+Runtime: 27 ms, Beats 81.85%
+Memory: 38.94 MB, Beats 86.08%
 ```
 ```c++
 class Solution {
     vector<int> p;
     vector<int> r;
-    int find(int &x) {
-        if (p[x] != x) {
+    int find(int x) {
+        if (x != p[x]) {
             p[x] = find(p[x]);
         }
         return p[x];
     }
-    void uni(int &x, int &y) {
+    void uni(int x, int y) {
         int xr = find(x), yr = find(y);
-        if (xr == yr) {
-            return;
-        }
-        if (r[xr] > r[yr]) {
-            p[yr] = xr;
-            r[xr] += 1;
-        } else {
-            p[xr] = yr;
-            r[yr] += 1;
+        if (xr != yr) {
+            if (r[xr] > r[yr]) {
+                p[yr] = xr;
+            } else if (r[xr] < r[yr]) {
+                p[xr] = yr;
+            } else {
+                p[xr] = yr;
+                r[yr] += 1;
+            }
         }
     }
 public:
     vector<vector<string>> accountsMerge(vector<vector<string>>& accounts) {
-        int n = accounts.size(), i, j;
-        unordered_map<string, int> g;
-        vector<vector<string>> dp(n);
-        vector<vector<string>> ans;
+        int n = accounts.size();
         p.resize(n);
         r.resize(n, 1);
-        for (i = 0; i < n; i ++) {
+        for (int i = 0; i < n; i ++) {
             p[i] = i;
         }
-        for (i = 0; i < n; i ++) {
-            for (j = 1; j < accounts[i].size(); j ++) {
-                if (!g.count(accounts[i][j])) {
-                    g[accounts[i][j]] = i;
+        unordered_map<string, int> mp;
+        for (int i = 0; i < n; i++) {
+            for (int j = 1; j < accounts[i].size(); j ++) {
+                if (!mp.count(accounts[i][j])) {
+                    mp[accounts[i][j]] = i;
                 } else {
-                    uni(i, g[accounts[i][j]]);
+                    uni(mp[accounts[i][j]], i);
                 }
             }
         }
-        for (auto &[k, v]: g) {
-            dp[find(v)].push_back(k);
+        vector<vector<string>> dp(n);
+        for (auto &[email, i]: mp) {
+            auto j = find(i);
+            dp[j].push_back(email);
         }
-        for (i = 0; i < dp.size(); i ++) {
+        vector<vector<string>> ans;
+        for (int i = 0; i < n; i ++) {
             if (dp[i].size()) {
-                ans.push_back({});
-                ans.back().push_back(accounts[i][0]);
+                ans.push_back({accounts[i][0]});
                 sort(dp[i].begin(), dp[i].end());
-                ans.back().insert(ans.back().end(), dp[i].begin(), dp[i].end());
+                for (auto &email: dp[i]) {
+                    ans.back().push_back(email);
+                }
             }
         }
         return ans;

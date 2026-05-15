@@ -73,40 +73,41 @@ class Solution:
 
 **Solution 2: (BFS, Dijkstra)**
 ```
-Runtime: 75 ms
-Memory: 19.4 MB
+Runtime: 67 ms, Beats 38.16%
+Memory: 25.58 MB, Beats 39.24%
 ```
 ```c++
 class Solution {
-    int dd[5] = {0, 1, 0, -1, 0};
+    int dd[5] = {0, 1, 0, -1, 0}; 
 public:
     int minimumEffortPath(vector<vector<int>>& heights) {
-        int R = heights.size(), C = heights[0].size();
-        priority_queue<pair<int, pair<int, int>>> pq;
-        pq.push({0, {0, 0}});
-        vector<vector<int>> dist(R, vector<int>(C, INT_MAX));
-        int r, c, nr, nc, neffort;
+        int m = heights.size(), n = heights[0].size();
+        priority_queue<array<int, 3>, vector<array<int, 3>>, greater<array<int, 3>>> pq;
+        vector<vector<int>> dist(m, vector<int>(n, INT_MAX));
+        pq.push({0, 0, 0});
+        dist[0][0] = 0;
         while (!pq.empty()) {
-            auto [effort, p] = pq.top();
+            auto [w, r, c] = pq.top();
             pq.pop();
-            r = p.first, c = p.second;
-            dist[r][c] = -effort;
-            if (r == R-1 && c == C-1) {
-                return -effort;
+            if (r == m - 1 && c == n - 1) {
+                return w;
+            }
+            if (w > dist[r][c]) {
+                continue;
             }
             for (int d = 0; d < 4; d ++) {
-                nr = r + dd[d];
-                nc = c + dd[d+1];
-                if (0 <= nr && nr < R && 0 <= nc && nc < C) {
-                    neffort = max(-effort, abs(heights[nr][nc] - heights[r][c]));
-                    if (neffort < dist[nr][nc]) {
-                        dist[nr][nc] = neffort;
-                        pq.push({-neffort, {nr, nc}});
+                int nr = r + dd[d];
+                int nc = c + dd[d + 1];
+                if (0 <= nr && nr < m && 0 <= nc && nc < n) {
+                    int nw = max(w, abs(heights[r][c] - heights[nr][nc]));
+                    if (dist[nr][nc] > nw) {
+                        dist[nr][nc] = nw;
+                        pq.push({nw, nr, nc});
                     }
                 }
             }
         }
-        return -1;
+        return 0;
     }
 };
 ```

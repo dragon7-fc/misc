@@ -201,7 +201,7 @@ class Solution:
         return ans
 ```
 
-**Solution 6: (Stack, mono dec)**
+**Solution 6: (Stack, mono dec, stack contains candidate future warmer days)**
 
     73,74,75,71,69,72,76,73
                          73

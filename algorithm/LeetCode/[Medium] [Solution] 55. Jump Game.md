@@ -361,3 +361,27 @@ public:
     }
 };
 ```
+
+**Solution 6: (Greedy, track max reachable index)**
+```
+Runtime: 0 ms, Beats 100.00%
+Memory: 52.15 MB, Beats 98.19%
+```
+```c++
+class Solution {
+public:
+    bool canJump(vector<int>& nums) {
+        int n = nums.size(), pre = 0;
+        for (int i = 0; i < n; i ++) {
+            if (pre < i) {
+                return false;
+            }
+            pre = max(pre, i + nums[i]);
+            if (pre >= n) {
+                return true;
+            }
+        }
+        return true;
+    }
+};
+```

@@ -529,3 +529,66 @@ public:
  * obj->put(key,value);
  */
 ```
+
+**Solution 7: (Hash Table, 2 Hash Table)**
+```
+Runtime: 102 ms, Beats 72.44%
+Memory: 187.82 MB, Beats 59.81%
+```
+```c++
+class LFUCache {
+    int n, minFreq = 0;
+    unordered_map<int, list<pair<int, int>>> freqList;  // f, {k,v}
+    unordered_map<int, pair<int, list<pair<int,int>>::iterator>> keyMap;  // f, {k,v} ->
+public:
+    LFUCache(int capacity) {
+        n = capacity;
+    }
+    
+    int get(int key) {
+        if (!keyMap.count(key)) {
+            return -1;
+        }
+        auto [f, it] = keyMap[key];
+        auto [_, val] = *it;
+        freqList[f + 1].push_front({key, val});
+        freqList[f].erase(it);
+        if (freqList[f].size() == 0 && minFreq == f) {
+            minFreq += 1;
+        }
+        keyMap[key] = {f + 1, freqList[f + 1].begin()};
+        return val;
+    }
+    
+    void put(int key, int value) {
+        if (n == 0) {
+            return;
+        }
+        if (keyMap.count(key)) {
+            auto [f, it] = keyMap[key];
+            freqList[f].erase(it);
+            if (freqList[f].size() == 0 && minFreq == f) {
+                minFreq += 1;
+            }
+            freqList[f + 1].push_front({key, value});
+            keyMap[key] = {f + 1, freqList[f + 1].begin()}; 
+        } else {
+            if (keyMap.size() == n) {
+                auto [k, v] = freqList[minFreq].back();
+                freqList[minFreq].pop_back();
+                keyMap.erase(k);
+            }
+            freqList[1].push_front({key, value});
+            keyMap[key] = {1, freqList[1].begin()};
+            minFreq = 1;
+        }
+    }
+};
+
+/**
+ * Your LFUCache object will be instantiated and called as such:
+ * LFUCache* obj = new LFUCache(capacity);
+ * int param_1 = obj->get(key);
+ * obj->put(key,value);
+ */
+```

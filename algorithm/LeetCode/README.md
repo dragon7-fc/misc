@@ -672,39 +672,25 @@ public:
 * [Medium] 3714. Longest Balanced Substring II
 
 ### Left/Right Prefix Sum
-```python
-class Solution:
-    def productExceptSelf(self, nums: List[int]) -> List[int]:
-      
-        # The length of the input array 
-        length = len(nums)
-        
-        # The answer array to be returned
-        answer = [0]*length
-        
-        # answer[i] contains the product of all the elements to the left
-        # Note: for the element at index '0', there are no elements to the left,
-        # so the answer[0] would be 1
-        answer[0] = 1
-        for i in range(1, length):
-            
-            # answer[i - 1] already contains the product of elements to the left of 'i - 1'
-            # Simply multiplying it with nums[i - 1] would give the product of all 
-            # elements to the left of index 'i'
-            answer[i] = nums[i - 1] * answer[i - 1]
-        
-        # R contains the product of all the elements to the right
-        # Note: for the element at index 'length - 1', there are no elements to the right,
-        # so the R would be 1
-        R = 1;
-        for i in reversed(range(length)):
-            
-            # For the index 'i', R would contain the 
-            # product of all elements to the right. We update R accordingly
-            answer[i] = answer[i] * R
-            R *= nums[i]
-        
-        return answer
+```c++
+class Solution {
+public:
+    vector<int> productExceptSelf(vector<int>& nums) {
+        int n = nums.size(), i, left, right;
+        vector<int> ans(n);
+        right = 1;
+        for (i = n-1; i >= 0; i --) {
+            ans[i] = right;
+            right *= nums[i];
+        }
+        left = 1;
+        for (i = 0; i < n; i ++) {
+            ans[i] *= left;
+            left *= nums[i];
+        }
+        return ans;
+    }
+};
 ```
 * [Medium] [Solution] 238. Product of Array Except Self
 
@@ -2457,7 +2443,7 @@ class Solution:
 ```
 * [Hard] 1220. Count Vowels Permutation
 
-### Prefix Sum, left and right scan
+### Prefix Sum, left and right scan, left pass handles ascending constraints then right pass fixes descending violations and max preserves both constraints
 ```c++
 class Solution {
 public:
@@ -5413,7 +5399,7 @@ class Solution:
 ```
 * [Medium] 151. Reverse Words in a String
 
-### Stack, previous operator
+### Stack, previous operator and append magic to handle space special case
 ```c++
 class Solution {
 public:
@@ -7028,7 +7014,7 @@ class Solution:
 ```
 * [Medium] 15. 3Sum
 
-### hash table + list
+### hash table + list, push_front and pop_back
 ```c++
 class LRUCache {
     list<pair<int, int>> q;  // list(k, v)
@@ -8109,7 +8095,7 @@ class Solution:
 ```
 * [Medium] [Solution] 967. Numbers With Same Consecutive Differences
 
-### Prefix Sum
+### Prefix Sum, preorder
 ```c++
 /**
  * Definition for a binary tree node.
@@ -8123,23 +8109,23 @@ class Solution:
  * };
  */
 class Solution {
-    void bt(TreeNode *node, int targetSum, unordered_map<long long,int> &cnt, long long a, int &ans) {
+    void dfs(TreeNode* node, int targetSum, long long pre, unordered_map<long long, int> &cnt, int& ans) {
         if (!node) {
             return;
         }
-        a += node->val;
-        ans += cnt[a-targetSum];
-        cnt[a] += 1;
-        bt(node->left, targetSum, cnt, a, ans);
-        bt(node->right, targetSum, cnt, a, ans);
-        cnt[a] -= 1;
+        pre += node->val;
+        ans += cnt[pre - targetSum];
+        cnt[pre] += 1;
+        dfs(node->left, targetSum, pre, cnt, ans);
+        dfs(node->right, targetSum, pre, cnt, ans);
+        cnt[pre] -= 1;
     }
 public:
     int pathSum(TreeNode* root, int targetSum) {
-        int ans = 0;
-        unordered_map<long long,int> cnt;
+        unordered_map<long long, int> cnt;
         cnt[0] = 1;
-        bt(root, targetSum, cnt, 0LL, ans);
+        int ans = 0;
+        dfs(root, targetSum, 0, cnt, ans);
         return ans;
     }
 };
@@ -9156,44 +9142,23 @@ class Solution:
 ```
 * [Medium] 540. Single Element in a Sorted Array
 
-### pivort as first element
-```python
-class Solution:
-    def findMin(self, nums: List[int]) -> int:
-        # If the list has just one element then return that element.
-        if len(nums) == 1:
-            return nums[0]
-
-        # left pointer
-        left = 0
-        # right pointer
-        right = len(nums) - 1
-
-        # if the last element is greater than the first element then there is no rotation.
-        # e.g. 1 < 2 < 3 < 4 < 5 < 7. Already sorted array.
-        # Hence the smallest element is first element. A[0]
-        if nums[right] > nums[0]:
-            return nums[0]
-
-        # Binary search way
-        while right >= left:
-            # Find the mid element
-            mid = left + (right - left) // 2
-            # if the mid element is greater than its next element then mid+1 element is the smallest
-            # This point would be the point of change. From higher to lower value.
-            if nums[mid] > nums[mid + 1]:
-                return nums[mid + 1]
-            # if the mid element is lesser than its previous element then mid element is the smallest
-            if nums[mid - 1] > nums[mid]:
-                return nums[mid]
-
-            # if the mid elements value is greater than the 0th element this means
-            # the least value is still somewhere to the right as we are still dealing with elements greater than nums[0]
-            if nums[mid] > nums[0]:
-                left = mid + 1
-            # if nums[0] is greater than the mid value then this means the smallest value is somewhere to the left
-            else:
-                right = mid - 1
+### lower bound, compare with right
+```c++
+class Solution {
+public:
+    int findMin(vector<int>& nums) {
+        int left = 0, right = nums.size() - 1, mid;
+        while (left < right) {
+            mid = left + (right - left)/2;
+            if (nums[mid] > nums[right]) {
+                left = mid + 1;
+            } else {
+                right = mid;
+            }
+        }
+        return nums[left];
+    }
+};
 ```
 * [Medium] [Solution] 153. Find Minimum in Rotated Sorted Array
 
@@ -9225,22 +9190,26 @@ public:
 ```
 * [Hard] 354. Russian Doll Envelopes
 
-### Rotated Sorted Array, dupliczated
-```python
-class Solution:
-    def findMin(self, nums: List[int]) -> int:
-        left, right = 0, len(nums) - 1
-        mid = 0
-        while left < right:
-            mid = left + (right - left) // 2;           
-            if nums[mid] > nums[right]:
-                left = mid + 1
-            elif nums[mid] < nums[right]:
-                right = mid
-            else:
-                right -= 1
-
-        return nums[left]
+### if left and right not match then left mid right should have duplicate
+```c++
+class Solution {
+public:
+    int findMin(vector<int>& nums) {
+        int n = nums.size(), left = 0, right = n - 1, mid;
+        while (left < right) {
+            mid = left + (right - left) / 2;
+            if (nums[right] < nums[mid]) {
+                left = mid + 1;
+            } else if (nums[left] < nums[mid]) {
+                right = mid;
+            } else {
+                // duplicate
+                right -= 1;
+            }
+        }
+        return nums[left];
+    }
+};
 ```
 * [Hard] 154. Find Minimum in Rotated Sorted Array II
 
@@ -9562,6 +9531,38 @@ public:
 };
 ```
 * [Hard] 2035. Partition Array Into Two Arrays to Minimize Sum Difference
+
+### try binary search max distance to place m ball, larger distance smaller required ball
+```c++
+class Solution {
+    bool check(int mid, vector<int> &position, int m) {
+        int pre = position[0], k = 1;
+        for (int i = 1; i < position.size(); i ++) {
+            if (position[i] - pre >= mid) {
+                pre = position[i];
+                k += 1;
+            }
+        }
+        return k >= m;
+    }
+public:
+    int maxDistance(vector<int>& position, int m) {
+        sort(position.begin(), position.end());
+        int n = position.size(), left = 1, right = position[n - 1] - position[0], mid, ans;
+        while (left <= right) {
+            mid = left + (right - left) / 2;
+            if (!check(mid, position, m)) {
+                right = mid - 1;
+            } else {
+                ans = mid;
+                left = mid + 1;
+            }
+        }
+        return ans;
+    }
+};
+```
+* [Medium] 1552. Magnetic Force Between Two Balls
 
 ### Greedy, upper bound, set power statation as far as possible
 ```c++
@@ -10279,15 +10280,24 @@ class Solution:
 ```
 * [Medium] [Solution] 870. Advantage Shuffle
 
-### Last index
-```python
-class Solution:
-    def canJump(self, nums: List[int]) -> bool:
-        last_pos = len(nums) - 1
-        for i in range(len(nums) - 1, -1, -1):
-            if i + nums[i] >= last_pos:
-                last_pos = i
-        return last_pos == 0
+### track max reachable index
+```c++
+class Solution {
+public:
+    bool canJump(vector<int>& nums) {
+        int n = nums.size(), pre = 0;
+        for (int i = 0; i < n; i ++) {
+            if (pre < i) {
+                return false;
+            }
+            pre = max(pre, i + nums[i]);
+            if (pre >= n) {
+                return true;
+            }
+        }
+        return true;
+    }
+};
 ```
 * [Medium] [Solution] 55. Jump Game
 
@@ -10698,33 +10708,50 @@ public:
 ```
 * [Medium] [Solution] 542. 01 Matrix
 
-### Level order
-```python
-class Solution:
-    def openLock(self, deadends: List[str], target: str) -> int:
-        def neighbors(code):
-            for i in range(4):
-                x = int(code[i])
-                for diff in (-1, 1):
-                    y = (x + diff + 10) % 10
-                    yield code[:i] + str(y) + code[i + 1:]
-
-        deadSet = set(deadends)
-        if "0000" in deadSet: return -1
-        q = deque(["0000"])
-        steps = 0
-        while q:
-            for _ in range(len(q)):
-                curr = q.popleft()
-                if curr == target:
-                    return steps
-                for nei in neighbors(curr):
-                    if nei in deadSet: continue
-                    deadSet.add(nei)  # Marked as visited
-                    q.append(nei)
-            steps += 1
-
-        return -1
+### Bidirectional BFS
+```c++
+class Solution {
+public:
+    int openLock(vector<string>& deadends, string target) {
+        unordered_set<string> visited(deadends.begin(), deadends.end());
+        if (visited.count("0000")) {
+            return -1;
+        }
+        if (target == "0000") {
+            return 0;
+        }
+        unordered_set<string> st1, st2;
+        st1.insert("0000");
+        st2.insert(target);
+        int ans = 0;
+        while (!st1.empty() && !st2.empty()) {
+            if (st1.size() > st2.size()) {
+                swap(st1, st2);
+            }
+            unordered_set<string> st;
+            for (auto s: st1) {
+                      // can't &s: unordered_set elements are immutable
+                for (int i = 0; i < 4; i ++) {
+                    char ch = s[i];
+                    for (int d: {-1, 1}) {
+                        s[i] = (ch - '0' + 10 + d) % 10 + '0';
+                        if (st2.count(s)) {
+                            return ans + 1;
+                        }
+                        if (!visited.count(s)) {
+                            visited.insert(s);
+                            st.insert(s);
+                        }
+                    }
+                    s[i] = ch;
+                }
+            }
+            swap(st, st1);
+            ans += 1;
+        }
+        return -1;
+    }
+};
 ```
 * [Medium] 752. Open the Lock
 
@@ -11072,43 +11099,44 @@ class Solution:
 ```
 * [Medium] 1625. Lexicographically Smallest String After Applying Operations
 
-### Bidirectional BFS, try change one char at a time to find next word
+### Bidirectional BFS, try change one char at a time to find next word, TC: O(N * L * 26), search-tree complexity: O(b ^ (d / 2))
 ```c++
 class Solution {
 public:
     int ladderLength(string beginWord, string endWord, vector<string>& wordList) {
-        unordered_set<string> ust(begin(wordList), end(wordList));
-        if (ust.find(endWord) == ust.end()) {
+        unordered_set<string> visited(begin(wordList), end(wordList));
+        if (!visited.count(endWord)) {
             return 0;
         }
-        unordered_set<string> w1{beginWord};
-        unordered_set<string> w2{endWord};
+        unordered_set<string> st1{beginWord}, st2{endWord};
         int level = 1;
-        while (!w1.empty() && !w2.empty()) {
+        while (!st1.empty() && !st2.empty()) {
             // to alternate turns
-            if (w1.size() > w2.size()) {
-                swap(w1, w2);
+            if (st1.size() > st2.size()) {
+                swap(st1, st2);
             }
 
             // can avoid making another list by using normal for loop
-            unordered_set<string> w;
-            for(auto word: w1) {
-                int wordSize = word.size();
-                for(int i = 0; i < wordSize; i++) {
-                    auto ch = word[i];
-                    for(char c = 'a'; c <= 'z'; c++) {
-                        word[i] = c;
-                        if (w2.count(word)) return level + 1;
-                        if (!ust.count(word)) continue;
-                        ust.erase(word);
-                        w.insert(word);
+            unordered_set<string> st;
+            for (auto s: st1) {
+                for (int i = 0; i < s.length(); i++) {
+                    auto ch = s[i];
+                    for (char c = 'a'; c <= 'z'; c++) {
+                        s[i] = c;
+                        if(st2.count(s)) {
+                            return level + 1;
+                        }
+                        if (visited.count(s)) {
+                            visited.erase(s);
+                            st.insert(s);
+                        }
                     }
-                    word[i] = ch;
+                    s[i] = ch;
                 }
             }
             // we exhausted the list we were searching, but we built the next level
-            swap(w, w1);
-            level++;
+            swap(st, st1);
+            level += 1;
         }
         return 0;
     }
@@ -13805,66 +13833,57 @@ class Solution:
         return dfs(buildings, 0)
 ```
 
-### Try all solution
-```python
-class Solution:
-    def solveSudoku(self, board: List[List[str]]) -> None:
-        """
-        Do not return anything, modify board in-place instead.
-        """
-        # get a list of (row, col) of empty cells
-        def get_vacant_positions(board):
-            res = []
-            for i in range(9):
-                for j in range(9):
-                    if board[i][j] == '.':
-                        res.append((i, j))
-            return res
-        
-        # get valid candidates that can be filled at (row, col)
-        def get_candidates(board, row, col):
-            res = set()
-            for i in range(1, 10):
-                res.add(str(i))
-              
-            # check row and col
-            for i in range(9):
-                if board[row][i] in res:
-                    res.remove(board[row][i])
-                if board[i][col] in res:
-                    res.remove(board[i][col])
-            
-            # check box
-            sr = (row // 3) * 3
-            sc = (col // 3) * 3
-            for i in range(sr, sr+3):
-                for j in range(sc, sc+3):
-                    if board[i][j] in res:
-                        res.remove(board[i][j])
-            
-            return list(res)
-        
-        # fill using backtracking
-        def solve(board, pos):
-            if len(pos) == 0: # no more vacant positions to fill
-                return True
-            
-            r, c = pos[0]
-            candidates = get_candidates(board, r, c)
-            
-            if len(candidates) == 0: # no candidates, reject this path, backtrack
-                return False
-            
-            for num in candidates:
-                board[r][c] = num
-                if solve(board, pos[1:]):
-                    return True
-                board[r][c] = '.'
-            
-            return False
-
-        positions = get_vacant_positions(board)
-        solve(board, positions)
+### Try 0-9 for each unvisited cell
+```c++
+class Solution {
+    vector<vector<bool>> visited_r, visited_c, visited_b;
+    bool bt(int r, int c, vector<vector<char>> &board) {
+        if (r == 9) {
+            return true;
+        }
+        if (c == 9) {
+            return bt(r + 1, 0, board);
+        }
+        if (board[r][c] != '.') {
+            return bt(r, c + 1, board);
+        }
+        int b = (r / 3) * 3 + (c / 3);
+        for (int d = 1; d <= 9; d ++) {
+            board[r][c] = '0' + d;
+            if (!visited_r[r][d] && !visited_c[c][d] && !visited_b[b][d]) {
+                visited_r[r][d] = true;
+                visited_c[c][d] = true;
+                visited_b[b][d] = true;
+                if (bt(r, c + 1, board)) {
+                    return true;
+                }
+                visited_r[r][d] = false;
+                visited_c[c][d] = false;
+                visited_b[b][d] = false;
+            }
+        }
+        board[r][c] = '.';
+        return false;
+    }
+public:
+    void solveSudoku(vector<vector<char>>& board) {
+        visited_r.resize(9, vector<bool>(10));
+        visited_c.resize(9, vector<bool>(10));
+        visited_b.resize(9, vector<bool>(10));
+        for (int r = 0; r < 9; r ++) {
+            for (int c = 0; c < 9; c ++) {
+                if (board[r][c] != '.') {
+                    int d = board[r][c] - '0';
+                    int b = (r / 3) * 3 + (c / 3);
+                    visited_r[r][d] = true;
+                    visited_c[c][d] = true;
+                    visited_b[b][d] = true;
+                }
+            }
+        }
+        bt(0, 0, board);
+    }
+};
 ```
 * [Hard] 37. Sudoku Solver
 
@@ -15192,26 +15211,34 @@ class Solution:
 * [Medium] 445. Add Two Numbers II
 
 ### cycle entrance
-```python
-class Solution:
-    def detectCycle(self, head: ListNode) -> ListNode:
-        if not head or not head.next: 
-            return
-        slow = fast = head
-        while fast and fast.next:
-            slow = slow.next
-            fast = fast.next.next
-            if fast == slow: 
-                break
-        if fast != slow: 
-            return
-        start = head
-        meet = slow
-        while meet != start:
-            meet = meet.next
-            start = start.next
-
-        return start
+```c++
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode(int x) : val(x), next(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    ListNode *detectCycle(ListNode *head) {
+        ListNode *slow = head, *fast = head;
+        while (fast && fast->next) {
+            slow = slow->next;
+            fast = fast->next->next;
+            if (slow == fast) {
+                fast = head;
+                while (fast != slow) {
+                    fast = fast->next;
+                    slow = slow->next;
+                }
+                return slow;
+            }
+        }
+        return nullptr;
+    }
+};
 ```
 * [Medium] 142. Linked List Cycle II
 
@@ -16256,6 +16283,9 @@ public:
                 continue;
             }
             for (auto &[v, w]: g[u]) {
+                // not need dist[node][stop] only dist[node]
+                // larger stop appear later
+                // larger stop with cheaper cost
                 if (d + w < dist[v]) {
                     dist[v] = d + w;
                     q.push({v, d+w, s+1});
@@ -16535,58 +16565,31 @@ public:
 * [Hard] 407. Trapping Rain Water II
 
 ### Two Heaps, max -> min -> max hep
-```python
-class MedianFinder:
-
-    def __init__(self):
-        """
-        initialize your data structure here.
-        """
-        self.lo = []  // max heap
-        self.hi = []  // min heap
-
-    def addNum(self, num: int) -> None:
-        heapq.heappush(self.lo, -num)
-        heapq.heappush(self.hi, -self.lo[0])
-        heapq.heappop(self.lo)
-        if len(self.lo) < len(self.hi):
-            heapq.heappush(self.lo, -self.hi[0])
-            heapq.heappop(self.hi)
-
-    def findMedian(self) -> float:
-        return -self.lo[0] if len(self.lo) > len(self.hi) else (-self.lo[0] + self.hi[0]) * .5
-
-
-# Your MedianFinder object will be instantiated and called as such:
-# obj = MedianFinder()
-# obj.addNum(num)
-# param_2 = obj.findMedian()
-```
 ```c++
 class MedianFinder {
-    priority_queue<int> lo;                              // max heap
-    priority_queue<int, vector<int>, greater<int>> hi;   // min heap
-    
+    priority_queue<int> left;
+    priority_queue<int, vector<int>, greater<int>> right;
 public:
-    /** initialize your data structure here. */
     MedianFinder() {
         
     }
     
     void addNum(int num) {
-        lo.push(num);                                    // Add to max heap
-
-        hi.push(lo.top());                               // balancing step
-        lo.pop();
-
-        if (lo.size() < hi.size()) {                     // maintain size property
-            lo.push(hi.top());
-            hi.pop();
+        left.push(num);
+        right.push(left.top());
+        left.pop();
+        if (right.size() > left.size() + 1) {
+            left.push(right.top());
+            right.pop();
         }
     }
     
     double findMedian() {
-        return lo.size() > hi.size() ? lo.top() : ((double) lo.top() + hi.top()) * 0.5;
+        if (left.size() == right.size()) {
+            return (1.0 * left.top() + right.top()) / 2;
+        } else {
+            return 1.0 * right.top();
+        }
     }
 };
 
@@ -17122,37 +17125,109 @@ public:
 ```
 * [Medium] 547. Friend Circles
 
-### Path Compression
-```python
-class DSU(object):
-    def __init__(self):
-        self.par = range(1001)
-        self.rnk = [0] * 1001
+### treat each accout as group then try to union by email
+```c++
+class Solution {
+    vector<int> p;
+    vector<int> r;
+    int find(int x) {
+        if (x != p[x]) {
+            p[x] = find(p[x]);
+        }
+        return p[x];
+    }
+    void uni(int x, int y) {
+        int xr = find(x), yr = find(y);
+        if (xr != yr) {
+            if (r[xr] > r[yr]) {
+                p[yr] = xr;
+            } else if (r[xr] < r[yr]) {
+                p[xr] = yr;
+            } else {
+                p[xr] = yr;
+                r[yr] += 1;
+            }
+        }
+    }
+public:
+    vector<vector<string>> accountsMerge(vector<vector<string>>& accounts) {
+        int n = accounts.size();
+        p.resize(n);
+        r.resize(n, 1);
+        for (int i = 0; i < n; i ++) {
+            p[i] = i;
+        }
+        unordered_map<string, int> mp;
+        for (int i = 0; i < n; i++) {
+            for (int j = 1; j < accounts[i].size(); j ++) {
+                if (!mp.count(accounts[i][j])) {
+                    mp[accounts[i][j]] = i;
+                } else {
+                    uni(mp[accounts[i][j]], i);
+                }
+            }
+        }
+        vector<vector<string>> dp(n);
+        for (auto &[email, i]: mp) {
+            auto j = find(i);
+            dp[j].push_back(email);
+        }
+        vector<vector<string>> ans;
+        for (int i = 0; i < n; i ++) {
+            if (dp[i].size()) {
+                ans.push_back({accounts[i][0]});
+                sort(dp[i].begin(), dp[i].end());
+                for (auto &email: dp[i]) {
+                    ans.back().push_back(email);
+                }
+            }
+        }
+        return ans;
+    }
+};
+```
+* [Medium] 721. Accounts Merge
 
-    def find(self, x):
-        if self.par[x] != x:
-            self.par[x] = self.find(self.par[x])
-        return self.par[x]
-
-    def union(self, x, y):
-        xr, yr = self.find(x), self.find(y)
-        if xr == yr:
-            return False
-        elif self.rnk[xr] < self.rnk[yr]:
-            self.par[xr] = yr
-        elif self.rnk[xr] > self.rnk[yr]:
-            self.par[yr] = xr
-        else:
-            self.par[yr] = xr
-            self.rnk[xr] += 1
-        return True
-
-class Solution(object):
-    def findRedundantConnection(self, edges):
-        dsu = DSU()
-        for edge in edges:
-            if not dsu.union(*edge):
-                return edge
+### try to union each edge node till find cycle
+```c++
+class Solution {
+    vector<int> p, r;
+    int find(int x) {
+        if (p[x] != x) {
+            p[x] = find(p[x]);
+        }
+        return p[x];
+    }
+    bool uni(int x, int y) {
+        int xr = find(x), yr = find(y);
+        if (xr == yr) {
+            return false;
+        }
+        if (r[xr] > r[yr]) {
+            p[yr] = xr;
+            r[xr] += 1;
+        } else {
+            p[xr] = yr;
+            r[yr] += 1;
+        }
+        return true;
+    }
+public:
+    vector<int> findRedundantConnection(vector<vector<int>>& edges) {
+        int n = edges.size(), i;
+        p.resize(n+1);
+        r.resize(n+1, 1);
+        for (i = 1; i <= n; i ++) {
+            p[i] = i;
+        }
+        for (auto &e: edges) {
+            if (!uni(e[0], e[1])) {
+                return e;
+            }
+        }
+        return {};
+    }
+};
 ```
 * [Medium] [Solution] 684. Redundant Connection
 
@@ -18499,42 +18574,28 @@ public:
 ```
 * [Medium] 241. Different Ways to Add Parentheses
 
-### DP - Top-down
-```python
-import functools
-class Solution:
-    def maxCoins(self, nums: List[int]) -> int:
-        nums_ext = [1] + [num for num in nums if num != 0] + [1]
-        N = len(nums_ext) - 2
-        
-        @functools.lru_cache(None)
-        def dfs(lower, upper):
-            max_coins = 0
-            for i in range(lower, upper+1):
-                coins = nums_ext[lower-1] * nums_ext[i] * nums_ext[upper+1]
-                coins += dfs(lower, i-1)
-                coins += dfs(i+1, upper)
-                if coins > max_coins:
-                    max_coins = coins
-            return max_coins
-
-        return dfs(1, N)
-    
-class Solution:
-    def maxCoins(self, nums: List[int]) -> int:
-        nums = [1] + [num for num in nums if num > 0] + [1]
-        n = len(nums)
-        dp = [[0]*n for _ in range(n)]
-
-        for length in range(1, n-1):
-            for left in range(0, n-1-length):
-                right = left + length + 1
-                for i in range(left+1, right):
-                    dp[left][right] = max(dp[left][right], 
-                                          nums[left]*nums[i]*nums[right] +
-                                          dp[left][i] + dp[i][right])
-
-        return dp[0][n-1]
+### interval DP, try burst ballom from smallest to largest length
+```c++
+class Solution {
+public:
+    int maxCoins(vector<int>& nums) {
+        vector<int> pre;
+        pre.push_back(1);
+        pre.insert(pre.end(), nums.begin(), nums.end());
+        pre.push_back(1);
+        int n = pre.size();
+        vector<vector<int>> dp(n, vector<int>(n));
+        for (int k = 1; k < n; k ++) {
+            for (int left = 0; left < n - k - 1; left ++) {
+                int right = left + k + 1;
+                for (int i = left + 1; i < right; i ++) {
+                    dp[left][right] = max(dp[left][right], dp[left][i] + dp[i][right] + pre[left] * pre[i] * pre[right]);
+                }
+            }
+        }
+        return dp[0][n - 1];
+    }
+};
 ```
 * [Hard] 312. Burst Balloons
 
@@ -20725,3 +20786,8 @@ class Solution:
                        for name in sorted(stack[-1]))
 ```
 * [Hard] [Solution] 726. Number of Atoms
+
+**Template: (ceiling division trick)**
+```c++
+ceil(1.0 * p / mid) = (p + mid - 1) / mid
+```
