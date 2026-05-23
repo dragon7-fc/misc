@@ -2235,22 +2235,29 @@ class Solution:
 ```
 * [Medium] [Solution] 376. Wiggle Subsequence
 
-### Subsequence
-```python
-class Solution:
-    def numDistinct(self, s: str, t: str) -> int:
-        M, N = len(s), len(t)
-        dp = [[0]*(N + 1) for _ in range(M + 1)]  #dp[m+1][n+1] means s[:m+2] t[:n+2]
-        for i in range(M+1):
-            dp[i][0] = 1
-        for i in range(1,M+1):
-            for j in range(1,N+1):
-                if s[i - 1] == t[j - 1]:
-                    dp[i][j] = dp[i - 1][j] + dp[i - 1][j - 1]
-                else:
-                    dp[i][j] = dp[i - 1][j]  # drop s[i]
-                    
-        return dp[-1][-1]
+### counting DP, 1D, reverse iteration, for each character: use it OR skip it
+```c++
+class Solution {
+public:
+    int numDistinct(string s, string t) {
+        int m = s.size(), n = t.size(), i, j;
+        vector<int> pre(n+1), cur(n+1);
+        pre[0] = 1;
+        for (i = 0; i < m; i ++) {
+            cur[0] = 1;
+            for (j = 0; j < n; j ++) {
+                if (s[i] == t[j]) {
+                    cur[j+1] = (long long)pre[j] + pre[j+1];
+                } else {
+                    cur[j+1] = pre[j+1];
+                }
+            }
+            pre = move(cur);
+            cur.resize(n+1);
+        }
+        return pre[n];
+    }
+};
 ```
 [Hard] 115. Distinct Subsequences
 
@@ -2273,51 +2280,90 @@ class Solution:
 ```
 * [Hard] 446. Arithmetic Slices II - Subsequence
 
-### Only Top-Down
-```python
-class Solution:
-    def removeBoxes(self, boxes: List[int]) -> int:
-        
-        @functools.lru_cache(None)
-        def dfs(i, j, k):
-            if i > j: return 0
-            cnt=0
-            while (i+cnt) <= j and boxes[i] == boxes[i+cnt]:
-                cnt+=1
-            i2 = i+cnt
-            res = dfs(i2, j, 0) + (k + cnt)**2
-            for m in range(i2,j+1):
-                if boxes[m] == boxes[i]:
-                    res = max(res, dfs(i2, m-1, 0) + dfs(m, j, k+cnt))
-            return res
-        
-        return dfs(0, len(boxes)-1, 0)
+### defer removal to create larger future groups
+```c++
+class Solution {
+    int dp[100][100][100];
+    int dfs(int l, int r, int k, vector<int> &boxes) {
+        if (l > r) {
+            return 0;
+        }
+        if (dp[l][r][k] != -1) {
+            return dp[l][r][k];
+        }
+        int origL = l;
+        int origK = k;
+
+        // compress consecutive equal boxes
+        while (l + 1 <= r &&
+               boxes[l] == boxes[l + 1]) {
+            l++;
+            k++;
+        }
+
+        // remove current group immediately
+        int res =
+            (k + 1) * (k + 1)
+            + dfs(l + 1, r, 0, boxes);
+
+        // try merging with later same-colored box
+        for (int m = l + 1; m <= r; m++) {
+            if (boxes[m] == boxes[l]) {
+                res = max(
+                    res,
+                    dfs(l + 1, m - 1, 0, boxes)
+                    +
+                    dfs(m, r, k + 1, boxes)
+                );
+            }
+        }
+
+        return dp[origL][r][origK] = res;
+    }
+public:
+    int removeBoxes(vector<int>& boxes) {
+        memset(dp, -1, sizeof(dp));
+        return dfs(0, boxes.size() - 1, 0, boxes);
+    }
+};
 ```
 * [Hard] 546. Remove Boxes
 
-### Only Top-Down
-```python
-class Solution:
-    def minCut(self, s: str) -> int:
-        n = len(s)
-        
-        @lru_cache(None)
-        def isPalindrome(l, r):  # l, r inclusive
-            if l >= r: return True
-            if s[l] != s[r]: return False
-            return isPalindrome(l+1, r-1)
-        
-        @lru_cache(None)
-        def dp(i):  # s[i..n-1]
-            if i == n:
-                return 0
-            ans = math.inf
-            for j in range(i, n):
-                if (isPalindrome(i, j)):
-                    ans = min(ans, dp(j+1) + 1)
-            return ans
-        
-        return dp(0) - 1
+### Two Layers of DP, DP + palindrome precomputation
+```c++
+class Solution {
+public:
+    int minCut(string s) {
+        int n = s.length();
+        vector<vector<bool>> isPal(n, vector<bool>(n));
+        for (int k = 1; k <= n; k ++) {
+            for (int i = 0; i + k - 1 < n; i ++) {
+                int j = i + k - 1;
+                if (k == 1) {
+                    isPal[i][j] = true;
+                } else if (k == 2) {
+                    isPal[i][j] = s[i] == s[j];
+                } else {
+                    isPal[i][j] = (s[i] == s[j]) && isPal[i + 1][j - 1];
+                }
+            }
+        }
+        vector<int> dp(n);
+        for (int j = 0; j < n; j ++) {
+            if (isPal[0][j]) {
+                dp[j] = 0;
+            } else {
+                dp[j] = j;
+                for (int i = 0; i < j; i ++) {
+                    if (isPal[i + 1][j]) {
+                        dp[j] = min(dp[j], dp[i] + 1);
+                    }
+                }
+            }
+        }
+        return dp[n - 1];
+    }
+};
 ```
 [Hard] 132. Palindrome Partitioning II
 
@@ -2464,66 +2510,35 @@ public:
 * [Hard] [Solution] 135. Candy
 
 
-### Brute Force, Backtracking
-```python
-import functools
-class Solution:
-    def isInterleave(self, s1: str, s2: str, s3: str) -> bool:
-        M, N = len(s1), len(s2)
+### 2D DP on prefix construction, At every step: Did current char come from s1 OR s2?
+```c++
+class Solution {
+public:
+    bool isInterleave(string s1, string s2, string s3) {
+        int m = s1.size(), n = s2.size();
+        if (m + n != s3.size()) {
+            return false;
+        }
+        vector<vector<bool>> dp(m + 1, vector<bool>(n + 1, false));
+        dp[0][0] = true;
+        for (int i = 1; i <= m; i++) {
+            dp[i][0] = dp[i - 1][0] && (s1[i - 1] == s3[i - 1]);
+        }
+        for (int j = 1; j <= n; j++) {
+            dp[0][j] = dp[0][j - 1] && (s2[j - 1] == s3[j - 1]);
+        }
+        for (int i = 1; i <= m; i++) {
+            for (int j = 1; j <= n; j++) {
+                int k = i + j - 1;
+                dp[i][j] =
+                    (s1[i - 1] == s3[k] && dp[i - 1][j]) ||
+                    (s2[j - 1] == s3[k] && dp[i][j - 1]);
+            }
+        }
 
-        @functools.lru_cache(None)
-        def is_Interleave(i, j, k):
-            if i == M:
-                return s2[j:] == s3[k:]
-            if j == N:
-                return s1[i:] == s3[k:]
-            ans = False
-            if s3[k] == s1[i] and is_Interleave(i + 1, j, k + 1) \
-               or s3[k] == s2[j] and is_Interleave(i, j + 1, k + 1):
-                ans = True
-            return ans
-
-        return is_Interleave(0, 0, 0)
-    
-class Solution:
-    def isInterleave(self, s1: str, s2: str, s3: str) -> bool:
-        M, N = len(s1), len(s2)
-        if len(s3) != M + N:
-            return False
-        dp = [[False]*(N + 1) for _ in range(M + 1)]
-        for i in range(M + 1):
-            for j in range(N + 1):
-                if i == 0 and j == 0:
-                    dp[i][j] = True
-                elif i == 0:
-                    dp[i][j] = dp[i][j - 1] and s2[j - 1] == s3[i + j - 1]
-                elif j == 0:
-                    dp[i][j] = dp[i - 1][j] and s1[i - 1] == s3[i + j - 1]
-                else:
-                    dp[i][j] = dp[i - 1][j] and s1[i - 1] == s3[i + j - 1] \
-                    or dp[i][j - 1] and s2[j - 1] == s3[i + j - 1]
-
-        return dp[M][N]
-
-class Solution:
-    def isInterleave(self, s1: str, s2: str, s3: str) -> bool:
-        M, N = len(s1), len(s2)
-        if len(s3) != M + N:
-            return False
-        dp = [False]*(N + 1)
-        for i in range(M + 1):
-            for j in range(N + 1):
-                if i == 0 and j == 0:
-                    dp[j] = True
-                elif i == 0:
-                    dp[j] = dp[j - 1] and s2[j - 1] == s3[i + j - 1]
-                elif j == 0:
-                    dp[j] = dp[j] and s1[i - 1] == s3[i + j - 1]
-                else:
-                    dp[j] = dp[j] and s1[i - 1] == s3[i + j - 1] \
-                    or dp[j - 1] and s2[j - 1] == s3[i + j - 1]
-
-        return dp[N]
+        return dp[m][n];
+    }
+};
 ```
 * [Hard] [Solution] 97. Interleaving String
 
@@ -2654,36 +2669,25 @@ class Solution:
 * [Medium] [Solution] 718. Maximum Length of Repeated Subarray
 
 ### Longest Common Subsequence
-```python
-class Solution:
-    def longestCommonSubsequence(self, text1: str, text2: str) -> int:
-        M, N = len(text1), len(text2)
-
-        @functools.lru_cache(None)
-        def dfs(i, j):
-            if i == M or j == N:
-                return 0
-            if text1[i] == text2[j]:
-                return 1 + dfs(i+1, j+1)
-            else:
-                return max(dfs(i+1, j), dfs(i, j+1))
-
-        return dfs(0, 0)
-    
-class Solution:
-    def longestCommonSubsequence(self, text1: str, text2: str) -> int:
-        M = len(text1)
-        N = len(text2)
-        dp = [[0]*(N+1) for _ in range(M+1)]
-
-        for i in range(1, M+1):
-            for j in range(1, N+1):
-                if text1[i-1] == text2[j-1]:
-                    dp[i][j] = 1 + dp[i-1][j-1]
-                else:
-                    dp[i][j] = max(dp[i-1][j], dp[i][j-1])
-
-        return dp[M][N]
+```c++
+class Solution {
+public:
+    int longestCommonSubsequence(string text1, string text2) {
+        int m = text1.size(), n = text2.size(), i, j;
+        vector<int> pre(n + 1), cur(n + 1);
+        for (i = 0; i < m; i ++) {
+            for (j = 0; j < n; j ++) {
+                cur[j + 1] = max(pre[j + 1], cur[j]);
+                if (text1[i] == text2[j]) {
+                    cur[j + 1] = max(cur[j + 1], pre[j] + 1);
+                }
+            }
+            swap(pre, cur);
+            fill(cur.begin(), cur.end(), 0);
+        }
+        return pre[n];
+    }
+};
 ```
 * [Medium] 1143. Longest Common Subsequence
 
@@ -3394,25 +3398,44 @@ class Solution:
 ```
 * [Hard] 1595. Minimum Cost to Connect Two Groups of Points
 
-### Character match
-```python
-import functools
-class Solution:
-    def isMatch(self, s: str, p: str) -> bool:
+### 2D DP on string matching states, dp[i][j] asks: Can these two prefixes fully match?
+```c++
+class Solution {
+public:
+    bool isMatch(string s, string p) {
+        int m = s.size(), n = p.size();
+        vector<vector<bool>> dp(m + 1, vector<bool>(n + 1, false));
 
-        @functools.lru_cache(None)
-        def dp(i, j):
-            if j == len(p):
-                ans = i == len(s)
-            else:
-                first_match = i < len(s) and p[j] in {s[i], '.'}
-                if j+1 < len(p) and p[j+1] == '*':
-                    ans = dp(i, j+2) or first_match and dp(i+1, j)
-                else:
-                    ans = first_match and dp(i+1, j+1)
-            return ans
+        dp[0][0] = true;
 
-        return dp(0, 0)
+        // initialize for patterns like a*, a*b*, etc.
+        for (int j = 2; j <= n; j++) {
+            if (p[j - 1] == '*') {
+                dp[0][j] = dp[0][j - 2];
+            }
+        }
+
+        for (int i = 1; i <= m; i++) {
+            for (int j = 1; j <= n; j++) {
+
+                if (p[j - 1] == '.' || p[j - 1] == s[i - 1]) {
+                    dp[i][j] = dp[i - 1][j - 1];
+                } else if (p[j - 1] == '*') {
+
+                    // 1) treat as zero occurrence
+                    dp[i][j] = dp[i][j - 2];
+
+                    // 2) treat as multiple occurrence
+                    if (p[j - 2] == '.' || p[j - 2] == s[i - 1]) {
+                        dp[i][j] = dp[i][j] | dp[i - 1][j];
+                    }
+                }
+            }
+        }
+
+        return dp[m][n];
+    }
+};
 ```
 * [Hard] [Solution] 10. Regular Expression Matching
 
@@ -5709,25 +5732,31 @@ class Solution:
 ```
 * [Hard] [Solution] 899. Orderly Queue
 
-### Edit Distance
-```python
-import functools
-class Solution:
-    def minDistance(self, word1: str, word2: str) -> int:
-        M, N = len(word1), len(word2)
-
-        @functools.lru_cache(None)
-        def dp(i, j):
-            if i == M: return N - j
-            if j == N: return M - i
-            if word1[i] == word2[j]:
-                return dp(i+1, j+1)           # Nothing to do 
-            else:
-                return min( dp(i+1, j)+1,     # Word1[i] Insert
-                            dp(i, j+1)+1,     # Word1[i] Delete
-                            dp(i+1, j+1)+1 )  # Word1[i] Replace 
-
-        return dp(0, 0)
+### 2D string DP
+```c++
+class Solution {
+public:
+    int minDistance(string word1, string word2) {
+        int m = word1.size(), n = word2.size();
+        vector<vector<int>> dp(m + 1, vector<int>(n + 1));
+        for (int i = 0; i <= m; i ++) {
+            for (int j = 0; j <= n; j ++) {
+                if (i == 0) {
+                    dp[i][j] = j;
+                } else if (j == 0) {
+                    dp[i][j] = i;
+                } else {
+                    if (word1[i - 1] == word2[j - 1]) {
+                        dp[i][j] = dp[i - 1][j - 1]; 
+                    } else {
+                        dp[i][j] = min({dp[i - 1][j], dp[i][j - 1], dp[i - 1][j - 1]}) + 1;
+                    }
+                }
+            }
+        }
+        return dp[m][n];
+    }
+};
 ```
 * [Hard] 72. Edit Distance
 
@@ -8629,32 +8658,48 @@ class Solution:
 ```
 * [Hard] [Solution] 827. Making A Large Island
 
-### Tarjan's algorithm
-```python
-class Solution:
-    def criticalConnections(self, n: int, connections: List[List[int]]) -> List[List[int]]:
-        graph = {} # graph as adjacency list 
-        for u, v in connections: 
-            graph.setdefault(u, []).append(v)
-            graph.setdefault(v, []).append(u)
+### Tarjan's algorithm, discovery time + low-link propagation
+```c++
+class Solution {
+    void dfs(int u, int p, int &t, vector<int> &dist, vector<int> &low, vector<vector<int>> &ans, vector<vector<int>> &g) {
+        dist[u] = t;
+        low[u] = t;
+        t += 1;
+        for (auto &v: g[u]) {
+            if (v == p) {
+                continue;
+            }
+            // back edge
+            if (dist[v] != -1) {
+                low[u] = min(low[u], dist[v]);
+            } else {
+                dfs(v, u, t, dist, low, ans, g);
+                low[u] = min(low[u], low[v]);
 
-        def dfs(x, p, step): 
-            """Traverse the graph and collect bridges using Tarjan's algo."""
-            disc[x] = low[x] = step
-            for xx in graph.get(x, []): 
-                if disc[xx] == inf: 
-                    step += 1
-                    dfs(xx, x, step)
-                    low[x] = min(low[x], low[xx])
-                    if low[xx] > disc[x]: ans.append([x, xx]) # bridge
-                elif xx != p: low[x] = min(low[x], disc[xx])
-
-        ans = []
-        low = [inf]*n
-        disc = [inf]*n
-
-        dfs(0, -1, 0)
-        return ans
+                // bridge condition
+                if (dist[u] < low[v]) {
+                    ans.push_back({u, v});
+                }
+                
+            }
+        }
+    }
+public:
+    vector<vector<int>> criticalConnections(int n, vector<vector<int>>& connections) {
+        vector<vector<int>> g(n);
+        for (auto &conn: connections) {
+            auto &u = conn[0];
+            auto &v = conn[1];
+            g[u].push_back(v);
+            g[v].push_back(u);
+        }
+        vector<int> dist(n, -1), low(n, -1);
+        vector<vector<int>> ans;
+        int t = 0;
+        dfs(0, -1, t, dist, low, ans, g);
+        return ans;
+    }
+};
 ```
 * [Hard] 1192. Critical Connections in a Network
 
@@ -8975,7 +9020,7 @@ public:
             } else if (nums[left] <= nums[mid]) {
                                 // ^ 2 element
                 if (nums[left] <= target && target <= nums[mid]) {
-                                                 // ^ 2 element
+                             // ^ 2 element         ^ or <
                     right = mid - 1;
                 } else {
                     left = mid + 1;
@@ -9027,6 +9072,26 @@ public:
 };
 ```
 * [Medium] 81. Search in Rotated Sorted Array II
+
+### lower bound, compare with right
+```c++
+class Solution {
+public:
+    int findMin(vector<int>& nums) {
+        int left = 0, right = nums.size() - 1, mid;
+        while (left < right) {
+            mid = left + (right - left)/2;
+            if (nums[mid] > nums[right]) {
+                left = mid + 1;
+            } else {
+                right = mid;
+            }
+        }
+        return nums[left];
+    }
+};
+```
+* [Medium] [Solution] 153. Find Minimum in Rotated Sorted Array
 
 ### Fix upper bound and increase lower bound
 ```python
@@ -9141,26 +9206,6 @@ class Solution:
         return nums[b]
 ```
 * [Medium] 540. Single Element in a Sorted Array
-
-### lower bound, compare with right
-```c++
-class Solution {
-public:
-    int findMin(vector<int>& nums) {
-        int left = 0, right = nums.size() - 1, mid;
-        while (left < right) {
-            mid = left + (right - left)/2;
-            if (nums[mid] > nums[right]) {
-                left = mid + 1;
-            } else {
-                right = mid;
-            }
-        }
-        return nums[left];
-    }
-};
-```
-* [Medium] [Solution] 153. Find Minimum in Rotated Sorted Array
 
 ### 2D LIS, Sort (inc x dec y) and Reduce to 1D (y)
 ```c++
@@ -9720,6 +9765,22 @@ return ans
 
 ## Greedy <a name="greedy"></a>
 ---
+### try to pick each number and find average till now as max possible value
+```c++
+class Solution {
+public:
+    int minimizeArrayValue(vector<int>& nums) {
+        long sum = 0, ans = 0;
+        for (int i = 0; i < nums.size(); ++i) {
+            sum += nums[i];
+            ans = max(ans, (sum + i) / (i + 1));
+        }
+        return ans;
+    }
+};
+```
+* [Medium] 2439. Minimize Maximum of Array
+
 ### try swap nearest target row, simulation
 ```c++
 class Solution {
@@ -9944,18 +10005,25 @@ class Solution:
 * [Medium] 1437. Check If All 1's Are at Least Length K Places Away
 
 ### Two Pointers, greedy from back
-```python
-class Solution:
-    def numRescueBoats(self, people: List[int], limit: int) -> int:
-        people.sort()
-        i, j = 0, len(people) - 1
-        ans = 0
-        while i <= j:
-            ans += 1
-            if people[i] + people[j] <= limit:
-                i += 1
-            j -= 1
-        return ans
+```c++
+class Solution {
+public:
+    int numRescueBoats(vector<int>& people, int limit) {
+        sort(people.begin(), people.end());
+        int i = 0, j = people.size() - 1;
+        int ans = 0;
+
+        while (i <= j) {
+            ans++;
+            if (people[i] + people[j] <= limit)
+                i++;
+            // heaviest person must be assigned a boat anyway
+            j--;
+        }
+
+        return ans;
+    }
+};
 ```
 * [Medium] [Solution] 881. Boats to Save People
 
@@ -12689,28 +12757,36 @@ class Solution:
 * [Medium] 150. Evaluate Reverse Polish Notation
 
 ### 2 element Stack
-```python
-class Solution(object):
-    def decodeString(self, s):
-        """
-        :type s: str
-        :rtype: str
-        """
-        stack = []
-        stack.append(["", 1])
-        num = ""
-        for ch in s:
-            if ch.isdigit():
-                num += ch
-            elif ch == '[':
-                stack.append(['', int(num)])
-                num = ''
-            elif ch.isalpha():
-                stack[-1][0] += ch
-            elif ch == ']':
-                st, k = stack.pop()
-                stack[-1][0] += st*k
-        return stack[0][0]
+```c++
+class Solution {
+public:
+    string decodeString(string s) {
+        int k = 0;
+        stack<pair<int,string>> stk;
+        stk.push({0, ""});
+        for (auto &c: s) {
+            // direct store string on stack
+            if (isalpha(c)) {
+                stk.top().second += c;
+                k = 0;
+            } else if (isdigit(c)) {
+                k = k*10 + c-'0';
+            } else if (c == '[') {
+                stk.push({k, ""});
+                k = 0;
+            } else {
+                auto [k, s] = stk.top();
+                stk.pop();
+                while (k) {
+                    stk.top().second += s;
+                    k -= 1;
+                }
+                k = 0;
+            }
+        }
+        return stk.top().second;
+    }
+};
 ```
 * ![Medium] 394. Decode String
 
@@ -16651,29 +16727,31 @@ class Solution:
 ```
 * [Hard] 1354. Construct Target Array With Multiple Sums
 
-### sort by end time and try not drop or drop largest duration courses as possible
+### sort by end time and try not or drop largest duration courses as possible
 ```c++
 class Solution {
 public:
     int scheduleCourse(vector<vector<int>>& courses) {
-        int n = courses.size(), i, k = 0, cur = 0;
+        // sort by deadline, earlier deadlines are more restrictive
+        sort(courses.begin(), courses.end(), [](const auto &ca, const auto &cb) {
+            return ca[1] < cb[1]; });
         priority_queue<int> pq;
-        sort(courses.begin(), courses.end(), [](auto &ca, auto &cb){
-            return ca[1] < cb[1];
-        });
-        for (i = 0; i < n; i ++) {
-            cur += courses[i][0];
-            pq.push(courses[i][0]);
-            while (pq.size() && cur > courses[i][1]) {
-                auto d = pq.top();
+        int total = 0;
+        for (auto &course: courses) {
+            auto &duration = course[0];
+            auto &deadline = course[1];
+            total += duration;
+            pq.push(duration);
+
+            // infeasible -> remove longest
+            if (total > deadline) {
+                total -= pq.top();
                 pq.pop();
-                cur -= d;
-                k += 1;  // # drop
             }
         }
-        return n - k;
+        return pq.size();
     }
- };
+};
 ```
 * [Hard] [Solution] 630. Course Schedule III
 
@@ -16905,41 +16983,50 @@ class Solution:
 ```
 * [Hard] [Solution] 864. Shortest Path to Get All Keys
 
-### Hash Table, Sort by x and filter by sorted y, Counter, open close event, sequencially scan x and add point when y changed
+### Sweep Line, Sort by {x,-y/y} vector and filter by multiset y, open close event, sequencially scan x and add point when y changed
 ```c++
 class Solution {
 public:
     vector<vector<int>> getSkyline(vector<vector<int>>& buildings) {
-        int n = buildings.size(), i, pre = 0, cur;
-        map<int,vector<array<int, 2>>> g;
-        map<int,int> cnt;
+        vector<pair<int,int>> events;
+        for (auto& b : buildings) {
+            int L = b[0];
+            int R = b[1];
+            int H = b[2];
+
+            // start event
+            events.push_back({L, -H});
+
+            // end event
+            events.push_back({R, H});
+        }
+        sort(events.begin(), events.end());
+        multiset<int> heights;
+        heights.insert(0);
+        int prev = 0;
         vector<vector<int>> ans;
-        for (i = 0; i < n; i ++) {
-            g[buildings[i][0]].push_back({buildings[i][2], 0});
-            g[buildings[i][1]].push_back({buildings[i][2], 1});
-        }
-        for (auto &[x, v]: g) {
-            for (auto &[h, t]: v) {
-                if (t == 0) {
-                    cnt[h] += 1;
-                } else {
-                    cnt[h] -= 1;
-                    if (cnt[h] == 0) {
-                        cnt.erase(h);
-                    }
-                }
+        for (auto &[x, h] : events) {
+            if (h < 0) {
+
+                // entering building
+                heights.insert(-h);
             }
-            cur = pre;
-            if (cnt.size() && cnt.rbegin()->first != pre) {
-                cur = cnt.rbegin()->first;
-            } else if (cnt.size() == 0) {
-                cur = 0;
+            else {
+
+                // leaving building
+                auto it = heights.find(h);
+
+                if (it != heights.end())
+                    heights.erase(it);
             }
-            if (cur != pre) {
-                pre = cur;
+
+            int cur = *heights.rbegin();
+            if (cur != prev) {
                 ans.push_back({x, cur});
+                prev = cur;
             }
         }
+
         return ans;
     }
 };

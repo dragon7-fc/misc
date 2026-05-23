@@ -52,21 +52,21 @@ class Solution:
         return max(ceil(n / (i + 1)) for i, n in enumerate(accumulate(nums)))
 ```
 
-**Solution 2: (Prefix Sum Average)**
+**Solution 2: (Prefix Sum Average, try to pick each number and find average till now as max possible value)**
 ```
-Runtime: 134 ms
-Memory: 71.4 MB
+Runtime: 1 ms, Beats 74.58%
+Memory: 74.97 MB, Beats 86.63%
 ```
 ```c++
 class Solution {
 public:
     int minimizeArrayValue(vector<int>& nums) {
-        long sum = 0, res = 0;
+        long sum = 0, ans = 0;
         for (int i = 0; i < nums.size(); ++i) {
             sum += nums[i];
-            res = max(res, (long) ceil(sum*1.0 / (i + 1)));
+            ans = max(ans, (sum + i) / (i + 1));
         }
-        return res;
+        return ans;
     }
 };
 ```

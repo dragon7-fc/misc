@@ -382,31 +382,33 @@ class Solution:
         return len(heap)
 ```
 
-**Soluttion 5: (Sort, Heap, sort by end time and try not drop or drop largest duration courses as possible)**
+**Soluttion 5: (Sort, Heap, sort by end time and try not or drop largest duration courses as possible)**
 ```
-Runtime: 28 ms, Beats, 68.70%
-Memory: 60.39 MB, Beats 77.05%
+Runtime: 32 ms, Beats 48.28%
+Memory: 60.26 MB, Beats 91.82%
 ```
 ```c++
 class Solution {
 public:
     int scheduleCourse(vector<vector<int>>& courses) {
-        int n = courses.size(), i, k = 0, cur = 0;
+        // sort by deadline
+        sort(courses.begin(), courses.end(), [](const auto &ca, const auto &cb) {
+            return ca[1] < cb[1]; });
         priority_queue<int> pq;
-        sort(courses.begin(), courses.end(), [](auto &ca, auto &cb){
-            return ca[1] < cb[1];
-        });
-        for (i = 0; i < n; i ++) {
-            cur += courses[i][0];
-            pq.push(courses[i][0]);
-            while (pq.size() && cur > courses[i][1]) {
-                auto d = pq.top();
+        int total = 0;
+        for (auto &course: courses) {
+            auto &duration = course[0];
+            auto &deadline = course[1];
+            total += duration;
+            pq.push(duration);
+
+            // infeasible -> remove longest
+            if (total > deadline) {
+                total -= pq.top();
                 pq.pop();
-                cur -= d;
-                k += 1;  // # drop
             }
         }
-        return n - k;
+        return pq.size();
     }
- };
+};
 ```

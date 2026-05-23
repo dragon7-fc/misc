@@ -181,44 +181,52 @@ public:
 
 **Solution 4: (Sort, multiset)**
 ```
-Runtime: 37 ms, Beats 20.28%
-Memory: 34.20 MB, Beats 15.81%
+Runtime: 10 ms, Beats 89.17%
+Memory: 27.70 MB, Beats 79.14%
 ```
 ```c++
 class Solution {
 public:
     vector<vector<int>> getSkyline(vector<vector<int>>& buildings) {
-        map<int,vector<pair<int,int>>> m;
-        for (int i = 0; i < buildings.size(); i ++) {
-            m[buildings[i][0]].push_back({buildings[i][2], 0});
-            m[buildings[i][1]].push_back({buildings[i][2], 1});
+        vector<pair<int,int>> events;
+        for (auto& b : buildings) {
+            int L = b[0];
+            int R = b[1];
+            int H = b[2];
+
+            // start event
+            events.push_back({L, -H});
+
+            // end event
+            events.push_back({R, H});
         }
-        multiset<int> st;
-        int cur = 0, ncur;
+        sort(events.begin(), events.end());
+        multiset<int> heights;
+        heights.insert(0);
+        int prev = 0;
         vector<vector<int>> ans;
-        for (auto [x, v]: m) {
-            sort(v.begin(), v.end(), [](auto &pa, auto &pb){
-                return pa.second < pb.second;
-            });
-            for (auto [y, t]: v) {
-                if (t == 0) {
-                    st.insert(y);
-                } else {
-                    auto it = st.find(y);
-                    st.erase(it);
-                }
+        for (auto &[x, h] : events) {
+            if (h < 0) {
+
+                // entering building
+                heights.insert(-h);
             }
-            ncur = cur;
-            if (st.size() && ncur != *st.rbegin()) {
-                ncur = *st.rbegin(); 
-            } else if (st.size() == 0 && ncur != 0) {
-                ncur = 0;
+            else {
+
+                // leaving building
+                auto it = heights.find(h);
+
+                if (it != heights.end())
+                    heights.erase(it);
             }
-            if (ncur != cur) {
-                ans.push_back({x, ncur});
-                cur = ncur;
+
+            int cur = *heights.rbegin();
+            if (cur != prev) {
+                ans.push_back({x, cur});
+                prev = cur;
             }
         }
+
         return ans;
     }
 };

@@ -306,3 +306,32 @@ public:
     }
 };
 ```
+
+**Solution 6: (DP Bottom-Up 1D)**
+```
+Runtime: 0 ms, Beats 100.00%
+Memory: 11.62 MB, Beats 77.08%
+```
+```c++
+class Solution {
+public:
+    int uniquePathsWithObstacles(vector<vector<int>>& obstacleGrid) {
+        int m = obstacleGrid.size(), n = obstacleGrid[0].size();
+        if (obstacleGrid[0][0] == 1) {
+            return 0;
+        }
+        vector<int> dp(n);
+        dp[0] = 1;
+        for (int i = 0; i < m; i ++) {
+            for (int j = 0; j < n; j ++) {
+                if (j && obstacleGrid[i][j] == 0) {
+                    dp[j] += dp[j - 1];
+                } else if (obstacleGrid[i][j] == 1) {
+                    dp[j] = 0;
+                }
+            }
+        }
+        return dp[n - 1];
+    }
+};
+```

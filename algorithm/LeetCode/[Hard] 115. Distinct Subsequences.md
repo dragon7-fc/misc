@@ -159,7 +159,7 @@ public:
 };
 ```
         
-**Solution 5: (DP Bottom-Up)**
+**Solution 5: (DP Bottom-Up, counting DP, 1D, reverse iteration)**
 
      b  a  g
    1

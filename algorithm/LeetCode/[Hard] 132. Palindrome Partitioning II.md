@@ -162,3 +162,44 @@ public:
     }
 };
 ```
+
+**Solution 6: (DP Bottom-Up, Two Layers of DP, DP + palindrome precomputation)**
+```
+Runtime: 56 ms, Beats 60.60%
+Memory: 12.12 MB, Beats 31.70%
+```
+```c++
+class Solution {
+public:
+    int minCut(string s) {
+        int n = s.length();
+        vector<vector<bool>> isPal(n, vector<bool>(n));
+        for (int k = 1; k <= n; k ++) {
+            for (int i = 0; i + k - 1 < n; i ++) {
+                int j = i + k - 1;
+                if (k == 1) {
+                    isPal[i][j] = true;
+                } else if (k == 2) {
+                    isPal[i][j] = s[i] == s[j];
+                } else {
+                    isPal[i][j] = (s[i] == s[j]) && isPal[i + 1][j - 1];
+                }
+            }
+        }
+        vector<int> dp(n);
+        for (int j = 0; j < n; j ++) {
+            if (isPal[0][j]) {
+                dp[j] = 0;
+            } else {
+                dp[j] = j;
+                for (int i = 0; i < j; i ++) {
+                    if (isPal[i + 1][j]) {
+                        dp[j] = min(dp[j], dp[i] + 1);
+                    }
+                }
+            }
+        }
+        return dp[n - 1];
+    }
+};
+```

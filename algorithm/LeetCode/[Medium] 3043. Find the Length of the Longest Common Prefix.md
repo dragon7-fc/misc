@@ -71,15 +71,14 @@ public:
 
 **Solution 2: (Trie, time: O(m*d + n*d), space: O(m*d))**
 ```
-Runtime: 237 ms
-Memory: 161.05 MB
+Runtime: 135 ms, Beats 79.17%
+Memory: 160.84 MB, Beats 41.50%
 ```
 ```c++
-truct TrieNode {
-    TrieNode *child[10] = {nullptr};
-};
-
 class Solution {
+    struct TrieNode {
+        TrieNode *child[10] = {nullptr};
+    };
     TrieNode *root;
     void build(vector<int> &arr1) {
         string s;
@@ -87,10 +86,10 @@ class Solution {
             s = to_string(a);
             auto node = root;
             for (auto c: s) {
-                if (node->child[c-'0'] == nullptr) {
-                    node->child[c-'0'] = new TrieNode();
+                if (node->child[c - '0'] == nullptr) {
+                    node->child[c - '0'] = new TrieNode();
                 }
-                node = node->child[c-'0'];
+                node = node->child[c - '0'];
             }
         }
     }
@@ -105,12 +104,44 @@ public:
             k = 1;
             auto node = root;
             for (auto c: s) {
-                if (!node->child[c-'0']) {
+                if (!node->child[c - '0']) {
                     break;
                 }
-                node = node->child[c-'0'];
+                node = node->child[c - '0'];
                 ans = max(ans, k);
                 k += 1;
+            }
+        }
+        return ans;
+
+    }
+};
+```
+
+**Solution 3: (Hash Table)**
+```
+Runtime: 144 ms, Beats 68.50%
+Memory: 134.64 MB, Beats 95.50%
+```
+```c++
+class Solution {
+public:
+    int longestCommonPrefix(vector<int>& arr1, vector<int>& arr2) {
+        unordered_set<int> st;
+        for (auto a: arr1) {
+            while (a) {
+                st.insert(a);
+                a /= 10;
+            }
+        }
+        int ans = 0;
+        for (auto b: arr2) {
+            while (b) {
+                if (st.count(b)) {
+                    ans = max(ans, (int)log10(b) + 1);
+                    break;
+                }
+                b /= 10;
             }
         }
         return ans;

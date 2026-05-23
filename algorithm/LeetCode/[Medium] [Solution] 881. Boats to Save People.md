@@ -107,6 +107,7 @@ public:
             ans++;
             if (people[i] + people[j] <= limit)
                 i++;
+            // heaviest person must be assigned a boat anyway
             j--;
         }
 

@@ -19,8 +19,24 @@ Explanation:
 ----> [] (2*2=4 points)
 ```
 
-**Note:** The number of boxes `n` would not exceed `100`.
+**Example 2:**
+```
+Input: boxes = [1,1,1]
+Output: 9
+```
 
+**Example 3:**
+```
+Input: boxes = [1]
+Output: 1
+```
+
+**Constraints:**
+
+* `1 <= boxes.length <= 100`
+* `1 <= boxes[i] <= 100`
+
+---
 # Submissions
 ---
 **Solution 1: (DP Top-Down)**
@@ -58,32 +74,54 @@ class Solution:
         return dfs(0, len(boxes)-1, 0)
 ```
 
-**Solution 2: (DP Top-Down)**
+**Solution 2: (DP Top-Down, defer removal to create larger future groups)**
 ```
-Runtime: 36 ms
-Memory: 14.62 MB
+Runtime: 38 ms, Beats 70.86%
+Memory: 14.60 MB, Beats 81.90%
 ```
 ```c++
 class Solution {
-    int dp[100][100][100] = {};
-    int dfs(vector<int>& boxes, int l, int r, int k) {
-        if (l > r) return 0;
-        if (dp[l][r][k] > 0) return dp[l][r][k];
-        int lOrg = l, kOrg = k;
-
-        while (l+1 <= r && boxes[l] == boxes[l+1]) { // Increase both `l` and `k` if they have consecutive colors with `boxes[l]`
-            l += 1;
-            k += 1;
+    int dp[100][100][100];
+    int dfs(int l, int r, int k, vector<int> &boxes) {
+        if (l > r) {
+            return 0;
         }
-        int rst = (k+1) * (k+1) + dfs(boxes, l+1, r, 0); // Remove all boxes which has the same with `boxes[l]`
-        for (int m = l + 1; m <= r; ++m) // Try to merge non-contiguous boxes of the same color together
-            if (boxes[m] == boxes[l])
-                rst = max(rst, dfs(boxes, l+1, m-1, 0) + dfs(boxes, m, r, k+1));
-        return dp[lOrg][r][kOrg] = rst;
+        if (dp[l][r][k] != -1) {
+            return dp[l][r][k];
+        }
+        int origL = l;
+        int origK = k;
+
+        // compress consecutive equal boxes
+        while (l + 1 <= r &&
+               boxes[l] == boxes[l + 1]) {
+            l++;
+            k++;
+        }
+
+        // remove current group immediately
+        int res =
+            (k + 1) * (k + 1)
+            + dfs(l + 1, r, 0, boxes);
+
+        // try merging with later same-colored box
+        for (int m = l + 1; m <= r; m++) {
+            if (boxes[m] == boxes[l]) {
+                res = max(
+                    res,
+                    dfs(l + 1, m - 1, 0, boxes)
+                    +
+                    dfs(m, r, k + 1, boxes)
+                );
+            }
+        }
+
+        return dp[origL][r][origK] = res;
     }
 public:
     int removeBoxes(vector<int>& boxes) {
-        return dfs(boxes, 0, boxes.size() - 1, 0);
+        memset(dp, -1, sizeof(dp));
+        return dfs(0, boxes.size() - 1, 0, boxes);
     }
 };
 ```

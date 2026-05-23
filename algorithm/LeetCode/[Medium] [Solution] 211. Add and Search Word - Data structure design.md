@@ -280,8 +280,8 @@ class WordDictionary:
 
 **Solution 2: (Trie)**
 ```
-Runtime: 463 ms
-Memory: 554.79 MB
+Runtime: 287 ms, Beats 94.55%
+Memory: 571.49 MB, Beats 59.17%
 ```
 ```c++
 class WordDictionary {
@@ -289,53 +289,43 @@ class WordDictionary {
         TrieNode *child[26] = {nullptr};
         bool isEnd = false;
     };
-    TrieNode *trie;
-    bool dfs(int i, string &word, TrieNode *t) {
-        if (i == word.size()) {
-            if (t->isEnd) {
-                return true;
-            }
-            return false;
-        }
-        TrieNode *nt;
-        if (word[i] == '.') {
-            for (int j = 0; j < 26; j ++) {
-                nt = t->child[j];
-                if (nt) {
-                    if (dfs(i+1, word, nt)) {
+    TrieNode *root;
+    bool dfs(string &word, int start, TrieNode *node) {
+        for (int i = start; i < word.length(); i ++) {
+            if (word[i] == '.') {
+                for (int j = 0; j < 26; j ++) {
+                    if (node->child[j] && dfs(word, i + 1, node->child[j])) {
                         return true;
                     }
                 }
-            }
-            return false;
-        } else {
-            nt = t->child[word[i]-'a'];
-            if (!nt) {
                 return false;
+            } else {
+                if (!node->child[word[i] - 'a']) {
+                    return false;
+                }
+                node = node->child[word[i] - 'a'];
             }
-            return dfs(i+1, word, nt);
         }
+        return node->isEnd;
     }
 public:
     WordDictionary() {
-        trie = new TrieNode();
+        root = new TrieNode();
     }
     
     void addWord(string word) {
-        TrieNode *t = trie;
-        for (char c: word) {
-            if (!t->child[c-'a']) {
-                t->child[c-'a'] = new TrieNode();
+        TrieNode *node = root;
+        for (auto &c: word) {
+            if (!node->child[c - 'a']) {
+                node->child[c - 'a'] = new TrieNode();
             }
-            t = t->child[c-'a'];
+            node = node->child[c - 'a'];
         }
-        t->isEnd = true;
-
+        node->isEnd = true;
     }
-
+    
     bool search(string word) {
-        TrieNode *t = trie;
-        return dfs(0, word, t);
+        return dfs(word, 0, root);
     }
 };
 

@@ -187,68 +187,65 @@ p   0 1 2 3
           1
 
 ```
-Runtime: 3 ms, Beats 87.63%
-Memory: 12.94 MB, Beats 71.26%
+Runtime: 3 ms, Beats 88.84%
+Memory: 12.91 MB, Beats 73.14%
 ```
 ```c++
 class Solution {
     vector<int> p, r;
+    int n;
     int find(int x) {
-        if (x != p[x]) {
+        if (p[x] != x) {
             p[x] = find(p[x]);
         }
         return p[x];
     }
-    void uni(int x, int y) {
+    void unite(int x, int y) {
         int xr = find(x), yr = find(y);
         if (xr == yr) {
             return;
         }
-        if (r[xr] >= r[yr]) {
-            p[yr] = xr;
-            r[xr] += 1;
-        } else {
-            p[xr] = yr;
-            r[yr] += 1;
+        if (r[xr] < r[yr]) {
+            swap(xr, yr);
         }
-        return;
+        p[yr] = xr;
+        if (r[xr] == r[yr]) {
+            r[xr]++;
+        }
     }
-    int dd[5] = {0, 1, 0, -1, 0};
+    const int dirs[5] = {0,1,0,-1,0};
 public:
     int swimInWater(vector<vector<int>>& grid) {
-        int n = grid.size(), i, j, d, ni, nj, ans = 1;
-        if (n == 1) {
-            return 0;
-        }
-        vector<array<int,2>> g(n*n + 1); // height
-        for (i = 0; i < n; i ++) {
-            for (j = 0; j < n; j ++) {
-                g[grid[i][j]] = {i, j};
+        n = grid.size();
+        int N = n * n;
+        vector<pair<int,int>> cells(N);
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < n; j++) {
+                cells[grid[i][j]] = {i, j};
             }
         }
-        p.resize(n*n);
-        r.resize(n*n, 1);
-        for (i = 0; i < n*n; i ++) {
+        p.resize(N);
+        r.assign(N, 1);
+        for (int i = 0; i < N; i++) {
             p[i] = i;
         }
-        while (1) {
-            i = g[ans][0];
-            j = g[ans][1];
-            for (d = 0; d < 4; d ++) {
-                ni = i + dd[d];
-                nj = j + dd[d+1];
-                if (0 <= ni && ni < n && 0 <= nj && nj < n && grid[ni][nj] < grid[i][j]) {
-                    uni(i*n + j, ni*n + nj);
+        for (int t = 0; t < N; t++) {
+            auto [i, j] = cells[t];
+            int id = i * n + j;
+            for (int d = 0; d < 4; d++) {
+                int ni = i + dirs[d];
+                int nj = j + dirs[d + 1];
+                if (ni < 0 || nj < 0 || ni >= n || nj >= n || grid[ni][nj] > grid[i][j]) {
+                    continue;
                 }
+                unite(id, ni * n + nj);
             }
-            find(0);
-            find(n*n-1);
-            if (p[0] == p.back()) {
-                break;
+            if (find(0) == find(N - 1)) {
+                return t;
             }
-            ans += 1;
         }
-        return ans;
+
+        return -1;
     }
 };
 ```

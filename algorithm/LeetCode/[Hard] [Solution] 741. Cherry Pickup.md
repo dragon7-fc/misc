@@ -247,3 +247,38 @@ class Solution:
             dp = dp2
         return max(0, dp[N-1][N-1])
 ```
+
+**Solution 3: (DP Top-Down, round-trip path = two synchronized forward paths, state compression)**
+```
+Runtime: 43 ms, Beats 58.10%
+Memory: 28.21 MB, Beats 54.30%
+```
+```c++
+class Solution {
+    int dfs(int r1, int c1, int r2, vector<vector<vector<int>>> &dp, int n, vector<vector<int>> &grid) {
+        int c2 = r1 + c1 - r2;
+        if (r1 == n || c1 == n || r2 == n || c2 == n || grid[r1][c1] == -1 || grid[r2][c2] == -1) {
+            return INT_MIN;
+        }
+        if (r1 == n - 1 && c1 == n - 1) {
+            return grid[r1][c1];
+        }
+        if (dp[r1][c1][r2] != INT_MIN) {
+            return dp[r1][c1][r2];
+        }
+        int rst = grid[r1][c1] + (r1 != r2) * grid[r2][c2];
+        rst += max({dfs(r1 + 1, c1, r2 + 1, dp, n, grid),   // down/down
+                    dfs(r1 + 1, c1, r2, dp, n, grid),       // down/right
+                    dfs(r1, c1 + 1, r2 + 1, dp, n, grid),       // right/down
+                    dfs(r1, c1 + 1, r2, dp, n, grid)}); // right/right
+        dp[r1][c1][r2] = rst;
+        return rst;
+    }
+public:
+    int cherryPickup(vector<vector<int>>& grid) {
+        int n = grid.size();
+        vector<vector<vector<int>>> dp(n, vector<vector<int>>(n, vector<int>(n, INT_MIN)));
+        return max(0, dfs(0, 0, 0, dp, n, grid));
+    }
+};
+```
