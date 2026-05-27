@@ -76,3 +76,25 @@ bool asteroidsDestroyed(int mass, int* asteroids, int asteroidsSize){
     return true;
 }
 ```
+
+**Solution 2: (Sort)**
+```
+Runtime: 33 ms, Beats 53.87%
+Memory: 106.56 MB, Beats 99.12%
+```
+```c++
+class Solution {
+public:
+    bool asteroidsDestroyed(int mass, vector<int>& asteroids) {
+        sort(asteroids.begin(), asteroids.end());
+        long long a = mass;
+        for (const int &asteroid: asteroids) {
+            if (a < asteroid) {
+                return false;
+            }
+            a += asteroid;
+        }
+        return true;
+    }
+};
+```

@@ -112,7 +112,35 @@ class Solution:
         return answer
 ```
 
-**Solution 2: (Monotonic Stack)**
+**Solution 2: (Monotonic Stack, first use mono inc stack to rack min value and range then summation and second use mono dec stack to track max value and range then summation finally subtract max sum with min sum)**
+
+                 x max = stk.top()
+             x      x
+                       x
+                
+                --
+                   --2--- 
+             i-1 i    i+2
+sum =     (i-(i-1)) * (i+2-i) * max
+            
+
+4           x                 x
+1                                     x
+-2                x
+-3                      x
+
+    nums = [4,   -2,   -3,    4,      1]
+stk   #     #,4   #,-2  #,-3  #,-3,4  #,-3,1  #,-3  #
+cur               -4    4             -4      -2    27   = 21
+                                      
+4           x                         x
+1                                                          x
+-2                x
+-3                        x
+    nums = [4,   -2,     -3,          4,                   1]
+stk   #     #,4  #,4,-2   #,4,-2,-3   #,4,-2  #,4  #  #,4  #,4,1  #,4  #
+cur                                   -3      -4   12      1      32  = 38
+
 ```
 Runtime: 0 ms, Beats 100.00%
 Memory: 14.07 MB, Beats 77.06%
@@ -121,25 +149,26 @@ Memory: 14.07 MB, Beats 77.06%
 class Solution {
 public:
     long long subArrayRanges(vector<int>& nums) {
-        int n = nums.size(), i, j, k;
+        int n = nums.size(), i, j, i0;
         long long ans = 0;
         stack<int> stk;
+        stk.push(-1);
         for (j = 0; j <= n; j ++) {
-            while (stk.size() && (j == n || nums[stk.top()] >= nums[j])) {
+            while (stk.top() != -1 && (j == n || nums[stk.top()] >= nums[j])) {
                 i = stk.top();
                 stk.pop();
-                k = stk.size() == 0 ? -1 : stk.top();
-                ans -= (long long)(i - k) * (j - i) * nums[i];
+                i0 = stk.top();
+                ans -= (long long)(i - i0) * (j - i) * nums[i];
             }
             stk.push(j);
         }
         stk.pop();
         for (j = 0; j <= n; j ++) {
-            while (stk.size() && (j == n || nums[stk.top()] <= nums[j])) {
+            while (stk.top() != -1 && (j == n || nums[stk.top()] <= nums[j])) {
                 i = stk.top();
                 stk.pop();
-                k = stk.size() == 0 ? -1 : stk.top();
-                ans += (long long)(i - k) * (j - i) * nums[i];
+                i0 = stk.top();
+                ans += (long long)(i - i0) * (j - i) * nums[i];
             }
             stk.push(j);
         }

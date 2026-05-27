@@ -484,12 +484,15 @@ public:
 
 **Solution 5: (Segment Tree)*
 
+nums: [3,4,5,7]
+
                          | [0,3]    // left, right
                        [0,18]       // pos, val
              / [0,1]             \ [2,3]
           [1,6]                 [2,12]
        / [0,0]   \ [1,1]     / [2,2]     \ [3,3]
     [3,2]       [4,4]     [5,5]         [6,7]
+nums  2           4          5            7
 
 ```
 Runtime: 72 ms, Beats 33.82%

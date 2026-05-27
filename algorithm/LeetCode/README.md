@@ -601,6 +601,49 @@ class Solution:
 ```
 * [Medium] [Solution] 565. Array Nesting
 
+### prefix sum, count active result in previous sliding window
+```c++
+class Solution {
+public:
+    bool canReach(string s, int minJump, int maxJump) {
+        int n = s.length();
+        // If the destination is a wall, it's impossible
+        if (s[n - 1] == '1') return false;
+
+        // dp[i] will store whether index i is reachable
+        vector<bool> dp(n, false);
+        dp[0] = true; // We start at index 0
+
+        int reachableCount = 0;
+
+        for (int i = 1; i < n; ++i) {
+            // 1. Add the new element entering the window from the right side
+            if (i >= minJump) {
+                if (dp[i - minJump]) {
+                    reachableCount++;
+                }
+            }
+
+            // 2. Remove the old element exiting the window from the left side
+            if (i > maxJump) {
+                if (dp[i - maxJump - 1]) {
+                    reachableCount--;
+                }
+            }
+
+            // 3. If there is at least one reachable index in our window and current char is '0'
+            if (reachableCount > 0 && s[i] == '0') {
+                dp[i] = true;
+            }
+        }
+
+        return dp[n - 1];
+    }
+};
+```
+* [Medium] 1871. Jump Game VII
+
+
 ### Prefix Sum, try all posssible solution
 ```c++
 class Solution {
@@ -3280,66 +3323,108 @@ class Solution:
 ```
 * [Medium] 1035. Uncrossed Lines
 
-### Brute Force
-```python
-class Solution(object):
-    def shortestSuperstring(self, A):
-        N = len(A)
+### construct overlays cost graph and try all state max cost then follow backward parent path to go back to first element
+```c++
+class Solution {
+public:
+    string shortestSuperstring(vector<string>& words) {
+        int n = words.size();
 
-        # Populate overlaps
-        overlaps = [[0] * N for _ in xrange(N)]
-        for i, x in enumerate(A):
-            for j, y in enumerate(A):
-                if i != j:
-                    for ans in xrange(min(len(x), len(y)), -1, -1):
-                        if x.endswith(y[:ans]):
-                            overlaps[i][j] = ans
-                            break
+        // Populate overlaps
+        vector<vector<int>> overlaps(n, vector<int>(n));
+        for (int i = 0; i < n; i ++) {
+            for (int j = 0; j < n; j ++) {
+                if (i != j) {
+                    int m = min(words[i].length(), words[j].length());
+                    for (int k = m; k >= 0; k --) {
+                        if (words[i].substr(words[i].length() - k) == words[j].substr(0, k)) {
+                            overlaps[i][j] = k;
+                            break;
+                        }
+                    }
+                }
+            }
+        }
 
-        # dp[mask][i] = most overlap with mask, ending with ith element
-        dp = [[0] * N for _ in xrange(1<<N)]
-        parent = [[None] * N for _ in xrange(1<<N)]
-        for mask in xrange(1, 1 << N):
-            for bit in xrange(N):
-                if (mask >> bit) & 1:
-                    # Let's try to find dp[mask][bit].  Previously, we had
-                    # a collection of items represented by pmask.
-                    pmask = mask ^ (1 << bit)
-                    if pmask == 0: continue
-                    for i in xrange(N):
-                        if (pmask >> i) & 1:
-                            # For each bit i in pmask, calculate the value
-                            # if we ended with word i, then added word 'bit'.
-                            value = dp[pmask][i] + overlaps[i][bit]
-                            if value > dp[mask][bit]:
-                                dp[mask][bit] = value
-                                parent[mask][bit] = i
+        // dp[mask][i] = most overlap with mask, ending with ith element
+        vector<vector<int>> dp(1 << n, vector<int>(n));
+        vector<vector<int>> parent(1 << n, vector<int>(n));
+        for (int mask = 0; mask < (1 << n); mask ++) {
+            fill(parent[mask].begin(), parent[mask].end(), -1);
 
-        # Answer will have length sum(len(A[i]) for i) - max(dp[-1])
-        # Reconstruct answer:
+            for (int bit = 0; bit < n; bit ++) {
+                if (((mask >> bit) & 1) > 0) {
+                    // Let's try to find dp[mask][bit].  Previously, we had
+                    // a collection of items represented by pmask.
+                    int pmask = mask ^ (1 << bit);
+                    if (pmask == 0) {
+                        continue;
+                    }
+                    for (int i = 0; i < n; i ++) {
+                        if (((pmask >> i) & 1) > 0) {
+                            // For each bit i in pmask, calculate the value
+                            // if we ended with word i, then added word 'bit'.
+                            int val = dp[pmask][i] + overlaps[i][bit];
+                            if (val > dp[mask][bit]) {
+                                dp[mask][bit] = val;
+                                parent[mask][bit] = i;
+                            }
+                        }
+                    }
+                }
+            }
+        }
 
-        # Follow parents down backwards path that retains maximum overlap
-        perm = []
-        mask = (1<<N) - 1
-        i = max(xrange(N), key = dp[-1].__getitem__)
-        while i is not None:
-            perm.append(i)
-            mask, i = mask ^ (1<<i), parent[mask][i]
+        // # Answer will have length sum(len(words[i]) for i) - max(dp[-1])
+        // Reconstruct answer, first as a sequence 'perm' representing
+        // the indices of each word from left to right.
 
-        # Reverse path to get forwards direction; add all remaining words
-        perm = perm[::-1]
-        seen = [False] * N
-        for x in perm:
-            seen[x] = True
-        perm.extend([i for i in xrange(N) if not seen[i]])
+        vector<int> perm(n);
+        vector<bool> seen(n);
+        int t = 0;
+        int mask = (1 << n) - 1;
 
-        # Reconstruct answer given perm = word indices in left to right order
-        ans = [A[perm[0]]]
-        for i in xrange(1, len(perm)):
-            overlap = overlaps[perm[i-1]][perm[i]]
-            ans.append(A[perm[i]][overlap:])
+        // p: the last element of perm (last word written left to right)
+        int p = 0;
+        for (int j = 0; j < n; ++j) {
+            if (dp[(1 << n) - 1][j] > dp[(1 << n) - 1][p]) {
+                p = j;
+            }
+        }
 
-        return "".join(ans)
+        // Follow parents down backwards path that retains maximum overlap
+        while (p != -1) {
+            perm[t++] = p;
+            seen[p] = true;
+            int p2 = parent[mask][p];
+            mask ^= 1 << p;
+            p = p2;
+        }
+
+        // Reverse perm
+        for (int i = 0; i < t/2; ++i) {
+            int v = perm[i];
+            perm[i] = perm[t - 1 - i];
+            perm[t-1-i] = v;
+        }
+
+        // Fill in remaining words not yet added
+        for (int i = 0; i < n; i ++) {
+            if (!seen[i]) {
+                perm[t++] = i;
+            }
+        }
+
+        // Reconstruct final answer given perm
+        string ans = words[perm[0]];
+        for (int i = 1; i < n; i ++) {
+            int overlap = overlaps[perm[i-1]][perm[i]];
+            ans.append(words[perm[i]].substr(overlap));
+        }
+
+        return ans;
+    }
+};
 ```
 * [Hard] [Solution] 943. Find the Shortest Superstring
 
@@ -3375,26 +3460,49 @@ class Solution:
 ```
 * [Hard] 1751. Maximum Number of Events That Can Be Attended II
 
-### 2 Group DP with bitmask
-```python
-class Solution:
-    def connectTwoGroups(self, cost: List[List[int]]) -> int:
-        sz1, sz2 = len(cost), len(cost[0])
-        min_sz2 = [min([cost[i][j] for i in range(sz1)]) for j in range(sz2)]
+### DP Bottom-Up, bipartite, one group1 node can connect to one or MULTIPLE group2 nodes
+```c++
+class Solution {
+public:
+    int connectTwoGroups(vector<vector<int>>& cost) {
+        int m = cost.size();
+        int n = cost[0].size();
+        const int INF = 1e9;
+        vector<vector<int>> dp(m + 1, vector<int>(1 << n, INF));
+        dp[0][0] = 0;
+        for (int i = 0; i < m; i ++) {
+            for (int pmask = 0; pmask < (1 << n); pmask ++) {
+                for (int j = 0; j < n; j ++) {
+                    int mask = pmask | (1 << j)
 
-        @lru_cache(None)
-        def dfs(i: int, mask: int):
-            res = 0 if i >= sz1 else float('inf')
-            if i >= sz1:
-                for j in range(sz2):
-                    if mask & (1 << j) == 0:
-                        res += min_sz2[j]
-            else:
-                for j in range(sz2):
-                    res = min(res, cost[i][j] + dfs(i + 1, mask | (1 << j)))
-            return res
+                    // group1 node i
+                    // connects to group2 node j
+                    // AND we FINISH processing i
+                    //
+                    // done with this group1 node
+                    dp[i + 1][mask] = min(
+                        dp[i + 1][mask],
+                        dp[i][pmask] + cost[i][j]
+                    );
 
-        return dfs(0, 0)
+                    // group1 node i
+                    // connects to group2 node j
+                    // BUT we KEEP processing same i
+                    // 
+                    // one group1 node
+                    // to connect multiple group2 nodes
+                    //
+                    // keep adding edges for same group1 node
+                    dp[i][mask] = min(
+                        dp[i][mask],
+                        dp[i][pmask] + cost[i][j]
+                    );
+                }
+            }
+        }
+        return dp[m][(1 << n) - 1];
+    }
+};
 ```
 * [Hard] 1595. Minimum Cost to Connect Two Groups of Points
 
@@ -3440,46 +3548,25 @@ public:
 * [Hard] [Solution] 10. Regular Expression Matching
 
 ### Coin Change
-```python
-class Solution:
-    def change(self, amount: int, coins: List[int]) -> int:
-        dp = [1] + [0] * amount
-        for coin in coins:
-            for i in range(coin, amount+1):
-                dp[i] += dp[i-coin]
-                
-        return dp[-1]
+```c++
+class Solution {
+public:
+    int change(int amount, vector<int>& coins) {
+        vector<vector<int>> dp(coins.size() + 1, vector<int>(amount + 1, 0));
+        dp[0][0] = 1;   //1 comb: no coins for no amount 
 
-class Solution:
-    def change(self, amount: int, coins: List[int]) -> int:
-        N = len(coins)
-        
-        @functools.lru_cache(None)
-        def dp(i, t):
-            if (t == amount):
-                return 1
-            if t > amount or i == N:
-                return 0
-
-            return dp(i, t + coins[i]) + dp(i + 1, t)
-        
-        return dp(0, 0)
-
-class Solution:
-    def change(self, amount: int, coins: List[int]) -> int:
-        if amount == 0: return 1
-        N = len(coins)
-        coins.sort(reverse=True)
-        
-        @functools.lru_cache(None)
-        def dp(i, t):
-            if t == amount:
-                return 1
-            if i >= N or t > amount:
-                return 0
-            return sum(dp(ni, t + coins[ni]) for ni in range(i, N))
-        
-        return dp(0, 0)
+        for (int j = 1; j <= coins.size(); j++) {
+            for (int i = 0; i <= amount; i++) {
+                dp[j][i] = dp[j-1][i]; // Exclude the current coin
+            
+                if (i >= coins[j-1]) {
+                    dp[j][i] += dp[j][i-coins[j-1]];//Include the current coin
+                }
+            }
+        }
+        return dp[coins.size()][amount];
+    }
+};
 ```
 * [Medium] 518. Coin Change 2
 
@@ -9765,7 +9852,7 @@ return ans
 
 ## Greedy <a name="greedy"></a>
 ---
-### try to pick each number and find average till now as max possible value
+### data can only move left, prefix overload cannot escape, Prefix Sum Ceil Average, try to pick each number and find ceil average till now as max possible value
 ```c++
 class Solution {
 public:
@@ -11707,6 +11794,52 @@ class Solution:
 ```
 * [Hard] 1345. Jump Game IV
 
+### 0-1 BFS, 0-1 BFS is optimized Dijkstra for graphs whose edge weights are only 0 or 1, deque, right direction = push_front, wrong direction = push_back
+```c++
+class Solution {
+    vector<vector<int>> dd = {
+        {},
+        {0,  1},  // right
+        {0, -1},  // left
+        {1,  0},  // down
+        {-1, 0}   // up
+    }; 
+public:
+    int minCost(vector<vector<int>>& grid) {
+        int m = grid.size(), n = grid[0].size();
+        vector<vector<int>> dist(m, vector<int>(n, INT_MAX));
+        deque<pair<int,int>> dq;
+        dist[0][0] = 0;
+        dq.push_front({0, 0});
+        while (!dq.empty()) {
+            auto [r,c] = dq.front();
+            dq.pop_front();
+            if (r == m - 1 && c == n - 1) {
+                return dist[r][c];
+            }
+
+            for (int d = 1; d <= 4; d ++) {
+                int nr = r + dd[d][0];
+                int nc = c + dd[d][1];
+                if (0 <= nr && nr < m && 0 <= nc && nc < n) {
+                    int nw = dist[r][c] + (d != grid[r][c]);
+                    if (dist[nr][nc] > nw) {
+                        dist[nr][nc] = nw;
+                        if (d == grid[r][c]) {
+                            dq.push_front({nr, nc});
+                        } else {
+                            dq.push_back({nr, nc});
+                        }
+                    }
+                }
+            }
+        }
+        return -1;
+    }
+};
+```
+* [Hard] 1368. Minimum Cost to Make at Least One Valid Path in a Grid
+
 **Template 1: (Breadth-first Search)**
 ```python
 seen = [False ...]
@@ -11776,6 +11909,16 @@ while q:
 
 return ans if len(ans) == N else []
 ```
+
+**Solution 5: (BFS, algorithm-selection pattern)**
+
+Structure	         | Best Algorithm
+---------------------|---------
+unit weights	     | BFS
+0/1 weights	         | 0-1 BFS
+nonnegative weights	 | Dijkstra
+negative weights	 | Bellman-Ford
+
 
 ## Two Pointers <a name="tp"></a>
 ---
@@ -12311,20 +12454,20 @@ class Solution:
 ```
 * [Medium] 1498. Number of Subsequences That Satisfy the Given Sum Condition
 
-### left right and current pointer
+### left right and current pointer, try to move smaller height pointer and trap water
 ```c++
 class Solution {
 public:
     int trap(vector<int>& height) {
-        int left = 0, right = height.size()-1, a = 0, b = 0, ans = 0;
-        while (left <= right) {
+        int left = 0, right = height.size() - 1, a = 0, b = 0, ans = 0;
+        while (left < right) {
             if (height[left] <= height[right]) {
-                ans += max(0, a - height[left]);
                 a = max(a, height[left]);
+                ans += max(0, a - height[left]);
                 left += 1;
             } else {
-                ans += max(0, b - height[right]);
                 b = max(b, height[right]);
+                ans += max(0, b - height[right]);
                 right -= 1;
             }
         }
@@ -12638,35 +12781,41 @@ class Solution:
 ```
 * [Medium] 1673. Find the Most Competitive Subsequence
 
-### Monotonic Stack, range min and min
-```python
-class Solution:
-    def subArrayRanges(self, nums: List[int]) -> int:
-        n, answer = len(nums), 0 
-        stack = []
-        
-        # Find the sum of all the minimum.
-        for right in range(n + 1):
-            while stack and (right == n or nums[stack[-1]] >= nums[right]):
-                mid = stack.pop()
-                left = -1 if not stack else stack[-1]
-                answer -= nums[mid] * (mid - left) * (right - mid)
-            stack.append(right)
-
-        # Find the sum of all the maximum.
-        stack.clear()
-        for right in range(n + 1):
-            while stack and (right == n or nums[stack[-1]] <= nums[right]):
-                mid = stack.pop()
-                left = -1 if not stack else stack[-1]
-                answer += nums[mid] * (mid - left) * (right - mid)
-            stack.append(right)
-        
-        return answer
+### first use mono inc stack to rack min value and range then summation and second use mono dec stack to track max value and range then summation finally subtract max sum with min sum
+```c++
+class Solution {
+public:
+    long long subArrayRanges(vector<int>& nums) {
+        int n = nums.size(), i, j, i0;
+        long long ans = 0;
+        stack<int> stk;
+        stk.push(-1);
+        for (j = 0; j <= n; j ++) {
+            while (stk.top() != -1 && (j == n || nums[stk.top()] >= nums[j])) {
+                i = stk.top();
+                stk.pop();
+                i0 = stk.top();
+                ans -= (long long)(i - i0) * (j - i) * nums[i];
+            }
+            stk.push(j);
+        }
+        stk.pop();
+        for (j = 0; j <= n; j ++) {
+            while (stk.top() != -1 && (j == n || nums[stk.top()] <= nums[j])) {
+                i = stk.top();
+                stk.pop();
+                i0 = stk.top();
+                ans += (long long)(i - i0) * (j - i) * nums[i];
+            }
+            stk.push(j);
+        }
+        return ans;
+    }
+};
 ```
 * [Medium] 2104. Sum of Subarray Ranges
 
-### current value to filer backward mono dec stack and track right min
+### current value smaller than previous mono dec stack right min
 ```c++
 class Solution {
 public:
@@ -12836,26 +12985,6 @@ class StockSpanner:
 * [Medium] [Solution] 901. Online Stock Span
 
 ### expand around center, mono inc stack track local range and min
-```python
-class Solution:
-    def sumSubarrayMins(self, A: List[int]) -> int:
-        MOD = 10**9 + 7
-
-        stack = []
-        ans = dot = 0
-        for j, y in enumerate(A):
-            # Add all answers for subarrays [i, j], i <= j
-            count = 1
-            while stack and stack[-1][0] >= y:
-                x, c = stack.pop()
-                count += c
-                dot -= x * c
-
-            stack.append((y, count))
-            dot += y * count
-            ans += dot
-        return ans % MOD
-```
 ```C++
 class Solution {
 public:
@@ -14460,30 +14589,30 @@ public:
 * [Hard] 1483. Kth Ancestor of a Tree Node
 
 ---
-**Template 1: (Negative binary, 2's complement representation)**
+**Template 1: (Bit Manipulation, Negative binary, 2's complement representation)**
 ```python
 def twosComplement (value, bitLength) :
     return bin(value & (2**bitLength - 1))[2:]
 ```
-**Template 2: (Gray code)**
+**Template 2: (Bit Manipulation, Gray code)**
 ```python
 def binaryToGray(self, n: int) -> int:
     return n ^ (n >> 1)
 ```
 
-**Template 3: (remove LSB, BIT)**
+**Template 3: (Bit Manipulation, remove LSB)**
 ```c++
     x &= (x - 1);
     // x -= x & (-x);
 ```
 
-**Template 4: (check power of 2)**
+**Template 4: (Bit Manipulation, check power of 2)**
 ```c++
     (x & (x - 1)) == 0;
     // (x & -x) == x;
 ```
 
-**Template 5: (modular multiplicative inverse)**
+**Template 5: (Bit Manipulation, modular multiplicative inverse)**
 ```
     p = 1e9 + 7  // prime
     a^(-1) (mod p) = a^(p - 2)
@@ -16339,36 +16468,28 @@ public:
 ```
 * [Medium] 3604. Minimum Time to Reach Destination in Directed Graph
 
-### level BFS based Dijkstra's Algorithm, try every level with pruning
+### Bellman-Ford, DP over edges, i-th iteration computes: shortest paths using at most i edges, each iteration should ONLY use previous iteration results
 ```c++
 class Solution {
 public:
     int findCheapestPrice(int n, vector<vector<int>>& flights, int src, int dst, int k) {
-        vector<vector<array<int,2>>> g(n);
-        queue<array<int,3>> q;
-        vector<int> dist(n, INT_MAX);
-        for (auto &f: flights) {
-            g[f[0]].push_back({f[1], f[2]});
-        }
-        q.push({src, 0, 0});
+        const int INF = 1e9;
+        vector<int> dist(n, INF);
         dist[src] = 0;
-        while (q.size()) {
-            auto [u, d, s] = q.front();
-            q.pop();
-            if (s > k) {
-                continue;
-            }
-            for (auto &[v, w]: g[u]) {
-                // not need dist[node][stop] only dist[node]
-                // larger stop appear later
-                // larger stop with cheaper cost
-                if (d + w < dist[v]) {
-                    dist[v] = d + w;
-                    q.push({v, d+w, s+1});
+        for (int i = 0; i <= k; i++) {
+            vector<int> tmp(dist);
+            for (auto &f : flights) {
+                int u = f[0];
+                int v = f[1];
+                int w = f[2];
+                if (dist[u] == INF) {
+                    continue;
                 }
+                tmp[v] = min(tmp[v], dist[u] + w);
             }
+            dist = tmp;
         }
-        return dist[dst] != INT_MAX ? dist[dst] : -1;
+        return dist[dst] == INF ? -1 : dist[dst];
     }
 };
 ```
@@ -18925,44 +19046,51 @@ class Trie:
 ```c++
 class Trie {
     struct TrieNode {
-        struct TrieNode *child[26] = {nullptr};
-        bool isEnd = false;
+        int child[26];
+        bool isEnd;
+        TrieNode() {
+            fill(begin(child), end(child), -1);
+            isEnd = false;
+        }
     };
-    TrieNode *trie;
+    vector<TrieNode> dp;  // node pool
 public:
     Trie() {
-        trie = new TrieNode();
+        dp.push_back(TrieNode());
     }
     
     void insert(string word) {
-        TrieNode *t = trie;
+        int nodeIdx = 0;
         for (char &c: word) {
-            if (!t->child[c - 'a']) {
-                t->child[c - 'a'] = new TrieNode();
+            if (dp[nodeIdx].child[c - 'a'] == -1) {
+                dp.push_back(TrieNode());
+                dp[nodeIdx].child[c - 'a'] = dp.size() - 1;
+                nodeIdx = dp.size() - 1;
+            } else {
+                nodeIdx = dp[nodeIdx].child[c - 'a'];
             }
-            t = t->child[c - 'a'];
         }
-        t->isEnd = true;
+        dp[nodeIdx].isEnd = true;
     }
     
     bool search(string word) {
-        TrieNode *t = trie;
+        int nodeIdx = 0;
         for (char &c: word) {
-            if (!t->child[c - 'a']) {
+            if (dp[nodeIdx].child[c - 'a'] == -1) {
                 return false;   
             }
-            t = t->child[c - 'a'];
+            nodeIdx = dp[nodeIdx].child[c - 'a'];
         }
-        return t->isEnd;
-     }
+        return dp[nodeIdx].isEnd;
+    }
     
     bool startsWith(string prefix) {
-        TrieNode *t = trie;
+        int nodeIdx = 0;
         for (char &c: prefix) {
-            if (!t->child[c - 'a']) {
+            if (dp[nodeIdx].child[c - 'a'] == -1) {
                 return false;
             }
-            t = t->child[c - 'a'];
+            nodeIdx = dp[nodeIdx].child[c - 'a'];
         }
         return true;
     }
@@ -18982,56 +19110,53 @@ public:
 ```c++
 class WordDictionary {
     struct TrieNode {
-        TrieNode *child[26] = {nullptr};
-        bool isEnd = false;
-    };
-    TrieNode *trie;
-    bool dfs(int i, string &word, TrieNode *t) {
-        if (i == word.size()) {
-            if (t->isEnd) {
-                return true;
-            }
-            return false;
+        int child[26];
+        bool isEnd;
+        TrieNode() {
+            fill(begin(child), end(child), -1);
+            isEnd = false;
         }
-        TrieNode *nt;
-        if (word[i] == '.') {
-            for (int j = 0; j < 26; j ++) {
-                nt = t->child[j];
-                if (nt) {
-                    if (dfs(i+1, word, nt)) {
+    };
+    vector<TrieNode> dp;
+    bool dfs(string &word, int start, int nodeIdx) {
+        for (int i = start; i < word.length(); i ++) {
+            if (word[i] == '.') {
+                for (int j = 0; j < 26; j ++) {
+                    if (dp[nodeIdx].child[j] != -1 && dfs(word, i + 1, dp[nodeIdx].child[j])) {
                         return true;
                     }
                 }
-            }
-            return false;
-        } else {
-            nt = t->child[word[i]-'a'];
-            if (!nt) {
                 return false;
+            } else {
+                if (dp[nodeIdx].child[word[i] - 'a'] == -1) {
+                    return false;
+                }
+                nodeIdx = dp[nodeIdx].child[word[i] - 'a'];
             }
-            return dfs(i+1, word, nt);
         }
+        return dp[nodeIdx].isEnd;
     }
 public:
     WordDictionary() {
-        trie = new TrieNode();
+        dp.push_back(TrieNode());
     }
     
     void addWord(string word) {
-        TrieNode *t = trie;
-        for (char c: word) {
-            if (!t->child[c-'a']) {
-                t->child[c-'a'] = new TrieNode();
+        int nodeIdx = 0;
+        for (auto &c: word) {
+            if (dp[nodeIdx].child[c - 'a'] == -1) {
+                dp.push_back(TrieNode());
+                dp[nodeIdx].child[c - 'a'] = dp.size() - 1;
+                nodeIdx = dp.size() - 1;
+            } else {
+                nodeIdx = dp[nodeIdx].child[c - 'a'];
             }
-            t = t->child[c-'a'];
         }
-        t->isEnd = true;
-
+        dp[nodeIdx].isEnd = true;
     }
-
+    
     bool search(string word) {
-        TrieNode *t = trie;
-        return dfs(0, word, t);
+        return dfs(word, 0, 0);
     }
 };
 

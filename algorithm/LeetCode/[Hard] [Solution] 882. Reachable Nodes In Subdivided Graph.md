@@ -225,20 +225,37 @@ public:
 };
 ```
 
-**Solution 3: (Dijkstra's)**
+**Solution 3: (Dijkstra's, use dijkstra to track every edge possible reachable node from either side then try to add to result)**
 
-   0            5   7
-    .  . . . .  . . .
+graph
+→ weighted movement
+→ need minimum cost
+→ weights nonnegative
+→ Dijkstra
+
+    edges = [[0,1,4],[1,2,6],[0,2,8],[1,3,1]], maxMoves = 10, n = 4
+    ans: 23
+
+    0           5   7
     0  x x x x  1 x 3
-    .x         .x
-     .x        .x
-      .x       .x
-       .x      .x
-        .x     .x
-         .x     x.
-          .x x  2
-             .  .
-                9
+     x          x 
+      x         x 
+       x        x 
+        x       x 
+         x      x 
+          x     x  
+           x x  2 9
+
+dist:
+    0   1   2   3
+    0   5   9   7
+
+cost:
+    0   1   2   3
+0       4   8
+1           5   1
+2       1
+3
 
 ```
 Runtime: 83 ms, Beats 37.27%

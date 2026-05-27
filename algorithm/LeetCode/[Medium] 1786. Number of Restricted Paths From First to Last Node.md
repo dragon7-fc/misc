@@ -77,3 +77,65 @@ class Solution:
             
         return dp(n)
 ```
+
+**Solution 2: (Dijkstra, DP Top-Down, dijkstra from target to get shortest path from each node to target then dp top-dwon to count path from target to source)**
+```
+Runtime: 96 ms, Beats 89.37%
+Memory: 151.38 MB, Beats 83.48%
+```
+```c++
+class Solution {
+    int dfs(int u, vector<vector<pair<int, int>>> &g, vector<int> &dist, vector<int> &dp) {
+        if (u == 1) {
+            return 1;
+        }
+        if (dp[u] != -1) {
+            return dp[u];
+        }
+        long long rst = 0;
+        const int MOD = 1e9 + 7;
+        for (auto [v, _]: g[u]) {
+            if (dist[v] > dist[u]) {
+                rst += dfs(v, g, dist, dp);
+                rst %= MOD;
+            }
+        }
+        dp[u] = rst;
+        return rst;
+    }
+public:
+    int countRestrictedPaths(int n, vector<vector<int>>& edges) {
+        vector<vector<pair<int, int>>> g(n + 1);
+        for (auto &e: edges) {
+            auto u = e[0];
+            auto v = e[1];
+            auto w = e[2];
+            g[u].push_back({v, w});
+            g[v].push_back({u, w});
+        }
+        priority_queue<pair<int, int>, vector<pair<int, int>>, greater<>> pq;
+        vector<int> dist(n + 1, INT_MAX);
+        dist[n] = 0;
+        pq.push({0, n});
+        while (!pq.empty()) {
+            auto [w, u] = pq.top();
+            pq.pop();
+            if (u == 1) {
+                break;
+            }
+            if (dist[u] < w) {
+                continue;
+            }
+            for (auto [v, dw]: g[u]) {
+                int nw = w + dw;
+                if (dist[v] > nw) {
+                    dist[v] = nw;
+                    pq.push({nw, v});
+                }
+            }
+        }
+        vector<int> dp(n + 1, -1);
+        return dfs(n, g, dist, dp);
+    }
+};
+```

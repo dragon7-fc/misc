@@ -131,3 +131,39 @@ public:
     }
 };
 ```
+
+**Solution 3: (Stack, prefix sum, mono inc stack track local min element range)**
+
+              v
+     1  2  3  2
+pre  0  1  3  6  8
+stk           -1,0,1,2
+
+```
+Runtime: 30 ms, Beats 75.23%
+Memory: 87.88 MB, Beats 83.68%
+```
+```c++
+class Solution {
+public:
+    int maxSumMinProduct(vector<int>& nums) {
+        int n = nums.size(), MOD = 1e9 + 7;
+        long long ans = 0;
+        vector<long long> pre(nums.size() + 1);
+        stack<int> stk;
+        stk.push(-1);
+        for (int i = 0; i < nums.size(); i ++) {
+            pre[i + 1] = pre[i] + nums[i];
+        }
+        for (int i = 0; i <= n; i ++) {
+            while (stk.top() != -1 && (i == n || nums[stk.top()] > nums[i])) {
+                auto j = stk.top();
+                stk.pop();
+                ans = max(ans, nums[j] * (pre[i] - pre[stk.top() + 1]));
+            }
+            stk.push(i);
+        }
+        return ans % MOD;
+    }
+};
+```

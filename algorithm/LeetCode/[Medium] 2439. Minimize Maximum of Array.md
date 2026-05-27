@@ -52,26 +52,7 @@ class Solution:
         return max(ceil(n / (i + 1)) for i, n in enumerate(accumulate(nums)))
 ```
 
-**Solution 2: (Prefix Sum Average, try to pick each number and find average till now as max possible value)**
-```
-Runtime: 1 ms, Beats 74.58%
-Memory: 74.97 MB, Beats 86.63%
-```
-```c++
-class Solution {
-public:
-    int minimizeArrayValue(vector<int>& nums) {
-        long sum = 0, ans = 0;
-        for (int i = 0; i < nums.size(); ++i) {
-            sum += nums[i];
-            ans = max(ans, (sum + i) / (i + 1));
-        }
-        return ans;
-    }
-};
-```
-
-**Solution 3: (Binary Search)**
+**Solution 2: (Binary Search)**
 ```
 Runtime: 139 ms
 Memory: 71.3 MB
@@ -103,6 +84,37 @@ public:
                 left = mid + 1;
         }
         return left;
+    }
+};
+```
+
+**Solution 3: (data can only move left, prefix overload cannot escape, Prefix Sum Ceil Average, try to pick each number and find ceil average till now as max possible value)**
+
+    nums = [ 3, 7, 1, 6]
+sum   0      3 10 11 17
+cur          3  5  4  5
+ans   0         5
+
+
+    nums = [10, 1]
+sum   0     10 11
+cur         10  6
+ans   0     10 
+
+```
+Runtime: 1 ms, Beats 74.58%
+Memory: 74.97 MB, Beats 86.63%
+```
+```c++
+class Solution {
+public:
+    int minimizeArrayValue(vector<int>& nums) {
+        long sum = 0, ans = 0;
+        for (int i = 0; i < nums.size(); ++i) {
+            sum += nums[i];
+            ans = max(ans, (sum + i) / (i + 1));
+        }
+        return ans;
     }
 };
 ```

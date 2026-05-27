@@ -402,3 +402,70 @@ public:
  * bool param_3 = obj->startsWith(prefix);
  */
 ```
+
+**Solution 4: (Trie, node pool)**
+```
+Runtime: 11 ms, Beats 95.64%
+Memory: 45.54 MB, Beats 96.11%
+```
+```c++
+class Trie {
+    struct TrieNode {
+        int child[26];
+        bool isEnd;
+        TrieNode() {
+            fill(begin(child), end(child), -1);
+            isEnd = false;
+        }
+    };
+    vector<TrieNode> dp;
+public:
+    Trie() {
+        dp.push_back(TrieNode());
+    }
+    
+    void insert(string word) {
+        int nodeIdx = 0;
+        for (char &c: word) {
+            if (dp[nodeIdx].child[c - 'a'] == -1) {
+                dp.push_back(TrieNode());
+                dp[nodeIdx].child[c - 'a'] = dp.size() - 1;
+                nodeIdx = dp.size() - 1;
+            } else {
+                nodeIdx = dp[nodeIdx].child[c - 'a'];
+            }
+        }
+        dp[nodeIdx].isEnd = true;
+    }
+    
+    bool search(string word) {
+        int nodeIdx = 0;
+        for (char &c: word) {
+            if (dp[nodeIdx].child[c - 'a'] == -1) {
+                return false;   
+            }
+            nodeIdx = dp[nodeIdx].child[c - 'a'];
+        }
+        return dp[nodeIdx].isEnd;
+    }
+    
+    bool startsWith(string prefix) {
+        int nodeIdx = 0;
+        for (char &c: prefix) {
+            if (dp[nodeIdx].child[c - 'a'] == -1) {
+                return false;
+            }
+            nodeIdx = dp[nodeIdx].child[c - 'a'];
+        }
+        return true;
+    }
+};
+
+/**
+ * Your Trie object will be instantiated and called as such:
+ * Trie* obj = new Trie();
+ * obj->insert(word);
+ * bool param_2 = obj->search(word);
+ * bool param_3 = obj->startsWith(prefix);
+ */
+```

@@ -47,7 +47,7 @@ There are no special characters in word.
 
 # Submissions
 ---
-**Solution 1: (Greedy)**
+**Solution 1: (Prefix Sum)**
 ```
 Runtime: 70 ms
 Memory: 23.08 MB
@@ -69,6 +69,40 @@ public:
         int ans = 0;
         for (int i = 0; i < 26; i ++) {
             ans += (last[i] < first[i]);
+        }
+        return ans;
+    }
+};
+```
+
+**Solution 2: (Prefix Sum, Record the Start and End Positions)**
+```
+Runtime: 67 ms, Beats 73.03%
+Memory: 24.22 MB, Beats 80.34%
+```
+```c++
+class Solution {
+public:
+    int numberOfSpecialChars(string word) {
+        int n = word.length();
+        vector<int> left(26, -1), right(26, -1);
+        for (int i = 0; i < n; i ++) {
+            auto &c = word[i];
+            if (isupper(c)) {
+                int j = c - 'A';
+                if (left[j] == -1) {
+                    left[j] = i;
+                }
+            } else {
+                int j = c - 'a';
+                right[j] = i;
+            }
+        }
+        int ans = 0;
+        for (int i = 0; i < 26; i ++) {
+            if (left[i] != -1 && right[i] != -1 && right[i] < left[i]) {
+                ans += 1;
+            }
         }
         return ans;
     }

@@ -121,8 +121,8 @@ public:
 
 **Solution 3: (Dijkstra's)**
 ```
-Runtime: 114 ms
-Memory: 70.38 MB
+Runtime: 41 ms, Beats 90.04%
+Memory: 70.98 MB, Beats 45.81%
 ```
 ```c++
 class Solution {
@@ -134,22 +134,23 @@ public:
             g[edges[i][1]].push_back({edges[i][0], succProb[i]});
         }
         vector<double> dist(n);
-        priority_queue<pair<double,int>> pq;
+        priority_queue<pair<double, int>> pq;
         pq.push({1, start_node});
+        dist[start_node] = 1;
         while (pq.size()) {
-            auto [p, v] = pq.top();
+            auto [p, u] = pq.top();
             pq.pop();
-            if (p < dist[v]) {
-                continue;
-            }
-            if (v == end_node) {
+            if (u == end_node) {
                 return p;
             }
-            dist[v] = p;
-            for (auto [nv, np]: g[v]) {
-                if (p*np > dist[nv]) {
-                    dist[nv] = p*np;
-                    pq.push({p*np, nv});
+            if (p < dist[u]) {
+                continue;
+            }
+            for (auto [v, vp]: g[u]) {
+                double np = p * vp;
+                if (np > dist[v]) {
+                    dist[v] = np;
+                    pq.push({np, v});
                 }
             }
         }

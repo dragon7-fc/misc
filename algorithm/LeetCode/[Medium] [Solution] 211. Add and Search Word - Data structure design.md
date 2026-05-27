@@ -336,3 +336,69 @@ public:
  * bool param_2 = obj->search(word);
  */
 ```
+
+**Solution 3: (Trie, node pool)**
+```
+Runtime: 324 ms, Beats 72.82%
+Memory: 315.44 MB, Beats 94.73%
+```
+```c++
+class WordDictionary {
+    struct TrieNode {
+        int child[26];
+        bool isEnd;
+        TrieNode() {
+            fill(begin(child), end(child), -1);
+            isEnd = false;
+        }
+    };
+    vector<TrieNode> dp;
+    bool dfs(string &word, int start, int nodeIdx) {
+        for (int i = start; i < word.length(); i ++) {
+            if (word[i] == '.') {
+                for (int j = 0; j < 26; j ++) {
+                    if (dp[nodeIdx].child[j] != -1 && dfs(word, i + 1, dp[nodeIdx].child[j])) {
+                        return true;
+                    }
+                }
+                return false;
+            } else {
+                if (dp[nodeIdx].child[word[i] - 'a'] == -1) {
+                    return false;
+                }
+                nodeIdx = dp[nodeIdx].child[word[i] - 'a'];
+            }
+        }
+        return dp[nodeIdx].isEnd;
+    }
+public:
+    WordDictionary() {
+        dp.push_back(TrieNode());
+    }
+    
+    void addWord(string word) {
+        int nodeIdx = 0;
+        for (auto &c: word) {
+            if (dp[nodeIdx].child[c - 'a'] == -1) {
+                dp.push_back(TrieNode());
+                dp[nodeIdx].child[c - 'a'] = dp.size() - 1;
+                nodeIdx = dp.size() - 1;
+            } else {
+                nodeIdx = dp[nodeIdx].child[c - 'a'];
+            }
+        }
+        dp[nodeIdx].isEnd = true;
+    }
+    
+    bool search(string word) {
+        return dfs(word, 0, 0);
+    }
+};
+
+/**
+ * Your WordDictionary object will be instantiated and called as such:
+ * WordDictionary* obj = new WordDictionary();
+ * obj->addWord(word);
+ * bool param_2 = obj->search(word);
+ */
+```

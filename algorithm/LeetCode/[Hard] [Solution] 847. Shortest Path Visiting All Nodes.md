@@ -170,6 +170,34 @@ class Solution:
 ```
 
 **Solution 3: (multi-state BFS, Brute Force, Bitmask, try each node with every visited state, O(N * 2^N))**
+
+    graph = [[1,2,3],[0],[0],[0]]
+
+         
+                    0
+visited             0,0001
+             /      |      \
+            1       2       3
+            1,0010  2,0100  3,1000
+visited
+---------------------------------------
+                    0
+visited             0,0001
+             /v     |v     \v
+            1       2       3
+            1,0010  2,0100  3,1000
+visited     1,0011  2,0101  3,1001
+---------------------------------------
+                    0
+visited             0,0001
+                    0,0011
+                    0,0101
+                    0,1001
+             /^     |^     \^
+            1       2       3
+            1,0010  2,0100  3,1000
+visited     1,0011  2,0101  3,1001
+
 ```
 Runtime: 11 ms, Beats 57.36%
 Memory: 14.44 MB, Beats 55.10%

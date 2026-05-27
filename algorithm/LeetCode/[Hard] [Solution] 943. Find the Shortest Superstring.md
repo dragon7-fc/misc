@@ -321,3 +321,141 @@ class Solution:
                     heappush(heap, (len(sa), sa, next_state, head, i))
                     heappush(heap, (len(sb), sb, next_state, i, tail))
 ```
+
+**Solution 4: (DP Bottom-Up, maximize overlap between adjacent words, construct overlays cost graph and try all state max cost then follow backward parent path to go back to first element, O(N^2 * (2^N + W)))**
+
+               0       1        2      3       4
+    words = ["catg","ctaagt","gcta","ttca","atgcatc"]
+    ans     "g c t a a g t t c a t g c a t c"
+2            --[-3-]
+1              ----------1
+3                        ----[2]
+0                            --[-3-]
+4                              -------------
+            
+
+overlaps: O(N^2 * W)
+> how many chars can be shared when appending j after i
+
+            "catg","ctaagt","gcta","ttca","atgcatc" j
+"catg"                                         3
+"ctaagt"                              1
+"gcta"                 3
+"ttca"         2
+"atgcatc"
+i
+
+dp[mask][i]: O(2^N * N^2)
+> maximum overlap using words in mask ending at word i
+> dp[mask][i] = max(dp[mask \ {i}][j] + overlap[j][i])
+                                   ^previous word
+
+parent[mask][i]
+> parent reconstruction
+
+```
+Runtime: 50 ms, Beats 81.28%
+Memory: 24.08 MB, Beats 67.98%
+```
+```c++
+class Solution {
+public:
+    string shortestSuperstring(vector<string>& words) {
+        int n = words.size();
+
+        // Populate overlaps
+        vector<vector<int>> overlaps(n, vector<int>(n));
+        for (int i = 0; i < n; i ++) {
+            for (int j = 0; j < n; j ++) {
+                if (i != j) {
+                    int m = min(words[i].length(), words[j].length());
+                    for (int k = m; k >= 0; k --) {
+                        if (words[i].substr(words[i].length() - k) == words[j].substr(0, k)) {
+                            overlaps[i][j] = k;
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+
+        // dp[mask][i] = most overlap with mask, ending with ith element
+        vector<vector<int>> dp(1 << n, vector<int>(n));
+        vector<vector<int>> parent(1 << n, vector<int>(n));
+        for (int mask = 0; mask < (1 << n); mask ++) {
+            fill(parent[mask].begin(), parent[mask].end(), -1);
+
+            for (int bit = 0; bit < n; bit ++) {
+                if (((mask >> bit) & 1) > 0) {
+                    // Let's try to find dp[mask][bit].  Previously, we had
+                    // a collection of items represented by pmask.
+                    int pmask = mask ^ (1 << bit);
+                    if (pmask == 0) {
+                        continue;
+                    }
+                    for (int i = 0; i < n; i ++) {
+                        if (((pmask >> i) & 1) > 0) {
+                            // For each bit i in pmask, calculate the value
+                            // if we ended with word i, then added word 'bit'.
+                            int val = dp[pmask][i] + overlaps[i][bit];
+                            if (val > dp[mask][bit]) {
+                                dp[mask][bit] = val;
+                                parent[mask][bit] = i;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        // # Answer will have length sum(len(words[i]) for i) - max(dp[-1])
+        // Reconstruct answer, first as a sequence 'perm' representing
+        // the indices of each word from left to right.
+
+        vector<int> perm(n);
+        vector<bool> seen(n);
+        int t = 0;
+        int mask = (1 << n) - 1;
+
+        // p: the last element of perm (last word written left to right)
+        int p = 0;
+        for (int j = 0; j < n; ++j) {
+            if (dp[(1 << n) - 1][j] > dp[(1 << n) - 1][p]) {
+                p = j;
+            }
+        }
+
+        // Follow parents down backwards path that retains maximum overlap
+        while (p != -1) {
+            perm[t++] = p;
+            seen[p] = true;
+            int p2 = parent[mask][p];
+            mask ^= 1 << p;
+            p = p2;
+        }
+
+        // Reverse perm
+        for (int i = 0; i < t/2; ++i) {
+            int v = perm[i];
+            perm[i] = perm[t - 1 - i];
+            perm[t-1-i] = v;
+        }
+
+        // Fill in remaining words not yet added
+        for (int i = 0; i < n; i ++) {
+            if (!seen[i]) {
+                perm[t++] = i;
+            }
+        }
+
+        // Reconstruct final answer given perm
+        string ans = words[perm[0]];
+        for (int i = 1; i < n; i ++) {
+            int overlap = overlaps[perm[i-1]][perm[i]];
+            ans.append(words[perm[i]].substr(overlap));
+        }
+
+        return ans;
+    }
+};
+```

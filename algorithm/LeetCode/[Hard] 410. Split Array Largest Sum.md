@@ -327,31 +327,34 @@ Memory: 10.36 MB, Beats 87.25%
 ```
 ```c++
 class Solution {
-    bool check(int mid, int k, vector<int> &nums) {
-        int ck = 0, a = 0;
+    bool check(int mid, vector<int> &nums, int k) {
+        int p = 1, a = 0;
         for (auto &num: nums) {
             a += num;
             if (a > mid) {
-                ck += 1;
                 a = num;
+                p += 1;
             }
         }
-        return ck + (a > 0) <= k;
+        return p <= k;
+               // if can split into <= k partion, then k partition is also feasible
     }
 public:
     int splitArray(vector<int>& nums, int k) {
-        int left = *max_element(nums.begin(), nums.end()), right = 1e9, mid, ans = INT_MAX;
+        int left = *max_element(nums.begin(), nums.end());
+        int right = accumulate(nums.begin(), nums.end(), 0);
+        int mid;
+        int ans;
         while (left <= right) {
-            mid = left + (right - left)/2;
-            if (!check(mid, k, nums)) {
+            mid = left + (right - left) / 2;
+            if (!check(mid, nums, k)) {
                 left = mid + 1;
             } else {
-                ans = min(ans, mid);
+                ans = mid;
                 right = mid - 1;
             }
         }
         return ans;
     }
 };
-
 ```

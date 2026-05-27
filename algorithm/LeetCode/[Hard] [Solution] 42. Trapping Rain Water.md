@@ -378,15 +378,15 @@ Memory: 25.97 MB, Beats 79.71%
 class Solution {
 public:
     int trap(vector<int>& height) {
-        int left = 0, right = height.size()-1, a = 0, b = 0, ans = 0;
+        int left = 0, right = height.size() - 1, a = 0, b = 0, ans = 0;
         while (left < right) {
             if (height[left] <= height[right]) {
-                ans += max(0, a - height[left]);
                 a = max(a, height[left]);
+                ans += max(0, a - height[left]);
                 left += 1;
             } else {
-                ans += max(0, b - height[right]);
                 b = max(b, height[right]);
+                ans += max(0, b - height[right]);
                 right -= 1;
             }
         }

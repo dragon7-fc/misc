@@ -323,7 +323,7 @@ class Solution:
         return False
 ```
 
-**Solution 2; (Prefix sum, Stack, previous left min to filter backward mono dec stack)**
+**Solution 2; (Prefix sum, Stack, first create prefix min from left then maintain a mono dec stack from right by filter by prefix min and check if any stack element less than current value, left min get by prefix min and right min get by backward mono dec stack with prefix left min)**
 
     nums = [-1, 3, 2, 0]
                    i
@@ -359,7 +359,7 @@ public:
 };
 ```
 
-**Solution 3: (Prefix sum, Stack, space: O(1), current value to filer backward mono dec stack and track right min)**
+**Solution 3: (Prefix sum, Stack, space: O(1), backward check current value with previous right min and mono dec stack to try to update previous right min, current value smaller than previous mono dec stack right min)**
 
     nums = [-1,3, 2, 0]
              i

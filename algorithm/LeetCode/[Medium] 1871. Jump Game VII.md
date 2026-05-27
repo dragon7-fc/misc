@@ -81,3 +81,94 @@ public:
     }
 };
 ```
+
+**Solution 2: (DP Bottom-Up, Prefix Sum, Sliding Window, 2 array)**
+
+    s = "0 1 1 0 1 0", minJump = 2, maxJump = 3
+pre      1 1 1 2 2 3 
+dp       1     1   1
+         l r   i
+           l r   i
+             l r   i
+
+```
+Runtime: 16 ms, Beats 24.78%
+Memory: 38.60 MB, Beats 5.42%
+```
+```c++
+class Solution {
+public:
+    bool canReach(string s, int minJump, int maxJump) {
+        int n = s.size();
+        vector<int> dp(n), pre(n);
+        dp[0] = 1;
+        // since we start dynamic programming from i=minJump, we need to
+        // precompute the prefix sums for the part [0, minJump)
+        for (int i = 0; i < minJump; ++i) {
+            pre[i] = 1;
+        }
+        for (int i = minJump; i < n; ++i) {
+            int left = i - maxJump, right = i - minJump;
+            if (s[i] == '0') {
+                int total = pre[right] - (left <= 0 ? 0 : pre[left - 1]);
+                dp[i] = (total != 0);
+            }
+            pre[i] = pre[i - 1] + dp[i];
+        }
+        return dp[n - 1];
+    }
+};
+```
+
+**Solution 3: (DP Bottom-Up, Prefix Sum, Sliding Window, count active result in previous sliding window, 1 array)**
+
+    s = "0 1 1 0 1 0", minJump = 2, maxJump = 3
+dp       1     1   1
+cnt          1   0 1
+         ---   ^
+             ---   ^
+                 
+
+```
+Runtime: 9 ms, Beats 61.62%
+Memory: 19.78 MB, Beats 95.87%
+```
+```c++
+class Solution {
+public:
+    bool canReach(string s, int minJump, int maxJump) {
+        int n = s.length();
+        // If the destination is a wall, it's impossible
+        if (s[n - 1] == '1') return false;
+
+        // dp[i] will store whether index i is reachable
+        vector<bool> dp(n, false);
+        dp[0] = true; // We start at index 0
+
+        int reachableCount = 0;
+
+        for (int i = 1; i < n; ++i) {
+            // 1. Add the new element entering the window from the right side
+            if (i >= minJump) {
+                if (dp[i - minJump]) {
+                    reachableCount++;
+                }
+            }
+
+            // 2. Remove the old element exiting the window from the left side
+            if (i > maxJump) {
+                if (dp[i - maxJump - 1]) {
+                    reachableCount--;
+                }
+            }
+
+            // 3. If there is at least one reachable index in our window and current char is '0'
+            if (reachableCount > 0 && s[i] == '0') {
+                dp[i] = true;
+            }
+        }
+
+        return dp[n - 1];
+    }
+};
+```

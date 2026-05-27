@@ -260,7 +260,7 @@ class Solution:
         return dist[dst] if dist[dst] != float('inf') else -1
 ```
 
-**Solution 7: (Dijkstra, level based)**
+**Solution 7: (Dijkstra, level based, O(Ek log (Vk)))**
 ```
 Runtime: 36 ms
 Memory: 17.26 MB
@@ -375,6 +375,56 @@ public:
             }
         }
         return dist[dst] != INT_MAX ? dist[dst] : -1;
+    }
+};
+```
+
+**Solution 10: (Bellman-Ford, DP over edges, i-th iteration computes: shortest paths using at most i edges, each iteration should ONLY use previous iteration results, O(kE))**
+
+    n = 3, flights = [[0,1,100],[1,2,100],[0,2,500]], src = 0, dst = 2, k = 1
+
+            0
+       100/   \500
+        v       v
+       1 -----> 2
+          100
+
+        0   1   2
+dist    0
+--------------------
+i = 0
+tmp     0 100 500
+dist    0 100 500
+--------------------
+i = 1  
+tmp     0 100 200
+dist    0 100 200
+
+```
+Runtime: 4 ms, Beats 46.72%
+Memory: 17.14 MB, Beats 90.29%
+```
+```c++
+class Solution {
+public:
+    int findCheapestPrice(int n, vector<vector<int>>& flights, int src, int dst, int k) {
+        const int INF = 1e9;
+        vector<int> dist(n, INF);
+        dist[src] = 0;
+        for (int i = 0; i <= k; i++) {
+            vector<int> tmp(dist);
+            for (auto &f : flights) {
+                int u = f[0];
+                int v = f[1];
+                int w = f[2];
+                if (dist[u] == INF) {
+                    continue;
+                }
+                tmp[v] = min(tmp[v], dist[u] + w);
+            }
+            dist = tmp;
+        }
+        return dist[dst] == INF ? -1 : dist[dst];
     }
 };
 ```

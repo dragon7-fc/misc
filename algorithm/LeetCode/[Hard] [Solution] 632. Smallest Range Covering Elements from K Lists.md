@@ -561,35 +561,107 @@ public:
 };
 ```
 
-**Solution 7: (Heap, Sliding Window)**
+**Solution 7: (Heap, Sliding Window, Greedy, sliding over min heap frontier, min heap track current value with i list and j index and when push try to update max range value with current list value and pop update min range value)**
+
+    nums = [[ 4,10,15,24,26],
+            [ 0, 9,12,20],
+            [ 5,18,22,30]]
+
+pq
+              (4,0,0)
+              (0,1,0)x
+              (5,2,0)
+right          5
+left           0
+ans           [0,5]
+-------------------------------
+pq:
+              (4,0,0)x
+                 (9,1,1)
+              (5,2,0)
+right          9
+left           4
+--------------------------------
+pq:
+                 (10,0,1)
+                 (9,1,1)
+              (5,2,0)x
+right          10
+left            5
+--------------------------------
+pq:
+                 (10,0,1)
+                 (9,1,1)x
+                 (18,2,1)
+right             18
+left              9
+----------------------------------
+pq:
+                 (10,0,1)x
+                    (12,1,2)
+                 (18,2,1)
+right             18
+left              10
+----------------------------------
+pq:
+                    (15,0,2)
+                    (12,1,2)x
+                 (18,2,1)
+right             18
+left              12
+----------------------------------
+pq:
+                    (15,0,2)x
+                       (20,1,3) 
+                 (18,2,1)
+right             20
+left              15
+-----------------------------------
+pq:
+                       (24,0,3)
+                       (20,1,3) 
+                 (18,2,1)x
+right             24
+left              18
+------------------------------------
+pq:
+                       (24,0,3)
+                       (20,1,3)x
+                   (22,2,2)x
+right               24
+left                20
+ans                 [20,24]
+
+
 ```
-Runtime: 112 ms, Beats 27.92%
-Memory: 37.82 MB, Beats 62.48%
+Runtime: 114 ms, Beats 34.18%
+Memory: 37.89 MB, Beats 63.96%
 ```
 ```c++
 class Solution {
 public:
     vector<int> smallestRange(vector<vector<int>>& nums) {
-        int n = nums.size(), i, right = INT_MIN, mn = INT_MAX;
+        int n = nums.size(), right = INT_MIN, mn = INT_MAX;
         priority_queue<array<int,3>,vector<array<int,3>>,greater<>> pq;
         vector<int> ans;
-        for (i = 0; i < n; i ++) {
+        for (int i = 0; i < n; i ++) {
             pq.push({nums[i][0], i, 0});
             right = max(right, nums[i][0]);
         }
         while (pq.size() >= n) {
-            auto [left, j, k] = pq.top();
+            auto [left, i, j] = pq.top();
             pq.pop();
-            if (right - left + 1 < mn) {
-                mn = right - left + 1;
+            if (right - left < mn || right - left == mn && left < ans[0]) {
+                mn = right - left;
                 ans = {left, right};
             }
-            if (k + 1 < nums[j].size()) {
-                right = max(right, nums[j][k+1]);
-                pq.push({nums[j][k+1], j, k+1});
+            if (j + 1 < nums[i].size()) {
+                right = max(right, nums[i][j + 1]);
+                pq.push({nums[i][j + 1], i, j + 1});
             }
         }
         return ans;
+
     }
 };
 ```
