@@ -248,7 +248,7 @@ class Solution:
         return dp[-1]
 ```
 
-**Solution 4: (DP Bottom-Up)**
+**Solution 4: (DP Bottom-Up, Sort)**
 ```
 Runtime: 49 ms
 Memory: 21.48 MB
@@ -277,6 +277,125 @@ public:
             }
         }
         return dp.back() == 0;
+    }
+};
+```
+
+**Solution 5: (DP Bottom-Up)**
+```
+Runtime: 1663 ms, Beats 18.75%
+Memory: 251.97 MB, Beats 5.13%
+```
+```c++
+class Solution {
+public:
+    bool canPartitionKSubsets(vector<int>& nums, int k) {
+        int total = accumulate(nums.begin(), nums.end(), 0);
+        if (total % k) {
+            return false;
+        }
+        int n = nums.size();
+        unordered_map<int, vector<int>> cnt;
+        const int FULL = (1 << n) - 1;
+        for (int mask = 1; mask <= FULL; mask ++) {
+            int a = 0;
+            for (int i = 0; i < n; i ++) {
+                if ((mask >> i) & 1) {
+                    a += nums[i];
+                }
+            }
+            cnt[a].push_back(mask);
+        }
+        vector<int> pre = {0};
+        vector<int> dp;
+        for (int i = 0; i < k; i ++) {
+            for (const auto &pmask: pre) {
+                for (const auto &mask: cnt[total / k]) {
+                    if ((mask & pmask) == 0) {
+                        dp.push_back(mask | pmask);
+                    }
+                }
+            }
+            swap(pre, dp);
+            dp.clear();
+        }
+        
+        return count(pre.begin(), pre.end(), FULL);
+    }
+};
+```
+
+**Solution 6: (DP Bottom-Up, Canonical DP, try to add each number to each state)**
+
+            1 2 4 8
+            0 1 2 3
+    nums = [1,2,3,3], k = 3
+            i
+dp:
+0000   0
+-----------------
+mask = 0000
+0001   1
+0010   2
+0100   0
+1000   0
+-----------------
+mask = 0001
+0011   0
+-----------------
+mask = 0010
+0011   0
+------------------
+mask = 0011
+0111   0
+1011   0
+------------------
+mask = 0100
+0101   1
+0110   2
+1100   0
+-----------------
+mask = 0101
+0111   0
+------------------
+mask = 0110
+0111   0
+------------------
+mask = 0111
+1111   0           < ans
+
+
+```
+Runtime: 63 ms, Beats 40.90%
+Memory: 36.05 MB, Beats 5.13%
+```
+```c++
+class Solution {
+public:
+    bool canPartitionKSubsets(vector<int>& nums, int k) {
+        int total = accumulate(nums.begin(), nums.end(), 0);
+        if (total % k) {
+            return false;
+        }
+        int n = nums.size(), target = total / k;
+        const int FULL = (1 << n) - 1;
+        vector<int> pre(1 << n, -1), dp(1 << n, -1);
+        dp[0] = 0;
+        for (int mask = 0; mask <= FULL; mask ++) {
+            if (dp[mask] == -1) {
+                continue;
+            }
+            for (int i = 0; i < n; i ++) {
+                if (mask & (1 << i)) {
+                    continue;
+                }
+                if (dp[mask] + nums[i] <= target) {
+                    int nmask = mask | (1 << i);
+                    dp[nmask] = (dp[mask] + nums[i]) % target;
+                }
+            }
+        }
+        return dp[FULL] == 0;
     }
 };
 ```

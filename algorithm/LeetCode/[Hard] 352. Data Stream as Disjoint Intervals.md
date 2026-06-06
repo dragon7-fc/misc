@@ -112,3 +112,54 @@ class SummaryRanges:
 # obj.addNum(value)
 # param_2 = obj.getIntervals()
 ```
+
+**Solution 3: (Hash Table, sort)**
+```
+Runtime: 0 ms, Beats 100.00%
+Memory: 11.02 MB, Beats 35.58%
+```
+```c++
+class SummaryRanges {
+    map<int, int> mp;
+public:
+    SummaryRanges() {
+        
+    }
+    
+    void addNum(int value) {
+        auto it = mp.upper_bound(value);
+        if (it != mp.begin()) {
+            auto pit = prev(it);
+            if (pit->second >= value - 1) {
+                pit->second = max(pit->second, value);
+            } else {
+                mp[value] = value;
+            }
+        } else {
+            mp[value] = value;
+        }
+        if (it != mp.begin()) {
+            auto pit = prev(it);
+            if (pit->second + 1 == it->first) {
+                pit->second = it->second;
+                mp.erase(it);
+            }
+        }
+    }
+    
+    vector<vector<int>> getIntervals() {
+        vector<vector<int>> ans;
+        for (const auto &[start, end]: mp) {
+            ans.push_back({start, end});
+        }
+        return ans;
+    }
+};
+
+/**
+ * Your SummaryRanges object will be instantiated and called as such:
+ * SummaryRanges* obj = new SummaryRanges();
+ * obj->addNum(value);
+ * vector<vector<int>> param_2 = obj->getIntervals();
+ */
+```

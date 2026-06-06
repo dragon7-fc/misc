@@ -1719,7 +1719,7 @@ class Solution:
 ```
 * [Medium] [Solution] 322. Coin Change
 
-### Try every sum for each number
+### 0/1 knapsack 1-D, try to add each number to each sum
 ```c++
 class Solution {
 public:
@@ -2410,46 +2410,46 @@ public:
 ```
 [Hard] 132. Palindrome Partitioning II
 
-### Digital DP
-```python
-class Solution:
-    def findIntegers(self, num: int) -> int:
-        num = bin(num+1)[2:]
-        n = len(num)
-        fibo = [1, 2]
-        for _ in range(n-1):
-            fibo.append(fibo[-1] + fibo[-2])
-        res = 0
-        for i in range(n):
-            v = num[i:i+2]
-            if v == '11':
-                res += fibo[n-i]
-                break
-            elif v == '10':
-                res += fibo[n-i-1]
-            elif v == '1':
-                res += 1
-        return res
-
-class Solution:
-    def findIntegers(self, num: int) -> int:
+### Digit DP, Prefix Match
+```c++
+class Solution {
+public:
+    int findIntegers(int n) {
+        // Step 1: Precalculate Fibonacci numbers
+        // fib[i] stores the number of valid binary strings of length i
+        vector<int> fib(31);
+        fib[0] = 1;
+        fib[1] = 2;
+        for (int i = 2; i < 31; ++i) {
+            fib[i] = fib[i - 1] + fib[i - 2];
+        }
         
-        @lru_cache(None)
-        def dfs(num, prev):
-            if not num or num == "0":
-                return 1
-            a = str(int(num))
-            if a != num:
-                # "000xxx" -> "xxx"
-                return dfs(a, 0)
-            if not prev:
-                # fist num can take 1 or 0
-                return dfs(num[1:], 1) + dfs("1" * (len(num)-1), 0)
-            else:
-                # fist num can take only 0 since previous num is 1
-                return dfs("1" * (len(num) - 1), 0)
-            
-        return dfs(bin(num)[2:], 0)
+        int ans = 0;
+        int prev_bit = 0;
+        
+        // Step 2: Iterate from the most significant bit (bit 30) down to bit 0
+        for (int i = 30; i >= 0; --i) {
+            // Check if the i-th bit is set in n
+            if ((n & (1 << i)) != 0) {
+                // If the bit is 1, choosing '0' makes the number strictly smaller than n.
+                // All remaining i bits can be any valid combination.
+                ans += fib[i];
+                
+                // If the previous bit was also 1, we hit consecutive ones.
+                // We cannot proceed down the prefix path anymore.
+                if (prev_bit == 1) {
+                    return ans;
+                }
+                prev_bit = 1;
+            } else {
+                prev_bit = 0;
+            }
+        }
+        
+        // If we reached here, n itself doesn't have consecutive ones. Include n.
+        return ans + 1;
+    }
+};
 ```
 * [Hard] [Solution] 600. Non-negative Integers without Consecutive Ones
 
@@ -2902,18 +2902,23 @@ class Solution:
 * [Medium] [Solution] 221. Maximal Square
 
 ### Dynamic Programming with Binary Search, insertion sort
-```python
-class Solution:
-    def lengthOfLIS(self, nums: List[int]) -> int:
-        N = len(nums)
-        dp = [float('inf') for _ in range(N)]
-        length = 0
-        for num in nums:
-            i = bisect.bisect_left(dp, num)
-            dp[i] = num
-            if i == length:
-                length += 1
-        return length
+```c++
+class Solution {
+public:
+    int lengthOfLIS(vector<int>& nums) {
+        int n = nums.size(), i, j;
+        vector<int> dp;
+        for (i = 0; i < n; i ++) {
+            if (!dp.size() || dp.back() < nums[i]) {
+                dp.push_back(nums[i]);
+            } else {
+                j = lower_bound(dp.begin(), dp.end(), nums[i]) - dp.begin();
+                dp[j] = nums[i];
+            }
+        }
+        return dp.size();
+    }
+};
 ```
 * [Medium] [Solution] 300. Longest Increasing Subsequence
 
@@ -2947,26 +2952,6 @@ class Solution:
         return shopping(needs)
 ```
 * [Medium] [Solution] 638. Shopping Offers
-
-### Dynamic Programming on Subsets of Input
-```python
-class Solution:
-    def canPartitionKSubsets(self, nums: List[int], k: int) -> bool:
-        target, rem = divmod(sum(nums), k)
-        if rem or max(nums) > target: return False
-
-        @functools.lru_cache(None)
-        def search(used, todo):
-            if todo == 0:
-                return True
-            targ = (todo - 1) % target + 1  # maximum value that can be chosen so as to not cross a multiple of target
-            return any(search(used | (1<<i), todo - num)
-                                 for i, num in enumerate(nums)
-                                 if (used >> i) & 1 == 0 and num <= targ)
-
-        return search(0, target * k)
-```
-* [Medium] [Solution] 698. Partition to K Equal Sum Subsets
 
 ### Direction Buffer
 ```python
@@ -3161,32 +3146,42 @@ class Solution:
 ```
 * [Medium] [Solution] 983. Minimum Cost For Tickets
 
-### All possible sum
-```python
-class Solution:
-    def lastStoneWeightII(self, stones: List[int]) -> int:
-        s = {0}
-        for st in stones:
-            tmp = set()
-            for i in s:
-                tmp.add(abs(i + st))
-                tmp.add(abs(i - st))
-            s = tmp
-        return min(s) if len(s) > 0 else 0
-
-    
-class Solution:
-    def lastStoneWeightII(self, stones: List[int]) -> int:
-        N = len(stones)
-
-        @functools.lru_cache(None)
-        def dp(i, s): #arguments are stone index and current sum
-            if i == N: #end of array, return the current sum (abs)
-                return abs(s)
-            return min(dp(i+1, s + stones[i]), dp(i+1, s - stones[i])) #try summing or subtracting each stone value
-
-        return dp(0, 0)
-```
+### 0/1 knapsack 1-D, separate 2 group and find min difference
+```c++
+class Solution {
+public:
+    int lastStoneWeightII(vector<int>& stones) {
+        int totalSum = accumulate(stones.begin(), stones.end(), 0);
+        int target = totalSum / 2; // This is our knapsack capacity
+        
+        // dp[i] will be true if a subset sum of i is possible
+        vector<bool> dp(target + 1, false);
+        dp[0] = true; // Base case: we can always form a sum of 0
+        
+        // Process each stone
+        for (int stone : stones) {
+            // CRITICAL: Loop backwards to prevent using the same stone multiple times
+            for (int i = target; i >= stone; --i) {
+                if (dp[i - stone]) {
+                    dp[i] = true;
+                }
+            }
+        }
+        
+        // Find the largest achievable sum S1 that is <= target
+        int s1 = 0;
+        for (int i = target; i >= 0; --i) {
+            if (dp[i]) {
+                s1 = i;
+                break;
+            }
+        }
+        
+        int s2 = totalSum - s1;
+        return s2 - s1;
+    }
+};
+````
 * [Medium] 1049. Last Stone Weight II
 
 ### Range DP
@@ -3323,7 +3318,7 @@ class Solution:
 ```
 * [Medium] 1035. Uncrossed Lines
 
-### construct overlays cost graph and try all state max cost then follow backward parent path to go back to first element
+### Bitmask DP, construct overlays cost graph and try all state max cost then follow backward parent path to go back to first element
 ```c++
 class Solution {
 public:
@@ -3547,24 +3542,27 @@ public:
 ```
 * [Hard] [Solution] 10. Regular Expression Matching
 
-### Coin Change
+### 0/1 knapsack, try to add new coin for each amount
 ```c++
 class Solution {
 public:
     int change(int amount, vector<int>& coins) {
-        vector<vector<int>> dp(coins.size() + 1, vector<int>(amount + 1, 0));
-        dp[0][0] = 1;   //1 comb: no coins for no amount 
-
-        for (int j = 1; j <= coins.size(); j++) {
-            for (int i = 0; i <= amount; i++) {
-                dp[j][i] = dp[j-1][i]; // Exclude the current coin
-            
-                if (i >= coins[j-1]) {
-                    dp[j][i] += dp[j][i-coins[j-1]];//Include the current coin
-                }
+        // dp[i] stores the number of combinations to make up amount i
+        vector<unsigned long long> dp(amount + 1, 0);
+        
+        // Base case: 1 way to make 0 amount
+        dp[0] = 1;
+        
+        // CRITICAL: Outer loop must be coins to avoid counting permutations
+        for (int coin : coins) {
+            // Inner loop tracks amounts. We start at 'coin' because 
+            // any amount smaller than the coin denomination cannot use it.
+            for (int i = coin; i <= amount; ++i) {
+                dp[i] += dp[i - coin];
             }
         }
-        return dp[coins.size()][amount];
+        
+        return dp[amount];
     }
 };
 ```
@@ -3917,21 +3915,35 @@ class Solution:
 * [Hard] [Solution] 980. Unique Paths III
 
 ### Digit DP
-```python
-class Solution:
-    def atMostNGivenDigitSet(self, D: List[str], N: int) -> int:
-        D = list(map(int, D))
-        N = list(map(int, str(N)))
+```c++
+class Solution {
+public:
+    int atMostNGivenDigitSet(vector<string>& digits, int n) {
+        string s = to_string(n);
+        int k = s.length(), m = digits.size(), i, a;
+        vector<int> dp(k + 1);
+        dp[k] = 1;
 
-        @functools.lru_cache(None)
-        def dp(i, isPrefix, isBigger):
-            if i == len(N):
-                return not isBigger
-            if not isPrefix and not isBigger:
-                return 1 + len(D) * dp(i + 1, False, False)
-            return 1 + sum(dp(i + 1, isPrefix and d == N[i], isBigger or (isPrefix and d > N[i])) for d in D)
+        // case 1: length = k
+        for (i = k - 1; i >= 0; i--) {
+            a = s[i] - '0';
+            for (auto d: digits) {
+                if (stoi(d) < a) {
+                    dp[i] += pow(m, k - i - 1);
+                                    // remaining_position
+                } else if (stoi(d) == a) {
+                    dp[i] += dp[i+1];
+                }
+            }
+        }
 
-        return dp(0, True, False) - 
+        // case 2: length < k
+        for (i = 1; i < k; i++) {
+            dp[0] += pow(m, i);
+        }
+        return dp[0];
+    }
+};
 ```
 * [Hard] [Solution] * 902. Numbers At Most N Given Digit Set
 
@@ -4272,6 +4284,39 @@ class Solution:
     pre [0 ... . ... . ...]
                L+1   R+1 n
     Sum[L..R] = prefix_sum[R + 1] - prefix_sum[L]
+```
+
+**Template 1: (Dynamic Programming, 0/1 Knapsack & Bounded/Unbounded Knapsack)**
+```
+dp[i][w] = max(dp[i - 1][w], value[i] + dp[i - 1][w - weight[i]])
+```
+
+**Template 2: (Dynamic Programming, Fibonacci / Sequence / Linear DP)**
+```
+dp[i] = dp[i-1] + dp[i-2]
+```
+
+**Template 3: (Dynamic Programming, Strings / Grid / Two-Dimensional DP)**
+```
+dp[i][j]
+= 1 + dp[i - 1][j - 1],             if str1[i] == st2[j]
+  max(dp[i - 1][j], dp[i][j - 1]),  otherwise
+```
+
+**Template 4: (Dynamic Programming, Interval / Range DP)**
+```
+dp[i][j] = max(dp[i]]k[ + dp[k][j] + cost of combination)
+           i<k<j
+```
+
+**Template 5: (Dynamic Programming, Bitmask DP)**
+```
+dp[mask | (1 << next)][next] = min(...)
+```
+
+**Template 6: (Dynamic Programming, Digit DP)**
+```
+dp[idx][tight][leading_zero][...other properties]
 ```
 
 ## Math <a name="math"></a>
@@ -6508,33 +6553,43 @@ class Solution:
 ```
 * [Medium] 129. Sum Root to Leaf Numbers
 
-### Subtree Sum and Count
-```python
-class Solution:
-    def sumOfDistancesInTree(self, N: int, edges: List[List[int]]) -> List[int]:
-        graph = collections.defaultdict(set)
-        for u, v in edges:
-            graph[u].add(v)
-            graph[v].add(u)
-
-        count = [1] * N
-        ans = [0] * N
-        def dfs(node = 0, parent = None):
-            for child in graph[node]:
-                if child != parent:
-                    dfs(child, node)
-                    count[node] += count[child]
-                    ans[node] += ans[child] + count[child]
-
-        def dfs2(node = 0, parent = None):
-            for child in graph[node]:
-                if child != parent:
-                    ans[child] = ans[node] - count[child] + N - count[child]
-                    dfs2(child, node)
-
-        dfs()
-        dfs2()
-        return ans
+### Subtree Sum and Count, create golden sample then derive from it
+```c++
+class Solution {
+    int dfs(int u, int p, vector<int> &cnt, vector<vector<int>> &g) {
+        int rst = 0;
+        for (auto v: g[u]) {
+            if (v == p) {
+                continue;
+            }
+            rst += dfs(v, u, cnt, g);
+            cnt[u] += cnt[v];
+        }
+        cnt[u] += 1;
+        return rst + cnt[u];
+    }
+    void dfs2(int u, int p, int n, vector<int> &cnt, vector<vector<int>> &g, vector<int> &ans) {
+        for (auto v: g[u]) {
+            if (v == p) {
+                continue;
+            }
+            ans[v] = ans[u] - cnt[v] + (n - cnt[v]);
+            dfs2(v, u, n, cnt, g, ans);
+        }
+    }
+public:
+    vector<int> sumOfDistancesInTree(int n, vector<vector<int>>& edges) {
+        vector<vector<int>> g(n);
+        for (auto e: edges) {
+            g[e[0]].push_back(e[1]);
+            g[e[1]].push_back(e[0]);
+        }
+        vector<int> cnt(n), ans(n);
+        ans[0] = dfs(0, -1, cnt, g) - n;
+        dfs2(0, -1, n, cnt, g, ans);
+        return ans;
+    }
+};
 ```
 * [Hard] [Solution] 834. Sum of Distances in Tree
 
@@ -14544,38 +14599,39 @@ public:
 ```
 * [Medium] 89. Gray Code
 
-### binary lifting, DP Bottom-Up
+### binary lifting, DP Bottom-Up, precompute 2^j parent node then query k ancestor with binary
 ```c++
 class TreeAncestor {
-    vector<vector<int>> dp;
+    vector<vector<int>> up;
 public:
+
+    // O(n log n)
     TreeAncestor(int n, vector<int>& parent) {
-        vector<vector<int>> par(n, vector<int>(20));
+        up.assign(n, vector<int>(17 + 1, -1));
         for (int i = 0; i < n; i++) {
-            par[i][0] = parent[i];
+            up[i][0] = parent[i];
         }
-        for (int j = 1; j < 20; j++) {
+        for (int j = 1; j <= 17; j++) {
             for (int i = 0; i < n; i++) {
-                if (par[i][j - 1] == -1) {
-                    par[i][j] = -1;
-                } else {
-                    par[i][j] = par[par[i][j - 1]][j - 1];
+                int p = up[i][j - 1];
+                if (p != -1) {
+                    up[i][j] = up[p][j - 1];
                 }
             }
         }
-        dp = move(par);
     }
     
+    // O(log n)
     int getKthAncestor(int node, int k) {
-        for (int i = 0; i < 20; i++) {
-            // Check if the i-th bit of k is set
-            if ((k >> i) & 1) {
-                node = dp[node][i];
-                if (node == -1) {
-                    return -1;
-                }
+        for (int j = 0; j <= 17; j++) {
+            if (node == -1) {
+                break;
+            }
+            if (k & (1 << j)) {
+                node = up[node][j];
             }
         }
+
         return node;
     }
 };
@@ -15077,16 +15133,25 @@ class Solution:
 ```
 * [Medium] 324. Wiggle Sort II
 
-### insertion sort
-```python
-class Solution:
-    def reconstructQueue(self, people: List[List[int]]) -> List[List[int]]:
-        people.sort(key=lambda x: (-x[0], x[1]))
-        ans = []
-        for p in people:
-            ans.insert(p[1], p)
-
-        return ans
+### sort by large height and small rank then insert by rank)
+```c++
+class Solution {
+public:
+    vector<vector<int>> reconstructQueue(vector<vector<int>>& people) {
+        sort(people.begin(), people.end(), [](vector<int> &pa, vector<int> &pb){
+            if (pa[0] != pb[0]) {
+                return pa[0] > pb[0];
+            } else {
+                return pa[1] <= pb[1];
+            }
+        });
+        vector<vector<int>> ans;
+        for (auto &p: people) {
+            ans.insert(ans.begin() + p[1], p);
+        }
+        return ans;
+    }
+};
 ```
 * [Medium] 406. Queue Reconstruction by Height
 
@@ -18875,70 +18940,74 @@ class Solution:
 * [Medium] 1008. Construct Binary Search Tree from Preorder Traversal
 
 ### Modified merge sort
-```python
-class Solution:
-    def reversePairs(self, nums: List[int]) -> int:
-        def merge(start, mid, end):
-            n1 = (mid - start + 1)
-            n2 = (end - mid)
-            L = nums[start:start + n1]
-            R = nums[mid + 1:mid + 1 +n2]
-            i, j = 0, 0
-            for k in range(start, end+1):
-                if j >= n2 or (i < n1 and L[i] <= R[j]):
-                    nums[k] = L[i]
-                    i += 1
-                else:
-                    nums[k] = R[j]
-                    j += 1
-
-        def mergesort_and_count(start, end):
-            if start < end:
-                mid = (start + end) // 2;
-                count = mergesort_and_count(start, mid) + mergesort_and_count(mid + 1, end)
-                j = mid + 1;
-                for i in range(start, mid+1):
-                    while j <= end and nums[i] > nums[j] * 2:
-                        j += 1
-                    count += j - (mid + 1)
-                merge(start, mid, end)
-                return count
-            else:
-                return 0
-
-        return mergesort_and_count(0, len(nums) - 1)
+```c++
+class Solution {
+    int mergeSort(vector<int> &nums, int left, int right) {
+        if (left >= right) {
+            return 0;
+        }
+        int mid = left + (right - left) / 2;
+        int rst = mergeSort(nums, left, mid);
+        rst += mergeSort(nums, mid + 1, right);
+        int i = left;
+        int j = mid + 1;
+        while (i <= mid && j <= right) {
+            if (nums[i] > 2LL * nums[j]) {
+                j += 1;
+            } else {
+                rst += j - (mid + 1);
+                i += 1;
+            }
+        }
+        while (i <= mid) {
+            rst += j - (mid + 1);
+            i += 1;
+        }
+        inplace_merge(nums.begin() + left, nums.begin() + mid + 1, nums.begin() + right + 1);
+        return rst;
+    }
+public:
+    int reversePairs(vector<int>& nums) {
+        int n = nums.size();
+        return mergeSort(nums, 0, n - 1);
+    }
+};
 ```
 * [Hard] [Solution] 493. Reverse Pairs
 
-### Prefix Sum with merge sort
-```python
-class Solution:
-    def countRangeSum(self, nums: List[int], lower: int, upper: int) -> int:
-        N = len(nums)
-        cumSum = [0]
-        for i in range(N):
-            cumSum.append(cumSum[-1]+nums[i])
-        ans = 0
-        # inclusive
-        def mergesort(l, r):
-            if l == r:
-                return 0
-            mid = (l+r) // 2
-            cnt = mergesort(l, mid) + mergesort(mid+1, r)
-
-            i = j = mid+1
-            # O(n)
-            for left in cumSum[l:mid+1]:
-                while i <= r and cumSum[i] - left < lower:
-                    i += 1
-                while j <= r and cumSum[j] - left <= upper:
-                    j += 1
-                cnt += j-i
-
-            cumSum[l:r+1] = sorted(cumSum[l:r+1])
-            return cnt
-
-        return mergesort(0, N)
+### Prefix Sum with merge sort, gradually fix one half and find the other half range
+```c++
+class Solution {
+    long long mergeSort(vector<long long> &pre, int left, int right, int lower, int upper) {
+        if (left >= right) {
+            return 0;
+        }
+        int mid = left + (right - left) / 2;
+        long long cnt = mergeSort(pre, left, mid, lower, upper) + mergeSort(pre,mid + 1, right, lower, upper);
+        int j = mid + 1;
+        int k = mid + 1;
+        for (int i = left; i <= mid; i ++) {
+            while (j <= right && pre[j] - pre[i] < lower) {
+                j += 1;
+            }
+            while (k <= right && pre[k] - pre[i] <= upper) {
+                k += 1;
+            }
+            cnt += k - j;
+        }
+        inplace_merge(pre.begin() + left, pre.begin() + mid + 1, pre.begin() + right + 1);
+        return cnt;
+    }
+public:
+    int countRangeSum(vector<int>& nums, int lower, int upper) {
+        int n = nums.size();
+        vector<long long> pre(n + 1);
+        for (int i = 0; i < n; i ++) {
+            pre[i + 1] = pre[i] + nums[i];
+        }
+        return mergeSort(pre, 0, n, lower, upper);
+    }
+};
 ```
 * [Hard] 327. Count of Range Sum
 
@@ -19456,32 +19525,36 @@ for XXX in XXXs:
 
 ## Recursion <a name="recursion"></a>
 ---
-### Search by Constructing Subset Sums, backtrack by group
-```python
-class Solution:
-    def canPartitionKSubsets(self, nums: List[int], k: int) -> bool:
-        target, rem = divmod(sum(nums), k)
-        if rem: return False
-
-        def search(groups):
-            if not nums: return True
-            v = nums.pop()
-            for i, group in enumerate(groups):
-                if group + v <= target:
-                    groups[i] += v
-                    if search(groups): return True
-                    groups[i] -= v
-                if not group: break
-            nums.append(v)
-            return False
-
-        nums.sort()  # place largest element first
-        if nums[-1] > target: return False
-        while nums and nums[-1] == target:
-            nums.pop()
-            k -= 1
-
-        return search([0] * k)
+### tracks how full the current bucket is after using mask, in each mask try to add one more element, State Compression DP
+```c++
+class Solution {
+public:
+    bool canPartitionKSubsets(vector<int>& nums, int k) {
+        int total = accumulate(nums.begin(), nums.end(), 0);
+        if (total % k) {
+            return false;
+        }
+        int n = nums.size(), target = total / k;
+        const int FULL = (1 << n) - 1;
+        vector<int> pre(1 << n, -1), dp(1 << n, -1);
+        dp[0] = 0;
+        for (int mask = 0; mask <= FULL; mask ++) {
+            if (dp[mask] == -1) {
+                continue;
+            }
+            for (int i = 0; i < n; i ++) {
+                if (mask & (1 << i)) {
+                    continue;
+                }
+                if (dp[mask] + nums[i] <= target) {
+                    int nmask = mask | (1 << i);
+                    dp[nmask] = (dp[mask] + nums[i]) % target;
+                }
+            }
+        }
+        return dp[FULL] == 0;
+    }
+};
 ```
 * [Medium] [Solution] 698. Partition to K Equal Sum Subsets
 
@@ -19518,53 +19591,43 @@ class Solution:
 ---
 ### BIT, Range sum, single point update
 ```c++
-class BIT {
-    vector<int> pre;
-public:
-    BIT() {}
-    void build(vector<int> &nums) {
-        int n = nums.size(), i; 
-        pre.resize(n + 1);
-        for (i = 0; i < n; i ++) {
-            update(i, nums[i]);
-        }
-    }
-    void update(int i, int val) {
-        int j = i + 1;
-        while (j < pre.size()) {
-            pre[j] += val;
-            j += j & (-j);
-        }
-    }
+class NumArray {
+    vector<int> bit;    // prefix sum
+    vector<int> nums;   // backup original nums
     int query(int i) {
-        int rst = 0;
         int j = i;
-        while (j > 0) {
-            rst += pre[j];
+        int rst = 0;
+        while (j) {
+            rst += bit[j];
             j -= j & (-j);
         }
         return rst;
     }
-};
-
-
-class NumArray {
-    BIT bit;
-    vector<int> dp;
+    void add(int idx, int val) {
+        int j = idx + 1;
+        while (j < bit.size()) {
+            bit[j] += val;
+            j += j & (-j);
+        }
+    }
 public:
     NumArray(vector<int>& nums) {
-        bit.build(nums);
-        dp = nums;
+        int n = nums.size();
+        this->nums = nums;
+        bit.resize(n + 1);
+        for (int i = 0; i < n; i ++) {
+            add(i, nums[i]);
+        }
     }
     
     void update(int index, int val) {
-        int diff = val - dp[index];
-        dp[index] = val;
-        bit.update(index, diff);
+        int diff = val - nums[index];
+        nums[index] = val;
+        add(index, diff);
     }
     
     int sumRange(int left, int right) {
-        return bit.query(right + 1) - bit.query(left);
+        return query(right + 1) - query(left);
     }
 };
 
@@ -19577,22 +19640,14 @@ public:
 ```
 * [Medium] [Solution] 307. Range Sum Query - Mutable
 
-### BIT, range sum, reverse count, sort by height and find first unoccupied position
+### BIT, range sum, sort by small height and large rank then find first unoccupied k + 1 position
 ```c++
-class BIT {
-public:
-    vector<int> pre;
-    BIT() {}
-    void build(int n) {
-        pre.resize(n + 1);
-        for (int i = 1; i < n; i ++) {
-            update(i, 1);
-        }
-    }
+class Solution {
+    vector<int> bit;
     void update(int i, int val) {
         int j = i + 1;
-        while (j < pre.size()) {
-            pre[j] += val;
+        while (j < bit.size()) {
+            bit[j] += val;
             j += j & (-j);
         }
     }
@@ -19600,39 +19655,39 @@ public:
         int rst = 0;
         int j = i;
         while (j > 0) {
-            rst += pre[j];
+            rst += bit[j];
             j -= j & (-j);
         }
         return rst;
     }
-};
-
-class Solution {
 public:
     vector<vector<int>> reconstructQueue(vector<vector<int>>& people) {
         int n = people.size(), left, right, mid;
-        sort(people.begin(), people.end(), [](vector<int> &pa, vector<int> &pb){
+        sort(people.begin(), people.end(), [](const vector<int> &pa, const vector<int> &pb){
             if (pa[0] != pb[0]) {
                 return pa[0] < pb[0];
             } else {
                 return pa[1] > pb[1];
             }
         });
-        BIT bit;
-        bit.build(n);
+        bit.resize(n + 1);
+        for (int i = 1; i < n; i ++) {
+                     // i = 0 have no empty slot before
+            update(i, 1);
+        }
         vector<vector<int>> ans(n);
         for (auto &p: people) {
             left = 0, right = n - 1;
             while (left < right) {
                 mid = left + (right - left) / 2;
-                if (bit.query(mid + 1) < p[1]) {
+                if (query(mid + 1) < p[1]) {
                     left = mid + 1;
                 } else {
                     right = mid;
                 }
             }
             ans[left] = p;
-            bit.update(left, -1);
+            update(left, -1);
         }
         return ans;
     }
@@ -19678,55 +19733,48 @@ public:
 ```
 * [Medium] 3479. Fruits Into Baskets III
 
-### Segment Tree, Range max, conbined update and binary search
+### Segment Tree, Range max, place conbined update and try place left then right
 ```c++
-class SegmentTree {
-public:
-    vector<int> dp;
-    SegmentTree(int n) {
-        dp.resize(4 * n);
-    }
-
-    void build(int ti, int left, int right, vector<int> &arr)  {
+class Solution {
+    vector<int> sgt;
+    void build(int ti, int left, int right, vector<int> &baskets) {
         if (left == right) {
-            dp[ti] = arr[left];
+            sgt[ti] = baskets[left]; 
             return;
         }
         int mid = left + (right - left) / 2;
-        build(2 * ti + 1, left, mid, arr);
-        build(2 * ti + 2, mid + 1, right, arr);
-        dp[ti] = max(dp[2 * ti + 1], dp[2 * ti + 2]);
+        build(2 * ti, left, mid, baskets);
+        build(2 * ti + 1, mid + 1, right, baskets);
+        sgt[ti] = max(sgt[2 * ti], sgt[2 * ti + 1]);
     }
-
     bool place(int ti, int left, int right, int val) {
-        if (dp[ti] < val) {
+        if (sgt[ti] < val) {
             return false;
         }
         if (left == right) {
-            dp[ti] = -1;
+            sgt[ti] = -1;
             return true;
         }
         int mid = left + (right - left) / 2;
-        bool placed = place(2 * ti + 1, left, mid, val);
-        if (!placed)
-            placed = place(2 * ti + 2, mid + 1, right, val);
-        dp[ti] = max(dp[2 * ti + 1], dp[2 * ti + 2]);
-        return placed;
+        bool isPlace = place(2 * ti, left, mid, val);
+        if (!isPlace) {
+            isPlace = place(2 * ti + 1, mid + 1, right, val);
+        }
+        sgt[ti] = max(sgt[2 * ti], sgt[2 * ti + 1]);
+        return isPlace;
     }
-};
-
-class Solution {
 public:
     int numOfUnplacedFruits(vector<int>& fruits, vector<int>& baskets) {
-        int n = fruits.size(), i, ans = 0;
-        SegmentTree sgt(n);
-        sgt.build(0, 0, n - 1, baskets);
-        for (i = 0; i < n; i ++) {
-            if (sgt.dp[0] < fruits[i]) {
+        int n = baskets.size();
+        sgt.resize(4 * n);
+        build(1, 0, n - 1, baskets);
+        int ans = 0;
+        for (const auto f: fruits) {
+            if (sgt[1] < f) {
                 ans += 1;
                 continue;
             }
-            sgt.place(0, 0, n - 1, fruits[i]);
+            place(1, 0, n - 1, f);
         }
         return ans;
     }
@@ -19734,77 +19782,133 @@ public:
 ```
 * [Medium] 3479. Fruits Into Baskets III
 
-### Maintain Sorted Disjoint Intervals
-```python
-class RangeModule:
+### Maintain Sorted Disjoint Intervals, try to erase old and create new one
+```c++
+class RangeModule {
+    map<int, int> mp;
+public:
+    RangeModule() {
+        
+    }
+    
+    //     ----------------
+    //     left            right
+    //  xxxxxxxx   xxxx xx
+    //  pre_it     it
+    //  -------------------
+    //  left               right
+    //
+    void addRange(int left, int right) {
+        // 1. Find the first interval starting >= left
+        auto it = mp.upper_bound(left);
+        
+        // 2. Check the interval before it for overlap
+        if (it != mp.begin()) {
+            auto pit = prev(it);
+            if (pit->second >= left) {
+                left = pit->first;
+                right = max(right, pit->second);
+                it = mp.erase(pit); // Start merging from here
+            }
+        }
+        
+        // 3. Merge all subsequent overlapping intervals
+        while (it != mp.end() && it->first <= right) {
+            right = max(right, it->second);
+            it = mp.erase(it);
+        }
+        
+        mp[left] = right;
+    }
+    
+    //    -------
+    //    left  right
+    // ------------ ----
+    // pre_it       it
+    //
+    bool queryRange(int left, int right) {
+        auto it = mp.upper_bound(left);
+        if (it != mp.begin()) {
+            auto pit = prev(it);
+            if (pit->first <= left && pit->second >= right) {
+                return true;
+            }
+        }
+        return false;
+    }
+    
+    //     ------------------------------ 
+    //     left                          right
+    //  ---xxxxxxxxxxx           xxx   xx--------
+    //  pre_it        pre_right  it      right   pre_right
+    //
+    void removeRange(int left, int right) {
+        auto it = mp.upper_bound(left);
+        
+        // Check the interval before to see if it needs shrinking or splitting
+        if (it != mp.begin()) {
+            auto pit = prev(it);
+            if (pit->second > left) {
+                int pre_right = pit->second;
+                pit->second = left; // Shrink the left piece
+                if (pre_right > right) {
+                    // Split case: current interval was so big it survives the removal
+                    mp[right] = pre_right;
+                }
+            }
+        }
+        
+        // Remove or shrink intervals that start within the removal range
+        while (it != mp.end() && it->first < right) {
+            if (it->second > right) {
+                // Shrink the right side of the last overlapping interval
+                int pre_right = it->second;
+                mp.erase(it);
+                mp[right] = pre_right;
+                break;
+            } else {
+                it = mp.erase(it);
+            }
+        }
+    }
+};
 
-    def __init__(self):
-        self.ranges = []
-
-    def _bounds(self, left, right):
-        i, j = 0, len(self.ranges) - 1
-        for d in (100, 10, 1):  # The total number of calls to addRange in a single test case is at most 1000
-            while i + d - 1 < len(self.ranges) and self.ranges[i+d-1][1] < left:
-                i += d
-            while j >= d - 1 and self.ranges[j-d+1][0] > right:
-                j -= d
-        return i, j
-
-    def addRange(self, left: int, right: int) -> None:
-        i, j = self._bounds(left, right)
-        if i <= j:
-            left = min(left, self.ranges[i][0])
-            right = max(right, self.ranges[j][1])
-        self.ranges[i:j+1] = [(left, right)]
-
-    def queryRange(self, left: int, right: int) -> bool:
-        i = bisect.bisect_left(self.ranges, (left, float('inf')))
-        if i: i -= 1
-        return (bool(self.ranges) and
-                self.ranges[i][0] <= left and
-                right <= self.ranges[i][1])
-
-    def removeRange(self, left: int, right: int) -> None:
-        i, j = self._bounds(left, right)
-        merge = []
-        for k in range(i, j+1):
-            if self.ranges[k][0] < left:
-                merge.append((self.ranges[k][0], left))
-            if right < self.ranges[k][1]:
-                merge.append((right, self.ranges[k][1]))
-        self.ranges[i:j+1] = merge
-
-
-# Your RangeModule object will be instantiated and called as such:
-# obj = RangeModule()
-# obj.addRange(left,right)
-# param_2 = obj.queryRange(left,right)
-# obj.removeRange(left,right)
+/**
+ * Your RangeModule object will be instantiated and called as such:
+ * RangeModule* obj = new RangeModule();
+ * obj->addRange(left,right);
+ * bool param_2 = obj->queryRange(left,right);
+ * obj->removeRange(left,right);
+ */
 ```
 * [Hard] [Solution] 715. Range Module
 
-### Boundary Count
-```python
-class MyCalendarThree:
+### Boundary Count, event
+```c++
+class MyCalendarThree {
+    map<int, int> mp;
+public:
+    MyCalendarThree() {
+        
+    }
+    
+    int book(int startTime, int endTime) {
+        mp[startTime] += 1;
+        mp[endTime] -= 1;
+        int k = 0, ans = 0;
+        for (auto &[_, ck]: mp) {
+            k += ck;
+            ans = max(ans, k);
+        }
+        return ans;
+    }
+};
 
-    def __init__(self):
-        self.delta = collections.Counter()
-
-    def book(self, start: int, end: int) -> int:
-        self.delta[start] += 1
-        self.delta[end] -= 1
-
-        active = ans = 0
-        for x in sorted(self.delta):
-            active += self.delta[x]
-            if active > ans: ans = active
-
-        return ans
-
-
-# Your MyCalendarThree object will be instantiated and called as such:
-# obj = MyCalendarThree()
-# param_1 = obj.book(start,end)
+/**
+ * Your MyCalendarThree object will be instantiated and called as such:
+ * MyCalendarThree* obj = new MyCalendarThree();
+ * int param_1 = obj->book(startTime,endTime);
+ */
 ```
 * [Hard] [Solution] 732. My Calendar III
 
@@ -19963,44 +20067,34 @@ class Solution:
 ```
 * [Hard] [Solution] 850. Rectangle Area II
 
-### BIT, Range sum
+### BIT, Range sum, go backward then query and update prefix sum
 ```c++
-class BIT {
-    vector<int> pre;
-public:
-    BIT() {}
-    void build(int n) {
-        pre.resize(n + 1);
-    }
-    void update(int i, int val) {
-        int j = i + 1;
-        while (j < pre.size()) {
-            pre[j] += val;
-            j += j & (-j);
-        }
-    }
+class Solution {
+    vector<int> bit;
     int query(int i) {
+        int j = i + 10000 + 1;
         int rst = 0;
-        int j = i;
-        while (j > 0) {
-            rst += pre[j];
+        while (j) {
+            rst += bit[j];
             j -= j & (-j);
         }
         return rst;
     }
-};
-
-class Solution {
+    void update(int i, int val) {
+        int j = i + 10000 + 1;
+        while (j < bit.size()) {
+            bit[j] += val;
+            j += j & (-j);
+        }
+    }
 public:
     vector<int> countSmaller(vector<int>& nums) {
-        int n = nums.size(), i;
-        BIT bit;
-        bit.build(20001);
+        bit.resize(20000 + 1 + 1);
+        int n = nums.size();
         vector<int> ans(n);
-        bit.update(nums[n - 1] + 10000, 1);
-        for (i = n - 2; i >= 0; i --) {
-            ans[i] = bit.query(nums[i] + 10000); // smaller elements to the right
-            bit.update(nums[i] + 10000, 1);
+        for (int i = n - 1; i >= 0; i --) {
+            ans[i] = query(nums[i] - 1);
+            update(nums[i], 1);
         }
         return ans;
     }
@@ -20059,41 +20153,50 @@ class ExamRoom:
 * [Medium] [Solution] 855. Exam Room
 
 ### Maintain Sorted Intervals
-```python
-class SummaryRanges:
+```c++
+class SummaryRanges {
+    map<int, int> mp;
+public:
+    SummaryRanges() {
+        
+    }
+    
+    void addNum(int value) {
+        auto it = mp.upper_bound(value);
+        if (it != mp.begin()) {
+            auto pit = prev(it);
+            if (pit->second >= value - 1) {
+                pit->second = max(pit->second, value);
+            } else {
+                mp[value] = value;
+            }
+        } else {
+            mp[value] = value;
+        }
+        if (it != mp.begin()) {
+            auto pit = prev(it);
+            if (pit->second + 1 == it->first) {
+                pit->second = it->second;
+                mp.erase(it);
+            }
+        }
+    }
+    
+    vector<vector<int>> getIntervals() {
+        vector<vector<int>> ans;
+        for (const auto &[start, end]: mp) {
+            ans.push_back({start, end});
+        }
+        return ans;
+    }
+};
 
-    def __init__(self):
-        """
-        Initialize your data structure here.
-        """
-        self._X = []
-
-    def addNum(self, val: int) -> None:
-        idx = bisect.bisect(self._X, [val])
-        if idx == 0 or self._X[idx-1][1] + 1 < val:  # new interval
-            l_idx = idx
-            l_val = val
-        else:  # extend interval
-            l_idx = idx-1
-            l_val = self._X[idx-1][0]
-
-        if idx == len(self._X) or self._X[idx][0]-1 > val:  # new interval
-            r_idx = idx
-            r_val = max(val, self._X[idx-1][1] if idx > 0 else -float('inf'))
-        else:  # extend interval
-            r_idx = idx+1
-            r_val = self._X[idx][1]
-
-        self._X[l_idx:r_idx] = [[l_val, r_val]]
-
-    def getIntervals(self) -> List[List[int]]:
-        return self._X
-
-
-# Your SummaryRanges object will be instantiated and called as such:
-# obj = SummaryRanges()
-# obj.addNum(val)
-# param_2 = obj.getIntervals()
+/**
+ * Your SummaryRanges object will be instantiated and called as such:
+ * SummaryRanges* obj = new SummaryRanges();
+ * obj->addNum(value);
+ * vector<vector<int>> param_2 = obj->getIntervals();
+ */
 ```
 * [Hard] 352. Data Stream as Disjoint Intervals
 
@@ -20130,6 +20233,12 @@ class Solution:
         return sum(odd)
 ```
 * [Hard] [Solution] 975. Odd Even Jump
+
+**Template 1: (Segment Tree)**
+Data Structure     | Point Update | Range Sum | Range Max/Min | Range Assignment
+-------------------|--------------|-----------|---------------|-------------------
+Fenwick Tree (BIT) |      x       |    x      |	              |
+Segment Tree       |      x       |    x      |      x        |        x  (with lazy propagation)
 
 ## Queue <a name="queue"></a>
 ---

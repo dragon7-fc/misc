@@ -332,3 +332,52 @@ public:
     }
 };
 ```
+
+**Solution 6: (Hash Table)**
+```
+Runtime: 121 ms, Beats 92.02%
+Memory: 259.34 MB, Beats 89.46%
+```
+```c++
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+class Solution {
+public:
+    TreeNode* createBinaryTree(vector<vector<int>>& descriptions) {
+        unordered_map<int, pair<TreeNode*, bool>> mp;
+        for (auto &desc: descriptions) {
+            int parent = desc[0];
+            int child = desc[1];
+            bool isLeft = desc[2];
+            if (!mp.count(parent)) {
+                mp[parent] = {new TreeNode(parent), false};
+            }
+            if (!mp.count(child)) {
+                mp[child] = {new TreeNode(child), false};
+            }
+            if (isLeft) {
+                mp[parent].first->left = mp[child].first;
+            } else {
+                mp[parent].first->right = mp[child].first;
+            }
+            mp[child].second = true;
+        }
+        for (const auto &[_, nodeIsChild]: mp) {
+            auto [node, isChild] = nodeIsChild;
+            if (isChild == false) {
+                return node;
+            }
+        }
+        return nullptr;
+    }
+};
+```

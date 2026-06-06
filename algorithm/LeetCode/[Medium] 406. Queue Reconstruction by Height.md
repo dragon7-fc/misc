@@ -34,7 +34,19 @@ class Solution:
         return ans
 ```
 
-**Solution 2: (Greedy, sort by height and insert by rank)**
+**Solution 2: (Greedy, sort by large height and small rank then insert by rank)**
+
+    people = [[7,0],[4,4],[7,1],[5,0],[6,1],[5,2]]
+----------------------------------------------------
+sort          [7,0] [7,1] [6,1] [5,0] [5,2] [4,4]
+ans           [7,0]
+                    [7,0] [7,1]
+                          [7,0] [6,1] [7,1]
+                                [5,0] [7,0] [6,1] [7,1]
+                                      [5,0] [7,0] [5,2] [6,1] [7,1]
+                                            [5,0] [7,0] [5,2] [6,1] [4,4] [7,1]
+
+
 ```
 Runtime: 16 ms Beats, 71.51%
 Memory: 15.95 MB, Beats 79.65%
@@ -59,13 +71,24 @@ public:
 };
 ```
 
-**Solution 3: (BIT, sort by height and find first unoccupied position)**
+**Solution 3: (BIT, sort by small height and large rank then find first unoccupied k + 1 position)**
 
+    people = [[7,0],[4,4],[7,1],[5,0],[6,1],[5,2]]
+    sort      [4,4] [5,2] [5,0] [6,1] [7,1] [7,0]
+-----------------------------------------------------
+    ans         -     -     -     -   [4,4]
+                -     -   [5,2]
+              [5,0]
+                      -         [6,1]
+                      -                     [7,1]   
+                    [7,0]            
+----------------------------------------------------
     people = [[7,0],[4,4],[7,1],[5,0],[6,1],[5,2]]
     sort      [4,4] [5,2] [5,0] [6,1] [7,1] [7,0]
                 0     1     2     3     4     5
     bit         0     0     1     1     3     1    2 
     query       0     0     1     2     3     4    5
+                      ^before 0 have 0 empty slot
     [4,4]       0     0     1     1     3    [0]   1
     query       0     0     1     2     3     3    4
     [5,2]       0     0     1    [0]  > 2     0    1
@@ -85,20 +108,12 @@ Runtime: 4 ms, Beats 95.73%
 Memory: 16.10 MB, Beats 61.80%
 ```
 ```c++
-class BIT {
-public:
-    vector<int> pre;
-    BIT() {}
-    void build(int n) {
-        pre.resize(n + 1);
-        for (int i = 1; i < n; i ++) {
-            update(i, 1);
-        }
-    }
+class Solution {
+    vector<int> bit;
     void update(int i, int val) {
         int j = i + 1;
-        while (j < pre.size()) {
-            pre[j] += val;
+        while (j < bit.size()) {
+            bit[j] += val;
             j += j & (-j);
         }
     }
@@ -106,39 +121,39 @@ public:
         int rst = 0;
         int j = i;
         while (j > 0) {
-            rst += pre[j];
+            rst += bit[j];
             j -= j & (-j);
         }
         return rst;
     }
-};
-
-class Solution {
 public:
     vector<vector<int>> reconstructQueue(vector<vector<int>>& people) {
         int n = people.size(), left, right, mid;
-        sort(people.begin(), people.end(), [](vector<int> &pa, vector<int> &pb){
+        sort(people.begin(), people.end(), [](const vector<int> &pa, const vector<int> &pb){
             if (pa[0] != pb[0]) {
                 return pa[0] < pb[0];
             } else {
                 return pa[1] > pb[1];
             }
         });
-        BIT bit;
-        bit.build(n);
+        bit.resize(n + 1);
+        for (int i = 1; i < n; i ++) {
+                     // i = 0 have no empty slot before
+            update(i, 1);
+        }
         vector<vector<int>> ans(n);
         for (auto &p: people) {
             left = 0, right = n - 1;
             while (left < right) {
                 mid = left + (right - left) / 2;
-                if (bit.query(mid + 1) < p[1]) {
+                if (query(mid + 1) < p[1]) {
                     left = mid + 1;
                 } else {
                     right = mid;
                 }
             }
             ans[left] = p;
-            bit.update(left, -1);
+            update(left, -1);
         }
         return ans;
     }

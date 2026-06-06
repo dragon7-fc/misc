@@ -98,3 +98,53 @@ class Solution:
             s = tmp
         return min(s) if len(s) > 0 else 0
 ```
+
+**Solution 3: (DP Bottom-Up, 0/1 knapsack 1-D, separate 2 group and find min difference)**
+
+    (a - b) - c    vs   c - (a - b)
+    = a - b - c         = c - a + b
+    
+-> +/- a +/- b +/- c
+-> S1: -/+ group
+   S2: +/- group
+   ans = min(abs(S1 - S2))
+
+```
+Runtime: 0 ms, Beats 100.00%
+Memory: 10.56 MB, Beats 85.20%
+```
+```c++
+class Solution {
+public:
+    int lastStoneWeightII(vector<int>& stones) {
+        int totalSum = accumulate(stones.begin(), stones.end(), 0);
+        int target = totalSum / 2; // This is our knapsack capacity
+        
+        // dp[i] will be true if a subset sum of i is possible
+        vector<bool> dp(target + 1, false);
+        dp[0] = true; // Base case: we can always form a sum of 0
+        
+        // Process each stone
+        for (int stone : stones) {
+            // CRITICAL: Loop backwards to prevent using the same stone multiple times
+            for (int i = target; i >= stone; --i) {
+                if (dp[i - stone]) {
+                    dp[i] = true;
+                }
+            }
+        }
+        
+        // Find the largest achievable sum S1 that is <= target
+        int s1 = 0;
+        for (int i = target; i >= 0; --i) {
+            if (dp[i]) {
+                s1 = i;
+                break;
+            }
+        }
+        
+        int s2 = totalSum - s1;
+        return s2 - s1;
+    }
+};
+````

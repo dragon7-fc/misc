@@ -667,3 +667,75 @@ public:
  * int param_2 = obj->sumRange(left,right);
  */
 ```
+
+**Solution 7: (BIT)**
+
+    NumArray numArray = new NumArray([1, 3, 5]);
+      0  1  2
+nums: 1  3  5
+bit:  0  1  4  5
+
+    numArray.sumRange(0, 2); // return 1 + 3 + 5 = 9
+      0  1  2
+nums: 1  3  5
+bit:  0  1  4  5
+      left     right
+
+    numArray.update(1, 2);   // nums = [1, 2, 5]
+      0  1  2
+nums: 1  2  5
+bit:  0  1  2  5
+      left     right
+            
+```
+Runtime: 48 ms, Beats 81.34%
+Memory: 180.18 MB, Beats 79.14%
+``` 
+```c++
+class NumArray {
+    vector<int> bit;    // prefix sum
+    vector<int> nums;   // backup original nums
+    int query(int i) {
+        int j = i;
+        int rst = 0;
+        while (j) {
+            rst += bit[j];
+            j -= j & (-j);
+        }
+        return rst;
+    }
+    void add(int idx, int val) {
+        int j = idx + 1;
+        while (j < bit.size()) {
+            bit[j] += val;
+            j += j & (-j);
+        }
+    }
+public:
+    NumArray(vector<int>& nums) {
+        int n = nums.size();
+        this->nums = nums;
+        bit.resize(n + 1);
+        for (int i = 0; i < n; i ++) {
+            add(i, nums[i]);
+        }
+    }
+    
+    void update(int index, int val) {
+        int diff = val - nums[index];
+        nums[index] = val;
+        add(index, diff);
+    }
+    
+    int sumRange(int left, int right) {
+        return query(right + 1) - query(left);
+    }
+};
+
+/**
+ * Your NumArray object will be instantiated and called as such:
+ * NumArray* obj = new NumArray(nums);
+ * obj->update(index,val);
+ * int param_2 = obj->sumRange(left,right);
+ */
+```

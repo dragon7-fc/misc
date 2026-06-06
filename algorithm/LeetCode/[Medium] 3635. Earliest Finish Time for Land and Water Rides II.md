@@ -71,6 +71,36 @@ Plan A provides the earliest finish time of 14.​​​​​​​
 ---
 **Solution 1: (DP Bottom-Up)**
 ```
+Runtime: 3 ms, Beats 78.90%
+Memory: 238.24 MB, Beats 29.36%
+```
+```c++
+class Solution {
+public:
+    int earliestFinishTime(vector<int>& landStartTime, vector<int>& landDuration, vector<int>& waterStartTime, vector<int>& waterDuration) {
+        int n = landDuration.size();
+        int m = waterDuration.size();
+        int min_land = INT_MAX, min_water = INT_MAX;
+        for (int i = 0; i < n; i ++) {
+            min_land = min(min_land, landStartTime[i] + landDuration[i]);
+        }
+        for (int j = 0; j < m; j ++) {
+            min_water = min(min_water, waterStartTime[j] + waterDuration[j]);
+        }
+        int ans = INT_MAX;
+        for (int i = 0; i < n; i ++) {
+            ans = min(ans, max(min_water, landStartTime[i]) + landDuration[i]);
+        }
+        for (int j = 0; j < m; j ++) {
+            ans = min(ans, max(min_land, waterStartTime[j]) + waterDuration[j]);
+        }
+        return ans;
+    }
+};
+```
+
+**Solution 2: (DP Bottom-Up, try place one and append the other)**
+```
 Runtime: 0 ms, Beats 100.00%
 Memory: 238.15 MB, Beats 100.00%
 ```
@@ -93,3 +123,4 @@ public:
     }
 };
 ```
+

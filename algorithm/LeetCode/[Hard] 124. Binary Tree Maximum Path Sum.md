@@ -172,7 +172,7 @@ class Solution:
         return max_path
 ```
 
-**Solution 5: (DFS)**
+**Solution 5: (DFS, return one branch upward and try use two branches locally)**
 ```
 Runtime: 0 ms, Beats 100.00%
 Memory: 29.28 MB, Beats 9.86%

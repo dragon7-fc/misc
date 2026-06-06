@@ -542,3 +542,84 @@ public:
     }
 };
 ```
+
+**Solution 5: (BIT, reverse bit to support larger prefix rank)**
+```
+Runtime: 73 ms, Beats 96.04%
+Memory: 52.60 MB, Beats 94.38%
+```
+```c++
+class Solution {
+    vector<int> bit;
+    void update(int i, int val) {
+        int j = i + 1;
+        while (j > 0) {
+            bit[j] += val;
+            j -= j & (-j);
+        }
+    }
+    int query(int i) {
+        int rst = 0;
+        int j = i + 1;
+        while (j < bit.size()) {
+            rst += bit[j];
+            j += j & (-j);
+        }
+        return rst;
+    }
+public:
+    int reversePairs(vector<int>& nums) {
+        int n = nums.size();
+        bit.resize(n + 1);
+        vector<int> pre = nums;
+        sort(pre.begin(), pre.end());
+        int ans = 0;
+        for (int i = 0; i < n; i ++) {
+            int j = lower_bound(pre.begin(), pre.end(), nums[i] * 2LL + 1) - pre.begin();
+            ans += query(j);
+            j = lower_bound(pre.begin(), pre.end(), nums[i]) - pre.begin();
+            update(j, 1);
+        }
+        return ans;
+    }
+};
+```
+
+**Solution 6: (Merge Sort)**
+```
+Runtime: 165 ms, Beats 92.79%
+Memory: 99.30 MB, Beats 90.57%
+```
+```c++
+class Solution {
+    int mergeSort(vector<int> &nums, int left, int right) {
+        if (left >= right) {
+            return 0;
+        }
+        int mid = left + (right - left) / 2;
+        int rst = mergeSort(nums, left, mid);
+        rst += mergeSort(nums, mid + 1, right);
+        int i = left;
+        int j = mid + 1;
+        while (i <= mid && j <= right) {
+            if (nums[i] > 2LL * nums[j]) {
+                j += 1;
+            } else {
+                rst += j - (mid + 1);
+                i += 1;
+            }
+        }
+        while (i <= mid) {
+            rst += j - (mid + 1);
+            i += 1;
+        }
+        inplace_merge(nums.begin() + left, nums.begin() + mid + 1, nums.begin() + right + 1);
+        return rst;
+    }
+public:
+    int reversePairs(vector<int>& nums) {
+        int n = nums.size();
+        return mergeSort(nums, 0, n - 1);
+    }
+};
+```

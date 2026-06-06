@@ -311,11 +311,28 @@ int atMostNGivenDigitSet(char ** digits, int digitsSize, int n){
 **Solution 6: (DP Bottom-Up)**
 
     digits = ["1","3","5","7"], n = 100
+
          0  1  2  3
          ----------
     s = "1  0  0"
     a    1  0  0
     dp  20        1
+
+---------------------------------
+    digits = ["1","3","5","7"], n = 365
+length < 3:
+    4 + 16 = 20
+length = 3:
+    3 6 5  cnt
+    ^
+    1 1    16
+      3
+      5
+      7
+    ----------    3       4          1
+     3 1 _ 12 = smaller * m^remaining_positions)
+       3 remaining_position  1
+       5 
 
 ```
 Runtime: 0 ms, Beats 100.00%
@@ -329,16 +346,21 @@ public:
         int k = s.length(), m = digits.size(), i, a;
         vector<int> dp(k + 1);
         dp[k] = 1;
+
+        // case 1: length = k
         for (i = k - 1; i >= 0; i--) {
             a = s[i] - '0';
             for (auto d: digits) {
                 if (stoi(d) < a) {
                     dp[i] += pow(m, k - i - 1);
+                                    // remaining_position
                 } else if (stoi(d) == a) {
                     dp[i] += dp[i+1];
                 }
             }
         }
+
+        // case 2: length < k
         for (i = 1; i < k; i++) {
             dp[0] += pow(m, i);
         }

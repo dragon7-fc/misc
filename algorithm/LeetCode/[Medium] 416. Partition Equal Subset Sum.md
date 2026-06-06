@@ -159,6 +159,36 @@ public:
 ```
 
 **Solution 5: (DP Bottom-Up)**
+```
+Runtime: 111 ms, Beats 64.58%
+Memory: 111.16 MB, Beats 20.08%
+```
+```c++
+class Solution {
+public:
+    bool canPartition(vector<int>& nums) {
+        int n = nums.size();
+        int total = accumulate(nums.begin(), nums.end(), 0);
+        if (total % 2) {
+            return false;
+        }
+        vector<vector<int>> dp(n + 1, vector<int>(total / 2 + 1));
+        dp[0][0] = 1;
+        for (int i = 1; i <= n; i ++) {
+            auto &num = nums[i - 1];
+            for (int a = 0; a <= total / 2; a ++) {
+                dp[i][a] = dp[i - 1][a];
+                if (a >= num) {
+                    dp[i][a] |= dp[i - 1][a - num];
+                }
+            }
+        }
+        return dp[n][total / 2];
+    }
+};
+```
+
+**Solution 6: (DP Bottom-Up, 1-D)**
 
 
     [1, 5, 11, 5]
@@ -194,7 +224,7 @@ public:
 };
 ```
 
-**Solution 6: (DP Bottom-Up, bitset)**
+**Solution 7: (DP Bottom-Up, bitset)**
 
                     [       1,       5,       11,       5]
         bitset

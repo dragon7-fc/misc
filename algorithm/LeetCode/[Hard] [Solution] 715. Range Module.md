@@ -313,7 +313,7 @@ public:
  */
 ```
 
-**Solution 2: (Maintain Sorted Disjoint Intervals, Hash Table)**
+**Solution 2: (Maintain Sorted Disjoint Intervals, Hash Table, try to erase old and create new one)**
 ```
 Runtime: 16 ms, Beats 95.69%
 Memory: 77.13 MB, Beats 79.19%
@@ -335,15 +335,15 @@ public:
     //
     void addRange(int left, int right) {
         // 1. Find the first interval starting >= left
-        auto it = mp.lower_bound(left);
+        auto it = mp.upper_bound(left);
         
         // 2. Check the interval before it for overlap
         if (it != mp.begin()) {
-            auto pre_it = prev(it);
-            if (pre_it->second >= left) {
-                left = pre_it->first;
-                right = max(right, pre_it->second);
-                it = mp.erase(pre_it); // Start merging from here
+            auto pit = prev(it);
+            if (pit->second >= left) {
+                left = pit->first;
+                right = max(right, pit->second);
+                it = mp.erase(pit); // Start merging from here
             }
         }
         
@@ -362,19 +362,14 @@ public:
     // pre_it       it
     //
     bool queryRange(int left, int right) {
-        // Find the first interval starting AFTER 'left'
         auto it = mp.upper_bound(left);
-        
-        // If there are no intervals, or the first potential candidate starts after 'left'
-        if (it == mp.begin()) {
-            return false;
+        if (it != mp.begin()) {
+            auto pit = prev(it);
+            if (pit->first <= left && pit->second >= right) {
+                return true;
+            }
         }
-        
-        // Look at the interval immediately before it
-        auto pre_it = prev(it);
-        
-        // Check if this interval fully covers [left, right)
-        return pre_it->first <= left && pre_it->second >= right;
+        return false;
     }
     
     //     ------------------------------ 
@@ -383,14 +378,14 @@ public:
     //  pre_it        pre_right  it      right   pre_right
     //
     void removeRange(int left, int right) {
-        auto it = mp.lower_bound(left);
+        auto it = mp.upper_bound(left);
         
         // Check the interval before to see if it needs shrinking or splitting
         if (it != mp.begin()) {
-            auto pre_it = prev(it);
-            if (pre_it->second > left) {
-                int pre_right = pre_it->second;
-                pre_it->second = left; // Shrink the left piece
+            auto pit = prev(it);
+            if (pit->second > left) {
+                int pre_right = pit->second;
+                pit->second = left; // Shrink the left piece
                 if (pre_right > right) {
                     // Split case: current interval was so big it survives the removal
                     mp[right] = pre_right;

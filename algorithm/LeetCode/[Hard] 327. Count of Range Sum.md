@@ -233,3 +233,78 @@ public:
     }
 };
 ```
+
+**Solution 6: (Prefix Sum, Divide and Conquer, Merge Sort, gradually fix one half and find the other half range)**
+
+pre [0 ...     ...  ...]
+          i   j     k
+              ^^^^^^ 
+                ans += j - k
+             ^prej - prei < lower
+                   ^prek - prei <= upper
+lower <= proj - prei <= upper
+-> prej - lower >= prei >= prej - upper
+--------------------------------------------------
+    nums = [-2, 5,-1], lower = -2, upper = 2
+            --
+                  --
+            --------
+
+pre        [   0,  -2,   3,   2]
+ans            i    j
+                         i    j
+               i              j
+---------------------------------------
+          [    0   -2    3    2]
+          [    0   -2]          
+          [    0][ -2]
+               i    j    k 
+cnt            1
+          [   -2    0]
+                      [  3     2]
+                      [  3][   2]
+                         i     j     k
+cnt                      1
+                      [  2    3]
+               i         jk
+                    i    j    k
+cnt                 1 
+          [   -2    0    2     3]
+
+```
+Runtime: 308 ms, Beats 68.18%
+Memory: 169.82 MB, Beats 66.27%
+```
+```c++
+class Solution {
+    long long mergeSort(vector<long long> &pre, int left, int right, int lower, int upper) {
+        if (left >= right) {
+            return 0;
+        }
+        int mid = left + (right - left) / 2;
+        long long cnt = mergeSort(pre, left, mid, lower, upper) + mergeSort(pre,mid + 1, right, lower, upper);
+        int j = mid + 1;
+        int k = mid + 1;
+        for (int i = left; i <= mid; i ++) {
+            while (j <= right && pre[j] - pre[i] < lower) {
+                j += 1;
+            }
+            while (k <= right && pre[k] - pre[i] <= upper) {
+                k += 1;
+            }
+            cnt += k - j;
+        }
+        inplace_merge(pre.begin() + left, pre.begin() + mid + 1, pre.begin() + right + 1);
+        return cnt;
+    }
+public:
+    int countRangeSum(vector<int>& nums, int lower, int upper) {
+        int n = nums.size();
+        vector<long long> pre(n + 1);
+        for (int i = 0; i < n; i ++) {
+            pre[i + 1] = pre[i] + nums[i];
+        }
+        return mergeSort(pre, 0, n, lower, upper);
+    }
+};
+```

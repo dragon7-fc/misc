@@ -750,3 +750,63 @@ public:
     }
 };
 ```
+
+**Solution 6: (Brute Force)**
+
+                   v
+    positions = [[1,2],[2,3],[6,1]]
+pre:  l r h
+    [[1,3,2]]
+        ^
+-----------------------------------
+                         v
+    positions = [[1,2],[2,3],[6,1]]
+pre:             vans
+    [[1,3,2], [2,5,5]]
+                 ^
+-----------------------------------
+                               v
+    positions = [[1,2],[2,3],[6,1]]
+pre:
+    [[1,3,2], [2,5,5], [6,1,1]]
+                          ^
+
+
+```
+Runtime: 7 ms, Beats 88.52%
+Memory: 15.28 MB, Beats 81.87%
+```
+```c++
+class Solution {
+    struct Square {
+        int left;
+        int right;
+        int height;
+    };
+public:
+    vector<int> fallingSquares(vector<vector<int>>& positions) {
+        vector<Square> pre;
+        vector<int> ans;
+        int maxHeight = 0;
+        for (auto &p : positions) {
+            int left = p[0];
+            int size = p[1];
+            int right = left + size;
+            int height = size;
+            for (auto &sq : pre) {
+
+                // overlap
+                bool overlap = max(left, sq.left) < min(right, sq.right);
+                if (overlap) {
+                    height = max(height, sq.height + size);
+                }
+            }
+            pre.push_back({left, right, height});
+            maxHeight = max(maxHeight, height);
+            ans.push_back(maxHeight);
+        }
+
+        return ans;
+    }
+};
+```

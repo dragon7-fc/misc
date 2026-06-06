@@ -314,7 +314,7 @@ class Solution:
         return -1
 ```
 
-**Solution 7: (DP Bottom-Up)**
+**Solution 7: (DP Bottom-Up, try every amount for all possible coin)**
 
     coins = [1,2,5], amount = 11
 

@@ -270,3 +270,174 @@ public:
     }
 };
 ```
+
+**Solution 7: (Merge Sort)**
+
+    nums = [5,2,6,1]
+    ans    [2,1,1,0]
+pre        [[5,0]   [2,1]   [6,2]   [1,3]]
+           -------------------------------
+           [[5,0]   [2,1]] [[6,2]   [1,3]]
+           --------------- ---------------
+           [[5,0]] [[2,1]] [[6,2]] [[1,3]]
+           ------- ------- ------- -------
+             i       j
+rightCount   1
+           [[2,1]   [5,0]]
+           ---------------
+                             i        j
+rightCount                   1
+ans                          1
+                           [[1,3]   [6,2]]
+              i              j
+              i                       j
+                      i                      j
+rightCount    1       2
+ans           2       1
+
+```
+Runtime: 811 ms, Beats 41.39%
+Memory: 517.24 MB Beats 12.12%
+```
+```c++
+class Solution {
+    void mergeSort(vector<pair<int,int>> &pre, int left, int right, vector<int> &ans) {
+        if (left >= right) {
+            return;
+        }
+        int mid = left + (right - left) / 2;
+        mergeSort(pre, left, mid, ans);
+        mergeSort(pre, mid + 1,right, ans);
+        vector<pair<int,int>> tmp;
+        int i = left;
+        int j = mid + 1;
+        int rightCount = 0;
+        while (i <= mid && j <= right) {
+            if (pre[j].first < pre[i].first) {
+                rightCount += 1;
+                tmp.push_back(pre[j++]);
+            } else {
+                ans[pre[i].second] += rightCount;
+                tmp.push_back(pre[i++]);
+            }
+        }
+        while (i <= mid) {
+            ans[pre[i].second] += rightCount;
+            tmp.push_back(pre[i++]);
+        }
+        while (j <= right) {
+            tmp.push_back(pre[j++]);
+        }
+        copy(tmp.begin(),tmp.end(), pre.begin() + left);
+    }
+public:
+    vector<int> countSmaller(vector<int>& nums) {
+        int n = nums.size();
+        vector<pair<int, int>> pre(n);
+        for (int i = 0; i < n; i ++) {
+            pre[i] = {nums[i], i};
+        }
+        vector<int> ans(n);
+        mergeSort(pre, 0, n - 1, ans);
+
+        return ans;
+    }
+};
+```
+
+**Solution 8: (Segment Tree, sort and map value to rank then go backward then query and update prefix sum)**
+```
+Runtime: 248 ms, Beats 69.40%
+Memory: 121.32 MB, Beats 64.37%
+```
+```c++
+class Solution {
+    vector<int> sgt;
+    int query(int ti, int q_left, int q_right, int left, int right) {
+        if (q_left > right || q_right < left) {
+            return 0;
+        }
+        if (q_left <= left && q_right >= right) {
+            return sgt[ti];
+        }
+        int mid = left + (right - left) / 2;
+        return query(2 * ti, q_left, q_right, left, mid)
+                + query(2 * ti + 1, q_left, q_right, mid + 1, right);
+    }
+    void update(int ti, int left, int right, int r, int val) {
+        if (left == right) {
+            sgt[ti] += val;
+            return;
+        }
+        int mid = left + (right - left) / 2;
+        if (r <= mid) {
+            update(2 * ti, left, mid, r, val);
+        } else {
+            update(2 * ti + 1, mid + 1, right, r, val);
+        }
+        sgt[ti] = sgt[2 * ti] + sgt[2 * ti + 1];
+    }
+public:
+    vector<int> countSmaller(vector<int>& nums) {
+        set<int> st;
+        for (const auto num: nums) {
+            st.insert(num);
+        }
+        unordered_map<int, int> mp;
+        int r = 0;
+        for (auto a: st) {
+            mp[a] = r;
+            r += 1;
+        }
+        int n = mp.size();
+        sgt.resize(4 * n);
+        vector<int> ans(nums.size());
+        for (int i = nums.size() - 1; i >= 0; i --) {
+            ans[i] = query(1, 0, mp[nums[i]] - 1, 0, n - 1);
+            update(1, 0, n - 1, mp[nums[i]], 1);
+        }
+        return ans;
+    }
+};
+```
+
+**Solution 9: (BIT, go backward then query and update prefix sum)**
+
+0 map to bit[1000 + 1]
+
+```
+Runtime: 23 ms, Beats 98.01%
+Memory: 91.85 MB, Beats 90.53%
+```
+```c++
+class Solution {
+    vector<int> bit;
+    int query(int i) {
+        int j = i + 10000 + 1;
+        int rst = 0;
+        while (j) {
+            rst += bit[j];
+            j -= j & (-j);
+        }
+        return rst;
+    }
+    void update(int i, int val) {
+        int j = i + 10000 + 1;
+        while (j < bit.size()) {
+            bit[j] += val;
+            j += j & (-j);
+        }
+    }
+public:
+    vector<int> countSmaller(vector<int>& nums) {
+        bit.resize(20000 + 1 + 1);
+        int n = nums.size();
+        vector<int> ans(n);
+        for (int i = n - 1; i >= 0; i --) {
+            ans[i] = query(nums[i] - 1);
+            update(nums[i], 1);
+        }
+        return ans;
+    }
+};
+```

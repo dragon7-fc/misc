@@ -62,7 +62,7 @@ Number 4848: the second digit 8 is a peak, and the third digit 4 is a valley, gi
 
 # Submissions
 ---
-**Solution 1: (Brute Force)**
+**Solution 1: (Brute Force, String)**
 ```
 Runtime: 51 ms, Beats 64.29%
 Memory: 9.58 MB, Beats 92.86%
@@ -79,6 +79,33 @@ public:
                if (s[i] > s[i - 1] && s[i] > s[i + 1] || s[i] < s[i - 1] && s[i] < s[i + 1]) {
                    ans += 1;
                } 
+            }
+        }
+        return ans;
+    }
+};
+```
+
+**Solution 2: (Brute Force)**
+```
+Runtime: 3 ms, Beats 96.08%
+Memory: 8.75 MB, Beats 92.54%
+```
+```c++
+class Solution {
+public:
+    int totalWaviness(int num1, int num2) {
+        int ans = 0;
+        for (int num = max(100, num1); num <= max(100, num2); num ++) {
+            int a = num;
+            while (a >= 100) {
+                int pd = a % 10;
+                int d = (a / 10) % 10;
+                int nd = (a / 100) % 10;
+                if (pd > d && nd > d || pd < d && nd < d) {
+                    ans += 1;
+                }
+                a /= 10;
             }
         }
         return ans;

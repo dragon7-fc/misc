@@ -294,3 +294,64 @@ class Solution:
             
         return dfs(bin(num)[2:], 0)
 ```
+
+**Solution 5: (DP Bottom-Up, Digit DP, Prefix Match)**
+
+    1  _  _
+    f(n)  f(n-2)
+    0  _  _
+       f(n-1)
+f(n) = f(n-1) + f(n-2)
+
+fib: 0 1 2  binary string length      
+     1 2 3     
+
+       
+       2 1 0
+5 =    1 0 1
+ans    3   4 5 <ans
+
+```
+Runtime: 0 ms, Beats 100.00%
+Memory: 8.36: MB, Beats 68.03%
+```
+```c++
+class Solution {
+public:
+    int findIntegers(int n) {
+        // Step 1: Precalculate Fibonacci numbers
+        // fib[i] stores the number of valid binary strings of length i
+        vector<int> fib(31);
+        fib[0] = 1;
+        fib[1] = 2;
+        for (int i = 2; i < 31; ++i) {
+            fib[i] = fib[i - 1] + fib[i - 2];
+        }
+        
+        int ans = 0;
+        int prev_bit = 0;
+        
+        // Step 2: Iterate from the most significant bit (bit 30) down to bit 0
+        for (int i = 30; i >= 0; --i) {
+            // Check if the i-th bit is set in n
+            if ((n & (1 << i)) != 0) {
+                // If the bit is 1, choosing '0' makes the number strictly smaller than n.
+                // All remaining i bits can be any valid combination.
+                ans += fib[i];
+                
+                // If the previous bit was also 1, we hit consecutive ones.
+                // We cannot proceed down the prefix path anymore.
+                if (prev_bit == 1) {
+                    return ans;
+                }
+                prev_bit = 1;
+            } else {
+                prev_bit = 0;
+            }
+        }
+        
+        // If we reached here, n itself doesn't have consecutive ones. Include n.
+        return ans + 1;
+    }
+};
+```

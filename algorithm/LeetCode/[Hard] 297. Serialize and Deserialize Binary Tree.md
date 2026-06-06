@@ -299,3 +299,63 @@ public:
 // TreeNode* ans = deser.deserialize(ser.serialize(root));
 /*
 ```
+
+**Solution 5: (DFS)**
+```
+Runtime: 28 ms, Beats 53.11%
+Memory: 46.27 MB, Beats 10.98%
+```
+```c++
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Codec {
+
+    TreeNode *deserializeDFS(vector<string> &tokens, int& idx) {
+        if (tokens[idx] == "#") {
+            idx += 1;
+            return nullptr;
+        }
+        TreeNode* node = new TreeNode(stoi(tokens[idx++]));
+        node->left = deserializeDFS(tokens, idx);
+        node->right = deserializeDFS(tokens, idx);
+
+        return node;
+    }
+public:
+
+    // Encodes a tree to a single string.
+    string serialize(TreeNode* root) {
+        if (!root) {
+            return "#,";
+        }
+        return to_string(root->val) + "," + serialize(root->left) + serialize(root->right);
+    }
+
+    // Decodes your encoded data to tree.
+    TreeNode* deserialize(string data) {
+        vector<string> tokens;
+        string cur;
+        for (char c : data) {
+            if (c == ',') {
+                tokens.push_back(cur);
+                cur.clear();
+            } else {
+                cur += c;
+            }
+        }
+        int idx = 0;
+        return deserializeDFS(tokens, idx);
+    }
+};
+
+// Your Codec object will be instantiated and called as such:
+// Codec ser, deser;
+// TreeNode* ans = deser.deserialize(ser.serialize(root));
+```

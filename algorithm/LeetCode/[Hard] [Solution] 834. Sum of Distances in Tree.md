@@ -125,32 +125,32 @@ class Solution:
         return ans
 ```
 
-**Solution 2: (DFS)**
+**Solution 2: (DFS, create golden sample then derive from it)**
 ```
-Runtime: 204 ms
-Memory: 103.32 MB
+Runtime: 105 ms, Beats 39.57%
+Memory: 104.84 MB, Beats 33.88%
 ```
 ```c++
 class Solution {
-    int dfs(int v, int p, vector<int> &dp,vector<vector<int>> &g) {
+    int dfs(int u, int p, vector<int> &cnt, vector<vector<int>> &g) {
         int rst = 0;
-        for (auto nv: g[v]) {
-            if (nv == p) {
+        for (auto v: g[u]) {
+            if (v == p) {
                 continue;
             }
-            rst += dfs(nv, v, dp, g);
-            dp[v] += dp[nv];
+            rst += dfs(v, u, cnt, g);
+            cnt[u] += cnt[v];
         }
-        dp[v] += 1;
-        return rst + dp[v];
+        cnt[u] += 1;
+        return rst + cnt[u];
     }
-    void dfs2(int v, int p, int n, vector<int> &dp,vector<vector<int>> &g, vector<int> &ans) {
-        for (auto nv: g[v]) {
-            if (nv == p) {
+    void dfs2(int u, int p, int n, vector<int> &cnt, vector<vector<int>> &g, vector<int> &ans) {
+        for (auto v: g[u]) {
+            if (v == p) {
                 continue;
             }
-            ans[nv] = ans[v] - dp[nv] + (n - dp[nv]);
-            dfs2(nv, v, n, dp, g, ans);
+            ans[v] = ans[u] - cnt[v] + (n - cnt[v]);
+            dfs2(v, u, n, cnt, g, ans);
         }
     }
 public:
@@ -160,9 +160,9 @@ public:
             g[e[0]].push_back(e[1]);
             g[e[1]].push_back(e[0]);
         }
-        vector<int> dp(n), ans(n);
-        ans[0] = dfs(0, -1, dp, g) - n;
-        dfs2(0, -1, n, dp, g, ans);
+        vector<int> cnt(n), ans(n);
+        ans[0] = dfs(0, -1, cnt, g) - n;
+        dfs2(0, -1, n, cnt, g, ans);
         return ans;
     }
 };

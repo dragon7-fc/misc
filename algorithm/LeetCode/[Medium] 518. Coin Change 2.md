@@ -100,7 +100,7 @@ class Solution:
         return dp(0, 0)
 ```
 
-**Solution4 4: (DP Bottom-Up)**
+**Solution4 4: (DP Bottom-Up, try to add new coin for each amount)**
 
     amount = 5, coins = [1,2,5]
 
@@ -133,6 +133,35 @@ public:
             }
         }
         return dp[coins.size()][amount];
+    }
+};
+```
+
+**Solution 5: (DP Bottom-Up, 1-D)**
+```
+Runtime: 7 ms, Beats 84.90%
+Memory: 10.28 MB, Beats 90.11%
+```
+```c++
+class Solution {
+public:
+    int change(int amount, vector<int>& coins) {
+        // dp[i] stores the number of combinations to make up amount i
+        vector<unsigned long long> dp(amount + 1, 0);
+        
+        // Base case: 1 way to make 0 amount
+        dp[0] = 1;
+        
+        // CRITICAL: Outer loop must be coins to avoid counting permutations
+        for (int coin : coins) {
+            // Inner loop tracks amounts. We start at 'coin' because 
+            // any amount smaller than the coin denomination cannot use it.
+            for (int i = coin; i <= amount; ++i) {
+                dp[i] += dp[i - coin];
+            }
+        }
+        
+        return dp[amount];
     }
 };
 ```
