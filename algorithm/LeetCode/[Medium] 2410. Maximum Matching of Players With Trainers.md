@@ -54,7 +54,7 @@ class Solution:
         return match
 ```
 
-**Solution 2: (Sort, Two Pointers)**
+**Solution 2: (Sort, Two Pointers, not need try for binary search, try to match as much smaller as possible)**
 ```
 Runtime: 27 ms, Beats 77.62%
 Memory: 80.14 MB, Beats 85.54%

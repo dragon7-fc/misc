@@ -170,7 +170,7 @@ public:
 };
 ```
 
-**Solution 4: (Sort, Binary Search, 2D LIS, Sort (inc x dec y) and Reduce to 1D (y))**
+**Solution 4: (Sort, Binary Search, 2D LIS, Sort (inc width dec height) and Reduce to 1D (height) to binary search)**
     envelopes = [[1,3],[3,5],[6,7],[6,8],[8,4],[9,5]]
     sort         [1,3] [3,5] [6,8] [6,7] [8,4] [9,5]
                                             ^

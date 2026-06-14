@@ -194,7 +194,7 @@ int minRefuelStops(int target, int startFuel, int** stations, int stationsSize, 
 }
 ```
 
-**Solution 4: (Heap)**
+**Solution 4: (Heap, max heap track previous max capacity and when eeded then try to use it)**
 
     target = 100, startFuel = 10, stations = [[10,60],[20,30],[30,30],[60,40]]
 

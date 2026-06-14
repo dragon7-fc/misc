@@ -73,7 +73,7 @@ class Solution:
         return res
 ```
 
-**Solution 2: (Tracking the "Score", Greedy, Hash Table, Prefix Sum)**
+**Solution 2: (Tracking the "Score" and record its first occurred location, Greedy, Hash Table, Prefix Sum)**
 
 __Intuition__
 If working hour > 8 hours, yes it's tiring day.
@@ -102,6 +102,15 @@ So the maximum interval is i - seen[score - 1]
 __Complexity__
 Time O(N) for one pass.
 Space O(N) in worst case if no tiring day.
+
+             0  1  2  3  4  5  6
+    hours = [9, 9, 6, 0, 6, 6, 9]
+score     0  1  2  1  0 -1 -2 -1 
+res       0  1  2  3
+seen
+0                     3
+-1                       4
+-2                          5
 
 ```
 Runtime: 17 ms

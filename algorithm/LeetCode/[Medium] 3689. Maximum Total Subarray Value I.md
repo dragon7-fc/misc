@@ -52,21 +52,50 @@ Adding these gives 4 + 4 + 4 = 12.
 
 # Submissions
 ---
-**Solution 1: (Greedy)**
+**Solution 1: (Deque)**
 ```
-Runtime: 3 ms, Beats 33.33%
-Memory: 103.78 MB, Beats 0.00%
+Runtime: 11 ms, Beats 10.12%
+Memory: 106.97 MB, Beats 1.56%
 ```
 ```c++
 class Solution {
 public:
     long long maxTotalValue(vector<int>& nums, int k) {
-        int mx = 0, mn = 1e9;
-        for (auto &num: nums) {
-            mx = max(mx, num);
-            mn = min(mn, num);
+        long long ans = 0;
+        deque<int> min_dq, max_dq;
+        for (const auto &num: nums) {
+            while (min_dq.size() && min_dq.back() >= num) {
+                min_dq.pop_back();
+            }
+            min_dq.push_back(num);
+            while (max_dq.size() && max_dq.back() <= num) {
+                max_dq.pop_back();
+            }
+            max_dq.push_back(num);
+            ans = max(ans, 1LL * (max_dq.front() - min_dq.front()) * k);
         }
-        return (long long)(mx - mn) * k;
+        return ans;
+
+    }
+};
+```
+
+**Solution 2: (Greedy)**
+```
+Runtime: 0 ms, Beats 100.00%
+Memory: 103.81 MB, Beats 3.11%
+```
+```c++
+class Solution {
+public:
+    long long maxTotalValue(vector<int>& nums, int k) {
+        int mn = INT_MAX;
+        int mx = INT_MIN;
+        for (const auto &num: nums) {
+            mn = min(mn, num);
+            mx = max(mx, num);
+        }
+        return 1LL * (mx - mn) * k;
     }
 };
 ```

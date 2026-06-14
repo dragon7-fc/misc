@@ -263,7 +263,7 @@ class Solution:
 ```
 * [Medium] 36. Valid Sudoku
 
-### right rotate = iterative left rotate update
+### right rotate, current element = -90 degreess previous
 ```c++
 class Solution {
 public:
@@ -934,15 +934,29 @@ class Solution:
 class Solution {
 public:
     int maxSubarraySumCircular(vector<int>& nums) {
-        int total = 0, maxSum = nums[0], curMax = 0, minSum = nums[0], curMin = 0;
-        for (int &a : nums) {
-            curMax = max(curMax + a, a);
+        int curMax = 0;
+        int curMin = 0;
+        int maxSum = nums[0];
+        int minSum = nums[0];
+        int totalSum = 0;
+        
+        for (int num: nums) {
+            // Normal Kadane's
+            curMax = max(curMax, 0) + num;
             maxSum = max(maxSum, curMax);
-            curMin = min(curMin + a, a);
+            
+            // Kadane's but with min to find minimum subarray
+            curMin = min(curMin, 0) + num;
             minSum = min(minSum, curMin);
-            total += a;
+            
+            totalSum += num;  
         }
-        return maxSum > 0 ? max(maxSum, total - minSum) : maxSum;
+
+        if (totalSum == minSum) {
+            return maxSum;
+        }
+        
+        return max(maxSum, totalSum - minSum);
     }
 };
 ```
@@ -1000,7 +1014,7 @@ class Solution:
 ```
 * [Medium] [Solution] 950. Reveal Cards In Increasing Order
 
-### buffer greedy max from end then filter from start
+### buffer greedy max from end then filter from start and try to match as much as possible
 ```c++
 class Solution {
 public:
@@ -1542,28 +1556,28 @@ class Solution:
 class Solution {
 public:
     int longestStrChain(vector<string>& words) {
-        int n = words.size(), i, j, ii, jj, d, ans = 1;
+        int n = words.size(), ans = 1;
         vector<int> dp(n, 1);
         sort(words.begin(), words.end(), [](const auto &sa, const auto &sb){
             return sa.length() < sb.length();
         });
-        for (j = 1; j < n; j ++) {
-            for (i = 0; i < j; i ++) {
+        for (int j = 1; j < n; j ++) {
+            for (int i = 0; i < j; i ++) {
                 if (words[j].length() == words[i].length() + 1) {
-                    d = 0;
-                    ii = 0;
-                    for (jj = 0; jj < words[j].length(); jj ++) {
-                        if (ii == words[i].length() || words[j][jj] != words[i][ii])  {
+                    int d = 0;
+                    int i0 = 0;
+                    for (int j0 = 0; j0 < words[j].length(); j0 ++) {
+                        if (i0 == words[i].length() || words[j][j0] != words[i][i0])  {
                             d += 1;
                             if (d > 1) {
                                 break;
                             }
                         } else {
-                            ii += 1;
+                            i0 += 1;
                         }
                     }
                     if (d == 1) {
-                        dp[j] = max(dp[j], dp[i]+1);
+                        dp[j] = max(dp[j], dp[i] + 1);
                         ans = max(ans, dp[j]);
                     }
                 }
@@ -2138,7 +2152,7 @@ class NumMatrix:
 ```
 * [Medium] [Solution] 304. Range Sum Query 2D - Immutable
 
-### Prefix Sum, accumulate height from previous row, try every cell
+### Prefix Sum, try accumulate height from previous row to generate decreasing array then try every solution
 ```c++
 class Solution {
 public:
@@ -2169,7 +2183,6 @@ public:
         return ans;
     }
 };
-;
 ```
 * [Medium] 1727. Largest Submatrix With Rearrangements
 
@@ -2278,7 +2291,7 @@ class Solution:
 ```
 * [Medium] [Solution] 376. Wiggle Subsequence
 
-### counting DP, 1D, reverse iteration, for each character: use it OR skip it
+### 0/1 knapsack, counting DP, 1D, reverse iteration, for each character: use it OR skip it
 ```c++
 class Solution {
 public:
@@ -2711,7 +2724,7 @@ class Solution:
 ```
 * [Medium] [Solution] 718. Maximum Length of Repeated Subarray
 
-### Longest Common Subsequence
+### 0/1 knapsack, Longest Common Subsequence
 ```c++
 class Solution {
 public:
@@ -3146,7 +3159,7 @@ class Solution:
 ```
 * [Medium] [Solution] 983. Minimum Cost For Tickets
 
-### 0/1 knapsack 1-D, separate 2 group and find min difference
+### 0/1 knapsack 1-D, separate 2 group and find min difference(i.e. find 2 group sum nearest average and subtract them)
 ```c++
 class Solution {
 public:
@@ -5445,7 +5458,7 @@ class Solution:
 ```
 * [Lock] [Medium] [Solution] 186. Reverse Words in a String II
 
-### Visit by Row
+### Visit by Row, row by row try to add element and possible next element
 ```c++
 class Solution {
 public:
@@ -5892,7 +5905,7 @@ public:
 ```
 * [Hard] 72. Edit Distance
 
-### Two Strings
+### Two Strings, cursor move left then buffer string and cursor move right append string from buffer
 ```c++
 class TextEditor {
     string before, after;
@@ -6634,9 +6647,109 @@ public:
 ```
 * [Hard] 99. Recover Binary Search Tree
 
+### binary lifting = 2^i parent table, dist(x, y) = d[x] + d[y] − 2 × d[lca]
+```c++
+class Solution {
+    int max_log;
+    vector<int> depth;
+    vector<vector<int>> up;
+    const int MOD = 1e9 + 7;
+
+    // Build parent pointers and depths using a simple DFS
+    void dfs(int u, int p, int d, const vector<vector<int>>& adj) {
+        depth[u] = d;
+        up[u][0] = p;
+        
+        for (int i = 1; i < max_log; ++i) {
+            if (up[u][i - 1] != -1) {
+                up[u][i] = up[up[u][i - 1]][i - 1];
+            } else {
+                up[u][i] = -1;
+            }
+        }
+
+        for (int v : adj[u]) {
+            if (v != p) {
+                dfs(v, u, d + 1, adj);
+            }
+        }
+    }
+
+    // Find LCA using Binary Lifting
+    int get_lca(int u, int v) {
+        if (depth[u] < depth[v]) swap(u, v);
+
+        // Bring both nodes to the same depth level
+        int diff = depth[u] - depth[v];
+        for (int i = 0; i < max_log; ++i) {
+            if ((diff >> i) & 1) {
+                u = up[u][i];
+            }
+        }
+
+        if (u == v) return u;
+
+        // Lift both nodes simultaneously right below their common ancestor
+        for (int i = max_log - 1; i >= 0; --i) {
+            if (up[u][i] != up[v][i]) {
+                u = up[u][i];
+                v = up[v][i];
+            }
+        }
+
+        return up[u][0];
+    }
+public:
+    vector<int> assignEdgeWeights(vector<vector<int>>& edges, vector<vector<int>>& queries) {
+        int n = edges.size() + 1;
+        max_log = log2(n) + 1;
+
+        vector<vector<int>> adj(n + 1);
+        for (const auto& edge : edges) {
+            adj[edge[0]].push_back(edge[1]);
+            adj[edge[1]].push_back(edge[0]);
+        }
+
+        depth.assign(n + 1, 0);
+        up.assign(n + 1, vector<int>(max_log, -1));
+
+        // Initialize the tree traversal starting from Root Node 1
+        dfs(1, -1, 0, adj);
+
+        // Precompute powers of 2 to avoid recalculating via slow modular loops
+        vector<int> pow2(n + 1, 1);
+        for (int i = 1; i <= n; ++i) {
+            pow2[i] = (pow2[i - 1] * 2) % MOD;
+        }
+
+        vector<int> answer;
+        answer.reserve(queries.size());
+
+        for (const auto& q : queries) {
+            int u = q[0];
+            int v = q[1];
+
+            if (u == v) {
+                answer.push_back(0);
+                continue;
+            }
+
+            int lca = get_lca(u, v);
+            int path_length = depth[u] + depth[v] - 2 * depth[lca];
+
+            // Formula: 2^(L - 1)
+            answer.push_back(pow2[path_length - 1]);
+        }
+
+        return answer;
+    }
+};
+```
+* [Hard] 3559. Number of Ways to Assign Edge Weights II
+
 ## Hash Table <a name="ht"></a>
 ---
-### max freq element in one subarray, Kadane 
+### subarray max frequency element count without k and total count of k, Kadane 
 ```c++
 class Solution {
 public:
@@ -6649,6 +6762,8 @@ public:
         auto kadane = [&](int b) {
             int res = 0, cur = 0;
             for (int a : nums) {
+
+                // skip k in every subarray
                 if (a == k) {
                     cur--;
                 }
@@ -6673,7 +6788,7 @@ public:
 ```
 * [Medium] 3434. Maximum Frequency After Subarray Operation
 
-### row pattern match
+### pick col[0] as reference and convert every row to pattern then count most pattern
 ```c++
 class Solution {
 public:
@@ -7316,7 +7431,7 @@ class MagicDictionary:
 ```
 * [Medium] [Solution] 676. Implement Magic Dictionary
 
-### Random, when delete, swap with last element
+### Random, when delete then swap with last element
 ```c++
 class RandomizedSet {
     vector<int> dp;
@@ -7361,7 +7476,7 @@ public:
 ```
 * [Medium] 380. Insert Delete GetRandom O(1)
 
-### Boyer-Moore Voting Algorithm
+### Boyer-Moore Voting Algorithm, try update majority first
 ```c++
 class Solution {
 public:
@@ -7661,7 +7776,7 @@ public:
 ```
 * [Hard] [Solution] 128. Longest Consecutive Sequence
 
-### sort by smallest end then largest start, only care about right most 2 point, greedy compare current start with previous end then start
+### sort by smallest end then largest start to best overlay, only care about right most 2 point (ped = pst + 1), greedy compare current start with previous end then start
 ```c++
 class Solution {
 public:
@@ -8499,7 +8614,7 @@ public:
 ```
 * [Medium] 207. Course Schedule
 
-### DFS, post order, Euler Path
+### DFS, post order reconstruct path, Euler Path, delete edge after visited
 ```c++
 class Solution {
     void dfs(string u, vector<string> &ans, unordered_map<string,multiset<string>> &g) {
@@ -8982,7 +9097,7 @@ public:
 ```
 * [Medium] 3346. Maximum Frequency of an Element After Performing Operations I
 
-### binary search to count on each row then binary Search mid value
+### binary search for below mid value count
 ```c++
 class Solution {
 public:
@@ -9007,7 +9122,7 @@ public:
 ```
 * [Medium] 378. Kth Smallest Element in a Sorted Matrix
 
-### Binary Search, 2 pointers, search from corner
+### Binary Search, 2 pointers, search from corner for low and high pointer
 ```c++
 class Solution {
 public:
@@ -9181,7 +9296,7 @@ public:
 ```
 * [Medium] 33. Search in Rotated Sorted Array
 
-### Binary Search with duplicate
+### when left mid and right are equal then shrink left and right to reduce search space
 ```c++
 class Solution {
 public:
@@ -9192,6 +9307,7 @@ public:
             if (nums[mid] == target) {
                 return true;
             }
+            // special case for duplicated version
             if (nums[left] == nums[mid] && nums[mid] == nums[right]) {
                 left += 1;
                 right -= 1;
@@ -9278,7 +9394,7 @@ class Solution:
 ```
 * [Medium] 74. Search a 2D Matrix
 
-### Greedy, Hash Table, Prefix Sum
+### Greedy, Hash Table, Prefix Sum, precompute all future character location in pattern then enumerate the target and jump
 ```c++
 class Solution {
 public:
@@ -9349,7 +9465,7 @@ class Solution:
 ```
 * [Medium] 540. Single Element in a Sorted Array
 
-### 2D LIS, Sort (inc x dec y) and Reduce to 1D (y)
+### 2D LIS, Sort (inc width dec height) and Reduce to 1D (height) to binary search
 ```c++
 class Solution {
 public:
@@ -9377,7 +9493,7 @@ public:
 ```
 * [Hard] 354. Russian Doll Envelopes
 
-### if left and right not match then left mid right should have duplicate
+### when left equals right then shrink right to reduce search space
 ```c++
 class Solution {
 public:
@@ -9494,7 +9610,7 @@ class Solution:
 ```
 * [Medium] 1300. Sum of Mutated Array Closest to Target
 
-### Range Sum Search, Enumeration, gradually decreasing search space
+### Prefix Sum, Range Sum Search, Enumeration, try to gradually increase length on every location
 ```c++
 class Solution {
 public:
@@ -9813,9 +9929,9 @@ public:
             j = (m + n + 1) / 2 - i;
 
             L1 = (i == 0) ? INT_MIN : nums1[i - 1];
-            R1 = (i == m) ? INT_MAX : nums1[i];
+            R1 = (i == m) ? INT_MAX : nums1[i];     // smaller median
             L2 = (j == 0) ? INT_MIN : nums2[j - 1];
-            R2 = (j == n) ? INT_MAX : nums2[j];
+            R2 = (j == n) ? INT_MAX : nums2[j];     // global median
 
             if (L1 <= R2 && L2 <= R1) {
                 if ((m + n) % 2 == 0) {
@@ -9826,6 +9942,7 @@ public:
                     return max(L1, L2);
                 }
             } else if (L1 > R2) {
+                // smaller median need match global media R2
                 right = i - 1;
             } else {
                 left = i + 1;
@@ -9989,7 +10106,7 @@ public:
 ```
 * [Medium] 1975. Maximum Matrix Sum
 
-### Effective Index
+### Effective Index, defer new index by current index and deleted element
 ```c++
 class Solution {
 public:
@@ -10003,7 +10120,7 @@ public:
 ```
 * [Medium] 2216. Minimum Deletions to Make Array Beautiful
 
-### Tracking the "Score", Greedy, Hash Table, Prefix Sum
+### Tracking the "Score" and record its first occurred location, Greedy, Hash Table, Prefix Sum
 ```c++
 class Solution {
 public:
@@ -10013,12 +10130,15 @@ public:
         for (int i = 0; i < n; ++i) {
             score += hours[i] > 8 ? 1 : -1;
             if (score > 0) {
+                // global max
                 res = i + 1;
             } else {
                 if (seen.find(score) == seen.end())
                     seen[score] = i;
                 if (seen.find(score - 1) != seen.end())
                     res = max(res, i - seen[score - 1]);
+                                   //^^^^^^^^^^^^^^^^^
+                                   //    local max
             }
         }
         return res;
@@ -10027,7 +10147,7 @@ public:
 ```
 * [Medium] 1124. Longest Well-Performing Interval
 
-###  Greedy
+### Greedy
 ```python
 class Solution:
     def breakPalindrome(self, palindrome: str) -> str:
@@ -10146,7 +10266,7 @@ class Solution:
 ```
 * [Medium] 1437. Check If All 1's Are at Least Length K Places Away
 
-### Two Pointers, greedy from back
+### Sort, Two Pointers, greedy from back
 ```c++
 class Solution {
 public:
@@ -10271,7 +10391,7 @@ class Solution:
 ```
 * [Medium] 452. Minimum Number of Arrows to Burst Balloons
 
-### First match, find first stations with positive gas
+### First match, check possibility then find first stations with overall positive remaining gas
 ```c++
 class Solution {
 public:
@@ -10359,7 +10479,7 @@ public:
 ```
 * [Medium] [Solution] 435. Non-overlapping Intervals
 
-### Two-Barriers, LIS
+### Two-Barriers, LIS, try to smaller previous smallest a or second smallest b then check current value smaller than second smallest b
 ```c++
 class Solution {
 public:
@@ -10511,7 +10631,7 @@ public:
 ```
 * [Medium] [Solution] 55. Jump Game
 
-### Prefix Sum, try every element with largest possible future value
+### Prefix Sum, record every location largest future value location and try every location from begin
 ```c++
 class Solution {
 public:
@@ -10554,31 +10674,50 @@ class Solution:
 ```
 * [Medium] [Solution] 954. Array of Doubled Pairs
 
-### Tracking the "Possible" Range, valid open parentheses count range
+### Tracking the "Possible" Range, locked[i] == '0' like wildcard of 678
 ```c++
 class Solution {
 public:
-    bool checkValidString(string s) {
-        int lo = 0, hi = 0;
-        for (char &c: s) {
-            if (c == '(') {
-                hi += 1;
-                lo += 1;
-            } else if (c == ')') {
-                hi -= 1;
-                lo -= 1;
-            } else if (c == '*') {
-                hi += 1;
-                lo -= 1;
+    bool canBeValid(string s, string locked) {
+        int n = s.length();
+        
+        // Rule 1: A valid parenthesis string must have an even length
+        if (n % 2 != 0) return false;
+        
+        int lo = 0; // Minimum possible open '('
+        int hi = 0; // Maximum possible open '('
+        
+        for (int i = 0; i < n; ++i) {
+            if (locked[i] == '0') {
+                // Unlocked slot can be '(' or ')'
+                lo -= 1; // If we treat it as ')'
+                hi += 1; // If we treat it as '('
+            } else {
+                // Locked slot must use the actual character
+                if (s[i] == '(') {
+                    lo += 1;
+                    hi += 1;
+                } else {
+                    lo -= 1;
+                    hi -= 1;
+                }
             }
+            
+            // If even the maximum possible open '(' drops below zero,
+            // we have too many locked ')' characters to ever balance out.
             if (hi < 0) return false;
-            lo = max(lo, 0);
+            
+            // Adjust lower bound: we can't have negative active open parentheses
+            if (lo < 0) lo = 0;
         }
+        
+        // If 0 is within our possible range of open parentheses at the end, 
+        // it means we can perfectly balance the string.
         return lo == 0;
     }
 };
 ```
-* [Medium] [Solution] 678. Valid Parenthesis String
+* [Medium] 2116. Check if a Parentheses String Can Be Valid
 
 ### Post-Order
 ```python
@@ -10783,7 +10922,7 @@ class Solution:
 ```
 * [Hard] [Solution] 936. Stamping The Sequence
 
-### try pop previous element if appear later and larger than current and current not visited
+### mono inc stack, try maintain mono inc stack with future character count and visited status
 ```c++
 class Solution {
 public:
@@ -10814,7 +10953,7 @@ public:
 ```
 * [Medium] 316. Remove Duplicate Letters
 
-### Minimum Number of Increments
+### Minimum Number of Increments, count increasing amount
 ```c++
 class Solution {
 public:
@@ -10830,7 +10969,7 @@ public:
 ```
 * [Hard] 1526. Minimum Number of Increments on Subarrays to Form a Target Array
 
-### max continuous subarray
+### max continuous subarray, separately count max continuous subarry length of Horizontal and vertical and min of them to get side length
 ```c++
 class Solution {
 public:
@@ -11577,7 +11716,7 @@ class Solution {
 public:
     vector<int> shortestAlternatingPaths(int n, vector<vector<int>>& redEdges, vector<vector<int>>& blueEdges) {
         vector<vector<array<int,2>>> g(n);
-        vector<array<int,2>> visited(n);
+        vector<array<int,2>> visited(n);    // every node have 2 color
         queue<array<int,3>> q;
         vector<int> ans(n, -1);
         for (auto &e: redEdges) {
@@ -11977,13 +12116,15 @@ negative weights	 | Bellman-Ford
 
 ## Two Pointers <a name="tp"></a>
 ---
-### linear scan and check relative position
+### linear scan and check relative position, X count should be equal in start and result then linear scan start and result to check non X character (start, result) pair which should be equal and L in start can only righer than result and R in start can only lefter than result
 ```c++
 class Solution {
 public:
     bool canTransform(string start, string result) {
         int n = start.length(), i, j, k;
         k = 0;
+
+        // same 'X' in start and result
         for (i = 0; i < n; ++i) {
             if (start[i] == 'X') {
                 k += 1;
@@ -12010,9 +12151,13 @@ public:
             if (start[i] != result[j]) {
                 return false;
             }
+
+            // L can only move left i.e. L is lefter in result (j <= i)
             if (start[i] == 'L' && i < j) {
                 return false;
             }
+
+            // R can only move right i.e. R is righter in result (j >= i)
             if (start[i] == 'R' && i > j) {
                 return false;
             }
@@ -12143,16 +12288,24 @@ class Solution {
 public:
     void nextPermutation(vector<int>& nums) {
         int i = nums.size() - 2;
+
+        // step 1: find first valley x from back
         while (i >= 0 && nums[i + 1] <= nums[i]) {
             i--;
         }
         if (i >= 0) {
+
+            // step 2: find first y greater thant x from back
             int j = nums.size() - 1;
             while (nums[j] <= nums[i]) {
                 j--;
             }
+
+            //step 3: swap
             swap(nums[i], nums[j]);
         }
+
+        // step 4: reverse i+1 to end
         reverse(nums.begin() + i + 1, nums.end());
     }
 };
@@ -12422,7 +12575,7 @@ class Solution:
 ```
 * [Medium] [Solution] 904. Fruit Into Baskets
 
-### Interval intersection
+### Interval intersection, brute force
 ```c++
 class Solution {
 public:
@@ -12594,6 +12747,7 @@ public:
     }
 };
 ```
+* [Medium] 3660. Jump Game IX
 
 ### function call stack simulation
 ```c++
@@ -12630,48 +12784,6 @@ public:
 };
 ```
 * [Medium] 636. Exclusive Time of Functions
-
-### left right with rank
-```c++
-class Solution {
-public:
-    bool canBeValid(string s, string locked) {
-        int n = s.length();
-        if (n % 2 != 0) {
-            return false; // Odd length cannot form valid parentheses
-        }
-
-        // Left-to-right pass: Ensure there are enough open brackets
-        int openCount = 0;
-        for (int i = 0; i < n; i++) {
-            if (s[i] == '(' || locked[i] == '0') {
-                openCount++;
-            } else { // s[i] == ')' and locked[i] == '1'
-                openCount--;
-            }
-            if (openCount < 0) {
-                return false; // Too many ')' encountered
-            }
-        }
-
-        // Right-to-left pass: Ensure there are enough close brackets
-        int closeCount = 0;
-        for (int i = n - 1; i >= 0; i--) {
-            if (s[i] == ')' || locked[i] == '0') {
-                closeCount++;
-            } else { // s[i] == '(' and locked[i] == '1'
-                closeCount--;
-            }
-            if (closeCount < 0) {
-                return false; // Too many '(' encountered
-            }
-        }
-
-        return true;
-    }
-};
-```
-* [Medium] 2116. Check if a Parentheses String Can Be Valid
 
 ### 2 element stack: key and count
 ```python
@@ -12870,7 +12982,7 @@ public:
 ```
 * [Medium] 2104. Sum of Subarray Ranges
 
-### current value smaller than previous mono dec stack right min
+### track previous backward mono dec top/max element then compare current value smaller than it
 ```c++
 class Solution {
 public:
@@ -12883,6 +12995,10 @@ public:
             }
             while (!st.empty() && st.top() < nums[i]) {
                 pre = st.top();
+                // need not pre = max(pre, st.top());
+                // because mono inc stack top() will always increasing
+                // if stack top() becomes decreased it will return true first in previous condiction
+
                 st.pop();
             }
             st.push(nums[i]);
@@ -12994,30 +13110,6 @@ public:
 ```
 * ![Medium] 394. Decode String
 
-### Preprocessing, stack maintain variance from right
-```python
-class Solution:
-    def find132pattern(self, nums: List[int]) -> bool:
-        N = len(nums)
-        if N < 3:
-            return False
-        stack = []
-        mi = [None]*N
-        mi[0] = nums[0]
-        for i in range(1, N):
-            mi[i] = min(mi[i-1], nums[i])
-        for j in range(N-1, -1, -1):
-            if nums[j] > mi[j]:
-                while stack and stack[-1] <= mi[j]:
-                    stack.pop()
-                if stack and stack[-1] < nums[j]:
-                    return True
-                stack.append(nums[j])
-
-        return False
-```
-* [Medium] [Solution] 456. 132 Pattern
-
 ### Weighted stack
 ```python
 class StockSpanner:
@@ -13039,7 +13131,7 @@ class StockSpanner:
 ```
 * [Medium] [Solution] 901. Online Stock Span
 
-### expand around center, mono inc stack track local range and min
+### expand around center, mono inc stack (stack top as center) track local range and min 
 ```C++
 class Solution {
 public:
@@ -13222,7 +13314,7 @@ class Solution:
 ```
 * [Hard] [Solution] 224. Basic Calculator
 
-### stack to track previous base index
+### stack to track previous base index, if stack have no element then rebase current index
 ```c++
 class Solution {
 public:
@@ -13238,6 +13330,7 @@ public:
                     stk.pop();
                     ans = max(ans, j - stk.top());
                 } else {
+                    // rebase
                     stk.top() = j;
                 }
             }
@@ -13391,14 +13484,14 @@ class Solution:
 ```
 * [Medium] [Solution] 503. Next Greater Element II
 
-### Deque bounded min and max range, prefix sum, DP Bottom-Up
+### mono inc stack track global min and local max and mono dec stack track global max and local min then in each enumeration try to shink global max and min to ensure max - min <= k, prefix sum, DP Bottom-Up
 ```c++
 class Solution {
 public:
     int countPartitions(vector<int>& nums, int k) {
         int n = nums.size(), i, j, MOD = 1e9 + 7;
         long long a = 1;
-        vector<long long> dp(n + 1), pre(n + 1);
+        vector<long long> dp(n + 1);
         deque<int> minQ, maxQ;
         dp[0] = 1;
         for (i = 0, j = 0; j < n; j ++) {
@@ -13448,7 +13541,7 @@ for ...:
 return ans
 ```
 
-**Template 2: (Stack, min stack, mono inc, left to right)**
+**Template 2: (Stack, mono inc, min_dq (track global min, local max))**
 ```python
 arr = [...]
 N = arr.size()
@@ -13458,25 +13551,14 @@ for i in range(N):
     while stack and arr[stack[-1]] > arr[i]:
         ans[i] = i ... stack[-1]
         stack.pop()
+        # currently ans[i] = local max between stack[-1] and i
     ...
-    stack.append(i)
-
-return ans
-
-=
-
-for i in range(N-1,-1,-1):
-    while stack and arr[stack[-1]] < arr[i]:
-        stack.pop()
-    ...
-    if stack:
-        ans[i] = i ... stack[-1]
     stack.append(i)
 
 return ans
 ```
 
-**Template 3: (Stack, max stack, mono dec, left to right)**
+**Template 3: (Stack, mono dec, max_dq (track global max, local min))**
 ```python
 arr = [...]
 N = arr.size()
@@ -13486,19 +13568,8 @@ for i in range(N):
     while stack and arr[stack[-1]] < arr[i]:
         ans[i] = i ... stack[-1]
         stack.pop()
+        # currently ans[i] = local min between stack[-1] and i
     ...
-    stack.append(i)
-
-return ans
-
-=
-
-for i in range(N-1,-1,-1):
-    while stack and arr[stack[-1]] > arr[i]:
-        stack.pop()
-    ...
-    if stack:
-        ans[i] = i ... stack[-1]
     stack.append(i)
 
 return ans
@@ -14591,6 +14662,7 @@ public:
         int sequenceLength = 1 << n;
         for (int i = 0; i < sequenceLength; i++) {
             int num = i ^ i >> 1;
+                      // i ^ (i >> 1)
             result.push_back(num);
         }
         return result;
@@ -14674,9 +14746,23 @@ def binaryToGray(self, n: int) -> int:
     a^(-1) (mod p) = a^(p - 2)
 ```
 
+**Template 5: (Bit Manipulation, pow(x, y, mod))**
+```c++
+int qpow(int x, int y, int mod) {
+    int res = 1;
+    for (; y; y >>= 1) {
+        if (y & 1) {
+            res = 1ll * res * x % mod;
+        }
+        x = 1ll * x * x % mod;
+    }
+    return res;
+}
+```
+
 ## Sort <a name="sort"></a>
 ---
-### Max Match, Sort, Two Pointers, not need try for binary search
+### Max Match, Sort, Two Pointers, not need try for binary search, try to match as much smaller as possible
 ```c++
 class Solution {
 public:
@@ -14729,7 +14815,7 @@ class Solution:
 ```
 * [Medium] 2731. Movement of Robots
 
-### assume base and add most diff
+### assume base and add most k gain
 ```c++
 class Solution {
 public:
@@ -14739,6 +14825,7 @@ public:
             reward1[i] -= reward2[i];
             res += reward2[i];
         }
+        // sort(reward1.begin(), reward1.end(), greater<int>());
         nth_element(reward1.begin(), reward1.begin() + k, reward1.end(), greater<int>());
         return accumulate(reward1.begin(), reward1.begin() + k, res);
     }
@@ -14746,7 +14833,7 @@ public:
 ```
 * [Medium] 2611. Mice and Cheese
 ---
-### Prefix sum, Binary Search, Math, left sum + right sum
+### Prefix sum, Binary Search, Math, left sum + right sum, change one-one compare with +/- 2 direction to 1 direction expected lack below and redundant above area sum
 ```c++
 class Solution {
 public:
@@ -14773,7 +14860,7 @@ public:
 ```
 * [Medium] 2602. Minimum Operations to Make All Array Elements Equal
 
-### Bucket sort, difference bucket
+### Bucket sort, difference bucket, try to smaller difference as much as possible
 ```c++
 class Solution {
 public:
@@ -14788,6 +14875,10 @@ public:
         for(int i = 0 ; i<n; ++i) {
             bucket[diff[i]]++;
         }
+
+        // shrink difference = nums1[i] +/- k1 = nums2[i] -/+ k2
+        // k1 and k2 are all same operation to smaller difference
+        // if have budget, just consume it
         int k = k1 + k2;
         for(int i = M; i > 0; --i) {
             if(bucket[i] > 0) {
@@ -16263,21 +16354,7 @@ class Solution:
 ```
 * [Medium] 1686. Stone Game VI
 
-### buffered brick then pick the largest as ladder
-```python
-class Solution:
-    def furthestBuilding(self, heights: List[int], bricks: int, ladders: int) -> int:
-        heap = []
-        for i in range(len(heights) - 1):
-            d = heights[i + 1] - heights[i]
-            if d > 0:
-                heapq.heappush(heap, d)
-            if len(heap) > ladders:
-                bricks -= heapq.heappop(heap)
-            if bricks < 0:
-                return i
-        return len(heights) - 1
-```
+### buffered brick and when not enough then pick the largest as ladder
 ```c++
 class Solution {
 public:
@@ -16352,57 +16429,38 @@ class Solution:
 * [Medium] [Solution] 692. Top K Frequent Words
 
 ### MST, Prime, Dijkstra, time: O(M*N * Log(M*N))
-```python
-class Solution:
-    def minimumEffortPath(self, heights: List[List[int]]) -> int:
-        m, n = len(heights), len(heights[0])
-        dist = [[float('inf')] * n for _ in range(m)]
-        minHeap = []
-        minHeap.append((0, 0, 0))  # distance, row, col
-        DIR = [0, 1, 0, -1, 0]
-        while minHeap:
-            d, r, c = heappop(minHeap)
-            if r == m - 1 and c == n - 1:
-                return d  # Reach to bottom right
-            for i in range(4):
-                nr, nc = r + DIR[i], c + DIR[i + 1]
-                if 0 <= nr < m and 0 <= nc < n:
-                    newDist = max(d, abs(heights[nr][nc] - heights[r][c]))
-                    if dist[nr][nc] > newDist:
-                        dist[nr][nc] = newDist
-                        heappush(minHeap, (dist[nr][nc], nr, nc))
-```
 ```c++
 class Solution {
-    int dd[5] = {0, 1, 0, -1, 0};
+    int dd[5] = {0, 1, 0, -1, 0}; 
 public:
     int minimumEffortPath(vector<vector<int>>& heights) {
-        int R = heights.size(), C = heights[0].size();
-        priority_queue<pair<int, pair<int, int>>> pq;
-        pq.push({0, {0, 0}});
-        vector<vector<int>> dist(R, vector<int>(C, INT_MAX));
-        int r, c, nr, nc, neffort;
+        int m = heights.size(), n = heights[0].size();
+        priority_queue<array<int, 3>, vector<array<int, 3>>, greater<array<int, 3>>> pq;
+        vector<vector<int>> dist(m, vector<int>(n, INT_MAX));
+        pq.push({0, 0, 0});
+        dist[0][0] = 0;
         while (!pq.empty()) {
-            auto [effort, p] = pq.top();
+            auto [w, r, c] = pq.top();
             pq.pop();
-            r = p.first, c = p.second;
-            dist[r][c] = -effort;
-            if (r == R-1 && c == C-1) {
-                return -effort;
+            if (r == m - 1 && c == n - 1) {
+                return w;
+            }
+            if (w > dist[r][c]) {
+                continue;
             }
             for (int d = 0; d < 4; d ++) {
-                nr = r + dd[d];
-                nc = c + dd[d+1];
-                if (0 <= nr && nr < R && 0 <= nc && nc < C) {
-                    neffort = max(-effort, abs(heights[nr][nc] - heights[r][c]));
-                    if (neffort < dist[nr][nc]) {
-                        dist[nr][nc] = neffort;
-                        pq.push({-neffort, {nr, nc}});
+                int nr = r + dd[d];
+                int nc = c + dd[d + 1];
+                if (0 <= nr && nr < m && 0 <= nc && nc < n) {
+                    int nw = max(w, abs(heights[r][c] - heights[nr][nc]));
+                    if (dist[nr][nc] > nw) {
+                        dist[nr][nc] = nw;
+                        pq.push({nw, nr, nc});
                     }
                 }
             }
         }
-        return -1;
+        return 0;
     }
 };
 ```
@@ -16458,7 +16516,7 @@ public:
 ```
 * [Medium] 2812. Find the Safest Path in a Grid
 
-### Dijkstr's Algorithm, time O((V+E) * Log(V)) = O(E*log(V)), verify dist to check element visited, can't count visited node because heap may have duplicate weight
+### Dijkstr's Algorithm, time O((V + E) * Log(V)) = O(E log(V)), verify dist to check element visited, can't count visited node because heap may have duplicate weight
 ```c++
 class Solution {
 public:
@@ -16620,7 +16678,7 @@ public:
 ```
 * [Medium] 1834. Single-Threaded CPU
 
-### sort by start and use min heap to get min end day event
+### simulation, urgency pattern change dynamic (Changes as days tick forward), sort by start and use min heap to get min end day event
 ```c++
 class Solution {
 public:
@@ -16753,22 +16811,28 @@ public:
 class Solution {
 public:
     int maxRemoval(vector<int>& nums, vector<vector<int>>& queries) {
-        int m = nums.size(), n = queries.size(), i, j = 0, k = 0;
-        priority_queue<int> pq;
-        vector<int> dp(m + 1);
+        int m = nums.size(), n = queries.size(), i, j = 0;
+        priority_queue<int> pq;     // buffered query
+        vector<int> cnt(m + 1);     // delta query count
         sort(queries.begin(), queries.end());
+        int val = 0;
         for (i = 0; i < m; i ++) {
-            k += dp[i];
+
+            // count current query
+            val += cnt[i];
+
             while (j < n && queries[j][0] == i) {
                 pq.push(queries[j][1] + 1);
                 j += 1;
             }
-            while (k < nums[i] && pq.size() && pq.top() > i) {
-                dp[pq.top()] -= 1;
+
+            // pick largest cover range
+            while (val < nums[i] && pq.size() && pq.top() > i) {
+                cnt[pq.top()] -= 1;
                 pq.pop();
-                k += 1;
+                val += 1;     // 1 query can decrease at most 1
             }
-            if (k < nums[i]) {
+            if (val < nums[i]) {
                 return -1;
             }
         }
@@ -16864,7 +16928,7 @@ public:
 ```
 * [Hard] [Solution] 295. Find Median from Data Stream
 
-### sort by efficiency then greedily keep largest speeds with min-heap and try every solution
+### sort by efficiency and speed then greedily keep largest speeds with min-heap and try every solution
 ```c++
 class Solution {
 public:
@@ -16881,6 +16945,8 @@ public:
             a += dp[i][1];
             pq.push(dp[i][1]);
             ans = max(ans, a * dp[i][0]);
+
+            // drop min speed engineer
             if (pq.size() == k) {
                 auto b = pq.top();
                 a -= b;
@@ -16913,7 +16979,7 @@ class Solution:
 ```
 * [Hard] 1354. Construct Target Array With Multiple Sums
 
-### sort by end time and try not or drop largest duration courses as possible
+### sort by end time and try drop largest duration courses when necessary
 ```c++
 class Solution {
 public:
@@ -17017,14 +17083,14 @@ class Solution:
 ```
 * [Medium] 1405. Longest Happy String
 
-### cache dry index, try binary search to dry previous flooded lake
+### cache dry day index then when flood try binary search to previous nearest dry day to dry current flooded lake
 ```c++
 class Solution {
 public:
     vector<int> avoidFlood(vector<int>& rains) {
         int n = rains.size(), i;
-        unordered_map<int, int> m;
-        set<int> st;
+        unordered_map<int, int> m;  // flooded lake -> day
+        set<int> st;    // day to dry lake
         vector<int> ans(n, 1);
         for (i = 0; i < n; i ++) {
             if (rains[i] == 0) {
@@ -17079,7 +17145,7 @@ class Solution:
 ```
 * [Hard] 1606. Find Servers That Handled Most Number of Requests
 
-### max heap track previous max capacity then try to use it
+### max heap track previous max capacity and when eeded then try to use it
 ```c++
 class Solution {
 public:
@@ -17274,6 +17340,8 @@ public:
         int m = meetings.size(), i, d, mx = 0, ans = n - 1;
         long long t = -1;
         vector<int> cnt(n);
+
+        // room free time, index
         priority_queue<pair<long long, int>, vector<pair<long long, int>>, greater<>> pq;
         for (i = 0; i < n; i ++) {
             pq.push({-1, i});
@@ -17430,7 +17498,7 @@ public:
         for (int i = 0; i < n; i ++) {
             p[i] = i;
         }
-        unordered_map<string, int> mp;
+        unordered_map<string, int> mp;  // email -> account index
         for (int i = 0; i < n; i++) {
             for (int j = 1; j < accounts[i].size(); j ++) {
                 if (!mp.count(accounts[i][j])) {
@@ -17771,7 +17839,7 @@ class Solution:
 ```
 * [Hard] [Solution] 952. Largest Component Size by Common Factor
 
-### Union-Find with rank
+### Union-Find with rank, union type3 then 1 edge and type 3 then 2 edge finally check each connected n-1 edge and return redundant
 ```c++
 class DSU {
 public:
@@ -17843,7 +17911,7 @@ public:
 ```
 * [Hard] 1579. Remove Max Number of Edges to Keep Graph Fully Traversable
 
-### MST Kruskal over max edge
+### first connect must edge then try binary search upper bound to optional edge weight between 1 and min must edge and decide upgrade or not
 ```c++
 lass Solution {
     int find(int x, vector<int> &p) {
@@ -17887,16 +17955,20 @@ public:
         });
         while (left <= right) {
             mid = left + (right - left) / 2;
-            cp = p;
-            r = k;
-            ck = pk;
+            cp = p;     // parent table for dsu
+            r = k;  // remainder edge to upgrade
+            ck = pk;    // connected edge
             for (auto &[u, v, w]: dp) {
                 if (find(u, cp) == find(v, cp)) {
                     continue;
                 }
+
+                // optional edge not need upgrade
                 if (w >= mid) {
                     uni(u, v, cp);
                     ck += 1;
+
+                // upgrade optional edge edge
                 } else if (w * 2 >= mid && r) {
                     uni(u, v, cp);
                     ck += 1;
@@ -17908,6 +17980,8 @@ public:
                     break;
                 }
             }
+
+            // not connected
             if (ck != n - 1) {
                 right = mid - 1;
             } else {
@@ -19640,6 +19714,79 @@ public:
 ```
 * [Medium] [Solution] 307. Range Sum Query - Mutable
 
+### Segment Tree, Range sum, single point update
+```c++
+class NumArray {
+    vector<int> sgt;
+    int n;
+
+    // O(n)
+    void build(int ti, int left, int right, vector<int> &nums) {
+        if (left == right) {
+            sgt[ti] = nums[left];
+            return;
+        }
+        int mid = left + (right - left) / 2;
+        build(2 * ti, left, mid, nums);
+        build(2 * ti + 1, mid + 1, right, nums);
+        sgt[ti] = sgt[2 * ti] + sgt[2 * ti + 1];
+    }
+
+    // O(log(n))
+    void update(int ti, int left, int right, int idx, int val) {
+        if (idx < left || idx > right) {
+            return;
+        }
+        if (left == right) {
+            if (left == idx) {
+                sgt[ti] = val;
+            }
+            return;
+        }
+        int mid = left + (right - left) / 2;
+        update(2 * ti, left, mid, idx, val);
+        update(2 * ti + 1, mid + 1, right, idx, val);
+        sgt[ti] = sgt[2 * ti] + sgt[2 * ti + 1];
+    }
+
+    // O(log(n))
+    int query(int q_left, int q_right, int ti, int left, int right) {
+        if (q_left <= left && q_right >= right) {
+            return sgt[ti];
+        }
+        if (q_left > right || q_right < left) {
+            return 0;
+        }
+        int mid = left + (right - left) / 2;
+        return query(q_left, q_right, 2 * ti, left, mid) + 
+               query(q_left, q_right, 2 * ti + 1, mid + 1, right);
+    }
+public:
+    NumArray(vector<int>& nums) {
+        int n = nums.size();
+        this-> n = n;
+        sgt.resize(4 * n);
+        build(1, 0, n - 1, nums);
+    }
+    
+    void update(int index, int val) {
+        update(1, 0, n - 1, index, val);
+    }
+    
+    int sumRange(int left, int right) {
+        return query(left, right, 1, 0, n - 1);
+    }
+};
+
+/**
+ * Your NumArray object will be instantiated and called as such:
+ * NumArray* obj = new NumArray(nums);
+ * obj->update(index,val);
+ * int param_2 = obj->sumRange(left,right);
+ */
+```
+* [Medium] [Solution] 307. Range Sum Query - Mutable
+
 ### BIT, range sum, sort by small height and large rank then find first unoccupied k + 1 position
 ```c++
 class Solution {
@@ -21108,7 +21255,12 @@ class Solution:
 ```
 * [Hard] [Solution] 726. Number of Atoms
 
-**Template: (ceiling division trick)**
+**Template: (Math, ceiling division trick)**
 ```c++
 ceil(1.0 * p / mid) = (p + mid - 1) / mid
+```
+
+**Template: (Math, logx(y))**
+```
+    logx(y) = log(y) / log(x)
 ```

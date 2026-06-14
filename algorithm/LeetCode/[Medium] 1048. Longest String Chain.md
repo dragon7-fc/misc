@@ -90,28 +90,28 @@ Memory: 18.72 MB, Beats 70.01%
 class Solution {
 public:
     int longestStrChain(vector<string>& words) {
-        int n = words.size(), i, j, ii, jj, d, ans = 1;
+        int n = words.size(), ans = 1;
         vector<int> dp(n, 1);
         sort(words.begin(), words.end(), [](const auto &sa, const auto &sb){
             return sa.length() < sb.length();
         });
-        for (j = 1; j < n; j ++) {
-            for (i = 0; i < j; i ++) {
+        for (int j = 1; j < n; j ++) {
+            for (int i = 0; i < j; i ++) {
                 if (words[j].length() == words[i].length() + 1) {
-                    d = 0;
-                    ii = 0;
-                    for (jj = 0; jj < words[j].length(); jj ++) {
-                        if (ii == words[i].length() || words[j][jj] != words[i][ii])  {
+                    int d = 0;
+                    int i0 = 0;
+                    for (int j0 = 0; j0 < words[j].length(); j0 ++) {
+                        if (i0 == words[i].length() || words[j][j0] != words[i][i0])  {
                             d += 1;
                             if (d > 1) {
                                 break;
                             }
                         } else {
-                            ii += 1;
+                            i0 += 1;
                         }
                     }
                     if (d == 1) {
-                        dp[j] = max(dp[j], dp[i]+1);
+                        dp[j] = max(dp[j], dp[i] + 1);
                         ans = max(ans, dp[j]);
                     }
                 }

@@ -441,9 +441,9 @@ public:
             j = (m + n + 1) / 2 - i;
 
             L1 = (i == 0) ? INT_MIN : nums1[i - 1];
-            R1 = (i == m) ? INT_MAX : nums1[i];
+            R1 = (i == m) ? INT_MAX : nums1[i];     // smaller median
             L2 = (j == 0) ? INT_MIN : nums2[j - 1];
-            R2 = (j == n) ? INT_MAX : nums2[j];
+            R2 = (j == n) ? INT_MAX : nums2[j];     // global median
 
             if (L1 <= R2 && L2 <= R1) {
                 if ((m + n) % 2 == 0) {
@@ -454,6 +454,7 @@ public:
                     return max(L1, L2);
                 }
             } else if (L1 > R2) {
+                // smaller median need match global media R2
                 right = i - 1;
             } else {
                 left = i + 1;

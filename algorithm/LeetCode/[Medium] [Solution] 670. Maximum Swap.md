@@ -100,7 +100,7 @@ class Solution:
         return num
 ```
 
-**Solution 2: (Prefix Sum, try every element with largest possible future value)**
+**Solution 2: (Prefix Sum, record every location largest future value location and try every location from begin)**
 
     num = 2 7 3 6
 

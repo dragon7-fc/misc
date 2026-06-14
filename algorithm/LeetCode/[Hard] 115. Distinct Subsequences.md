@@ -95,6 +95,18 @@ class Solution:
 ```
 
 **Solution 3: (DP Bottom-Up)**
+
+    r a b b i t  j
+  1
+r 1 1
+a 1 1 1
+b 1 1 1 1
+b 1 1 1 2 1
+b 1 1 1 3 3
+i 1 1 1 3 3 3
+t 1 1 1 3 3 3 3
+i
+
 ```
 Runtime: 148 ms
 Memory Usage: 17.5 MB

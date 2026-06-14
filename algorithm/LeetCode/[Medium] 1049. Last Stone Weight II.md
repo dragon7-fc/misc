@@ -99,7 +99,7 @@ class Solution:
         return min(s) if len(s) > 0 else 0
 ```
 
-**Solution 3: (DP Bottom-Up, 0/1 knapsack 1-D, separate 2 group and find min difference)**
+**Solution 3: (DP Bottom-Up, 0/1 knapsack 1-D, separate 2 group and find min difference(i.e. find 2 group sum nearest average and subtract them))**
 
     (a - b) - c    vs   c - (a - b)
     = a - b - c         = c - a + b

@@ -298,7 +298,7 @@ public:
 };
 ```
 
-**Solution 4: (Greedy, Hash Table, Prefix Sum)**
+**Solution 4: (Greedy, Hash Table, Prefix Sum, precompute all future character location in pattern then enumerate the target and jump)**
 
     source = "  x   y   z", target = "x z y x z"
 dp              0   1   2

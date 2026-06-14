@@ -64,7 +64,32 @@ class Solution:
         return sum(pow(e,2) for e in heap)
 ```
 
-**Solution 2: (Bucket sort)**
+**Solution 2: (Bucket sort, try to smaller difference as much as possible)**
+
+case1:
+    a = b + k2
+    mid  
+    b = a - k1
+
+case2:
+    b = a + k1
+    mid
+    a = b - k2
+
+    nums1 = [ 1, 4,10,12], 
+    nums2 = [ 5, 8, 6, 9], k1 = 1, k2 = 1
+------------------------------------------
+diff          4  4  4  3
+              0  1  2  3  4
+bucket:                1  3
+k                         2
+------------------------------
+bucket:                3  1
+k                         0
+ans                  +27+16
+                      43 16
+                      ^^
+
 ```
 Runtime: 227 ms
 Memory Usage: 102.2 MB
@@ -83,6 +108,10 @@ public:
         for(int i = 0 ; i<n; ++i) {
             bucket[diff[i]]++;
         }
+
+        // shrink difference = nums1[i] +/- k1 = nums2[i] -/+ k2
+        // k1 and k2 are all same operation to smaller difference
+        // if have budget, just consume it
         int k = k1 + k2;
         for(int i = M; i > 0; --i) {
             if(bucket[i] > 0) {

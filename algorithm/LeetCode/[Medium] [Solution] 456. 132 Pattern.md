@@ -359,7 +359,7 @@ public:
 };
 ```
 
-**Solution 3: (Prefix sum, Stack, space: O(1), backward check current value with previous right min and mono dec stack to try to update previous right min, current value smaller than previous mono dec stack right min)**
+**Solution 3: (Prefix sum, Stack, space: O(1), backward check current value with previous right min and mono dec stack to try to update previous right min, track previous backward mono dec top/max element then compare current value smaller than it)**
 
     nums = [-1,3, 2, 0]
              i
@@ -382,6 +382,10 @@ public:
             }
             while (!st.empty() && st.top() < nums[i]) {
                 pre = st.top();
+                // need not pre = max(pre, st.top());
+                // because mono inc stack top() will always increasing
+                // if stack top() becomes decreased it will return true first in previous condiction
+
                 st.pop();
             }
             st.push(nums[i]);

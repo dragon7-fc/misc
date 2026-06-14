@@ -157,22 +157,28 @@ Memory: 224.00 MB, Beats 94.94%
 class Solution {
 public:
     int maxRemoval(vector<int>& nums, vector<vector<int>>& queries) {
-        int m = nums.size(), n = queries.size(), i, j = 0, k = 0;
-        priority_queue<int> pq;
-        vector<int> dp(m + 1);
+        int m = nums.size(), n = queries.size(), i, j = 0;
+        priority_queue<int> pq;     // buffered query
+        vector<int> cnt(m + 1);     // delta query count
         sort(queries.begin(), queries.end());
+        int val = 0;
         for (i = 0; i < m; i ++) {
-            k += dp[i];
+
+            // count current query
+            val += cnt[i];
+
             while (j < n && queries[j][0] == i) {
                 pq.push(queries[j][1] + 1);
                 j += 1;
             }
-            while (k < nums[i] && pq.size() && pq.top() > i) {
-                dp[pq.top()] -= 1;
+
+            // pick largest cover range
+            while (val < nums[i] && pq.size() && pq.top() > i) {
+                cnt[pq.top()] -= 1;
                 pq.pop();
-                k += 1;
+                val += 1;     // 1 query can decrease at most 1
             }
-            if (k < nums[i]) {
+            if (val < nums[i]) {
                 return -1;
             }
         }

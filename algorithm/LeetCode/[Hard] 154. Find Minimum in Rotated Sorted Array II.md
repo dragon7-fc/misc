@@ -156,7 +156,7 @@ public:
 };
 ```
 
-**Solution 5: (Binary Search, if left and right not match then left mid right should have duplicate)**
+**Solution 5: (Binary Search, when left equals right then shrink right)**
 ```
 Runtime: 0 ms, Beats 100.00%
 Memory: 16.04 MB, Beats 90.00%

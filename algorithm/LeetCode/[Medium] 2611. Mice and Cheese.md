@@ -50,14 +50,23 @@ class Solution:
         return sum(reward2) + sum(nlargest(k, (a - b for a, b in zip(reward1, reward2))))
 ```
 
-**Solution 2: (Sort, assume baae and add most diff)**
+**Solution 2: (Sort, assume baae and add most k gain)**
+
+base = reward2
+gain = reward1 - reward2
+         .
+         . .
+         . . .
+         . x .   . < gain
+reward2  x   x . x
+               x
+  
+         -----  
+         most gain k take reward 1
+reward1  x x x
+reward2        x x
 
 
-                 j0      j1
-    record1: x0  x1x ..  xix --- xn
-    record2: y0x y1  xx  yi  xxx yn
-                  ^       ^
-                 max (xj - yj)
 ```
 Runtime: 138 ms
 Memory: 101.6 MB

@@ -341,7 +341,7 @@ public:
 };
 ```
 
-**Solution 7: (Greedy, Tracking the "Possible" Range, valid open parentheses count range)**
+**Solution 7: (Greedy, Tracking the "Possible" Range, valid open parentheses count range, use lo and hi to record possible open parenthesis count range for *)**
 
                 v
     ------------x->
@@ -358,9 +358,9 @@ public:
          0  1  2  3
     s = "(  *  )  )"
 cnt
-2           x          < hi
-1        x  x  x
-0     x  x  x  x  x    < lo
+2           h              
+1        lh    h
+0     lh    l  l  lh       
 -1
 
 hi       1  2  1  0

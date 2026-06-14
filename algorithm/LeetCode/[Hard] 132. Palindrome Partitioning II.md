@@ -164,6 +164,16 @@ public:
 ```
 
 **Solution 6: (DP Bottom-Up, Two Layers of DP, DP + palindrome precomputation)**
+
+    s = "a a b"
+isPal    a a b
+a        1 1
+a          1 
+b            1
+
+dp       a a b
+         0 0 2
+             1
 ```
 Runtime: 56 ms, Beats 60.60%
 Memory: 12.12 MB, Beats 31.70%

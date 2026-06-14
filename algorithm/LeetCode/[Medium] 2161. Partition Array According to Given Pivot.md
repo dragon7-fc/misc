@@ -116,30 +116,69 @@ public:
 
 **Solution 3: (Two Pointers)**
 ```
-Runtime: 10 ms, Beats 35.38%
-Memory: 127.72 MB, Beats 77.25%
+Runtime: 12 ms, Beats 23.88%
+Memory: 127.68 MB, Beats 88.18%
 ```
 ```c++
 class Solution {
 public:
     vector<int> pivotArray(vector<int>& nums, int pivot) {
-        int n = nums.size(), i, j, left = 0, right = n-1;
+        int n = nums.size();
         vector<int> ans(n);
-        for (i = 0, j = n-1; i < n; i ++, j--) {
+        int p_left = 0, p_right = n - 1;
+        for (int i = 0, j = n - 1; i < n; i ++, j --) {
             if (nums[i] < pivot) {
-                ans[left] = nums[i];
-                left += 1;
+                ans[p_left] = nums[i];
+                p_left += 1;
             }
             if (nums[j] > pivot) {
-                ans[right] = nums[j];
-                right -= 1;
+                ans[p_right] = nums[j];
+                p_right -= 1;
             }
         }
-        while (left <= right) {
-            ans[left] = pivot;
-            left += 1;
+        while (p_left <= p_right) {
+            ans[p_left] = pivot;
+            ans[p_right] = pivot;
+            p_left += 1;
+            p_right -= 1;
         }
         return ans;
+    }
+};
+```
+
+**Solution 3: (Two Pointers, in-place modification)**
+```
+Runtime: 3 ms, Beats 87.42%
+Memory: 131.39 MB, Beats 70.17%
+```
+```c++
+class Solution {
+public:
+    vector<int> pivotArray(vector<int>& nums, int pivot) {
+        int n = nums.size();
+        vector<int> right;
+        int p_left = 0;
+        int k = 0;
+        for (const auto num: nums) {
+            if (num < pivot) {
+                nums[p_left++] = num;
+            } else if (num > pivot) {
+                right.push_back(num);
+            } else {
+                k += 1;
+            }
+        }
+        while (k) {
+            nums[p_left++] = pivot;
+            k -= 1;
+        }
+        int j = 0;
+        while (j < right.size()) {
+            nums[p_left++] = right[j];
+            j += 1;
+        }
+        return nums;
     }
 };
 ```

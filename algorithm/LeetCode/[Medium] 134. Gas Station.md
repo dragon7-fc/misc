@@ -201,7 +201,7 @@ class Solution:
         return ans if total >= 0 else -1
 ```
 
-**Solution 7: (Greedy)**
+**Solution 7: (Greedy, check possibility then find first stations with overall positive remaining gas)**
 
 to stationi
 -> gas[i - 1] - cost[i - 1]

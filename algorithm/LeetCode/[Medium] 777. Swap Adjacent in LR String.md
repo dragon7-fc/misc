@@ -52,7 +52,7 @@ class Solution:
         
 ```
 
-**Solution 2: (Two Pointers, linear scan and check relative position)**
+**Solution 2: (Two Pointers, linear scan and check relative position, X count should be equal in start and result then linear scan start and result to check non X character (start, result) pair which should be equal and L in start can only righer than result and R in start can only lefter than result)**
 
 XL -> LX
 => L to left

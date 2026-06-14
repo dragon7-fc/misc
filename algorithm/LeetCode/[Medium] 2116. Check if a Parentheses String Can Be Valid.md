@@ -254,3 +254,51 @@ public:
     }
 };
 ```
+
+**Solution 5: (Greedy, Min/Max Balance Tracking)**
+```
+Runtime: 4 ms, Beats 96.50%
+Memory: 30.19 MB, Beats 50.62%
+```
+```c++
+class Solution {
+public:
+    bool canBeValid(string s, string locked) {
+        int n = s.length();
+        
+        // Rule 1: A valid parenthesis string must have an even length
+        if (n % 2 != 0) return false;
+        
+        int lo = 0; // Minimum possible open '('
+        int hi = 0; // Maximum possible open '('
+        
+        for (int i = 0; i < n; ++i) {
+            if (locked[i] == '0') {
+                // Unlocked slot can be '(' or ')'
+                lo -= 1; // If we treat it as ')'
+                hi += 1; // If we treat it as '('
+            } else {
+                // Locked slot must use the actual character
+                if (s[i] == '(') {
+                    lo += 1;
+                    hi += 1;
+                } else {
+                    lo -= 1;
+                    hi -= 1;
+                }
+            }
+            
+            // If even the maximum possible open '(' drops below zero,
+            // we have too many locked ')' characters to ever balance out.
+            if (hi < 0) return false;
+            
+            // Adjust lower bound: we can't have negative active open parentheses
+            if (lo < 0) lo = 0;
+        }
+        
+        // If 0 is within our possible range of open parentheses at the end, 
+        // it means we can perfectly balance the string.
+        return lo == 0;
+    }
+};
+```

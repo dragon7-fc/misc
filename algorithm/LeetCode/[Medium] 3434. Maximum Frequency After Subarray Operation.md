@@ -42,7 +42,11 @@ After adding 8 to nums[1..9], 10 has a frequency of 4 in [10, 10, 11, 12, 13, 13
 
 # Submissions
 ---
-**Solution 1: (max freq element in one subarray, Kadane)**
+**Solution 1: (subarray max frequency element count without k and total count of k, Kadane)**
+
+Total k = Total original k in the entire array + max_gain
+                                                 ^^^^^^^^
+                                                 subarray max frequency element count
 
 Not sure if it's appropriate to name it as Kadane.
 
@@ -75,6 +79,7 @@ cur      0   1         2
 --------------------------------------
 b              4
 cur      0     1     2
+               ^^^^^^^
 ---------------------------------------
 b                5
 cur      0       1 2

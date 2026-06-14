@@ -199,7 +199,7 @@ public:
 };
 ```
 
-**Solution 3: (prefix sum, buffer greedy max from end then filter from start)**
+**Solution 3: (prefix sum, buffer greedy max from end then filter from start and try to match as much as possible)**
 
                    \x
         ------------ \x

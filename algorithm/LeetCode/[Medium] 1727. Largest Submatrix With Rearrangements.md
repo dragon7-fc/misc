@@ -181,7 +181,7 @@ public:
 };
 ```
 
-**Solution 5: (Prefix Sum, accumulate height from previous row, try every cell)**
+**Solution 5: (Prefix Sum, try accumulate height from previous row to generate decreasing array then try every solution)**
 
 
     area = width * height

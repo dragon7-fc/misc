@@ -668,7 +668,83 @@ public:
  */
 ```
 
-**Solution 7: (BIT)**
+**Solution 7: (Segment Tree)**
+```
+Runtime: 67 ms, Beats 46.47%
+Memory: 182.37 MB, Beats 32.86%
+```
+```c++
+class NumArray {
+    vector<int> sgt;
+    int n;
+
+    // O(n)
+    void build(int ti, int left, int right, vector<int> &nums) {
+        if (left == right) {
+            sgt[ti] = nums[left];
+            return;
+        }
+        int mid = left + (right - left) / 2;
+        build(2 * ti, left, mid, nums);
+        build(2 * ti + 1, mid + 1, right, nums);
+        sgt[ti] = sgt[2 * ti] + sgt[2 * ti + 1];
+    }
+
+    // O(log(n))
+    void update(int ti, int left, int right, int idx, int val) {
+        if (idx < left || idx > right) {
+            return;
+        }
+        if (left == right) {
+            if (left == idx) {
+                sgt[ti] = val;
+            }
+            return;
+        }
+        int mid = left + (right - left) / 2;
+        update(2 * ti, left, mid, idx, val);
+        update(2 * ti + 1, mid + 1, right, idx, val);
+        sgt[ti] = sgt[2 * ti] + sgt[2 * ti + 1];
+    }
+
+    // O(log(n))
+    int query(int q_left, int q_right, int ti, int left, int right) {
+        if (q_left <= left && q_right >= right) {
+            return sgt[ti];
+        }
+        if (q_left > right || q_right < left) {
+            return 0;
+        }
+        int mid = left + (right - left) / 2;
+        return query(q_left, q_right, 2 * ti, left, mid) + 
+               query(q_left, q_right, 2 * ti + 1, mid + 1, right);
+    }
+public:
+    NumArray(vector<int>& nums) {
+        int n = nums.size();
+        this-> n = n;
+        sgt.resize(4 * n);
+        build(1, 0, n - 1, nums);
+    }
+    
+    void update(int index, int val) {
+        update(1, 0, n - 1, index, val);
+    }
+    
+    int sumRange(int left, int right) {
+        return query(left, right, 1, 0, n - 1);
+    }
+};
+
+/**
+ * Your NumArray object will be instantiated and called as such:
+ * NumArray* obj = new NumArray(nums);
+ * obj->update(index,val);
+ * int param_2 = obj->sumRange(left,right);
+ */
+```
+
+**Solution 8: (BIT)**
 
     NumArray numArray = new NumArray([1, 3, 5]);
       0  1  2

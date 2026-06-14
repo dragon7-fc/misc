@@ -82,10 +82,10 @@ class Solution:
         return ans
 ```
 
-**Solution 2: (Linked List)**
+**Solution 2: (Linked List, reverse node during go to mid point then sum twin node value till end)**
 ```
-Runtime: 284 ms
-Memory: 116.4 MB
+Runtime: 0 ms, Beats 100.00%
+Memory: 120.33 MB, Beats 98.87%
 ```
 ```c++
 /**
@@ -101,18 +101,17 @@ Memory: 116.4 MB
 class Solution {
 public:
     int pairSum(ListNode* head) {
-        ListNode *fast, *slow, *pre = nullptr, *cur;
-        int ans = 0;
-        fast = slow = head;
+        ListNode *pre = nullptr, *slow = head, *fast = head, *nxt;
         while (fast && fast->next) {
             fast = fast->next->next;
-            cur = slow->next;
+            nxt = slow->next;
             slow->next = pre;
             pre = slow;
-            slow = cur;
+            slow = nxt;
         }
+        int ans = 0;
         while (slow) {
-            ans = max(ans, pre->val + slow->val);
+            ans = max(ans, slow->val + pre->val);
             pre = pre->next;
             slow = slow->next;
         }

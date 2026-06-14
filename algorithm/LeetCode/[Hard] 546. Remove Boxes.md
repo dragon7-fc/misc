@@ -75,6 +75,24 @@ class Solution:
 ```
 
 **Solution 2: (DP Top-Down, defer removal to create larger future groups)**
+
+         l     nl  m     r
+    [... x x x ... x .... ]
+        ------     -
+           k       1
+               ^^^^^^^^^^^
+               dp[nl][r][0]
+               ^^^
+               dp[nl][m-1][0]
+                   ^^^^^^^
+                   dp[m][r][k+1]
+        ^^^^^^^^^^^^^^^^^^
+        dp[l][r][k]
+        = max((k + 1) * (k + 1) * dp[nl][r][0],  // current group immediately
+                dp[nl][m-1][0] + dp[m][r][k+1])  // try merging with later same-colored box
+                
+
+
 ```
 Runtime: 38 ms, Beats 70.86%
 Memory: 14.60 MB, Beats 81.90%

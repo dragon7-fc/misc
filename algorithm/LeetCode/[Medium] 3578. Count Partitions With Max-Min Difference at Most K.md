@@ -83,52 +83,68 @@ public:
 };
 ```
 
-**Solution 1: (Deque, Prefix Sum, DP)**
+**Solution 1: (mono inc stack track global min and local max and mono dec stack track global max and local min then in each enumeration try to shink global max and min to ensure max - min <= k, prefix sum, DP Bottom-Up)**
 
 dp[i + 1] = the number of valid partitions for nums[0 ⋯ i]
 dp[0] = 1
 
-     0       j-1 j        i
-nums[.....................]
-     -----------
-        dp[j]
-     ---------------------- 
-        dp[i+1]
-                 j         i
-                [...........]          dp[i + 1]
-                  j_0 .... i = dp[j_0]   +
-                    j_1 ...i = dp[j_1]   +
+     0       j-1 j         i 
+nums[.......................]
+     -----------              dp[j]
+     -----------[-----------]         dp[i + 1]
+                 max(nums[j...i]) - min(nums[j...i]) <= k
+                 L
+                 j           = dp[j]     +
+                  j+1        = dp[j+1]   +
                              ....
-                      j_m .i = dp[j_m]   +
+                           i = dp[i]     +
+             i
+dp[i + 1] = sim(dp[j])
+            j=L
 
-dp[i + 1] = dp[j] ... + dp[i]
+                 i
+prefix[i + 1] = sim(dp[j])
+                j=0
 
-prefix[i + 1] = dp[0] + dp[1] + ... + dp[i]
+=> dp[i + 1] = prefix[i] - prefix[L - 1]
 
--> dp[i + 1] = prefix[i] - pre[j - 1]
+dp  j j+1 j+2       j+3                      min - max
+    a a+a a+a+(a+a) 
+    ----------------a+a+(a+a)+(a+a+(a+a))        > k
+                    x = dp[j]
+      -----------------a+(a+a)+(a+a+(a+a))       > k
+                       xxxx = dp[j+1]
+          ------------------a +(a+a+(a+a))       <= k
 
-        9   4   1   3   7
-        -   -   -   -   -  | dp[0] dp[1] dp[2] |       |       |
-            -----                              | dp[3] |       |
-                -----                                  | dp[4] |
-            ---------                                  |       | dp[5]
-                    -----                                      |
-            -----   -----                                      |
+-------------------------------------------------
+dp  0   1   2   3   4   5
+    1   1   1   2   4   6
+    ^   1
+        ^   1
+        ^^^^^   2
+        ^^^^^^^^^   4
+                ^^^^^   6
+nums    9   4   1   3   7
+        -   -   -   -   -
+            -----        
+                -----    
+            ---------    
+                    ----- 
+            -----   ----- 
 
                             vi
         9   4   1   3   7
         i   j
-            i       j
+            i           j
                     i   j
-dp      1   1   1   2   4   6 
 minq    9   4   1   13  137
-                        x  
+        x   x           x  
 maxq    9   94  41  43  7
-            x
+            x    x  xx
 acc     1   2   2   4   8    
             1           7
-                        6
-         
+                        6 
+dp      1   1   1   2   4   6 
 
 ```
 Runtime: 58 ms, Beats 87.50%
@@ -140,7 +156,7 @@ public:
     int countPartitions(vector<int>& nums, int k) {
         int n = nums.size(), i, j, MOD = 1e9 + 7;
         long long a = 1;
-        vector<long long> dp(n + 1), pre(n + 1);
+        vector<long long> dp(n + 1);
         deque<int> minQ, maxQ;
         dp[0] = 1;
         for (i = 0, j = 0; j < n; j ++) {

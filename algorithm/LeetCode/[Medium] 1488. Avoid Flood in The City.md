@@ -152,7 +152,7 @@ public:
 };
 ```
 
-**Solution 3: (Greedy + Binary Search, Hash Table, cache dry index, try binary search to dry previous flooded lake)**
+**Solution 3: (Greedy + Binary Search, Hash Table, cache dry day index then when flood try binary search to previous nearest dry day to dry current flooded lake)**
 
 rains    [  1,  2,  0,  2,  3,  0,  1]
 st                  2x          5x

@@ -474,7 +474,7 @@ public:
 };
 ```
 
-**Solution 8: (Stack, Prefix Sum, stack to track previous base index)**
+**Solution 8: (Stack, Prefix Sum, stack to track previous base index, if stack have no element then rebase current index)**
          0  1  2  3  4  5
     s = ")  (  )  (  )  )"
             1  1x 3  3x

@@ -119,7 +119,7 @@ public:
 };
 ```
 
-**Solution 1: (max continuous subarray)**
+**Solution 1: (max continuous subarray, separately count max continuous subarry length of Horizontal and vertical and min of them to get side length)**
 
     hole = max continuous subarray
 

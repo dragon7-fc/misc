@@ -137,7 +137,7 @@ public:
 };
 ```
 
-**Solution 3: (Prefix Sum, Enumeration, O(min(M, N) + MN))**
+**Solution 3: (Prefix Sum, Enumeration, O(min(M, N) + MN), try to gradually increase length on every location)**
 ```
 Runtime: 6 ms, Beats 88.18%
 Memory: 32.63 MB, Beats 78.18%

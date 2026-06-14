@@ -74,7 +74,7 @@ class Solution:
         return ans[1:]
 ```
 
-**Solution 1: (Greedy, Stack, try pop previous element if appear later and larger than current and current not visited)**
+**Solution 1: (Greedy, Stack, try maintain mono inc stack with future character count and visited status)**
 ```
 Runtime: 0 ms, Beats 100.00%
 Memory: 9.11 MB, Beats 84.44%

@@ -309,6 +309,9 @@ public:
 **Solution 7: (Binary Search)**
 
     nums = [1, 0, 1, 1, 1], target = 0
+            l     m     r
+               l  m  r   
+               lrm
 
 ```
 Runtime: 0 ms, Beats 100.00%

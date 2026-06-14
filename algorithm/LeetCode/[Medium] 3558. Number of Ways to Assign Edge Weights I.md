@@ -145,3 +145,59 @@ public:
     }
 };
 ```
+
+**Solution 3: (BFS)**
+
+    x ^ 5
+        101
+          x
+         x^2
+        (x^2)^2
+
+```
+Runtime: 279 ms, Beats 69.80%
+Memory: 333.08 MB, Beats 57.72%
+```
+```c++
+class Solution {
+public:
+    int assignEdgeWeights(vector<vector<int>>& edges) {
+        int n = edges.size() + 1;
+        vector<vector<int>> g(n + 1);
+        for (auto &e: edges) {
+            auto u = e[0];
+            auto v = e[1];
+            g[u].push_back(v);
+            g[v].push_back(u);
+        }
+        queue<array<int, 2>> q;
+        vector<bool> visited(n + 1);
+        q.push({1, 0});
+        visited[1] = true;
+        int depth = 0;
+        while (q.size()) {
+            auto [u, d] = q.front();
+            depth = d;
+            q.pop();
+            for (auto v: g[u]) {
+                if (!visited[v]) {
+                    q.push({v, d + 1});
+                    visited[v] = true;
+                }
+            }
+        }
+        long long ans = 1;
+        int MOD = 1e9 + 7;
+        long long x = 2;
+        depth -= 1;
+        while (depth) {
+            if (depth % 2) {
+                ans = (ans * x) % MOD;
+            }
+            x = (x * x) % MOD;
+            depth >>= 1;
+        }
+        return ans;
+    }
+};
+```

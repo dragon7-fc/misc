@@ -118,21 +118,21 @@ public:
 };
 ```
 
-**Solution 3: (Prefix sum, Binary Search, Math, left sum + right sum)**
+**Solution 3: (Prefix sum, Binary Search, Math, left sum + right sum, change one-one compare with +/- 2 direction to 1 direction expected lack below and redundant above area sum)**
 
-               x
-q            x x
-           x x x
+               -
+             - -
+q        + x x x
          x x x x
          - -----
-pre      0       x
+prefix   0       x
            i     n
          q * i - left_sum
-                --------
-                pre[i]
+         -----  --------
+         left_k pre[i]
            right_sum - q * (n - i)
-           ---------
-           pre[n] - pre[i]
+           ---------       -------
+           pre[n] - pre[i] right_k
 
     nums = [ 3, 1, 6, 8], queries = [1,5]
 sort         1  3  6  8

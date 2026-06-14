@@ -51,29 +51,34 @@ class Solution:
         return False
 ```
 
-**Solution 2: (Greedy, Two-Barriers, LIS)**
+**Solution 2: (Greedy, Two-Barriers, LIS, try to smaller previous smallest a or second smallest b then check current value smaller than second smallest b)**
 
+  
+  ~  a  b  num
+
+--------------------------
      -------------->
           
 b      x      |update
          x <  |            
 a      x      v        
-     smallt
+     small
 
      -------------->
           
 b           |update
          x  |            
 a      x    v        
-     smallt
+     small
 
 -----------------------------------
-6              (b)    x < true
-5               x  (b)x
-4               x   x x
-3          (a)  x   x x
-2           x(a)x   x x
-1           x x x(a)x x
+6                     x < true
+5               b      
+4                   b  
+3                      
+2           a          
+1             a        
+0                 a    
     nums = [2,1,5,0,4,6]
 a       ~   2 1   0   x < true
 b       ~       5   4

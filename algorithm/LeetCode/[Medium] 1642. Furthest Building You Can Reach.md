@@ -117,7 +117,7 @@ public:
 };
 ```
 
-**Solution 3: (Heap, Greedy, buffered brick then pick the largest as ladder)**
+**Solution 3: (Heap, Greedy, buffered brick and when not enough then pick the largest as ladder)**
 ```
 Runtime: 3 ms, Beats 95.94%
 Memory: 58.39 MB, Beats 32.71%

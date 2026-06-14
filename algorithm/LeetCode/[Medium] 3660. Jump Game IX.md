@@ -179,6 +179,30 @@ public:
 ```
 
 **Solution 3: (Stack, convert to one direction and use mono inc stack to track and merge value range)**
+
+
+allow:
+     x               x   x   x
+         x
+             x   ->
+     j   i   j       j   i   j
+                    -----------
+                        merge
+                    mono inc stack 
+---------------------------------------
+3       .          x
+2   .       -> x x
+1     . 
+               --- -
+               item
+                   item
+
+3     .        x x x
+2   .       ->
+1       .
+               -----
+               item 
+
 ```
 Runtime: 15 ms, Beats 47.34%
 Memory: 221.74 MB, Beats 76.60%

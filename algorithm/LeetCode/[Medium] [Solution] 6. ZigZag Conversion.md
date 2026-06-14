@@ -358,7 +358,7 @@ public:
 };
 ```
 
-**Solution 4: (String Traversal)**
+**Solution 4: (String Traversal, row by row try to add element and possible next element)**
 
     s = "PAYPALISHIRING", numRows = 4
 

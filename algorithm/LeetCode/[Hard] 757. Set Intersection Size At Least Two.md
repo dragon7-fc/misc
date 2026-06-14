@@ -164,22 +164,22 @@ class Solution:
         return ans
 ```
 
-**Solution 4: (Sort, Greedy, sort by smallest end then largest start, only care about right most 2 point, greedy compare current start with previous end then start)**
+**Solution 4: (Sort, Greedy, sort by smallest end then largest start to best overlay, only care about right most 2 point (ped = pst + 1), greedy compare current start with previous end then start)**
 
 case 1: not overlap, ans + 2
-    pst   ped
+    pst ped
+    ---2---
               st     ed
-                 pst ped
 
 case 2: overlap, ans + 1
-    pst   ped
-       st            ed
-          pst        ped
+    pst ped
+    ---2---
+        st           ed
 
 case 3: overap, do nothing
-    pst   ped
- st                  ed
-    pst   ped
+    pst ped
+    ---2---
+ st     ed
 
     
 
@@ -193,7 +193,8 @@ case 3: overap, do nothing
     xxxxx
         xxxxxxxxx
                   xxx
-pst       x
+-----------------------------------
+pst   x    
 ped     x
                                   2
 ------------------------

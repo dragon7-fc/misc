@@ -382,7 +382,7 @@ class Solution:
         return len(heap)
 ```
 
-**Soluttion 5: (Sort, Heap, sort by end time and try not or drop largest duration courses as possible)**
+**Soluttion 5: (Sort, Heap, sort by end time and try drop largest duration courses when necessary)**
 ```
 Runtime: 32 ms, Beats 48.28%
 Memory: 60.26 MB, Beats 91.82%
