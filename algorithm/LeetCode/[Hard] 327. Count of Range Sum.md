@@ -234,7 +234,7 @@ public:
 };
 ```
 
-**Solution 6: (Prefix Sum, Divide and Conquer, Merge Sort, gradually fix one half and find the other half range)**
+**Solution 6: (Prefix Sum, Divide and Conquer, Merge Sort, gradually fix one half and find the other half range based on prefix sum diff)**
 
 pre [0 ...     ...  ...]
           i   j     k

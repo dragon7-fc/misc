@@ -184,7 +184,7 @@ public:
 };
 ```
 
-**Solution 5: (Deque, mono inc stack, prefix sum, sliding over accumulate prefix sum mono inc stack)**
+**Solution 5: (Deque, mono inc stack, prefix sum, precompute prefix sum for range sum and try every position with mono inc deqeue to bound current element min length range sum)**
 
     A = [2,-1,2], K = 3
 

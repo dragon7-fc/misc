@@ -143,8 +143,12 @@ public:
         for (i = 0; i < n; i ++) {
             a = endTime[i] - startTime[i];
             if (i+1 < n && right[i+1] >= a || left >= a) {
+
+                // can rescedule current meeting to previous or future free slot
                 ans = max(ans, (i + 1 < n ? startTime[i+1] : eventTime) - (i ? endTime[i-1]: 0));
             } else {
+
+                // can not rescedule current meeting to previous or future free slot
                 ans = max(ans, (i + 1 < n ? startTime[i+1] : eventTime) - (i ? endTime[i-1] : 0) - a);
             }
             left = max(left, startTime[i] - (i ? endTime[i-1] : 0));

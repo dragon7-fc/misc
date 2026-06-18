@@ -216,7 +216,7 @@ public:
 };
 ```
 
-**Solution 4: (Sliding Window, Prefix Sum, Brute Force, Enumeration, O(n sqrt(n)))**
+**Solution 4: (Sliding Window, Prefix Sum, Brute Force, Enumeration, O(n sqrt(n)), enumerate all location and try all possible dominant one based on length = cnt0 + cnt1)**
 
         0    i
 s      [ ... 0  ...]
@@ -234,7 +234,7 @@ pre          j2  j
                   = i - pre[i] - cnt0
              cnt0
              = cnt0 + 1
-             cnt
+             cnt1
              i - pre[j2] - cnt0
 
 
@@ -310,9 +310,10 @@ public:
                 int cnt1 = (i - pre[j]) - cnt0;
                 if (cnt0 * cnt0 <= cnt1) {
                     res += min(j - pre[j], cnt1 - cnt0 * cnt0 + 1);
+                             //----------  ------------------  ---
+                             // all one     cnt1 > cnt0^2      cnt1 = cnt0^2
+                             //[cnt0 = 0]  [------ cnt0 > 0 -----]
                 }
-                //            -----------  ------------------
-                //                all         dominant one               
                 j = pre[j];
                 cnt0++;
             }

@@ -108,3 +108,21 @@ double angleClock(int hour, int minutes){
     return min(diff, 360 - diff);
 }
 ```
+
+**Solution 4: (Math)**
+```
+Runtime: 0 ms, Beats 100.00%
+Memory: 8.17 MB, Beats 46.25%
+```
+```c++
+class Solution {
+public:
+    double angleClock(int hour, int minutes) {
+        double m = 1.0 * minutes / 60 * 360;
+        double h = 1.0 * (hour % 12) / 12 * 360 + 1.0 * 30 * minutes / 60;
+                                                  // minute affect hour
+        double ans = abs(m - h);
+        return min(ans, 360 - ans);
+    }
+};
+```

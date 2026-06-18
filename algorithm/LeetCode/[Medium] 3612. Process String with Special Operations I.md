@@ -80,3 +80,82 @@ public:
     }
 };
 ```
+
+**Solution 2: (Deque, not necessary for small string)**
+```
+Runtime: 86 ms, Beats 5.30%
+Memory: 42.53 MB, Beats 15.15%
+```
+```c++
+class Solution {
+public:
+    string processStr(string s) {
+        deque<char> dq;
+        bool isForward = true;
+        for (const auto &c: s) {
+            if (c == '*') {
+                if (dq.size() == 0) {
+                    continue;
+                }
+                if (isForward) {
+                    dq.pop_back();
+                } else {
+                    dq.pop_front();
+                }
+            } else if (c == '#') {
+                int k = dq.size();
+                if (isForward) {
+                    for (int i = 0; i < k; i ++) {
+                        dq.push_back(dq[i]); 
+                    }
+                } else {
+                    for (int i = 1; i <= k; i ++) {
+                        dq.push_front(dq[dq.size() - i]);
+                    }
+                }
+            } else if (c == '%') {
+                isForward ^= 1;
+            } else {
+                if (isForward) {
+                    dq.push_back(c);
+                } else {
+                    dq.push_front(c);
+                }
+            }
+        }
+        if (isForward) {
+            return string(dq.begin(), dq.end());
+        } else {
+            return string(dq.rbegin(), dq.rend());
+        }
+    }
+};
+```
+
+**Solution 3: (String)**
+```
+Runtime: 3 ms, Beats 76.89%
+Memory: 40.31 MB, Beats 17.05%
+```
+```c++
+class Solution {
+public:
+    string processStr(string s) {
+        string result = "";
+        for (auto it : s) {
+            if (it == '*') {
+                if (result.size()) {
+                    result.pop_back();
+                }
+            } else if (it == '#') {
+                result += result;
+            } else if (it == '%') {
+                result = string(result.rbegin(), result.rend());
+            } else {
+                result += it;
+            }
+        }
+        return result;
+    }
+};
+```

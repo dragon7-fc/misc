@@ -90,3 +90,28 @@ class Solution:
             
         return icecreams
 ```
+
+**Solution 3: (Sort, counting sort)**
+```
+Runtime: 11 ms, Beats 82.39%
+Memory: 108.86 MB, Beats 5.01%
+```
+```c++
+class Solution {
+public:
+    int maxIceCream(vector<int>& costs, int coins) {
+        vector<int> cnt(100001);
+        for (const auto &c: costs) {
+            cnt[c] += 1;
+        }
+        int ans = 0;
+        for (int i = 1; i <= 100000 && coins >= i; i ++) {
+            int k = coins / i;
+            k = min(k, cnt[i]);
+            ans += k;
+            coins -= i * k;
+        }
+        return ans;
+    }
+};
+```

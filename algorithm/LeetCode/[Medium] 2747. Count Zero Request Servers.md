@@ -41,7 +41,7 @@ For queries[1]: Only server with id 3 gets no request in the duration [2,4].
 
 # Submissions
 ---
-**Solution 1: (Sort, Sliding Window, prefix sum, counter element in range)**
+**Solution 1: (Sort, Sliding Window, prefix sum, counter element in range, sort log and query by time then slide over query time range with visited server count)**
 
     n = 3, logs = [[1,3],[2,6],[1,5]], x = 5, queries = [10,11]
 
@@ -99,6 +99,43 @@ public:
             res[id] = n - used;
         }
         return res;
+    }
+};
+```
+
+**Solution 2: (Sort, Sliding Window, prefix sum, counter element in range, sort log and query by time then slide over query time range with visited server count)**
+```
+Runtime: 58 ms, Beats 67.69%
+Memory: 197.76 MB, Beats 99.23%
+```
+```c++
+class Solution {
+public:
+    vector<int> countServers(int n, vector<vector<int>>& logs, int x, vector<int>& queries) {
+        sort(logs.begin(), logs.end(), [](const auto &la, const auto &lb){return la[1] < lb[1];});
+        int qn = queries.size();
+        vector<int> qi(qn);
+        iota(qi.begin(), qi.end(), 0);
+        sort(qi.begin(), qi.end(), [&](const auto &i, const auto &j){return queries[i] < queries[j];});
+        vector<int> cnt(n + 1);
+        int used = 0;
+        int ln = logs.size(), i = 0, j = 0;
+        vector<int> ans(qn);
+        for (const auto &idx: qi) {
+            const auto t = queries[idx];
+            for  (; j < ln && logs[j][1] <= t; j += 1) {
+                int serverj = logs[j][0];
+                cnt[serverj] += 1;
+                used += cnt[serverj] == 1;
+            }
+            for (; i < ln && logs[i][1] < t - x; i += 1) {
+                int serveri = logs[i][0];
+                cnt[serveri] -= 1;
+                used -= cnt[serveri] == 0;
+            }
+            ans[idx] = n - used;
+        }
+        return ans;
     }
 };
 ```

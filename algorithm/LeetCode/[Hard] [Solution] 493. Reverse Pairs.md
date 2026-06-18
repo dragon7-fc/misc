@@ -543,7 +543,7 @@ public:
 };
 ```
 
-**Solution 5: (BIT, reverse bit to support larger prefix rank)**
+**Solution 5: (BIT, reverse bit to support query larger and update smaller prefix rank)**
 ```
 Runtime: 73 ms, Beats 96.04%
 Memory: 52.60 MB, Beats 94.38%
@@ -571,12 +571,16 @@ public:
     int reversePairs(vector<int>& nums) {
         int n = nums.size();
         bit.resize(n + 1);
-        vector<int> pre = nums;
+        vector<int> pre = nums;  // sorted nums
         sort(pre.begin(), pre.end());
         int ans = 0;
         for (int i = 0; i < n; i ++) {
+
+            // query 2 * nums[i] in bit prefix rank index
             int j = lower_bound(pre.begin(), pre.end(), nums[i] * 2LL + 1) - pre.begin();
             ans += query(j);
+
+            // update nums[i] to sorted bit prefix rank index
             j = lower_bound(pre.begin(), pre.end(), nums[i]) - pre.begin();
             update(j, 1);
         }
@@ -586,6 +590,22 @@ public:
 ```
 
 **Solution 6: (Merge Sort)**
+
+    nums = [ 2, 4, 3, 5, 1]      ans
+ ----------------------------
+           [        ]
+           [     ]
+           [  ][ ]
+           [ 2, 4]
+                  [ ]
+           [ 2, 3, 4]
+                     [    ]
+                     [5][1]        
+                      i  j
+                     [1, 5]      +1
+                i  i  j
+           [              ]      +2
+
 ```
 Runtime: 165 ms, Beats 92.79%
 Memory: 99.30 MB, Beats 90.57%

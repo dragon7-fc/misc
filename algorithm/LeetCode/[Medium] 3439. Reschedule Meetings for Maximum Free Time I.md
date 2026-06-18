@@ -96,20 +96,20 @@ public:
 };
 ```
 
-**Solution 2: (Sliding Window, max(local range - occupied duration))**
+**Solution 2: (Sliding Window, max(local range - occupied duration), set k meeting as an group and find largest free slot after merge k continuous meeting)**
 
     eventTime = 10, k = 1, startTime = [0,2,9], endTime = [1,4,10]
 
     [0,  2,  9, 10]
     [1,  4, 10, 10]
                  ^
-a    1   3   4   4
+a    1   3   3   1
+         2   1
+pre  0   1   4
 ans  0   1   6   6
 
-
-    xx x   xxxx   xxx xx
-       ^i-k  ^i
-                   ^i
+    0 1 2 3 4 5 6 7 8 9 10
+    xx  xxxx          xx
 
 ```
 Runtime: 0 ms, Beats 100.00%

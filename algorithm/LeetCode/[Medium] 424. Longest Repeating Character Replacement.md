@@ -73,7 +73,7 @@ class Solution:
         return max_len
 ```
 
-**Solution 2: (Two Pointers, Sliding Window, all non-majority chars must be replaced, try to maintain upper bound on max frequency not exact value)**
+**Solution 2: (Two Pointers, Sliding Window, all non-majority chars must be replaced, try to maintain upper bound on max frequency not exact value, non-shrinkable)**
 
     window size - max frequency <= k
     -----------   -------------    -

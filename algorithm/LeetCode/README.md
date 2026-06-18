@@ -2564,6 +2564,7 @@ public:
 };
 ```
 * [Hard] [Solution] 135. Candy
+* [Hard] 1840. Maximum Building Height
 
 
 ### 2D DP on prefix construction, At every step: Did current char come from s1 OR s2?
@@ -15350,7 +15351,7 @@ public:
 ```
 * [Hard] 41. First Missing Positive
 
-### DP Bottom-Up, Binary Search, sort by end time and search by start
+### 0/1 Knapsack, DP Bottom-Up, Binary Search, sort by end time and search by start
 ```c++
 class Solution {
 public:
@@ -18110,25 +18111,36 @@ public:
 class Solution {
 public:
     vector<int> countServers(int n, vector<vector<int>>& logs, int x, vector<int>& queries) {
-        sort(begin(logs), end(logs), [](const auto &l1, const auto &l2){ return l1[1] < l2[1]; });
-        vector<int> ids(queries.size()), res(queries.size()), cnt(n + 1);
-        iota(begin(ids), end(ids), 0);
-        sort(begin(ids), end(ids), [&](int i, int j){ return queries[i] < queries[j]; });
-        int i = 0, j = 0, used = 0;
-        for (int id : ids) {
-            for (; i < logs.size() && logs[i][1] <= queries[id]; ++i)
-                used += (++cnt[logs[i][0]] == 1);
-            for (; j < logs.size() && logs[j][1] < queries[id] - x; ++j)
-                used -= (--cnt[logs[j][0]] == 0);
-            res[id] = n - used;
+        sort(logs.begin(), logs.end(), [](const auto &la, const auto &lb){return la[1] < lb[1];});
+        int qn = queries.size();
+        vector<int> qi(qn);
+        iota(qi.begin(), qi.end(), 0);
+        sort(qi.begin(), qi.end(), [&](const auto &i, const auto &j){return queries[i] < queries[j];});
+        vector<int> cnt(n + 1);
+        int used = 0;
+        int ln = logs.size(), i = 0, j = 0;
+        vector<int> ans(qn);
+        for (const auto &idx: qi) {
+            const auto t = queries[idx];
+            for  (; j < ln && logs[j][1] <= t; j += 1) {
+                int serverj = logs[j][0];
+                cnt[serverj] += 1;
+                used += cnt[serverj] == 1;
+            }
+            for (; i < ln && logs[i][1] < t - x; i += 1) {
+                int serveri = logs[i][0];
+                cnt[serveri] -= 1;
+                used -= cnt[serveri] == 0;
+            }
+            ans[idx] = n - used;
         }
-        return res;
+        return ans;
     }
 };
 ```
 * [Medium] 2747. Count Zero Request Servers
 
-### window size - max frequency <= k, all non-majority chars must be replaced, try to maintain upper bound on max frequency not exact value
+### window size - max frequency <= k, all non-majority chars must be replaced, try to maintain upper bound on max frequency not exact value, non-shrinkable
 ```c++
 class Solution {
 public:
@@ -18155,7 +18167,7 @@ public:
 ```
 * [Medium] 424. Longest Repeating Character Replacement
 
-### Prefix Sum, Brute Foce, try all solution
+### Prefix Sum, Brute Foce, enumerate all location and try all possible dominant one based on length = cnt0 + cnt1
 ```c++
 class Solution {
 public:
@@ -18178,6 +18190,9 @@ public:
                 int cnt1 = (i - pre[j]) - cnt0;
                 if (cnt0 * cnt0 <= cnt1) {
                     res += min(j - pre[j], cnt1 - cnt0 * cnt0 + 1);
+                             //----------  ------------------  ---
+                             // all one     cnt1 > cnt0^2      cnt1 = cnt0^2
+                             //[cnt0 = 0]  [------ cnt0 > 0 -----]
                 }
                 j = pre[j];
                 cnt0++;
@@ -18237,8 +18252,12 @@ public:
         for (i = 0; i < n; i ++) {
             a = endTime[i] - startTime[i];
             if (i+1 < n && right[i+1] >= a || left >= a) {
+
+                // can rescedule current meeting to previous or future free slot
                 ans = max(ans, (i + 1 < n ? startTime[i+1] : eventTime) - (i ? endTime[i-1]: 0));
             } else {
+
+                // can not rescedule current meeting to previous or future free slot
                 ans = max(ans, (i + 1 < n ? startTime[i+1] : eventTime) - (i ? endTime[i-1] : 0) - a);
             }
             left = max(left, startTime[i] - (i ? endTime[i-1] : 0));
@@ -18249,7 +18268,7 @@ public:
 ```
 * [Medium] 3440. Reschedule Meetings for Maximum Free Time II
 
-### one event at a time, ordered, max(local range - occupied duration)
+### one event at a time, ordered, max(local range - occupied duration), set k meeting as an group and find largest free slot after merge k continuous meeting
 ```c++
 class Solution {
 public:
@@ -18659,7 +18678,7 @@ class Solution:
 ```
 * [Medium] 1358. Number of Substrings Containing All Three Characters
 
-### Deque, mono inc stack, prefix sum, try every position with deqeue to bound range sum and mono inc stack for prefix sum
+### Deque, mono inc stack, prefix sum, precompute prefix sum for range sum and try every position with mono inc deqeue to bound current element min length range sum
 ```c++
 class Solution {
 public:
@@ -19049,7 +19068,7 @@ public:
 ```
 * [Hard] [Solution] 493. Reverse Pairs
 
-### Prefix Sum with merge sort, gradually fix one half and find the other half range
+### Prefix Sum with merge sort, gradually fix one half and find the other half range based on prefix sum diff
 ```c++
 class Solution {
     long long mergeSort(vector<long long> &pre, int left, int right, int lower, int upper) {
@@ -20393,21 +20412,21 @@ Segment Tree       |      x       |    x      |      x        |        x  (with 
 ```c++
 class MyCircularQueue {
     vector<int> dp;
-    int i, n, ck;
+    int n, f, r;
 public:
     MyCircularQueue(int k) {
-        dp.resize(k);
+        dp.resize(k, -1);
         n = k;
-        ck = 0;
-        i = 0;
+        f = 0;
+        r = 0;
     }
     
     bool enQueue(int value) {
         if (isFull()) {
             return false;
         }
-        dp[(i+ck)%n] = value;
-        ck += 1;
+        dp[r] = value;
+        r = (r+1)%n;
         return true;
     }
     
@@ -20415,8 +20434,8 @@ public:
         if (isEmpty()) {
             return false;
         }
-        i = (i+1)%n;
-        ck -= 1;
+        dp[f] = -1;
+        f = (f+1)%n;
         return true;
     }
     
@@ -20424,22 +20443,22 @@ public:
         if (isEmpty()) {
             return -1;
         }
-        return dp[i];
+        return dp[f];
     }
     
     int Rear() {
         if (isEmpty()) {
             return -1;
         }
-        return dp[(i+ck-1)%n];
+        return dp[(r-1+n)%n];
     }
     
     bool isEmpty() {
-        return ck == 0;
+        return f == r && dp[r] == -1;
     }
     
     bool isFull() {
-        return ck == n;
+        return f == r && dp[r] != -1;
     }
 };
 
@@ -20754,8 +20773,11 @@ public:
         }
         sort(dp.begin(), dp.end());
         for (auto [_, t, v]: dp) {
+            // open event
             if (t == 1) {
                 ans = max(ans, v + cur);
+
+            // close event
             } else {
                 cur = max(cur, v);
             }

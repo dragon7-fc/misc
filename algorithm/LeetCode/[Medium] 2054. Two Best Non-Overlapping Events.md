@@ -126,8 +126,11 @@ public:
         }
         sort(dp.begin(), dp.end());
         for (auto [_, t, v]: dp) {
+            // open event
             if (t == 1) {
                 ans = max(ans, v + cur);
+
+            // close event
             } else {
                 cur = max(cur, v);
             }
@@ -135,4 +138,5 @@ public:
         return ans;
     }
 };
+t
 ```
