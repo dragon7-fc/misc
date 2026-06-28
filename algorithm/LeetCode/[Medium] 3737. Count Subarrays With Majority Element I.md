@@ -57,7 +57,7 @@ target = 4 does not appear in nums at all. Therefore, there cannot be any subarr
 
 # Submissions
 ---
-**Solution 1: (Brute Force)**
+**Solution 1: (Brute Force, Counter)**
 ```
 Runtime: 2155 ms, Beats 11.11%
 Memory: 453.70 MB, Beats 11.11%
@@ -76,6 +76,44 @@ public:
                 }
             }
             cnt.clear();
+        }
+        return ans;
+    }
+};
+```
+
+**Solution 2: (Brute Force, only care about target and not need counter)**
+
+    nums = [1,2,2,3], target = 2
+              -
+                -
+              ---
+            -----
+              -----
+
+```
+Runtime: 39 ms, Beats 70.81%
+Memory: 39.61 MB, Beats 57.52%
+```
+```c=+
+class Solution {
+public:
+    int countMajoritySubarrays(vector<int>& nums, int target) {
+        int n = nums.size();
+        int ans = 0;
+        for (int j = 0; j < n; j ++) {
+            int k = 0;
+            for (int i = j; i >= 0; i --) {
+//              k += nums[i] == target;
+//              if (k > (j - i + 1) / 2) {
+//                  ans += 1;
+//              }
+
+                k += nums[i] == target ? 1 : -1;
+                if (k > 0) {
+                    ans += 1;
+                }
+            }
         }
         return ans;
     }

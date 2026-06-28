@@ -61,3 +61,81 @@ public:
     }
 };
 ```
+
+**Solution 2: (DP Top-Down)**
+```
+Runtime: 127 ms, Beats 36.57%
+Memory: 143.43 MB, Beats 5.14%
+```
+```c++
+class Solution {
+    int dfs(long long num, unordered_map<long long, int> &cnt, unordered_map<long long, int> &dp) {
+        if (dp.count(num)) {
+            return dp[num];
+        }
+        int rst = 1;
+        if (cnt.count(num) && cnt[num] >= 2) {
+            cnt[num] -= 2;
+            if (cnt.count(num * num) && cnt[num * num]) {
+                rst = max(rst, 2 + dfs(num * num, cnt, dp));
+            }
+            cnt[num] += 2;
+        }
+        dp[num] = rst;
+        return rst;
+    }
+public:
+    int maximumLength(vector<int>& nums) {
+        unordered_map<long long, int> cnt;
+        for (const auto &num: nums) {
+            cnt[num] += 1;
+        }
+        unordered_map<long long, int> dp;
+        int ans = 0;
+        for (const auto &num: nums) {
+            ans = max(ans, dfs(num, cnt, dp));
+        }
+        return ans;
+    }
+};
+```
+
+**Solution 3: (Hash Table + Enumeration, O(n log log M))**
+
+x^(2^y) <= M
+-> 2^y <= log M
+-> y <= log log M
+
+```
+Runtime: 56 ms, Beats 86.29%
+Memory: 122.81 MB, Beats 30.29%
+```
+```c++
+class Solution {
+public:
+    int maximumLength(vector<int>& nums) {
+        unordered_map<long long, int> cnt;
+        for (int num : nums) {
+            cnt[num]++;
+        }
+        int ans = 0;
+        // ans is at least the number of occurrences of 1, rounded down to an
+        // odd number
+        if (cnt[1] % 2 == 0) {
+            ans = cnt[1] - 1;
+        } else {
+            ans = cnt[1];
+        }
+        cnt.erase(1);
+        for (auto& [num, _] : cnt) {
+            int res = 0;
+            long long x = num;
+            for (; cnt.contains(x) && cnt[x] > 1; x *= x) {
+                res += 2;
+            }
+            ans = max(ans, res + (cnt.contains(x) ? 1 : -1));
+        }
+        return ans;
+    }
+};
+```

@@ -338,7 +338,28 @@ A playground to note something.
             ```
 * linux
 
-    - [UNIX Toolbox](http://cb.vu/unixtoolbox.pdf)
+    - mutex vs semaphore vs spinlock
+    Feature          | Mutex                               | Semaphore                          | Spinlock
+    -----------------|-------------------------------------|------------------------------------|----------------------------------------
+    Waiting Behavior | Sleep / Block (Yields CPU)          | Sleep / Block (Yields CPU)         | Busy-Waiting (Spins in a loop)
+    Ownership        | Strict. Only the locker can unlock. | None. Any thread can signal.       | Strict. Only the locker can unlock.
+    Resource Count   | Strictly 1.                         | N (Counting) or 1 (Binary).        | Strictly 1.
+    Use Case         | Protecting shared data (Long paths).| Task synchronization / Throttling. | Interrupts / Short paths (No sleeping).
+    Context Safety   | Process context only (Can sleep).   | Process context only (Can sleep).  | Interrupt context safe (Cannot sleep).
+    
+    - bottom half interrupt
+    Feature           | Softirq                      | Tasklet                      | Workqueue                  | Threaded IRQ
+    ------------------|------------------------------|------------------------------|----------------------------|-------------------------------------
+    Context           | Interrupt                    | Interrupt                    | Process (kworker)          | Process (Dedicated thread)
+    Can Sleep/Block?  | No                           | No                           | Yes                        | Yes
+    Execution Trigger | Immediately upon ISR exit    | Via softirq vector execution | Via OS scheduler (kworker) | Via OS scheduler (IRQ thread)
+    SMP Concurrency   | Same handler can run on      | Same tasklet cannot run on   | Multiple workers can run   | Serialized per interrupt line
+                      | multiple CPUs simultaneously | multiple CPUs simultaneously | across CPUs                | 
+    Typical Use Case  | Networking, Block Devices    | General driver deferral      | Storage I/O, long delays,  | Modern bus drivers (PCI, I2C, GPIO)
+                      |                              | (no blocking)                | sleep required             |
+
+    - [[Operating System Cheat sheat] — Process](https://king0980692.medium.com/operating-system-cheat-sheat-process-beb2270a0810)
+    - [UNIX Toolbox](http://cb.vu/unixtoolbox.pdf)   
     - [LINUX Administrator’s Quick Reference Card](http://www.cheat-sheets.org/saved-copy/linux_quickref.pdf)
     - [Practical Linux Command Line Reference](http://www.pixelbeat.org/cmdline.html)
     - [Linux Quick Reference Guide](https://perso.crans.org/~raffo/docs/linux-guide.pdf)

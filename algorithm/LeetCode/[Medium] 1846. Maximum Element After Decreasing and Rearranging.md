@@ -115,3 +115,46 @@ public:
     }
 };
 ```
+
+**Solution 3: (Counter)**
+
+    arr = [2,2,1,2,1]
+cnt                    ans
+                        1
+1              1   2
+2          1 2   3      2< ans
+3
+4
+5
+
+-------------------------------
+    arr = [1,2,3,4,5]
+cnt                     ans
+                         1
+1          1
+2            1           2
+3              1         3
+4                1       4
+5                  1     5< ans
+
+```
+Runtime: 4 ms, Beats 88.98%
+Memory: 57.24 MB, Beats 4.52%
+```
+```c++
+class Solution {
+public:
+    int maximumElementAfterDecrementingAndRearranging(vector<int>& arr) {
+        int n = arr.size();
+        vector<int> cnt = vector(n + 1, 0);
+        for (const auto &num : arr) {
+            cnt[min(num, n)] += 1;
+        }
+        int ans = 1;
+        for (int num = 2; num <= n; num += 1) {
+            ans = min(ans + cnt[num], num);
+        }
+        return ans;
+    }
+};
+```
