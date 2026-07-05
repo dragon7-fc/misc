@@ -102,3 +102,50 @@ public:
     }
 };
 ```
+
+**Solution 2: (BFS, 0-1 BFS)**
+```
+Runtime: 3 ms, Beats 97.84%
+Memory: 31.24 MB, Beats 67.95%
+```
+```c++
+class Solution {
+    const int dd[5] = {0, 1, 0, -1, 0};
+public:
+    bool findSafeWalk(vector<vector<int>>& grid, int health) {
+        int m = grid.size();
+        int n = grid[0].size();
+        deque<array<int, 3>> dq;
+        health -= grid[0][0];
+        if (health == 0) {
+            return false;
+        }
+        grid[0][0] = -1;
+        dq.push_front({0, 0, health});
+        while (!dq.empty()) {
+            auto [r, c, h] = dq.front();
+            dq.pop_front();
+            if (r == m - 1 && c == n - 1) {
+                return true;
+            }
+            for (int d = 0; d < 4; d ++) {
+                int nr = r + dd[d];
+                int nc = c + dd[d + 1];
+                if (0 <= nr && nr < m && 0 <= nc && nc < n) {
+                    if (grid[nr][nc] != -1) {
+                        if (grid[nr][nc] == 0) {
+                            dq.push_front({nr, nc, h});
+                        } else {
+                            if (h - 1 > 0) {
+                                dq.push_back({nr, nc, h - 1});
+                            }
+                        }
+                        grid[nr][nc] = -1;
+                    }
+                }
+            }
+        }
+        return false;
+    }
+};
+```

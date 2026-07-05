@@ -5209,64 +5209,46 @@ class Solution:
 ## String <a name="string"></a>
 ---
 ### KMP
-```c++
-/**
- * Definition for an infinite stream.
- * class InfiniteStream {
- * public:
- *     InfiniteStream(vector<int> bits);
- *     int next();
- * };
- */
 class Solution {
+    bool check(const string &word, const string &p) {
+        int n = p.length();
+        vector<int> dp(n);  // lps: Longest Prefix which is also a Suffix
+        for (int i = 1, k = 0; i < n; i ++) {
+            while (k && p[k] != p[i]) {
+                k = dp[k - 1];
+            }
+            if (p[i] == p[k]) {
+                k += 1;
+            }
+            dp[i] = k;
+        }
+        for (int i = 0, k = 0; i < word.length(); i ++) {
+            while (k && p[k] != word[i]) {
+                k = dp[k - 1];
+            }
+            if (word[i] == p[k]) {
+                k += 1;
+            }
+            if (k == n) {
+                return true;
+            }
+        }
+        return false;
+    }
 public:
-    int findPattern(InfiniteStream* stream, vector<int>& pattern) {
-        int n = pattern.size(), i, k, cur;
-        vector<int> dp(n);  // index -> length
-        k = 0, i = 1;
-        while (i < n) {
-            if (pattern[k] == pattern[i]) {
-                dp[i] = k+1;
-                k += 1;
-                i += 1;
-            } else {
-                if (k) {
-                    k = dp[k-1];
-                } else {
-                    dp[i] = 0;
-                    i += 1;
-                }
+    int numOfStrings(vector<string>& patterns, string word) {
+        int n = word.length();
+        int ans = 0;
+        for (const auto &p: patterns) {
+            if (check(word, p)) {
+                ans += 1;
             }
         }
-        k = 0, i = 0;
-        bool flag = false;
-        while (true) {
-            if (!flag) {
-                cur = stream->next();
-                flag = true;
-            }
-            if (cur == pattern[k]) {
-                k += 1;
-                i += 1;
-                if (k == n) {
-                    return i-k;
-                }
-                flag = false;
-            } else {
-                if (k) {
-                    k = dp[k-1];
-                } else {
-                    k = 0;
-                    i += 1;
-                    flag = false;
-                }
-            }
-        }
-        return -1;
+        return ans;
     }
 };
 ```
-* [Lock] [Medium] 3023. Find Pattern in Infinite Stream I
+* [Easy] 1967. Number of Strings That Appear as Substrings in Word
 
 ### Cartesian Product, Brute force all combination
 ```python

@@ -129,3 +129,61 @@ public:
     }
 };
 ```
+
+**Solution 4: (Sliding Window, focus on right side)**
+```
+Runtime: 14 ms, Beats 33.69%
+Memory: 11.02 MB, Beats 57.43%
+```
+```c++
+class Solution {
+public:
+    int numberOfSubstrings(string s) {
+        int cnt[3] = {0, 0, 0};
+        int n = s.length();
+        int j = 0;
+        int ans = 0;
+        for (int i = 0; i < n; i ++) {
+            while (j < n && (cnt[0] == 0 || cnt[1] == 0 || cnt[2] == 0)) {
+                cnt[s[j] - 'a'] += 1;
+                j += 1;
+            }
+            if (cnt[0] == 0 || cnt[1] == 0 || cnt[2] == 0) {
+                break;
+            }
+            ans += n - j + 1;
+            cnt[s[i] - 'a'] -= 1;
+        }
+        return ans;
+    }
+};
+```
+
+**Solution 5: (Greedy, Last Position Tracking, focus on left side)**
+```
+Runtime: 3 ms, Beats 88.67%
+Memory: 11.13 MB, Beats 33.33%
+```
+```c++
+class Solution {
+public:
+    int numberOfSubstrings(string s) {
+        int len = s.length();
+        // Track last position of a, b, c
+        vector<int> lastPos = {-1, -1, -1};
+        int total = 0;
+
+        for (int pos = 0; pos < len; pos++) {
+            // Update last position of current character
+            lastPos[s[pos] - 'a'] = pos;
+
+            // Add count of valid substrings ending at current position
+            // If any character is missing, min will be -1
+            // Else min gives leftmost required character position
+            total += 1 + min({lastPos[0], lastPos[1], lastPos[2]});
+        }
+
+        return total;
+    }
+};
+```

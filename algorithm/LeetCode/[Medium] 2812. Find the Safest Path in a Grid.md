@@ -278,7 +278,86 @@ public:
 };
 ```
 
-**Solution 2: (BFS + MST Prime, O(N^2 * Log(N)), BFS fill min distance for each cell then priority queue to find max distance path from start)**
+**Solution 2: (BFS, Binary Search, upper bound, try to eliminate dist < mid)**
+```
+Runtime: 373 ms, Beats 69.31%
+Memory: 269.12 MB, Beats 14.65%
+```
+```c++
+class Solution {
+    const int dd[5] = {0, 1, 0, -1, 0};
+
+    // try to eliminate dist < mid
+    bool check(int mid, vector<vector<int>> dist) {
+        int n = dist.size();
+        if (dist[0][0] < mid || dist[n - 1][n - 1] < mid) {
+            return false;
+        }
+        queue<array<int, 2>> q;
+        q.push({0, 0});
+        dist[0][0] = -1;
+        while (q.size()) {
+            auto [r, c] = q.front();
+            q.pop();
+            if (r == n - 1 && c == n - 1) {
+                return true;
+            }
+            for (int d = 0; d < 4; d ++) {
+                int nr = r + dd[d];
+                int nc = c + dd[d + 1];
+                if (0 <= nr && nr < n && 0 <= nc && nc < n && dist[nr][nc] >= mid) {
+                    dist[nr][nc] = -1;
+                    q.push({nr, nc});
+                }
+            }
+        }
+        return false;
+    }
+public:
+    int maximumSafenessFactor(vector<vector<int>>& grid) {
+        int n = grid.size();
+        if (grid[0][0] == 1 || grid[n - 1][n - 1] == 1) {
+            return 0;
+        }
+        queue<array<int, 3>> q;
+        vector<vector<int>> dist(n, vector<int>(n, -1));
+        for (int i = 0; i < n; i ++) {
+            for (int j = 0; j < n; j ++) {
+                if (grid[i][j] == 1) {
+                    q.push({i, j, 0});
+                    dist[i][j] = 0;
+                }
+            }
+        }
+        while (q.size()) {
+            auto [r, c, s] = q.front();
+            q.pop();
+            for (int d = 0; d < 4; d ++) {
+                int nr = r + dd[d];
+                int nc = c + dd[d + 1];
+                if (0 <= nr && nr < n && 0 <= nc && nc < n && dist[nr][nc] == -1) {
+                    dist[nr][nc] = s + 1;
+                    q.push({nr, nc, s + 1});
+                }
+            }
+        }
+        int left = 0, right = n * n;
+        int ans = -1;
+        while (left <= right) {
+            int mid = left + (right - left) / 2;
+            if (!check(mid, dist)) {
+                right = mid - 1;
+            } else {
+                ans = mid;
+                left = mid + 1;
+            }
+        }
+        return ans;
+    }
+};
+```
+
+**Solution 3: (BFS + MST Prime, O(N^2 * Log(N)), BFS fill min distance for each cell then priority queue to find max distance path from start)**
 ```
 Runtime: 337 ms, Beats 76.27%
 Memory: 116.47 MB, Beats 96.25%

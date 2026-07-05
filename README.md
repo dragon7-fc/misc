@@ -236,21 +236,14 @@ A playground to note something.
     - [Using Cscope on large projects (example: the Linux kernel)](http://cscope.sourceforge.net/large_projects.html)
         - ex.
             ```bash
-            # Generate cscope.files with a list of files to be scanned.
-            LNX=/home/jru/linux-2.4.18
-            cd / 	
-            find  $LNX                                                                \
-            -path "$LNX/arch/*" ! -path "$LNX/arch/i386*" -prune -o               \
-            -path "$LNX/include/asm-*" ! -path "$LNX/include/asm-i386*" -prune -o \
-            -path "$LNX/tmp*" -prune -o                                           \
-            -path "$LNX/Documentation*" -prune -o                                 \
-            -path "$LNX/scripts*" -prune -o                                       \
-            -path "$LNX/drivers*" -prune -o                                       \
-            -name "*.[chxsS]" -print >/home/jru/cscope/cscope.files
+            find arch/arm include drivers kernel         \
+            -name "*.[chxsS]" -print > cscope.files
 
             # Generate the Cscope database
-            cd /home/jru/cscope     # the directory with 'cscope.files'
             cscope -b -q -k
+
+            # Generate ctags
+            ctags -L cscope.file
             ```
     - [Work with cscope,ctags and vim](https://gist.github.com/RockDeng110/d19d97534a34c971183327a11a466b91)
     - file revision compare
@@ -271,6 +264,11 @@ A playground to note something.
             #
             # generate ctag and cscope symbol
             make O=. ARCH=arm SUBARCH=aspeed COMPILED_SOURCE=1 cscope tags
+            #
+            # make O=. ARCH=arm SUBARCH=aspeed
+            #
+            ## only index compiled file
+            # make COMPILED_SOURCE=1 cscope tags
             ```
     - ack-vim
 
@@ -4065,7 +4063,11 @@ Attribute: This is a part of an object. One or more attributes make up an object
             `git clone https://github.com/wfxr/forgit.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/forgit`
         - diff-so-fancy
 
-            `git clone https://github.com/so-fancy/diff-so-fancy ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/diff-so-fancy`
+            ```bash
+            git clone https://github.com/so-fancy/diff-so-fancy ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/diff-so-fancy
+            git config --global core.pager "diff-so-fancy | less --tabs=4 -RF"
+            git config --global interactive.diffFilter "diff-so-fancy --patch"
+            ```
     - configure .zshrc
     
         ```bash

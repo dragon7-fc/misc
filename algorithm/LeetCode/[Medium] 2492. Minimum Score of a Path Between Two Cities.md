@@ -134,3 +134,134 @@ public:
     }
 };
 ```
+
+**Solution 4: (Dijkstra, connected component)**
+```
+Runtime: 103 ms, Beats 31.69%
+Memory: 138.12 MB, Beats 43.18%
+```
+```c++
+class Solution {
+public:
+    int minScore(int n, vector<vector<int>>& roads) {
+        vector<vector<array<int, 2>>> g(n + 1);
+        for (const auto &road: roads) {
+            auto a = road[0];
+            auto b = road[1];
+            auto distance = road[2];
+            g[a].push_back({b, distance});
+            g[b].push_back({a, distance});
+        }
+        vector<int> dist(n + 1, INT_MAX);
+        priority_queue<array<int, 2>, vector<array<int, 2>>, greater<>> pq;
+        pq.push({INT_MAX, 1});
+        while (!pq.empty()) {
+            auto [w, u] = pq.top();
+            pq.pop();
+            if (w > dist[u]) {
+                continue;
+            }
+            for (const auto &[v, dw]: g[u]) {
+                int nw = min(w, dw);
+                if (nw < dist[v]) {
+                    dist[v] = nw;
+                    pq.push({nw, v});
+                }
+            }
+        }
+        return dist[n];
+    }
+};
+```
+
+**Solution 5: (BFS, connected component)**
+```
+Runtime: 46 ms, Beats 88.95%
+Memory: 132.69 MB, Beats 77.98%
+```
+```c++
+class Solution {
+public:
+    int minScore(int n, vector<vector<int>>& roads) {
+        vector<vector<array<int, 2>>> g(n + 1);
+        for (const auto &road: roads) {
+            auto a = road[0];
+            auto b = road[1];
+            auto distance = road[2];
+            g[a].push_back({b, distance});
+            g[b].push_back({a, distance});
+        }
+        vector<bool> visited(n + 1);
+        queue<int> q;
+        visited[1] = true;
+        q.push(1);
+        int ans = INT_MAX;
+        while (!q.empty()) {
+            auto u = q.front();
+            q.pop();
+            for (const auto &[v, w]: g[u]) {
+                ans = min(ans, w);
+                if (!visited[v]) {
+                    visited[v] = true;
+                    q.push(v);
+                }
+            }
+        }
+        return ans;
+    }
+};
+```
+
+**Solution 6: (Union Find)**
+```
+Runtime: 12 ms, Beats 94.90%
+Memory: 107.25 MB, Beats 98.36%
+```
+```c++
+class Solution {
+    vector<int> p;
+    vector<int> r;
+    int find(int x) {
+        if (x != p[x]) {
+            p[x] = find(p[x]);
+        }
+        return p[x];
+    }
+    void uni(int x, int y) {
+        int xr = find(x);
+        int yr = find(y);
+        if (xr != yr) {
+            if (r[xr] > r[yr]) {
+                p[yr] = xr;
+            } else if (r[xr] < r[yr]) {
+                p[xr] = yr;
+            } else {
+                p[yr] = xr;
+                r[xr] += 1;
+            }
+        }
+    }
+public:
+    int minScore(int n, vector<vector<int>>& roads) {
+        p.resize(n + 1);
+        r.resize(n + 1);
+        for (int i = 0; i <= n; i ++) {
+            p[i] = i;
+        }
+        for (const auto &road: roads) {
+            auto a = road[0];
+            auto b = road[1];
+            uni(a, b);
+        }
+        int ans = INT_MAX;
+        for (const auto &road: roads) {
+            auto a = road[0];
+            auto distance = road[2];
+            if (find(a) == find(1)) {
+                ans = min(ans, distance);
+            }
+        }
+        return ans;
+    }
+};
+```
