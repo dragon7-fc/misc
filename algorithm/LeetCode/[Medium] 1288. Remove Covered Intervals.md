@@ -86,3 +86,33 @@ public:
     }
 };
 ```
+
+**Solution 3: (Sort)**
+```
+Runtime: 0 ms, Beats 100.00%
+Memory: 15.18 MB, Beats 60.13%
+```
+```c++
+class Solution {
+public:
+    int removeCoveredIntervals(vector<vector<int>>& intervals) {
+        sort(intervals.begin(), intervals.end(), [](const auto &ia, const auto &ib){
+            if (ia[0] != ib[0]) {
+                return ia[0] < ib[0];
+            }
+            return ia[1] > ib[1];
+        });
+        int ans = 0;
+        int pre = -1;
+        for (const auto &interval: intervals) {
+            auto start = interval[0];
+            auto end = interval[1];
+            if (end > pre) {
+                pre = end;
+                ans += 1;
+            }
+        }
+        return ans;
+    }
+};
+```
