@@ -17404,7 +17404,7 @@ while hq:
 
 ## Union Find <a name="uf"></a>
 ---
-### Union-Find
+### Union-Find, rank compression
 ```c++
 class Solution {
     vector<int> p ,r;
@@ -17978,7 +17978,7 @@ public:
 ```
 * [Hard] 3600. Maximize Spanning Tree Stability with Upgrades
 
-**Template 1: (Union-Find with rank)**
+**Template 1: (Union-Find with rank compression)**
 ```python
 class DSU(object):
     def __init__(self):
@@ -18010,7 +18010,7 @@ class Solution:
                 return True
 ```
 
-**Template 2: (Union Find with size, rank not compress)**
+**Template 2: (Union Find with node size compression)**
 ```python
 class DSU:
     def __init__(self, N):

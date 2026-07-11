@@ -130,3 +130,118 @@ public:
     }
 };
 ```
+
+**Solution 2: (Prefix Sum, Math, generate number from precomputed non-zero prefix and count difference)**
+
+pre[i]
+= non-zero digit till i
+cnt[i]
+= non-zero digit count till i
+query[left,right]
+= pre[right + 1] - pre[left] * 10**(cnt[right + 1] - cnt[left])
+                                   ------------k---------------
+                               --------------------------------
+                                       power10[k]
+
+queries
+                 v   v
+           x   x
+         v             v
+idx      0   2   4     7
+    s = "1 0 2 0 3 0 0 4", queries = [[0,7],[1,3],[4,6]]
+pre      0 1   12  123   1234
+cnt      0 1   2   3     4
+sum      0 1   3   6     10
+
+```
+Runtime: 36 ms, Beats 74.61%
+Memory: 155.22 MB, Beats 63.21%
+```
+```c++
+class Solution {
+    const int MOD = 1e9 + 7;
+public:
+    vector<int> sumAndMultiply(string s, vector<vector<int>>& queries) {
+        int m = s.length();
+        vector<long long> power10(m + 1);
+        vector<long long> pre(m + 1);
+        vector<int> cnt(m + 1);
+        vector<long long> sum(m + 1);
+        power10[0] = 1;
+        for (int i = 1; i <= m; i ++) {
+            power10[i] = (power10[i - 1] * 10) % MOD;
+        }
+        for (int i = 0; i < m; i ++) {
+            int d = s[i] - '0';
+            if (d) {
+                pre[i + 1] = (pre[i] * 10 + d) % MOD;
+                cnt[i + 1] = cnt[i] + 1;
+            } else {
+                pre[i + 1] = pre[i];
+                cnt[i + 1] = cnt[i];
+            }
+            sum[i + 1] = sum[i] + d;
+        }
+        int n = queries.size();
+        vector<int> ans(n);
+        for (int i = 0; i < n; i ++) {
+            int left = queries[i][0];
+            int right = queries[i][1];
+            int k = cnt[right + 1] - cnt[left];
+            long long x = ((pre[right + 1] - (pre[left] * power10[k]) % MOD) + MOD) % MOD;
+            int csum = sum[right + 1] - sum[left];
+            ans[i] = (x * csum) % MOD;
+        }
+        return ans;
+    }
+};
+```
+
+**Solution 3: (Prefix Sum, Math, generate number from precomputed non-zero prefix and count difference)**
+```
+Runtime: 16 ms, Beats 98.96%
+Memory: 145.40 MB, Beats 88.60%
+```
+```c++
+const static int MOD = 1e9 + 7;
+static long long power10[100001];
+int init = []() {
+    power10[0] = 1;
+    for (int i = 1; i <= 100000; i ++) {
+        power10[i] = (power10[i - 1] * 10) % MOD;
+    }
+    return 0;
+}();
+
+class Solution {
+public:
+    vector<int> sumAndMultiply(string s, vector<vector<int>>& queries) {
+        int m = s.length();
+        vector<long long> pre(m + 1);
+        vector<int> cnt(m + 1);
+        vector<long long> sum(m + 1);
+        for (int i = 0; i < m; i ++) {
+            int d = s[i] - '0';
+            if (d) {
+                pre[i + 1] = (pre[i] * 10 + d) % MOD;
+                cnt[i + 1] = cnt[i] + 1;
+            } else {
+                pre[i + 1] = pre[i];
+                cnt[i + 1] = cnt[i];
+            }
+            sum[i + 1] = sum[i] + d;
+        }
+        int n = queries.size();
+        vector<int> ans(n);
+        for (int i = 0; i < n; i ++) {
+            int left = queries[i][0];
+            int right = queries[i][1];
+            int k = cnt[right + 1] - cnt[left];
+            long long x = ((pre[right + 1] - (pre[left] * power10[k]) % MOD) + MOD) % MOD;
+            int csum = sum[right + 1] - sum[left];
+            ans[i] = (x * csum) % MOD;
+        }
+        return ans;
+    }
+};
+```

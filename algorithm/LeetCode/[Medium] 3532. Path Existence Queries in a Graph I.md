@@ -88,3 +88,29 @@ public:
     }
 };
 ```
+
+**Solution 2: (Prefix Sum)**
+```
+Runtime: 7 ms, Beats 83.84%
+Memory: 224.05 MB, Beats 78.36%
+```
+```c++
+class Solution {
+public:
+    vector<bool> pathExistenceQueries(int n, vector<int>& nums, int maxDiff, vector<vector<int>>& queries) {
+        vector<int> p(n);
+        for (int i = 1; i < n; i ++) {
+            if (nums[i] - nums[i - 1] <= maxDiff) {
+                p[i] = p[i - 1];
+            } else {
+                p[i] = p[i - 1] + 1;
+            }
+        }
+        vector<bool> ans;
+        for (const auto &q: queries) {
+            ans.push_back(p[q[0]] == p[q[1]]);
+        }
+        return ans;
+    }
+};
+```

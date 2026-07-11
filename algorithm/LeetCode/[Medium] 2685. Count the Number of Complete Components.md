@@ -78,7 +78,7 @@ class Solution:
         return ans
 ```
 
-**Solution 2: (DFS)**
+**Solution 2: (DFS, undirected e = v * (v - 1))**
 ```
 Runtime: 66 ms, Beats 40.94%
 Memory: 135.20 MB, Beats 45.25%
@@ -119,7 +119,7 @@ public:
 };
 ```
 
-**Solution 3: (Union Find, size, rank not compress)**
+**Solution 3: (Union Find, size compress)**
 ```
 Runtime: 42 ms, Beats 71.05%
 Memory: 130.90 MB, Beats 59.92%
@@ -129,42 +129,45 @@ class Solution {
     vector<int> p;
     vector<int> sz;
     int find(int x) {
-        if (p[x] == -1) {
-            return x;
-        }
         if (x != p[x]) {
             p[x] = find(p[x]);
         }
         return p[x];
     }
     void uni(int x, int y) {
-        int xr = find(x), yr = find(y);
-        if (xr == yr) {
-            return;
-        }
-        if (sz[xr] < sz[yr]) {
-            p[xr] = yr;
-            sz[yr] += sz[xr];
-        } else {
-            p[yr] = xr;
-            sz[xr] += sz[yr];
+        int xr = find(x);
+        int yr = find(y);
+        if (xr != yr) {
+            if (sz[xr] <= sz[yr]) {
+                p[xr] = yr;
+                sz[yr] += sz[xr];
+            } else {
+                p[yr] = xr;
+                sz[xr] += sz[yr];
+            }
         }
     }
 public:
     int countCompleteComponents(int n, vector<vector<int>>& edges) {
-        int i, ans = 0;
-        vector<int> cnt(n);
-        p.resize(n, -1);
+        p.resize(n);
         sz.resize(n, 1);
-        for (auto e: edges) {
-            uni(e[0], e[1]);
+        for (int i = 0; i < n; i ++) {
+            p[i] = i;
         }
-        for (auto e: edges) {
-            cnt[find(e[0])] += 1;
+        for (const auto &e: edges) {
+            auto u = e[0];
+            auto v = e[1];
+            uni(u, v);
         }
-        for (i = 0; i < n; i ++) {
-            if (i == find(i)) {
-                if (sz[i]*(sz[i]-1)/2 == cnt[i]) {
+        vector<int> cnt(n);
+        for (const auto &e: edges) {
+            int r = find(e[0]);
+            cnt[r] += 1;
+        }
+        int ans = 0;
+        for (int i = 0; i < n; i ++) {
+            if (p[i] == i) {
+                if (sz[i] * (sz[i] - 1) / 2 == cnt[i]) {
                     ans += 1;
                 }
             }
