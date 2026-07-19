@@ -101,3 +101,35 @@ public:
     }
 };
 ```
+
+**Solution 2: (Greedy, Counter, Monotonic stack, try to add unvisited character to form mono increasing sequence)**
+```
+Runtime: 0 ms, Beats 100.00%
+Memory: 8.52 MB, Beats 94.04%
+```
+```c++
+class Solution {
+public:
+    string smallestSubsequence(string s) {
+        vector<int> cnt(26);
+        for (const auto &c: s) {
+            cnt[c - 'a'] += 1;
+        }
+        string ans;
+        int visited = 0;
+        for (const auto &c: s) {
+            cnt[c - 'a'] -= 1;
+            int i = c - 'a';
+            if (!(visited & (1 << i))) {
+                while (ans != "" && ans.back() > c && cnt[ans.back() - 'a']) {
+                    visited ^= 1 << (ans.back() - 'a');
+                    ans.pop_back();
+                }
+                visited |= 1 << i;
+                ans += c;
+            }
+        }
+        return ans;
+    }
+};
+```

@@ -356,6 +356,8 @@ A playground to note something.
     Typical Use Case  | Networking, Block Devices    | General driver deferral      | Storage I/O, long delays,  | Modern bus drivers (PCI, I2C, GPIO)
                       |                              | (no blocking)                | sleep required             |
 
+    - [Understanding `fork()` in Linux: How Process Creation Really Works](https://dev.to/farhadrahimiklie/understanding-fork-in-linux-how-process-creation-really-works-13id)
+    - [What is MMAP in Linux and how it is useful?](https://programmingappliedai.substack.com/p/what-is-mmap-in-linux-and-how-it)
     - [[Operating System Cheat sheat] — Process](https://king0980692.medium.com/operating-system-cheat-sheat-process-beb2270a0810)
     - [UNIX Toolbox](http://cb.vu/unixtoolbox.pdf)   
     - [LINUX Administrator’s Quick Reference Card](http://www.cheat-sheets.org/saved-copy/linux_quickref.pdf)
@@ -431,16 +433,41 @@ A playground to note something.
             - [A TUTORIAL ON THE DEVICE TREE](http://junyelee.blogspot.com/2015/07/a-tutorial-on-device-tree.html)
 
             - [Device Tree and Boot Flow](http://shukra.cedt.iisc.ernet.in/edwiki/Device_Tree_and_Boot_Flow)
-- i2c-tools
+* Protocol
+    - I2C
+        - [I2C Communication – All about I²C with Diagrams](https://www.seeedstudio.com/blog/2019/09/26/i2c-communication-interface-and-protocol-with-diagrams/?srsltid=AfmBOoqyatyUuk5ya0waAe5m96FhqhJ02E7UZzXkUznCpH2BV9Oz37ky)
+        - i2c-tools
 
-    |                    | command                                         |
-    |--------------------|-------------------------------------------------|
-    | scan bus           | `i2cdetect -l`                                  |
-    | scan slave address | `i2cdetect -y [BUS]`                            |
-    | dump register      | `i2cdump -y [BUS] [SLAVE_ADDRESS]`              |
-    | write register     | `i2cset -f -y [BUS] [SLAVE_ADDRESS] [REGISTER]` |
-    | read register      | `i2cget -y [BUS] [SLAVE_ADDRESS] [REGISTER]`    |
-- BSOD/Kernel Panic
+            |                    | command                                         |
+            |--------------------|-------------------------------------------------|
+            | scan bus           | `i2cdetect -l`                                  |
+            | scan slave address | `i2cdetect -y [BUS]`                            |
+            | dump register      | `i2cdump -y [BUS] [SLAVE_ADDRESS]`              |
+            | write register     | `i2cset -f -y [BUS] [SLAVE_ADDRESS] [REGISTER]` |
+            | read register      | `i2cget -y [BUS] [SLAVE_ADDRESS] [REGISTER]`    |
+    - SMBus
+        - [SMBus Protocol](https://www.prodigytechno.com/blog/protocols/smbus-protocol/)
+    - IPMB
+        - [Intelligent Platform Management Bus (IPMB)](https://wiki.wireshark.org/IPMB_protocol)
+        - I2C vs SMBus
+        Feature          | I²C Bus                           | SMBus
+        -----------------|-----------------------------------|----------
+        Max Clock Speed  | Standard: 100 kHz                 | Strictly limited to 100 kHz
+                         | Fast: 400 kHz                     |
+                         | Fast-plus/High-speed: up to 5 MHz | 
+        Min Clock Speed  | No minimum (can go to DC)         | Minimum of 10 kHz
+        Timeouts         | No timeout specification          | Strict timeouts; resets bus if clock is held low for > 35 ms
+        Message Protocol | Flexible, arbitrary length        | Defined packet structures (e.g., Quick Command, Send/Receive Byte)
+        Packet Error     | Not defined                       | Optional CRC-8 error checking at end of packet
+        Checking (PEC)   |                                   |
+        Logic Levels     | Usually proportional to V_DD      | Fixed thresholds independent of V_DD
+    - PMBus
+        - [A Brief Introduction to PMbus®](https://article.murata.com/en-global/article/a-brief-introduction-to-pmbus)
+    - SPI
+        - [SPI Serial Peripheral Interface: Complete Beginner's Guide](https://www.etei.com/news/spi-serial-peripheral-interface-complete-beginner-s-guide)
+    - UART
+        - [UART: A Hardware Communication Protocol Understanding Universal Asynchronous Receiver/Transmitter](https://www.analog.com/en/resources/analog-dialogue/articles/uart-a-hardware-communication-protocol.html)
+* BSOD/Kernel Panic
 
     - [Cause a Linux Kernel Panic or a Windows BSOD](https://technodrone.blogspot.com/2012/03/cause-linux-kernel-panic-or-windows.html)
 

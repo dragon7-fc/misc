@@ -79,11 +79,13 @@
 
 ### bisect
 * `bisect.bisect_left(a, x, lo=0, hi=len(a))`
+    * insertion point for x in a to maintain sorted order
     * ex. li = [1, 3, 4, 4, 4, 6, 7], bisect.bisect_left(li, 4) = 2
                       ^
     * ex. li = [1, 3, 5], bisect.bisect_left(li, 4) = 2
                       ^
 * `bisect.bisect_right(a, x, lo=0, hi=len(a))` = `bisect.bisect(a, x, lo=0, hi=len(a))`
+    * insertion point which comes after (to the right of) any existing entries of x in a
     * ex. li = [1, 3, 4, 4, 4, 6, 7], bisect.bisect(li, 4) = 5
                                ^
     * ex. li = [1, 3, 5], bisect.bisect_right(li, 4) = 2
@@ -4319,7 +4321,7 @@ dp[i][j]
 
 **Template 4: (Dynamic Programming, Interval / Range DP)**
 ```
-dp[i][j] = max(dp[i]]k[ + dp[k][j] + cost of combination)
+dp[i][j] = max(dp[i][k] + dp[k][j] + cost of combination)
            i<k<j
 ```
 
@@ -21267,4 +21269,11 @@ ceil(1.0 * p / mid) = (p + mid - 1) / mid
 **Template: (Math, logx(y))**
 ```
     logx(y) = log(y) / log(x)
+```
+
+**Template: (Math, GCD)**
+```
+gcd(a, b)
+= a,                if b == 0
+  gcd(b, a mod b),  otherwise
 ```

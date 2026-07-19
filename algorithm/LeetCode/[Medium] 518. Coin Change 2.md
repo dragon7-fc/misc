@@ -137,7 +137,7 @@ public:
 };
 ```
 
-**Solution 5: (DP Bottom-Up, 1-D)**
+**Solution 5: (DP Bottom-Up, 1-D, try add each coin to each amount)**
 ```
 Runtime: 7 ms, Beats 84.90%
 Memory: 10.28 MB, Beats 90.11%

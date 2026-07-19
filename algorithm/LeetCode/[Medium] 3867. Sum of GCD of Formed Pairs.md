@@ -94,3 +94,30 @@ public:
     }
 };
 ```
+
+**Solution 1: (Simulation, Sort, Prefix Sum)**
+```
+Runtime: 66 ms, Beats 87.56%
+Memory: 155.64 MB, Beats 75.58%
+```
+```c++
+class Solution {
+public:
+    long long gcdSum(vector<int>& nums) {
+        int n = nums.size();
+        vector<int> pre(n);
+        pre[0] = nums[0];
+        int mx = nums[0];
+        for (int i = 1; i < n; i ++) {
+            mx = max(mx, nums[i]);
+            pre[i] = gcd(nums[i], mx);
+        }
+        sort(pre.begin(), pre.end());
+        long long ans = 0;
+        for (int i = 0; i < pre.size() / 2; i ++) {
+            ans += gcd(pre[i], pre[n - 1 - i]);
+        }
+        return ans;
+    }
+};
+```

@@ -91,3 +91,63 @@ public:
     }
 };
 ```
+
+**Solution 4: (Prefix Sum, Enumeration, String, Sliding over candidate)**
+```
+Runtime: 0 ms, Beats 100.00%
+Memory: 8.38 MB, Beats 48.96%
+```
+```c++
+class Solution {
+public:
+    vector<int> sequentialDigits(int low, int high) {
+        int left = to_string(low).length();
+        int right = to_string(high).length();
+        string pre = "123456789";
+        vector<int> ans;
+        for (int k = left; k <= right; k ++) {
+            for (int i = 0; i <= 9 - k; i ++) {
+                int num = stoi(pre.substr(i, k));
+                if (num >= low && num <= high) {
+                    ans.push_back(num);
+                }
+            }
+        }
+        return ans;
+    }
+};
+```
+
+**Solution 5: (BFS, Enumeration)**
+```
+Runtime: 0 ms, Beats 100.00%
+Memory: 8.21 MB, Beats 76.91%
+```
+```c++
+class Solution {
+public:
+    vector<int> sequentialDigits(int low, int high) {
+        queue<int> q;
+        for (int i = 1; i <= 9; i ++) {
+            q.push(i);
+        }
+        vector<int> ans;
+        while (q.size()) {
+            auto num = q.front();
+            q.pop();
+            if (num > high) {
+                continue;
+            }
+            if (num >= low) {
+                ans.push_back(num);
+            }
+            int d = num % 10;
+            if (d < 9) {
+                int nnum = num * 10 + d + 1;
+                q.push(nnum);
+            }
+        }
+        return ans;
+    }
+};
+```
