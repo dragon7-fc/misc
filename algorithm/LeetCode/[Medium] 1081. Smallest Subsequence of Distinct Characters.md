@@ -102,7 +102,7 @@ public:
 };
 ```
 
-**Solution 2: (Greedy, Counter, Monotonic stack, try to add unvisited character to form mono increasing sequence)**
+**Solution 2: (Greedy, Counter, Monotonic stack, try to add unvisited character to form mono increasing sequence with future future existence drop current larger candidate)**
 ```
 Runtime: 0 ms, Beats 100.00%
 Memory: 8.52 MB, Beats 94.04%
