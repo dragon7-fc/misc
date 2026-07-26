@@ -10009,6 +10009,37 @@ return ans
 
 ## Greedy <a name="greedy"></a>
 ---
+### origin count '1' + max nearby '0' region gain
+```c++
+class Solution {
+public:
+    int maxActiveSectionsAfterTrade(string s) {
+        int n = s.size();
+        int cnt1 = count(s.begin(), s.end(), '1');
+
+        int i = 0;
+        int bestGain = 0;
+        int prev = INT_MIN, cur = 0;
+
+        while (i < n) {
+            int start = i;
+
+            while (i < n && s[i] == s[start]) {
+                ++i;
+            }
+            if (s[start] == '0') {
+                cur = i - start;
+                bestGain = max(bestGain, prev + cur);
+                prev = cur;
+            }
+        }
+
+        return cnt1 + bestGain;
+    }
+};
+```
+* [Medium] 3499. Maximize Active Section with Trade I
+
 ### data can only move left, prefix overload cannot escape, Prefix Sum Ceil Average, try to pick each number and find ceil average till now as max possible value
 ```c++
 class Solution {
@@ -18826,6 +18857,26 @@ for i in range(N):
 
 return ans
 ```
+
+**Template 7: (Greedy, Single-Pass Maximum Tracking)**
+```c++
+int max_1 = 1e9;
+int max_2 = 1e9;
+int max_3 = 1e9;
+for (const auto &num: nums) {
+    if (num > max_1) {
+        max_3 = max_2;
+        max_2 = max_1;
+        max_1 = num;
+    } else if (num > num_2) {
+        num_3 = num_2;
+        num_2 = num;
+    } else if (num > num_3) {
+        max_3 = num;
+    }
+}
+```
+
 ## Divide and Conquer <a name="dc"></a>
 ---
 ### Divide and Conquer = DP Top-Down without memory
@@ -21276,4 +21327,12 @@ ceil(1.0 * p / mid) = (p + mid - 1) / mid
 gcd(a, b)
 = a,                if b == 0
   gcd(b, a mod b),  otherwise
+```
+
+**Template: (Math, Combination)**
+```
+c(n, r)
+= 1,                                if r == 0 or r == n
+  n,                                if r == n
+  c(n - 1, r - 1) + c(n - 1, r)
 ```

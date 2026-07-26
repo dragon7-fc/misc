@@ -84,3 +84,74 @@ public:
     }
 };
 ```
+
+**Solution 2: (Math, Bit Manipulation, 2^(k+1))**
+
+i <= j <= k
+-> can choose any number once, twice or three times
+-> x^x^x = x
+   x^x^y = y
+-> can generate all number form 1 to n
+-> what range?
+->    
+       k-1    0
+   n = 1x ... xb
+-> can represent
+       k-1    0
+       xx ... xb
+     = 0 - 2^k - 1
+     = 2^(k+1)
+------------------------------------------------------------------
+
+                                                        ans
+* case: n = 1
+1
+                                                        1
+* case: n = 2
+1^1^1 = 1
+1^1^2 = 2
+1^2^1 = 2
+1^2^2 = 2
+2^1^1 = 2
+2^1^2 = 1
+2^2^1 = 1
+2^2^2 = 2
+                                                        2
+* case: n = 3
+
+0  1 2 3 ... 2^k ...  n ... 2^(k+1) - 1
+^
+1^2^3
+   ^^^^^^^^^^^^^^^^^^^^  
+      1^1^x = x   
+                        ^^^^^^^^^^^^^^^
+                        y = (2^k)^x
+                            ----- -
+                              c   a^b
+                                  case: x != 1
+                                     a = 1, b = 1^x
+                                  case: x = 1
+                                     a = 2, b = 3
+
+                                                        2^(k+1)
+
+```
+Runtime: 0 ms, Beats 100.00%
+Memory: 198.80 MB, Beats 60.63%
+```
+```c++
+class Solution {
+public:
+    int uniqueXorTriplets(vector<int>& nums) {
+        int n = nums.size();
+        if (n < 3) {
+            return n;
+        }
+        int ans = 4;
+        while (ans <= n) {
+            ans <<= 1;
+        }
+        return ans;
+    }
+};
+```

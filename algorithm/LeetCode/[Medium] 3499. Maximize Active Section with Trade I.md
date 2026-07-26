@@ -134,3 +134,108 @@ public:
     }
 };
 ```
+
+**Solution 2: (Greedy, prefix sum, origin count '1' + max nearby '0' region gain)**
+
+          origin  origin origin origin
+          vvv     v      v      v
+      0 0 1 1 0 0 1 ...  1  ... 1
+          0 0
+      1 1 1 1 1 1 1 ...  1  ... 1
+      ---     ---
+      gain    gain
+----------------------
+        s = "0 1"
+cnt               1
+zeroBlocks   1
+ans               1
+-----------------------
+        s = "0 1 0 0"
+cnt                   1
+zeroBlocks   1   2
+ans            4
+-----------------------
+        s = "1 0 0 0 1 0 0"
+cnt                         2
+zeroBlocks     3       2
+ans                  7
+-----------------------
+        s = "0 1 0 1 0"
+cnt                     2
+zeroBlocks   1   1   1
+ans            4   4
+
+```
+Runtime: 108 ms, Beats 27.03%
+Memory: 80.92 MB, Beats 34.23%
+```
+```c++
+class Solution {
+public:
+    int maxActiveSectionsAfterTrade(string s) {
+        int n = s.size();
+        int cnt1 = count(s.begin(), s.end(), '1');
+
+        vector<int> zeroBlocks;
+        int i = 0;
+        while (i < n) {
+            int start = i;
+
+            while (i < n && s[i] == s[start]) {
+                ++i;
+            }
+
+            if (s[start] == '0') {
+                zeroBlocks.push_back(i - start);
+            }
+        }
+
+        int m = zeroBlocks.size();
+
+        if (m < 2) {
+            return cnt1;
+        }
+
+        int bestGain = 0;  // Optimal Increment
+        for (int i = 0; i < m - 1; ++i) {
+            bestGain = max(bestGain, zeroBlocks[i] + zeroBlocks[i + 1]);
+        }
+
+        return cnt1 + bestGain;
+    }
+};
+```
+
+**Solution 3: (Space Optimization)**
+```
+Runtime: 84 ms, Beats 41.89%
+Memory: 54.90 MB, Beats 76.13%
+```
+```c++
+class Solution {
+public:
+    int maxActiveSectionsAfterTrade(string s) {
+        int n = s.size();
+        int cnt1 = count(s.begin(), s.end(), '1');
+
+        int i = 0;
+        int bestGain = 0;
+        int prev = INT_MIN, cur = 0;
+
+        while (i < n) {
+            int start = i;
+
+            while (i < n && s[i] == s[start]) {
+                ++i;
+            }
+            if (s[start] == '0') {
+                cur = i - start;
+                bestGain = max(bestGain, prev + cur);
+                prev = cur;
+            }
+        }
+
+        return cnt1 + bestGain;
+    }
+};
+```

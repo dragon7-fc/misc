@@ -128,18 +128,70 @@ class Solution:
 ```
 
 **Solution 3: (Sort)**
+
+    -3 -2 -1 1 2 3
+     x  x  x
+             x x x   <
+     x   x       x   <
+     x         x x
+
 ```
-Runtime: 36 ms
-Memory: 31.42 MB
+Runtime: 15 ms, Beats 23.63%
+Memory: 31.40 MB, Beats 76.45%
 ```
 ```c++
 class Solution {
 public:
     int maximumProduct(vector<int>& nums) {
-        sort(nums.begin(), nums.end());
         int n = nums.size();
-        return max(nums[0]*nums[1]*nums[n-1], nums[n-1]*nums[n-2]*nums[n-3]);
+        sort(nums.begin(), nums.end());
+        return max({
+            nums[n - 1] * nums[n - 2] * nums[n - 3],
+            nums[0] * nums[1] * nums[n - 1]
+        });
     }
 };
+```
 
+**Solution 4: (Greedy, Single-Pass Maximum Tracking)**
+```
+Runtime: 0 ms, Beats 100.00%
+Memory: 31.60 MB, Beats 46.18%
+```
+```c++
+class Solution {
+public:
+    int maximumProduct(vector<int>& nums) {
+        int min_a = 1000;
+        int min_b = 1000;
+        int max_a = -1000;
+        int max_b = -1000;
+        int max_c = -1000;
+        for (const auto &num: nums) {
+            if (num > max_a) {
+                max_c = max_b;
+                max_b = max_a;
+                max_a = num;
+            } else if (num > max_b) {
+                max_c = max_b;
+                max_b = num;
+            } else if (num > max_c) {
+                max_c = num;
+            }
+            if (num < min_a) {
+                min_b = min_a;
+                min_a = num;
+            } else if (num < min_b) {
+                min_b = num;
+            }
+        }
+        return max({
+            // 3 largest positive
+            max_a * max_b * max_c,
+
+            // 2 smallest negative + 1 largest positive
+            min_a * min_b * max_a
+        });
+    }
+};
 ```
