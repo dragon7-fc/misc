@@ -171,3 +171,59 @@ public:
     }
 };
 ```
+
+**Solution 4: (Counter, optimal)**
+```
+Runtime: 8 ms, Beats 61.48%
+Memory: 25.81 MB, Beats 56.49%
+```
+```c++
+class Solution {
+public:
+    int minimumPushes(string word) {
+        vector<int> cnt(26);
+        for (const auto &c: word) {
+            cnt[c - 'a'] += 1;
+        }
+        string s = "abcdefghijklmnopqrstuvwxyz";
+        sort(s.begin(), s.end(), [&](auto &ca, auto &cb){
+            return cnt[ca - 'a'] > cnt[cb - 'a'];
+        });
+        vector<int> freq(26);
+        for (int i = 0; i < 26; i ++) {
+            freq[s[i] - 'a'] = i / 8 + 1;
+        }
+        int ans = 0;
+        for (int i = 0; i < 26; i ++) {
+            ans += cnt[i] * freq[i];
+        }
+        return ans;
+    }
+};
+```
+
+**Solution 5: (Counter, larger frequency key press less, optimal)**
+```
+Runtime: 7 ms, Beats 69.76%
+Memory: 28.22 MB, Beats 33.24%
+```
+```c++
+class Solution {
+public:
+    int minimumPushes(string word) {
+        vector<int> cnt(26);
+        for (const auto &c: word) {
+            cnt[c - 'a'] += 1;
+        }
+        sort(cnt.rbegin(), cnt.rend());
+        int ans = 0;
+        for (int i = 0; i < 26; i ++) {
+            if (cnt[i] == 0) {
+                break;
+            }
+            ans += cnt[i] * (i / 8 + 1);
+        }
+        return ans;
+    }
+};
+```

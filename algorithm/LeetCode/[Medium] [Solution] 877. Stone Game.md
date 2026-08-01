@@ -172,3 +172,87 @@ class Solution:
     def stoneGame(self, piles: List[int]) -> bool:
         return True
 ```
+
+**Solution 5: (DP Bottom-Up)**
+
+    5 3 4 5
+5   5 2 4 1
+3     3 1 4
+4       4 1
+5         5
+
+    3 7 2 2
+3   3 4 -2 
+7     7 5 7
+2       2 0
+2         2
+
+```
+Runtime: 11 ms, Beats 27.05%
+Memory: 19.45 MB, Beats 31.69%
+```
+```c++
+class Solution {
+public:
+    bool stoneGame(vector<int>& piles) {
+        int n = piles.size();
+        vector<vector<int>> dp(n, vector<int>(n, INT_MIN));
+        for (int i = 0; i < n; i ++) {
+            dp[i][i] = piles[i];
+        }
+        for (int k = 2; k <= n; k ++) {
+            for (int i = 0; i + k - 1 < n; i ++) {
+                int j = i + k - 1;
+                dp[i][j] = max(piles[i] + dp[i + 1][j], piles[j] + dp[i][j - 1]);
+            }
+        }
+        return dp[0][n - 1] > 0;
+    }
+};
+```
+
+**Solution 6: (DP Bottom-Up, 1-D)**
+```
+Runtime: 4 ms, Beats 37.27%
+Memory: 15.55 MB, Beats 32.38%
+```
+```c++
+class Solution {
+public:
+    bool stoneGame(vector<int>& piles) {
+        int n = piles.size();
+        vector<int> pre(n);
+        for (int i = 0; i < n; i ++) {
+            pre[i] = piles[i];
+        }
+        for (int k = 2; k <= n; k ++) {
+            vector<int> dp(n - k + 1);
+            for (int i = 0; i + k - 1 < n; i ++) {
+                int j = i + k - 1;
+                dp[i] = max(piles[i] + pre[i], piles[j] + pre[i + 1]);
+            }
+            pre = move(dp);
+        }
+        return pre[0] > 0;
+    }
+};
+```
+
+**Solution 7: (Math, always try to get larger)**
+ .    .    .     .
+    [alice win]        2 pile
+[  alice     win  ]    4 pile
+alice always try to get larger
+
+```
+Runtime: 0 ms, Beats 100.00%
+Memory: 10.60 MB, Beats 39.52%
+```
+```c++
+class Solution {
+public:
+    bool stoneGame(vector<int>& piles) {
+        return true;
+    }
+};
+```

@@ -85,18 +85,18 @@ Time O(klogk)
 Space O(1)
 
 -------------------------------------------------------
-                                                combination
+                                                            combination
 all:
-    x1     +   x2   + ... +   xk    = n         c(n-1, k-1)
+    x1     +   x2   + ... +   xk    = n                     c(n-1, k-1)
 odd product: (only when all number are odd)
   2xi - 1    2y2 - 1       2yk - 1
-2(y1 + y2 + ... + yk) = n + k
-(y1 + y2 + ... + yk) = (n + k) / 2              c((n+k)/2 - 1, k - 1)
-                       ^^^^^^^^^^^
-                        (n + k) is even
+  2(y1 + y2 + ... + yk)             = n + k
+  y1 + y2 + ... + yk                = (n + k) / 2           c((n+k)/2 - 1, k - 1)
+                                      ^^^^^^^^^^^
+                                      (n + k) is even
 
 ---
-**Solution 1: (Math, Combination)**
+**Solution 1: (Math, Combination, total combination - odd product)**
 ```
 Runtime: 7 ms, Beats 92.44%
 Memory: 8.42 MB, Beats 90.41%

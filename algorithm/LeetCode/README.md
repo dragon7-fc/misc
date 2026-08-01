@@ -21336,3 +21336,8 @@ c(n, r)
   n,                                if r == n
   c(n - 1, r - 1) + c(n - 1, r)
 ```
+
+**Template: (Math, a * b = gcd * lcm)**
+```
+a * b = gcd(a, b) * lcm(a, b)
+```

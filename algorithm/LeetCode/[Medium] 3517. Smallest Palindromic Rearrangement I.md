@@ -80,3 +80,33 @@ public:
     }
 };
 ```
+
+**Solution 2: (Counter, preserve original string and count half string then try to assign smallest character to first and second half)**
+```
+Runtime: 20 ms, Beats 88.79%
+Memory: 54.22 MB, Beats 88.13%
+```
+```c++
+class Solution {
+public:
+    string smallestPalindrome(string s) {
+        int n = s.length();
+        vector<int> cnt(26);
+        for (int i = 0; i < n / 2; i ++) {
+            cnt[s[i] - 'a'] += 1;
+        }
+        int i = 0;
+        int j = n - 1;
+        for (char c = 'a'; c <= 'z'; c ++) {
+            while (cnt[c - 'a']) {
+                cnt[c - 'a'] -= 1;
+                s[i] = c;
+                s[j] = c;
+                i += 1;
+                j -= 1;
+            }
+        }
+        return s;
+    }
+};
+```

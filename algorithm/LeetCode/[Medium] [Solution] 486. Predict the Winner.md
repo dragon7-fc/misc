@@ -285,7 +285,7 @@ public:
 };
 ```
 
-**Solution 5: (DP Bottom-Up)**
+**Solution 5: (DP Bottom-Up, 1-D)**
 
     nums = [1,5,233,7]
 
@@ -320,3 +320,28 @@ public:
     }
 };
 ```
+
+**Solution 6: (DP Bottom-Up)**
+```
+Runtime: 0 ms, Beats 100.00%
+Memory: 10.34 MB, Beats 16.44%
+```
+```c++
+class Solution {
+public:
+    bool predictTheWinner(vector<int>& nums) {
+        int n = nums.size();
+        vector<vector<int>> dp(n, vector<int>(n));
+        for (int i = 0; i < n; i ++) {
+            dp[i][i] = nums[i];
+        }
+        for (int k = 1; k <= n - 1; k ++) {
+            for (int i = 0; i + k < n; i ++) {
+                int j = i + k;
+                dp[i][j] = max(nums[i] - dp[i + 1][j], nums[j] - dp[i][j - 1]);
+            }
+        }
+        return dp[0][n - 1] >= 0;
+    }
+};
+````
