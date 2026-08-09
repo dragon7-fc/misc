@@ -150,7 +150,7 @@ public:
 };
 ```
 
-**Solution 5: (Array)**
+**Solution 5: (Array, right rotate, current element = -90 degreess previous)**
       
          j
 i      x ->      x n-1-i

@@ -116,3 +116,121 @@ public:
     }
 };
 ```
+
+**Solution 2: (DFS, mark suspicous method and check outer method can reach)**
+```
+Runtime: 171 ms, Beats 73.10%
+Memory: 302.52 MB, Beats 76.90%
+```
+```c++
+constexpr int MAXN = 100005;
+
+class Solution {
+public:
+    vector<int> remainingMethods(int n, int k, vector<vector<int>>& invocations) {
+        vector<vector<int>> edges(n);
+        vector<int> inDegree(n, 0);
+
+        bitset<MAXN> suspicious;
+
+        for (const auto& inv : invocations) {
+            edges[inv[0]].push_back(inv[1]);
+            inDegree[inv[1]]++;
+        }
+
+        queue<int> q;
+        q.push(k);
+
+        suspicious.set(k);
+
+        while (!q.empty()) {
+            int u = q.front();
+            q.pop();
+            for (int v : edges[u]) {
+                inDegree[v]--;
+
+                if (!suspicious.test(v)) {
+                    q.push(v);
+                    suspicious.set(v);
+                }
+            }
+        }
+
+        bool canRemoveAll = true;
+        vector<int> remaining;
+
+        for (int i = 0; i < n; i++) {
+            if (suspicious.test(i) && inDegree[i] > 0) {
+                canRemoveAll = false;
+                break;
+            } else if (!suspicious.test(i)) {
+                remaining.push_back(i);
+            }
+        }
+
+        if (!canRemoveAll) {
+            vector<int> allNodes(n);
+            iota(allNodes.begin(), allNodes.end(), 0);
+            return allNodes;
+        }
+
+        return remaining;
+    }
+};
+```
+
+**Solution 3: (DFS, dfs to mark suspicous method then check outer method can reach, if outer method can't reach suspecious method then exclude all of them)**
+```
+Runtime: 148 ms, Beats 94.83%
+Memory: 305.85 MB, Beats 68.97%
+```
+```c++
+class Solution {
+    void dfs(int u, vector<vector<int>> &g, vector<bool> &visited) {
+        visited[u] = true;
+        for (auto &v: g[u]) {
+            if (!visited[v]) {
+                dfs(v, g, visited);
+            }
+        }
+    }
+public:
+    vector<int> remainingMethods(int n, int k, vector<vector<int>>& invocations) {
+        vector<vector<int>> g(n);
+        for (const auto &invocation: invocations) {
+            auto a = invocation[0];
+            auto b = invocation[1];
+            g[a].push_back(b);
+        }
+        vector<bool> visited(n);
+        dfs(k, g, visited);
+        bool suspicious = true;
+        for (int i = 0; i < n; i ++) {
+            if (!visited[i]) {
+                for (auto &v: g[i]) {
+                    if (visited[v]) {
+                        suspicious = false;
+                        break;
+                    }
+                }
+                if (suspicious == false) {
+                    break;
+                }
+            }
+        }
+        vector<int> ans;
+        if (suspicious) {
+            for (int i = 0; i < n; i ++) {
+                if (!visited[i]) {
+                    ans.push_back(i);
+                }
+            }
+        } else {
+            for (int i = 0; i < n; i ++) {
+                ans.push_back(i);
+            }
+        }
+        return ans;
+    }
+};
+```

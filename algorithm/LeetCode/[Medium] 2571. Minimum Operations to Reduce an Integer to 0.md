@@ -58,23 +58,6 @@ class Solution:
 
 **Solution 2: (Bit Manipulation)**
 
-
-Code
-Testcase
-Testcase
-Test Result
-All Solutions
-
-
-[Java/C++/Python] 1-line Solution
-
-lee
-365 Days Badge
-20813
-Feb 19, 2023
-C
-Python
-Java
 Intuition
 Take a look at the binary of n:
 
@@ -103,6 +86,10 @@ Complexity
 Time O(logn)
 Space O(1)
 
+-------------------------------
+       
+8   2
+0 1 1 0   6 = 8 - 2
 
     n = 54
 
@@ -110,7 +97,7 @@ Space O(1)
     54           0
 1 1   0 1 1 0
 0 1   1 0 1 1   +1
-  1   1 1 0 0
+0 1   1 1 0 0   
   0   1 1 1 0
       0 1 1 1   +1
       1 0 0 0
@@ -129,6 +116,8 @@ public:
     int minOperations(int n) {
         int res = 0;
         while (n > 0) {
+            // n = ..0111
+            // ->  ..1000
             if ((n & 3) == 3) {
                 n++;
                 res++;

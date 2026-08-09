@@ -138,17 +138,17 @@ least query cover all array
 
        0   1   2   3    4
 nums   1   1   1   1
-       ----------     <
-           ---------- <
-           ----------
-           ------
+       ----------     < can cover all nums
+           ---------- < 
+           ---------- | ans = max removeed query
+           ------     |
        ^
-dp                 -1   -1
+cnt                -1   -1
                         v ans = pq.size()
 pq     3   344     344  34
-       x             x   x
-k      0           0    0
-       1           1    1
+       x             x    
+val    0           0    0
+       1           1     
 ```
 Runtime: 85 ms, Beats 89.64%
 Memory: 224.00 MB, Beats 94.94%

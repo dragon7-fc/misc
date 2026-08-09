@@ -107,3 +107,57 @@ public:
     }
 };
 ```
+
+**Solution 2: (Prefix and Suffix Decomposition + Greedy, precompute right possible bound then try to fill as samll as possible from left, can only replace one to form smallest = try to replace as samll as possible while check next character right possibility)**
+
+             0 1 2 3 4
+    word1 = "v b c c a", word2 = " a b c"
+last                              -1 1 3
+skip                               1
+res                                0 1 2
+-------------------------------------------
+             0 1 2 3 4
+    word1 = "b a c d c", word2 = " a b c"
+last                              -1 0 4
+skip                                 1
+res                                1 2 4
+
+```
+Runtime: 31 ms, Beats 94.68%
+Memory: 109.20 MB, Beats 55.32%
+```
+```c++
+class Solution {
+public:
+    vector<int> validSequence(string word1, string word2) {
+        int n = word1.length(), m = word2.length();
+
+        // right possible bound
+        vector<int> last(m, -1);
+        int j = m - 1;
+        for (int i = n - 1; i >= 0; --i) {
+            if (j >= 0 && word1[i] == word2[j]) {
+                // word2 length == 1 always valid
+
+                last[j] = i;
+                j -= 1;
+            }
+        }
+        vector<int> res;
+        int skip = 0;
+        j = 0;
+        for (int i = 0; i < n; ++i) {
+            if (j == m) break;
+            if (word1[i] == word2[j] ||
+
+                // try to replace current index as smallest while check next character right possibility
+                (skip == 0 && (j == m - 1 || i < last[j + 1]))) {
+                    skip += (word1[i] != word2[j] ? 1 : 0);
+                    res.push_back(i);
+                    j += 1;
+            }
+        }
+        return j == m ? res : vector<int>();
+    }
+};
+```

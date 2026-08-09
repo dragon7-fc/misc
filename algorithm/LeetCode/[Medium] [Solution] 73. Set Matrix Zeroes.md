@@ -349,7 +349,10 @@ class Solution {
 public:
     void setZeroes(vector<vector<int>>& matrix) {
         int m = matrix.size(), n = matrix[0].size(), i, j;
+
+        // for other zeroed column 0
         bool zeroinFirstCol = false;
+
         for (int i = 0; i < m; i ++) {
             if (matrix[i][0] == 0) {
                 zeroinFirstCol = true;
@@ -362,6 +365,7 @@ public:
             }
         }
 
+        // backward since previous marked first row and column
         for (int i = m - 1; i >= 0; i --) {
             for (j = n - 1; j >= 1; j--) {
                 if (matrix[i][0] == 0 || matrix[0][j] == 0) {

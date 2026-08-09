@@ -47,6 +47,11 @@ It is not possible to make all array elements equal in at most 5 operations.
 # Submissions
 ---
 **Solution 1: (Brute Force, try all solution, look forward)**
+
+multiply both `nums[i]` and `nums[i + 1]` by `-1`
+-> go from left to right better
+-> try to fill all 1 or -1
+
 ```
 Runtime: 15 ms, Beats 53.13%
 Memory: 158.10 MB, Beats 81.47%

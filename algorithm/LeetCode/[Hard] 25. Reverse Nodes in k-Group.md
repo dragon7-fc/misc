@@ -317,6 +317,8 @@ public:
         while (cur) {
             ck = 1;
             pre = cur;
+
+            // count k
             while (ck < k && cur->next) {
                 ck += 1;
                 cur = cur->next;
@@ -328,6 +330,8 @@ public:
             ed = pre;
             cur = pre->next;
             ck = 1;
+
+            // reverse
             while (ck < k) {
                 ncur = cur->next;
                 cur->next = pre;

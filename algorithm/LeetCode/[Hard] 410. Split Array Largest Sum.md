@@ -1,6 +1,6 @@
 410. Split Array Largest Sum
 
-Given an array which consists of non-negative integers and an integer m, you can split the array into m non-empty continuous subarrays. Write an algorithm to minimize the largest sum among these m subarrays.
+Given an array which consists of non-negative integers and an integer `m`, you can split the array into m non-empty continuous subarrays. Write an algorithm to minimize the largest sum among these `m` subarrays.
 
 **Note:**
 
@@ -320,7 +320,7 @@ int splitArray(int* nums, int numsSize, int m){
 }
 ```
 
-**Solution 4: (Binary Search, lower bound)**
+**Solution 4: (Binary Search, lower bound, try possible min value to split array into k subarray)**
 ```
 Runtime: 0 ms, Beats 100.00%
 Memory: 10.36 MB, Beats 87.25%

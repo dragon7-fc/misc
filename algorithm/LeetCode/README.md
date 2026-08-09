@@ -10009,6 +10009,44 @@ return ans
 
 ## Greedy <a name="greedy"></a>
 ---
+### precompute right possible bound then try to fill as samll as possible from left, can only replace one to form smallest = try to replace as samll as possible while check next character right possibility
+```c++
+class Solution {
+public:
+    vector<int> validSequence(string word1, string word2) {
+        int n = word1.length(), m = word2.length();
+
+        // right possible bound
+        vector<int> last(m, -1);
+        int j = m - 1;
+        for (int i = n - 1; i >= 0; --i) {
+            if (j >= 0 && word1[i] == word2[j]) {
+                // word2 length == 1 always valid
+
+                last[j] = i;
+                j -= 1;
+            }
+        }
+        vector<int> res;
+        int skip = 0;
+        j = 0;
+        for (int i = 0; i < n; ++i) {
+            if (j == m) break;
+            if (word1[i] == word2[j] ||
+
+                // try to replace current index as smallest while check next character right possibility
+                (skip == 0 && (j == m - 1 || i < last[j + 1]))) {
+                    skip += (word1[i] != word2[j] ? 1 : 0);
+                    res.push_back(i);
+                    j += 1;
+            }
+        }
+        return j == m ? res : vector<int>();
+    }
+};
+```
+* [Medium] 3302. Find the Lexicographically Smallest Valid Sequence
+
 ### origin count '1' + max nearby '0' region gain
 ```c++
 class Solution {

@@ -145,3 +145,150 @@ public:
 };
 ```
 
+**Solution 5: (DP Bottom-Up, Prefix Sum)**
+
+    piles = [ 2, 7, 9, 4, 4]
+              A  BBBB  AAAA
+              AAAA  BBBBBBB
+suffixSum    26 24 17  8  4  0
+dp
+0             0  0  0  0  0  0
+1      ans > 10 16 13  8  4  0
+2            22 24 17  8  4  0
+3            26 24 17  8  4  0
+4            26 24 17  8  4  0
+5            26 24 17  8  4  0
+
+```
+Runtime: 47 ms, Beats 19.67%
+Memory: 13.52 MB, Beats 64.48%
+``
+```c++
+class Solution {
+public:
+    int stoneGameII(vector<int>& piles) {
+        int n = piles.size();
+        vector<vector<int>> dp(n + 1, vector<int>(n + 1));
+
+        // Store suffix sum for all possible suffix
+        vector<int> suffixSum(n + 1, 0);
+        for (int i = n - 1; i >= 0; i --) {
+            suffixSum[i] = suffixSum[i + 1] + piles[i];
+        }
+
+        // Initialize the dp array.
+        for (int i = 0; i <= n; i ++) {
+            dp[i][n] = suffixSum[i];
+        }
+
+        // Start from the last index to store the future state first.
+        for (int i = n - 1; i >= 0; i --) {
+            for (int M = n - 1; M >= 1; M --) {
+                for (int X = 1; X <= 2 * M && i + X <= n; X ++) {
+                    dp[i][M] = max(
+                        dp[i][M],
+                        suffixSum[i] - dp[i + X][max(M, X)]);
+                }
+            }
+        }
+        return dp[0][1];
+    }
+};
+```
+
+**Solution 6: (DP Bottom-Up, Prefix Sum)**
+```
+Runtime: 11 ms, Beats 54.67%
+Memory: 13.64 MB, Beats 55.90%
+```
+```c++
+class Solution {
+public:
+    int stoneGameII(vector<int>& piles) {
+        int n = piles.size();
+        vector<vector<int>> dp(n + 1, vector<int>(n + 1, 0));
+        vector<int> suffixSum(n + 1, 0);
+
+        for (int i = n - 1; i >= 0; i--) {
+            suffixSum[i] = suffixSum[i + 1] + piles[i];
+        }
+
+        for (int i = n - 1; i >= 0; i--) {
+            // Optimization 1: M never needs to exceed n
+            for (int M = 1; M <= n; M++) {
+                // Optimization 2: If we can take all remaining piles, do it directly
+                if (i + 2 * M >= n) {
+                    dp[i][M] = suffixSum[i];
+                    continue;
+                }
+                
+                for (int X = 1; X <= 2 * M; X++) {
+                    dp[i][M] = max(dp[i][M], suffixSum[i] - dp[i + X][max(M, X)]);
+                }
+            }
+        }
+        return dp[0][1];
+    }
+};
+```
+
+**Solution 7: (DP Top-Down, Prefix Sum)**
+
+sufffixSum:
+i
+a + b + c + d + e
+  - b - c - d - e
+      + c + d + e
+          - d - e
+              + e
+------------------
+a     + c     + e
+
+      i,m i+x,max(x,m)    
+dp    [ ][          ]
+      [ ] + [       ]
+      [ ] ++ [       ]
+
+Current Player Stones = suffixSum[i] - nextPlayerStones
+
+dp(i, M) =     max     (suffixSum[i] - dp}(i + X, max(M, X)))
+           1 <= X <= M
+
+         = suffixSum[i] - min (dp(i + X, max(M, X)))
+                      1 <= X <= M
+
+```
+Runtime: 0 ms, Beats 100.00%
+Memory: 13.53 MB, Beats 64.48%
+```
+```c++
+class Solution {
+    int dfs(int i, int m, vector<int> &suffixSum, vector<vector<int>> &dp) {
+
+        // get as much pile as possible
+        if (i + 2 * m >= suffixSum.size()) {
+            return suffixSum[i];
+        }
+
+        if (dp[i][m]) {
+            return dp[i][m];
+        }
+        int res = INT_MAX;
+        for (int x = 1; x <= 2 * m; x ++) {
+            res = min(res, dfs(i + x, max(x, m), suffixSum, dp));
+        }
+        dp[i][m] = suffixSum[i] - res;
+        return dp[i][m];
+    }
+public:
+    int stoneGameII(vector<int>& piles) {
+        int n = piles.size();
+        vector<vector<int>> dp(n, vector<int>(n));
+        vector<int> suffixSum = piles;
+        for (int i = suffixSum.size() - 2; i >= 0; i --) {
+            suffixSum[i] += suffixSum[i + 1];
+        }
+        return dfs(0, 1, suffixSum, dp);
+    }
+};
+```

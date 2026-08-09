@@ -203,7 +203,7 @@ public:
         for (int k = 2; k <= n; k ++) {
             for (int i = 0; i + k - 1 < n; i ++) {
                 int j = i + k - 1;
-                dp[i][j] = max(piles[i] + dp[i + 1][j], piles[j] + dp[i][j - 1]);
+                dp[i][j] = max(piles[i] - dp[i + 1][j], piles[j] - dp[i][j - 1]);
             }
         }
         return dp[0][n - 1] > 0;
