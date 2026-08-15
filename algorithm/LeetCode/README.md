@@ -3393,6 +3393,7 @@ public:
         // dp[mask][i] = most overlap with mask, ending with ith element
         vector<vector<int>> dp(1 << n, vector<int>(n));
         vector<vector<int>> parent(1 << n, vector<int>(n));
+        // first mask loop
         for (int mask = 0; mask < (1 << n); mask ++) {
             fill(parent[mask].begin(), parent[mask].end(), -1);
 
