@@ -44,7 +44,7 @@ Explanation: As there are no 1s, no submatrix of 1s can be formed and the area i
 
 * `m == matrix.length`
 * `n == matrix[i].length`
-* `1 <= m * n <= 105`
+* `1 <= m * n <= 10^5`
 * `matrix[i][j]` is `0` or `1`.
 
 # Submissions
@@ -181,7 +181,7 @@ public:
 };
 ```
 
-**Solution 5: (Prefix Sum, try accumulate height from previous row to generate decreasing array then try every solution)**
+**Solution 5: (Prefix Sum, row by row try accumulate height from previous row to generate decreasing array then try each possible column, try match current row's column with previous accumulated highest column)**
 
 
     area = width * height
@@ -204,15 +204,18 @@ public:
                      0    1    2
           matrix = [[0,   0,   1],
 pre
-height                         (1,2)
+cur                            (1,2)
+                                height
+                                  column
+                                area = height * (column + 1)
 ans                             1
                     [1,   1,   1],
 pre                            (1,2)
-height                         (2,2) (1,0) (1,1)
+cur                            (2,2) (1,0) (1,1)
 ans                             2     2     3
                     [1,   0,   1]]
 pre                            (2,2) (1,0) (1,1)
-height                         (3,2) (2,0)
+cur                            (3,2) (2,0)
 ans                             3     4
 
 ```

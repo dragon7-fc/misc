@@ -216,7 +216,7 @@ public:
 };
 ```
 
-**Solution 4: (Sliding Window, Prefix Sum, Brute Force, Enumeration, O(n sqrt(n)), enumerate all location and try all possible dominant one based on length = cnt0 + cnt1)**
+**Solution 4: (Sliding Window, Prefix Sum, Brute Force, Enumeration, O(n sqrt(n)), enumerate all location as right boundary and try all possible dominant one left boundary based on length = cnt0 + cnt1)**
 
         0    i
 s      [ ... 0  ...]
@@ -303,19 +303,20 @@ public:
             }
         }
         int res = 0;
-        for (int i = 1; i <= n; i++) {
-            int cnt0 = s[i - 1] == '0';
-            int j = i;
-            while (j > 0 && cnt0 * cnt0 <= n) {
-                int cnt1 = (i - pre[j]) - cnt0;
+        for (int j = 1; j <= n; j ++) {
+            int cnt0 = s[j - 1] == '0';
+            int i = j;
+            while (i > 0 && cnt0 * cnt0 <= n) {
+                int cnt1 = (j - pre[i]) - cnt0;
                 if (cnt0 * cnt0 <= cnt1) {
-                    res += min(j - pre[j], cnt1 - cnt0 * cnt0 + 1);
+                    res += min(i - pre[i], cnt1 - cnt0 * cnt0 + 1);
                              //----------  ------------------  ---
                              // all one     cnt1 > cnt0^2      cnt1 = cnt0^2
                              //[cnt0 = 0]  [------ cnt0 > 0 -----]
+                             // largest           smaller
                 }
-                j = pre[j];
-                cnt0++;
+                i = pre[i];
+                cnt0 += 1;
             }
         }
         return res;

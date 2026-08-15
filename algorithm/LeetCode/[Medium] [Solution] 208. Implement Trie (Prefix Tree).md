@@ -414,6 +414,7 @@ class Trie {
         int child[26];
         bool isEnd;
         TrieNode() {
+            // unused node
             fill(begin(child), end(child), -1);
             isEnd = false;
         }
@@ -429,6 +430,8 @@ public:
         for (char &c: word) {
             if (dp[nodeIdx].child[c - 'a'] == -1) {
                 dp.push_back(TrieNode());
+
+                // assign current node as last
                 dp[nodeIdx].child[c - 'a'] = dp.size() - 1;
                 nodeIdx = dp.size() - 1;
             } else {

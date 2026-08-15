@@ -125,7 +125,7 @@ class Solution:
         return False
 ```
 
-**Solution 5: (Binary Search, two pointes, search from corner for low and high pointer)**
+**Solution 5: (Binary Search, two pointes, search from corner as mid and go up for smaller and right for larger)**
 ```
 Runtime: 46 ms, Beats 84.77%
 Memory: 18.69 MB, Beats 67.36%

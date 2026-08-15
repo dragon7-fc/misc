@@ -233,7 +233,7 @@ public:
  */
 ```
 
-**Solution 4: (Queue)**
+**Solution 4: (Queue, when push try to put last element to queue front)**
 
     q 1
       1 2   -> 2 1

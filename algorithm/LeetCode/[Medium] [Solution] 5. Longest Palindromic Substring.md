@@ -541,3 +541,38 @@ public:
     }
 };
 ```
+
+**Solution 9: (Expand Around Center)**
+```
+Runtime: 9 ms, Beats 62.55%
+Memory: 9.42 MB, Beats 57.41%
+```
+```c++
+class Solution {
+public:
+    string longestPalindrome(string s) {
+        int n = s.length();
+        int mx = 1; 
+        int st = 0;
+        for (int i = 0; i < n; i ++){
+            int low = i, high = i;
+            while (low >=0 && s[low] == s[i]) {
+                low --;
+            }
+            while (high <n && s[high] == s[i]) {
+                high ++;
+            }            
+            while (low >= 0 && high < n && s[low] == s[high]){
+                low --;
+                high ++;
+            }
+            if (mx < (high - low - 1)){
+                st = low + 1;
+                mx = high - low -1;
+            }
+        }
+        
+        return s.substr(st, mx);
+    }
+};
+```

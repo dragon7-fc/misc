@@ -112,7 +112,7 @@ class Solution:
         return answer
 ```
 
-**Solution 2: (Monotonic Stack, first use mono inc stack to rack min value and range then summation and second use mono dec stack to track max value and range then summation finally subtract max sum with min sum)**
+**Solution 2: (Monotonic Stack, first use mono inc stack to track min value and range then summation and second use mono dec stack to track max value and range then summation finally subtract max sum with min sum)**
 
                  x max = stk.top()
              x      x

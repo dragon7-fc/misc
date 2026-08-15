@@ -217,7 +217,11 @@ Memory: 71.64 MB, Beats 71.83%
 class Solution {
     long long countLess(vector<int>& nums, int val) {
         long long res = 0;
+
+        // assume take current number as right boundary
         for (int i = 0, j = nums.size() - 1; i < j; i ++) {
+
+            // move left coundary
             while (i < j && nums[i] + nums[j] > val) {
                 j -= 1;
             }

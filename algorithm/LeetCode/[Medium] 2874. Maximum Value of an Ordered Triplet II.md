@@ -50,6 +50,8 @@ public:
         long long res = 0;
         int maxa = 0, maxab = 0;
         for (int&a : nums) {   
+
+            // assume take a
             res = max(res, 1LL * maxab * a);
             maxab = max(maxab, maxa - a);
             maxa = max(maxa, a);
@@ -60,6 +62,20 @@ public:
 ```
 **Solution 2: (One Pass)**
 
+      i  j  k
+nums
+            x
+      x
+         x
+
+max (nums[i] - nums[j]) * nums[k]
+     -------
+       pre
+     -----------------
+        max a
+     ----------------------------
+            max ans
+--------------------------------------
      12, 6, 1, 2, 7
 pre  12 12 12
 a        6 11 11 
@@ -78,7 +94,11 @@ public:
         long long ans = 0;
         for (i = 2; i < n; i ++) {
             pre = max(pre, nums[i-2]);
+
+            // try nums[i-1] to get max (nums[i] - nums[j])
             a = max(a, pre-nums[i-1]);
+
+            // assume take nums[i]
             ans = max(ans, 1LL*a*nums[i]);
         }
         return ans;

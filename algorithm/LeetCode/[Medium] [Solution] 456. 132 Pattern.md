@@ -382,10 +382,6 @@ public:
             }
             while (!st.empty() && st.top() < nums[i]) {
                 pre = st.top();
-                // need not pre = max(pre, st.top());
-                // because mono inc stack top() will always increasing
-                // if stack top() becomes decreased it will return true first in previous condiction
-
                 st.pop();
             }
             st.push(nums[i]);

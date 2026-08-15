@@ -81,6 +81,11 @@ class Solution:
 ```
 
 **Solueion 3: (Bit Manipulation)**
+
+    n = 2
+i    0 1 2 3
+num  0 1 3 2
+
 ```
 Runtime: 0 ms, Beats 100.00%
 Memory: 14.73 MB, Beats 21.21%

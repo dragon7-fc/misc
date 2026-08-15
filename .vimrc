@@ -42,6 +42,9 @@ Plug 'morhetz/gruvbox'
 " Auto ctags update on file change
 Plug 'craigemery/vim-autotag'
 
+" Markdown Preview for (Neo)vim
+Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() }, 'for': ['markdown', 'vim-plug']}
+
 Plug 'majutsushi/tagbar'
 Plug 'will133/vim-dirdiff'
 Plug 'joe-skb7/cscope-maps'
@@ -65,7 +68,7 @@ filetype plugin on
 "" --vimgrep -> Needed to parse the rg response properly for ack.vim
 "" --type-not sql -> Avoid huge sql file dumps as it slows down the search
 "" --smart-case -> Search case insensitive if all lowercase pattern, Search case sensitively otherwise
-let g:ackprg = 'rg --vimgrep --type-not sql --smart-case'
+let g:ackprg = 'rg --vimgrep --type-not sql --smart-case -P'
 
 "" Auto close the Quickfix list after pressing '<enter>' on a list item
 let g:ack_autoclose = 1

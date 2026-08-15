@@ -226,10 +226,10 @@ public:
             pre[i] = piles[i];
         }
         for (int k = 2; k <= n; k ++) {
-            vector<int> dp(n - k + 1);
+            vector<int> dp(n);
             for (int i = 0; i + k - 1 < n; i ++) {
                 int j = i + k - 1;
-                dp[i] = max(piles[i] + pre[i], piles[j] + pre[i + 1]);
+                dp[i] = max(piles[i] - pre[j], piles[j] - pre[j - 1]);
             }
             pre = move(dp);
         }

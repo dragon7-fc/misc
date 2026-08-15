@@ -420,7 +420,7 @@ public:
  */
 ```
 
-**Solution 5: (Array)**
+**Solution 5: (Array, empty means front == rear pointer and field value == -1)**
 
       -1 -1 -1
        1  2  3

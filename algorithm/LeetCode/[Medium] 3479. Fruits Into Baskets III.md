@@ -174,7 +174,7 @@ public:
 };
 ```
 
-**Solution 2: (Square Root Decomposition)**
+**Solution 2: (Square Root Decomposition, precompute bucket representative block then try to place fruit in one of them, O(n ^ (3/2)))**
 ```
 Runtime: 409 ms, Beats 30.92%
 Memory: 176.08 MB, Beats 98.89%
@@ -185,20 +185,26 @@ public:
     int numOfUnplacedFruits(vector<int>& fruits, vector<int>& baskets) {
         int n = fruits.size(), m = sqrt(n+1), i, j, k = (n + m - 1)/m, ck, ans = 0;
         bool flag;
-        vector<int> dp(k);
+        vector<int> dp(k);  // block representative = max(buckets[i], ... buckets[i + m - 1]) 
         for (i = 0; i < n; i ++) {
             dp[i/m] = max(dp[i/m], baskets[i]);
         }
         for (i = 0; i < n; i ++) {
             flag = true;
             for (ck = 0; ck < k; ck ++) {
+
+                // can place fruits[i] on one of buckets[ck * m] ... buckets[ck * m + m - 1]
                 if (fruits[i] <= dp[ck]) {
                     dp[ck] = 0;
                     for (j = ck*m; j < ck*m + m && j < n; j ++) {
+
+                        // place fruits[i] on buckets[j]
                         if (fruits[i] <= baskets[j] && flag) {
                             baskets[j] = 0;
                             flag = false;
                         }
+
+                        // update buckets[j]'s representative block dp[ck]
                         dp[ck] = max(dp[ck], baskets[j]);
                     }
                 }

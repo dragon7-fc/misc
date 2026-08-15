@@ -67,3 +67,34 @@ public:
     }
 };
 ```
+
+**Solution 2: (Sliding Window, no nested loop)**
+```
+Runtime: 55 ms, Beats 90.73%
+Memory: 149.32 MB, Beats 56.74%
+```
+```c++
+class Solution {
+public:
+    int maxSubarrayLength(vector<int>& nums, int k) {
+        int n = nums.size();
+        unordered_map<int, int> cnt;
+        int i = 0;
+        int over_k = 0;
+        for (int j = 0; j < n; j ++) {
+            cnt[nums[j]] += 1;
+            if (cnt[nums[j]] == k + 1) {
+                over_k += 1;
+            }
+            if (over_k) {
+                cnt[nums[i]] -= 1;
+                if (cnt[nums[i]] == k) {
+                    over_k -= 1;
+                }
+                i += 1;
+            }
+        }
+        return n - i;
+    }
+};
+```

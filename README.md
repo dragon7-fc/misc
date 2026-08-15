@@ -337,24 +337,27 @@ A playground to note something.
 * linux
 
     - mutex vs semaphore vs spinlock
-    Feature          | Mutex                               | Semaphore                          | Spinlock
-    -----------------|-------------------------------------|------------------------------------|----------------------------------------
-    Waiting Behavior | Sleep / Block (Yields CPU)          | Sleep / Block (Yields CPU)         | Busy-Waiting (Spins in a loop)
-    Ownership        | Strict. Only the locker can unlock. | None. Any thread can signal.       | Strict. Only the locker can unlock.
-    Resource Count   | Strictly 1.                         | N (Counting) or 1 (Binary).        | Strictly 1.
-    Use Case         | Protecting shared data (Long paths).| Task synchronization / Throttling. | Interrupts / Short paths (No sleeping).
-    Context Safety   | Process context only (Can sleep).   | Process context only (Can sleep).  | Interrupt context safe (Cannot sleep).
+
+        Feature          | Mutex                               | Semaphore                          | Spinlock
+        -----------------|-------------------------------------|------------------------------------|----------------------------------------
+        Waiting Behavior | Sleep / Block (Yields CPU)          | Sleep / Block (Yields CPU)         | Busy-Waiting (Spins in a loop)
+        Ownership        | Strict. Only the locker can unlock. | None. Any thread can signal.       | Strict. Only the locker can unlock.
+        Resource Count   | Strictly 1.                         | N (Counting) or 1 (Binary).        | Strictly 1.
+        Use Case         | Protecting shared data (Long paths).| Task synchronization / Throttling. | Interrupts / Short paths (No sleeping).
+        Context Safety   | Process context only (Can sleep).   | Process context only (Can sleep).  | Interrupt context safe (Cannot sleep).
     
     - bottom half interrupt
-    Feature           | Softirq                      | Tasklet                      | Workqueue                  | Threaded IRQ
-    ------------------|------------------------------|------------------------------|----------------------------|-------------------------------------
-    Context           | Interrupt                    | Interrupt                    | Process (kworker)          | Process (Dedicated thread)
-    Can Sleep/Block?  | No                           | No                           | Yes                        | Yes
-    Execution Trigger | Immediately upon ISR exit    | Via softirq vector execution | Via OS scheduler (kworker) | Via OS scheduler (IRQ thread)
-    SMP Concurrency   | Same handler can run on      | Same tasklet cannot run on   | Multiple workers can run   | Serialized per interrupt line
-                      | multiple CPUs simultaneously | multiple CPUs simultaneously | across CPUs                | 
-    Typical Use Case  | Networking, Block Devices    | General driver deferral      | Storage I/O, long delays,  | Modern bus drivers (PCI, I2C, GPIO)
-                      |                              | (no blocking)                | sleep required             |
+
+        Feature             | Softirq                 | Tasklet                  | Workqueue                    | Threaded IRQ
+        --------------------|-------------------------|--------------------------|------------------------------|-------------------------------------
+        Context             | Interrupt (Atomic)      | Interrupt (Atomic)       | Process (`kworker`)          | Process (IRQ thread)
+        Can Sleep?          | ❌ No                   | ❌ No                    | ✅ Yes                       | ✅ Yes
+        Trigger             | Upon ISR exit           | Via `TASKLET_SOFTIRQ`    | OS Scheduler                 | OS Scheduler
+        SMP Concurrency     | Parallel across CPUs    | Single-instance per CPU  | Parallel (`kworker` pool)    | Serialized per IRQ line
+        Re-entrancy         | Required (Strict)       | Not required             | Standard locking             | Standard locking
+        Latency             | Extremely Low           | Low                      | Medium (Scheduler)           | Medium (RT Priority capable)
+        Creation            | Static (`open_softirq`) | Dynamic (`tasklet_init`) | Dynamic (`queue_work`)       | Driver API (`request_threaded_irq`)
+        Primary Use         | Network, Block I/O      | Legacy drivers           | Long I/O, sleeping tasks     | Modern bus drivers (I2C, SPI, GPIO)
 
     - [Understanding `fork()` in Linux: How Process Creation Really Works](https://dev.to/farhadrahimiklie/understanding-fork-in-linux-how-process-creation-really-works-13id)
     - [What is MMAP in Linux and how it is useful?](https://programmingappliedai.substack.com/p/what-is-mmap-in-linux-and-how-it)
@@ -438,29 +441,29 @@ A playground to note something.
         - [I2C Communication – All about I²C with Diagrams](https://www.seeedstudio.com/blog/2019/09/26/i2c-communication-interface-and-protocol-with-diagrams/?srsltid=AfmBOoqyatyUuk5ya0waAe5m96FhqhJ02E7UZzXkUznCpH2BV9Oz37ky)
         - i2c-tools
 
-            |                    | command                                         |
-            |--------------------|-------------------------------------------------|
-            | scan bus           | `i2cdetect -l`                                  |
-            | scan slave address | `i2cdetect -y [BUS]`                            |
-            | dump register      | `i2cdump -y [BUS] [SLAVE_ADDRESS]`              |
-            | write register     | `i2cset -f -y [BUS] [SLAVE_ADDRESS] [REGISTER]` |
-            | read register      | `i2cget -y [BUS] [SLAVE_ADDRESS] [REGISTER]`    |
+            |                    | command                                         
+            |--------------------|-------------------------------------------------
+            | scan bus           | `i2cdetect -l`                                  
+            | scan slave address | `i2cdetect -y [BUS]`                            
+            | dump register      | `i2cdump -y [BUS] [SLAVE_ADDRESS]`              
+            | write register     | `i2cset -f -y [BUS] [SLAVE_ADDRESS] [REGISTER]` 
+            | read register      | `i2cget -y [BUS] [SLAVE_ADDRESS] [REGISTER]`    
+
     - SMBus
         - [SMBus Protocol](https://www.prodigytechno.com/blog/protocols/smbus-protocol/)
     - IPMB
         - [Intelligent Platform Management Bus (IPMB)](https://wiki.wireshark.org/IPMB_protocol)
         - I2C vs SMBus
-        Feature          | I²C Bus                           | SMBus
-        -----------------|-----------------------------------|----------
-        Max Clock Speed  | Standard: 100 kHz                 | Strictly limited to 100 kHz
-                         | Fast: 400 kHz                     |
-                         | Fast-plus/High-speed: up to 5 MHz | 
-        Min Clock Speed  | No minimum (can go to DC)         | Minimum of 10 kHz
-        Timeouts         | No timeout specification          | Strict timeouts; resets bus if clock is held low for > 35 ms
-        Message Protocol | Flexible, arbitrary length        | Defined packet structures (e.g., Quick Command, Send/Receive Byte)
-        Packet Error     | Not defined                       | Optional CRC-8 error checking at end of packet
-        Checking (PEC)   |                                   |
-        Logic Levels     | Usually proportional to V_DD      | Fixed thresholds independent of V_DD
+
+            Feature                     | I²C Bus                                                             | SMBus
+            ----------------------------|---------------------------------------------------------------------|----------
+            Max Clock Speed             | Standard: 100 kHz, Fast: 400 kHz, Fast-plus/High-speed: up to 5 MHz | Strictly limited to 100 kHz
+            Min Clock Speed             | No minimum (can go to DC)                                           | Minimum of 10 kHz
+            Timeouts                    | No timeout specification                                            | Strict timeouts; resets bus if clock is held low for > 35 ms
+            Message Protocol            | Flexible, arbitrary length                                          | Defined packet structures (e.g., Quick Command, Send/Receive Byte)
+            Packet Error Checking (PEC) | Not defined                                                         | Optional CRC-8 error checking at end of packet
+            Logic Levels                | Usually proportional to V_DD                                        | Fixed thresholds independent of V_DD
+
     - PMBus
         - [A Brief Introduction to PMbus®](https://article.murata.com/en-global/article/a-brief-introduction-to-pmbus)
     - SPI

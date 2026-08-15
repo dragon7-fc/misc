@@ -129,3 +129,66 @@ public:
     }
 };
 ```
+
+**Solution 3: (Case Study)**
+
+cnt0 % 2 == 1:
+= reverse condition
+
+cnt0 % 2 == 0
+-> alice win
+cnt0 % 2 == 1
+-> bob win
+
+
+                      | A  B  A  B  A  B  A   | bob win                 | alice win
+                      | 1, 1, 2, 1, 2, 1, 2   |                         |
+----------------------|-----------------------|-------------------------|----------------
+all stone removed     |                       |                         |
+                      | ------A               | cnt1 = cnt2 + 1         | 
+                      | ------------A         |                         |
+                      |                       |                         |
+                      | ---------B            | cnt1 = cnt2 + 2         |
+                      | ---------------B      |                         |
+----------------------|-----------------------|-------------------------| cnt1 >= 1 && cnt1 <= cnt2
+not all stone removed |                       |                         |
+                      |                       | cnt1 = cnt2 + ? (? > 3) |
+
+                      | A  B  A  B  A  B  A   | bob win                 | alice win  
+                      | 2, 2, 1, 2, 1, 2, 1   |                         |
+----------------------|-----------------------|-------------------------|----------------
+                      |                       |                         | cnt2 >= 1 && cnt2 <= cnt1        
+
+```
+Runtime: 8 ms, Beats 30.20%
+Memory: 131.16 MB, Beats 92.89%
+```
+```c++
+class Solution {
+public:
+    bool stoneGameIX(vector<int>& stones) {
+        int cnt0 = 0, cnt1 = 0, cnt2 = 0;
+        for (int val : stones) {
+            if (int type = val % 3; type == 0) {
+                ++cnt0;
+            } else if (type == 1) {
+                ++cnt1;
+            } else {
+                ++cnt2;
+            }
+        }
+
+        // Case 1: Even number of 0-stones (0-stones don't change parity)
+        // alice win
+        if (cnt0 % 2 == 0) {
+            // cnt1 >= 1 && cnt1 <= cnt2
+            // cnt2 >= 1 && cnt2 <= cnt1
+            return cnt1 >= 1 && cnt2 >= 1;
+        }
+
+        // Case 2: Odd number of 0-stones (0-stones flip parity)
+        // bob win, not all stone removed (transfer status to another owner)
+        return cnt1 - cnt2 > 2 || cnt2 - cnt1 > 2;
+    }
+};
+```

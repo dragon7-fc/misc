@@ -103,7 +103,7 @@ public:
 };
 ```
 
-**Solution 2: (Sort, Sliding Window, prefix sum, counter element in range, sort log and query by time then slide over query time range with visited server count)**
+**Solution 2: (Sort, Sliding Window, prefix sum, counter element in range, sort log and query by time then slide over query time range with visited server count, count element in range = count[right] == 1 - count[right - x] == 0)**
 ```
 Runtime: 58 ms, Beats 67.69%
 Memory: 197.76 MB, Beats 99.23%

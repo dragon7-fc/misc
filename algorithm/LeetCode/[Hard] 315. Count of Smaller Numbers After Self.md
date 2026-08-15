@@ -13,6 +13,23 @@ To the right of 6 there is 1 smaller element (1).
 To the right of 1 there is 0 smaller element.
 ```
 
+**Example 2:**
+```
+Input: nums = [-1]
+Output: [0]
+```
+
+**Example 3:**
+```
+Input: nums = [-1,-1]
+Output: [0,0]
+```
+
+**Constraints:**
+
+* `1 <= nums.length <= 10^5`
+* `-10^4 <= nums[i] <= 10^4`
+
 # Submissions
 ---
 **Solution 1: (Sort, Greedy)**
@@ -414,6 +431,7 @@ class Solution {
     vector<int> bit;
     int query(int i) {
         int j = i + 10000 + 1;
+                            // bit start from 1
         int rst = 0;
         while (j) {
             rst += bit[j];
@@ -423,6 +441,7 @@ class Solution {
     }
     void update(int i, int val) {
         int j = i + 10000 + 1;
+                            // bit start from 1
         while (j < bit.size()) {
             bit[j] += val;
             j += j & (-j);
@@ -430,11 +449,13 @@ class Solution {
     }
 public:
     vector<int> countSmaller(vector<int>& nums) {
-        bit.resize(20000 + 1 + 1);
+        bit.resize(20000 + 1);
+                           // bit start from 1
         int n = nums.size();
         vector<int> ans(n);
         for (int i = n - 1; i >= 0; i --) {
             ans[i] = query(nums[i] - 1);
+                                     // smaller than self
             update(nums[i], 1);
         }
         return ans;

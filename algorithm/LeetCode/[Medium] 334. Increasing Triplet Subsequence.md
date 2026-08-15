@@ -51,7 +51,7 @@ class Solution:
         return False
 ```
 
-**Solution 2: (Greedy, Two-Barriers, LIS, try to smaller previous smallest a or second smallest b then check current value smaller than second smallest b)**
+**Solution 2: (Greedy, Two-Barriers, LIS, sequencially check current value greater than second smallest b then try to update second smallest b by larger than smallest a and smallest a, try to maintain a < b < current value structure)**
 
   
   ~  a  b  num
@@ -59,10 +59,10 @@ class Solution:
 --------------------------
      -------------->
           
-b      x      |update
-         x <  |            
-a      x      v        
-     small
+b       x       |update
+           x <  |            
+a       x       v        
+      small
 
      -------------->
           
@@ -96,13 +96,45 @@ public:
             if (num > b) {
                 return true;
             }
+
+            // if current value > smallest a then update second smallest b to preserve a < b structure
             if (num > a) {
                 b = min((long long)num, b);
             }
+
             a = min((long long)num, a);
         }
         return false;
 
+    }
+};
+```
+
+**Solution 3: (Greedy, try to maintain min1 < min2 < current value structure)**
+```
+Runtime: 0 ms, Beats 100.00%
+Memory: 115.81 MB, Beats 12.05%
+```
+```c++
+class Solution {
+public:
+    bool increasingTriplet(vector<int>& nums) {
+        int n = nums.size();
+        if (n < 3) {
+            return false;
+        }
+        int min1 = INT_MAX;
+        int min2 = INT_MAX;
+        for (const auto &num: nums) {
+            if (num <= min1) {
+                min1 = num;
+            } else if (num <= min2) {
+                min2 = num;
+            } else {
+                return true;
+            }
+        }
+        return false;
     }
 };
 ```

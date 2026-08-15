@@ -1219,34 +1219,30 @@ class Solution:
 ### Expand From Centers
 ```c++
 class Solution {
-    string expand(int i, int j, string s) {
-        int left = i;
-        int right = j;
-
-        while (left >= 0 && right < s.size() && s[left] == s[right]) {
-            left -= 1;
-            right += 1;
-        }
-
-        return s.substr(left + 1, right - left - 1);
-    }
 public:
     string longestPalindrome(string s) {
-        string ans = "";
-
-        for (int i = 0; i < s.size(); i++) {
-            string odd = expand(i, i, s);
-            if (odd.size() > ans.size()) {
-                ans = odd;
+        int n = s.length();
+        int mx = 1; 
+        int st = 0;
+        for (int i = 0; i < n; i ++){
+            int low = i, high = i;
+            while (low >=0 && s[low] == s[i]) {
+                low --;
             }
-
-            string even = expand(i, i + 1, s);
-            if (even.size() > ans.size()) {
-                ans = even;
+            while (high <n && s[high] == s[i]) {
+                high ++;
+            }            
+            while (low >= 0 && high < n && s[low] == s[high]){
+                low --;
+                high ++;
+            }
+            if (mx < (high - low - 1)){
+                st = low + 1;
+                mx = high - low -1;
             }
         }
-
-        return ans;
+        
+        return s.substr(st, mx);
     }
 };
 ```
@@ -1735,7 +1731,7 @@ class Solution:
 ```
 * [Medium] [Solution] 322. Coin Change
 
-### 0/1 knapsack 1-D, try to add each number to each sum
+### 0/1 knapsack 1-D, knapsack, try to add each number to each sum
 ```c++
 class Solution {
 public:
@@ -1757,6 +1753,43 @@ public:
 };
 ```
 * [Medium] 416. Partition Equal Subset Sum
+
+### knapsack, tracks how full the current bucket is after using mask, in each mask try to add one more element, State Compression DP
+```c++
+class Solution {
+public:
+    bool canPartitionKSubsets(vector<int>& nums, int k) {
+        int total = accumulate(nums.begin(), nums.end(), 0);
+        if (total % k) {
+            return false;
+        }
+        int n = nums.size(), target = total / k;
+        const int FULL = (1 << n) - 1;
+        vector<int> pre(1 << n, -1), dp(1 << n, -1);
+        dp[0] = 0;
+
+        // sequentially check each state
+        for (int mask = 0; mask <= FULL; mask ++) {
+            if (dp[mask] == -1) {
+                continue;
+            }
+            for (int i = 0; i < n; i ++) {
+                if (mask & (1 << i)) {
+                    continue;
+                }
+                if (dp[mask] + nums[i] <= target) {
+                    int nmask = mask | (1 << i);
+
+                    // try to add each number to each state
+                    dp[nmask] = (dp[mask] + nums[i]) % target;
+                }
+            }
+        }
+        return dp[FULL] == 0;
+    }
+};
+```
+* [Medium] [Solution] 698. Partition to K Equal Sum Subsets
 
 ### Full Binary Tree
 ```python
@@ -2154,7 +2187,7 @@ class NumMatrix:
 ```
 * [Medium] [Solution] 304. Range Sum Query 2D - Immutable
 
-### Prefix Sum, try accumulate height from previous row to generate decreasing array then try every solution
+### Prefix Sum, row by row try accumulate height from previous row to generate decreasing array then try each possible column, try match current row's column with previous accumulated highest column
 ```c++
 class Solution {
 public:
@@ -9107,7 +9140,7 @@ public:
 ```
 * [Medium] 378. Kth Smallest Element in a Sorted Matrix
 
-### Binary Search, 2 pointers, search from corner for low and high pointer
+### Binary Search, 2 pointers, search from corner as mid and go up for smaller and right for larger
 ```c++
 class Solution {
 public:
@@ -10533,23 +10566,27 @@ public:
 ```
 * [Medium] [Solution] 435. Non-overlapping Intervals
 
-### Two-Barriers, LIS, try to smaller previous smallest a or second smallest b then check current value smaller than second smallest b
+### Two-Barriers, LIS, try to maintain min1 < min2 < current value structure
 ```c++
 class Solution {
 public:
     bool increasingTriplet(vector<int>& nums) {
-        long long a = 1e10, b = 1e10;
-        for (auto &num : nums) {
-            if (num > b) {
+        int n = nums.size();
+        if (n < 3) {
+            return false;
+        }
+        int min1 = INT_MAX;
+        int min2 = INT_MAX;
+        for (const auto &num: nums) {
+            if (num <= min1) {
+                min1 = num;
+            } else if (num <= min2) {
+                min2 = num;
+            } else {
                 return true;
             }
-            if (num > a) {
-                b = min((long long)num, b);
-            }
-            a = min((long long)num, a);
         }
         return false;
-
     }
 };
 ```
@@ -13002,7 +13039,7 @@ class Solution:
 ```
 * [Medium] 1673. Find the Most Competitive Subsequence
 
-### first use mono inc stack to rack min value and range then summation and second use mono dec stack to track max value and range then summation finally subtract max sum with min sum
+### first use mono inc stack to track min value and range then summation and second use mono dec stack to track max value and range then summation finally subtract max sum with min sum
 ```c++
 class Solution {
 public:
@@ -13036,7 +13073,7 @@ public:
 ```
 * [Medium] 2104. Sum of Subarray Ranges
 
-### track previous backward mono dec top/max element then compare current value smaller than it
+### track previous backward mono dec top/max element then compare current value smaller than it, assume take nums[i + 1] as 3
 ```c++
 class Solution {
 public:
@@ -13049,10 +13086,6 @@ public:
             }
             while (!st.empty() && st.top() < nums[i]) {
                 pre = st.top();
-                // need not pre = max(pre, st.top());
-                // because mono inc stack top() will always increasing
-                // if stack top() becomes decreased it will return true first in previous condiction
-
                 st.pop();
             }
             st.push(nums[i]);
@@ -16982,7 +17015,7 @@ public:
 ```
 * [Hard] [Solution] 295. Find Median from Data Stream
 
-### sort by efficiency and speed then greedily keep largest speeds with min-heap and try every solution
+### sort by efficiency and speed then greedily keep track min speeds with heap to drop
 ```c++
 class Solution {
 public:
@@ -17137,7 +17170,7 @@ class Solution:
 ```
 * [Medium] 1405. Longest Happy String
 
-### cache dry day index then when flood try binary search to previous nearest dry day to dry current flooded lake
+### cache dry day then when flood try binary search to previous nearest dry day to dry current flooded lake
 ```c++
 class Solution {
 public:
@@ -18137,12 +18170,16 @@ public:
 ```
 * [Medium] 1888. Minimum Number of Flips to Make the Binary String Alternating
 
-### sort, prefix sum, count range pair = prefix count upper range - lower range
+### sort, count [upper .. lower] range pair = prefix count upper range - (lower - 1) range, try take current value as right boundary and slide over left boundary to check pair sum within range
 ```c++
 class Solution {
     long long countLess(vector<int>& nums, int val) {
         long long res = 0;
+
+        // assume take current number as right boundary
         for (int i = 0, j = nums.size() - 1; i < j; i ++) {
+
+            // move left coundary
             while (i < j && nums[i] + nums[j] > val) {
                 j -= 1;
             }
@@ -18159,7 +18196,7 @@ public:
 ```
 * [Medium] 2563. Count the Number of Fair Pairs
 
-### sort, prefix sum, count element in range = prefix right - prefix (right - x)
+### sort, prefix sum, count element in range = count[right] == 1 - count[right - x] == 0
 ```c++
 class Solution {
 public:
@@ -18220,7 +18257,7 @@ public:
 ```
 * [Medium] 424. Longest Repeating Character Replacement
 
-### Prefix Sum, Brute Foce, enumerate all location and try all possible dominant one based on length = cnt0 + cnt1
+### Prefix Sum, Brute Foce, enumerate all location as right boundary and try all possible dominant one left boundary based on length = cnt0 + cnt1
 ```c++
 class Solution {
 public:
@@ -18236,19 +18273,20 @@ public:
             }
         }
         int res = 0;
-        for (int i = 1; i <= n; i++) {
-            int cnt0 = s[i - 1] == '0';
-            int j = i;
-            while (j > 0 && cnt0 * cnt0 <= n) {
-                int cnt1 = (i - pre[j]) - cnt0;
+        for (int j = 1; j <= n; j ++) {
+            int cnt0 = s[j - 1] == '0';
+            int i = j;
+            while (i > 0 && cnt0 * cnt0 <= n) {
+                int cnt1 = (j - pre[i]) - cnt0;
                 if (cnt0 * cnt0 <= cnt1) {
-                    res += min(j - pre[j], cnt1 - cnt0 * cnt0 + 1);
+                    res += min(i - pre[i], cnt1 - cnt0 * cnt0 + 1);
                              //----------  ------------------  ---
                              // all one     cnt1 > cnt0^2      cnt1 = cnt0^2
                              //[cnt0 = 0]  [------ cnt0 > 0 -----]
+                             // largest           smaller
                 }
-                j = pre[j];
-                cnt0++;
+                i = pre[i];
+                cnt0 += 1;
             }
         }
         return res;
@@ -18825,8 +18863,27 @@ for j in range(N):
     while XXX > K:
         i += 1
     max = j - i + 1
+return ans
 ```
-**Template 2: (Two Pointers)**
+
+**Template 2: (Sliding Window, Non-shrinkable, max length, no loop, greedy expand right pointer and try shrink left once at a time)**
+```python
+cnt = {}
+i = 0
+over_limit = 0
+for j in range(N):
+    cnt[nums[j]] += 1
+    if cnt[nums[j]] == LIMIT + 1:
+        over_limit += 1
+    if over_limit:
+        cnt[nums[i]] -= 1
+        if cnt[nums[i]] == LIMIT:
+            over_limit -= 1
+        i += 1
+return n - i
+```
+
+**Template 3: (Two Pointers)**
 ```python
 left, right = 0, N-1
 while left < right:
@@ -18839,7 +18896,7 @@ while left < right:
 return ans
 ```
 
-**Template 3: (Two Pointers)**
+**Template 4: (Two Pointers)**
 ```python
 left, right = 0, N-1
 while left < right:
@@ -18852,36 +18909,7 @@ while left < right:
 return ans
 ```
 
-**Template 4: (Sliding window)**
-```python
-i = 0
-count = collections.Counter(nums)
-for j, x in enumerate(N):
-    count[x] += 1
-    while ...:
-        count[nums[i]] -= 1
-        if count[nums[i]] == 0:
-            del count[i]
-        i += 1
-    ans = max(ans, j - i + 1)
-
-return ans
-```
-
-**Template 5: (Advanced Sliding Window, max length, Non-shrinkable, greedy expand right pointer and try shrink left once at a time)**
-```python
-ans = []
-i = 0
-for j in ragen(len(A)):
-    cur = ... A[j]
-    if cur > limit:
-        cur = ... A[i]
-        i += 1
-        
-return A.size() - i
-```
-
-**Template 6: (Greedy, Two Pointers)**
+**Template 5: (Greedy, Two Pointers)**
 ```python
 for i in range(N):
     left, right = i+1, N-1
@@ -18896,7 +18924,7 @@ for i in range(N):
 return ans
 ```
 
-**Template 7: (Greedy, Single-Pass Maximum Tracking)**
+**Template 6: (Greedy, Single-Pass Maximum Tracking)**
 ```c++
 int max_1 = 1e9;
 int max_2 = 1e9;
@@ -19284,6 +19312,7 @@ class Trie {
         int child[26];
         bool isEnd;
         TrieNode() {
+            // unused node
             fill(begin(child), end(child), -1);
             isEnd = false;
         }
@@ -19299,6 +19328,8 @@ public:
         for (char &c: word) {
             if (dp[nodeIdx].child[c - 'a'] == -1) {
                 dp.push_back(TrieNode());
+
+                // assign current node as last
                 dp[nodeIdx].child[c - 'a'] = dp.size() - 1;
                 nodeIdx = dp.size() - 1;
             } else {
@@ -19691,39 +19722,6 @@ for XXX in XXXs:
 
 ## Recursion <a name="recursion"></a>
 ---
-### tracks how full the current bucket is after using mask, in each mask try to add one more element, State Compression DP
-```c++
-class Solution {
-public:
-    bool canPartitionKSubsets(vector<int>& nums, int k) {
-        int total = accumulate(nums.begin(), nums.end(), 0);
-        if (total % k) {
-            return false;
-        }
-        int n = nums.size(), target = total / k;
-        const int FULL = (1 << n) - 1;
-        vector<int> pre(1 << n, -1), dp(1 << n, -1);
-        dp[0] = 0;
-        for (int mask = 0; mask <= FULL; mask ++) {
-            if (dp[mask] == -1) {
-                continue;
-            }
-            for (int i = 0; i < n; i ++) {
-                if (mask & (1 << i)) {
-                    continue;
-                }
-                if (dp[mask] + nums[i] <= target) {
-                    int nmask = mask | (1 << i);
-                    dp[nmask] = (dp[mask] + nums[i]) % target;
-                }
-            }
-        }
-        return dp[FULL] == 0;
-    }
-};
-```
-* [Medium] [Solution] 698. Partition to K Equal Sum Subsets
-
 ### DP Top-down, Tree
 ```python
 # Definition for a binary tree node.
@@ -19934,27 +19932,33 @@ public:
 ```
 * [Medium] 406. Queue Reconstruction by Height
 
-### Square Root Decomposition
+### Square Root Decomposition, precompute bucket representative block then try to place fruit in one of them, O(n ^ (3/2))
 ```c++
 class Solution {
 public:
     int numOfUnplacedFruits(vector<int>& fruits, vector<int>& baskets) {
         int n = fruits.size(), m = sqrt(n+1), i, j, k = (n + m - 1)/m, ck, ans = 0;
         bool flag;
-        vector<int> dp(k);
+        vector<int> dp(k);  // block representative = max(buckets[i], ... buckets[i + m - 1]) 
         for (i = 0; i < n; i ++) {
             dp[i/m] = max(dp[i/m], baskets[i]);
         }
         for (i = 0; i < n; i ++) {
             flag = true;
             for (ck = 0; ck < k; ck ++) {
+
+                // can place fruits[i] on one of buckets[ck * m] ... buckets[ck * m + m - 1]
                 if (fruits[i] <= dp[ck]) {
                     dp[ck] = 0;
                     for (j = ck*m; j < ck*m + m && j < n; j ++) {
+
+                        // place fruits[i] on buckets[j]
                         if (fruits[i] <= baskets[j] && flag) {
                             baskets[j] = 0;
                             flag = false;
                         }
+
+                        // update buckets[j]'s representative block dp[ck]
                         dp[ck] = max(dp[ck], baskets[j]);
                     }
                 }
@@ -20312,6 +20316,7 @@ class Solution {
     vector<int> bit;
     int query(int i) {
         int j = i + 10000 + 1;
+                            // bit start from 1
         int rst = 0;
         while (j) {
             rst += bit[j];
@@ -20321,6 +20326,7 @@ class Solution {
     }
     void update(int i, int val) {
         int j = i + 10000 + 1;
+                            // bit start from 1
         while (j < bit.size()) {
             bit[j] += val;
             j += j & (-j);
@@ -20328,11 +20334,13 @@ class Solution {
     }
 public:
     vector<int> countSmaller(vector<int>& nums) {
-        bit.resize(20000 + 1 + 1);
+        bit.resize(20000 + 1);
+                           // bit start from 1
         int n = nums.size();
         vector<int> ans(n);
         for (int i = n - 1; i >= 0; i --) {
             ans[i] = query(nums[i] - 1);
+                                     // smaller than self
             update(nums[i], 1);
         }
         return ans;
@@ -20402,6 +20410,8 @@ public:
     
     void addNum(int value) {
         auto it = mp.upper_bound(value);
+
+        // try to insert
         if (it != mp.begin()) {
             auto pit = prev(it);
             if (pit->second >= value - 1) {
@@ -20412,6 +20422,8 @@ public:
         } else {
             mp[value] = value;
         }
+
+        // try to merge with previous element
         if (it != mp.begin()) {
             auto pit = prev(it);
             if (pit->second + 1 == it->first) {
@@ -20474,6 +20486,7 @@ class Solution:
 * [Hard] [Solution] 975. Odd Even Jump
 
 **Template 1: (Segment Tree)**
+
 Data Structure     | Point Update | Range Sum | Range Max/Min | Range Assignment
 -------------------|--------------|-----------|---------------|-------------------
 Fenwick Tree (BIT) |      x       |    x      |	              |
@@ -20481,7 +20494,7 @@ Segment Tree       |      x       |    x      |      x        |        x  (with 
 
 ## Queue <a name="queue"></a>
 ---
-### head, tail pointer, size and filled
+### head, tail pointer, empty means front == rear pointer and field value == -1
 ```c++
 class MyCircularQueue {
     vector<int> dp;
