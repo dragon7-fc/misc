@@ -255,7 +255,7 @@ public:
 };
 ```
 
-**Solution 5: (Greedy, Min/Max Balance Tracking)**
+**Solution 5: (Greedy, Min/Max Balance Tracking, Tracking '(' "Possible" Range, locked[i] == '0' like wildcard of 678)**
 ```
 Runtime: 4 ms, Beats 96.50%
 Memory: 30.19 MB, Beats 50.62%

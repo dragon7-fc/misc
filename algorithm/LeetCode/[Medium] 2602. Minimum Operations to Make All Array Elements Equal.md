@@ -118,7 +118,7 @@ public:
 };
 ```
 
-**Solution 3: (Prefix sum, Binary Search, Math, left sum + right sum, change one-one compare with +/- 2 direction to 1 direction expected lack below and redundant above area sum)**
+**Solution 3: (Prefix sum, Binary Search, Math, left sum + right sum, sort and binary search then use prefix sum to sum left below and right above area)**
 
                -
              - -

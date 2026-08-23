@@ -5248,7 +5248,7 @@ class Solution:
 class Solution {
     bool check(const string &word, const string &p) {
         int n = p.length();
-        vector<int> dp(n);  // lps: Longest Prefix which is also a Suffix
+        vector<int> dp(n);  // lps: Longest Pattern Prefix
         for (int i = 1, k = 0; i < n; i ++) {
             while (k && p[k] != p[i]) {
                 k = dp[k - 1];
@@ -10043,7 +10043,7 @@ return ans
 
 ## Greedy <a name="greedy"></a>
 ---
-### precompute right possible bound then try to fill as samll as possible from left, can only replace one to form smallest = try to replace as samll as possible while check next character right possibility
+### precompute each character's last possible index to form target then try to replace smallest unmatched source without violate next target character's last possible index, can only replace one to form smallest = try to replace as samll as possible while check next character right possibility
 ```c++
 class Solution {
 public:
@@ -10081,7 +10081,7 @@ public:
 ```
 * [Medium] 3302. Find the Lexicographically Smallest Valid Sequence
 
-### origin count '1' + max nearby '0' region gain
+### count '1' + max nearby 2 '0' region gain
 ```c++
 class Solution {
 public:
@@ -10194,7 +10194,7 @@ public:
 ```
 * [Medium] 1975. Maximum Matrix Sum
 
-### Effective Index, defer new index by current index and deleted element
+### Effective Index, new index = index - deleted count
 ```c++
 class Solution {
 public:
@@ -10202,6 +10202,7 @@ public:
         int ans = 0;
         for (int i = 0; i < nums.size() - 1; i++)
             if (nums[i] == nums[i + 1] and (i - ans) % 2 == 0) ans++;
+                                           // new index = index - deleted count
         return ans + (nums.size() - ans) % 2;
     }
 };
@@ -10354,7 +10355,7 @@ class Solution:
 ```
 * [Medium] 1437. Check If All 1's Are at Least Length K Places Away
 
-### Sort, Two Pointers, greedy from back
+### Sort, Two Pointers, greedy on smallest and largest weight pair else largest
 ```c++
 class Solution {
 public:
@@ -10766,7 +10767,7 @@ class Solution:
 ```
 * [Medium] [Solution] 954. Array of Doubled Pairs
 
-### Tracking the "Possible" Range, locked[i] == '0' like wildcard of 678
+### Tracking '(' "Possible" Range, locked[i] == '0' like wildcard of 678
 ```c++
 class Solution {
 public:
@@ -14251,6 +14252,7 @@ class Solution:
         buildings = [0 for _ in range(n)]
         return dfs(buildings, 0)
 ```
+* [Hard] 1601. Maximum Number of Achievable Transfer Requests
 
 ### Try 0-9 for each unvisited cell
 ```c++
@@ -14903,7 +14905,7 @@ class Solution:
 ```
 * [Medium] 2731. Movement of Robots
 
-### assume base and add most k gain
+### assume record2 baae and add most k record1 gain by record1 - record2 and sort
 ```c++
 class Solution {
 public:
@@ -14920,8 +14922,8 @@ public:
 };
 ```
 * [Medium] 2611. Mice and Cheese
----
-### Prefix sum, Binary Search, Math, left sum + right sum, change one-one compare with +/- 2 direction to 1 direction expected lack below and redundant above area sum
+
+### Prefix sum, Binary Search, Math, left sum + right sum, sort and binary search then use prefix sum to sum left below and right above area
 ```c++
 class Solution {
 public:
@@ -21392,4 +21394,46 @@ c(n, r)
 **Template: (Math, a * b = gcd * lcm)**
 ```
 a * b = gcd(a, b) * lcm(a, b)
+```
+
+**Template: (Math, get prime, Sieve, O(m log log m))**
+```c++
+        vector<int> sieve(maxElement + 1, 1);
+        sieve[1] = 0;
+        for (int i = 2; i <= sqrt(maxElement + 1); i++) {
+            if (sieve[i] == 1) {
+                for (int j = i * i; j <= maxElement; j += i) {
+                    sieve[j] = 0;
+                }
+            }
+        }
+```
+
+**Template: (Math, get prime factor, Sieve similar, O(m log log m))**
+```c++
+const int MX = 100001;
+vector<vector<int>> factors(MX + 1);
+
+// O(mlog(log(m)))
+int init = []() {
+    // Code here runs at global initialization time
+    for (int i = 2; i <= MX; ++i) {
+        if (factors[i].empty()) {
+            factors[i].push_back(i);
+            for (int j = i * 2; j <= MX; j += i) {
+                factors[j].push_back(i);
+            }
+        }
+    }
+    return 0;
+}();  // Immediatly Invoked Lambda Expression (IIFE)
+```
+
+**Template: (C++ Template example)**
+```c++
+// Blueprint for a generic maximum function
+template <typename T>
+T findMax(T a, T b) {
+    return (a > b) ? a : b;
+}
 ```

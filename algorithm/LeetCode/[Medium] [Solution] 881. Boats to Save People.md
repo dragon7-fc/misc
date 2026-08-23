@@ -90,7 +90,7 @@ class Solution:
         return ans
 ```
 
-**Solution: (Greedy, Two Pointers)**
+**Solution: (Greedy, Two Pointers, greedy on smallest and largest weight pair else largest)**
 ```
 Runtime: 155 ms
 Memory Usage: 41.9 MB

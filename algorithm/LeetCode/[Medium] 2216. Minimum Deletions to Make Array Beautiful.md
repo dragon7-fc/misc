@@ -34,7 +34,7 @@ Explanation: You can delete nums[0] and nums[5] to make nums = [1,2,2,3] which i
 
 # Submissions
 ---
-**Solution 1: (Greedy, Effective Index)**
+**Solution 1: (Greedy, Effective Index, new index = index - deleted count)**
 
 if use dp will need to maintain dp[i][is_odd][last_val]
                                               ^^^^^^^^^

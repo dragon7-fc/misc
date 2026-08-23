@@ -91,3 +91,80 @@ class Solution:
             return False
         return True
 ```
+
+**Solution 2: (Counter, Math, '??' should be 9. When Alice set 1 '?' to be x, Bob can set the other '?' to be 9-x. When the number of '?' is odd, Alice always wins)**
+```
+Runtime: 4 ms, Beats 47.55%
+Memory: 15.37 MB, Beats 5.36%
+```
+```c++
+class Solution {
+public:
+    bool sumGame(string num) {
+        int n = num.size();
+
+        auto get = [](string&& s) -> pair<int, int> {
+            int nn = 0, qq = 0;
+            for (char ch : s) {
+                if (ch == '?') {
+                    ++qq;
+                } else {
+                    nn += (ch - '0');
+                }
+            }
+            return {nn, qq};
+        };
+
+        auto [n0, q0] = get(num.substr(0, n / 2));
+        auto [n1, q1] = get(num.substr(n / 2, n / 2));
+
+        return ((q0 + q1) % 2 == 1) || (n0 - n1 != (q1 - q0) * 9 / 2);
+                //Odd ?s, Alice will always win cuz she has the final say
+                                       // The only situation Bob can win
+    }
+};
+```
+
+**Solution 3: (Counter, Math)**
+
+case 1:
+        sumL   sumR
+         qL     qR
+case 2:
+        sumL
+               sumR
+                qR
+         qL
+case 3:
+               sumR
+        sumL
+         qL
+                qR
+```
+Runtime: 7 ms, Beats 21.45%
+Memory: 14.09 MB, Beats 33.57%
+```
+```c++
+class Solution {
+public:
+    bool sumGame(string num) {
+        int n = num.length();
+        int sumL = 0, sumR = 0;
+        int qL = 0, qR = 0;
+
+        for (int i = 0; i < n / 2; ++i) {
+            if (num[i] == '?') qL++;
+            else sumL += num[i] - '0';
+        }
+
+        for (int i = n / 2; i < n; ++i) {
+            if (num[i] == '?') qR++;
+            else sumR += num[i] - '0';
+        }
+
+        // Total remaining '?' difference must be even for Bob to balance them
+        // And the sum difference must be offset by 9 * (delta_q / 2)
+        return (2 * (sumL - sumR) != 9 * (qR - qL));
+    }
+};
+```

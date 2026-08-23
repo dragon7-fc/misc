@@ -108,7 +108,7 @@ public:
 };
 ```
 
-**Solution 2: (Prefix and Suffix Decomposition + Greedy, precompute right possible bound then try to fill as samll as possible from left, can only replace one to form smallest = try to replace as samll as possible while check next character right possibility)**
+**Solution 2: (Prefix and Suffix Decomposition + Greedy, precompute each character's last possible index to form target then try to replace smallest unmatched source without violate next target character's last possible index, can only replace one to form smallest = try to replace as samll as possible while check next character right possibility)**
 
              0 1 2 3 4
     word1 = "v b c c a", word2 = " a b c"

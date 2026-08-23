@@ -68,3 +68,39 @@ class Solution:
         return res + (n - len(d))*2
                         
 ```
+
+**Solution 2: (Bit Manipulation, Hash Table)**
+```
+Runtime: 7 ms, Beats 98.82%
+Memory: 59.24 MB, Beats 78.38%
+```
+```c++
+class Solution {
+public:
+    int maxNumberOfFamilies(int n, vector<vector<int>>& reservedSeats) {
+        int left = 0b11110000;
+        int middle = 0b11000011;
+        int right = 0b00001111;
+
+        unordered_map<int, int> mp;
+        for (const auto &r: reservedSeats) {
+            auto row = r[0];
+            auto seat = r[1];
+            if (seat >= 2 && seat <= 9) {
+                mp[row] |= (1 << (seat - 2));
+            }
+        }
+
+        int ans = (n - mp.size()) * 2;
+        for (auto &[_, mask] : mp) {
+
+            // if any of seat 2 - 9 been occupied, then at most get 1 assignment
+            // use bitwise | to see current occupied status
+            if (((mask | left) == left) || ((mask | middle) == middle) || ((mask | right) == right)) {
+                ans += 1;
+            }
+        }
+        return ans;
+    }
+};
+```

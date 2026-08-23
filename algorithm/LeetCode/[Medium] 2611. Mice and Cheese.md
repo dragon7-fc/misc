@@ -50,7 +50,16 @@ class Solution:
         return sum(reward2) + sum(nlargest(k, (a - b for a, b in zip(reward1, reward2))))
 ```
 
-**Solution 2: (Sort, assume baae and add most k gain)**
+**Solution 2: (Sort, assume record2 baae and add most k record1 gain by record1 - record2 and sort)**
+
+Assume take all from the second array.
+Check the difference sequence:
+A[0] - B[0], A[1] - B[1], ...
+
+Take k largest from the sequence and sum up.
+
+Return the res = sum(B) + sum(k largest A[i]-B[i])
+
 
 base = reward2
 gain = reward1 - reward2

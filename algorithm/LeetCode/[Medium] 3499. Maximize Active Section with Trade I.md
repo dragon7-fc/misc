@@ -206,7 +206,7 @@ public:
 };
 ```
 
-**Solution 3: (Space Optimization)**
+**Solution 3: (Space Optimization, count '1' + max nearby 2 '0' region gain)**
 ```
 Runtime: 84 ms, Beats 41.89%
 Memory: 54.90 MB, Beats 76.13%
