@@ -154,3 +154,119 @@ public:
     }
 };
 ```
+
+**Solution 3: (Prefix Sum, Sort, DSU, O(N log N + N a(N))**
+```
+Runtime: 904 ms, Beats 5.35%
+Memory: 439.19 MB, Beats 5.07%
+```
+```c++
+class Solution {
+    vector<int> p;
+    int find(int x) {
+        if (x != p[x]) {
+            p[x] = find(p[x]);
+        }
+        return p[x];
+    }
+    void uni(int x, int y) {
+        int xr = find(x);
+        int yr = find(y);
+        p[xr] = yr;
+    }
+public:
+    vector<int> lexicographicallySmallestArray(vector<int>& nums, int limit) {
+        int n = nums.size();
+        p.resize(n, 0);
+        for (int i = 0; i < n; i ++) {
+            p[i] = i;
+        }
+        map<int, vector<int>> mp;
+        for (int i = 0; i < n; i ++) {
+            mp[nums[i]].push_back(i);
+        }
+        for (int i = 1; i < mp.begin()->second.size(); i ++) {
+            uni(mp.begin()->second[0], mp.begin()->second[i]);
+        }
+        for (auto it = next(mp.begin()), pit = mp.begin(); it != mp.end(); it ++) {
+            auto num = it->first;
+            auto idx = it->second;
+            for (int i = 1; i < idx.size(); i ++) {
+                uni(idx[0], idx[i]);
+            }
+            if (num - pit->first <= limit) {
+                uni(idx[0], pit->second[0]);
+            }
+            pit = it;
+        }
+        unordered_map<int, deque<int>> pre(n);
+        for (int i = 0; i < n; i ++) {
+            int par = find(i);  // Use find(i) directly
+            pre[par].push_back(i);
+        }
+        for (auto &[_, idx]: pre) {
+            sort(idx.begin(), idx.end(), [&](auto i, auto j){return nums[i] < nums[j];});
+        }
+        vector<int> ans(n);
+        for (int i = 0; i < n; i ++) {
+            int j = pre[find(i)].front();  // Find the root component for index i
+            ans[i] = nums[j];
+            pre[p[i]].pop_front();
+        }
+        return ans;
+    }
+};
+```
+
+**Solution 4: (Prefix Sum, Sort, sort by (value, index) and group by limit then sort by index and sequencially put element in index, O(N Log N))**
+```
+Runtime: 129 ms, Beats 89.30%
+Memory: 140.67 MB, Beats 88.45%
+```
+```c++
+class Solution {
+public:
+    vector<int> lexicographicallySmallestArray(vector<int>& nums, int limit) {
+        int n = nums.size();
+        
+        // Pair (value, original_index)
+        vector<pair<int, int>> pairs(n);
+        for (int i = 0; i < n; i++) {
+            pairs[i] = {nums[i], i};
+        }
+        
+        // Sort pairs by value
+        sort(pairs.begin(), pairs.end());
+        
+        vector<int> ans(n);
+        
+        // Group connected components
+        for (int i = 0; i < n; ) {
+            int j = i;
+            // Extend component as long as difference <= limit
+            while (j + 1 < n && pairs[j + 1].first - pairs[j].first <= limit) {
+                j++;
+            }
+            
+            // Extract original indices for this component
+            vector<int> indices;
+            for (int k = i; k <= j; k++) {
+                indices.push_back(pairs[k].second);
+            }
+            
+            // Sort indices to place smallest values in leftmost positions
+            sort(indices.begin(), indices.end());
+            
+            // Assign sorted values to sorted indices
+            for (int k = i; k <= j; k++) {
+                ans[indices[k - i]] = pairs[k].first;
+            }
+            
+            // Move to next group
+            i = j + 1;
+        }
+        
+        return ans;
+    }
+};
+```

@@ -172,7 +172,7 @@ class Solution:
         return False
 ```
 
-**Solution 5: (DFS)**
+**Solution 5: (DFS, Backtracking)**
 ```
 Runtime: 35 ms, Beats 97.16%
 Memory: 10.68 MB, Beats 57.48%

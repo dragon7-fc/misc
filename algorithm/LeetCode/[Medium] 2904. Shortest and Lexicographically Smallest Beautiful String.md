@@ -118,3 +118,36 @@ public:
     }
 };
 ```
+
+**Solution 3: (Sliding Window)**
+```
+Runtime: 0 ms, Beats 100.00%
+Memory: 8.72 MB, Beats 64.74%
+```
+```c++
+class Solution {
+public:
+    string shortestBeautifulSubstring(string s, int k) {
+        if (count(s.begin(), s.end(), '1') < k) {
+            return "";
+        }
+        int i = 0;
+        string ans = s;
+        int one = 0;
+        for (int j = 0; j < s.length(); j ++) {
+            one += s[j] - '0';
+            while (one == k) {
+                string cs = s.substr(i, j - i + 1);
+                if (cs.length() < ans.length() ||
+                        cs.length() == ans.length() && cs < ans) {
+                        // ex. "00" < "1"
+                    ans = move(cs);
+                }
+                one -= s[i] - '0';
+                i += 1;
+            }
+        }
+        return ans;
+    }
+};
+```

@@ -149,7 +149,7 @@ class Solution:
         return ans
 ```
 
-**Solution 4: (Two Pointers, O(n^3))**
+**Solution 4: (Two Pointers, O(n^3), try to find current pair value different from previous)**
 
              0  1  2  3  4  5
     nums = [ 1, 0,-1, 0,-2, 2], target = 0
@@ -171,6 +171,8 @@ public:
         sort(nums.begin(), nums.end());
         vector<vector<int>> ans;
         for (i = 0; i < n-3; i ++) {
+
+            // first element must be different from prefious pair
             if (i && nums[i] == nums[i-1]) {
                 continue;
             }
@@ -180,6 +182,8 @@ public:
                 while (k < l) {
                     if ((long long)nums[i] + nums[j] + nums[k] + nums[l] == target) {
                         ans.push_back({nums[i], nums[j], nums[k], nums[l]});
+
+                        // third element must be different
                         while (k < l && nums[k] == nums[k+1]) {
                             k += 1;
                         }
@@ -191,6 +195,8 @@ public:
                         k += 1;
                     }
                 }
+
+                // second element must be different
                 while (j < n-2 && nums[j+1] == nums[j]) {
                     j += 1;
                 }

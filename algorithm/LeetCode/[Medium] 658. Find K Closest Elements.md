@@ -269,7 +269,7 @@ public:
 };
 ```
 
-**Solution 9: (Binary Search for start pointer, lower bound)**
+**Solution 9: (Binary Search for start pointer, lower bound, binary search lower bound of a k length subarray w.r.t. x)**
 
                   x
     arr = [ 1, 2, 3, 4, 5], k = 4, x = 3

@@ -153,3 +153,194 @@ public:
     }
 };
 ```
+
+**Solution 2: (Backtracking, Pruning, try to fill first larger character as earliest as possible)**
+```
+Runtime: 0 ms, Beats 100.00%
+Memory: 9.84 MB, Beats 82.17%
+```
+```c++
+class Solution {
+    bool bt(string &path, vector<int> &cnt, bool big, string &ans, string &target){
+        int n = target.size();
+        if (path.size() == n){
+            if (big) {
+                ans = move(path);
+                return true;
+            }
+            return false;
+        }
+        int i = path.size();
+        for (int j = 0; j < 26; j ++){
+            if (cnt[j] == 0) {
+                continue;
+            }
+            if (!big && j + 'a' < target[i]) {
+                continue;
+            }
+            path += j + 'a';
+            cnt[j] -= 1;
+            bool nbig = big || (j + 'a' > target[i]);
+            if (bt(path, cnt, nbig, ans, target)) {
+                return true;
+            }
+            cnt[j] += 1;
+            path.pop_back();
+        }
+        return false;
+    }
+public:
+    string lexGreaterPermutation(string s, string target) {
+        vector<int> cnt(26);
+        for (char &c: s) {
+            cnt[c-'a'] += 1;
+        }
+        string path;
+        string ans;
+        bool big = false;
+        bt(path, cnt, big, ans, target);
+        return ans;
+
+    }
+};
+```
+
+**Solution 3: (Greedy, try to fill first larger character as earliest as possible then sort rest)**
+
+
+```
+Runtime: 3 ms, Beats 69.43%
+Memory: 9.60 MB, Beats 98.73%
+```
+```c++
+class Solution {
+public:
+    string lexGreaterPermutation(string s, string target) {
+        int n = s.length();
+        vector<int> freq(26, 0);
+        for (char ch : s) {
+            freq[ch - 'a']++;
+        }
+
+        int best_pivot = -1;
+        char best_char = ' ';
+
+        // 1. Try to match prefix target[0...k]
+        for (int k = 0; k < n; ++k) {
+            // Check if we can pick a character larger than target[k] at index k
+            int target_char = target[k] - 'a';
+            for (int c = target_char + 1; c < 26; ++c) {
+                if (freq[c] > 0) {
+                    best_pivot = k;
+                    best_char = 'a' + c;
+                    break; // Pick the smallest possible character > target[k]
+                }
+            }
+
+            // Try to match target[k] to continue matching prefix further
+            if (freq[target_char] > 0) {
+                freq[target_char]--;
+            } else {
+                // Cannot match target[k], stop prefix matching loop
+                break;
+            }
+        }
+
+        // No pivot point found where we can make string > target
+        if (best_pivot == -1) {
+            return "";
+        }
+
+        // 2. Reconstruct original frequency count
+        vector<int> rem_freq(26, 0);
+        for (char ch : s) {
+            rem_freq[ch - 'a']++;
+        }
+
+        string result = "";
+        
+        // Match prefix target[0 ... best_pivot - 1]
+        for (int k = 0; k < best_pivot; ++k) {
+            result += target[k];
+            rem_freq[target[k] - 'a']--;
+        }
+
+        // Place best_char at best_pivot
+        result += best_char;
+        rem_freq[best_char - 'a']--;
+
+        // Fill remaining suffix with leftover characters in ascending order
+        for (int c = 0; c < 26; ++c) {
+            while (rem_freq[c] > 0) {
+                result += ('a' + c);
+                rem_freq[c]--;
+            }
+        }
+
+        return result;
+    }
+};
+````
+
+**Solution 4: (Greedy, try to fill first larger character as earliest as possible then sort rest)**
+
+                 best_i
+target  ====== [   .    ] xxx
+ans     ====== [ larger ] ...
+         equal            sort
+        longest
+
+```
+Runtime: 0 ms, Beats 100.00%
+Memory: 9.63 MB, Beats 94.90%
+```
+```c++
+class Solution {
+public:
+    string lexGreaterPermutation(string s, string target) {
+        int n = s.length();
+        vector<int> cnt(26, 0);
+        for (auto const &c : s) {
+            cnt[c - 'a'] += 1;
+        }
+        int big_i = -1;
+        char big_char = ' ';
+        for (int i = 0; i < n; i ++) {
+            int j = target[i] - 'a';
+            for (int cj = j + 1; cj < 26; cj ++) {
+                if (cnt[cj] > 0) {
+                    big_i = i;
+                    big_char = cj + 'a';
+                    break;
+                }
+            }
+            if (cnt[j] > 0) {
+                cnt[j] -= 1;
+            } else {
+                break;
+            }
+        }
+        if (big_i == -1) {
+            return "";
+        }
+        fill(cnt.begin(), cnt.end(), 0);
+        for (const auto &c : s) {
+            cnt[c - 'a'] += 1;
+        }
+        string ans = "";
+        for (int i = 0; i < big_i; i ++) {
+            ans += target[i];
+            cnt[target[i] - 'a'] -= 1;
+        }
+        ans += big_char;
+        cnt[big_char - 'a'] -= 1;
+        for (int j = 0; j < 26; j ++) {
+            while (cnt[j] > 0) {
+                ans += (j + 'a');
+                cnt[j] -= 1;
+            }
+        }
+        return ans;
+    }
+};
+```

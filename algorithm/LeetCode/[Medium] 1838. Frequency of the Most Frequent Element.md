@@ -170,7 +170,7 @@ public:
 };
 ```
 
-**Solution 5: (Sliding Window)**
+**Solution 5: (Sliding Window, Non-shrinkable)**
 
              0  1  2  3
     nums = [ 1, 4, 8,13], k = 5

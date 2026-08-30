@@ -243,6 +243,7 @@ public:
         sort(nums.begin(), nums.end());
         vector<vector<int>> ans;
         for (i = 0; i < n - 2; i ++) {
+            // first element different from previous pair
             if (i && nums[i] == nums[i-1]) {
                 continue;
             }
@@ -250,6 +251,8 @@ public:
             while (j < k) {
                 if (nums[i] + nums[j] + nums[k] == 0) {
                     ans.push_back({nums[i], nums[j], nums[k]});
+
+                    // second element different
                     while (j < k && nums[j] == nums[j+1]) {
                         j += 1;
                     }

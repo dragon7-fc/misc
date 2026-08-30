@@ -1063,34 +1063,50 @@ class Solution:
 ```
 * [Medium] [Solution] 969. Pancake Sorting
 
-### sort by group
+### sort by (value, index) and group by limit then sort by index and sequencially put element in index,
 ```c++
 class Solution {
 public:
     vector<int> lexicographicallySmallestArray(vector<int>& nums, int limit) {
-        int n = nums.size(), i;
-        vector<pair<int,int>> dp;
-        vector<int> dp2(n), ans(n);  // dp2: index -> group
-        vector<deque<int>> dp3;      // dp3: group element
-        for (i = 0; i < n; i ++) {
-            dp.push_back({nums[i], i});
+        int n = nums.size();
+        
+        // Pair (value, original_index)
+        vector<pair<int, int>> pairs(n);
+        for (int i = 0; i < n; i++) {
+            pairs[i] = {nums[i], i};
         }
-        sort(dp.begin(), dp.end());
-        dp2[dp[0].second] = 0;
-        dp3.push_back({dp[0].first});
-        for (i = 1; i < n; i ++) {
-            if (dp[i].first - dp[i-1].first <= limit) {
-                dp2[dp[i].second] = dp3.size()-1;
-                dp3.back().push_back(dp[i].first);
-            } else {
-                dp2[dp[i].second] = dp3.size();
-                dp3.push_back({dp[i].first});
+        
+        // Sort pairs by value
+        sort(pairs.begin(), pairs.end());
+        
+        vector<int> ans(n);
+        
+        // Group connected components
+        for (int i = 0; i < n; ) {
+            int j = i;
+            // Extend component as long as difference <= limit
+            while (j + 1 < n && pairs[j + 1].first - pairs[j].first <= limit) {
+                j++;
             }
+            
+            // Extract original indices for this component
+            vector<int> indices;
+            for (int k = i; k <= j; k++) {
+                indices.push_back(pairs[k].second);
+            }
+            
+            // Sort indices to place smallest values in leftmost positions
+            sort(indices.begin(), indices.end());
+            
+            // Assign sorted values to sorted indices
+            for (int k = i; k <= j; k++) {
+                ans[indices[k - i]] = pairs[k].first;
+            }
+            
+            // Move to next group
+            i = j + 1;
         }
-        for (i = 0; i < n; i ++) {
-            ans[i] = dp3[dp2[i]].front();
-            dp3[dp2[i]].pop_front();
-        }
+        
         return ans;
     }
 };
@@ -9049,7 +9065,7 @@ for i in range(rows):
         dfs(i, j)
 ```
 
-**Template 4: (DFS, Cycle)**
+**Template 4: (DFS, Cycle, Backtracking)**
 ```python
 seen = [0 for _ in range(N)]
 def is_cycle(i):
@@ -12318,22 +12334,23 @@ class Solution:
 ```
 * [Medium] 18. 4Sum
 
-### Greedy add
-```python
-class Solution:
-    def findClosestElements(self, arr: List[int], k: int, x: int) -> List[int]:
-        # left pointer and right pointer
-        i, j = 0, len(arr)-1
-        while j-i+1 != k:
-            # will stop once we have k elements
-            # else keep shifting pointers towards minimum difference
-            left_diff = abs(arr[i] - x)
-            right_diff = abs(arr[j] - x)
-            if left_diff > right_diff:
-                i += 1
-            else:
-                j -= 1
-        return arr[i:j+1]
+### binary search lower bound of a k length subarray w.r.t. x
+```c++
+class Solution {
+public:
+    vector<int> findClosestElements(vector<int>& arr, int k, int x) {
+        int lo = 0, hi = arr.size()-k, mi;
+        while (lo < hi) {
+            mi = lo + (hi-lo)/2;
+            if (x - arr[mi] > arr[mi+k] - x) {
+                lo = mi + 1;
+            } else {
+                hi = mi;
+            }
+        }
+        return vector<int>({arr.begin()+lo, arr.begin()+lo + k});
+    }
+};
 ```
 * [Medium] 658. Find K Closest Elements
 
@@ -14468,51 +14485,39 @@ class Solution:
 **Template 1: (Backtracking)**
 ```python
 ans = []
-def backtrack(index, path):
-    if ...:
-        ans.append(path)
-        return
-    for i in range(index + 1, N):
-        if ...:
-            path.append(...)
-            backtrack(i + 1, path)
-            path.pop()
-backtrack(0, [])
-return ans
-```
-
-**Template 2: (Backtracking)**
-```python
-ans = []
-def backtrack(... a path ...):
-    if ...:
-        return
-    a += ...
+def backtrack(i, path):
+    if visited[i]:
+        return False
+    visited[i] = True
     path += [...]
-    if a == ...:
-        ans.append(path)
-    for i in range(...):
-        backtrack(... a path ...)
-    path.pop()
-backtrack(... 0 path ...)
-return ans
-```
-
-**Template 3: (Backtracking)**
-```python
-ans = []
-visited = []
-def backtrack(index, path):
     if ...:
         ans.append(path)
         return True
-    for i in range(index + 1, N):
-        if not visited[i]:
-            visited[i] = True;
+    for j in range(...):
+        if backtrack(j, path):
+            return True
+    path.pop()
+    visited[i] = False
+    return False
+backtrack(0, path)
+return ans
+```
+
+**Template 2: (Backtracking, The Root Node (Index 0) Is Never Visited)**
+```python
+ans = []
+visited = []
+def backtrack(i, path):
+    if ...:
+        ans.append(path)
+        return True
+    for j in range(...):
+        if not visited[j]:
+            visited[j] = True;
             path.append(...)
-            if backtrack(i + 1, path):
+            if backtrack(j, path):
                 return True
-            visited[i] = False;
+            visited[j] = False;
             path.pop()
     return False
 backtrack(0, [])
@@ -18142,8 +18147,8 @@ class Solution:
         for ... in XXX:
             dus.union(..., ...)
         max_component_size = max(dsu.sz)
-        for ... in XXX:
-            root = dsu.find(...);
+        for i in range(N):
+            root = dsu.find(i);
             component_size[root] = dsu.sz[root]
         n_component = sum(dsu.find(x) == x for x in range(N))
 ```
@@ -19239,7 +19244,7 @@ public:
 ```
 * [Hard] 440. K-th Smallest in Lexicographical Order
 
-**Template: Divide And Conquer (= DP Top-Down without cache, merge sort)**
+**Template 1: Divide And Conquer (= DP Top-Down without cache, merge sort)**
 ```c++
 ... dfs(int i, int n) {
     ... ans;
@@ -21366,24 +21371,24 @@ class Solution:
 ```
 * [Hard] [Solution] 726. Number of Atoms
 
-**Template: (Math, ceiling division trick)**
+**Template 1: (Math, ceiling division trick)**
 ```c++
 ceil(1.0 * p / mid) = (p + mid - 1) / mid
 ```
 
-**Template: (Math, logx(y))**
+**Template 2: (Math, logx(y))**
 ```
     logx(y) = log(y) / log(x)
 ```
 
-**Template: (Math, GCD)**
+**Template 3: (Math, GCD)**
 ```
 gcd(a, b)
 = a,                if b == 0
   gcd(b, a mod b),  otherwise
 ```
 
-**Template: (Math, Combination)**
+**Template 4: (Math, Combination)**
 ```
 c(n, r)
 = 1,                                if r == 0 or r == n
@@ -21391,12 +21396,12 @@ c(n, r)
   c(n - 1, r - 1) + c(n - 1, r)
 ```
 
-**Template: (Math, a * b = gcd * lcm)**
+**Template 5: (Math, a * b = gcd * lcm)**
 ```
 a * b = gcd(a, b) * lcm(a, b)
 ```
 
-**Template: (Math, get prime, Sieve, O(m log log m))**
+**Template 6: (Math, get prime, Sieve, O(m log log m))**
 ```c++
         vector<int> sieve(maxElement + 1, 1);
         sieve[1] = 0;
@@ -21409,7 +21414,7 @@ a * b = gcd(a, b) * lcm(a, b)
         }
 ```
 
-**Template: (Math, get prime factor, Sieve similar, O(m log log m))**
+**Template 7: (Math, get prime factor, Sieve similar, O(m log log m))**
 ```c++
 const int MX = 100001;
 vector<vector<int>> factors(MX + 1);
@@ -21429,7 +21434,7 @@ int init = []() {
 }();  // Immediatly Invoked Lambda Expression (IIFE)
 ```
 
-**Template: (C++ Template example)**
+**Template 1: (C++, Template example)**
 ```c++
 // Blueprint for a generic maximum function
 template <typename T>
