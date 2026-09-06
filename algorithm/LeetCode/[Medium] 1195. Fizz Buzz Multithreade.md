@@ -156,3 +156,366 @@ public:
     }
 };
 ```
+
+**Solution 2: (Mutex)**
+```
+Runtime: 5 ms, Beats 33.93%
+Memory: 9.18 MB, Beats 41.07%
+```
+```c++
+typedef struct {
+    int n;
+    int turn;
+    pthread_mutex_t lock;
+    pthread_cond_t cond;
+} FizzBuzz;
+
+FizzBuzz* fizzBuzzCreate(int n) {
+    FizzBuzz* obj = (FizzBuzz*) malloc(sizeof(FizzBuzz));
+    obj->n = n;
+    pthread_mutex_init(&(obj->lock), NULL);
+    pthread_cond_init(&(obj->cond), NULL);
+    obj->turn = 1;
+    return obj;
+}
+
+// Don't change the following declarations
+void printNumber(int a);
+void printFizz();
+void printBuzz();
+void printFizzBuzz();
+
+// printFizz() outputs "fizz".
+void fizz(FizzBuzz* obj) {
+    while (1) {
+        pthread_mutex_lock(&(obj->lock));
+        while (obj->turn <= obj->n && !(obj->turn % 3 == 0 && obj->turn % 5)) {
+            pthread_cond_wait(&(obj->cond), &(obj->lock)); 
+        }
+        if (obj->turn > obj->n) {
+            pthread_mutex_unlock(&obj->lock);
+            pthread_exit(NULL);
+        }
+
+        printFizz();
+
+        obj->turn += 1;
+        pthread_mutex_unlock(&(obj->lock));
+        pthread_cond_broadcast(&(obj->cond));
+    }
+    
+}
+
+// printBuzz() outputs "buzz".
+void buzz(FizzBuzz* obj) {
+    while (1) {
+        pthread_mutex_lock(&(obj->lock));
+        while (obj->turn <= obj->n && !(obj->turn % 5 == 0 && obj->turn % 3)) {
+            pthread_cond_wait(&(obj->cond), &(obj->lock)); 
+        }
+        if (obj->turn > obj->n) {
+            pthread_mutex_unlock(&obj->lock);
+            pthread_exit(NULL);
+        }
+
+        printBuzz();
+
+        obj->turn += 1;
+        pthread_mutex_unlock(&(obj->lock));
+        pthread_cond_broadcast(&(obj->cond));
+    }
+    
+}
+
+// printFizzBuzz() outputs "fizzbuzz".
+void fizzbuzz(FizzBuzz* obj) {
+    while (1) {
+        pthread_mutex_lock(&(obj->lock));
+        while (obj->turn <= obj->n && !(obj->turn % 3 == 0 && obj->turn % 5 == 0)) {
+            pthread_cond_wait(&(obj->cond), &(obj->lock)); 
+        }
+        if (obj->turn > obj->n) {
+            pthread_mutex_unlock(&obj->lock);
+            pthread_exit(NULL);
+        }
+
+        printFizzBuzz();
+
+        obj->turn += 1;
+        pthread_mutex_unlock(&(obj->lock));
+        pthread_cond_broadcast(&(obj->cond));
+    }
+
+}
+
+// You may call global function `void printNumber(int x)`
+// to output "x", where x is an integer.
+void number(FizzBuzz* obj) {
+    while (1) {
+        pthread_mutex_lock(&(obj->lock));
+        while (obj->turn <= obj->n && (obj->turn % 3 == 0 || obj->turn % 5 == 0)) {
+            pthread_cond_wait(&(obj->cond), &(obj->lock)); 
+        }
+        if (obj->turn > obj->n) {
+            pthread_mutex_unlock(&obj->lock);
+            pthread_exit(NULL);
+        }
+
+        printNumber(obj->turn);
+
+        obj->turn += 1;
+        pthread_mutex_unlock(&(obj->lock));
+        pthread_cond_broadcast(&(obj->cond));        
+    }
+}
+
+void fizzBuzzFree(FizzBuzz* obj) {
+    free(obj);
+}
+```
+**Solution 3: (Mutex)**
+```
+Runtime: 5 ms, Beats 33.93%
+Memory: 9.18 MB, Beats 41.07%
+```
+```c
+typedef struct {
+    int n;
+    int turn;
+    pthread_mutex_t lock;
+    pthread_cond_t cond;
+} FizzBuzz;
+
+FizzBuzz* fizzBuzzCreate(int n) {
+    FizzBuzz* obj = (FizzBuzz*) malloc(sizeof(FizzBuzz));
+    obj->n = n;
+    pthread_mutex_init(&(obj->lock), NULL);
+    pthread_cond_init(&(obj->cond), NULL);
+    obj->turn = 1;
+    return obj;
+}
+
+// Don't change the following declarations
+void printNumber(int a);
+void printFizz();
+void printBuzz();
+void printFizzBuzz();
+
+// printFizz() outputs "fizz".
+void fizz(FizzBuzz* obj) {
+    while (1) {
+        pthread_mutex_lock(&(obj->lock));
+        while (obj->turn <= obj->n && !(obj->turn % 3 == 0 && obj->turn % 5)) {
+            pthread_cond_wait(&(obj->cond), &(obj->lock)); 
+        }
+        if (obj->turn > obj->n) {
+            pthread_mutex_unlock(&obj->lock);
+            pthread_exit(NULL);
+        }
+
+        printFizz();
+
+        obj->turn += 1;
+        pthread_mutex_unlock(&(obj->lock));
+        pthread_cond_broadcast(&(obj->cond));
+    }
+    
+}
+
+// printBuzz() outputs "buzz".
+void buzz(FizzBuzz* obj) {
+    while (1) {
+        pthread_mutex_lock(&(obj->lock));
+        while (obj->turn <= obj->n && !(obj->turn % 5 == 0 && obj->turn % 3)) {
+            pthread_cond_wait(&(obj->cond), &(obj->lock)); 
+        }
+        if (obj->turn > obj->n) {
+            pthread_mutex_unlock(&obj->lock);
+            pthread_exit(NULL);
+        }
+
+        printBuzz();
+
+        obj->turn += 1;
+        pthread_mutex_unlock(&(obj->lock));
+        pthread_cond_broadcast(&(obj->cond));
+    }
+    
+}
+
+// printFizzBuzz() outputs "fizzbuzz".
+void fizzbuzz(FizzBuzz* obj) {
+    while (1) {
+        pthread_mutex_lock(&(obj->lock));
+        while (obj->turn <= obj->n && !(obj->turn % 3 == 0 && obj->turn % 5 == 0)) {
+            pthread_cond_wait(&(obj->cond), &(obj->lock)); 
+        }
+        if (obj->turn > obj->n) {
+            pthread_mutex_unlock(&obj->lock);
+            pthread_exit(NULL);
+        }
+
+        printFizzBuzz();
+
+        obj->turn += 1;
+        pthread_mutex_unlock(&(obj->lock));
+        pthread_cond_broadcast(&(obj->cond));
+    }
+
+}
+
+// You may call global function `void printNumber(int x)`
+// to output "x", where x is an integer.
+void number(FizzBuzz* obj) {
+    while (1) {
+        pthread_mutex_lock(&(obj->lock));
+        while (obj->turn <= obj->n && (obj->turn % 3 == 0 || obj->turn % 5 == 0)) {
+            pthread_cond_wait(&(obj->cond), &(obj->lock)); 
+        }
+        if (obj->turn > obj->n) {
+            pthread_mutex_unlock(&obj->lock);
+            pthread_exit(NULL);
+        }
+
+        printNumber(obj->turn);
+
+        obj->turn += 1;
+        pthread_mutex_unlock(&(obj->lock));
+        pthread_cond_broadcast(&(obj->cond));        
+    }
+}
+
+void fizzBuzzFree(FizzBuzz* obj) {
+    free(obj);
+}
+```
+
+**Solution 4: (Semaphore)**
+```
+Runtime: 0 ms, Beats 100.00%
+Memory: 9.28 MB, Beats 16.07%
+```
+```c
+typedef struct {
+    int n;
+    int turn;
+    sem_t sem_fizz;
+    sem_t sem_buzz;
+    sem_t sem_fizzbuzz;
+    sem_t sem_number;
+} FizzBuzz;
+
+FizzBuzz* fizzBuzzCreate(int n) {
+    FizzBuzz* obj = (FizzBuzz*) malloc(sizeof(FizzBuzz));
+    obj->n = n;
+    obj->turn = 1;
+    sem_init(&obj->sem_fizz, 0, 0);
+    sem_init(&obj->sem_buzz, 0, 0);
+    sem_init(&obj->sem_fizzbuzz, 0, 0);
+    sem_init(&obj->sem_number, 0, 1);
+    return obj;
+}
+
+// Don't change the following declarations
+void printNumber(int a);
+void printFizz();
+void printBuzz();
+void printFizzBuzz();
+
+void do_post(FizzBuzz* obj) {
+    if (obj->turn % 3 == 0 && obj->turn % 5) {
+        sem_post(&obj->sem_fizz);
+    } else if (obj->turn % 3 && obj->turn % 5 == 0) {
+        sem_post(&obj->sem_buzz);
+    } else if (obj->turn % 3 == 0 && obj->turn % 5 == 0) {
+        sem_post(&obj->sem_fizzbuzz);
+    } else {
+        sem_post(&obj->sem_number);
+    }
+}
+
+// printFizz() outputs "fizz".
+void fizz(FizzBuzz* obj) {
+    while (1) {
+        sem_wait(&obj->sem_fizz);
+        if (obj->turn > obj->n) {
+            break;
+        }
+
+        printFizz();
+
+        obj->turn += 1;
+
+        do_post(obj);
+    }
+    sem_post(&obj->sem_buzz);
+    sem_post(&obj->sem_fizzbuzz);
+    sem_post(&obj->sem_number);
+    pthread_exit(NULL);
+}
+
+// printBuzz() outputs "buzz".
+void buzz(FizzBuzz* obj) {
+    while (1) {
+        sem_wait(&obj->sem_buzz);
+        if (obj->turn > obj->n) {
+            break;
+        }
+
+        printBuzz();
+
+        obj->turn += 1;
+
+        do_post(obj);
+    }
+    sem_post(&obj->sem_fizz);
+    sem_post(&obj->sem_fizzbuzz);
+    sem_post(&obj->sem_number);
+    pthread_exit(NULL);
+}
+
+// printFizzBuzz() outputs "fizzbuzz".
+void fizzbuzz(FizzBuzz* obj) {
+    while (1) {
+        sem_wait(&obj->sem_fizzbuzz);
+        if (obj->turn > obj->n) {
+            break;
+        }
+
+        printFizzBuzz();
+
+        obj->turn += 1;
+
+        do_post(obj);
+    }
+    sem_post(&obj->sem_fizz);
+    sem_post(&obj->sem_buzz);
+    sem_post(&obj->sem_number);
+    pthread_exit(NULL);
+}
+
+// You may call global function `void printNumber(int x)`
+// to output "x", where x is an integer.
+void number(FizzBuzz* obj) {
+    while (1) {
+        sem_wait(&obj->sem_number);
+        if (obj->turn > obj->n) {
+            break;
+        }
+
+        printNumber(obj->turn);
+
+        obj->turn += 1;
+
+        do_post(obj);
+    }
+    sem_post(&obj->sem_fizz);
+    sem_post(&obj->sem_buzz);
+    sem_post(&obj->sem_fizzbuzz);
+    pthread_exit(NULL);
+}
+
+void fizzBuzzFree(FizzBuzz* obj) {
+    free(obj);
+}
+```

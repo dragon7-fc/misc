@@ -142,3 +142,73 @@ public:
     }
 };
 ```
+
+**Solution 2: (BFS, distance constraint, dijkstra like, precompute bitmask to each target and use bfs to find least cost from source to all target)**
+```
+Runtime: 256 ms, Beats 64.29%
+Memory: 154.04 MB, Beats 72.45%
+```
+```c++
+const int dd[5] = {0, 1, 0, -1, 0};
+class Solution {
+public:
+    int minMoves(vector<string>& classroom, int energy) {
+        int m = classroom.size();
+        int n = classroom[0].size();
+        int i0;
+        int j0;
+        int k = 0;
+        vector<vector<int>> pre(m, vector<int>(n, -1));
+        for (int i = 0; i < m; i ++) {
+            for (int j = 0; j < n; j ++) {
+                if (classroom[i][j] == 'S') {
+                    i0 = i;
+                    j0 = j;
+                } else if (classroom[i][j] == 'L') {
+                    pre[i][j] = k;
+                    k += 1;
+                }
+            }
+        }
+        if (k == 0) {
+            return 0;
+        }
+        int FULL = (1 << k) - 1;
+        queue<array<int, 5>> q;
+        vector<vector<vector<int>>> dist(m, vector<vector<int>>(n, vector<int>(1 << k, -1)));  // not need energy asis, because bfs promise least energy
+        dist[i0][j0][0] = energy;
+        q.push({i0, j0, energy, 0, 0});
+        while (q.size()) {
+            auto [r, c, e, mask, s] = q.front();
+            q.pop();
+            if (mask == FULL) {
+                return s;
+            }
+            if (e == 0) {
+                continue;
+            }
+            for (int d = 0; d < 4; d ++) {
+                int nr = r + dd[d];
+                int nc = c + dd[d+1];
+                if (0 <= nr && nr < m && 0 <= nc && nc < n) {
+                    if (classroom[nr][nc] == 'X') {
+                        continue;
+                    }
+                    int ne = e - 1;
+                    int nmask = mask;
+                    if (classroom[nr][nc] == 'R') {
+                        ne = energy;
+                    } else if(pre[nr][nc] != -1){
+                        nmask |= 1 << pre[nr][nc];
+                    }
+                    if (dist[nr][nc][nmask] < ne) {
+                        dist[nr][nc][nmask] = ne;
+                        q.push({nr, nc, ne, nmask, s + 1});    
+                    }
+                }
+            }
+        }
+        return -1;
+    }
+};
+```

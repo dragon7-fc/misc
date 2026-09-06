@@ -93,3 +93,154 @@ public:
     }
 };
 ```
+
+**Solution 2: (Mutex)**
+```
+Runtime: 0 ms, Beats 100.00%
+Memory: 9.66 MB, Beats -%
+```
+```c
+typedef struct {
+    int n;
+    int turn;
+    bool is_zero;
+    pthread_mutex_t lock;
+    pthread_cond_t cond;
+} ZeroEvenOdd;
+
+ZeroEvenOdd* zeroEvenOddCreate(int n) {
+    ZeroEvenOdd* obj = (ZeroEvenOdd*) malloc(sizeof(ZeroEvenOdd));
+    obj->n = n;
+    obj->turn = 1;
+    obj->is_zero = true;
+    pthread_mutex_init(&(obj->lock), NULL);
+    pthread_cond_init(&(obj->cond), NULL);
+    return obj;
+}
+
+void printNumber(int x);
+
+// You may call global function `void printNumber(int x)`
+// to output "x", where x is an integer.
+
+void zero(ZeroEvenOdd* obj) {
+    for (int _ = 1; _ <= obj->n; _ ++) {
+        pthread_mutex_lock(&(obj->lock));
+        while (!obj->is_zero) {
+            pthread_cond_wait(&obj->cond, &obj->lock); 
+        }
+        printNumber(0);
+        obj->is_zero = false;
+        pthread_mutex_unlock(&obj->lock);
+        pthread_cond_broadcast(&obj->cond);        
+    }
+    pthread_exit(NULL);
+}
+
+void even(ZeroEvenOdd* obj) {
+    for (int _ = 2; _ <= obj->n; _ += 2) {
+        pthread_mutex_lock(&(obj->lock));
+        while (obj->is_zero || obj->turn % 2) {
+            pthread_cond_wait(&obj->cond, &obj->lock); 
+        }
+        printNumber(obj->turn);
+        obj->turn += 1;
+        obj->is_zero = true;
+        pthread_mutex_unlock(&obj->lock);
+        pthread_cond_broadcast(&obj->cond);   
+    }
+    pthread_exit(NULL);
+}
+
+void odd(ZeroEvenOdd* obj) {
+    for (int _ = 1; _ <= obj->n; _ += 2) {
+        pthread_mutex_lock(&(obj->lock));
+        while (obj->is_zero || (obj->turn % 2 == 0)) {
+            pthread_cond_wait(&obj->cond, &obj->lock); 
+        }
+        printNumber(obj->turn);
+        obj->turn += 1;
+        obj->is_zero = true;
+        pthread_mutex_unlock(&obj->lock);
+        pthread_cond_broadcast(&obj->cond);
+    }
+    pthread_exit(NULL);
+}
+
+void zeroEvenOddFree(ZeroEvenOdd* obj) {
+    free(obj);
+}
+```
+
+**Solution 3: (Semaphore)**
+```
+Runtime: 4 ms, Beats 67.61%
+Memory: 9.60 MB, Beats -%
+```
+```c
+typedef struct {
+    int n;
+    int turn;
+    sem_t sem_zero;
+    sem_t sem_even;
+    sem_t sem_odd;
+} ZeroEvenOdd;
+
+ZeroEvenOdd* zeroEvenOddCreate(int n) {
+    ZeroEvenOdd* obj = (ZeroEvenOdd*) malloc(sizeof(ZeroEvenOdd));
+    obj->n = n;
+    obj->turn = 1;
+    sem_init(&obj->sem_zero, 0, 1);
+    sem_init(&obj->sem_even, 0, 0);
+    sem_init(&obj->sem_odd, 0, 0);
+    return obj;
+}
+
+void printNumber(int x);
+
+// You may call global function `void printNumber(int x)`
+// to output "x", where x is an integer.
+
+void zero(ZeroEvenOdd* obj) {
+    for (int _ = 1; _ <= obj->n; _ ++) {
+        sem_wait(&obj->sem_zero);
+        printNumber(0);
+        if (obj->turn & 1) {
+            sem_post(&obj->sem_odd);
+        } else {
+            sem_post(&obj->sem_even);
+        }
+    }
+    sem_post(&obj->sem_even);
+    sem_post(&obj->sem_odd);
+    pthread_exit(NULL);
+}
+
+void even(ZeroEvenOdd* obj) {
+    for (int _ = 2; _ <= obj->n; _ += 2) {
+        sem_wait(&obj->sem_even);
+        printNumber(obj->turn);
+        obj->turn += 1;
+        sem_post(&obj->sem_zero);
+    }
+    sem_post(&obj->sem_zero);
+    sem_post(&obj->sem_odd);
+    pthread_exit(NULL);
+}
+
+void odd(ZeroEvenOdd* obj) {
+    for (int _ = 1; _ <= obj->n; _ += 2) {
+        sem_wait(&obj->sem_odd);
+        printNumber(obj->turn);
+        obj->turn += 1;
+        sem_post(&obj->sem_zero);
+    }
+    sem_post(&obj->sem_zero);
+    sem_post(&obj->sem_even);
+    pthread_exit(NULL);
+}
+
+void zeroEvenOddFree(ZeroEvenOdd* obj) {
+    free(obj);
+}
+```

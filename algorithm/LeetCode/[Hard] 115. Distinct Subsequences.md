@@ -210,3 +210,114 @@ public:
     }
 };
 ```
+
+**Solution 6: (DP Bottom-Up, knapsack)**
+
+    r a b b b i t
+  1 1 1 1 1 1 1 1
+r   1
+a     1
+b       1 1 1
+b       1 2 3
+i             3
+t               3
+
+    b a b g b a g
+  1 1 1 1 1 1 1 1
+b   1   2   3
+a     1       2
+g         1     5
+
+```
+Runtime: 39 ms, Beats 20.36%
+Memory: 44.27 MB, Beats 31.09%
+```
+```c++
+class Solution {
+public:
+    int numDistinct(string s, string t) {
+        int m = s.length();
+        int n = t.length();
+        vector<vector<long long>> dp(m + 1, vector<long long>(n + 1));
+        for (int i = 0; i <= m; i ++) {
+            dp[i][0] = 1;
+        }
+        for (int j = 0; j < n; j ++) {
+            for (int i = 0; i < m; i ++) {
+                // skip
+                dp[i + 1][j + 1] = dp[i][j + 1];
+
+                // take
+                if (s[i] == t[j]) {
+                    dp[i + 1][j + 1] += dp[i][j];
+                }
+                if (dp[i + 1][j + 1] > INT_MAX) {
+                    dp[i + 1][j + 1] = 0;
+                }
+            }
+        }
+        return dp[m][n];
+    }
+};
+```
+
+**Solution 7: (DP Bottom-Up 1-D, knapsack)**
+```
+Runtime: 22 ms, Beats 78.29%
+Memory: 9.63 MB, Beats 81.28%
+```
+```c++
+class Solution {
+public:
+    int numDistinct(string s, string t) {
+        int m = s.length();
+        int n = t.length();
+        vector<long long> pre(m + 1, 1), dp(m + 1);
+        for (int j = 0; j < n; j ++) {
+            fill(dp.begin(), dp.end(), 0);
+            for (int i = 0; i < m; i ++) {
+                dp[i + 1] = dp[i];
+                if (s[i] == t[j]) {
+                    dp[i + 1] += pre[i];
+                }
+                if (dp[i + 1] > INT_MAX) {
+                    dp[i + 1] = 0;
+                }
+            }
+            pre = dp;
+        }
+        return dp[m];
+    }
+};
+```
+
+**Solution 8: (DP Bottom-Up 1-D, knapsack)**
+```
+Runtime: 19 ms, Beats 79.93%
+Memory: 9.32 MB, Beats 81.52%
+```
+```c++
+class Solution {
+public:
+    int numDistinct(string s, string t) {
+        int m = s.length();
+        int n = t.length();
+        if (m < n) {
+            return 0;
+        }
+        vector<unsigned long long> pre(m + 1, 1), dp(m + 1);
+        for (int j = 0; j < n; j ++) {
+            fill(dp.begin(), dp.end(), 0);
+            for (int i = 0; i < m; i ++) {
+                if (s[i] == t[j]) {
+                    dp[i + 1] = dp[i] + pre[i];
+                } else {
+                    dp[i + 1] = dp[i];
+                }
+            }
+            pre = dp;
+        }
+        return pre[m];
+    }
+};
+```

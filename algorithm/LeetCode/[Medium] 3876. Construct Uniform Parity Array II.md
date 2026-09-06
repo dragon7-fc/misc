@@ -59,7 +59,64 @@ nums2 = [4, 6], and all elements are even. Thus, the answer is true.
 
 # Submissions
 ---
-**Solution 1: (Math)**
+**Solution 1: (Prefix Sum, brute force, try even and odd)**
+```
+Runtime: 11 ms, Beats 41.62%
+Memory: 174.00 MB, Beats 10.21%
+```
+```c++
+class Solution {
+public:
+    bool uniformArray(vector<int>& nums1) {
+        int n = nums1.size();
+        vector<int> right(n, INT_MAX);
+        for (int i = n - 1; i >= 0; i --) {
+            if (nums1[i] % 2) {
+                right[i] = nums1[i];
+            }
+            if (i + 1 < n) {
+                right[i] = min(right[i], right[i + 1]);
+            }
+        }
+        int left = INT_MAX;
+
+        // all even
+        for (int i = 0; i < n; i ++) {
+            if (nums1[i] % 2) {
+                if ((i == 0 || nums1[i] < left) && (i == n - 1 || nums1[i] < right[i + 1])) {
+                    break;
+                }
+            }
+            if (i == n - 1) {
+                return true;
+            }
+            if (nums1[i] % 2) {
+                left = min(left, nums1[i]);
+            }
+        }
+
+        left = INT_MAX;
+
+        // all odd
+        for (int i = 0; i < n; i ++) {
+            if (nums1[i] % 2 == 0) {
+                if ((i == 0 || nums1[i] < left) && (i == n - 1 || nums1[i] < right[i + 1])) {
+                    break;
+                }
+            }
+            if (i == n - 1) {
+                return true;
+            }
+            if (nums1[i] % 2) {
+                left = min(left, nums1[i]);
+            }
+        }
+        return false;
+    }
+};
+```
+
+**Solution 1: (Math, min element is odd or all even)**
 
 __Intuition__
 Changing a even to odd, we need a smaller odd.
@@ -75,8 +132,8 @@ Time O(n)
 Space O(1)
 
 ```
-Runtime: 7 ms, Beats 54.80%
-Memory: 165.91 MB, Beats 35.60%
+Runtime: 3 ms, Beats 72.51%
+Memory: 165.82 MB, Beats 62.83%
 ```
 ```c++
 class Solution {
@@ -84,7 +141,7 @@ public:
     bool uniformArray(vector<int>& nums1) {
         bool all_even = true;
         int mn = nums1[0];
-        for (int a : nums1) {
+        for (const auto &a: nums1) {
             if (a < mn) {
                 mn = a;
             }

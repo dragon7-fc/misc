@@ -91,3 +91,125 @@ public:
     }
 };
 ```
+
+**Solution 2: (Mutex)**
+```
+Runtime: 18 ms, Beats 38.28%
+Memory: 12.29 MB, Beats 85.94%
+```
+```c
+typedef struct {
+    // User defined data may be declared here.
+    int turn;
+    pthread_mutex_t lock;
+    pthread_cond_t cond;
+} H2O;
+
+void releaseHydrogen();
+
+void releaseOxygen();
+
+H2O* h2oCreate() {
+    H2O* obj = (H2O*) malloc(sizeof(H2O));
+    
+    // Initialize user defined data here.
+    obj->turn = 1;
+    pthread_mutex_init(&obj->lock, NULL);
+    pthread_cond_init(&obj->cond, NULL);
+    return obj;
+}
+
+void hydrogen(H2O* obj) {
+    pthread_mutex_lock(&(obj->lock));
+    while (obj->turn % 3 == 0) {
+        pthread_cond_wait(&obj->cond, &obj->lock); 
+    }
+
+    // releaseHydrogen() outputs "H". Do not change or remove this line.
+    releaseHydrogen();
+
+    obj->turn += 1;
+    pthread_mutex_unlock(&(obj->lock));
+    pthread_cond_broadcast(&(obj->cond));
+}
+
+void oxygen(H2O* obj) {
+    pthread_mutex_lock(&(obj->lock));
+    while (obj->turn % 3) {
+        pthread_cond_wait(&obj->cond, &obj->lock); 
+    }
+
+    // releaseOxygen() outputs "O". Do not change or remove this line.
+    releaseOxygen();
+
+    obj->turn += 1;
+    pthread_mutex_unlock(&(obj->lock));
+    pthread_cond_broadcast(&(obj->cond));
+}
+
+void h2oFree(H2O* obj) {
+    // User defined data may be cleaned up here.
+    
+}
+```
+
+**Solution 3: (Semaphore)**
+```
+Runtime: 12 ms, Beats 53.91%
+Memory: 11.90 MB, Beats 99.22%
+```
+```c
+typedef struct {
+    // User defined data may be declared here.
+    int turn;
+    sem_t sem_hydrogen;
+    sem_t sem_oxygen;
+} H2O;
+
+void releaseHydrogen();
+
+void releaseOxygen();
+
+H2O* h2oCreate() {
+    H2O* obj = (H2O*) malloc(sizeof(H2O));
+    
+    // Initialize user defined data here.
+    obj->turn = 1;
+    sem_init(&obj->sem_hydrogen, 0, 1);
+    sem_init(&obj->sem_oxygen, 0, 0);
+    return obj;
+}
+
+void hydrogen(H2O* obj) {
+    sem_wait(&obj->sem_hydrogen);
+
+    // releaseHydrogen() outputs "H". Do not change or remove this line.
+    releaseHydrogen();
+
+    obj->turn += 1;
+    if (obj->turn % 3) {
+        sem_post(&obj->sem_hydrogen);
+    } else {
+        sem_post(&obj->sem_oxygen);
+    }
+}
+
+void oxygen(H2O* obj) {
+    sem_wait(&obj->sem_oxygen);
+
+    // releaseOxygen() outputs "O". Do not change or remove this line.
+    releaseOxygen();
+
+    obj->turn += 1;
+    if (obj->turn % 3) {
+        sem_post(&obj->sem_hydrogen);
+    } else {
+        sem_post(&obj->sem_oxygen);
+    }
+}
+
+void h2oFree(H2O* obj) {
+    // User defined data may be cleaned up here.
+    
+}
+```

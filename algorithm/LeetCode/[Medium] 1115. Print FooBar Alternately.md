@@ -122,3 +122,130 @@ public:
     }
 };
 ```
+
+**Solution 3: (Mutex)**
+```
+Runtime: 9 ms, Beats 55.71%
+Memory: 10.81 MB, Beats 6.43%
+```
+```c
+typedef struct {
+    int n;
+    int turn;
+    pthread_mutex_t lock;
+    pthread_cond_t cond;
+} FooBar;
+
+// Function declarations. Do not change or remove this line
+void printFoo();
+void printBar();
+
+FooBar* fooBarCreate(int n) {
+    FooBar* obj = (FooBar*) malloc(sizeof(FooBar));
+    obj->n = n;
+    pthread_mutex_init(&(obj->lock), NULL);
+    pthread_cond_init(&(obj->cond), NULL);
+    obj->turn = 0;
+
+    return obj;
+}
+
+void foo(FooBar* obj) {
+    
+    for (int i = 0; i < obj->n; i++) {
+        pthread_mutex_lock(&(obj->lock));
+        // while not my turn
+        while(obj->turn != 0)
+        {
+            // wait and unlock
+            pthread_cond_wait(&(obj->cond), &(obj->lock)); 
+        }
+
+        // printFoo() outputs "foo". Do not change or remove this line.
+        printFoo();
+
+        obj->turn = 1;
+        pthread_mutex_unlock(&(obj->lock));
+        pthread_cond_broadcast(&(obj->cond));
+    }
+}
+
+void bar(FooBar* obj) {
+    
+    for (int i = 0; i < obj->n; i++) {
+        pthread_mutex_lock(&(obj->lock));
+        // while not my turn
+        while(obj->turn != 1)
+        {
+            // wait and unlock
+            pthread_cond_wait(&(obj->cond), &(obj->lock)); 
+        }
+        // printBar() outputs "bar". Do not change or remove this line.
+        printBar();
+
+        obj->turn = 0;
+        pthread_mutex_unlock(&(obj->lock));
+        pthread_cond_broadcast(&(obj->cond));
+    }
+}
+
+void fooBarFree(FooBar* obj) {
+    free(obj);
+}
+```
+
+**Solution 4: (Semaphore)**
+```
+Runtime: 11 ms, Beats 42.14%
+Memory: 10.64 MB, Beats 73.57%
+```
+```c
+typedef struct {
+    int n;
+    sem_t sem_foo;
+    sem_t sem_bar;
+
+} FooBar;
+
+// Function declarations. Do not change or remove this line
+void printFoo();
+void printBar();
+
+FooBar* fooBarCreate(int n) {
+    FooBar* obj = (FooBar*) malloc(sizeof(FooBar));
+    obj->n = n;
+    
+    sem_init(&obj->sem_foo, 0, 1);
+    sem_init(&obj->sem_bar, 0, 0);
+
+    return obj;
+}
+
+void foo(FooBar* obj) {
+    
+    for (int i = 0; i < obj->n; i++) {
+        sem_wait(&obj->sem_foo);
+
+        // printFoo() outputs "foo". Do not change or remove this line.
+        printFoo();
+
+        sem_post(&obj->sem_bar);
+    }
+}
+
+void bar(FooBar* obj) {
+    
+    for (int i = 0; i < obj->n; i++) {
+        sem_wait(&obj->sem_bar);
+
+        // printBar() outputs "bar". Do not change or remove this line.
+        printBar();
+
+        sem_post(&obj->sem_foo);
+    }
+}
+
+void fooBarFree(FooBar* obj) {
+    free(obj);
+}
+```

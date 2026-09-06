@@ -239,3 +239,51 @@ public:
     }
 };
 ```
+
+**Solution 4: (Linked List)**
+```
+Runtime: 0 ms, Beats 100.00%
+Memory: 124.72 MB, Beats 44.10%
+```
+```c++
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode() : val(0), next(nullptr) {}
+ *     ListNode(int x) : val(x), next(nullptr) {}
+ *     ListNode(int x, ListNode *next) : val(x), next(next) {}
+ * };
+ */
+class Solution {
+public:
+    vector<int> nodesBetweenCriticalPoints(ListNode* head) {
+        ListNode *pre = head;
+        ListNode *cur = head->next;
+        int i = 1;
+        vector<int> dp;
+        vector<int> ans = {-1, -1};
+        while (cur->next) {
+            if (cur->next->val > cur->val && pre->val > cur->val ||
+                cur->next->val < cur->val && pre->val < cur->val) {
+                if (dp.size() == 0) {
+                    dp.push_back(i);
+                } else if (dp.size() == 1) {
+                    ans[0] = i - dp[0];
+                    ans[1] = i - dp[0];
+                    dp.push_back(i);
+                } else {
+                    ans[0] = min(ans[0], i - dp[1]);
+                    ans[1] = i - dp[0];
+                    dp[1] = i;
+                }
+            }
+            pre = cur;
+            cur = cur->next;
+            i += 1;
+        }
+        return ans;
+    }
+};
+```

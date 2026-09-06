@@ -64,22 +64,22 @@ At index 0, the instability score is 0 - 0 = 0, which is less than or equal to k
 
 # Submissions
 ---
-**Solution 1: (Prefix Sum, left right)**
+**Solution 1: (Prefix Sum, partia_sum)**
 ```
-Runtime: 4 ms, Beats 91.67%
-Memory: 202.42 MB, Beats 8.33%
+Runtime: 13 ms, Beats 45.79%
+Memory: 202.86 MB, Beats 67.90%
 ```
 ```c++
 class Solution {
 public:
     int firstStableIndex(vector<int>& nums, int k) {
-        int n = nums.size(), i, left = 0;
+        int n = nums.size();
         vector<int> right(n);
-        right[n - 1] = nums[n - 1];
-        for (i = n - 2; i >= 0; i --) {
-            right[i] = min(nums[i], right[i + 1]);
-        }
-        for (i = 0; i < n; i ++) {
+        partial_sum(nums.rbegin(), nums.rend(), right.rbegin(), [](int a, int x){
+            return min(a, x);
+        });
+        int left = -1;
+        for (int i = 0; i < n; i ++) {
             left = max(left, nums[i]);
             if (left - right[i] <= k) {
                 return i;
@@ -88,5 +88,31 @@ public:
         return -1;
     }
 };
+```
 
+**Solution 2: (Prefix Sum, left right)**
+```
+Runtime: 4 ms, Beats 89.30%
+Memory: 202.50 MB, Beats 96.72%
+```
+```c++
+class Solution {
+public:
+    int firstStableIndex(vector<int>& nums, int k) {
+        int n = nums.size();
+        vector<int> right(n);
+        right[n - 1] = nums[n - 1];
+        for (int i = n - 2; i >= 0; i --) {
+            right[i] = min(nums[i], right[i + 1]);
+        }
+        int left = -1;
+        for (int i = 0; i < n; i ++) {
+            left = max(left, nums[i]);
+            if (left - right[i] <= k) {
+                return i;
+            }
+        }
+        return -1;
+    }
+};
 ```
