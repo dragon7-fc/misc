@@ -39,7 +39,29 @@ All numbers from 1 to 998 have fewer than four digits. Therefore, no commas are 
 
 # Submissions
 ---
-**Solution 1: (Math)**
+**Solution 1: (Math. this number can have how many comma)**
+
+n   x,xxx,xxx,xxx
+p           1,000
+          ---,     x 1
+          999      
+p       1,000,000
+      ---,   ,     x 2
+      999
+    x.   ,   ,     x 3
+
+----------------------
+n   1,004,590
+b       1,000
+k       1
+      ---,
+ans   999,000
+-----------------
+b   1,000,000
+k   2
+    -,   ,
+ans 1,008,182
+
 ```
 Runtime: 0 ms, Beats 100.00%
 Memory: 9.14 MB, Beats 17.64%
@@ -55,6 +77,41 @@ public:
             k += 1;
         }
         return ans;
+    }
+};
+```
+
+**Solution 2: (Math, how many number can have this comma)**
+
+n   x,xxx,xxx,xxx
+p           1,000
+   ----------,
+     n - p
+p       1,000,000
+   ------,
+    n - p
+
+-----------------------------
+n   1,004,590
+p       1,000
+ans 1,003,591     
+p   1,000,000
+ans 1,008,182
+
+```
+Runtime: 0 ms, Beats 100.00%
+Memory: 8.88 MB, Beats 99.20%
+```
+```c++
+class Solution {
+public:
+    long long countCommas(long long n) {
+        long long p = 1000, res = 0;
+        while (p <= n) {
+            res += n - p + 1;
+            p *= 1000;
+        }
+        return res;
     }
 };
 ```

@@ -244,3 +244,58 @@ void zeroEvenOddFree(ZeroEvenOdd* obj) {
     free(obj);
 }
 ```
+
+**Solution 4: (Mutex)**
+```
+Runtime: 0 ms, Beats 100.00%
+Memory: 11.00 MB, Beats 48.82%
+```
+```c++
+class ZeroEvenOdd {
+private:
+    int n;
+    bool is_zero;
+    int turn;
+    mutex mtx;
+    condition_variable cv;
+
+public:
+    ZeroEvenOdd(int n) {
+        this->n = n;
+        is_zero = true;
+        turn = 0;
+    }
+
+    // printNumber(x) outputs "x", where x is an integer.
+    void zero(function<void(int)> printNumber) {
+        for (int _ = 0; _ < n; _ ++) {
+            unique_lock<mutex> lock(mtx);
+            cv.wait(lock, [&]{ return is_zero; });
+            printNumber(0);
+            is_zero = false;
+            turn += 1;
+            cv.notify_all();
+        }
+    }
+
+    void even(function<void(int)> printNumber) {
+        for (int _ = 2; _ <= n; _ += 2) {
+            unique_lock<mutex> lock(mtx);
+            cv.wait(lock, [&]{ return is_zero == false && turn % 2 == 0; });
+            printNumber(turn);
+            is_zero = true;
+            cv.notify_all();
+        }
+    }
+
+    void odd(function<void(int)> printNumber) {
+        for (int _ = 1; _ <= n; _ += 2) {
+            unique_lock<mutex> lock(mtx);
+            cv.wait(lock, [&]{ return is_zero == false && turn % 2; });
+            printNumber(turn);
+            is_zero = true;
+            cv.notify_all();  
+        }
+    }
+};
+```

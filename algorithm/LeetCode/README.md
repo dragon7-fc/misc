@@ -7761,29 +7761,46 @@ public:
 ```
 * [Medium] 792. Number of Matching Subsequences
 
-### Delta Hash Table Counter
-```python
-class Solution:
-    def largestOverlap(self, A: List[List[int]], B: List[List[int]]) -> int:
-        A_points, B_points, d = [], [], collections.defaultdict(int)
+### max overlay = max pairwise value location delta count in source and target
+```c++
+class Solution {
+public:
+    int largestOverlap(vector<vector<int>>& img1, vector<vector<int>>& img2) {
+        int n = img1.size();
 
-        # Filter points having 1 for each matrix respectively.
-        for r in range(len(A)):
-            for c in range(len(A[0])):
-                if A[r][c]:
-                    A_points.append((r, c))
+        vector<pair<int, int>> pos1;
+        vector<pair<int, int>> pos2;
 
-                if B[r][c]:
-                    B_points.append((r, c))
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < n; j++) {
+                if (img1[i][j] == 1) {
+                    pos1.push_back({i, j});
+                }
 
-        # For every point in filtered A, calculate the
-        # linear transformation vector with all points of filtered B
-        # count the number of the pairs that have the same transformation vector
-        for r_a, c_a in A_points:
-            for r_b, c_b in B_points:
-                d[(r_b - r_a, c_b - c_a)] += 1
+                if (img2[i][j] == 1) {
+                    pos2.push_back({i, j});
+                }
+            }
+        }
 
-        return max(d.values() or [0])
+        int res = 0;
+        vector<int> cnt(n * 2 * n * 2 + 1);
+
+        for (const auto& [r1, c1] : pos1) {
+            for (const auto& [r2, c2] : pos2) {
+                int r = r1 - r2;
+                int c = c1 - c2;
+
+                int loc = (r + n) * 2 * n + c;
+                cnt[loc] += 1;
+
+                res = max(res, cnt[loc]);
+            }
+        }
+
+        return res;
+    }
+};
 ```
 * [Medium] [Solution] 835. Image Overlap
 

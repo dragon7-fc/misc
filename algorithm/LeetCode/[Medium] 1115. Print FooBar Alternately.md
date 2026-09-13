@@ -249,3 +249,48 @@ void fooBarFree(FooBar* obj) {
     free(obj);
 }
 ```
+
+**Solution 4: (Mutex)**
+```
+Runtime: 4 ms, Beats 83.93%
+Memory: 11.40 MB, Beats 44.03%
+```
+```c++
+class FooBar {
+private:
+    int n;
+    int turn;
+    mutex mtx;
+    condition_variable cv;
+
+public:
+    FooBar(int n) {
+        this->n = n;
+        turn = 0;
+    }
+
+    void foo(function<void()> printFoo) {
+        
+        for (int i = 0; i < n; i++) {
+            unique_lock<mutex> lock(mtx);
+            cv.wait(lock, [&]{ return turn == 0; });
+        	// printFoo() outputs "foo". Do not change or remove this line.
+        	printFoo();
+            turn = 1;
+            cv.notify_one();
+        }
+    }
+
+    void bar(function<void()> printBar) {
+        
+        for (int i = 0; i < n; i++) {
+            unique_lock<mutex> lock(mtx);
+            cv.wait(lock, [&]{ return turn == 1; });
+        	// printBar() outputs "bar". Do not change or remove this line.
+        	printBar();
+            turn = 0;
+            cv.notify_one();
+        }
+    }
+};
+```

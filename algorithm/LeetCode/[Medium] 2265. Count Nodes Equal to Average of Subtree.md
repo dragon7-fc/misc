@@ -77,3 +77,42 @@ public:
     }
 };
 ```
+
+**Solution 2: (DFS)**
+```
+Runtime: 7 ms, Beats 54.96%
+Memory: 15.68 MB, Beats 84.80%
+```
+```c++
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+class Solution {
+    pair<int, int> dfs(TreeNode *node, int &ans) {
+        if (!node) {
+            return {0, 0};
+        }
+        auto [left, left_k] = dfs(node->left, ans);
+        auto [right, right_k] = dfs(node->right, ans);
+        pair<int, int> rst = {left + right + node->val, left_k + right_k + 1};
+        if (rst.first / rst.second == node->val) {
+            ans += 1;
+        }
+        return rst;
+    }
+public:
+    int averageOfSubtree(TreeNode* root) {
+        int ans = 0;
+        dfs(root, ans);
+        return ans;
+    }
+};
+```

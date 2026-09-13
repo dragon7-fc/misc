@@ -213,3 +213,38 @@ void h2oFree(H2O* obj) {
     
 }
 ```
+
+**Solution 4: (Mutex)**
+```
+Runtime: 0 ms, Beats 100.00%
+Memory: 11.86 MB, Beats 83.74%
+```
+```c++
+class H2O {
+    int turn;
+    mutex mtx;
+    condition_variable cv;
+public:
+    H2O() {
+        turn = 1;
+    }
+
+    void hydrogen(function<void()> releaseHydrogen) {
+        unique_lock<mutex> lock(mtx);
+        cv.wait(lock, [&]{ return turn % 3; });
+        // releaseHydrogen() outputs "H". Do not change or remove this line.
+        releaseHydrogen();
+        turn = (turn + 1) % 3;
+        cv.notify_all();
+    }
+
+    void oxygen(function<void()> releaseOxygen) {
+        unique_lock<mutex> lock(mtx);
+        cv.wait(lock, [&]{ return turn % 3 == 0; });
+        // releaseOxygen() outputs "O". Do not change or remove this line.
+        releaseOxygen();
+        turn = (turn + 1) % 3;
+        cv.notify_all();
+    }
+};
+```

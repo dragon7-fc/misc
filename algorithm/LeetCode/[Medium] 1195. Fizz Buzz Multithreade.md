@@ -273,6 +273,7 @@ void fizzBuzzFree(FizzBuzz* obj) {
     free(obj);
 }
 ```
+
 **Solution 3: (Mutex)**
 ```
 Runtime: 5 ms, Beats 33.93%
@@ -518,4 +519,81 @@ void number(FizzBuzz* obj) {
 void fizzBuzzFree(FizzBuzz* obj) {
     free(obj);
 }
+```
+
+**Solution 5: (Mutex)**
+```
+Runtime: 0 ms, Beats 100.00%
+Memory: 9.67 MB, Beats 4.91%
+```
+```c++
+class FizzBuzz {
+private:
+    int n;
+    int turn;
+    mutex mtx;
+    condition_variable cv;
+
+public:
+    FizzBuzz(int n) {
+        this->n = n;
+        turn = 1;
+    }
+
+    // printFizz() outputs "fizz".
+    void fizz(function<void()> printFizz) {
+        while (1) {
+            unique_lock<mutex> lock(mtx);
+            cv.wait(lock, [&]{ return turn > n || turn % 3 == 0 && turn % 5; });
+            if (turn > n) {
+                return;
+            }
+            printFizz();
+            turn += 1;
+            cv.notify_all();
+        }
+    }
+
+    // printBuzz() outputs "buzz".
+    void buzz(function<void()> printBuzz) {
+        while (1) {
+            unique_lock<mutex> lock(mtx);
+            cv.wait(lock, [&]{ return turn > n || turn % 3 && turn % 5 == 0; });
+            if (turn > n) {
+                return;
+            }
+            printBuzz();
+            turn += 1;
+            cv.notify_all();
+        }
+    }
+
+    // printFizzBuzz() outputs "fizzbuzz".
+	void fizzbuzz(function<void()> printFizzBuzz) {
+        while (1) {
+            unique_lock<mutex> lock(mtx);
+            cv.wait(lock, [&]{ return turn > n || turn % 3 == 0 && turn % 5 == 0; });
+            if (turn > n) {
+                return;
+            }
+            printFizzBuzz();
+            turn += 1;
+            cv.notify_all();
+        }
+    }
+
+    // printNumber(x) outputs "x", where x is an integer.
+    void number(function<void(int)> printNumber) {
+        while (1) {
+            unique_lock<mutex> lock(mtx);
+            cv.wait(lock, [&]{ return turn > n || turn % 3 && turn % 5; });
+            if (turn > n) {
+                return;
+            }
+            printNumber(turn);
+            turn += 1;
+            cv.notify_all();
+        }
+    }
+};
 ```

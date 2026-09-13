@@ -156,3 +156,133 @@ public:
     }
 };
 ```
+
+**Solution 3: (DP Bottom-Up, last character's position)**
+
+    a b c
+dp  1 2 4
+
+    a b a
+dp  1 2 3
+
+    a a a
+dp  1 1 1
+
+```
+Runtime: 139 ms, Beats 5.15%
+Memory: 9.74 MB, Beats 31.88%
+```
+```c++
+const int MOD = 1e9 + 7;
+class Solution {
+public:
+    int distinctSubseqII(string s) {
+        int n = s.length();
+        vector<long long> dp(n);
+        for (int j = 0; j < n; j ++) {
+            for (int i = 0; i < j; i ++) {
+                if (s[i] != s[j]) {
+                    dp[j] += dp[i];
+                }
+            }
+            dp[j] += 1;
+            dp[j] %= MOD;
+        }
+        return accumulate(dp.begin(), dp.end(), 0LL) % MOD;
+    }
+};
+```
+
+**Solution 4: (DP Bottom-Up, knapsack)**
+```
+Runtime: 0 ms, Beats 100.00%
+Memory: 8.96 MB, Beats 62.00%
+```
+```c++
+class Solution {
+public:
+    int distinctSubseqII(string s) {
+        int MOD = 1e9 + 7;
+        
+        // last[c] stores the number of distinct subsequences ending with character c
+        vector<long long> last(26, 0);
+        long long total = 0; // Total count of distinct non-empty subsequences
+
+        for (char ch : s) {
+            int idx = ch - 'a';
+            
+            // Subsequences ending in 'ch' can be formed by appending 'ch' to all existing 
+            // valid subsequences + 1 (the single character 'ch' itself)
+            long long new_end_ch = (total + 1) % MOD;
+            
+            // Calculate new total: total + new_end_ch - old_end_ch
+            long long net_change = (new_end_ch - last[idx] + MOD) % MOD;
+            total = (total + net_change) % MOD;
+            
+            // Update last[idx] for future duplicate checks
+            last[idx] = new_end_ch;
+        }
+
+        return total;
+    }
+};
+```
+
+**Solution 5: (DP Bottom-Up, knapsack)**
+
+     a b c
+dp   1 2 4 8
+           7 < ans
+last
+a -1 0
+b -1   1
+c -1     2
+
+     a b a
+dp   1 2 4 8
+           7
+           6 < ans
+last
+a -1 0   2
+b -1   1
+
+     a a a
+dp   1 2 4 6
+         3 4
+           3 < ans
+last
+a -1 0 1 2
+
+```
+Runtime: 0 ms, Beats 100.00%
+Memory: 9.51 MB, Beats 43.73%
+```
+```c++
+class Solution {
+public:
+    int distinctSubseqII(string s) {
+        const int N = s.length();
+        const int MOD = 1e9 + 7;
+        
+        vector<int> dp(N+1);
+        dp[0] = 1;
+        vector<int> last(26, -1);
+        
+        for(int i = 0; i < N; i++){
+            int x = s[i] - 'a';
+            dp[i+1] = dp[i] * 2 % MOD;
+                              // take / not take
+            if(last[x] >= 0) // if this is not the first occurence of ch
+                dp[i+1] -= dp[last[x]];
+                           // same prefix
+            dp[i+1] %= MOD;
+            last[x] = i;
+        }
+
+        // remove empty string ""
+        dp[N]--;
+        if(dp[N] < 0) dp[N] += MOD;
+        return dp[N];
+    }
+};
+```

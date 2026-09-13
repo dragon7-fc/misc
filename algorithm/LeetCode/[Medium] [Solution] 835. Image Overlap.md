@@ -183,3 +183,81 @@ public:
     }
 };
 ```
+
+**Solution 4: (Matrix, Simulation, Brute Force, expand to 4 dimention and try all solution)**
+```
+Runtime: 51 ms, Beats 59.42%
+Memory: 12.97 MB, Beats 68.83%
+```
+```c++
+class Solution {
+public:
+    int largestOverlap(vector<vector<int>>& img1, vector<vector<int>>& img2) {
+        int n = img1.size();
+        int ans = 0;
+        for (int i = -n + 1; i < n; i ++) {
+            for (int j = -n + 1; j < n; j ++) {
+                int k = 0;
+                for (int i2 = 0; i2 < n; i2 ++) {
+                    for (int j2 = 0; j2 < n; j2 ++) {
+                        if (i + i2 < 0 || i + i2 >= n || j + j2 < 0 || j + j2 >= n) {
+                            continue;
+                        }
+                        if (img1[i + i2][j + j2] && img2[i2][j2]) {
+                            k += 1;
+                        }
+                    }
+                }
+                ans = max(ans, k);
+            }
+        }
+        return ans;
+    }
+};
+```
+
+**Solution 5: (Counter, max pairwise value location delta count in source and target)**
+```
+Runtime: 11 ms, Beats 93.27%
+Memory: 14.35 MB, Beats 46.19%
+```
+```c++
+class Solution {
+public:
+    int largestOverlap(vector<vector<int>>& img1, vector<vector<int>>& img2) {
+        int n = img1.size();
+
+        vector<pair<int, int>> pos1;
+        vector<pair<int, int>> pos2;
+
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < n; j++) {
+                if (img1[i][j] == 1) {
+                    pos1.push_back({i, j});
+                }
+
+                if (img2[i][j] == 1) {
+                    pos2.push_back({i, j});
+                }
+            }
+        }
+
+        int res = 0;
+        vector<int> cnt(n * 2 * n * 2 + 1);
+
+        for (const auto& [r1, c1] : pos1) {
+            for (const auto& [r2, c2] : pos2) {
+                int r = r1 - r2;
+                int c = c1 - c2;
+
+                int loc = (r + n) * 2 * n + c;
+                cnt[loc] += 1;
+
+                res = max(res, cnt[loc]);
+            }
+        }
+
+        return res;
+    }
+};
+```

@@ -177,3 +177,42 @@ public:
     }
 };
 ```
+
+**Solution 4: (Mutex, simulation)**
+```
+Runtime: 13 ms, Beats 98.45%
+Memory: 17.59 MB, Beats 95.97%
+```
+```c++
+class DiningPhilosophers {
+    const int n = 5;
+    vector<bool> forks;
+    mutex mtx;
+    condition_variable cv;
+
+public:
+    DiningPhilosophers(): forks(n, false) {
+
+    }
+
+    void wantsToEat(int philosopher,
+                    function<void()> pickLeftFork,
+                    function<void()> pickRightFork,
+                    function<void()> eat,
+                    function<void()> putLeftFork,
+                    function<void()> putRightFork) {
+        unique_lock<mutex> lock{mtx};
+        cv.wait(lock, [&] { return forks[philosopher] == false && forks[(philosopher + 1) % n] == false; });
+        forks[philosopher] = true;
+        forks[(philosopher + 1) % n] = true;
+        pickLeftFork();
+        pickRightFork();
+        eat();
+        putLeftFork();
+        putRightFork();
+        forks[philosopher] = false;
+        forks[(philosopher + 1) % n] = false;
+        cv.notify_all();
+    }
+};
+```
