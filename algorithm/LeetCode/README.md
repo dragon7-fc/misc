@@ -1770,7 +1770,7 @@ public:
 ```
 * [Medium] 416. Partition Equal Subset Sum
 
-### knapsack, tracks how full the current bucket is after using mask, in each mask try to add one more element, State Compression DP
+### Bitmask DP, tracks how full the current bucket is after using mask, in each mask try to add one more element, State Compression DP
 ```c++
 class Solution {
 public:
@@ -2342,11 +2342,11 @@ class Solution:
 ```
 * [Medium] [Solution] 376. Wiggle Subsequence
 
-### 0/1 knapsack, counting DP, 1D, reverse iteration, for each character: use it OR skip it
+### Counting DP, 1D, reverse iteration, for each character: use it OR skip it
 ```c++
-class Solution {
+class solution {
 public:
-    int numDistinct(string s, string t) {
+    int numdistinct(string s, string t) {
         int m = s.size(), n = t.size(), i, j;
         vector<int> pre(n+1), cur(n+1);
         pre[0] = 1;
@@ -2776,7 +2776,7 @@ class Solution:
 ```
 * [Medium] [Solution] 718. Maximum Length of Repeated Subarray
 
-### 0/1 knapsack, Longest Common Subsequence
+### Sequence DP, Longest Common Subsequence
 ```c++
 class Solution {
 public:
@@ -3608,7 +3608,7 @@ public:
 ```
 * [Hard] [Solution] 10. Regular Expression Matching
 
-### 0/1 knapsack, try to add new coin for each amount
+### Unbounded knapsack, try to add new coin for each amount
 ```c++
 class Solution {
 public:
@@ -21477,7 +21477,7 @@ gcd(a, b)
 ```
 c(n, r)
 = 1,                                if r == 0 or r == n
-  n,                                if r == n
+  c(n, n -r),                       if r > n - r
   c(n - 1, r - 1) + c(n - 1, r)
 ```
 

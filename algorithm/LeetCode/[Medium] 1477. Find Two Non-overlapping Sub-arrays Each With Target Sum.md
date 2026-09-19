@@ -107,3 +107,36 @@ public:
     }
 };
 ```
+
+**Solution 3: (Prefix Sum, Sliding Window, DP Bottom-Up)**
+```
+Runtime: 8 ms, Beats 70.62%
+Memory: 88.98 MB, Beats 67.53%
+```
+```c++
+class Solution {
+public:
+    int minSumOfLengths(vector<int>& arr, int target) {
+        int n = arr.size();
+        int i = 0;
+        int sum = 0;
+        int k;
+        vector<int> pre(n + 1, n);
+        int ans = n + 1;
+        for (int j = 0; j < n; j ++) {
+            pre[j + 1] = pre[j];
+            sum += arr[j];
+            while (sum > target) {
+                sum -= arr[i];
+                i += 1;
+            }
+            if (sum == target) {
+                k = j - i + 1;
+                ans = min(ans, pre[i] + k);
+                pre[j + 1] = min(pre[j + 1], k);
+            }
+        }
+        return ans == n + 1 ? -1: ans;
+    }
+};
+```

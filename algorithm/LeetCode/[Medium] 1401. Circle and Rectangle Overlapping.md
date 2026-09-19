@@ -87,3 +87,124 @@ class Solution:
             return True
         return False 
 ```
+
+**Solution 2: (Geometry, Case Study)**
+
+ 6     2      8
+     ------
+    |      |
+ 4  |  1   |  5
+    |      |
+     ------
+ 7     3     9
+
+```
+Runtime: 0 ms, Beats 100.00%
+Memory: 7.82 MB, Beats 35.00%
+```
+```c++
+class Solution {
+    long long distance(int ux, int uy, int vx, int vy) {
+        return (long long)pow(ux - vx, 2) + (long long)pow(uy - vy, 2);
+    }
+public:
+    bool checkOverlap(int radius, int xCenter, int yCenter, int x1, int y1, int x2, int y2) {
+        // 1
+        /* The center of the circle is inside the rectangle */
+        if (x1 <= xCenter && xCenter <= x2 && y1 <= yCenter && yCenter <= y2) {
+            return true;
+        }
+
+        // 2
+        /* The center of the circle is above the rectangle*/
+        if (x1 <= xCenter && xCenter <= x2 && y2 <= yCenter &&
+            yCenter <= y2 + radius) {
+            return true;
+        }
+
+        // 3
+        /* The center of the circle is below the rectangle*/
+        if (x1 <= xCenter && xCenter <= x2 && y1 - radius <= yCenter &&
+            yCenter <= y1) {
+            return true;
+        }
+
+        // 4
+        /* The center of the circle is to the left of the rectangle*/
+        if (x1 - radius <= xCenter && xCenter <= x1 && y1 <= yCenter &&
+            yCenter <= y2) {
+            return true;
+        }
+
+        // 5
+        /* The center of the circle is to the right of the rectangle*/
+        if (x2 <= xCenter && xCenter <= x2 + radius && y1 <= yCenter &&
+            yCenter <= y2) {
+            return true;
+        }
+
+        // 6
+        /* The upper-left corner of the rectangle */
+        if (distance(xCenter, yCenter, x1, y2) <= radius * radius) {
+            return true;
+        }
+
+        // 7
+        /* The lower-left corner of the rectangle */
+        if (distance(xCenter, yCenter, x1, y1) <= radius * radius) {
+            return true;
+        }
+
+        // 8
+        /* The upper-right corner of the rectangle */
+        if (distance(xCenter, yCenter, x2, y2) <= radius * radius) {
+            return true;
+        }
+
+        // 9
+        /* The lower-right corner of the rectangle */
+        if (distance(xCenter, yCenter, x2, y1) <= radius * radius) {
+            return true;
+        }
+        /* No intersection */
+        return false;
+    }
+};
+```
+
+**Solution 3: (Geometry, Minimum Distance from the Circle's Center to the Rectangle)**
+
+    (xClosest - xCenter)^2 + (yClosest - yCenteR)^2 <= radius^2
+
+
+            xClosest - xCenter
+            ------x(xCenter, yCenter)
+                / | 
+           radius |
+            /     | yClosest - yCenter
+     ------
+    |      |
+    |      |
+    |      |
+     ------
+
+
+```
+Runtime: 0 ms, Beats 100.00%
+Memory: 7.77 MB, Beats 68.85%
+```
+```c++
+class Solution {
+public:
+    bool checkOverlap(int radius, int xCenter, int yCenter, int x1, int y1, int x2, int y2) {
+        long long dist = 0;
+        if (xCenter < x1 || xCenter > x2) {
+            dist += min(pow(x1 - xCenter, 2), pow(x2 - xCenter, 2));
+        }
+        if (yCenter < y1 || yCenter > y2) {
+            dist += min(pow(y1 - yCenter, 2), pow(y2 - yCenter, 2));
+        }
+        return dist <= radius * radius;
+    }
+};
+```

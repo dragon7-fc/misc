@@ -104,3 +104,77 @@ class Solution:
         return (intersect(rec1[0], rec1[2], rec2[0], rec2[2]) and # width > 0
                 intersect(rec1[1], rec1[3], rec2[1], rec2[3]))    # height > 0
 ```
+
+**Solution 3: (Check Position)**
+```
+Runtime: 0 ms, Beats 100.00%
+Memory: 9.72 MB, Beats 77.39%
+```
+```c++
+class Solution {
+public:
+    bool isRectangleOverlap(vector<int>& rec1, vector<int>& rec2) {
+        int r1x1 = rec1[0];
+        int r1y1 = rec1[1];
+        int r1x2 = rec1[2];
+        int r1y2 = rec1[3];
+        int r2x1 = rec2[0];
+        int r2y1 = rec2[1];
+        int r2x2 = rec2[2];
+        int r2y2 = rec2[3];
+
+        // check if either rectangle is actually a line
+        if (r1x1 == r1x2 || r1y1 == r1y2 ||
+            r2x1 == r2x2 || r2y1 == r2y2) {
+            // the line cannot have positive overlap
+            return false;
+        }
+
+        return !(r1x2 <= r2x1 ||   // left
+                 r1y2 <= r2y1 ||   // bottom
+                 r1x1 >= r2x2 ||   // right
+                 r1y1 >= r2y2);    // top
+    }
+};
+```
+
+**Solution 4: (Check Area, check overlay width and height > 0)**
+
+                    r2x2,r2y2
+                -----x
+               |     |
+     ----------|-----|---x r1x2,r1y2   min(r1y2,r2y2)
+    |          |/////|   |
+    x----------x---------              max(r1y1,r2y1)
+   r1x1,r1y1  r2x1,r2y1
+                     min(r1x2,r2x2)
+               max(r1x1,r2x1)
+
+
+can't work:
+        ----x
+        | x |   
+        x---
+
+```
+Runtime: 0 ms, Beats 100.00%
+Memory: 9.98 MB, Beats 11.03%
+```
+```c++
+class Solution {
+public:
+    bool isRectangleOverlap(vector<int>& rec1, vector<int>& rec2) {
+        int r1x1 = rec1[0];
+        int r1y1 = rec1[1];
+        int r1x2 = rec1[2];
+        int r1y2 = rec1[3];
+        int r2x1 = rec2[0];
+        int r2y1 = rec2[1];
+        int r2x2 = rec2[2];
+        int r2y2 = rec2[3];
+
+        return (min(r1x2, r2x2) > max(r1x1, r2x1) && // width > 0
+                min(r1y2, r2y2) > max(r1y1, r2y1));  // height > 0
+    }
+};
+```
